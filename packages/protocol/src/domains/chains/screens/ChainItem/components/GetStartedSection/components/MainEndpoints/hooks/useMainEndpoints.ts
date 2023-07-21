@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 
 import { ChainID } from 'domains/chains/types';
+import { getSubChainFromGroup } from 'domains/chains/utils/getSubChainFromGroup';
+
 import { Feature, MainEndpointsProps } from '../types';
 import { getFeatureKeys } from '../utils/getFeatureKeys';
 import { getFlattenURLs } from '../utils/getFlattenURLs';
 import { getTitle } from '../utils/getTitle';
 import { hasPlaceholder as checkPlaceholder } from '../utils/hasPlaceholder';
-import { getSubChainFromGroup } from 'domains/chains/utils/getSubChainFromGroup';
 
 export type MainEndpointsHookParams = Omit<
   MainEndpointsProps,

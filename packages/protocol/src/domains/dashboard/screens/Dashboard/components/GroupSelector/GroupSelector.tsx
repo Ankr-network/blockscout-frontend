@@ -8,10 +8,11 @@ import {
 } from '@mui/material';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { useGroupSelector } from './hooks/useGroupSelector';
-import { useGroupSelectorStyles } from './useGroupSelectorStyles';
 import { getOptionsByTabs } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MobileGroupSelector/utils/getOptionsByTabs';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+
+import { useGroupSelector } from './hooks/useGroupSelector';
+import { useGroupSelectorStyles } from './useGroupSelectorStyles';
 import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
 
 interface IGroupSelectorProps extends SelectMenuProps {

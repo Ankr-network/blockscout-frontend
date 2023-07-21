@@ -1,6 +1,7 @@
+import { useRequestComposerLogs } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+
 import { useEVMRequest } from './useEVMRequest';
 import { useLogger } from '../../../Logger/hooks/useLogger';
-import { useRequestComposerLogs } from 'domains/requestComposer/hooks/useRequestComposerLogs';
 
 export const useEVMRequestLogger = () => {
   const loggerData = useLogger();

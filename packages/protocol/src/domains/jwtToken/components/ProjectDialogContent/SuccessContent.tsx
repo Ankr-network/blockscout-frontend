@@ -2,6 +2,7 @@ import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
 
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
 import { useProjectDialogContentStyles } from './useProjectDialogContentStyles';
 
 interface ISuccessContentProps {

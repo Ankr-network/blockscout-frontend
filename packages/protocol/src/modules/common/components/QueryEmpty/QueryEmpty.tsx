@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Typography } from '@mui/material';
-
 import { t } from '@ankr.com/common';
 
 export const QueryEmpty = () => {

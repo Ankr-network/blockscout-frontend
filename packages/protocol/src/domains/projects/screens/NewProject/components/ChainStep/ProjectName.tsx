@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { ChainStepFields } from 'domains/projects/store';
 import { InputField } from 'modules/form/components/InputField';
+
 import { useChainStepStyles } from './useChainStepStyles';
 
 export const ProjectName = () => {

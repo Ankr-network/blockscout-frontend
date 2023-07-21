@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
 
-import { EndpointPlaceholder } from '../../../EndpointPlaceholder';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+
+import { EndpointPlaceholder } from '../../../EndpointPlaceholder';
 
 export interface PlaceholderProps {
   title: ReactNode;

@@ -1,5 +1,6 @@
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useEffect } from 'react';
+
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 import { chainsFetchPublicChains } from '../actions/public/fetchPublicChains';
 

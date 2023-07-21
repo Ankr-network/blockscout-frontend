@@ -3,20 +3,21 @@ import { TransactionReceipt } from 'web3-core';
 import { t } from '@ankr.com/common';
 
 import { AppDispatch, GetState } from 'store';
-import { ETH_BLOCK_TIME } from './const';
 import { MultiService } from 'modules/api/MultiService';
-import { accountFetchBalance } from '../balance/fetchBalance';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import {
   selectTransaction,
   setTopUpTransaction,
 } from 'domains/account/store/accountTopUpSlice';
-import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { timeout } from 'modules/common/utils/timeout';
-import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+
+import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
+import { waitForPendingTransaction } from './waitForPendingTransaction';
+import { accountFetchBalance } from '../balance/fetchBalance';
+import { ETH_BLOCK_TIME } from './const';
 
 export interface WaitTransactionConfirmingResult {
   error?: unknown;

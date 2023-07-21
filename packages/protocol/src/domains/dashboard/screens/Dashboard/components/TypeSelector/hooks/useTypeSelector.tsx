@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { ISelectOption } from 'uiKit/Select';
+
 import { SelectedContent } from '../../ChainSelector/SelectedContent';
 
 export const useTypeSelector = (chainTypes: ISelectOption[]) => {

@@ -1,10 +1,11 @@
 import { Box } from '@mui/material';
+
 import {
   PaymentHistoryTableTimeframe,
   PaymentType,
 } from 'domains/account/types';
-
 import { Select } from 'uiKit/Select';
+
 import { useStyles } from './FiltersStyles';
 import { useFilters } from './hooks/useFilters';
 

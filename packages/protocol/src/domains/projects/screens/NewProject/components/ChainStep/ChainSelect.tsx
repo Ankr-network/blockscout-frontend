@@ -7,6 +7,7 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+
 import { useChainsSelector } from './hooks/useChainsSelector';
 
 interface ChainSelectProps {

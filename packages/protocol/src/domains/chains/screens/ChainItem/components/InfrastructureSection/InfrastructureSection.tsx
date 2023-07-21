@@ -1,18 +1,19 @@
 import { useEffect, useMemo } from 'react';
 
 import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
-import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
+import { useProvider } from 'domains/infrastructure/hooks/useProvider';
+
+import { ChainNodesTableQuery } from '../ChainNodesTable';
 import { HybridInfrastructure } from './components/HybridInfrastructure';
 import { SecuritySection } from './components/SecuritySection';
 import { TrafficFlow } from './components/TrafficFlow';
 import { canAddEndpoint } from './components/HybridInfrastructure/components/EndpointInfo/EndpointUtils';
 import { getStatsChainId } from '../ChainItemSections/utils/getStatsChainId';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { useInfrastructureSectionStyles } from './InfrastructureSectionStyles';
-import { useLazyInfrastructureFetchEndpointsQuery } from 'domains/infrastructure/actions/fetchEndpoints';
-import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { ChainNodesLocations } from '../ChainNodesLocations';
 import { checkPrivateChainsAndGetChainId } from '../UsageDataSection/const';
 

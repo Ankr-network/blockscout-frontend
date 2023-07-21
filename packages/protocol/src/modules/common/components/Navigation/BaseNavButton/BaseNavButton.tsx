@@ -1,18 +1,19 @@
 import { Button } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
+import { t } from '@ankr.com/common';
 
-import { NavigationItem } from './BaseNavButtonTypes';
-import { SoonLabel } from '../../SoonLabel';
 import {
   getCommonButtonProps,
   getExternalButtonProps,
   getNotLinkButtonProps,
 } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
-import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { t } from '@ankr.com/common';
+
+import { NavigationItem } from './BaseNavButtonTypes';
+import { SoonLabel } from '../../SoonLabel';
+import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
 
 interface IBaseNavButtonProps {
   item: NavigationItem;

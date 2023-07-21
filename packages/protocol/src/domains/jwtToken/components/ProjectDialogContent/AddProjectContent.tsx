@@ -1,9 +1,11 @@
 import { t } from '@ankr.com/common';
 import { Form, FormRenderProps } from 'react-final-form';
-import { NameField } from '../AddProjectDialog/NameField';
-import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
-import { useProjectDialogContentStyles } from './useProjectDialogContentStyles';
 import { LoadingButton } from '@ankr.com/ui';
+
+import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
+import { NameField } from '../AddProjectDialog/NameField';
+import { useProjectDialogContentStyles } from './useProjectDialogContentStyles';
 
 interface IAddProjectContentProps {
   isLoading: boolean;

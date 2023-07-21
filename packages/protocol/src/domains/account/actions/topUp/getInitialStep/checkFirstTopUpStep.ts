@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js';
+import { Web3Address } from 'multirpc-sdk';
 
 import { AppDispatch, GetState } from 'store';
-import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
 import { MultiService } from 'modules/api/MultiService';
-import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { selectAuthData } from 'domains/auth/store/authSlice';
-import { Web3Address } from 'multirpc-sdk';
+
+import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
+import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 
 export const checkFirstTopUpStep = async (
   address: string,

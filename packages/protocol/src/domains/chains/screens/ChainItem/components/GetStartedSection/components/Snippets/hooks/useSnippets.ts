@@ -2,6 +2,7 @@ import { Language } from 'prism-react-renderer';
 import { useMemo } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { getCode } from '../utils/getCode';
 import { languagesMap } from '../const';
 import { Technology } from '../../../types';

@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
+import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
+
 import { ChainDocsLink } from '../ChainDocsLink';
 import { ChainLogo } from '../ChainLogo';
 import { ChainSubtitle } from '../ChainSubtitle';
 import { ChainTitle } from '../ChainTitle';
-import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
-import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
 
 export interface ChainOverviewProps {
   chain: Chain;

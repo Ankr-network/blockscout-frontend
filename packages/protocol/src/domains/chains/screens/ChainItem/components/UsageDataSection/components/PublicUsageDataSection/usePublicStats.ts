@@ -1,13 +1,13 @@
 import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 
-import { POLL_INTERVAL } from '../../const';
-import { PublicStats } from '../../types';
 import { Timeframe } from 'domains/chains/types';
-
-import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
 import { useLazyChainsFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
+
+import { POLL_INTERVAL } from '../../const';
+import { PublicStats } from '../../types';
+import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 
 export interface PublicStatsParams {
   chainId: string;

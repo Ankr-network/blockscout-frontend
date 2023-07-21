@@ -1,8 +1,9 @@
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { ANTARCTICA, GEO_URL, getGeogrpahyStyles } from './StatsMapUtils';
 import { StatsMapProps } from './StatsMapTypes';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export const StatsMap = ({ data, setCountry }: StatsMapProps) => {
   const { isLightTheme } = useThemes();

@@ -1,9 +1,10 @@
 import { useCallback, useEffect } from 'react';
 
-import { UpgradePlanDialogType } from '../types';
 import { trackUpgradePlanModalClose } from 'modules/analytics/mixpanel/trackUpgradePlanModalClose';
 import { trackUpgradePlanModalOpen } from 'modules/analytics/mixpanel/trackUpgradePlanModalOpen';
 import { useDialog } from 'modules/common/hooks/useDialog';
+
+import { UpgradePlanDialogType } from '../types';
 
 export interface UpgradePlanDialogHookParams {
   isOpened?: boolean;

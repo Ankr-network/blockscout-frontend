@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
-
+import { useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import { Moon, Sun, Themes } from '@ankr.com/ui';
+
 import { useThemeSwitcher } from 'modules/layout/hooks/useThemeSwitcher';
-import { useThemeSwitcherStyles } from './useThemeSwitcherStyles';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
+import { useThemeSwitcherStyles } from './useThemeSwitcherStyles';
 
 interface ThemeSwitchProps {
   isMobileSideBar: boolean;

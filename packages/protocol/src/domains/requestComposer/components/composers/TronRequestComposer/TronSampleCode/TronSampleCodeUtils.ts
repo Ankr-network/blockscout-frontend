@@ -1,6 +1,7 @@
 import { TronChainMethod } from 'domains/requestComposer/constants/tron';
 import { ITronArg } from 'domains/requestComposer/types/tron';
 import { tronJSConfig } from 'domains/requestComposer/utils/tron/tronJSConfig';
+
 import { TronMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 
 export const METHOD_NAME = 'methodName';

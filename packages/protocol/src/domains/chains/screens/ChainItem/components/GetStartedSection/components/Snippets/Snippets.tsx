@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
 
+import { EndpointGroup } from 'modules/endpoints/types';
+
 import { CodeSnippet } from '../CodeSnippet';
 import { ConnectionType, Technology } from '../../types';
-import { EndpointGroup } from 'modules/endpoints/types';
 import { useSnippets } from './hooks/useSnippets';
 import { useStyles } from './SnippetsStyles';
 

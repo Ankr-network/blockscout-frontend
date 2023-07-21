@@ -4,6 +4,13 @@ import { Container } from '@mui/material';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
+import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
+
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
 import { SideBar } from '../SideBar';
@@ -11,12 +18,6 @@ import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
-import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
-import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 export const CONTENT_WIDTH = 1120;
 

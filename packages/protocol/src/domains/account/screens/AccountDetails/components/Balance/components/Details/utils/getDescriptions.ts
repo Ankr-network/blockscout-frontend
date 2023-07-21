@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { AccountType } from 'domains/account/types';
 import { formatBalance } from 'domains/account/utils/formatBalance';
+
 import { root as i18nKeyRoot } from '../../../const';
 
 export interface GetDescriptionsParams {

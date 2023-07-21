@@ -1,9 +1,10 @@
 import { EthAddressType, IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 import { IWalletMeta } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MultiService } from 'modules/api/MultiService';
 
+import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
+
 import { clearCookie, getCookieByName, setCookie } from './cookie';
 
 const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';

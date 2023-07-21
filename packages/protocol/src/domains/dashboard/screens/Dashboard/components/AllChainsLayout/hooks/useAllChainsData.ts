@@ -10,6 +10,7 @@ import {
   selectTotalRequestsNumber,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+
 import { useTop10Stats } from './useTop10Stats';
 
 export const useAllChainsData = (timeframe: Timeframe) => {

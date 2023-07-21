@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 import HubspotForm from 'react-hubspot-form';
+
 import { loadJquery } from 'modules/common';
 
 type HubspotWidgetProps = ComponentProps<typeof HubspotForm> & {

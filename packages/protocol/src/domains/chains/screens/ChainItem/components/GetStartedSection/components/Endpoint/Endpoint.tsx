@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 import { CopyToClipIcon, ICopyToClipIconProps } from 'uiKit/CopyToClipIcon';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
+
 import { useEndpointStyles } from './EndpointStyles';
 
 export interface EndpointProps {

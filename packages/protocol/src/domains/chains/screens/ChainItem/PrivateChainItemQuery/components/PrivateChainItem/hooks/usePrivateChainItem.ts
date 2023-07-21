@@ -2,18 +2,19 @@ import { IChainItemDetails } from 'domains/chains/actions/private/fetchPrivateCh
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
-import { usePrivateChainType } from './usePrivateChainType';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
 import { ChainSubType, ChainType } from 'domains/chains/types';
+import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
+
 import {
   getPrivateChainSubTypeSelector,
   getPrivateChainTypeSelector,
 } from './utils';
-import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
+import { usePrivateChainType } from './usePrivateChainType';
 
 interface ChainTypeItem {
   value: ChainType;

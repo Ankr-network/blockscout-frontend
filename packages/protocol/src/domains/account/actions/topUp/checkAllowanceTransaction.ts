@@ -3,10 +3,11 @@ import { TransactionReceipt } from 'web3-core';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { web3Api } from 'store/queries';
 import { GetState } from 'store';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+
+import { waitForPendingTransaction } from './waitForPendingTransaction';
 
 export const {
   useLazyTopUpCheckAllowanceTransactionQuery,

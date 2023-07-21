@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { renderBalance } from 'domains/account/utils/formatBalance';
+
 import { useStyles } from './BalanceStyles';
 
 export interface BalanceProps {

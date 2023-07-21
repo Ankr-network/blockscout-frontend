@@ -1,7 +1,8 @@
 import { Field } from 'react-final-form';
+import { t } from '@ankr.com/common';
 
 import { MethodOption } from 'domains/requestComposer/types';
-import { t } from '@ankr.com/common';
+
 import { MethodsSelectField } from '../../MethodsSelect/MethodsSelectField';
 import { useMethodNameSelectFieldStyles } from './MethodNameSelectFieldStyles';
 

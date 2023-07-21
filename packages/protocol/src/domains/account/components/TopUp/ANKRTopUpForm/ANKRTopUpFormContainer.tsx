@@ -1,11 +1,12 @@
+import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { ANKRTopUpForm } from './ANKRTopUpForm';
 import {
   useCheckBrokenTransaction,
   useOnTopUpSubmit,
 } from './ANKRTopUpFormUtils';
-import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { TopUpEmailDialog } from './TopUpEmailDialog';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { AnkrTopUpFormContainerProps } from './ANKRTopUpFormTypes';
 
 export const ANKRTopUpFormContainer = ({

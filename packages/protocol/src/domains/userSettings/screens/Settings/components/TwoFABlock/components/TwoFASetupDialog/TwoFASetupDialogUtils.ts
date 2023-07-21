@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
+
 import { USER_SETTINGS_INTL_ROOT } from '../../constants';
 
 enum TwoFASetup {

@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
 import { Divider, Typography } from '@mui/material';
 import { Form, FormRenderProps } from 'react-final-form';
-
 import { t } from '@ankr.com/common';
+
 import { AgreementForm } from './AgreementForm';
 import { EndpointForm } from './EndpointForm';
-
 import { AddEndpointFormData } from './AddEndpointFormTypes';
 import { useStyles } from './AddEndpointFormStyles';
 import { initialValues } from './AddEndpointFormUtils';

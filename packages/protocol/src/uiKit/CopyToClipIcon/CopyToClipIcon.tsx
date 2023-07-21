@@ -1,10 +1,10 @@
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Typography, TypographyTypeMap } from '@mui/material';
-
+import { useCallback } from 'react';
 import { Copy } from '@ankr.com/ui';
+
 import { useStyles } from './CopyToClipIconStyles';
 import { useCopyToClip } from './CopyToClipIconUtils';
-import { useCallback } from 'react';
 
 export interface ICopyToClipIconProps {
   className?: string;

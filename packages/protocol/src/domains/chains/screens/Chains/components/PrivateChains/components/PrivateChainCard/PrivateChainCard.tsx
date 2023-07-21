@@ -1,5 +1,6 @@
-import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
+
+import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
 import { ComingSoonChainCard } from '../../../ComingSoonChainCard';

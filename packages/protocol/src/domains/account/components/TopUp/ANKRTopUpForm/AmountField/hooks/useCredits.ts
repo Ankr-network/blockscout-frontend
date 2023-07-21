@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
-import { Currency } from '../../../types';
-import { getCredits } from '../AmountFieldUtils';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useRates } from 'domains/account/hooks/useRates';
+
+import { Currency } from '../../../types';
+import { getCredits } from '../AmountFieldUtils';
 
 export interface CreditsParams {
   amount: string;

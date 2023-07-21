@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { INDEX_PATH } from 'domains/chains/routes';
+
 import { text } from '../../utils/text';
 import { useStartButtonStyles } from './StartButtonStyles';
 

@@ -1,10 +1,11 @@
 import { GetState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
-import { infrastructureFetchRestrictedDomains } from './fetchRestrictedDomains';
-import { infrastructureFetchRestrictedIps } from './fetchRestrictedIps';
 import { web3Api } from 'store/queries';
 import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
+
+import { infrastructureFetchRestrictedDomains } from './fetchRestrictedDomains';
+import { infrastructureFetchRestrictedIps } from './fetchRestrictedIps';
 
 export interface SecuritySettings {
   domains: string[];

@@ -3,12 +3,13 @@ import { IWeb3SendResult } from '@ankr.com/provider';
 import { formatToWei } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { accountFetchPublicKey } from '../fetchPublicKey';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
 import { GetState } from 'store';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+
+import { accountFetchPublicKey } from '../fetchPublicKey';
 
 export const {
   endpoints: { topUpDeposit },

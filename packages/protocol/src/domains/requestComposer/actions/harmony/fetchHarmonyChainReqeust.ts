@@ -9,9 +9,10 @@ import {
   MethodsRequest,
 } from 'domains/requestComposer/types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { getHarmonyChainRequestResult } from './utils/getHarmonyChainRequestResult';
 import { setHarmonyMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
+
+import { getHarmonyChainRequestResult } from './utils/getHarmonyChainRequestResult';
 
 export interface FetchHarmonyChainRequestParams {
   method: HarmonyMethod;

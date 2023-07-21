@@ -5,11 +5,12 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-
 import { ArrowRight } from '@ankr.com/ui';
+
+import { useHasBreakdown, useIsMDDown } from 'uiKit/Theme/useTheme';
+
 import { useStyles } from './BreadcrumbsStyles';
 import { BreadcrumbsProps } from './BreadcrumbsTypes';
-import { useHasBreakdown, useIsMDDown } from 'uiKit/Theme/useTheme';
 
 export const Breadcrumbs = ({
   customBreakpoint = 0,

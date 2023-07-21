@@ -1,6 +1,7 @@
 import { IPrivateEndpoint } from 'multirpc-sdk';
 
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+
 import {
   UserEndpointsFormData,
   UserEndpointsProps,

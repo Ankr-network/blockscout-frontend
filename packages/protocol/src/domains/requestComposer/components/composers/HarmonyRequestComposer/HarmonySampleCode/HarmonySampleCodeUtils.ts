@@ -1,5 +1,6 @@
 import { HarmonyMethod } from 'domains/requestComposer/constants/harmony';
 import { IHarmonyArg } from 'domains/requestComposer/types/harmony';
+
 import { ArgumentType } from '../../../MethodsForm/MethodsFormUtils';
 
 const ARG_PREFIX = 'arg';

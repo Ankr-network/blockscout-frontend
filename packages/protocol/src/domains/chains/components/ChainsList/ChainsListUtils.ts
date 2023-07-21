@@ -1,7 +1,8 @@
 import { BlockchainType } from 'multirpc-sdk';
 
-import { ChainMap } from './ChainsListTypes';
 import { Chain } from 'domains/chains/types';
+
+import { ChainMap } from './ChainsListTypes';
 
 export const PERIOD = '24h';
 

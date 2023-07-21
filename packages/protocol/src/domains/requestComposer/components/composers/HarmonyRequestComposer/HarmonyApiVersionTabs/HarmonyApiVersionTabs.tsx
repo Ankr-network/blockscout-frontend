@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { TabsManager } from 'uiKit/TabsManager';
 import { ITabProps } from 'modules/common/hooks/useTabs';
+
 import { useHarmonyApiVersionTabsStyles } from './useHarmonyApiVersionTabsStyles';
 
 export const HarmonyApiVersionTabs = ({ tabs, selectedTab }: ITabProps) => {

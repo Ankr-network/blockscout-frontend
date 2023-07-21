@@ -1,5 +1,6 @@
 import { tHTML } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
+
 import { ITooltipProps } from '../../../RequestsChart';
 import { useTooltipStyles } from '../../../RequestsBannerContainer/components/Tooltip/useTooltipStyles';
 

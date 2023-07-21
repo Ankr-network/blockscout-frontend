@@ -1,13 +1,14 @@
 import { Button } from '@mui/material';
 import { Field } from 'react-final-form';
-
 import { t } from '@ankr.com/common';
+
 import { InputField } from 'modules/form/components/InputField';
 import { emailValidator } from 'modules/form/utils/validators/emailValidator';
-import { AddEmailFormFields } from '../../types';
-import { useStyles } from './FillStepStyles';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { AddEmailFormFields } from '../../types';
+import { useStyles } from './FillStepStyles';
 
 interface IFillStep {
   handleSubmit: () => void;

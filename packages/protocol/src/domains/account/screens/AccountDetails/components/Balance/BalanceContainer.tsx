@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
 
+import { useBalanceData } from 'domains/account/hooks/useBalanceData';
+
 import { Balance } from './Balance';
 import { BalanceSkeleton } from './components/Skeleton';
-import { useBalanceData } from 'domains/account/hooks/useBalanceData';
 import { useStyles } from './BalanceStyles';
 
 export interface BalanceContainerProps {

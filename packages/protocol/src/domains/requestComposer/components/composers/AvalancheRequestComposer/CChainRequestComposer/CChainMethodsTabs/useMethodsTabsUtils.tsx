@@ -2,7 +2,6 @@ import {
   SecondaryTab,
   TabSize,
 } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-
 import {
   AvalancheLibrary,
   AvalancheLibraryID,
@@ -12,6 +11,7 @@ import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chai
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
 import { AvalancheSampleCode } from '../../AvalancheSampleCode';
 
 export const useMethodsTabsUtils = (

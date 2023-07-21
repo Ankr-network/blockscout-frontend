@@ -1,5 +1,6 @@
-import { useSettingsTabs } from './useSettingsTabs';
 import { TabsManager } from 'uiKit/TabsManager';
+
+import { useSettingsTabs } from './useSettingsTabs';
 import { useSettingsTabsStyles } from './useSettingsTabsStyles';
 
 export const SettingsTabs = () => {

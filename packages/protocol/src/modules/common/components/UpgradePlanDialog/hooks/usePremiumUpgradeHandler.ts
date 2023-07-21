@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 
-import { PlanID, UpgradeHandler } from '../types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { PlanID, UpgradeHandler } from '../types';
 
 export type PremiumUpgradeHandlerParams = {
   onUpgrade: UpgradeHandler;

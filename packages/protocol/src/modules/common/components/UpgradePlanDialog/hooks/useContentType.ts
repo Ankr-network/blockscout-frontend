@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react';
 
-import { ContentType } from '../types';
 import { trackSignUpModalOpen } from 'modules/analytics/mixpanel/trackSignUpModalOpen';
 import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
+
+import { ContentType } from '../types';
 
 const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
   ContentType;

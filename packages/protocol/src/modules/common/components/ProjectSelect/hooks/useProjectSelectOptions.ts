@@ -11,8 +11,9 @@ import {
   jwtTokenIntlRoot,
   PRIMARY_TOKEN_INDEX,
 } from 'domains/jwtToken/utils/utils';
-import { SelectOption } from '../ProjectSelect';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+
+import { SelectOption } from '../ProjectSelect';
 
 export const ALL_PROJECTS_VALUE = 'All';
 

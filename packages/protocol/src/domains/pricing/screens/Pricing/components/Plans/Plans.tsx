@@ -6,8 +6,6 @@ import { t, tHTML } from '@ankr.com/common';
 
 import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { TopUpOrigin } from 'domains/account/types';
-import { usePlansStyles } from './PlansStyles';
-import { INTL_PLANS_ROOT, PLAN_LIST, TIP_LIST } from './PlansUtils';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { PATH_ACCOUNT } from 'domains/account/Routes';
@@ -19,6 +17,9 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+
+import { INTL_PLANS_ROOT, PLAN_LIST, TIP_LIST } from './PlansUtils';
+import { usePlansStyles } from './PlansStyles';
 
 const INFO_COUNTS = 4;
 

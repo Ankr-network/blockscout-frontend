@@ -10,6 +10,7 @@ import {
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
 import { NearSampleCode } from './NearSampleCode';
 
 export const useMethodsTabsUtils = (

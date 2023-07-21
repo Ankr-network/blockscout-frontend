@@ -1,6 +1,6 @@
 import { RouteProps } from 'react-router';
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { QUERY_EMAIL } from 'domains/userSettings/const';
 import { PATH_SETTINGS } from 'domains/userSettings/Routes';
 

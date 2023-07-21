@@ -1,6 +1,8 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { ExternalLink } from '@ankr.com/ui';
+
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { multiChainBenefitsStyles as useStyles } from './MultiChainBenefitsStyles';
 import { content } from './const';
 

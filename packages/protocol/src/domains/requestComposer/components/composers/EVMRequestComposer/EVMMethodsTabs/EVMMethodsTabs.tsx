@@ -1,5 +1,6 @@
 import { EVMMethod, EVMLibraryID } from 'domains/requestComposer/constants';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { MethodsTabs } from '../../../SampleCodeComponent/SampleCodeDialog/MethodsTabs';
 import { useMethodsTabsUtils } from './useMethodsTabsUtils';
 

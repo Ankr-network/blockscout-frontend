@@ -1,16 +1,17 @@
 import { useCallback, useMemo } from 'react';
 
-import { AddEndpointForm } from './AddEndpointForm';
 import { Chain } from 'domains/chains/types';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
+import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
+
 import {
   formatDataForRequest,
   usePrivateUrls,
   usePublicUrls,
 } from './AddEndpointFormUtils';
 import { useEndpointBreadcrumbs } from '../../AddEndpointUtils';
-import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
-import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
+import { AddEndpointForm } from './AddEndpointForm';
 
 export interface AddEndpointFormProps {
   chainId: string;

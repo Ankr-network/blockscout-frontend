@@ -1,9 +1,10 @@
 import { t } from '@ankr.com/common';
-import { INDEX_PATH } from 'domains/chains/routes';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ReactNode, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { INDEX_PATH } from 'domains/chains/routes';
 
 interface IGuardAuthEnterpriseRouteProps {
   isClient: boolean;

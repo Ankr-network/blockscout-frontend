@@ -1,4 +1,5 @@
 import { TabsManager, TabsManagerProps } from 'uiKit/TabsManager';
+
 import { useCurrencySelectorStyles } from './CurrencySelectorStyles';
 
 export const CurrencySelector = ({ className, ...props }: TabsManagerProps) => {

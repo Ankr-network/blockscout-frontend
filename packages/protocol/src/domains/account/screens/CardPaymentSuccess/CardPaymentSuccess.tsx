@@ -6,15 +6,16 @@ import { useMemo } from 'react';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
-import { getInfoCardParams } from './utils/getInfoCardParams';
-import { getOriginRoute } from './utils/getOriginRoute';
 import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useEnableWhitelistedProject } from 'domains/projects/hooks/useEnableWhitelistedProject';
+
+import { getInfoCardParams } from './utils/getInfoCardParams';
+import { getOriginRoute } from './utils/getOriginRoute';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { useClickHandler } from './hooks/useClickHandler';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTrackSuccessfulTopUp } from './hooks/useTrackSuccessfulTopUp';
-import { useEnableWhitelistedProject } from 'domains/projects/hooks/useEnableWhitelistedProject';
 import { useIsWhitelistReason } from './hooks/useIsWhitelistReason';
 
 export const CardPaymentSuccess = () => {

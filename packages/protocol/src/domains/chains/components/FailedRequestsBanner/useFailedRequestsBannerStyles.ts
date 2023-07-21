@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+
 import {
   NOTICE_WIDTH,
   NOTICE_MARGIN,

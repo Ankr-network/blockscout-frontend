@@ -1,3 +1,5 @@
+import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
+
 import { ChainCallsWidget } from '../ChainCallsWidget';
 import { EmptyLayoutGuard } from '../EmptyLayoutGuard';
 import { ILayoutProps } from '../../types';
@@ -9,7 +11,6 @@ import { TopCountriesWidget } from '../TopCountriesWidget';
 import { UsageHistoryWidget } from '../UsageHistoryWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
-import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 import { useMonthlyStats } from '../../hooks/useMonthlyStats';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {

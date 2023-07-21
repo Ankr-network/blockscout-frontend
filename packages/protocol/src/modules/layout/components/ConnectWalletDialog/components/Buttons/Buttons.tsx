@@ -1,4 +1,5 @@
 import { Button, CircularProgress } from '@mui/material';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { text } from '../../utils/text';

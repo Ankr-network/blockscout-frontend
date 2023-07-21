@@ -1,8 +1,8 @@
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { Button, Typography } from '@mui/material';
-
 import { Copy } from '@ankr.com/ui';
+
 import { useStyles } from './CopyToClipButtonStyles';
 import { useCopyToClip } from '../CopyToClipIcon/CopyToClipIconUtils';
 

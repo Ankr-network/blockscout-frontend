@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { root } from '../../const';
-import { t } from '@ankr.com/common';
 import { useHeaderStyles } from './HeaderStyles';
 
 export interface HeaderProps {

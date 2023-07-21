@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { SelectChangeEvent } from '@mui/material';
+
 import { Chain, ChainID } from 'domains/chains/types';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
+
 import {
   ALL_CHAINS_VALUE,
   useChainSelector,

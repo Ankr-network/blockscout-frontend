@@ -1,14 +1,15 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { EndpointsHeader } from '../EndpointsHeader';
-import { WSEndpoints } from '../WSEndpoints';
-import { EndpointPlaceholder } from '../EndpointPlaceholder';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { useWsFeatureEndpoints } from './useWsFeatureEndpoints';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+
+import { EndpointsHeader } from '../EndpointsHeader';
+import { WSEndpoints } from '../WSEndpoints';
+import { EndpointPlaceholder } from '../EndpointPlaceholder';
+import { useWsFeatureEndpoints } from './useWsFeatureEndpoints';
 
 interface IWsFeatureEndpointsProps {
   title: string;

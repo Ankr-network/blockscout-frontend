@@ -1,5 +1,6 @@
 import { Chain } from 'domains/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
+
 import { useChainLogoStyles } from './ChainLogoStyles';
 
 export interface ChainLogoProps {

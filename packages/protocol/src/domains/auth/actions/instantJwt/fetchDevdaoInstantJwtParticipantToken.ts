@@ -2,9 +2,10 @@ import { JwtTokenFullData } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
-import { decryptJwt } from './utils/decryptJwt';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+
+import { decryptJwt } from './utils/decryptJwt';
 
 export const {
   endpoints: { authFetchDevdaoInstantJwtParticipantToken },

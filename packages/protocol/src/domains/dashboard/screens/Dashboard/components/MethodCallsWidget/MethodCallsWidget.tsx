@@ -6,15 +6,16 @@ import { t } from '@ankr.com/common';
 import { Download } from '@ankr.com/ui';
 
 import { ChainID, Timeframe } from 'domains/chains/types';
+import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
+import { selectBlockHeight } from 'domains/dashboard/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+
 import { Chart } from '../BasePieChart/components/Chart';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { ScrollableContainer } from '../ScrollableContainer';
 import { Title } from '../Title';
 import { getColor } from '../BasePieChart/utils/getColor';
-import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
 import { mapChartData, mapRequests } from './MethodCallsWidgetUtils';
-import { selectBlockHeight } from 'domains/dashboard/store/selectors';
-import { useAppSelector } from 'store/useAppSelector';
 import { useMethodCallsWidgetStyles } from './MethodCallsWidgetStyles';
 
 interface IMethodCallsProps {

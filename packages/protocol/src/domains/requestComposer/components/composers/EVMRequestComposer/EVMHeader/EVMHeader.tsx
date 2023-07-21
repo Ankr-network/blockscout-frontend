@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 
-import { BlockNumber } from '../../../Header/BlockNumber';
-import { Header } from '../../../Header';
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchLastBlockNumber } from 'domains/requestComposer/actions/fetchLastBlockNumber';
+
+import { BlockNumber } from '../../../Header/BlockNumber';
+import { Header } from '../../../Header';
 
 export interface HeaderProps {
   chainId?: string;

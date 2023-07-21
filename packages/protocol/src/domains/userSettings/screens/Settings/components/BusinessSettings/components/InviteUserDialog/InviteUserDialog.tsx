@@ -1,5 +1,6 @@
 import { Dialog } from 'uiKit/Dialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { useInviteUserDialogStyles } from './InviteUserDialogStyles';
 import { InviteUserForm } from '../InviteUserForm';
 

@@ -5,6 +5,7 @@ import { AccountType, BalanceStatus } from 'domains/account/types';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
+
 import { useAccountType } from './useAccountType';
 
 export interface AccountData {

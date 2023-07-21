@@ -1,4 +1,3 @@
-import { Header } from './components/Header';
 import { IChartData } from 'modules/common/components/Chart';
 import {
   RequestsChart,
@@ -6,6 +5,8 @@ import {
 } from 'modules/common/components/RequestsChart';
 import { selectTotalStatsLoading } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+
+import { Header } from './components/Header';
 
 export interface RequestsWidgetProps {
   allTimeRequestsNumber: number;

@@ -1,9 +1,10 @@
 import { MultiService } from 'modules/api/MultiService';
 import { timeout } from 'modules/common/utils/timeout';
-import { ETH_BLOCK_TIME } from './const';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
-const hasPendingTransaction = async (address: string) => {
+import { ETH_BLOCK_TIME } from './const';
+
+const hasPendingTransaction = async (address: string): Promise<boolean> => {
   const service = await MultiService.getWeb3Service();
 
   const provider = service.getKeyProvider();
@@ -26,7 +27,9 @@ const hasPendingTransaction = async (address: string) => {
     'pending',
   );
 
-  return latestTransactionCount !== pendingTransactionCount;
+  const result = latestTransactionCount !== pendingTransactionCount;
+
+  return result;
 };
 
 export const waitForPendingTransaction = async (address: string) => {

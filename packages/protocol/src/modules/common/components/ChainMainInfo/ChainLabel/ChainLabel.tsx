@@ -2,6 +2,7 @@ import { Typography } from '@mui/material';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { StatusCircle } from 'uiKit/StatusCircle';
+
 import { useStyles } from './ChainLabelStyles';
 
 interface ArchiveLabelProps {

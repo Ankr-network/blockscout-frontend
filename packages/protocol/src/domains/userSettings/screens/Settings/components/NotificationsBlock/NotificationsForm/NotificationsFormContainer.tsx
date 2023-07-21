@@ -2,6 +2,9 @@ import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 
+import { FormAutoSubmit } from 'modules/form/components/FormAutoSubmit';
+import { useLazyUserSettingsEditNotificationSettingsQuery } from 'domains/userSettings/actions/notifications/editNotificationSettings';
+
 import {
   INotificationsFormProps,
   NotificationsFormData,
@@ -11,8 +14,6 @@ import {
   prepareValuesForRequest,
 } from './NotificationsFormUtils';
 import { NotificationsForm } from './NotificationsForm';
-import { FormAutoSubmit } from 'modules/form/components/FormAutoSubmit';
-import { useLazyUserSettingsEditNotificationSettingsQuery } from 'domains/userSettings/actions/notifications/editNotificationSettings';
 
 export const NotificationsFormContainer = ({
   settings,

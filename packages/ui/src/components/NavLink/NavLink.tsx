@@ -1,7 +1,12 @@
 import { Button, ButtonProps } from '@material-ui/core';
 import classNames from 'classnames';
 import { Spinner } from '../Spinner';
-import React, { MutableRefObject, ForwardedRef, createElement } from 'react';
+import React, {
+  MutableRefObject,
+  ForwardedRef,
+  createElement,
+  forwardRef,
+} from 'react';
 import {
   Link as RouterLink,
   LinkProps as RouteLinkProps,
@@ -25,7 +30,7 @@ export interface INavLinkProps {
 
 type Props = ButtonProps & INavLinkProps;
 
-export const NavLink = React.forwardRef(
+export const NavLink = forwardRef(
   (
     {
       href,
@@ -106,3 +111,5 @@ export const NavLink = React.forwardRef(
     );
   },
 );
+
+NavLink.displayName = 'NavLink';

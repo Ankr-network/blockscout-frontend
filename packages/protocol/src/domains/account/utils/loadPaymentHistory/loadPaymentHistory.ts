@@ -1,4 +1,5 @@
 import { PaymentHistory, PaymentHistoryParams } from 'domains/account/types';
+
 import { executeLoading } from './executeLoading';
 
 export const loadPaymentHistory = async ({

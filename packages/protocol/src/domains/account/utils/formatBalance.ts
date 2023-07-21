@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-
 import { t } from '@ankr.com/common';
 
 // to prevent layout breaking

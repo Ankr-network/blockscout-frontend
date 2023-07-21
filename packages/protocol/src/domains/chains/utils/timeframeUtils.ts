@@ -6,6 +6,7 @@ import {
   getTime,
   getYear,
 } from 'date-fns';
+
 import { Timeframe } from '../types';
 
 export const ONE_MINUTE_LIFETIME = 60 * 1000;

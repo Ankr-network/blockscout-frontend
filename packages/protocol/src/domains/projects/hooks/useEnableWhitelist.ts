@@ -5,9 +5,10 @@ import { useLazyAddAddressToWhitelistQuery } from 'domains/projects/actions/addA
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
-import { NewProjectType } from '../store';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 import { ChainID } from 'domains/chains/types';
+
+import { NewProjectType } from '../store';
 
 const getProjectValues = (project: NewProjectType) => {
   const userEndpointToken =

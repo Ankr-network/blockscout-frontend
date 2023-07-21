@@ -1,9 +1,6 @@
 import { NavLink, NavLinkProps } from 'react-router-dom';
 import { ButtonProps } from '@mui/material';
 import { History } from 'history';
-
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import {
   Dashboard,
   CoinStack,
@@ -17,9 +14,11 @@ import {
   BoldAdvancedApi,
   Logout,
 } from '@ankr.com/ui';
-import { Diamonds } from 'uiKit/Icons/Diamonds';
 import { t } from '@ankr.com/common';
 
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
+import { Diamonds } from 'uiKit/Icons/Diamonds';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';

@@ -1,15 +1,16 @@
 import { t } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
+import { TwoFAStatus } from 'multirpc-sdk';
 
 import { TwoFAInput } from 'domains/userSettings/components/TwoFADialog/components/TwoFAInput';
 import { useConfirmTwoFA } from 'domains/userSettings/screens/Settings/hooks/useConfirmTwoFA';
 import { useDisableTwoFA } from 'domains/userSettings/screens/Settings/hooks/useDisableTwoFA';
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
-import { USER_SETTINGS_INTL_ROOT } from '../../../../constants';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { userSettingsFetchTwoFAStatus } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
-import { TwoFAStatus } from 'multirpc-sdk';
+
+import { USER_SETTINGS_INTL_ROOT } from '../../../../constants';
 
 interface TwoFAControlDialogDefaultProps {
   setSuccessView: () => void;

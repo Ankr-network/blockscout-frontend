@@ -1,9 +1,10 @@
 import { t } from '@ankr.com/common';
 
+import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
+
 import { RefreshButton } from '../RefreshButton';
 import { intlRoot } from '../../const';
 import { useHeaderStyles } from './HeaderStyles';
-import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
 
 export interface HeaderProps {
   isRefreshing: boolean;

@@ -1,4 +1,5 @@
 import { Chain } from 'domains/chains/types';
+
 import { getChainID } from './getChainID';
 
 const flatChain = (chain: Chain): Chain[] => [

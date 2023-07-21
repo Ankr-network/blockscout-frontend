@@ -1,6 +1,7 @@
+import { t } from '@ankr.com/common';
+
 import { ChainSubType, ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { t } from '@ankr.com/common';
 
 const mainnets = t('chain-item.chain-types.mainnet');
 const testnets = t('chain-item.chain-types.testnet');

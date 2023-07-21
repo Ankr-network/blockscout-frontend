@@ -1,7 +1,7 @@
 import { lighten } from '@mui/material';
 import IsoToLatLong from 'country-iso-to-coordinates';
-
 import { t } from '@ankr.com/common';
+
 import { RequestsCountry, RequestsMapProps } from './RequestsMapTypes';
 
 const COLORS = Array(10)

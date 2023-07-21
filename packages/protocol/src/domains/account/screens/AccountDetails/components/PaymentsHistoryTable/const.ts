@@ -1,5 +1,6 @@
-import { PaymentHistoryTableTimeframe } from 'domains/account/types';
 import { IPaymentHistoryEntityType } from 'multirpc-sdk';
+
+import { PaymentHistoryTableTimeframe } from 'domains/account/types';
 
 export const DEFAULT_TIMEFRAME = PaymentHistoryTableTimeframe.WEEK;
 

@@ -7,6 +7,7 @@ import {
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { usePremiumContentStyles } from './usePremiumContentStyles';
 
 interface IPremiumContentProps {

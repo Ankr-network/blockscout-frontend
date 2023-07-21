@@ -2,6 +2,7 @@ import { OverlaySpinner } from '@ankr.com/ui';
 
 import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
+
 import { useEmailBannerProps, useSettingsBreadcrumbs } from './SettingsUtils';
 import { useEmailData } from './hooks/useSettings';
 import { SettingsTabs } from './components/SettingsTabs';

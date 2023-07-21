@@ -3,6 +3,7 @@ import { ExternalLink } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
+
 import { useTopUpBlockHeaderStyles } from './TopUpBlockHeaderStyles';
 
 export const TopUpBlockHeader = () => {

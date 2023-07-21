@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { Field, useForm } from 'react-final-form';
-
 import { tHTML } from '@ankr.com/common';
+
 import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxField';
+import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
+
 import { useStyles } from './AgreementFormStyles';
 import { AddEndpointFormFields } from '../AddEndpointFormTypes';
-import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
 
 const HAS_CHECKBOX = false;
 

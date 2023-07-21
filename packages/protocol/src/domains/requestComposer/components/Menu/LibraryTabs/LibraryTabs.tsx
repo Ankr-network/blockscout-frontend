@@ -1,6 +1,8 @@
 import { Box, Orientation } from '@mui/material';
+
 import { Tabs } from 'modules/common/hooks/useTabs';
 import { TabsManager } from 'uiKit/TabsManager';
+
 import { useTopUpTabsStyles } from './LibraryTabsStyles';
 
 export interface ILibraryTabsProps {

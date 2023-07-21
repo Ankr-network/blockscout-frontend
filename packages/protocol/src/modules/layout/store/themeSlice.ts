@@ -1,6 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from 'store';
 import { Themes } from '@ankr.com/ui';
+
+import { RootState } from 'store';
 
 export interface IThemeSlice {
   theme: Themes;

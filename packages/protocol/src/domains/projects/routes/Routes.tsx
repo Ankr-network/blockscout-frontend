@@ -2,9 +2,10 @@ import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 import { OverlaySpinner } from '@ankr.com/ui';
 
+import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
+
 import { GuardProjectRoute } from '../components/GuardProjectRoute';
 import { ProjectsRoutesConfig } from './routesConfig';
-import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
 
 const LoadableProjectsContainer: LoadableComponent<any> = loadable(
   async () => import('../screens/Projects').then(module => module.ProjectsPage),

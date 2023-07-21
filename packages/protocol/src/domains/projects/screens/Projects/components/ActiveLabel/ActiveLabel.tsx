@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
+
 import { useActiveLabelStyles } from './useActiveLabelStyles';
 
 export const ActiveLabel = () => {

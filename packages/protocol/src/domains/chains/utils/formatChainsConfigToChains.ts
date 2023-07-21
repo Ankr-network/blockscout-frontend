@@ -6,10 +6,11 @@ import {
 } from 'multirpc-sdk';
 
 import { ChainID } from 'domains/chains/types';
+import { mappingChainName } from 'domains/auth/utils/mappingchainName';
+
 import { isTestnetOnlyChain } from './isTestnetOnlyChain';
 import { GroupedBlockchainType, Chain, ChainURL } from '../types';
 import { isEvmExtension } from './isEvmExtension';
-import { mappingChainName } from 'domains/auth/utils/mappingchainName';
 
 const getChainWithoutMainnet = ({ id, name, urls }: Chain) => ({
   id,

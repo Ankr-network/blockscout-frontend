@@ -3,9 +3,10 @@ import { t } from '@ankr.com/common';
 
 import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { jwtTokenIntlRoot } from '../utils/utils';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { is2FAError } from 'store/utils/is2FAError';
+
+import { jwtTokenIntlRoot } from '../utils/utils';
 
 export enum DeleteProjectStep {
   initial = 'initial',

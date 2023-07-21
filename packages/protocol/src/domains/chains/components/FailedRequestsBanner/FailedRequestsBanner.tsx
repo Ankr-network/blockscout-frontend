@@ -1,13 +1,14 @@
 import { Timeframe } from 'domains/chains/types';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+
 import { valuesMap } from '../TimeframeSwitcher/const';
 import { FailedRequestsChart } from './Components/FailedRequestsChart';
 import { Header } from './Components/Header';
 import { Notice } from './Components/Notice';
 import { useFailedRequestsBannerStyles } from './useFailedRequestsBannerStyles';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 interface IFailedRequestsBannerProps {
   timeframe: Timeframe;

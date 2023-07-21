@@ -1,5 +1,6 @@
-import { QUERY_EMAIL } from '../const';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
+
+import { QUERY_EMAIL } from '../const';
 
 const QUERY_CODE = 'code';
 

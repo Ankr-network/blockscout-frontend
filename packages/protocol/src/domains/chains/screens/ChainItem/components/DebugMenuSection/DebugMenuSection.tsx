@@ -1,6 +1,7 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { LearnMore } from './components/LearnMore';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
+
+import { LearnMore } from './components/LearnMore';
 import { useDebugMenuSectionStyles } from './DebugMenusSectionStyles';
 
 export interface DebugMenuSectionProps {

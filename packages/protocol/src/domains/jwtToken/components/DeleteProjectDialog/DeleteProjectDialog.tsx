@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
+
 import { Dialog } from 'uiKit/Dialog';
 import {
   DeleteProjectStep,
   useDeleteProject,
 } from 'domains/jwtToken/hooks/useDeleteProject';
+
 import { useDeleteProjectDialogStyles } from './useDeleteProjectDialogStyles';
 import { DeleteProjectContent } from '../ProjectDialogContent/DeleteProjectContent';
 import { FailedContent } from '../ProjectDialogContent/FailedContent';

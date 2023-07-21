@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { ChainID, ChainType, Chain, ChainSubType } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
@@ -7,7 +9,7 @@ import {
   GroupedEndpoints,
 } from 'modules/endpoints/types';
 import { getGroupIdByChainId } from 'modules/endpoints/utils/getGroupByChainId';
-import { useMemo } from 'react';
+
 import { getGroupTabs } from '../utils/getGroupTabs';
 import { filterEndpointsByChainSubType } from '../utils/filterEndpointsByChainSubType';
 

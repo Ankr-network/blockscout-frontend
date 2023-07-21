@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Skeleton } from '@mui/material';
+
 import { useStatStyles } from './StatStyles';
 
 export interface StatProps {

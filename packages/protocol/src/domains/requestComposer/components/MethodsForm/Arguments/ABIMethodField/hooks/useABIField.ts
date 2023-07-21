@@ -2,8 +2,9 @@ import { FieldValidator } from 'final-form';
 import { useCallback } from 'react';
 import { useForm } from 'react-final-form';
 
-import { Field } from '../types';
 import { InputField } from 'modules/form/components/InputField';
+
+import { Field } from '../types';
 
 export interface ABIField {
   abi: string;

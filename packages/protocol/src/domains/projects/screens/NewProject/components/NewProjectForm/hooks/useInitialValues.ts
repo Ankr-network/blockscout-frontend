@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
 import { NewProjectStep } from 'domains/projects/types';
-import { NewProjectFormValues } from '../NewProjectFormTypes';
 import { NewProjectType } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+
+import { NewProjectFormValues } from '../NewProjectFormTypes';
 
 export const getInitialValues = (project?: NewProjectType) => {
   const initialValues: NewProjectFormValues = {};

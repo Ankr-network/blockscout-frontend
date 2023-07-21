@@ -1,5 +1,7 @@
-import { decryptJwt } from 'domains/auth/actions/instantJwt/utils/decryptJwt';
 import { IJwtTokenResponse } from 'multirpc-sdk';
+
+import { decryptJwt } from 'domains/auth/actions/instantJwt/utils/decryptJwt';
+
 import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
 

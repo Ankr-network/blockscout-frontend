@@ -7,11 +7,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 
-import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 import { ChainType } from 'domains/chains/types';
-import { useTypeSelector } from './hooks/useTypeSelector';
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+
+import { useTypeSelector } from './hooks/useTypeSelector';
+import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
 
 interface ITypeSelectorProps extends SelectMenuProps {

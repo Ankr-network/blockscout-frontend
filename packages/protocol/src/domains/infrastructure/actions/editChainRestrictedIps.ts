@@ -3,11 +3,12 @@ import { RestrictedIps } from 'multirpc-sdk';
 import { ChainID } from 'domains/chains/types';
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { web3Api } from 'store/queries';
 import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
+
+import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 
 export interface EditChainRestrictedIpsParams {
   chainId: string;

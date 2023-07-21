@@ -1,5 +1,6 @@
-import { useLazyFetchIsEnterpriseClientQuery } from '../actions/fetchIsEnterpriseClient';
 import { useEffect } from 'react';
+
+import { useLazyFetchIsEnterpriseClientQuery } from '../actions/fetchIsEnterpriseClient';
 import { useAuth } from './useAuth';
 
 export const IS_ENTERPISE_ENABLED = false;

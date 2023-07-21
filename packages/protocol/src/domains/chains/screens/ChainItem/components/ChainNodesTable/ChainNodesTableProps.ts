@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-
 import { INodesDetailEntity } from 'multirpc-sdk';
 
 export interface ChainNodesTableProps {

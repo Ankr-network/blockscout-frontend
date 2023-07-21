@@ -1,4 +1,5 @@
 import { StatusCircleStatus } from 'uiKit/StatusCircle';
+
 import {
   NODE_TRUST_SCORE_ERROR,
   NODE_TRUST_SCORE_WARNING,

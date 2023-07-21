@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { ChainID, SortType, Chain } from 'domains/chains/types';
 import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
+
 import { SortPublicChainsParams } from '../PublicChainsTypes';
 
 const publicChainsSorter = (a: Chain, b: Chain) =>

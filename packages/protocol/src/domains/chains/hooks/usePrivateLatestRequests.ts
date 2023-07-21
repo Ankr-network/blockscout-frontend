@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { privateLatestRequests } from '../actions/private/fetchPrivateLatestRequests';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { privateLatestRequests } from '../actions/private/fetchPrivateLatestRequests';
 
 export interface PrivateLatestRequestsParams {
   hasPolling?: boolean;

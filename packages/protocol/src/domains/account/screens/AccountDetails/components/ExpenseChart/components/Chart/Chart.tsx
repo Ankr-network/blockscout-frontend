@@ -5,9 +5,9 @@ import {
   Chart as BaseChart,
   IChartData,
 } from 'modules/common/components/Chart';
+
 import { ChartCurrency } from '../../types';
 import { Tooltip } from '../Tooltip';
-
 import { useStyles } from './ChartStyles';
 
 export interface ChartProps {

@@ -1,10 +1,11 @@
 import React, { useState, useCallback, ReactNode } from 'react';
 import { Button } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { MethodOption } from 'domains/requestComposer/types';
+
 import { SampleCodeDialog } from './SampleCodeDialog';
 import { useSampleCodeComponentStyles } from './useSampleCodeComponentStyles';
-import { t } from '@ankr.com/common';
 
 interface ISampleCodeComponentProps {
   methodName?: MethodOption;

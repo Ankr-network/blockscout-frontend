@@ -4,6 +4,7 @@ import { Check } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { InputField } from 'modules/form/components/InputField';
+
 import { useWhitelistInput } from './useWhitelistInput';
 import { useWhitelistStepStyles } from './useWhitelistStepStyles';
 

@@ -3,11 +3,12 @@ import { t } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
 
 import { LoadableButton } from 'uiKit/LoadableButton';
-import { SignupDialog } from './SignupDialog';
 import { timeout } from 'modules/common/utils/timeout';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useStyles } from '../useStyles';
 import { trackSignUpModalOpen } from 'modules/analytics/mixpanel/trackSignUpModalOpen';
+
+import { useStyles } from '../useStyles';
+import { SignupDialog } from './SignupDialog';
 
 interface UnconnectedButtonProps {
   buttonText?: string;

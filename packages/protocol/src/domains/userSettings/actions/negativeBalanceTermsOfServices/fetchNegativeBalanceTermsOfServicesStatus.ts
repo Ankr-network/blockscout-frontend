@@ -1,8 +1,9 @@
-import { MultiService } from 'modules/api/MultiService';
 import {
   NegativeBalanceTermsOfServicesStatusParams,
   NegativeBalanceTermsOfServicesStatusResponse,
 } from 'multirpc-sdk';
+
+import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
 export const {

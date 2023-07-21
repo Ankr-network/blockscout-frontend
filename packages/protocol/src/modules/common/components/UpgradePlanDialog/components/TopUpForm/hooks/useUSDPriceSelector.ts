@@ -2,9 +2,10 @@ import { useMemo } from 'react';
 import { useRadioGroup } from '@ankr.com/ui';
 
 import { SubscriptionPrice } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { USDPriceSelectorProps } from '../components/USDPiceSelector';
 import { getUSDPricesItems } from '../utils/getUSDPricesItems';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export interface USDPiceSelectorParams {
   loading: boolean;

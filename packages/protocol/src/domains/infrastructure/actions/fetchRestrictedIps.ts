@@ -1,10 +1,11 @@
 import { ChainID } from 'domains/chains/types';
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { web3Api } from 'store/queries';
+
+import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 
 export const {
   useInfrastructureFetchRestrictedIpsQuery,

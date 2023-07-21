@@ -1,7 +1,9 @@
 import { t } from '@ankr.com/common';
 import { LoadingButton } from '@ankr.com/ui';
 import { Button, Typography } from '@mui/material';
+
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
 import { useProjectDialogContentStyles } from './useProjectDialogContentStyles';
 
 interface IFailedContentProps {

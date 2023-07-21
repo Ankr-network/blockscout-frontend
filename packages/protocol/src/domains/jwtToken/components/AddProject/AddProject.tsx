@@ -1,8 +1,10 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { Plus } from '@ankr.com/ui';
-import { useAddProjectStyles } from './useAddProjectStyles';
+
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
+import { useAddProjectStyles } from './useAddProjectStyles';
 
 interface IAddProjectProps {
   onOpen: () => void;

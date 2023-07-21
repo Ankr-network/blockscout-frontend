@@ -1,8 +1,9 @@
-import { EndpointType, TopUpCurrency } from './const';
 import {
   PlanID,
   UpgradePlanDialogType,
 } from 'modules/common/components/UpgradePlanDialog';
+
+import { EndpointType, TopUpCurrency } from './const';
 
 interface Billingable {
   billing: boolean;

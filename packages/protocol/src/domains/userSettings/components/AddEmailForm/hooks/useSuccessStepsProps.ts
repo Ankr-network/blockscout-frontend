@@ -1,9 +1,10 @@
 import { useCallback, useMemo } from 'react';
 
-import { AddEmailFormContentState, IAddEmailFormData } from '../types';
-import { ISuccessStepProps } from '../components/SuccessStep';
 import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
 import { useLazyUserSettingsResendConfirmationCodeQuery } from 'domains/userSettings/actions/email/resendConfirmationCode';
+
+import { AddEmailFormContentState, IAddEmailFormData } from '../types';
+import { ISuccessStepProps } from '../components/SuccessStep';
 
 const ENABLE_CHANGE_EMAIL = false;
 

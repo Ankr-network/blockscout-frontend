@@ -2,6 +2,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+
 import { accountFetchSubscriptionsData } from '../fetchMySubscriptionsData';
 
 interface CancelSubscriptionParams {

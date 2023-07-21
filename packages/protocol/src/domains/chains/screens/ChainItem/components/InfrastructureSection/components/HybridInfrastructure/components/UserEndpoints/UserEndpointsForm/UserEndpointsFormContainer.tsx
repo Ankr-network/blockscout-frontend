@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
 
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+import { useLazyInfrastructureApiEditPrivateEndpointQuery } from 'domains/infrastructure/actions/apiEditPrivateEndpoint';
+
 import { UserEndpointsForm } from './UserEndpointsForm';
 import { formatDataForRequest } from './UserEndpointsFormUtils';
-import { useLazyInfrastructureApiEditPrivateEndpointQuery } from 'domains/infrastructure/actions/apiEditPrivateEndpoint';
 
 export interface UserEndpointsFormContainerProps {
   chainId: string;

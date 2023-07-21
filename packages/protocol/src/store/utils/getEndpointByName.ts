@@ -1,4 +1,5 @@
 import { EndpointDefinitions } from '@reduxjs/toolkit/dist/query';
+
 import { QueryEndpoint } from 'store/queries/types';
 import { web3Api } from 'store/queries';
 

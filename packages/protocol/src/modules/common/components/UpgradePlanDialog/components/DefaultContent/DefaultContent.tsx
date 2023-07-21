@@ -2,10 +2,11 @@ import { Check } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { Plan, PlanID } from '../../types';
 import { intlRoot } from '../../const';
 import { useDefaultContentStyles } from './DefaultContentStyles';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export interface DefaultContentParams {
   onEnterpriseUpgradeButtonClick: () => void;

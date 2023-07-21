@@ -2,11 +2,12 @@ import BigNumber from 'bignumber.js';
 import { FormProps } from 'react-final-form';
 import { useCallback, useMemo } from 'react';
 
+import { useTopUp } from 'domains/account/hooks/useTopUp';
+
 import { AmountFormValues, TopUpCurrency } from '../types';
 import { isUSD as isUSDCurrency } from '../utils/isUSD';
 import { useOnAnkrTopUpSuccess } from './useOnAnkrTopUpSuccess';
 import { useOnUSDTopUpSuccess } from './useOnUSDTopUpSuccess';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 type SubmitCallback = FormProps<AmountFormValues>['onSubmit'];
 

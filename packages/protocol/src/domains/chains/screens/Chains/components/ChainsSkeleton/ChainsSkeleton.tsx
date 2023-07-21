@@ -1,4 +1,5 @@
 import { Skeleton } from '@mui/material';
+
 import { useChainsSkeletonStyles } from './useChainsSkeletonStyles';
 
 const SKELETON_AMOUNT = 9;

@@ -28,6 +28,7 @@ export const withGlobalMenuLink = <
 >(
   Child: ComponentType<T> | undefined,
 ) => {
+  // eslint-disable-next-line react/display-name
   return ({
     disabled,
     children,

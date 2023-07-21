@@ -4,9 +4,10 @@ import { t } from '@ankr.com/common';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
-import { usesWalletBlockStyles } from './useWalletBlockStyles';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+
+import { usesWalletBlockStyles } from './useWalletBlockStyles';
 
 export const WalletBlock = () => {
   const { classes } = usesWalletBlockStyles();

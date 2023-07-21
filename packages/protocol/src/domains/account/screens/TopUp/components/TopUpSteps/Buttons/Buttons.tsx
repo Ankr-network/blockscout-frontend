@@ -4,11 +4,12 @@ import { t } from '@ankr.com/common';
 
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { LoadingButton } from 'uiKit/LoadingButton';
+import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
 import { ITopUpStepsProps } from '../TopUpStepsTypes';
 import { TransactionConfirmationButton } from './TransactionConfirmationButton';
 import { getButtonText } from './ButtonsUtils';
-import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useStyles } from './ButtonsStyles';
 
 interface IButtonProps

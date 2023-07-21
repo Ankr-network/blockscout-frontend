@@ -1,6 +1,7 @@
 import { IPaymentHistoryEntity } from 'multirpc-sdk';
 
 import { IChartData } from 'modules/common/components/Chart';
+
 import { ChartCurrency, ChartTimeframe } from '../types';
 import { getTimeframeBorders } from './getTimeframeBorders';
 

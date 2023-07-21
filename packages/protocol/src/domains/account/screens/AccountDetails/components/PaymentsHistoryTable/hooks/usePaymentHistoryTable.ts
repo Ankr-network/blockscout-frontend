@@ -1,10 +1,11 @@
 import { IPaymentHistoryEntity } from 'multirpc-sdk';
-import { VirtualTableColumn } from 'uiKit/VirtualTable';
 
+import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import {
   PaymentHistoryTableTimeframe,
   PaymentType,
 } from 'domains/account/types';
+
 import { useColumns } from './useColumns';
 import { usePaymentType } from './usePaymentType';
 import { useTimeframe } from './useTimeframe';

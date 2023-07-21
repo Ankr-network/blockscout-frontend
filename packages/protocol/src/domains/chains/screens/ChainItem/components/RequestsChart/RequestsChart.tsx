@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
 
+import { RequestsChart as RequestChartBase } from 'modules/common/components/RequestsChart';
+
 import { ItemHeader } from '../ItemHeader';
 import { RequestsChartProps } from './types';
-import { RequestsChart as RequestChartBase } from 'modules/common/components/RequestsChart';
 import { useChartData } from './hooks/useChartData';
 
 export const RequestsChart = ({

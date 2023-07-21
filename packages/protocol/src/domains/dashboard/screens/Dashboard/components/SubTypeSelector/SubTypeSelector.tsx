@@ -7,11 +7,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 
-import { useSubTypeSelectorStyles } from './useSubTypeSelectorStyles';
 import { ChainSubType } from 'domains/chains/types';
-import { useSubTypeSelector } from './hooks/useSubTypeSelector';
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+
+import { useSubTypeSelector } from './hooks/useSubTypeSelector';
+import { useSubTypeSelectorStyles } from './useSubTypeSelectorStyles';
 import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
 
 interface ITypeSelectorProps extends SelectMenuProps {

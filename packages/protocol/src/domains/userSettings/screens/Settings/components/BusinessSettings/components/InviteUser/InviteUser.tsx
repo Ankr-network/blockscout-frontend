@@ -2,9 +2,10 @@ import { Box, Button } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { Plus } from '@ankr.com/ui';
 
+import { useDialog } from 'modules/common/hooks/useDialog';
+
 import { useInviteUserStyles } from './useInviteUserStyles';
 import { InviteUserDialog } from '../InviteUserDialog';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import image from './assets/users.png';
 
 export const InviteUser = () => {

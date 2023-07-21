@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 
-import { BlockNumber } from '../../../Header/BlockNumber';
 import { ChainID } from 'domains/chains/types';
-import { Header } from '../../../Header';
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchTronLastBlockNumber } from 'domains/requestComposer/actions/tron/fetchTronLastBlockNumber';
+
+import { Header } from '../../../Header';
+import { BlockNumber } from '../../../Header/BlockNumber';
 
 export interface HeaderProps {
   hasBlockNumber?: boolean;

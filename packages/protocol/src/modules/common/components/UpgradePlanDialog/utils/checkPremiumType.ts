@@ -1,5 +1,4 @@
 import { TypeCheckingParams } from '../types';
-
 import { isPremiumType } from './isPremiumType';
 
 export const checkPremiumType = ({

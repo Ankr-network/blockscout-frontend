@@ -1,12 +1,14 @@
 import { Box, Button, Paper } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { ReactNode, useState } from 'react';
+
 import { Chain } from 'domains/chains/types';
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { ChainDocsLink } from '../ChainDocsLink';
 import { useStyles } from './CodeSampleWrapperStyles';
 import { CodeSampleTabs } from './CodeSampleTabs';
-import { ReactNode, useState } from 'react';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { CodeType, mapLanguageByCodeType, getSnippetByCodeType } from './const';
 
 interface CodeSampleWrapperProps {

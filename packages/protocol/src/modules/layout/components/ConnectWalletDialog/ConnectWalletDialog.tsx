@@ -1,10 +1,11 @@
 import { Warning } from '@ankr.com/ui';
 
-import { Address } from './components/Address';
-import { Buttons } from './components/Buttons';
 import { Dialog } from 'uiKit/Dialog';
 import { LAYOUT_DIALOG_WIDTH } from 'modules/layout/const';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+
+import { Address } from './components/Address';
+import { Buttons } from './components/Buttons';
 import { text } from './utils/text';
 import { useConnectWaletDialog } from './hooks/useConnectWalletDialog';
 import { useConnectWaletDialogStyles } from './ConnectWaletDialogStyles';

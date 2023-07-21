@@ -1,7 +1,7 @@
 import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
-
 import { OverlaySpinner } from '@ankr.com/ui';
+
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PRICING_PATH = '/pricing';

@@ -2,9 +2,10 @@ import { useCallback } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Warning } from '@ankr.com/ui';
 
-import { useUserEndpointCardStyles } from './useUserEndpointCardStyles';
 import { renderToken } from 'domains/jwtToken/utils/utils';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+
+import { useUserEndpointCardStyles } from './useUserEndpointCardStyles';
 
 interface ICardProps {
   isSelected: boolean;

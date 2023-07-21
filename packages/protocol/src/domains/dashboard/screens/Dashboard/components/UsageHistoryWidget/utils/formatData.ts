@@ -1,5 +1,6 @@
-import { FormattedHistoryData } from '../types';
 import { UsageHistoryData } from 'domains/dashboard/store/types';
+
+import { FormattedHistoryData } from '../types';
 import { getMaxCalls } from './getMaxCalls';
 import { getOpacityMap } from './getOpacityMap';
 

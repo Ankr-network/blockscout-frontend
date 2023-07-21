@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+
 import { commonShadow } from 'uiKit/Theme/themeUtils';
 import { SELECT_WIDTH } from 'modules/common/components/ProjectSelect/ProjectSelectStyles';
 

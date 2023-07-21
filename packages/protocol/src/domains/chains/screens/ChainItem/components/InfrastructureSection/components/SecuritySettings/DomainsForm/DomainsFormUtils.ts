@@ -1,7 +1,7 @@
 import isValidDomain from 'is-valid-domain';
+import { t } from '@ankr.com/common';
 
 import { DomainsFormData, DomainsFormProps } from './DomainsFormTypes';
-import { t } from '@ankr.com/common';
 
 export const validateDomain = (value?: string) => {
   if (typeof value !== 'string') {

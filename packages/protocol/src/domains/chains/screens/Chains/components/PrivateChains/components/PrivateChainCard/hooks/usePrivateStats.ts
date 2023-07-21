@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
 import { ChainID } from 'domains/chains/types';
-import { aggregateTotalRequestsNumber } from '../../../utils/aggregateTotalRequestsNumber';
 import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { aggregateTotalRequestsNumber } from '../../../utils/aggregateTotalRequestsNumber';
 
 export const usePrivateStats = (ids: ChainID[]) => {
   const [, { data: { stats = {} } = {}, isLoading }] = useQueryEndpoint(

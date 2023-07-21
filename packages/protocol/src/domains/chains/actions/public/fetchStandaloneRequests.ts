@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { IWorkerGlobalStatus } from 'multirpc-sdk';
 
 import { ChainID } from 'domains/chains/types';
-import { IWorkerGlobalStatus } from 'multirpc-sdk';
 import { web3Api } from 'store/queries';
 
 export interface StandaloneStatsParams {

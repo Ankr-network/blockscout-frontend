@@ -2,9 +2,10 @@ import { useMemo } from 'react';
 
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { TabsManagerProps } from 'uiKit/TabsManager';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { TopUpCurrency } from '../types';
 import { renderTabTitle } from '../utils/renderTabTitle';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface UseCurrencyTabsResult {
   currency: TopUpCurrency;

@@ -1,11 +1,12 @@
-import { CountdownContext } from '../../const';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
+import { CountdownContext } from '../../const';
 import { Header } from '../../../Header';
 import { Logger } from '../../../Logger';
 import { RequestComposerTemplate } from '../../../RequestComposerTemplate';
 import { XChainMenu } from './XChainMenu';
 import { useXChainRequestLogger } from './hooks/useXChainRequestLogger';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export interface IXChainRequestComposerProps {
   className?: string;

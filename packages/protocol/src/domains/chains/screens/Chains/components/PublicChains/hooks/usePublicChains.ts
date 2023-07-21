@@ -2,14 +2,15 @@ import { useMemo } from 'react';
 
 import { Chain, SortType, Timeframe } from 'domains/chains/types';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
+import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
+
 import {
   sortPublicChains,
   formatRequestsCount,
   filteredByNameChains,
 } from './utils';
-import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
-import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 
 export interface ChainsParams {
   chains: Chain[];

@@ -1,12 +1,13 @@
 import { INotificationsSettings } from 'multirpc-sdk';
 
 import { web3Api } from 'store/queries';
-import { userSettingsFetchNotificationSettings } from './notifications/fetchNotificationSettings';
-import { selectSignupSettings } from '../store/userSettingsSlice';
 import { RootState } from 'store';
-import { userSettingsEditNotificationSettings } from './notifications/editNotificationSettings';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+
+import { userSettingsFetchNotificationSettings } from './notifications/fetchNotificationSettings';
+import { selectSignupSettings } from '../store/userSettingsSlice';
+import { userSettingsEditNotificationSettings } from './notifications/editNotificationSettings';
 
 export const {
   endpoints: { checkChangedSignupUserSettingsAndUpdate },

@@ -1,5 +1,7 @@
 import { t, tHTML } from '@ankr.com/common';
+
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
+
 import imgPremium from './assets/premium.png';
 import imgFree from './assets/free.png';
 import imgPublic from './assets/public.png';

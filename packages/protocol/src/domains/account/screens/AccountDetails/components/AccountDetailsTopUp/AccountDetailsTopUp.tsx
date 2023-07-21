@@ -1,9 +1,10 @@
 import { TabsManager } from 'uiKit/TabsManager';
 import { TopUp } from 'domains/account/components/TopUp';
-import { useAccountDetailsTopUpTabs } from './AccountDetailsTopupUtils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
+
+import { useAccountDetailsTopUpTabs } from './AccountDetailsTopupUtils';
 
 interface IAccountDetailsTopUpProps {
   className?: string;

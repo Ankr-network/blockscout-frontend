@@ -1,6 +1,5 @@
 import { INodesDetailEntity } from 'multirpc-sdk';
 
-import { AddEndpointForm } from './components/AddEndpointForm';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import {
   Endpoints,
@@ -15,11 +14,13 @@ import {
   useLazyChainsFetchPublicChainsQuery,
 } from 'domains/chains/actions/public/fetchPublicChains';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { getScheme } from './AddEndpointUtils';
 import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { ChainID } from 'domains/chains/types';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
+
+import { getScheme } from './AddEndpointUtils';
+import { AddEndpointForm } from './components/AddEndpointForm';
 import { getChainById } from '../ChainItem/utils/getChainById';
 
 export const AddEndpoint = () => {

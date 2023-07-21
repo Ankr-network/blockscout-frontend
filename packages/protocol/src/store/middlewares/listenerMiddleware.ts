@@ -36,7 +36,11 @@ const isProvider = (provider: unknown): provider is EventProvider =>
   !!provider && typeof provider === 'object' && 'on' in provider;
 
 const getParams = (savedParams: any, totp: string) => {
-  if ('params' in savedParams?.params) {
+  if (
+    typeof savedParams.params === 'object' &&
+    savedParams.params !== null &&
+    'params' in savedParams.params
+  ) {
     return {
       ...savedParams,
       params: {

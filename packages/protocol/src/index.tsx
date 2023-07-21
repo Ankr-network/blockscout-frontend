@@ -4,12 +4,13 @@ import { initGoogleGtm } from '@ankr.com/common';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@ankr.com/global-menu/src/assets/fonts/style.css';
-import App from './App';
 import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';
 import { initializeSentry } from 'modules/sentry';
 import { initializeLocale } from 'modules/i18n/utils/initialize';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+
+import App from './App';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 if (!isReactSnap) {
   initializeSentry();

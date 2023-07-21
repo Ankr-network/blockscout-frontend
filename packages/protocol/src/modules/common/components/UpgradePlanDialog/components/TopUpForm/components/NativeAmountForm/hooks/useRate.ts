@@ -1,8 +1,9 @@
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useRates } from 'domains/account/hooks/useRates';
+
 import { RateProps } from '../../Rate';
 import { TopUpCurrency } from '../../../types';
 import { getAmountInCredits } from '../utils/getAmountInCredits';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useRates } from 'domains/account/hooks/useRates';
 
 export interface RateParams {
   amount: string;

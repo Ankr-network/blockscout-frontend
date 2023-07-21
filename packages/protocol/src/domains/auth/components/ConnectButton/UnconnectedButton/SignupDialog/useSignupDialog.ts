@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
+
 import { SignupDialogState } from './SignupDialogContent/SignupDialogDefaultContent';
 
 interface SignupDialogHookProps {

@@ -4,6 +4,7 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+
 import { Projects } from './components/Projects';
 
 export const ProjectsPage = () => {

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
+
 import { useLazyInfrastructureFetchSecuritySettingsQuery } from 'domains/infrastructure/actions/fetchSecuritySettings';
+
 import { useJwtTokenForWorkerRequests } from './useJwtTokenForWorkerRequests';
 
 export const useSecuritySettings = (chainId: string) => {

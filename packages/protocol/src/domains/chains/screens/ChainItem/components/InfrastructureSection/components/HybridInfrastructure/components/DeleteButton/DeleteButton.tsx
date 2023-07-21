@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { Button } from '@mui/material';
-
 import { Delete } from '@ankr.com/ui';
-import { DeleteButtonProps } from './DeleteButtonTypes';
-import { DeleteEndpointDialog } from '../DeleteEndpointDialog';
+
 import { useLazyInfrastructureDeletePrivateEndpointQuery } from 'domains/infrastructure/actions/deletePrivateEndpoint';
 
+import { DeleteButtonProps } from './DeleteButtonTypes';
+import { DeleteEndpointDialog } from '../DeleteEndpointDialog';
 import { useStyles } from './DeleteButtonStyles';
 
 export const DeleteButton = ({ className, endpoint }: DeleteButtonProps) => {

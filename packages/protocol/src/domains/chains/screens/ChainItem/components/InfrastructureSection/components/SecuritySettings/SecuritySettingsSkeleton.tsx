@@ -1,5 +1,6 @@
 import React from 'react';
 import { Skeleton } from '@mui/material';
+
 import { useStyles } from './SecuritySettingsStyles';
 
 export const SecuritySettingsSkeleton = () => {

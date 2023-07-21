@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-
 import { Information } from '@ankr.com/ui';
+
 import {
   TooltipElement,
   useTooltipWrapperStyles,

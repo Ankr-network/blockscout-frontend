@@ -1,7 +1,8 @@
 import { Timeframe } from 'domains/chains/types';
-import { FailedRequestsBanner } from './FailedRequestsBanner';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
+
+import { FailedRequestsBanner } from './FailedRequestsBanner';
 import { useRequestsBanner } from '../../hooks/useRequestsBanner';
 import { DEFAULT_EMPTY_DATA } from '../RequestsBannerContainer/const';
 import { FailedRequestsBannerSkeleton } from './FailedRequestsBannerSkeleton';

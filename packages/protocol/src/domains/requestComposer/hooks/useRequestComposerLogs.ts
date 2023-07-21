@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 
-import { UseLoggerResult } from '../components/Logger/hooks/useLogger';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+
+import { UseLoggerResult } from '../components/Logger/hooks/useLogger';
 
 export interface ComposerRequest<S, T> {
   error: unknown;

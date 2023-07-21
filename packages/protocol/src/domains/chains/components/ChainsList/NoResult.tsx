@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
+
 import imgNoResult from './assets/noResult.png';
 import { useChainListStyles } from './useChainListStyles';
 

@@ -8,9 +8,10 @@ import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
-import { SolanaSampleCode } from '../../SolanaSampleCode';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
+import { SolanaSampleCode } from '../../SolanaSampleCode';
 
 export interface MethodsTabsParams {
   args: string[];

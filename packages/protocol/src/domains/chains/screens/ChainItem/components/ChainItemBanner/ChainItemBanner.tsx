@@ -2,6 +2,7 @@ import { Paper } from '@mui/material';
 import { Mark } from '@ankr.com/ui';
 
 import { InfoBanner } from 'modules/common/components/InfoBanner';
+
 import { useChainItemBannerStyles } from './ChainItemBannerStyles';
 
 interface ChainItemBannerProps {

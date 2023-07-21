@@ -2,8 +2,9 @@ import { Chain } from 'domains/chains/types';
 import { RootState } from 'store';
 import { chainsFetchPublicChains } from 'domains/chains/actions/public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { infrastructureFetchProvider } from './fetchProvider';
 import { web3Api } from 'store/queries';
+
+import { infrastructureFetchProvider } from './fetchProvider';
 
 export const {
   useInfrastructureFetchAvailableChainsQuery,

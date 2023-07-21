@@ -6,8 +6,9 @@ import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { MultiService } from 'modules/api/MultiService';
-import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
+
+import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 
 export interface EditChainRestrictedDomainsParams {
   chainId: string;

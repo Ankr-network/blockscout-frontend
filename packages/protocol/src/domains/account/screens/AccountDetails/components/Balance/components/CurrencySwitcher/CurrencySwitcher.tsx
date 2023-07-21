@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Currency } from 'domains/account/types';
 import { Switcher } from 'modules/common/components/Switcher';
+
 import { valuesMap } from './const';
 
 export interface CurrencySwitcherProps {

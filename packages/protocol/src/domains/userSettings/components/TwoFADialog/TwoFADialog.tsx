@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
-import { USER_SETTINGS_INTL_ROOT } from '../../screens/Settings/components/TwoFABlock/constants';
 import { useTwoFADialog } from 'domains/userSettings/screens/Settings/hooks/useTwoFADialog';
+
+import { USER_SETTINGS_INTL_ROOT } from '../../screens/Settings/components/TwoFABlock/constants';
 import { TwoFAInput } from './components/TwoFAInput';
 import { useTwoFADialogStyles } from './TwoFADialogStyles';
 

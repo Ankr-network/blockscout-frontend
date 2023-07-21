@@ -3,6 +3,7 @@ import {
   NearMethod,
 } from 'domains/requestComposer/constants/near';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { MethodsTabs } from '../../../SampleCodeComponent/SampleCodeDialog/MethodsTabs';
 import { useMethodsTabsUtils } from './useMethodsTabsUtils';
 

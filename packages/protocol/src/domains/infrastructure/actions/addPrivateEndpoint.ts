@@ -2,9 +2,10 @@ import { IPrivateEndpoint, IWorkerEndpoint } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from '../../../store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
 import { web3Api } from 'store/queries';
+
+import { createNotifyingQueryFn } from '../../../store/utils/createNotifyingQueryFn';
 
 export const {
   useLazyInfrastructureApiAddPrivateEndpointQuery,

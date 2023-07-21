@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useNegativeBalanceTermsOfServices } from './useNegativeBalanceTermsOfServices';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { useNegativeBalanceTermsOfServices } from './useNegativeBalanceTermsOfServices';
 
 export enum DialogView {
   default = 'default',

@@ -4,6 +4,12 @@ import { t } from '@ankr.com/common';
 
 import { Navigation } from 'modules/common/components/Navigation';
 import {
+  UpgradePlanDialog,
+  UpgradePlanDialogType,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
+
+import {
   getCommonMenuList,
   getPremiumEndpointsList,
   getLogoutItem,
@@ -11,11 +17,6 @@ import {
   getSettingList,
 } from './utils/navigationUtils';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
-import {
-  UpgradePlanDialog,
-  UpgradePlanDialogType,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
 import { MainNavigationSkeleton } from './MainNavigationSkeletion';
 
 interface IMainNavigationProps {

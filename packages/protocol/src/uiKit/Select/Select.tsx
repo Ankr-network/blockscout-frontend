@@ -1,5 +1,4 @@
 import React, { ReactNode, useMemo } from 'react';
-
 import {
   FormControl,
   FormHelperText,
@@ -9,8 +8,8 @@ import {
 } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import { uid } from 'react-uid';
-
 import { ArrowDown } from '@ankr.com/ui';
+
 import { useStyles } from './SelectStyles';
 
 export interface ISelectOption {

@@ -2,6 +2,7 @@ import { t } from '@ankr.com/common';
 import { Box } from '@mui/material';
 
 import { GradientedText } from 'modules/common/components/GradientedText';
+
 import { BaseChainsCard, IBaseChainCardProps } from '../BaseChainsCard';
 import { useComingSoonChainCardStyles } from './ComingSoonChainCardStyles';
 

@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+
 import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableStyles = makeStyles()(theme => ({

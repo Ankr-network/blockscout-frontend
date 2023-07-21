@@ -1,6 +1,7 @@
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { SecuritySettings } from '../SecuritySettings';
 import { SecuritySettings as TSecuritySettings } from 'domains/infrastructure/actions/fetchSecuritySettings';
+
+import { SecuritySettings } from '../SecuritySettings';
 import { SecuritySettingsSkeleton } from '../SecuritySettings/SecuritySettingsSkeleton';
 import { useSecuritySettings } from '../../../../hooks/useSecuritySettings';
 

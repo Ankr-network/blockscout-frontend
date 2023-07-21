@@ -1,18 +1,19 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { useJwtTokenManagerStyles } from './useJwtTokenManagerStyles';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { AddProjectDialog } from '../AddProjectDialog';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
-import { DeleteProjectDialog } from '../DeleteProjectDialog';
-import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
-import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
-import { JwtTokenManagerSkeleton } from './JwtTokenManagerSkeleton';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
+import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
+
+import { AddProjectDialog } from '../AddProjectDialog';
+import { DeleteProjectDialog } from '../DeleteProjectDialog';
+import { JwtTokenManagerSkeleton } from './JwtTokenManagerSkeleton';
 import { AddProject } from '../AddProject';
+import { useJwtTokenManagerStyles } from './useJwtTokenManagerStyles';
 
 const CAN_ADD_PROJECT_FROM_JWT_MANAGER = false;
 

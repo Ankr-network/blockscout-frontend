@@ -2,13 +2,14 @@ import { EthAddressType, MultiRpcSdk, MultiRpcWeb3Sdk } from 'multirpc-sdk';
 import { EWalletId, getWalletName } from '@ankr.com/provider';
 
 import { AppDispatch, GetState } from 'store';
-import { authAuthorizeProvider } from '../getAuthorizationToken';
 import {
   IAuthSlice,
   selectAuthData,
   setAuthData,
 } from 'domains/auth/store/authSlice';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+
+import { authAuthorizeProvider } from '../getAuthorizationToken';
 import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
 import { authFetchDevdaoInstantJwtParticipantToken } from '../instantJwt/fetchDevdaoInstantJwtParticipantToken';
 import { fetchPremiumStatus } from '../fetchPremiumStatus';

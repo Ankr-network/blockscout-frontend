@@ -2,16 +2,15 @@ import {
   SecondaryTab,
   TabSize,
 } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-
 import {
   TronChainMethod,
   TronLibrary,
   TronLibraryID,
 } from 'domains/requestComposer/constants/tron';
-
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
 import { TronSampleCode } from '../TronSampleCode';
 
 export const useMethodsTabsUtils = (

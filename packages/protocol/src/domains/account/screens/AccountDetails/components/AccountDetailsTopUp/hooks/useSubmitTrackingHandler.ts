@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
 
 import { TrackTopUpSubmit } from 'domains/account/types';
-import { getAmountInCredits } from '../utils/getAmountInCredits';
 import { trackTopUpSubmit } from 'modules/analytics/mixpanel/trackTopUpSubmit';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useRates } from 'domains/account/hooks/useRates';
+
+import { getAmountInCredits } from '../utils/getAmountInCredits';
 
 export const useSubmitTrackingHandler = (): TrackTopUpSubmit => {
   const {

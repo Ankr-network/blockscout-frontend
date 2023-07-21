@@ -3,8 +3,6 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { GetState, RootState } from 'store';
-import { TopUpStep } from '../const';
-import { checkFirstTopUpStep } from './checkFirstTopUpStep';
 import {
   makeNotification,
   shouldNotify,
@@ -13,13 +11,16 @@ import {
   selectAccount,
   setAllowanceTransaction,
 } from 'domains/account/store/accountTopUpSlice';
-import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
-import { topUpResetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
 import { MultiService } from 'modules/api/MultiService';
-import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+
+import { topUpResetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
+import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
+import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
+import { checkFirstTopUpStep } from './checkFirstTopUpStep';
+import { TopUpStep } from '../const';
 
 const ONE_ANKR_TOKEN = new BigNumber(1);
 // 1 check the first top up

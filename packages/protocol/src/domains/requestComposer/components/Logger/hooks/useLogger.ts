@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
+import { t } from '@ankr.com/common';
 
 import { Log, Message, MessageType } from '../../composers/types';
 import { formatResponseTime } from '../utils/formatResponseTime';
 import { getLogByMessage } from '../utils/getLogByMessage';
 import { root } from '../const';
-import { t } from '@ankr.com/common';
 
 const messages = `${root}.messages`;
 const initMessage = `${messages}.init`;

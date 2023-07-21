@@ -1,4 +1,5 @@
 import { ChainID, Chain, ChainURL } from 'domains/chains/types';
+
 import { getFallbackEndpointGroup } from '../constants/groups';
 import { ChainGroup, EndpointGroup, GroupedEndpoints } from '../types';
 import { flatChains } from './flatChains';

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getSubChainFromGroup } from 'domains/chains/utils/getSubChainFromGroup';
 

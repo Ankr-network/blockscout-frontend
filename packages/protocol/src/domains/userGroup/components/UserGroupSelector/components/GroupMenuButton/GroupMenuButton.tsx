@@ -1,9 +1,10 @@
 import { ArrowDown } from '@ankr.com/ui';
 import { Button } from '@mui/material';
 
+import { useMenu } from 'modules/common/hooks/useMenu';
+
 import { SelectedGroupAvatar } from '../SelectedGroupAvatar';
 import { useGroupMenuButtonStyles } from './GroupMenuButtonStyles';
-import { useMenu } from 'modules/common/hooks/useMenu';
 
 export interface GroupMenuButtonProps {
   isMenuOpen: boolean;

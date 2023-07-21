@@ -6,11 +6,12 @@ import {
   jwtTokenIntlRoot,
   renderTokenReview,
 } from 'domains/jwtToken/utils/utils';
-import { useAddProjectDialogStyles } from './useAddProjectDialogStyles';
 import {
   AddProjectStep,
   useAddProject,
 } from 'domains/jwtToken/hooks/useAddProject';
+
+import { useAddProjectDialogStyles } from './useAddProjectDialogStyles';
 import { AddProjectContent } from '../ProjectDialogContent';
 import { SuccessContent } from '../ProjectDialogContent/SuccessContent';
 import { FailedContent } from '../ProjectDialogContent/FailedContent';

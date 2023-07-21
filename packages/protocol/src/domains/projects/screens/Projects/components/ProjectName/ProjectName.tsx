@@ -3,10 +3,11 @@ import { t } from '@ankr.com/common';
 import { Info } from '@ankr.com/ui';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { useProjectNameStyles } from './useProjectNameStyles';
-import { useProjectName } from './hooks/useProjectName';
 import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
 import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
+
+import { useProjectNameStyles } from './useProjectNameStyles';
+import { useProjectName } from './hooks/useProjectName';
 
 interface ProjectNameProps {
   projectName: string;

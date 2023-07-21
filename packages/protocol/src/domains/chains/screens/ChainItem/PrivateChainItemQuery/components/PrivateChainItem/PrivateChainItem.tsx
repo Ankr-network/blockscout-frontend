@@ -2,16 +2,17 @@ import { t } from '@ankr.com/common';
 
 import { H1Tag } from 'uiKit/H1Tag';
 import { IChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import {
+  UpgradePlanDialog,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
+
 import { ChainItemHeader } from '../../../components/ChainItemHeader';
 import { ChainItemSections } from '../../../components/ChainItemSections';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
 import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
 
 export interface ChainItemProps {
   data: IChainItemDetails;

@@ -1,4 +1,5 @@
 import { Skeleton } from '@mui/material';
+
 import { useTwoFABlockStyles } from '../../useTwoFABlockStyles';
 
 export const TwoFABlockSkeleton = () => {

@@ -1,4 +1,5 @@
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { Snippets } from '../Snippets';
 import { Tabs } from '../Tabs';
 import { useStyles } from './ConnectionSnippetStyles';

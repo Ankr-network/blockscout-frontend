@@ -3,9 +3,10 @@ import { Web3Address } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { RootState } from 'store';
-import { accountFetchPublicKey } from '../fetchPublicKey';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+
+import { accountFetchPublicKey } from '../fetchPublicKey';
 
 export const ONE_TIME_PAYMENT_ID = 'one_time';
 

@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { EVMMethod, EVMLibraryID } from 'domains/requestComposer/constants';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { SampleCode } from '../../../../SampleCodeComponent/SampleCodeDialog/SampleCode';
 
 interface ISampleCodeProps {

@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { useBlackBoxStyles } from './BlackBoxStyles';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
+import { useBlackBoxStyles } from './BlackBoxStyles';
 
 export interface BlackBoxProps {
   children: ReactNode;

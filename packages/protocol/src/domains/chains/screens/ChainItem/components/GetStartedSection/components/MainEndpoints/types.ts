@@ -1,6 +1,7 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { EndpointProps } from '../Endpoint';
 import { Chain, ChainSubType } from 'domains/chains/types';
+
+import { EndpointProps } from '../Endpoint';
 
 export enum Feature {
   REST,

@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from 'react';
 
+import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
+
 import { ContentType, UpgradePlanDialogType } from '../types';
 import { checkContactSalesPopup } from '../utils/checkContactSalesPopup';
-import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 import { useContentType } from './useContentType';
 import { useDialogProps } from './useDialogProps';
 import { useEnterpriseUpgradeHandler } from './useEnterpriseUpgradeHandler';

@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
+
 import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
 import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
 import { useDialog } from 'modules/common/hooks/useDialog';
+
 import { useUserEndpointsWrapperStyles } from './useUserEndpointsWrapperStyles';
 
 const jwtTokensMock = [

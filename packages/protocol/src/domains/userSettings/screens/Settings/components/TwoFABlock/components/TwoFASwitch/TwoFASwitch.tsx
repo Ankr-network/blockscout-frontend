@@ -2,11 +2,12 @@ import { FormControlLabel, Switch } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
 
+import { useLazyUserSettingsFetchTwoFAStatusQuery } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
+
 import { useTwoFASwitchStyles } from './TwoFASwitchStyles';
 import { USER_SETTINGS_INTL_ROOT } from '../../constants';
 import { TwoFASetupDialog } from '../TwoFASetupDialog';
 import { TwoFAControlDialog } from '../TwoFAControlDialog';
-import { useLazyUserSettingsFetchTwoFAStatusQuery } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 
 interface TwoFASwitchProps {
   isEnabled: boolean;

@@ -1,5 +1,6 @@
-import { MultiService } from 'modules/api/MultiService';
 import { DisableTwoFAResponse } from 'multirpc-sdk';
+
+import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import {
   ConditionallyNotifyingQueryFnParams,

@@ -3,9 +3,10 @@ import { t } from '@ankr.com/common';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
+
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
-import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 
 export const Chains = () => {
   const { hasPrivateAccess } = useAuth();

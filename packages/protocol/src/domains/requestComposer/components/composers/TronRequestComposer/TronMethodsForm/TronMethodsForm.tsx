@@ -1,6 +1,13 @@
 import React, { useCallback } from 'react';
-import { EndpointGroup } from 'modules/endpoints/types';
 import { Form, FormRenderProps } from 'react-final-form';
+
+import { EndpointGroup } from 'modules/endpoints/types';
+import {
+  TronChainMethod,
+  TronLibraryID,
+} from 'domains/requestComposer/constants/tron';
+import { TRON_CALL_CONFIG } from 'domains/requestComposer/utils/tron/RPCCallsConfig';
+
 import { MethodsForm } from '../../../MethodsForm';
 import { MethodNameSelectField } from '../../../MethodsForm/MethodNameSelectField';
 import { MethodsFormSpy } from '../../../MethodsForm/MethodsFormSpy';
@@ -14,11 +21,6 @@ import {
   getMethodDescription,
   isMethodDisabled,
 } from '../../../MethodsForm/MethodsFormUtils';
-import {
-  TronChainMethod,
-  TronLibraryID,
-} from 'domains/requestComposer/constants/tron';
-import { TRON_CALL_CONFIG } from 'domains/requestComposer/utils/tron/RPCCallsConfig';
 import { TronMethodsTabs } from '../TronMethodsTabs';
 import { TronMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 

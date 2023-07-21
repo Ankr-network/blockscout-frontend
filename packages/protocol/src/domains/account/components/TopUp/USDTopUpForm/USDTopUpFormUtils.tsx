@@ -6,10 +6,6 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 
-import { AmountField } from '../ANKRTopUpForm/AmountField';
-import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
-import { BundlePaymentBanner } from '../BundlePaymentBanner';
-import { BundlePaymentDialog } from '../BundlePaymentDialog';
 import {
   DEFAULT_USD_VALUE_STRING,
   MAX_USD_DECIMALS,
@@ -18,12 +14,17 @@ import {
 } from 'domains/account/actions/usdTopUp/const';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
-import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
 import { TrackTopUpSubmit } from 'domains/account/types';
-import { checkBundleByPriceId } from './utils/checkBundleByPriceId';
 import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useAppSelector } from 'store/useAppSelector';
+
+import { checkBundleByPriceId } from './utils/checkBundleByPriceId';
+import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
+import { BundlePaymentDialog } from '../BundlePaymentDialog';
+import { BundlePaymentBanner } from '../BundlePaymentBanner';
+import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
+import { AmountField } from '../ANKRTopUpForm/AmountField';
 
 export const validateAmount = (value: string) => {
   if (!value) {

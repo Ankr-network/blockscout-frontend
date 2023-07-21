@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { selectAuthData } from 'domains/auth/store/authSlice';
-import { userGroupFetchGroups } from '../actions/fetchGroups';
 import { RootState } from 'store';
+
+import { userGroupFetchGroups } from '../actions/fetchGroups';
 
 export const selectUserGroupConfig = (state: RootState) =>
   state.userGroup.userGroupConfig;

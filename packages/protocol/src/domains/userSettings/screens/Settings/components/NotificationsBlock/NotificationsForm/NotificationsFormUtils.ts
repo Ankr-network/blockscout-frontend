@@ -1,4 +1,5 @@
 import { INotificationsSettings } from 'multirpc-sdk';
+
 import {
   NotificationsFormFields,
   NotificationsFormData,

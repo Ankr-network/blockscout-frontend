@@ -3,15 +3,16 @@ import { useMemo } from 'react';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+
 import { Endpoints } from '../GetStartedSection/components/Endpoints';
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ChainSelectorContent } from './components/ChainSelectorContent';
 import { useChainItemPlaceholder } from './useChainItemPlaceholder';
 

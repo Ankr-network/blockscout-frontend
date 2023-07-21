@@ -5,8 +5,9 @@ import { Check } from '@ankr.com/ui';
 import { Variant } from '@mui/material/styles/createTypography';
 import { useMemo } from 'react';
 
-import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 import { newProjectIntlRoot } from 'domains/projects/const';
+
+import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 import { renderAmount } from '../../utils/renderAmount';
 import { NewProjectFormValues } from '../NewProjectForm/NewProjectFormTypes';
 import { shouldShowGroupId } from '../ChainItem/ChainItemUtils';

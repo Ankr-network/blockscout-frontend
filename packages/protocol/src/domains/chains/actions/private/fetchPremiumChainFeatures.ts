@@ -1,10 +1,11 @@
 import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { Chain } from 'domains/chains/types';
+
+import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 
 export interface PremiumFeatures {
   privateChainDetails?: Chain;

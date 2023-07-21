@@ -1,5 +1,7 @@
-import { Chain, ChainID } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
+
+import { Chain, ChainID } from 'domains/chains/types';
+
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
 const getName = (key: string, isPlural?: boolean) =>

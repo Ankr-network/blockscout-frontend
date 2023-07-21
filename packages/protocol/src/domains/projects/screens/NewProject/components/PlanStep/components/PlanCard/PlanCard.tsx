@@ -3,6 +3,7 @@ import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { Plan, PlanName } from 'domains/projects/types';
+
 import { PlanFeatures } from '../PlanFeatures';
 import { usePlanCardStyles } from './PlanCardStyles';
 

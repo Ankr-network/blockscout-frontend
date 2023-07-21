@@ -1,4 +1,5 @@
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { Menu } from '../../../Menu';
 import { useLibraryTabs } from './MenuTabsUtils';
 

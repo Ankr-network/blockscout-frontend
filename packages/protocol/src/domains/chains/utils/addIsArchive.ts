@@ -1,4 +1,5 @@
 import { INodesDetailEntity } from 'multirpc-sdk';
+
 import { Chain } from '../types';
 
 export const getAddIsArchiveCB =

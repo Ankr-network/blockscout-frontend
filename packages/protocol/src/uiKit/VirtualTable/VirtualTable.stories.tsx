@@ -1,9 +1,10 @@
 // import React, { useEffect, useMemo, useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { storiesOf } from '@storybook/react';
+import { useEffect, useState } from 'react';
+
 import { VirtualTableColumn, VirtualTable } from '.';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { useEffect, useState } from 'react';
 
 const createRow = (_: any, index: number) => ({
   number: index,

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Typography, Box } from '@mui/material';
 import { FieldArray } from 'react-final-form-arrays';
-
 import { Delete } from '@ankr.com/ui';
+
 import { useStyles } from './AddressFieldsStyles';
 
 interface AddressFieldsProps {

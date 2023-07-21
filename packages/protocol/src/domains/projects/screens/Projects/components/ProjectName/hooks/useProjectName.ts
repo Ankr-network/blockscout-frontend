@@ -1,8 +1,9 @@
+import { useCallback, useMemo } from 'react';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
-import { useCallback, useMemo } from 'react';
 
 export const useProjectName = (
   userEndpointToken: string,

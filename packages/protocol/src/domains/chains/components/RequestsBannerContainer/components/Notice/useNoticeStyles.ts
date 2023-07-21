@@ -1,6 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+
 import {
   CHART_HEIGHT,
   LG_CHART_HEIGHT,

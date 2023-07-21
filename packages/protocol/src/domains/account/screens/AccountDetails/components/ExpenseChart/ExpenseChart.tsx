@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 
 import { Chart } from './components/Chart';
 import { Header } from './components/Header';
-
 import { useStyles } from './ExpenseChartStyles';
 import { useChart } from './hooks/useChart';
 

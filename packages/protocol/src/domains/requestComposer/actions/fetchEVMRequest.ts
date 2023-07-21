@@ -1,3 +1,5 @@
+import { web3Api } from 'store/queries';
+
 import { EVMLibraryID, EVMMethod } from '../constants';
 import {
   EVMMethodResponse,
@@ -7,7 +9,6 @@ import {
 import { RPC_CALLS_CONFIG } from '../utils/RPCCallsConfig';
 import { buildProvider } from '../utils/buildProvider';
 import { setEVMMethod } from '../store/requestComposerSlice';
-import { web3Api } from 'store/queries';
 
 export type FetchEVMRequestParams = FetchRequestParams<EVMLibraryID, EVMMethod>;
 

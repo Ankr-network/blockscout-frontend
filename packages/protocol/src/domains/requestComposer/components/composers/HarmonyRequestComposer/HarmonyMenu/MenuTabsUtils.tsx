@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { EVMLibrary, EVMLibraryID } from 'domains/requestComposer/constants';
 import {
@@ -7,7 +9,7 @@ import {
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { useCallback } from 'react';
+
 import { LibraryContent } from '../../EVMRequestComposer/EVMMenu/LibraryContent';
 import { HarmonyLibraryContent } from '../HarmonyLibraryContent';
 

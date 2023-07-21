@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react';
 import { Button, FormGroup, Typography } from '@mui/material';
 import { Field, useForm } from 'react-final-form';
-
 import { t, tHTML } from '@ankr.com/common';
+
 import { InputField } from 'modules/form/components/InputField/InputField';
+import { isFirefox } from 'modules/common/utils/browserDetect';
+
 import { useStyles } from './EndpointFormStyles';
 import { AddEndpointFormFields } from '../AddEndpointFormTypes';
 import { validateUserEndpoint } from './EndpointFormUtils';
-import { isFirefox } from 'modules/common/utils/browserDetect';
 
 interface EndpointFormProps {
   chainId: string;

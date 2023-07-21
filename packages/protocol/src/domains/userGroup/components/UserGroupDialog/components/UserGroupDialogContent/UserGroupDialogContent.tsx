@@ -2,9 +2,10 @@ import { Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { UserGroup } from 'multirpc-sdk';
 
+import { useUserGroupSelect } from 'domains/userGroup/hooks/useUserGroupSelect';
+
 import { useUserGroupDialogContentStyles } from './useUserGroupDialogContentStyles';
 import { AccountList } from '../AccountList';
-import { useUserGroupSelect } from 'domains/userGroup/hooks/useUserGroupSelect';
 import { UserGroupsSkeleton } from '../UserGroupsSkeleton';
 
 interface UserGroupDialogContentProps {

@@ -1,12 +1,13 @@
 import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 
+import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
+
 import { Timer } from '../Timer';
 import { intlRoot } from '../../const';
 import { useRefreshButtonStyles } from './RefreshButtonStyles';
 import { useRefreshButton } from './hooks/useRefreshButton';
 import { RefreshButtonIcon } from '../RefreshButtonIcon';
-import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
 
 const refreshButton = t(`${intlRoot}.refresh-button`);
 

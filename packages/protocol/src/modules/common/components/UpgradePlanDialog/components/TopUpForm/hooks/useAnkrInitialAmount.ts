@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { DEFAULT_ANKR_VALUE_STRING } from 'domains/account/actions/topUp/const';
+
 import { useTopUpTransaction } from './useTopUpTransaction';
 
 export const useAnkrInitialAmount = () => {

@@ -7,9 +7,10 @@ import {
   NearLibraryID,
   NearMethod,
 } from 'domains/requestComposer/constants/near';
-import { NearMethodsForm } from '../NearMethodsForm';
 import { requestComposerFetchNearRequest } from 'domains/requestComposer/actions/near/fetchNearRequest';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { NearMethodsForm } from '../NearMethodsForm';
 import { CountdownContext } from '../../../const';
 
 interface ILibraryContentProps {

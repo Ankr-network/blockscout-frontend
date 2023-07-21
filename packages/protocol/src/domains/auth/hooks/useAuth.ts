@@ -1,3 +1,6 @@
+import { useAppSelector } from 'store/useAppSelector';
+import { useOauth } from 'domains/oauth/hooks/useOauth';
+
 import { selectAuthData } from '../store/authSlice';
 import {
   selectAddress,
@@ -16,8 +19,6 @@ import {
   selectIsUserEthAddressType,
   selectPremiumUntilDate,
 } from '../store/selectors';
-import { useAppSelector } from 'store/useAppSelector';
-import { useOauth } from 'domains/oauth/hooks/useOauth';
 import { useWeb3Connection } from './useWeb3Connection';
 
 export const useAuth = () => {

@@ -2,6 +2,8 @@ import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
+import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
+
 import { EVMMethodsFormProps } from './EVMMethodsFormTypes';
 import { methodsSelectOptions } from './EVMMethodsFormUtils';
 import { SampleCodeComponent } from '../../../../SampleCodeComponent';
@@ -9,7 +11,6 @@ import { MethodNameSelectField } from '../../../../MethodsForm/MethodNameSelectF
 import { MethodsFormSpy } from '../../../../MethodsForm/MethodsFormSpy';
 import { MethodsForm } from '../../../../MethodsForm';
 import { EVMMethodsTabs } from '../../EVMMethodsTabs';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
 import {
   formatDataForRequest,
   getArgumentsBlock,

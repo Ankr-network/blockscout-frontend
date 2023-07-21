@@ -1,9 +1,11 @@
+import { t } from '@ankr.com/common';
+
 import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
 import { RPCCallsConfig } from 'domains/requestComposer/types/solana';
-import { t } from '@ankr.com/common';
+
 import { solanaWeb3Config } from './solanaWeb3Config';
 
 const root = 'request-composer.method-description.solana';

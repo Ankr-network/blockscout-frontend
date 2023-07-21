@@ -6,6 +6,7 @@ import {
   Timeframe,
 } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { checkPublicChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
 import { getChainId } from '../../../ChainItemSections/utils/getChainId';

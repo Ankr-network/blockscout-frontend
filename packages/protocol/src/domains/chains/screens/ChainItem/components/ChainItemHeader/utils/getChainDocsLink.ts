@@ -1,4 +1,5 @@
 import { ChainID } from 'domains/chains/types';
+
 import { ChainProtocol } from '../../../constants/ChainProtocolContext';
 
 const chainIdToDocsChainIdMap: Partial<Record<ChainID, string>> = {

@@ -1,7 +1,8 @@
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { text } from '../../utils/text';
 import { useAddressStyles } from './AddressStyles';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface AddressProps {
   className: string;

@@ -1,4 +1,5 @@
 import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
+
 import { ExpandButton } from './components/ExpandButton';
 import { RequestsTable } from './components/RequestsTable';
 

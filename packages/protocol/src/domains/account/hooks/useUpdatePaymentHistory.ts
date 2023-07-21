@@ -2,11 +2,12 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
 import { accountFetchPaymentHistory } from '../actions/fetchTransactions';
 import { getTransactionsRequest } from '../screens/AccountDetails/components/PaymentsHistoryTable/utils/getTransactionsRequest';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const TIMEOUT = 30000;
 

@@ -3,9 +3,10 @@ import { useMemo } from 'react';
 import { t, tHTML } from '@ankr.com/common';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
-import { AddEndpointButton } from '../AddEndpointButton';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+
+import { AddEndpointButton } from '../AddEndpointButton';
 import { UserEndpointsForm } from './UserEndpointsForm';
 import { getRpcLinks } from './UserEndpointsUtils';
 import { useStyles } from './UserEndpointsStyles';

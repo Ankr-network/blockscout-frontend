@@ -1,12 +1,13 @@
 import { GetState } from 'store';
-import { IAuthSlice, resetAuthData } from '../../store/authSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
+
 import {
   getCachedData,
   setWeb3UserAuthorizationToken,
 } from './makeAuthorization';
-import { web3Api } from 'store/queries';
+import { IAuthSlice, resetAuthData } from '../../store/authSlice';
 import { createWeb3Service } from './createWeb3Service';
 import { AuthConnectParams } from './types';
 

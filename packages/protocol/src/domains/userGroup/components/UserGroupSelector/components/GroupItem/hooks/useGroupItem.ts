@@ -2,10 +2,11 @@ import { sleep } from '@ankr.com/common';
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 
-import { GroupItemProps } from '../types';
 import { setUserGroupConfig } from 'domains/userGroup/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { GroupItemProps } from '../types';
 
 export const useGroupItem = ({ group, onSelect }: GroupItemProps) => {
   const { group: selectedGroup } = useSelectedUserGroup();

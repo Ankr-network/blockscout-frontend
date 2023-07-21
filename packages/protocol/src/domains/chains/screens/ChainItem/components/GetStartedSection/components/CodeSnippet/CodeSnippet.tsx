@@ -1,15 +1,16 @@
-import React, { useCallback } from 'react';
+import { useCallback, CSSProperties } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import { Language } from 'prism-react-renderer';
 
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { ConnectionType } from '../../types';
 import { CopyCodeButton } from '../CopyCodeButton';
 import { ExpandButton } from '../ExpandButton';
 import { titlesMap } from './const';
 import { useExpander } from './hooks/useExpander';
 import { useStyles } from './CodeSnippetStyles';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 export interface CodeSnippetProps {
   code: string;
@@ -20,15 +21,16 @@ export interface CodeSnippetProps {
 // export is used here to avoid a strange error of ESLint
 // which thinks style prop is never used
 export interface ViewProps {
-  style: React.CSSProperties;
+  // eslint-disable-next-line react/no-unused-prop-types
+  style: CSSProperties;
 }
 
-const overridenViewStyle: React.CSSProperties = {
+const overridenViewStyle: CSSProperties = {
   overflow: 'scroll hidden',
   position: 'relative',
 };
 
-const overridenThumbStyle: React.CSSProperties = {
+const overridenThumbStyle: CSSProperties = {
   backgroundColor: '#161a1d',
   borderRadius: 6,
 };

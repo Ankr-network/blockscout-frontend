@@ -1,9 +1,10 @@
 import { Fade, Menu, MenuProps } from '@mui/material';
 
-import { GroupItem } from '../GroupItem';
 import { selectUserGroups } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
+
 import { useGroupMenuStyles } from './GroupMenuStyles';
+import { GroupItem } from '../GroupItem';
 
 export type GroupMenuProps = Pick<MenuProps, 'anchorEl' | 'open'> & {
   onClose: () => void;

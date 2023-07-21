@@ -1,4 +1,5 @@
 import { DEFAULT_USD_VALUE_STRING } from 'domains/account/actions/usdTopUp/const';
+
 import { useAnkrInitialAmount } from './useAnkrInitialAmount';
 
 export interface InitialAmountParams {

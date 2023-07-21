@@ -1,19 +1,20 @@
 import { EWalletId, getWalletName } from '@ankr.com/provider';
 
-import { AuthConnectParams } from './types';
 import { RootState } from 'store';
-import { IAuthSlice, resetAuthData, setAuthData } from '../../store/authSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { disconnectService } from './connectUtils';
-import { makeAuthorization } from './makeAuthorization';
 import { is2FAError } from 'store/utils/is2FAError';
 import { selectHasPremium } from 'domains/auth/store/selectors';
 import { trackWeb3SignUpFailure } from 'modules/analytics/mixpanel/trackWeb3SignUpFailure';
 import { trackWeb3SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb3SignUpSuccess';
 import { web3Api } from 'store/queries';
-import { authConnect } from './connect';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+
+import { authConnect } from './connect';
+import { makeAuthorization } from './makeAuthorization';
+import { disconnectService } from './connectUtils';
+import { IAuthSlice, resetAuthData, setAuthData } from '../../store/authSlice';
+import { AuthConnectParams } from './types';
 
 export const {
   endpoints: { authMakeAuthorization },

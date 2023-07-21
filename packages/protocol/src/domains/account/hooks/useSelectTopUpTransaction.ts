@@ -1,6 +1,7 @@
 import { useAppSelector } from 'store/useAppSelector';
-import { selectTransaction } from '../store/accountTopUpSlice';
 import { RootState } from 'store';
+
+import { selectTransaction } from '../store/accountTopUpSlice';
 import { useAddress } from './useAddress';
 
 export const useSelectTopUpTransaction = () => {

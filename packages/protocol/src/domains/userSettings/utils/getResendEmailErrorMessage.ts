@@ -1,11 +1,12 @@
 import { AccountErrorCode } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
+import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
+
 import { EMAIL_FALLBACK } from '../const';
 import { ErrorMessageGetter } from '../types';
 import { getAccountErrorMessage } from './getAccountErrorMessage';
 import { getUnknownErrorMessage } from './getUnknownErrorMessage';
-import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 
 const tooManyRequestsError = t(
   'user-settings.errors.too-many-resend-confirmation-requests',

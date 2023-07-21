@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
-
 import { t, tHTML } from '@ankr.com/common';
+
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+
 import { DomainsForm } from './DomainsForm';
 import { MAX_DOMAIN_COUNT } from './DomainsForm/DomainsForm';
 import { IpsForm } from './IpsForm';

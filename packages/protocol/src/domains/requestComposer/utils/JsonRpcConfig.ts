@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { utils } from 'ethers';
+
 import { EVMMethod, TraceType } from '../constants';
 import { ILibraryConfig } from '../types';
 import { trim } from './parsers/trim';
@@ -47,7 +48,7 @@ const JsonRpcTemplate = (
       })
     }
   );
-  
+
   const ${varName} = await response.json();
 
   console.log(${varName});
@@ -63,7 +64,7 @@ ${
   ws.onmessage = (event) => {
     console.log(event.data);
   };
-  
+
   ws.onopen = () => {
     ws.send(JSON.stringify({
           jsonrpc: "2.0",
@@ -138,11 +139,11 @@ const JsonRpcEthNewFilterTemplate = (
       })
     }
   );
-  
+
   const filterResponseData = await filterResponse.json();
-  
+
   const filterId = filterResponseData.result
-  
+
   const filterChanges = await fetch(
     "${httpUrl}",
     {
@@ -159,10 +160,10 @@ const JsonRpcEthNewFilterTemplate = (
       })
     }
   );
-  
+
   const logs = await filterChanges.json();
 
-  console.log(logs); 
+  console.log(logs);
 })();
 
 
@@ -176,10 +177,10 @@ ${
     const data = JSON.parse(event.data)
 
     console.log(data);
-    
+
     if (data.id === "1" && !data.error) {
       const filterId = data.result
-      
+
       ws.send(JSON.stringify({
         jsonrpc: "2.0",
         method: "${EVMMethod.eth_getFilterChanges}",
@@ -188,7 +189,7 @@ ${
       }))
     }
   };
-  
+
   ws.onopen = () => {
     ws.send(JSON.stringify({
           jsonrpc: "2.0",
@@ -238,11 +239,11 @@ const JsonRpcEthNoArgFilterTemplate = (
       })
     }
   );
-  
+
   const filterResponseData = await filterResponse.json();
-  
+
   const filterId = filterResponseData.result
-  
+
   const filterChanges = await fetch(
     "${httpUrl}",
     {
@@ -259,10 +260,10 @@ const JsonRpcEthNoArgFilterTemplate = (
       })
     }
   );
-  
+
   const logs = await filterChanges.json();
 
-  console.log(logs); 
+  console.log(logs);
 })();
 
 
@@ -276,10 +277,10 @@ ${
     const data = JSON.parse(event.data)
 
     console.log(data);
-    
+
     if (data.id === "1" && !data.error) {
       const filterId = data.result
-      
+
       ws.send(JSON.stringify({
         jsonrpc: "2.0",
         method: "${EVMMethod.eth_getFilterChanges}",
@@ -288,7 +289,7 @@ ${
       }))
     }
   };
-  
+
   ws.onopen = () => {
     ws.send(JSON.stringify({
           jsonrpc: "2.0",
@@ -347,7 +348,7 @@ const JsonRpcEthCallTemplate = (
       })
     }
   );
-  
+
   const ${varName} = await response.json();
 
   console.log(${varName});
@@ -363,7 +364,7 @@ ${
   ws.onmessage = (event) => {
     console.log(event.data);
   };
-  
+
   ws.onopen = () => {
     ws.send(JSON.stringify({
           jsonrpc: "2.0",
@@ -436,7 +437,7 @@ const JsonRpcTraceFilterTemplate = (
       })
     }
   );
-  
+
   const ${varName} = await response.json();
 
   console.log(${varName});
@@ -452,7 +453,7 @@ ${
   ws.onmessage = (event) => {
     console.log(event.data);
   };
-  
+
   ws.onopen = () => {
     ws.send(JSON.stringify({
           jsonrpc: "2.0",
@@ -539,7 +540,7 @@ const JsonRpcTraceCallTemplate = (
       })
     }
   );
-  
+
   const ${varName} = await response.json();
 
   console.log(${varName});
@@ -555,7 +556,7 @@ ${
   ws.onmessage = (event) => {
     console.log(event.data);
   };
-  
+
   ws.onopen = () => {
     ws.send(JSON.stringify({
           jsonrpc: "2.0",

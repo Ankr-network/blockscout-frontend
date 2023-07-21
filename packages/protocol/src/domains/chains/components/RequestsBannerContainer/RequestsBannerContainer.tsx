@@ -1,9 +1,10 @@
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
+import { Timeframe } from 'domains/chains/types';
+
 import { useRequestsBanner } from '../../hooks/useRequestsBanner';
 import { DEFAULT_EMPTY_DATA } from './const';
 import { RequestsBanner } from './RequestsBanner';
-import { Timeframe } from 'domains/chains/types';
 import { FailedRequestsBannerSkeleton } from '../FailedRequestsBanner/FailedRequestsBannerSkeleton';
 
 interface IRequestsBannerContainerProps {

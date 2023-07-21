@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
-
 import { t } from '@ankr.com/common';
+
 import { FeatureContent } from '../FeatureContent/FeatureContent';
 import {
   PLAN_COMPARISON,

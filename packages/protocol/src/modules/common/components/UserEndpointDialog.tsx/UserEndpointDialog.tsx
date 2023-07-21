@@ -11,6 +11,7 @@ import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+
 import { useUserEndpointDialogStyles } from './useUserEndpointDialogStyles';
 
 interface IShowUserEndpointDialogProps {

@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
+import { BlockchainType } from 'multirpc-sdk';
 
 import { Chain, ChainURL } from 'domains/chains/types';
-import { BlockchainType } from 'multirpc-sdk';
 
 export const getUrls = (chain: Chain) => {
   return [

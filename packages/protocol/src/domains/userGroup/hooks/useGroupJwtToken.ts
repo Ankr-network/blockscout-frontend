@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useLazyUserGroupFetchGroupJwtQuery } from 'domains/userGroup/actions/fetchGroupJwt';
+
 import { useSelectedUserGroup } from './useSelectedUserGroup';
 
 let savedSelectedGroupAddress = '';

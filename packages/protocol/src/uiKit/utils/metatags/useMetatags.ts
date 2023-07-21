@@ -4,11 +4,12 @@ import { useEffect } from 'react';
 
 import { INDEX_PATH } from 'domains/chains/routes';
 import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
-import packageJson from '../../../../package.json';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
-import { getChainName } from './useMetatagsUtils';
 import { ChainID } from 'domains/chains/types';
+
+import { getChainName } from './useMetatagsUtils';
+import packageJson from '../../../../package.json';
 
 const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
 

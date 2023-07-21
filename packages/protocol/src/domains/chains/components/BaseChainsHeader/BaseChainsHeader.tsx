@@ -1,9 +1,11 @@
 import { t } from '@ankr.com/common';
+
 import { PageHeader } from 'modules/common/components/PageHeader';
-import { useBaseChainsHeaderStyles } from './useBaseChainsHeaderStyles';
 import { SortType } from 'domains/chains/types';
-import { ChainsSortSelect } from '../ChainsSortSelect';
 import { Search } from 'modules/common/components/Search';
+
+import { useBaseChainsHeaderStyles } from './useBaseChainsHeaderStyles';
+import { ChainsSortSelect } from '../ChainsSortSelect';
 
 interface IBaseChainsHeader {
   sortType: SortType;

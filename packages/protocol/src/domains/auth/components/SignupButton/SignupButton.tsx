@@ -5,14 +5,15 @@ import { t } from '@ankr.com/common';
 import { Google, WalletIcon, Logout } from '@ankr.com/ui';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { useMenu } from 'modules/common/hooks/useMenu';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+
+import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
 import { useSignupButtonStyles } from './useSignupButtonStyles';
 import { shrinkEmailAddress } from './SignupButtonUtils';
-import { useMenu } from 'modules/common/hooks/useMenu';
 import { SignupMenu } from './SignupMenu';
 import { SignupDialog } from '../ConnectButton/UnconnectedButton/SignupDialog';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 
 interface SignupButtonProps {
   isMobile?: boolean;

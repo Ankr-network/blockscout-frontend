@@ -1,10 +1,11 @@
 import { useCallback, useState } from 'react';
 
 import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
-import { RequestsHistoryProps } from '../../RequestsHistory';
 import { privateLatestRequests } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
 import { track } from 'modules/analytics/mixpanel/utils/track';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { RequestsHistoryProps } from '../../RequestsHistory';
 
 export const useRequestsHistory = (): RequestsHistoryProps => {
   const [isExpanded, setExpanded] = useState(false);

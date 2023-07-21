@@ -1,4 +1,5 @@
 import { Dialog } from 'uiKit/Dialog';
+
 import { AddEmailBannerContent } from './components/AddEmailBannerContent';
 import { IUseAddEmailBannerDialogProps } from './types';
 import { useAddEmailBanner } from './useAddEmailBanner';

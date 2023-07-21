@@ -1,6 +1,7 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/dist/query';
 
 import { QueryFn } from 'store/queries/types';
+
 import { createNotifyingQueryFn } from './createNotifyingQueryFn';
 
 export interface ConditionallyNotifyingQueryFnParams<Params> {

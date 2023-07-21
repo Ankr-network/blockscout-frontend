@@ -1,12 +1,13 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { usePrivateChainsInfo } from './usePrivateChainsInfo';
-import { useSortType } from '../../../hooks/useSortType';
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
 import { Timeframe } from 'domains/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+
+import { useSortType } from '../../../hooks/useSortType';
+import { usePrivateChainsInfo } from './usePrivateChainsInfo';
 
 export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);

@@ -1,4 +1,5 @@
 import { ChainID } from 'domains/chains/types';
+
 import { CodeSampleWrapper } from './components/CodeSampleWrapper';
 import {
   ChainItemHeaderContent,

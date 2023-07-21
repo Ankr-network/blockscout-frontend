@@ -1,13 +1,14 @@
 import { web3Api } from 'store/queries';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
-import { userGroupFetchGroups } from './fetchGroups';
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
+
 import {
   resetUserGroupConfig,
   selectUserGroupConfigByAddress,
   resetUserGroupJwt,
 } from '../store';
+import { userGroupFetchGroups } from './fetchGroups';
 
 // TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
 export const {

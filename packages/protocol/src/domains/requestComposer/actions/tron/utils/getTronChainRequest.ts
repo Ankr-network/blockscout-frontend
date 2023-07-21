@@ -1,7 +1,8 @@
-import { FetchTronChainRequestResult } from '../types';
 import { TronChainMethodResponse } from 'domains/requestComposer/types/tron';
-import { errorToObject } from '../../utils/errorToObject';
 import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
+
+import { FetchTronChainRequestResult } from '../types';
+import { errorToObject } from '../../utils/errorToObject';
 import { withErrorMessage } from '../../utils/withErrorMessage';
 import { withStringError } from '../../utils/withStringError';
 

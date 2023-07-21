@@ -1,4 +1,5 @@
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { getBeaconOrOpnodeGroup } from './getBeaconGroup';
 
 export interface EndpointsGroupParams {

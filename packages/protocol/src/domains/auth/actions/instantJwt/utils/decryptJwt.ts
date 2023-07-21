@@ -1,5 +1,6 @@
-import { MultiService } from 'modules/api/MultiService';
 import { JwtTokenFullData } from 'multirpc-sdk';
+
+import { MultiService } from 'modules/api/MultiService';
 
 export const decryptJwt = async (
   jwtData: string,

@@ -1,10 +1,11 @@
 import { tHTML } from '@ankr.com/common';
 import { Box, Typography } from '@mui/material';
+
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
 
 import { USER_SETTINGS_INTL_ROOT } from '../../../../constants';
 import { useTwoFAInfoStyles } from '../TwoFAInfo/TwoFAInfoStyles';
-import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
 
 export const ManualTwoFAInfo = () => {
   const { classes } = useTwoFAInfoStyles();

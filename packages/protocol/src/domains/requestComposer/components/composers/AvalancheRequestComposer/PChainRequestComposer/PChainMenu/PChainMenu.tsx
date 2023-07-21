@@ -1,5 +1,6 @@
-import { useLibraryTabs } from './MenuTabsUtils';
 import { EndpointGroup } from 'modules/endpoints/types';
+
+import { useLibraryTabs } from './MenuTabsUtils';
 import { Menu } from '../../../../Menu';
 
 interface IPChainMenuProps {

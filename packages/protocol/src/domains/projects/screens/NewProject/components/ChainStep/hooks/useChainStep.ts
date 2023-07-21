@@ -9,6 +9,7 @@ import { useAddProject } from 'domains/jwtToken/hooks/useAddProject';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+
 import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 
 export const useChainStep = () => {

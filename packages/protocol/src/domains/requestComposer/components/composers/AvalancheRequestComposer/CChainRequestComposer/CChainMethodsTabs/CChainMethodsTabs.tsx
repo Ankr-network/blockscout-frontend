@@ -3,6 +3,7 @@ import {
   CChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { MethodsTabs } from '../../../../SampleCodeComponent/SampleCodeDialog/MethodsTabs';
 import { useMethodsTabsUtils } from './useMethodsTabsUtils';
 

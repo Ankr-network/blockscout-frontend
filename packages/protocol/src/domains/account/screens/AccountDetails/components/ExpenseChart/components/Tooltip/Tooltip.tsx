@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box } from '@mui/material';
-
-import { ChartCurrency } from '../../types';
-import { IChartData } from 'modules/common/components/Chart';
-import { currenciesMap, root } from '../../const';
-import { formatNumber } from './utils/formatNumber';
 import { t } from '@ankr.com/common';
 
+import { IChartData } from 'modules/common/components/Chart';
+
+import { ChartCurrency } from '../../types';
+import { currenciesMap, root } from '../../const';
+import { formatNumber } from './utils/formatNumber';
 import { useStyles } from './TooltipStyles';
 
 interface Payload {

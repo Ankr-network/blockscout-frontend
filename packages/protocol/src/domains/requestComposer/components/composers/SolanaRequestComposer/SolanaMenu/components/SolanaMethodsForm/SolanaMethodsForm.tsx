@@ -2,17 +2,18 @@ import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { EndpointGroup } from 'modules/endpoints/types';
-import { MethodNameSelectField } from '../../../../../MethodsForm/MethodNameSelectField';
-import { MethodsForm } from '../../../../../MethodsForm';
-import { MethodsFormData } from '../../../../../MethodsForm/MethodsFormTypes';
-import { MethodsFormSpy } from '../../../../../MethodsForm/MethodsFormSpy';
 import { MethodsRequest } from 'domains/requestComposer/types';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
-import { SampleCodeComponent } from '../../../../../SampleCodeComponent';
 import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
+
+import { MethodNameSelectField } from '../../../../../MethodsForm/MethodNameSelectField';
+import { MethodsForm } from '../../../../../MethodsForm';
+import { MethodsFormData } from '../../../../../MethodsForm/MethodsFormTypes';
+import { MethodsFormSpy } from '../../../../../MethodsForm/MethodsFormSpy';
+import { SampleCodeComponent } from '../../../../../SampleCodeComponent';
 import { SolanaMethodsTabs } from '../SolanaMethodsTabs';
 import {
   formatDataForRequest,

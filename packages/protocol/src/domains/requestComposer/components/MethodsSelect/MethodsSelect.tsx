@@ -11,9 +11,10 @@ import {
   AutocompleteCloseReason,
   AutocompleteProps,
 } from '@mui/material';
+import { ArrowDown, Check } from '@ankr.com/ui';
+
 import { FilledTextField } from 'uiKit/FilledTextField';
 
-import { ArrowDown, Check } from '@ankr.com/ui';
 import { iconId, useMethodsSelectStyles } from './MethodsSelectStyles';
 
 type ConfiguredAutocomplete<T> = Omit<

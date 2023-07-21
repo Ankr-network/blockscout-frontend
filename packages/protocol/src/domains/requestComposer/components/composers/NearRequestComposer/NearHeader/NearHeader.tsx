@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 
-import { BlockNumber } from '../../../Header/BlockNumber';
 import { ChainGroupID } from 'modules/endpoints/types';
-import { Header } from '../../../Header';
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchNearLastBlockNumber } from 'domains/requestComposer/actions/near/fetchNearLastBlockNumber';
+
+import { Header } from '../../../Header';
+import { BlockNumber } from '../../../Header/BlockNumber';
 
 export interface IHeaderProps {
   hasBlockNumber?: boolean;

@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Typography, Skeleton } from '@mui/material';
+
 import { ChainID } from 'domains/chains/types';
 
 import { useHeaderStyles } from './useHeaderStyles';

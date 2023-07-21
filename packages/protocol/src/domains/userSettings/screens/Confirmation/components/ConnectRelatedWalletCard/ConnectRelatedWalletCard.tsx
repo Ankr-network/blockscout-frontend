@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
-
 import { t } from '@ankr.com/common';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
 

@@ -1,5 +1,6 @@
-import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 import { PrivatStatTopCountry } from 'multirpc-sdk';
+
+import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 
 export const makePrivateCountryMap = (
   countries: PrivatStatTopCountry[] = [],

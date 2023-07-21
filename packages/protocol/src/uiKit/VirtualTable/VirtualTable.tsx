@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Paper, Typography } from '@mui/material';
 import { AutoSizer, List, WindowScroller } from 'react-virtualized';
+
 import { VirtualTableProps } from './types';
 import { useStyles } from './useStyles';
 import {

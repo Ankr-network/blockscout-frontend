@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
+import { t } from '@ankr.com/common';
 
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
-import { useSampleCodeStyles } from './useSampleCodeStyles';
-import { overridenViewStyle, overridenThumbStyle } from './SampleCodeUtils';
 import { ViewProps } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/CodeSnippet';
 import { CopyCodeButton } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/CopyCodeButton';
-import { t } from '@ankr.com/common';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
+import { overridenViewStyle, overridenThumbStyle } from './SampleCodeUtils';
+import { useSampleCodeStyles } from './useSampleCodeStyles';
 
 interface ISampleCodeProps {
   code: string;

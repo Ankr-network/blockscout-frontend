@@ -4,11 +4,12 @@ import { formatToWei } from 'multirpc-sdk';
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
-import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+
+import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
+import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 export const {
   useLazyTopUpSendAllowanceQuery,

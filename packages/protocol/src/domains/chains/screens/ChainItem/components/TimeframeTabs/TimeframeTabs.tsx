@@ -1,6 +1,7 @@
-import { SecondaryTab, TabSize } from '../SecondaryTab';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { Timeframe } from 'domains/chains/types';
+
+import { SecondaryTab, TabSize } from '../SecondaryTab';
 import { timeframeToLabelMap } from '../UsageDataSection/const';
 import { useTimeframeTabsStyles } from './TimeframeTabsStyles';
 

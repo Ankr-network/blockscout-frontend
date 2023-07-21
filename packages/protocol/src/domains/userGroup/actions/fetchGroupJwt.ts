@@ -1,9 +1,11 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { getUserEndpointToken } from 'domains/jwtToken/action/getAllJwtTokenUtils';
 import { makeWorkerGatewayAuthorization } from 'domains/jwtToken/utils/makeWorkerGatewayAuthorization';
 import { fetchPremiumStatus } from 'domains/auth/actions/fetchPremiumStatus';
+
 import { GroupJwtData } from '../types';
 import { setUserGroupJwt } from '../store';
 

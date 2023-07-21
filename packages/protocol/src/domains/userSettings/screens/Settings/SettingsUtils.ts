@@ -1,11 +1,13 @@
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
+
 import {
   AddEmailFormContentState,
   AddEmailFormFields,
 } from 'domains/userSettings/components/AddEmailForm/types';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useMemo } from 'react';
+
 import { EmailData } from './hooks/useSettings';
 
 export const useSettingsBreadcrumbs = () => {

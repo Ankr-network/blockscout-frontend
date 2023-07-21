@@ -1,11 +1,15 @@
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
-import { accountFetchPublicKey } from '../actions/fetchPublicKey';
 import {
   setAmount,
   resetTransaction,
 } from 'domains/account/store/accountTopUpSlice';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { accountFetchPublicKey } from '../actions/fetchPublicKey';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
 import { topUpDeposit } from '../actions/topUp/deposit';
 import { topUpDepositForUser } from '../actions/topUp/depositForUser';
@@ -15,11 +19,8 @@ import { topUpRejectAllowance } from '../actions/topUp/rejectAllowance';
 import { topUpSendAllowance } from '../actions/topUp/sendAllowance';
 import { topUpWaitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
 import { useAddress } from './useAddress';
-import { useAppDispatch } from 'store/useAppDispatch';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
 export const useTopUp = () => {

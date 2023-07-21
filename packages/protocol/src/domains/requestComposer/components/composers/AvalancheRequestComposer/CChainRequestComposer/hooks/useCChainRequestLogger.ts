@@ -1,6 +1,7 @@
-import { useCChainRequest } from './useCChainRequest';
 import { useLogger } from 'domains/requestComposer/components/Logger/hooks/useLogger';
 import { useRequestComposerLogs } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+
+import { useCChainRequest } from './useCChainRequest';
 
 export const useCChainRequestLogger = () => {
   const loggerData = useLogger();

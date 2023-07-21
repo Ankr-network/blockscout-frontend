@@ -2,8 +2,9 @@ import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
 import { Chain } from 'domains/chains/types';
-import { getChainIDs } from '../../../utils/getChainIDs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { getChainIDs } from '../../../utils/getChainIDs';
 import { usePrivateStats } from './usePrivateStats';
 
 export interface ChainsItemParams {

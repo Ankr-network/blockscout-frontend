@@ -1,6 +1,8 @@
 import { t } from '@ankr.com/common';
-import { InfoCard } from '../InfoCard';
+
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
+
+import { InfoCard } from '../InfoCard';
 
 export const ConnectWalletCard = () => {
   return (

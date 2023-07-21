@@ -1,4 +1,5 @@
 import { Web3Address } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';

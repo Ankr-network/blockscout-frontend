@@ -1,7 +1,9 @@
-import { useUserLabelStyles } from './useUserLabelStyles';
-import { Diamonds } from 'uiKit/Icons/Diamonds';
-import { getLabel } from './UserLabelUtils';
 import { useMemo } from 'react';
+
+import { Diamonds } from 'uiKit/Icons/Diamonds';
+
+import { getLabel } from './UserLabelUtils';
+import { useUserLabelStyles } from './useUserLabelStyles';
 
 export interface IUserLabelProps {
   hasPremium?: boolean;

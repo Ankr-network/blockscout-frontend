@@ -7,6 +7,7 @@ import {
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { RequestsChart } from '../../../RequestsChart';
 import { RequestsMap } from '../../../RequestsMap';
 import { TimeframeTabs } from '../../../TimeframeTabs';

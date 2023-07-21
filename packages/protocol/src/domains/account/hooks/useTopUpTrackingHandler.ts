@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
-import { TrackTopUp } from '../types';
 import { trackTopUp } from 'modules/analytics/mixpanel/trackTopUp';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { TrackTopUp } from '../types';
 
 export const useTopUpTrackingHandler = (): TrackTopUp => {
   const { address, hasPremium, trackingWalletName: walletName } = useAuth();

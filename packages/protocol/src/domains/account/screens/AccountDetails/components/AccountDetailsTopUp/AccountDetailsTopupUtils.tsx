@@ -1,11 +1,12 @@
 import { Ankr, CreditCard } from '@ankr.com/ui';
 
-import { AccountDetailsAnkrTopUpForm } from './AccountDetailsAnkrTopUpForm';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import {
   TopUpTabID,
   useTopUpTabs,
 } from 'domains/account/components/TopUp/TopUpUtils';
+
+import { AccountDetailsAnkrTopUpForm } from './AccountDetailsAnkrTopUpForm';
 import { useSubmitTrackingHandler } from './hooks/useSubmitTrackingHandler';
 
 export const useAccountDetailsTopUpTabs = (

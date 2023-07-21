@@ -2,10 +2,11 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { useHeaderStyles } from './useHeaderStyles';
 import { newProjectIntlRoot } from 'domains/projects/const';
-import { Stepper } from '../Stepper';
 import { NewProjectStep } from 'domains/projects/types';
+
+import { useHeaderStyles } from './useHeaderStyles';
+import { Stepper } from '../Stepper';
 import { FinalPrice } from '../FinalPrice';
 import { renderAmount } from '../../utils/renderAmount';
 

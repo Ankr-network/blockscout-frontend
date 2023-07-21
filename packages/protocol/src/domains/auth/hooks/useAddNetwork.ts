@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { ChainID } from 'domains/chains/types';
+
 import {
   IChainParams,
   useLazyAuthAddNetworkQuery,

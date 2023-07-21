@@ -1,11 +1,12 @@
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { Lock } from '@ankr.com/ui';
-
 import { GroupUserRole } from 'multirpc-sdk';
-import { useRoleStyles } from './useRoleStyles';
+
 import { GroupUserRoleMap } from 'domains/userGroup/constants/groups';
 import { useContactWidget } from 'hooks/useContactWidget';
+
+import { useRoleStyles } from './useRoleStyles';
 
 export interface IRoleProps {
   team: string;

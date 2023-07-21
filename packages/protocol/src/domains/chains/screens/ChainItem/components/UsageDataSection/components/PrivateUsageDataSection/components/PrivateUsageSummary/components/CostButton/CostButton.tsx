@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { t } from '@ankr.com/common';
 
 import { PATH_ACCOUNT } from 'domains/account/Routes';
+
 import { useCostButtonStyles } from './CostButtonStyles';
 
 export const CostButton = () => {

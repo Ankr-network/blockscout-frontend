@@ -2,16 +2,17 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { ChainID } from 'domains/chains/types';
-import { DebugMenuSection } from '../../DebugMenuSection';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { PrimaryTab } from '../../PrimaryTab';
-import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
-import { hasRequestComposer } from '../utils/hasRequestComposer';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
+
+import { DebugMenuSection } from '../../DebugMenuSection';
+import { PrimaryTab } from '../../PrimaryTab';
+import { SectionID } from '../types';
+import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
+import { hasRequestComposer } from '../utils/hasRequestComposer';
 
 export interface DebugMenuSectionParams {
   chainId: ChainID;

@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useTheme } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import {
   IRequestsChartProps,
   RequestsChart,

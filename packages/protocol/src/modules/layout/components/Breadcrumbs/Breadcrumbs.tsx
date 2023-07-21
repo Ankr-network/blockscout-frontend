@@ -11,15 +11,16 @@ import {
   Breadcrumbs as BreadcrumbsBase,
   BreadcrumbItem,
 } from 'uiKit/Breadcrumbs';
-import {
-  BreadcrumbsProviderProps,
-  IBreadcrumbsContext,
-} from './BreadcrumbsTypes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UserLabel } from 'uiKit/Breadcrumbs/Components/UserLabel';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
+
+import {
+  BreadcrumbsProviderProps,
+  IBreadcrumbsContext,
+} from './BreadcrumbsTypes';
 
 const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],

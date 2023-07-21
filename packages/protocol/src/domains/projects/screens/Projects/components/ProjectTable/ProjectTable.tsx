@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 import { Project } from 'domains/projects/utils/getAllProjects';
 import { Preloader } from 'uiKit/Preloader';
 import { VirtualTable } from 'uiKit/VirtualTable';
+
 import { useProjectTable } from './hooks/useProjectTable';
 import { useProjectTableStyles } from './useProjectTableStyles';
 

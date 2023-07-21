@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import { Box } from '@mui/material';
 
-import { useBaseChainsStyles } from './BaseChainsStyles';
 import { ChainsSkeleton } from 'domains/chains/screens/Chains/components/ChainsSkeleton';
+
+import { useBaseChainsStyles } from './BaseChainsStyles';
 
 interface BaseChainsProps {
   top?: ReactNode;

@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
 import { Box } from '@mui/material';
 
-import { BannerSkeleton } from '../BannerSkeleton';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { BannerSkeleton } from '../BannerSkeleton';
 import {
   ContentType,
   UpgradePlanDialog,
   useURLBasedUpgradePlanDialog,
 } from '../UpgradePlanDialog';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { UpgradePlanBannerContent } from './UpgradePlanBannerContent';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 interface UpgradePlanBannerProps {
   isAdvancedApi?: boolean;

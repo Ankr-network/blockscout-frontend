@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Container, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { Section } from './components/Section';
 import { useStyles } from './PageNotFoundStyles';
-import { t } from '@ankr.com/common';
 
 export const PageNotFound = () => {
   const { classes } = useStyles();

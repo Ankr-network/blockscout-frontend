@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+
 import { useTokenManagerConfigSelector } from './useTokenManagerConfigSelector';
 
 export const useSelectTokenIndex = () => {

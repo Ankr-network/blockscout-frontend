@@ -1,8 +1,9 @@
 import { t } from '@ankr.com/common';
 
 import { HarmonyMethodResponse } from 'domains/requestComposer/constants/harmony';
-import { errorToObject } from '../../utils/errorToObject';
 import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
+
+import { errorToObject } from '../../utils/errorToObject';
 import { withErrorMessage } from '../../utils/withErrorMessage';
 import { withStringError } from '../../utils/withStringError';
 

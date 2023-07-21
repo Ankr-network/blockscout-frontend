@@ -4,12 +4,13 @@ import { useMemo } from 'react';
 
 import { ChainID, Chain, ChainType, ChainSubType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { Tab } from 'modules/common/hooks/useTabs';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { InfrastructureSection } from '../../InfrastructureSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
-import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 interface InfrastructureSectionParams {
   chain: Chain;

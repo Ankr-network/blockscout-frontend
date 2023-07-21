@@ -1,5 +1,6 @@
-import { MultiService } from 'modules/api/MultiService';
 import { TwoFAStatus } from 'multirpc-sdk';
+
+import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
 export interface UserSettingsTwoFAStatusResult {

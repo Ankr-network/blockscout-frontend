@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 
+import { UsageHistoryData } from 'domains/dashboard/store/types';
+
 import { HeadRow } from '../HeadRow';
 import { TableRow } from '../TableRow';
-import { UsageHistoryData } from 'domains/dashboard/store/types';
 import { formatData } from '../../utils/formatData';
 import { useTableSyles } from './TableStyles';
 

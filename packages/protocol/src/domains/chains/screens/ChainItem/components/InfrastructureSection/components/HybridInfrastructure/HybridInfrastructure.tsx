@@ -1,5 +1,3 @@
-import { EndpointInfo } from './components/EndpointInfo';
-import { HybridInfrastructureSkeleton } from './components/HybridInfrastructureSkeleton';
 import {
   Endpoints,
   useLazyInfrastructureFetchEndpointsQuery,
@@ -14,6 +12,9 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';
+
+import { HybridInfrastructureSkeleton } from './components/HybridInfrastructureSkeleton';
+import { EndpointInfo } from './components/EndpointInfo';
 
 interface HybridInfrastructureProps {
   chainId: string;

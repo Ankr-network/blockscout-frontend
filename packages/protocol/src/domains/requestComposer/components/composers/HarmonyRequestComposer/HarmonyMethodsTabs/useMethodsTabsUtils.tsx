@@ -7,10 +7,10 @@ import {
   HarmonyLibraryID,
   HarmonyMethod,
 } from 'domains/requestComposer/constants/harmony';
-
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
 import { HarmonySampleCode } from '../HarmonySampleCode';
 
 export const useMethodsTabsUtils = (

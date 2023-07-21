@@ -1,8 +1,9 @@
 import { Button } from '@mui/material';
-
 import { t } from '@ankr.com/common';
+
 import { FieldError } from 'modules/form/components/FieldError';
 import { AnimatedButton } from 'uiKit/AnimatedButton';
+
 import { useStyles } from './LinkExpiredActionSlotStyles';
 
 export interface ILinkExpiredActionSlotProps {

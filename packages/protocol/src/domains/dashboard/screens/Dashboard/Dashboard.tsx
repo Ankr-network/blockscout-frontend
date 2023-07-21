@@ -1,12 +1,8 @@
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
-import { AllChainsLayout } from './components/AllChainsLayout';
-import { ChainLayout } from './components/ChainLayout';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
-import { ChainSelector } from './components/ChainSelector';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
-import { PrivateChainSelectedContent } from './components/PrivateChainSelectedContent';
 import { ProjectSelect } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
@@ -14,6 +10,12 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+
+import { AllChainsLayout } from './components/AllChainsLayout';
+import { ChainLayout } from './components/ChainLayout';
+import { ChainSelector } from './components/ChainSelector';
+import { PrivateChainSelectedContent } from './components/PrivateChainSelectedContent';
 import { fallbackChain } from './const';
 import { useDashboard } from './hooks/useDashboard';
 import { useChainSelectorGroups } from './hooks/useChainSelectorGroups';
@@ -21,7 +23,6 @@ import { useChainsSelector } from './hooks/useChainsSelector';
 import { useDashboardProjects } from './hooks/useDashboardProjects';
 import { usePrivateChainSelector } from './hooks/usePrivateChainSelector';
 import { useDashboardStyles } from './useDashboardStyles';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useLastMonthStats } from './hooks/useLastMonthStats';
 import { useSelectorVisibility } from './components/ChainSelector/useSelectorVisibility';
 import { SubTypeSelector } from './components/SubTypeSelector';

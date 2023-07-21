@@ -41,7 +41,6 @@ import baseIcon from './icons/base.png';
 import scrollIcon from './icons/scroll.png';
 import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
-
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';

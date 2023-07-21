@@ -1,8 +1,9 @@
-import { ContentType, UpgradePlanDialogType } from './types';
 import { Dialog } from 'uiKit/Dialog';
+import { useWindowHeight } from 'hooks/useWindowHeight';
+
+import { ContentType, UpgradePlanDialogType } from './types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
 import { useUpgradePlanDialogStyles } from './UpgradePlanDialogStyles';
-import { useWindowHeight } from 'hooks/useWindowHeight';
 
 export interface UpgradePlanDialogProps {
   defaultState?: ContentType;

@@ -4,6 +4,7 @@ import { t } from '@ankr.com/common';
 import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { Chain } from 'domains/chains/types';
+
 import { shouldShowGroupId } from './ChainItemUtils';
 
 interface ChainItemProps {

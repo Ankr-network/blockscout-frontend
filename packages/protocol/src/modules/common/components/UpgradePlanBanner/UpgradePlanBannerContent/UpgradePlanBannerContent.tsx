@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { useUpgradePlanBannerContentStyles } from './useUpgradePlanBannerContentStyles';
 import { getBannerContent } from '../utils';
 

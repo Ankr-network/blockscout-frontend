@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { UpgradePlanDialogType } from '../types';
 import { checkRegisterType } from '../utils/checkRegisterType';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useHasRegisterType = (
   type?: UpgradePlanDialogType,

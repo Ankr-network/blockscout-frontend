@@ -1,12 +1,13 @@
 import { Skeleton, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-import { ChainMainInfoProps } from './ChainMainInfoTypes';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Switcher } from 'modules/common/components/Switcher';
 import { Timeframe } from 'domains/chains/types';
-import { useStyles } from './ChainMainInfoStyles';
 import { timeframeToLabelMap } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
+
+import { useStyles } from './ChainMainInfoStyles';
+import { ChainMainInfoProps } from './ChainMainInfoTypes';
 
 export const ChainMainInfo = ({
   className = '',

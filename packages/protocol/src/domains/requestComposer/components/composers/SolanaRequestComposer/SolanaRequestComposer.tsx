@@ -1,10 +1,11 @@
-import { CountdownContext, LoggerContext } from '../const';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
+import { CountdownContext, LoggerContext } from '../const';
 import { Logger } from '../../Logger';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { SolanaHeader } from './SolanaHeader';
 import { SolanaMenu } from './SolanaMenu';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 import { useSolanaRequestLogger } from './hooks/useSolanaRequestLogger';
 
 export interface SolanaRequestComposerProps {

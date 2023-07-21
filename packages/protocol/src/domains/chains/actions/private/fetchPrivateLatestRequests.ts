@@ -1,7 +1,9 @@
-import { Chain } from '../../types';
+import { LatestRequest, Web3Address } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { LatestRequest, Web3Address } from 'multirpc-sdk';
+
+import { Chain } from '../../types';
 
 export interface IFetchPrivateChainsInfoResult {
   chains: Chain[];

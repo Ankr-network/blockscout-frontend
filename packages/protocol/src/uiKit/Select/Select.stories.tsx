@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { makeStyles } from 'tss-react/mui';
 
 import { mainTheme } from 'uiKit/Theme/mainTheme';
+
 import { Select } from './Select';
 
 const items = [

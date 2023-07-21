@@ -4,6 +4,7 @@ import { t } from '@ankr.com/common';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { NavLink } from 'uiKit/NavLink';
 import { PRICING_PATH } from 'domains/pricing/Routes';
+
 import { Plan, PlanID, UpgradePlanDialogType } from './types';
 
 export const intlRoot = 'chain-item-dialog';

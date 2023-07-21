@@ -2,8 +2,9 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "eslint-plugin-typescript",
-    "react-hooks",
-    "@typescript-eslint"
+    "jsx-a11y",
+    "react",
+    "react-hooks"
   ],
   "env": {
     "browser": true,
@@ -12,7 +13,6 @@
   "settings": {
     "import/core-modules": [
       "ui",
-      "ankr-academy",
       "multirpc-sdk",
       "common",
       "@ankr.com/global-menu"
@@ -21,6 +21,8 @@
   "extends": [
     "airbnb-typescript",
     "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "prettier/@typescript-eslint",
@@ -58,7 +60,10 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-implied-eval": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-throw-literal": "off",
+    "@typescript-eslint/no-useless-constructor": "off",
     "import/no-extraneous-dependencies": [
       "warn",
       {

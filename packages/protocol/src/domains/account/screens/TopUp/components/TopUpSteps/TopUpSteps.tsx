@@ -1,12 +1,13 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
+import { TopUpStep } from 'domains/account/actions/topUp/const';
+
 import { Buttons } from './Buttons';
 import { ITopUpStepsProps } from './TopUpStepsTypes';
 import { Stepper } from './Stepper';
 import { StepperNotice } from './StepperNotice';
 import { StepperTitle } from './StepperTitle';
-import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { TransactionButton } from './TransactionButton';
 import { useStyles } from './TopUpStepsStyles';
 

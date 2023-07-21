@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+
 import { premiumTextStyles } from 'uiKit/Theme/themeUtils';
 
 export const useChainStepTableStyles = makeStyles()(theme => ({

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { useTableHeadStyles } from './TableHeadStyles';
 
 const column1 = t('chain-item.usage-data.last-requests.table.header.column-1');

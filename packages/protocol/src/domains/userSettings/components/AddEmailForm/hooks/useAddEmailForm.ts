@@ -1,12 +1,13 @@
 import { useCallback, useEffect } from 'react';
 
-import { AddEmailFormContentState, IAddEmailFormData } from '../types';
 import {
   useLazyUserSettingsAddNewEmailBindingQuery,
   userSettingsAddNewEmailBinding,
 } from 'domains/userSettings/actions/email/addNewEmailBinding';
-import { useAddEmailTrackingCallback } from './useAddEmailTrackingCallback';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { AddEmailFormContentState, IAddEmailFormData } from '../types';
+import { useAddEmailTrackingCallback } from './useAddEmailTrackingCallback';
 
 export interface AddEmailFormParams {
   onAddEmailSubmitSuccess?: () => void;

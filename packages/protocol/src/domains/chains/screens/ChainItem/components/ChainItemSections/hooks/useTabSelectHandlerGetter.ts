@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
-import { SectionID } from '../types';
 import { trackChainTabSelect } from 'modules/analytics/mixpanel/trackChainTabSelect';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { SectionID } from '../types';
 
 export type TabSelectHandlerGetter = (tabName: SectionID) => () => void;
 

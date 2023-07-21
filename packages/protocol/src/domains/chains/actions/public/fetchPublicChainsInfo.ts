@@ -1,9 +1,10 @@
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
+
 import { Chain } from '../../types';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getAddIsArchiveCB } from '../../utils/addIsArchive';
-import { web3Api } from 'store/queries';
 
 export interface IFetchPublicChainsInfoResult {
   chains: Chain[];

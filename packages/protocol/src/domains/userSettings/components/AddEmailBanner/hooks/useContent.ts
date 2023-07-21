@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
+
 import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from '../../AddEmailForm/types';
 import { stateToTitle } from '../const';
-import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
 
 interface IUseContentParams {
   initialContentState: AddEmailFormContentState;

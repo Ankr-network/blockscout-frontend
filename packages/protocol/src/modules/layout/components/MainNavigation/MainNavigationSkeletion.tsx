@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Divider, Skeleton, Typography } from '@mui/material';
+
 import { useMainNavigationStyles } from './useMainNavigationStyles';
 
 interface MainNavigationSkeletionProps {

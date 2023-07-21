@@ -2,11 +2,12 @@ import { useMemo } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { RPCCallsConfig } from 'domains/requestComposer/types/solana';
-import { SampleCode } from '../../../../../SampleCodeComponent/SampleCodeDialog/SampleCode';
 import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
+
+import { SampleCode } from '../../../../../SampleCodeComponent/SampleCodeDialog/SampleCode';
 
 export interface SolanaSampleCodeProps {
   args: string[];

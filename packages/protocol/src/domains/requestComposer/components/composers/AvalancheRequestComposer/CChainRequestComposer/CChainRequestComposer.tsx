@@ -1,11 +1,12 @@
-import { CChainMenu } from './CChainMenu/CChainMenu';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
+import { CChainMenu } from './CChainMenu/CChainMenu';
 import { CountdownContext } from '../../const';
 import { Header } from '../../../Header';
 import { Logger } from '../../../Logger';
 import { RequestComposerTemplate } from '../../../RequestComposerTemplate';
 import { useCChainRequestLogger } from './hooks/useCChainRequestLogger';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export interface ICChainRequestComposerProps {
   className?: string;

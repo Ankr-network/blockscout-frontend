@@ -1,4 +1,5 @@
 import { ChainID, Chain } from 'domains/chains/types';
+
 import { flatChains } from './flatChains';
 
 export interface DecomposedChainIds {

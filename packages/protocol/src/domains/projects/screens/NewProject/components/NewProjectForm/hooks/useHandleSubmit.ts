@@ -4,18 +4,19 @@ import { utils } from 'ethers';
 import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 
-import {
-  NewProjectFormValues,
-  NewProjectFormProps,
-} from '../NewProjectFormTypes';
 import { NewProjectStep } from 'domains/projects/types';
-import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
-import { useCheckoutStepOnSubmit } from './useCheckoutStepOnSubmit';
 import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { TopUpOrigin } from 'domains/account/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+
+import { useCheckoutStepOnSubmit } from './useCheckoutStepOnSubmit';
+import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
+import {
+  NewProjectFormValues,
+  NewProjectFormProps,
+} from '../NewProjectFormTypes';
 
 export const useHandleSubmit = (
   step: NewProjectStep,

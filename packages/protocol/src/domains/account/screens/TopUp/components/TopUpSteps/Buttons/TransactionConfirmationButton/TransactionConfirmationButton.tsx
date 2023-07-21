@@ -5,9 +5,10 @@ import { useEffect } from 'react';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { getBlockCount } from './TransactionConfirmationButtonUtils';
 import { topUpFetchTransactionConfirmationStatus } from 'domains/account/actions/topUp/fetchTransactionConfirmationStatus';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { getBlockCount } from './TransactionConfirmationButtonUtils';
 
 interface TransactionConfirmationButtonProps {
   className?: string;

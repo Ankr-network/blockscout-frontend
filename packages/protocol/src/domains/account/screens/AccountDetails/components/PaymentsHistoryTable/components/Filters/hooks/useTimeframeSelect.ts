@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
+import { t } from '@ankr.com/common';
 
-import { DEFAULT_TIMEFRAME } from '../../../const';
 import { ISelectOption } from 'uiKit/Select';
 import { PaymentHistoryTableTimeframe } from 'domains/account/types';
-import { t } from '@ankr.com/common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
+import { DEFAULT_TIMEFRAME } from '../../../const';
 
 export type TimeframeSelect = [(event: any) => void, ISelectOption[]];
 

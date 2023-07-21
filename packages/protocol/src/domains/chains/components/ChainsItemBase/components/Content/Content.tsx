@@ -1,12 +1,14 @@
-import { Buttons } from '../Buttons';
+import { useMemo } from 'react';
+import { t, tHTML } from '@ankr.com/common';
+
 import { ChainMainInfo } from 'modules/common/components/ChainMainInfo';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
+
+import { Buttons } from '../Buttons';
 import { ContentProps } from './types';
 import { Label } from '../Label';
 import { Links } from '../Links';
 import { useContentStyles } from './ContentStyles';
-import { useMemo } from 'react';
-import { t, tHTML } from '@ankr.com/common';
 
 const useLabel = (isSui: boolean, isComingSoon: boolean) => {
   return useMemo(() => {

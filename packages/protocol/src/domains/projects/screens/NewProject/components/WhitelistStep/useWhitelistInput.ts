@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useForm } from 'react-final-form';
 import { utils } from 'ethers';
+
 import { WhitelistStepFields } from 'domains/projects/store';
 
 export const useWhitelistInput = () => {

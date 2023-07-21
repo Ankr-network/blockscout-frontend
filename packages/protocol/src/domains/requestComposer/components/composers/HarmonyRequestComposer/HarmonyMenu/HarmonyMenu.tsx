@@ -1,4 +1,5 @@
 import { ITabProps } from 'modules/common/hooks/useTabs';
+
 import { Menu } from '../../../Menu';
 
 export const HarmonyMenu = ({ tabs, selectedTab }: ITabProps) => {

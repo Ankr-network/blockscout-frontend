@@ -4,8 +4,9 @@ import {
 } from 'multirpc-sdk';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { fetchAllPaymentHistory } from '../utils/fetchAllPaymentHistory';
 import { web3Api } from 'store/queries';
+
+import { fetchAllPaymentHistory } from '../utils/fetchAllPaymentHistory';
 
 export const {
   useLazyAccountFetchExpenseChartDataQuery,

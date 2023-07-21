@@ -2,6 +2,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { useCallback } from 'react';
 
 import { NewProjectStep } from 'domains/projects/types';
+
 import { NewProjectFormContent } from '../NewProjectFormContent';
 import {
   NewProjectFormProps,

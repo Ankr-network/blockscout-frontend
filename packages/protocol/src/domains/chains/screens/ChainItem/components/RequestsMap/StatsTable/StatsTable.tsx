@@ -11,12 +11,13 @@ import {
   SimplePaletteColorOptions,
   TableHead,
 } from '@mui/material';
-
 import { t } from '@ankr.com/common';
 import { palette as PALETTE } from '@ankr.com/ui';
+
+import { StatusCircle } from 'uiKit/StatusCircle';
+
 import { useStyles } from './useStyles';
 import { StatsTableProps } from './StatsTableTypes';
-import { StatusCircle } from 'uiKit/StatusCircle';
 
 export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
   const { classes, cx } = useStyles();

@@ -1,4 +1,6 @@
 import { t } from '@ankr.com/common';
+import { PrefixedHex } from 'multirpc-sdk';
+
 import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
 import {
   ChainID,
@@ -8,11 +10,11 @@ import {
   ChainSubType,
 } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { PrefixedHex } from 'multirpc-sdk';
-import { IChainParams } from '../../actions/addNetwork';
-import { NETWORK_INFO_MAP } from './const';
 import { getChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getChainId';
 import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';
+
+import { IChainParams } from '../../actions/addNetwork';
+import { NETWORK_INFO_MAP } from './const';
 import { IUseAddNetworkButtonParams } from './types';
 
 const toHex = (num: number): PrefixedHex => {

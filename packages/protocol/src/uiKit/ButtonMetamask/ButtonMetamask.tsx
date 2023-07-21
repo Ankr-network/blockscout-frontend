@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Button } from '@mui/material';
-
 import { MetaMaskWallet } from '@ankr.com/ui';
+
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 
 interface IButtonSpecialProps {

@@ -1,6 +1,7 @@
 import { AllProjectsStats } from 'domains/dashboard/actions/fetchAllProjectsStats';
-import { ProjectsStats } from '../types';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+
+import { ProjectsStats } from '../types';
 
 export const getProjectsStats = (projects: AllProjectsStats[], total: number) =>
   projects
