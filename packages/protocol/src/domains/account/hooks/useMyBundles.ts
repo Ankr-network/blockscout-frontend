@@ -1,6 +1,10 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
-import { selectMyBundles, selectMyBundlesLoading } from '../store/selectors';
+import {
+  selectMyBundles,
+  selectMyBundlesLoading,
+  selectMyBundlesIsLoaded,
+} from '../store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useFetchMyBundlesQuery } from '../actions/bundles/fetchMyBundles';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -8,7 +12,7 @@ import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 const DEFAULT_PARAMS = {
-  shouldFetch: true,
+  shouldFetch: false,
 };
 
 export const useMyBundles = ({ shouldFetch } = DEFAULT_PARAMS) => {
@@ -22,6 +26,8 @@ export const useMyBundles = ({ shouldFetch } = DEFAULT_PARAMS) => {
 
   const bundles = useAppSelector(selectMyBundles);
   const loading = useAppSelector(selectMyBundlesLoading);
+  const hasBundles = bundles.length > 0;
+  const isLoaded = useAppSelector(selectMyBundlesIsLoaded);
 
-  return { bundles, loading };
+  return { bundles, loading, hasBundles, isLoaded };
 };

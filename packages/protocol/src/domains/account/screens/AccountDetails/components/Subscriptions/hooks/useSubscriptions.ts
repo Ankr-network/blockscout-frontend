@@ -18,7 +18,9 @@ export const useSubscriptions = (currentSubscription?: ISubscriptionsItem) => {
     { hasPremium },
   );
 
-  const { bundles, loading: bundlesLoading } = useMyBundles();
+  const { bundles, loading: bundlesLoading } = useMyBundles({
+    shouldFetch: true,
+  });
 
   const subscriptions = useMemo(
     () => [...(subscriptionsResponse?.items ?? []), ...bundles],

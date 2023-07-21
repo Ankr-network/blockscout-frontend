@@ -5,7 +5,7 @@ import { Route, RouteProps, useHistory } from 'react-router-dom';
 import { useGuardAuth } from 'domains/auth/hooks/useGuardAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
-import { useHasBundles } from 'domains/account/hooks/useHasBundles';
+import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 
 interface GuardCardPaymentSuccessAuthRouteProps extends RouteProps {
   hasPrivateAccess: boolean;
@@ -22,7 +22,7 @@ export const GuardCardPaymentSuccessAuthRoute = ({
   const history = useHistory<PostTopUpLocationState>();
 
   const { loading } = useGuardAuth();
-  const { hasBundles, isLoaded } = useHasBundles();
+  const { hasBundles, isLoaded } = useMyBundles();
 
   const isPageForbidden = useMemo(() => {
     const isFreeUserWithJWT = !hasPremium && hasPrivateAccess;
