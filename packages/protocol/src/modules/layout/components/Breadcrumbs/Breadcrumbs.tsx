@@ -19,6 +19,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UserLabel } from 'uiKit/Breadcrumbs/Components/UserLabel';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
 
 const BreadcrumbsContext = createContext<IBreadcrumbsContext>({
   breadcrumbs: [],
@@ -74,6 +75,7 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
   const { breadcrumbs } = useContext(BreadcrumbsContext);
 
   const { hasPremium, hasStatusTransition, isLoggedIn } = useAuth();
+  const { isClient } = useEnterprise();
 
   const customBreakpoint = isChainItemPage
     ? CHAIN_PAGE_CUSTOM_BREAKPOINT
@@ -88,6 +90,7 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
           <GuardUserGroup blockName={BlockWithPermission.AccountStatus}>
             <UserLabel
               hasPremium={hasPremium}
+              isEnterpriseClient={isClient}
               hasStatusTransition={hasStatusTransition}
             />
           </GuardUserGroup>

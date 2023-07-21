@@ -12,6 +12,7 @@ export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
   isLoggedIn: boolean;
+  isEnterpriseClient: boolean;
   loading: boolean;
   hasLogo: boolean;
   isMobileSiderBar?: boolean;
@@ -21,6 +22,7 @@ export const SideBar = ({
   chainsRoutes,
   className = '',
   isLoggedIn,
+  isEnterpriseClient,
   loading,
   hasLogo,
   isMobileSiderBar = false,
@@ -44,6 +46,7 @@ export const SideBar = ({
         hasJwtManagerAccess={hasJwtManagerAccess}
         isLoggedIn={isLoggedIn}
         isMobileSiderBar={isMobileSiderBar}
+        isEnterpriseClient={isEnterpriseClient}
         loading={loading}
         onAAPIClick={onAAPIClick}
         onDashboardClick={onDashboardClick}

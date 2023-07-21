@@ -11,12 +11,18 @@ import {
   getSettingList,
 } from './utils/navigationUtils';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
+import {
+  UpgradePlanDialog,
+  UpgradePlanDialogType,
+  useUpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
 import { MainNavigationSkeleton } from './MainNavigationSkeletion';
 
 interface IMainNavigationProps {
   chainsRoutes: string[];
   hasJwtManagerAccess: boolean;
   isLoggedIn: boolean;
+  isEnterpriseClient: boolean;
   isMobileSiderBar: boolean;
   loading: boolean;
   onAAPIClick: () => void;
@@ -30,6 +36,7 @@ export const MainNavigation = ({
   chainsRoutes,
   hasJwtManagerAccess,
   isLoggedIn,
+  isEnterpriseClient,
   isMobileSiderBar,
   loading,
   onAAPIClick,
@@ -38,14 +45,24 @@ export const MainNavigation = ({
   onSettingsClick,
   onSignoutClick,
 }: IMainNavigationProps) => {
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
+
   const endpointsItems = useMemo(
     () =>
       getPremiumEndpointsList({
         chainsRoutes,
+        isEnterpriseClient,
+        onOpenUpgradePlanDialog: onOpen,
         hasJwtManagerAccess,
         onAAPIClick,
       }),
-    [chainsRoutes, hasJwtManagerAccess, onAAPIClick],
+    [
+      chainsRoutes,
+      onOpen,
+      isEnterpriseClient,
+      hasJwtManagerAccess,
+      onAAPIClick,
+    ],
   );
 
   const commonItem = useMemo(
@@ -106,6 +123,12 @@ export const MainNavigation = ({
           />
         </div>
       </div>
+
+      <UpgradePlanDialog
+        onClose={onClose}
+        open={isOpened}
+        type={UpgradePlanDialogType.Enterprise}
+      />
       {isLoggedIn && isMobileSiderBar && (
         <div className={classes.logout}>
           <Navigation items={logoutItems} isMobileSiderBar={isMobileSiderBar} />

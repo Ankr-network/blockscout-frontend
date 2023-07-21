@@ -14,6 +14,7 @@ import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
+import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
@@ -45,6 +46,7 @@ export const DefaultLayout = ({
     isLightTheme,
   });
   const { isLoggedIn, loading } = useAuth();
+  const { isClient } = useEnterprise();
   const chainsRoutes = usePublicChainsRoutes();
 
   return (
@@ -53,6 +55,7 @@ export const DefaultLayout = ({
         chainsRoutes={chainsRoutes}
         className={classes.sidebar}
         isLoggedIn={isLoggedIn}
+        isEnterpriseClient={isClient}
         loading={loading}
         hasLogo
       />
@@ -69,6 +72,7 @@ export const DefaultLayout = ({
           className={classes.mobileHeader}
           chainsRoutes={chainsRoutes}
           isLoggedIn={isLoggedIn}
+          isEnterpriseClient={isClient}
           loading={loading}
         />
         <Container

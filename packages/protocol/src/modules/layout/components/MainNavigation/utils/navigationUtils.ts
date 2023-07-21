@@ -3,6 +3,7 @@ import { ButtonProps } from '@mui/material';
 import { History } from 'history';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import {
   Dashboard,
   CoinStack,
@@ -28,11 +29,14 @@ import { track } from 'modules/analytics/mixpanel/utils/track';
 import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { IS_ENTERPISE_ENABLED } from 'domains/auth/hooks/useEnterprise';
 
 export type IsActive = (match: any, location: History['location']) => boolean;
 
 interface EndpointListParams {
   chainsRoutes: string[];
+  isEnterpriseClient: boolean;
+  onOpenUpgradePlanDialog: () => void;
   onAAPIClick: () => void;
 }
 
@@ -70,6 +74,16 @@ export const getCommonMenuList = (
   },
 ];
 
+const getAdvancedApiList = (onAAPIClick: () => void): NavigationItem[] => [
+  {
+    StartIcon: AdvancedApi,
+    ActiveIcon: BoldAdvancedApi,
+    href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+    label: t('main-navigation.advanced-api'),
+    onClick: onAAPIClick,
+  },
+];
+
 const getProjectsItem = () => ({
   StartIcon: Folder,
   ActiveIcon: BoldFolder,
@@ -80,6 +94,8 @@ const getProjectsItem = () => ({
 
 export const getEndpointsList = ({
   chainsRoutes,
+  isEnterpriseClient,
+  onOpenUpgradePlanDialog,
   onAAPIClick,
 }: EndpointListParams): NavigationItem[] => [
   {
@@ -98,21 +114,36 @@ export const getEndpointsList = ({
     onClick: onAAPIClick,
   },
   {
+    isNotLinkItem: !isEnterpriseClient,
+    isComingSoon: !IS_ENTERPISE_ENABLED,
+    isDisabled: !IS_ENTERPISE_ENABLED,
     StartIcon: Diamonds,
     ActiveIcon: Diamonds,
-    isComingSoon: true,
     label: t('main-navigation.enterprise'),
-    onClick: () => track({ event: MixpanelEvent.SOON_ENTERPRISE }),
-    isDisabled: true,
+    href: EnterpriseRoutesConfig.chains.generatePath(),
+    onClick: () => {
+      track({ event: MixpanelEvent.SOON_ENTERPRISE });
+
+      if (!isEnterpriseClient && IS_ENTERPISE_ENABLED) {
+        onOpenUpgradePlanDialog();
+      }
+    },
   },
 ];
 
 export const getPremiumEndpointsList = ({
   chainsRoutes,
+  isEnterpriseClient,
+  onOpenUpgradePlanDialog,
   hasJwtManagerAccess,
   onAAPIClick,
 }: PremiumEndpointListParams): NavigationItem[] => {
-  const endpoints = getEndpointsList({ chainsRoutes, onAAPIClick });
+  const endpoints = getEndpointsList({
+    chainsRoutes,
+    isEnterpriseClient,
+    onOpenUpgradePlanDialog,
+    onAAPIClick,
+  });
 
   if (hasJwtManagerAccess) endpoints.splice(1, 0, getProjectsItem());
 
@@ -174,6 +205,26 @@ export const getLogoutItem = (onClick: () => void): NavigationItem[] => [
   },
 ];
 
+export const getNavigationList = ({
+  chainsRoutes,
+  isLoggedIn,
+  isEnterpriseClient,
+  onOpenUpgradePlanDialog,
+  onAAPIClick,
+  onDocsClick,
+  onSettingsClick,
+}: NavigationListParams): NavigationItem[] => [
+  getEndpointsList({
+    chainsRoutes,
+    isEnterpriseClient,
+    onOpenUpgradePlanDialog,
+    onAAPIClick,
+  })[0],
+  ...getAdvancedApiList(onAAPIClick),
+  ...getMenuList(isLoggedIn, onDocsClick),
+  ...getSettingList(onSettingsClick),
+];
+
 export const getExternalButtonProps = ({
   ActiveIcon,
   StartIcon,
@@ -213,5 +264,22 @@ export const getCommonButtonProps = (
   key: props.label,
   onClick: props.onClick,
   to: props.href ?? '',
+  variant: 'text',
+});
+
+export const getNotLinkButtonProps = ({
+  ActiveIcon,
+  StartIcon,
+  isActive,
+  isComingSoon,
+  isDisabled,
+  isEnabled,
+  ...props
+}: NavigationItem): ButtonProps => ({
+  ...props,
+  href: undefined,
+  disabled: !isEnabled && !isComingSoon && (!props.href || isDisabled),
+  key: props.label,
+  onClick: props.onClick,
   variant: 'text',
 });

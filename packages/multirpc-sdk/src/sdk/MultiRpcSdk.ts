@@ -6,6 +6,7 @@ import {
   PublicGateway,
   StandalonePublicGateway,
 } from '../public';
+import { EnterpriseGateway } from '../enterprise';
 import { OauthGateway } from '../oauth';
 import { RpcGateway } from '../rpc';
 import { WorkerGateway } from '../worker';
@@ -17,6 +18,8 @@ export class MultiRpcSdk {
   private oauthGateway?: OauthGateway;
 
   private accountGateway?: AccountGateway;
+
+  private enterpriseGateway?: EnterpriseGateway;
 
   private rpcGateway?: RpcGateway;
 
@@ -79,6 +82,16 @@ export class MultiRpcSdk {
       });
 
     return this.accountGateway;
+  }
+
+  public getEnterpriseGateway(): EnterpriseGateway {
+    this.enterpriseGateway =
+      this.enterpriseGateway ||
+      new EnterpriseGateway({
+        baseURL: this.config.accountUrl,
+      });
+
+    return this.enterpriseGateway;
   }
 
   public formatPublicEndpoints(blockchains: IBlockchainEntity[]): ChainsConfig {

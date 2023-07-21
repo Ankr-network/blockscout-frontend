@@ -6,13 +6,13 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { AddProjectDialog } from '../AddProjectDialog';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { DeleteProjectDialog } from '../DeleteProjectDialog';
-import { ViewProjectDialog } from '../ViewProjectDialog.tsx';
+import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
+import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
 import { JwtTokenManagerSkeleton } from './JwtTokenManagerSkeleton';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AddProject } from '../AddProject';
-import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
 
 const CAN_ADD_PROJECT_FROM_JWT_MANAGER = false;
 
@@ -104,7 +104,7 @@ export const JwtTokenManager = () => {
         onSuccess={handleDeleteProjectSuccess}
         onClose={onDeleteProjectClose}
       />
-      <ViewProjectDialog
+      <UserEndpointDialog
         shouldConnectWallet={shouldConnectWallet}
         endpointToken={openedProject?.userEndpointToken}
         tokenIndex={openedProject?.index}

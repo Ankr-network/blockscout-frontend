@@ -119,4 +119,8 @@ export const plansMap: Record<UpgradePlanDialogType, [Plan[], Plan[]]> = {
   [UpgradePlanDialogType.Default]: [defaultPlans, defaultPremiumPlans],
   [UpgradePlanDialogType.Register]: [registerPlans, registerPlans],
   [UpgradePlanDialogType.Premium]: [premiumPlans, premiumPlans],
+  [UpgradePlanDialogType.Enterprise]: [
+    defaultPremiumPlans,
+    defaultPremiumPlans,
+  ],
 };

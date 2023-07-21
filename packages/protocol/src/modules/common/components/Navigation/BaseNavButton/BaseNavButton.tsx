@@ -7,6 +7,7 @@ import { SoonLabel } from '../../SoonLabel';
 import {
   getCommonButtonProps,
   getExternalButtonProps,
+  getNotLinkButtonProps,
 } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
@@ -37,6 +38,7 @@ export const BaseNavButton = ({
     StartIcon,
     ActiveIcon,
     isDisabled,
+    isNotLinkItem,
   } = item;
 
   const isExternalHref = useMemo(() => href && isExternalPath(href), [href]);
@@ -57,6 +59,24 @@ export const BaseNavButton = ({
         {isNew && (
           <SoonLabel className={classes.soon} label={t('common.new')} />
         )}
+        {isComingSoon && <SoonLabel className={classes.soon} />}
+      </Button>
+    );
+  }
+
+  if (isNotLinkItem) {
+    return (
+      <Button
+        {...getNotLinkButtonProps(item)}
+        className={cx(
+          classes.link,
+          isComingSoon && classes.comingSoon,
+          isDisabled && classes.disabled,
+        )}
+        endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
+        startIcon={<StartIcon />}
+      >
+        {label}
         {isComingSoon && <SoonLabel className={classes.soon} />}
       </Button>
     );

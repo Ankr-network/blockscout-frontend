@@ -319,6 +319,7 @@
     "breadcrumbs": "Endpoints",
     "user-free": "Free",
     "user-premium": "Premium",
+    "user-enterprise": "Enterprise",
     "title": "Select Chain",
     "more-details": "More",
     "links": {
@@ -376,6 +377,9 @@
       "item-3": "Archive calls and other features",
       "button": "Upgrade"
     }
+  },
+  "enterprise": {
+    "forbidden": "The page is beyond your user access. Ask the support for the access you require."
   },
   "jwt-token": {
     "default-project-name": "Primary",
