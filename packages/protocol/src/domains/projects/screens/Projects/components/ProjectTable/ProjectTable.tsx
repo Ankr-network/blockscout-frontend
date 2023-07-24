@@ -33,7 +33,7 @@ export const ProjectTable = ({
       initializing={isLoading}
       cols={columns}
       rows={data}
-      emptyMessage={t('common.no-data')}
+      emptyMessage={t('projects.list-project.no-data')}
       preloader={<Preloader className={classes.preloader} />}
       searchContent={searchContent}
       searchKey="name"

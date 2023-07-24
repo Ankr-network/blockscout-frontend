@@ -149,7 +149,8 @@
       "installed": "Installed",
       "not-installed": "Not installed",
       "add-project": "Add Project",
-      "edit-project": "Continue project configuration"
+      "edit-project": "Continue project configuration",
+      "no-data": "No project found"
     },
     "new-project": {
       "breadcrumbs": "Create project",
