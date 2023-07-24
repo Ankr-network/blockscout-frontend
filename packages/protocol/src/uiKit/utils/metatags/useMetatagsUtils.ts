@@ -133,7 +133,7 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   } else if (chainId === ChainID.POLYGON_ZKEVM) {
     name = 'zkEVM';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
-    name = 'Advanced APIs';
+    name = 'Advanced API';
   } else if (chainId === ChainID.ARBITRUM_NOVA) {
     name = 'Arbitrum Nova';
   } else if (chainId.includes(ChainID.ZETACHAIN)) {

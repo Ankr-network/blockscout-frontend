@@ -77,7 +77,7 @@
   "main-navigation": {
     "dashboard": "Dashboard",
     "projects": "Projects",
-    "advanced-api": "Advanced APIs",
+    "advanced-api": "Advanced API",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
     "billing": "Billing",
@@ -435,7 +435,7 @@
       "intro": "from <em>0.1 USD</em> for 10K requests ",
       "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
       "list-1": "WebSockets",
-      "list-2": "Advanced Developer APIs",
+      "list-2": "Advanced Developer API",
       "list-3": "1,500 reqs/sec",
       "list-4": "Dedicated endpoints",
       "list-5": "Archive calls",
@@ -701,7 +701,7 @@
     "breadcrumbs": "Dashboard"
   },
   "advanced-api": {
-    "breadcrumbs": "Advanced APIs",
+    "breadcrumbs": "Advanced API",
     "chain-overview": {
       "title": "Single entry point",
       "description": "Access optimized, indexed, and cached data for nine EVM-compatible blockchains."
