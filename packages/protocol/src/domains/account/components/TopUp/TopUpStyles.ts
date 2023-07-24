@@ -11,6 +11,10 @@ export const useTopUpStyles = makeStyles<TopUpStyleProps>()((theme, props) => ({
 
     borderRadius: 30,
     padding: theme.spacing(7.5),
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(6),
+    },
   },
   tab: {
     borderRadius: 17,

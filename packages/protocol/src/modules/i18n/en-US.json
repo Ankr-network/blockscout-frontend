@@ -1176,7 +1176,7 @@
         "credits": "({credits, number, ::compact-short} Credits)",
         "cancel-label": "You can cancel anytime",
         "bundle-banner": {
-          "top": "Save 20% on each request with our",
+          "top": "Save&nbsp;20% on&nbsp;each request with our",
           "bottom": "special offer",
           "button": "Learn more"
         },

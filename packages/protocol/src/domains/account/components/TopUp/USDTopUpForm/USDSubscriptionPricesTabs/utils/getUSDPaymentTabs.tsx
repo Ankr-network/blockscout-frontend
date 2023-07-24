@@ -59,7 +59,9 @@ const getBundleTabs = (
         className={className}
         isSelected={isSelected}
         label={
-          <BundleLabel label={`$${amount}/${interval?.substring(0, 2)}`} />
+          <BundleLabel
+            label={<span>{`$${amount}/${interval?.substring(0, 2)}`}</span>}
+          />
         }
       />
     ),
