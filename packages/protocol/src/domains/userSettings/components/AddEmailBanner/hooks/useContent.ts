@@ -6,7 +6,7 @@ import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from '../../AddEmailForm/types';
-import { stateToTitle } from '../const';
+import { getTitle } from '../const';
 
 interface IUseContentParams {
   initialContentState: AddEmailFormContentState;
@@ -40,7 +40,7 @@ export const useContent = ({
   const [contentState, setContentState] =
     useState<AddEmailFormContentState>(initialContentState);
 
-  const title = useMemo(() => stateToTitle[contentState], [contentState]);
+  const title = useMemo(() => getTitle(contentState), [contentState]);
 
   const onFormSubmit = useCallback((formData?: IAddEmailFormData) => {
     setSubmittedEmail(formData?.email);
