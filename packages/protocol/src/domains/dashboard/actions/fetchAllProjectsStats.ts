@@ -2,9 +2,10 @@ import { AccountGateway, IApiPrivateStats } from 'multirpc-sdk';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { ProjectsStatsParams } from '../types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+
+import { ProjectsStatsParams } from '../types';
 
 export interface AllProjectsStats {
   index: JwtManagerToken['index'];

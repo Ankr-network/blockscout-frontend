@@ -1,13 +1,14 @@
 import { Box, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+
 import { Preloader } from 'uiKit/Preloader';
 import { VirtualTable } from 'uiKit/VirtualTable';
-
 import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
+import { useUpdatePaymentHistory } from 'domains/account/hooks/useUpdatePaymentHistory';
+
 import { Filters } from './components/Filters';
-import { t } from '@ankr.com/common';
 import { usePaymentHistoryTable } from './hooks/usePaymentHistoryTable';
 import { useStyles } from './PaymentHistoryTableStyles';
-import { useUpdatePaymentHistory } from 'domains/account/hooks/useUpdatePaymentHistory';
 
 interface IPaymentHistoryTableProps {
   balances: AccountBalance;

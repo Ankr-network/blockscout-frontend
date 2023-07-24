@@ -2,9 +2,10 @@ import { Box, Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { Plus } from '@ankr.com/ui';
 
+import { useDialog } from 'modules/common/hooks/useDialog';
+
 import image from './assets/business.png';
 import { useBusinessSettingsStyles } from './useBusinessSettingsStyles';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { CreateBusinessAccountDialog } from './components/CreateBusinessAccountDialog';
 import { InviteUser } from './components/InviteUser';
 

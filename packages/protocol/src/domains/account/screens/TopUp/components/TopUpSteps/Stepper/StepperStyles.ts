@@ -1,4 +1,5 @@
 import { StepConnector, stepConnectorClasses, styled } from '@mui/material';
+
 import { stepLineColor } from 'uiKit/Theme/themeUtils';
 
 export const NormalConnector = styled(StepConnector)(({ theme }) => ({

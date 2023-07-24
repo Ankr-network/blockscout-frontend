@@ -1,8 +1,9 @@
+import { BlockchainType } from 'multirpc-sdk';
+
 import { ChainID } from 'domains/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
-import { BlockchainType } from 'multirpc-sdk';
 
 export interface HasRequestComposerParams {
   chainId: ChainID;

@@ -2,14 +2,14 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { GlobalMenu } from '@ankr.com/global-menu';
-
-import { AnkrLogoIcon } from 'modules/common/components/Icons/AnkrLogoIcon';
 import { t } from '@ankr.com/common';
 
-import { useStyles } from './useStyles';
+import { AnkrLogoIcon } from 'modules/common/components/Icons/AnkrLogoIcon';
 import { useLocale } from 'modules/i18n/utils/useLocale';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
+import { useStyles } from './useStyles';
 
 export const Logo = () => {
   const { themes } = useThemes();

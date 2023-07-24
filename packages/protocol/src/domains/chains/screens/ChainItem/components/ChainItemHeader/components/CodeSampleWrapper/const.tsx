@@ -1,8 +1,10 @@
-import { ChainTypeTab } from 'modules/common/components/ChainTypeTab';
-import { Tab } from 'uiKit/TabsManager';
-import { getJsCodeSample } from './templates/getJsCodeSample';
 import { t } from '@ankr.com/common';
 import { Language } from 'prism-react-renderer';
+
+import { ChainTypeTab } from 'modules/common/components/ChainTypeTab';
+import { Tab } from 'uiKit/TabsManager';
+
+import { getJsCodeSample } from './templates/getJsCodeSample';
 import { getShellCodeSampleWithUrl } from './templates/getShellCodeSampleWithUrl';
 import { getPythonCodeSample } from './templates/getPythonCodeSample';
 

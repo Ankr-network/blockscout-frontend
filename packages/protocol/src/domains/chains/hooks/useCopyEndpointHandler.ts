@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
-import { ChainType } from '../types';
 import { trackEndpointCopy } from 'modules/analytics/mixpanel/trackEndpointCopy';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { ChainType } from '../types';
 
 export const useCopyEndpointHandler = (chainType: ChainType) => {
   const { hasPremium, trackingWalletName: walletName } = useAuth();

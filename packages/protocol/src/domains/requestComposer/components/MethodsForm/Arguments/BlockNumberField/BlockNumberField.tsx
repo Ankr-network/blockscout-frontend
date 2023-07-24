@@ -4,6 +4,7 @@ import { FieldValidator } from 'final-form';
 import { FormGroup, Typography } from '@mui/material';
 
 import { InputField } from 'modules/form/components/InputField';
+
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
 interface BlockNumberFieldProps {

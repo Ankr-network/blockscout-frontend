@@ -1,5 +1,6 @@
 import { Switcher } from 'modules/common/components/Switcher';
 import { Timeframe } from 'domains/chains/types';
+
 import { valuesMap } from './const';
 
 export interface TimeframeSwitcherProps {

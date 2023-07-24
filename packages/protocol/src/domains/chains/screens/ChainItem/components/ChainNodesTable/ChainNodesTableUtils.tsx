@@ -1,15 +1,16 @@
 import { Box, capitalize, Typography, useTheme } from '@mui/material';
 import BigNumber from 'bignumber.js';
 import { INodesDetailEntity, INodeDetailEntity } from 'multirpc-sdk';
-import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
-import { useStyles } from './useStyles';
-
 import { t } from '@ankr.com/common';
+import ReactCountryFlag from 'react-country-flag';
+
 import { getStatusByNodeScore } from 'modules/common/utils/node';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import ReactCountryFlag from 'react-country-flag';
+import { StatusCircle, StatusCircleStatus } from 'uiKit/StatusCircle';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
+
+import { useStyles } from './useStyles';
 import { ProviderRow } from './ChainNodesTableProps';
 
 export const CHAIN_NODES_TABLE_PAGE_SIZE = 10;

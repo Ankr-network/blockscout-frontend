@@ -5,9 +5,10 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { NavLink } from 'uiKit/NavLink';
-import { TopUpAction } from '../../types';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
+
 import { useSubmitButtonStyles } from './SubmitButtonStyles';
+import { TopUpAction } from '../../types';
 
 export interface SubmitButtonProps {
   action?: TopUpAction;

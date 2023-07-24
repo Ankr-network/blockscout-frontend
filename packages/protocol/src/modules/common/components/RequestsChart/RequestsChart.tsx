@@ -1,6 +1,7 @@
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { Chart } from 'modules/common/components/Chart';
+
 import { Placeholder } from './components/Placeholder';
 import { RequestsChartProps } from './types';
 import { Tooltip } from './components/Tooltip';

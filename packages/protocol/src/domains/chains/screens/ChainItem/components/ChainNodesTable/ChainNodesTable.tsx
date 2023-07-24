@@ -1,9 +1,11 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Paper, TableContainer, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
+
 import { Preloader } from 'uiKit/Preloader';
 import { VirtualTable, VirtualTableQuery } from 'uiKit/VirtualTable';
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
+
 import { ChainNodesTableProps } from './ChainNodesTableProps';
 import {
   CHAIN_NODES_TABLE_PAGE_SIZE,

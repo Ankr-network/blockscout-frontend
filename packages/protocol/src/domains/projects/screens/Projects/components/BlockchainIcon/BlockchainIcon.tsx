@@ -1,7 +1,8 @@
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
-import { useBlockchainIconStyles } from './useBlockchainIconStyles';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { ChainID } from 'domains/chains/types';
+
+import { useBlockchainIconStyles } from './useBlockchainIconStyles';
 
 interface BlockchainIconProps {
   blockchains: string[];

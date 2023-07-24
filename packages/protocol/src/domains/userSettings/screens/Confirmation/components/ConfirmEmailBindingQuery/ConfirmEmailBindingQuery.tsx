@@ -2,17 +2,18 @@ import { push } from 'connected-react-router';
 import { IEmailResponse } from 'multirpc-sdk';
 
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
-import { LinkExpiredCard } from '../LinkExpiredCard';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import {
-  checkIsRelatedWallet,
-  processError,
-} from './ConfirmEmailBindingQueryUtils';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyUserSettingsConfirmEmailBindingQuery } from 'domains/userSettings/actions/email/confirmEmailBinding';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+
+import {
+  checkIsRelatedWallet,
+  processError,
+} from './ConfirmEmailBindingQueryUtils';
+import { LinkExpiredCard } from '../LinkExpiredCard';
 
 const REDIRECT_TIMEOUT = 250;
 

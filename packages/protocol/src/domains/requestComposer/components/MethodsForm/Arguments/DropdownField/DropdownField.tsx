@@ -1,8 +1,9 @@
 import { Field } from 'react-final-form';
 import { FormGroup, Typography } from '@mui/material';
-import { ISelectOption } from 'uiKit/Select';
 
+import { ISelectOption } from 'uiKit/Select';
 import { SelectField } from 'modules/form/components/SelectField';
+
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
 export interface DropdownFieldProps {

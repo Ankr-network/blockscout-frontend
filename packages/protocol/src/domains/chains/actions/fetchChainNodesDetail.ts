@@ -4,6 +4,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { ChainID } from 'domains/chains/types';
+
 import { checkAvalancheOrSecretAndGetChainId } from '../utils/chainsUtils';
 
 let cachedNodeDetails: INodesDetailEntity[] | null = null;

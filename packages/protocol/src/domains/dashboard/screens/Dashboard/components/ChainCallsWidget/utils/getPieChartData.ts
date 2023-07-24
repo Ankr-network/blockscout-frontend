@@ -1,5 +1,6 @@
-import { ChainCalls } from '../../../types';
 import { ChainID } from 'domains/chains/types';
+
+import { ChainCalls } from '../../../types';
 import { PieChartData } from '../../BasePieChart';
 import { text } from './text';
 

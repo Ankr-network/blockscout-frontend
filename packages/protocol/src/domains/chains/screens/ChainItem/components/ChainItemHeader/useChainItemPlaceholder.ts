@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useChainItemPlaceholder = (isMultiChain: boolean) => {

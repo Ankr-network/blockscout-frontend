@@ -2,9 +2,10 @@ import { Box } from '@mui/material';
 import { LatestRequest } from 'multirpc-sdk';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
+import { usePrivateLatestRequests } from 'domains/chains/hooks/usePrivateLatestRequests';
+
 import { Table } from './components/Table';
 import { TableVariant } from './types';
-import { usePrivateLatestRequests } from 'domains/chains/hooks/usePrivateLatestRequests';
 import { usePrivateRequestsTableStyles } from './PrivateRequestsTableStyles';
 
 export interface PrivateRequestsTableProps {

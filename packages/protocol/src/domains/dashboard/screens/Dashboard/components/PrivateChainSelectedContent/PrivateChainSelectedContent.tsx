@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
+
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
 import { useChainSelectorContentStyles } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainSelectorContent/useChainSelectorContentStyles';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { ChainType } from 'domains/chains/types';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+
 import { GroupSelector } from '../GroupSelector';
 import { TypeSelector } from '../TypeSelector';
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 
 export interface IPrivateChainSelectedContentProps extends SelectMenuProps {
   chainType: ChainType;

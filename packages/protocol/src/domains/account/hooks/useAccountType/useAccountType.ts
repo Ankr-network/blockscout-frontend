@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { getAccountType } from './getAccountType';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { getAccountType } from './getAccountType';
 
 export const useAccountType = (balance: BigNumber) => {
   const {

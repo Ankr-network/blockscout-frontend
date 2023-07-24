@@ -2,8 +2,9 @@ import React from 'react';
 import { FormGroup, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
 
-import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 import { CheckboxField } from 'modules/form/components/CheckboxField';
+
+import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
 interface CheckboxProps {
   helperText: string;

@@ -2,6 +2,7 @@ import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+
 import { FontSize, getFontSize } from './premiumLabelUtils';
 
 export const usePremiumLabelStyles = makeStyles<FontSize>()(

@@ -12,8 +12,10 @@ import {
 } from 'recharts';
 import { ScaleType } from 'recharts/types/util/types';
 import { useTheme } from '@mui/material';
+
 import { useIsXLDown } from 'uiKit/Theme/useTheme';
 import { useYAxisWidth } from 'modules/common/components/Chart/hooks/useYAxisWidth';
+
 import { IRequestsData } from '../../utils/requestsBannerUtils';
 import { useActiveBarIndex } from './hooks/useActiveBarIndex';
 import { useRequestsChart } from './hooks/useRequestsChart';

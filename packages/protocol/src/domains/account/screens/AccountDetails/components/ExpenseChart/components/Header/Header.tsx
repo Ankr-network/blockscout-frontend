@@ -1,9 +1,9 @@
 import { t } from '@ankr.com/common';
+
 import { root, SWITCH_CURRENCY_DISABLED } from '../../const';
 import { ChartCurrency, ChartTimeframe } from '../../types';
 import { CurrencySwitcher } from '../CurrencySwitcher';
 import { TimeframeSelector } from '../TimeframeSelector';
-
 import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {

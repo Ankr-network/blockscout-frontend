@@ -1,9 +1,10 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { MethodsTabs } from '../../../../../SampleCodeComponent/SampleCodeDialog/MethodsTabs';
 import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
+
+import { MethodsTabs } from '../../../../../SampleCodeComponent/SampleCodeDialog/MethodsTabs';
 import { useMethodsTabs } from './hooks/useMethodsTabs';
 
 export interface SolanaMethodsTabsProps {

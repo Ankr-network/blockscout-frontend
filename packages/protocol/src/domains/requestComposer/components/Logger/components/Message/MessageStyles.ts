@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
 import { MessageType } from '../../types';
 
 const getColor = (type: MessageType, theme: Theme) => {

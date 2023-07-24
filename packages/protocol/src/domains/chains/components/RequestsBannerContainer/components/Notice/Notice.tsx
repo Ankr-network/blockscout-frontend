@@ -5,6 +5,7 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+
 import { useNoticeStyles } from './useNoticeStyles';
 
 export const Notice = () => {

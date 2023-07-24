@@ -3,6 +3,7 @@ import {
   TRON_CHAIN_NAME,
 } from 'domains/auth/utils/mappingchainName';
 import { ChainID } from 'domains/chains/types';
+
 import { NetworkInfo } from './types';
 
 // * ChainID: must be decimal (convert hex to decimal if needed)

@@ -1,4 +1,5 @@
 import { Dialog } from 'uiKit/Dialog';
+
 import { LoadingState } from './LoadingState';
 import { useSignupDialogStyles } from './useSignupDialogStyles';
 import { SignupDialogContent } from './SignupDialogContent';

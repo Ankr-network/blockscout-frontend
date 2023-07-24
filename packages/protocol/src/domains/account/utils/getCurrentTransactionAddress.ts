@@ -1,4 +1,5 @@
 import { Web3Address } from 'multirpc-sdk';
+
 import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
@@ -13,5 +14,7 @@ export const getCurrentTransactionAddress = async (
   );
   const { currentAccount: currentAccountAddress } = provider;
 
-  return groupAddress || currentAccountAddress;
+  const result = groupAddress || currentAccountAddress;
+
+  return result;
 };

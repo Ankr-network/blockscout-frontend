@@ -1,10 +1,11 @@
-import { usePrivateChainsData } from './hooks/usePrivateChainsData';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { usePrivateChainsData } from './hooks/usePrivateChainsData';
 import { usePrivateChains } from './hooks/usePrivateChains';
 import { ChainsList } from '../ChainsList';
 import { PrivateChainsTop } from './PrivateChainsTop';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PrivateChainCard } from './components/PrivateChainCard';
 
 export const PrivateChains = () => {

@@ -1,6 +1,8 @@
-import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCallback } from 'react';
+
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
 
 export interface SignupDialogWeb3ContentContainerProps {
   onClose: () => void;

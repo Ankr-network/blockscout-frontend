@@ -1,6 +1,6 @@
 import { TabsManager } from 'uiKit/TabsManager';
-
 import { Tab } from 'modules/common/hooks/useTabs';
+
 import { useSecondaryTabsStyles } from './SecondaryTabsStyles';
 
 export interface SecondaryTabsProps<TabID> {

@@ -8,10 +8,11 @@ import {
   LoginByGoogleSecretCodeResult,
   useLazyOauthLoginByGoogleSecretCodeQuery,
 } from 'domains/oauth/actions/loginByGoogleSecretCode';
-import { useOauthStyles } from './useOauthStyles';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useLazyOauthLoginInitiatorQuery } from 'domains/oauth/actions/loginByGoogleSecretCode/loginInitiator';
 import { useLazyOauthLoginJwtQuery } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
+
+import { useOauthStyles } from './useOauthStyles';
 
 export const OauthQuery = () => {
   const [, loginByGoogleSecretCodeState] =

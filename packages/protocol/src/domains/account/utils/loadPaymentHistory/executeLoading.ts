@@ -1,5 +1,7 @@
-import { PaymentHistory, PaymentHistoryParams } from 'domains/account/types';
 import { IPaymentHistoryEntity } from 'multirpc-sdk';
+
+import { PaymentHistory, PaymentHistoryParams } from 'domains/account/types';
+
 import { combinePaymentHistory } from './combinePaymentHistory';
 import { fetchPaymentHistory } from './fetchPaymentHistory';
 import { getCursors } from './getCursors';

@@ -1,8 +1,9 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { PlanCard } from './components/PlanCard';
 import { newProjectIntlRoot, plans } from 'domains/projects/const';
+
+import { PlanCard } from './components/PlanCard';
 import { usePlanStepStyles } from './PlanStepStyles';
 import { useSelectPlanHandler } from './hooks/useSelectPlanHandler';
 import { useSelectedPlanName } from './hooks/useSelectedPlanName';

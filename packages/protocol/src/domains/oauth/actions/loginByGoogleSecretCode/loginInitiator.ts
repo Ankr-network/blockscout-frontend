@@ -1,6 +1,7 @@
 import { web3Api } from 'store/queries';
-import { EmptyObject } from './loginByGoogleSecretCode';
 import { TwoFAQueryFnParams } from 'store/queries/types';
+
+import { EmptyObject } from './loginByGoogleSecretCode';
 import { OauthLoginByGoogleSecretCodeParams } from './oauthLoginJwt';
 
 // 1) call oauthLoginInitiator

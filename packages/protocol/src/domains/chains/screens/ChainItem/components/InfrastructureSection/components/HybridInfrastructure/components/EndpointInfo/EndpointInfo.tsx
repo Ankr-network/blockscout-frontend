@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { Chain } from 'domains/chains/types';
+
 import { UserEndpoints } from '../UserEndpoints';
 import {
   canAddEndpoint,

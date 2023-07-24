@@ -3,13 +3,13 @@ import {
   EEthereumNetworkId,
 } from '@ankr.com/provider';
 import { t } from '@ankr.com/common';
-
 import {
   MultiRpcWeb3Sdk,
   MultiRpcSdk,
   configFromEnv,
   MultiRpcWeb3ReadSdk,
 } from 'multirpc-sdk';
+
 import { API_ENV, getReadProviderId } from '../common/utils/environment';
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 

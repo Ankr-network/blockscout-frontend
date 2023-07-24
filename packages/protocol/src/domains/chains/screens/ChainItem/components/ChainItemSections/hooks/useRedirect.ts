@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { DefaultTabID } from 'modules/common/hooks/useTabs';
+
 import { QUERY_NAME } from '../const';
 import { SectionID } from '../types';
 

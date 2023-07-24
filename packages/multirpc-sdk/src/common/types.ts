@@ -91,11 +91,11 @@ export interface INotarizedTransaction {
   status: TNotarizedTransactionStatus;
   blockchain: TBlockchain;
   transaction_hash: Base64;
-  block_number: BigInt;
+  block_number: bigint;
   block_hash: Base64;
   transaction_index: number;
   receipt_hash: Base64;
-  transferred_amount: BigInt;
+  transferred_amount: bigint;
   chain_id: Base64;
   threshold_key: UUID;
   proposal: UUID;

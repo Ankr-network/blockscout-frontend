@@ -4,8 +4,9 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useCallback, useEffect, useState } from 'react';
 
-import { CancelSubscriptionDialog } from './CancelSubscriptionDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
+
+import { CancelSubscriptionDialog } from './CancelSubscriptionDialog';
 import { useSubscriptions } from './hooks/useSubscriptions';
 import { useSubscriptionsStyles } from './useSubscriptionsStyles';
 

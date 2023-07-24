@@ -1,5 +1,6 @@
-import { useLogger } from '../../../Logger/hooks/useLogger';
 import { useRequestComposerLogs } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+
+import { useLogger } from '../../../Logger/hooks/useLogger';
 import { useHarmonyChainRequest } from './useHarmonyChainRequest';
 
 export const useHarmonyChainRequestLogger = () => {

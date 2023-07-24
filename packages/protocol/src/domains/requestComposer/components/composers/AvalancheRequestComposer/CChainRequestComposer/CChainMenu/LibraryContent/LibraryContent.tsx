@@ -5,12 +5,13 @@ import {
   AvalancheLibraryID,
   CChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
-import { CChainMethodsForm } from '../CChainMethodsForm';
 import { CountdownContext } from 'domains/requestComposer/components/composers/const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
 import { requestComposerFetchCChainRequest } from 'domains/requestComposer/actions/avalanche/fetchCChainRequest';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { CChainMethodsForm } from '../CChainMethodsForm';
 
 interface ILibraryContentProps {
   group: EndpointGroup;

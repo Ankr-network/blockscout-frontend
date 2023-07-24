@@ -1,10 +1,11 @@
 import { Balance } from 'domains/account/actions/balance/types';
-import { BalanceData } from '../screens/AccountDetails/components/Balance/types';
 import { Currency } from 'domains/account/types';
 import { getBalanceStatus } from 'domains/account/utils/getBalanceStatus';
-import { useAccountType } from './useAccountType/useAccountType';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
+
+import { useAccountType } from './useAccountType/useAccountType';
+import { BalanceData } from '../screens/AccountDetails/components/Balance/types';
 import { useCurrency } from '../screens/AccountDetails/components/Balance/hooks/useCurrency';
 
 type BalanceMap = Record<

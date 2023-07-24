@@ -2,6 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 import { ProjectsStatsParams } from 'domains/dashboard/types';
 import { Timeframe } from 'domains/chains/types';
+
 import { getProjectsStatsParams } from './getProjectsStatsParams';
 
 export interface AllProjectsStatsArgsParams {

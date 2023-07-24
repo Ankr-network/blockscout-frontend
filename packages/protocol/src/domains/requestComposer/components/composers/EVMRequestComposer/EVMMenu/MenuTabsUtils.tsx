@@ -5,6 +5,7 @@ import { EVMLibrary, EVMLibraryID } from 'domains/requestComposer/constants';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
 import { LibraryContent } from './LibraryContent';
 
 export const useLibraryTabs = (group: EndpointGroup) => {

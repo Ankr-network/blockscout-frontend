@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { StartButton } from './components/StartButton';
 import { text } from './utils/text';
 import { useEmptyLayoutStyles } from './EmptyLayoutStyles';
-
 import image from './assets/launch.png';
 
 export const EmptyLayout = () => {

@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
+import { SelectChangeEvent } from '@mui/material';
+
+import { Select } from 'uiKit/Select';
 
 import { ChartTimeframe } from '../../types';
-import { Select } from 'uiKit/Select';
 import { options } from './const';
-
 import { useStyles } from './TimeframeSelectorStyles';
-import { SelectChangeEvent } from '@mui/material';
 
 export interface TimeframeSelectorProps {
   onChange: (timeframe: ChartTimeframe) => void;

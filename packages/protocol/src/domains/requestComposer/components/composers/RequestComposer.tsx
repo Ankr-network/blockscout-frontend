@@ -1,12 +1,13 @@
-import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { ChainID } from 'domains/chains/types';
+import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+
+import { AvalancheRequestComposer } from './AvalancheRequestComposer';
 import { EVMRequestComposer } from './EVMRequestComposer';
 import { HarmonyRequestComposer } from './HarmonyRequestComposer';
 import { IRequestComposerProps } from './RequestComposerTypes';
 import { NearRequestComposer } from './NearRequestComposer';
 import { SolanaRequestComposer } from './SolanaRequestComposer';
 import { TronRequestComposer } from './TronRequestComposer';
-import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
 export const RequestComposer = ({
   chainId,

@@ -1,4 +1,5 @@
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { Technology } from '../../../types';
 import { templatesMap, urlPlaceHolder } from '../const';
 

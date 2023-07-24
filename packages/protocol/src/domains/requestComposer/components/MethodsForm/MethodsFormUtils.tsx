@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
+import { MethodOption, MethodsRequest } from 'domains/requestComposer/types';
+
 import { ABIMethodField } from './Arguments/ABIMethodField';
 import { DropdownField } from './Arguments/DropdownField';
-
-import { MethodOption, MethodsRequest } from 'domains/requestComposer/types';
 import { BlockNumberField } from './Arguments/BlockNumberField';
 import { Checkbox } from './Arguments/Checkbox';
 import { HashField } from './Arguments/HashField';

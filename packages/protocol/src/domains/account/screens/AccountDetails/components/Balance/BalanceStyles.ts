@@ -7,14 +7,14 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    padding: theme.spacing(2 * 2.5, 2 * 3.75, 2 * 3.75),
+    padding: theme.spacing(5, 7.5, 7.5),
 
-    borderRadius: theme.spacing(2 * 3),
+    borderRadius: theme.spacing(6),
 
     background: theme.palette.background.paper,
 
     [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(2 * 2, 2 * 3, 2 * 3),
+      padding: theme.spacing(4, 6, 6),
     },
 
     [theme.breakpoints.down('sm')]: {

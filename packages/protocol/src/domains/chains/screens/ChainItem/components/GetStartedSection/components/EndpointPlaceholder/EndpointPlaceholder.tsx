@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import { root } from '../../const';
 import { t } from '@ankr.com/common';
+import { Box } from '@mui/material';
+
+import { root } from '../../const';
 import { PremiumLabel } from '../PremiumLabel';
 import { useEndpointPlaceholderStyles } from './useEndpointPlaceholderStyles';
-import { Box } from '@mui/material';
 
 interface IEndpointProps {
   title: ReactNode;

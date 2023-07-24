@@ -1,7 +1,8 @@
-import { TopUpEmailDialog } from '../ANKRTopUpForm/TopUpEmailDialog';
 import { TrackTopUpSubmit } from 'domains/account/types';
-import { USDTopUpForm } from './USDTopUpForm';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
+
+import { TopUpEmailDialog } from '../ANKRTopUpForm/TopUpEmailDialog';
+import { USDTopUpForm } from './USDTopUpForm';
 import { useOnTopUpSubmit } from './hooks/useOnTopUpSubmit';
 
 export interface USDTopUpFormContainerProps {

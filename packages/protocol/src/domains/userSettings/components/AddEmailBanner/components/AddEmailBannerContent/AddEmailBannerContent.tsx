@@ -5,6 +5,7 @@ import {
   AddEmailFormContentState,
   IAddEmailFormData,
 } from 'domains/userSettings/components/AddEmailForm/types';
+
 import { FillStep } from './components/FillStep';
 import { SuccessStep } from './components/SuccessStep';
 

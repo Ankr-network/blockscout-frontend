@@ -1,5 +1,6 @@
-import { root } from '../../const';
 import { t } from '@ankr.com/common';
+
+import { root } from '../../const';
 import { usePremiumLabelStyles } from './PremiumLabelStyles';
 
 export interface PremiumLabelProps {

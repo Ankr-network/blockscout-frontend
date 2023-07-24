@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'uiKit/Theme/mainTheme';
+
 import { CopyToClipButton } from './CopyToClipButton';
 
 storiesOf('uiKit/CopyToClipButton', module).add('Default', () => (

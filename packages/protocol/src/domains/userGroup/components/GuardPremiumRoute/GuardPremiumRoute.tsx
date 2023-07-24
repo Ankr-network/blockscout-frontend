@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import { INDEX_PATH } from 'domains/chains/routes';
 import { fetchPremiumStatus } from 'domains/auth/actions/fetchPremiumStatus';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
 import { useSelectedUserGroup } from '../../hooks/useSelectedUserGroup';
 
 interface GuardPremiumRouteProps {

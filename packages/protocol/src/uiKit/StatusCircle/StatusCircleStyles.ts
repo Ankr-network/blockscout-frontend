@@ -1,6 +1,7 @@
-import { getStatusColor } from '../utils/styleUtils';
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
+import { getStatusColor } from '../utils/styleUtils';
 import { StatusCircleProps } from './StatusCircleProps';
 
 type StatusCircleStylesProps = {

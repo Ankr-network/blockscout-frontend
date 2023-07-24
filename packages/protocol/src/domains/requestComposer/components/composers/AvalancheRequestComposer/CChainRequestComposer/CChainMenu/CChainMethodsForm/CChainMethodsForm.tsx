@@ -1,18 +1,19 @@
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
+import {
+  AvalancheLibraryID,
+  CChainMethod,
+} from 'domains/requestComposer/constants/avalanche';
+import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
+
 import { CChainMethodsFormProps } from './CChainMethodsFormTypes';
 import { methodsSelectOptions } from './CChainMethodsFormUtils';
 import { MethodNameSelectField } from '../../../../../MethodsForm/MethodNameSelectField';
 import { MethodsFormSpy } from '../../../../../MethodsForm/MethodsFormSpy';
 import { MethodsForm } from '../../../../../MethodsForm';
-import {
-  AvalancheLibraryID,
-  CChainMethod,
-} from 'domains/requestComposer/constants/avalanche';
 import { SampleCodeComponent } from '../../../../../SampleCodeComponent';
 import { CChainMethodsTabs } from '../../CChainMethodsTabs';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
 import {
   formatDataForRequest,
   getArgumentsBlock,

@@ -1,16 +1,17 @@
 import { useCallback, useEffect } from 'react';
 
-import {
-  AddEmailFormContentState,
-  AddEmailFormFields,
-  IAddEmailFormData,
-} from '../types';
 import { getEditEmailErrorMessage } from 'domains/userSettings/utils/getEditEmailErrorMessage';
 import {
   useLazyUserSettingsEditEmailBindingQuery,
   userSettingsEditEmailBinding,
 } from 'domains/userSettings/actions/email/editEmailBinding';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import {
+  AddEmailFormContentState,
+  AddEmailFormFields,
+  IAddEmailFormData,
+} from '../types';
 
 export interface ChangeEmailFormParams {
   onFormStateChange: (state: AddEmailFormContentState) => void;

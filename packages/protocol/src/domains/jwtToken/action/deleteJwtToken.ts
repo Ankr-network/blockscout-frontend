@@ -1,8 +1,9 @@
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 import { web3Api } from 'store/queries';
+
+import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 
 interface DeleteJwtTokenParams {
   tokenIndex: number;

@@ -15,10 +15,6 @@ import {
   DEFAULT_ANKR_VALUE,
 } from 'domains/account/actions/topUp/const';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { AmountField } from './AmountField';
-import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
-import { BundlePaymentDialog } from '../BundlePaymentDialog';
-import { BundlePaymentBanner } from '../BundlePaymentBanner';
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { NavLink } from 'uiKit/NavLink';
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
@@ -30,6 +26,11 @@ import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useConnectButton } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/hooks/useConnectButton';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { MILLION_ANKR_TOKENS } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/components/AmountField';
+
+import { BundlePaymentBanner } from '../BundlePaymentBanner';
+import { BundlePaymentDialog } from '../BundlePaymentDialog';
+import { AmountInputField, TopUpFormValues } from './ANKRTopUpFormTypes';
+import { AmountField } from './AmountField';
 
 export const useRenderDisabledForm = (classes: ClassNameMap) => {
   const isMobile = useIsSMDown();

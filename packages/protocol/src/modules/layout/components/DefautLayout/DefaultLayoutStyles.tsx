@@ -1,10 +1,11 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
+import { premiumBackground } from 'uiKit/Theme/themeUtils';
+
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
 import { SIDEBAR_WIDTH } from '../SideBar';
-import { premiumBackground } from 'uiKit/Theme/themeUtils';
 
 export const MOBILE_LAYOUT_PADDING = 30;
 

@@ -1,7 +1,7 @@
-import { Chain } from 'domains/chains/types';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { Fragment } from 'react';
 
+import { Chain } from 'domains/chains/types';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'uiKit/NavLink';
 
 interface ISubChainLinksGeneratorProps

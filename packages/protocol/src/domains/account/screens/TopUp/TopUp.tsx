@@ -1,7 +1,8 @@
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { TopUpSteps } from './components/TopUpSteps';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+
+import { TopUpSteps } from './components/TopUpSteps';
 import { useTopupSteps } from './TopUpUtils';
 
 interface TopUpProps {

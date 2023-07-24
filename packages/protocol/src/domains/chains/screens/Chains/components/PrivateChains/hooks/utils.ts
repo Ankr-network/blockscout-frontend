@@ -1,8 +1,9 @@
 import { Chain, SortType } from 'domains/chains/types';
+import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
+
 import { SortPrivateChainsParams } from '../PrivateChainsTypes';
 import { aggregateTotalRequestsNumber } from '../utils/aggregateTotalRequestsNumber';
 import { chainsUsageSorter } from '../../PublicChains/hooks/utils';
-import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { getChainIDs } from '../utils/getChainIDs';
 
 export const sortPrivateChains = ({

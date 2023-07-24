@@ -1,7 +1,8 @@
 import { createContext } from 'react';
 
-import { UseLoggerResult } from '../Logger/hooks/useLogger';
 import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
+import { UseLoggerResult } from '../Logger/hooks/useLogger';
 
 const emptyFn = () => {};
 

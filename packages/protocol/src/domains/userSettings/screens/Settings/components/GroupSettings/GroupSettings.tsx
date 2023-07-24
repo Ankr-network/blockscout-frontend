@@ -1,6 +1,7 @@
 import { PERSONAL_GROUP_NAME } from 'domains/userGroup/constants/groups';
 import { selectUserGroups } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
+
 import { Role } from '../Role';
 
 export const GroupSettings = () => {

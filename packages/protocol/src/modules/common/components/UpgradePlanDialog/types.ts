@@ -33,6 +33,7 @@ export enum PlanID {
 
 export interface TypeCheckingParams {
   hasPremium?: boolean;
+  isEnterpriseClient?: boolean;
   hasUserGroupDialog?: boolean;
   isGroupSelected?: boolean;
   isLoggedIn?: boolean;
@@ -44,6 +45,7 @@ export enum UpgradePlanDialogType {
   Default = 'default',
   Register = 'register',
   Premium = 'premium',
+  Enterprise = 'enterprise',
 }
 
 export type UpgradeHandler = (plan: PlanID) => void;

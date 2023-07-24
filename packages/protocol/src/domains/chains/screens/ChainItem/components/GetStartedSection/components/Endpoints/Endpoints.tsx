@@ -1,13 +1,14 @@
 import { Box } from '@mui/material';
 import { useMemo } from 'react';
-
 import { t } from '@ankr.com/common';
-import { root } from '../../const';
+
 import { Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { Feature, MainEndpoints } from '../MainEndpoints';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
+
+import { Feature, MainEndpoints } from '../MainEndpoints';
+import { root } from '../../const';
 import { useEndpointsStyles } from './EndpointsStyles';
 import { WsFeatureEndpoints } from '../WsFeatureEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';

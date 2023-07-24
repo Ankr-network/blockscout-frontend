@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+
 import { plansPremiumColor, premiumColor } from 'uiKit/Theme/themeUtils';
 
 export const usePlansStyles = makeStyles<void, 'tip' | 'plan'>()(

@@ -2,6 +2,7 @@ import { Step, StepLabel, Stepper as MuiStepper } from '@mui/material';
 import { StepError } from '@ankr.com/ui';
 
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+
 import { Connector, NormalConnector } from './StepperStyles';
 
 interface IStepperProps {

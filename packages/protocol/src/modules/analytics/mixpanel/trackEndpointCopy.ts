@@ -1,4 +1,5 @@
 import { ChainType } from 'domains/chains/types';
+
 import { EndpointCopyEventProps } from './types';
 import { MixpanelEvent } from './const';
 import { getEndpointType } from './utils/getEndpointType';

@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 
 import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useInviteEmail } from './useInviteEmail';
 import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
+
+import { useInviteEmail } from './useInviteEmail';
 
 export interface EmailData {
   confirmedEmail?: string;

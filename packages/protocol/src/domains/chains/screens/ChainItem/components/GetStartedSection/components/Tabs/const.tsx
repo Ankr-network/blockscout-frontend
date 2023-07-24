@@ -1,8 +1,10 @@
+import { t } from '@ankr.com/common';
+
 import { ChainTypeTab } from 'modules/common/components/ChainTypeTab';
 import { Tab } from 'uiKit/TabsManager';
+
 import { Technology } from '../../types';
 import { root } from '../../const';
-import { t } from '@ankr.com/common';
 
 const connectionSnippet = `${root}.connection-snippet`;
 const technologies = `${connectionSnippet}.technologies`;

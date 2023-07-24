@@ -5,18 +5,11 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { persistReducer, persistStore } from 'redux-persist';
 
-import { rootSaga } from './rootSaga';
-import { web3Api } from './queries';
-import { historyInstance } from '../modules/common/utils/historyInstance';
+import { historyInstance } from 'modules/common/utils/historyInstance';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { themePersistConfig } from 'modules/layout/storage/themePersistConfig';
 import { themeSlice } from 'modules/layout/store/themeSlice';
-
-import { listenerMiddleware } from './middlewares/listenerMiddleware';
-import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
-import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
-
 import { accountTopUpPersistConfig } from 'domains/account/storage/accountTopUpPersistConfig';
 import { accountTopUpSlice } from 'domains/account/store/accountTopUpSlice';
 import { authPersistConfig } from 'domains/auth/storage/authPersistConfig';
@@ -32,6 +25,12 @@ import { userSettingsPersistConfig } from 'domains/userSettings/storage/userSett
 import { userGroupSlice } from 'domains/userGroup/store';
 import { newProjectPersistConfig } from 'domains/projects/storage/newProjectPersistConfig';
 import { newProjectSlice } from 'domains/projects/store';
+
+import { listenerMiddleware } from './middlewares/listenerMiddleware';
+import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
+import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
+import { rootSaga } from './rootSaga';
+import { web3Api } from './queries';
 
 const sagaMiddleware = createSagaMiddleware();
 

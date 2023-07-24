@@ -1,8 +1,9 @@
 import React from 'react';
+import { t } from '@ankr.com/common';
 
 import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
 import { Timeframe } from 'domains/chains/types';
-import { t } from '@ankr.com/common';
+
 import { useStyles } from './HeaderStyles';
 
 export interface HeaderProps {

@@ -1,6 +1,7 @@
-import { ChainID, Timeframe } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { PrivateStatsInterval } from 'multirpc-sdk';
+
+import { ChainID, Timeframe } from 'domains/chains/types';
 
 export const POLL_INTERVAL = 60_000;
 

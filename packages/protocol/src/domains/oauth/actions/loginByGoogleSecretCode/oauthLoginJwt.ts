@@ -3,18 +3,19 @@ import { push } from 'connected-react-router';
 
 import { GetState, RootState } from 'store';
 import { TwoFAQueryFnParams } from 'store/queries/types';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
+import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+import { web3Api } from 'store/queries';
+import { AccountRoutesConfig } from 'domains/account/Routes';
+
+import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
+import { loginUserJwt } from './loginUserJwt';
+import { loginSyntheticJwt } from './loginSyntheticJwtToken';
 import {
   getTrackingParams,
   trackLoginSuccess,
 } from './loginByGoogleSecretCodeUtils';
-import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { loginSyntheticJwt } from './loginSyntheticJwtToken';
-import { loginUserJwt } from './loginUserJwt';
-import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
-import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
-import { web3Api } from 'store/queries';
-import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
-import { AccountRoutesConfig } from 'domains/account/Routes';
 
 export type EmptyObject = Record<string, unknown>;
 

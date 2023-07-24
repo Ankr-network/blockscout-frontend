@@ -1,4 +1,5 @@
 import { PrivateStatCounts } from 'multirpc-sdk';
+
 import { IChartData } from 'modules/common/components/Chart';
 
 export const mapCountsToChartData = (

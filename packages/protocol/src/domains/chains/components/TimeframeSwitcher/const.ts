@@ -1,6 +1,7 @@
-import { Timeframe as ChainsTimeFrame } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
 import { Timeframe } from 'multirpc-sdk';
+
+import { Timeframe as ChainsTimeFrame } from 'domains/chains/types';
 
 const { Hour, Day, Week, Month } = ChainsTimeFrame;
 

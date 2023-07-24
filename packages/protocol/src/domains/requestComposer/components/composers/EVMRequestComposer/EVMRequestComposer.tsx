@@ -1,3 +1,5 @@
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
 import { EVMHeader } from './EVMHeader/EVMHeader';
 import { EVMMenu } from './EVMMenu/EVMMenu';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
@@ -5,7 +7,6 @@ import { Logger } from '../../Logger';
 import { CountdownContext, LoggerContext } from '../const';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { useEVMRequestLogger } from './hooks/useEVMRequestLogger';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export const EVMRequestComposer = ({
   chainId,

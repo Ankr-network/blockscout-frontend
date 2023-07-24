@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 
 import { ChainID } from 'domains/chains/types';
-import { ConnectionSnippet } from './components/ConnectionSnippet';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { MultiChainBenefits } from './components/MultichainBenefits';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
-import { UpgradeBanner } from './components/UpgradeBanner';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+
+import { ConnectionSnippet } from './components/ConnectionSnippet';
+import { MultiChainBenefits } from './components/MultichainBenefits';
+import { UpgradeBanner } from './components/UpgradeBanner';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 import { removeWsUrlIfUserIsNotPremium } from './GetStartedSectionUtils';
 import { useChainProtocolContext } from '../../hooks/useChainProtocolContext';

@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
 import { commonLinear } from 'uiKit/Theme/themeUtils';
 
 export const useUpgradeBannerStyles = makeStyles()((theme: Theme) => ({

@@ -5,10 +5,11 @@ import { selectIsMyBundleBySubscriptionId } from 'domains/account/store/selector
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCancelBundleSubscriptionMutation } from 'domains/account/actions/bundles/cancelBundleSubscription';
-import { useFetchSubscriptions } from './useFetchSubscriptions';
 import { useLazyCancelSubscriptionQuery } from 'domains/account/actions/subscriptions/cancelSubscription';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { useFetchSubscriptions } from './useFetchSubscriptions';
 
 export const useSubscriptions = (currentSubscription?: ISubscriptionsItem) => {
   const { hasPremium, loading: isConnecting } = useAuth();
@@ -18,7 +19,9 @@ export const useSubscriptions = (currentSubscription?: ISubscriptionsItem) => {
     { hasPremium },
   );
 
-  const { bundles, loading: bundlesLoading } = useMyBundles();
+  const { bundles, loading: bundlesLoading } = useMyBundles({
+    shouldFetch: true,
+  });
 
   const subscriptions = useMemo(
     () => [...(subscriptionsResponse?.items ?? []), ...bundles],

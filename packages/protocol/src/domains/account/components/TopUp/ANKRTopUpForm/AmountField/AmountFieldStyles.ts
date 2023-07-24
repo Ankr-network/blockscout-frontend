@@ -42,7 +42,7 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesProps>()(
         : {}),
     },
     subtitle: {
-      textWrap: 'nowrap',
+      whiteSpace: 'nowrap',
 
       fontSize: 16,
       fontWeight: 400,

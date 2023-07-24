@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-
 import { Box } from '@mui/material';
-import { useTwoFAQRCodeStyles } from './TwoFAQRCodeStyles';
+
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
+
+import { useTwoFAQRCodeStyles } from './TwoFAQRCodeStyles';
 
 export const TwoFAQRCode = () => {
   const [, { data: { qrCode } = { qrCode: '' } }] = useQueryEndpoint(

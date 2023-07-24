@@ -2,8 +2,8 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { selectCurrentAddress } from 'domains/auth/store';
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
-
 import { RootState } from 'store';
+
 import { fetchWhitelists } from '../actions/fetchWhitelists';
 import { getAllProjects } from '../utils/getAllProjects';
 

@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { NavLink } from 'uiKit/NavLink';
+
 import { useAddProjectButtonStyles } from './useAddProjectButtonStyles';
 
 interface AddProjectButtonProps {

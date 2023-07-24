@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useSignupDialogWeb3ContentStyles } from '../../useSignupDialogWeb3ContentStyles';
 import { isMobile } from 'web3modal';
+
+import { useSignupDialogWeb3ContentStyles } from '../../useSignupDialogWeb3ContentStyles';
 
 interface WalletItemContentProps {
   icon: ReactNode;

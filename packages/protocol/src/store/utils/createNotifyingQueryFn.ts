@@ -2,13 +2,14 @@ import { queryFnWrapper } from '@ankr.com/utils';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { extractMessage } from 'modules/common/utils/extractError';
+import { INotificationProps } from 'domains/notification/store/notificationSlice';
+
 import { getAxiosAccountErrorMessage } from './getAxiosAccountErrorMessage';
 import { is2FAError } from './is2FAError';
 import { isAxiosAccountEmailError } from './isAxiosAccountEmailError';
 import { isAxiosAccountError } from './isAxiosAccountError';
 import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
-import { INotificationProps } from 'domains/notification/store/notificationSlice';
 
 export const makeNotification = (
   error: unknown,

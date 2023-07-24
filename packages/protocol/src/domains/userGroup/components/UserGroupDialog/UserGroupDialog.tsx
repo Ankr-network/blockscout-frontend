@@ -1,10 +1,11 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
-import { useUserGroupDialogStyles } from './useUserGroupDialogStyles';
-import { UserGroupDialogContent } from './components/UserGroupDialogContent';
 import { userGroupFetchGroups } from 'domains/userGroup/actions/fetchGroups';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { useUserGroupDialogStyles } from './useUserGroupDialogStyles';
+import { UserGroupDialogContent } from './components/UserGroupDialogContent';
 
 const DIALOG_WIDTH = 620;
 

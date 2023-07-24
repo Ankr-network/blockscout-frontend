@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js';
+import { t } from '@ankr.com/common';
+
+import { Timeframe } from 'domains/chains/types';
 
 import { Stat } from './components/Stat';
-import { Timeframe } from 'domains/chains/types';
-import { t } from '@ankr.com/common';
 import { useUsageSummaryStyles } from './PublicUsageSummaryStyles';
 import { useUsageSummary } from './PublicUsageSummaryUtils';
 

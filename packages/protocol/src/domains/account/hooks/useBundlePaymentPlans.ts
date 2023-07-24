@@ -1,10 +1,11 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
+import { useAppSelector } from 'store/useAppSelector';
+
 import {
   selectBundlePaymentPlans,
   selectBundlePaymentPlansLoading,
 } from '../store/selectors';
-import { useAppSelector } from 'store/useAppSelector';
 import { useFetchBundlePaymentPlansQuery } from '../actions/bundles/fetchBundlePaymentPlans';
 
 export interface BundlePaymentPlansParams {

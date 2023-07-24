@@ -1,5 +1,6 @@
 import { Address } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { RootState } from 'store';
 
 export interface JwtManagerToken {

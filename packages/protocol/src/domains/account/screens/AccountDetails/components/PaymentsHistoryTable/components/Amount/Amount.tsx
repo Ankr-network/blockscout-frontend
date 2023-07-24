@@ -1,9 +1,10 @@
 import React, { StyleHTMLAttributes } from 'react';
 
-import { getSign } from './utils/getSign';
-import { useStyles } from './AmountStyles';
 import { getMainTheme } from 'uiKit/Theme/mainTheme';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
+import { getSign } from './utils/getSign';
+import { useStyles } from './AmountStyles';
 
 export interface AmountProps {
   currencySymbol?: string;

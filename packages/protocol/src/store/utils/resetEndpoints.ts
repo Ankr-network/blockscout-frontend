@@ -1,4 +1,5 @@
 import { AppDispatch } from 'store/store';
+
 import { resetEndpoint } from './resetEndpoint';
 
 export const resetEndpoints = (

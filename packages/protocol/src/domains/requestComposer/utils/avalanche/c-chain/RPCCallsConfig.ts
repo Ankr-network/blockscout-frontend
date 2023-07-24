@@ -1,6 +1,8 @@
 import { t, tHTML } from '@ankr.com/common';
+
 import { CChainMethod } from 'domains/requestComposer/constants/avalanche';
 import { IRPCCallsConfig } from 'domains/requestComposer/types/avalanche';
+
 import { avalancheJSConfig } from './avalancheJSConfig';
 
 const root = 'request-composer.method-description.avalanche.c-chain';

@@ -1,6 +1,5 @@
 import { ThemeColors } from 'web3modal';
 import { alpha, lighten } from '@mui/material';
-
 import { palette as PALETTE } from '@ankr.com/ui';
 
 export const web3ModalTheme = {

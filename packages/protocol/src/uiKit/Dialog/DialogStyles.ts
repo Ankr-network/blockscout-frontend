@@ -1,7 +1,9 @@
 import { alpha } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
 import { mainTheme } from 'uiKit/Theme/mainTheme';
+
 import { DialogTitleColor } from './types';
 
 const colorsMap: Record<DialogTitleColor, string> = {

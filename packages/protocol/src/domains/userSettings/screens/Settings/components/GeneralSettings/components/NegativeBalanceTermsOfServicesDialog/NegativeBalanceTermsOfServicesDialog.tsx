@@ -1,12 +1,13 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
+import { FailedContent } from 'domains/jwtToken/components/ProjectDialogContent/FailedContent';
+import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
 import {
   DialogView,
   useNegativeBalanceTermsOfServicesDialog,
 } from './hooks/useNegativeBalanceTermsOfServicesDialog';
-import { FailedContent } from 'domains/jwtToken/components/ProjectDialogContent/FailedContent';
-import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
 import { DefaultContent } from './DefaultContent';
 
 export const NegativeBalanceTermsOfServicesDialog = () => {

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import BigNumber from 'bignumber.js';
 
 import { RootState } from 'store';
+
 import { TopUpOrigin } from '../types';
 
 export interface ITransaction {

@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+
 import imgNft from './assets/nft.png';
 import imgQuery from './assets/query.png';
 import imgToken from './assets/token.png';

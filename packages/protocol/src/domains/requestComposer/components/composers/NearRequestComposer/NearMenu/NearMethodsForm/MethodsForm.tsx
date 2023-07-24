@@ -6,6 +6,7 @@ import {
   NearMethod,
 } from 'domains/requestComposer/constants/near';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/near/RPCCallsConfig';
+
 import { MethodsForm } from '../../../../MethodsForm';
 import { MethodNameSelectField } from '../../../../MethodsForm/MethodNameSelectField';
 import { MethodsFormSpy } from '../../../../MethodsForm/MethodsFormSpy';

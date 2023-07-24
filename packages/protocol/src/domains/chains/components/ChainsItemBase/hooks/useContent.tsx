@@ -1,9 +1,10 @@
-import { ChainID } from 'domains/chains/types';
 import { useMemo } from 'react';
+
+import { ChainID } from 'domains/chains/types';
+import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 import { Content, ContentProps } from '../components/Content';
 import { isSuiChain } from '../components/Label/utils/isSuiChain';
-import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 export interface ContentParams extends Omit<ContentProps, 'isSui' | 'logoSrc'> {
   chainId: ChainID;

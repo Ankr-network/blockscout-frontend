@@ -1,7 +1,8 @@
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { selectAuthData } from '../store/authSlice';
 import { selectUserGroupJwtBySelectedGroupAddress } from 'domains/userGroup/store';
+
+import { selectAuthData } from '../store/authSlice';
 
 export const authorizationGuard = async (getState: GetState) => {
   const authData = selectAuthData(getState());

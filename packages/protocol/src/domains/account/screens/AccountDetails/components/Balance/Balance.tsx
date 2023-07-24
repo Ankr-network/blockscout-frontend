@@ -1,5 +1,6 @@
-import { Balance as BalanceString } from 'domains/account/components/Balance';
 import { t } from '@ankr.com/common';
+
+import { Balance as BalanceString } from 'domains/account/components/Balance';
 
 import { SWITCH_CURRENCY_DISABLED } from '../ExpenseChart/const';
 import { useStyles } from './BalanceStyles';

@@ -9,6 +9,8 @@
   "scripts": {
     "types": "tsc --noEmit -p tsconfig.json",
     "format": "lint-staged",
+    "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
+    "lint:js:fix": "yarn lint:js --fix --debug",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
     "build": "vite build",

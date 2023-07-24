@@ -1,4 +1,5 @@
 import { Paper, Skeleton } from '@mui/material';
+
 import { useChainItemWithCodeSampleSkeletonStyles } from './useChainItemWithCodeSampleSkeletonStyles';
 
 export const ChainItemWithCodeSampleSkeleton = () => {

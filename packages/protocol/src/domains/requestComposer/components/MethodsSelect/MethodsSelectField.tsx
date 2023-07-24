@@ -1,6 +1,8 @@
+import { FieldRenderProps } from 'react-final-form';
+
 import { getErrorText } from 'modules/form/utils/getErrorText';
 import { hasError } from 'modules/form/utils/hasError';
-import { FieldRenderProps } from 'react-final-form';
+
 import { MethodsSelect, MethodsSelectProps } from '.';
 
 type MethodsSelectFieldProps<T> = Omit<

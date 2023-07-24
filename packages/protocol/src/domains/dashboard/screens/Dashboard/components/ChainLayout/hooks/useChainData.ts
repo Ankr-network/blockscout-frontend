@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { ChainLayoutProps } from '../types';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
   selectAllTimeTotalRequestsNumber,
@@ -12,6 +11,8 @@ import {
   selectTotalRequestsNumberByChainID,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+
+import { ChainLayoutProps } from '../types';
 import { useTop10Stats } from '../../AllChainsLayout/hooks/useTop10Stats';
 
 export const useChainData = ({

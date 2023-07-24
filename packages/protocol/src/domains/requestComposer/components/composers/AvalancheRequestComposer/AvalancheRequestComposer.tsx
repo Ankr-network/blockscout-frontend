@@ -1,5 +1,6 @@
-import { CChainRequestComposer } from './CChainRequestComposer';
 import { ChainGroupID } from 'modules/endpoints/types';
+
+import { CChainRequestComposer } from './CChainRequestComposer';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
 import { PChainRequestComposer } from './PChainRequestComposer';
 import { XChainRequestComposer } from './XChainRequestComposer';

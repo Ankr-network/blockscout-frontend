@@ -7,8 +7,9 @@ import {
 } from '@mui/material';
 import { Check } from '@ankr.com/ui';
 
-import { Connector, useStepperStyles } from './useStepperStyles';
 import { NewProjectStep } from 'domains/projects/types';
+
+import { Connector, useStepperStyles } from './useStepperStyles';
 import { getSteps } from './StepperUtils';
 
 interface StepperProps {

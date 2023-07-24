@@ -1,8 +1,9 @@
 import { Button } from '@mui/material';
-import { t } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
+
+import { GradientedText } from 'modules/common/components/GradientedText';
 
 import { BundleIcon } from '../USDTopUpForm/BundleIcon';
-import { GradientedText } from 'modules/common/components/GradientedText';
 import { intlRoot } from './const';
 import { useBundlePaymentBannerStyles } from './BundlePaymentBannerStyles';
 import { useGradient } from './hooks/useGradient';
@@ -22,10 +23,10 @@ export const BundlePaymentBanner = ({ onClick }: BundlePaymentBannerProps) => {
         <BundleIcon />
         <div className={classes.description}>
           <GradientedText gradient={gradient}>
-            {t(`${intlRoot}.top`)}
+            {tHTML(`${intlRoot}.top`)}
           </GradientedText>
           <GradientedText gradient={gradient}>
-            {t(`${intlRoot}.bottom`)}
+            {tHTML(`${intlRoot}.bottom`)}
           </GradientedText>
         </div>
       </div>

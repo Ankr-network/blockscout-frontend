@@ -3,8 +3,9 @@ import { useMemo } from 'react';
 import { ChainSubType, ChainType, Timeframe } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
-import { SectionID } from '../types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
+
+import { SectionID } from '../types';
 import { useDebugMenuSection } from './useDebugMenuSection';
 import { useGetStartedSection } from './useGetStartedSection';
 import { useInfrastructureSection } from './useInfrastructureSection';

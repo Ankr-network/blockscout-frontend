@@ -1,5 +1,6 @@
 import { Cart } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
+
 import { useFinalPriceStyles } from './useFinalPriceStyles';
 
 interface FinalPriceProps {

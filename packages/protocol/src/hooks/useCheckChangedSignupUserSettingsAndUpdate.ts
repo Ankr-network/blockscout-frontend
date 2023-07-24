@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 
-import { useAuth } from '../domains/auth/hooks/useAuth';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { checkChangedSignupUserSettingsAndUpdate } from 'domains/userSettings/actions/checkChangedSignupUserSettingsAndUpdate';
+
 import { useQueryEndpoint } from './useQueryEndpoint';
 
 export const useCheckChangedSignupUserSettingsAndUpdate = () => {

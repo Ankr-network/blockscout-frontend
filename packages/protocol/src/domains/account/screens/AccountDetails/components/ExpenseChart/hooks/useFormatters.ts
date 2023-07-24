@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
+import { t } from '@ankr.com/common';
 
 import { ChartTimeframe } from '../types';
 import { formatDateMap, root } from '../const';
-import { t } from '@ankr.com/common';
 
 export type Formatters = [(value: Date) => string, (value: number) => string];
 

@@ -1,11 +1,12 @@
 import { MethodOption } from 'domains/requestComposer/types';
 import { TronChainMethod } from 'domains/requestComposer/constants/tron';
-import { TronMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 import { tronJSConfig } from 'domains/requestComposer/utils/tron/tronJSConfig';
+
 import {
   initUnfilledParameters,
   METHOD_NAME,
 } from '../TronSampleCode/TronSampleCodeUtils';
+import { TronMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 
 export const methodsSelectOptions: MethodOption[] = Object.values(
   TronChainMethod,

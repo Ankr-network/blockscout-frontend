@@ -4,8 +4,9 @@ import { ReactNode } from 'react';
 
 import { useClickHandler } from 'domains/chains/components/ChainsItemBase/components/Card/hooks/useClickHandler';
 import { Timeframe, Chain } from 'domains/chains/types';
-import { useChainCardStyles } from './useChainCardStyles';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
+
+import { useChainCardStyles } from './useChainCardStyles';
 import { Information } from './Information';
 
 export interface IBaseChainCardProps {

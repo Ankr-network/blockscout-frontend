@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
+
 import { useErrorStyles } from './useErrorStyles';
 
 interface IErrorProps {

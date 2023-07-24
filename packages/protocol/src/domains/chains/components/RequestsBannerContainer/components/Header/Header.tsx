@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { Switcher } from 'modules/common/components/Switcher';
+
 import { useHeaderStyles } from './useHeaderStyles';
 
 interface IRequestsHeaderProps {

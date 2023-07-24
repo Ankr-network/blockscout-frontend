@@ -3,16 +3,17 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
 import {
+  selectSelectedUserGroupRole,
+  selectUserGroupConfigByAddress,
+} from 'domains/userGroup/store';
+
+import {
   defaultPremiumStatusData,
   fetchPremiumStatus,
 } from '../actions/fetchPremiumStatus';
 import { getPremiumActivationThreshold } from '../utils/getPremiumActivationThreshold';
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { selectAuthData } from './authSlice';
-import {
-  selectSelectedUserGroupRole,
-  selectUserGroupConfigByAddress,
-} from 'domains/userGroup/store';
 
 export const selectAddress = createSelector(
   selectAuthData,

@@ -31,6 +31,7 @@ import {
   finalities,
   filters,
 } from 'domains/requestComposer/constants/solana';
+
 import { getCodeSample } from './getCodeSample';
 import { checkErrorInTextResponse } from '../checkErrorInTextResponse';
 

@@ -1,8 +1,10 @@
+import { ReactNode } from 'react';
+
 import { BundleIcon } from '../../../BundleIcon';
 import { useBundleLabelStyles } from './BundleLabelStyles';
 
 export interface BundleLabelProps {
-  label: string;
+  label: ReactNode;
 }
 
 export const BundleLabel = ({ label }: BundleLabelProps) => {

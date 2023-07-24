@@ -1,13 +1,14 @@
 import { useCallback, useContext } from 'react';
 import { Box } from '@mui/material';
 
-import { CountdownContext } from '../../../const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
-import { EVMMethodsForm } from '../EVMMethodsForm';
 import { MethodsRequest } from 'domains/requestComposer/types';
 import { requestComposerFetchEVMRequest } from 'domains/requestComposer/actions/fetchEVMRequest';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { EVMMethodsForm } from '../EVMMethodsForm';
+import { CountdownContext } from '../../../const';
 
 interface ILibraryContentProps {
   group: EndpointGroup;

@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
-
 import { Box } from '@mui/material';
-
 import { ArrowDown } from '@ankr.com/ui';
+
 import { useCollapse } from './hooks/useCollapse';
 import { useStyles } from './CollapseStyles';
 

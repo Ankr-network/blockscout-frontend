@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+
 import { ChartCurrency } from '../../types';
 
 export const valuesMap: Record<ChartCurrency, string> = {

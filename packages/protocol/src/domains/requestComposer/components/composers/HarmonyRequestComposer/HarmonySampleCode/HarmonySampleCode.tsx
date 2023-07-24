@@ -3,11 +3,11 @@ import React, { useMemo } from 'react';
 import { HARMONY_CALL_CONFIG } from 'domains/requestComposer/utils/harmony/RPCCallConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { SampleCode } from 'domains/requestComposer/components/SampleCodeComponent/SampleCodeDialog/SampleCode';
-
 import {
   HarmonyMethod,
   HarmonyLibraryID,
 } from 'domains/requestComposer/constants/harmony';
+
 import { formatParameters } from './HarmonySampleCodeUtils';
 
 interface ISampleCodeProps {

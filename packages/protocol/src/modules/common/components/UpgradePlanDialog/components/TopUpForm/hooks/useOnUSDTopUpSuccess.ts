@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpOrigin, TrackTopUpSubmit } from 'domains/account/types';
-import { TopUpSuccessHandler } from '../types';
 import {
   selectTopUpOrigin,
   setTopUpOrigin,
 } from 'domains/account/store/accountTopUpSlice';
 import { useCardPayment } from 'domains/account/hooks/useCardPayment';
+
+import { TopUpSuccessHandler } from '../types';
 
 const defaultUSDPrice = ONE_TIME_PAYMENT_ID;
 

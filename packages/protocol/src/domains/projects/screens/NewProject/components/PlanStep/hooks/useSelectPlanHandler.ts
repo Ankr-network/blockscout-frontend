@@ -3,6 +3,7 @@ import { useForm } from 'react-final-form';
 
 import { PlanName } from 'domains/projects/types';
 import { PlanStepFields } from 'domains/projects/store';
+
 import { getPlanStepFields } from '../utils/getPlanStepFields';
 
 export const useSelectPlanHandler = () => {

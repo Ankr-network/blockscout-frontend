@@ -13,6 +13,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { DialogContext } from './DialogContext';

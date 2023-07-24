@@ -1,5 +1,6 @@
 import { Chain, ChainID, ChainSubType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
+
 import { chainSubTypeTabs } from '../constants/chainTypeTabs';
 import { SecondaryTab } from '../components/SecondaryTab';
 

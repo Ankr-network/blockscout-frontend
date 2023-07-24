@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
 import { MOBILE_LAYOUT_PADDING } from 'modules/layout/components/DefautLayout/DefaultLayoutStyles';
 import { HEADER_HEIGHT } from 'modules/layout/components/Header';
 import { MOBILE_HEADER_HEIGHT } from 'modules/layout/components/MobileHeader';

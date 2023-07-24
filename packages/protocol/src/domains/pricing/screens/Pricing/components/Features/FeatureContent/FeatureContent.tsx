@@ -1,6 +1,10 @@
 import { Typography } from '@mui/material';
-
 import { t } from '@ankr.com/common';
+import { ArrowDown, Check, Cross } from '@ankr.com/ui';
+
+import { Collapse } from 'uiKit/Collapse';
+import { SoonLabel } from 'modules/common/components/SoonLabel';
+
 import { useFeatureContentStyles } from './useFeatureContentStyles';
 import {
   INTL_PLAN_COMPARISON_ROOT,
@@ -8,9 +12,6 @@ import {
   PLAN_COMPARISON,
   COLUMNS_COUNT,
 } from '../FeatureTable/FeatureTableUtils';
-import { Collapse } from 'uiKit/Collapse';
-import { ArrowDown, Check, Cross } from '@ankr.com/ui';
-import { SoonLabel } from 'modules/common/components/SoonLabel';
 
 interface IFeatureContentProps {
   name: string;

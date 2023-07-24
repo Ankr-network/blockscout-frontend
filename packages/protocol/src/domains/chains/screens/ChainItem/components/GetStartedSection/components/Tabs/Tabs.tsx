@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { TabsManager } from 'uiKit/TabsManager';
+import { useTabs } from 'modules/common/hooks/useTabs';
+
 import { Technology } from '../../types';
 import { tabs, title } from './const';
-
 import { useStyles } from './TabsStyles';
-import { useTabs } from 'modules/common/hooks/useTabs';
 
 export interface TabsProps {
   setTechnology: (technology: Technology) => void;

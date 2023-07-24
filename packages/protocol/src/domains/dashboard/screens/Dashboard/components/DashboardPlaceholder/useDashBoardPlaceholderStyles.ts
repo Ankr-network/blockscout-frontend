@@ -1,9 +1,11 @@
 import { makeStyles } from 'tss-react/mui';
+
 import {
   getPremiumColorGradient,
   getPremiumColorGradientHover,
   isLightTheme,
 } from 'uiKit/Theme/themeUtils';
+
 import imgBg from './assets/bg-lg.png';
 import imgBgDark from './assets/bg-lg-dark.png';
 import imgBgSm from './assets/bg-sm.png';

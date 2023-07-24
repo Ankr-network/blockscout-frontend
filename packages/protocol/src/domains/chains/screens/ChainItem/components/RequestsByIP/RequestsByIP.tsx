@@ -1,10 +1,12 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { useCallback, useMemo } from 'react';
+import { OverlaySpinner } from '@ankr.com/ui';
+
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'domains/chains/types';
 import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
-import { useCallback, useMemo } from 'react';
-import { OverlaySpinner } from '@ankr.com/ui';
+
 import { ItemHeader } from '../ItemHeader';
 import { NoData } from '../MethodCalls/components/NoData';
 import { useRequestsByIPStyles } from './useRequestsByIPStyles';

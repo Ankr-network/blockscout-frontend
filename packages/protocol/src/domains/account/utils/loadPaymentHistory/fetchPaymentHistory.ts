@@ -8,6 +8,7 @@ import {
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+
 import { getDeductionsTypes } from './getDeductionsTypes';
 import { parseTypes } from './parseTypes';
 

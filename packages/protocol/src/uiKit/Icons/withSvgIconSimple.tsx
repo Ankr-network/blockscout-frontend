@@ -14,7 +14,7 @@ export const withSvgIconSimple = (
   element: ReactNode,
   extraProps?: SvgIconProps,
 ): MemoExoticComponent<ForwardRefExoticComponent<ISvgIconProps>> => {
-  return memo(
+  const component = memo(
     forwardRef(
       (
         { htmlColor, size, ...props }: ISvgIconProps,
@@ -35,4 +35,7 @@ export const withSvgIconSimple = (
       },
     ),
   );
+  component.displayName = 'withSvgIconSimple';
+
+  return component;
 };

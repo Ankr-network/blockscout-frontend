@@ -3,6 +3,7 @@ import {
   PaymentHistoryTableTimeframe,
   PaymentType,
 } from 'domains/account/types';
+
 import { getPaymentHistoryRequestTypes } from './getPaymentHistoryRequestTypes';
 import { getTimeframeBorders } from './getTimeframeBorders';
 

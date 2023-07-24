@@ -1,10 +1,12 @@
 import { Typography } from '@mui/material';
 import { tHTML } from '@ankr.com/common';
+
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { TopUpEmailDialog } from 'domains/account/components/TopUp/ANKRTopUpForm/TopUpEmailDialog';
+
 import { AmountForm } from './components/AmountForm';
 import { CurrencySelector } from './components/CurrencySelector';
-import { TopUpEmailDialog } from 'domains/account/components/TopUp/ANKRTopUpForm/TopUpEmailDialog';
 import { USDPriceSelector } from './components/USDPiceSelector';
 import { useTopUpForm } from './hooks/useTopUpForm';
 import { useTopUpFormStyles } from './TopUpFormStyles';

@@ -1,7 +1,8 @@
 import { Dialog } from 'uiKit/Dialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { useCreateBusinessAccountDialogStyles } from './CreateBusinessAccountDialogStyles';
 import { CreateBusinessAccountForm } from '../CreateBusinessAccountForm';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface CreateBusinessAccountDialogProps {
   onClose: () => void;

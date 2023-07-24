@@ -1,6 +1,3 @@
-import { Logo } from '../Logo';
-import { MainNavigation } from '../MainNavigation';
-import { useStyles } from './SideBarStyles';
 import { useTrackAAPI } from 'modules/layout/hooks/useTrackAAPI';
 import { useTrackDashboard } from 'modules/layout/hooks/useTrackDashboard';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
@@ -8,10 +5,15 @@ import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 
+import { Logo } from '../Logo';
+import { MainNavigation } from '../MainNavigation';
+import { useStyles } from './SideBarStyles';
+
 export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
   isLoggedIn: boolean;
+  isEnterpriseClient: boolean;
   loading: boolean;
   hasLogo: boolean;
   isMobileSiderBar?: boolean;
@@ -21,6 +23,7 @@ export const SideBar = ({
   chainsRoutes,
   className = '',
   isLoggedIn,
+  isEnterpriseClient,
   loading,
   hasLogo,
   isMobileSiderBar = false,
@@ -44,6 +47,7 @@ export const SideBar = ({
         hasJwtManagerAccess={hasJwtManagerAccess}
         isLoggedIn={isLoggedIn}
         isMobileSiderBar={isMobileSiderBar}
+        isEnterpriseClient={isEnterpriseClient}
         loading={loading}
         onAAPIClick={onAAPIClick}
         onDashboardClick={onDashboardClick}

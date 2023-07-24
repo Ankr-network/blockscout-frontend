@@ -2,17 +2,18 @@ import { Box, Button, Typography } from '@mui/material';
 import { Google as GoogleIcon, Warning as WarningIcon } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
 import { Field, useForm } from 'react-final-form';
+import { Variant } from '@mui/material/styles/createTypography';
+import { useCallback } from 'react';
 
 import { ReactComponent as EthereumIcon } from 'uiKit/Icons/eth.svg';
-import { useDefaultContentFormStyles } from './useDefaultContentFormStyles';
 import { CheckboxField } from 'modules/form/components/CheckboxField';
+
+import { useDefaultContentFormStyles } from './useDefaultContentFormStyles';
 import {
   SignupDialogState,
   SignupFormErrors,
   SignupFormField,
 } from '../SignupDialogDefaultContentTypes';
-import { Variant } from '@mui/material/styles/createTypography';
-import { useCallback } from 'react';
 
 interface DefaultContentFormProps {
   handleSubmit: () => void;

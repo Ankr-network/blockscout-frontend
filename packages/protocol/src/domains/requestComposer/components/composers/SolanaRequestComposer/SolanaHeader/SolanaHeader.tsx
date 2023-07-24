@@ -1,5 +1,6 @@
-import { BlockNumber } from '../../../Header/BlockNumber';
 import { ChainID } from 'domains/chains/types';
+
+import { BlockNumber } from '../../../Header/BlockNumber';
 import { Header } from '../../../Header';
 import { useLastBlockNumber } from './hooks/useLastBlockNumber';
 

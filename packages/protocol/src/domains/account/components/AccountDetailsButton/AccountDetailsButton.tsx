@@ -7,6 +7,7 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+
 import { AccountMarker } from '../AccountMarker';
 import { Balance } from '../Balance';
 import { useAccountData } from '../../hooks/useAccountData';

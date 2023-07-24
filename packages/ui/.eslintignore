@@ -1,0 +1,4 @@
+node_modules
+/config-overrides.js
+storybook-static/
+*.stories.tsx

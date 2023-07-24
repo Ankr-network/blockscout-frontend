@@ -1,5 +1,6 @@
 import { alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+
 import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useLocationsTableStyles = makeStyles()(theme => ({

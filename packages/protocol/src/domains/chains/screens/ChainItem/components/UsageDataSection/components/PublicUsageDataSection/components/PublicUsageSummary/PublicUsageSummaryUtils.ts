@@ -3,8 +3,9 @@ import { useMemo } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
 import { formatTotalRequests } from 'domains/chains/utils//formatTotalRequests';
-import { getCachedRequestsPercent } from './utils/getCachedRequestsPercent';
 import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
+
+import { getCachedRequestsPercent } from './utils/getCachedRequestsPercent';
 
 export interface UsageSummaryParams {
   cachedRequests?: BigNumber;

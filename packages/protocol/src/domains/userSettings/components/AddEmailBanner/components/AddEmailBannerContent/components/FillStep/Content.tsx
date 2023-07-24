@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
-
 import { t } from '@ankr.com/common';
 import { Chart, CoinStack, Gear, Premium } from '@ankr.com/ui';
+
 import { useFillStepStyles } from './useFillStepStyles';
 import { IFeature } from './types';
 

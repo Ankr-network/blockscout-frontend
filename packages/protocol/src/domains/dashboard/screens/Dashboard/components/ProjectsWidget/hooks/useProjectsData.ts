@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 import { Timeframe } from 'domains/chains/types';
-import { getProjectsStatsParams } from '../utils/getProjectsStatsParams';
 import {
   selectProjectsStats,
   selectProjectsTotalRequestNumber,
@@ -13,6 +12,8 @@ import { useFetchAllProjectsTotalRequestsQuery } from 'domains/dashboard/actions
 import { useFetchAllJwtTokenRequestsQuery } from 'domains/jwtToken/action/getAllJwtToken';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
+
+import { getProjectsStatsParams } from '../utils/getProjectsStatsParams';
 
 export const useProjectsData = (timeframe: Timeframe) => {
   const amount = useAppSelector(selectProjectsTotalRequestNumber);

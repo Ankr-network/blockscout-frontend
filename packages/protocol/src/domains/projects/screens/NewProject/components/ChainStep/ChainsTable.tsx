@@ -5,10 +5,11 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material';
+import { OverlaySpinner } from '@ankr.com/ui';
+
 import { useChainStepStyles } from './useChainStepStyles';
 import { useChainsTable } from './hooks/useChainsTable';
 import { useProjectChains } from '../../hooks/useProjectChains';
-import { OverlaySpinner } from '@ankr.com/ui';
 
 export const ChainsTable = () => {
   const { columns } = useChainsTable();

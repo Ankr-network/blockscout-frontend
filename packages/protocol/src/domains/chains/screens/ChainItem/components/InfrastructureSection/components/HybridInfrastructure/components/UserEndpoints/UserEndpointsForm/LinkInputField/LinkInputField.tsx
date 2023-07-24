@@ -1,11 +1,12 @@
 import React, { useCallback, useRef } from 'react';
 import { Button, CircularProgress } from '@mui/material';
 import { Field, useForm } from 'react-final-form';
-
 import { t } from '@ankr.com/common';
+
 import { InputField } from 'modules/form/components/InputField/InputField';
-import { useStyles } from './LinkInputFieldStyles';
 import { validateUserEndpoint } from 'domains/chains/screens/AddEndpoint/components/AddEndpointForm/EndpointForm/EndpointFormUtils';
+
+import { useStyles } from './LinkInputFieldStyles';
 
 interface LinkInputFieldProps {
   name: string;

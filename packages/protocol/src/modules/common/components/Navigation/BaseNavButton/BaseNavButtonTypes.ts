@@ -13,6 +13,7 @@ export interface NavigationItem {
   onClick?: () => void;
   isComingSoon?: boolean;
   isEnabled?: boolean;
+  isNotLinkItem?: boolean;
   isNew?: boolean;
 }
 

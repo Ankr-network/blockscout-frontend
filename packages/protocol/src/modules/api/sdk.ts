@@ -4,18 +4,13 @@ import {
   AvailableReadProviders,
 } from '@ankr.com/provider';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Contract } from 'web3-eth-contract';
 import { configFromEnv } from './config';
 import EACAggregatorProxyContractAbi from './contracts/EACAggregatorProxyContract.json';
-
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 
 const providerManager = ProviderManagerSingleton.getInstance();
 
-const EACAggregatorProxyContract = (
-  provider: Web3KeyReadProvider,
-): Contract => {
+const EACAggregatorProxyContract = (provider: Web3KeyReadProvider) => {
   return provider.createContract(
     EACAggregatorProxyContractAbi,
     configFromEnv.contractConfig.EACAggregatorProxyContract,

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { ArrowToRight } from '@ankr.com/ui';
+
 import { MS_IN_PERIOD } from './const';
 import { TransactionsDownloader } from '../../types';
 import { useStyles } from './DeductionStyles';

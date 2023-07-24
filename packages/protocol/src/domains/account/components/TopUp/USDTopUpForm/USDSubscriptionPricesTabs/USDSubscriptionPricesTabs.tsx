@@ -1,6 +1,7 @@
 import { Skeleton } from '@mui/material';
 
 import { TabsManager } from 'uiKit/TabsManager';
+
 import { USDSubscriptionPricesTabsProps } from './USDSubscriptionPricesTabsTypes';
 import { useUSDPaymentTabs } from './hooks/useUSDPaymentTabs';
 import { useUSDSubscriptionPricesTabsStyles } from './USDSubscriptionPricesTabsStyles';

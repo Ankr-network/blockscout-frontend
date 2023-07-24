@@ -1,13 +1,14 @@
 import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { web3Api } from 'store/queries';
+import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainArchived';
+
 import { Chain } from '../../types';
 import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPublicChains } from './fetchPublicChains';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
-import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainArchived';
 
 export interface IChainItemDetails {
   chain: Chain;

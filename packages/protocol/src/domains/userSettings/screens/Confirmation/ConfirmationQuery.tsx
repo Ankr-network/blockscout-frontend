@@ -1,15 +1,16 @@
 import { IEmailResponse } from 'multirpc-sdk';
 
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
+import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+
 import { ConfirmEmailBindingQuery } from './components/ConfirmEmailBindingQuery';
 import { ConnectRelatedWalletCard } from './components/ConnectRelatedWalletCard';
 import { LinkExpiredCard } from './components/LinkExpiredCard';
-import { Queries } from 'modules/common/components/Queries/Queries';
-import { makeEmailStatuses } from 'domains/userSettings/utils/makeEmailStatuses';
 import { useConfirmationBreadcrumbs } from './ConfirmationUtils';
-import { useLazyUserSettingsGetEmailBindingsQuery } from 'domains/userSettings/actions/email/getEmailBindings';
 import { useLinkParams } from '../../hooks/useLinkParams';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const ConfirmationQuery = () => {
   useConfirmationBreadcrumbs();

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Button, Typography } from '@mui/material';
-
 import { t } from '@ankr.com/common';
 
 import { useStyles } from './TrafficFlowStyle';

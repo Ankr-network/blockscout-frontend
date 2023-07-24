@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { SolanaLibraryID } from 'domains/requestComposer/constants/solana';
+
 import { SolanaMethodsForm } from '../SolanaMethodsForm';
 import { useSubmitCallback } from './hooks/useSubmitCallback';
 

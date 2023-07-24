@@ -1,6 +1,7 @@
 import { Paper } from '@mui/material';
 
 import { UsageHistoryData } from 'domains/dashboard/store/types';
+
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { ScrollableContainer } from '../ScrollableContainer';
 import { Table } from './components/Table';

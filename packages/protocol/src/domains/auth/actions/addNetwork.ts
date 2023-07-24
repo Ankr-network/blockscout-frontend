@@ -8,6 +8,8 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
 import { web3Api } from 'store/queries';
 import { web3ModalTheme } from 'modules/api/Web3ModalKeyProvider';
+import { trackAddNetworkInMM } from 'modules/analytics/mixpanel/trackAddNetworkInMM';
+
 import { selectAuthData } from '../store/authSlice';
 import {
   selectHasOauthLogin,
@@ -15,7 +17,6 @@ import {
   selectHasWeb3Connection,
   selectIsLoggedIn,
 } from '../store/selectors';
-import { trackAddNetworkInMM } from 'modules/analytics/mixpanel/trackAddNetworkInMM';
 
 export interface AddNetworkParams {
   chainID: ChainID;

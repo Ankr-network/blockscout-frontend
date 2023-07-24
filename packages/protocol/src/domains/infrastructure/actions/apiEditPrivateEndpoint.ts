@@ -4,8 +4,9 @@ import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { credentialsGuard } from 'domains/auth/utils/credentialsGuard';
-import { infrastructureFetchEndpoints } from './fetchEndpoints';
 import { web3Api } from 'store/queries';
+
+import { infrastructureFetchEndpoints } from './fetchEndpoints';
 
 export const {
   useLazyInfrastructureApiEditPrivateEndpointQuery,

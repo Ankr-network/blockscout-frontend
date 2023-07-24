@@ -5,6 +5,7 @@ import {
   DEFAULT_RPC,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
+
 import { getWeb3RpcUrl } from './utils/getWeb3Instance';
 import { web3ModalTheme } from './Web3ModalKeyProvider';
 

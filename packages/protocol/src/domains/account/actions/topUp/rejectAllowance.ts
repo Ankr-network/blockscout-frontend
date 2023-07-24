@@ -1,13 +1,15 @@
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { accountFetchBalance } from '../balance/fetchBalance';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
-import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
-import { IApiUserGroupParams } from 'multirpc-sdk';
+
+import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
+import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
+import { accountFetchBalance } from '../balance/fetchBalance';
 
 export const {
   useLazyTopUpRejectAllowanceQuery,

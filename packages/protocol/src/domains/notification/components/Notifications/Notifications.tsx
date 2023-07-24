@@ -2,13 +2,14 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Alert, Snackbar } from '@mui/material';
 import { uid } from 'react-uid';
+import { tHTML } from '@ankr.com/common';
 
 import { useAppSelector } from 'store/useAppSelector';
+
 import {
   INotificationProps,
   notificationSlice,
 } from '../../store/notificationSlice';
-import { tHTML } from '@ankr.com/common';
 import { useNotificationStyles } from './NotificationStyles';
 
 interface IItemProps {

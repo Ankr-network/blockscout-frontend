@@ -1,4 +1,5 @@
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
+
 import { useLabelStyles } from './LabelStyles';
 
 export interface LabelProps {

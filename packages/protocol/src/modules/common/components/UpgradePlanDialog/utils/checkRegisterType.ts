@@ -1,5 +1,4 @@
 import { TypeCheckingParams } from '../types';
-
 import { isRegisterType } from './isRegisterType';
 
 export const checkRegisterType = ({

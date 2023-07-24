@@ -1,10 +1,10 @@
-import { AuthConnectParams } from './types';
-import { resetAuthData } from '../../store/authSlice';
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { switchChain } from './connectUtils';
-
 import { web3Api } from 'store/queries';
+
+import { AuthConnectParams } from './types';
+import { resetAuthData } from '../../store/authSlice';
+import { switchChain } from './connectUtils';
 
 export const {
   endpoints: { createWeb3Service },

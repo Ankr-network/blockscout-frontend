@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
-import { getNetworkParams } from './AddNetworkUtils';
 import { useAddNetwork } from 'domains/auth/hooks/useAddNetwork';
+
+import { getNetworkParams } from './AddNetworkUtils';
 import { IUseAddNetworkButtonParams } from './types';
 
 export const useAddNetworkButton = ({

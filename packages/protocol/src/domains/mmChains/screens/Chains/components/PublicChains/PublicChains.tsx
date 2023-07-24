@@ -2,13 +2,14 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChains } from 'domains/chains/components/BaseChains';
 import { usePublicChainsData } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChainsData';
 import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
-import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
+import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
+
+import { ChainsList } from '../ChainsList';
 import { processTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
 import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
 import { PublicChainItem } from './components/PublicChainItem';
-import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
-import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 
 export const PublicChains = () => {
   const {

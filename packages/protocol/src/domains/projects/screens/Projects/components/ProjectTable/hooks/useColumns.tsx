@@ -3,9 +3,10 @@ import { t } from '@ankr.com/common';
 import { Project } from 'domains/projects/utils/getAllProjects';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
+import { SoonLabel } from 'modules/common/components/SoonLabel';
+
 import { ActiveLabel } from '../../ActiveLabel';
 import { ProjectName } from '../../ProjectName';
-import { SoonLabel } from 'modules/common/components/SoonLabel';
 import { BlockchainIcon } from '../../BlockchainIcon';
 import { formatBlockchainToString } from '../utils/whitelistUtils';
 

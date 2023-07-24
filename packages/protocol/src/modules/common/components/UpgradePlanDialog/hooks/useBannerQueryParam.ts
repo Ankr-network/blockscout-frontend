@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 
-import { UpgradePlanDialogType } from '../types';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
+
+import { UpgradePlanDialogType } from '../types';
 
 const BANNER_KEY = 'banner';
 

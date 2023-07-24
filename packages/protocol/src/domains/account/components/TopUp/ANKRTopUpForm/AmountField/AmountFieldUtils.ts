@@ -3,8 +3,9 @@ import { CurrencyRateSymbol } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { CreditsRate } from 'domains/account/actions/rate/fetchCreditRates';
-import { Currency } from '../../types';
 import { USD_CURRENCY } from 'domains/account/actions/usdTopUp/const';
+
+import { Currency } from '../../types';
 
 const MIN_AMOUNT = 0;
 

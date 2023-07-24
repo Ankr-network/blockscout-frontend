@@ -1,8 +1,9 @@
+import { IChartData } from 'modules/common/components/Chart';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { ChartCurrency, ChartTimeframe } from '../types';
 import { Formatters, useFormatters } from './useFormatters';
-import { IChartData } from 'modules/common/components/Chart';
 import { getTransactions } from '../utils/getTransactions';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCurrency } from './useCurrency';
 import { usePaymentHistory } from './usePaymentHistory';
 import { useTimeframe } from './useTimeframe';

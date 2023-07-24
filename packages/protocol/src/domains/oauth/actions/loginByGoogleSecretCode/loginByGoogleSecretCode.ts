@@ -1,12 +1,13 @@
 import { EthAddressType } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { web3Api } from 'store/queries';
+
 import {
   buildSecretCodeData,
   getEthUserAddress,
   getSecreteCodeAndState,
 } from './loginByGoogleSecretCodeUtils';
-import { web3Api } from 'store/queries';
 
 export type EmptyObject = Record<string, unknown>;
 

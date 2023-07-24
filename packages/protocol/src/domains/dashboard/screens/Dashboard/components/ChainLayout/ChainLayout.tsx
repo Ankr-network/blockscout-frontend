@@ -1,3 +1,5 @@
+import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
+
 import { ChainLayoutProps } from './types';
 import { EmptyLayoutGuard } from '../EmptyLayoutGuard';
 import { LocationsWidget } from '../LocationsWidget';
@@ -7,7 +9,6 @@ import { RequestsWidget } from '../RequestsWidget';
 import { TopCountriesWidget } from '../TopCountriesWidget';
 import { useChainData } from './hooks/useChainData';
 import { useChainLayoutStyles } from './ChainLayoutStyles';
-import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
 export const ChainLayout = ({
   statsChainId,

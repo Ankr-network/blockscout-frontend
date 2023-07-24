@@ -1,5 +1,6 @@
-import { AggregatedUsageHistory, Requests } from '../types';
 import { Locale } from 'modules/i18n/types/locale';
+
+import { AggregatedUsageHistory, Requests } from '../types';
 
 export const aggregateUsageHistory = (requests: Requests) => {
   const now = new Date();

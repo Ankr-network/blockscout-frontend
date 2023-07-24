@@ -3,8 +3,9 @@ import { useMemo } from 'react';
 import { ChainType, Chain } from 'domains/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { getPublicChainTypeTabs } from './utils';
 import { getInitialChainType } from 'domains/chains/screens/ChainItem/utils/getInitialChainType';
+
+import { getPublicChainTypeTabs } from './utils';
 
 export interface ChainTypeParams {
   chain: Chain;

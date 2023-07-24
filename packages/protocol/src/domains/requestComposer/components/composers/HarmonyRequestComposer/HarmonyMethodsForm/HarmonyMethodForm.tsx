@@ -1,11 +1,13 @@
+import { useCallback } from 'react';
+import { Form, FormRenderProps } from 'react-final-form';
+
 import {
   HarmonyLibraryID,
   HarmonyMethod,
 } from 'domains/requestComposer/constants/harmony';
 import { HARMONY_CALL_CONFIG } from 'domains/requestComposer/utils/harmony/RPCCallConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { useCallback } from 'react';
-import { Form, FormRenderProps } from 'react-final-form';
+
 import { MethodsForm } from '../../../MethodsForm';
 import { MethodNameSelectField } from '../../../MethodsForm/MethodNameSelectField';
 import { MethodsFormSpy } from '../../../MethodsForm/MethodsFormSpy';

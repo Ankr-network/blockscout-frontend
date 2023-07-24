@@ -1,9 +1,10 @@
 import { useCallback, useMemo } from 'react';
 
-import { ILinkExpiredActionSlotProps } from './components/LinkExpiredActionSlot';
 import { useEmailErrorWithTimeout } from 'domains/userSettings/hooks/useEmailErrorWithTimeout';
 import { useLazyUserSettingsResendConfirmationCodeQuery } from 'domains/userSettings/actions/email/resendConfirmationCode';
 import { useLinkParams } from 'domains/userSettings/hooks/useLinkParams';
+
+import { ILinkExpiredActionSlotProps } from './components/LinkExpiredActionSlot';
 
 export const useLinkExpiredCard = () => {
   const { email } = useLinkParams();

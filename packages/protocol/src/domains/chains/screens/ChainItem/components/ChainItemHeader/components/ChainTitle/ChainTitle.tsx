@@ -1,4 +1,5 @@
 import { Chain } from 'domains/chains/types';
+
 import { useChainTitleStyles } from './ChainTitleStyles';
 
 export interface ChainTitleProps {

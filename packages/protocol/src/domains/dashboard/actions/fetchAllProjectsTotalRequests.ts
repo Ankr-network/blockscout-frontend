@@ -1,7 +1,8 @@
 import { MultiService } from 'modules/api/MultiService';
-import { ProjectsStatsParams } from '../types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+
+import { ProjectsStatsParams } from '../types';
 
 export const {
   endpoints: { fetchAllProjectsTotalRequests },

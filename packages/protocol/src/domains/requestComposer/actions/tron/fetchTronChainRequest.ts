@@ -1,11 +1,12 @@
 import axios, { Method } from 'axios';
 
-import { FetchTronChainRequestResult } from './types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { getMethod } from './utils/getMethod';
-import { getTronChainRequest } from './utils/getTronChainRequest';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
+
+import { FetchTronChainRequestResult } from './types';
+import { getMethod } from './utils/getMethod';
+import { getTronChainRequest } from './utils/getTronChainRequest';
 
 export interface FetchTronChainRequestParams {
   web3URL: string;

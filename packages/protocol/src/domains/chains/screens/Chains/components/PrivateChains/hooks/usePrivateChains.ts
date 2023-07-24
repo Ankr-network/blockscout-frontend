@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
 import { SortType, Chain } from 'domains/chains/types';
+import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
+import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
+
 import { usePrivateStats } from './usePrivateStats';
 import { sortPrivateChains } from './utils';
-import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { filteredByNameChains } from '../../PublicChains/hooks/utils';
-import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 
 export interface ChainsParams {
   chains: Chain[];

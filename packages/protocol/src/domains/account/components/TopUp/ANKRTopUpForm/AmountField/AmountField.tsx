@@ -2,15 +2,16 @@ import { FormGroup, Typography } from '@mui/material';
 import { Field, useFormState } from 'react-final-form';
 import { t } from '@ankr.com/common';
 
-import { Currency } from '../../types';
 import { InputField } from 'modules/form/components/InputField';
+import { OnChange } from 'modules/form/utils/OnChange';
+
+import { Currency } from '../../types';
 import {
   MAX_DECIMALS,
   MAX_LENGTH,
   normalizeAmount,
   validateAmount,
 } from './AmountFieldUtils';
-import { OnChange } from 'modules/form/utils/OnChange';
 import { useAmountFieldStyles } from './AmountFieldStyles';
 import { useCredits } from './hooks/useCredits';
 

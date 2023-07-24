@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 
-import { HarmonyHeader } from './HarmonyHeader';
 import { HarmonyLibraryID } from 'domains/requestComposer/constants/harmony';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
+import { HarmonyHeader } from './HarmonyHeader';
 import { HarmonyMenu } from './HarmonyMenu';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
 import { Logger } from '../../Logger';
@@ -10,7 +12,6 @@ import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { useEVMRequestLogger } from '../EVMRequestComposer/hooks/useEVMRequestLogger';
 import { useHarmonyChainRequestLogger } from './hooks/useHarmonyChainRequestLogger';
 import { useLibraryTabs } from './HarmonyMenu/MenuTabsUtils';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export const HarmonyRequestComposer = ({
   className,

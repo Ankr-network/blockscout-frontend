@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 
-import { DomainsForm } from './DomainsForm';
 import { useLazyInfrastructureEditChainRestrictedDomainsQuery } from 'domains/infrastructure/actions/editChainRestrictedDomains';
+
+import { DomainsForm } from './DomainsForm';
 import { DomainsFormContainerProps } from './DomainsFormTypes';
 
 export const DomainsFormContainer = ({

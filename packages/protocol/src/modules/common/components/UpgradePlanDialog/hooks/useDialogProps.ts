@@ -1,10 +1,11 @@
-import { ContentType, Plan } from '../types';
-import { DIALOG_BREAKDOWN } from '../const';
 import { IDialogProps } from 'uiKit/Dialog';
 import { SIGNUP_DIALOG_WIDTH } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { useHasBreakdown } from 'uiKit/Theme/useTheme';
+
+import { ContentType, Plan } from '../types';
+import { DIALOG_BREAKDOWN } from '../const';
 import { getContent } from '../utils/getContent';
 import { useDialogTitle } from './useDialogTitle';
-import { useHasBreakdown } from 'uiKit/Theme/useTheme';
 
 const LARGE_WIDTH = 1200;
 

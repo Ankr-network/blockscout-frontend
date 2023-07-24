@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react';
-
 import { t } from '@ankr.com/common';
+import { OverlaySpinner } from '@ankr.com/ui';
+
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { NoData } from '../MethodCalls/components/NoData';
 import { RequestsMapProps } from './RequestsMapTypes';
 import { getMarkerPointsAndStats } from './RequestsMapUtils';
 import { StatsMap } from './StatsMap';
 import { StatsTable } from './StatsTable';
-
 import { ItemHeader } from '../ItemHeader';
 import { useRequestsMapStyles } from './useRequestsMapStyles';
-import { OverlaySpinner } from '@ankr.com/ui';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { useIsRequestsMapVisible } from '../UsageDataSection/UsageDataSectionUtils';
 
 export const RequestsMap = ({

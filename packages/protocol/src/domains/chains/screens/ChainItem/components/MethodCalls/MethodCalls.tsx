@@ -1,9 +1,10 @@
 import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
-
 import { PrivateStatTopRequests } from 'multirpc-sdk';
-import { Header } from './components/Header';
+
 import { Timeframe } from 'domains/chains/types';
+
+import { Header } from './components/Header';
 import { MethodCallsTable } from './components/MethodCallsTable';
 import { useMethodCallStyles } from './useMethodCallStyles';
 

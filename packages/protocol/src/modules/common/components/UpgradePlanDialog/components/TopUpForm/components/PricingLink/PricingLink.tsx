@@ -3,6 +3,7 @@ import { ExternalLink } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { PRICING_LINK } from 'domains/account/actions/topUp/const';
+
 import { usePricingLinkStyles } from './PricingLinkStyles';
 
 export interface PricingLinkProps {

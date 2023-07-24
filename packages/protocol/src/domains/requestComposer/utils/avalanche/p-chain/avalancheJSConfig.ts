@@ -338,7 +338,9 @@ export const avalancheJSConfig: ILibraryConfig<PChainMethod> = {
   },
   'platform.getRewardUTXOs': {
     exec: (provider, ...rest) => {
-      return provider.getRewardUTXOs(...rest?.map(item => item || undefined));
+      return provider.getRewardUTXOs(
+        ...(rest || []).map(item => item || undefined),
+      );
     },
     codeSample: (httpUrl: string, wssUrl, ...rest) =>
       avalancheJSTemplate(
@@ -422,7 +424,7 @@ export const avalancheJSConfig: ILibraryConfig<PChainMethod> = {
   },
   'platform.getTx': {
     exec: (provider, ...rest) => {
-      return provider.getTx(...rest?.map(item => item || undefined));
+      return provider.getTx(...(rest || []).map(item => item || undefined));
     },
     codeSample: (httpUrl: string, wssUrl, ...rest) =>
       avalancheJSTemplate(

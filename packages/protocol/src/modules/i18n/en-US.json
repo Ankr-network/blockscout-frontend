@@ -77,7 +77,7 @@
   "main-navigation": {
     "dashboard": "Dashboard",
     "projects": "Projects",
-    "advanced-api": "Advanced APIs",
+    "advanced-api": "Advanced API",
     "endpoints": "Endpoints",
     "enterprise": "Enterprise",
     "billing": "Billing",
@@ -149,7 +149,8 @@
       "installed": "Installed",
       "not-installed": "Not installed",
       "add-project": "Add Project",
-      "edit-project": "Continue project configuration"
+      "edit-project": "Continue project configuration",
+      "no-data": "No project found"
     },
     "new-project": {
       "breadcrumbs": "Create project",
@@ -319,6 +320,7 @@
     "breadcrumbs": "Endpoints",
     "user-free": "Free",
     "user-premium": "Premium",
+    "user-enterprise": "Enterprise",
     "title": "Select Chain",
     "more-details": "More",
     "links": {
@@ -377,6 +379,9 @@
       "button": "Upgrade"
     }
   },
+  "enterprise": {
+    "forbidden": "The page is beyond your user access. Ask the support for the access you require."
+  },
   "jwt-token": {
     "default-project-name": "Primary",
     "add-new-project": "Add new project",
@@ -430,7 +435,7 @@
       "intro": "from <em>0.1 USD</em> for 10K requests ",
       "description": "For Web3 projects looking for fast, reliable infrastructure to scale operations to the next level.",
       "list-1": "WebSockets",
-      "list-2": "Advanced Developer APIs",
+      "list-2": "Advanced Developer API",
       "list-3": "1,500 reqs/sec",
       "list-4": "Dedicated endpoints",
       "list-5": "Archive calls",
@@ -696,7 +701,7 @@
     "breadcrumbs": "Dashboard"
   },
   "advanced-api": {
-    "breadcrumbs": "Advanced APIs",
+    "breadcrumbs": "Advanced API",
     "chain-overview": {
       "title": "Single entry point",
       "description": "Access optimized, indexed, and cached data for nine EVM-compatible blockchains."
@@ -1171,7 +1176,7 @@
         "credits": "({credits, number, ::compact-short} Credits)",
         "cancel-label": "You can cancel anytime",
         "bundle-banner": {
-          "top": "Save 20% on each request with our",
+          "top": "Save&nbsp;20% on&nbsp;each request with our",
           "bottom": "special offer",
           "button": "Learn more"
         },

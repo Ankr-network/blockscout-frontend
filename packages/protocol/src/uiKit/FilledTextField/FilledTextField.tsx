@@ -1,6 +1,6 @@
 import { TextField, TextFieldProps } from '@mui/material';
-
 import { forwardRef } from 'react';
+
 import {
   useFilledTextfieldStyles,
   UseFilledTextFieldStylesParams,
@@ -38,3 +38,5 @@ export const FilledTextField = forwardRef(
     );
   },
 );
+
+FilledTextField.displayName = 'FilledTextField';

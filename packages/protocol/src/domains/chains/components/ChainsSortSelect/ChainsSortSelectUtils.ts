@@ -1,5 +1,6 @@
-import { SortType } from 'domains/chains/types';
 import { t } from '@ankr.com/common';
+
+import { SortType } from 'domains/chains/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 export interface Option {

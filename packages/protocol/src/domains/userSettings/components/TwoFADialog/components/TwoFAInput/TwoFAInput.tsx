@@ -2,11 +2,12 @@ import { tHTML } from '@ankr.com/common';
 import { useCallback, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { Warning } from '@ankr.com/ui';
+
 import { LoadingButton } from 'uiKit/LoadingButton';
+import { USER_SETTINGS_INTL_ROOT } from 'domains/userSettings/screens/Settings/components/TwoFABlock/constants';
 
 import { useTwoFAInputStyles } from './TwoFAInputStyles';
 import { AuthCodeInput } from '../AuthCodeInput';
-import { USER_SETTINGS_INTL_ROOT } from 'domains/userSettings/screens/Settings/components/TwoFABlock/constants';
 
 const TWO_FA_CODE_LENGTH = 6;
 

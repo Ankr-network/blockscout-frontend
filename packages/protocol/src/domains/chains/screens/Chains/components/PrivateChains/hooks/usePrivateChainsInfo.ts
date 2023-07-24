@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+
 import { Chain } from 'domains/chains/types';
 import { useLazyChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
-import { useEffect } from 'react';
 
 export type PrivateChains = [Chain[], Chain[], boolean];
 

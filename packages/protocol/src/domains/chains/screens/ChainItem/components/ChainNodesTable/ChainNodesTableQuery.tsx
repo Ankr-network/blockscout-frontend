@@ -1,10 +1,12 @@
-import { ChainID } from 'domains/chains/types';
-import { ChainNodesTable } from './ChainNodesTable';
+import { INodesDetailEntity } from 'multirpc-sdk';
+
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
-import { INodesDetailEntity } from 'multirpc-sdk';
+import { ChainID } from 'domains/chains/types';
 import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+
+import { ChainNodesTable } from './ChainNodesTable';
 
 interface IChainNodesTableQueryProps {
   chainId: ChainID;

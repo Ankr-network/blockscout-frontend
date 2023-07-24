@@ -3,12 +3,13 @@ import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 
 import { ChainID } from 'domains/chains/types';
 import { MultiService } from 'modules/api/MultiService';
-import { calculateRPCAndStandaloneStats } from '../../utils/calculateRPCAndStandaloneStats';
-import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { getStandaloneUrl } from '../../utils/statsUtils';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+
+import { calculateRPCAndStandaloneStats } from '../../utils/calculateRPCAndStandaloneStats';
+import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
+import { getStandaloneUrl } from '../../utils/statsUtils';
 
 interface IFetchChainDetailsResponseData
   extends Omit<

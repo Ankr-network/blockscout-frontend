@@ -1,12 +1,13 @@
 import BigNumber from 'bignumber.js';
 import { IApiUserGroupParams, IBalance } from 'multirpc-sdk';
 
-import { Balance } from './types';
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+
+import { Balance } from './types';
 
 const ANKR_TO_CREDITS_RATE = 1_000_000;
 

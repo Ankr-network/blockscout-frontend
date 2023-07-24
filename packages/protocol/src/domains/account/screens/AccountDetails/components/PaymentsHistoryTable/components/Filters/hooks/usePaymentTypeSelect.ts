@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
+import { t } from '@ankr.com/common';
 
 import { ISelectOption } from 'uiKit/Select';
 import { PaymentType } from 'domains/account/types';
-import { getPaymentTypeSelectValue } from '../utils/getPaymentTypeSelectValue';
-import { t } from '@ankr.com/common';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+
+import { getPaymentTypeSelectValue } from '../utils/getPaymentTypeSelectValue';
 
 export type PaymentTypeSelect = [
   (event: any) => void,

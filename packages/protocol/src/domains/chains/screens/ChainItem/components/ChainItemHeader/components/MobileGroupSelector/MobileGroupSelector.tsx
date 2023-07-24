@@ -1,7 +1,9 @@
 import { SelectChangeEvent } from '@mui/material';
 import { useCallback, useMemo } from 'react';
+
 import { Select } from 'uiKit/Select';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+
 import { useStyles } from './MobileGroupSelectorStyles';
 import { getOptionsByTabs } from './utils/getOptionsByTabs';
 

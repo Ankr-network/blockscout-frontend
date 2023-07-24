@@ -1,20 +1,22 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { ChainCalls } from '../screens/Dashboard/types';
 import { ChainID } from 'domains/chains/types';
 import {
   FetchPrivateStatsParams as PrivateStatsParams,
   chainsFetchPrivateStats,
 } from 'domains/chains/actions/private/fetchPrivateStats';
 import { RootState } from 'store';
+import { chainsFetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
+import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
+import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
+import { selectSelectedProject } from 'domains/jwtToken/store/selectors';
+
+import { ChainCalls } from '../screens/Dashboard/types';
 import { aggregateIPRequests } from './utils/aggregateIPRequests';
 import { aggregateMethodCallsRequests } from './utils/aggregateMethodCallsRequests';
 import { aggregateRequests } from './utils/aggregateRequests';
 import { aggregateTopCountries } from './utils/aggregateTopCountries';
 import { aggregateUsageHistory } from './utils/aggregateUsageHistory';
-import { chainsFetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
-import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
-import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
 import {
   AllProjectsStatsParams,
   fetchAllProjectsStats,
@@ -30,7 +32,6 @@ import { getProjectsStats } from './utils/getProjectsStats';
 import { getUsageHistoryData } from './utils/getUsageHistoryData';
 import { mapCountsToEntries } from './utils/mapCountsToEntries';
 import { maskUserEndpointToken } from './utils/maskUserEndpointToken';
-import { selectSelectedProject } from 'domains/jwtToken/store/selectors';
 import { sortIPRequests } from './utils/sortIPRequests';
 import { sortTopCountries } from './utils/sortTopCountries';
 import { fetchLastMonthStats } from '../actions/fetchLastMonthStats';

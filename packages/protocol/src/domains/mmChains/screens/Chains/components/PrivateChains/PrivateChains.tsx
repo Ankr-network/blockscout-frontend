@@ -1,12 +1,13 @@
 import { BaseChains } from 'domains/chains/components/BaseChains';
-import { ChainsList } from '../ChainsList';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
-import { processTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
-import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
 import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
 import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
+
+import { useNetworksConfigurations } from '../../utils/useNetworksConfigurations';
+import { processTestnetOnlyChains } from '../../utils/processTestnetOnlyChains';
+import { ChainsList } from '../ChainsList';
 import { PrivateChainItem } from './components/PrivateChainItem';
 
 interface IPrivateChainsProps {

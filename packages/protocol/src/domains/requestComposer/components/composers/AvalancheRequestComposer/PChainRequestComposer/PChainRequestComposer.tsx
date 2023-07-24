@@ -1,11 +1,12 @@
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
 import { CountdownContext } from '../../const';
 import { Header } from '../../../Header';
 import { Logger } from '../../../Logger';
 import { PChainMenu } from './PChainMenu';
 import { RequestComposerTemplate } from '../../../RequestComposerTemplate';
 import { usePChainRequestLogger } from './hooks/usePChainRequestLogger';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export interface IPChainRequestComposerProps {
   className?: string;

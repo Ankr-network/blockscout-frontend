@@ -1,5 +1,6 @@
 import { Chain } from 'domains/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
+
 import { SelectedContent } from './SelectedContent';
 import { useChainSelectorStyles } from './useChainSelectorStyles';
 

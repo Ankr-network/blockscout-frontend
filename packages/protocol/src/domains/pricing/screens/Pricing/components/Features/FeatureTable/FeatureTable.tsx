@@ -6,8 +6,8 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-
 import { t } from '@ankr.com/common';
+
 import {
   COLUMNS_COUNT,
   FEATURE_TABLE_ROW,

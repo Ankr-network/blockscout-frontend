@@ -1,15 +1,16 @@
 import { Paper, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { Dot } from '@ankr.com/ui';
+import { TwoFAStatus } from 'multirpc-sdk';
+
 import { Queries } from 'modules/common/components/Queries/Queries';
+import { UserSettingsTwoFAStatusResult } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 
 import { useTwoFABlockStyles } from './useTwoFABlockStyles';
 import { TwoFASwitch } from './components/TwoFASwitch';
 import { USER_SETTINGS_INTL_ROOT } from './constants';
 import { useTwoFAStatusQuery } from './TwoFABlockUtils';
-import { UserSettingsTwoFAStatusResult } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 import { TwoFABlockSkeleton } from './components/TwoFABlockSkeleton';
-import { TwoFAStatus } from 'multirpc-sdk';
 
 export const TwoFABlock = () => {
   const { classes } = useTwoFABlockStyles();

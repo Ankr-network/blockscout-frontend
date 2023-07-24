@@ -8,6 +8,7 @@ import {
   ChainSubType,
 } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
+
 import { getChainSubTypeTabs } from '../utils/getChainSubTypeTabs';
 
 export interface ChainSubTypeParams {

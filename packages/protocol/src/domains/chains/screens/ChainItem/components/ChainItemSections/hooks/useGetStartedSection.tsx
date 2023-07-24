@@ -3,15 +3,16 @@ import { t } from '@ankr.com/common';
 
 import { ChainID } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { Tab } from 'modules/common/hooks/useTabs';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+
 import { GetStartedSection } from '../../GetStartedSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
-import { Tab } from 'modules/common/hooks/useTabs';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { checkUpgradeBanner } from '../utils/checkUpgradeBanner';
 import { hasRequestComposer as hasRequestComposerFn } from '../utils/hasRequestComposer';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 
 export interface GetStartedSectionParams {
   chainId: ChainID;

@@ -1,7 +1,7 @@
 import { web3Api } from 'store/queries';
+import { IAuthSlice } from 'domains/auth/store/authSlice';
 
 import { AuthConnectParams } from './types';
-import { IAuthSlice } from 'domains/auth/store/authSlice';
 
 // authConnectInitiator - authConnect - authMakeAuthorization
 // 1) call authConnectInitiator

@@ -6,6 +6,9 @@ import {
 } from 'domains/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+
 import { MethodCalls } from '../../../MethodCalls';
 import { RequestsByIP } from '../../../RequestsByIP';
 import { RequestsChart } from '../../../RequestsChart';
@@ -15,8 +18,6 @@ import { PrivateUsageSummary } from './components/PrivateUsageSummary';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
 import { LastUserRequests } from '../../../LastUserRequests';
 import { usePrivateUsageData } from './usePrivateUsageData';
-import { EndpointGroup } from 'modules/endpoints/types';
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { TimeframeSection } from './components/TimeframeSection';
 
 const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;

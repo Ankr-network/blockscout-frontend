@@ -1,4 +1,5 @@
 import { ChainID } from 'domains/chains/types';
+
 import { AddNetworkInMMEventProps } from './types';
 import { MixpanelEvent } from './const';
 import { track } from './utils/track';

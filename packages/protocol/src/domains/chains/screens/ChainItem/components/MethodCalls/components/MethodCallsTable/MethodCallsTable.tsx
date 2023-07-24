@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
+
 import { NoData } from '../NoData';
 import { useMethodCallsTableStyles } from './useMethodCallsTableStyles';
 

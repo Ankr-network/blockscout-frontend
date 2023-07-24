@@ -1,6 +1,7 @@
 import { tHTML } from '@ankr.com/common';
 
 import { SoonLabel } from 'modules/common/components/SoonLabel';
+
 import { usePlanFeaturesStyles } from './PlanFeaturesStyles';
 
 export interface PlanFeaturesProps {

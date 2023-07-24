@@ -3,6 +3,7 @@ import {
   HarmonyMethod,
 } from 'domains/requestComposer/constants/harmony';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { MethodsTabs } from '../../../SampleCodeComponent/SampleCodeDialog/MethodsTabs';
 import { useMethodsTabsUtils } from './useMethodsTabsUtils';
 

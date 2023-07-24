@@ -8,9 +8,10 @@ import {
 import { CountdownContext } from 'domains/requestComposer/components/composers/const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
-import { PChainMethodsForm } from '../PChainMethodsForm';
 import { requestComposerFetchPChainRequest } from 'domains/requestComposer/actions/avalanche/fetchPChainRequest';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { PChainMethodsForm } from '../PChainMethodsForm';
 
 export interface ILibraryContentProps {
   group: EndpointGroup;

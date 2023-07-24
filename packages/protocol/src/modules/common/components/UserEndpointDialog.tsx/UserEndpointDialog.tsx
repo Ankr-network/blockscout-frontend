@@ -5,7 +5,6 @@ import { Button, Typography } from '@mui/material';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
 import { Dialog } from 'uiKit/Dialog';
-import { useViewProjectDialogStyles } from './useViewProjectDialogStyles';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
@@ -13,24 +12,26 @@ import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedB
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
-interface IShowProjectDialogProps {
+import { useUserEndpointDialogStyles } from './useUserEndpointDialogStyles';
+
+interface IShowUserEndpointDialogProps {
   shouldConnectWallet: boolean;
   isOpened: boolean;
   onClose: () => void;
-  handleDeleteProjectOpen: () => void;
+  handleDeleteProjectOpen?: () => void;
   tokenIndex?: number;
   endpointToken?: string;
 }
 
-export const ViewProjectDialog = ({
+export const UserEndpointDialog = ({
   shouldConnectWallet,
   tokenIndex,
   endpointToken,
   isOpened,
   onClose,
   handleDeleteProjectOpen,
-}: IShowProjectDialogProps) => {
-  const { classes } = useViewProjectDialogStyles();
+}: IShowUserEndpointDialogProps) => {
+  const { classes } = useUserEndpointDialogStyles();
 
   const { hasOauthLogin } = useAuth();
 
@@ -83,7 +84,7 @@ export const ViewProjectDialog = ({
           <Button fullWidth size="large" onClick={onClose}>
             {t(`${jwtTokenIntlRoot}.view-project.button`)}
           </Button>
-          {Boolean(tokenIndex) && (
+          {Boolean(tokenIndex) && Boolean(handleDeleteProjectOpen) && (
             <GuardUserGroup blockName={BlockWithPermission.JwtManagerWrite}>
               <Button
                 fullWidth

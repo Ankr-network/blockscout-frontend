@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { Typography, useTheme } from '@mui/material';
 import { t } from '@ankr.com/common';
-
 import {
   BarChart,
   Bar,
@@ -13,13 +12,15 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Payload, Props } from 'recharts/types/component/DefaultLegendContent';
-import { useStakeBarChartStyles } from './useStakBarChartStyles';
-import { Tooltip as StakeBarTooltip } from './Tooltip';
-import { COLOR_LIST } from './StakeBarChartUtils';
+
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { Timeframe } from 'domains/chains/types';
 import { useTimeframe } from 'domains/chains/hooks/useTimeframe';
 import { TopRequestsResultData, useStakeBarChart } from 'modules/common';
+
+import { COLOR_LIST } from './StakeBarChartUtils';
+import { Tooltip as StakeBarTooltip } from './Tooltip';
+import { useStakeBarChartStyles } from './useStakBarChartStyles';
 
 interface IStakebarProps {
   result: TopRequestsResultData;

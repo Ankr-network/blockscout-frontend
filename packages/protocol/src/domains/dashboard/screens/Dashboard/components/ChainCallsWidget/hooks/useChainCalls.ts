@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 
 import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
-import { getPieChartData } from '../utils/getPieChartData';
 import {
   selectChainCalls,
   selectTotalRequestsNumber,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+
+import { getPieChartData } from '../utils/getPieChartData';
 
 export const useChainCalls = () => {
   const chainCalls = useAppSelector(selectChainCalls);

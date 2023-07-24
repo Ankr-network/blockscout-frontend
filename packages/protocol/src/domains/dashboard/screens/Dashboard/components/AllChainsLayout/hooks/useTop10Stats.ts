@@ -1,9 +1,11 @@
 import { useEffect, useMemo } from 'react';
 import { IpDetails, Top10StatItem } from 'multirpc-sdk';
+
 import { ChainID, Timeframe } from 'domains/chains/types';
 import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
 import { TopCountriesData } from '../../TopCountriesWidget';
 
 const mapIpRequests = (ip: Top10StatItem): IpDetails => ({

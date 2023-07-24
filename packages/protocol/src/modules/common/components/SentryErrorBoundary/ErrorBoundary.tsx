@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+
 import { Error } from './Error';
 
 export interface ErrorBoundaryProps {

@@ -1,19 +1,18 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
+import { t } from '@ankr.com/common';
+import { TwoFAStatus } from 'multirpc-sdk';
 
 import {
   setTwoFAErrorMessage,
   setIsTwoFADialogOpened,
   setTwoFACode,
 } from 'domains/userSettings/store/userSettingsSlice';
-import { t } from '@ankr.com/common';
-
 import { is2FAError } from 'store/utils/is2FAError';
 import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
 import { userSettingsFetchTwoFAStatus } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 import { authConnectInitiator } from 'domains/auth/actions/connect/connectInitiator';
 import { authConnect } from 'domains/auth/actions/connect';
 import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
-import { TwoFAStatus } from 'multirpc-sdk';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 

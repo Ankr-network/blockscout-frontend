@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
-
 import { tHTML } from '@ankr.com/common';
+
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 
 interface IStepperTitleProps {

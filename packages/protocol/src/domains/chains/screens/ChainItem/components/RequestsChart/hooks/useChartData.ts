@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 
-import { RequestsChartProps } from '../types';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { RequestsChartProps } from '../types';
 
 export type ChartDataParams = Pick<
   RequestsChartProps,

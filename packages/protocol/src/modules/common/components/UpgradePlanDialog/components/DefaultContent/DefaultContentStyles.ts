@@ -1,7 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { DIALOG_BREAKDOWN } from '../../const';
 import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+
+import { DIALOG_BREAKDOWN } from '../../const';
 
 export const useDefaultContentStyles = makeStyles<boolean>()(
   (theme, isLightTheme) => ({

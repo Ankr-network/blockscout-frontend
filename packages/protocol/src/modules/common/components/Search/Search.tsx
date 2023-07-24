@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback } from 'react';
 import { Icon, IconButton } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { Close, Search as SearchIcon, TextField } from '@ankr.com/ui';
+
 import { useSearchStyles } from './useSearchStyles';
 
 interface ISearchProps {

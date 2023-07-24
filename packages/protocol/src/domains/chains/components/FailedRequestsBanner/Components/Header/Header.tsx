@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { Switcher } from 'modules/common/components/Switcher';
 import { StatusCircle } from 'uiKit/StatusCircle';
+
 import { intlFailedRequestsBannerRoot } from '../Tooltip';
 import { useHeaderStyles } from '../../../RequestsBannerContainer/components/Header/useHeaderStyles';
 

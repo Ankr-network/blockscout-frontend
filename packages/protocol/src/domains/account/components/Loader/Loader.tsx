@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
-
 import { t } from '@ankr.com/common';
+
 import { useLoaderStyles } from './LoaderStyles';
 
 export const Loader = () => {

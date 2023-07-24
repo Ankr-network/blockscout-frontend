@@ -2,10 +2,11 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
+
 import { Plans } from './components/Plans';
 import { usePricingStyles } from './usePricingStyles';
 import { Features } from './components/Features';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { INTL_ROOT } from './const';
 import { ScalePlans } from './components/ScalePlans';
 

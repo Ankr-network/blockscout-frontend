@@ -2,19 +2,20 @@ import { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { Loader } from 'domains/account/components/Loader';
-import { TopUp } from './TopUp';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { topUpGetInitialStep } from 'domains/account/actions/topUp/getInitialStep/getInitialStep';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useLazyTopUpResetQuery } from 'domains/account/actions/topUp/reset';
+import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
 import {
   useCheckConfirmedEmail,
   useTopUpBreadcrumbs,
   useTopUpOriginRoute,
 } from './TopUpUtils';
-import { useLazyTopUpResetQuery } from 'domains/account/actions/topUp/reset';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { TopUp } from './TopUp';
 
 export const TopUpQuery = () => {
   const { hasPrivateAccess, isLoggedIn, isWalletConnected } = useAuth();

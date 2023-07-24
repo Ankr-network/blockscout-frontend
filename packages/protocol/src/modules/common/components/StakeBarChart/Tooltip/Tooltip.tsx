@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { Typography } from '@mui/material';
-import { useTooltipStyles } from './useTooltip';
 import { t } from '@ankr.com/common';
-import { calculateTotalRequests, formatNumber } from '../StakeBarChartUtils';
+
 import { StatusCircle } from 'uiKit/StatusCircle';
+
+import { calculateTotalRequests, formatNumber } from '../StakeBarChartUtils';
+import { useTooltipStyles } from './useTooltip';
 
 interface ITooltipPayloadProps {
   name: string;

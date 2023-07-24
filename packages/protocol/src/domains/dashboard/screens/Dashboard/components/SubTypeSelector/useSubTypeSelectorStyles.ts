@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+
 import { SELECT_WIDTH } from '../ChainSelector/useChainSelectorStyles';
 
 export const useSubTypeSelectorStyles = makeStyles()(theme => ({

@@ -1,7 +1,8 @@
 import { FieldValidator } from 'final-form';
-import { InputField } from 'modules/form/components/InputField';
 
+import { InputField } from 'modules/form/components/InputField';
 import { ABI } from 'domains/requestComposer/types';
+
 import { Field } from '../types';
 import { concat } from './concat';
 import { getMethodArgs } from './getMethodArgs';

@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import { FormGroup } from '@mui/material';
 import { Form, FormRenderProps } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import { t } from '@ankr.com/common';
 
 import { getInitialValues, validateIp } from './IpsFormUtils';
-import { t } from '@ankr.com/common';
 import { IpsFormData, IpsFormFields, IpsFormProps } from './IpsFormTypes';
 import { AddressInputField } from '../AddressInputField';
 import { AddressFields } from '../AddressFields';

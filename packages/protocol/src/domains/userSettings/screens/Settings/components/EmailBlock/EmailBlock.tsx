@@ -1,13 +1,14 @@
 import { Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-
 import { IGetActiveEmailBindingResponse } from 'multirpc-sdk';
-import { EmailSkeleton } from './components/Skeleton';
+
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useEmailBlock } from './useEmailBlock';
 import { useLazyUserSettingsGetActiveEmailBindingQuery } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+
+import { EmailSkeleton } from './components/Skeleton';
+import { useEmailBlock } from './useEmailBlock';
 import { useStyles } from './EmailBlockStyles';
 import { ChangeEmailDialog } from './components/ChangeEmailDialog';
 import { WalletBlock } from '../WalletBlock';

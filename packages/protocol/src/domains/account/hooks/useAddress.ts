@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import { MultiService } from 'modules/api/MultiService';
-import { useLazyAccountRedirectIfWalletConnectFailedQuery } from '../actions/balance/redirectIfWalletConnectFailed';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { useLazyAccountRedirectIfWalletConnectFailedQuery } from '../actions/balance/redirectIfWalletConnectFailed';
 import { useSelectedUserGroup } from '../../userGroup/hooks/useSelectedUserGroup';
 
 export const useAddress = () => {

@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
-import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 
+import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { useAddNetworkButton } from './useAddNetworkButton';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
+import { useAddNetworkButton } from './useAddNetworkButton';
 
 interface IAddNetworkProps {
   chain: Chain;

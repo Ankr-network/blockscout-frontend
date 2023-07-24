@@ -1,12 +1,13 @@
 import Scrollbars from 'react-custom-scrollbars';
 
 import { BlackBox } from 'domains/requestComposer/components/BlackBox';
-import { Header } from '../Header';
 import {
   PrivateRequestsTable,
   TableVariant,
 } from 'domains/chains/components/PrivateRequestsTable';
 import { IPrivateLastRequestParams } from 'domains/chains/actions/private/fetchPrivateLatestRequests';
+
+import { Header } from '../Header';
 
 export interface RequestsTableProps {
   isRefreshing: boolean;

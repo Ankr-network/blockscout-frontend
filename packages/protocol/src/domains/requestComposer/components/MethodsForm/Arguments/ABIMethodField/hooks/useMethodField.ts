@@ -1,9 +1,10 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { ABI } from 'domains/requestComposer/types';
+import { SelectField } from 'modules/form/components/SelectField';
+
 import { Field } from '../types';
 import { LoggerContext } from '../../../../composers/const';
-import { SelectField } from 'modules/form/components/SelectField';
 import { getABI } from '../utils/getABI';
 import { getABIFunctions } from '../utils/getABIFunctions';
 import { getOption } from '../utils/getOption';

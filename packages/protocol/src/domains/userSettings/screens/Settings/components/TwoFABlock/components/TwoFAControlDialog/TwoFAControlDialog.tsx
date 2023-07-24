@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import { Dialog } from 'uiKit/Dialog';
+
 import { TwoFAControlDialogView } from './TwoFAControlDialogTypes';
 import { useTitle } from './TwoFAControlDialogUtils';
 import { TwoFAControlDialogDefault } from './components/TwoFAControlDialogDefault';

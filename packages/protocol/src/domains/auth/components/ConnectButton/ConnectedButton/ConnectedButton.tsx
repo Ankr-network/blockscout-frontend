@@ -6,6 +6,7 @@ import { WalletIcon } from '@ankr.com/ui';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from 'modules/common/hooks/useMenu';
+
 import { useStyles } from '../useStyles';
 
 interface ConnectedButtonProps {

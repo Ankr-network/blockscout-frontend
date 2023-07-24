@@ -4,8 +4,8 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { AccountMarker } from 'domains/account/components/AccountMarker';
 import { AccountType, BalanceStatus } from 'domains/account/types';
-import { getDescriptions } from './utils/getDescriptions';
 
+import { getDescriptions } from './utils/getDescriptions';
 import { useStyles } from './DetailsStyles';
 
 export interface DetailsProps {

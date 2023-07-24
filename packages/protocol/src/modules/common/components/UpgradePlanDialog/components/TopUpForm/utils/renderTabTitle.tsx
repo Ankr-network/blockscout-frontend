@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
 import { SoonLabel } from 'modules/common/components/SoonLabel';
+
 import { TopUpCurrency } from '../types';
 
 export interface TabTitleParams {

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { PaymentHistory, PaymentHistoryParams } from '../types';
 import { useLazyAccountFetchPaymentHistoryQuery } from 'domains/account/actions/fetchTransactions';
-import { getTransactionsRequest } from '../utils/getTransactionsRequest';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { PaymentHistory, PaymentHistoryParams } from '../types';
+import { getTransactionsRequest } from '../utils/getTransactionsRequest';
 
 const defaultData = {
   deductionsCursor: 0,

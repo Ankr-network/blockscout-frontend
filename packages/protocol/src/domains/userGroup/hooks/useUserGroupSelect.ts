@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { GroupUserRole, UserGroup } from 'multirpc-sdk';
 
 import {
   resetUserGroupConfig,
   setUserGroupConfig,
 } from 'domains/userGroup/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { useUserGroupConfig } from './useUserGroupConfig';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
-import { GroupUserRole, UserGroup } from 'multirpc-sdk';
 
 export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   const { address } = useAuth();

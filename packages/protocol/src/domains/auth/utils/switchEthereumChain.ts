@@ -1,9 +1,10 @@
-import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 import {
   AvailableWriteProviders,
   EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
+
+import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
+import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
 
 export const switchEthereumChain = async () => {
   const provider = await ProviderManagerSingleton.getInstance().getProvider(

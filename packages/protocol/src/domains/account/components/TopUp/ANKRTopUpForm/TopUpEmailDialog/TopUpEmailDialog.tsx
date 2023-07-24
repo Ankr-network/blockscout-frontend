@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-
 import { tHTML } from '@ankr.com/common';
+
 import { AddEmailBannerDialog } from 'domains/userSettings/components/AddEmailBanner';
 import { EmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useEmailBannerProps } from 'domains/userSettings/screens/Settings/SettingsUtils';

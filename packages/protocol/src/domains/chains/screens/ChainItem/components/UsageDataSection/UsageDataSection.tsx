@@ -6,6 +6,7 @@ import {
 } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { PrivateUsageDataSection } from './components/PrivateUsageDataSection';
 import { PublicUsageDataSection } from './components/PublicUsageDataSection';
 

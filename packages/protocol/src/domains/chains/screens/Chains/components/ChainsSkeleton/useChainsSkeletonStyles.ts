@@ -1,5 +1,6 @@
-import { DEFAULT_PAGE_HEADER_WIDTH } from 'domains/chains/components/BaseChainsHeader/useBaseChainsHeaderStyles';
 import { makeStyles } from 'tss-react/mui';
+
+import { DEFAULT_PAGE_HEADER_WIDTH } from 'domains/chains/components/BaseChainsHeader/useBaseChainsHeaderStyles';
 
 export const useChainsSkeletonStyles = makeStyles()(theme => ({
   root: {

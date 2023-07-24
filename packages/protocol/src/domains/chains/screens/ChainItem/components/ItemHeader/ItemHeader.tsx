@@ -1,4 +1,5 @@
 import { Timeframe } from 'domains/chains/types';
+
 import { timeframeToLabelMap } from '../UsageDataSection/const';
 import { useItemHeaderStyles } from './ItemHeaderStyles';
 

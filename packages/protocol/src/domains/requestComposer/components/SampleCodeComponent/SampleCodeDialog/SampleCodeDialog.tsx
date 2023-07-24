@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
+
 import { Dialog } from 'uiKit/Dialog';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { useSampleCodeDialogStyles } from './useSampleCodeDialogStyles';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface ISampleCodeDialogProps {
   title: string;

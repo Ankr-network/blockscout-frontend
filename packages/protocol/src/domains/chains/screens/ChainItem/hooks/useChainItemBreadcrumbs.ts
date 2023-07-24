@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
+import { t } from '@ankr.com/common';
+
 import { selectChainsOriginURL } from 'domains/chains/store/chainsSlice';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { t } from '@ankr.com/common';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 

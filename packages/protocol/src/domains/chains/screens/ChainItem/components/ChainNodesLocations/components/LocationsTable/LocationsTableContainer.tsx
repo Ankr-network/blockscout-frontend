@@ -4,6 +4,7 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
+
 import { ChainNodesLocationsProps } from '../../ChainNodesTableProps';
 import { useChainNodesLocationsStyles } from '../../useChainNodesLocationsStyles';
 import { LocationsTable } from './LocationsTable';

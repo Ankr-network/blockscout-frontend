@@ -1,6 +1,7 @@
 import { ChainSubType, ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+
 import { SecondaryTabs } from '../../../SecondaryTabs';
 import { ChainProtocolSwitch } from '../ChainProtocolSwitch';
 import { MobileGroupSelector } from '../MobileGroupSelector';

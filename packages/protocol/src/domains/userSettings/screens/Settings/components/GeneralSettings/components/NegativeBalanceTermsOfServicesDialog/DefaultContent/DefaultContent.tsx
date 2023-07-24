@@ -3,6 +3,7 @@ import { Warning } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { useContactWidget } from 'hooks/useContactWidget';
+
 import { useDefaultContentStyles } from './useDefaultContentStyles';
 
 interface DefaultContentProps {

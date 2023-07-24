@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
+
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+
 import { UserEndpointCard } from '../UserEndpointCard';
 import { UserEndpointsScrollbar } from './UserEndpointsScrollbar';
 

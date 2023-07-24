@@ -1,10 +1,11 @@
 import { AccountErrorCode } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
+import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
+
 import { ErrorMessageGetter } from '../types';
 import { getAccountErrorMessage } from './getAccountErrorMessage';
 import { getUnknownErrorMessage } from './getUnknownErrorMessage';
-import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 
 const messageGettersMap: Record<AccountErrorCode, ErrorMessageGetter> = {
   [AccountErrorCode.Aborted]: getAccountErrorMessage,

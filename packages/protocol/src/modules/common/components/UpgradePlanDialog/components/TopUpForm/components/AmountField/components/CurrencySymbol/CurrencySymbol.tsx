@@ -1,4 +1,5 @@
 import { TopUpCurrency } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/types';
+
 import { useCurrencySymbolStyles } from './CurrencySymbolStyles';
 
 export interface CurrencySymbolProps {

@@ -1,6 +1,5 @@
 import { useCallback, useContext } from 'react';
 
-import { CountdownContext } from '../../const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import {
   Method,
@@ -11,11 +10,13 @@ import {
   TronChainMethod,
   TronLibraryID,
 } from 'domains/requestComposer/constants/tron';
+import { requestComposerFetchTronChainRequest } from 'domains/requestComposer/actions/tron/fetchTronChainRequest';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
 import { TronMethodsForm } from '../TronMethodsForm';
 import { TronMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 import { formatParameters } from './LibraryContentUtils';
-import { requestComposerFetchTronChainRequest } from 'domains/requestComposer/actions/tron/fetchTronChainRequest';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { CountdownContext } from '../../const';
 
 interface ILibraryContentProps {
   group: EndpointGroup;

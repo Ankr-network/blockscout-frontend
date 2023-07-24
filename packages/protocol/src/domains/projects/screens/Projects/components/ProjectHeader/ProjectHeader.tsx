@@ -1,10 +1,11 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { ExternalLink } from '@ankr.com/ui';
+import { ReactNode } from 'react';
+
+import { NavLink } from 'uiKit/NavLink';
 
 import { useProjectHeaderStyles } from './useProjectHeaderStyles';
-import { ReactNode } from 'react';
-import { NavLink } from 'uiKit/NavLink';
 
 const PROJECTS_DOCS_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/projects/';

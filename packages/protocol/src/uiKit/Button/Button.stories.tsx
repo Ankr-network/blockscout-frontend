@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, ThemeProvider, Button } from '@mui/material';
 import { storiesOf } from '@storybook/react';
+import { Copy } from '@ankr.com/ui';
 
 import { mainTheme } from 'uiKit/Theme/mainTheme';
-import { Copy } from '@ankr.com/ui';
 
 storiesOf('uiKit/Button', module)
   .add('Сontained Buttons', () => (

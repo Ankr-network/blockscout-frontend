@@ -1,7 +1,8 @@
 import { MultiService } from 'modules/api/MultiService';
-import { buildGoogleAuthUrl } from './fetchLoginParamsUtils';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+
+import { buildGoogleAuthUrl } from './fetchLoginParamsUtils';
 
 export const {
   endpoints: { oauthFetchLoginParams },

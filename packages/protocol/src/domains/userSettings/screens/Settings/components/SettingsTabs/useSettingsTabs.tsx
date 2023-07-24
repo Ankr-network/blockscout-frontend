@@ -3,14 +3,15 @@ import { t } from '@ankr.com/common';
 import { GroupUserRole } from 'multirpc-sdk';
 
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { GeneralSettings } from '../GeneralSettings';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-import { GroupSettings } from '../GroupSettings';
-import { BusinessSettings } from '../BusinessSettings';
 import { selectUserGroups } from 'domains/userGroup/store';
 import { selectHasPremium } from 'domains/auth/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { PERSONAL_GROUP_NAME } from 'domains/userGroup/constants/groups';
+
+import { BusinessSettings } from '../BusinessSettings';
+import { GroupSettings } from '../GroupSettings';
+import { GeneralSettings } from '../GeneralSettings';
 
 export enum SettingsTabID {
   General = 'General',

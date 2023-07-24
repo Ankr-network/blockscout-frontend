@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { INodesDetailEntity, INodeDetailEntity } from 'multirpc-sdk';
+
 import { IContinentsCount } from './LocationsTableProps';
 
 const PREMIUM_MULTIPLIER = 3;

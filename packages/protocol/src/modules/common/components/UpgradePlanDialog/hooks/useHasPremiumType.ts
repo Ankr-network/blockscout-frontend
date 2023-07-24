@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
 import { UpgradePlanDialogType } from '../types';
 import { checkPremiumType } from '../utils/checkPremiumType';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useHasUserGroupDialog } from './useHasUserGroupDialog';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useHasPremiumType = (
   type?: UpgradePlanDialogType,

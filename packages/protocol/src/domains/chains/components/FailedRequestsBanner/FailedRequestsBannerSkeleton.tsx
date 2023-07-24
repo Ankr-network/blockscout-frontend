@@ -1,4 +1,5 @@
 import { Skeleton } from '@mui/material';
+
 import { useFailedRequestsBannerStyles } from './useFailedRequestsBannerStyles';
 
 export const FailedRequestsBannerSkeleton = () => {

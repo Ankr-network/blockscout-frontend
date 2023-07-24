@@ -1,7 +1,7 @@
 import { Address } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { GroupUserRole } from 'multirpc-sdk';
+
 import { GroupJwtData } from '../types';
 
 interface UserGroupConfig {
@@ -28,7 +28,7 @@ export const userGroupSlice = createSlice({
       state,
       action: PayloadAction<UserGroupConfig & { address: Address }>,
     ) => {
-      const { address, ...other } = action?.payload;
+      const { address, ...other } = action?.payload || {};
 
       state.userGroupConfig[address] = {
         ...(state.userGroupConfig[address] || {}),
@@ -39,7 +39,7 @@ export const userGroupSlice = createSlice({
       state,
       action: PayloadAction<GroupJwtData & { groupAddress: Address }>,
     ) => {
-      const { groupAddress, ...other } = action?.payload;
+      const { groupAddress, ...other } = action?.payload || {};
 
       state.userGroupJwt[groupAddress] = {
         ...(state.userGroupJwt[groupAddress] || {}),

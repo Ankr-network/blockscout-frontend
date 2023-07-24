@@ -1,4 +1,5 @@
 import { NewProjectStep } from 'domains/projects/types';
+
 import { ChainStep } from '../ChainStep';
 import { CheckoutStep } from '../CheckoutStep';
 import { WhitelistStep } from '../WhitelistStep';

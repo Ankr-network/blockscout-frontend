@@ -1,5 +1,6 @@
 import { TabsManager } from 'uiKit/TabsManager';
 import { useTabs } from 'modules/common/hooks/useTabs';
+
 import { CodeType, tabs } from './const';
 
 export interface TabsProps {

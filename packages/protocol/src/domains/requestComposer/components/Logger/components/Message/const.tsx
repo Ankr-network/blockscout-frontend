@@ -1,9 +1,9 @@
 import { CSSProperties, ReactNode } from 'react';
+import { Dot, Mark, CircleCheck, Clock, ArrowRightBig } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
 import { MessageType } from '../../types';
-import { Dot, Mark, CircleCheck, Clock, ArrowRightBig } from '@ankr.com/ui';
 import { root } from '../../const';
-import { t } from '@ankr.com/common';
 
 const { Error, Info, Input, Success, Time } = MessageType;
 

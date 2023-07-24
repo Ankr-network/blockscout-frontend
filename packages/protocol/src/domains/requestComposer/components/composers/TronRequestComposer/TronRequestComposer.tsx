@@ -1,11 +1,12 @@
-import { CountdownContext } from '../const';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
+import { CountdownContext } from '../const';
 import { Logger } from '../../Logger';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { TronChainMenu } from './TronChainMenu/TronChainMenu';
 import { TronHeader } from './TronHeader';
 import { useTronChainRequestLogger } from './hooks/useTronChainRequestLogger';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export interface IRequestComposerProps {
   className?: string;

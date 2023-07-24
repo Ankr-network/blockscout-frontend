@@ -1,7 +1,8 @@
-import { QUERY_NAME } from '../const';
-import { SectionID } from '../types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
+
+import { QUERY_NAME } from '../const';
+import { SectionID } from '../types';
 
 export const useInitialSection = (tabs: Tab<SectionID>[]) => {
   const params = useQueryParams();

@@ -1,6 +1,7 @@
-import { getEVMTestnet } from './getEVMTestnet';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { Chain } from 'domains/chains/types';
+
+import { getEVMTestnet } from './getEVMTestnet';
 
 const addEVMUrls = (chain: Chain): Chain => {
   const { testnets = [] } = chain;

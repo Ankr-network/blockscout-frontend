@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { IPaymentHistoryEntityType } from 'multirpc-sdk';
+
 import { PAYMENT_HISTORY_TYPE } from '../../../const';
 
 export const getPaymentTypeSelectValue = (value: unknown): string => {

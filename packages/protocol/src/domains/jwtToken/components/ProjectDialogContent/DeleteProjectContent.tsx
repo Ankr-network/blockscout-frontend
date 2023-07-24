@@ -1,7 +1,9 @@
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
 import { LoadingButton } from '@ankr.com/ui';
+
+import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
 import { useDeleteProjectDialogStyles } from '../DeleteProjectDialog/useDeleteProjectDialogStyles';
 
 interface IDeleteProjectDialogContentProps {

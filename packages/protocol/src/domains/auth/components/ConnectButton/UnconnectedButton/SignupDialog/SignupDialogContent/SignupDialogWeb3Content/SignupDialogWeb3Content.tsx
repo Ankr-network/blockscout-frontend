@@ -1,6 +1,8 @@
 import { Fragment } from 'react';
 import { uid } from 'react-uid';
 import { Box, ButtonBase, Grid, Tooltip, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { isMobile } from 'web3modal';
 
 import { useSignupDialogWeb3ContentStyles } from './useSignupDialogWeb3ContentStyles';
 import { ETH_COMPATIBLE_WALLETS } from './SignupDialogWeb3ContentUtils';
@@ -9,8 +11,6 @@ import {
   IOnWalletItemClickArgs,
 } from './SignupDialogWeb3ContentTypes';
 import { WalletItemContent } from './components/WalletItemContent';
-import { t } from '@ankr.com/common';
-import { isMobile } from 'web3modal';
 
 export const SignupDialogWeb3Content = ({
   onConnect,

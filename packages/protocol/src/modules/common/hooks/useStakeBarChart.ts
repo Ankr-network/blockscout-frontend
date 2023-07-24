@@ -2,8 +2,9 @@ import { PrivateStatTopRequestsData } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
 
-import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 import { Timeframe } from 'domains/chains/types';
+
+import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 
 export type TopRequestsResultData = {
   list: string[];

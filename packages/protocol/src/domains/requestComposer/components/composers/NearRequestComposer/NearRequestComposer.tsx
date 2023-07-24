@@ -1,3 +1,5 @@
+import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
+
 import { CountdownContext, LoggerContext } from '../const';
 import { IRequestComposerMainProps } from '../RequestComposerTypes';
 import { Logger } from '../../Logger';
@@ -5,7 +7,6 @@ import { NearHeader } from './NearHeader/NearHeader';
 import { NearMenu } from './NearMenu/NearMenu';
 import { RequestComposerTemplate } from '../../RequestComposerTemplate';
 import { useNearRequestLogger } from './hooks/useNearRequestLogger';
-import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 export const NearRequestComposer = ({
   className,

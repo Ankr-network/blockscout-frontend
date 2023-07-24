@@ -2,16 +2,17 @@ import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import {
-  SignupFormErrors,
-  SignupFormField,
-  SignupFormValues,
-} from './SignupDialogDefaultContentTypes';
 import { useAppSelector } from 'store/useAppSelector';
 import {
   selectSignupSettings,
   setSignupSettings,
 } from 'domains/userSettings/store/userSettingsSlice';
+
+import {
+  SignupFormErrors,
+  SignupFormField,
+  SignupFormValues,
+} from './SignupDialogDefaultContentTypes';
 
 export const validate = ({ hasTerms }: SignupFormValues): SignupFormErrors => {
   if (!hasTerms) {

@@ -1,6 +1,7 @@
 import { Route, RouteProps, useHistory } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { useEffect } from 'react';
+
 import { INDEX_PATH } from 'domains/chains/routes';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchPrivateChain } from 'domains/chains/actions/private/fetchPrivateChain';

@@ -2,6 +2,7 @@ import { BundlePaymentPlan } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
+
 import { fetchBundlePaymentPlans } from '../actions/bundles/fetchBundlePaymentPlans';
 import { fetchMyBundles } from '../actions/bundles/fetchMyBundles';
 
@@ -47,11 +48,6 @@ export const selectMyBundlesState = createSelector(
 export const selectMyBundles = createSelector(
   selectMyBundlesState,
   ({ data }) => data || [],
-);
-
-export const selectHasBundles = createSelector(
-  selectMyBundlesState,
-  ({ data }) => Number(data?.length) > 0,
 );
 
 export const selectMyBundlesLoading = createSelector(

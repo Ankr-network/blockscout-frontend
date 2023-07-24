@@ -2,6 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
+
 import { useCancelSubscriptionDialogStyles } from './useCancelSubscriptionDialogStyles';
 
 interface ICancelSubscriptionDialogProps {

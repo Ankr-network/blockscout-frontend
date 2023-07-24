@@ -1,8 +1,10 @@
+import { UserGroup, GroupUserRole } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { UserGroup, GroupUserRole } from 'multirpc-sdk';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
+
 import { PERSONAL_GROUP_NAME } from '../constants/groups';
 
 const getPersonalUserGroup = (groupAddress: string): UserGroup => {

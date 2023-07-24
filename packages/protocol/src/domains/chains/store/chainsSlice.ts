@@ -1,6 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
+
 import { Chain } from '../types';
 import { ChainsRoutesConfig } from '../routes';
 import { chainsFetchPublicChains } from '../actions/public/fetchPublicChains';

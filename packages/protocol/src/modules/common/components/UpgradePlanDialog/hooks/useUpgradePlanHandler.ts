@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 
-import { UpgradeHandler, UpgradePlanDialogType } from '../types';
 import { trackUpgradePlanModalClick } from 'modules/analytics/mixpanel/trackUpgradePlanModalClick';
+
+import { UpgradeHandler, UpgradePlanDialogType } from '../types';
 
 export const useUpgradePlanHandler = (
   type: UpgradePlanDialogType,

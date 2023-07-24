@@ -1,9 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
+import { selectCurrentAddress, selectIsLoggedIn } from 'domains/auth/store';
+
 import { fetchAllJwtTokenRequests } from '../action/getAllJwtToken';
 import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
-import { selectCurrentAddress, selectIsLoggedIn } from 'domains/auth/store';
 import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
 
 const selectJwtTokenManager = (state: RootState) => state.jwtTokenManager;

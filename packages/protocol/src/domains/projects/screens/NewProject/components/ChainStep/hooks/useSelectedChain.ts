@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-final-form';
 
 import { ChainID } from 'domains/chains/types';
+
 import { useChainStepTableStyles } from '../useChainStepTableStyles';
 import { ChainStepFields } from '../../../../../store';
 

@@ -1,4 +1,5 @@
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
+
 import {
   ChainID,
   Chain,
@@ -7,19 +8,20 @@ import {
   ChainSubType,
 } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { UsageData } from '../../types';
-import {
-  checkPrivateChainsAndGetChainId,
-  timeframeToIntervalMap,
-} from '../../const';
-import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
-import { getStatsChainId } from '../../../ChainItemSections/utils/getStatsChainId';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+
+import { getStatsChainId } from '../../../ChainItemSections/utils/getStatsChainId';
+import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
+import {
+  checkPrivateChainsAndGetChainId,
+  timeframeToIntervalMap,
+} from '../../const';
+import { UsageData } from '../../types';
 
 export interface UsageDataParams {
   chain: Chain;

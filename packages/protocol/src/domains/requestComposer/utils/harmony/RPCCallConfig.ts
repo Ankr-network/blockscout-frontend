@@ -1,5 +1,7 @@
 import { tHTML } from '@ankr.com/common';
+
 import { IRPCCallsConfig } from 'domains/requestComposer/types/harmony';
+
 import { harmonyJSConfig } from './harmonyJSConfig';
 
 const intlRoot = `request-composer.method-description.harmony`;

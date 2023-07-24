@@ -1,11 +1,12 @@
 import { Button } from '@mui/material';
+import { Doc } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
 import { Chain } from 'domains/chains/types';
-import { Doc } from '@ankr.com/ui';
-import { getChainDocsLink } from '../../utils/getChainDocsLink';
-import { t } from '@ankr.com/common';
-import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+
+import { getChainDocsLink } from '../../utils/getChainDocsLink';
+import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
 
 export interface ChainDocsLinkProps {
   chain: Chain;

@@ -1,6 +1,7 @@
+import { Timeframe } from 'domains/chains/types';
+
 import { Header } from './components/Header';
 import { Stats } from './components/Stats';
-import { Timeframe } from 'domains/chains/types';
 import { useStats } from './hooks/useStats';
 import { useStyles } from './UsageSummaryStyles';
 

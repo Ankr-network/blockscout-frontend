@@ -1,4 +1,3 @@
-import React from 'react';
 import Highlight, {
   Language,
   PrismTheme,
@@ -28,9 +27,9 @@ export const CodeHighlighter = ({
       {({ className, tokens, getLineProps, getTokenProps }) => (
         <pre className={cx(outerClassName, className)}>
           {tokens.map((line, i) => (
-            <div {...getLineProps({ line, key: i })}>
+            <div {...getLineProps({ line, key: i })} key={i}>
               {line.map((token, key) => (
-                <span {...getTokenProps({ token, key })} />
+                <span {...getTokenProps({ token, key })} key={key} />
               ))}
             </div>
           ))}

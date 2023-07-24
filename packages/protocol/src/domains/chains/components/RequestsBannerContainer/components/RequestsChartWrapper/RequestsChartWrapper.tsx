@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
 import { useTheme } from '@mui/material';
+
 import { IRequestsChartProps, RequestsChart } from '../../../RequestsChart';
 import { Tooltip as BarTooltip } from '../Tooltip';
 import { useChartBar } from './hooks/useChartBar';

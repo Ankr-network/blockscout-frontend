@@ -4,9 +4,10 @@ import { FieldValidator } from 'final-form';
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
+import { InputField } from 'modules/form/components/InputField';
+
 import { AmountParser } from '../../hooks/useAmountParser';
 import { CurrencySymbol } from './components/CurrencySymbol';
-import { InputField } from 'modules/form/components/InputField';
 import { Rate, RateProps } from '../Rate';
 import { TopUpCurrency } from '../../types';
 import { hasError } from './utils/hasError';

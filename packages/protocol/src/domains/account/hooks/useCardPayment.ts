@@ -4,11 +4,12 @@ import {
   ONE_TIME_PAYMENT_ID,
   useLazyUsdTopUpFetchLinkForOneTimePaymentQuery,
 } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
-import { useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery } from '../actions/usdTopUp/fetchLinkForRecurrentCardPayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useLazyUsdTopUpFetchLinkForBundlePaymentQuery } from '../actions/usdTopUp/fetchLinkForBundlePayment';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
+
+import { useLazyUsdTopUpFetchLinkForBundlePaymentQuery } from '../actions/usdTopUp/fetchLinkForBundlePayment';
+import { useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery } from '../actions/usdTopUp/fetchLinkForRecurrentCardPayment';
 
 export const useCardPayment = () => {
   const { selectedGroupAddress: groupAddress } = useSelectedUserGroup();

@@ -1,6 +1,7 @@
-import { usePublicChainsItem } from './hooks/usePublicChainsItem';
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
 import { Timeframe, Chain } from 'domains/chains/types';
+
+import { usePublicChainsItem } from './hooks/usePublicChainsItem';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { PremiumOnlyChainCard } from '../../../PremiumOnlyChainCard';
 import { ComingSoonChainCard } from '../../../ComingSoonChainCard';

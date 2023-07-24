@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+
 import { useMultichainOverviewStyles } from './MultichainOverviewStyles';
 
 export const MultiChainOverview = () => {

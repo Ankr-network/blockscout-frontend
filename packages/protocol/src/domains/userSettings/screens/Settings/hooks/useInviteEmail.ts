@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { useCallback, useEffect } from 'react';
+import { t } from '@ankr.com/common';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { QUERY_EMAIL } from 'domains/userSettings/const';
 import { isValidEmail } from 'modules/common/utils/isValidEmail';
-import { t } from '@ankr.com/common';
 import { useLinkParams } from 'domains/userSettings/hooks/useLinkParams';
 import { useQueryParamsCleaner } from 'modules/common/hooks/useQueryParamCleaner';
 

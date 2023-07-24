@@ -1,7 +1,8 @@
 import { t } from '@ankr.com/common';
 
-import { OauthQuery } from './OauthQuery';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+
+import { OauthQuery } from './OauthQuery';
 
 export const Oauth = () => {
   useSetBreadcrumbs([

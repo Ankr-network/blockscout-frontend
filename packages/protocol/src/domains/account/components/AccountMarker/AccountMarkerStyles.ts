@@ -1,7 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { AccountMarkerProps } from './types';
 import { BalanceStatus } from 'domains/account/types';
+
+import { AccountMarkerProps } from './types';
 
 type Props = Required<AccountMarkerProps>;
 

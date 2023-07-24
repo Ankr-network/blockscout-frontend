@@ -45,7 +45,11 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
 
   const handleResponse = useCallback(
     (res: any) => {
-      if (res?.data && 'email' in res?.data?.binding) {
+      if (
+        typeof res?.data?.binding === 'object' &&
+        res?.data?.binding !== null &&
+        'email' in res.data.binding
+      ) {
         fetchClients(undefined, true);
         handleClose();
       }

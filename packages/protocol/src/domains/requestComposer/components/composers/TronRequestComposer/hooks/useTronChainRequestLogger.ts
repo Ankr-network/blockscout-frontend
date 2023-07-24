@@ -1,6 +1,7 @@
+import { useRequestComposerLogs } from 'domains/requestComposer/hooks/useRequestComposerLogs';
+
 import { useTronChainRequest } from './useTronChainRequest';
 import { useLogger } from '../../../Logger/hooks/useLogger';
-import { useRequestComposerLogs } from 'domains/requestComposer/hooks/useRequestComposerLogs';
 
 export const useTronChainRequestLogger = () => {
   const loggerData = useLogger();

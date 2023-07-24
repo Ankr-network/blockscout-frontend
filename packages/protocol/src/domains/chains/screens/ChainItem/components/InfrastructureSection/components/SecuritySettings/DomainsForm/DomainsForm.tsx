@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { FormGroup } from '@mui/material';
 import { Form, FormRenderProps } from 'react-final-form';
 import arrayMutators from 'final-form-arrays';
+import { t } from '@ankr.com/common';
 
 import { getInitialValues, validateDomain } from './DomainsFormUtils';
 import {
@@ -11,7 +12,6 @@ import {
 } from './DomainsFormTypes';
 import { AddressInputField } from '../AddressInputField';
 import { AddressFields } from '../AddressFields';
-import { t } from '@ankr.com/common';
 
 export const MAX_DOMAIN_COUNT = 10;
 

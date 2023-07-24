@@ -2,10 +2,11 @@ import { Box } from '@mui/material';
 import { useCallback } from 'react';
 import { UserGroup, GroupUserRole } from 'multirpc-sdk';
 
-import { AccountItem } from '../AccountItem';
 import { Avatar } from 'domains/userGroup/components/Avatar';
 import { PersonalIcon } from 'domains/userGroup/components/PersonalIcon';
 import { getAvatarColor } from 'domains/userGroup/utils/getAvatarColor';
+
+import { AccountItem } from '../AccountItem';
 import { useAccountsListStyles } from './useAccountListStyles';
 
 interface AccountListProps {

@@ -6,6 +6,7 @@ import {
 } from 'domains/requestComposer/constants/near';
 import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/near/RPCCallsConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
+
 import { SampleCode } from '../../../../SampleCodeComponent/SampleCodeDialog/SampleCode';
 
 interface ISampleCodeProps {

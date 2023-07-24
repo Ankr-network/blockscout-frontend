@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
-import { useStyles } from './UserEndpointsFormStyles';
 
+import { useStyles } from './UserEndpointsFormStyles';
 import { LinkInputField } from './LinkInputField/LinkInputField';
 import { DeleteButton } from '../../DeleteButton';
 

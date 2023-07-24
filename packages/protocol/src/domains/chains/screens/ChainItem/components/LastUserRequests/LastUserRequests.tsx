@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { PrivateRequestsTable } from 'domains/chains/components/PrivateRequestsTable';
+
 import { useLastUserRequestsStyles } from './LastUserRequestsStyles';
 
 export const LastUserRequests = () => {

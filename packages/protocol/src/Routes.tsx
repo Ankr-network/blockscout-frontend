@@ -37,6 +37,12 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
+import {
+  EnterpriseRoutes,
+  EnterpriseRoutesConfig,
+} from 'domains/enterprise/routes';
+import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
+import { GuardAuthEnterpriseRoute } from 'domains/enterprise/components/GuardAuthEnterpriseRoute';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
@@ -46,6 +52,7 @@ import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 
 export const Routes = () => {
   const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
+  const { isClient } = useEnterprise();
 
   const hasAuthData = Boolean(isLoggedIn);
 
@@ -163,6 +170,23 @@ export const Routes = () => {
           <DefaultLayout>
             <ChainsRoutes />
           </DefaultLayout>
+        )}
+      />
+      <GuardAuthRoute
+        exact
+        path={[EnterpriseRoutesConfig.chains.path]}
+        render={() => (
+          <GuardAuthEnterpriseRoute isClient={isClient}>
+            <Route
+              exact
+              path={EnterpriseRoutesConfig.chains.path}
+              render={() => (
+                <DefaultLayout>
+                  <EnterpriseRoutes />
+                </DefaultLayout>
+              )}
+            />
+          </GuardAuthEnterpriseRoute>
         )}
       />
       <Route

@@ -1,8 +1,9 @@
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { UpdateWhitelistParams } from './updateWhitelist';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
+
+import { UpdateWhitelistParams } from './updateWhitelist';
 
 export const {
   useLazyAddAddressToWhitelistQuery,

@@ -1,5 +1,6 @@
-import { ChainsAthens2, ChainsAthens3, ChainSubType } from '../../../types';
 import { EndpointGroup } from 'modules/endpoints/types';
+
+import { ChainsAthens2, ChainsAthens3, ChainSubType } from '../../../types';
 
 interface FilterEndpointsByChainSubTypeParams {
   groupEndpoints: EndpointGroup[];

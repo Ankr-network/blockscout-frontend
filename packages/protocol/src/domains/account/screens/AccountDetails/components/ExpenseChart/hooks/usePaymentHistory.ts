@@ -5,10 +5,11 @@ import {
 } from 'multirpc-sdk';
 import { useEffect, useRef } from 'react';
 
-import { ChartTimeframe } from '../types';
-import { getTimeframeBorders } from '../utils/getTimeframeBorders';
 import { useLazyAccountFetchExpenseChartDataQuery } from 'domains/account/actions/fetchExpenseChartData';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { ChartTimeframe } from '../types';
+import { getTimeframeBorders } from '../utils/getTimeframeBorders';
 
 const defaultData: IAggregatedPaymentHistoryResponse = {
   transactions: [],

@@ -19,6 +19,7 @@
     "eject": "react-scripts eject",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
     "lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
+    "lint:js:fix": "yarn lint:js --fix --debug",
     "check-circular-dependency": "madge --circular src",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",

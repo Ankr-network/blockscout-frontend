@@ -1,6 +1,6 @@
-import { AuthConnectParams } from './types';
-
 import { web3Api } from 'store/queries';
+
+import { AuthConnectParams } from './types';
 import { createWeb3Service } from './createWeb3Service';
 
 export const {

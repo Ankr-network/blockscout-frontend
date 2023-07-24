@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 
-import { authConnect } from '../actions/connect';
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { authConnect } from '../actions/connect';
 import { authDisconnect } from '../actions/disconnect';
 import { authMakeAuthorization } from '../actions/connect/authMakeAuthorization';
 import { authConnectInitiator } from '../actions/connect/connectInitiator';

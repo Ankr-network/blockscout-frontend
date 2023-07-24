@@ -1,13 +1,14 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { ChainNodesLocationsProps } from './ChainNodesTableProps';
-import { useChainNodesLocationsStyles } from './useChainNodesLocationsStyles';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { UpgradeInfo } from './components/UpgradeInfo';
-import { LocationsTableContainer } from './components/LocationsTable/LocationsTableContainer';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+
+import { ChainNodesLocationsProps } from './ChainNodesTableProps';
+import { useChainNodesLocationsStyles } from './useChainNodesLocationsStyles';
+import { UpgradeInfo } from './components/UpgradeInfo';
+import { LocationsTableContainer } from './components/LocationsTable/LocationsTableContainer';
 
 export const ChainNodesLocations = ({
   loading,

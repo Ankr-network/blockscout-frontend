@@ -1,4 +1,5 @@
 import { FieldMetaState } from 'react-final-form';
+
 import { hasError as hasErrorDefault } from './hasError';
 
 export function getErrorText(

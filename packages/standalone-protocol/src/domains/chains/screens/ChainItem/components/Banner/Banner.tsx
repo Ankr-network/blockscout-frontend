@@ -22,3 +22,5 @@ export const Banner = forwardRef(
     );
   },
 );
+
+Banner.displayName = 'Banner';

@@ -1,9 +1,10 @@
 import { Dialog, Button, Typography } from '@mui/material';
 import { tHTML } from '@ankr.com/common';
 
-import { DeleteEndpointDialogProps } from './DeleteEndpointDialogTypes';
 import { Preloader } from 'uiKit/Preloader';
 import { useLazyInfrastructureDeletePrivateEndpointQuery } from 'domains/infrastructure/actions/deletePrivateEndpoint';
+
+import { DeleteEndpointDialogProps } from './DeleteEndpointDialogTypes';
 import { useStyles } from './DeleteEndpointDialogStyles';
 
 export const DeleteEndpointDialog = ({

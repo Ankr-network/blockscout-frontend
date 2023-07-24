@@ -20,12 +20,14 @@ export const withTheme = <T extends Record<string, any>>(
   Child: ComponentType<T>,
 ) => {
   return (props: T) => {
-    return (
+    const component = (
       <StylesProvider generateClassName={generateClassName}>
         <MuiThemeProvider theme={getMainTheme(props.themes ?? Themes.light)}>
           <Child {...props} />
         </MuiThemeProvider>
       </StylesProvider>
     );
+
+    return component;
   };
 };

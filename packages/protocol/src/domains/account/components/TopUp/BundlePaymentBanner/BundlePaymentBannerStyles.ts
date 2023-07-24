@@ -22,6 +22,7 @@ export const useBundlePaymentBannerStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(4),
+    marginRight: theme.spacing(1),
   },
   description: {
     display: 'flex',
@@ -43,6 +44,11 @@ export const useBundlePaymentBannerStyles = makeStyles()(theme => ({
     fontSize: 16,
     fontWeight: 600,
     lineHeight: '150%',
+    whiteSpace: 'nowrap',
+
+    [theme.breakpoints.down('xs')]: {
+      minWidth: 120,
+    },
 
     '&&': {
       boxShadow: 'none',

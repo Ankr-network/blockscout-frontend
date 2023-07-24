@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react';
 import { INodesDetailEntity } from 'multirpc-sdk';
-
 import { t } from '@ankr.com/common';
+
 import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 

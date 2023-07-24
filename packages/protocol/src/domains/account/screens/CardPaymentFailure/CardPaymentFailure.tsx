@@ -4,9 +4,10 @@ import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+
 import { useCardPaymentFailureStyles } from './useCardPaymentFailureStyles';
 import { useClickHandler } from './hooks/useClickHandler';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useTrackFailureTopUp } from './hooks/useTrackFailureTopUp';
 import { useIsWhitelistReason } from '../CardPaymentSuccess/hooks/useIsWhitelistReason';
 

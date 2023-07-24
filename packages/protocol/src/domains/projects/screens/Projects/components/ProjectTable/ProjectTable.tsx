@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 import { Project } from 'domains/projects/utils/getAllProjects';
 import { Preloader } from 'uiKit/Preloader';
 import { VirtualTable } from 'uiKit/VirtualTable';
+
 import { useProjectTable } from './hooks/useProjectTable';
 import { useProjectTableStyles } from './useProjectTableStyles';
 
@@ -32,7 +33,7 @@ export const ProjectTable = ({
       initializing={isLoading}
       cols={columns}
       rows={data}
-      emptyMessage={t('common.no-data')}
+      emptyMessage={t('projects.list-project.no-data')}
       preloader={<Preloader className={classes.preloader} />}
       searchContent={searchContent}
       searchKey="name"

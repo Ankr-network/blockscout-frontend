@@ -2,6 +2,7 @@ import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 export const {

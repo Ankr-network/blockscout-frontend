@@ -3,10 +3,11 @@ import { t } from '@ankr.com/common';
 import { Info } from '@ankr.com/ui';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
+import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
+
 import { useProjectNameStyles } from './useProjectNameStyles';
 import { useProjectName } from './hooks/useProjectName';
-import { ViewProjectDialog } from 'domains/jwtToken/components/ViewProjectDialog.tsx';
-import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
 
 interface ProjectNameProps {
   projectName: string;
@@ -60,7 +61,7 @@ export const ProjectName = ({
         tokenIndex={tokenIndex}
         onClose={onCloseDeleteProjectDialog}
       />
-      <ViewProjectDialog
+      <UserEndpointDialog
         isOpened={isViewProjectDialogOpened}
         onClose={onCloseViewProjectDialog}
         shouldConnectWallet={shouldConnectWallet}

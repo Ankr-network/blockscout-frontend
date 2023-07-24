@@ -3,12 +3,13 @@ import BigNumber from 'bignumber.js';
 
 import { AppDispatch } from 'store';
 import { ChainID } from 'domains/chains/types';
-import { STANDALONE_CHAINS } from '../../utils/statsUtils';
 import { MultiService } from 'modules/api/MultiService';
-import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+
+import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
+import { STANDALONE_CHAINS } from '../../utils/statsUtils';
 
 // RTK Query will never run an endpoint if it has already run.
 // Here we have few calls of the same endpoint but with different args,

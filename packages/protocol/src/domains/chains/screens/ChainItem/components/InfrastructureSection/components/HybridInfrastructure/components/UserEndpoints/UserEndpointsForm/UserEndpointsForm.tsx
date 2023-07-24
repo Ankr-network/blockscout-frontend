@@ -6,8 +6,9 @@ import { Mutator } from 'final-form';
 import arrayMutators from 'final-form-arrays';
 import setFieldTouched from 'final-form-set-field-touched';
 
-import { RowInputField } from './RowInputField';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
+
+import { RowInputField } from './RowInputField';
 import {
   UserEndpointsFormData,
   UserEndpointsFormFields,

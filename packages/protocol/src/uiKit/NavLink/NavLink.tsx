@@ -1,4 +1,11 @@
-import React, { MutableRefObject, ForwardedRef, createElement } from 'react';
+import {
+  MutableRefObject,
+  ForwardedRef,
+  createElement,
+  forwardRef,
+  MouseEvent,
+  ComponentType,
+} from 'react';
 import { Button, ButtonProps } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import {
@@ -15,19 +22,19 @@ type NavLinksVariant = 'contained' | 'outlined' | 'text';
 export interface INavLinkProps {
   isRouterLink?: boolean;
   routerLinkProps?: Partial<RouteLinkProps>;
-  component?: string | React.ComponentType;
+  component?: string | ComponentType;
   href: string;
   variant?: NavLinksVariant;
   activeClassName?: string;
   exactMatch?: boolean;
   isLoading?: boolean;
   loader?: JSX.Element;
-  onClick?: (e: React.MouseEvent<Element, MouseEvent>) => void;
+  onClick?: (e: MouseEvent<Element, MouseEvent>) => void;
 }
 
 type Props = ButtonProps & INavLinkProps;
 
-export const NavLink = React.forwardRef(
+export const NavLink = forwardRef(
   (
     {
       href,
@@ -112,3 +119,5 @@ export const NavLink = React.forwardRef(
     );
   },
 );
+
+NavLink.displayName = 'NavLink';

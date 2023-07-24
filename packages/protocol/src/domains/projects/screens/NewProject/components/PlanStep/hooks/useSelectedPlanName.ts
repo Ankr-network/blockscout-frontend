@@ -1,7 +1,8 @@
 import { useForm } from 'react-final-form';
 
-import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 import { PlanStepFields } from 'domains/projects/store';
+
+import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 
 export const useSelectedPlanName = () => {
   const form = useForm<NewProjectFormValues>();

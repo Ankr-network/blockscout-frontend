@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { IChartProps } from 'modules/common/components/Chart';
+
 import { RequestsChartProps } from '../types';
 import { formatXAxis } from '../utils/formatXAxis';
 import { text } from '../utils/text';

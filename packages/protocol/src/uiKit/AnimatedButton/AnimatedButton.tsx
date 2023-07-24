@@ -1,5 +1,4 @@
 import { Button, ButtonProps, CircularProgress } from '@mui/material';
-
 import { ReactNode } from 'react';
 
 import { useStyles } from './AnimatedButtonStyles';

@@ -4,10 +4,10 @@ import { t, tHTML } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
 import { TrackTopUpSubmit } from 'domains/account/types';
+
 import { intlRoot } from './const';
 import { useBundlePayment } from './hooks/useBundlePayment';
 import { useBundlePaymentDialogStyles } from './BundlePaymentDialogStyles';
-
 import unlock from './assets/unlock-icon.png';
 
 export interface BundlePaymentDialogProps {

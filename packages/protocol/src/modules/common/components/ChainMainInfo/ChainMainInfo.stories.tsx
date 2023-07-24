@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from '@mui/material';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'uiKit/Theme/mainTheme';
+
 import { ChainMainInfo } from './ChainMainInfo';
 
 storiesOf('domains/chains/ChainMainInfo', module).add('Default', () => (

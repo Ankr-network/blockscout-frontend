@@ -1,11 +1,12 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { NavLink } from 'uiKit/NavLink';
-
 import { t } from '@ankr.com/common';
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { useStyles } from './TransactionButtonStyles';
 import { ExternalLink } from '@ankr.com/ui';
+
+import { NavLink } from 'uiKit/NavLink';
+import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+
+import { useStyles } from './TransactionButtonStyles';
 import { getExplorerLink } from './TransactionButtonUtils';
 
 interface ITransactionButton {

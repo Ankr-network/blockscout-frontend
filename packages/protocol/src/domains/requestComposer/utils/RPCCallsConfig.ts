@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+
 import { IRPCCallsConfig } from '../types';
 import { ethersJSConfig } from './ethersJSConfig';
 import { JsonRpcConfig } from './JsonRpcConfig';

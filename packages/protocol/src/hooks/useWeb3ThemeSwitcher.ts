@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
-import { useAuth } from '../domains/auth/hooks/useAuth';
+import { Themes } from '@ankr.com/ui';
+
 import { useThemeSwitcher } from 'modules/layout/hooks/useThemeSwitcher';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { Themes } from '@ankr.com/ui';
+
+import { useAuth } from '../domains/auth/hooks/useAuth';
 
 export const useWeb3ThemeSwitcher = () => {
   const { hasWeb3Connection } = useAuth();

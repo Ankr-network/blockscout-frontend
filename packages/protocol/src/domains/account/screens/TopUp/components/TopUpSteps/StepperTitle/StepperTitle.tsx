@@ -1,9 +1,9 @@
 import React from 'react';
 import { Typography } from '@mui/material';
-
 import { t, tHTML } from '@ankr.com/common';
-import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { IWalletMeta } from '@ankr.com/provider';
+
+import { TopUpStep } from 'domains/account/actions/topUp/const';
 
 interface IStepperTitleProps {
   step: TopUpStep;

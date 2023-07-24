@@ -3,8 +3,9 @@ import { t } from '@ankr.com/common';
 import { useForm } from 'react-final-form';
 
 import { LoadingButton } from 'uiKit/LoadingButton';
-import { useFooterStyles } from './useFooterStyles';
 import { newProjectIntlRoot } from 'domains/projects/const';
+
+import { useFooterStyles } from './useFooterStyles';
 
 interface FooterProps {
   onBackClick: () => void;

@@ -1,5 +1,6 @@
 import { getMainTheme as getBaseTheme, Themes } from '@ankr.com/ui';
 import { createTheme } from '@mui/material/styles';
+
 import { BREAKPOINTS } from './const';
 import { TypographyTheme, getTypographTheme } from './themeUtils';
 

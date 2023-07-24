@@ -3,11 +3,11 @@ import { useMemo } from 'react';
 import { TRON_CALL_CONFIG } from 'domains/requestComposer/utils/tron/RPCCallsConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { SampleCode } from 'domains/requestComposer/components/SampleCodeComponent/SampleCodeDialog/SampleCode';
-
 import {
   TronChainMethod,
   TronLibraryID,
 } from 'domains/requestComposer/constants/tron';
+
 import { formatParameters, getCopyCode } from './TronSampleCodeUtils';
 
 interface ISampleCodeProps {

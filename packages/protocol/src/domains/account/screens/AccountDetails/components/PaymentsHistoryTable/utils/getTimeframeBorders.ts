@@ -2,6 +2,7 @@ import {
   PaymentHistoryTableTimeframe as Timeframe,
   PaymentHistoryTableTimeframeBorders as Borders,
 } from 'domains/account/types';
+
 import {
   DEFAULT_TIMEFRAME,
   MONTH_OFFSET,

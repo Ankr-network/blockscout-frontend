@@ -1,9 +1,10 @@
 import { Web3Address } from 'multirpc-sdk';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { fetchLinkForBundlePayment } from '../bundles/fetchLinkForBundlePayment';
 import { setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+
+import { fetchLinkForBundlePayment } from '../bundles/fetchLinkForBundlePayment';
 
 export interface FetchLinkForCardPaymentParams {
   priceId: string;

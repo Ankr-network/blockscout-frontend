@@ -1,5 +1,6 @@
-import { BasePieChart } from '../BasePieChart';
 import { Timeframe } from 'domains/chains/types';
+
+import { BasePieChart } from '../BasePieChart';
 import { text } from './utils/text';
 import { useProjectsData } from './hooks/useProjectsData';
 

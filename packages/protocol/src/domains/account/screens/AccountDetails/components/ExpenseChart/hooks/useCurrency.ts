@@ -1,4 +1,5 @@
 import { useSwitcher } from 'modules/common/hooks/useSwitcher';
+
 import { ChartCurrency } from '../types';
 
 const { CREDIT } = ChartCurrency;

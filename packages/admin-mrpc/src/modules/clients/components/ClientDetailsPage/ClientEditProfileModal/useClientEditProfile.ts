@@ -73,7 +73,11 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
     };
 
     const handleResponse = (res: any) => {
-      if ('id' in res?.data?.user) {
+      if (
+        typeof res?.data?.user === 'object' &&
+        res?.data?.user !== null &&
+        'id' in res.data.user
+      ) {
         fetchProfileData({ address: currentClient.address! });
         handleClose();
       }

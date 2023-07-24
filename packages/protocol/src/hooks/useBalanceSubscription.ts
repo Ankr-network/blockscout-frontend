@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
-import { Options, useQueryEndpoint } from './useQueryEndpoint';
+
 import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
+
+import { Options, useQueryEndpoint } from './useQueryEndpoint';
 
 const options: Options = {
   subscriptionOptions: {

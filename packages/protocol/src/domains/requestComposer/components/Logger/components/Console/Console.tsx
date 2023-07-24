@@ -1,5 +1,5 @@
 import Scrollbars from 'react-custom-scrollbars';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, CSSProperties } from 'react';
 
 import { Log } from '../../types';
 import { Message } from '../Message';
@@ -10,7 +10,8 @@ export interface ConsoleProps {
 }
 
 export interface ViewProps {
-  style: React.CSSProperties;
+  // eslint-disable-next-line react/no-unused-prop-types
+  style: CSSProperties;
 }
 
 export const Console = ({ logs }: ConsoleProps) => {

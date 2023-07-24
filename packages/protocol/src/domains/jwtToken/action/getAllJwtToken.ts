@@ -1,15 +1,17 @@
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+
 import {
   formatJwtTokensAndDecrypt,
   getUserEndpointToken,
 } from './getAllJwtTokenUtils';
 import { getSortedJwtTokens, PRIMARY_TOKEN_INDEX } from '../utils/utils';
-import { IApiUserGroupParams } from 'multirpc-sdk';
 
 export interface IUserJwtToken {
   jwtTokens: JwtManagerToken[];

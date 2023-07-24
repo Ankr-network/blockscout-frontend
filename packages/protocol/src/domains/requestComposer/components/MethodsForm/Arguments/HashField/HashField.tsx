@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { Field } from 'react-final-form';
 
 import { InputField } from 'modules/form/components/InputField';
+
 import { useEVMMethodsFormStyles } from '../../MethodsFormStyles';
 
 interface HashFieldProps {

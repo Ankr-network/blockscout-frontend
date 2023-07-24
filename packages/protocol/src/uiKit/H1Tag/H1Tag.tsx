@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
+
 import { useH1TagStyles } from './useH1TagStyles';
 
 interface IH1TagProps {

@@ -1,3 +1,5 @@
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
 import {
   handleData,
   IRequestsBannerResponse,
@@ -6,7 +8,6 @@ import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { valuesMap } from 'domains/chains/components/TimeframeSwitcher/const';
 import { Timeframe } from 'domains/chains/types';
-import { IApiUserGroupParams } from 'multirpc-sdk';
 
 interface FetchUserRequestsParams extends IApiUserGroupParams {
   timeframe: Timeframe;

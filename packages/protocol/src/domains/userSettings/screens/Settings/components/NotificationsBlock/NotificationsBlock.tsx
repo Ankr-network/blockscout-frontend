@@ -3,13 +3,14 @@ import { INotificationsSettings } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { OverlaySpinner } from '@ankr.com/ui';
 
-import { NotificationsForm } from './NotificationsForm';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useLazyUserSettingsFetchNotificationSettingsQuery } from 'domains/userSettings/actions/notifications/fetchNotificationSettings';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useStyles } from './NotificationsBlockStyles';
 import { checkChangedSignupUserSettingsAndUpdate } from 'domains/userSettings/actions/checkChangedSignupUserSettingsAndUpdate';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { useStyles } from './NotificationsBlockStyles';
+import { NotificationsForm } from './NotificationsForm';
 
 export const NotificationsBlock = () => {
   const { classes } = useStyles();

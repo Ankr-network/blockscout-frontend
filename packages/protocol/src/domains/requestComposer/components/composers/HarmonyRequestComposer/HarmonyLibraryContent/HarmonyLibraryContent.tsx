@@ -1,22 +1,23 @@
 import { useCallback, useContext } from 'react';
 
-import { CountdownContext } from '../../const';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { HARMONY_CALL_CONFIG } from 'domains/requestComposer/utils/harmony/RPCCallConfig';
+import {
+  HarmonyLibraryID,
+  HarmonyMethod,
+} from 'domains/requestComposer/constants/harmony';
+import { requestComposerFetchHarmonyChainRequest } from 'domains/requestComposer/actions/harmony/fetchHarmonyChainReqeust';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+
+import { CountdownContext } from '../../const';
 import { HarmonyApiVersionTabs } from '../HarmonyApiVersionTabs';
 import {
   HarmonyApiVersionPrefix,
   useVersionTabs,
 } from '../HarmonyApiVersionTabs/versionTabsUtils';
-import {
-  HarmonyLibraryID,
-  HarmonyMethod,
-} from 'domains/requestComposer/constants/harmony';
 import { HarmonyMethodsForm } from '../HarmonyMethodsForm';
 import { HarmonyMethodsFormData } from '../../../MethodsForm/MethodsFormTypes';
 import { formatParameters } from '../HarmonySampleCode/HarmonySampleCodeUtils';
-import { requestComposerFetchHarmonyChainRequest } from 'domains/requestComposer/actions/harmony/fetchHarmonyChainReqeust';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 interface IHarmonyLibraryContentProps {
   group: EndpointGroup;

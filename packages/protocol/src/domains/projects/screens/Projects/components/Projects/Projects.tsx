@@ -2,11 +2,12 @@ import { useProjects } from 'domains/projects/hooks/useProjects';
 import { selectAllProjects } from 'domains/projects/store';
 import { Search } from 'modules/common/components/Search';
 import { useAppSelector } from 'store/useAppSelector';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
+
 import { AddProjectButton } from '../AddProjectButton';
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectTable } from '../ProjectTable';
-import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 
 export const Projects = () => {
   const [searchContent, setSearchContent] = useSearch();

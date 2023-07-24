@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Chain } from 'domains/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
+
 import { useChainSubtitleStyles } from './ChainSubtitleStyles';
 
 export interface ChainDescriptionProps {

@@ -1,8 +1,10 @@
 import { t } from '@ankr.com/common';
 import { FormGroup, Typography } from '@mui/material';
-import { InputField } from 'modules/form/components/InputField';
 import { Field } from 'react-final-form';
+
+import { InputField } from 'modules/form/components/InputField';
 import { jwtTokenIntlRoot } from 'domains/jwtToken/utils/utils';
+
 import { useNameFiledStyles } from './useNameFiledStyles';
 
 interface INameFieldProps {

@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+
 import { isValidEmail } from 'modules/common/utils/isValidEmail';
 import { Validator } from 'modules/form/types';
 

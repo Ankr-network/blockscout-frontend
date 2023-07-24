@@ -2,13 +2,14 @@ import { Box } from '@mui/material';
 
 import { Timeframe } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { useTimeframeSectionStyles } from './useTimeframeSectionStyles';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import { ProjectSelect } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-import { CostButton } from '../PrivateUsageSummary/components/CostButton';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+
+import { CostButton } from '../PrivateUsageSummary/components/CostButton';
+import { useTimeframeSectionStyles } from './useTimeframeSectionStyles';
 
 interface TimeframeSectionProps {
   tabs: Tab<Timeframe>[];

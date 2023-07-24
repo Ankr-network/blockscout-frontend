@@ -1,9 +1,10 @@
 import { Box, Button, Typography } from '@mui/material';
-
 import { t, tHTML } from '@ankr.com/common';
-import { useSignupDialogWeb2ContentStyles } from './useSignupDialogWeb2ContentStyles';
 import { Google, Mark } from '@ankr.com/ui';
+
 import { InfoBanner } from 'modules/common/components/InfoBanner';
+
+import { useSignupDialogWeb2ContentStyles } from './useSignupDialogWeb2ContentStyles';
 
 interface SignupDialogWeb2ContentProps {
   onClick: () => void;

@@ -1,4 +1,5 @@
 import { useHasBreakdown } from 'uiKit/Theme/useTheme';
+
 import { FeatureTable } from './FeatureTable';
 import { FeatureTableMobile } from './FeatureTableMobile/FeatureTableMobile';
 

@@ -1,6 +1,15 @@
 import { useCallback, useMemo } from 'react';
 import { FormSpy, Form, FormRenderProps } from 'react-final-form';
 
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { userSettingsAddNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
+import { getAddEmailErrorMessage } from 'domains/userSettings/utils/getAddEmailErrorMessage';
+import { is2FAError } from 'store/utils/is2FAError';
+import { userSettingsEditEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
+import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
+
+import { useChangeEmailForm } from './hooks/useChangeEmailForm';
+import { useSuccessStepsProps } from './hooks/useSuccessStepsProps';
 import {
   AddEmailFormContentState,
   AddEmailFormFields,
@@ -10,14 +19,6 @@ import { FillStep } from './components/FillStep';
 import { useAddEmailForm } from './hooks/useAddEmailForm';
 import { SuccessStep } from './components/SuccessStep';
 import { initialFormData } from './const';
-import { useSuccessStepsProps } from './hooks/useSuccessStepsProps';
-import { useChangeEmailForm } from './hooks/useChangeEmailForm';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { userSettingsAddNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
-import { getAddEmailErrorMessage } from 'domains/userSettings/utils/getAddEmailErrorMessage';
-import { is2FAError } from 'store/utils/is2FAError';
-import { userSettingsEditEmailBinding } from 'domains/userSettings/actions/email/editEmailBinding';
-import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
 export interface IUseAddEmailFormProps {
   contentState: AddEmailFormContentState;

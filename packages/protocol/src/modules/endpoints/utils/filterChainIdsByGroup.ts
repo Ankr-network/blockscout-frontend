@@ -1,4 +1,5 @@
 import { ChainID } from 'domains/chains/types';
+
 import { ChainGroupID } from '../types';
 import { getGroupById } from './getGroupById';
 

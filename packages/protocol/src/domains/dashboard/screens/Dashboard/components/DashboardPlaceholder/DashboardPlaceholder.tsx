@@ -1,11 +1,13 @@
 import { Button, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
+
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
+
 import imgLock from './assets/lock.png';
 import { useDashBoardPlaceholderStyles } from './useDashBoardPlaceholderStyles';
 

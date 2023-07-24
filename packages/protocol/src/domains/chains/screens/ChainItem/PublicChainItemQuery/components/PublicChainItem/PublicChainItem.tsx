@@ -11,6 +11,7 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+
 import { usePublicChainItem } from './hooks/usePublicChainItem';
 
 export interface ChainItemProps {

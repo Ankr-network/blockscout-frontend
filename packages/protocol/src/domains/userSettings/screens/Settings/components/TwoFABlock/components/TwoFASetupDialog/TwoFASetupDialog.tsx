@@ -1,9 +1,11 @@
 import { t } from '@ankr.com/common';
 import { Box, Button } from '@mui/material';
 import { useCallback } from 'react';
-import { Queries } from 'modules/common/components/Queries/Queries';
 
+import { Queries } from 'modules/common/components/Queries/Queries';
 import { Dialog } from 'uiKit/Dialog';
+import { UserSettingsSetupTwoFAResult } from 'domains/userSettings/actions/twoFA/setupTwoFA';
+
 import { USER_SETTINGS_INTL_ROOT } from '../../constants';
 import { useTwoFASetupDialogStyles } from './TwoFASetupDialogStyles';
 import { TwoFAInfo } from './components/TwoFAInfo';
@@ -15,7 +17,6 @@ import {
   useTwoFASetupVariant,
 } from './TwoFASetupDialogUtils';
 import { TwoFAControlDialogError } from '../TwoFAControlDialog/components/TwoFAControlDialogError';
-import { UserSettingsSetupTwoFAResult } from 'domains/userSettings/actions/twoFA/setupTwoFA';
 
 interface TwoFASetupDialogProps {
   open: boolean;

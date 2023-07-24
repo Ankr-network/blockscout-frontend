@@ -22,6 +22,7 @@ export const getTtlString = (ttl: ClientEntity['ttl']) =>
   ttl !== undefined ? new Date(ttl * 1000).toLocaleDateString() : undefined;
 
 export const getClientTypeExpiration: Partial<
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Record<ClientType, (ttl: ClientEntity['ttl']) => string | undefined>
 > = {
   [ClientType.UNKNOWN]: () => undefined,

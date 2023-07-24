@@ -1,4 +1,5 @@
 import { PrivateStatTopRequests } from 'multirpc-sdk';
+
 import { PieChartData } from '../BasePieChart';
 import { MAX_TOP_CATEGORIES_INDEX } from '../BasePieChart/utils/getColor';
 

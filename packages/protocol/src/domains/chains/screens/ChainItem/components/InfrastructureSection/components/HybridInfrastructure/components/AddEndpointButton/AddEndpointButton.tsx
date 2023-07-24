@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-
-import { useStyles } from './AddEndpointButtonStyles';
 import { t } from '@ankr.com/common';
 import { Plus } from '@ankr.com/ui';
+
+import { useStyles } from './AddEndpointButtonStyles';
 
 interface AddEndpointButtonProps {
   link: string;

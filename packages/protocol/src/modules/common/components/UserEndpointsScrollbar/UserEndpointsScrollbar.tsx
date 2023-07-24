@@ -1,11 +1,19 @@
-import { useRef, useEffect, useCallback, ReactNode } from 'react';
+import {
+  useRef,
+  useEffect,
+  useCallback,
+  ReactNode,
+  CSSProperties,
+} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+
 import { useUserEndpointsScrollbarStyles } from './useUserEndpointsScrollbarStyles';
 
 export interface ViewProps {
-  style: React.CSSProperties;
+  // eslint-disable-next-line react/no-unused-prop-types
+  style: CSSProperties;
 }
 
 interface UserEndpointsScrollbarProps {

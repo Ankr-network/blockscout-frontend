@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
+import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
+import { useTabs } from 'modules/common/hooks/useTabs';
+
 import { USDSubscriptionPricesTabsProps } from '../USDSubscriptionPricesTabsTypes';
 import { getUSDPaymentTabs } from '../utils/getUSDPaymentTabs';
-import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
 import { usePrices } from './usePrices';
-import { useTabs } from 'modules/common/hooks/useTabs';
 
 export type OnChange = USDSubscriptionPricesTabsProps['onChange'];
 

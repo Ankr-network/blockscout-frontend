@@ -1,7 +1,7 @@
 import { Button, FormGroup, Typography } from '@mui/material';
 import { ReactNode } from 'react';
-
 import { t } from '@ankr.com/common';
+
 import { useEVMMethodsFormStyles } from './MethodsFormStyles';
 
 interface MethodsFormProps {

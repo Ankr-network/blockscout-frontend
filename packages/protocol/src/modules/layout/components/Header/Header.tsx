@@ -1,7 +1,8 @@
 import { Container } from '@mui/material';
 
-import { Breadcrumbs } from '../Breadcrumbs';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
+
+import { Breadcrumbs } from '../Breadcrumbs';
 import { HeaderContent } from './components/HeaderContent';
 import { useStyles } from './useStyles';
 

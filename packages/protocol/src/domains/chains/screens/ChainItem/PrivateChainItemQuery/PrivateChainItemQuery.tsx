@@ -1,13 +1,14 @@
-import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { IChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ChainID } from 'domains/chains/types';
+import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
+import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+
+import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { useStyles } from '../ChainItemStyles';
 import { PrivateChainItem } from './components/PrivateChainItem';
 import { usePrivateChainItemQuery } from './PrivateChainItemQueryUtils';
 import { ChainItemProps } from '../ChainItemTypes';
-import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
-import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { PremiumOnlyChainGuard } from '../components/PremiumOnlyChainGuard';
 
 export const PrivateChainItemQuery = ({ chainId }: ChainItemProps) => {

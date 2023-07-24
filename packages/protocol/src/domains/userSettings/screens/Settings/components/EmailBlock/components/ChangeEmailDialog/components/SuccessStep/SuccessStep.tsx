@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { ReactNode } from 'react';
-
 import { t, tHTML } from '@ankr.com/common';
+
 import { useStyles } from './SuccessStepStyles';
 
 interface ISuccessStepProps {

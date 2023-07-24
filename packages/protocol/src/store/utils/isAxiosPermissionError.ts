@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { PermissionErrorResponse } from 'multirpc-sdk';
+
 import { isAxiosError } from './isAxiosError';
 import { isPermissionError } from './isPermissionError';
 
