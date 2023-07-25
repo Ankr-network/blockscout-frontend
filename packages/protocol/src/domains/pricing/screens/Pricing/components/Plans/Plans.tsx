@@ -52,26 +52,31 @@ export const Plans = () => {
 
       if (isFreeUser) {
         history.replace(INDEX_PATH);
+
         return;
       }
 
       if (isEnterpriseUser) {
         onOpen();
+
         return;
       }
 
       if (!isLoggedIn) {
         onOpenSignupDialog();
+
         return;
       }
 
       if (isFinanceRole) {
         history.replace(PATH_ACCOUNT);
+
         return;
       }
 
       if (hasPremium) {
         history.replace(INDEX_PATH);
+
         return;
       }
 
@@ -93,6 +98,7 @@ export const Plans = () => {
   const getButtonState = useCallback(
     (name: string) => {
       const isFreeUser = name === PLAN_LIST[0];
+
       return isFreeUser && (isFinanceRole || hasPremium);
     },
     [hasPremium, isFinanceRole],

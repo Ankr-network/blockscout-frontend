@@ -67,6 +67,7 @@ export const getRows = (
 
 function isHeightColVisibleStatus(status: StatusCircleStatus): boolean {
   const visibleStatuses = ['warning', 'error'];
+
   return visibleStatuses.includes(status);
 }
 

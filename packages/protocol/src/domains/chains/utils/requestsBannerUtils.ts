@@ -85,6 +85,7 @@ export const handleData = (
         successRequestsCount: 0,
         rejectedRequestsCount: 0,
       };
+
       record[nextTimestamp] = info;
     }
 

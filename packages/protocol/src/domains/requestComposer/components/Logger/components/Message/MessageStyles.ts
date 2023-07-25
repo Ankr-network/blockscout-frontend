@@ -7,9 +7,11 @@ const getColor = (type: MessageType, theme: Theme) => {
   switch (type) {
     case MessageType.Error:
       return theme.palette.error.main;
+
     case MessageType.Info:
     case MessageType.Success:
       return theme.palette.success.main;
+
     case MessageType.Input:
     case MessageType.Time:
     default:

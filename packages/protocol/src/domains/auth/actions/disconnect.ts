@@ -16,6 +16,7 @@ export const {
     authDisconnect: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const { address } = selectAuthData(getState() as RootState);
+
         dispatch(resetUserGroupConfig(address));
         dispatch(resetUserGroupJwt(address));
 

@@ -17,6 +17,7 @@ export const useWhitelistInput = () => {
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = normalizeValue(event.target.value);
+
       change(key, value);
     },
     [normalizeValue, change, key],

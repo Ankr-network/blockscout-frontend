@@ -12,6 +12,7 @@ export const initUnfilledParameters = (
 ) => {
   args.forEach((arg: ITronArg) => {
     const { fieldName, type } = arg;
+
     if (!(fieldName in data)) {
       data[fieldName] = type === 'number' ? 0 : '';
     }

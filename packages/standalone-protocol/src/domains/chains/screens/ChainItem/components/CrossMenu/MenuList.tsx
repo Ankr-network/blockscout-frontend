@@ -41,10 +41,9 @@ import {
 } from 'domains/chains/api/chain';
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
+import { ReactComponent as MantleLogo } from 'assets/img/logo/mantle.svg';
 
-const SHOULD_SHOW_ZYSYNC_ERA = true;
-
-const getCommonList = (isMobileSiderBar: boolean) => [
+export const getMenuList = (isMobileSiderBar: boolean) => [
   {
     chainId: ChainId.Ethereum,
     name: 'Ethereum',
@@ -118,10 +117,22 @@ const getCommonList = (isMobileSiderBar: boolean) => [
     url: 'https://iotexrpc.com/',
   },
   {
+    chainId: ChainId.ZksyncEra,
+    name: ZKSYNC_ERA_NAME,
+    logo: isMobileSiderBar ? <ZksyncEraMobileLogo /> : <ZksyncEraLogo />,
+    url: 'https://zksync_era.public-rpc.com/',
+  },
+  {
     chainId: ChainId.Tenet,
     name: TENET_NAME,
     logo: isMobileSiderBar ? <TenetMobileLogo /> : <TenetLogo />,
     url: 'https://tenet_evm.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Mantle,
+    name: 'Mantle',
+    logo: <MantleLogo />,
+    url: 'https://mantle.public-rpc.com/',
   },
   {
     chainId: ChainId.Chiliz,
@@ -178,21 +189,3 @@ const getCommonList = (isMobileSiderBar: boolean) => [
     url: 'https://klaytn.public-rpc.com/',
   },
 ];
-
-const getZkSyncEraItem = (isMobileSiderBar: boolean) => ({
-  chainId: ChainId.ZksyncEra,
-  name: ZKSYNC_ERA_NAME,
-  logo: isMobileSiderBar ? <ZksyncEraMobileLogo /> : <ZksyncEraLogo />,
-  url: 'https://zksync_era.public-rpc.com/',
-});
-
-export const getMenuList = (isMobileSiderBar: boolean) => {
-  const commonList = getCommonList(isMobileSiderBar);
-  const zkSyncEraItem = getZkSyncEraItem(isMobileSiderBar);
-
-  if (SHOULD_SHOW_ZYSYNC_ERA) {
-    commonList.splice(13, 0, zkSyncEraItem);
-  }
-
-  return commonList;
-};

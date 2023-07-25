@@ -40,6 +40,7 @@ export const usePrivateStats = ({
       groupRef.current = group;
       fetchPrivateStats({ interval, userEndpointToken: undefined, group });
     }
+
     fetchPrivateStats({ interval, userEndpointToken, group });
   }, [fetchPrivateStats, interval, requestKey, userEndpointToken, group]);
 

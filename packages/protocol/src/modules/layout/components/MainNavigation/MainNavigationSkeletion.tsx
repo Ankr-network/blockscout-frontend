@@ -13,6 +13,7 @@ export const MainNavigationSkeleton = ({
   isLoggedIn,
 }: MainNavigationSkeletionProps) => {
   const { classes } = useMainNavigationStyles(isMobileSiderBar);
+
   return (
     <div className={classes.root}>
       <div className={classes.main}>

@@ -25,6 +25,7 @@ export const useStakeBarChart = (
 
       const listData: PrivateStatTopRequestsData[] = resultData.map(item => {
         const list: PrivateStatTopRequestsData = {};
+
         Object.keys(selectedKey).forEach((listKey: string) => {
           list[listKey] = item[listKey];
         });
@@ -34,6 +35,7 @@ export const useStakeBarChart = (
           ...list,
         };
       });
+
       setData(listData);
     } else {
       setData(result.data);
@@ -59,6 +61,7 @@ export const useStakeBarChart = (
       } else {
         selectedKey[value] = color ?? COLOR_LIST[0];
       }
+
       setSelectedKey(selectedKey);
       updateListData();
     },

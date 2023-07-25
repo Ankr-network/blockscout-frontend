@@ -25,6 +25,7 @@ export const notificationSlice = createSlice({
       action: PayloadAction<INotificationProps>,
     ) => {
       const queue = state.queue.filter(item => item.key !== action.payload.key);
+
       state.queue = [
         ...queue,
         action.payload as WritableDraft<typeof action.payload>,

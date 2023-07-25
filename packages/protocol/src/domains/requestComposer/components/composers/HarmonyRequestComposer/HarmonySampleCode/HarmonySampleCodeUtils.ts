@@ -8,12 +8,14 @@ const ARG_PREFIX = 'arg';
 const getArgName = (arg: string): string | number => {
   const regexp = new RegExp(ARG_PREFIX);
   const index = arg.replace(regexp, '');
+
   return Number.isNaN(Number(index)) ? arg : Number(index) - 1;
 };
 
 const formatUnfilledParameter = (args: any[], argList?: IHarmonyArg[]) => {
   argList?.forEach((arg, index) => {
     const { type, defaultValue } = arg;
+
     if (!args[index]) {
       if (type === ArgumentType.boolean) {
         args[index] = false;
@@ -32,6 +34,7 @@ export const formatParameters = (
   argList?: IHarmonyArg[],
 ) => {
   const args: any[] = [];
+
   Object.keys(parameters).forEach(key => {
     if (parameters[key] === '') {
       delete parameters[key];
@@ -47,6 +50,7 @@ export const formatParameters = (
     Object.keys(parameters).forEach(key => {
       if (key.indexOf(ARG_PREFIX) > -1) {
         const argName = getArgName(key);
+
         if (typeof argName === 'string') {
           args.push(parameters[key]);
         } else if (typeof argName === 'number') {
@@ -83,10 +87,12 @@ export const formatParameters = (
 
     Object.keys(parameters).forEach(key => {
       const argName = getArgName(key);
+
       if (typeof argName === 'string') {
         paramArgs[key] = parameters[key];
       }
     });
+
     return parameters.arg7 ? [paramArgs, parameters.arg7] : [paramArgs];
   }
 
@@ -100,6 +106,7 @@ export const formatParameters = (
   Object.keys(parameters).forEach(key => {
     if (key.indexOf(ARG_PREFIX) > -1) {
       const argName = getArgName(key);
+
       if (typeof argName === 'string') {
         args.push(parameters[key]);
       } else if (typeof argName === 'number') {

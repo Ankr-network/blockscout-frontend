@@ -20,6 +20,7 @@ export const useLastMonthStats = (isChainSelected: boolean) => {
         groupRef.current = group;
         fetch({ group });
       }
+
       fetch({ group, userEndpointToken: selectedProjectEndpointToken });
     }
   }, [fetch, group, isChainSelected, selectedProjectEndpointToken]);

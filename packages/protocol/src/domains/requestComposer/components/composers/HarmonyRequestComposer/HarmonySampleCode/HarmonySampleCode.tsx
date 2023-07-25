@@ -28,6 +28,7 @@ export const HarmonySampleCode = ({
   const code = useMemo(() => {
     const argList = HARMONY_CALL_CONFIG[title]?.[libraryID]?.args;
     const argResult: any = formatParameters(args, title, argList);
+
     return HARMONY_CALL_CONFIG[title]?.[libraryID]?.codeSample(
       httpUrl,
       title,

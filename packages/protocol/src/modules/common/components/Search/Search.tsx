@@ -21,6 +21,7 @@ export const Search = ({ searchContent, setSearchContent }: ISearchProps) => {
   const handleChange = useCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { value } = event.target;
+
       setSearchContent(value);
     },
     [setSearchContent],

@@ -50,8 +50,10 @@ export const getSnippetByCodeType = (codeType: CodeType, url?: string) => {
     default:
     case CodeType.ANKRJS:
       return getJsCodeSample(url);
+
     case CodeType.PYTHON:
       return getPythonCodeSample();
+
     case CodeType.SHELL:
       return getShellCodeSampleWithUrl(url);
   }

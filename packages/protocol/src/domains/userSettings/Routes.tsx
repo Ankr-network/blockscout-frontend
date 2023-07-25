@@ -22,6 +22,7 @@ export const UserSettingsRoutesConfig = createRouteConfig(
   },
   PATH_SETTINGS,
 );
+
 const LoadableConfirmationContainer: LoadableComponent<any> = loadable(
   async () =>
     import('./screens/Confirmation').then(module => module.Confirmation),

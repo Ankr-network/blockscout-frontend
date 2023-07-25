@@ -49,6 +49,7 @@ export const useMetatags = (
 
   useEffect(() => {
     const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
+
     themeTag.content = currentThemeColor;
 
     const htmlElement = document.getElementsByTagName(

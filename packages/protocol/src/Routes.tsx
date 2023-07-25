@@ -57,6 +57,7 @@ export const Routes = () => {
   const hasAuthData = Boolean(isLoggedIn);
 
   const { isUninitialized } = usePremiumStatusSubscription();
+
   useBalanceSubscription();
   useAutoconnect();
   useWeb3ThemeSwitcher();

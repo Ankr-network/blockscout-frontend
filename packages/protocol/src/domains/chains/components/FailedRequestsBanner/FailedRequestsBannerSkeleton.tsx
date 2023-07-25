@@ -4,6 +4,7 @@ import { useFailedRequestsBannerStyles } from './useFailedRequestsBannerStyles';
 
 export const FailedRequestsBannerSkeleton = () => {
   const { classes } = useFailedRequestsBannerStyles();
+
   return (
     <div className={classes.skeleton}>
       <div className={classes.holder}>

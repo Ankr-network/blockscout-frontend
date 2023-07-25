@@ -11,7 +11,7 @@ import { syscoinTheme } from 'modules/themes/syscoinTheme';
 import { arbitrumTheme } from 'modules/themes/arbitrumTheme';
 import { avalancheTheme } from 'modules/themes/avalancheTheme';
 import { chilizTheme } from 'modules/themes/chilizTheme';
-import { mainTheme } from 'modules/themes/mainTheme';
+// import { mainTheme } from 'modules/themes/mainTheme';
 import { moonbeamTheme } from 'modules/themes/moonbeamTheme';
 import { nearTheme } from 'modules/themes/nearTheme';
 import { nervosTheme } from 'modules/themes/nervosTheme';
@@ -22,6 +22,7 @@ import { polygonZkevmTheme } from 'modules/themes/polygonZkevmTheme';
 import { tenetTheme } from 'modules/themes/tenetTheme';
 import { zksyncEraTheme } from 'modules/themes/zksyncEraTheme';
 import { rolluxTheme } from 'modules/themes/rolluxTheme';
+import { mantleTheme } from 'modules/themes/mantleTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -91,7 +92,10 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Rollux:
       return rolluxTheme;
 
+    case ChainId.Mantle:
+      return mantleTheme;
+
     default:
-      return mainTheme;
+      return mantleTheme;
   }
 };

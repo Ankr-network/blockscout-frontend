@@ -25,8 +25,10 @@ export const initializeSentry = () => {
         if (DEBUG) {
           // eslint-disable-next-line no-console
           console.error(event.message, event);
+
           return null;
         }
+
         return event;
       },
 

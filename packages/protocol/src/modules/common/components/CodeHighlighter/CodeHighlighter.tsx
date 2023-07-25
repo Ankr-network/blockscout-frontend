@@ -22,6 +22,7 @@ export const CodeHighlighter = ({
   theme = paleNight,
 }: CodeHighlighterProps) => {
   const { cx } = useStyles();
+
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
       {({ className, tokens, getLineProps, getTokenProps }) => (

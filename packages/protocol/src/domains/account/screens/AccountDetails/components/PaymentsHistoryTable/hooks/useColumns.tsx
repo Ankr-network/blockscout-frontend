@@ -1,4 +1,4 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
+import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
@@ -16,6 +16,26 @@ import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDi
 import { useTransactionsDownloader } from './useTransactionsDownloader';
 import { getAmount, isCreditAmount } from '../utils/amountUtils';
 import { getCreditsValue } from '../utils/getCreditsValue';
+
+const getCurrencySymbol = (
+  type: IPaymentHistoryEntityType,
+  creditAnkrAmount: string,
+  creditUsdAmount: string,
+) => {
+  if (isCreditAmount(type, creditAnkrAmount, creditUsdAmount)) {
+    return '';
+  }
+
+  if (Number(creditAnkrAmount) > 0) {
+    return CurrencySymbol.ankr;
+  }
+
+  if (Number(creditUsdAmount) > 0) {
+    return CurrencySymbol.usd;
+  }
+
+  return CurrencySymbol.ankr;
+};
 
 export const useColumns = () => {
   const downloadTransactions = useTransactionsDownloader();
@@ -65,15 +85,11 @@ export const useColumns = () => {
         }) => {
           return (
             <Amount
-              currencySymbol={
-                isCreditAmount(type, creditAnkrAmount, creditUsdAmount)
-                  ? ''
-                  : Number(creditAnkrAmount) > 0
-                  ? CurrencySymbol.ankr
-                  : Number(creditUsdAmount) > 0
-                  ? CurrencySymbol.usd
-                  : CurrencySymbol.ankr
-              }
+              currencySymbol={getCurrencySymbol(
+                type,
+                creditAnkrAmount,
+                creditUsdAmount,
+              )}
               direction={
                 isCreditAmount(type, creditAnkrAmount, creditUsdAmount)
                   ? undefined

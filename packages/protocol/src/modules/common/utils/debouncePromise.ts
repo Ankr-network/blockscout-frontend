@@ -9,6 +9,7 @@ export const debouncePromise = <T extends (...args: any[]) => void>(
     clearTimeout(timer);
     timer = setTimeout(() => {
       const result = inner(...args);
+
       resolves.forEach(r => r(result));
       resolves = [];
     }, ms);

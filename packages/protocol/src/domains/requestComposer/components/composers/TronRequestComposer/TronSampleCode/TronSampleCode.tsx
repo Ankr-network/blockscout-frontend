@@ -27,6 +27,7 @@ export const TronSampleCode = ({
 
   const code = useMemo(() => {
     const argResult = formatParameters(title, args);
+
     return TRON_CALL_CONFIG[title]?.[libraryID]?.codeSample(httpUrl, argResult);
   }, [httpUrl, title, args, libraryID]);
 

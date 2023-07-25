@@ -35,6 +35,7 @@ export const useBalanceSubscription = () => {
 
       return unsubscribe;
     }
+
     if (isLoggedIn) {
       const { unsubscribe } = fetchBalances({ group });
 

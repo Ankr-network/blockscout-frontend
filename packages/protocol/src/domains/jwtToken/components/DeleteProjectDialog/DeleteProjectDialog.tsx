@@ -29,6 +29,7 @@ export const DeleteProjectDialog = ({
     if (typeof onSuccess === 'function') {
       onSuccess();
     }
+
     onClose();
   }, [onSuccess, onClose]);
 

@@ -6,7 +6,6 @@ const toHex = (num: number): string => {
   return `0x${num.toString(16)}`;
 };
 
-// harmony
 export const HARMONY_MAINNET_PARAMS = {
   chainId: 1666600000,
   chainName: 'Harmony by Ankr Protocol',
@@ -17,7 +16,7 @@ export const HARMONY_MAINNET_PARAMS = {
   },
   blockExplorerUrls: ['https://explorer.harmony.one/'],
 };
-// avalanche
+
 export const AVALANCHE_MAINNET_PARAMS = {
   chainId: 43114,
   chainName: 'Avalanche by Ankr Protocol',
@@ -28,7 +27,7 @@ export const AVALANCHE_MAINNET_PARAMS = {
   },
   blockExplorerUrls: ['https://cchain.explorer.avax.network/'],
 };
-// fantom
+
 const FANTOM_NETWORK_PARAMS = {
   chainId: 250,
   chainName: 'Fantom by Ankr Protocol',
@@ -40,7 +39,6 @@ const FANTOM_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://ftmscan.com/'],
 };
 
-// polygon
 const POLYGON_NETWORK_PARAMS = {
   chainId: 137,
   chainName: 'Polygon by Ankr Protocol',
@@ -63,7 +61,6 @@ const POLYGON_ZK_EVM_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://zkevm.polygonscan.com/'],
 };
 
-// celo
 const CELO_NETWORK_PARAMS = {
   chainId: 42220,
   chainName: 'Celo by Ankr Protocol',
@@ -75,7 +72,6 @@ const CELO_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://explorer.celo.org'],
 };
 
-// Arbitrum
 const ARBITRUM_NETWORK_PARAMS = {
   chainId: 42161,
   chainName: 'Arbitrum by Ankr Protocol',
@@ -87,7 +83,6 @@ const ARBITRUM_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://arbiscan.io'],
 };
 
-// iotex
 const IOTEX_NETWORK_PARAMS = {
   chainId: 4689,
   chainName: 'IoTeX by Ankr Protocol',
@@ -146,7 +141,7 @@ const GNOSIS_NETWORK_PARAMS = {
 
 const CHILIZ_NETWORK_PARAMS = {
   chainId: 88888,
-  chainName: 'Chiliz Chain Mainnet',
+  chainName: 'Chiliz Chain Mainnet by Ankr Protocol',
   nativeCurrency: {
     name: 'Chiliz (Mainnet)',
     symbol: 'CHZ',
@@ -158,7 +153,7 @@ const CHILIZ_NETWORK_PARAMS = {
 // https://docs.tenet.org/mainnet-beta/tenet-mainnet
 const TENET_NETWORK_PARAMS = {
   chainId: 1559,
-  chainName: 'Tenet Mainnet',
+  chainName: 'Tenet Mainnet by Ankr Protocol',
   nativeCurrency: {
     name: 'Tenet Mainnet',
     symbol: 'TENET',
@@ -169,7 +164,7 @@ const TENET_NETWORK_PARAMS = {
 
 const ZKSYNC_ERA_PARAMS = {
   chainId: 324,
-  chainName: 'zkSync Era Mainnet',
+  chainName: 'zkSync Era Mainnet by Ankr Protocol',
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
@@ -180,7 +175,7 @@ const ZKSYNC_ERA_PARAMS = {
 
 const ROLLUX_NETWORK_PARAMS = {
   chainId: 570,
-  chainName: 'Rollux Mainnet',
+  chainName: 'Rollux Mainnet by Ankr Protocol',
   nativeCurrency: {
     name: 'SYS',
     symbol: 'SYS',
@@ -192,13 +187,24 @@ const ROLLUX_NETWORK_PARAMS = {
 // https://docs.tenet.org/mainnet-beta/tenet-mainnet
 const HORIZEN_NETWORK_PARAMS = {
   chainId: 1663, // 0x67f
-  chainName: 'Horizen Gobi Testnet',
+  chainName: 'Horizen Gobi Testnet by Ankr Protocol',
   nativeCurrency: {
     name: 'Horizen',
     symbol: 'tZEN',
     decimals: 18,
   },
   blockExplorerUrls: ['https://gobi-testnet.horizenlabs.io/ethv1'],
+};
+
+const MANTLE_NETWORK_PARAMS = {
+  chainId: 5000,
+  chainName: 'Mantle Mainnet by Ankr Protocol',
+  nativeCurrency: {
+    name: 'MNT',
+    symbol: 'MNT',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.mantle.xyz'],
 };
 
 const mapParams = (
@@ -259,6 +265,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, ROLLUX_NETWORK_PARAMS);
     case 'horizen_testnet_evm':
       return mapParams(chain, HORIZEN_NETWORK_PARAMS);
+    case 'mantle':
+      return mapParams(chain, MANTLE_NETWORK_PARAMS);
 
     default:
       return undefined;

@@ -82,5 +82,6 @@ export const getBannerContent = (
       ? premiumUserBannerContentAdvancedApi
       : freeUserBannerContentAdvancedApi;
   }
+
   return hasPremium ? premiumUserBannerContent : freeUserBannerContent;
 };

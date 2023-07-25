@@ -1,6 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const SIDEBAR_WIDTH = 220;
+
 const MOBILE_HEADER_HEIGHT = 130;
 
 export const useStyles = makeStyles<boolean>()((theme, isMobileSiderBar) => ({

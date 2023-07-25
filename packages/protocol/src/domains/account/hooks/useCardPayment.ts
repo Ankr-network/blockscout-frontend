@@ -57,6 +57,7 @@ export const useCardPayment = () => {
       if (isRecurrentPaymentId) {
         const { data: recurrentPaymentUrl } =
           await handleFetchLinkForRecurrentCardPayment(id);
+
         return recurrentPaymentUrl;
       }
 

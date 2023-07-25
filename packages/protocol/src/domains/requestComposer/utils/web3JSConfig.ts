@@ -52,6 +52,7 @@ const web3TraceTemplate = (
 
 const contractTemplate = (httpUrl: string, args: string[]) => {
   const [address, abi, method, methodArgumentsString] = args;
+
   return `const Web3 = require("web3");
 // OR import Web3 from 'web3';
 
@@ -783,6 +784,7 @@ export const web3JSConfig: ILibraryConfig = {
   eth_newFilter: {
     exec: async (provider, ...args) => {
       const filter = {} as any;
+
       filter.topics = args[3]
         ? args[3]
             .split(',')
@@ -812,6 +814,7 @@ export const web3JSConfig: ILibraryConfig = {
         ],
       });
       const filterId = await provider.eth_newFilter(filter);
+
       return provider.eth_getFilterChanges(filterId);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -840,6 +843,7 @@ export const web3JSConfig: ILibraryConfig = {
       : '[]'
   }
 };`;
+
       return filterTemplate(httpUrl, 'eth_newFilter', filter);
     },
     args: [
@@ -892,6 +896,7 @@ export const web3JSConfig: ILibraryConfig = {
         ],
       });
       const filterId = await provider.eth_newBlockFilter();
+
       return provider.eth_getFilterChanges(filterId);
     },
     codeSample: httpUrl => filterTemplate(httpUrl, 'eth_newBlockFilter'),
@@ -920,6 +925,7 @@ export const web3JSConfig: ILibraryConfig = {
         ],
       });
       const filterId = await provider.eth_newPendingTransactionFilter();
+
       return provider.eth_getFilterChanges(filterId);
     },
     codeSample: httpUrl =>
@@ -1001,6 +1007,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceBlock(args[0]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1033,6 +1040,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceTx(args[0]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1066,6 +1074,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceGet(args[0], args[1].split(','));
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1105,6 +1114,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceRawTx(args[0], [args[1]]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1143,6 +1153,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceBlockTx(args[0], [args[1]]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1180,6 +1191,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceReplayTx(args[0], [args[1]]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1214,6 +1226,7 @@ export const web3JSConfig: ILibraryConfig = {
         ...(args[4] && { after: args[4] }),
         ...(args[5] && { count: args[5] }),
       };
+
       filter.fromBlock = args[0] ? args[0] : 'latest';
       filter.toBlock = args[1] ? args[1] : 'latest';
 
@@ -1227,6 +1240,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceFilter(filter);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
@@ -1324,6 +1338,7 @@ export const web3JSConfig: ILibraryConfig = {
         value: value === '' ? null : value,
         data,
       };
+
       provider.extend({
         methods: [
           {
@@ -1334,6 +1349,7 @@ export const web3JSConfig: ILibraryConfig = {
           },
         ],
       });
+
       return provider.parityTraceCall(
         transaction,
         traceType.split(', '),
