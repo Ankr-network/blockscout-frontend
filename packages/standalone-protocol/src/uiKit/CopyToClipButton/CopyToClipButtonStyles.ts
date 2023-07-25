@@ -328,6 +328,27 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         },
       },
     },
+
+    [`&.${ChainId.Mantle}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+      backgroundColor: theme.palette.background.default,
+
+      '& $content': {
+        padding: 0,
+        backgroundColor: theme.palette.background.paper,
+      },
+
+      '& $text': {
+        color: theme.palette.common.white,
+        padding: '11px 16px 11px 32px',
+      },
+
+      '& $button': {
+        backgroundColor: theme.palette.primary.light,
+        color: theme.palette.text.secondary,
+        borderRadius: '6px 0 0 6px',
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied
@@ -358,7 +379,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
   text: {
     color: theme.palette.text.primary,
     textAlign: 'left',
-    padding: '11px 15px',
+    padding: '11px 32px',
     width: '60%',
     fontSize: 24,
 

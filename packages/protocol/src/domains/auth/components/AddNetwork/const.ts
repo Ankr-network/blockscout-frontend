@@ -36,8 +36,8 @@ const MANTLE: NetworkInfo = {
   chainId: 5000,
   chainName: 'Mantle Mainnet',
   nativeCurrency: {
-    name: 'BIT',
-    symbol: 'BIT',
+    name: 'MNT',
+    symbol: 'MNT',
     decimals: 18,
   },
   blockExplorerUrls: ['https://explorer.mantle.xyz'],
@@ -47,8 +47,8 @@ const MANTLE_TESTNET: NetworkInfo = {
   chainId: 5001,
   chainName: 'Mantle Testnet',
   nativeCurrency: {
-    name: 'BIT',
-    symbol: 'BIT',
+    name: 'MNT',
+    symbol: 'MNT',
     decimals: 18,
   },
   blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],

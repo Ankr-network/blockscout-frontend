@@ -8,23 +8,28 @@ export const useStyles = makeStyles<Theme>(theme => ({
     paddingRight: theme.spacing(3),
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+
     [`&.${ChainId.Harmony}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
+
     [`&.${ChainId.Syscoin}`]: {
       borderRadius: 0,
       border: `1px solid ${theme.palette.grey[300]}`,
     },
+
     [`&.${ChainId.Ethereum}`]: {
       border: `1px solid ${theme.palette.grey[300]}`,
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
     },
+
     [`&.${ChainId.Secret}`]: {
       '& $description': {
         color: '#DCDDE0',
       },
     },
+
     [`&.${ChainId.Klaytn}`]: {
       backgroundColor: theme.palette.grey[600],
       borderRadius: 0,
@@ -45,6 +50,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Rollux}`]: {
       border: `1px solid ${theme.palette.common.black}`,
       borderRadius: 0,
+    },
+
+    [`&.${ChainId.Mantle}`]: {
+      backgroundColor: theme.palette.background.paper,
+      border: `1px solid ${theme.palette.grey[300]}`,
+      borderRadius: 20,
     },
   },
   header: {

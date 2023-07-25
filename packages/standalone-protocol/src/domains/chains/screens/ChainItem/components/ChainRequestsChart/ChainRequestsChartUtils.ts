@@ -54,6 +54,7 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.IoTeX:
     case ChainId.Nervos:
     case ChainId.Moonbeam:
+    case ChainId.Mantle:
       return theme.palette.common.white;
 
     case ChainId.Gnosis:
@@ -84,6 +85,7 @@ export const hasGradient = (chainId: ChainId) => {
     case ChainId.Nervos:
     case ChainId.Gnosis:
     case ChainId.Secret:
+    case ChainId.Mantle:
       return false;
 
     default:

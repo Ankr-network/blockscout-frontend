@@ -6,6 +6,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     backgroundColor: theme.palette.background.default,
     borderRadius: 12,
     padding: theme.spacing(4),
+
     [`&.${ChainId.Harmony}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
@@ -32,6 +33,12 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [`&.${ChainId.POLYGON_ZKEVM}`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
+    },
+
+    [`&.${ChainId.Mantle}`]: {
+      backgroundColor: theme.palette.background.paper,
+      border: `1px solid ${theme.palette.grey[300]}`,
+      borderRadius: 20,
     },
   },
   header: {

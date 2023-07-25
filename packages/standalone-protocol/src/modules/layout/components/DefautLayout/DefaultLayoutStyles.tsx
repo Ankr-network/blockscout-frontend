@@ -7,6 +7,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
     fontVariantNumeric: 'tabular-nums',
     background: theme.palette.background.paper,
   },
+
   darkTheme: {},
   container: {
     flexGrow: 1,

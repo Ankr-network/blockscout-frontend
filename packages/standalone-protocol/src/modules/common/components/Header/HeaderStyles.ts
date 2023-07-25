@@ -145,6 +145,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
         textShadow: 'none',
       },
     },
+
+    [`&.${ChainId.Mantle} span span span`]: {
+      color: theme.palette.primary.main,
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -166,6 +170,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     },
 
     [`&.${ChainId.Rollux} span`]: {
+      color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Mantle} span`]: {
       color: theme.palette.text.primary,
     },
 

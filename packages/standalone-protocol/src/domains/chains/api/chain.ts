@@ -11,6 +11,7 @@ export enum ChainId {
   HORIZEN_TESTNET_EVM = 'horizen_testnet_evm',
   Harmony = 'harmony',
   IoTeX = 'iotex',
+  Mantle = 'mantle',
   Near = 'near',
   Nervos = 'nervos',
   Nervos_GW = 'nervos_gw',
