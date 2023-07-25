@@ -157,6 +157,7 @@ listenerMiddleware.startListening({
 
     if (is2FAError(error)) {
       const message = getAxiosAccountErrorMessage(error);
+
       dispatch(setTwoFAErrorMessage(message));
     }
   },

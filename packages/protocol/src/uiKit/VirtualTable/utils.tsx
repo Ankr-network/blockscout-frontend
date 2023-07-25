@@ -96,6 +96,7 @@ export function useTableContext({
 
   const handleLoadMore = useCallback(async () => {
     const nextQuery = { ...query, page: (query.page || 1) + 1 };
+
     setQuery(nextQuery);
 
     if (onChangePage) {

@@ -15,6 +15,7 @@ const flatChains = (chains: Chain[]): Chain[] =>
 
 export const getChainNamesMap = (chains: Chain[] = []) => {
   const flatten = flatChains(chains);
+
   return flatten.reduce<ChainNamesMap>((result, { id, name }) => {
     const checkedID = checkPrivateChainsAndGetChainId(id);
 

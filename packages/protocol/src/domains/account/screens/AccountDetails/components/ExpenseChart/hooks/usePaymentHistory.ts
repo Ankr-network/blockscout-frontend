@@ -38,6 +38,7 @@ export const usePaymentHistory = ({
   useEffect(() => {
     const isGroupChanged = groupRef.current !== group;
     const isTimeframeChanged = timeframeRef.current !== timeframe;
+
     if (hasPrivateAccess) {
       const borders = getTimeframeBorders(timeframe);
 

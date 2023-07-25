@@ -37,6 +37,7 @@ ${
 // TODO: Add Websocket example?
 const contractTemplate = (httpUrl: string, args: any[]) => {
   const [address, abi, method, methodArgumentsString] = args;
+
   return `const ethers = require("ethers");
 // OR import ethers from 'ethers';
 
@@ -62,6 +63,7 @@ const contractTraceTemplate = (httpUrl: string, args: string[]) => {
     method,
     methodArgumentsString,
   ] = args;
+
   return `const ethers = require("ethers");
 // OR import ethers from 'ethers';
 
@@ -575,6 +577,7 @@ export const ethersJSConfig: ILibraryConfig = {
       if (args[1] === true) {
         return provider.getBlockWithTransactions(args[0]);
       }
+
       return provider.getBlock(args[0]);
     },
     codeSample: (httpUrl, wssUrl, ...args) => {
@@ -586,6 +589,7 @@ export const ethersJSConfig: ILibraryConfig = {
           wssUrl,
         );
       }
+
       return ethersTemplate(
         `getBlock('${args[0]}')`,
         'blockData',
@@ -848,6 +852,7 @@ export const ethersJSConfig: ILibraryConfig = {
   eth_newFilter: {
     exec: async (provider, ...args) => {
       const filter = {} as any;
+
       filter.topics = args[3]
         ? args[3]
             .split(',')
@@ -858,6 +863,7 @@ export const ethersJSConfig: ILibraryConfig = {
       filter.address = args[2] ? args[2] : null;
 
       const filterId = await provider.send('eth_newFilter', [filter]);
+
       return provider.send('eth_getFilterChanges', [filterId]);
     },
     codeSample: (httpUrl, wssUrl, ...args) => {
@@ -886,6 +892,7 @@ export const ethersJSConfig: ILibraryConfig = {
       : '[]'
   }
 };`;
+
       return filterTemplate(httpUrl, wssUrl, 'eth_newFilter', filter);
     },
     args: [
@@ -918,6 +925,7 @@ export const ethersJSConfig: ILibraryConfig = {
   eth_newBlockFilter: {
     exec: async provider => {
       const filterId = await provider.send('eth_newBlockFilter');
+
       return provider.send('eth_getFilterChanges', [filterId]);
     },
     codeSample: httpUrl => filterTemplate(httpUrl, 'eth_newBlockFilter'),
@@ -926,6 +934,7 @@ export const ethersJSConfig: ILibraryConfig = {
   eth_newPendingTransactionFilter: {
     exec: async provider => {
       const filterId = await provider.send('eth_newPendingTransactionFilter');
+
       return provider.send('eth_getFilterChanges', [filterId]);
     },
     codeSample: httpUrl =>
@@ -1154,6 +1163,7 @@ export const ethersJSConfig: ILibraryConfig = {
         ...(args[4] && { after: args[4] }),
         ...(args[5] && { count: args[5] }),
       };
+
       filter.fromBlock = args[0] ? args[0] : 'latest';
       filter.toBlock = args[1] ? args[1] : 'latest';
 

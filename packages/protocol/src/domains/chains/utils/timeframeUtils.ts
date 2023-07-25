@@ -12,7 +12,9 @@ import { Timeframe } from '../types';
 export const ONE_MINUTE_LIFETIME = 60 * 1000;
 export const ONE_HOUR_LIFETIME = 60 * ONE_MINUTE_LIFETIME;
 export const ONE_DAY_LIFETIME = 24 * ONE_HOUR_LIFETIME;
+
 const ONE_WEEK_HOURS = 7 * 24;
+
 export const LIFETIME = ONE_HOUR_LIFETIME * ONE_WEEK_HOURS;
 
 export const getCurrentTimestamp = (
@@ -28,6 +30,7 @@ export const getCurrentTimestamp = (
   switch (timeframe) {
     case Timeframe.Hour:
       return getTime(new Date(year, month, day, hour, minute));
+
     case Timeframe.Day:
       return getTime(new Date(year, month, day, hour));
 

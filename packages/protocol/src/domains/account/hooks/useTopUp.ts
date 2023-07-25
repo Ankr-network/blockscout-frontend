@@ -89,6 +89,7 @@ export const useTopUp = () => {
     if (selectedGroupAddress) {
       return depositForUser({ amount, targetAddress: selectedGroupAddress });
     }
+
     return deposit(amount);
   }, [selectedGroupAddress, depositForUser, amount, deposit]);
 
@@ -98,6 +99,7 @@ export const useTopUp = () => {
     } else {
       depositReset();
     }
+
     waitTransactionConfirmingReset();
   }, [
     depositForUserReset,

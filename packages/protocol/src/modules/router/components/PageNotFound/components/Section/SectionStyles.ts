@@ -3,6 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 
 const RADIUS_MOBILE = 5;
 const RADIUS_DESKTOP = 7.5;
+
 export const OFFSET_Y_MOBILE = 6;
 export const OFFSET_Y_DESKTOP = 9;
 

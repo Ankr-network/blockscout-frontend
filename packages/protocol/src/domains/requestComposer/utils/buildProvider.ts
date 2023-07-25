@@ -14,6 +14,7 @@ export const buildProvider = (web3Lib: EVMLibraryID, web3URL: string) => {
         ? new ethers.providers.WebSocketProvider(web3URL)
         : new ethers.providers.JsonRpcProvider(web3URL);
     }
+
     case EVMLibraryID.JSON_RPC:
       return axios.create({
         ...AXIOS_DEFAULT_CONFIG,

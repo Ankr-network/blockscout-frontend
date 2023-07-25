@@ -38,6 +38,7 @@ export const Subscriptions = ({
     if (!selectedItem) {
       return;
     }
+
     cancelSubscription(selectedItem.subscriptionId).then(onClose);
   }, [selectedItem, cancelSubscription, onClose]);
 

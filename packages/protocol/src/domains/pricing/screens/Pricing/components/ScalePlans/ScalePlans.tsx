@@ -12,6 +12,7 @@ const COLUMN_COUNTS = 3;
 
 export const ScalePlans = () => {
   const { classes } = useScalePlansStyles();
+
   return (
     <div className={classes.root}>
       <Typography variant="h4" className={classes.title}>

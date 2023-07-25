@@ -53,6 +53,7 @@ export const isLightTheme = (theme: Theme) => {
 export const getPremiumColorGradientHover = (theme: Theme) => {
   return isLightTheme(theme) ? premiumDarkThemeColor : premiumColor;
 };
+
 export const getPremiumColorGradient = (theme: Theme) => {
   return isLightTheme(theme) ? premiumColor : premiumDarkThemeColor;
 };

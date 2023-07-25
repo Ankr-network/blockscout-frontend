@@ -48,6 +48,7 @@ export const getRows = (
       if (!existContinentScoreItem.isPremium) {
         existContinentScoreItem.freeCount += PREMIUM_MULTIPLIER;
       }
+
       existContinentScoreItem.premiumCount += PREMIUM_MULTIPLIER;
 
       existContinentScoreItem.isPremium = isPremium ?? false;

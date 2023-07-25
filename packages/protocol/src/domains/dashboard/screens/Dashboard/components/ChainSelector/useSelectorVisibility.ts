@@ -13,6 +13,7 @@ export const useSelectorVisibility = () => {
     const handler = () => {
       setIsOpen(false);
     };
+
     window.addEventListener('scroll', handler);
 
     return () => {

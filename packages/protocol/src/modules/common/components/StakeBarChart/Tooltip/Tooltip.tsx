@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
@@ -6,6 +6,11 @@ import { StatusCircle } from 'uiKit/StatusCircle';
 
 import { calculateTotalRequests, formatNumber } from '../StakeBarChartUtils';
 import { useTooltipStyles } from './useTooltip';
+import {
+  COMMON_POPUP_WIDTH,
+  DYNAMIC_POPUP_BASIC_WIDTH,
+  getName,
+} from './TooltipUtils';
 
 interface ITooltipPayloadProps {
   name: string;
@@ -24,10 +29,6 @@ interface ITooltipProps {
   payload?: ITooltipPayload[];
   label?: string;
 }
-
-const COMMON_POPUP_WIDTH = 320;
-const DYNAMIC_POPUP_BASIC_WIDTH = 360;
-const MAX_METHOD_NUMBER_LENGTH = 40;
 
 export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
   const maxMethodWidth = useMemo(
@@ -66,13 +67,7 @@ export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
               className={classes.name}
             >
               <StatusCircle color={item.color} mr={0.75} />
-              {item.name.includes(
-                t('chain-item.method-calls.other-methods-text'),
-              )
-                ? t('chain-item.method-calls.other-methods')
-                : item.name.length > MAX_METHOD_NUMBER_LENGTH
-                ? `${item.name.substring(0, MAX_METHOD_NUMBER_LENGTH)}...`
-                : item.name}
+              {getName(item.name)}
             </Typography>
             <Typography variant="body2" className={classes.text}>
               {formatNumber(item.value)}

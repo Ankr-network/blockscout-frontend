@@ -36,6 +36,7 @@ export const useChainsSelector = ({
 
   const handleChange = useCallback((event: SelectChangeEvent<ChainID>) => {
     const { value } = event.target;
+
     setSelectedChainId(value as ChainID);
   }, []);
 

@@ -18,6 +18,7 @@ export const filterChainsBySubType = (
       default:
       case ChainSubType.Athens2:
         return ChainsAthens2.includes(id);
+
       case ChainSubType.Athens3:
         return ChainsAthens3.includes(id);
     }

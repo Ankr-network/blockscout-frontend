@@ -8,6 +8,7 @@ export const POLL_INTERVAL = 60_000;
 const { Hour, Day, Week, Month } = Timeframe;
 
 const root = 'chains.timeframes';
+
 export const timeframeToLabelMap: Record<Timeframe, string> = {
   [Hour]: t(`${root}.hour`),
   [Day]: t(`${root}.day`),
@@ -16,6 +17,7 @@ export const timeframeToLabelMap: Record<Timeframe, string> = {
 };
 
 type Map = Record<Timeframe, PrivateStatsInterval>;
+
 export const timeframeToIntervalMap: Map = {
   [Hour]: PrivateStatsInterval.HOUR,
   [Day]: PrivateStatsInterval.DAY,
@@ -24,6 +26,7 @@ export const timeframeToIntervalMap: Map = {
 };
 
 type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
+
 const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   'scrt-rest': ChainID.SECRET,
   'scrt-rpc': ChainID.SECRET,

@@ -3,7 +3,9 @@ import { useEffect, useRef } from 'react';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 export const JSD_WIDGET_ID = 'jsd-widget';
+
 const JSD_WIDGET_MOBILE_CLASS_NAME = 'jsd-widget-mobile';
+
 export const JSD_HELP_BUTTON_ID = 'help-button';
 
 const observeWidgetOpeningStyles = () => {
@@ -32,6 +34,7 @@ const useMobileStyles = (isMobile: boolean) => {
   useEffect(() => {
     setTimeout(() => {
       const target = document.getElementById(JSD_WIDGET_ID);
+
       if (!target) return;
 
       if (isMobile) {

@@ -35,6 +35,7 @@ export const withSvgIconSimple = (
       },
     ),
   );
+
   component.displayName = 'withSvgIconSimple';
 
   return component;

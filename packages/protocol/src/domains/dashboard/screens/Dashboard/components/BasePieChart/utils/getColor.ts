@@ -11,5 +11,6 @@ export const getColor = (
   if (hasOtherValuesSection && index > MAX_TOP_CATEGORIES_INDEX) {
     return COLOR_OTHER;
   }
+
   return COLORS[index] ?? getColor(index - COLORS.length);
 };

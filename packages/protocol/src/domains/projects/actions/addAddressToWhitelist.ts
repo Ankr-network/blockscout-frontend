@@ -20,6 +20,7 @@ export const {
           totp,
         }) => {
           const service = MultiService.getService().getAccountGateway();
+
           await service.addAddressToWhitelist(
             contractAddress,
             {

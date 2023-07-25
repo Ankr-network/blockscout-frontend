@@ -20,6 +20,7 @@ import { useIsWhitelistReason } from './hooks/useIsWhitelistReason';
 
 export const CardPaymentSuccess = () => {
   const isWhitelistReason = useIsWhitelistReason();
+
   useEnableWhitelistedProject(isWhitelistReason);
 
   useTrackSuccessfulTopUp();

@@ -28,6 +28,7 @@ export const SignupDialogContent = ({
           onSuccess={onSuccess}
         />
       );
+
     case SignupDialogState.WEB2:
       return <SignupDialogWeb2Content onClick={onGoogleButtonClick} />;
 

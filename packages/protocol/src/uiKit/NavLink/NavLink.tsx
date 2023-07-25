@@ -34,6 +34,26 @@ export interface INavLinkProps {
 
 type Props = ButtonProps & INavLinkProps;
 
+const getElement = (
+  isLink: boolean,
+  disabled?: boolean,
+  component?: INavLinkProps['component'],
+) => {
+  if (isLink) {
+    return 'a';
+  }
+
+  if (disabled) {
+    if (typeof component === 'string') {
+      return component;
+    }
+
+    return 'span';
+  }
+
+  return RouterLink;
+};
+
 export const NavLink = forwardRef(
   (
     {
@@ -69,13 +89,7 @@ export const NavLink = forwardRef(
 
     if (isRouterLink) {
       return createElement(
-        isLink
-          ? 'a'
-          : props.disabled
-          ? typeof props.component === 'string'
-            ? props.component
-            : 'span'
-          : RouterLink,
+        getElement(isLink, props.disabled, props.component),
         {
           to: href,
           href,

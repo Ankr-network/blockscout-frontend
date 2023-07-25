@@ -139,6 +139,7 @@ export function VirtualTable<T extends Record<string, any>>(
   if (cols.length === 0) {
     // eslint-disable-next-line no-console
     console.error('VirtualTable: no cols passed');
+
     return null;
   }
 
