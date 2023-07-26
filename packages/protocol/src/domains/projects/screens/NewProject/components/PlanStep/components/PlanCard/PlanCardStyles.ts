@@ -25,7 +25,7 @@ export const usePlanCardStyles = makeStyles()(theme => ({
   title: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
 
     letterSpacing: '-0.03em',
 
@@ -74,5 +74,14 @@ export const usePlanCardStyles = makeStyles()(theme => ({
   },
   selected: {
     border: `2px solid ${theme.palette.primary.main}`,
+  },
+  radio: {
+    position: 'relative',
+    top: 3,
+    marginLeft: theme.spacing(1),
+
+    '& svg': {
+      width: 24,
+    },
   },
 }));
