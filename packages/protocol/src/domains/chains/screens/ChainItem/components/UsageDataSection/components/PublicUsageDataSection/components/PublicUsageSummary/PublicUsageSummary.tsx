@@ -17,10 +17,6 @@ export interface UsageSummaryProps {
 
 const root = 'chain-item.usage-data.usage-summary';
 
-const totalTitle = t(`${root}.total`);
-const averageTitle = t(`${root}.average`);
-const cachedTitle = t(`${root}.cached.title`);
-
 export const PublicUsageSummary = ({
   cachedRequests,
   className,
@@ -38,9 +34,13 @@ export const PublicUsageSummary = ({
 
   return (
     <div className={cx(className, classes.usageSummary)}>
-      <Stat loading={loading} title={totalTitle} value={total} />
-      <Stat loading={loading} title={averageTitle} value={average} />
-      <Stat loading={loading} title={cachedTitle} value={cached} />
+      <Stat loading={loading} title={t(`${root}.total`)} value={total} />
+      <Stat loading={loading} title={t(`${root}.average`)} value={average} />
+      <Stat
+        loading={loading}
+        title={t(`${root}.cached.title`)}
+        value={cached}
+      />
     </div>
   );
 };

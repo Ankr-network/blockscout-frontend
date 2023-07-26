@@ -1,10 +1,11 @@
 import { Skeleton, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Switcher } from 'modules/common/components/Switcher';
 import { Timeframe } from 'domains/chains/types';
-import { timeframeToLabelMap } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
+import { getLabelByTimeframe } from 'domains/chains/screens/ChainItem/components/UsageDataSection/UsageDataSectionUtils';
 
 import { useStyles } from './ChainMainInfoStyles';
 import { ChainMainInfoProps } from './ChainMainInfoTypes';
@@ -24,6 +25,11 @@ export const ChainMainInfo = ({
   const { themes } = useThemes();
 
   const { classes, cx } = useStyles({ isHighlighted, themes });
+
+  const switcherLabel = useMemo(
+    () => getLabelByTimeframe(timeframe),
+    [timeframe],
+  );
 
   return (
     <div className={cx(classes.root, className)}>
@@ -49,7 +55,7 @@ export const ChainMainInfo = ({
                       value: totalRequests,
                     })}
                     <Switcher
-                      value={timeframeToLabelMap[timeframe]}
+                      value={switcherLabel}
                       className={classes.switcher}
                     />
                   </>

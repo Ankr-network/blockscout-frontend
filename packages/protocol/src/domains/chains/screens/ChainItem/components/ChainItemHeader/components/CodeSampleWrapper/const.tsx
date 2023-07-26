@@ -20,14 +20,24 @@ export const mapLanguageByCodeType: Record<CodeType, Language> = {
   [CodeType.PYTHON]: 'python',
 };
 
-const tabTitlesMap: Record<CodeType, string> = {
-  [CodeType.ANKRJS]: t('advanced-api.tabs.ankr-js'),
-  [CodeType.SHELL]: t('advanced-api.tabs.shell'),
-  [CodeType.PYTHON]: t('advanced-api.tabs.ankr-py'),
+export const getTabTitle = (codeType: CodeType) => {
+  switch (codeType) {
+    case CodeType.ANKRJS:
+      return t('advanced-api.tabs.ankr-js');
+
+    case CodeType.SHELL:
+      return t('advanced-api.tabs.shell');
+
+    case CodeType.PYTHON:
+      return t('advanced-api.tabs.ankr-py');
+
+    default:
+      return '';
+  }
 };
 
 const titleRenderFn = (isSelected: boolean, _: boolean, id: CodeType) => (
-  <ChainTypeTab content={tabTitlesMap[id]} isSelected={isSelected} />
+  <ChainTypeTab content={getTabTitle(id)} isSelected={isSelected} />
 );
 
 export const tabs: Tab<CodeType>[] = [

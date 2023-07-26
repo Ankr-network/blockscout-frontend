@@ -6,7 +6,7 @@ import {
   FetchRequestParams,
   FetchRequestResult,
 } from '../types';
-import { RPC_CALLS_CONFIG } from '../utils/RPCCallsConfig';
+import { getRPCCallsConfig } from '../utils/RPCCallsConfig';
 import { buildProvider } from '../utils/buildProvider';
 import { setEVMMethod } from '../store/requestComposerSlice';
 
@@ -29,7 +29,9 @@ export const {
 
         dispatch(setEVMMethod(methodName));
 
-        const web3Method = RPC_CALLS_CONFIG[methodName] || {};
+        const config = getRPCCallsConfig();
+
+        const web3Method = config[methodName] || {};
         const { exec, parseArgs } = web3Method[libraryID] || {};
 
         const provider = buildProvider(libraryID, web3URL);

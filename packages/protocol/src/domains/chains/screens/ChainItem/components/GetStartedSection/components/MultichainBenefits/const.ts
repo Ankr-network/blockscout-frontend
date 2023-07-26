@@ -4,7 +4,7 @@ import imgNft from './assets/nft.png';
 import imgQuery from './assets/query.png';
 import imgToken from './assets/token.png';
 
-export const content = [
+export const getContent = () => [
   {
     img: imgNft,
     title: t('advanced-api.benefits.nft-api.title'),

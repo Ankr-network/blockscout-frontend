@@ -1,10 +1,8 @@
-import React from 'react';
-
 import { TabsManager } from 'uiKit/TabsManager';
 import { useTabs } from 'modules/common/hooks/useTabs';
 
 import { Technology } from '../../types';
-import { tabs, title } from './const';
+import { tabs, getTitle } from './const';
 import { useStyles } from './TabsStyles';
 
 export interface TabsProps {
@@ -23,7 +21,7 @@ export const Tabs = ({ setTechnology }: TabsProps) => {
     <TabsManager<Technology>
       selectedTab={selectedTab}
       tabs={processedTabs}
-      title={<div className={classes.title}>{title}</div>}
+      title={<div className={classes.title}>{getTitle()}</div>}
     />
   );
 };

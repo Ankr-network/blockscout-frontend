@@ -12,13 +12,13 @@ export interface SoonLabelProps {
 export const SoonLabel = ({
   component = 'div',
   className,
-  label = t('common.soon'),
+  label,
 }: SoonLabelProps) => {
   const { classes, cx } = useSoonLabelStyles();
 
   return (
     <Typography component={component} className={cx(className, classes.root)}>
-      {label}
+      {label || t('common.soon')}
     </Typography>
   );
 };

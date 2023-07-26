@@ -1,7 +1,9 @@
+import { useMemo } from 'react';
+
 import { Timeframe } from 'domains/chains/types';
 
-import { timeframeToLabelMap } from '../UsageDataSection/const';
 import { useItemHeaderStyles } from './ItemHeaderStyles';
+import { getLabelByTimeframe } from '../UsageDataSection/UsageDataSectionUtils';
 
 export interface ItemHeaderProps {
   timeframe: Timeframe;
@@ -11,10 +13,12 @@ export interface ItemHeaderProps {
 export const ItemHeader = ({ timeframe, title }: ItemHeaderProps) => {
   const { classes } = useItemHeaderStyles();
 
+  const label = useMemo(() => getLabelByTimeframe(timeframe), [timeframe]);
+
   return (
     <div className={classes.itemHeader}>
       <div className={classes.title}>{title}</div>
-      <div className={classes.timeframe}>{timeframeToLabelMap[timeframe]}</div>
+      <div className={classes.timeframe}>{label}</div>
     </div>
   );
 };

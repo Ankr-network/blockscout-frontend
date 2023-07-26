@@ -4,7 +4,7 @@ import {
   FetchRequestParams,
   FetchRequestResult,
 } from 'domains/requestComposer/types';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import {
   SolanaLibraryID,
   SolanaMethod,
@@ -35,7 +35,7 @@ export const {
 
         dispatch(setEVMMethod(methodName));
 
-        const web3Method = RPC_CALLS_CONFIG[methodName] || {};
+        const web3Method = getRPCCallsConfig()[methodName] || {};
 
         const { exec } = web3Method[libraryID] || {};
 

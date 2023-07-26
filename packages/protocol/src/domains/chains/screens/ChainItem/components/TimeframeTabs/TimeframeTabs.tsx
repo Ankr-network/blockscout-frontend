@@ -2,8 +2,8 @@ import { Tab } from 'modules/common/hooks/useTabs';
 import { Timeframe } from 'domains/chains/types';
 
 import { SecondaryTab, TabSize } from '../SecondaryTab';
-import { timeframeToLabelMap } from '../UsageDataSection/const';
 import { useTimeframeTabsStyles } from './TimeframeTabsStyles';
+import { getLabelByTimeframe } from '../UsageDataSection/UsageDataSectionUtils';
 
 export interface TimeframeTabsProps {
   className?: string;
@@ -33,7 +33,7 @@ export const TimeframeTabs = ({
           isLast
           isSelected={id === timeframe}
           key={id}
-          label={timeframeToLabelMap[id]}
+          label={getLabelByTimeframe(id)}
           onClick={onSelect}
           size={size}
         />

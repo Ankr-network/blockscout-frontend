@@ -10,7 +10,7 @@ import {
   getNearConnectionConfig,
 } from 'domains/requestComposer/constants/near';
 import { NearMethodResponse } from 'domains/requestComposer/types/near';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/near/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/near/RPCCallsConfig';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
@@ -36,7 +36,7 @@ export const {
 
         dispatch(setEVMMethod(methodName));
 
-        const web3Method = RPC_CALLS_CONFIG[methodName] || {};
+        const web3Method = getRPCCallsConfig()[methodName] || {};
         const { exec, parseArgs } = web3Method[libraryID] || {};
 
         const nearConnection = await connect(getNearConnectionConfig(web3URL));

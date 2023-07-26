@@ -4,7 +4,7 @@ import { Chain, ChainType } from 'domains/chains/types';
 import { GroupedEndpoints as Endpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
-import { chainTypeTabs } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
+import { getChainTypeTabs } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
 import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';
 
@@ -31,7 +31,7 @@ export const getPublicChainTypeTabs = ({
   isBlockedMainnet,
   onBlockedTabClick,
 }: GetPublicChainTypeTabsParams): Tab<ChainType>[] => {
-  return chainTypeTabs
+  return getChainTypeTabs()
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map<Tab<ChainType>>(({ id, title }, index, list) => {
       const blockedTestnet = isBlockedTestnet && id === ChainType.Testnet;

@@ -1,4 +1,3 @@
-import { t } from '@ankr.com/common';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
 import { ChainID, Timeframe } from 'domains/chains/types';
@@ -6,15 +5,6 @@ import { ChainID, Timeframe } from 'domains/chains/types';
 export const POLL_INTERVAL = 60_000;
 
 const { Hour, Day, Week, Month } = Timeframe;
-
-const root = 'chains.timeframes';
-
-export const timeframeToLabelMap: Record<Timeframe, string> = {
-  [Hour]: t(`${root}.hour`),
-  [Day]: t(`${root}.day`),
-  [Week]: t(`${root}.week`),
-  [Month]: t(`${root}.month`),
-};
 
 type Map = Record<Timeframe, PrivateStatsInterval>;
 

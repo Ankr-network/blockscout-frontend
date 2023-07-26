@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 
 import { Select } from 'uiKit/Select';
 
 import { ChartTimeframe } from '../../types';
-import { options } from './const';
+import { getOptions } from './const';
 import { useStyles } from './TimeframeSelectorStyles';
 
 export interface TimeframeSelectorProps {
@@ -41,7 +41,7 @@ export const TimeframeSelector = ({
       fullWidth={false}
       iconClassName={classes.selectIcon}
       onChange={onChange}
-      options={options}
+      options={getOptions()}
       value={timeframe}
     />
   );

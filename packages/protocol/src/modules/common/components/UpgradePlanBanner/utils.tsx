@@ -8,7 +8,7 @@ import imgPublic from './assets/public.png';
 
 const PREMIUM_BLOCK_ANCHOR = 'premiumBlock';
 
-const publicUserBannerContent = {
+const getPublicUserBannerContent = () => ({
   image: imgPublic,
   planTitle: t('banner.public.plan-title'),
   planDescription: tHTML('banner.public.plan-description'),
@@ -16,9 +16,9 @@ const publicUserBannerContent = {
   proposalDescription: tHTML('banner.public.proposal-description'),
   actionText: t('banner.public.action-text'),
   actionProps: undefined,
-};
+});
 
-const freeUserBannerContent = {
+const getFreeUserBannerContent = () => ({
   image: imgFree,
   planTitle: t('banner.free.plan-title'),
   planDescription: tHTML('banner.free.plan-description'),
@@ -28,9 +28,9 @@ const freeUserBannerContent = {
   actionLink: PricingRoutesConfig.pricing.generatePath(),
   actionHash: PREMIUM_BLOCK_ANCHOR,
   actionProps: undefined,
-};
+});
 
-const premiumUserBannerContent = {
+const getPremiumUserBannerContent = () => ({
   image: imgPremium,
   planTitle: t('banner.premium.plan-title'),
   planDescription: tHTML('banner.premium.plan-description'),
@@ -40,9 +40,9 @@ const premiumUserBannerContent = {
   actionLink: undefined,
   actionHash: undefined,
   actionProps: undefined,
-};
+});
 
-const freeUserBannerContentAdvancedApi = {
+const getFreeUserBannerContentAdvancedApi = () => ({
   image: imgFree,
   planTitle: t('banner.free-advanced-api.plan-title'),
   planDescription: tHTML('banner.free-advanced-api.plan-description'),
@@ -52,9 +52,9 @@ const freeUserBannerContentAdvancedApi = {
   actionLink: PricingRoutesConfig.pricing.generatePath(),
   actionHash: PREMIUM_BLOCK_ANCHOR,
   actionProps: undefined,
-};
+});
 
-const premiumUserBannerContentAdvancedApi = {
+const getPremiumUserBannerContentAdvancedApi = () => ({
   image: imgPremium,
   planTitle: t('banner.premium-advanced-api.plan-title'),
   planDescription: tHTML('banner.premium-advanced-api.plan-description'),
@@ -66,7 +66,7 @@ const premiumUserBannerContentAdvancedApi = {
   actionLink: undefined,
   actionHash: undefined,
   actionProps: undefined,
-};
+});
 
 export const getBannerContent = (
   hasPremium: boolean,
@@ -74,14 +74,16 @@ export const getBannerContent = (
   isPublicUser: boolean,
 ) => {
   if (isPublicUser) {
-    return publicUserBannerContent;
+    return getPublicUserBannerContent();
   }
 
   if (isAdvancedApi) {
     return hasPremium
-      ? premiumUserBannerContentAdvancedApi
-      : freeUserBannerContentAdvancedApi;
+      ? getPremiumUserBannerContentAdvancedApi()
+      : getFreeUserBannerContentAdvancedApi();
   }
 
-  return hasPremium ? premiumUserBannerContent : freeUserBannerContent;
+  return hasPremium
+    ? getPremiumUserBannerContent()
+    : getFreeUserBannerContent();
 };

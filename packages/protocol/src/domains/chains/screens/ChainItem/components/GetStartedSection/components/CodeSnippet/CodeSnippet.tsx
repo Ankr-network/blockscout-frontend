@@ -1,39 +1,19 @@
-import { useCallback, CSSProperties } from 'react';
+import { useCallback, useMemo } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import { Language } from 'prism-react-renderer';
 
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-import { ConnectionType } from '../../types';
 import { CopyCodeButton } from '../CopyCodeButton';
 import { ExpandButton } from '../ExpandButton';
-import { titlesMap } from './const';
 import { useExpander } from './hooks/useExpander';
 import { useStyles } from './CodeSnippetStyles';
-
-export interface CodeSnippetProps {
-  code: string;
-  language: Language;
-  type: ConnectionType;
-}
-
-// export is used here to avoid a strange error of ESLint
-// which thinks style prop is never used
-export interface ViewProps {
-  // eslint-disable-next-line react/no-unused-prop-types
-  style: CSSProperties;
-}
-
-const overridenViewStyle: CSSProperties = {
-  overflow: 'scroll hidden',
-  position: 'relative',
-};
-
-const overridenThumbStyle: CSSProperties = {
-  backgroundColor: '#161a1d',
-  borderRadius: 6,
-};
+import {
+  getCodeSnippetTitle,
+  overridenThumbStyle,
+  overridenViewStyle,
+} from './CodeSnippetUtils';
+import { CodeSnippetProps, ViewProps } from './CodeSnippetTypes';
 
 const renderThumbHorizontal = ({ style, ...props }: ViewProps) => (
   <div {...props} style={{ ...style, ...overridenThumbStyle }} />
@@ -56,10 +36,12 @@ export const CodeSnippet = ({ code, language, type }: CodeSnippetProps) => {
     [classes.codeView],
   );
 
+  const title = useMemo(() => getCodeSnippetTitle(type), [type]);
+
   return (
     <div className={classes.codeSnippet}>
       <div className={classes.header}>
-        <div className={classes.title}>{titlesMap[type]}</div>
+        <div className={classes.title}>{title}</div>
         <CopyCodeButton code={code} />
       </div>
       <Scrollbars

@@ -32,10 +32,6 @@ export const usePaymentTypeSelect = (
         value: 'ALL',
         label: t('account.payment-table.payment-type.all'),
       },
-      // {
-      //   value: 'TRANSACTION_TYPE_UNKNOWN',
-      //   label: t('account.payment-table.payment-type.unknown'),
-      // },
       {
         value: 'TRANSACTION_TYPE_DEPOSIT',
         label: t('account.payment-table.payment-type.top-up'),
@@ -52,14 +48,6 @@ export const usePaymentTypeSelect = (
         value: 'TRANSACTION_TYPE_VOUCHER_TOPUP',
         label: t('account.payment-table.payment-type.voucher'),
       },
-      // {
-      //   value: 'TRANSACTION_TYPE_BONUS',
-      //   label: t('account.payment-table.payment-type.bonus'),
-      // },
-      // {
-      //   value: 'TRANSACTION_TYPE_COMPENSATION',
-      //   label: t('account.payment-table.payment-type.compensation'),
-      // },
     ],
     [],
   );

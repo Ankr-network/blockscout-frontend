@@ -4,7 +4,7 @@ import {
   SolanaLibraryID,
   SolanaMethod,
 } from 'domains/requestComposer/constants/solana';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import { web3Api } from 'store/queries';
 
 export const {
@@ -15,7 +15,7 @@ export const {
   endpoints: build => ({
     chainsFetchSolanaLastBlockNumber: build.query<number, string>({
       queryFn: async web3URL => {
-        const web3Method = RPC_CALLS_CONFIG[SolanaMethod.getBlockHeight];
+        const web3Method = getRPCCallsConfig()[SolanaMethod.getBlockHeight];
 
         const { exec } = web3Method[SolanaLibraryID.SolanaWeb3JS];
 

@@ -29,7 +29,7 @@ export const Tooltip = ({ active, currency, payload }: TooltipProps) => {
     <Box className={classes.tooltipRoot}>
       <div className={classes.value}>
         {formatNumber(payload[0].payload.value, currency)}{' '}
-        {currenciesMap[currency]}
+        {currenciesMap[currency]?.()}
       </div>
       <div className={classes.time}>
         {t(`${root}.chart.medium-date`, { value: payload[0].payload.time })}

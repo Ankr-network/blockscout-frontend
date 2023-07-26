@@ -21,8 +21,6 @@ export interface GetStartedSectionParams {
   publicUrl: string;
 }
 
-const label = t('chain-item.tabs.get-started');
-
 export const useGetStartedSection = ({
   chainId,
   getSelectHandler,
@@ -65,7 +63,10 @@ export const useGetStartedSection = ({
       ),
       onSelect: getSelectHandler(SectionID.GetStarted),
       title: (isSelected: boolean) => (
-        <PrimaryTab isSelected={isSelected} label={label} />
+        <PrimaryTab
+          isSelected={isSelected}
+          label={t('chain-item.tabs.get-started')}
+        />
       ),
     };
   }, [

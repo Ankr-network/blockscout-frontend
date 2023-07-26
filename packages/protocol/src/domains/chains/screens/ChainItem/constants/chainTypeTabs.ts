@@ -3,22 +3,18 @@ import { t } from '@ankr.com/common';
 import { ChainSubType, ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 
-const mainnets = t('chain-item.chain-types.mainnet');
-const testnets = t('chain-item.chain-types.testnet');
-const devnets = t('chain-item.chain-types.devnet');
-
-export const chainTypeTabs: Tab<ChainType>[] = [
+export const getChainTypeTabs = (): Tab<ChainType>[] => [
   {
     id: ChainType.Mainnet,
-    title: mainnets,
+    title: t('chain-item.chain-types.mainnet'),
   },
   {
     id: ChainType.Testnet,
-    title: testnets,
+    title: t('chain-item.chain-types.testnet'),
   },
   {
     id: ChainType.Devnet,
-    title: devnets,
+    title: t('chain-item.chain-types.devnet'),
   },
 ];
 

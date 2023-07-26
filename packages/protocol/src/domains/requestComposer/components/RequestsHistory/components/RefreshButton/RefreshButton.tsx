@@ -9,8 +9,6 @@ import { useRefreshButtonStyles } from './RefreshButtonStyles';
 import { useRefreshButton } from './hooks/useRefreshButton';
 import { RefreshButtonIcon } from '../RefreshButtonIcon';
 
-const refreshButton = t(`${intlRoot}.refresh-button`);
-
 export interface RefreshButtonProps {
   isRefreshing: boolean;
   onRefresh: ({ group }: IPrivateLastRequestParams) => void;
@@ -40,7 +38,7 @@ export const RefreshButton = ({
           />
         }
       >
-        {refreshButton}
+        {t(`${intlRoot}.refresh-button`)}
       </Button>
     </div>
   );

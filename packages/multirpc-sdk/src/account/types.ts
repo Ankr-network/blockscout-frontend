@@ -256,6 +256,7 @@ export enum PrivateStatsInterval {
   WEEK = 'd7',
   MONTH = 'd30',
 }
+
 export enum PublicStatsInterval {
   HOUR = '1h',
   DAY = '24h',

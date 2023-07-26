@@ -9,8 +9,6 @@ import { Details } from './components/Details';
 import { root } from './const';
 import { BalanceData } from './types';
 
-const title = t(`${root}.title`);
-
 export type BalanceProps = Omit<BalanceData, 'isLoading'>;
 
 export const Balance = ({
@@ -29,7 +27,7 @@ export const Balance = ({
     <>
       <div className={classes.header}>
         <div className={classes.left}>
-          <span className={classes.title}>{title}</span>
+          <span className={classes.title}>{t(`${root}.title`)}</span>
           {!SWITCH_CURRENCY_DISABLED && (
             <CurrencySwitcher currency={currency} onClick={switchCurrency} />
           )}

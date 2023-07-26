@@ -7,7 +7,7 @@ import {
   AvalancheLibraryID,
   CChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -30,7 +30,7 @@ export const useMethodsTabsUtils = (
             title={title}
             args={args}
             libraryID={AvalancheLibraryID.Avalanche}
-            config={RPC_CALLS_CONFIG}
+            config={getRPCCallsConfig()}
           />
         ),
         title: (isSelected: boolean) => (

@@ -4,7 +4,7 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
-import { valuesMap } from '../TimeframeSwitcher/const';
+import { getValue } from '../TimeframeSwitcher/const';
 import { FailedRequestsChart } from './Components/FailedRequestsChart';
 import { Header } from './Components/Header';
 import { Notice } from './Components/Notice';
@@ -31,7 +31,7 @@ export const FailedRequestsBanner = ({
   return (
     <div className={classes.root}>
       <Header
-        switchValue={valuesMap[timeframe]}
+        switchValue={getValue(timeframe)}
         total={total}
         rate={rate}
         rejectedRequestsCount={rejectedRequestsCount}

@@ -11,14 +11,12 @@ export interface HeaderProps {
   onRefresh: ({ group }: IPrivateLastRequestParams) => void;
 }
 
-const title = t(`${intlRoot}.title`);
-
 export const Header = ({ isRefreshing, onRefresh }: HeaderProps) => {
   const { classes } = useHeaderStyles();
 
   return (
     <div className={classes.header}>
-      <div className={classes.title}>{title}</div>
+      <div className={classes.title}>{t(`${intlRoot}.title`)}</div>
       <RefreshButton isRefreshing={isRefreshing} onRefresh={onRefresh} />
     </div>
   );

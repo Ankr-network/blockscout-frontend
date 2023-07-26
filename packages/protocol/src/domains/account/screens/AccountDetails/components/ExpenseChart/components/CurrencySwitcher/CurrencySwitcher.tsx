@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Switcher } from 'modules/common/components/Switcher';
 
 import { ChartCurrency } from '../../types';
@@ -13,5 +11,5 @@ export interface CurrencySwitcherProps {
 type Props = CurrencySwitcherProps;
 
 export const CurrencySwitcher = ({ currency, onClick }: Props) => (
-  <Switcher onClick={onClick} value={valuesMap[currency]} />
+  <Switcher onClick={onClick} value={valuesMap[currency]?.()} />
 );

@@ -10,7 +10,7 @@ import { solanaWeb3Config } from './solanaWeb3Config';
 
 const root = 'request-composer.method-description.solana';
 
-export const RPC_CALLS_CONFIG: RPCCallsConfig = {
+export const getRPCCallsConfig = (): RPCCallsConfig => ({
   [SolanaMethod.getAccountInfo]: {
     description: t(`${root}.${SolanaMethod.getAccountInfo}`),
     [SolanaLibraryID.SolanaWeb3JS]:
@@ -276,4 +276,4 @@ export const RPC_CALLS_CONFIG: RPCCallsConfig = {
     [SolanaLibraryID.SolanaWeb3JS]:
       solanaWeb3Config[SolanaMethod.simulateTransaction],
   },
-};
+});

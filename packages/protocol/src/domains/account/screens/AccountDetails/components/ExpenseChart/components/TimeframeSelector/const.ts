@@ -5,21 +5,17 @@ import { ISelectOption } from 'uiKit/Select';
 import { ChartTimeframe } from '../../types';
 import { root } from '../../const';
 
-const week = t(`${root}.timeframes.week`);
-const month = t(`${root}.timeframes.month`);
-const year = t(`${root}.timeframes.year`);
-
-export const options: ISelectOption[] = [
+export const getOptions = (): ISelectOption[] => [
   {
-    label: week,
+    label: t(`${root}.timeframes.week`),
     value: ChartTimeframe.WEEK,
   },
   {
-    label: month,
+    label: t(`${root}.timeframes.month`),
     value: ChartTimeframe.MONTH,
   },
   {
-    label: year,
+    label: t(`${root}.timeframes.year`),
     value: ChartTimeframe.YEAR,
   },
 ];

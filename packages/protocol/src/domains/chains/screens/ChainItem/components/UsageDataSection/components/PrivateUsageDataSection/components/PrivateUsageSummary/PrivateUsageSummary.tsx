@@ -17,10 +17,6 @@ export interface UsageSummaryProps {
 
 const root = 'chain-item.usage-data.usage-summary';
 
-const totalTitle = t(`${root}.total`);
-const averageTitle = t(`${root}.average`);
-const costTitle = t(`${root}.cost.title`);
-
 export const PrivateUsageSummary = ({
   className,
   loading,
@@ -38,9 +34,9 @@ export const PrivateUsageSummary = ({
 
   return (
     <div className={cx(className, classes.usageSummary)}>
-      <Stat loading={loading} title={totalTitle} value={total} />
-      <Stat loading={loading} title={averageTitle} value={average} />
-      <Stat loading={loading} title={costTitle} value={cost} />
+      <Stat loading={loading} title={t(`${root}.total`)} value={total} />
+      <Stat loading={loading} title={t(`${root}.average`)} value={average} />
+      <Stat loading={loading} title={t(`${root}.cost.title`)} value={cost} />
     </div>
   );
 };

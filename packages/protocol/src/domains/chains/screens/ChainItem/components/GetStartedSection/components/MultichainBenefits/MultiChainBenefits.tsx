@@ -4,7 +4,7 @@ import { ExternalLink } from '@ankr.com/ui';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { multiChainBenefitsStyles as useStyles } from './MultiChainBenefitsStyles';
-import { content } from './const';
+import { getContent } from './const';
 
 export const MultiChainBenefits = () => {
   const { isLightTheme } = useThemes();
@@ -12,7 +12,7 @@ export const MultiChainBenefits = () => {
 
   return (
     <Box className={classes.wrapper}>
-      {content.map(({ img, title, list, linkText, linkHref }) => {
+      {getContent().map(({ img, title, list, linkText, linkHref }) => {
         return (
           <Paper className={classes.apiWrapper} key={title}>
             <img className={classes.img} src={img} alt="" />

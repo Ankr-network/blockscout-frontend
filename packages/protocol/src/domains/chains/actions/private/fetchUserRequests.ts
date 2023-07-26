@@ -6,13 +6,29 @@ import {
 } from 'domains/chains/utils/requestsBannerUtils';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { valuesMap } from 'domains/chains/components/TimeframeSwitcher/const';
 import { Timeframe } from 'domains/chains/types';
 
 interface FetchUserRequestsParams extends IApiUserGroupParams {
   timeframe: Timeframe;
   userToken: string;
 }
+
+const getValue = (timeframe: Timeframe) => {
+  switch (timeframe) {
+    case Timeframe.Hour:
+      return '1h';
+
+    case Timeframe.Day:
+      return '24h';
+
+    case Timeframe.Week:
+      return '7d';
+
+    case Timeframe.Month:
+    default:
+      return '30d';
+  }
+};
 
 export const {
   useLazyChainsFetchUserRequestsQuery,
@@ -27,7 +43,7 @@ export const {
         const service = MultiService.getService();
 
         const result = await service.getAccountGateway().getUserRequests({
-          timeframe: valuesMap[timeframe],
+          timeframe: getValue(timeframe),
           userToken,
           group,
         });

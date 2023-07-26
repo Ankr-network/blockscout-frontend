@@ -3,7 +3,7 @@ import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import {
   chainSubTypeTabs,
-  chainTypeTabs,
+  getChainTypeTabs,
 } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
 import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
@@ -22,7 +22,7 @@ export const getPrivateChainTypeTabs = ({
   isBlockedMainnet,
   onBlockedTabClick,
 }: GetPrivateChainTypeTabsParams): Tab<Type>[] =>
-  chainTypeTabs
+  getChainTypeTabs()
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map<Tab<Type>>(({ id, title }, index, list) => {
       const blockedTestnet = isBlockedTestnet && id === Type.Testnet;
@@ -52,7 +52,7 @@ export const getPrivateChainTypeTabs = ({
     });
 
 export const getPrivateChainTypeSelector = (endpoints: GroupedEndpoints) =>
-  chainTypeTabs
+  getChainTypeTabs()
     .filter(({ id }) => endpoints[chainTypeToEndpointsKeyMap[id]]?.length > 0)
     .map(({ id, title }) => ({
       value: id,
