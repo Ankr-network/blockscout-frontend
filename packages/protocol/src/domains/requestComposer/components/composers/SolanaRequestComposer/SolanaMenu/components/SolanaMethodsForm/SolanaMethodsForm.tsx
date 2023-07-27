@@ -3,7 +3,7 @@ import { Form, FormRenderProps } from 'react-final-form';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { MethodsRequest } from 'domains/requestComposer/types';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import {
   SolanaLibraryID,
   SolanaMethod,
@@ -34,10 +34,12 @@ export const SolanaMethodsForm = ({
   libraryID,
   onSubmit,
 }: SolanaMethodsFormProps) => {
+  const RPC_CALLS_CONFIG = getRPCCallsConfig();
+
   const onFormSubmit = useCallback(
     (data: MethodsFormData) =>
       onSubmit(formatDataForRequest(data, libraryID, RPC_CALLS_CONFIG)),
-    [onSubmit, libraryID],
+    [onSubmit, libraryID, RPC_CALLS_CONFIG],
   );
 
   const renderForm = useCallback(
@@ -92,7 +94,7 @@ export const SolanaMethodsForm = ({
         </form>
       );
     },
-    [libraryID, group],
+    [libraryID, group, RPC_CALLS_CONFIG],
   );
 
   return <Form onSubmit={onFormSubmit} render={renderForm} />;

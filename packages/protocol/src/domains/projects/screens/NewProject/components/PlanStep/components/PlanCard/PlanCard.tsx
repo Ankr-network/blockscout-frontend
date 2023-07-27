@@ -36,8 +36,12 @@ export const PlanCard = ({
   return (
     <Box className={className} onClick={onClick}>
       <div className={classes.title}>
-        {t(title)}
-        <Radio checked={isSelected} disabled={disabled} />
+        <span>{t(title)}</span>
+        <Radio
+          checked={isSelected}
+          disabled={disabled}
+          className={classes.radio}
+        />
       </div>
       <div className={classes.price}>{tHTML(price)}</div>
       <PlanFeatures hasSoonLabel={disabled} description={description} />

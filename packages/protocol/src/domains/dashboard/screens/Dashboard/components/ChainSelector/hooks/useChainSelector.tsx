@@ -9,26 +9,29 @@ import { SelectedContent } from '../SelectedContent';
 import { SelectedChainContent } from '../SelectedChainContent';
 
 export const ALL_CHAINS_VALUE = ChainID.UNDEFINED;
-export const ALL_CHAINS_LABEL = t('dashboard.all');
 
 interface ISelectOption {
   value: ChainID;
   label: string;
 }
 
-const ALL_CHAINS_ITEM: ISelectOption = {
-  value: ALL_CHAINS_VALUE,
-  label: ALL_CHAINS_LABEL,
+const getAllChainsLabel = () => {
+  return t('dashboard.all');
 };
 
-const DEFAULT_OPTIONS_LIST: ISelectOption[] = [ALL_CHAINS_ITEM];
+const getDefaultOptions = (): ISelectOption[] => [
+  {
+    value: ALL_CHAINS_VALUE,
+    label: getAllChainsLabel(),
+  },
+];
 
 export const useChainSelector = (chains: Chain[]) => {
   const chainIds = useAppSelector(selectChainsWithStats);
 
   const options: ISelectOption[] = useMemo(
     () =>
-      DEFAULT_OPTIONS_LIST.concat(
+      getDefaultOptions().concat(
         chains
           // filtering chains to get only chains with stats for selector
           .filter(chain =>
@@ -53,7 +56,7 @@ export const useChainSelector = (chains: Chain[]) => {
       return chain ? (
         <SelectedChainContent chain={chain} />
       ) : (
-        <SelectedContent>{ALL_CHAINS_LABEL}</SelectedContent>
+        <SelectedContent>{getAllChainsLabel()}</SelectedContent>
       );
     },
     [chains],

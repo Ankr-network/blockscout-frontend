@@ -7,7 +7,7 @@ import { useFailedRequestsBannerStyles as useRequestsBannerStyles } from '../Fai
 import { Notice } from './components/Notice';
 import { Header } from './components/Header';
 import { RequestsChartWrapper } from './components/RequestsChartWrapper';
-import { valuesMap } from '../TimeframeSwitcher/const';
+import { getValue } from '../TimeframeSwitcher/const';
 import { useGuardUserGroup } from '../../../userGroup/hooks/useGuardUserGroup';
 
 interface IRequestsBannerProps {
@@ -33,7 +33,7 @@ export const RequestsBanner = ({
   return (
     <div className={classes.root}>
       <Header
-        timeframeValue={valuesMap[timeframe]}
+        timeframeValue={getValue(timeframe)}
         total={total}
         hasOffset={hasUpgradePlanAccess}
       />

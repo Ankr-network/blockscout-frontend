@@ -25,7 +25,7 @@ export interface IBaseChainCardProps {
 export const BaseChainsCard = ({
   chain,
   buttonClassName,
-  buttonText = t('chains.endpoints-and-more'),
+  buttonText,
   className,
   onClick,
   timeframe,
@@ -79,7 +79,7 @@ export const BaseChainsCard = ({
           size="large"
           variant="outlined"
         >
-          {buttonText}
+          {buttonText || t('chains.endpoints-and-more')}
         </Button>
       </div>
     </div>

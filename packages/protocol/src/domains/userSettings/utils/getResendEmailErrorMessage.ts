@@ -3,14 +3,14 @@ import { t } from '@ankr.com/common';
 
 import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 
-import { EMAIL_FALLBACK } from '../const';
+import { getEmailFallback } from '../const';
 import { ErrorMessageGetter } from '../types';
 import { getAccountErrorMessage } from './getAccountErrorMessage';
 import { getUnknownErrorMessage } from './getUnknownErrorMessage';
 
 const messageGettersMap: Record<AccountErrorCode, ErrorMessageGetter> = {
   [AccountErrorCode.Aborted]: getAccountErrorMessage,
-  [AccountErrorCode.AlreadyExists]: (_, email = EMAIL_FALLBACK) =>
+  [AccountErrorCode.AlreadyExists]: (_, email = getEmailFallback()) =>
     t('user-settings.errors.already-confirmed', { email }),
   [AccountErrorCode.DatabaseError]: getAccountErrorMessage,
   [AccountErrorCode.FailedPrecondition]: () =>

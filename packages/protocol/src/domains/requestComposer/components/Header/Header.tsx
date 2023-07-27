@@ -10,11 +10,7 @@ interface IHeaderProps {
   hasTitle?: boolean;
 }
 
-export const Header = ({
-  chainName = t('request-composer.header.evm'),
-  children,
-  hasTitle,
-}: IHeaderProps) => {
+export const Header = ({ chainName, children, hasTitle }: IHeaderProps) => {
   const { classes } = useHeaderStyles(hasTitle);
 
   return (
@@ -30,7 +26,7 @@ export const Header = ({
             {t('request-composer.header.chain')}
           </Typography>
           <Typography variant="body2" className={classes.content}>
-            {chainName}
+            {chainName || t('request-composer.header.evm')}
           </Typography>
         </div>
         <div className={classes.define}>

@@ -17,7 +17,7 @@ export const ProjectsPage = () => {
   return (
     <GuardUserGroup
       shouldRedirect
-      blockName={BlockWithPermission.JwtManagerWrite}
+      blockName={BlockWithPermission.JwtManagerRead}
     >
       <Projects />
     </GuardUserGroup>

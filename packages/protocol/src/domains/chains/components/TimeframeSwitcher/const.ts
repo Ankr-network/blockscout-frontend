@@ -1,15 +1,24 @@
 import { t } from '@ankr.com/common';
-import { Timeframe } from 'multirpc-sdk';
 
-import { Timeframe as ChainsTimeFrame } from 'domains/chains/types';
-
-const { Hour, Day, Week, Month } = ChainsTimeFrame;
+import { Timeframe } from 'domains/chains/types';
 
 const timeframes = 'chains.timeframes';
 
-export const valuesMap: Record<ChainsTimeFrame, Timeframe> = {
-  [Hour]: t(`${timeframes}.hour`) as Timeframe,
-  [Day]: t(`${timeframes}.day`) as Timeframe,
-  [Week]: t(`${timeframes}.week`) as Timeframe,
-  [Month]: t(`${timeframes}.month`) as Timeframe,
+export const getValue = (timeframe: Timeframe) => {
+  switch (timeframe) {
+    case Timeframe.Hour:
+      return t(`${timeframes}.hour`);
+
+    case Timeframe.Day:
+      return t(`${timeframes}.day`);
+
+    case Timeframe.Week:
+      return t(`${timeframes}.week`);
+
+    case Timeframe.Month:
+      return t(`${timeframes}.month`);
+
+    default:
+      return '';
+  }
 };

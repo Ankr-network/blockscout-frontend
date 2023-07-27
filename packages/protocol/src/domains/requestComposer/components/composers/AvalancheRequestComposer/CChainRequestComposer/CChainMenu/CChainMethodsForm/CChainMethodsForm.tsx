@@ -5,7 +5,7 @@ import {
   AvalancheLibraryID,
   CChainMethod,
 } from 'domains/requestComposer/constants/avalanche';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
 
 import { CChainMethodsFormProps } from './CChainMethodsFormTypes';
 import { methodsSelectOptions } from './CChainMethodsFormUtils';
@@ -27,10 +27,12 @@ export const CChainMethodsForm = ({
   libraryID,
   onSubmit,
 }: CChainMethodsFormProps) => {
+  const RPC_CALLS_CONFIG = getRPCCallsConfig();
+
   const onFormSubmit = useCallback(
     (data: MethodsFormData) =>
       onSubmit(formatDataForRequest(data, libraryID, RPC_CALLS_CONFIG)),
-    [onSubmit, libraryID],
+    [onSubmit, libraryID, RPC_CALLS_CONFIG],
   );
 
   const renderForm = useCallback(
@@ -84,7 +86,7 @@ export const CChainMethodsForm = ({
         </form>
       );
     },
-    [libraryID, group],
+    [libraryID, group, RPC_CALLS_CONFIG],
   );
 
   return <Form onSubmit={onFormSubmit} render={renderForm} />;

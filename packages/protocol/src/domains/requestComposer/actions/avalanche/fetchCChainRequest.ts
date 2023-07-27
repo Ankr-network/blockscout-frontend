@@ -9,7 +9,7 @@ import {
   FetchRequestParams,
   FetchRequestResult,
 } from 'domains/requestComposer/types';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/avalanche/c-chain/RPCCallsConfig';
 import { setEVMMethod } from 'domains/requestComposer/store/requestComposerSlice';
 import { web3Api } from 'store/queries';
 
@@ -35,7 +35,7 @@ export const {
 
         dispatch(setEVMMethod(methodName as string));
 
-        const web3Method = RPC_CALLS_CONFIG[methodName] || {};
+        const web3Method = getRPCCallsConfig()[methodName] || {};
         const { exec } = web3Method[libraryID] || {};
 
         const provider = new Avalanche().CChain();

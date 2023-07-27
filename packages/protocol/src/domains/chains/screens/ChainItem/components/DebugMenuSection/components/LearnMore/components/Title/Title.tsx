@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
-import { intlRoot } from '../../const';
 import { useTitleStyles } from './TitleStyles';
+import { intlRoot } from '../../LearnMoreUtils';
 
 export const Title = () => {
   const { classes } = useTitleStyles();

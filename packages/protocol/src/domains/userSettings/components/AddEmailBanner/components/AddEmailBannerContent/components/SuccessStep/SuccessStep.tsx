@@ -9,10 +9,7 @@ interface ISuccessStepProps {
   children: ReactNode;
 }
 
-export const SuccessStep = ({
-  email = t('user-settings.common.email-value-fallback'),
-  children,
-}: ISuccessStepProps) => {
+export const SuccessStep = ({ email, children }: ISuccessStepProps) => {
   const { classes } = useStyles();
 
   return (
@@ -21,7 +18,7 @@ export const SuccessStep = ({
         {tHTML(
           'user-settings.change-email-dialog.success-step.verify-email-text',
           {
-            email,
+            email: email || t('user-settings.common.email-value-fallback'),
           },
         )}
       </Typography>

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { EVMMethod, EVMLibraryID } from 'domains/requestComposer/constants';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/RPCCallsConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
 
 import { SampleCode } from '../../../../SampleCodeComponent/SampleCodeDialog/SampleCode';
@@ -21,6 +21,7 @@ export const EVMSampleCode = ({
 }: ISampleCodeProps) => {
   const httpUrl = useMemo(() => group.urls[0].rpc, [group]);
   const wssUrl = useMemo(() => group.urls[0]?.ws ?? '', [group]);
+  const RPC_CALLS_CONFIG = getRPCCallsConfig();
 
   const code = useMemo(
     () =>
@@ -29,7 +30,7 @@ export const EVMSampleCode = ({
         wssUrl,
         ...args,
       ),
-    [httpUrl, wssUrl, title, args, libraryID],
+    [httpUrl, wssUrl, title, args, libraryID, RPC_CALLS_CONFIG],
   );
 
   return <SampleCode code={code} />;

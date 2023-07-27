@@ -9,9 +9,6 @@ import {
 import { root } from '../../const';
 import { useUpgradeBannerStyles } from './UpgradeBannerStyles';
 
-const message = t(`${root}.upgrade-banner.message`);
-const button = t(`${root}.upgrade-banner.button`);
-
 export const UpgradeBanner = () => {
   const { classes } = useUpgradeBannerStyles();
 
@@ -20,9 +17,11 @@ export const UpgradeBanner = () => {
   return (
     <div className={classes.upgradeBanner}>
       <div className={classes.content}>
-        <div className={classes.message}>{message}</div>
+        <div className={classes.message}>
+          {t(`${root}.upgrade-banner.message`)}
+        </div>
         <Button className={classes.button} onClick={onOpen} variant="contained">
-          {button}
+          {t(`${root}.upgrade-banner.button`)}
         </Button>
       </div>
       <UpgradePlanDialog onClose={onClose} open={isOpened} />

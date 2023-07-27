@@ -1,10 +1,11 @@
-import React from 'react';
+import { t } from '@ankr.com/common';
 
 import { ChainBlock } from 'domains/chains/components/ChainBlock';
 
 import { Stats as StatsType } from '../../types';
-import { totalTitle } from './const';
 import { useStyles } from './StatsStyles';
+
+const stats = 'chains.private-stats.stats';
 
 export interface StatsProps {
   isLoading: boolean;
@@ -18,7 +19,7 @@ export const Stats = ({ isLoading, stats: { total } }: StatsProps) => {
     <div className={classes.stats}>
       <ChainBlock
         isLoading={isLoading}
-        subtitle={totalTitle}
+        subtitle={t(`${stats}.total`)}
         value={total.toFormat()}
       />
     </div>

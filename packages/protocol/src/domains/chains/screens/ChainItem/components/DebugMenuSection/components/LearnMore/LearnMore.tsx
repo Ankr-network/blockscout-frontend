@@ -1,6 +1,6 @@
 import { LearnMoreCards } from './components/LearnMoreCards';
 import { Title } from './components/Title';
-import { cards } from './const';
+import { getCards } from './LearnMoreUtils';
 import { useLearnMoreStyles } from './LearnMoreStyles';
 
 export const LearnMore = () => {
@@ -9,7 +9,7 @@ export const LearnMore = () => {
   return (
     <div className={classes.root}>
       <Title />
-      <LearnMoreCards cards={cards} />
+      <LearnMoreCards cards={getCards()} />
     </div>
   );
 };

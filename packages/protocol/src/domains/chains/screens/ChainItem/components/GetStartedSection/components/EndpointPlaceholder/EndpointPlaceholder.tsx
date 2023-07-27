@@ -15,7 +15,7 @@ interface IEndpointProps {
 
 export const EndpointPlaceholder = ({
   title,
-  label = t(`${root}.endpoints.upgrade-now`),
+  label,
   onClick,
   labelClassName,
 }: IEndpointProps) => {
@@ -33,7 +33,10 @@ export const EndpointPlaceholder = ({
           cursor: onClick ? 'pointer' : 'auto',
         }}
       >
-        <PremiumLabel label={label} className={labelClassName} />
+        <PremiumLabel
+          label={label || t(`${root}.endpoints.upgrade-now`)}
+          className={labelClassName}
+        />
       </Box>
     </div>
   );

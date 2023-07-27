@@ -21,8 +21,6 @@ export interface DebugMenuSectionParams {
   publicUrl: string;
 }
 
-const label = t('chain-item.tabs.debug-menu');
-
 export const useDebugMenuSection = ({
   chainId,
   group,
@@ -76,7 +74,10 @@ export const useDebugMenuSection = ({
       ),
       onSelect: getSelectHandler(SectionID.DebugMenu),
       title: (isSelected: boolean) => (
-        <PrimaryTab isSelected={isSelected} label={label} />
+        <PrimaryTab
+          isSelected={isSelected}
+          label={t('chain-item.tabs.debug-menu')}
+        />
       ),
     };
   }, [chainId, getSelectHandler, group, shouldShowDebugMenu, publicUrl]);

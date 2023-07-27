@@ -1,8 +1,8 @@
-import React from 'react';
 import { Button } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { label } from './const';
 import { useStyles } from './ExpandButtonStyles';
+import { root } from '../../const';
 
 export interface ExpandButtonProps {
   className?: string;
@@ -23,7 +23,7 @@ export const ExpandButton = ({
       onClick={onClick}
       variant="outlined"
     >
-      {label}
+      {t(`${root}.connection-snippet.expand-button.label`)}
     </Button>
   ) : null;
 };

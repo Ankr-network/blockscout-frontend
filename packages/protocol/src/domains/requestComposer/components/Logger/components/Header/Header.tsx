@@ -8,21 +8,18 @@ export interface HeaderProps {
   onClear?: () => void;
 }
 
-const title = t(`${root}.title`);
-const clearButton = t(`${root}.clear-button`);
-
 export const Header = ({ onClear }: HeaderProps) => {
   const { classes } = useHeaderStyles();
 
   return (
     <div className={classes.header}>
-      <div className={classes.title}>{title}</div>
+      <div className={classes.title}>{t(`${root}.title`)}</div>
       <Button
         className={classes.clearButton}
         onClick={onClear}
         variant="outlined"
       >
-        {clearButton}
+        {t(`${root}.clear-button`)}
       </Button>
     </div>
   );

@@ -5,7 +5,7 @@ import {
   NearLibraryID,
   NearMethod,
 } from 'domains/requestComposer/constants/near';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/near/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/near/RPCCallsConfig';
 
 import { MethodsForm } from '../../../../MethodsForm';
 import { MethodNameSelectField } from '../../../../MethodsForm/MethodNameSelectField';
@@ -27,6 +27,8 @@ export const NearMethodsForm = ({
   libraryID,
   onSubmit,
 }: NearMethodsFormProps) => {
+  const RPC_CALLS_CONFIG = getRPCCallsConfig();
+
   const onFormSubmit = useCallback(
     (data: MethodsFormData) =>
       onSubmit(
@@ -36,7 +38,7 @@ export const NearMethodsForm = ({
           RPC_CALLS_CONFIG,
         ),
       ),
-    [onSubmit, libraryID],
+    [onSubmit, libraryID, RPC_CALLS_CONFIG],
   );
 
   const renderForm = useCallback(
@@ -94,7 +96,7 @@ export const NearMethodsForm = ({
         </form>
       );
     },
-    [group, libraryID],
+    [group, libraryID, RPC_CALLS_CONFIG],
   );
 
   return <Form onSubmit={onFormSubmit} render={renderForm} />;

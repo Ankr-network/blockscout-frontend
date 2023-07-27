@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { EVMLibraryID, EVMMethod } from 'domains/requestComposer/constants';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/RPCCallsConfig';
 
 import { EVMMethodsFormProps } from './EVMMethodsFormTypes';
 import { methodsSelectOptions } from './EVMMethodsFormUtils';
@@ -24,6 +24,8 @@ export const EVMMethodsForm = ({
   libraryID,
   onSubmit,
 }: EVMMethodsFormProps) => {
+  const RPC_CALLS_CONFIG = getRPCCallsConfig();
+
   const onFormSubmit = useCallback(
     (data: MethodsFormData) =>
       onSubmit(
@@ -33,7 +35,7 @@ export const EVMMethodsForm = ({
           RPC_CALLS_CONFIG,
         ),
       ),
-    [onSubmit, libraryID],
+    [onSubmit, libraryID, RPC_CALLS_CONFIG],
   );
 
   const renderForm = useCallback(
@@ -88,7 +90,7 @@ export const EVMMethodsForm = ({
         </form>
       );
     },
-    [group, libraryID],
+    [group, libraryID, RPC_CALLS_CONFIG],
   );
 
   return <Form onSubmit={onFormSubmit} render={renderForm} />;

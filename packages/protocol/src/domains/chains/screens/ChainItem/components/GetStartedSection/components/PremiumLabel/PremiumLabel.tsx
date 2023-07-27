@@ -9,18 +9,18 @@ export interface PremiumLabelProps {
   className?: string;
 }
 
-const text = t(`${root}.endpoints.premium-label`);
-
 export const PremiumLabel = ({
   size = 's',
   className,
-  label = text,
+  label,
 }: PremiumLabelProps) => {
   const { classes, cx } = usePremiumLabelStyles(size);
 
   return (
     <div className={cx(classes.premiumLabel, className)}>
-      <span className={classes.gradient}>{label}</span>
+      <span className={classes.gradient}>
+        {label || t(`${root}.endpoints.premium-label`)}
+      </span>
     </div>
   );
 };

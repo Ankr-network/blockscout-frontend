@@ -25,9 +25,11 @@ const getProjectValues = (project: NewProjectType) => {
 };
 
 export const useEnableWhitelist = () => {
-  const [addAddressToWhitelist, { isLoading: isAddAddressToWhitelistLoading }] =
-    useLazyAddAddressToWhitelistQuery();
-  const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
+  const [
+    addAddressToWhitelist,
+    { isFetching: isAddAddressToWhitelistLoading },
+  ] = useLazyAddAddressToWhitelistQuery();
+  const [updateWhitelistMode, { isFetching: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();
   const { project = {}, handleResetConfig } = useProjectConfig();
 

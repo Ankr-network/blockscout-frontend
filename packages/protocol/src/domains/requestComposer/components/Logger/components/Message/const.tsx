@@ -1,9 +1,7 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Dot, Mark, CircleCheck, Clock, ArrowRightBig } from '@ankr.com/ui';
-import { t } from '@ankr.com/common';
 
 import { MessageType } from '../../types';
-import { root } from '../../const';
 
 const { Error, Info, Input, Success, Time } = MessageType;
 
@@ -18,14 +16,4 @@ export const iconsMap: Record<MessageType, ReactNode> = {
   [Input]: <ArrowRightBig className="message-icon" style={style} />,
   [Success]: <CircleCheck className="message-icon" style={style} />,
   [Time]: <Clock className="message-icon" style={style} />,
-};
-
-const prefixes = `${root}.prefixes`;
-
-export const prefixesMap: Record<MessageType, string> = {
-  [Error]: t(`${prefixes}.error`),
-  [Info]: '',
-  [Input]: '',
-  [Success]: t(`${prefixes}.success`),
-  [Time]: t(`${prefixes}.time`),
 };

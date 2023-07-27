@@ -11,7 +11,7 @@ const FINALITY_INFO_URL =
 
 const root = 'request-composer.method-description.near.near-api-js';
 
-export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
+export const getRPCCallsConfig = (): IRPCCallsConfig => ({
   query: {
     description: tHTML(`${root}.query`),
     NEARJavaScriptAPI: NEARJavaScriptAPIConfig.query,
@@ -152,4 +152,4 @@ export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
     description: t(`${root}.EXPERIMENTAL_light_client_proof`),
     NEARJavaScriptAPI: NEARJavaScriptAPIConfig.EXPERIMENTAL_light_client_proof,
   },
-};
+});

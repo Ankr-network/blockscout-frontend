@@ -20,8 +20,6 @@ interface InfrastructureSectionParams {
   group: EndpointGroup;
 }
 
-const label = t('chain-item.tabs.infrastructure');
-
 export const useInfrastructureSection = ({
   chain,
   chainType,
@@ -52,7 +50,10 @@ export const useInfrastructureSection = ({
             ),
             onSelect: getSelectHandler(SectionID.Infrastructure),
             title: (isSelected: boolean) => (
-              <PrimaryTab isSelected={isSelected} label={label} />
+              <PrimaryTab
+                isSelected={isSelected}
+                label={t('chain-item.tabs.infrastructure')}
+              />
             ),
           }
         : undefined,

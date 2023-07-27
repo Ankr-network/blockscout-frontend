@@ -1,5 +1,5 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
+import { getRPCCallsConfig } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
 import {
   SecondaryTab,
   TabSize,
@@ -33,7 +33,7 @@ export const useMethodsTabs = ({
         content: (
           <SolanaSampleCode
             args={args}
-            config={RPC_CALLS_CONFIG}
+            config={getRPCCallsConfig()}
             group={group}
             libraryID={libraryID}
             title={title}

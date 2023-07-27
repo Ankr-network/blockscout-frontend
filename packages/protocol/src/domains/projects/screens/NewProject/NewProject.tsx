@@ -6,6 +6,7 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 
 import { NewProject } from './components/NewProject';
+import { GuardNewProject } from './components/GuardNewProject';
 
 export const NewProjectPage = () => {
   useSetBreadcrumbs([
@@ -19,7 +20,9 @@ export const NewProjectPage = () => {
       shouldRedirect
       blockName={BlockWithPermission.JwtManagerWrite}
     >
-      <NewProject />
+      <GuardNewProject>
+        <NewProject />
+      </GuardNewProject>
     </GuardUserGroup>
   );
 };

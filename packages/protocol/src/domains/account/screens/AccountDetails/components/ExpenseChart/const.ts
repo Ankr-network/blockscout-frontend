@@ -17,10 +17,11 @@ export const formatDateMap: FormatDateMap = {
   [YEAR]: value => t(`${root}.chart.medium-date`, { value }),
 };
 
-export const currenciesMap: Record<ChartCurrency, string> = {
-  [ChartCurrency.ANKR]: t('account.currencies.ankr'),
-  [ChartCurrency.USD]: t('account.currencies.usd'),
-  [ChartCurrency.CREDIT]: t('account.currencies.credit'),
+export const currenciesMap: Record<ChartCurrency, () => string> = {
+  [ChartCurrency.ANKR]: () => t('account.currencies.ankr'),
+  [ChartCurrency.USD]: () => t('account.currencies.usd'),
+  [ChartCurrency.CREDIT]: () => t('account.currencies.credit'),
 };
 
+// TODO remove currency switcher
 export const SWITCH_CURRENCY_DISABLED = true;

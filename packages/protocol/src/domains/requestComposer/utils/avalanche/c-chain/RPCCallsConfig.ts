@@ -7,7 +7,7 @@ import { avalancheJSConfig } from './avalancheJSConfig';
 
 const root = 'request-composer.method-description.avalanche.c-chain';
 
-export const RPC_CALLS_CONFIG: IRPCCallsConfig<CChainMethod> = {
+export const getRPCCallsConfig = (): IRPCCallsConfig<CChainMethod> => ({
   'avax.getAtomicTx': {
     description: t(`${root}.getAtomicTx`),
     avalanche: avalancheJSConfig['avax.getAtomicTx'],
@@ -54,4 +54,4 @@ export const RPC_CALLS_CONFIG: IRPCCallsConfig<CChainMethod> = {
     description: t(`${root}.getAtomicTxStatus`),
     avalanche: avalancheJSConfig['avax.getAtomicTxStatus'],
   },
-};
+});

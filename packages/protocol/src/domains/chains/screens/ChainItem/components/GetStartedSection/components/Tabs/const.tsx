@@ -9,15 +9,27 @@ import { root } from '../../const';
 const connectionSnippet = `${root}.connection-snippet`;
 const technologies = `${connectionSnippet}.technologies`;
 
-const tabTitlesMap: Record<Technology, string> = {
-  [Technology.CURL]: t(`${technologies}.curl`),
-  [Technology.GO]: t(`${technologies}.go`),
-  [Technology.PYTHON]: t(`${technologies}.python`),
-  [Technology.WEB3_JS]: t(`${technologies}.web3-js`),
+const getTabTitlesMap = (key: Technology) => {
+  switch (key) {
+    case Technology.CURL:
+      return t(`${technologies}.curl`);
+
+    case Technology.GO:
+      return t(`${technologies}.go`);
+
+    case Technology.PYTHON:
+      return t(`${technologies}.python`);
+
+    case Technology.WEB3_JS:
+      return t(`${technologies}.web3-js`);
+
+    default:
+      return '';
+  }
 };
 
 const titleRenderFn = (isSelected: boolean, _: boolean, id: Technology) => (
-  <ChainTypeTab content={tabTitlesMap[id]} isSelected={isSelected} />
+  <ChainTypeTab content={getTabTitlesMap(id)} isSelected={isSelected} />
 );
 
 export const tabs: Tab<Technology>[] = [
@@ -39,4 +51,4 @@ export const tabs: Tab<Technology>[] = [
   },
 ];
 
-export const title = t(`${connectionSnippet}.title`);
+export const getTitle = () => t(`${connectionSnippet}.title`);

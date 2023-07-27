@@ -5,7 +5,7 @@ import { Card } from './types';
 
 export const intlRoot = 'chain-item.debug-menu.learn-more';
 
-export const cards: Card[] = [
+export const getCards = (): Card[] => [
   {
     Icon: Globe,
     descriptions: [

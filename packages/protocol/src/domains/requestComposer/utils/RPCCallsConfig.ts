@@ -7,7 +7,7 @@ import { web3JSConfig } from './web3JSConfig';
 
 const root = 'request-composer.method-description';
 
-export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
+export const getRPCCallsConfig = (): IRPCCallsConfig => ({
   web3_clientVersion: {
     description: t(`${root}.web3_clientVersion`),
     web3: web3JSConfig.web3_clientVersion,
@@ -340,4 +340,4 @@ export const RPC_CALLS_CONFIG: IRPCCallsConfig = {
     ethers: ethersJSConfig.trace_call,
     JSON_RPC: JsonRpcConfig.trace_call,
   },
-};
+});
