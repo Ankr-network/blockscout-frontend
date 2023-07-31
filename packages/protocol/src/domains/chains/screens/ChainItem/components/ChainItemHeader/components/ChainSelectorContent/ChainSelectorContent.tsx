@@ -18,6 +18,7 @@ interface IChainSelectorContentProps {
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
   selectGroup: (id: ChainGroupID) => void;
+  hasGroupSelector?: boolean;
 }
 
 export const ChainSelectorContent = ({
@@ -31,12 +32,13 @@ export const ChainSelectorContent = ({
   groupTab,
   groupTabs,
   selectGroup,
+  hasGroupSelector,
 }: IChainSelectorContentProps) => {
   const { classes } = useChainSelectorContentStyles();
 
   const withChainTypeSelector = chainTypeTabs.length > 1;
   const withChainSubTypeSelector = chainSubTypeTabs?.length > 1;
-  const withGroupSelector = groupTabs.length > 1;
+  const withGroupSelector = groupTabs.length > 1 || hasGroupSelector;
 
   const isVisible =
     withChainTypeSelector || withGroupSelector || Boolean(protocolGroup);

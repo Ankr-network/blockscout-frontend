@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
@@ -93,6 +93,9 @@ export const ChainItemHeaderContent = ({
         groupTabs={groupTabs}
         groupTab={groupTab}
         selectGroup={selectGroup}
+        hasGroupSelector={
+          chain.id === ChainID.BASE && groupID === ChainGroupID.GOERLI
+        }
       />
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints
