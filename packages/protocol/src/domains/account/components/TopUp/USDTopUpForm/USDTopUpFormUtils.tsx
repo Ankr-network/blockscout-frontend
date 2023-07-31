@@ -1,10 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { ClassNameMap } from '@mui/material/styles';
 import { FormRenderProps } from 'react-final-form';
 import { TopUp } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
   DEFAULT_USD_VALUE_STRING,
@@ -15,9 +14,12 @@ import {
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { TrackTopUpSubmit } from 'domains/account/types';
-import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
-import { useDialog } from 'modules/common/hooks/useDialog';
+import {
+  selectBundlePaymentPlanByPriceId,
+  selectBundlePaymentPlans,
+} from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { checkBundleByPriceId } from './utils/checkBundleByPriceId';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
@@ -25,6 +27,7 @@ import { BundlePaymentDialog } from '../BundlePaymentDialog';
 import { BundlePaymentBanner } from '../BundlePaymentBanner';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
 import { AmountField } from '../ANKRTopUpForm/AmountField';
+import { useStyles } from './USDTopUpFormStyles';
 
 export const validateAmount = (value: string) => {
   if (!value) {
@@ -47,12 +50,14 @@ export const validateAmount = (value: string) => {
 };
 
 export const useRenderForm = (
-  classes: ClassNameMap,
   isLoading: boolean,
   shouldUseDefaultValue: boolean,
   trackSubmit?: TrackTopUpSubmit,
+  usdPriceId?: string,
 ) => {
   const { isOpened, onClose, onOpen } = useDialog();
+
+  const { classes, cx } = useStyles();
 
   const bundles = useAppSelector(selectBundlePaymentPlans);
 
@@ -91,6 +96,7 @@ export const useRenderForm = (
             </Typography>
             <USDSubscriptionPricesTabs
               className={classes.tabs}
+              initialTabID={usdPriceId}
               onChange={handleAmountChange}
               tabClassName={classes.tab}
             />
@@ -120,11 +126,13 @@ export const useRenderForm = (
             >
               {t('account.account-details.top-up.top-up')}
             </LoadingButton>
-            {!canEditAmount && (
-              <div className={classes.cancelLabel}>
-                {t('account.account-details.top-up.cancel-label')}
-              </div>
-            )}
+            <div
+              className={cx(classes.cancelLabel, {
+                [classes.cancelLabelHidden]: canEditAmount,
+              })}
+            >
+              {t('account.account-details.top-up.cancel-label')}
+            </div>
           </div>
           <BundlePaymentDialog
             isOpened={isOpened}
@@ -137,12 +145,41 @@ export const useRenderForm = (
     [
       bundles,
       classes,
+      cx,
       isLoading,
       isOpened,
       onClose,
       onOpen,
       shouldUseDefaultValue,
       trackSubmit,
+      usdPriceId,
     ],
   );
+};
+
+export const useInitialValues = (
+  usdPriceId?: string,
+  shouldUseDefaultValue = false,
+) => {
+  const bundle = useAppSelector(state =>
+    selectBundlePaymentPlanByPriceId(state, usdPriceId),
+  );
+
+  const bundleAmount = bundle?.price.amount ?? '';
+
+  return useMemo(() => {
+    if (usdPriceId) {
+      return {
+        [AmountInputField.amount]: bundleAmount,
+        [AmountInputField.id]: usdPriceId,
+      };
+    }
+
+    return {
+      [AmountInputField.amount]: shouldUseDefaultValue
+        ? DEFAULT_USD_VALUE_STRING
+        : '',
+      [AmountInputField.id]: ONE_TIME_PAYMENT_ID,
+    };
+  }, [bundleAmount, shouldUseDefaultValue, usdPriceId]);
 };

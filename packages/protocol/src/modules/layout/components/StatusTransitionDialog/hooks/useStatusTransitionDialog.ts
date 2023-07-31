@@ -21,20 +21,20 @@ export const useStatusTransitionDialog = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
-  const { hasBundles, isLoaded } = useMyBundles();
+  const { isLoaded, isSubscribed } = useMyBundles();
 
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =
       origin === cardPaymentSuccess.path || origin === topUp.path;
 
     return (
-      (hasFreeToPremiumTransition || (hasBundles && isLoaded)) &&
+      (hasFreeToPremiumTransition || (isSubscribed && isLoaded)) &&
       isRedirectedFromSuccessTopUp &&
       hasStatusAccess
     );
   }, [
     hasFreeToPremiumTransition,
-    hasBundles,
+    isSubscribed,
     origin,
     hasStatusAccess,
     isLoaded,

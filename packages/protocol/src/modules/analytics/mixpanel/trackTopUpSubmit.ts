@@ -9,7 +9,7 @@ export interface TopUpSubmitTrackingParams {
   address?: string;
   amount: number;
   callback: Callback;
-  creditBalance: BigNumber;
+  creditBalance: string;
   currency: TopUpCurrency;
   hasPremium?: boolean;
   isNew: boolean;
@@ -28,16 +28,18 @@ export const trackTopUpSubmit = ({
   isNew,
   walletName: wallet_type,
 }: TopUpSubmitTrackingParams) => {
+  const creditBalanceNumber = new BigNumber(creditBalance);
+
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const [replenishment_balance, top_up_balance] = isNew
     ? [token_amount, undefined]
-    : [undefined, creditBalance.plus(token_amount).toNumber()];
+    : [undefined, creditBalanceNumber.plus(token_amount).toNumber()];
 
   return track<TopUpSubmitEventProps>({
     event,
     options,
     properties: {
-      balance: creditBalance.toFormat(),
+      balance: creditBalanceNumber.toFormat(),
       billing,
       replenishment_balance,
       token_amount,

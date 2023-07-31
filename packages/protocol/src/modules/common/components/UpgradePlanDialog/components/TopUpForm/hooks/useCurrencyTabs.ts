@@ -13,7 +13,9 @@ export interface UseCurrencyTabsResult {
   selectCurrency: (id: TopUpCurrency) => void;
 }
 
-export const useCurrencyTabs = (): UseCurrencyTabsResult => {
+export const useCurrencyTabs = (
+  initialTabID?: TopUpCurrency,
+): UseCurrencyTabsResult => {
   const { isUserEthAddressType } = useAuth();
 
   const tabs: Tab<TopUpCurrency>[] = useMemo(
@@ -37,7 +39,10 @@ export const useCurrencyTabs = (): UseCurrencyTabsResult => {
     [isUserEthAddressType],
   );
 
-  const [currencyTabs, selectedTab, selectCurrency] = useTabs({ tabs });
+  const [currencyTabs, selectedTab, selectCurrency] = useTabs({
+    initialTabID,
+    tabs,
+  });
 
   return {
     currency: selectedTab?.id ?? TopUpCurrency.USD,

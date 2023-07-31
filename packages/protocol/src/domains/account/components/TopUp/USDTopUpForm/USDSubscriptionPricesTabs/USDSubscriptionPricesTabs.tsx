@@ -8,12 +8,14 @@ import { useUSDSubscriptionPricesTabsStyles } from './USDSubscriptionPricesTabsS
 
 export const USDSubscriptionPricesTabs = ({
   className,
+  initialTabID,
   onChange,
   tabClassName,
 }: USDSubscriptionPricesTabsProps) => {
   const { loading, selectedTab, tabs } = useUSDPaymentTabs(
     onChange,
     tabClassName,
+    initialTabID,
   );
 
   const { classes, cx } = useUSDSubscriptionPricesTabsStyles(tabs.length > 1);

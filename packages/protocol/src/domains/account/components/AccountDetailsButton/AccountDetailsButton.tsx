@@ -2,15 +2,15 @@ import { Link, LinkProps } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { LoadableButton } from 'uiKit/LoadableButton';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { LoadableButton } from 'uiKit/LoadableButton';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
-import { AccountMarker } from '../AccountMarker';
+import { useAccountDetailsButton } from './hooks/useAccountDetailsButton';
 import { Balance } from '../Balance';
-import { useAccountData } from '../../hooks/useAccountData';
+import { AccountMarker } from '../AccountMarker';
 import { useStyles } from './AccountDetailsButtonStyles';
 
 export interface AccountDetailsButtonProps {
@@ -22,7 +22,8 @@ export const AccountDetailsButton = ({
   isMobile = false,
   isMobileSideBar = false,
 }: AccountDetailsButtonProps) => {
-  const { balance, hasStatusTransition, isLoading, status } = useAccountData();
+  const { balance, hasStatusTransition, isLoading, status } =
+    useAccountDetailsButton();
 
   const statusBlockName = BlockWithPermission.AccountStatus;
   const hasStatusAccess = useGuardUserGroup({ blockName: statusBlockName });

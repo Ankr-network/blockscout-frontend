@@ -1,6 +1,10 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { isLightTheme } from 'uiKit/Theme/themeUtils';
+import {
+  bannerGradientDark,
+  bannerGradientLight,
+  isLightTheme,
+} from 'uiKit/Theme/themeUtils';
 
 export const useBundlePaymentDialogStyles = makeStyles()(theme => ({
   root: {
@@ -12,24 +16,17 @@ export const useBundlePaymentDialogStyles = makeStyles()(theme => ({
     top: 40,
     right: 40,
 
-    svg: {
-      color: isLightTheme(theme) ? undefined : theme.palette.grey[100],
-    },
+    border: `2px solid ${theme.palette.background.default}`,
 
-    '&:hover': {
-      svg: {
-        color: isLightTheme(theme) ? undefined : theme.palette.common.white,
-      },
+    svg: {
+      color: theme.palette.primary.main,
     },
   },
   dialogTitle: {
     marginBottom: theme.spacing(7.5),
     padding: theme.spacing(8, 0, 2),
 
-    background: `
-      linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%),
-      linear-gradient(180deg, rgba(242, 245, 250, 0) 0%, #F2F5FA 100%)
-    `,
+    background: isLightTheme(theme) ? bannerGradientLight : bannerGradientDark,
 
     textAlign: 'center',
   },

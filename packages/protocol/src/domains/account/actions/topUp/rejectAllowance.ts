@@ -3,13 +3,14 @@ import { IApiUserGroupParams } from 'multirpc-sdk';
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
-import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
+import { fetchBalance } from '../balance/fetchBalance';
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
-import { accountFetchBalance } from '../balance/fetchBalance';
+
 
 export const {
   useLazyTopUpRejectAllowanceQuery,
@@ -52,7 +53,7 @@ export const {
         await queryFulfilled;
 
         dispatch(
-          accountFetchBalance.initiate(
+          fetchBalance.initiate(
             { group },
             {
               subscribe: false,

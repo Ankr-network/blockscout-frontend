@@ -1,51 +1,37 @@
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
-import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { web3Api } from 'store/queries';
 
-import { accountFetchSubscriptionsData } from '../fetchMySubscriptionsData';
-
-interface CancelSubscriptionParams {
+export interface CancelSubscriptionParams {
   subscriptionId: string;
   group?: string;
 }
 
 export const {
-  useLazyCancelSubscriptionQuery,
   endpoints: { cancelSubscription },
+  useCancelSubscriptionMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    cancelSubscription: build.query<
+    cancelSubscription: build.mutation<
       void,
       TwoFAQueryFnParams<CancelSubscriptionParams>
     >({
+      invalidatesTags: ['MySubscriptions'],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ params: { subscriptionId, group }, totp }) => {
-          const service = MultiService.getService();
+          const api = MultiService.getService().getAccountGateway();
 
-          const data = await service
-            .getAccountGateway()
-            .cancelSubscription(
-              { subscription_id: subscriptionId },
-              { group, totp },
-            );
+          const data = await api.cancelSubscription(
+            { subscription_id: subscriptionId },
+            { group, totp },
+          );
 
           return { data };
         },
-        errorHandler: error => {
-          return {
-            error,
-          };
-        },
+        errorHandler: error => ({ error }),
       }),
-      onQueryStarted: async (
-        { params: { group } },
-        { dispatch, queryFulfilled },
-      ) => {
-        await queryFulfilled;
-
-        dispatch(accountFetchSubscriptionsData.initiate({ group }));
-      },
     }),
   }),
+  overrideExisting: true,
 });

@@ -4,11 +4,11 @@ import {
   ONE_TIME_PAYMENT_ID,
   useLazyUsdTopUpFetchLinkForOneTimePaymentQuery,
 } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { useLazyUsdTopUpFetchLinkForBundlePaymentQuery } from '../actions/usdTopUp/fetchLinkForBundlePayment';
+import { useLazyFetchLinkForBundlePaymentQuery } from '../actions/bundles/fetchLinkForBundlePayment';
 import { useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery } from '../actions/usdTopUp/fetchLinkForRecurrentCardPayment';
 
 export const useCardPayment = () => {
@@ -28,7 +28,7 @@ export const useCardPayment = () => {
   const [
     fetchLinkForBundlePayment,
     { isLoading: isFetchLinkForBundlePaymentLoading },
-  ] = useLazyUsdTopUpFetchLinkForBundlePaymentQuery();
+  ] = useLazyFetchLinkForBundlePaymentQuery();
 
   const handleFetchLinkForCardPayment = useCallback(
     (amount: string, reason?: string) =>
@@ -43,7 +43,7 @@ export const useCardPayment = () => {
 
   const handleFetchLinkForBundlePayment = useCallback(
     (priceId: string, productId: string) =>
-      fetchLinkForBundlePayment({ priceId, productId, groupAddress }),
+      fetchLinkForBundlePayment({ priceId, productId, group: groupAddress }),
     [fetchLinkForBundlePayment, groupAddress],
   );
 

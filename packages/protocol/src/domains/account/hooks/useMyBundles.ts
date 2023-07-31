@@ -1,34 +1,46 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useEffect } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 import {
+  selectHasMyBundles,
   selectMyBundles,
+  selectMyBundlesFetching,
+  selectMyBundlesLoaded,
   selectMyBundlesLoading,
-  selectMyBundlesIsLoaded,
+  selectMyCurrentBundle,
 } from '../store/selectors';
-import { useFetchMyBundlesQuery } from '../actions/bundles/fetchMyBundles';
+import { useLazyFetchMyBundlesQuery } from '../actions/bundles/fetchMyBundles';
 
-const DEFAULT_PARAMS = {
-  shouldFetch: false,
-};
+export interface MyBundlesParams {
+  skipFetching?: boolean;
+}
 
-export const useMyBundles = ({ shouldFetch } = DEFAULT_PARAMS) => {
-  const hasGroupAccess = useGuardUserGroup({
-    blockName: BlockWithPermission.Billing,
-  });
-
+export const useMyBundles = ({
+  skipFetching = false,
+}: MyBundlesParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  useFetchMyBundlesQuery(shouldFetch && hasGroupAccess ? group : skipToken);
+  const [fetch] = useLazyFetchMyBundlesQuery();
+
+  useEffect(() => {
+    if (!skipFetching) {
+      const { unsubscribe } = fetch(group);
+
+      return unsubscribe;
+    }
+
+    return () => {};
+  }, [fetch, group, skipFetching]);
 
   const bundles = useAppSelector(selectMyBundles);
-  const loading = useAppSelector(selectMyBundlesLoading);
-  const hasBundles = bundles.length > 0;
-  const isLoaded = useAppSelector(selectMyBundlesIsLoaded);
+  const currentBundle = useAppSelector(selectMyCurrentBundle);
 
-  return { bundles, loading, hasBundles, isLoaded };
+  const fetching = useAppSelector(selectMyBundlesFetching);
+  const isLoaded = useAppSelector(selectMyBundlesLoaded);
+  const isSubscribed = useAppSelector(selectHasMyBundles);
+  const loading = useAppSelector(selectMyBundlesLoading);
+
+  return { bundles, currentBundle, fetching, isLoaded, isSubscribed, loading };
 };

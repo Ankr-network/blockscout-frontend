@@ -6,6 +6,7 @@ import { ContentType, Plan } from '../types';
 import { DIALOG_BREAKDOWN } from '../const';
 import { getContent } from '../utils/getContent';
 import { useDialogTitle } from './useDialogTitle';
+import { TopUpCurrency } from '../components/TopUpForm/types';
 
 const LARGE_WIDTH = 1200;
 
@@ -14,6 +15,7 @@ const getDefaultMaxWidth = (hasBreakdown: boolean) =>
 
 export interface DialogPropsParams {
   contentType: ContentType;
+  currency?: TopUpCurrency;
   defaultState?: ContentType;
   enterpriseUpgradeHandler: () => void;
   freeUpgradeHandler: () => void;
@@ -25,6 +27,7 @@ export interface DialogPropsParams {
 
 export const useDialogProps = ({
   contentType,
+  currency,
   defaultState,
   enterpriseUpgradeHandler,
   freeUpgradeHandler,
@@ -40,6 +43,7 @@ export const useDialogProps = ({
   return {
     children: getContent({
       contentType: defaultState ?? contentType,
+      currency,
       enterpriseUpgradeHandler,
       freeUpgradeHandler,
       onClose,

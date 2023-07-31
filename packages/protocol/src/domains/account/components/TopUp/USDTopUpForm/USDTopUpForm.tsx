@@ -1,37 +1,23 @@
-import { useMemo } from 'react';
 import { Form } from 'react-final-form';
 
-import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
-import { DEFAULT_USD_VALUE_STRING } from 'domains/account/actions/usdTopUp/const';
-
-import { useStyles } from './USDTopUpFormStyles';
-import { AmountInputField, TopUpFormProps } from './USDTopUpFormTypes';
-import { useRenderForm } from './USDTopUpFormUtils';
+import { TopUpFormProps } from './USDTopUpFormTypes';
+import { useInitialValues, useRenderForm } from './USDTopUpFormUtils';
 
 export const USDTopUpForm = ({
   isLoading,
   onSubmit,
   shouldUseDefaultValue,
   trackSubmit,
+  usdPriceId,
 }: TopUpFormProps) => {
-  const { classes } = useStyles();
-
   const renderForm = useRenderForm(
-    classes,
     isLoading,
     shouldUseDefaultValue,
     trackSubmit,
+    usdPriceId,
   );
 
-  const initialValues = useMemo(
-    () => ({
-      [AmountInputField.amount]: shouldUseDefaultValue
-        ? DEFAULT_USD_VALUE_STRING
-        : '',
-      [AmountInputField.id]: ONE_TIME_PAYMENT_ID,
-    }),
-    [shouldUseDefaultValue],
-  );
+  const initialValues = useInitialValues(usdPriceId, shouldUseDefaultValue);
 
   return (
     <Form

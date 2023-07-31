@@ -7,13 +7,18 @@ import { TopUpEmailDialog } from 'domains/account/components/TopUp/ANKRTopUpForm
 
 import { AmountForm } from './components/AmountForm';
 import { CurrencySelector } from './components/CurrencySelector';
+import { TopUpCurrency } from './types';
 import { USDPriceSelector } from './components/USDPiceSelector';
 import { useTopUpForm } from './hooks/useTopUpForm';
 import { useTopUpFormStyles } from './TopUpFormStyles';
 
-export const TopUpForm = () => {
+export interface TopUpFormProps {
+  currency?: TopUpCurrency;
+}
+
+export const TopUpForm = ({ currency }: TopUpFormProps) => {
   const { amountProps, currencyProps, emailDialogProps, usdPriceProps } =
-    useTopUpForm();
+    useTopUpForm(currency);
 
   const { classes } = useTopUpFormStyles();
 

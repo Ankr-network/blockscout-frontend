@@ -4,6 +4,7 @@ import { ContactSalesForm } from '../components/ContactSalesForm';
 import { ContentType, Plan } from '../types';
 import { DefaultContent } from '../components/DefaultContent';
 import { SignUpContent } from '../components/SignUpContent';
+import { TopUpCurrency } from '../components/TopUpForm/types';
 import { TopUpForm } from '../components/TopUpForm';
 
 const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
@@ -11,6 +12,7 @@ const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
 
 export interface ContentParams {
   contentType: ContentType;
+  currency?: TopUpCurrency;
   enterpriseUpgradeHandler: () => void;
   freeUpgradeHandler: () => void;
   onClose: () => void;
@@ -22,6 +24,7 @@ export interface ContentParams {
 
 export const getContent = ({
   contentType,
+  currency,
   enterpriseUpgradeHandler,
   freeUpgradeHandler,
   onClose,
@@ -40,7 +43,7 @@ export const getContent = ({
       />
     ),
     [SIGN_UP]: <SignUpContent onClose={onClose} onGoogleSignUp={resetTitle} />,
-    [TOP_UP]: <TopUpForm />,
+    [TOP_UP]: <TopUpForm currency={currency} />,
     [CONTACT_SALES_FORM]: <ContactSalesForm onSubmit={onSubmitContactForm} />,
     [CONTACT_SALES_SUCCESS]: (
       <ContactSalesForm onSubmit={onSubmitContactForm} />

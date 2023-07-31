@@ -14,8 +14,10 @@ import {
 export interface TopUpTabsParams {
   ankrTopupTab?: Tab<TopUpTabID>;
   icon?: ReactNode;
+  initialTabId?: TopUpTabID;
   tabClassName: string;
   trackSubmit: TrackTopUpSubmit;
+  usdPriceId?: string;
 }
 
 export const useInitialValues = (
@@ -39,16 +41,21 @@ export enum TopUpTabID {
 export const useTopUpTabs = ({
   ankrTopupTab,
   icon,
-  trackSubmit,
+  initialTabId,
   tabClassName,
+  trackSubmit,
+  usdPriceId,
 }: TopUpTabsParams) => {
-  const initialTabID = ankrTopupTab ? TopUpTabID.ANKR : TopUpTabID.USD;
+  const defaultTabId = ankrTopupTab ? TopUpTabID.ANKR : TopUpTabID.USD;
+  const initialTabID = initialTabId ?? defaultTabId;
 
   const rawTabs: Tab<TopUpTabID>[] = useMemo(() => {
     const tabs = [
       {
         id: TopUpTabID.USD,
-        content: <USDTopUpForm trackSubmit={trackSubmit} />,
+        content: (
+          <USDTopUpForm trackSubmit={trackSubmit} usdPriceId={usdPriceId} />
+        ),
         title: (isSelected: boolean) => (
           <SecondaryTab
             className={tabClassName}
@@ -65,7 +72,7 @@ export const useTopUpTabs = ({
     }
 
     return tabs;
-  }, [ankrTopupTab, trackSubmit, icon, tabClassName]);
+  }, [ankrTopupTab, trackSubmit, icon, tabClassName, usdPriceId]);
 
   return useTabs({
     initialTabID,
