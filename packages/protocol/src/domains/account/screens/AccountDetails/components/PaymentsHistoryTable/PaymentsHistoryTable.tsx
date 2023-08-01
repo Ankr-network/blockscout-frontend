@@ -9,7 +9,6 @@ import { Filters } from './components/Filters';
 import { usePaymentHistoryTable } from './hooks/usePaymentHistoryTable';
 import { useStyles } from './PaymentHistoryTableStyles';
 
-
 export const PaymentsHistoryTable = () => {
   const { classes } = useStyles();
 

@@ -48,12 +48,12 @@ export const {
             getState as GetState,
           );
 
-          const stepForTheFirstTopUp = await checkFirstTopUpStep(
+          const stepForTheFirstTopUp = await checkFirstTopUpStep({
             address,
-            getState as GetState,
+            getState: getState as GetState,
             dispatch,
             group,
-          );
+          });
 
           if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
 

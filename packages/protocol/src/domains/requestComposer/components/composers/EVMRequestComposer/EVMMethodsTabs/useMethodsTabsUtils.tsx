@@ -13,12 +13,19 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 import { EVMSampleCode } from './EVMSampleCode';
 
-export const useMethodsTabsUtils = (
-  group: EndpointGroup,
-  title: EVMMethod,
-  args: string[],
-  libraryID: EVMLibraryID,
-) => {
+interface UseMethodsTabsUtilsArguments {
+  group: EndpointGroup;
+  title: EVMMethod;
+  args: string[];
+  libraryID: EVMLibraryID;
+}
+
+export const useMethodsTabsUtils = ({
+  group,
+  title,
+  args,
+  libraryID,
+}: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<EVMLibraryID>[] = useLocaleMemo(
     () => [
       {

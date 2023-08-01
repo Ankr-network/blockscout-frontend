@@ -14,12 +14,19 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 import { AvalancheSampleCode } from '../../AvalancheSampleCode';
 
-export const useMethodsTabsUtils = (
-  group: EndpointGroup,
-  title: CChainMethod,
-  args: string[],
-  libraryID: AvalancheLibraryID,
-) => {
+interface UseMethodsTabsUtilsArguments {
+  group: EndpointGroup;
+  title: CChainMethod;
+  args: string[];
+  libraryID: AvalancheLibraryID;
+}
+
+export const useMethodsTabsUtils = ({
+  group,
+  title,
+  args,
+  libraryID,
+}: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<AvalancheLibraryID>[] = useLocaleMemo(
     () => [
       {

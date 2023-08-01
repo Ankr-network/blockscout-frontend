@@ -1,3 +1,4 @@
+/* eslint-disable max-params */
 import json5 from 'json5';
 import { Provider } from 'near-api-js/lib/providers';
 
@@ -69,7 +70,7 @@ const NEARJavaScriptAPISendJsonRpcTemplate = (
 const config = {
   networkId: 'mainnet',
   keyStore: new keyStores.BrowserLocalStorageKeyStore(), // first create a key store
-  nodeUrl: '${url}', 
+  nodeUrl: '${url}',
   walletUrl: 'https://wallet.mainnet.near.org',
   helperUrl: 'https://helper.mainnet.near.org',
   explorerUrl: 'https://explorer.mainnet.near.org',

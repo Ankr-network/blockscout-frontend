@@ -52,13 +52,13 @@ export const EndpointForm = ({
         placeholder="https://"
         defaultValue="https://"
         validate={data =>
-          validateUserEndpoint(
-            data,
+          validateUserEndpoint({
+            value: data,
             chainId,
             privateUrls,
             endpoints,
             publicUrls,
-          )
+          })
         }
         InputProps={{
           classes: {

@@ -10,12 +10,12 @@ export const USDTopUpForm = ({
   trackSubmit,
   usdPriceId,
 }: TopUpFormProps) => {
-  const renderForm = useRenderForm(
+  const renderForm = useRenderForm({
     isLoading,
     shouldUseDefaultValue,
     trackSubmit,
     usdPriceId,
-  );
+  });
 
   const initialValues = useInitialValues(usdPriceId, shouldUseDefaultValue);
 

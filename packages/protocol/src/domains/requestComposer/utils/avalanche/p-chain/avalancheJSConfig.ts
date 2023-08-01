@@ -1,4 +1,5 @@
 /* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable max-params */
 import BN from 'bn.js';
 
 import { ILibraryConfig } from 'domains/requestComposer/types/avalanche';

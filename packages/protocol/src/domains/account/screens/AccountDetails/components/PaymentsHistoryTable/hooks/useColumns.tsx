@@ -96,13 +96,13 @@ export const useColumns = () => {
                   : getPaymentHistoryItemDirection(type)
               }
               value={formatPaymentHistoryAmount(
-                getAmount(
+                getAmount({
                   type,
                   creditAnkrAmount,
                   creditUsdAmount,
                   amountAnkr,
                   amountUsd,
-                ),
+                }),
                 MIN_USD_DECIMAL_PLACES,
                 MAX_USD_DECIMAL_PLACES,
               )}

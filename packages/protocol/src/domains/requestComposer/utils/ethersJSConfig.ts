@@ -1,3 +1,4 @@
+/* eslint-disable max-params */
 import { ethers, BigNumber, utils } from 'ethers';
 
 import { TraceType } from '../constants';
