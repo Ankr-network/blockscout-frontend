@@ -15,4 +15,5 @@ export interface TopUpFormProps {
   onSubmit: (data: TopUpFormValues) => void;
   shouldUseDefaultValue: boolean;
   trackSubmit?: TrackTopUpSubmit;
+  usdPriceId?: string;
 }

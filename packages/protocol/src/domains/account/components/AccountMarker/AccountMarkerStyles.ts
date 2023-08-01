@@ -1,34 +1,25 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { BalanceStatus } from 'domains/account/types';
+import { AccountStatus } from 'domains/account/types';
 
-import { AccountMarkerProps } from './types';
-
-type Props = Required<AccountMarkerProps>;
-
-export const useStyles = makeStyles<Props>()((theme, props) => {
-  const colorsMap: Record<BalanceStatus, string> = {
-    [BalanceStatus.GREEN]: theme.palette.success.main,
-    [BalanceStatus.GREY]: theme.palette.grey[400],
-    [BalanceStatus.YELLOW]: theme.palette.warning.main,
-    [BalanceStatus.RED]: theme.palette.error.main,
+export const useStyles = makeStyles<AccountStatus>()((theme, status) => {
+  const colorsMap: Record<AccountStatus, string> = {
+    [AccountStatus.GREEN]: theme.palette.success.main,
+    [AccountStatus.RED]: theme.palette.error.main,
+    [AccountStatus.GREY]: theme.palette.grey[400],
+    [AccountStatus.YELLOW]: theme.palette.warning.main,
   };
 
   return {
-    accountMarkerRoot: {
+    root: {
       flexShrink: 0,
 
-      width: theme.spacing(2 * 1.5),
-      height: theme.spacing(2 * 1.5),
+      width: theme.spacing(3),
+      height: theme.spacing(3),
 
       borderRadius: '50%',
 
-      backgroundColor: colorsMap[props.status],
-
-      [theme.breakpoints.down('xs')]: {
-        width: theme.spacing(2 * 1.25),
-        height: theme.spacing(2 * 1.25),
-      },
+      backgroundColor: colorsMap[status],
     },
   };
 });

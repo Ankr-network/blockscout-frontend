@@ -10,9 +10,11 @@ import { usePrices } from './usePrices';
 
 export type OnChange = USDSubscriptionPricesTabsProps['onChange'];
 
-const initialTabID = ONE_TIME_PAYMENT_ID;
-
-export const useUSDPaymentTabs = (onChange: OnChange, tabClassName: string) => {
+export const useUSDPaymentTabs = (
+  onChange: OnChange,
+  tabClassName: string,
+  initialTabID = ONE_TIME_PAYMENT_ID,
+) => {
   const { prices, loading: pricesLoading } = usePrices();
   const { bundles, loading: bundlesLoading } = useBundlePaymentPlans({
     skipFetching: true,

@@ -27,6 +27,7 @@ export const useStyles = makeStyles()(theme => ({
   bottom: {
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'flex-start',
 
     gap: theme.spacing(3),
   },
@@ -42,5 +43,8 @@ export const useStyles = makeStyles()(theme => ({
 
     fontSize: 14,
     lineHeight: '140%',
+  },
+  cancelLabelHidden: {
+    visibility: 'hidden',
   },
 }));

@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 
 import { ContentType, UpgradePlanDialogType } from '../types';
+import { TopUpCurrency } from '../components/TopUpForm/types';
 import { checkContactSalesPopup } from '../utils/checkContactSalesPopup';
 import { useContentType } from './useContentType';
 import { useDialogProps } from './useDialogProps';
@@ -13,12 +14,14 @@ import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 import { useUpgradePlanHandler } from './useUpgradePlanHandler';
 
 export interface UpgradePlanDialogStateParams {
+  currency?: TopUpCurrency;
   defaultState?: ContentType;
   onClose: () => void;
   type: UpgradePlanDialogType;
 }
 
 export const useUpgradePlanDialogState = ({
+  currency,
   defaultState,
   onClose: handleClose,
   type,
@@ -61,6 +64,7 @@ export const useUpgradePlanDialogState = ({
 
   const dialogProps = useDialogProps({
     contentType,
+    currency,
     enterpriseUpgradeHandler,
     freeUpgradeHandler,
     onClose,

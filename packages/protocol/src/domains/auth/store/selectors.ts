@@ -1,11 +1,12 @@
+import BigNumber from 'bignumber.js';
 import { EthAddressType, Tier } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
 import {
   selectSelectedUserGroupRole,
   selectUserGroupConfigByAddress,
 } from 'domains/userGroup/store';
+import { selectTotalBalance } from 'domains/account/store/selectors';
 
 import {
   defaultPremiumStatusData,
@@ -37,6 +38,11 @@ export const selectIsTokenExpired = createSelector(
     Boolean(
       credentials && !workerTokenData?.userEndpointToken && !hasOauthLogin,
     ),
+);
+
+export const selectPremiumStatus = createSelector(
+  fetchPremiumStatus.select(''),
+  ({ data: { status } = defaultPremiumStatusData }) => status,
 );
 
 export const selectHasFreemium = createSelector(
@@ -132,22 +138,17 @@ export const selectIsWeb3UserWithEmailBound = createSelector(
     isUserEthAddressType,
 );
 
-export const selectHasZeroBalance = createSelector(
-  accountFetchBalance.select({ group: undefined }),
-  ({ data: { creditBalance } = {} }) => creditBalance?.isZero() ?? true,
-);
-
 const freeToPremiumThreshold = getPremiumActivationThreshold();
 
 export const selectHasFreeToPremiumTransition = createSelector(
-  accountFetchBalance.select({ group: undefined }),
+  selectTotalBalance,
   selectHasFreemium,
   selectIsWeb3UserWithEmailBound,
-  ({ data: { creditBalance } = {} }, hasFreemium, isWeb3UserWithEmailBound) =>
+  (balance, hasFreemium, isWeb3UserWithEmailBound) =>
     Boolean(
       !isWeb3UserWithEmailBound &&
         hasFreemium &&
-        creditBalance?.gte(freeToPremiumThreshold),
+        new BigNumber(balance).isGreaterThanOrEqualTo(freeToPremiumThreshold),
     ),
 );
 

@@ -1,0 +1,1 @@
+export const BREAKING_WIDGET_BUTTON_WIDTH = 1460;

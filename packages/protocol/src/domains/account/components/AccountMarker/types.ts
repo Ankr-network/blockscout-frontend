@@ -1,5 +1,6 @@
-import { BalanceStatus } from 'domains/account/types';
+import { AccountStatus } from 'domains/account/types';
 
 export interface AccountMarkerProps {
-  status?: BalanceStatus;
+  status: AccountStatus;
+  className?: string;
 }

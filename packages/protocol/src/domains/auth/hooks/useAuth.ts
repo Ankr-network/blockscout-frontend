@@ -17,6 +17,7 @@ import {
   selectIsOldPremium,
   selectIsTokenExpired,
   selectIsUserEthAddressType,
+  selectPremiumStatus,
   selectPremiumUntilDate,
 } from '../store/selectors';
 import { useWeb3Connection } from './useWeb3Connection';
@@ -41,6 +42,7 @@ export const useAuth = () => {
   const isUserEthAddressType = useAppSelector(selectIsUserEthAddressType);
   const premiumUntil = useAppSelector(selectPremiumUntilDate);
   const address = useAppSelector(selectAddress);
+  const premiumStatus = useAppSelector(selectPremiumStatus);
 
   const { loading: web3ConnectionLoading, ...rest } = useWeb3Connection();
 
@@ -67,5 +69,6 @@ export const useAuth = () => {
     hasFreeToPremiumTransition,
     hasStatusTransition,
     hasConnectWalletMessage,
+    premiumStatus,
   };
 };

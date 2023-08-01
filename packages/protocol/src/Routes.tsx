@@ -31,10 +31,10 @@ import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useAutoconnect } from 'hooks/useAutoconnect';
+import { useBalance } from 'domains/account/hooks/useBalance';
 import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { useBalanceSubscription } from 'hooks/useBalanceSubscription';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
 import {
@@ -58,12 +58,12 @@ export const Routes = () => {
 
   const { isUninitialized } = usePremiumStatusSubscription();
 
-  useBalanceSubscription();
+  useBalance();
   useAutoconnect();
   useWeb3ThemeSwitcher();
   useCheckChangedSignupUserSettingsAndUpdate();
   useJwtManagerInitializer(!isReactSnap && isLoggedIn);
-  useMyBundles({ shouldFetch: !isReactSnap && isLoggedIn });
+  useMyBundles({ skipFetching: isReactSnap || !isLoggedIn });
 
   return (
     <Switch>

@@ -14,9 +14,9 @@ import { timeout } from 'modules/common/utils/timeout';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
+import { fetchBalance } from '../balance/fetchBalance';
 import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { waitForPendingTransaction } from './waitForPendingTransaction';
-import { accountFetchBalance } from '../balance/fetchBalance';
 import { ETH_BLOCK_TIME } from './const';
 
 export interface WaitTransactionConfirmingResult {
@@ -185,7 +185,7 @@ export const {
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(accountFetchBalance.initiate({ group }));
+        dispatch(fetchBalance.initiate({ group }));
       },
     }),
   }),

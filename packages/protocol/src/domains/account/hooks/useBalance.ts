@@ -1,22 +1,69 @@
-import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { accountFetchBalance } from 'domains/account/actions/balance/fetchBalance';
-import { defaultBalance } from 'domains/account/actions/balance/const';
+import { SubscriptionOptions } from '@reduxjs/toolkit/dist/query/core/apiState';
+import { useEffect } from 'react';
 
-export interface Balance extends AccountBalance {
-  isLoading: boolean;
-  isLoadingInitially: boolean;
+import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useLazyFetchBalanceQuery } from 'domains/account/actions/balance/fetchBalance';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import {
+  selectAnkrBalance,
+  selectAnkrBalanceWithoutVouchers,
+  selectBalanceFetching,
+  selectBalanceLevel,
+  selectBalanceLoading,
+  selectTotalBalance,
+  selectUSDBalance,
+  selectVoucherBalance,
+} from '../store/selectors';
+
+export interface BalanceParams {
+  skipFetching?: boolean;
 }
 
-export const useBalance = (): Balance => {
-  const [, { data: balances, isLoading }] =
-    useQueryEndpoint(accountFetchBalance);
+const options: SubscriptionOptions = {
+  pollingInterval: 30_000,
+};
 
-  const isLoadingInitially = !balances && isLoading;
+export const useBalance = ({
+  skipFetching = false,
+}: BalanceParams | void = {}) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const { isLoggedIn } = useAuth();
+
+  const shouldFetch = isLoggedIn && !skipFetching;
+
+  const [fetch] = useLazyFetchBalanceQuery(options);
+
+  useEffect(() => {
+    if (shouldFetch) {
+      const { unsubscribe } = fetch({ group });
+
+      return unsubscribe;
+    }
+
+    return () => {};
+  }, [fetch, group, shouldFetch]);
+
+  const ankrBalance = useAppSelector(selectAnkrBalance);
+  const ankrBalanceWithoutVouchers = useAppSelector(
+    selectAnkrBalanceWithoutVouchers,
+  );
+  const balanceLevel = useAppSelector(selectBalanceLevel);
+  const creditBalance = useAppSelector(selectTotalBalance);
+  const fetching = useAppSelector(selectBalanceFetching);
+  const loading = useAppSelector(selectBalanceLoading);
+  const usdBalance = useAppSelector(selectUSDBalance);
+  const voucherBalance = useAppSelector(selectVoucherBalance);
 
   return {
-    ...(balances || defaultBalance),
-    isLoading,
-    isLoadingInitially,
+    ankrBalance,
+    ankrBalanceWithoutVouchers,
+    balanceLevel,
+    creditBalance,
+    fetching,
+    loading,
+    usdBalance,
+    voucherBalance,
   };
 };

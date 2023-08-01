@@ -1,34 +1,35 @@
+import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
-import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
 import { accountFetchPaymentHistory } from '../actions/fetchTransactions';
 import { getTransactionsRequest } from '../screens/AccountDetails/components/PaymentsHistoryTable/utils/getTransactionsRequest';
+import { useBalance } from './useBalance';
 
 const TIMEOUT = 30000;
 
 export const useUpdatePaymentHistory = (
-  balances: AccountBalance,
   timeframe: PaymentHistoryTableTimeframe,
   paymentType: PaymentType,
 ) => {
+  const { ankrBalance } = useBalance({ skipFetching: true });
   const [fetchTransactions, , reset] = useQueryEndpoint(
     accountFetchPaymentHistory,
   );
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const amount = useRef(balances?.ankrBalance);
+  const amount = useRef(ankrBalance);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const isBalancesChanged =
-      balances?.ankrBalance && !balances?.ankrBalance.isEqualTo(amount.current);
+      ankrBalance && !new BigNumber(ankrBalance).isEqualTo(amount.current);
     let timeoutId: NodeJS.Timeout;
 
     if (isBalancesChanged) {
@@ -38,7 +39,7 @@ export const useUpdatePaymentHistory = (
           ...getTransactionsRequest({ timeframe, paymentType }),
           group,
         });
-        amount.current = balances.ankrBalance;
+        amount.current = ankrBalance;
       }, TIMEOUT);
     }
 
@@ -46,7 +47,7 @@ export const useUpdatePaymentHistory = (
       clearTimeout(timeoutId);
     };
   }, [
-    balances?.ankrBalance,
+    ankrBalance,
     dispatch,
     fetchTransactions,
     paymentType,

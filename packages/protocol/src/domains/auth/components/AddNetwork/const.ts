@@ -98,17 +98,6 @@ const TRON_CHAIN_JSON_RPC: NetworkInfo = {
   blockExplorerUrls: ['https://tronscan.org/'],
 };
 
-const BASECHAIN: NetworkInfo = {
-  chainId: 84531,
-  chainName: 'Base Goerli',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://goerli.basescan.org/'],
-};
-
 const SCROLLCHAIN: NetworkInfo = {
   chainId: 534353,
   chainName: 'Scroll Testnet',
@@ -527,8 +516,26 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.TRON_JSON_RPC]: TRON_CHAIN_JSON_RPC,
 
-  [ChainID.BASE]: BASECHAIN,
-  [ChainID.BASE_TESTNET]: BASECHAIN,
+  [ChainID.BASE]: {
+    chainId: 8453,
+    chainName: 'Base Mainnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://basescan.org'],
+  },
+  [ChainID.BASE_TESTNET]: {
+    chainId: 84531,
+    chainName: 'Base Goerli',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://goerli.basescan.org/'],
+  },
 
   [ChainID.SCROLL]: SCROLLCHAIN,
   [ChainID.SCROLL_TESTNET]: SCROLLCHAIN,

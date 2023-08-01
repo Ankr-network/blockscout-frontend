@@ -49,11 +49,11 @@ import {
   NegativeBalanceTermsOfServicesStatusParams,
   BundlePaymentPlan,
   GetLinkForBundlePaymentRequest,
+  GetMyBundlesStatusResponse,
   StatsByRangeRequest,
   StatsByRangeResponse,
   Top10StatsResponse,
   Top10StatsParams,
-
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
   IJwtTokenResponse,
@@ -617,6 +617,15 @@ export class AccountGateway {
     );
   }
 
+  async getMyBundlesStatus(group?: Web3Address) {
+    const { data: { bundles }} = await this.api.get<GetMyBundlesStatusResponse>(
+      '/api/v1/auth/myBundles/status',
+      { params: { group } },
+    );
+
+    return bundles;
+  }
+  
   async updateWhitelistMode(
     bodyParams: IUpdateWhitelistModeRequestParams,
     queryParams: IUpdateWhitelistModeParams,

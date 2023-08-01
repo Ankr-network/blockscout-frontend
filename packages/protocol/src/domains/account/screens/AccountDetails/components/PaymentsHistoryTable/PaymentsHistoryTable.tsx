@@ -3,20 +3,14 @@ import { t } from '@ankr.com/common';
 
 import { Preloader } from 'uiKit/Preloader';
 import { VirtualTable } from 'uiKit/VirtualTable';
-import { Balance as AccountBalance } from 'domains/account/actions/balance/types';
 import { useUpdatePaymentHistory } from 'domains/account/hooks/useUpdatePaymentHistory';
 
 import { Filters } from './components/Filters';
 import { usePaymentHistoryTable } from './hooks/usePaymentHistoryTable';
 import { useStyles } from './PaymentHistoryTableStyles';
 
-interface IPaymentHistoryTableProps {
-  balances: AccountBalance;
-}
 
-export const PaymentsHistoryTable = ({
-  balances,
-}: IPaymentHistoryTableProps) => {
+export const PaymentsHistoryTable = () => {
   const { classes } = useStyles();
 
   const {
@@ -32,7 +26,7 @@ export const PaymentsHistoryTable = ({
     timeframe,
   } = usePaymentHistoryTable();
 
-  useUpdatePaymentHistory(balances, timeframe, paymentType);
+  useUpdatePaymentHistory(timeframe, paymentType);
 
   return (
     <Box display="flex" flexDirection="column">

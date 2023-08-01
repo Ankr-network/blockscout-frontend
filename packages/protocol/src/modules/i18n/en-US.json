@@ -1157,6 +1157,13 @@
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
     "premium-success": "You’ve now gone Premium! Enjoy <a href='https://www.ankr.com/docs/rpc-service/service-plans/#feature-list' target='_blank'>the features</a> and <a href='https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits' target='_blank'>rate limits</a> available to&nbsp;you.",
+    "descriptions": {
+      "blue": "To begin utilizing Ankr mRPC, replenish your balance via the form on the right.",
+      "yellow": "Low balance range. Topping up is required to prevent account suspension.",
+      "red": "Top up your account balance to continue using our service.",
+      "critical": "Top up your account balance to continue using our service.\nYour account has been suspended.",
+      "grey": "Updating"
+    },
     "account-details": {
       "breadcrumbs": "Billing",
       "title": "Account Details",
@@ -1191,49 +1198,38 @@
           "button": "Subscribe now"
         }
       },
-      "balance": {
-        "title": "Balance",
-        "withdrawButton": {
-          "title": "Withdraw"
-        },
-        "descriptions": {
-          "freemium": {
-            "extra": "Top up your balance to use our service."
-          },
-          "freemium-transition": {
-            "extra": "Updating"
-          },
-          "old-premium": {
-            "main": "Your premium subscription is active till {date, time, ::dMMMy}.",
-            "extra": "Then you'll have to Top Up your balance to continue using premium features."
-          },
-          "old-premium-expired": {
-            "main": "Your premium subscription is ended.",
-            "extra": "Top up your balance to continue using our service."
-          },
-          "premium-active": {
-            "extra": "High balance range (≈{requests, number, ::compact-short} requests available) — no worry in the world."
-          },
-          "premium-warning": {
-            "extra": "Medium balance range (≈{requests, number, ::compact-short} requests available) — topping up might be a good idea."
-          },
-          "premium-min-balance": {
-            "extra": "Low balance range (≈{requests, number, ::compact-short} requests available) — topping up is required to prevent account suspension."
-          },
-          "premium-inactive": {
-            "extra": "Top up your balance to continue using our service."
-          },
-          "periods": {
-            "day": "day{plural}",
-            "month": "month{plural}",
-            "year": "year{plural}",
-            "plural": "s"
-          },
-          "quantifiers": {
-            "approximately": "~",
-            "more": "more than "
-          }
-        }
+      "edit-button": "Edit",
+      "top-up-button": "Top Up",
+      "all-plans-button": "See all plans",
+      "price": "${amount, number} <span>per {period, select, day {day} week {week} month {month} year {year}}</span>",
+      "next-billing-date": "Next billing date: {date, date, long}",
+      "scheduled-payments": {
+        "title": "{paymentsCount, plural, =0 {No scheduled payments} =1 {Scheduled payment ({paymentsCount}):} other {Scheduled payments ({paymentsCount}):}}",
+        "subscription": "${amount, number, ::compact-short} on {date}",
+        "more-button": "+{subscriptionsCount} more"
+      },
+      "balance-widget": {
+        "title": "Current balance",
+        "payg-label": "Pay as you go",
+        "credit-balance": "{balance, number, ::compact-short} Credits",
+        "usd-balance": "≈{balance, number, USD}",
+        "plural": "s"
+      },
+      "plan-widget": {
+        "title": "Current plan",
+        "progress-title": "{percent, number, ::compact-short}% used",
+        "progress-title-less-one": "<1% used"
+      },
+      "subscription-editor": {
+        "upgrade-button": "Upgrade",
+        "cancel-button": "Cancel subscription",
+        "warning": "If you cancel now, you will no longer be charged"
+      },
+      "edit-plan-dialog": {
+        "title": "Edit current plan"
+      },
+      "edit-subscriptions-dialog": {
+        "title": "Edit your payments"
       },
       "expense-chart": {
         "title": "Expense Chart",
@@ -1249,6 +1245,8 @@
         }
       },
       "subscriptions": {
+        "title": "Auto Payment",
+        "edit": "Edit",
         "top-up-subscriptions": "{value, plural, =1 {Top Up Subscription} other { Top Up Subscriptions }}",
         "text": "${amount}/{recurringInterval}",
         "are-you-sure": "Are you sure?",

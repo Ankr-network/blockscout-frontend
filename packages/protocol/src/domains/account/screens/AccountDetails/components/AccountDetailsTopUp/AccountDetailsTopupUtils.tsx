@@ -12,6 +12,7 @@ import { useSubmitTrackingHandler } from './hooks/useSubmitTrackingHandler';
 export const useAccountDetailsTopUpTabs = (
   canPayOnlyByCard: boolean,
   tabClassName: string,
+  usdPriceId?: string,
 ) => {
   const trackSubmit = useSubmitTrackingHandler();
 
@@ -32,8 +33,10 @@ export const useAccountDetailsTopUpTabs = (
 
   return useTopUpTabs({
     ankrTopupTab,
-    trackSubmit,
     icon: <CreditCard />,
+    initialTabId: TopUpTabID.USD,
     tabClassName,
+    trackSubmit,
+    usdPriceId,
   });
 };

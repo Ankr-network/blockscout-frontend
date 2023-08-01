@@ -89,11 +89,30 @@ export interface IPaymentHistoryResponse {
 }
 
 export interface IBalance {
-  // credit balance === balance_ankr === balance_usd
+  // total balance (including voucher) in credits
   balance: string;
+  // total balance in ankrs
   balance_ankr: string;
+  // total ankr top up in credits
+  balance_credit_ankr: string;
+  // total usd top up in credits
+  balance_credit_usd: string;
+  balance_level: BalanceLevel;
+  // total balance in usd
   balance_usd: string;
+  // voucher balance
   balance_voucher: string;
+}
+
+export enum BalanceLevel {
+  CRITICAL = 'CRITICAL',
+  GREEN = 'GREEN',
+  RED = 'RED',
+  TOO_LOW = 'TOO_LOW',
+  // balance has never been topped up
+  UNKNOWN = 'UNKNOWN',
+  YELLOW = 'YELLOW',
+  ZERO = 'ZERO',
 }
 
 export interface IDailyChargingParams extends IApiUserGroupParams {
@@ -134,11 +153,19 @@ export interface ISubscriptionsItem {
   customerId: string;
   id: string;
   productId: string;
-  recurringInterval: string;
+  productPriceId: string;
+  recurringInterval: RecurrentInterval;
   recurringIntervalCount: string;
   status: string;
   subscriptionId: string;
   type: string;
+}
+
+export enum RecurrentInterval {
+  DAY = 'day',
+  WEEK = 'week',
+  MONTH = 'month',
+  YEAR = 'year',
 }
 
 export interface IApiCancelSubscriptionRequestParams {
@@ -564,18 +591,43 @@ export interface BundlePlan {
 }
 
 export interface BundleLimit {
-  blockchain_path: string;
+  blockchain_paths: string;
   limit?: number;
   type: BundleLimitType;
 }
 
 export enum BundleLimitType {
-  UNKNOWN = 0,
-  QTY = 1,
-  COST = 2,
+  UNKNOWN = 'UNKNOWN',
+  QTY = 'QTY',
+  COST = 'COST',
 }
 
 export interface GetLinkForBundlePaymentRequest {
   product_id: string;
   product_price_id: string;
+}
+
+export interface GetMyBundlesStatusResponse {
+  bundles: MyBundleStatus[];
+}
+
+export interface MyBundleStatus {
+  bundleId: string;
+  counters: MyBundleStatusCounter[];
+  expires: string;
+  paymentId: string;
+}
+
+export interface MyBundleStatusCounter {
+  blockchainPaths: string;
+  count: string;
+  type: BundleCounter;
+}
+
+export enum BundleCounter {
+  // total number of requests a user can send, no matter which method
+  BUNDLE_COUNTER_TYPE_QTY = 'BUNDLE_COUNTER_TYPE_QTY',
+  // a user can send requests for different methods, but each one has its own cost
+  BUNDLE_COUNTER_TYPE_COST = 'BUNDLE_COUNTER_TYPE_COST',
+  BUNDLE_COUNTER_TYPE_UNKNOWN = 'BUNDLE_COUNTER_TYPE_UNKNOWN',
 }

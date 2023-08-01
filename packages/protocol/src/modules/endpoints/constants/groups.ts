@@ -74,7 +74,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ZETACHAIN_EVM_TESTNET,
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
       ChainID.BASE,
-      ChainID.BASE_TESTNET,
       ChainID.SCROLL,
       ChainID.SCROLL_TESTNET,
       ChainID.ZKSYNC_ERA,
@@ -126,7 +125,11 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.GOERLI,
     name: 'Goerli',
     pluralName: 'Goerli',
-    chains: [ChainID.ETH_GOERLI, ChainID.ETH_GOERLI_BEACON],
+    chains: [
+      ChainID.ETH_GOERLI,
+      ChainID.ETH_GOERLI_BEACON,
+      ChainID.BASE_TESTNET,
+    ],
   },
   {
     id: ChainGroupID.SEPOLIA,

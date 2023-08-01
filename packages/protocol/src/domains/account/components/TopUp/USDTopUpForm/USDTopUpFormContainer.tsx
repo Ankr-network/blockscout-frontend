@@ -7,10 +7,12 @@ import { useOnTopUpSubmit } from './hooks/useOnTopUpSubmit';
 
 export interface USDTopUpFormContainerProps {
   trackSubmit: TrackTopUpSubmit;
+  usdPriceId?: string;
 }
 
 export const USDTopUpFormContainer = ({
   trackSubmit,
+  usdPriceId,
 }: USDTopUpFormContainerProps) => {
   const emailData = useEmailData();
 
@@ -25,8 +27,9 @@ export const USDTopUpFormContainer = ({
       <USDTopUpForm
         isLoading={isLoading}
         onSubmit={onSubmit}
-        shouldUseDefaultValue
+        shouldUseDefaultValue={!usdPriceId}
         trackSubmit={trackSubmit}
+        usdPriceId={usdPriceId}
       />
       <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
     </>

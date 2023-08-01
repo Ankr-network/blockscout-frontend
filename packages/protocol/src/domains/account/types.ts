@@ -8,27 +8,24 @@ import {
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
 
-export enum BalanceStatus {
+export enum AccountIcon {
+  INFO = 'info',
+  WARNING = 'warning',
+  ERROR = 'error',
+}
+
+export enum AccountStatus {
   GREEN,
-  GREY,
-  RED,
   YELLOW,
+  RED,
+  GREY,
 }
 
-export enum AccountType {
-  FREEMIUM,
-  FREEMIUM_TRANSITION,
-  OLD_PREMIUM,
-  OLD_PREMIUM_EXPIRED,
-  PREMIUM_ACTIVE,
-  PREMIUM_WARNING,
-  PREMIUM_MIN_BALANCE,
-  PREMIUM_INACTIVE,
-}
-
-export enum Currency {
-  ANKR,
-  CREDIT,
+export interface AccountState {
+  descriptionKey?: string;
+  isPAYG: boolean;
+  status: AccountStatus;
+  icon?: AccountIcon;
 }
 
 export interface PaymentHistory {

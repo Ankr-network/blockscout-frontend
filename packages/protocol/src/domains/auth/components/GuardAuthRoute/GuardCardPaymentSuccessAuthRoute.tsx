@@ -21,8 +21,10 @@ export const GuardCardPaymentSuccessAuthRoute = ({
 }: GuardCardPaymentSuccessAuthRouteProps) => {
   const history = useHistory<PostTopUpLocationState>();
 
-  const { loading } = useGuardAuth();
-  const { hasBundles, isLoaded } = useMyBundles();
+  const { hasAuthData, loading } = useGuardAuth();
+  const { isLoaded, isSubscribed } = useMyBundles({
+    skipFetching: !hasAuthData,
+  });
 
   const isPageForbidden = useMemo(() => {
     const isFreeUserWithJWT = !hasPremium && hasPrivateAccess;
@@ -34,7 +36,7 @@ export const GuardCardPaymentSuccessAuthRoute = ({
     if (isPageForbidden && !loading && !isUninitialized && isLoaded) {
       history.replace(AccountRoutesConfig.accountDetails.generatePath(), {
         origin:
-          hasBundles && hasPremium
+          isSubscribed && hasPremium
             ? undefined
             : AccountRoutesConfig.cardPaymentSuccess.path,
       });
@@ -44,7 +46,7 @@ export const GuardCardPaymentSuccessAuthRoute = ({
     isPageForbidden,
     loading,
     isUninitialized,
-    hasBundles,
+    isSubscribed,
     isLoaded,
     hasPremium,
   ]);

@@ -10,7 +10,7 @@ export const useAddress = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
   const [address, setAddress] = useState('');
 
-  const { isWalletConnected } = useAuth();
+  const { isWalletConnected, isUserEthAddressType } = useAuth();
   const [redirectIfWalletConnectFailed] =
     useLazyAccountRedirectIfWalletConnectFailedQuery();
 
@@ -33,12 +33,17 @@ export const useAddress = () => {
       }
     };
 
-    if (isWalletConnected) {
+    if (isWalletConnected && isUserEthAddressType) {
       getWeb3Address();
     }
 
     return () => setAddress('');
-  }, [isWalletConnected, redirectIfWalletConnectFailed, selectedGroupAddress]);
+  }, [
+    isWalletConnected,
+    isUserEthAddressType,
+    redirectIfWalletConnectFailed,
+    selectedGroupAddress,
+  ]);
 
   return address;
 };

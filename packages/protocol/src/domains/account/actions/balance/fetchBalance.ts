@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import { IApiUserGroupParams, IBalance } from 'multirpc-sdk';
 
 import { GetState } from 'store';
@@ -7,47 +6,21 @@ import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
-import { Balance } from './types';
-
-const ANKR_TO_CREDITS_RATE = 1_000_000;
-
-const getBalance = ({
-  balance,
-  balance_ankr,
-  balance_usd,
-  balance_voucher,
-}: IBalance): Balance => {
-  const creditBalance = new BigNumber(balance);
-  const voucherBalance = new BigNumber(balance_voucher);
-
-  return {
-    voucherBalance,
-    creditBalance,
-    ankrBalance: new BigNumber(balance_ankr),
-    usdBalance: new BigNumber(balance_usd),
-    ankrBalanceWithoutVouchers: creditBalance
-      .minus(voucherBalance)
-      .dividedToIntegerBy(ANKR_TO_CREDITS_RATE),
-  };
-};
-
 export const {
-  endpoints: { accountFetchBalance },
+  endpoints: { fetchBalance },
+  useFetchBalanceQuery,
+  useLazyFetchBalanceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    accountFetchBalance: build.query<Balance, IApiUserGroupParams>({
+    fetchBalance: build.query<IBalance, IApiUserGroupParams>({
       queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
         await authorizationGuard(getState as GetState);
 
-        const service = MultiService.getService();
+        const api = MultiService.getService().getAccountGateway();
 
-        const data = await service
-          .getAccountGateway()
-          .getAnkrBalance({ group });
+        const data = await api.getAnkrBalance({ group });
 
-        const balance = getBalance(data);
-
-        return { data: balance };
+        return { data };
       }),
     }),
   }),

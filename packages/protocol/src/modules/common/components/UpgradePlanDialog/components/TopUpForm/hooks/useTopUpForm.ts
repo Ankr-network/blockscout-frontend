@@ -1,10 +1,12 @@
+import { TopUpCurrency } from '../types';
 import { useAmount } from './useAmount';
 import { useCurrencyTabs } from './useCurrencyTabs';
 import { useEmailDialog } from './useEmailDialog';
 import { useUSDPrice } from './useUSDPrice';
 
-export const useTopUpForm = () => {
-  const { currency, renderProps: currencyProps } = useCurrencyTabs();
+export const useTopUpForm = (initialCurrency?: TopUpCurrency) => {
+  const { currency, renderProps: currencyProps } =
+    useCurrencyTabs(initialCurrency);
 
   const {
     emailDialogProps,
