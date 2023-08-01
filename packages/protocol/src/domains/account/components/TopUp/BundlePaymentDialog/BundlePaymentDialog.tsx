@@ -5,10 +5,11 @@ import { t, tHTML } from '@ankr.com/common';
 import { Dialog } from 'uiKit/Dialog';
 import { TrackTopUpSubmit } from 'domains/account/types';
 
+import unlock from './assets/unlock-icon.png';
+import { TopUpEmailDialog } from '../ANKRTopUpForm/TopUpEmailDialog';
 import { intlRoot } from './const';
 import { useBundlePayment } from './hooks/useBundlePayment';
 import { useBundlePaymentDialogStyles } from './BundlePaymentDialogStyles';
-import unlock from './assets/unlock-icon.png';
 
 export interface BundlePaymentDialogProps {
   isOpened?: boolean;
@@ -21,7 +22,8 @@ export const BundlePaymentDialog = ({
   onClose,
   trackSubmit,
 }: BundlePaymentDialogProps) => {
-  const { isLoading, subscribe } = useBundlePayment(trackSubmit);
+  const { emailData, emailDialogProps, isLoading, subscribe } =
+    useBundlePayment(trackSubmit);
 
   const { classes } = useBundlePaymentDialogStyles();
 
@@ -71,6 +73,10 @@ export const BundlePaymentDialog = ({
           {t(`${intlRoot}.button`)}
         </LoadingButton>
       </div>
+      <TopUpEmailDialog
+        dialogProps={emailDialogProps}
+        emailDataProps={emailData}
+      />
     </Dialog>
   );
 };
