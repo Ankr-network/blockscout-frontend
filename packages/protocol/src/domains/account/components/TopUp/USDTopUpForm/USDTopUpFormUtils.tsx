@@ -49,12 +49,19 @@ export const validateAmount = (value: string) => {
   return undefined;
 };
 
-export const useRenderForm = (
-  isLoading: boolean,
-  shouldUseDefaultValue: boolean,
-  trackSubmit?: TrackTopUpSubmit,
-  usdPriceId?: string,
-) => {
+interface UseRenderFormArguments {
+  isLoading: boolean;
+  shouldUseDefaultValue: boolean;
+  trackSubmit?: TrackTopUpSubmit;
+  usdPriceId?: string;
+}
+
+export const useRenderForm = ({
+  isLoading,
+  shouldUseDefaultValue,
+  trackSubmit,
+  usdPriceId,
+}: UseRenderFormArguments) => {
   const { isOpened, onClose, onOpen } = useDialog();
 
   const { classes, cx } = useStyles();

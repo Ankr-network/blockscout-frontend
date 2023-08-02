@@ -8,12 +8,19 @@ import { selectAuthData } from 'domains/auth/store/authSlice';
 import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 
-export const checkFirstTopUpStep = async (
-  address: string,
-  getState: GetState,
-  dispatch: AppDispatch,
-  group?: Web3Address,
-) => {
+interface CheckFirstTopUpStepArguments {
+  address: string;
+  getState: GetState;
+  dispatch: AppDispatch;
+  group?: Web3Address;
+}
+
+export const checkFirstTopUpStep = async ({
+  address,
+  getState,
+  dispatch,
+  group,
+}: CheckFirstTopUpStepArguments) => {
   const service = await MultiService.getWeb3Service();
   const keyProvider = service.getKeyProvider();
 

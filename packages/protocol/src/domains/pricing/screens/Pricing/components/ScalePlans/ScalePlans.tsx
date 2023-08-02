@@ -4,11 +4,11 @@ import { Check } from '@ankr.com/ui';
 
 import { INTL_ROOT } from '../../const';
 import { useScalePlansStyles } from './useScalePlansStyles';
+import { Block } from './components/Block';
 
 const intl = `${INTL_ROOT}.scale-plan`;
 
 const ROW_COUNTS = 4;
-const COLUMN_COUNTS = 3;
 
 export const ScalePlans = () => {
   const { classes } = useScalePlansStyles();
@@ -39,31 +39,7 @@ export const ScalePlans = () => {
             </Typography>
           ))}
         </div>
-        <div className={classes.block}>
-          <div className={classes.header}>
-            {new Array(COLUMN_COUNTS).fill('').map((_, index) => (
-              <Typography
-                key={`header-${index + 1}`}
-                variant="subtitle1"
-                className={classes.headerItem}
-              >
-                {t(`${intl}.header-${index + 1}`)}
-              </Typography>
-            ))}
-          </div>
-          {new Array(ROW_COUNTS).fill('').map((_row, rowIndex) => (
-            <div key={`row-${rowIndex + 1}`} className={classes.cellRow}>
-              {new Array(COLUMN_COUNTS).fill('').map((_column, columnIndex) => (
-                <Typography
-                  key={`column-${columnIndex + 1}`}
-                  className={classes.cell}
-                >
-                  {t(`${intl}.row-${rowIndex + 1}-column-${columnIndex + 1}`)}
-                </Typography>
-              ))}
-            </div>
-          ))}
-        </div>
+        <Block />
       </div>
     </div>
   );

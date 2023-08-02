@@ -65,7 +65,13 @@ export const LinkInputField = ({
       placeholder="https://"
       validate={(data, _v, meta) =>
         meta?.modified &&
-        validateUserEndpoint(data, chainId, privateUrls, endpoints, publicUrls)
+        validateUserEndpoint({
+          value: data,
+          chainId,
+          privateUrls,
+          endpoints,
+          publicUrls,
+        })
       }
       InputProps={{
         classes: {

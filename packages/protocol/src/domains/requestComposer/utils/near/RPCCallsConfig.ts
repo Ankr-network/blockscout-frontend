@@ -11,6 +11,7 @@ const FINALITY_INFO_URL =
 
 const root = 'request-composer.method-description.near.near-api-js';
 
+/* eslint-disable max-lines-per-function */
 export const getRPCCallsConfig = (): IRPCCallsConfig => ({
   query: {
     description: tHTML(`${root}.query`),
@@ -153,3 +154,4 @@ export const getRPCCallsConfig = (): IRPCCallsConfig => ({
     NEARJavaScriptAPI: NEARJavaScriptAPIConfig.EXPERIMENTAL_light_client_proof,
   },
 });
+/* eslint-enable max-lines-per-function */

@@ -13,12 +13,19 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 import { HarmonySampleCode } from '../HarmonySampleCode';
 
-export const useMethodsTabsUtils = (
-  group: EndpointGroup,
-  title: HarmonyMethod,
-  args: Record<string, string | number>,
-  libraryID: HarmonyLibraryID,
-) => {
+interface UseMethodsTabsUtilsArguments {
+  group: EndpointGroup;
+  title: HarmonyMethod;
+  args: Record<string, string | number>;
+  libraryID: HarmonyLibraryID;
+}
+
+export const useMethodsTabsUtils = ({
+  group,
+  title,
+  args,
+  libraryID,
+}: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<HarmonyLibraryID>[] = useLocaleMemo(
     () => [
       {

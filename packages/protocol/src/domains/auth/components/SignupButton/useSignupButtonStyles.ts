@@ -7,6 +7,7 @@ interface UseStylesParams {
   isMobileSideBar: boolean;
 }
 
+/* eslint-disable max-lines-per-function */ // will be refactored in MRPC-3427
 export const useSignupButtonStyles = makeStyles<
   UseStylesParams,
   'walletIconSmall'

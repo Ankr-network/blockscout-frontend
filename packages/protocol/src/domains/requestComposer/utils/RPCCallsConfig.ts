@@ -7,6 +7,7 @@ import { web3JSConfig } from './web3JSConfig';
 
 const root = 'request-composer.method-description';
 
+/* eslint-disable max-lines-per-function */
 export const getRPCCallsConfig = (): IRPCCallsConfig => ({
   web3_clientVersion: {
     description: t(`${root}.web3_clientVersion`),
@@ -341,3 +342,4 @@ export const getRPCCallsConfig = (): IRPCCallsConfig => ({
     JSON_RPC: JsonRpcConfig.trace_call,
   },
 });
+/* eslint-enable max-lines-per-function */

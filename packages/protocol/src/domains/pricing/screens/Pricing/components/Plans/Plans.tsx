@@ -1,14 +1,6 @@
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
-import { Box, Button, Typography } from '@mui/material';
-import { t, tHTML } from '@ankr.com/common';
+import { Box } from '@mui/material';
 
-import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
-import { TopUpOrigin } from 'domains/account/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { INDEX_PATH } from 'domains/chains/routes';
-import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
@@ -18,132 +10,57 @@ import {
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 
-import { INTL_PLANS_ROOT, PLAN_LIST, TIP_LIST } from './PlansUtils';
+import { PLAN_LIST } from './PlansUtils';
 import { usePlansStyles } from './PlansStyles';
-
-const INFO_COUNTS = 4;
+import { useHandleClick } from './hooks/useHandleClick';
+import { useIsButtonDisabled } from './hooks/useIsButtonDisabled';
+import { Plan } from './components/Plan';
 
 export const Plans = () => {
-  const { classes, cx } = usePlansStyles();
-
-  const history = useHistory();
+  const { classes } = usePlansStyles();
 
   const { isFinanceRole } = usePermissionsAndRole();
 
   const { isLoggedIn, hasOauthLogin, hasPremium } = useAuth();
-  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
+  const {
+    isOpened,
+    onClose,
+    onOpen: onOpenUpgradePlanDialog,
+  } = useUpgradePlanDialog();
   const {
     isOpened: isTopupOpened,
     onClose: onCloseTopup,
-    onOpen: onOpenTopup,
+    onOpen: onOpenTopupDialog,
   } = useUpgradePlanDialog();
   const {
-    isOpened: isSignupOpend,
-    onClose: onCloseSignup,
+    isOpened: isSignupDialogOpened,
+    onClose: onCloseSignupDialog,
     onOpen: onOpenSignupDialog,
   } = useDialog();
 
-  const dispatch = useDispatch();
+  const handleClick = useHandleClick({
+    isLoggedIn,
+    isFinanceRole,
+    hasPremium,
+    onOpenUpgradePlanDialog,
+    onOpenSignupDialog,
+    onOpenTopupDialog,
+  });
 
-  const handleClick = useCallback(
-    (name: string) => {
-      const isFreeUser = name === PLAN_LIST[0];
-      const isEnterpriseUser = name === PLAN_LIST[2];
-
-      if (isFreeUser) {
-        history.replace(INDEX_PATH);
-
-        return;
-      }
-
-      if (isEnterpriseUser) {
-        onOpen();
-
-        return;
-      }
-
-      if (!isLoggedIn) {
-        onOpenSignupDialog();
-
-        return;
-      }
-
-      if (isFinanceRole) {
-        history.replace(PATH_ACCOUNT);
-
-        return;
-      }
-
-      if (hasPremium) {
-        history.replace(INDEX_PATH);
-
-        return;
-      }
-
-      dispatch(setTopUpOrigin(TopUpOrigin.PRICING));
-      onOpenTopup();
-    },
-    [
-      isFinanceRole,
-      isLoggedIn,
-      hasPremium,
-      history,
-      onOpen,
-      onOpenSignupDialog,
-      onOpenTopup,
-      dispatch,
-    ],
-  );
-
-  const getButtonState = useCallback(
-    (name: string) => {
-      const isFreeUser = name === PLAN_LIST[0];
-
-      return isFreeUser && (isFinanceRole || hasPremium);
-    },
-    [hasPremium, isFinanceRole],
-  );
+  const isButtonDisabled = useIsButtonDisabled({
+    hasPremium,
+    isFinanceRole,
+  });
 
   return (
     <Box className={classes.root}>
-      {PLAN_LIST.map(name => (
-        <div key={`item-${name}`} className={cx(classes.container, name)}>
-          <div className={classes.plan}>
-            <div>
-              {TIP_LIST.includes(name) && (
-                <div className={classes.tip}>
-                  {t(`${INTL_PLANS_ROOT}.${name}.tip`)}
-                </div>
-              )}
-              <div className={classes.row}>
-                <Typography variant="h4" className={classes.title}>
-                  {t(`${INTL_PLANS_ROOT}.${name}.title`)}
-                </Typography>
-                <Typography variant="subtitle1" className={classes.price}>
-                  {tHTML(`${INTL_PLANS_ROOT}.${name}.price`)}
-                </Typography>
-              </div>
-              <div className={classes.list}>
-                {new Array(INFO_COUNTS).fill('').map((_, index) => (
-                  <Typography
-                    key={`info-${index + 1}`}
-                    className={classes.info}
-                  >
-                    {tHTML(`${INTL_PLANS_ROOT}.${name}.info-${index + 1}`)}
-                  </Typography>
-                ))}
-              </div>
-            </div>
-            <Button
-              fullWidth
-              className={classes.button}
-              onClick={() => handleClick(name)}
-              disabled={getButtonState(name)}
-            >
-              {t(`${INTL_PLANS_ROOT}.${name}.button`)}
-            </Button>
-          </div>
-        </div>
+      {PLAN_LIST.map(planName => (
+        <Plan
+          key={`item-${planName}`}
+          planName={planName}
+          onClick={() => handleClick(planName)}
+          isButtonDisabled={isButtonDisabled(planName)}
+        />
       ))}
       {isLoggedIn && (
         <UpgradePlanDialog
@@ -158,8 +75,8 @@ export const Plans = () => {
         open={isOpened}
       />
       <SignupDialog
-        isOpen={isSignupOpend}
-        onClose={onCloseSignup}
+        isOpen={isSignupDialogOpened}
+        onClose={onCloseSignupDialog}
         hasOauthLogin={hasOauthLogin}
       />
     </Box>

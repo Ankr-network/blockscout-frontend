@@ -1,35 +1,10 @@
-import { TextField, TextFieldProps } from '@mui/material';
-import { t } from '@ankr.com/common';
-import { FieldMetaState, FieldRenderProps } from 'react-final-form';
+import { TextField } from '@mui/material';
+import { useMemo } from 'react';
 
-import { getErrorText } from '../../utils/getErrorText';
 import { hasError as hasErrorDefault } from '../../utils/hasError';
 import { useInputFieldStyles } from './InputFieldStyles';
-
-interface IFieldProps extends FieldRenderProps<string> {
-  hasError?: (meta: FieldMetaState<any>) => boolean;
-  isHelperTextVisible?: boolean;
-  showLimitCounter?: boolean;
-}
-
-const getHelperString = (
-  value: string,
-  meta: FieldMetaState<any>,
-  maxLength: number | null,
-  showLimitCounter: boolean,
-  hasError: (meta: FieldMetaState<any>) => boolean,
-): string => {
-  let helperTextString: string = getErrorText(meta, hasError);
-
-  if (showLimitCounter && maxLength && !hasError(meta)) {
-    helperTextString = t('form.limit-counter', {
-      value: value.length ?? 0,
-      maxLimit: maxLength,
-    });
-  }
-
-  return helperTextString;
-};
+import { InputFieldProps } from './InputFieldTypes';
+import { getHelperText } from './InputFieldUtils';
 
 export const InputField = ({
   hasError = hasErrorDefault,
@@ -39,12 +14,24 @@ export const InputField = ({
   showLimitCounter = false,
   InputProps = {},
   ...rest
-}: IFieldProps & TextFieldProps) => {
+}: InputFieldProps) => {
   const { classes, cx } = useInputFieldStyles();
 
   const maxLength: number | null = rest.inputProps?.maxLength ?? null;
 
   const inputClasses = InputProps.classes ?? {};
+
+  const helperText = useMemo(() => {
+    const text = getHelperText({
+      value,
+      meta,
+      maxLength,
+      showLimitCounter,
+      hasError,
+    });
+
+    return text || (isHelperTextVisible && <>&nbsp;</>);
+  }, [value, meta, maxLength, showLimitCounter, hasError, isHelperTextVisible]);
 
   return (
     <TextField
@@ -53,10 +40,7 @@ export const InputField = ({
       error={hasError(meta)}
       value={value}
       placeholder={placeholder}
-      helperText={
-        getHelperString(value, meta, maxLength, showLimitCounter, hasError) ||
-        (isHelperTextVisible && <>&nbsp;</>)
-      }
+      helperText={helperText}
       onChange={onChange}
       onBlur={onBlur}
       className={cx(classes.root, rest.className)}

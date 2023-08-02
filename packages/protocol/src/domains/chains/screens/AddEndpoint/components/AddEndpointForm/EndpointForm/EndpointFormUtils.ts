@@ -20,13 +20,21 @@ const matchEndpoint = (endpoints: string[] = [], url: string) => {
   );
 };
 
-export const validateUserEndpoint = async (
-  value: string | undefined,
-  chainId: string,
-  privateUrls: string[],
-  endpoints: string[],
-  publicUrls: string[],
-) => {
+interface ValidateUserEndpointArguments {
+  value?: string;
+  chainId: string;
+  privateUrls: string[];
+  endpoints: string[];
+  publicUrls: string[];
+}
+
+export const validateUserEndpoint = async ({
+  value,
+  chainId,
+  privateUrls,
+  endpoints,
+  publicUrls,
+}: ValidateUserEndpointArguments) => {
   if (typeof value !== 'string') {
     return t('validation.required');
   }

@@ -9,12 +9,19 @@ const DARK_COLOR_DEFAULT = '#42464F';
 const lightStrokeStyles = { strokeWidth: 0.5, stroke: '#fff' };
 const darkStrokeStyles = { strokeWidth: 0.5, stroke: '#1F2226' };
 
-export const getGeogrpahyStyles = (
-  geo: any,
-  data: RequestsCountry[],
-  isLightTheme: boolean,
-  hasHover: boolean,
-) => {
+interface GetGeogrpahyStylesArguments {
+  geo: any;
+  data: RequestsCountry[];
+  isLightTheme: boolean;
+  hasHover: boolean;
+}
+
+export const getGeogrpahyStyles = ({
+  geo,
+  data,
+  isLightTheme,
+  hasHover,
+}: GetGeogrpahyStylesArguments) => {
   const countryColor = data.find(
     item => item.isoA2 === geo?.properties?.ISO_A2,
   )?.color;

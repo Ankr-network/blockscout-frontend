@@ -20,14 +20,23 @@ const web3Template = (methodCall: string, varName: string, url: string) => {
 `;
 };
 
-const web3TraceTemplate = (
-  rpcMethod: string,
-  methodCall: string,
-  args: string[],
-  formatters: string[],
-  varName: string,
-  url: string,
-) => {
+interface GetWeb3TraceTemplateArguments {
+  rpcMethod: string;
+  methodCall: string;
+  args: string[];
+  formatters: string[];
+  varName: string;
+  url: string;
+}
+
+const web3TraceTemplate = ({
+  rpcMethod,
+  methodCall,
+  args,
+  formatters,
+  varName,
+  url,
+}: GetWeb3TraceTemplateArguments) => {
   return `const Web3 = require("web3");
 // OR import Web3 from 'web3';
 
@@ -1011,14 +1020,14 @@ export const web3JSConfig: ILibraryConfig = {
       return provider.parityTraceBlock(args[0]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
-      return web3TraceTemplate(
-        'trace_block',
-        'parityTraceBlock',
-        [args[0]],
-        ['web3.utils.numberToHex'],
-        'trace',
-        httpUrl,
-      );
+      return web3TraceTemplate({
+        rpcMethod: 'trace_block',
+        methodCall: 'parityTraceBlock',
+        args: [args[0]],
+        formatters: ['web3.utils.numberToHex'],
+        varName: 'trace',
+        url: httpUrl,
+      });
     },
     args: [
       {
@@ -1044,14 +1053,14 @@ export const web3JSConfig: ILibraryConfig = {
       return provider.parityTraceTx(args[0]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
-      return web3TraceTemplate(
-        'trace_transaction',
-        'parityTraceTx',
+      return web3TraceTemplate({
+        rpcMethod: 'trace_transaction',
+        methodCall: 'parityTraceTx',
         args,
-        ['null'],
-        'trace',
-        httpUrl,
-      );
+        formatters: ['null'],
+        varName: 'trace',
+        url: httpUrl,
+      });
     },
     args: [
       {
@@ -1078,14 +1087,14 @@ export const web3JSConfig: ILibraryConfig = {
       return provider.parityTraceGet(args[0], args[1].split(','));
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
-      return web3TraceTemplate(
-        'trace_get',
-        'parityTraceGet',
+      return web3TraceTemplate({
+        rpcMethod: 'trace_get',
+        methodCall: 'parityTraceGet',
         args,
-        ['null', 'web3.utils.numberToHex'],
-        'trace',
-        httpUrl,
-      );
+        formatters: ['null', 'web3.utils.numberToHex'],
+        varName: 'trace',
+        url: httpUrl,
+      });
     },
     args: [
       {
@@ -1118,14 +1127,14 @@ export const web3JSConfig: ILibraryConfig = {
       return provider.parityTraceRawTx(args[0], [args[1]]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
-      return web3TraceTemplate(
-        'trace_rawTransaction',
-        'parityTraceRawTx',
-        [args[0], [args[1]]],
-        ['null', 'null'],
-        'trace',
-        httpUrl,
-      );
+      return web3TraceTemplate({
+        rpcMethod: 'trace_rawTransaction',
+        methodCall: 'parityTraceRawTx',
+        args: [args[0], [args[1]]],
+        formatters: ['null', 'null'],
+        varName: 'trace',
+        url: httpUrl,
+      });
     },
     args: [
       {
@@ -1157,14 +1166,14 @@ export const web3JSConfig: ILibraryConfig = {
       return provider.parityTraceBlockTx(args[0], [args[1]]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
-      return web3TraceTemplate(
-        'trace_replayBlockTransactions',
-        'parityTraceBlockTx',
-        [args[0], [args[1]]],
-        ['web3.utils.numberToHex', 'null'],
-        'trace',
-        httpUrl,
-      );
+      return web3TraceTemplate({
+        rpcMethod: 'trace_replayBlockTransactions',
+        methodCall: 'parityTraceBlockTx',
+        args: [args[0], [args[1]]],
+        formatters: ['web3.utils.numberToHex', 'null'],
+        varName: 'trace',
+        url: httpUrl,
+      });
     },
     args: [
       {
@@ -1195,14 +1204,14 @@ export const web3JSConfig: ILibraryConfig = {
       return provider.parityTraceReplayTx(args[0], [args[1]]);
     },
     codeSample: (httpUrl, _wssUrl, ...args) => {
-      return web3TraceTemplate(
-        'trace_replayTransaction',
-        'parityTraceReplayTx',
-        [args[0], [args[1]]],
-        ['null', 'null'],
-        'trace',
-        httpUrl,
-      );
+      return web3TraceTemplate({
+        rpcMethod: 'trace_replayTransaction',
+        methodCall: 'parityTraceReplayTx',
+        args: [args[0], [args[1]]],
+        formatters: ['null', 'null'],
+        varName: 'trace',
+        url: httpUrl,
+      });
     },
     args: [
       {
