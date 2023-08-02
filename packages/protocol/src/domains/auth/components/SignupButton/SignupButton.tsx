@@ -20,6 +20,7 @@ interface SignupButtonProps {
   isMobileSideBar?: boolean;
 }
 
+/* eslint-disable max-lines-per-function */ // will be refactored in MRPC-3427
 export const SignupButton = ({
   isMobile = false,
   isMobileSideBar = false,

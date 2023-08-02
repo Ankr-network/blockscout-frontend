@@ -5,16 +5,17 @@ import { useHistory } from 'react-router';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { INDEX_PATH } from 'domains/chains/routes';
+import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
 
 interface IGuardAuthEnterpriseRouteProps {
-  isClient: boolean;
   children: ReactNode;
 }
 
 export const GuardAuthEnterpriseRoute = ({
-  isClient,
   children,
 }: IGuardAuthEnterpriseRouteProps): JSX.Element | null => {
+  const { isClient } = useEnterprise();
+
   const history = useHistory();
   const dispatch = useDispatch();
 

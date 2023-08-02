@@ -20,3 +20,5 @@ export const formatNumber = (number: number) => {
 
 export const calculateTotalRequests = (list: number[]) =>
   list.reduce((total, value) => value + total, 0);
+
+export const NUMBER_OF_SHOW_X_TICK = 4;

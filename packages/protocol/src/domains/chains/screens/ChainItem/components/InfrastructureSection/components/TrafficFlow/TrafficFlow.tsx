@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { useStyles } from './TrafficFlowStyle';
+import { Dot } from './components/Dot';
 
 const flow = [
   t('providers.traffic-flow.items.item-1'),
@@ -35,11 +36,11 @@ export const TrafficFlow = () => {
             <div className={classes.flowItem}>{`${index + 1}. ${item}`}</div>
             {index !== flow.length - 1 && (
               <div className={classes.separator}>
-                <div className={classes.dot} />
-                <div className={classes.dot} />
-                <div className={classes.dot} />
-                <div className={classes.dot} />
-                <div className={classes.dot} />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
+                <Dot />
               </div>
             )}
           </Fragment>
