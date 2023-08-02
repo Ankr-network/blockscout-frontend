@@ -8,7 +8,7 @@ import {
 import { RootState } from 'store';
 import { chainsFetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
-import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
+import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
 import { selectSelectedProject } from 'domains/jwtToken/store/selectors';
 
 import { ChainCalls } from '../screens/Dashboard/types';
@@ -167,7 +167,7 @@ export const selectLocationsLoading = createSelector(
 export const selectLocationsByChainID = createSelector(
   selectChainNodeDetails,
   (_state: RootState, chainID?: ChainID) =>
-    checkAvalancheOrSecretAndGetChainId(chainID),
+    checkChainWithSubnetsAndGetChainId(chainID),
   (details, chainID) => {
     const detail = details.find(({ id }) => findDetailsById(id, chainID));
 
@@ -178,7 +178,7 @@ export const selectLocationsByChainID = createSelector(
 export const selectBlockHeight = createSelector(
   selectChainNodeDetails,
   (_state: RootState, chainID?: ChainID) =>
-    checkAvalancheOrSecretAndGetChainId(chainID),
+    checkChainWithSubnetsAndGetChainId(chainID),
   (details, chainID) => {
     const detail = details.find(({ id }) => findDetailsById(id, chainID));
 
