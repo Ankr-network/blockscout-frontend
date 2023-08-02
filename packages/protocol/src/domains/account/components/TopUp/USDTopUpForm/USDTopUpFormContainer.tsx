@@ -27,7 +27,7 @@ export const USDTopUpFormContainer = ({
       <USDTopUpForm
         isLoading={isLoading}
         onSubmit={onSubmit}
-        shouldUseDefaultValue={!usdPriceId}
+        shouldUseDefaultValue
         trackSubmit={trackSubmit}
         usdPriceId={usdPriceId}
       />
