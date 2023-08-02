@@ -30,16 +30,16 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import {
   EnterpriseRoutes,
   EnterpriseRoutesConfig,
 } from 'domains/enterprise/routes';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardAuthEnterpriseRoute } from 'domains/enterprise/components/GuardAuthEnterpriseRoute';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { ProjectsRoutes } from 'domains/projects/routes/Routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useInitialization } from 'hooks/useInitialization';
 
 /* eslint-disable max-lines-per-function */
