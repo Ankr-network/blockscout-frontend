@@ -13,6 +13,9 @@ const exceptions: Partial<Record<ChainID, Partial<DecomposedChainIds>>> = {
     mainnets: [ChainID.AVALANCHE],
     testnets: [ChainID.AVALANCHE_FUJI],
   },
+  [ChainID.FLARE]: {
+    mainnets: [ChainID.FLARE],
+  },
   [ChainID.NERVOS]: {
     mainnets: [ChainID.NERVOS],
   },

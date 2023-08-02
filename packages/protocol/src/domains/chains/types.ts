@@ -92,6 +92,13 @@ export enum ChainID {
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
   FILECOIN = 'filecoin',
+
+  FLARE = 'flare',
+  FLARE_EVM = 'flare-evm',
+  FLARE_C = 'flare-c',
+  FLARE_P = 'flare-p',
+  FLARE_X = 'flare-x',
+
   GNOSIS = 'gnosis',
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',

@@ -11,6 +11,7 @@ import chilizIcon from './icons/chiliz.svg';
 import defaultIcon from './icons/default-icon.svg';
 import ethIcon from './icons/eth.svg';
 import filecoinIcon from './icons/filecoin.svg';
+import flareIcon from './icons/flare.svg';
 import ftmIcon from './icons/ftm.svg';
 import gnosisIcon from './icons/gnosis.svg';
 import harmonyIcon from './icons/harmony.svg';
@@ -70,6 +71,13 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVALANCHE_FUJI_X]: avaxIcon,
   [ChainID.AVALANCHE_P]: avaxIcon,
   [ChainID.AVALANCHE_X]: avaxIcon,
+
+  [ChainID.FLARE]: flareIcon,
+  [ChainID.FLARE_C]: flareIcon,
+  [ChainID.FLARE_EVM]: flareIcon,
+  [ChainID.FLARE_P]: flareIcon,
+  [ChainID.FLARE_X]: flareIcon,
+
   [ChainID.BSC]: bscIcon,
   [ChainID.BSC_TESTNET_CHAPEL]: bscIcon,
   [ChainID.BASE]: baseIcon,

@@ -45,7 +45,7 @@ export const RequestComposer = ({
     );
   }
 
-  if (chainId === ChainID.AVALANCHE) {
+  if (chainId === ChainID.AVALANCHE || chainId === ChainID.FLARE) {
     return (
       <AvalancheRequestComposer
         className={className}

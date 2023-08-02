@@ -5,7 +5,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { ChainID } from 'domains/chains/types';
 
-import { checkAvalancheOrSecretAndGetChainId } from '../utils/chainsUtils';
+import { checkChainWithSubnetsAndGetChainId } from '../utils/chainsUtils';
 
 let cachedNodeDetails: INodesDetailEntity[] | null = null;
 
@@ -34,7 +34,7 @@ export const {
 
         const nodesDetail = chainId
           ? data.filter(
-              item => checkAvalancheOrSecretAndGetChainId(chainId) === item.id,
+              item => checkChainWithSubnetsAndGetChainId(chainId) === item.id,
             )
           : data;
 
