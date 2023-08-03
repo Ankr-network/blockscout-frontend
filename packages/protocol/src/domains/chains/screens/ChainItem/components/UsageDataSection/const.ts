@@ -37,6 +37,8 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
     ChainID.ZETACHAIN_ATHENS_TESTNET,
   [ChainID.ZETACHAIN_ATHENS_TESTNET]: ChainID.ZETACHAIN_ATHENS_TESTNET,
   [ChainID.HORIZEN_TESTNET_EVM]: ChainID.HORIZEN_TESTNET,
+  [ChainID.HORIZEN_EVM]: ChainID.HORIZEN,
+  [ChainID.TENET_EVM]: ChainID.TENET,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -67,7 +69,8 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.ZETACHAIN_ATHENS_TESTNET]: 'zetachain_athens_testnet' as ChainID,
 
   [ChainID.TENET_EVM]: 'tenet_evm' as ChainID,
-  [ChainID.HORIZEN_TESTNET_EVM]: 'horizen_testnet_evm' as ChainID,
+  [ChainID.HORIZEN_EVM]: 'horizen_eon' as ChainID,
+  [ChainID.HORIZEN_TESTNET_EVM]: 'horizen_gobi_testnet' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (chainId: ChainID) =>

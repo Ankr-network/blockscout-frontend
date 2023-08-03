@@ -80,6 +80,7 @@ export enum ChainID {
   CELO = 'celo',
   CHILIZ = 'chiliz',
   CHILIZ_TESTNET = 'chiliz_testnet',
+
   ETH = 'eth',
   ETH_BEACON = 'eth_beacon',
   ETH_GOERLI = 'eth_goerli',
@@ -97,6 +98,7 @@ export enum ChainID {
   GNOSIS_TESTNET = 'gnosis_testnet',
   HARMONY = 'harmony',
   HORIZEN = 'horizen',
+  HORIZEN_EVM = 'horizen-evm',
   HORIZEN_TESTNET = 'horizen-testnet',
   HORIZEN_TESTNET_EVM = 'horizen-testnet-evm',
   HECO = 'heco',

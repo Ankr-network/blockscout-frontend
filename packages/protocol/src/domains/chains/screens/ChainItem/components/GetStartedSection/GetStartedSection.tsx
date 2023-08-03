@@ -35,6 +35,7 @@ export const GetStartedSection = ({
   const { classes } = useGetStartedSectionStyles();
 
   const isEvmBased = useMemo(() => isGroupEvmBased(group), [group]);
+
   const codeSnippetGroup = useMemo(
     () => removeWsUrlIfUserIsNotPremium(group, hasPremium),
     [group, hasPremium],
