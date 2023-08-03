@@ -38,6 +38,7 @@ export const getStatsChainId = ({
     group,
     keepEVMChainID,
     publicChain,
+    withExceptions: true,
   });
 
   if (isChainProtocolSwitchEnabled) {

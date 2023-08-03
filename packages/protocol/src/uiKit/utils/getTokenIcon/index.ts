@@ -103,6 +103,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.GNOSIS_TESTNET]: gnosisIcon,
   [ChainID.HARMONY]: harmonyIcon,
   [ChainID.HORIZEN]: horizenIcon,
+  [ChainID.HORIZEN_EVM]: horizenIcon,
   [ChainID.HORIZEN_TESTNET]: horizenIcon,
   [ChainID.HORIZEN_TESTNET_EVM]: horizenIcon,
   [ChainID.HECO]: hecoIcon,
@@ -146,7 +147,6 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.TRON]: tronIcon,
   [ChainID.TRON_JSON_RPC]: tronIcon,
   [ChainID.TENET]: tenetIcon,
-  [ChainID.TENET_EVM]: tenetIcon,
   [ChainID.XDAI]: stakeIcon,
   [ChainID.SUI]: suiIcon,
   [ChainID.SUI_TESTNET]: suiIcon,
@@ -182,7 +182,6 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.NERVOS_CKB]: nervosIconDark,
   [ChainID.NERVOS_GW]: nervosIconDark,
   [ChainID.TENET]: tenetIconDark,
-  [ChainID.TENET_EVM]: tenetIconDark,
   [ChainID.SECRET]: secretIconDark,
   [ChainID.SECRET_COSMOS]: secretIconDark,
   [ChainID.SECRET_COSMOS_GRPC_WEB]: secretIconDark,
@@ -200,6 +199,7 @@ const chainNameIcons: Record<string, string> = {
   zetachain_evm_athens_testnet: zetachainIcon,
   zetachain_evm_testnet: zetachainIcon,
   tenet_evm: tenetIcon,
+  horizen_evm: horizenIcon,
   horizen_testnet_evm: horizenIcon,
 };
 

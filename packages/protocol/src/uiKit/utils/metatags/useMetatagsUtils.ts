@@ -128,6 +128,12 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderSecretName(chainId);
   } else if (chainId.includes(ChainID.ETH)) {
     name = renderETHName(chainId);
+  } else if (chainId.includes(ChainID.HORIZEN_TESTNET)) {
+    name = 'Horizen Testnet';
+  } else if (chainId.includes(ChainID.HORIZEN)) {
+    name = 'Horizen EON';
+  } else if (chainId.includes(ChainID.TENET)) {
+    name = 'Tenet Evm';
   } else if (chainId.includes(ChainID.SCROLL)) {
     name = 'Scroll testnet';
   } else if (chainId === ChainID.POLYGON_ZKEVM) {
