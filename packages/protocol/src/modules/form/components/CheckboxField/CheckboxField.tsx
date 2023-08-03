@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { FormControlLabel, Typography, Checkbox } from '@mui/material';
 import FormHelperText from '@mui/material/FormHelperText';

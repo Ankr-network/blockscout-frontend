@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
-
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
-import { useChainSelectorContentStyles } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainSelectorContent/useChainSelectorContentStyles';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 import { ChainType } from 'domains/chains/types';
+import { useChainSelectVisibility } from 'domains/projects/screens/NewProject/components/TypeSelector/hooks/useChainSelectVisibility';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 
@@ -33,21 +31,15 @@ export const PrivateChainSelectedContent = ({
   classNameMenuItem,
   ignoreProtocol,
 }: IPrivateChainSelectedContentProps) => {
-  const { protocolGroup } = useChainProtocolContext();
-
   const { classes } = useChainSelectorContentStyles();
 
-  const withChainTypeSelector = chainTypes.length > 1;
-  const withGroupSelector = groups.length > 1;
-
-  const isVisible =
-    withChainTypeSelector || withGroupSelector || Boolean(protocolGroup);
-
-  useEffect(() => {
-    if (isTestnetOnlyChain && chainType === ChainType.Mainnet) {
-      selectType(ChainType.Testnet);
-    }
-  }, [isTestnetOnlyChain, chainType, selectType]);
+  const isVisible = useChainSelectVisibility({
+    chainTypes,
+    chainType,
+    groups,
+    isTestnetOnlyChain,
+    selectType,
+  });
 
   if (!isVisible) return null;
 

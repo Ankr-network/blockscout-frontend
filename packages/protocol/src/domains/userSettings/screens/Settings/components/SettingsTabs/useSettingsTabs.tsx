@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 import { GroupUserRole } from 'multirpc-sdk';
 
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { selectUserGroups } from 'domains/userGroup/store';
 import { selectHasPremium } from 'domains/auth/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';

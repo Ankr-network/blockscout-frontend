@@ -25,3 +25,7 @@ export const plans: Plan[] = [
 export enum USDPaymentReason {
   Whitelist = 'whitelist',
 }
+
+export const MAX_AMOUNT_OF_IPS = 10;
+export const MAX_AMOUNT_OF_DOMAINS = 10;
+export const MAX_AMOUNT_OF_SMART_CONTRACT_ADDRESSES = 5;

@@ -5,10 +5,13 @@ import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 
+import { WhiteListItem } from '../types';
+
 export interface UpdateWhitelistParams extends IApiUserGroupParams {
   userEndpointToken: string;
   chainId: string;
   contractAddress: string;
+  type?: WhiteListItem;
 }
 
 export const {
@@ -22,7 +25,13 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
-          params: { userEndpointToken, chainId, contractAddress, group },
+          params: {
+            userEndpointToken,
+            chainId,
+            contractAddress,
+            group,
+            type = WhiteListItem.address,
+          },
           totp,
         }) => {
           const service = MultiService.getService().getAccountGateway();
@@ -31,7 +40,7 @@ export const {
             [contractAddress],
             {
               token: userEndpointToken,
-              type: 'address',
+              type,
               blockchain: chainId,
               group,
             },

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { SolanaLibraryID } from 'domains/requestComposer/constants/solana';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';

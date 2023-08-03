@@ -1,7 +1,7 @@
 import { Ankr, CreditCard } from '@ankr.com/ui';
 import { ReactNode } from 'react';
 
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { SoonLabel } from 'modules/common/components/SoonLabel';
 
 import { TopUpCurrency } from '../types';

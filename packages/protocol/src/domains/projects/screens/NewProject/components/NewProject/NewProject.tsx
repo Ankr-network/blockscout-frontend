@@ -59,6 +59,7 @@ export const NewProject = () => {
         onSubmit={handleSubmit}
         isLoading={isLoading}
         onBackClick={handleBackClick}
+        setCurrentStep={setCurrentStep}
       />
     </Paper>
   );

@@ -199,8 +199,11 @@ const chainNameIcons: Record<string, string> = {
   zetachain_evm_athens_testnet: zetachainIcon,
   zetachain_evm_testnet: zetachainIcon,
   tenet_evm: tenetIcon,
-  horizen_evm: horizenIcon,
-  horizen_testnet_evm: horizenIcon,
+  horizen_eon: horizenIcon,
+  horizen_gobi_testnet: horizenIcon,
+  aptos_testnet: aptosIcon,
+  filecoin_testnet: filecoinIcon,
+  zksync_era_testnet: zksyncEraIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
@@ -219,3 +222,16 @@ export function getChainIcon(name: string, isLightTheme: boolean) {
 
   return iconMap[name as keyof typeof chainIcons] || defaultIcon;
 }
+
+export const getBlockchainsUrls = (
+  blockchains: string[],
+  isLightTheme = false,
+) => {
+  const blockchainIcons = blockchains.map(blockchain =>
+    getChainIcon(blockchain as ChainID, isLightTheme),
+  );
+
+  const uniqueBlockchainUrls = [...new Set(blockchainIcons)];
+
+  return uniqueBlockchainUrls;
+};

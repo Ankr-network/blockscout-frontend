@@ -1,111 +1,104 @@
-import { useForm } from 'react-final-form';
-import { Typography, capitalize } from '@mui/material';
-import { t, tHTML } from '@ankr.com/common';
-import { Check } from '@ankr.com/ui';
-import { Variant } from '@mui/material/styles/createTypography';
-import { useMemo } from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { newProjectIntlRoot } from 'domains/projects/const';
+import { newProjectIntlRoot, plans } from 'domains/projects/const';
+import { NewProjectStep } from 'domains/projects/types';
 
 import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 import { renderAmount } from '../../utils/renderAmount';
-import { NewProjectFormValues } from '../NewProjectForm/NewProjectFormTypes';
-import { shouldShowGroupId } from '../ChainItem/ChainItemUtils';
+import { useProjectFormValues } from '../../hooks/useProjectFormValues';
+import { BlockchainIcon } from '../../../Projects/components/BlockchainIcon';
+import { useProjectChains } from '../../hooks/useProjectChains';
+import { PlanCard } from '../PlanStep/components/PlanCard';
+import { CheckoutSection } from './CheckoutSection';
 
-export const CheckoutStep = () => {
+const plan = plans[0]; // hardcoded as long as we have only 1 plan available
+
+interface CheckoutStepProps {
+  setCurrentStep: Dispatch<SetStateAction<NewProjectStep>>;
+}
+
+export const CheckoutStep = ({ setCurrentStep }: CheckoutStepProps) => {
   const { classes } = useCheckoutStepStyles();
 
-  const form = useForm<NewProjectFormValues>();
+  const { projectChains } = useProjectChains();
 
-  const { values } = form.getState();
+  const { projectName, planPrice, whitelistItems, initiallySelectedChainIds } =
+    useProjectFormValues(projectChains);
 
-  const {
-    projectName,
-    chainName,
-    chainType,
-    contractAddress,
-    planName,
-    planPrice,
-    groupId,
-  } = values;
   const renderedPlanPrice = useMemo(() => renderAmount(planPrice), [planPrice]);
+
+  const openChainStep = useCallback(
+    () => setCurrentStep(NewProjectStep.Chain),
+    [setCurrentStep],
+  );
+
+  const openWhitelistStep = useCallback(
+    () => setCurrentStep(NewProjectStep.Whitelist),
+    [setCurrentStep],
+  );
+
+  const openPlanStep = useCallback(
+    () => setCurrentStep(NewProjectStep.Plan),
+    [setCurrentStep],
+  );
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.title} variant="h6">
+      <Typography className={classes.title} variant="subtitle1">
         {t(`${newProjectIntlRoot}.checkout-step.title`)}
       </Typography>
-      <div>
-        <div className={classes.row}>
-          <div>
-            <Typography variant="body2" color="textSecondary">
-              {t(`${newProjectIntlRoot}.checkout-step.project`)}
-            </Typography>
-          </div>
-          <div className={classes.info}>
+      <Typography
+        className={classes.description}
+        variant="body2"
+        color="textSecondary"
+      >
+        {t(`${newProjectIntlRoot}.checkout-step.description`)}
+      </Typography>
+
+      <div className={classes.content}>
+        <div className={classes.leftPart}>
+          <CheckoutSection onEdit={openChainStep} title="Name">
             <Typography className={classes.title} variant="body2">
               {projectName}
             </Typography>
-          </div>
+          </CheckoutSection>
+          <CheckoutSection
+            onEdit={openChainStep}
+            title={t(`${newProjectIntlRoot}.checkout-step.label-chains`)}
+          >
+            <div className={classes.chainsListWrapper}>
+              <BlockchainIcon blockchains={initiallySelectedChainIds} />
+            </div>
+          </CheckoutSection>
+          <CheckoutSection
+            onEdit={openWhitelistStep}
+            title={t(`${newProjectIntlRoot}.checkout-step.label-whitelist`)}
+          >
+            {whitelistItems?.length > 0 && (
+              <div className={classes.whitelistBadge}>
+                <Typography
+                  variant="body2"
+                  className={classes.whitelistBadgeText}
+                >
+                  {t(`${newProjectIntlRoot}.checkout-step.installed`)}
+                </Typography>
+              </div>
+            )}
+          </CheckoutSection>
         </div>
-
-        <div className={classes.row}>
-          <div>
-            <Typography
-              className={classes.title}
-              variant="body2"
-              color="textSecondary"
-            >
-              {t(`${newProjectIntlRoot}.checkout-step.network`)}
-            </Typography>
-          </div>
-          <div className={classes.info}>
-            <Typography variant="body2">{chainName}</Typography>
-            <Typography
-              variant={'body4' as Variant}
-              color="textSecondary"
-              className={classes.chainType}
-            >
-              {chainType}{' '}
-              {groupId &&
-                shouldShowGroupId(chainType, groupId) &&
-                capitalize(groupId)}
-            </Typography>
-          </div>
-        </div>
-
-        <div className={classes.row}>
-          <div>
-            <Typography variant="body2" color="textSecondary">
-              {t(`${newProjectIntlRoot}.checkout-step.whitelist`)}
-            </Typography>
-          </div>
-          <div className={classes.info}>
-            <Typography variant="body2">
-              {tHTML(`${newProjectIntlRoot}.checkout-step.prohibited`)}
-            </Typography>
-            <Typography className={classes.contractAddress} variant="body2">
-              <Check size="sm" />
-              {contractAddress}
-            </Typography>
-          </div>
-        </div>
-
-        <div className={classes.row}>
-          <div>
-            <Typography variant="body2" color="textSecondary">
-              {t(`${newProjectIntlRoot}.checkout-step.plan`)}
-            </Typography>
-          </div>
-          <div className={classes.info}>
-            <Typography
-              variant="body2"
-              fontWeight="700"
-              className={classes.plan}
-            >
-              {planName}
-            </Typography>
-          </div>
+        <div className={classes.rightPart}>
+          <CheckoutSection
+            onEdit={openPlanStep}
+            title={t(`${newProjectIntlRoot}.checkout-step.label-plan`)}
+          >
+            <PlanCard
+              className={classes.disabledPointerEvents}
+              plan={plan}
+              hasCheckbox={false}
+            />
+          </CheckoutSection>
         </div>
       </div>
       <div className={classes.price}>

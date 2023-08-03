@@ -1,8 +1,8 @@
 import { Chain, ChainID, ChainSubType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 
 import { chainSubTypeTabs } from '../constants/chainTypeTabs';
-import { SecondaryTab } from '../components/SecondaryTab';
 
 export const getChainSubTypeTabs = ({
   chain,

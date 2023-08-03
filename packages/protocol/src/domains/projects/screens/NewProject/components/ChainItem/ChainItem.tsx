@@ -1,19 +1,23 @@
-import { Box, capitalize, Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
+import { Box, Typography } from '@mui/material';
 
 import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
-import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { Chain } from 'domains/chains/types';
 
-import { shouldShowGroupId } from './ChainItemUtils';
+import { ChainItemTypes } from './ChainItemTypes';
 
 interface ChainItemProps {
   chain: Chain;
   chainType?: string;
   groupId?: string;
+  isChainTypeHidden?: boolean;
 }
 
-export const ChainItem = ({ chain, chainType, groupId }: ChainItemProps) => {
+export const ChainItem = ({
+  chain,
+  chainType,
+  groupId,
+  isChainTypeHidden,
+}: ChainItemProps) => {
   const { id, name: chainName, testnets } = chain;
 
   return (
@@ -23,30 +27,13 @@ export const ChainItem = ({ chain, chainType, groupId }: ChainItemProps) => {
         <Typography variant="subtitle2" component="p">
           {chainName}
         </Typography>
-
-        {chainType ? (
-          <>
-            <Typography mr={1} color="textSecondary" variant="caption">
-              {capitalize(chainType)}{' '}
-              {groupId &&
-                shouldShowGroupId(chainType, groupId) &&
-                capitalize(groupId)}
-            </Typography>
-          </>
-        ) : (
-          <>
-            {!isTestnetOnlyChain(id) && (
-              <Typography mr={1} color="textSecondary" variant="caption">
-                {t('projects.new-project.chain.mainnet')}
-              </Typography>
-            )}
-            {testnets && (
-              <Typography mr={1} color="textSecondary" variant="caption">
-                {t('projects.new-project.chain.testnet')}
-              </Typography>
-            )}
-          </>
-        )}
+        <ChainItemTypes
+          chainType={chainType}
+          groupId={groupId}
+          id={id}
+          isChainTypeHidden={isChainTypeHidden}
+          testnets={testnets}
+        />
       </Box>
     </>
   );

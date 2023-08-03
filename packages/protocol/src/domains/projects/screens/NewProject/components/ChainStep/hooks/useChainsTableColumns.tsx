@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
-import { Box, Checkbox, Typography } from '@mui/material';
+import { Dispatch, SetStateAction, useMemo } from 'react';
+import { Box, Typography } from '@mui/material';
 import { Check, Cross } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
-import { Chain } from 'domains/chains/types';
+import { Chain, ChainID } from 'domains/chains/types';
 
-import { useSelectedChain } from './useSelectedChain';
 import { useChainStepTableStyles } from '../useChainStepTableStyles';
-import { ChainSelect } from '../ChainSelect';
-import { ChainItem } from '../../ChainItem';
+import { ChainRow } from '../ChainRow';
+import { NetworkBadges } from '../NetworkBadges';
+import { useColumnWrapperClassName } from './useColumnWrapperClassName';
 
 export interface TableColumn<T> {
   field: string;
@@ -18,38 +18,37 @@ export interface TableColumn<T> {
   align?: 'left' | 'center' | 'right';
 }
 
-export const useChainsTable = () => {
+interface ChainsTableColumnsHookProps {
+  onOpenModal: (chain: Chain) => void;
+  selectedProjectChainsIds: ChainID[];
+  setSelectedProjectChainsIds: Dispatch<SetStateAction<ChainID[]>>;
+}
+
+export const useChainsTableColumns = ({
+  onOpenModal,
+  selectedProjectChainsIds,
+  setSelectedProjectChainsIds,
+}: ChainsTableColumnsHookProps) => {
   const { classes } = useChainStepTableStyles();
 
-  const { selectedChainId, setSelectedChainId, getColumnWrapperClassName } =
-    useSelectedChain();
+  const { getColumnWrapperClassName } = useColumnWrapperClassName(
+    selectedProjectChainsIds,
+  );
 
   const columns: TableColumn<Chain>[] = useMemo(
     () => [
       {
         field: 'chain',
         headerName: 'Chain',
-        render: chain => {
-          const { id } = chain;
-          const isCurrentChainActive = selectedChainId === id;
-          const handleCheck = () =>
-            setSelectedChainId(isCurrentChainActive ? undefined : id);
-
-          return (
-            <Box
-              display="flex"
-              alignItems="center"
-              className={getColumnWrapperClassName(id)}
-            >
-              <Checkbox
-                checked={isCurrentChainActive}
-                onClick={handleCheck}
-                sx={{ mr: 2 }}
-              />
-              <ChainItem chain={chain} />
-            </Box>
-          );
-        },
+        render: chain => (
+          <ChainRow
+            chain={chain}
+            selectedProjectChainsIds={selectedProjectChainsIds}
+            setSelectedProjectChainsIds={setSelectedProjectChainsIds}
+            handleOpenModal={onOpenModal}
+            className={getColumnWrapperClassName(chain?.id, classes.chainRow)}
+          />
+        ),
         align: 'left',
         width: '30%',
       },
@@ -72,21 +71,15 @@ export const useChainsTable = () => {
       },
       {
         field: 'network',
-        headerName: 'Network',
-        render: chain => {
-          const isSelected = chain.id === selectedChainId;
-
-          if (!isSelected) {
-            return null;
-          }
-
-          return (
-            <ChainSelect
-              className={getColumnWrapperClassName(chain.id)}
-              chain={chain}
-            />
-          );
-        },
+        headerName: 'Networks',
+        render: chain => (
+          <NetworkBadges
+            chain={chain}
+            setSelectedChainsIds={setSelectedProjectChainsIds}
+            className={getColumnWrapperClassName(chain?.id)}
+            onOpenModal={onOpenModal}
+          />
+        ),
         align: 'left',
         width: '40%',
       },
@@ -116,11 +109,13 @@ export const useChainsTable = () => {
       },
     ],
     [
-      selectedChainId,
-      setSelectedChainId,
-      classes.premiumLabelText,
-      classes.premiumLabelWrapper,
+      selectedProjectChainsIds,
+      setSelectedProjectChainsIds,
+      onOpenModal,
       getColumnWrapperClassName,
+      classes.chainRow,
+      classes.premiumLabelWrapper,
+      classes.premiumLabelText,
     ],
   );
 

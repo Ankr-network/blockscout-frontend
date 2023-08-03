@@ -18,3 +18,10 @@ export interface Plan {
   USDPrice: string;
   disabled?: boolean;
 }
+
+export enum WhiteListItem {
+  ip = 'ip',
+  referer = 'referer',
+  address = 'address',
+  all = 'all',
+}
