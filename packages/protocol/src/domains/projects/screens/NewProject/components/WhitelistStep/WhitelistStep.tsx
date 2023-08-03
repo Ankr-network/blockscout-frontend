@@ -1,36 +1,53 @@
-import { useForm } from 'react-final-form';
-import { Typography } from '@mui/material';
+import { Button, Divider, Typography } from '@mui/material';
+import { Plus } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
 
-import { ChainItem } from '../ChainItem';
-import { WhitelistContractAddressField } from './WhitelistContractAddressField';
-import { useWhitelist } from './useWhitelist';
+import { useDialog } from 'modules/common/hooks/useDialog';
+
 import { useWhitelistStepStyles } from './useWhitelistStepStyles';
-import { NewProjectFormValues } from '../NewProjectForm/NewProjectFormTypes';
+import { Table } from './components/Table/Table';
+import { AddToWhitelistDialog } from './components/AddToWhitelistDialog';
+import { useWhitelistData } from './useWhitelistData';
 
 export const WhitelistStep = () => {
   const { classes } = useWhitelistStepStyles();
-  const { chain } = useWhitelist();
-  const { getState } = useForm<NewProjectFormValues>();
+
+  const { isOpened, onClose, onOpen } = useDialog();
+
   const {
-    values: { chainType, groupId },
-  } = getState();
+    isAddingDomainAllowed,
+    isAddingIPAllowed,
+    isAddingSmartContractAllowed,
+  } = useWhitelistData();
 
   return (
     <>
       <Typography className={classes.title} variant="h6">
         {t('projects.new-project.step-2.title')}
       </Typography>
-      {chain && (
-        <div className={classes.chainItemWrapper}>
-          <ChainItem chain={chain} chainType={chainType} groupId={groupId} />
-        </div>
-      )}
       <Typography variant="body2" component="p" className={classes.plug}>
         {tHTML('projects.new-project.step-2.plug')}
       </Typography>
 
-      <WhitelistContractAddressField />
+      <Table />
+
+      <Button
+        size="medium"
+        disabled={
+          !isAddingDomainAllowed &&
+          !isAddingIPAllowed &&
+          !isAddingSmartContractAllowed
+        }
+        className={classes.button}
+        onClick={onOpen}
+        startIcon={<Plus />}
+      >
+        {t('projects.new-project.step-2.btn')}
+      </Button>
+
+      <Divider />
+
+      <AddToWhitelistDialog isOpen={isOpened} onClose={onClose} />
     </>
   );
 };

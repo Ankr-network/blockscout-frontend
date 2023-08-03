@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import isEqual from 'lodash.isequal';
 
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
-import { useLazyFetchWhitelistsQuery } from 'domains/projects/actions/fetchWhitelists';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 
 export const useProjects = () => {
   const {
@@ -17,7 +18,7 @@ export const useProjects = () => {
 
   const tokensRef = useRef(jwtTokens);
 
-  const [fetchWhitelists] = useLazyFetchWhitelistsQuery();
+  const [fetchAllWhitelists] = useLazyFetchAllWhitelistsQuery();
 
   useEffect(() => {
     if (
@@ -25,17 +26,17 @@ export const useProjects = () => {
       isFetching ||
       isEqual(jwtTokens, tokensRef.current)
     ) {
-      return () => null;
+      return () => {};
     }
 
     tokensRef.current = jwtTokens;
 
-    const { unsubscribe } = fetchWhitelists({
+    const { abort } = fetchAllWhitelists({
       group: selectedGroupAddress,
     });
 
-    return unsubscribe;
-  }, [fetchWhitelists, isFetching, selectedGroupAddress, jwtTokens]);
+    return abort;
+  }, [fetchAllWhitelists, isFetching, selectedGroupAddress, jwtTokens]);
 
   return {
     canAddProject,

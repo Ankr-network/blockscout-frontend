@@ -14,6 +14,7 @@ import { Footer } from '../Footer';
 
 export const NewProjectForm = ({
   step,
+  setCurrentStep,
   onSubmit,
   onBackClick,
   isLoading,
@@ -27,14 +28,27 @@ export const NewProjectForm = ({
       form: { getState },
       handleSubmit,
     }: FormRenderProps<NewProjectFormValues>) => {
-      const selectedChain = getState().values?.chainId;
+      const {
+        selectedMainnetIds,
+        selectedTestnetIds,
+        selectedDevnetIds,
+        whitelistItems,
+      } = getState().values || {};
+
+      const isChainSelected = Boolean(
+        selectedMainnetIds?.length ||
+          selectedTestnetIds?.length ||
+          selectedDevnetIds?.length,
+      );
+      const isWhitelistEmpty = whitelistItems?.length === 0;
 
       return (
         <form onSubmit={handleSubmit}>
-          <NewProjectFormContent step={step} />
+          <NewProjectFormContent step={step} setCurrentStep={setCurrentStep} />
           <Footer
             isNextButtonDisabled={
-              step === NewProjectStep.Chain && !selectedChain
+              (step === NewProjectStep.Chain && !isChainSelected) ||
+              (step === NewProjectStep.Whitelist && isWhitelistEmpty)
             }
             onBackClick={onBackClick}
             isLoading={isLoading}
@@ -42,7 +56,7 @@ export const NewProjectForm = ({
         </form>
       );
     },
-    [step, onBackClick, isLoading],
+    [step, setCurrentStep, onBackClick, isLoading],
   );
 
   return (

@@ -1,7 +1,4 @@
-import {
-  SecondaryTab,
-  TabSize,
-} from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab, TabSize } from 'modules/common/components/SecondaryTab';
 import {
   NearLibrary,
   NearLibraryID,

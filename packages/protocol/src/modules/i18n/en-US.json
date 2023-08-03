@@ -4,6 +4,7 @@
     "required": "This field is required",
     "domain-validation": "Use the following URL format: example.com",
     "url-validation": "Should be a valid URL",
+    "smart-contract-address-validation": "Should be a valid smart contract address",
     "https-validation": "Should be a valid https URL",
     "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
     "ip-validation": "Should be a valid IP address",
@@ -163,7 +164,7 @@
         "0": "Project",
         "1": "White List",
         "2": "Plan",
-        "3": "Checkout"
+        "3": "Payment"
       },
       "chain": {
         "mainnet": "Mainnet",
@@ -171,6 +172,13 @@
       },
       "notifications": {
         "limit": "You have reached the maximum number of projects."
+      },
+      "chain-modal": {
+        "title": "Add network for a selected chain",
+        "selected-chain-label": "Selected Chain",
+        "select-all-label": "Available Chains",
+        "btn-confirm": "Confirm",
+        "btn-cancel": "Cancel"
       },
       "step-1": {
         "title": "Create a Name and Select Chains",
@@ -180,11 +188,12 @@
         "premium": "Premium",
         "error-message": {
           "required": "Please select chain first"
-        }
+        },
+        "tooltip-text": "This chain has only one option to select"
       },
       "step-2": {
-        "title": "Set up White List",
-        "plug": "There are only three methods supported for whitelisting on the chosen blockchain: \neth_call, eth_getLogs, eth_sendRawTransaction. \nAll other methods and blockchains are prohibited.",
+        "title": "Whitelist",
+        "plug": "Manage the domains, IPs, and smart contracts that have<br/>access to your endpoints.",
         "label": "Smart contract address",
         "placeholder": "0x000000",
         "btn": "Add",
@@ -196,14 +205,24 @@
         }
       },
       "checkout-step": {
-        "title": "Checkout",
+        "title": "Project summary",
+        "description": "Please ensure that all the details of your project are correct before proceeding to checkout.",
+        "edit": "Edit",
+        "label-chains": "Chains",
+        "label-whitelist": "Whitelist",
+        "label-plan": "Your Plan",
         "project": "Project",
         "network": "Network",
         "whitelist": "White List",
+        "installed": "Installed",
         "plan": "Plan",
         "price": "Final Price",
         "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",
-        "unprohibited": "All requests not prohibited"
+        "unprohibited": "All requests not prohibited",
+        "more": "+{additionalBlockchainsCount} more",
+        "error-message": {
+          "can-not-add-to-whitelist": "Can not add {contractAddress} for {userEndpointToken}"
+        }
       },
       "plan-step": {
         "title": "Choose your Plan",
@@ -218,6 +237,23 @@
           "description": "<ul><li>30M <span>monthly requests</span></li><li>10 <span>Whitelisted domains</span></li><li>3 <span>Whitelisted Smart Contracts</span></li><li>All EVM-compatible methods for all chains</span></li></ul>"
         }
       }
+    },
+    "add-whitelist": {
+      "title": "Add to whitelist",
+      "description": "You can add domains, IPs, or smart contracts to your whitelist<br/>that have access to the endpoints. Any requests not from the<br/>authorized whitelist will be rejected.",
+      "select-type": "Select type",
+      "select": "Select",
+      "domain": "Domain",
+      "ip-address": "IP address",
+      "smart-contract": "Smart contract",
+      "enter": "Enter",
+      "enter-domain": "Enter domain",
+      "enter-ip": "Enter IP address",
+      "enter-smart-contract": "Enter smart contract address",
+      "select-chain": "Select chain",
+      "select-chain-description": "Specify access to endpoints for selected chains. Smart<br/>contracts can only be added to EVM compatible chains.",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
     },
     "final-price": "Final Price: <span>${usdValue}.00</span>"
   },

@@ -1,7 +1,6 @@
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-
-import { SecondaryTab } from '../components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 
 export const getGroupTabs = (groups: EndpointGroup[]): Tab<ChainGroupID>[] =>
   groups.map<Tab<ChainGroupID>>(

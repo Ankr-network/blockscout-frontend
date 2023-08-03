@@ -2,7 +2,7 @@ import { ReactNode, useMemo } from 'react';
 
 import { DEFAULT_ANKR_VALUE_STRING } from 'domains/account/actions/topUp/const';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { TrackTopUpSubmit } from 'domains/account/types';
 
 import { USDTopUpForm } from './USDTopUpForm';

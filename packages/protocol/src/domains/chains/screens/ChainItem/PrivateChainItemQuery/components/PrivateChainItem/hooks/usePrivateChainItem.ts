@@ -9,6 +9,7 @@ import { ChainSubType, ChainType } from 'domains/chains/types';
 import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
+import { GroupedEndpoints } from 'modules/endpoints/types';
 
 import {
   getPrivateChainSubTypeSelector,
@@ -16,7 +17,7 @@ import {
 } from './utils';
 import { usePrivateChainType } from './usePrivateChainType';
 
-interface ChainTypeItem {
+export interface ChainTypeItem {
   value: ChainType;
   label: string;
 }
@@ -31,6 +32,7 @@ interface PrivateChainItem extends ChainItem {
   selectType: (id: ChainType) => void;
   chainSubTypes: ChainSubTypeItem[];
   selectSubType: (id: ChainSubType) => void;
+  endpoints: GroupedEndpoints;
 }
 
 type PrivateChainItemParams = IChainItemDetails & {
@@ -113,5 +115,6 @@ export const usePrivateChainItem = ({
     unfilteredGroup,
     chainTypes,
     selectType,
+    endpoints,
   };
 };

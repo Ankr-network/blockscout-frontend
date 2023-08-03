@@ -12,11 +12,11 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       minHeight: 'auto',
     },
 
-    '& label': { marginBottom: theme.spacing(2 * 2), fontWeight: 700 },
+    '& label': { marginBottom: theme.spacing(4), fontWeight: 700 },
   },
   domain: {
-    marginTop: theme.spacing(2 * 2),
-    marginBottom: theme.spacing(2 * 3.5),
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(7),
     '& > p': {
       marginLeft: 0,
       marginRight: 0,

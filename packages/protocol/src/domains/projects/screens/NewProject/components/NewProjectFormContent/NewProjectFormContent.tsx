@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { NewProjectStep } from 'domains/projects/types';
 
 import { ChainStep } from '../ChainStep';
@@ -7,9 +9,13 @@ import { PlanStep } from '../PlanStep';
 
 interface NewProjectFormContentProps {
   step: NewProjectStep;
+  setCurrentStep: Dispatch<SetStateAction<NewProjectStep>>;
 }
 
-export const NewProjectFormContent = ({ step }: NewProjectFormContentProps) => {
+export const NewProjectFormContent = ({
+  step,
+  setCurrentStep,
+}: NewProjectFormContentProps) => {
   switch (step) {
     case NewProjectStep.Chain:
     default:
@@ -22,6 +28,6 @@ export const NewProjectFormContent = ({ step }: NewProjectFormContentProps) => {
       return <PlanStep />;
 
     case NewProjectStep.Checkout:
-      return <CheckoutStep />;
+      return <CheckoutStep setCurrentStep={setCurrentStep} />;
   }
 };

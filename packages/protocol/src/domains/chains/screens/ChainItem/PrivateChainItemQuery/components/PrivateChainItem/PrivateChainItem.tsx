@@ -6,13 +6,13 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
+import { ChainItemSections } from 'domains/chains/screens/ChainItem/components/ChainItemSections';
+import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/useChainItemBreadcrumbs';
+import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainItem/hooks/useRedirectToAdvancedApi';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 
-import { ChainItemHeader } from '../../../components/ChainItemHeader';
-import { ChainItemSections } from '../../../components/ChainItemSections';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
-import { useChainItemBreadcrumbs } from '../../../hooks/useChainItemBreadcrumbs';
-import { useRedirectToAdvancedApi } from '../../../hooks/useRedirectToAdvancedApi';
-import { ChainProtocolContext } from '../../../constants/ChainProtocolContext';
 
 export interface ChainItemProps {
   data: IChainItemDetails;

@@ -35,4 +35,25 @@ export const useChainStepStyles = makeStyles()(theme => ({
   inactive: {
     opacity: 0.5,
   },
+  dialogTitle: {
+    fontSize: 28,
+    paddingRight: theme.spacing(15),
+    alignItems: 'center',
+    display: 'flex',
+  },
+  chainItemWrapper: {
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(3, 5),
+    marginBottom: theme.spacing(4),
+  },
+  chainItem: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  chainSelectListWrapper: {
+    marginBottom: theme.spacing(4),
+  },
+  modalBtn: {
+    marginTop: theme.spacing(3),
+  },
 }));

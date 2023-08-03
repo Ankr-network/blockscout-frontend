@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Chain, ChainType } from 'domains/chains/types';
 import { GroupedEndpoints as Endpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { getChainTypeTabs } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
 import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';

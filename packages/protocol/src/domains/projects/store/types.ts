@@ -1,20 +1,21 @@
 import { Address } from '@ankr.com/provider';
 
-import { NewProjectStep } from '../types';
+import { ChainID } from 'domains/chains/types';
+
+import { NewProjectStep, WhiteListItem } from '../types';
 
 export enum ChainStepFields {
   projectName = 'projectName',
   tokenIndex = 'tokenIndex',
-  chainId = 'chainId',
-  subChainId = 'subChainId',
-  chainName = 'chainName',
-  chainType = 'chainType',
-  groupId = 'groupId',
+  selectedMainnetIds = 'selectedMainnetIds',
+  selectedTestnetIds = 'selectedTestnetIds',
+  selectedDevnetIds = 'selectedDevnetIds',
 }
 
 export enum WhitelistStepFields {
-  contractAddress = 'contractAddress',
   userEndpointToken = 'userEndpointToken',
+  whitelistItems = 'whitelistItems',
+  whitelistDialog = 'whitelistDialog',
 }
 
 export enum PlanStepFields {
@@ -26,19 +27,24 @@ export enum CheckoutStepFields {
   isCheckedOut = 'isCheckedOut',
 }
 
+export interface AddToWhitelistFormData {
+  type?: WhiteListItem;
+  value: string;
+  chains: ChainID[];
+}
+
 export interface NewProjectType {
   [NewProjectStep.Chain]?: {
     [ChainStepFields.projectName]?: string;
     [ChainStepFields.tokenIndex]?: number | null;
-    [ChainStepFields.chainId]?: string;
-    [ChainStepFields.subChainId]?: string;
-    [ChainStepFields.chainName]?: string;
-    [ChainStepFields.chainType]?: string;
-    [ChainStepFields.groupId]?: string;
+    [ChainStepFields.selectedMainnetIds]?: string[];
+    [ChainStepFields.selectedTestnetIds]?: string[];
+    [ChainStepFields.selectedDevnetIds]?: string[];
   };
   [NewProjectStep.Whitelist]?: {
-    [WhitelistStepFields.contractAddress]?: string;
     [WhitelistStepFields.userEndpointToken]?: string;
+    [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
+    [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
   };
   [NewProjectStep.Plan]?: {
     [PlanStepFields.planName]?: string;

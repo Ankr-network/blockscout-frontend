@@ -1,9 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import {
-  SecondaryTab,
-  TabSize,
-} from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab, TabSize } from 'modules/common/components/SecondaryTab';
 import { useTabs } from 'modules/common/hooks/useTabs';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { Tab } from 'uiKit/TabsManager';
