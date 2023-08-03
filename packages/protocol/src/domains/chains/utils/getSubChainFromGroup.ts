@@ -5,6 +5,7 @@ export const getSubChainFromGroup = (group: EndpointGroup) => {
 
   // horizen testnet has no endpoints, so we need to use horizen testnet evm to display endpoints.
   const isHorizen = group.id === ChainGroupID.HORIZEN;
+  const isTenet = group.id === ChainGroupID.TENET;
 
-  return isHorizen ? additionalSubChain : subChain;
+  return isHorizen || isTenet ? additionalSubChain : subChain;
 };

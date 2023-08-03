@@ -18,7 +18,7 @@ export const RequestComposer = ({
   hasTitle = true,
   publicUrl,
 }: IRequestComposerProps) => {
-  if (isGroupEvmBased(group) || chainId === ChainID.TENET) {
+  if (isGroupEvmBased(group)) {
     if (chainId === ChainID.HARMONY) {
       return (
         <HarmonyRequestComposer

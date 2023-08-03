@@ -43,7 +43,6 @@ export const hasRequestComposer = ({
   return (
     (chainId === ChainID.MULTICHAIN ||
       chainId === ChainID.NEAR ||
-      chainId === ChainID.TENET ||
       isTronRestApi(chainId, group.id) ||
       isGroupEvmBased(group) ||
       isAvalancheChain(group.id) ||

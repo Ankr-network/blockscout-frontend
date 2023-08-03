@@ -31,7 +31,7 @@ export enum ChainGroupID {
   STANDARD_EVM = 'standard-evm',
   X_CHAIN = 'x-chain',
   SUI = 'SUI',
-  TENET_EVM = 'tenet-evm',
+  TENET = 'tenet',
 
   FALLBACK = 'FALLBACK',
 }

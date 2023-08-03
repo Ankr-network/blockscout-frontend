@@ -25,8 +25,6 @@ export interface FetchPrivateStatsParams extends IApiUserGroupParams {
 
 export const {
   endpoints: { chainsFetchPrivateStats },
-  useChainsFetchPrivateStatsQuery,
-  useLazyChainsFetchPrivateStatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>(

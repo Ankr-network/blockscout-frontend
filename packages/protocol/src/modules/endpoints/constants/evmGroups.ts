@@ -10,6 +10,7 @@ const {
   RINKEBY,
   ROPSTEN,
   SEPOLIA,
+  TENET,
   STANDARD_EVM,
 } = ChainGroupID;
 
@@ -23,5 +24,6 @@ export const evmGroups: ChainGroupID[] = [
   RINKEBY,
   ROPSTEN,
   SEPOLIA,
+  TENET,
   STANDARD_EVM,
 ];

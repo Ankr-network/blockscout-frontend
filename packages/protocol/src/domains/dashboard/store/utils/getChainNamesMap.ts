@@ -28,10 +28,6 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
         .join(' ');
     }
 
-    if (checkedID === ('horizen_testnet_evm' as ChainID)) {
-      result[checkedID] = result[ChainID.HORIZEN_TESTNET];
-    }
-
     return result;
   }, {});
 };

@@ -120,18 +120,6 @@ const ARBITRUM_NOVA: NetworkInfo = {
   blockExplorerUrls: ['https://nova-explorer.arbitrum.io'],
 };
 
-// https://docs.tenet.org/mainnet-beta/tenet-mainnet
-const TENET: NetworkInfo = {
-  chainId: 1559,
-  chainName: 'Tenet Mainnet',
-  nativeCurrency: {
-    name: 'Tenet Mainnet',
-    symbol: 'TENET',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://tenetscan.io/'],
-};
-
 export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   // ? https://support.avax.network/en/articles/6077308-what-are-the-differences-between-the-x-p-and-c-chains
   [ChainID.AVALANCHE]: AVALANCHE,
@@ -296,9 +284,20 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://explorer.harmony.one/'],
   },
 
+  [ChainID.HORIZEN]: {
+    chainId: 7332,
+    chainName: 'Horizen EON Mainnet',
+    nativeCurrency: {
+      name: 'Horizen',
+      symbol: 'ZEN',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://eon-explorer.horizenlabs.io'],
+  },
+
   /* https://chainlist.org/?chain=1663&testnets=true&search=horizen */
   [ChainID.HORIZEN_TESTNET]: {
-    chainId: 1663, // 0x67f
+    chainId: 1663,
     chainName: 'Horizen Gobi Testnet',
     nativeCurrency: {
       name: 'Horizen',
@@ -484,8 +483,16 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.hecoinfo.com/'],
   },
 
-  [ChainID.TENET]: TENET,
-  [ChainID.TENET_EVM]: TENET,
+  [ChainID.TENET]: {
+    chainId: 1559,
+    chainName: 'Tenet Mainnet',
+    nativeCurrency: {
+      name: 'Tenet Mainnet',
+      symbol: 'TENET',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://tenetscan.io/'],
+  },
 
   // https://era.zksync.io/docs/dev/fundamentals/interacting.html#connecting-to-zksync-era-on-metamask
   [ChainID.ZKSYNC_ERA]: {

@@ -143,6 +143,7 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'Horizen',
     chains: [
       ChainID.HORIZEN,
+      ChainID.HORIZEN_EVM,
       ChainID.HORIZEN_TESTNET,
       ChainID.HORIZEN_TESTNET_EVM,
     ],
@@ -154,10 +155,10 @@ export const chainGroups: ChainGroup[] = [
     chains: [ChainID.NEAR],
   },
   {
-    id: ChainGroupID.TENET_EVM,
-    name: getName('tenet-evm'),
-    pluralName: getName('tenet-evm', true),
-    chains: [ChainID.TENET],
+    id: ChainGroupID.TENET,
+    name: 'Tenet',
+    pluralName: 'Tenet',
+    chains: [ChainID.TENET, ChainID.TENET_EVM],
   },
   {
     id: ChainGroupID.NERVOS_EVM,
