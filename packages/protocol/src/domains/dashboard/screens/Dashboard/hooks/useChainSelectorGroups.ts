@@ -50,7 +50,6 @@ export const useChainSelectorGroups = ({
     isChainProtocolSwitchEnabled:
       chainProtocolContext.isChainProtocolSwitchEnabled,
     chainProtocol: chainProtocolContext.chainProtocol,
-    withExceptions: false,
   });
 
   return {

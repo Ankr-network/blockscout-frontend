@@ -28,10 +28,12 @@ export const getStatsChainId = ({
   isChainProtocolSwitchEnabled,
   publicChain,
   chainProtocol,
-  withExceptions,
 }: StatsChainIdParams) => {
   const keepEVMChainID =
     publicChain.id === ChainID.ZETACHAIN || publicChain.id === ChainID.HORIZEN;
+
+  const withExceptions =
+    publicChain.id === ChainID.HORIZEN || publicChain.id === ChainID.TENET;
 
   const chainId = getChainId({
     chainType,
