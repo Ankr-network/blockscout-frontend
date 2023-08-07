@@ -36,10 +36,12 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.ARBITRUM,
       ChainID.ARBITRUM_NOVA,
+
       ChainID.AVALANCHE,
       ChainID.AVALANCHE_EVM,
       ChainID.AVALANCHE_FUJI,
       ChainID.AVALANCHE_FUJI_EVM,
+
       ChainID.BSC,
       ChainID.BSC_TESTNET_CHAPEL,
       ChainID.BTTC,
@@ -50,36 +52,55 @@ export const chainGroups: ChainGroup[] = [
       ChainID.FANTOM_TESTNET,
       ChainID.FLARE,
       ChainID.FLARE_EVM,
+
       ChainID.GNOSIS,
       ChainID.GNOSIS_BEACON,
       ChainID.GNOSIS_TESTNET,
+
       ChainID.HARMONY,
+
       ChainID.IOTEX,
       ChainID.IOTEX_TESTNET,
+
       ChainID.METIS,
       ChainID.MOONBEAM,
       ChainID.SYSCOIN,
       ChainID.OPTIMISM,
       ChainID.OPTIMISM_TESTNET,
+
       ChainID.POLYGON,
       ChainID.POLYGON_MUMBAI,
       ChainID.POLYGON_ZKEVM,
       ChainID.POLYGON_ZKEVM_TESTNET,
+
       ChainID.HECO,
       ChainID.HECO_TESTNET,
+
       ChainID.KLAYTN,
       ChainID.KLAYTN_TESTNET,
+
       ChainID.ROLLUX,
       ChainID.ROLLUX_TESTNET,
+
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
+
       ChainID.ZETACHAIN_EVM_TESTNET,
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
+
       ChainID.BASE,
+
       ChainID.SCROLL,
       ChainID.SCROLL_TESTNET,
+
       ChainID.ZKSYNC_ERA,
     ],
+  },
+  {
+    id: ChainGroupID.SCROLL,
+    name: 'Scroll Alpha',
+    pluralName: 'Scroll Alpha',
+    chains: [ChainID.SCROLL, ChainID.SCROLL_TESTNET],
   },
   {
     id: ChainGroupID.C_CHAIN,
@@ -137,7 +158,11 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.SEPOLIA,
     name: 'Sepolia',
     pluralName: 'Sepolia',
-    chains: [ChainID.ETH_SEPOLIA, ChainID.ETH_SEPOLIA_BEACON],
+    chains: [
+      ChainID.ETH_SEPOLIA,
+      ChainID.ETH_SEPOLIA_BEACON,
+      ChainID.SCROLL_SEPOLIA_TESTNET,
+    ],
   },
   {
     id: ChainGroupID.HORIZEN,

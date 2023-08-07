@@ -32,7 +32,7 @@ export enum ChainGroupID {
   X_CHAIN = 'x-chain',
   SUI = 'SUI',
   TENET = 'tenet',
-
+  SCROLL = 'scroll',
   FALLBACK = 'FALLBACK',
 }
 

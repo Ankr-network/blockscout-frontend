@@ -134,8 +134,10 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Horizen EON';
   } else if (chainId.includes(ChainID.TENET)) {
     name = 'Tenet Evm';
+  } else if (chainId.includes(ChainID.SCROLL_SEPOLIA_TESTNET)) {
+    name = 'Scroll Sepolia Testnet';
   } else if (chainId.includes(ChainID.SCROLL)) {
-    name = 'Scroll testnet';
+    name = 'Scroll Testnet';
   } else if (chainId === ChainID.POLYGON_ZKEVM) {
     name = 'zkEVM';
   } else if (ADVANCED_API_PATH.includes(chainId)) {

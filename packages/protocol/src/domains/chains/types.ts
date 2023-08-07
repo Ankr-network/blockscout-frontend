@@ -74,8 +74,10 @@ export enum ChainID {
   AVALANCHE_X = 'avalanche-x',
   BSC = 'bsc',
   BSC_TESTNET_CHAPEL = 'bsc_testnet_chapel',
+
   BASE = 'base',
   BASE_TESTNET = 'base_goerli',
+
   BTTC = 'bttc',
   CELO = 'celo',
   CHILIZ = 'chiliz',
@@ -135,8 +137,11 @@ export enum ChainID {
   ROLLUX_OPNODE = 'rollux_opnode',
   ROLLUX_OPNODE_TESTNET = 'rollux_opnode_testnet',
   ROLLUX_TESTNET = 'rollux_testnet',
+
   SCROLL = 'scroll',
   SCROLL_TESTNET = 'scroll_testnet',
+  SCROLL_SEPOLIA_TESTNET = 'scroll_sepolia_testnet',
+
   SECRET = 'scrt',
   SECRET_COSMOS = 'scrt_cosmos',
   SECRET_COSMOS_GRPC_WEB = 'scrt-cosmos-grpc-web',
