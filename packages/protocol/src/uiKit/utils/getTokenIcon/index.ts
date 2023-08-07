@@ -11,6 +11,7 @@ import chilizIcon from './icons/chiliz.svg';
 import defaultIcon from './icons/default-icon.svg';
 import ethIcon from './icons/eth.svg';
 import filecoinIcon from './icons/filecoin.svg';
+import flareIcon from './icons/flare.svg';
 import ftmIcon from './icons/ftm.svg';
 import gnosisIcon from './icons/gnosis.svg';
 import harmonyIcon from './icons/harmony.svg';
@@ -70,6 +71,13 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVALANCHE_FUJI_X]: avaxIcon,
   [ChainID.AVALANCHE_P]: avaxIcon,
   [ChainID.AVALANCHE_X]: avaxIcon,
+
+  [ChainID.FLARE]: flareIcon,
+  [ChainID.FLARE_C]: flareIcon,
+  [ChainID.FLARE_EVM]: flareIcon,
+  [ChainID.FLARE_P]: flareIcon,
+  [ChainID.FLARE_X]: flareIcon,
+
   [ChainID.BSC]: bscIcon,
   [ChainID.BSC_TESTNET_CHAPEL]: bscIcon,
   [ChainID.BASE]: baseIcon,
@@ -191,8 +199,11 @@ const chainNameIcons: Record<string, string> = {
   zetachain_evm_athens_testnet: zetachainIcon,
   zetachain_evm_testnet: zetachainIcon,
   tenet_evm: tenetIcon,
-  horizen_evm: horizenIcon,
-  horizen_testnet_evm: horizenIcon,
+  horizen_eon: horizenIcon,
+  horizen_gobi_testnet: horizenIcon,
+  aptos_testnet: aptosIcon,
+  filecoin_testnet: filecoinIcon,
+  zksync_era_testnet: zksyncEraIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
@@ -211,3 +222,16 @@ export function getChainIcon(name: string, isLightTheme: boolean) {
 
   return iconMap[name as keyof typeof chainIcons] || defaultIcon;
 }
+
+export const getBlockchainsUrls = (
+  blockchains: string[],
+  isLightTheme = false,
+) => {
+  const blockchainIcons = blockchains.map(blockchain =>
+    getChainIcon(blockchain as ChainID, isLightTheme),
+  );
+
+  const uniqueBlockchainUrls = [...new Set(blockchainIcons)];
+
+  return uniqueBlockchainUrls;
+};

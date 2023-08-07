@@ -146,6 +146,10 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderZetaChainName(chainId);
   } else if (chainId === ChainID.TRON_JSON_RPC) {
     name = 'Tron JSON-RPC';
+  } else if (chainId === ChainID.BASE) {
+    name = 'Base';
+  } else if (chainId === ChainID.BTTC) {
+    name = 'BitTorrent Chain Mainnet';
   } else if (chainId.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {

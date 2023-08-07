@@ -7,19 +7,21 @@ import { RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
-interface FetchWhitelistRequestParams {
+import { WhiteListItem } from '../types';
+
+interface FetchAddressWhitelistRequestParams {
   group?: Address;
 }
 
 export const {
-  useLazyFetchWhitelistsQuery,
+  useLazyFetchAddressWhitelistsQuery,
 
-  endpoints: { fetchWhitelists },
+  endpoints: { fetchAddressWhitelists },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchWhitelists: build.query<
+    fetchAddressWhitelists: build.query<
       IGetWhitelistParamsResponse[],
-      FetchWhitelistRequestParams
+      FetchAddressWhitelistRequestParams
     >({
       queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
         const service = MultiService.getService().getAccountGateway();
@@ -30,7 +32,7 @@ export const {
           projects.map(project =>
             service.getWhitelist({
               token: project.userEndpointToken,
-              type: 'address',
+              type: WhiteListItem.address,
               group,
             }),
           ),

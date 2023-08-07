@@ -6,7 +6,6 @@ import { TopUpCurrency } from './components/TopUpForm/types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
 import { useUpgradePlanDialogStyles } from './UpgradePlanDialogStyles';
 
-
 export interface UpgradePlanDialogProps {
   currency?: TopUpCurrency;
   defaultState?: ContentType;

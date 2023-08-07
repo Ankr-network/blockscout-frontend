@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { NewProjectStep } from '../types';
 import {
+  AddToWhitelistFormData,
   NewProjectConfig,
   NewProjectConfigPayload,
   NewProjectSlice,
@@ -9,6 +10,12 @@ import {
 import { plans } from '../const';
 
 const initialState: NewProjectSlice = {};
+
+export const initialDialogValues: AddToWhitelistFormData = {
+  type: undefined,
+  value: '',
+  chains: [],
+};
 
 const { name: defaultPlanName, USDPrice: defaultUSDPrice } = plans[0];
 
@@ -18,15 +25,14 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
     [NewProjectStep.Chain]: {
       projectName: '',
       tokenIndex: null,
-      chainId: '',
-      subChainId: '',
-      chainName: '',
-      chainType: '',
-      groupId: '',
+      selectedMainnetIds: [],
+      selectedTestnetIds: [],
+      selectedDevnetIds: [],
     },
     [NewProjectStep.Whitelist]: {
-      contractAddress: '',
       userEndpointToken: '',
+      whitelistItems: [],
+      whitelistDialog: initialDialogValues,
     },
     [NewProjectStep.Plan]: {
       planName: defaultPlanName,

@@ -4,7 +4,7 @@ import { Timeframe } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import { ProjectSelect } from 'modules/common/components/ProjectSelect';
-import { TabSize } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { TabSize } from 'modules/common/components/SecondaryTab';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 

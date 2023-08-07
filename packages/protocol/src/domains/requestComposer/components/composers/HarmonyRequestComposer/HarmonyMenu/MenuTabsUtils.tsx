@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { EVMLibrary, EVMLibraryID } from 'domains/requestComposer/constants';
 import {
   HarmonyLibrary,

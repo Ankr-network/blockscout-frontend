@@ -532,7 +532,7 @@ export interface IJwtTokenLimitResponse {
   jwtLimit: number;
 }
 
-type UserEndpointTokenMode = 'ip' | 'referer' | 'address';
+type UserEndpointTokenMode = 'ip' | 'referer' | 'address' | 'all';
 
 export interface IUpdateWhitelistModeParams extends IApiUserGroupParams {
   token: string; // endpointToken

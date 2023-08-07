@@ -32,6 +32,7 @@ export const useChainSelectorGroups = ({
     selectGroup,
     chainTypes,
     selectType,
+    endpoints,
   } = usePrivateChainItem({
     chain,
     unfilteredChain,
@@ -65,5 +66,6 @@ export const useChainSelectorGroups = ({
     groups,
     groupID,
     selectGroup,
+    endpoints,
   };
 };

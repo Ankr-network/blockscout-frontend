@@ -4,6 +4,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { TwoFAQueryFnParams } from 'store/queries/types';
 
 import { UpdateWhitelistParams } from './updateWhitelist';
+import { WhiteListItem } from '../types';
 
 export const {
   useLazyAddAddressToWhitelistQuery,
@@ -16,7 +17,13 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
-          params: { userEndpointToken, chainId, contractAddress, group },
+          params: {
+            userEndpointToken,
+            chainId,
+            contractAddress,
+            group,
+            type = WhiteListItem.address,
+          },
           totp,
         }) => {
           const service = MultiService.getService().getAccountGateway();
@@ -25,7 +32,7 @@ export const {
             contractAddress,
             {
               token: userEndpointToken,
-              type: 'address',
+              type,
               blockchain: chainId,
               group,
             },

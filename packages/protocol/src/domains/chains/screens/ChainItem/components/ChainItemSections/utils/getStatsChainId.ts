@@ -32,13 +32,16 @@ export const getStatsChainId = ({
   const keepEVMChainID =
     publicChain.id === ChainID.ZETACHAIN || publicChain.id === ChainID.HORIZEN;
 
+  const withExceptions =
+    publicChain.id === ChainID.HORIZEN || publicChain.id === ChainID.TENET;
+
   const chainId = getChainId({
     chainType,
     chainSubType,
     group,
     keepEVMChainID,
     publicChain,
-    withExceptions: true,
+    withExceptions,
   });
 
   if (isChainProtocolSwitchEnabled) {

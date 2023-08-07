@@ -1,9 +1,6 @@
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getRPCCallsConfig } from 'domains/requestComposer/utils/solana/RPCCallsConfig';
-import {
-  SecondaryTab,
-  TabSize,
-} from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab, TabSize } from 'modules/common/components/SecondaryTab';
 import {
   SolanaLibraryID,
   SolanaMethod,

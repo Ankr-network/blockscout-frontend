@@ -20,7 +20,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 600,
   },
   httpAddress: {
-    '& label': { marginBottom: theme.spacing(2 * 2), fontWeight: 700 },
+    '& label': { marginBottom: theme.spacing(4), fontWeight: 700 },
   },
   inputBase: {
     backgroundColor: theme.palette.background.paper,

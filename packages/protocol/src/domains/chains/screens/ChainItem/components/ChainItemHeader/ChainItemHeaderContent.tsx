@@ -6,14 +6,14 @@ import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { Endpoints } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/Endpoints';
+import { PremiumContent } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumContent';
+import { getEndpointsGroup } from 'domains/chains/screens/ChainItem/utils/getEndpointsGroup';
+import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 
-import { Endpoints } from '../GetStartedSection/components/Endpoints';
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
-import { PremiumContent } from '../GetStartedSection/components/PremiumContent';
-import { getEndpointsGroup } from '../../utils/getEndpointsGroup';
-import { ChainSelectorContent } from './components/ChainSelectorContent';
 import { useChainItemPlaceholder } from './useChainItemPlaceholder';
 
 export interface ChainItemHeaderProps {

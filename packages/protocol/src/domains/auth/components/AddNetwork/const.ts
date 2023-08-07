@@ -251,6 +251,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.ftmscan.com/'],
   },
 
+  [ChainID.FLARE]: {
+    chainId: 14,
+    chainName: 'Flare',
+    nativeCurrency: {
+      name: 'Flare',
+      symbol: 'FLR',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://flare-explorer.flare.network'],
+  },
+
   [ChainID.GNOSIS]: {
     chainId: 100, // * 0x64
     chainName: 'Gnosis Chain',

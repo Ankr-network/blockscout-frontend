@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { NewProjectStep } from 'domains/projects/types';
 import {
   ChainStepFields,
@@ -5,10 +7,12 @@ import {
   PlanStepFields,
   WhitelistStepFields,
   NewProjectType,
+  AddToWhitelistFormData,
 } from 'domains/projects/store';
 
 export interface NewProjectFormProps {
   step: NewProjectStep;
+  setCurrentStep: Dispatch<SetStateAction<NewProjectStep>>;
   onSubmit: (
     step: NewProjectStep,
     stepValues: NewProjectType[NewProjectStep],
@@ -20,13 +24,11 @@ export interface NewProjectFormProps {
 export interface NewProjectFormValues {
   [ChainStepFields.projectName]?: string;
   [ChainStepFields.tokenIndex]?: number;
-  [ChainStepFields.chainId]?: string;
-  [ChainStepFields.subChainId]?: string;
-  [ChainStepFields.chainName]?: string;
-  [ChainStepFields.chainType]?: string;
-  [ChainStepFields.groupId]?: string;
-  [WhitelistStepFields.contractAddress]?: string;
+  [ChainStepFields.selectedMainnetIds]?: string[];
+  [ChainStepFields.selectedTestnetIds]?: string[];
+  [ChainStepFields.selectedDevnetIds]?: string[];
   [WhitelistStepFields.userEndpointToken]?: string;
+  [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
   [PlanStepFields.planName]?: string;
   [PlanStepFields.planPrice]?: string;
   [CheckoutStepFields.isCheckedOut]?: boolean;

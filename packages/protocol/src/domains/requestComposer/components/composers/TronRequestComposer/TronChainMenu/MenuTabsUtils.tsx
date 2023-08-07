@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { SecondaryTab } from 'domains/chains/screens/ChainItem/components/SecondaryTab';
+import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import {

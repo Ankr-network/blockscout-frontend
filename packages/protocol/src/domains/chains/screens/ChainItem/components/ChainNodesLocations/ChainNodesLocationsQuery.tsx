@@ -4,7 +4,7 @@ import { INodesDetailEntity } from 'multirpc-sdk';
 import { ChainID } from 'domains/chains/types';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
-import { checkAvalancheOrSecretAndGetChainId } from 'domains/chains/utils/chainsUtils';
+import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
 
 import { ChainNodesLocations } from './ChainNodesLocations';
 
@@ -21,7 +21,7 @@ export const ChainNodesLocationsQuery = ({
 }: ChainNodesLocationsQueryProps) => {
   const chainState = useChainsFetchChainNodesDetailQuery();
 
-  const checkedChainId = checkAvalancheOrSecretAndGetChainId(chainId);
+  const checkedChainId = checkChainWithSubnetsAndGetChainId(chainId);
 
   const shouldShowRealNodesRatio = useMemo(
     () => REAL_NODES_RATIO_CHAIN_IDS.includes(chainId),

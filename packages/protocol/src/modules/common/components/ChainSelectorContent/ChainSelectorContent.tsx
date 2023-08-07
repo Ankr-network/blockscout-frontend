@@ -1,11 +1,10 @@
 import { ChainSubType, ChainType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-
-import { SecondaryTabs } from '../../../SecondaryTabs';
-import { ChainProtocolSwitch } from '../ChainProtocolSwitch';
-import { MobileGroupSelector } from '../MobileGroupSelector';
-import { useChainSelectorContentStyles } from './useChainSelectorContentStyles';
+import { SecondaryTabs } from 'modules/common/components/SecondaryTabs';
+import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
+import { MobileGroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MobileGroupSelector';
+import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 
 interface IChainSelectorContentProps {
   protocolGroup?: EndpointGroup;

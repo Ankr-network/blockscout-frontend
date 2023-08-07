@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { utils } from 'ethers';
 import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 
@@ -36,15 +35,17 @@ export const useHandleSubmit = (
           const {
             projectName,
             tokenIndex,
-            chainId,
-            subChainId,
-            chainName,
-            chainType,
-            groupId,
+            selectedMainnetIds = [],
+            selectedTestnetIds = [],
+            selectedDevnetIds = [],
           } = values;
 
           /* validation start */
-          if (!subChainId) {
+          if (
+            selectedMainnetIds.length === 0 &&
+            selectedTestnetIds.length === 0 &&
+            selectedDevnetIds.length === 0
+          ) {
             dispatch(
               NotificationActions.showNotification({
                 message: t(
@@ -61,16 +62,14 @@ export const useHandleSubmit = (
           return onSubmit(step, {
             projectName,
             tokenIndex,
-            chainId,
-            subChainId,
-            chainName,
-            chainType,
-            groupId,
+            selectedMainnetIds,
+            selectedTestnetIds,
+            selectedDevnetIds,
           });
         }
 
         case NewProjectStep.Whitelist: {
-          const { contractAddress, tokenIndex } = values;
+          const { whitelistItems, tokenIndex } = values;
 
           /* validation start */
           if (!tokenIndex) {
@@ -86,7 +85,8 @@ export const useHandleSubmit = (
             return null;
           }
 
-          if (!contractAddress) {
+          // TODO: MRPC-3371 rewrite it
+          if (!whitelistItems || whitelistItems.length === 0) {
             return {
               contractAddress: t(
                 'projects.new-project.step-2.error-message.required',
@@ -94,22 +94,13 @@ export const useHandleSubmit = (
             };
           }
 
-          if (!utils.isAddress(contractAddress)) {
-            return {
-              contractAddress: t(
-                'projects.new-project.step-2.error-message.invalid',
-              ),
-            };
-          }
-          /* validation end */
-
           const userEndpointToken = await handleWhitelistStepOnSubmit(
             tokenIndex,
           );
 
           if (userEndpointToken) {
             return onSubmit(step, {
-              contractAddress,
+              whitelistItems,
               userEndpointToken,
             });
           }

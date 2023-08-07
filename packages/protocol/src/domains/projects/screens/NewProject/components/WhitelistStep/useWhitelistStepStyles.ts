@@ -3,7 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 export const useWhitelistStepStyles = makeStyles()(theme => ({
   title: {
     marginTop: theme.spacing(10),
-    marginBottom: theme.spacing(6),
+    marginBottom: theme.spacing(3),
   },
   chainItemWrapper: {
     display: 'flex',
@@ -34,5 +34,12 @@ export const useWhitelistStepStyles = makeStyles()(theme => ({
   },
   plug: {
     whiteSpace: 'pre-wrap',
+    color: theme.palette.text.secondary,
+    marginBottom: theme.spacing(8),
+  },
+  button: {
+    width: 132,
+    height: 40,
+    marginBottom: theme.spacing(20),
   },
 }));
