@@ -80,8 +80,10 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.BSC]: bscIcon,
   [ChainID.BSC_TESTNET_CHAPEL]: bscIcon,
+
   [ChainID.BASE]: baseIcon,
   [ChainID.BASE_TESTNET]: baseIcon,
+
   [ChainID.BTTC]: bttcIcon,
   [ChainID.CELO]: celoIcon,
   [ChainID.CHILIZ]: chilizIcon,
@@ -133,14 +135,17 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ROLLUX_OPNODE]: rolluxIcon,
   [ChainID.ROLLUX_OPNODE_TESTNET]: rolluxIcon,
   [ChainID.ROLLUX_TESTNET]: rolluxIcon,
+
   [ChainID.SCROLL]: scrollIcon,
   [ChainID.SCROLL_TESTNET]: scrollIcon,
+
   [ChainID.SECRET]: secretIcon,
   [ChainID.SECRET_COSMOS]: secretIcon,
   [ChainID.SECRET_COSMOS_GRPC_WEB]: secretIcon,
   [ChainID.SECRET_COSMOS_REST]: secretIcon,
   [ChainID.SECRET_REST]: secretIcon,
   [ChainID.SECRET_RPC]: secretIcon,
+
   [ChainID.SOLANA]: solIcon,
   [ChainID.SOLANA_DEVNET]: solIcon,
   [ChainID.SYSCOIN]: syscoinIcon,

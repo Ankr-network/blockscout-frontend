@@ -98,17 +98,6 @@ const TRON_CHAIN_JSON_RPC: NetworkInfo = {
   blockExplorerUrls: ['https://tronscan.org/'],
 };
 
-const SCROLLCHAIN: NetworkInfo = {
-  chainId: 534353,
-  chainName: 'Scroll Testnet',
-  nativeCurrency: {
-    name: 'Ether',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  blockExplorerUrls: ['https://blockscout.scroll.io/'],
-};
-
 const ARBITRUM_NOVA: NetworkInfo = {
   chainId: 42170,
   chainName: 'Arbitrum Nova',
@@ -555,6 +544,26 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://goerli.basescan.org/'],
   },
 
-  [ChainID.SCROLL]: SCROLLCHAIN,
-  [ChainID.SCROLL_TESTNET]: SCROLLCHAIN,
+  [ChainID.SCROLL_TESTNET]: {
+    chainId: 534353,
+    chainName: 'Scroll Alpha Testnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockscout.scroll.io/'],
+  },
+  // add when blockExplorer will be ready
+
+  // [ChainID.SCROLL_SEPOLIA_TESTNET]: {
+  //   chainId: 534351,
+  //   chainName: 'Scroll Sepolia Testnet',
+  //   nativeCurrency: {
+  //     name: 'Ether',
+  //     symbol: 'ETH',
+  //     decimals: 18,
+  //   },
+  //   blockExplorerUrls: [],
+  // },
 };
