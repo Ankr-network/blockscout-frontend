@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
@@ -15,6 +15,8 @@ import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { useChainItemPlaceholder } from './useChainItemPlaceholder';
+import { hasGroupSelector as checkHasGroupSelector } from './utils/hasGroupSelector';
+import { hasChainTypeSelector as checkHasChainTypeSelector } from './utils/hasChainTypeSelector';
 
 export interface ChainItemHeaderProps {
   chain: Chain;
@@ -68,6 +70,14 @@ export const ChainItemHeaderContent = ({
 
   const { classes } = useChainItemHeaderContentStyles();
   const { placeholder } = useChainItemPlaceholder(isMultiChain);
+  const hasGroupSelector = useMemo(
+    () => checkHasGroupSelector(chain.id, groupID),
+    [chain.id, groupID],
+  );
+  const hasChainTypeSelector = useMemo(
+    () => checkHasChainTypeSelector(chain.id),
+    [chain.id],
+  );
 
   return (
     <>
@@ -93,9 +103,8 @@ export const ChainItemHeaderContent = ({
         groupTabs={groupTabs}
         groupTab={groupTab}
         selectGroup={selectGroup}
-        hasGroupSelector={
-          chain.id === ChainID.BASE && groupID === ChainGroupID.GOERLI
-        }
+        hasGroupSelector={hasGroupSelector}
+        hasChainTypeSelector={hasChainTypeSelector}
       />
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints

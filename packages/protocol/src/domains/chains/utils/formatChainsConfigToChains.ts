@@ -135,13 +135,19 @@ const addExtensions = (
     const { id, type } = chain;
 
     if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
+      const defaultTestnet = testnets[id]?.[0];
+
       result.push({
         ...chain,
         testnets: testnets[id],
         devnets: devnets[id],
         opnodes: opnodes[id],
         chainWithoutMainnet: isTestnetOnlyChain(id)
-          ? getChainWithoutMainnet(testnets[id]?.[0])
+          ? getChainWithoutMainnet(
+              id === ChainID.SCROLL
+                ? testnets[id]?.[1] || defaultTestnet
+                : defaultTestnet,
+            )
           : undefined,
       });
     }
