@@ -5,6 +5,7 @@ import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChange
 import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
+import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   useBalance();
@@ -13,4 +14,5 @@ export const useInitialization = (isLoggedIn: boolean) => {
   useCheckChangedSignupUserSettingsAndUpdate();
   useJwtManagerInitializer(!isReactSnap && isLoggedIn);
   useMyBundles({ skipFetching: isReactSnap || !isLoggedIn });
+  usePremiumStatusSubscription();
 };
