@@ -15,7 +15,6 @@ interface FetchIpWhitelistRequestParams {
 
 export const {
   useLazyFetchIpWhitelistsQuery,
-
   endpoints: { fetchIpWhitelists },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

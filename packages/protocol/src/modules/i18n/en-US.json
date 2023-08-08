@@ -144,13 +144,19 @@
         "column-1": "Name",
         "column-2": "Project status",
         "column-3": "White list",
-        "column-4": "Connected chains"
+        "column-4": "Connected chains",
+        "column-5": "Activity today",
+        "column-5-tooltip": "Activity for today (UTC time)"
       },
+      "project-name-tooltip": "You can’t remove the Primary project.",
       "active": "Active",
       "installed": "Installed",
       "not-installed": "Not installed",
       "add-project": "Add Project",
       "edit-project": "Continue project configuration",
+      "no-requests-yet": "No requests yet",
+      "requests": "Requests today",
+      "count": "{value, number, ::compact-short }",
       "no-data": "No project found"
     },
     "new-project": {

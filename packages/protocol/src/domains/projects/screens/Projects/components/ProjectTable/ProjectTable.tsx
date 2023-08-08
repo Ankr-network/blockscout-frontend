@@ -20,7 +20,7 @@ export const ProjectTable = ({
 }: ProjectTableProps) => {
   const { classes } = useProjectTableStyles();
 
-  const { columns } = useProjectTable();
+  const { columns, tableData } = useProjectTable(data);
 
   return (
     <VirtualTable
@@ -32,7 +32,7 @@ export const ProjectTable = ({
       }}
       initializing={isLoading}
       cols={columns}
-      rows={data}
+      rows={tableData}
       emptyMessage={t('projects.list-project.no-data')}
       preloader={<Preloader className={classes.preloader} />}
       searchContent={searchContent}

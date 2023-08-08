@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { useTitleStyles } from './TitleStyles';
+import { useTitleStyles } from './useTitleStyles';
 import { intlRoot } from '../../LearnMoreUtils';
 
 export const Title = () => {
