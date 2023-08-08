@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-const MAX_WIDTH = 1445;
+const MAX_WIDTH = 1428;
 const MAX_WIDTH_WITH_CURRENT_PLAN = 1320;
 
 export const useAccountManagerStyles = makeStyles()(theme => ({
