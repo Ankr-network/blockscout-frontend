@@ -7,6 +7,14 @@ export const useProjectNameStyles = makeStyles()(theme => ({
   row: {
     display: 'flex',
     alignItems: 'center',
+    gap: theme.spacing(1),
+  },
+  tooltip: {
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: theme.palette.primary.main,
+    },
   },
   name: {
     color: theme.palette.text.primary,

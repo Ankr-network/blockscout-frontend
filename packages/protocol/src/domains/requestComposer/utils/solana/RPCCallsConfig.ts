@@ -10,6 +10,7 @@ import { solanaWeb3Config } from './solanaWeb3Config';
 
 const root = 'request-composer.method-description.solana';
 
+/* eslint-disable max-lines-per-function */
 export const getRPCCallsConfig = (): RPCCallsConfig => ({
   [SolanaMethod.getAccountInfo]: {
     description: t(`${root}.${SolanaMethod.getAccountInfo}`),
@@ -277,3 +278,4 @@ export const getRPCCallsConfig = (): RPCCallsConfig => ({
       solanaWeb3Config[SolanaMethod.simulateTransaction],
   },
 });
+/* eslint-enable max-lines-per-function */

@@ -11,7 +11,7 @@ export const useProjectTableStyles = makeStyles()(theme => ({
     fontSize: 14,
     lineHeight: 1.4,
     fontWeight: 400,
-    padding: theme.spacing(0, 8, 4, 8),
+    padding: theme.spacing(0, 8, 1.5, 8),
   },
   rowContainer: {
     borderBottom: 'none',

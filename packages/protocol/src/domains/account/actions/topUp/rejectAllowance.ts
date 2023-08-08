@@ -11,7 +11,6 @@ import { fetchBalance } from '../balance/fetchBalance';
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
-
 export const {
   useLazyTopUpRejectAllowanceQuery,
   endpoints: { topUpRejectAllowance },

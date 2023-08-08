@@ -20,12 +20,12 @@ export const TronMethodsTabs = ({
   args,
   libraryID,
 }: IMethodsTabsProps) => {
-  const [tabs, selectedTab] = useMethodsTabsUtils(
+  const [tabs, selectedTab] = useMethodsTabsUtils({
     group,
     title,
     args,
     libraryID,
-  );
+  });
 
   return <MethodsTabs selectedTab={selectedTab} tabs={tabs} />;
 };

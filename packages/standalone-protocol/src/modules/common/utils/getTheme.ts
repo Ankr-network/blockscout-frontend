@@ -59,7 +59,7 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Harmony:
       return harmonyTheme;
 
-    case ChainId.HORIZEN_TESTNET_EVM:
+    case ChainId.HORIZEN_EON:
       return horizenTheme;
 
     case ChainId.Gnosis:
@@ -96,6 +96,6 @@ export const getTheme = (chainId?: ChainId) => {
       return mantleTheme;
 
     default:
-      return mantleTheme;
+      return horizenTheme;
   }
 };

@@ -90,9 +90,6 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.BASE,
 
-      ChainID.SCROLL,
-      ChainID.SCROLL_TESTNET,
-
       ChainID.ZKSYNC_ERA,
     ],
   },

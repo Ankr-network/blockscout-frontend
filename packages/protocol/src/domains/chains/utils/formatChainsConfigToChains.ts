@@ -60,12 +60,19 @@ const getOpnodes = (chains: Chain[]) => {
   }, {});
 };
 
-const getExtendedChains = (
-  chains: Chain[],
-  extensions: GroupedBlockchainType,
-  beacons: GroupedBlockchainType,
-  opnodes: GroupedBlockchainType,
-) => {
+interface GetExtendedChainsArguments {
+  chains: Chain[];
+  extensions: GroupedBlockchainType;
+  beacons: GroupedBlockchainType;
+  opnodes: GroupedBlockchainType;
+}
+
+const getExtendedChains = ({
+  chains,
+  extensions,
+  beacons,
+  opnodes,
+}: GetExtendedChainsArguments) => {
   return chains.reduce<Chain[]>((result, chain) => {
     const { id, type } = chain;
 
@@ -125,12 +132,19 @@ export const getDevnets = (extendedChains: Chain[]) => {
   }, {});
 };
 
-const addExtensions = (
-  extendedChains: Chain[],
-  testnets: GroupedBlockchainType,
-  devnets: GroupedBlockchainType,
-  opnodes: GroupedBlockchainType,
-) => {
+interface AddExtensionsArguments {
+  extendedChains: Chain[];
+  testnets: GroupedBlockchainType;
+  devnets: GroupedBlockchainType;
+  opnodes: GroupedBlockchainType;
+}
+
+const addExtensions = ({
+  extendedChains,
+  testnets,
+  devnets,
+  opnodes,
+}: AddExtensionsArguments) => {
   return extendedChains.reduce<Chain[]>((result, chain) => {
     const { id, type } = chain;
 
@@ -265,20 +279,20 @@ export const formatChainsConfigToChains = (
   const extensions = getExtensions(chains);
   const beacons = getBeacons(chains);
   const opnodes = getOpnodes(chains);
-  const extendedChains = getExtendedChains(
+  const extendedChains = getExtendedChains({
     chains,
     extensions,
     beacons,
     opnodes,
-  );
+  });
   const testnets = getTestnets(extendedChains);
   const devnets = getDevnets(extendedChains);
-  const chainsWithExtensions = addExtensions(
+  const chainsWithExtensions = addExtensions({
     extendedChains,
     testnets,
     devnets,
     opnodes,
-  );
+  });
   const chainsWithExtenders = addExtenders(chainsWithExtensions);
   const chainsWithPremiumOnly = addPremiumOnly(chainsWithExtenders);
 

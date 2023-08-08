@@ -42,7 +42,7 @@ export const Buttons = ({
               onClick={onConfirm}
               loading={isRejectAllowanceLoading ? false : loading}
             >
-              {getButtonText(loading, step, hasPrivateAccess, hasError)}
+              {getButtonText({ loading, step, hasPrivateAccess, hasError })}
             </LoadingButton>
             <Button
               fullWidth
@@ -73,7 +73,7 @@ export const Buttons = ({
             loading={isRejectAllowanceLoading ? false : loading}
             onClick={onConfirm}
           >
-            {getButtonText(loading, step, hasPrivateAccess, hasError)}
+            {getButtonText({ loading, step, hasPrivateAccess, hasError })}
           </LoadingButton>
         );
       }
@@ -89,7 +89,7 @@ export const Buttons = ({
             onClick={onConfirm}
             loading={isRejectAllowanceLoading ? false : loading}
           >
-            {getButtonText(loading, step, hasPrivateAccess, hasError)}
+            {getButtonText({ loading, step, hasPrivateAccess, hasError })}
           </LoadingButton>
         );
     }

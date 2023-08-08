@@ -6,19 +6,20 @@ import { useGuardAuth } from 'domains/auth/hooks/useGuardAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
+import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 
 interface GuardCardPaymentSuccessAuthRouteProps extends RouteProps {
   hasPrivateAccess: boolean;
   hasPremium: boolean;
-  isUninitialized: boolean;
 }
 
 export const GuardCardPaymentSuccessAuthRoute = ({
   hasPremium,
   hasPrivateAccess,
-  isUninitialized,
   ...routeProps
 }: GuardCardPaymentSuccessAuthRouteProps) => {
+  const { isUninitialized } = usePremiumStatusSubscription();
+
   const history = useHistory<PostTopUpLocationState>();
 
   const { hasAuthData, loading } = useGuardAuth();

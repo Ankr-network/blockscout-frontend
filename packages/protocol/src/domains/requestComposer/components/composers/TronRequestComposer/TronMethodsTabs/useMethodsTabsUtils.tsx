@@ -10,12 +10,19 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 import { TronSampleCode } from '../TronSampleCode';
 
-export const useMethodsTabsUtils = (
-  group: EndpointGroup,
-  title: TronChainMethod,
-  args: Record<string, string | number>,
-  libraryID: TronLibraryID,
-) => {
+interface UseMethodsTabsUtilsArguments {
+  group: EndpointGroup;
+  title: TronChainMethod;
+  args: Record<string, string | number>;
+  libraryID: TronLibraryID;
+}
+
+export const useMethodsTabsUtils = ({
+  group,
+  title,
+  args,
+  libraryID,
+}: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<TronLibraryID>[] = useLocaleMemo(
     () => [
       {

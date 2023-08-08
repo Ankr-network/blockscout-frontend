@@ -1,3 +1,4 @@
+/* eslint-disable max-params */
 import { AxiosInstance } from 'axios';
 import { utils } from 'ethers';
 

@@ -58,29 +58,34 @@ export const AddEndpoint = () => {
         publicChainsState,
       ]}
     >
-      {(
-        { data },
-        { data: { chains: privateChains = [] } = {} },
-        { data: endpoints },
-        { data: { chains: publicChains = [] } = {} },
-      ) => {
-        const privateChain = getChainById(privateChains, chainId);
-        const publicChain = getChainById(publicChains, chainId);
+      {
+        /* eslint-disable  max-params */
+        (
+          { data },
+          { data: { chains: privateChains = [] } = {} },
+          { data: endpoints },
+          { data: { chains: publicChains = [] } = {} },
+        ) => {
+          /* eslint-enable  max-params */
 
-        const scheme = getScheme(data);
+          const privateChain = getChainById(privateChains, chainId);
+          const publicChain = getChainById(publicChains, chainId);
 
-        const userEndpoints = endpoints?.[chainId];
+          const scheme = getScheme(data);
 
-        return (
-          <AddEndpointForm
-            chainId={chainId}
-            scheme={scheme}
-            privateChain={privateChain}
-            publicChain={publicChain}
-            userEndpoints={userEndpoints}
-          />
-        );
-      }}
+          const userEndpoints = endpoints?.[chainId];
+
+          return (
+            <AddEndpointForm
+              chainId={chainId}
+              scheme={scheme}
+              privateChain={privateChain}
+              publicChain={publicChain}
+              userEndpoints={userEndpoints}
+            />
+          );
+        }
+      }
     </Queries>
   );
 };

@@ -18,12 +18,12 @@ export const StatsMap = ({ data, setCountry }: StatsMapProps) => {
               .map(geo => {
                 const hasHandleMouseMove = typeof setCountry === 'function';
 
-                const styles = getGeogrpahyStyles(
+                const styles = getGeogrpahyStyles({
                   geo,
                   data,
                   isLightTheme,
-                  hasHandleMouseMove,
-                );
+                  hasHover: hasHandleMouseMove,
+                });
 
                 const handleMouseMove = (value: any) => {
                   if (hasHandleMouseMove) {

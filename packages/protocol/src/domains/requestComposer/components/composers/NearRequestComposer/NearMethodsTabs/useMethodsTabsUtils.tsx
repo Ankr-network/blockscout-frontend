@@ -10,12 +10,19 @@ import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 import { NearSampleCode } from './NearSampleCode';
 
-export const useMethodsTabsUtils = (
-  group: EndpointGroup,
-  title: NearMethod,
-  args: string[],
-  libraryID: NearLibraryID,
-) => {
+interface UseMethodsTabsUtilsArguments {
+  group: EndpointGroup;
+  title: NearMethod;
+  args: string[];
+  libraryID: NearLibraryID;
+}
+
+export const useMethodsTabsUtils = ({
+  group,
+  title,
+  args,
+  libraryID,
+}: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<NearLibraryID>[] = useLocaleMemo(
     () => [
       {

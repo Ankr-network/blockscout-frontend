@@ -6,7 +6,7 @@ import { ChainId, MAP_CHAIN_ID_TO_DETAILS_ID } from '../api/chain';
 import { IApiChain } from '../api/queryChains';
 import {
   getRPCUrl,
-  isHorizenTestnetEvm,
+  isHorizenEvm,
   isPolygonZkEvm,
   isTenetEvm,
 } from './fetchChainUtils';
@@ -46,7 +46,7 @@ export const fetchChain = createSmartAction<
             currentChainId = CHAIN_ID_FOR_BLOCKCHAINS_LIST as ChainId;
           } else if (isTenetEvm(chainId)) {
             currentChainId = MAP_CHAIN_ID_TO_DETAILS_ID[chainId] as ChainId;
-          } else if (isHorizenTestnetEvm(chainId)) {
+          } else if (isHorizenEvm(chainId)) {
             currentChainId = MAP_CHAIN_ID_TO_DETAILS_ID[chainId] as ChainId;
           }
 

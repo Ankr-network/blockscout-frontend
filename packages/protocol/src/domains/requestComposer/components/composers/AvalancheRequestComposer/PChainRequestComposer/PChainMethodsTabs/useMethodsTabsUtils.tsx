@@ -11,12 +11,19 @@ import { RPC_CALLS_CONFIG } from 'domains/requestComposer/utils/avalanche/p-chai
 
 import { AvalancheSampleCode } from '../../AvalancheSampleCode';
 
-export const useMethodsTabsUtils = (
-  group: EndpointGroup,
-  title: PChainMethod,
-  args: string[],
-  libraryID: AvalancheLibraryID,
-) => {
+interface UseMethodsTabsUtilsArguments {
+  group: EndpointGroup;
+  title: PChainMethod;
+  args: string[];
+  libraryID: AvalancheLibraryID;
+}
+
+export const useMethodsTabsUtils = ({
+  group,
+  title,
+  args,
+  libraryID,
+}: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<AvalancheLibraryID>[] = useLocaleMemo(
     () => [
       {

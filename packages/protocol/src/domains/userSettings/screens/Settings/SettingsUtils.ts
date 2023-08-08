@@ -18,13 +18,21 @@ export const useSettingsBreadcrumbs = () => {
   ]);
 };
 
-const getEmailBannerProps = (
-  resetInviteEmail: () => void,
-  pendingEmail?: string,
-  inviteEmail?: string,
-  isInviteEmailValid?: boolean,
-  confirmedEmail?: string,
-) => {
+interface GetEmailBannerPropsArguments {
+  resetInviteEmail: () => void;
+  pendingEmail?: string;
+  inviteEmail?: string;
+  isInviteEmailValid?: boolean;
+  confirmedEmail?: string;
+}
+
+const getEmailBannerProps = ({
+  resetInviteEmail,
+  pendingEmail,
+  inviteEmail,
+  isInviteEmailValid,
+  confirmedEmail,
+}: GetEmailBannerPropsArguments) => {
   if (pendingEmail) {
     return {
       initialContentState: AddEmailFormContentState.SUCCESS,
@@ -62,13 +70,13 @@ export const useEmailBannerProps = ({
 }: EmailData) => {
   return useMemo(
     () =>
-      getEmailBannerProps(
+      getEmailBannerProps({
         resetInviteEmail,
         pendingEmail,
         inviteEmail,
         isInviteEmailValid,
         confirmedEmail,
-      ),
+      }),
     [
       resetInviteEmail,
       pendingEmail,

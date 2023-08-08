@@ -2,6 +2,7 @@ import { Paper, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { Dot } from '@ankr.com/ui';
 import { TwoFAStatus } from 'multirpc-sdk';
+import { Variant } from '@mui/material/styles/createTypography';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { UserSettingsTwoFAStatusResult } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
@@ -44,8 +45,7 @@ export const TwoFABlock = () => {
                 </div>
                 <div className={classes.description}>
                   <Typography
-                    // @ts-ignore
-                    variant="body3"
+                    variant={'body3' as Variant}
                     color="textSecondary"
                   >
                     {tHTML(`${USER_SETTINGS_INTL_ROOT}.info`)}

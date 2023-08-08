@@ -30,40 +30,23 @@ import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useAutoconnect } from 'hooks/useAutoconnect';
-import { useBalance } from 'domains/account/hooks/useBalance';
-import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
-import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
 import {
   EnterpriseRoutes,
   EnterpriseRoutesConfig,
 } from 'domains/enterprise/routes';
-import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardAuthEnterpriseRoute } from 'domains/enterprise/components/GuardAuthEnterpriseRoute';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { ProjectsRoutes } from 'domains/projects/routes/Routes';
-import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
-import { useMyBundles } from 'domains/account/hooks/useMyBundles';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { ProjectsRoutes } from 'domains/projects/routes/Routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { useInitialization } from 'hooks/useInitialization';
 
+/* eslint-disable max-lines-per-function */
 export const Routes = () => {
   const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
-  const { isClient } = useEnterprise();
 
-  const hasAuthData = Boolean(isLoggedIn);
-
-  const { isUninitialized } = usePremiumStatusSubscription();
-
-  useBalance();
-  useAutoconnect();
-  useWeb3ThemeSwitcher();
-  useCheckChangedSignupUserSettingsAndUpdate();
-  useJwtManagerInitializer(!isReactSnap && isLoggedIn);
-  useMyBundles({ skipFetching: isReactSnap || !isLoggedIn });
+  useInitialization(isLoggedIn);
 
   return (
     <Switch>
@@ -133,7 +116,6 @@ export const Routes = () => {
         path={AccountRoutesConfig.cardPaymentSuccess.path}
         hasPremium={hasPremium}
         hasPrivateAccess={hasPrivateAccess}
-        isUninitialized={isUninitialized}
         render={() => (
           <DefaultLayout>
             <AccountRoutes />
@@ -146,7 +128,7 @@ export const Routes = () => {
           UserSettingsRoutesConfig.settings.path,
           UserSettingsRoutesConfig.confirmation.path,
         ]}
-        hasAuthData={hasAuthData}
+        hasAuthData={isLoggedIn}
         render={() => (
           <DefaultLayout>
             <CenterContainer>
@@ -177,7 +159,7 @@ export const Routes = () => {
         exact
         path={[EnterpriseRoutesConfig.chains.path]}
         render={() => (
-          <GuardAuthEnterpriseRoute isClient={isClient}>
+          <GuardAuthEnterpriseRoute>
             <Route
               exact
               path={EnterpriseRoutesConfig.chains.path}

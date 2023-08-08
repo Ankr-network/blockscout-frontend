@@ -8,8 +8,8 @@ export const isTenetEvm = (chainId: string) => {
   return chainId === ChainId.Tenet;
 };
 
-export const isHorizenTestnetEvm = (chainId: string) => {
-  return chainId === ChainId.HORIZEN_TESTNET_EVM;
+export const isHorizenEvm = (chainId: string) => {
+  return chainId === ChainId.HORIZEN_EON;
 };
 
 export const getRPCUrl = (chainId: ChainId) => {

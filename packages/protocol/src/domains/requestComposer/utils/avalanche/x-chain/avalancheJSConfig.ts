@@ -1,4 +1,6 @@
 /* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable max-params */
+
 import { ILibraryConfig } from 'domains/requestComposer/types/avalanche';
 import { XChainMethod } from 'domains/requestComposer/constants/avalanche';
 

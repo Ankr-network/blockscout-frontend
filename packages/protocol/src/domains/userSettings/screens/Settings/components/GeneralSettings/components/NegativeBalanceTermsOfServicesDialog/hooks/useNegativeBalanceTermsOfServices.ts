@@ -48,7 +48,7 @@ export const useNegativeBalanceTermsOfServices = () => {
 
   const shouldShowDialog = useMemo(
     () =>
-      shouldShowNegativeBalanceOfServiceDialog(
+      shouldShowNegativeBalanceOfServiceDialog({
         isLoggedIn,
         authLoading,
         isLoading,
@@ -57,7 +57,7 @@ export const useNegativeBalanceTermsOfServices = () => {
         isDevRole,
         hasPremium,
         isFinanceRole,
-      ),
+      }),
     [
       isLoggedIn,
       authLoading,

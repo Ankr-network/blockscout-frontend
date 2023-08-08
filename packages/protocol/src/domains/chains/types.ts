@@ -106,14 +106,17 @@ export enum ChainID {
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',
   HARMONY = 'harmony',
+
   HORIZEN = 'horizen',
   HORIZEN_EVM = 'horizen-evm',
   HORIZEN_TESTNET = 'horizen-testnet',
   HORIZEN_TESTNET_EVM = 'horizen-testnet-evm',
+
   HECO = 'heco',
   HECO_TESTNET = 'heco_testnet',
   IOTEX = 'iotex',
   IOTEX_TESTNET = 'iotex_testnet',
+
   KLAYTN = 'klaytn',
   KLAYTN_TESTNET = 'klaytn_testnet',
   KUSAMA = 'kusama',

@@ -41,14 +41,14 @@ export const {
             return { data: cachedData };
           }
 
-          const authData = await makeAuthorization(
+          const authData = await makeAuthorization({
             web3Service,
             service,
             dispatch,
-            walletId as EWalletId,
+            walletId: walletId as EWalletId,
             hasOauthLogin,
             totp,
-          );
+          });
 
           const { address, trackingWalletName: walletName } = authData;
 

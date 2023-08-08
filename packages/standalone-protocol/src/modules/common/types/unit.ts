@@ -1,6 +1,6 @@
 import {
   ChainId,
-  HORIZEN_TESTNET_NAME,
+  HORIZEN_NAME,
   ZKSYNC_ERA_NAME,
 } from 'domains/chains/api/chain';
 import { tHTML } from 'modules/i18n/utils/intl';
@@ -23,8 +23,8 @@ export const renderChainName = (chainId?: ChainId | string): string => {
     return 'Tenet';
   }
 
-  if (chainId === ChainId.HORIZEN_TESTNET_EVM) {
-    return HORIZEN_TESTNET_NAME;
+  if (chainId === ChainId.HORIZEN_EON) {
+    return HORIZEN_NAME;
   }
 
   if (chainId === ChainId.Ethereum) {

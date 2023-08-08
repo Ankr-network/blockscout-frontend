@@ -53,12 +53,19 @@ const getMappedNetwork = (
   };
 };
 
-export const getFlattenChain = (
-  publicChain: Chain,
-  chainType: ChainType,
-  group: EndpointGroup,
-  chainSubType?: ChainSubType,
-) => {
+interface GetFlattenChainArguments {
+  publicChain: Chain;
+  chainType: ChainType;
+  group: EndpointGroup;
+  chainSubType?: ChainSubType;
+}
+
+export const getFlattenChain = ({
+  publicChain,
+  chainType,
+  group,
+  chainSubType,
+}: GetFlattenChainArguments) => {
   const flatChainId = getChainId({
     publicChain,
     chainType,
@@ -83,11 +90,11 @@ export const getNetworkConfiguration = (
   const shouldFlatten = chainType && group;
 
   if (shouldFlatten) {
-    const { flatChainId, flatChain } = getFlattenChain(
+    const { flatChainId, flatChain } = getFlattenChain({
       publicChain,
       chainType,
       group,
-    );
+    });
 
     return getMappedNetwork(flatChain, flatChainId);
   }
@@ -102,7 +109,12 @@ const getFlattenChainAndId = ({
   group,
 }: IUseAddNetworkButtonParams) => {
   if (group && chainType) {
-    return getFlattenChain(chain, chainType, group, chainSubType);
+    return getFlattenChain({
+      publicChain: chain,
+      chainType,
+      group,
+      chainSubType,
+    });
   }
 
   return { flatChain: chain, flatChainId: chain.id };

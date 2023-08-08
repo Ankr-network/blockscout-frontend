@@ -13,13 +13,21 @@ export const isCreditAmount = (
   CREDIT_TYPE.includes(type) ||
   hasCreditAmount(creditAnkrAmount, creditUsdAmount);
 
-export const getAmount = (
-  type: string,
-  creditAnkrAmount: string,
-  creditUsdAmount: string,
-  amountAnkr: string,
-  amountUsd: string,
-) => {
+interface GetAmountArguments {
+  type: string;
+  creditAnkrAmount: string;
+  creditUsdAmount: string;
+  amountAnkr: string;
+  amountUsd: string;
+}
+
+export const getAmount = ({
+  type,
+  creditAnkrAmount,
+  creditUsdAmount,
+  amountAnkr,
+  amountUsd,
+}: GetAmountArguments) => {
   if (isCreditAmount(type, creditAnkrAmount, creditUsdAmount)) {
     return '';
   }

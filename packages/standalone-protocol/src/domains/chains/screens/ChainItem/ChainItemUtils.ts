@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import {
   ChainId,
-  HORIZEN_TESTNET_NAME,
+  HORIZEN_NAME,
   POLYGON_NAME,
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
@@ -11,8 +11,8 @@ import {
 } from 'domains/chains/api/chain';
 
 const renderChainName = (chainId: ChainId) => {
-  if (chainId === ChainId.HORIZEN_TESTNET_EVM) {
-    return HORIZEN_TESTNET_NAME;
+  if (chainId === ChainId.HORIZEN_EON) {
+    return HORIZEN_NAME;
   }
 
   if (chainId === ChainId.Polygon) {

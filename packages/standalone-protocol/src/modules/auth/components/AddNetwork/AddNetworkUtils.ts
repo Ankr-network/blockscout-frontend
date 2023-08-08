@@ -184,16 +184,15 @@ const ROLLUX_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://explorer.rollux.com/'],
 };
 
-// https://docs.tenet.org/mainnet-beta/tenet-mainnet
 const HORIZEN_NETWORK_PARAMS = {
-  chainId: 1663, // 0x67f
-  chainName: 'Horizen Gobi Testnet by Ankr Protocol',
+  chainId: 7332,
+  chainName: 'Horizen EON by Ankr Protocol',
   nativeCurrency: {
     name: 'Horizen',
-    symbol: 'tZEN',
+    symbol: 'ZEN',
     decimals: 18,
   },
-  blockExplorerUrls: ['https://gobi-testnet.horizenlabs.io/ethv1'],
+  blockExplorerUrls: ['https://eon-explorer.horizenlabs.io'],
 };
 
 const MANTLE_NETWORK_PARAMS = {
@@ -263,7 +262,7 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, ZKSYNC_ERA_PARAMS);
     case 'rollux':
       return mapParams(chain, ROLLUX_NETWORK_PARAMS);
-    case 'horizen_testnet_evm':
+    case 'horizen_eon':
       return mapParams(chain, HORIZEN_NETWORK_PARAMS);
     case 'mantle':
       return mapParams(chain, MANTLE_NETWORK_PARAMS);

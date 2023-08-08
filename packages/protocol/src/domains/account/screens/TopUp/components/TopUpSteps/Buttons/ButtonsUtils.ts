@@ -2,12 +2,19 @@ import { t } from '@ankr.com/common';
 
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 
-export const getButtonText = (
-  loading: boolean,
-  step: TopUpStep,
-  hasPrivateAccess: boolean,
-  hasError?: boolean,
-): string => {
+interface GetButtonTextArguments {
+  loading: boolean;
+  step: TopUpStep;
+  hasPrivateAccess: boolean;
+  hasError?: boolean;
+}
+
+export const getButtonText = ({
+  loading,
+  step,
+  hasPrivateAccess,
+  hasError,
+}: GetButtonTextArguments): string => {
   if (loading) {
     return t(`top-up-steps.button.${step}-loading`);
   }

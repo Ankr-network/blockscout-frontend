@@ -131,6 +131,7 @@ export const selectIsWeb3UserWithEmailBound = createSelector(
     hasWeb3Connection,
     hasUserEndpointToken,
     isUserEthAddressType,
+    // eslint-disable-next-line max-params
   ) =>
     !hasWeb3Connection &&
     hasOauthLogin &&
@@ -164,6 +165,7 @@ export const selectHasConnectWalletMessage = createSelector(
   selectHasWeb3Connection,
   selectHasPrivateAccess,
   selectIsUserEthAddressType,
+  // eslint-disable-next-line max-params
   (hasOauthLogin, hasWeb3Connection, hasPrivateAccess, isUserEthAddressType) =>
     hasOauthLogin &&
     !hasWeb3Connection &&

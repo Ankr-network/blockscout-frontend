@@ -6,6 +6,8 @@ import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { selectFirstBundlePaymentPlan } from 'domains/account/store/selectors';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useLazyFetchLinkForBundlePaymentQuery } from 'domains/account/actions/bundles/fetchLinkForBundlePayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
@@ -14,15 +16,20 @@ export const useBundlePayment = (trackSubmit?: TrackTopUpSubmit) => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const [fetchLink, { isLoading }] = useLazyFetchLinkForBundlePaymentQuery();
+  const emailData = useEmailData();
+  const { onOpen: openEmailDialog, ...emailDialogProps } = useDialog();
 
   const amount = price?.amount;
   const priceId = bundle?.price_id;
   const productId = bundle?.product_id;
+  const { confirmedEmail, pendingEmail } = emailData;
 
   const dispatch = useAppDispatch();
 
   const subscribe = useCallback(async () => {
-    if (productId && priceId) {
+    if (!confirmedEmail || pendingEmail) {
+      openEmailDialog();
+    } else if (productId && priceId) {
       dispatch(resetTopUpOrigin());
 
       const { data: url } = await fetchLink({ group, priceId, productId });
@@ -37,7 +44,18 @@ export const useBundlePayment = (trackSubmit?: TrackTopUpSubmit) => {
         window.location.href = url;
       }
     }
-  }, [amount, dispatch, fetchLink, group, priceId, productId, trackSubmit]);
+  }, [
+    amount,
+    confirmedEmail,
+    dispatch,
+    fetchLink,
+    group,
+    openEmailDialog,
+    pendingEmail,
+    priceId,
+    productId,
+    trackSubmit,
+  ]);
 
-  return { isLoading, subscribe };
+  return { emailData, emailDialogProps, isLoading, subscribe };
 };
