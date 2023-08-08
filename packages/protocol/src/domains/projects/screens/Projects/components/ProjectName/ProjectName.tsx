@@ -1,8 +1,10 @@
-import { Tooltip, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { Info } from '@ankr.com/ui';
 
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
+import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
 
 import { useProjectNameStyles } from './useProjectNameStyles';
 import { useProjectName } from './hooks/useProjectName';
@@ -20,10 +22,16 @@ export const ProjectName = ({
 }: ProjectNameProps) => {
   const { classes } = useProjectNameStyles();
 
-  const { copyText, shouldShowTooltip } = useProjectName(
-    userEndpointToken,
-    tokenIndex,
-  );
+  const {
+    copyText,
+    shouldConnectWallet,
+    isViewProjectDialogOpened,
+    onCloseViewProjectDialog,
+    handleDeleteProjectOpen,
+    onOpenViewProjectDialog,
+    isDeleteProjectDialogOpened,
+    onCloseDeleteProjectDialog,
+  } = useProjectName(userEndpointToken, tokenIndex);
 
   return (
     <div className={classes.root}>
@@ -31,15 +39,14 @@ export const ProjectName = ({
         <Typography variant="subtitle1" className={classes.name} noWrap>
           {projectName}
         </Typography>
-        {shouldShowTooltip && (
-          <Tooltip
-            title={t('projects.list-project.project-name-tooltip')}
-            placement="top"
-            className={classes.tooltip}
-          >
-            <Info />
-          </Tooltip>
-        )}
+        <Button
+          className={classes.button}
+          variant="text"
+          color="secondary"
+          onClick={onOpenViewProjectDialog}
+        >
+          <Info size={24} />
+        </Button>
       </div>
       <CopyToClipIcon
         className={classes.endpoint}
@@ -48,6 +55,19 @@ export const ProjectName = ({
         message={t('common.copy-message')}
         textClassName={classes.text}
         messageClassName={classes.message}
+      />
+      <DeleteProjectDialog
+        open={isDeleteProjectDialogOpened}
+        tokenIndex={tokenIndex}
+        onClose={onCloseDeleteProjectDialog}
+      />
+      <UserEndpointDialog
+        isOpened={isViewProjectDialogOpened}
+        onClose={onCloseViewProjectDialog}
+        shouldConnectWallet={shouldConnectWallet}
+        endpointToken={userEndpointToken}
+        tokenIndex={tokenIndex}
+        handleDeleteProjectOpen={handleDeleteProjectOpen}
       />
     </div>
   );
