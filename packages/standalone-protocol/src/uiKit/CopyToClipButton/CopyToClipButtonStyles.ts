@@ -47,7 +47,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
       },
     },
 
-    [`&.${ChainId.HORIZEN_TESTNET_EVM}`]: {
+    [`&.${ChainId.HORIZEN_EON}`]: {
       '& $content': {
         padding: 0,
         borderRadius: 12,

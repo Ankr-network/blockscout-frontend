@@ -34,7 +34,7 @@ import { ReactComponent as ZksyncEraLogo } from 'assets/img/logo/zksync_era.svg'
 import { ReactComponent as ZksyncEraMobileLogo } from 'assets/img/logo/zksync_era_mobile.svg';
 import {
   ChainId,
-  HORIZEN_TESTNET_NAME,
+  HORIZEN_NAME,
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
   ZKSYNC_ERA_NAME,
@@ -93,10 +93,10 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://harmony.public-rpc.com/',
   },
   {
-    chainId: ChainId.HORIZEN_TESTNET_EVM,
-    name: HORIZEN_TESTNET_NAME,
+    chainId: ChainId.HORIZEN_EON,
+    name: HORIZEN_NAME,
     logo: isMobileSiderBar ? <HorizenMobileLogo /> : <HorizenLogo />,
-    url: 'https://horizen_testnet_evm.public-rpc.com/',
+    url: 'https://horizen_eon.public-rpc.com/',
   },
   {
     chainId: ChainId.Fantom,
