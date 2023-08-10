@@ -1,12 +1,15 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles()(theme => ({
-  form: {
+export const useNativeFormStyles = makeStyles()(theme => ({
+  root: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
 
-    gap: theme.spacing(4),
+    flexGrow: 1,
+  },
+  nativeFormInner: {
+    width: '100%',
   },
   amountLabel: {
     marginBottom: theme.spacing(2),
@@ -19,16 +22,11 @@ export const useStyles = makeStyles()(theme => ({
   amount: {
     marginTop: 'auto',
     marginBottom: 'auto',
+
     [theme.breakpoints.down('sm')]: {
       marginTop: 'unset',
       marginBottom: 'unset',
     },
-  },
-  button: {
-    width: '100%',
-    height: 48,
-
-    borderRadius: 17,
   },
   info: {
     color: theme.palette.text.primary,
