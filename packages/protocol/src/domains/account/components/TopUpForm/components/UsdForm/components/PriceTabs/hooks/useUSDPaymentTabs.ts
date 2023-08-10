@@ -4,23 +4,22 @@ import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkF
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
 import { useTabs } from 'modules/common/hooks/useTabs';
 
-import { USDSubscriptionPricesTabsProps } from '../USDSubscriptionPricesTabsTypes';
+import { OnChange } from '../../../types';
 import { getUSDPaymentTabs } from '../utils/getUSDPaymentTabs';
 import { usePrices } from './usePrices';
 
-export type OnChange = USDSubscriptionPricesTabsProps['onChange'];
-
 export const useUSDPaymentTabs = (
   onChange: OnChange,
-  tabClassName: string,
   initialTabID = ONE_TIME_PAYMENT_ID,
 ) => {
   const { prices, loading: pricesLoading } = usePrices();
-  const { bundles, loading: bundlesLoading } = useBundlePaymentPlans();
+  const { bundles, loading: bundlesLoading } = useBundlePaymentPlans({
+    skipFetching: true,
+  });
 
   const rawTabs = useMemo(
-    () => getUSDPaymentTabs({ bundles, prices, onChange, tabClassName }),
-    [bundles, prices, onChange, tabClassName],
+    () => getUSDPaymentTabs({ bundles, prices, onChange }),
+    [bundles, prices, onChange],
   );
 
   const [tabs, selectedTab] = useTabs({ initialTabID, tabs: rawTabs });
