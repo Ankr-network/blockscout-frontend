@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import {
   Chain,
   ChainID,
-  ChainsAthens2,
-  ChainsAthens3,
+  ZETACHAIN_ATHENS2_CHAINS,
+  ZETACHAIN_ATHENS3_CHAINS,
   ChainSubType,
 } from 'domains/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
@@ -29,11 +29,11 @@ const getInitialChainSubType = (
 ): ChainSubType | undefined => {
   if (id === ChainID.ZETACHAIN) {
     if (netId) {
-      if (ChainsAthens2.includes(netId as ChainID)) {
+      if (ZETACHAIN_ATHENS2_CHAINS.includes(netId as ChainID)) {
         return ChainSubType.Athens2;
       }
 
-      if (ChainsAthens3.includes(netId as ChainID)) {
+      if (ZETACHAIN_ATHENS3_CHAINS.includes(netId as ChainID)) {
         return ChainSubType.Athens3;
       }
     }

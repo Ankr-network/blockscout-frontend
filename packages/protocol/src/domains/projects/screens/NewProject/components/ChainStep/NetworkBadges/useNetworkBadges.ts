@@ -10,15 +10,19 @@ import { Chain, ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 
 import { useProjectFormValues } from '../../../hooks/useProjectFormValues';
-
-const getSelectedChains = (chains: Chain[], selectedIds: ChainID[]) =>
-  chains.filter(chain => selectedIds.includes(chain.id));
+import { getCurrentChainSelectedExtensions, getSelectedChains } from './utils';
 
 export const useNetworkBadges = (
   chain: Chain,
   setSelectedChainsIds: Dispatch<SetStateAction<ChainID[]>>,
 ) => {
-  const { id, testnets = [], devnets = [], extensions = [] } = chain;
+  const {
+    id,
+    testnets = [],
+    devnets = [],
+    extensions = [],
+    extenders = [],
+  } = chain;
 
   const {
     selectedMainnetIds,
@@ -28,8 +32,13 @@ export const useNetworkBadges = (
   } = useProjectFormValues();
 
   const currentChainSelectedExtensions = useMemo(
-    () => getSelectedChains(extensions, selectedMainnetIds),
-    [extensions, selectedMainnetIds],
+    () =>
+      getCurrentChainSelectedExtensions({
+        chainId: chain.id,
+        subChains: [...extensions, ...extenders], // we need to add extenders for ChainID.SECRET and ChainID.NERVOS
+        selectedMainnetIds,
+      }),
+    [chain.id, extenders, extensions, selectedMainnetIds],
   );
 
   const isCurrentChainMainnetSelected: boolean = useMemo(

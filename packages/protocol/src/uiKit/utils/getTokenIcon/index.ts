@@ -161,6 +161,11 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET]: zetachainIcon,
   [ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET]: zetachainIcon,
   [ChainID.ZETACHAIN_TESTNET]: zetachainIcon,
+  [ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET]: zetachainIcon,
+  [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: zetachainIcon,
+  [ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET]: zetachainIcon,
+  [ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET]: zetachainIcon,
+  [ChainID.ZETACHAIN_ATHENS_TESTNET]: zetachainIcon,
   [ChainID.ZKSYNC_ERA]: zksyncEraIcon,
 };
 
@@ -201,8 +206,12 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
 };
 
 const chainNameIcons: Record<string, string> = {
-  zetachain_evm_athens_testnet: zetachainIcon,
+  zetachain_testnet: zetachainIcon,
   zetachain_evm_testnet: zetachainIcon,
+  zetachain_tendermint_testnet: zetachainIcon,
+  zetachain_athens_testnet: zetachainIcon,
+  zetachain_evm_athens_testnet: zetachainIcon,
+  zetachain_tendermint_athens_testnet: zetachainIcon,
   tenet_evm: tenetIcon,
   horizen_eon: horizenIcon,
   horizen_gobi_testnet: horizenIcon,
