@@ -28,6 +28,18 @@ export const getFallbackEndpointGroup = (
   };
 };
 
+export const tendermintRpcChains = [
+  ChainID.SECRET_RPC,
+  ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+];
+
+export const tendermintRestChains = [
+  ChainID.SECRET_REST,
+  ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
+  ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+];
+
 export const chainGroups: ChainGroup[] = [
   {
     id: ChainGroupID.STANDARD_EVM,
@@ -206,21 +218,13 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.SECRET_RPC,
     name: getName('tendermint-rpc'),
     pluralName: getName('tendermint-rpc', true),
-    chains: [
-      ChainID.SECRET_RPC,
-      ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
-      ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
-    ],
+    chains: tendermintRpcChains,
   },
   {
     id: ChainGroupID.SECRET_REST,
     name: getName('tendermint-rest'),
     pluralName: getName('tendermint-rest', true),
-    chains: [
-      ChainID.SECRET_REST,
-      ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
-      ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
-    ],
+    chains: tendermintRestChains,
   },
   {
     id: ChainGroupID.SECRET_COSMOS_REST,

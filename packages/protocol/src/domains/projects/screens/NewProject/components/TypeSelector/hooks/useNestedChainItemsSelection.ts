@@ -1,14 +1,16 @@
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useForm } from 'react-final-form';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainID, ChainType } from 'domains/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
 import { EndpointGroup } from 'modules/endpoints/types';
 
-export interface NestedItem extends EndpointGroup {
-  chainId: string;
+export interface NestedItemBase {
+  chainId: ChainID;
   label: string;
 }
+
+export type NestedItem = EndpointGroup & NestedItemBase;
 
 type ChainTypeField = Exclude<ChainStepFields, 'projectName' | 'tokenIndex'>;
 

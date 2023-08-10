@@ -68,10 +68,13 @@ export const useChainRow = ({
       }
 
       /* we need to select mainnet by default on modal open if chain was not selected earlier */
-      change(ChainStepFields.selectedMainnetIds, [
-        ...currentSelectedMainnetIds,
-        id,
-      ]);
+      /* but for SECRET network should be used extenders instead of mainnet id and ZETACHAIN is testnet only */
+      if (id !== ChainID.SECRET && id !== ChainID.ZETACHAIN) {
+        change(ChainStepFields.selectedMainnetIds, [
+          ...currentSelectedMainnetIds,
+          id,
+        ]);
+      }
 
       /* in this case we have no chains to select. there is a single option,
       so no need to open the modal. in this case we need to select chain id */

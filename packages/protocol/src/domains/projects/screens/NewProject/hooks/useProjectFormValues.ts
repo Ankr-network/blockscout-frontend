@@ -7,25 +7,21 @@ export const getMainnetChains = (
   previouslySelectedMainnetIds: ChainID[],
   chains?: Chain[],
 ) => {
-  const selectedMainnetChains =
-    chains?.filter(({ id }) => previouslySelectedMainnetIds.includes(id)) || [];
-
-  const selectedMainnetExtensions =
-    chains?.filter(({ extensions = [] }) =>
-      extensions.some(extension =>
-        previouslySelectedMainnetIds.includes(extension.id),
-      ),
-    ) || [];
-
-  if (selectedMainnetChains?.length > 0) {
-    return selectedMainnetChains;
+  if (!chains) {
+    return [];
   }
 
-  if (selectedMainnetExtensions?.length > 0) {
-    return selectedMainnetExtensions;
-  }
+  const selectedMainnetChains = chains.filter(({ id }) =>
+    previouslySelectedMainnetIds.includes(id),
+  );
 
-  return [];
+  const selectedMainnetExtensions = chains.filter(({ extensions = [] }) =>
+    extensions.some(extension =>
+      previouslySelectedMainnetIds.includes(extension.id),
+    ),
+  );
+
+  return [...selectedMainnetChains, ...selectedMainnetExtensions];
 };
 
 export const getTestnetChains = (
@@ -33,7 +29,10 @@ export const getTestnetChains = (
   chains?: Chain[],
 ) =>
   chains?.filter(({ id, testnets }) => {
-    if (isTestnetOnlyChain(id)) {
+    // zetachain is testnet only but has custom config that includes mainnet.
+    // so we have to ignore isTestnetOnlyChain condition
+    // and use common case for this chain to get testnet chains
+    if (isTestnetOnlyChain(id) && id !== ChainID.ZETACHAIN) {
       return previouslySelectedIds.includes(id);
     }
 

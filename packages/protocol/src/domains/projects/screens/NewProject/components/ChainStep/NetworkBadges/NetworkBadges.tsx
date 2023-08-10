@@ -11,6 +11,7 @@ import { useNetworkBadges } from './useNetworkBadges';
 import { NetworkBadgeItem } from './NetworkBadgeItem';
 import { useNetworksBadgesStyles } from './useNetworksBadgesStyles';
 import { isChainHasSingleOptionToSelect } from '../../../utils/isChainHasSingleOptionToSelect';
+import { getCustomLabelWithZetachainPrefix } from '../../../utils/getCustomLabelWithZetachainPrefix';
 
 interface NetworkBadgesProps {
   chain: Chain;
@@ -67,7 +68,7 @@ export const NetworkBadges = ({
       return chains.map(({ id, name }) => (
         <NetworkBadgeItem
           key={id}
-          name={name}
+          name={getCustomLabelWithZetachainPrefix({ chainId: id, label: name })}
           onRemove={() => handleRemove(id, fieldName, selectedIds)}
         />
       ));

@@ -7,7 +7,7 @@ import {
 import { t } from '@ankr.com/common';
 
 import { ChainType } from 'domains/chains/types';
-import { EndpointGroup } from 'modules/endpoints/types';
+import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
@@ -17,7 +17,13 @@ import {
 } from './hooks/useAllChainsSelection';
 
 const mapEndpoints = (endpoints: EndpointGroup[]) => {
-  return endpoints.map(endpoint => ({
+  // JSON-RPC and REST Tendermint subchains have the same path,
+  // so should we ignore JSON-RPC endpoints and show REST
+  const filteredEndpoints = endpoints.filter(
+    endpoint => endpoint.id !== ChainGroupID.SECRET_RPC,
+  );
+
+  return filteredEndpoints.map(endpoint => ({
     ...endpoint,
     label: endpoint.name,
     chainId: endpoint.chains[0].id,

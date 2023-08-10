@@ -51,9 +51,18 @@ export const useChainsSelector = (
     onBlockedTabClick,
   });
 
+  const isZetaChain = chainSelectItem?.id === ChainID.ZETACHAIN;
+
+  // Zetachain is testnet only so mainnet is not available
+  const chainTypesForTypeSelector = isZetaChain
+    ? chainTypes.filter(type => type.value !== ChainType.Mainnet)
+    : chainTypes;
+
+  const hasTypeSelector = !isTestnetOnlyChainSelected || isZetaChain;
+
   return {
     chainProtocolContext,
-    chainTypes,
+    chainTypes: chainTypesForTypeSelector,
     selectType,
     groups,
     selectGroup,
@@ -62,5 +71,6 @@ export const useChainsSelector = (
     groupId: groupID,
     endpoints,
     detailsChainId,
+    hasTypeSelector,
   };
 };

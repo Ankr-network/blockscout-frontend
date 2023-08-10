@@ -1,6 +1,10 @@
 import { EndpointGroup } from 'modules/endpoints/types';
 
-import { ChainsAthens2, ChainsAthens3, ChainSubType } from '../../../types';
+import {
+  ZETACHAIN_ATHENS2_CHAINS,
+  ZETACHAIN_ATHENS3_CHAINS,
+  ChainSubType,
+} from '../../../types';
 
 interface FilterEndpointsByChainSubTypeParams {
   groupEndpoints: EndpointGroup[];
@@ -14,13 +18,13 @@ export const filterEndpointsByChainSubType = ({
   return groupEndpoints.filter(endpoint => {
     if (chainSubType === ChainSubType.Athens2) {
       return endpoint.chains.some(endpointChain =>
-        ChainsAthens2.includes(endpointChain.id),
+        ZETACHAIN_ATHENS2_CHAINS.includes(endpointChain.id),
       );
     }
 
     if (chainSubType === ChainSubType.Athens3) {
       return endpoint.chains.some(endpointChain =>
-        ChainsAthens3.includes(endpointChain.id),
+        ZETACHAIN_ATHENS3_CHAINS.includes(endpointChain.id),
       );
     }
 
