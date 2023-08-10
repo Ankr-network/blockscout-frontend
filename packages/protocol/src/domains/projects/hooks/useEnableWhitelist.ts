@@ -8,6 +8,7 @@ import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ChainID } from 'domains/chains/types';
+import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
@@ -65,6 +66,11 @@ export const useEnableWhitelist = () => {
     useLazyAddToWhitelistQuery();
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();
+  const [
+    updateJwtTokenFreezeStatus,
+    { isLoading: isJwtTokenFreezeStatusLoading },
+  ] = useLazyUpdateJwtTokenFreezeStatusQuery();
+
   const { project = {}, handleResetConfig } = useProjectConfig();
 
   const { userEndpointToken, whitelistItems } = useMemo(
@@ -134,6 +140,16 @@ export const useEnableWhitelist = () => {
     return error;
   }, [updateWhitelistMode, userEndpointToken, groupAddress]);
 
+  const handleUpdateJwtTokenFreezeStatus = useCallback(async () => {
+    const { error } = await updateJwtTokenFreezeStatus({
+      token: userEndpointToken,
+      group: groupAddress,
+      freeze: false,
+    });
+
+    return error;
+  }, [updateJwtTokenFreezeStatus, userEndpointToken, groupAddress]);
+
   const handleEnableWhitelist = useCallback(
     async (shouldReset = true) => {
       const error = await handleAddAddressToWhitelist();
@@ -144,18 +160,29 @@ export const useEnableWhitelist = () => {
 
       if (updateWhitelistError) return false;
 
+      const updateJwtTokenFreezeStatusError =
+        await handleUpdateJwtTokenFreezeStatus();
+
+      if (updateJwtTokenFreezeStatusError) return false;
+
       if (shouldReset) handleResetConfig();
 
       return true;
     },
-    [handleAddAddressToWhitelist, handleResetConfig, handleUpdateWhitelistMode],
+    [
+      handleAddAddressToWhitelist,
+      handleResetConfig,
+      handleUpdateWhitelistMode,
+      handleUpdateJwtTokenFreezeStatus,
+    ],
   );
 
   return {
-    handleAddAddressToWhitelist,
-    handleUpdateWhitelistMode,
     handleEnableWhitelist,
-    isLoading: isAddToWhitelistLoading || isWhitelistModeLoading,
     handleResetConfig,
+    isLoading:
+      isAddToWhitelistLoading ||
+      isWhitelistModeLoading ||
+      isJwtTokenFreezeStatusLoading,
   };
 };

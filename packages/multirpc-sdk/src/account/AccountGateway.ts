@@ -64,6 +64,9 @@ import {
   IUpdateWhitelistParamsResponse,
   IGetWhitelistParams,
   IGetWhitelistParamsResponse,
+  IJwtTokenCreateParams,
+  IUpdateJwtTokenFreezeStatusParams,
+  IUpdateJwtTokenFreezeStatusRequestParams,
 } from './types';
 
 export class AccountGateway {
@@ -456,11 +459,24 @@ export class AccountGateway {
   }
 
   async createJwtToken(
-    params: IJwtTokenRequestParams,
+    params: IJwtTokenCreateParams,
   ): Promise<IJwtTokenResponse> {
     const { data } = await this.api.post<IJwtTokenResponse>(
       `/api/v1/auth/jwt/additional`,
       null,
+      { params },
+    );
+
+    return data;
+  }
+
+  async updateJwtTokenFreezeStatus(
+    params: IUpdateJwtTokenFreezeStatusParams,
+    bodyParams: IUpdateJwtTokenFreezeStatusRequestParams,
+  ) {
+    const { data } = await this.api.patch<null>(
+      '/api/v1/auth/jwt/additional/freeze',
+      bodyParams,
       { params },
     );
 
