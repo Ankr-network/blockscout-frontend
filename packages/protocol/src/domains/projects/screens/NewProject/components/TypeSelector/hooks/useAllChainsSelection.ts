@@ -5,6 +5,7 @@ import { SelectMenuProps } from 'modules/common/components/ProjectSelect/Project
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { ChainStepFields } from 'domains/projects/store';
 import { ChainID } from 'domains/chains/types';
+import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
 
 import { useProjectFormValues } from '../../../hooks/useProjectFormValues';
 
@@ -23,13 +24,20 @@ export const useAllChainsSelection = ({
     onChange: onFormChange,
   } = useProjectFormValues();
 
-  const allAvailableMainnetIds = endpoints.mainnet.map(
-    endpoint => endpoint.chains[0].id,
-  );
+  const allAvailableMainnetIds = endpoints.mainnet
+    .map(endpoint => endpoint.chains[0].id)
+    // zetachain is testnet only but has custom config that includes mainnet.
+    // So we need to filter this endpoint from available mainnet ids
+    .filter(chainId => chainId !== ChainID.ZETACHAIN)
+    // JSON-RPC and REST Tendermint subchains have the same path,
+    // so should we ignore JSON-RPC endpoints and show REST
+    .filter(chainId => !tendermintRpcChains.includes(chainId));
 
-  const allAvailableTestnetIds = endpoints.testnet.map(
-    endpoint => endpoint.chains[0].id,
-  );
+  const allAvailableTestnetIds = endpoints.testnet
+    .map(endpoint => endpoint.chains[0].id)
+    // JSON-RPC and REST Tendermint subchains have the same path,
+    // so should we ignore JSON-RPC endpoints and show REST
+    .filter(chainId => !tendermintRpcChains.includes(chainId));
 
   const allAvailableDevnetIds = endpoints.devnet.map(
     endpoint => endpoint.chains[0].id,

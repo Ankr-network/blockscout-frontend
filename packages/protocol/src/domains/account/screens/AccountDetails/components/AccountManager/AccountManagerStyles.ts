@@ -36,6 +36,11 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
     gridArea: 'top-up',
 
     background: theme.palette.background.paper,
+    padding: theme.spacing(7.5),
+
+    [theme.breakpoints.down('md')]: {
+      padding: theme.spacing(6),
+    },
   },
   currentPlan: {
     gridArea: 'current-plan',

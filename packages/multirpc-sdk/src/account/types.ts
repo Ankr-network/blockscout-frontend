@@ -528,6 +528,18 @@ export interface IJwtTokenRequestParams extends IApiUserGroupParams {
   totp?: string;
 }
 
+export interface IJwtTokenCreateParams extends IApiUserGroupParams {
+  index: number;
+}
+
+export interface IUpdateJwtTokenFreezeStatusParams extends IApiUserGroupParams {
+  token: string;
+}
+
+export interface IUpdateJwtTokenFreezeStatusRequestParams {
+  freeze: boolean;
+}
+
 export interface IJwtTokenLimitResponse {
   jwtLimit: number;
 }

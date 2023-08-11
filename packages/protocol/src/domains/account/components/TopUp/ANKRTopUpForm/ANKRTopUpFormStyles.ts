@@ -6,7 +6,7 @@ export const useStyles = makeStyles()(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
 
-    flexGrow: 1,
+    gap: theme.spacing(4),
   },
   amountLabel: {
     marginBottom: theme.spacing(2),

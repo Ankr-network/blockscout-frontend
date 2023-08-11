@@ -1,11 +1,12 @@
 import { ReactNode } from 'react';
 
+import { AccountDetailsTopUp } from 'domains/account/screens/AccountDetails/components/AccountDetailsTopUp';
+
 import { ContactSalesForm } from '../components/ContactSalesForm';
 import { ContentType, Plan } from '../types';
 import { DefaultContent } from '../components/DefaultContent';
 import { SignUpContent } from '../components/SignUpContent';
 import { TopUpCurrency } from '../components/TopUpForm/types';
-import { TopUpForm } from '../components/TopUpForm';
 
 const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
   ContentType;
@@ -24,7 +25,6 @@ export interface ContentParams {
 
 export const getContent = ({
   contentType,
-  currency,
   enterpriseUpgradeHandler,
   freeUpgradeHandler,
   onClose,
@@ -43,7 +43,7 @@ export const getContent = ({
       />
     ),
     [SIGN_UP]: <SignUpContent onClose={onClose} onGoogleSignUp={resetTitle} />,
-    [TOP_UP]: <TopUpForm currency={currency} />,
+    [TOP_UP]: <AccountDetailsTopUp />,
     [CONTACT_SALES_FORM]: <ContactSalesForm onSubmit={onSubmitContactForm} />,
     [CONTACT_SALES_SUCCESS]: (
       <ContactSalesForm onSubmit={onSubmitContactForm} />

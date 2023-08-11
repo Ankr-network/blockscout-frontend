@@ -23,6 +23,7 @@ export const ChainSelectList = ({
     isTestnetOnlyChainSelected: isTestnetOnlyChain,
     chainType,
     endpoints,
+    hasTypeSelector,
   } = useChainsSelector(chainId, onOpenDialog);
 
   const isVisible = useChainSelectVisibility({
@@ -35,14 +36,12 @@ export const ChainSelectList = ({
 
   const { classes } = useChainSelectorContentStyles();
 
-  if (!isVisible) return null;
+  if (!isVisible || !hasTypeSelector) return null;
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <div className={classes.selectors}>
-        {!isTestnetOnlyChain && (
-          <TypeSelector chainTypes={chainTypes} endpoints={endpoints} />
-        )}
+        <TypeSelector chainTypes={chainTypes} endpoints={endpoints} />
       </div>
     </ChainProtocolContext.Provider>
   );

@@ -7,6 +7,7 @@ import {
   useNestedChainItemsSelection,
 } from './hooks/useNestedChainItemsSelection';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
+import { getCustomLabelWithZetachainPrefix } from '../../utils/getCustomLabelWithZetachainPrefix';
 
 interface IndeterminateCheckboxProps {
   parentLabel: string;
@@ -57,7 +58,7 @@ const IndeterminateCheckbox = ({
                 label: classes.label,
               }}
               key={item.chainId}
-              label={item.label}
+              label={getCustomLabelWithZetachainPrefix(item)}
               control={
                 <Checkbox
                   checked={checkedItems.includes(item.chainId)}
