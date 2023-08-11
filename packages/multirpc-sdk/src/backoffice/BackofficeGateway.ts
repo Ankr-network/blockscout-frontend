@@ -53,6 +53,12 @@ import {
   GetUserGroupResponse,
   DeleteUserGroupRequest,
   DeleteUserGroupResponse,
+  GetUserProjectsResponse,
+  GetUserProjectsRequest,
+  DeleteUserProjectParams,
+  DeleteUserProjectResponse,
+  SetUserProjectAllowedJwtNumberParams,
+  SetUserProjectAllowedJwtNumberResponse,
 } from './types';
 import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
@@ -151,7 +157,7 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getAdminRoles(): Promise<IGetAdminRolesResponse> {
     const { data } = await this.api.get<IGetAdminRolesResponse>('/roles');
 
-    return data
+    return data;
   }
 
   async getUserTotal(
@@ -225,19 +231,18 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getUsersRegistrations(
     params: GetUsersRegistrationsRequest,
   ): Promise<GetUsersRegistrationsResponse> {
-    const { data: response } = await this.api.get<GetUsersRegistrationsResponse>(
-      '/users/registrations',
-      {
-        params,
-      },
-    );
+    const { data: response } =
+      await this.api.get<GetUsersRegistrationsResponse>(
+        '/users/registrations',
+        {
+          params,
+        },
+      );
 
     return response;
   }
 
-  async setUserGroup(
-    body: SetUserGroupRequest,
-  ): Promise<SetUserGroupResponse> {
+  async setUserGroup(body: SetUserGroupRequest): Promise<SetUserGroupResponse> {
     const { data: response } = await this.api.post<SetUserGroupResponse>(
       '/users/group/addUser',
       body,
@@ -250,9 +255,11 @@ export class BackofficeGateway implements IBackofficeGateway {
     params: DeleteFromUserGroupRequest,
   ): Promise<DeleteFromUserGroupResponse> {
     const { data } = await this.api.delete<DeleteFromUserGroupResponse>(
-      '/users/group/user', {
-      params,
-    });
+      '/users/group/user',
+      {
+        params,
+      },
+    );
 
     return data;
   }
@@ -301,10 +308,48 @@ export class BackofficeGateway implements IBackofficeGateway {
       '/users/group',
       {
         params,
-      }
+      },
     );
 
     return data;
+  }
+
+  async getUserProjects(
+    params: GetUserProjectsRequest,
+  ): Promise<GetUserProjectsResponse> {
+    const { data: response } = await this.api.get<GetUserProjectsResponse>(
+      '/users/projects',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async setUserProjectAllowedJwtNumber(
+    params: SetUserProjectAllowedJwtNumberParams,
+  ): Promise<SetUserProjectAllowedJwtNumberResponse> {
+    const { data: response } =
+      await this.api.post<SetUserProjectAllowedJwtNumberResponse>(
+        '/users/setAllowedJwtNumber',
+        params,
+      );
+
+    return response;
+  }
+
+  async deleteUserProject(
+    params: DeleteUserProjectParams,
+  ): Promise<DeleteUserProjectResponse> {
+    const { data: response } = await this.api.delete<DeleteUserProjectResponse>(
+      '/users/projects',
+      {
+        params,
+      },
+    );
+
+    return response;
   }
 
   async createTestPremiumUser(
@@ -340,7 +385,9 @@ export class BackofficeGateway implements IBackofficeGateway {
     return response;
   }
 
-  async getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse> {
+  async getWebsocketStats(
+    params: IWebsocketStatsRequest,
+  ): Promise<IWebsocketStatsResponse> {
     const { data: response } = await this.api.get<IWebsocketStatsResponse>(
       '/stats/websockets',
       {
@@ -351,13 +398,13 @@ export class BackofficeGateway implements IBackofficeGateway {
     return response;
   }
 
-  async getArchiveRequestsStats(params: IArchiveRequestsStatsRequest): Promise<IArchiveRequestsStatsResponse> {
-    const { data: response } = await this.api.get<IArchiveRequestsStatsResponse>(
-      '/stats/archives',
-      {
+  async getArchiveRequestsStats(
+    params: IArchiveRequestsStatsRequest,
+  ): Promise<IArchiveRequestsStatsResponse> {
+    const { data: response } =
+      await this.api.get<IArchiveRequestsStatsResponse>('/stats/archives', {
         params,
-      },
-    );
+      });
 
     return response;
   }

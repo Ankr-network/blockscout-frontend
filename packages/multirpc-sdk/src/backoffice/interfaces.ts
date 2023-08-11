@@ -50,6 +50,12 @@ import {
   DeleteUserGroupResponse,
   CreateUserGroupRequest,
   CreateUserGroupResponse,
+  GetUserProjectsRequest,
+  GetUserProjectsResponse,
+  DeleteUserProjectParams,
+  DeleteUserProjectResponse,
+  SetUserProjectAllowedJwtNumberParams,
+  SetUserProjectAllowedJwtNumberResponse,
 } from './types';
 import { IBlockchainEntity } from '../common';
 
@@ -68,9 +74,17 @@ export interface IBackofficeGateway {
     params: IEmailBindingsRequest,
   ): Promise<IEmailBindingsResponse>;
 
-  createUserEmail(params: IUpdateUserEmailRequest): Promise<IUpdateUserEmailResponse>
+  createUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse>;
 
-  updateUserEmail(params: IUpdateUserEmailRequest): Promise<IUpdateUserEmailResponse>
+  setUserProjectAllowedJwtNumber(
+    params: SetUserProjectAllowedJwtNumberParams,
+  ): Promise<SetUserProjectAllowedJwtNumberResponse>;
+
+  updateUserEmail(
+    params: IUpdateUserEmailRequest,
+  ): Promise<IUpdateUserEmailResponse>;
 
   getAdminRoles(): Promise<IGetAdminRolesResponse>;
 
@@ -98,9 +112,13 @@ export interface IBackofficeGateway {
     params: IUserStatsByRangeRequest,
   ): Promise<IUserStatsResponse>;
 
-  getWebsocketStats(params: IWebsocketStatsRequest): Promise<IWebsocketStatsResponse>
+  getWebsocketStats(
+    params: IWebsocketStatsRequest,
+  ): Promise<IWebsocketStatsResponse>;
 
-  getArchiveRequestsStats(params: IArchiveRequestsStatsRequest): Promise<IArchiveRequestsStatsResponse>
+  getArchiveRequestsStats(
+    params: IArchiveRequestsStatsRequest,
+  ): Promise<IArchiveRequestsStatsResponse>;
 
   getUserAddresses(
     params: GetUserAddressesRequest,
@@ -110,21 +128,15 @@ export interface IBackofficeGateway {
     params: GetUsersRegistrationsRequest,
   ): Promise<GetUsersRegistrationsResponse>;
 
-  setUserGroup(
-    params: SetUserGroupRequest,
-  ): Promise<SetUserGroupResponse>;
+  setUserGroup(params: SetUserGroupRequest): Promise<SetUserGroupResponse>;
 
   deleteFromUserGroup(
     params: DeleteFromUserGroupRequest,
   ): Promise<DeleteFromUserGroupResponse>;
 
-  getUserGroups(
-    params: GetUserGroupsRequest,
-  ): Promise<GetUserGroupsResponse>;
+  getUserGroups(params: GetUserGroupsRequest): Promise<GetUserGroupsResponse>;
 
-  getUserGroup(
-    params: GetUserGroupRequest,
-  ): Promise<GetUserGroupResponse>;
+  getUserGroup(params: GetUserGroupRequest): Promise<GetUserGroupResponse>;
 
   deleteUserGroup(
     params: DeleteUserGroupRequest,
@@ -133,6 +145,14 @@ export interface IBackofficeGateway {
   createUserGroup(
     params: CreateUserGroupRequest,
   ): Promise<CreateUserGroupResponse>;
+
+  getUserProjects(
+    params: GetUserProjectsRequest,
+  ): Promise<GetUserProjectsResponse>;
+
+  deleteUserProject(
+    params: DeleteUserProjectParams,
+  ): Promise<DeleteUserProjectResponse>;
 
   addVoucherCredits(
     body: IAddVoucherCreditsRequest,

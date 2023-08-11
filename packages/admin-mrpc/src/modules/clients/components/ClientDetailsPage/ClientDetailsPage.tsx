@@ -56,6 +56,8 @@ export const ClientDetailsPage = () => {
     isCurrentDayIncluded,
     isRangePeriod,
     clientsErrors,
+    userProjectsData,
+    isLoadingUserProjects,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
@@ -75,6 +77,8 @@ export const ClientDetailsPage = () => {
         totalData={totalData}
         isLoadingTotal={isLoadingTotal}
         clientsErrors={clientsErrors}
+        userProjectsData={userProjectsData}
+        isLoadingUserProjects={isLoadingUserProjects}
       />
 
       <>

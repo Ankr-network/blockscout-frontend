@@ -14,5 +14,18 @@
       "title": "User Groups:",
       "no-groups": "No user groups found"
     }
+  },
+  "projects": {
+    "view": {
+      "title": "User projects",
+      "modal-button": "Set allowed projects count",
+      "project-index": "Project index: {index}",
+      "delete-button": "Delete"
+    },
+    "modal": {
+      "title": "Set projects limit",
+      "placeholder": "type limit number",
+      "submit-button": "Set allowed projects limit"
+    }
   }
 }
