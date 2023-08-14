@@ -6,10 +6,12 @@ import { Project } from 'domains/projects/utils/getAllProjects';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { SoonLabel } from 'modules/common/components/SoonLabel';
+import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 
 import { ActiveLabel } from '../../ActiveLabel';
 import { ProjectName } from '../../ProjectName';
 import { BlockchainIcon } from '../../BlockchainIcon';
+import { ActionsMenu } from '../../ActionsMenu';
 import {
   formatBlockchainToString,
   getProjectActivity,
@@ -133,6 +135,18 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
         return <ProjectRequestsActivity {...activityToday} />;
       },
       sortable: false,
+    },
+    {
+      field: 'menu',
+      headerName: '',
+      render: ({ tokenIndex }) => (
+        <ActionsMenu
+          isPrimary={tokenIndex === PRIMARY_TOKEN_INDEX}
+          tokenIndex={tokenIndex}
+        />
+      ),
+      align: 'right',
+      width: '60px',
     },
   ]);
 

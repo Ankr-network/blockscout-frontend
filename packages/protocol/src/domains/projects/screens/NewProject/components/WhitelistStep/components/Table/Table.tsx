@@ -10,9 +10,13 @@ import { useColumns } from './useColumns';
 import { useWhitelistData } from '../../useWhitelistData';
 import { useTableStyles } from './useTableStyles';
 
-export const Table = () => {
+interface TableProps {
+  onWhitelistDialogOpen: () => void;
+}
+
+export const Table = ({ onWhitelistDialogOpen }: TableProps) => {
   const { classes, cx } = useTableStyles();
-  const { columns } = useColumns();
+  const { columns } = useColumns({ onWhitelistDialogOpen });
 
   const { data: rows } = useWhitelistData();
 

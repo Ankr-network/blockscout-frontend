@@ -2,9 +2,11 @@ import React, { ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { FormControlLabel, Typography, Checkbox } from '@mui/material';
 
+import { ChainID } from 'domains/chains/types';
+
 import { useChainItemStyles } from './useChainItemStyles';
 
-interface IChainItemProps extends FieldRenderProps<HTMLElement> {
+interface IChainItemProps extends FieldRenderProps<ChainID> {
   label: string;
   disabled?: boolean;
   children?: ReactNode;

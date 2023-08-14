@@ -29,6 +29,9 @@ export interface NewProjectFormValues {
   [ChainStepFields.selectedDevnetIds]?: string[];
   [WhitelistStepFields.userEndpointToken]?: string;
   [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
+  [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;
+  [WhitelistStepFields.shouldSkipFormReset]?: boolean;
+  [WhitelistStepFields.indexOfEditingWhitelistItem]?: number;
   [PlanStepFields.planName]?: string;
   [PlanStepFields.planPrice]?: string;
   [CheckoutStepFields.isCheckedOut]?: boolean;

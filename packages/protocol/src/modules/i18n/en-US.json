@@ -154,10 +154,12 @@
       "not-installed": "Not installed",
       "add-project": "Add Project",
       "edit-project": "Continue project configuration",
+      "no-data": "No project found",
+      "edit": "Edit",
+      "delete": "Delete",
       "no-requests-yet": "No requests yet",
       "requests": "Requests today",
-      "count": "{value, number, ::compact-short }",
-      "no-data": "No project found"
+      "count": "{value, number, ::compact-short }"
     },
     "new-project": {
       "breadcrumbs": "Create project",
@@ -203,6 +205,8 @@
         "label": "Smart contract address",
         "placeholder": "0x000000",
         "btn": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
         "success-message": "Smart contract address added successfully",
         "error-message": {
           "required": "Smart contract address is required",
@@ -244,8 +248,11 @@
         }
       }
     },
-    "add-whitelist": {
-      "title": "Add to whitelist",
+    "add-whitelist-dialog": {
+      "titles": {
+        "add": "Add to whitelist",
+        "edit": "Edit whitelist"
+      },
       "description": "You can add domains, IPs, or smart contracts to your whitelist<br/>that have access to the endpoints. Any requests not from the<br/>authorized whitelist will be rejected.",
       "select-type": "Select type",
       "select": "Select",
