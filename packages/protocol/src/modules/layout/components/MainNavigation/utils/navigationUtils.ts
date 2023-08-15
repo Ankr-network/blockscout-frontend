@@ -1,4 +1,4 @@
-import { NavLink, NavLinkProps } from 'react-router-dom';
+import { NavLink, NavLinkProps, match as Match } from 'react-router-dom';
 import { ButtonProps } from '@mui/material';
 import { History } from 'history';
 import {
@@ -30,8 +30,6 @@ import { DashboardRoutesConfig } from 'domains/dashboard/routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { IS_ENTERPISE_ENABLED } from 'domains/auth/hooks/useEnterprise';
 
-export type IsActive = (match: any, location: History['location']) => boolean;
-
 interface EndpointListParams {
   chainsRoutes: string[];
   isEnterpriseClient: boolean;
@@ -52,14 +50,12 @@ export interface NavigationListParams extends EndpointListParams {
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
 
 const isDashboardActive = (
-  match: any,
+  match: Match | null,
   location: History['location'],
   chainsRoutes: string[],
-) => {
-  if (match?.isExact) return match?.isExact;
-
-  return chainsRoutes.some(route => location.pathname.includes(route));
-};
+) =>
+  match?.isExact ||
+  chainsRoutes.some(route => location.pathname.includes(route));
 
 export const getCommonMenuList = (
   onDashboardClick: () => void,
@@ -70,16 +66,6 @@ export const getCommonMenuList = (
     href: DashboardRoutesConfig.dashboard.generatePath(),
     label: t('main-navigation.dashboard'),
     onClick: onDashboardClick,
-  },
-];
-
-const getAdvancedApiList = (onAAPIClick: () => void): NavigationItem[] => [
-  {
-    StartIcon: AdvancedApi,
-    ActiveIcon: BoldAdvancedApi,
-    href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
-    label: t('main-navigation.advanced-api'),
-    onClick: onAAPIClick,
   },
 ];
 
@@ -101,7 +87,7 @@ export const getEndpointsList = ({
     StartIcon: Block,
     ActiveIcon: Block,
     href: ChainsRoutesConfig.chains.generatePath(),
-    isActive: (match: any, location: History['location']) =>
+    isActive: (match, location) =>
       isDashboardActive(match, location, chainsRoutes),
     label: t('main-navigation.endpoints'),
   },
@@ -202,26 +188,6 @@ export const getLogoutItem = (onClick: () => void): NavigationItem[] => [
     isEnabled: true,
     onClick,
   },
-];
-
-export const getNavigationList = ({
-  chainsRoutes,
-  isLoggedIn,
-  isEnterpriseClient,
-  onOpenUpgradePlanDialog,
-  onAAPIClick,
-  onDocsClick,
-  onSettingsClick,
-}: NavigationListParams): NavigationItem[] => [
-  getEndpointsList({
-    chainsRoutes,
-    isEnterpriseClient,
-    onOpenUpgradePlanDialog,
-    onAAPIClick,
-  })[0],
-  ...getAdvancedApiList(onAAPIClick),
-  ...getMenuList(isLoggedIn, onDocsClick),
-  ...getSettingList(onSettingsClick),
 ];
 
 export const getExternalButtonProps = ({

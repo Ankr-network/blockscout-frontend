@@ -1,10 +1,10 @@
-import { Route } from 'react-router-dom';
 import loadable, { LoadableComponent } from '@loadable/component';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { Route } from 'react-router-dom';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
 
-import { useRedirectForSmallDevices } from '../../../hooks/useRedirectForSmallDevices';
 import { DashboardRoutesConfig } from './routesConfig';
 
 const LoadableDashboardContainer: LoadableComponent<any> = loadable(
@@ -33,15 +33,15 @@ export function DashboardRoutes() {
     return <OverlaySpinner />;
   }
 
+  const Component = hasPremium
+    ? LoadableDashboardContainer
+    : LoadableDashboardPlaceholder;
+
   return (
-    <>
-      <Route
-        exact
-        path={DashboardRoutesConfig.dashboard.path}
-        component={
-          hasPremium ? LoadableDashboardContainer : LoadableDashboardPlaceholder
-        }
-      />
-    </>
+    <Route
+      component={Component}
+      exact
+      path={DashboardRoutesConfig.dashboard.path}
+    />
   );
 }

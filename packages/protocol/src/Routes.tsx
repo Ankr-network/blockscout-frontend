@@ -78,7 +78,7 @@ export const Routes = () => {
         )}
       />
 
-      <GuardAuthRoute
+      <Route
         exact
         path={DashboardRoutesConfig.dashboard.path}
         render={() => (
