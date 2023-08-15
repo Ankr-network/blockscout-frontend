@@ -5,9 +5,7 @@ import {
   PrivateStatsInterval,
 } from 'multirpc-sdk';
 
-import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { authorizationGuard } from 'domains/auth/utils/authorizationGuard';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
@@ -30,8 +28,7 @@ export const {
     chainsFetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>(
       {
         queryFn: createNotifyingQueryFn(
-          async ({ interval, userEndpointToken, group }, { getState }) => {
-            await authorizationGuard(getState as GetState);
+          async ({ interval, userEndpointToken, group }) => {
             const service = MultiService.getService();
             const accountGateway = service.getAccountGateway();
 
