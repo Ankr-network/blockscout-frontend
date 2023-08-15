@@ -5,7 +5,6 @@ import { RootState } from 'store';
 
 export interface IThemeSlice {
   theme: Themes;
-  isSwitched?: boolean;
 }
 
 const initialState: IThemeSlice = {
@@ -18,10 +17,6 @@ export const themeSlice = createSlice({
   reducers: {
     setTheme: (state, action: PayloadAction<Themes>) => {
       state.theme = action.payload;
-      state.isSwitched = true;
-    },
-    setIsSwitched: (state, action: PayloadAction<boolean>) => {
-      state.isSwitched = action.payload;
     },
   },
 });
@@ -33,6 +28,4 @@ export const selectIsLightTheme = createSelector(
   theme => theme === Themes.light,
 );
 
-export const selectIsSwitched = (state: RootState) => state.theme.isSwitched;
-
-export const { setTheme, setIsSwitched } = themeSlice.actions;
+export const { setTheme } = themeSlice.actions;

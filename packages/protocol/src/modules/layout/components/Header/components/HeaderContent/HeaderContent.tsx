@@ -18,7 +18,7 @@ export const HeaderContent = ({
   isMobile = false,
   isMobileSideBar = false,
 }: HeaderContentProps) => {
-  const { isLoggedIn, hasWeb3Connection } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   const hasUserGroups = useAppSelector(selectHasUserGroups);
 
@@ -37,12 +37,10 @@ export const HeaderContent = ({
   }, [hasUserGroups, isMobile, isMobileSideBar]);
 
   const shouldShowThemeSwitcher = useMemo(() => {
-    if (!hasWeb3Connection) return false;
+    const shouldHide = isMobile && !isMobileSideBar;
 
-    if (isMobile && !isMobileSideBar) return false;
-
-    return true;
-  }, [hasWeb3Connection, isMobile, isMobileSideBar]);
+    return !shouldHide;
+  }, [isMobile, isMobileSideBar]);
 
   return (
     <>

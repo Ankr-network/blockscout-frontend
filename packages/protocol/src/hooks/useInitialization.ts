@@ -1,6 +1,5 @@
 import { useAutoconnect } from 'hooks/useAutoconnect';
 import { useBalance } from 'domains/account/hooks/useBalance';
-import { useWeb3ThemeSwitcher } from 'hooks/useWeb3ThemeSwitcher';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
 import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
@@ -17,7 +16,6 @@ export const useInitialization = (isLoggedIn: boolean) => {
   const skipFetching = isReactSnap || !isLoggedIn || !hasRoleAccess;
 
   useAutoconnect();
-  useWeb3ThemeSwitcher();
 
   useBalance({ skipFetching });
   useMyBundles({ skipFetching });
