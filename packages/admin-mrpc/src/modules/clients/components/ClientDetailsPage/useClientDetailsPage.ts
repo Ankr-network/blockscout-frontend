@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { PrivateStatsInterval } from 'multirpc-sdk';
+
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { useLazyFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 import { useLazyFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
-import { currentMonthParams, previousMonthParams } from '../../utils/dates';
 import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
+import { useUserProjectsData } from 'modules/projects/hooks/useUserProjectsData';
+
+import { currentMonthParams, previousMonthParams } from '../../utils/dates';
 
 export enum CustomRange {
   current = 'current',
@@ -70,6 +73,9 @@ export const useClientDetailsPage = () => {
     { address },
   );
 
+  const { userProjectsData, isLoadingUserProjects } =
+    useUserProjectsData(address);
+
   const currentClient = clients?.counters?.filter(
     client => client.address === address,
   );
@@ -131,5 +137,7 @@ export const useClientDetailsPage = () => {
     isCurrentDayIncluded,
     isRangePeriod: isRangePeriodValue,
     clientsErrors: clients?.errors,
+    userProjectsData,
+    isLoadingUserProjects,
   };
 };

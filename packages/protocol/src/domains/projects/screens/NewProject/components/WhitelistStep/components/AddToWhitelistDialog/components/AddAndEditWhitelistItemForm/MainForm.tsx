@@ -13,9 +13,10 @@ import { OnChange } from 'modules/form/utils/OnChange';
 import { getChainName } from 'uiKit/utils/metatags';
 import { ChainID } from 'domains/chains/types';
 import { isEVMBased } from 'domains/chains/utils/isEVMBased';
+import { WhiteListItem } from 'domains/projects/types';
 
 import { InputAddressField } from '../InputAddressField';
-import { useAddToWhitelistFormStyles } from './useAddToWhitelistFormStyles';
+import { useAddToWhitelistFormStyles } from './useAddAndEditWhitelistItemFormStyles';
 import {
   getValidation,
   getOptionsByWhitelistTypes,
@@ -27,10 +28,15 @@ import { useWhitelistData } from '../../../../useWhitelistData';
 
 interface MainFormProps {
   chainIds: ChainID[];
+  shouldSkipFormReset?: boolean;
   handleSubmit: () => void;
 }
 
-export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
+export const MainForm = ({
+  chainIds,
+  shouldSkipFormReset,
+  handleSubmit,
+}: MainFormProps) => {
   const { classes, cx } = useAddToWhitelistFormStyles();
 
   const { change, getState } = useForm();
@@ -38,7 +44,7 @@ export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
   const selectedType = values?.whitelistDialog?.type;
 
   const isTypeSelected = Boolean(selectedType);
-  const isSmartContractAddressSelected = selectedType === 'address';
+  const isSmartContractAddressSelected = selectedType === WhiteListItem.address;
   const isValueFilled = Boolean(values?.whitelistDialog?.value);
   const isAtLeastOneChainSelected = values?.whitelistDialog?.chains?.length > 0;
 
@@ -69,20 +75,27 @@ export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
     [chainIds, isSmartContractAddressSelected],
   );
 
-  const handleOnChange = useCallback(() => {
+  const handleChange = useCallback(() => {
+    if (shouldSkipFormReset) return;
+
     if (values?.whitelistDialog?.chains)
       change(AddToWhitelistFormFields.chains, undefined);
     if (values?.whitelistDialog?.value)
       change(AddToWhitelistFormFields.value, undefined);
-  }, [change, values?.whitelistDialog?.chains, values?.whitelistDialog?.value]);
+  }, [
+    change,
+    shouldSkipFormReset,
+    values?.whitelistDialog?.chains,
+    values?.whitelistDialog?.value,
+  ]);
 
   return (
     <form onSubmit={handleSubmit}>
-      <OnChange name={AddToWhitelistFormFields.type}>{handleOnChange}</OnChange>
+      <OnChange name={AddToWhitelistFormFields.type}>{handleChange}</OnChange>
 
       <FormControl className={cx(classes.formWrapper, classes.selectWrapper)}>
         <InputLabel className={classes.label}>
-          {t('projects.add-whitelist.select-type')}
+          {t('projects.add-whitelist-dialog.select-type')}
         </InputLabel>
         <Field
           name={AddToWhitelistFormFields.type}
@@ -98,7 +111,7 @@ export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
         <InputAddressField
           name={AddToWhitelistFormFields.value}
           isDisabled={!isTypeSelected}
-          placeholder={t('projects.add-whitelist.enter')}
+          placeholder={t('projects.add-whitelist-dialog.enter')}
           validate={getValidation(selectedType)}
         />
       </FormControl>
@@ -106,11 +119,11 @@ export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
       {values?.whitelistDialog?.value && valid && (
         <>
           <Typography component="p" className={classes.chainsTitle}>
-            {t('projects.add-whitelist.select-chain')}
+            {t('projects.add-whitelist-dialog.select-chain')}
           </Typography>
 
           <Typography component="p" className={classes.description}>
-            {tHTML('projects.add-whitelist.select-chain-description')}
+            {tHTML('projects.add-whitelist-dialog.select-chain-description')}
           </Typography>
 
           <Divider className={classes.divider} />
@@ -127,9 +140,6 @@ export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
                 disabled={
                   isSmartContractAddressSelected && isAtLeastOneChainSelected
                 }
-                // something strange with types. also we can add "& any" to ChainItem interface
-                // also we can try to rewrite this <Field /> to <FieldArray />
-                // @ts-ignore
                 component={ChainItem}
                 type="checkbox"
                 className={classes.chainWrapper}
@@ -146,7 +156,7 @@ export const MainForm = ({ chainIds, handleSubmit }: MainFormProps) => {
         className={classes.submitButton}
         onClick={handleSubmit}
       >
-        {t('projects.add-whitelist.confirm')}
+        {t('projects.add-whitelist-dialog.confirm')}
       </Button>
     </form>
   );

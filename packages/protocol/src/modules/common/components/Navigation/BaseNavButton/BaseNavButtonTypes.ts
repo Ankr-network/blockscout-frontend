@@ -1,13 +1,12 @@
+import { NavLinkProps } from 'react-router-dom';
 import { ReactElement } from 'react';
 import { SvgIconProps } from '@mui/material';
-
-import { IsActive } from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 
 export interface NavigationItem {
   ActiveIcon?: (props: SvgIconProps) => ReactElement | null;
   StartIcon: (props: SvgIconProps) => ReactElement | null;
   href?: string;
-  isActive?: IsActive;
+  isActive?: NavLinkProps['isActive'];
   isDisabled?: boolean;
   label: string;
   onClick?: () => void;

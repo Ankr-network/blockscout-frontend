@@ -32,6 +32,9 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
     [NewProjectStep.Whitelist]: {
       userEndpointToken: '',
       whitelistItems: [],
+      isEditingWhitelistDialog: false,
+      shouldSkipFormReset: false,
+      indexOfEditingWhitelistItem: undefined,
       whitelistDialog: initialDialogValues,
     },
     [NewProjectStep.Plan]: {

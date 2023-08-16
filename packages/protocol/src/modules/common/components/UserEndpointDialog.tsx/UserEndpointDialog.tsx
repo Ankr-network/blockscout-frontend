@@ -23,6 +23,7 @@ interface IShowUserEndpointDialogProps {
   endpointToken?: string;
 }
 
+// TODO:  https://ankrnetwork.atlassian.net/browse/MRPC-3212
 export const UserEndpointDialog = ({
   shouldConnectWallet,
   tokenIndex,

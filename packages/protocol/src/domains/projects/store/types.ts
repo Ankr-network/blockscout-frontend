@@ -16,6 +16,9 @@ export enum WhitelistStepFields {
   userEndpointToken = 'userEndpointToken',
   whitelistItems = 'whitelistItems',
   whitelistDialog = 'whitelistDialog',
+  shouldSkipFormReset = 'shouldSkipFormReset',
+  indexOfEditingWhitelistItem = 'indexOfEditingWhitelistItem',
+  isEditingWhitelistDialog = 'isEditingWhitelistDialog',
 }
 
 export enum PlanStepFields {
@@ -45,6 +48,9 @@ export interface NewProjectType {
     [WhitelistStepFields.userEndpointToken]?: string;
     [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
     [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
+    [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;
+    [WhitelistStepFields.shouldSkipFormReset]?: boolean;
+    [WhitelistStepFields.indexOfEditingWhitelistItem]?: number;
   };
   [NewProjectStep.Plan]?: {
     [PlanStepFields.planName]?: string;

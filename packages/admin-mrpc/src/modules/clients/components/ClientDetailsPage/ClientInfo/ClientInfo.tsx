@@ -10,12 +10,13 @@ import {
 } from '@mui/material';
 
 import { Spinner } from 'ui';
-import { IEthUserAddressV2, Web3Address } from 'multirpc-sdk';
+import { IEthUserAddressV2, UserProject, Web3Address } from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
 import { ICountersError } from 'modules/clients/actions/fetchCounters';
+import { UserProjectsView } from 'modules/projects/components/UserProjectsView';
 
 import { UserTypeTag } from '../../UserTypeTag';
 import { ClientBalancesModal } from '../ClientBalancesModal';
@@ -38,6 +39,8 @@ interface IClientInfoProps {
   totalData?: IGetUserTotalMapped;
   isLoadingTotal?: boolean;
   clientsErrors?: ICountersError[];
+  userProjectsData?: UserProject[] | null;
+  isLoadingUserProjects: boolean;
 }
 
 export const ClientInfo = ({
@@ -47,6 +50,8 @@ export const ClientInfo = ({
   totalData,
   isLoadingTotal,
   clientsErrors,
+  userProjectsData,
+  isLoadingUserProjects,
 }: IClientInfoProps) => {
   const [client] = currentClient;
   const {
@@ -211,6 +216,13 @@ export const ClientInfo = ({
           )}
         </Typography>
       </Paper>
+
+      <br />
+      <UserProjectsView
+        address={address}
+        userProjectsData={userProjectsData}
+        isLoadingUserProjects={isLoadingUserProjects}
+      />
 
       {isLoadingClients ? (
         <>

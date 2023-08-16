@@ -9,12 +9,13 @@ import { ISelectOption } from 'uiKit/Select';
 export const whitelistTypeLabelMap = (type?: WhiteListItem) => {
   switch (type) {
     case WhiteListItem.address:
-      return t('projects.add-whitelist.smart-contract');
+      return t('projects.add-whitelist-dialog.smart-contract');
     case WhiteListItem.ip:
-      return t('projects.add-whitelist.ip-address');
+      return t('projects.add-whitelist-dialog.ip-address');
     case WhiteListItem.referer:
+      return t('projects.add-whitelist-dialog.domain');
     default:
-      return t('projects.add-whitelist.domain');
+      return '';
   }
 };
 
@@ -41,26 +42,23 @@ export const getOptionsByWhitelistTypes = ({
 }: GetTypeOptionsArgs): IWhiteListSelectOption[] => {
   const options: IWhiteListSelectOption[] = [];
 
-  if (isAddingDomainAllowed) {
-    options.push({
-      label: whitelistTypeLabelMap(WhiteListItem.referer),
-      value: WhiteListItem.referer,
-    });
-  }
+  options.push({
+    disabled: !isAddingDomainAllowed,
+    label: whitelistTypeLabelMap(WhiteListItem.referer),
+    value: WhiteListItem.referer,
+  });
 
-  if (isAddingIPAllowed) {
-    options.push({
-      label: whitelistTypeLabelMap(WhiteListItem.ip),
-      value: WhiteListItem.ip,
-    });
-  }
+  options.push({
+    disabled: !isAddingIPAllowed,
+    label: whitelistTypeLabelMap(WhiteListItem.ip),
+    value: WhiteListItem.ip,
+  });
 
-  if (isAddingSmartContractAllowed) {
-    options.push({
-      label: whitelistTypeLabelMap(WhiteListItem.address),
-      value: WhiteListItem.address,
-    });
-  }
+  options.push({
+    disabled: !isAddingSmartContractAllowed,
+    label: whitelistTypeLabelMap(WhiteListItem.address),
+    value: WhiteListItem.address,
+  });
 
   return options;
 };

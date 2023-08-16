@@ -5,7 +5,8 @@ import { AddToWhitelistFormData } from 'domains/projects/store';
 import { BlockchainIcon } from 'domains/projects/screens/Projects/components/BlockchainIcon';
 
 import { useTableStyles } from './useTableStyles';
-import { whitelistTypeLabelMap } from '../AddToWhitelistDialog/components/AddToWhitelistForm/AddToWhitelistFormUtils';
+import { whitelistTypeLabelMap } from '../AddToWhitelistDialog/components/AddAndEditWhitelistItemForm/AddToWhitelistFormUtils';
+import { ActionsMenu } from './components/ActionsMenu/ActionsMenu';
 
 export interface TableColumn<T> {
   field: string;
@@ -15,7 +16,11 @@ export interface TableColumn<T> {
   align?: 'left' | 'center' | 'right';
 }
 
-export const useColumns = () => {
+interface TableColumnsProps {
+  onWhitelistDialogOpen: () => void;
+}
+
+export const useColumns = ({ onWhitelistDialogOpen }: TableColumnsProps) => {
   const { classes } = useTableStyles();
 
   const columns: TableColumn<AddToWhitelistFormData>[] = useMemo(
@@ -55,8 +60,23 @@ export const useColumns = () => {
         align: 'left',
         width: '25%',
       },
+      {
+        field: 'menu',
+        headerName: '',
+        render: (row, index) => {
+          return (
+            <ActionsMenu
+              index={index}
+              rowData={row}
+              onWhitelistDialogOpen={onWhitelistDialogOpen}
+            />
+          );
+        },
+        align: 'right',
+        width: '60px',
+      },
     ],
-    [classes.typeCell],
+    [classes.typeCell, onWhitelistDialogOpen],
   );
 
   return {

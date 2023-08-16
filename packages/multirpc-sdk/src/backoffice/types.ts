@@ -12,6 +12,9 @@ import {
 } from '../common';
 import { IEthUserAddressWithDeprecatedPublicKey } from '../oauth';
 
+// just 200 http status code in case of success
+export type EmptyResponse = Record<string, never>;
+
 export interface ITransactionsEntity {
   amount?: string;
   amountAnkr: string;
@@ -361,6 +364,50 @@ export type DeleteUserGroupRequest = {
 };
 
 export type DeleteUserGroupResponse = UserGroupResponse;
+
+export type GetUserProjectsRequest = {
+  address: Web3Address;
+};
+
+// example of response for UserProjectConfig.
+// see details here: https://ankrnetwork.atlassian.net/wiki/spaces/PBRPC/pages/2032861185/Backoffice-gateway
+// "{\"blockchains\":[\"near\",\"tron\"]}"
+export type UserProjectConfig = string;
+
+export type UserProject = {
+  id: string;
+  index: number;
+  is_encrypted: boolean;
+  name: string;
+  description: string;
+  config: UserProjectConfig;
+};
+
+export type GetUserProjectsResponse = UserProject[] | null;
+
+export type SetUserProjectAllowedJwtNumberParams = {
+  address: Web3Address;
+  jwtLimit: number;
+}
+
+export type SetUserProjectAllowedJwtNumberResponse = EmptyResponse
+
+export type DeleteUserProjectByIndexParams = {
+  address: Web3Address;
+  index: number; // instead of index can be used id param from UserProject
+};
+
+export type DeleteUserProjectByIdParams = {
+  address: Web3Address;
+  id: string;
+};
+
+export type DeleteUserProjectParams =
+  | DeleteUserProjectByIndexParams
+  | DeleteUserProjectByIdParams;
+
+
+export type DeleteUserProjectResponse = EmptyResponse;
 
 export type LoggerScale = Record<BlockchainID, number>;
 

@@ -101,12 +101,7 @@ export const MainNavigation = ({
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
-          {isLoggedIn && (
-            <Navigation
-              items={commonItem}
-              isMobileSiderBar={isMobileSiderBar}
-            />
-          )}
+          <Navigation items={commonItem} isMobileSiderBar={isMobileSiderBar} />
           <Typography className={classes.tip}>
             {t('main-navigation.endpoints')}
           </Typography>

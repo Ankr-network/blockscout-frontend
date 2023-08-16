@@ -43,7 +43,7 @@ export const usePrivateChainType = ({
       chain,
       netId,
       selectedType,
-      isMainnetPremiumOnly: chain?.isMainnetPremiumOnly,
+      isMainnetPremiumOnly: isBlockedMainnet,
     }),
     tabs,
   });

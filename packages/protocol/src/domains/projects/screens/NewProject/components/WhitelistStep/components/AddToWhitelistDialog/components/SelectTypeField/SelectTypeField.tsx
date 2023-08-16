@@ -8,7 +8,7 @@ import { uid } from 'react-uid';
 import { t } from '@ankr.com/common';
 import { FieldRenderProps } from 'react-final-form';
 
-import { IWhiteListSelectOption } from '../AddToWhitelistForm/AddToWhitelistFormUtils';
+import { IWhiteListSelectOption } from '../AddAndEditWhitelistItemForm/AddToWhitelistFormUtils';
 import { useSelectTypeFieldStyles } from './useSelectTypeFieldStyles';
 
 interface SelectTypeFieldProps
@@ -31,7 +31,7 @@ export const SelectTypeField = ({
     <>
       {!isTypeSelected && (
         <InputLabel className={classes.selectPlaceholder}>
-          {t('projects.add-whitelist.select')}
+          {t('projects.add-whitelist-dialog.select')}
         </InputLabel>
       )}
       <Select
@@ -42,7 +42,11 @@ export const SelectTypeField = ({
         {...(rest as any)}
       >
         {options.map(option => (
-          <MenuItem key={uid(option)} value={option.value}>
+          <MenuItem
+            key={uid(option)}
+            disabled={option.disabled}
+            value={option.value}
+          >
             {option.label}
           </MenuItem>
         ))}
