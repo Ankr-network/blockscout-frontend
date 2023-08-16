@@ -136,7 +136,8 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "yarn lint:js:fix"
+      "yarn lint:js:fix",
+      "git add"
     ]
   },
   "browserslist": {

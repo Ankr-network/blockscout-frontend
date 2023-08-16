@@ -1,5 +1,6 @@
 import { Timestamp } from '@ankr.com/utils/dist';
 import { Address } from '@ankr.com/provider';
+
 import {
   EmailConfirmationStatus,
   Web3Address,
@@ -252,7 +253,7 @@ export interface PrivateStats {
 }
 
 export interface Top10StatsParams extends IApiUserGroupParams {
-  /* backend does not support h1 and h24 interval for this endpoint */
+  /* backend does not support h1 and h24 interval for this endpoint  */
   intervalType: PrivateStatsInterval.WEEK | PrivateStatsInterval.MONTH;
   blockchain?: string;
 }

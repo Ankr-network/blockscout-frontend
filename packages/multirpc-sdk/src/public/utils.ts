@@ -15,6 +15,7 @@ export const convertStatsToNumber = (
     } else if (typeof value === 'string') {
       try {
         const parsed = parseInt(value, 10);
+
         res[key] = Number.isNaN(parsed) ? value : parsed;
       } catch (error) {
         res[key] = value;

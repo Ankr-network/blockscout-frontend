@@ -77,6 +77,7 @@ export class TokenDecryptionService {
         if (!this.privateKey) {
           await this.requestEncryptionKeys();
         }
+
         // try to decrypt token with sigUtil
         decryptedToken = await this.getDecryptionService().getDecryptedToken(
           signedToken,

@@ -1,6 +1,5 @@
 import { ChainsConfig } from './types';
 import { BlockchainFeature, IBlockchainEntity } from '../../common';
-
 import {
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,

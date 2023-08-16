@@ -1,6 +1,6 @@
 import { Web3KeyReadProvider } from '@ankr.com/provider';
-import { OauthGateway } from '../oauth';
 
+import { OauthGateway } from '../oauth';
 import { IConfig, IJwtToken, JwtTokenFullData, Web3Address } from '../common';
 import { PAYGReadContractManager } from '../PAYGContract';
 import { ContractReadService, TokenIssuerService } from '../services';

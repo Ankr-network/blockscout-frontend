@@ -1,4 +1,5 @@
 import { Milliseconds, Timestamp } from '@ankr.com/utils';
+
 import {
   IPaymentHistoryEntityType,
   PrivateStats,
@@ -178,7 +179,7 @@ export interface IAddVoucherCreditsRequest {
   amount: string;
   reasonId: string;
 
-  /** unix timestamp in seconds indicating the expiration time of total creditVoucherAmount. “0” value indicates that there is no timeout for deletion */
+  /* * unix timestamp in seconds indicating the expiration time of total creditVoucherAmount. “0” value indicates that there is no timeout for deletion  */
   expiresAt?: string;
 }
 
@@ -334,8 +335,8 @@ export type CreateUserGroupRequest = {
 
 export type CreateUserGroupResponse = UserGroupResponse;
 
-/** Gets the list for groups filtered by participant’s ETH address (optional parameter),
- * returns ALL groups if not set */
+/* * Gets the list for groups filtered by participant’s ETH address (optional parameter),
+ * returns ALL groups if not set  */
 export type GetUserGroupsRequest = {
   user_address?: Web3Address;
 };
@@ -358,8 +359,8 @@ export type GetUserGroupResponse = UserGroupResponse;
 export type DeleteUserGroupRequest = {
   address: Web3Address;
 
-  /** removeMembers: the value "true" allows you to delete a non-empty group by removing users from it automatically.
-   * If set as false or not set, the group will be deleted ONLY if it is empty (has no members) */
+  /* * removeMembers: the value "true" allows you to delete a non-empty group by removing users from it automatically.
+   * If set as false or not set, the group will be deleted ONLY if it is empty (has no members)  */
   removeMembers?: boolean;
 };
 
@@ -388,9 +389,9 @@ export type GetUserProjectsResponse = UserProject[] | null;
 export type SetUserProjectAllowedJwtNumberParams = {
   address: Web3Address;
   jwtLimit: number;
-}
+};
 
-export type SetUserProjectAllowedJwtNumberResponse = EmptyResponse
+export type SetUserProjectAllowedJwtNumberResponse = EmptyResponse;
 
 export type DeleteUserProjectByIndexParams = {
   address: Web3Address;
@@ -405,7 +406,6 @@ export type DeleteUserProjectByIdParams = {
 export type DeleteUserProjectParams =
   | DeleteUserProjectByIndexParams
   | DeleteUserProjectByIdParams;
-
 
 export type DeleteUserProjectResponse = EmptyResponse;
 
@@ -438,6 +438,7 @@ export interface ICountersResponse {
   result: ICountersEntity[];
   cursor?: string;
 }
+
 export interface INodeEntity {
   id: string;
   blockchain: string;

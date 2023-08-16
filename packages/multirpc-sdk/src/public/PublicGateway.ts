@@ -18,6 +18,7 @@ export class PublicGateway implements IPublicGateway {
 
   constructor(private readonly config: Config) {
     const { workerUrl, accountUrl } = config;
+
     this.api = axios.create({
       ...config,
       ...AXIOS_DEFAULT_CONFIG,

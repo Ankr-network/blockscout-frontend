@@ -77,6 +77,7 @@ export const getEncryptionPublicKey = async (
 export const base64StrToUtf8String = (str: string) => {
   return Buffer.from(str, 'base64').toString('utf8');
 };
+
 export const USER_DENIED_MESSAGE_SIGNATURE_CODE = -32603;
 
 export const METAMASK_REJECTED_OPERATION_CODE = 4001;

@@ -28,12 +28,12 @@ export interface IGenerateThresholdKeyRequest {
 export interface IGetJwtTokensData {
   has_more?: boolean;
   jwt_tokens: IJwtToken[];
-};
+}
 
 export interface IGetNotarizedTransactionsData {
   has_more?: boolean;
   notarized_transactions: INotarizedTransaction[];
-};
+}
 
 export interface IGetPlayersData {
   has_more?: boolean;
@@ -48,12 +48,12 @@ export interface IGetProposalsData {
 export interface IGetThresholdKeyData {
   deposit_addresses: Record<PrefixedHex, PrefixedHex>;
   threshold_key: IThresholdKey;
-};
+}
 
 export interface IGetThresholdKeysData {
   has_more?: boolean;
   threshold_keys: IThresholdKey[];
-};
+}
 
 export interface IIssueJwtTokenData {
   jwt_token: IJwtToken;
@@ -64,13 +64,13 @@ export interface IIssueJwtTokenRequest {
   public_key: Base64;
   threshold_key: UUID;
   token_type: TJwtTokenType;
-};
+}
 
 export interface IJwtTokenRequest {
   public_key: Base64;
   threshold_key: UUID;
   transaction_hash: PrefixedHex;
-};
+}
 
 export interface INotarizeTransactionData {
   notarized_transaction: INotarizedTransaction;
