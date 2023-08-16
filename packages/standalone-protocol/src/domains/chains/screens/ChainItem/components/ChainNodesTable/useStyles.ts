@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
+
 import { ChainId } from 'domains/chains/api/chain';
 
 export const useStyles = makeStyles<Theme>(theme => ({

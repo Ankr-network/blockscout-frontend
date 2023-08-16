@@ -1,5 +1,6 @@
-import { getStatusColor } from '../utils/styleUtils';
 import { makeStyles, Theme } from '@material-ui/core';
+
+import { getStatusColor } from '../utils/styleUtils';
 import { StatusCircleProps } from './StatusCircleProps';
 
 type StatusCircleStylesProps = {

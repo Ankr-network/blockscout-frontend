@@ -47,6 +47,7 @@ export const formatNumber = (number?: BigNumber): string => {
   if (!number) return '';
 
   let formattedNumber;
+
   try {
     formattedNumber = number.toFormat();
   } catch (e) {

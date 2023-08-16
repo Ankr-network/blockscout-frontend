@@ -1,4 +1,5 @@
 import { StatusCircleStatus } from 'uiKit/StatusCircle';
+
 import {
   NODE_TRUST_SCORE_ERROR,
   NODE_TRUST_SCORE_WARNING,
@@ -10,12 +11,15 @@ export function getStatusByNodeScore(score: number): StatusCircleStatus {
     case score >= NODE_TRUST_SCORE_WATCH: {
       return 'success';
     }
+
     case score >= NODE_TRUST_SCORE_WARNING: {
       return 'warning';
     }
+
     case score === NODE_TRUST_SCORE_ERROR: {
       return 'error';
     }
+
     default: {
       return 'info';
     }

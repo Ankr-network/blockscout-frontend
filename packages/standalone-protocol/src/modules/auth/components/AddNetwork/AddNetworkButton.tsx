@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
-import { useAddNetworkButton } from './useAddNetworkButton';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
 import { useIsMDDown } from 'modules/themes/useTheme';
+
+import { useAddNetworkButton } from './useAddNetworkButton';
 
 interface IAddNetworkProps {
   chain: Chain;

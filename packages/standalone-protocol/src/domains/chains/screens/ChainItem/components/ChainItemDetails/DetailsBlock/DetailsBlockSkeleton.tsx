@@ -1,7 +1,8 @@
 import React from 'react';
-import { useStyles } from './useStyles';
 import classNames from 'classnames';
 import { Skeleton } from '@material-ui/lab';
+
+import { useStyles } from './useStyles';
 
 interface IProps {
   className?: string;

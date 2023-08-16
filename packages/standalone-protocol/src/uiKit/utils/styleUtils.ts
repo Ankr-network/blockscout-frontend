@@ -1,4 +1,5 @@
 import { Theme } from '@material-ui/core';
+
 import { StatusCircleStatus } from 'uiKit/StatusCircle';
 
 export const getStatusColor = (theme: Theme, status?: StatusCircleStatus) => {

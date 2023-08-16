@@ -1,12 +1,13 @@
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
+import { MutableRefObject, useRef } from 'react';
 
 import { useHasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { Banner } from 'domains/chains/screens/ChainItem/components/Banner';
 import { useDimensions } from 'modules/common/hooks/useDimensions';
 import { renderTitle } from 'modules/common/types/unit';
 import { tHTML } from 'modules/i18n/utils/intl';
-import { MutableRefObject, useRef } from 'react';
+
 import { HeaderLogo } from './HeaderLogo';
 import { HeaderProps } from './HeaderProps';
 import { BANNER_HEIGHT, useStyles } from './HeaderStyles';

@@ -1,5 +1,6 @@
 import { createMuiTheme, fade } from '@material-ui/core';
 import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+
 import { createTheme } from './createTheme';
 import { Themes } from './types';
 

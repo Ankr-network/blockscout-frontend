@@ -4,11 +4,12 @@ import classNames from 'classnames';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ChainNodesTable } from './components/ChainNodesTable';
-import { useStyles } from './ChainItemStyles';
 import { ChainId } from 'domains/chains/api/chain';
 import { fetchChainNodesDetail } from 'domains/chains/actions/fetchChainNodesDetail';
 import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
+
+import { useStyles } from './ChainItemStyles';
+import { ChainNodesTable } from './components/ChainNodesTable';
 
 interface ChainItemProps {
   isComingSoon: boolean;

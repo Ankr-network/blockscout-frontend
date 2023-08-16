@@ -2,8 +2,10 @@ import React, { useMemo } from 'react';
 import { Typography, useTheme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
+
 import { Chart } from 'modules/common/components/Chart';
 import { t } from 'modules/i18n/utils/intl';
+
 import { ChainRequestsChartProps } from './ChainRequestsChartTypes';
 import {
   getCachedRequestsColor,
@@ -78,7 +80,6 @@ export const ChainRequestsChart = ({
         <Chart
           xValues={xValues}
           series={chartSeries}
-          theme={theme}
           hasGradient={hasGradient(chainId)}
           foreColor={getForeColor(chainId, theme)}
           gridBorderColor={getGridBorderColor(chainId, theme)}

@@ -16,12 +16,13 @@ import ReactCountryFlag from 'react-country-flag';
 import classNames from 'classnames';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { useStyles } from './useStyles';
-import { ChainNodesTableProps } from './ChainNodesTableProps';
-import { getRows, isHeightColVisibleStatus } from './ChainNodesTableUtils';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
+
+import { useStyles } from './useStyles';
+import { ChainNodesTableProps } from './ChainNodesTableProps';
+import { getRows, isHeightColVisibleStatus } from './ChainNodesTableUtils';
 
 export const ChainNodesTable = ({
   nodesDetail,

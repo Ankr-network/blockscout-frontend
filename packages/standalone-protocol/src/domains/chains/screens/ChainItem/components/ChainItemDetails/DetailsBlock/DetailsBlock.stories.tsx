@@ -1,10 +1,11 @@
 import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
+import { storiesOf } from '@storybook/react';
 
-import { DetailsBlock } from './DetailsBlock';
 import { mainTheme } from 'modules/themes/mainTheme';
 import { polygonTheme } from 'modules/themes/polygonTheme';
-import { storiesOf } from '@storybook/react';
+
+import { DetailsBlock } from './DetailsBlock';
 
 storiesOf('domains/chains/DetailsBlock', module)
   .add('Default', () => (

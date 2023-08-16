@@ -1,15 +1,16 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { IconButton } from '@material-ui/core';
 import classNames from 'classnames';
+import { PROTOCOL_URL } from 'Routes';
 
 import { t } from 'modules/i18n/utils/intl';
 import { useIsMDUp } from 'modules/themes/useTheme';
 import { ReactComponent as MenuIcon } from 'assets/img/menu.svg';
 import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
-import { PROTOCOL_URL } from 'Routes';
-import { useCrossMenuStyles } from './CrossMenuStyles';
 import { isSafari } from 'modules/common/utils/browserDetect';
+
+import { useCrossMenuStyles } from './CrossMenuStyles';
 import { getMenuList } from './MenuList';
 
 interface ICrossMenuProps {
@@ -41,6 +42,7 @@ export const CrossMenu = ({
   const handleCloseMenu = () => {
     setOpen(false);
   };
+
   const isNotMobile = useIsMDUp();
 
   useEffect(() => {
@@ -54,6 +56,7 @@ export const CrossMenu = ({
   const handleMouseMove = useCallback(event => {
     const offsetTop = IS_SAFARI ? event.target.offsetTop : 0;
     const offsetY = event.clientY - offsetTop;
+
     setClientTop(offsetY);
   }, []);
 

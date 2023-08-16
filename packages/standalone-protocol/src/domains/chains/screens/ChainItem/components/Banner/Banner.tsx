@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { ChainId } from 'domains/chains/api/chain';
 import { tHTML } from 'modules/i18n/utils/intl';
+
 import { useBannerStyles } from './useBannerStyles';
 
 interface BannerProps {

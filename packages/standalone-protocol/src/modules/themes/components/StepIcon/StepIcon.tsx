@@ -1,6 +1,7 @@
 import classNames from 'classnames';
-import { useStyles } from './useStyles';
 import { StepIconProps } from '@material-ui/core';
+
+import { useStyles } from './useStyles';
 
 export function StepIcon({ active, completed }: StepIconProps) {
   const classes = useStyles();

@@ -3,8 +3,9 @@ import { useDispatchRequest } from '@redux-requests/react';
 
 import { useAddNetwork } from 'modules/auth/hooks/useAddNetwork';
 import { connectWeb3 } from 'modules/auth/actions/connectWeb3';
-import { getMappedNetwork } from './AddNetworkUtils';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
+
+import { getMappedNetwork } from './AddNetworkUtils';
 
 export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
   const { handleAddNetwork } = useAddNetwork();

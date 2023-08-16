@@ -17,10 +17,13 @@ export default function useInterval(
         savedCallback.current(...args);
       }
     }
+
     if (delay !== null && delay !== undefined) {
       const id = setInterval(tick, delay);
+
       return () => clearInterval(id);
     }
+
     return () => null;
   }, [delay, args]);
 }

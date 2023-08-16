@@ -1,5 +1,7 @@
 import { createMuiTheme, fade, Theme, ThemeOptions } from '@material-ui/core';
+
 import { CheckboxCheckedIcon, CheckboxIcon } from 'uiKit/Checkbox';
+
 import { StepIcon } from './components/StepIcon';
 import { BREAKPOINTS, BTN_TRANSITION_TIME } from './const';
 
@@ -10,6 +12,7 @@ export const FONTS = {
   primary: ['Inter', 'SF UI Display', 'Arial', 'sans-serif'].join(','),
 };
 
+/* eslint-disable max-lines-per-function */
 export const createTheme = (defaultTheme: Theme) =>
   createMuiTheme({
     spacing: defaultTheme.spacing,

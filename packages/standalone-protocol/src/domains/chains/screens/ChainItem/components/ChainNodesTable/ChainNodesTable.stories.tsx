@@ -1,10 +1,11 @@
 import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
+import { INodesDetailEntity } from 'multirpc-sdk';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+
 import { ChainNodesTable } from './ChainNodesTable';
-import { INodesDetailEntity } from 'multirpc-sdk';
 
 export const nodesDetail: INodesDetailEntity[] = [
   {

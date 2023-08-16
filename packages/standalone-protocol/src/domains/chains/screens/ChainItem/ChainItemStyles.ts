@@ -1,11 +1,14 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { ChainId } from 'domains/chains/api/chain';
+
 import { MENU_WIDTH } from './components/CrossMenu/CrossMenuStyles';
 import tenetBackground from './assets/tenetBackground.png';
 
 const MAX_WIDTH = 1110;
 
+/* eslint-disable max-lines-per-function */
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     position: 'relative',

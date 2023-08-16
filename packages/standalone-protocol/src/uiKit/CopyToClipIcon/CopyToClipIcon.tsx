@@ -4,6 +4,7 @@ import { Typography, TypographyTypeMap } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
+
 import { useStyles } from './CopyToClipIconStyles';
 import { useCopyToClip } from './CopyToClipIconUtils';
 

@@ -1,7 +1,8 @@
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { ChainItemQuery as ChainItemBase } from './ChainItemQuery';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { pageViewEvent } from 'modules/analytics/trackMixpanel';
+
+import { ChainItemQuery as ChainItemBase } from './ChainItemQuery';
 import { useMetatags } from './ChainItemUtils';
 
 export const ChainItem = () => {

@@ -1,7 +1,8 @@
-import { StatusCircleStatus } from 'uiKit/StatusCircle';
 import { capitalize } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { INodeDetailEntity } from 'multirpc-sdk';
+
+import { StatusCircleStatus } from 'uiKit/StatusCircle';
 
 import { ProviderRow, ChainNodesTableProps } from './ChainNodesTableProps';
 
@@ -53,5 +54,6 @@ export const getRows = (
 
 export function isHeightColVisibleStatus(status: StatusCircleStatus): boolean {
   const visibleStatuses = ['warning', 'error'];
+
   return visibleStatuses.includes(status);
 }

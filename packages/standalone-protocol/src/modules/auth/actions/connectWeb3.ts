@@ -3,6 +3,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { MultiService } from 'modules/api/MultiService';
 import { t } from 'modules/i18n/utils/intl';
+
 import { withStore } from './withStore';
 import { hasMetamask } from '../utils/hasMetamask';
 

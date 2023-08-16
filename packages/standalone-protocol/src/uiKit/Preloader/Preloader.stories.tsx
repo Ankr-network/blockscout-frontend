@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+
 import { Preloader } from './Preloader';
 
 storiesOf('uiKit/Preloader', module)

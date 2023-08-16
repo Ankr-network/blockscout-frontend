@@ -4,6 +4,7 @@ import { Button, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
 import { CopyIcon } from 'uiKit/Icons/CopyIcon';
+
 import { useStyles } from './CopyToClipButtonStyles';
 import { useCopyToClip } from '../CopyToClipIcon/CopyToClipIconUtils';
 

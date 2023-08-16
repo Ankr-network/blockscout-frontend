@@ -3,6 +3,7 @@
  */
 export const getPercentage = (num1: number, num2: number) => {
   const calculated = Math.round((num1 / num2) * 100 * 1000) / 1000;
+
   return `${calculated}%`;
 };
 
@@ -11,6 +12,7 @@ export const getPercentage = (num1: number, num2: number) => {
  */
 export const getEm = (num1: number, num2: number) => {
   const calculated = Math.round((num1 / num2) * 1000) / 1000;
+
   return `${calculated}em`;
 };
 
@@ -19,6 +21,7 @@ export const getEm = (num1: number, num2: number) => {
  */
 export const getRem = (num1: number, num2: number) => {
   const calculated = Math.round((num1 / num2) * 1000) / 1000;
+
   return `${calculated}rem`;
 };
 
@@ -28,5 +31,6 @@ export const getRem = (num1: number, num2: number) => {
 export const getVw = (width: number, viewportWidth: number) => {
   const calculated =
     Math.round((width / (width / viewportWidth)) * 1000) / 1000;
+
   return `${calculated}vw`;
 };

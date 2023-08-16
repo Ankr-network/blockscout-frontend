@@ -1,9 +1,11 @@
 import MenuItem from '@material-ui/core/MenuItem';
 import { OutlinedTextFieldProps } from '@material-ui/core/TextField';
-import { ISelectOption, Select } from 'uiKit/Select';
 import React, { useMemo } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { uid } from 'react-uid';
+
+import { ISelectOption, Select } from 'uiKit/Select';
+
 import { getErrorText } from '../../utils/getErrorText';
 import { hasError } from '../../utils/hasError';
 

@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+
 import { Announce } from './Announce';
 
 storiesOf('modules/common/Announce', module).add('Default', () => (

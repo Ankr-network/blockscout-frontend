@@ -3,14 +3,14 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
-import { historyInstance } from 'modules/common/utils/historyInstance';
 import 'assets/fonts/style.css';
-import { getCurrentChainId } from './AppBaseUtils';
 import { getTheme } from 'modules/common/utils/getTheme';
 import { ChainId } from 'domains/chains/api/chain';
-
 import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { RewiredStylesProvider } from 'modules/themes/components/RewiredStylesProvider';
+import { historyInstance } from 'modules/common/utils/historyInstance';
+
+import { getCurrentChainId } from './AppBaseUtils';
 
 interface IAppBaseProps {
   children: ReactNode;

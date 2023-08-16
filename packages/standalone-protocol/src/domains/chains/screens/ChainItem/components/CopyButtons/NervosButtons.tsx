@@ -1,16 +1,17 @@
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
 
-import { useStyles } from './CopyButtonsStyles';
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { isAddNetworkSupported } from 'modules/common/utils/browserDetect';
 import { ChainId } from 'domains/chains/api/chain';
 import { useIsMDDown } from 'modules/themes/useTheme';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
+
+import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
+import { useStyles } from './CopyButtonsStyles';
 
 interface INervosButtonsProps {
   chainId: ChainId;

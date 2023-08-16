@@ -1,14 +1,15 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { useStyles } from './CopyButtonsStyles';
 import { CopyToClipButton } from 'uiKit/CopyToClipButton';
 import { AddNetworkButton } from 'modules/auth/components/AddNetwork';
 import { t } from 'modules/i18n/utils/intl';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { ChainId } from 'domains/chains/api/chain';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
+
+import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
+import { useStyles } from './CopyButtonsStyles';
 
 interface ChainButtonsProps {
   chainId: ChainId;

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, ThemeProvider } from '@material-ui/core';
-
-import { CopyToClipButton } from './CopyToClipButton';
+import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
 import { polygonTheme } from 'modules/themes/polygonTheme';
-import { storiesOf } from '@storybook/react';
+
+import { CopyToClipButton } from './CopyToClipButton';
 
 storiesOf('uiKit/CopyToClipButton', module)
   .add('Default', () => (

@@ -1,5 +1,6 @@
 import { Box, BoxProps } from '@material-ui/core';
 import classNames from 'classnames';
+
 import {
   OFFSET_Y_DESKTOP,
   OFFSET_Y_MOBILE,

@@ -1,13 +1,13 @@
-import { Theme } from '@material-ui/core';
-import { useIsSMDown } from 'modules/themes/useTheme';
 import { useMemo } from 'react';
 import BaseChart, { Props } from 'react-apexcharts';
+
+import { useIsSMDown } from 'modules/themes/useTheme';
+
 import { chartBaseOptions, chartStyle, getChartOptions } from './ChartUtils';
 
 interface ChartProps {
   xValues: string[];
   series: Props['series'];
-  theme?: Theme;
   hasGradient: boolean;
   foreColor?: string;
   gridBorderColor?: string;
@@ -16,7 +16,6 @@ interface ChartProps {
 export const Chart = ({
   xValues,
   series,
-  theme,
   hasGradient,
   foreColor,
   gridBorderColor,
@@ -25,16 +24,15 @@ export const Chart = ({
   const mergedOptions = useMemo(
     () => ({
       ...chartBaseOptions,
-      ...getChartOptions(
-        xValues,
+      ...getChartOptions({
+        dates: xValues,
         hasGradient,
-        theme,
         isSMDown,
         foreColor,
         gridBorderColor,
-      ),
+      }),
     }),
-    [xValues, hasGradient, theme, isSMDown, foreColor, gridBorderColor],
+    [xValues, hasGradient, isSMDown, foreColor, gridBorderColor],
   );
 
   return (

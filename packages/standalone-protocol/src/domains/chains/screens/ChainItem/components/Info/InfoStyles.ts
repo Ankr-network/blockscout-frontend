@@ -1,7 +1,9 @@
 import { makeStyles, Theme } from '@material-ui/core';
+
+import { FONTS } from 'modules/themes/const';
+
 import background from './assets/background.png';
 import backgroundRetina from './assets/background-retina.png';
-import { FONTS } from 'modules/themes/const';
 
 export const ANKR_COLOR = '#356DF3';
 

@@ -2,6 +2,8 @@ import { DispatchRequest, RequestAction } from '@redux-requests/core';
 import { createAction as createSmartAction } from 'redux-smart-actions';
 
 import { Store } from 'store';
+import { isDev } from 'modules/common/utils/isProd';
+
 import { ChainId, MAP_CHAIN_ID_TO_DETAILS_ID } from '../api/chain';
 import { IApiChain } from '../api/queryChains';
 import {
@@ -11,7 +13,6 @@ import {
   isTenetEvm,
 } from './fetchChainUtils';
 import { fetchPublicChains } from './fetchPublicChains';
-import { isDev } from 'modules/common/utils/isProd';
 
 export interface IChainItemDetails {
   chain?: IApiChain;

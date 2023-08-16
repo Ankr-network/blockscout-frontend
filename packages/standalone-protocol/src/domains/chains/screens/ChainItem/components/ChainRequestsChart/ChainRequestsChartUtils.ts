@@ -1,7 +1,9 @@
 import { Theme } from '@material-ui/core';
+
 import { ChainId } from 'domains/chains/api/chain';
-import { RequestsLog } from './ChainRequestsChartTypes';
 import { Themes } from 'modules/themes/types';
+
+import { RequestsLog } from './ChainRequestsChartTypes';
 
 export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {

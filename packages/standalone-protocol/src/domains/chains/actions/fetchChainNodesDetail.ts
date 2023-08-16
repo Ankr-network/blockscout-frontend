@@ -3,6 +3,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import { INodesDetailEntity } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+
 import { getStandaloneUrl, StandaloneType } from '../api/chain';
 
 const getNodesDetail = () => {

@@ -1,6 +1,7 @@
 import { generatePath, Route, useParams } from 'react-router-dom';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+
 import { ChainId } from './api/chain';
 import { ChainItem } from './screens/ChainItem';
 

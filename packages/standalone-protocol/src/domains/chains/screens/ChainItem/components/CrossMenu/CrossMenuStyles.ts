@@ -1,6 +1,8 @@
 import { Theme, fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
 import { ChainId } from 'domains/chains/api/chain';
+
 import { getMenuList } from './MenuList';
 
 export const ANKR_LINK_HEIGHT = 65;
@@ -13,6 +15,7 @@ const MENU_TOP = 60;
 const menuList = getMenuList(false);
 const MENU_ITEMS = menuList.length;
 
+/* eslint-disable max-lines-per-function */
 export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
   dropMenu: {
     '&&': {

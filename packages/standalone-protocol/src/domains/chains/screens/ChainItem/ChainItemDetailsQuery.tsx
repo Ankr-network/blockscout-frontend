@@ -4,16 +4,17 @@ import classNames from 'classnames';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { ResponseData } from 'modules/api/utils/ResponseData';
-import { ChainItemDetails } from './components/ChainItemDetails';
 import { fetchChainDetails } from 'domains/chains/actions/fetchChainDetails';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ChainRequestsChart } from './components/ChainRequestsChart';
-import { useStyles } from './ChainItemStyles';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { ChainId } from 'domains/chains/api/chain';
+import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
+
+import { ChainItemDetails } from './components/ChainItemDetails';
+import { ChainRequestsChart } from './components/ChainRequestsChart';
+import { useStyles } from './ChainItemStyles';
 import { Info } from './components/Info';
 import { useHasAnkrsInfo } from './ChainItemUtils';
-import { useSpinner } from 'modules/layout/components/AppBase/AppBaseUtils';
 
 interface ChainItemProps {
   isComingSoon: boolean;

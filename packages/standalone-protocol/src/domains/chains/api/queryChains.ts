@@ -1,4 +1,5 @@
 import { ChainsConfig } from 'multirpc-sdk';
+
 import { getChainIcon } from '../../../uiKit/utils/getTokenIcon';
 
 export interface IFetchChainsResponseData {

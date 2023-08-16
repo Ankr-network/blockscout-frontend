@@ -3,6 +3,7 @@ import { Box, makeStyles, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+
 import { Select } from './Select';
 
 const items = [

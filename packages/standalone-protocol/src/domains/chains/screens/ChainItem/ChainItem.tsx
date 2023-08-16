@@ -1,13 +1,9 @@
 import { Container, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
+import classNames from 'classnames';
 
 import { tHTML } from 'modules/i18n/utils/intl';
-import classNames from 'classnames';
-import { useStyles } from './ChainItemStyles';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
-import { ChainItemDetailsQuery } from './ChainItemDetailsQuery';
-import { ChainNodesTableQuery } from './ChainNodesTableQuery';
-import { CopyButtons } from './components/CopyButtons';
 import { Header } from 'modules/common/components/Header';
 import { getTheme } from 'modules/common/utils/getTheme';
 import {
@@ -16,6 +12,11 @@ import {
   MAP_CHAIN_ID_TO_NODE_DETAILS_ID,
   MAP_CHAIN_ID_TO_DETAILS_ID,
 } from 'domains/chains/api/chain';
+
+import { useStyles } from './ChainItemStyles';
+import { ChainItemDetailsQuery } from './ChainItemDetailsQuery';
+import { ChainNodesTableQuery } from './ChainNodesTableQuery';
+import { CopyButtons } from './components/CopyButtons';
 import { CrossMenu } from './components/CrossMenu';
 
 interface IChainItemUIProps {
