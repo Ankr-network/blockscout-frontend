@@ -3,8 +3,10 @@ import {
   PrivateStatsInterval,
   Web3Address,
 } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
+
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 import { mapStatsToUsage } from '../utils/mapStatsToUsage';
 import { IUsageEntityMapped } from '../types';
@@ -35,8 +37,10 @@ export const {
             },
           };
         }
+
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
+
         await authorizeBackoffice();
         const statsResponse = await backofficeGateway.getUserStats({
           address,

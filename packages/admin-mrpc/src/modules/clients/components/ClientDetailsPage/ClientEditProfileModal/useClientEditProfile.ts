@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
 import { useModal } from 'modules/common/hooks/useModal';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
 import { useLazyFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
@@ -37,6 +38,7 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
     } else {
       setCommentValue('');
     }
+
     if (profileData?.user?.name) {
       setNameValue(profileData.user.name);
     } else {
@@ -63,6 +65,7 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
 
     if (!currentClient.address) {
       toast.error("Can't find user address");
+
       return;
     }
 
@@ -91,6 +94,7 @@ export const useClientEditProfile = (currentClient: ClientMapped) => {
   ) => {
     setCommentValue(event.target.value);
   };
+
   const onInputNameChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {

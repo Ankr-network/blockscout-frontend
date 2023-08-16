@@ -1,4 +1,5 @@
 import { IChartProps } from 'modules/common/components/Chart';
+
 import { RequestsChartProps } from '../types';
 import { useChartProps } from './useChartProps';
 

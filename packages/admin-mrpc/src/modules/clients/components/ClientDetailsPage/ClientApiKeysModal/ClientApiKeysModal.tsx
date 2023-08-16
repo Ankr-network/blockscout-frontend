@@ -4,6 +4,7 @@ import { ReactComponent as IconCopy } from 'assets/img/copy.svg';
 import { IApiChain, IApiChainURL } from 'modules/clients/utils/queryChains';
 import { ChainSelect } from 'modules/common/components/ChainSelect/ChainSelect';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { useClientApiKeys } from './useClientApiKeys';
 
@@ -46,7 +47,9 @@ export const ClientApiKeysModal = ({ token }: { token: string }) => {
     if (!chain) {
       return null;
     }
+
     const hasChainUrls = chain.urls.length > 0;
+
     return (
       <Box sx={{ mt: 4 }} key={chain.id + chain.type}>
         {hasChainUrls && (

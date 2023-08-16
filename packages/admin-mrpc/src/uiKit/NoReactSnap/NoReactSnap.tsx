@@ -1,5 +1,6 @@
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { ReactNode } from 'react';
+
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 interface INoReactSnapProps {
   children?: ReactNode;

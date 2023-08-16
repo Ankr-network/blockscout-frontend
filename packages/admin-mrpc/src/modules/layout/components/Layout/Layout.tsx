@@ -1,12 +1,14 @@
 import React, { ReactChild } from 'react';
 import { Drawer, AppBar, Toolbar, List, Container } from '@mui/material';
 import { NavLink } from 'ui';
+import { useAppSelector } from 'modules/../store/useAppSelector';
+
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { SearchClientsInput } from 'modules/clients/components/SearchClientsInput';
 import { SearchEmailBindingsInput } from 'modules/clients/components/SearchEmailBindingsInput';
-import { useAppSelector } from 'modules/../store/useAppSelector';
+
 import { Header } from '../Header';
 import { useLayoutStyles as useStyles } from './LayoutStyles';
 import { HideOnScroll } from '../HideOnScrollWrapper';

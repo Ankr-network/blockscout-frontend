@@ -1,7 +1,8 @@
 import { store } from 'store';
 import { resetAuthData } from 'modules/auth/store/authSlice';
-import { disconnectService } from './connectUtils';
 import { web3Api } from 'store/queries/web3Api';
+
+import { disconnectService } from './connectUtils';
 
 export const {
   useLazyAuthDisconnectQuery,

@@ -3,8 +3,10 @@ import {
   IUpdateUserProfileRequest,
   IUpdateUserProfileResponse,
 } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
+
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 
 export const {
@@ -19,6 +21,7 @@ export const {
       queryFn: async params => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
+
         await authorizeBackoffice();
 
         const profileData = await backofficeGateway.updateUserProfile(params);
@@ -31,6 +34,7 @@ export const {
         queryFulfilled
           .then(res => {
             const { data } = res;
+
             if (data.user.address) {
               toast.success(`Updated user profile for ${data.user.address}`);
             } else {

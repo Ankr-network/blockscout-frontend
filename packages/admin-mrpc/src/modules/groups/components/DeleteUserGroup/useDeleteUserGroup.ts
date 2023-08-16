@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Web3Address } from 'multirpc-sdk';
+
 import { useDeleteUserGroupMutation } from 'modules/groups/actions/deleteUserGroup';
 import { useLazyGetUserGroupsQuery } from 'modules/groups/actions/getUserGroups';
 

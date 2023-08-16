@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EmailConfirmationStatus, ICountersEntity } from 'multirpc-sdk';
 
 import { RootState } from 'store';
+
 import { ClientType } from '../types';
 
 type CreatedDate = Date | undefined; // undefined for PENDING clients

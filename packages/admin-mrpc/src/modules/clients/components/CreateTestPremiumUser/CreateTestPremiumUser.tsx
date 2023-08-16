@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { Button, Modal, Typography, Input } from '@mui/material';
+
 import { ClientsRoutesConfig } from '../../ClientsRoutesConfig';
 import { useCreateTestPremiumUserMutation } from '../../actions/createTestPremiumUser';
 import { useCreateTestPremiumUserStyles } from './useCreateTestPremiumUserStyles';
@@ -46,6 +47,7 @@ export const CreateTestPremiumUser = () => {
       name: { value: nameValue },
       email: { value: emailValue },
     } = e.target.elements;
+
     if (userWalletValue && testingPeriodValue) {
       createTestPremiumUser({
         address: userWalletValue.toLowerCase(),

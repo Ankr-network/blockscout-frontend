@@ -1,7 +1,9 @@
 import { Button, ButtonProps } from '@mui/material';
 import { toast } from 'react-toastify';
+
 import { copyToClipboard } from 'modules/common/utils/copyToClipboard';
 import { ReactComponent as IconCopy } from 'assets/img/copy.svg';
+
 import { useButtonCopyStyles } from './ButtonCopyStyles';
 
 interface IButtonCopyProps extends ButtonProps {

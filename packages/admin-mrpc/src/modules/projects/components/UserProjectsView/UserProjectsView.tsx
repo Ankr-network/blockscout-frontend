@@ -3,6 +3,7 @@ import { UserProject, Web3Address } from 'multirpc-sdk';
 import { Spinner } from 'ui';
 
 import { t } from 'modules/i18n/utils/intl';
+
 import { AllowedUserProjectsModal } from '../AllowedUserProjectsModal';
 import { useProjectsView } from './hooks/useProjectsView';
 import { UserProjectItem } from './UserProjectItem';

@@ -3,6 +3,7 @@ import { Button, MenuItem, Modal } from '@mui/material';
 import { ReactComponent as IconWallet } from 'assets/img/wallet.svg';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { useModal } from 'modules/common/hooks/useModal';
+
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { ClientBalancesModalContent } from './ClientBalancesModalContent';
 

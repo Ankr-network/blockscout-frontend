@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import { ClientMapped } from '../../store/clientsSlice';
 import { sortData } from './clientTableUtils';
 
@@ -31,6 +32,7 @@ export const useClientsTableSorting = ({
     const compareType = NUMERIC_KEYS.some(el => sortBy?.includes(el))
       ? 'number'
       : 'string';
+
     setSortedData(sortData({ rows: clients, compareType, sortBy, sortOrder }));
   }, [clients, sortBy, sortOrder]);
 

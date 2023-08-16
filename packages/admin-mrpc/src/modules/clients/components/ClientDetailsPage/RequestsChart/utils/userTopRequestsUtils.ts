@@ -7,7 +7,6 @@ import {
   getYear,
   isBefore,
 } from 'date-fns';
-
 import {
   PrivateStatCount,
   PrivateStatOthersInfo,
@@ -15,6 +14,7 @@ import {
   PrivateStatTopRequestsData,
   PrivateTotalRequestsInfo,
 } from 'multirpc-sdk';
+
 import { Timeframe } from '../types';
 
 export const calculateTotalRequests = (list: number[]) =>
@@ -73,6 +73,7 @@ const calculateBarCounts = (
 
   Object.keys(counts).forEach(timestamp => {
     const item = counts[timestamp];
+
     countList.push({
       timestamp,
       othersInfo: item.others_info,

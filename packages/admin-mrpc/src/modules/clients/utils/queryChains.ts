@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js';
-
 import {
   BlockchainType,
   BlockchainUrls,
   ChainsConfig,
   IBlockchainEntity,
 } from 'multirpc-sdk';
-import { ChainID } from '../types';
+
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
+
+import { ChainID } from '../types';
 
 export interface IFetchChainsResponseData {
   chains: ChainsConfig;

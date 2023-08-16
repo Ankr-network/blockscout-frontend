@@ -1,6 +1,8 @@
 import { UserProject } from 'multirpc-sdk';
 import { Button, Paper, Typography } from '@mui/material';
+
 import { t } from 'modules/i18n/utils/intl';
+
 import { useUserProjectsViewStyles } from './UserProjectsViewStyles';
 
 interface UserProjectItemProps extends UserProject {
@@ -17,6 +19,7 @@ export const UserProjectItem = ({
   isLoadingDeleteUser,
 }: UserProjectItemProps) => {
   const { classes } = useUserProjectsViewStyles();
+
   return (
     <Paper className={classes.projectItem}>
       <Typography

@@ -34,6 +34,7 @@ import { getTtlString } from '../UserTypeTag/const';
 
 const MAX_ON_PAGE = 50;
 
+/* eslint-disable max-lines-per-function */
 export const ClientsTable = ({
   clients = [],
   activeItemAddress,

@@ -1,5 +1,6 @@
 import { formatNumber, renderUSD } from 'modules/common/utils/renderBalance';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
+
 import { NOT_FOUND_TEXT } from '../const';
 import { ClientBalancesMapped } from '../../../types';
 

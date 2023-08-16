@@ -1,7 +1,8 @@
-import { web3Api } from 'store/queries/web3Api';
-import { MultiService } from 'modules/api/MultiService';
 import { CurrencyRate, IRate } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
+
+import { web3Api } from 'store/queries/web3Api';
+import { MultiService } from 'modules/api/MultiService';
 
 export interface CreditsRate extends Omit<CurrencyRate, 'rate'> {
   rate: BigNumber;
@@ -23,6 +24,7 @@ export const {
       queryFn: async () => {
         const service = await MultiService.getService();
         const rate = await service.getPublicGateway().getRate();
+
         return { data: getRate(rate) };
       },
     }),

@@ -1,7 +1,9 @@
 import { IJwtToken, Web3Address } from 'multirpc-sdk';
+
 import { switchEthereumChain } from 'modules/auth/utils/switchEthereumChain';
 import { MultiService } from 'modules/api/MultiService';
 import { t } from 'modules/i18n/utils/intl';
+
 import { hasMetamask } from '../utils/hasMetamask';
 
 export interface IConnect {
@@ -26,6 +28,7 @@ export const connectProvider = async () => {
 
 export const disconnectService = async () => {
   const service = await MultiService.getWeb3Service();
+
   service.getBackofficeGateway().removeToken();
 
   service.getKeyProvider().disconnect();

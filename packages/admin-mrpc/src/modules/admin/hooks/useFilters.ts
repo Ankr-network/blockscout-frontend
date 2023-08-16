@@ -1,6 +1,7 @@
 import { GetUsersRegistrationsFilter } from 'multirpc-sdk';
 import React from 'react';
 import { SelectChangeEvent } from '@mui/material';
+
 import { filters } from '../const';
 
 export const useFilters = () => {

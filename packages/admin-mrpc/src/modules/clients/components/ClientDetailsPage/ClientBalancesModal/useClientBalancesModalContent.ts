@@ -1,8 +1,8 @@
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { millisecondsToSeconds } from 'date-fns';
-
 import { IAmountType } from 'multirpc-sdk';
+
 import { useLazyFetchCountersQuery } from 'modules/clients/actions/fetchCounters';
 import { useFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 import { useAddUserVoucherCreditsMutation } from 'modules/clients/actions/addUserVoucherCredits';
@@ -60,25 +60,32 @@ export const useClientBalancesModalContent = (
 
       if (!address) {
         toast.error("Can't find user address");
+
         return;
       }
 
       if (!amount) {
         toast.error('amount field is required');
+
         return;
       }
 
       let expiresAt: string | undefined;
+
       if (validDuringDaysValue) {
         if (+validDuringDaysValue > 30) {
           toast.error('maximum is 30 days');
+
           return;
         }
+
         const newDate = new Date();
+
         newDate.setDate(newDate.getDate() + +validDuringDaysValue);
         const expiresAtSeconds = Math.floor(
           millisecondsToSeconds(newDate.getTime()),
         );
+
         expiresAt = expiresAtSeconds.toString();
       }
 

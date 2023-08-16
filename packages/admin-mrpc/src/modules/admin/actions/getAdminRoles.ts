@@ -1,7 +1,9 @@
 import { IGetAdminRolesResponse } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from 'modules/clients/utils/authorizeBackoffice';
+
 import { AdminRoles } from '../types';
 import { getRoleByResponse } from '../utils/rolesUtils';
 
@@ -20,6 +22,7 @@ export const {
       queryFn: async () => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = service.getBackofficeGateway();
+
         await authorizeBackoffice();
         const response = await backofficeGateway.getAdminRoles();
 

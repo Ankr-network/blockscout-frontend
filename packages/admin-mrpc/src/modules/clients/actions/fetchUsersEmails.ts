@@ -1,5 +1,7 @@
 import { IEmailBindingEntity, IEmailBindingsRequest } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
+
 import { MultiService } from '../../api/MultiService';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 import { MAX_EMAILS_REQUEST_COUNT } from '../const';
@@ -14,6 +16,7 @@ export const {
         queryFn: async ({ filter_type, filter }) => {
           const service = await MultiService.getWeb3Service();
           const backofficeGateway = await service.getBackofficeGateway();
+
           await authorizeBackoffice();
 
           const emails = await backofficeGateway.getEmailBindings({

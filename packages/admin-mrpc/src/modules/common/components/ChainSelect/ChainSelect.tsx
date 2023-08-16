@@ -5,6 +5,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+
 import { IApiChain } from 'modules/clients/utils/queryChains';
 
 interface ChainSelectProps {

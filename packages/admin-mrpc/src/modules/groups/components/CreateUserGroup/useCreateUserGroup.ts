@@ -1,6 +1,7 @@
 import { FormEvent, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { Web3Address } from 'multirpc-sdk';
+
 import { useCreateUserGroupMutation } from '../../actions/createUserGroup';
 import { useLazyGetUserGroupsQuery } from '../../actions/getUserGroups';
 

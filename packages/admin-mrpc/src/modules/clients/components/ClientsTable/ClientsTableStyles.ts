@@ -1,5 +1,4 @@
 import { Theme } from '@mui/material/styles';
-
 import { makeStyles } from 'tss-react/mui';
 
 // :nth-of-type used instead of first-child because of warning:

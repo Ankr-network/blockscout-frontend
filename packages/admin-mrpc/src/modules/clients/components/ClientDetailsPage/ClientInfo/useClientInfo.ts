@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Web3Address } from 'multirpc-sdk';
+
 import { useLazyFetchUserProfileQuery } from 'modules/clients/actions/fetchUserProfile';
 import { useUpdateUserProfileMutation } from 'modules/clients/actions/updateUserProfile';
 import { useFetchUserRevenueQuery } from 'modules/clients/actions/fetchUserRevenue';
@@ -40,6 +41,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     } else {
       setCommentInputValue('');
     }
+
     if (isErrorProfile) {
       setCommentInputValue('');
     }
@@ -48,6 +50,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const handleUpdateProfile = useCallback(() => {
     updateUserProfile({ address, comment: commentInputValue }).then(res => {
       fetchProfileData({ address });
+
       return res;
     });
   }, [address, commentInputValue, updateUserProfile, fetchProfileData]);
@@ -66,6 +69,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     ) {
       return;
     }
+
     handleUpdateProfile();
   };
 

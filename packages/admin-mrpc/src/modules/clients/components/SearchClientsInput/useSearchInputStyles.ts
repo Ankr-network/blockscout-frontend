@@ -1,5 +1,4 @@
 import { Theme } from '@mui/material/styles';
-
 import { makeStyles } from 'tss-react/mui';
 
 const INPUT_WIDTH = 300;

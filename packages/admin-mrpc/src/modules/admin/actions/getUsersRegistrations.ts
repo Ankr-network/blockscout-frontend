@@ -2,6 +2,7 @@ import {
   GetUsersRegistrationsRequest,
   GetUsersRegistrationsResponse,
 } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { authorizeBackoffice } from 'modules/clients/utils/authorizeBackoffice';
@@ -28,6 +29,7 @@ export const {
       queryFn: async params => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = service.getBackofficeGateway();
+
         await authorizeBackoffice();
         const response = IS_MOCKED
           ? mock

@@ -1,6 +1,8 @@
 import { Button, Modal } from '@mui/material';
+
 import { ReactComponent as IconEdit } from 'assets/img/edit.svg';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
+
 import { useClientEditEmail } from './useClientEditEmail';
 import { ClientEditEmailModalContent } from './ClientEditEmailModalContent';
 

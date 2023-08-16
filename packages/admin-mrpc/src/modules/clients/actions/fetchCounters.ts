@@ -3,8 +3,10 @@ import {
   ICountersEntity,
   IEmailBindingEntity,
 } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
+
 import { ClientMapped } from '../store/clientsSlice';
 import { getClientType } from '../utils/getClientType';
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
@@ -23,6 +25,7 @@ interface IApiResponse {
   errors?: ICountersError[];
 }
 
+/* eslint-disable max-lines-per-function */
 export const {
   useFetchCountersQuery,
   useLazyFetchCountersQuery,
@@ -45,12 +48,14 @@ export const {
         // https://ankrnetwork.atlassian.net/browse/MRPC-1655
         const fetchAllCounters = async () => {
           let cursor: string | undefined = '0';
+
           while (cursor && cursor !== '-1') {
             try {
               // @ts-ignore
               const counters =
                 // eslint-disable-next-line no-await-in-loop
                 await backofficeGateway.getCounters({ cursor });
+
               cursor = counters.cursor;
 
               countersCollection = [
@@ -78,6 +83,7 @@ export const {
         // https://ankrnetwork.atlassian.net/browse/MRPC-1655
         const fetchAllEmails = async () => {
           let cursor: string | undefined = '0';
+
           while (cursor && cursor !== '-1') {
             try {
               // @ts-ignore
@@ -87,6 +93,7 @@ export const {
                   limit: MAX_EMAILS_REQUEST_COUNT,
                   cursor,
                 });
+
               cursor = emails.cursor;
 
               emailsCollection = [
@@ -114,7 +121,8 @@ export const {
         // https://ankrnetwork.atlassian.net/browse/MRPC-1655
         const fetchAllBalances = async () => {
           let cursor: string | number | undefined = '0';
-          while (cursor && cursor !== '-1' && cursor !== -1) {
+
+          while (cursor && cursor !== '-1' && (cursor as unknown) !== -1) {
             try {
               // @ts-ignore
               const balances =
@@ -123,6 +131,7 @@ export const {
                   limit: MAX_EMAILS_REQUEST_COUNT,
                   cursor: +cursor,
                 });
+
               cursor = balances.cursor;
               // TODO: Current API Credit Balance	= Credit Ankr Amount + Credit Voucher Amount
               balancesCollection = [
@@ -157,6 +166,7 @@ export const {
             balance =>
               balance.address?.toLowerCase() === client.address?.toLowerCase(),
           );
+
           return {
             ...client,
             ...mapBalances(userBalances),
@@ -191,6 +201,7 @@ export const {
                 balance.address?.toLowerCase() ===
                 client.address?.toLowerCase(),
             );
+
             return {
               ...client,
               ...mapBalances(userBalances),

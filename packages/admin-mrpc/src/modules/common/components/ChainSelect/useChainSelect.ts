@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { SelectChangeEvent } from '@mui/material';
+
 import { useFetchBlockchainsQuery } from 'modules/clients/actions/fetchBlockchains';
 
 export const useChainSelect = (token?: string) => {

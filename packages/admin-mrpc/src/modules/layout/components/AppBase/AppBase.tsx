@@ -1,8 +1,10 @@
 import React, { ReactNode, useMemo } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Spinner } from 'ui';
+
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { getTheme } from 'modules/common/utils/getTheme';
+
 import { useInitialaizeLocale } from './AppBaseUtils';
 import { CssModulesPriority } from './CssModulesPriority';
 

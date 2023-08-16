@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+
 import { clientTypeNaming, getClientTypeExpiration } from './const';
 import { ClientEntity } from '../../types';
 import { useUserTypeTagStyles as useStyles } from './UserTypeTagStyles';

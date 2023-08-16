@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { useChainSelect } from 'modules/common/components/ChainSelect/useChainSelect';
 
 export const useClientApiKeys = ({ token }: { token: string }) => {
@@ -14,6 +15,7 @@ export const useClientApiKeys = ({ token }: { token: string }) => {
   const handleOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };

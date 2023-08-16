@@ -1,6 +1,7 @@
+import { IWebsocketStatsRequest, IWebsocketStatsResponse } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
-import { IWebsocketStatsRequest, IWebsocketStatsResponse } from 'multirpc-sdk';
 
 export const {
   useFetchWebsocketStatsQuery,

@@ -1,5 +1,6 @@
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
+
 import { filterMapChains, IApiChain } from '../utils/queryChains';
 
 interface IRequestParams {

@@ -16,10 +16,12 @@ export const queryErrorLogger: Middleware = () => next => action => {
         toastId: action.error.message,
       });
     }
+
     toast.error(action.error.message, {
       toastId: action.error.message,
     });
   }
+
   if (isRejectedWithValue(action)) {
     toast.error(action.error.message, {
       toastId: action.error.message,

@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useHistory } from 'react-router-dom';
+
 import { columns } from './const';
 import { useGroupsList } from './useGroupsList';
 import { GroupsRoutesConfig } from '../../GroupsRoutesConfig';

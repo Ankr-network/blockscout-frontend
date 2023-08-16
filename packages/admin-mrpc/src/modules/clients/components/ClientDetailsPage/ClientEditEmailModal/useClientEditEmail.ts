@@ -1,5 +1,6 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
 import { useModal } from 'modules/common/hooks/useModal';
 import { useCreateUserEmailMutation } from 'modules/clients/actions/createUserEmail';
 import { useUpdateUserEmailMutation } from 'modules/clients/actions/updateUserEmail';
@@ -71,6 +72,7 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
 
       if (!currentClient?.address) {
         toast.error("Can't find user address");
+
         return;
       }
 
@@ -83,12 +85,16 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
       if (email === currentClient?.email) {
         handleClose();
         toast.error('Email is not changed');
+
         return;
       }
+
       if (email.length < 5) {
         toast.error("Email can't include less then 5 symbols");
+
         return;
       }
+
       if (!email.match(emailRegex)) {
         toast.error("Email doesn't match pattern");
         // eslint-disable-next-line

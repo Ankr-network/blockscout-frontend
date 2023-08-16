@@ -1,4 +1,5 @@
 import { PrivateStatsInterval } from 'multirpc-sdk';
+
 import { CustomRange } from './useClientDetailsPage';
 
 export const timeframeTextMap: Record<

@@ -1,9 +1,11 @@
 import { toast } from 'react-toastify';
 import { Button, Fade, Menu, MenuItem } from '@mui/material';
+
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { copyToClipboard } from 'modules/common/utils/copyToClipboard';
 import { ReactComponent as IconCopy } from 'assets/img/copy.svg';
 import { ReactComponent as IconDots } from 'assets/img/dots.svg';
+
 import { useClientsTableStyles } from './ClientsTableStyles';
 import { ClientMapped } from '../../store/clientsSlice';
 
