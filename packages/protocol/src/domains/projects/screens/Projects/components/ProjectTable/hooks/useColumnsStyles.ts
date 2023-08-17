@@ -14,4 +14,7 @@ export const useColumnsStyles = makeStyles()(theme => ({
       color: theme.palette.primary.main,
     },
   },
+  infoIcon: {
+    color: theme.palette.grey[400],
+  },
 }));

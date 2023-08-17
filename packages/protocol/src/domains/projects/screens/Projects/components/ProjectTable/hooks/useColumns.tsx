@@ -1,27 +1,19 @@
-import { t } from '@ankr.com/common';
-import { Skeleton, Tooltip } from '@mui/material';
 import { Info } from '@ankr.com/ui';
+import { Skeleton, Tooltip } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { Project } from 'domains/projects/utils/getAllProjects';
-import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { VirtualTableColumn } from 'uiKit/VirtualTable';
-import { SoonLabel } from 'modules/common/components/SoonLabel';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
+import { Project } from 'domains/projects/utils/getAllProjects';
+import { SoonLabel } from 'modules/common/components/SoonLabel';
+import { VirtualTableColumn } from 'uiKit/VirtualTable';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
-import { ActiveLabel } from '../../ActiveLabel';
-import { ProjectName } from '../../ProjectName';
-import { BlockchainIcon } from '../../BlockchainIcon';
 import { ActionsMenu } from '../../ActionsMenu';
-import {
-  formatBlockchainToString,
-  getProjectActivity,
-  formatStatsByRangeToProjectActivityStats,
-  getTodaysRequests,
-} from '../ProjectTableUtils';
-import {
-  ProjectRequestsActivity,
-  ProjectRequestsActivityProps,
-} from '../../ProjectRequestsActivity';
+import { ActiveLabel } from '../../ActiveLabel';
+import { BlockchainIcon } from '../../BlockchainIcon';
+import { ProjectName } from '../../ProjectName';
+import { ProjectRequestsActivity } from '../../ProjectRequestsActivity';
+import { formatBlockchainToString, getRequests } from '../ProjectTableUtils';
 import { useColumnsStyles } from './useColumnsStyles';
 
 export const useColumns = (isProjectsActivityLoading: boolean) => {
@@ -102,37 +94,37 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
             placement="top"
             className={classes.tooltip}
           >
-            <Info />
+            <Info className={classes.infoIcon} />
           </Tooltip>
         </span>
       ),
-      render: ({ statsData }) => {
+      render: ({ statsData = {} }) => {
         if (isProjectsActivityLoading) {
           return <Skeleton variant="rectangular" style={{ borderRadius: 8 }} />;
         }
 
-        const { statsByRange, hasError } = statsData;
+        const { data = {}, error } = statsData;
 
-        if (hasError) {
+        if (error) {
           return t('common.no-data');
         }
 
-        const stats = formatStatsByRangeToProjectActivityStats(
-          statsByRange ?? {},
-        );
+        const requests = getRequests(data);
 
-        const activitiesToday = getTodaysRequests(stats);
+        const [todayRequests, yesterdayRequests] = requests;
 
-        const isEmpty = stats.length === 0 || activitiesToday.isZero();
+        const isEmpty = requests.length === 0 || todayRequests === 0;
 
         if (isEmpty) {
           return t('projects.list-project.no-requests-yet');
         }
 
-        const activityToday: ProjectRequestsActivityProps =
-          getProjectActivity(stats);
-
-        return <ProjectRequestsActivity {...activityToday} />;
+        return (
+          <ProjectRequestsActivity
+            todayRequests={todayRequests}
+            yesterdayRequests={yesterdayRequests}
+          />
+        );
       },
       sortable: false,
     },

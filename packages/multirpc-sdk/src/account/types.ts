@@ -399,10 +399,27 @@ export interface LatestRequest {
 }
 
 export interface StatsByRangeRequest extends IApiUserGroupParams {
+  duration?: StatsByRangeDuration;
   from?: Timestamp;
-  to?: Timestamp;
   monthly?: boolean;
+  timeframe?: StatsByRangeTimeframe;
+  to?: Timestamp;
   token?: string;
+}
+
+export enum StatsByRangeDuration {
+  HOUR = '1h',
+  TWO_HOURS = '2h',
+  DAY = '1d',
+  TWO_DAYS = '2d',
+  MONTH = '1mo',
+  SIX_MONTH = '6m',
+}
+
+export enum StatsByRangeTimeframe {
+  FIVE_MINUTES = '5m',
+  HOUR = '1h',
+  DAY = '1d',
 }
 
 export type StatsByRangeResponse = Record<string, number>;

@@ -149,8 +149,8 @@
         "column-2": "Project status",
         "column-3": "White list",
         "column-4": "Connected chains",
-        "column-5": "Activity today",
-        "column-5-tooltip": "Activity for today (UTC time)"
+        "column-5": "Requests today",
+        "column-5-tooltip": "Requests for today (UTC time)"
       },
       "project-name-tooltip": "You can’t remove the Primary project.",
       "active": "Active",
@@ -163,7 +163,8 @@
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
       "requests": "Requests today",
-      "count": "{value, number, ::compact-short }"
+      "count": "{value, number, ::compact-short }",
+      "percent": "{sign, plural, =0 {} =1 {+} =-1 {-}}{percent, number, ::compact-short}%"
     },
     "new-project": {
       "breadcrumbs": "Create project",

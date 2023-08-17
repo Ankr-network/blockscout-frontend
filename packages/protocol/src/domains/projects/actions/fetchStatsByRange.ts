@@ -1,40 +1,67 @@
-import { getTime, subDays } from 'date-fns';
-import { StatsByRangeResponse } from 'multirpc-sdk';
+import {
+  StatsByRangeDuration,
+  StatsByRangeResponse,
+  StatsByRangeTimeframe,
+} from 'multirpc-sdk';
 
+import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
-interface GetStatsByRangeParams {
-  userEndpointToken: string;
+export interface GetStatsByRangeParams {
+  jwtTokens: JwtManagerToken[];
   group?: string;
 }
 
-const getRange = () => {
-  const to = getTime(new Date());
-  const from = getTime(subDays(to, 1));
+export interface StatsByRangeResult {
+  [userEndpointToken: string]: StatsByRange;
+}
 
-  return { to, from };
-};
+export interface StatsByRange {
+  error?: string;
+  data?: StatsByRangeResponse;
+}
+
+const isFulfilled = (
+  result: PromiseSettledResult<StatsByRangeResponse>,
+): result is PromiseFulfilledResult<StatsByRangeResponse> =>
+  result.status === 'fulfilled';
+
+const isRejected = (
+  result: PromiseSettledResult<StatsByRangeResponse>,
+): result is PromiseRejectedResult => result.status === 'rejected';
+
+const duration = StatsByRangeDuration.TWO_DAYS;
+const timeframe = StatsByRangeTimeframe.DAY;
 
 export const {
   endpoints: { fetchStatsByRange },
-  useFetchStatsByRangeMutation,
+  useLazyFetchStatsByRangeQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchStatsByRange: build.mutation<
-      StatsByRangeResponse,
-      GetStatsByRangeParams
-    >({
-      queryFn: async ({ group, userEndpointToken }) => {
+    fetchStatsByRange: build.query<StatsByRangeResult, GetStatsByRangeParams>({
+      queryFn: async ({ group, jwtTokens }) => {
         const service = MultiService.getService().getAccountGateway();
 
-        const statsByRange = await service.getUserStatsByRange({
-          group,
-          token: userEndpointToken,
-          ...getRange(),
-        });
+        const promises = jwtTokens.map(({ userEndpointToken: token }) =>
+          service.getUserStatsByRange({ duration, group, timeframe, token }),
+        );
 
-        return { data: statsByRange };
+        const results = await Promise.allSettled(promises);
+
+        const data = results.reduce<StatsByRangeResult>(
+          (stats, result, index) => {
+            stats[jwtTokens[index].userEndpointToken] = {
+              data: isFulfilled(result) ? result.value : undefined,
+              error: isRejected(result) ? result.reason : undefined,
+            };
+
+            return stats;
+          },
+          {},
+        );
+
+        return { data };
       },
     }),
   }),
