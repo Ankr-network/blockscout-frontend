@@ -26,7 +26,7 @@ export const useNegativeBalanceTermsOfServices = () => {
 
   const [
     fetchTermsOfServices,
-    { data: { tosAccepted } = { tosAccepted: false }, isLoading },
+    { data: { tosAccepted } = { tosAccepted: false }, isError, isLoading },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
   const [
@@ -57,6 +57,7 @@ export const useNegativeBalanceTermsOfServices = () => {
         isDevRole,
         hasPremium,
         isFinanceRole,
+        isError,
       }),
     [
       isLoggedIn,
@@ -67,6 +68,7 @@ export const useNegativeBalanceTermsOfServices = () => {
       isDevRole,
       hasPremium,
       isFinanceRole,
+      isError,
     ],
   );
 

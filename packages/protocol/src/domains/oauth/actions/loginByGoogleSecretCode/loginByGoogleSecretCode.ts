@@ -60,7 +60,7 @@ export const {
           const { code, state, provider, error } = getSecreteCodeAndState();
 
           if (error) {
-             throw new Error(error);
+            throw new Error(error);
           }
 
           let { authorizationToken } = selectAuthData(getState() as RootState);
