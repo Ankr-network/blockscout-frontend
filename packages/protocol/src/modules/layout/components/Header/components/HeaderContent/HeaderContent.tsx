@@ -8,54 +8,61 @@ import { selectHasUserGroups } from 'domains/userGroup/store';
 import { ThemeSwitcher } from 'modules/layout/components/ThemeSwitcher';
 import { UserGroupSelector } from 'domains/userGroup/components/UserGroupSelector';
 import { SignupButton } from 'domains/auth/components/SignupButton';
+import { Header } from 'modules/layout/const';
 
 interface HeaderContentProps {
-  isMobile?: boolean;
-  isMobileSideBar?: boolean;
+  type?: Header;
 }
 
 export const HeaderContent = ({
-  isMobile = false,
-  isMobileSideBar = false,
+  type = Header.Default,
 }: HeaderContentProps) => {
+  const isDefaultType = type === Header.Default;
+  const isSidebarType = type === Header.Sidebar;
+  const isMobileType = type === Header.Mobile;
+
   const { isLoggedIn } = useAuth();
 
   const hasUserGroups = useAppSelector(selectHasUserGroups);
 
   const shouldShowSignupButton = useMemo(() => {
-    if (isMobileSideBar && !isLoggedIn) return false;
+    if (isSidebarType && !isLoggedIn) return false;
 
     return true;
-  }, [isMobileSideBar, isLoggedIn]);
+  }, [isSidebarType, isLoggedIn]);
 
   const shouldShowUserGroupSelector = useMemo(() => {
     if (!hasUserGroups) return false;
 
-    if (isMobile && !isMobileSideBar) return false;
+    if (isMobileType) return false;
 
     return true;
-  }, [hasUserGroups, isMobile, isMobileSideBar]);
+  }, [hasUserGroups, isMobileType]);
 
   const shouldShowThemeSwitcher = useMemo(() => {
-    const shouldHide = isMobile && !isMobileSideBar;
+    const shouldHide = isMobileType && !isSidebarType;
 
     return !shouldHide;
-  }, [isMobile, isMobileSideBar]);
+  }, [isMobileType, isSidebarType]);
 
   return (
     <>
       {isLoggedIn && (
         <AccountDetailsButton
-          isMobile={isMobile}
-          isMobileSideBar={isMobileSideBar}
+          isMobileType={isMobileType}
+          isSidebarType={isSidebarType}
         />
       )}
       {shouldShowSignupButton && (
-        <SignupButton isMobile={isMobile} isMobileSideBar={isMobileSideBar} />
+        <SignupButton
+          isDefaultType={isDefaultType}
+          isSidebarType={isSidebarType}
+          isMobileType={isMobileType}
+        />
       )}
-      {!isMobile && <UserGroupDialog />}
+      {(isDefaultType || isSidebarType) && <UserGroupDialog />}
       {shouldShowThemeSwitcher && (
-        <ThemeSwitcher isMobileSideBar={isMobileSideBar} />
+        <ThemeSwitcher isSidebarType={isSidebarType} />
       )}
       {shouldShowUserGroupSelector && <UserGroupSelector />}
     </>

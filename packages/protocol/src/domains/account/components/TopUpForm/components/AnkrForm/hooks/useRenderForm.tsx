@@ -15,7 +15,8 @@ export const useRenderForm = ({
   onBundleBannerClick,
   validateAmount,
   isTopUpProcessing,
-}: RenderFormProps) => useCallback(
+}: RenderFormProps) =>
+  useCallback(
     ({
       form: { change },
       handleSubmit,

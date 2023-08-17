@@ -5,7 +5,7 @@ import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import {
   EmptyObject,
-  LoginByGoogleSecretCodeResult,
+  LoginBySecretCodeResult,
   useLazyOauthLoginByGoogleSecretCodeQuery,
 } from 'domains/oauth/actions/loginByGoogleSecretCode';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -30,7 +30,7 @@ export const OauthQuery = () => {
 
   return (
     <Box className={classes.root}>
-      <Queries<LoginByGoogleSecretCodeResult, EmptyObject>
+      <Queries<LoginBySecretCodeResult, EmptyObject>
         empty={<OverlaySpinner />}
         queryStates={[loginByGoogleSecretCodeState, oauthLoginJwtState]}
       >

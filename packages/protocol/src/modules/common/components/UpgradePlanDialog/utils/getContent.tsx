@@ -42,7 +42,7 @@ export const getContent = ({
         plans={plans}
       />
     ),
-    [SIGN_UP]: <SignUpContent onClose={onClose} onGoogleSignUp={resetTitle} />,
+    [SIGN_UP]: <SignUpContent onClose={onClose} onOauthSignUp={resetTitle} />,
     [TOP_UP]: <AccountDetailsTopUp />,
     [CONTACT_SALES_FORM]: <ContactSalesForm onSubmit={onSubmitContactForm} />,
     [CONTACT_SALES_SUCCESS]: (

@@ -16,7 +16,6 @@ import { MobileHeader } from '../MobileHeader';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 
 export const CONTENT_WIDTH = 1120;
@@ -87,7 +86,6 @@ export const DefaultLayout = ({
           </div>
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
-        <ConnectWalletDialog />
         {isLoggedIn && (
           <GuardUserGroup blockName={BlockWithPermission.Billing}>
             <StatusTransitionDialog />

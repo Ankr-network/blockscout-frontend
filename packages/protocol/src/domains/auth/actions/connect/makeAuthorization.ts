@@ -7,7 +7,6 @@ import {
   selectAuthData,
   setAuthData,
 } from 'domains/auth/store/authSlice';
-import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 
 import { authAuthorizeProvider } from '../getAuthorizationToken';
 import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
@@ -47,6 +46,7 @@ export const setWeb3UserAuthorizationToken = async (
   );
 
   service.getAccountGateway().addToken(authorizationToken);
+  service.getOauthGateway().addToken(authorizationToken);
 };
 
 const isInstantJwtParticipant = async (dispatch: AppDispatch) => {
@@ -55,15 +55,6 @@ const isInstantJwtParticipant = async (dispatch: AppDispatch) => {
   ).unwrap();
 
   return isParticipant;
-};
-
-const fetchUserEmail = (dispatch: AppDispatch) => {
-  return dispatch(
-    userSettingsGetActiveEmailBinding.initiate({
-      params: undefined,
-      shouldNotify: false,
-    }),
-  );
 };
 
 interface GetJwtTokenFullDataArguments {
@@ -158,9 +149,7 @@ export const makeAuthorization = async ({
     workerTokenData,
   };
 
-  await fetchUserEmail(dispatch);
-
-  dispatch(setAuthData(authData));
+  await dispatch(setAuthData(authData));
 
   return authData;
 };

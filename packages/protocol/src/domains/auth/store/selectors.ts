@@ -124,19 +124,9 @@ export const selectHasOauthLogin = createSelector(
 export const selectIsWeb3UserWithEmailBound = createSelector(
   selectHasOauthLogin,
   selectHasWeb3Connection,
-  selectHasUserEndpointToken,
   selectIsUserEthAddressType,
-  (
-    hasOauthLogin,
-    hasWeb3Connection,
-    hasUserEndpointToken,
-    isUserEthAddressType,
-    // eslint-disable-next-line max-params
-  ) =>
-    !hasWeb3Connection &&
-    hasOauthLogin &&
-    !hasUserEndpointToken &&
-    isUserEthAddressType,
+  (hasOauthLogin, hasWeb3Connection, isUserEthAddressType) =>
+    !hasWeb3Connection && hasOauthLogin && isUserEthAddressType,
 );
 
 const freeToPremiumThreshold = getPremiumActivationThreshold();
@@ -163,13 +153,18 @@ export const selectHasStatusTransition = createSelector(
 export const selectHasConnectWalletMessage = createSelector(
   selectHasOauthLogin,
   selectHasWeb3Connection,
-  selectHasPrivateAccess,
+  selectHasUserEndpointToken,
   selectIsUserEthAddressType,
-  // eslint-disable-next-line max-params
-  (hasOauthLogin, hasWeb3Connection, hasPrivateAccess, isUserEthAddressType) =>
+  (
+    hasOauthLogin,
+    hasWeb3Connection,
+    hasUserEndpointToken,
+    isUserEthAddressType,
+    // eslint-disable-next-line max-params
+  ) =>
     hasOauthLogin &&
     !hasWeb3Connection &&
-    hasPrivateAccess &&
+    !hasUserEndpointToken &&
     isUserEthAddressType,
 );
 

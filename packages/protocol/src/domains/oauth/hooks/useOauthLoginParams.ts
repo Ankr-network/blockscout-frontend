@@ -1,13 +1,8 @@
-import { useLazyOauthFetchLoginParamsQuery } from '../actions/fetchLoginParams';
+import { useLazyFetchOauthLoginParamsQuery } from '../actions/fetchOauthLoginParams';
 
-export interface OauthLoginParams {
-  handleFetchLoginParams: () => void;
-  loading: boolean;
-}
-
-export const useOauthLoginParams = (): OauthLoginParams => {
+export const useOauthLoginParams = () => {
   const [handleFetchLoginParams, { isLoading, isUninitialized }] =
-    useLazyOauthFetchLoginParamsQuery();
+    useLazyFetchOauthLoginParamsQuery();
 
   return { handleFetchLoginParams, loading: isLoading || !isUninitialized };
 };

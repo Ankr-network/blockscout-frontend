@@ -107,23 +107,27 @@
     "already-premium": "Already Premium?",
     "connect-wallet": "Connect Wallet",
     "add-google": "Add Google account",
+    "add-github": "Add Github account",
     "sign-out": "Sign out"
   },
   "signup-modal": {
     "title": "Sign up method",
-    "oauth-title": "Email authentication",
-    "wallet-install": "Install",
-    "gmail-button": "Continue with Google",
-    "email-warning": "Please connect using Google only if&nbsp;you haven&rsquo;t used a&nbsp;wallet to&nbsp;sign in&nbsp;previously",
     "google": {
       "title": "Google Authentication",
       "description": "Connection Process"
     },
-    "connect-wallet": "Wallet connecting",
+    "github": {
+      "title": "Github Authentication",
+      "description": "Connection Process"
+    },
     "web2": {
-      "button": "Continue with Google"
+      "google": "Continue with Google",
+      "github": "Continue with GitHub",
+      "or": "or"
     },
     "web3": {
+      "connect-wallet": "Wallet connecting",
+      "wallet-install": "Install",
       "title": "Continue with Ethereum Wallet",
       "button": "Continue with ETH Wallet",
       "tooltip-message": "Wallet integration is being updated. For now, please connect an extension-based wallet.",
@@ -969,8 +973,9 @@
     "email-content": "For account setup, Ankr needs an&nbsp;email for important notifications and service updates. Don&rsquo;t worry, your info is&nbsp;highly secured and never shared&nbsp;&mdash; use an&nbsp;anonymous address if&nbsp;you wish!"
   },
   "oauth": {
-    "breadcrumbs": "Google auth",
+    "breadcrumbs": "Authorization",
     "secret-code-error": "Wrong secret code. Try to sign up again",
+    "binding-error": "This account has already been registered",
     "eth-address-error": "No ethUserAddress"
   },
   "common": {

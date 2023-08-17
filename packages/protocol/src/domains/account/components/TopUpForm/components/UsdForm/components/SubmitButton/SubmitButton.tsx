@@ -37,5 +37,5 @@ export const SubmitButton = ({
         {t('account.account-details.top-up.cancel-label')}
       </div>
     </div>
-  )
+  );
 };

@@ -1,7 +1,9 @@
+import { OauthLoginProvider } from 'multirpc-sdk';
+
 import { useAppSelector } from 'store/useAppSelector';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 
-import { selectAuthData } from '../store/authSlice';
+import { GOOGLE_PROVIDER, selectAuthData } from '../store/authSlice';
 import {
   selectAddress,
   selectHasConnectWalletMessage,
@@ -23,7 +25,7 @@ import {
 import { useWeb3Connection } from './useWeb3Connection';
 
 export const useAuth = () => {
-  const authData = useAppSelector(selectAuthData);
+  const { oauthProviders, ...authData } = useAppSelector(selectAuthData);
 
   const hasConnectWalletMessage = useAppSelector(selectHasConnectWalletMessage);
   const hasFreeToPremiumTransition = useAppSelector(
@@ -53,6 +55,9 @@ export const useAuth = () => {
     ...rest,
     ...authData,
     ...oauthRest,
+    oauthProviders,
+    hasGithubLogin: oauthProviders?.includes(OauthLoginProvider.Github),
+    hasGoogleLogin: oauthProviders?.includes(GOOGLE_PROVIDER),
     address,
     hasWeb3Connection: Boolean(hasWeb3Connection),
     isWalletConnected: Boolean(address),

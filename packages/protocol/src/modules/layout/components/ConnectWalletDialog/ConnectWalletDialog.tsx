@@ -7,24 +7,28 @@ import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedB
 import { Address } from './components/Address';
 import { Buttons } from './components/Buttons';
 import { text } from './utils/text';
-import { useConnectWaletDialog } from './hooks/useConnectWalletDialog';
 import { useConnectWaletDialogStyles } from './ConnectWaletDialogStyles';
+import { useSignUpDialog } from './hooks/useSignUpDialog';
 
-export const ConnectWalletDialog = () => {
-  const {
-    hasOauthLogin,
-    isOpened,
-    signUpDialog: { isOpen, onClose, handleOpen },
-  } = useConnectWaletDialog();
+interface ConnectWalletDialogProps {
+  isOpened: boolean;
+  handleCloseDialog: () => void;
+}
+
+export const ConnectWalletDialog = ({
+  isOpened,
+  handleCloseDialog,
+}: ConnectWalletDialogProps) => {
+  const { isOpen, onClose, handleOpen } = useSignUpDialog();
 
   const { classes } = useConnectWaletDialogStyles();
 
   return (
     <Dialog
       maxPxWidth={LAYOUT_DIALOG_WIDTH}
-      open={isOpened}
+      open={Boolean(isOpened)}
       paperClassName={classes.paper}
-      shouldHideCloseButton
+      onClose={handleCloseDialog}
     >
       <div className={classes.iconWrapper}>
         <Warning className={classes.icon} size="xmd" />
@@ -33,11 +37,7 @@ export const ConnectWalletDialog = () => {
       <div className={classes.description}>{text('description')}</div>
       <Address className={classes.address} />
       <Buttons onConnectButtonClick={handleOpen} />
-      <SignupDialog
-        hasOauthLogin={hasOauthLogin}
-        isOpen={isOpen}
-        onClose={onClose}
-      />
+      <SignupDialog hasOauthLogin isOpen={isOpen} onClose={onClose} />
     </Dialog>
   );
 };

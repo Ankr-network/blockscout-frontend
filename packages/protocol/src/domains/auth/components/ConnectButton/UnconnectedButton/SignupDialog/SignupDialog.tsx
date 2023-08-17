@@ -1,9 +1,8 @@
 import { Dialog } from 'uiKit/Dialog';
 
-import { LoadingState } from './LoadingState';
 import { useSignupDialogStyles } from './useSignupDialogStyles';
 import { SignupDialogContent } from './SignupDialogContent';
-import { useSignupDialog } from './useSignupDialog';
+import { useSignupDialog } from './SignupDialogContent/hooks/useSignupDialog';
 
 export const SIGNUP_DIALOG_WIDTH = 620;
 
@@ -25,33 +24,34 @@ export const SignupDialog = ({
     currentState,
     dialogTitle,
     handleClose,
-    loading,
-    onDialogClose,
+    isLoading,
+    onDialogCloseClick,
     onGoogleButtonClick,
+    onGithubButtonClick,
     setWeb3State,
+    oauthLoginType,
   } = useSignupDialog({ onClose, hasOauthLogin });
 
   return (
     <Dialog
       maxPxWidth={SIGNUP_DIALOG_WIDTH}
-      onClose={onDialogClose}
+      onClose={onDialogCloseClick}
       open={isOpen}
       title={dialogTitle}
       titleClassName={classes.dialogTitle}
       closeButtonClassName={classes.closeButton}
       paperClassName={classes.paperRoot}
     >
-      {loading ? (
-        <LoadingState />
-      ) : (
-        <SignupDialogContent
-          currentState={currentState}
-          onDialogClose={handleClose}
-          onGoogleButtonClick={onGoogleButtonClick}
-          onSuccess={onSuccess}
-          setWeb3State={setWeb3State}
-        />
-      )}
+      <SignupDialogContent
+        currentState={currentState}
+        onDialogClose={handleClose}
+        onGoogleButtonClick={onGoogleButtonClick}
+        onGithubButtonClick={onGithubButtonClick}
+        onSuccess={onSuccess}
+        setWeb3State={setWeb3State}
+        isLoading={isLoading}
+        oauthLoginType={oauthLoginType}
+      />
     </Dialog>
   );
 };

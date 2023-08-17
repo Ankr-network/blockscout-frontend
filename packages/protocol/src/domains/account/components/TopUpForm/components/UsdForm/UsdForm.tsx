@@ -4,7 +4,7 @@ import { UsdFormProps } from './types';
 import { useUsdForm } from './hooks/useUsdForm';
 
 export const UsdForm = (props: UsdFormProps) => {
-  const { initialValues, onSubmit, renderForm } = useUsdForm(props)
+  const { initialValues, onSubmit, renderForm } = useUsdForm(props);
 
   return (
     <Form

@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.55.0",
+  "version": "1.54.4",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -136,8 +136,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "yarn lint:js:fix",
-      "git add"
+      "yarn lint:js:fix"
     ]
   },
   "browserslist": {

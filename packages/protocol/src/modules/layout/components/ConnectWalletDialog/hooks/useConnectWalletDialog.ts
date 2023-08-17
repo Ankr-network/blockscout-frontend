@@ -1,23 +1,26 @@
+import { useCallback, useState } from 'react';
+
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-
-import { useSignUpDialog } from './useSignUpDialog';
 
 export const useConnectWaletDialog = () => {
-  const { hasOauthLogin } = useAuth();
   const isWeb3UserWithEmailBound = useAppSelector(
     selectIsWeb3UserWithEmailBound,
   );
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
-  const { loading: isConnecting } = useAuth();
+  const handleOpenDialog = useCallback(() => {
+    setIsOpened(true);
+  }, []);
 
-  const signUpDialog = useSignUpDialog();
+  const handleCloseDialog = useCallback(() => {
+    setIsOpened(false);
+  }, []);
 
   return {
-    hasOauthLogin,
-    isConnecting,
-    isOpened: isWeb3UserWithEmailBound,
-    signUpDialog,
+    isWeb3UserWithEmailBound,
+    isOpened,
+    handleOpenDialog,
+    handleCloseDialog,
   };
 };

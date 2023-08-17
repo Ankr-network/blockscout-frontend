@@ -1,9 +1,15 @@
-import { EthAddressType } from 'multirpc-sdk';
+import { EthAddressType, OauthLoginProvider } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
+import { RootState } from 'store';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
 import {
+  OauthRedirectionURLState,
+  bindAccountToLoggedInUser,
   buildSecretCodeData,
   getEthUserAddress,
   getSecreteCodeAndState,
@@ -11,71 +17,110 @@ import {
 
 export type EmptyObject = Record<string, unknown>;
 
-export interface LoginByGoogleSecretCodeResult {
+export interface LoginBySecretCodeResult {
   address: string;
   authorizationToken: string;
   encryptionPublicKey?: string;
   ethAddressType: EthAddressType;
+  provider?: OauthLoginProvider;
 }
+
+const getLoginData = async ({
+  code,
+  state,
+  provider,
+}: OauthRedirectionURLState) => {
+  if (!code) {
+    throw new Error(t('oauth.secret-code-error'));
+  }
+
+  const secretCodeData = buildSecretCodeData(code, state || '');
+  const service = MultiService.getService();
+
+  if (!provider) {
+    return service
+      .getOauthGateway()
+      .loginUserByGoogleSecretCode(secretCodeData);
+  }
+
+  return service
+    .getOauthGateway()
+    .loginBySecretCode(secretCodeData, { provider });
+};
 
 export const {
   endpoints: { oauthLoginByGoogleSecretCode },
   useLazyOauthLoginByGoogleSecretCodeQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    oauthLoginByGoogleSecretCode: build.query<
-      LoginByGoogleSecretCodeResult,
-      void
-    >({
-      queryFn: async () => {
-        const { code, state } = getSecreteCodeAndState();
+    oauthLoginByGoogleSecretCode: build.query<LoginBySecretCodeResult, void>({
+      queryFn: createQueryFnWithErrorHandler({
+        queryFn: async (_arg, { getState }) => {
+          const service = MultiService.getService();
+          const { code, state, provider, error } = getSecreteCodeAndState();
 
-        if (!code) {
-          throw new Error('Wrong secret code');
-        }
+          if (error) {
+             throw new Error(error);
+          }
 
-        const secretCodeData = buildSecretCodeData(code, state || '');
+          let { authorizationToken } = selectAuthData(getState() as RootState);
 
-        const service = MultiService.getService();
+          if (authorizationToken) {
+            service.getOauthGateway().addToken(authorizationToken);
 
-        const loginUserByGoogleSecretCodeResult = await service
-          .getOauthGateway()
-          .loginUserByGoogleSecretCode(secretCodeData);
+            await bindAccountToLoggedInUser(authorizationToken, {
+              code,
+              state,
+              provider,
+            });
+          } else {
+            const { access_token: accessToken } = await getLoginData({
+              code,
+              state,
+              provider,
+            });
 
-        const { access_token: authorizationToken } =
-          loginUserByGoogleSecretCodeResult;
+            authorizationToken = accessToken;
+          }
 
-        const { addresses } = await service
-          .getOauthGateway()
-          .getETHAddresses(authorizationToken);
+          const { addresses } = await service
+            .getOauthGateway()
+            .getETHAddresses(authorizationToken);
 
-        const ethUserAddress = getEthUserAddress(addresses);
+          const ethUserAddress = getEthUserAddress(addresses);
 
-        if (!ethUserAddress) {
-          throw new Error('No ethUserAddress');
-        }
+          if (!ethUserAddress) {
+            throw new Error(t('oauth.eth-address-error'));
+          }
 
-        const {
-          address,
-          type: ethAddressType,
-          public_key: encryptionPublicKey,
-        } = ethUserAddress;
-
-        const web3ReadService = await MultiService.getWeb3ReadService();
-
-        web3ReadService.getOauthGateway().addToken(authorizationToken);
-        service.getOauthGateway().addToken(authorizationToken);
-        service.getAccountGateway().addToken(authorizationToken);
-
-        return {
-          data: {
+          const {
             address,
-            authorizationToken,
-            encryptionPublicKey,
-            ethAddressType,
-          },
-        };
-      },
+            type: ethAddressType,
+            public_key: encryptionPublicKey,
+          } = ethUserAddress;
+
+          const web3ReadService = await MultiService.getWeb3ReadService();
+
+          web3ReadService.getOauthGateway().addToken(authorizationToken);
+          service.getOauthGateway().addToken(authorizationToken);
+          service.getAccountGateway().addToken(authorizationToken);
+
+          return {
+            data: {
+              address,
+              authorizationToken,
+              encryptionPublicKey,
+              ethAddressType,
+              provider: provider || undefined,
+            },
+          };
+        },
+        errorHandler: error => {
+          return {
+            error,
+          };
+        },
+      }),
     }),
   }),
 });

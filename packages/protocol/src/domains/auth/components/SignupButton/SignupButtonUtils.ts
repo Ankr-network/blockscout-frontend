@@ -1,16 +1,14 @@
-const MAX_EMAIL_LENGTH = 12;
+import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { shrinkEmail } from 'modules/common/utils/shrinkEmail';
 
-export const shrinkEmailAddress = (email?: string): string => {
-  if (!email) return '';
-
-  if (email.length <= MAX_EMAIL_LENGTH) {
-    return email;
-  }
-
-  const [name, domain] = email.split('@');
-
-  const firstNameSymbol = name[0];
-  const lastNameSymbol = name[name.length - 1];
-
-  return `${firstNameSymbol}…${lastNameSymbol}@${domain}`;
+export const shrinkUserData = (
+  address?: string,
+  email?: string,
+  loginName?: string,
+) => {
+  return {
+    address: shrinkAddress(address),
+    email: shrinkEmail(email),
+    loginName: shrinkAddress(loginName),
+  };
 };

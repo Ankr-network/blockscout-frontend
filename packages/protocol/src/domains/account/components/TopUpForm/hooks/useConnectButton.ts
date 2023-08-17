@@ -16,12 +16,13 @@ export const useConnectButton = () => {
   } = useAuth();
 
   const { hasConnectButton, isNewWeb3UserWithBindedEmail } = useMemo(
-    () => shouldShowConnectWalletButton({
-      hasOauthLogin,
-      hasUserEndpointToken,
-      hasWeb3Connection,
-      isUserAddress: isUserEthAddressType,
-    }),
+    () =>
+      shouldShowConnectWalletButton({
+        hasOauthLogin,
+        hasUserEndpointToken,
+        hasWeb3Connection,
+        isUserAddress: isUserEthAddressType,
+      }),
     [
       hasOauthLogin,
       hasUserEndpointToken,

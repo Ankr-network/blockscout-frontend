@@ -1,7 +1,7 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { t } from '@ankr.com/common';
-import { TwoFAStatus } from 'multirpc-sdk';
+import { AccountErrorCode, TwoFAStatus } from 'multirpc-sdk';
 
 import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
 import {
@@ -17,6 +17,8 @@ import { userSettingsFetchTwoFAStatus } from 'domains/userSettings/actions/twoFA
 import { oauthSignout } from 'domains/oauth/actions/signout';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { getAccountErrorCode } from 'domains/userSettings/utils/getAccountErrorCode';
+import { OauthRedirectionURLError } from 'domains/oauth/actions/loginByGoogleSecretCode/loginByGoogleSecretCodeUtils';
 
 export const oauthLoginInitiatorListenerMiddleware = createListenerMiddleware();
 
@@ -37,14 +39,32 @@ oauthLoginInitiatorListenerMiddleware.startListening({
     );
 
     if (secretCodeError) {
+      if (
+        (secretCodeError as any).message ===
+        OauthRedirectionURLError.AccessDenied
+      ) {
+        dispatch(push(ChainsRoutesConfig.chains.generatePath()));
+
+        return;
+      }
+
+      const code = getAccountErrorCode(secretCodeError as any);
+
+      const isBindingError = code === AccountErrorCode.AlreadyExists;
+
       dispatch(
         NotificationActions.showNotification({
-          message: t('oauth.secret-code-error'),
+          message: isBindingError
+            ? t('oauth.binding-error')
+            : t('oauth.secret-code-error'),
           severity: 'error',
         }),
       );
 
-      dispatch(oauthSignout.initiate());
+      if (!isBindingError) {
+        dispatch(oauthSignout.initiate());
+      }
+
       dispatch(push(ChainsRoutesConfig.chains.generatePath()));
 
       return;
@@ -89,6 +109,13 @@ oauthLoginInitiatorListenerMiddleware.startListening({
 
     if (error && !is2FAError(error)) {
       dispatch(oauthSignout.initiate());
+
+      dispatch(
+        NotificationActions.showNotification({
+          message: t('error.common'),
+          severity: 'error',
+        }),
+      );
     }
   },
 });

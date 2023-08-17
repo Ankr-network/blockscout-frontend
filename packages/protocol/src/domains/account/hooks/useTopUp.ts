@@ -8,6 +8,7 @@ import {
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { accountFetchPublicKey } from '../actions/fetchPublicKey';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
@@ -18,12 +19,12 @@ import { topUpRedirectIfCredentials } from '../actions/topUp/redirectIfCredentia
 import { topUpRejectAllowance } from '../actions/topUp/rejectAllowance';
 import { topUpSendAllowance } from '../actions/topUp/sendAllowance';
 import { topUpWaitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
-import { useAddress } from './useAddress';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
 import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
 export const useTopUp = () => {
+  const { address } = useAuth();
   const { selectedGroupAddress } = useSelectedUserGroup();
 
   const dispatch = useAppDispatch();
@@ -67,7 +68,6 @@ export const useTopUp = () => {
     topUpResetTransactionSliceAndRedirect,
   );
 
-  const address = useAddress();
   const transaction = useSelectTopUpTransaction();
 
   const amount = useMemo(

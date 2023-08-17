@@ -3,7 +3,7 @@ import { TrackTopUpSubmit } from 'domains/account/types';
 import { useAnkrBalanceOnWallet } from 'domains/account/hooks/useAnkrBalanceOnWallet';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useInitialValues } from 'domains/account/components/TopUp/TopUpUtils';
-import { validateAnkrAmount } from 'domains/account/components/TopUp/ANKRTopUpForm/ANKRTopUpFormUtils';
+import { validateAnkrAmount } from 'domains/account/components/TopUp/ANKRTopUpForm/utils/validateAnkrAmount';
 
 export interface AccountDetailsAnkrTopUpFormProps {
   trackSubmit: TrackTopUpSubmit;

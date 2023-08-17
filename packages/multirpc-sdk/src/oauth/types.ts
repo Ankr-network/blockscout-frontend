@@ -1,4 +1,6 @@
-export interface IOauthLoginParams {
+import { Address } from '@ankr.com/provider';
+
+export interface IGoogleLoginParamsResponse {
   client_id: string;
   oauth_url: string;
   redirect_url: string;
@@ -6,9 +8,22 @@ export interface IOauthLoginParams {
   state: string;
 }
 
-export interface ISecreteCodeLoginParams {
+export interface IGoogleSecretCodeParams {
   secret_code: string;
   state: string;
+}
+
+export interface IOauthSecretCodeParams extends IGoogleSecretCodeParams {
+  provider?: OauthLoginProvider;
+}
+
+export interface ISecreteCodeLoginParams extends IOauthSecretCodeParams {}
+
+export interface ILoginUserByGoogleSecretCodeParams
+  extends IGoogleSecretCodeParams {}
+
+export interface ISecreteCodeLoginQueryParams {
+  provider: OauthLoginProvider;
 }
 
 export interface IOauthLoginResponse {
@@ -48,4 +63,19 @@ export interface IDecodeJwtTokenResponse {
 
 export interface ISyntheticJwtTokenResponse {
   jwt_data: string;
+}
+
+export enum OauthLoginProvider {
+  Github = 'github',
+}
+
+export interface IOauthLoginParams {
+  provider: OauthLoginProvider;
+}
+
+export interface AssociatedAccount {
+  address: Address;
+  externalId: string;
+  login: string;
+  provider: OauthLoginProvider;
 }

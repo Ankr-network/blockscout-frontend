@@ -3,62 +3,64 @@ import { makeStyles } from 'tss-react/mui';
 export interface UseStylesParams {
   hasStatusTransition: boolean;
   hasStatusAccess: boolean;
-  isMobile: boolean;
-  isMobileSideBar: boolean;
 }
 
 export const useStyles = makeStyles<UseStylesParams>()(
-  (
-    theme,
-    { hasStatusTransition, hasStatusAccess, isMobile, isMobileSideBar },
-  ) => ({
-    accountDetailsButtonRoot: isMobile
-      ? {
-          padding: theme.spacing(2 * 1.25, 2 * 1.5),
-          border: `2px solid ${theme.palette.divider}`,
-          borderRadius: theme.spacing(2 * 1.5),
-          backgroundColor: theme.palette.background.paper,
+  (theme, { hasStatusTransition, hasStatusAccess }) => ({
+    buttonRoot: {
+      flexShrink: 0,
+      border: 'none',
+      backgroundColor: theme.palette.background.paper,
+    },
+    sidebarTypeButtonRoot: {
+      border: `2px solid ${theme.palette.grey[100]}`,
+    },
 
-          [theme.breakpoints.down('xs')]: {
-            display: hasStatusAccess ? 'inline-flex' : 'none',
-            minWidth: 40,
-          },
-        }
-      : {
-          flexShrink: 0,
-          border: isMobileSideBar
-            ? `2px solid ${theme.palette.grey[100]}`
-            : 'none',
-          backgroundColor: theme.palette.background.paper,
-        },
+    mobileTypeButtonRoot: {
+      padding: theme.spacing(2.5, 3),
+      border: `2px solid ${theme.palette.divider}`,
+      borderRadius: theme.spacing(3),
+      backgroundColor: theme.palette.background.paper,
+
+      [theme.breakpoints.down('xs')]: {
+        display: hasStatusAccess ? 'inline-flex' : 'none',
+        minWidth: 40,
+      },
+    },
     content: {
       display: 'flex',
       alignItems: 'center',
-      gap: isMobile ? theme.spacing(2 * 0.75) : theme.spacing(2 * 1),
+      gap: theme.spacing(2),
     },
-    label: isMobile
-      ? {
-          fontWeight: 600,
-          fontSize: 11,
-          lineHeight: theme.spacing(2 * 2),
 
-          [theme.breakpoints.down('xs')]: {
-            display: 'none',
-          },
-        }
-      : {
-          fontWeight: 600,
-          fontSize: theme.spacing(2 * 2),
-          lineHeight: theme.spacing(2 * 3),
-        },
+    mobileTypeContent: {
+      gap: theme.spacing(1.5),
+    },
+
+    label: {
+      fontWeight: 500,
+      fontSize: theme.spacing(4),
+      lineHeight: theme.spacing(6),
+    },
+    mobileTypeLabel: {
+      fontWeight: 600,
+      fontSize: 11,
+      lineHeight: theme.spacing(4),
+
+      [theme.breakpoints.down('xs')]: {
+        display: 'none',
+      },
+    },
     balance: {
       display: 'inline-block',
 
       color: hasStatusTransition ? theme.palette.grey[600] : undefined,
     },
     currency: {
-      display: isMobile ? 'none' : '',
       color: theme.palette.grey[600],
+    },
+    mobileTypeCurrency: {
+      display: 'none',
     },
   }),
 );

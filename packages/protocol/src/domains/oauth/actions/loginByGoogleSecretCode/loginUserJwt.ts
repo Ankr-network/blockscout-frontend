@@ -1,22 +1,42 @@
 import { AppDispatch } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { IAuthSlice, setAuthData } from 'domains/auth/store/authSlice';
+import { authFetchInstantJwtParticipantToken } from 'domains/auth/actions/instantJwt/fetchInstantJwtParticipantToken';
 
 export const loginUserJwt = async (
   dispatch: AppDispatch,
   authData: IAuthSlice,
+  totp?: string,
 ) => {
-  const web3ReadService = await MultiService.getWeb3ReadService();
+  const service = MultiService.getService();
 
-  const jwtToken = await web3ReadService.getIssuedJwtToken(
-    authData?.address as string,
+  const { data, error } = await dispatch(
+    authFetchInstantJwtParticipantToken.initiate({ params: null, totp }),
   );
+
+  if (error) {
+    dispatch(
+      setAuthData({
+        ...authData,
+        hasOauthLogin: true,
+      }),
+    );
+
+    return;
+  }
+
+  const { jwtToken, workerTokenData } = data || {};
+
+  if (workerTokenData?.signedToken) {
+    service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);
+  }
 
   dispatch(
     setAuthData({
       ...authData,
       credentials: jwtToken,
       hasOauthLogin: true,
+      workerTokenData,
     }),
   );
 };
