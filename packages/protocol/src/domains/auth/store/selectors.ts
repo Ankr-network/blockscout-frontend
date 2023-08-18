@@ -125,8 +125,15 @@ export const selectIsWeb3UserWithEmailBound = createSelector(
   selectHasOauthLogin,
   selectHasWeb3Connection,
   selectIsUserEthAddressType,
-  (hasOauthLogin, hasWeb3Connection, isUserEthAddressType) =>
-    !hasWeb3Connection && hasOauthLogin && isUserEthAddressType,
+  (
+    hasOauthLogin,
+    hasWeb3Connection,
+    isUserEthAddressType,
+    // eslint-disable-next-line max-params
+  ) =>
+    !hasWeb3Connection &&
+    hasOauthLogin &&
+    isUserEthAddressType,
 );
 
 const freeToPremiumThreshold = getPremiumActivationThreshold();
@@ -173,3 +180,4 @@ export const selectCurrentAddress = createSelector(
   selectUserGroupConfigByAddress,
   (address, { selectedGroupAddress }) => selectedGroupAddress || address,
 );
+

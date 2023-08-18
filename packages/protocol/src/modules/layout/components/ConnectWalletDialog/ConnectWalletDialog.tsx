@@ -12,7 +12,7 @@ import { useSignUpDialog } from './hooks/useSignUpDialog';
 
 interface ConnectWalletDialogProps {
   isOpened: boolean;
-  handleCloseDialog: () => void;
+  handleCloseDialog?: () => void;
 }
 
 export const ConnectWalletDialog = ({
@@ -29,6 +29,7 @@ export const ConnectWalletDialog = ({
       open={Boolean(isOpened)}
       paperClassName={classes.paper}
       onClose={handleCloseDialog}
+      shouldHideCloseButton={!handleCloseDialog}
     >
       <div className={classes.iconWrapper}>
         <Warning className={classes.icon} size="xmd" />
