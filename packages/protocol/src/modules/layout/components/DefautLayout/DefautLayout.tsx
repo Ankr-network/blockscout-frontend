@@ -16,8 +16,9 @@ import { MobileHeader } from '../MobileHeader';
 import { SideBar } from '../SideBar';
 import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
-import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
+import { ConnectWalletDialog } from '../ConnectWalletDialog';
+import { useConnectWaletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -49,6 +50,7 @@ export const DefaultLayout = ({
   const { isLoggedIn, loading } = useAuth();
   const { isClient } = useEnterprise();
   const chainsRoutes = usePublicChainsRoutes();
+  const { isWeb3UserWithEmailBound } = useConnectWaletDialog();
 
   return (
     <div className={classes.root}>
@@ -87,7 +89,6 @@ export const DefaultLayout = ({
           </div>
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
-        <ConnectWalletDialog />
         {isLoggedIn && (
           <GuardUserGroup blockName={BlockWithPermission.Billing}>
             <StatusTransitionDialog />
@@ -95,6 +96,7 @@ export const DefaultLayout = ({
         )}
         <TwoFADialog />
         <NegativeBalanceTermsOfServicesDialog />
+        <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
       </div>
     </div>
   );

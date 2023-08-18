@@ -1,8 +1,10 @@
 import { CSVLink } from 'react-csv';
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { LoadingButton } from '@ankr.com/ui';
+
 import { ChainSelect } from 'modules/common/components/ChainSelect/ChainSelect';
 import { useChainSelect } from 'modules/common/components/ChainSelect/useChainSelect';
+
 import { useWssStats } from './useWssStats';
 
 export const WssStats = () => {

@@ -8,7 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@ankr.com/ui';
+
 import { ClientsTable } from 'modules/clients/components/ClientsTable';
+
 import { useDevDaoUsersList } from './useDevDaoUsersList';
 import { filters } from '../../const';
 

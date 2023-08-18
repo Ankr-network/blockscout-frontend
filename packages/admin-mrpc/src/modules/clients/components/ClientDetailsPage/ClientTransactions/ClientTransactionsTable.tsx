@@ -8,13 +8,15 @@ import {
   TableContainer,
 } from '@mui/material';
 import { Web3Address } from 'multirpc-sdk';
+import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
+
 import {
   formatNumber,
   renderBalance,
   renderUSD,
 } from 'modules/common/utils/renderBalance';
+
 import { useTransactions } from './useTransactions';
-import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
 
 interface IClientTransactionsTable {
   address: Web3Address;

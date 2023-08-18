@@ -2,6 +2,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 
 const RADIUS_MOBILE = 5;
 const RADIUS_DESKTOP = 7.5;
+
 export const OFFSET_Y_MOBILE = 6;
 export const OFFSET_Y_DESKTOP = 9;
 

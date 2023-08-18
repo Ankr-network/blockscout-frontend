@@ -3,6 +3,7 @@ import {
   IProviders,
   ProviderManager,
 } from '@ankr.com/provider';
+
 import { web3ModalTheme } from './Web3ModalKeyProvider';
 
 export class ProviderManagerSingleton {

@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { Timeframe } from 'multirpc-sdk';
 
 import { t } from 'modules/i18n/utils/intl';
+import { ChainId } from 'domains/chains/api/chain';
+
 import { DetailsBlock } from './DetailsBlock';
 import { useStyles } from './ChainItemDetailsStyles';
 import {
@@ -11,7 +13,6 @@ import {
   getAvarageRequests,
   getCachedRequestPercent,
 } from './ChainItemDetailsUtils';
-import { ChainId } from 'domains/chains/api/chain';
 
 interface ChainItemDetailsProps {
   isComingSoon: boolean;

@@ -109,8 +109,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "prettier --write",
-      "cross-env NODE_ENV=production eslint --ext=ts,tsx,js,jsx --fix"
+      "prettier --write"
     ]
   },
   "reactSnap": {

@@ -3,6 +3,7 @@ import { Box, ThemeProvider } from '@material-ui/core';
 import { storiesOf } from '@storybook/react';
 
 import { mainTheme } from 'modules/themes/mainTheme';
+
 import { Typography } from './Typography';
 
 storiesOf('uiKit/Typography', module).add('Default', () => (

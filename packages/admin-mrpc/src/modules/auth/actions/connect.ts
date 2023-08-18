@@ -1,8 +1,10 @@
 import { Web3Address } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
 import { setAuthData } from 'modules/auth/store/authSlice';
 import { TOKEN_LIFETIME } from 'modules/common/const';
+
 import { connectProvider } from './connectUtils';
 
 interface IResponseData {
@@ -33,6 +35,7 @@ export const {
       },
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
+
         dispatch(setAuthData(data));
       },
     }),

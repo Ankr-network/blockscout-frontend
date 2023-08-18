@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Web3Address } from 'multirpc-sdk';
+
 import { useLazyGetUserGroupsQuery } from 'modules/groups/actions/getUserGroups';
 
 interface ClientGroupProps {

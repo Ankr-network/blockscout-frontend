@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { Timeframe } from '../types';
 
 export const useTimeframe = (timeframe_: Timeframe, depends: any[]) => {

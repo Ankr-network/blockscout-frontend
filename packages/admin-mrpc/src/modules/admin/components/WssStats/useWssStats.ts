@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Web3Address } from 'multirpc-sdk';
+
 import { useLazyFetchWebsocketStatsQuery } from '../../actions/fetchWebsocketStats';
 
 interface Params {

@@ -32,13 +32,14 @@ export const useTopUpTabs = ({
   );
 
   const tabs = useMemo(
-    () => getTabs({
-      handleOpenEmailDialog,
-      hasAnkrTab,
-      hasEmailBound,
-      trackSubmit,
-      usdPriceId,
-    }),
+    () =>
+      getTabs({
+        handleOpenEmailDialog,
+        hasAnkrTab,
+        hasEmailBound,
+        trackSubmit,
+        usdPriceId,
+      }),
     [handleOpenEmailDialog, hasAnkrTab, hasEmailBound, trackSubmit, usdPriceId],
   );
 

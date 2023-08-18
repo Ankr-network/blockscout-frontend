@@ -7,8 +7,10 @@ import {
   MenuItem,
   Typography,
 } from '@mui/material';
+
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { ReactComponent as IconFilter } from 'assets/img/filter.svg';
+
 import { useClientsTypeFiltersStyles } from '../ClientsTypeFilters/useClientsTypeFiltersStyles';
 import { ClientMapped } from '../../store/clientsSlice';
 

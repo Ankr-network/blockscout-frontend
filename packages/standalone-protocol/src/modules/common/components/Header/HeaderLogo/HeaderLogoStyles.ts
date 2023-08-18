@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
+
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 
 export const HEADER_HEIGHT = 100;

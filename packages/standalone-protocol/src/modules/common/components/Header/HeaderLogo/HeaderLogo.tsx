@@ -1,10 +1,11 @@
 import { Box } from '@material-ui/core';
-
-import { useStyles } from './HeaderLogoStyles';
-import { ReactComponent as AnkrLogo } from './assets/ankr.svg';
 import { ANKR_WEBSITE_URL } from 'Routes';
+
 import { CrossMenu } from 'domains/chains/screens/ChainItem/components/CrossMenu';
 import { ChainId } from 'domains/chains/api/chain';
+
+import { ReactComponent as AnkrLogo } from './assets/ankr.svg';
+import { useStyles } from './HeaderLogoStyles';
 
 interface HeaderLogoProps {
   chainId: ChainId;

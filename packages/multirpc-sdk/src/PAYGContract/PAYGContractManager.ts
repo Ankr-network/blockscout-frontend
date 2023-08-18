@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
 
 import { base64ToPrefixedHex } from '../common';
-import { IPAYGContractManagerConfig } from './types';
+import { DepositAnkrForUserParams, IPAYGContractManagerConfig, SendDepositTransactionForUserParams } from './types';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo } from './abi/IPayAsYouGo';
 import { PAYGReadContractManager } from './PAYGReadContractManager';
@@ -10,6 +10,7 @@ import { formatFromWei, roundDecimals } from '../utils/roundDecimals';
 
 const GAS_LIMIT = '200000';
 const DEPOSIT_EXPIRATION = '31536000';
+
 export const DEPOSIT_ERROR =
   'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
 
@@ -74,12 +75,12 @@ export class PAYGContractManager extends PAYGReadContractManager {
     );
   }
 
-  private async sendDepositTransactionForUser(
-    depositValue: BigNumber,
-    publicKey: string,
-    targetAddress: string,
-    expiresAfter: string,
-  ) {
+  private async sendDepositTransactionForUser({
+    depositValue,
+    publicKey,
+    targetAddress,
+    expiresAfter,
+  }: SendDepositTransactionForUserParams) {
     const { currentAccount } = this.keyProvider;
 
     const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
@@ -167,12 +168,12 @@ export class PAYGContractManager extends PAYGReadContractManager {
     );
   }
 
-  async depositAnkrForUser(
-    depositValue: BigNumber,
-    publicKey: string,
-    targetAddress: string,
+  async depositAnkrForUser({
+    depositValue,
+    publicKey,
+    targetAddress,
     expiresAfter = DEPOSIT_EXPIRATION,
-  ): Promise<IWeb3SendResult> {
+  }: DepositAnkrForUserParams): Promise<IWeb3SendResult> {
     const allowanceValue = await this.getAllowanceValue();
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
@@ -182,12 +183,12 @@ export class PAYGContractManager extends PAYGReadContractManager {
       allowanceValue,
     );
 
-    return this.sendDepositTransactionForUser(
-      roundDecimals(depositValue),
+    return this.sendDepositTransactionForUser({
+      depositValue: roundDecimals(depositValue),
       publicKey,
       targetAddress,
       expiresAfter,
-    );
+    });
   }
 
   async rejectAllowance() {

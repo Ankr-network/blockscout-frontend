@@ -1,5 +1,6 @@
 import { alpha } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+
 import { ClientType } from '../../types';
 import { colorMap } from './const';
 

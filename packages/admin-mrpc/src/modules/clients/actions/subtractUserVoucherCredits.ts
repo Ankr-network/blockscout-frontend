@@ -1,11 +1,13 @@
-import { web3Api } from 'store/queries/web3Api';
-import { MultiService } from '../../api/MultiService';
-import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 import {
   IUpdateVoucherCreditsRequest,
   IUpdateVoucherCreditsResponse,
 } from 'multirpc-sdk';
 import { toast } from 'react-toastify';
+
+import { web3Api } from 'store/queries/web3Api';
+
+import { MultiService } from '../../api/MultiService';
+import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 
 export const {
   useSubtractUserVoucherCreditsMutation,
@@ -19,9 +21,11 @@ export const {
       queryFn: async formData => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
+
         await authorizeBackoffice();
 
         const response = await backofficeGateway.updateVoucherCredits(formData);
+
         return {
           data: response,
         };
@@ -33,6 +37,7 @@ export const {
         queryFulfilled
           .then(res => {
             const { data } = res;
+
             if (data.success) {
               toast.success(
                 `Subtracted ${amount} ${amountType} for ${address}`,

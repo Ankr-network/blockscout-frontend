@@ -2,12 +2,13 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { GlobalMenu } from '@ankr.com/global-menu';
-
 import { useIsSMDown } from 'ui';
+
 import { AnkrLogoIcon } from 'modules/common/components/Icons/AnkrLogoIcon';
 import { t } from 'modules/i18n/utils/intl';
 import { useLocale } from 'modules/i18n/utils/useLocale';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
+
 import { useStyles } from './useStyles';
 
 export const Logo = () => {

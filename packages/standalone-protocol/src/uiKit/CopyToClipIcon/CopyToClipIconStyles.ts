@@ -1,6 +1,8 @@
 import { makeStyles, Theme, darken } from '@material-ui/core';
+
 import { ChainId } from 'domains/chains/api/chain';
 
+/* eslint-disable max-lines-per-function */
 export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
   text: {
     marginRight: theme.spacing(0.5),

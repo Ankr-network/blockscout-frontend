@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { isMobile } from 'web3modal';
@@ -30,7 +30,7 @@ export const WalletItemContent = ({
 
       {!isInjected && (
         <Typography className={classes.walletItemInstall} variant="subtitle2">
-          {t('signup-modal.wallet-install')}
+          {t('signup-modal.web3.wallet-install')}
         </Typography>
       )}
     </>

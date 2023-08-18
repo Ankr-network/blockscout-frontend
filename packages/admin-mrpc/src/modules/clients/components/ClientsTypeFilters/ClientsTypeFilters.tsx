@@ -29,6 +29,7 @@ export const ClientsTypeFilters: React.FC<IClientsFiltersProps> = ({
   const handleFilter = (i?: ClientType) => {
     const query = { clientType: i?.toString() || 'all' };
     const search = qs.stringify(query);
+
     history.push({ search });
     handleFilterClientType(i);
   };

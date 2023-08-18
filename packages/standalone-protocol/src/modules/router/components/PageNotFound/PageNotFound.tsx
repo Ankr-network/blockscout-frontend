@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
 import { Section } from 'uiKit/Section';
+
 import { useStyles } from './PageNotFoundStyles';
 
 export const PageNotFound = () => {

@@ -1,8 +1,9 @@
 import { ChainId } from 'domains/chains/api/chain';
 import { t } from 'modules/i18n/utils/intl';
-import { Error } from './Error';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { CrossMenu } from 'domains/chains/screens/ChainItem/components/CrossMenu';
+
+import { Error } from './Error';
 
 export interface ErrorBoundaryProps {
   error: Error;

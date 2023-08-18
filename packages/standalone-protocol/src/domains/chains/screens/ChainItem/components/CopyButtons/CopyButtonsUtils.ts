@@ -1,7 +1,8 @@
-import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 import { IApiChain } from 'domains/chains/api/queryChains';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { ChainId } from 'domains/chains/api/chain';
+
+import { Chain } from '../ChainItemHeader/ChainItemHeaderTypes';
 
 export const formatChain = (data?: IApiChain): Chain | null => {
   if (!data) return null;

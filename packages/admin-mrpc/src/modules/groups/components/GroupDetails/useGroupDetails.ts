@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Web3Address } from 'multirpc-sdk';
+
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
@@ -8,6 +9,7 @@ import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
 
 export const useGroupDetails = () => {
   const { address } = GroupsRoutesConfig.groupDetails.useParams();
+
   useSetBreadcrumbs([
     {
       title: 'groups',

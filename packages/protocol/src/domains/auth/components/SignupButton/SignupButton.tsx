@@ -1,29 +1,30 @@
-import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router';
-import { Box, Button, MenuItem, Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
-import { Google, WalletIcon, Logout } from '@ankr.com/ui';
+import { useCallback, useMemo, useState } from 'react';
+import { WalletIcon } from '@ankr.com/ui';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from 'modules/common/hooks/useMenu';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { GOOGLE_PROVIDER } from 'domains/auth/store/authSlice';
 
 import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
-import { useSignupButtonStyles } from './useSignupButtonStyles';
-import { shrinkEmailAddress } from './SignupButtonUtils';
-import { SignupMenu } from './SignupMenu';
+import { shrinkUserData } from './SignupButtonUtils';
+import { SignupMenu } from './components/SignupMenu';
 import { SignupDialog } from '../ConnectButton/UnconnectedButton/SignupDialog';
+import { MenuButton } from './components/MenuButton';
+import { MobileButtonContent } from './components/MobileButtonContent';
+import { useMobileButtonContentStyles } from './components/MobileButtonContent/useMobileButtonContentStyles';
+import { MenuContent } from './components/MenuContent';
+import { OauthIcon } from './components/OauthIcon';
 
 interface SignupButtonProps {
-  isMobile?: boolean;
-  isMobileSideBar?: boolean;
+  isDefaultType: boolean;
+  isSidebarType: boolean;
+  isMobileType: boolean;
 }
 
-/* eslint-disable max-lines-per-function */ // will be refactored in MRPC-3427
 export const SignupButton = ({
-  isMobile = false,
-  isMobileSideBar = false,
+  isDefaultType,
+  isSidebarType,
+  isMobileType,
 }: SignupButtonProps) => {
   const {
     hasOauthLogin,
@@ -32,223 +33,103 @@ export const SignupButton = ({
     email,
     loading,
     walletMeta,
-    handleSignout,
-    handleDisconnect,
-    isUserEthAddressType,
+    oauthProviders,
+    loginName,
   } = useAuth();
-  const history = useHistory();
 
-  const { classes } = useSignupButtonStyles({ isMobile, isMobileSideBar });
   const { open, anchorEl, handleOpen, handleClose } = useMenu();
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
-  const handleCloseSignupDialogClose = () => {
+  const handleCloseSignupDialogClose = useCallback(() => {
     setIsOpened(false);
     handleClose();
-  };
+  }, [setIsOpened, handleClose]);
 
-  const handleGoogleLogin = useCallback(() => {
-    history.push(UserSettingsRoutesConfig.settings.generatePath());
-  }, [history]);
+  const {
+    address: shrinkedAddress,
+    email: shrinkedEmail,
+    loginName: shrinkedLoginName,
+  } = useMemo(
+    () => shrinkUserData(address, email, loginName),
+    [address, email, loginName],
+  );
 
-  if (!hasOauthLogin && !hasWeb3Connection) {
+  const withoutWeb3WithoutOauth = !hasOauthLogin && !hasWeb3Connection;
+  const oauthWithoutWeb3 = Boolean(hasOauthLogin && !hasWeb3Connection);
+  const web3WithOauth = Boolean(hasWeb3Connection && hasOauthLogin);
+  const web3WithoutOauth = hasWeb3Connection && !hasOauthLogin;
+
+  const handleConnect = useCallback(() => {
+    setIsOpened(true);
+    handleClose();
+  }, [setIsOpened, handleClose]);
+
+  const { classes } = useMobileButtonContentStyles();
+
+  if (withoutWeb3WithoutOauth) {
     return <UnconnectedButton variant="contained" onSuccess={handleClose} />;
   }
 
-  let desktopButtonContent = (
-    <>
-      {!isMobile && !isMobileSideBar && (
-        <WalletIcon icon={walletMeta?.icon} className={classes.walletIcon} />
-      )}
-      {shrinkAddress(address)}
-    </>
-  );
-  let mobileButtonContent = (
-    <WalletIcon
-      className={classes.mobileButtonContent}
-      icon={walletMeta?.icon}
-    />
-  );
+  const walletIcon = walletMeta?.icon;
 
-  let top;
-  let bottom;
-
-  if (hasOauthLogin && !hasWeb3Connection) {
-    desktopButtonContent = (
-      <>
-        {!isMobile && !isMobileSideBar && (
-          <Google className={classes.walletIcon} />
-        )}
-        {shrinkEmailAddress(email)}
-      </>
-    );
-
-    mobileButtonContent = <Google className={classes.mobileButtonContent} />;
-
-    top = (
-      <MenuItem disabled={loading} className={classes.top}>
-        <Box className={classes.email}>
-          <Google className={classes.walletIcon} />
-          <Typography noWrap className={classes.emailText} variant="body2">
-            {email}
-          </Typography>
-        </Box>
-        <Button
-          endIcon={<Logout />}
-          className={classes.signoutButton}
-          variant="text"
-          size="large"
-          onClick={handleSignout}
-        >
-          {t('header.sign-out')}
-        </Button>
-      </MenuItem>
-    );
-
-    bottom = isUserEthAddressType ? (
-      <MenuItem disabled={loading} className={classes.connectWallet}>
-        <Typography
-          noWrap
-          className={classes.emailText}
-          variant="body2"
-          color="textSecondary"
-        >
-          {shrinkAddress(address)}
-        </Typography>
-        <Button
-          className={classes.connectWalletButton}
-          variant="text"
-          size="large"
-          onClick={() => {
-            setIsOpened(true);
-            handleClose();
-          }}
-        >
-          {t('header.connect-wallet')}
-        </Button>
-      </MenuItem>
-    ) : null;
-  }
-
-  if (!hasOauthLogin && hasWeb3Connection) {
-    top = (
-      <MenuItem disabled={loading} className={classes.top}>
-        <Box className={classes.email}>
-          <Box className={classes.userLogo}>
-            <WalletIcon
-              icon={walletMeta?.icon}
-              className={classes.walletIconBig}
-            />
-          </Box>
-
-          <Typography noWrap className={classes.emailText} variant="body2">
-            {shrinkAddress(address)}
-          </Typography>
-        </Box>
-        <Button
-          endIcon={<Logout />}
-          className={classes.signoutButton}
-          variant="text"
-          size="large"
-          onClick={handleDisconnect}
-        >
-          {t('header.disconnect')}
-        </Button>
-      </MenuItem>
-    );
-
-    bottom = !email ? (
-      <MenuItem disabled={loading} className={classes.bottom}>
-        <Button
-          startIcon={<Google className={classes.walletIcon} />}
-          className={classes.connectWalletButton}
-          variant="text"
-          size="large"
-          fullWidth
-          onClick={handleGoogleLogin}
-        >
-          {t('header.add-google')}
-        </Button>
-      </MenuItem>
-    ) : null;
-  }
-
-  if (hasOauthLogin && hasWeb3Connection) {
-    mobileButtonContent = (
-      <>
-        <WalletIcon
-          className={classes.mobileButtonContent}
-          icon={walletMeta?.icon}
-        />
-        <Google className={classes.walletIconSmall} />
-      </>
-    );
-
-    top = (
-      <MenuItem disabled={loading} className={classes.top}>
-        <Box className={classes.email}>
-          <Box className={classes.userLogo}>
-            <WalletIcon
-              icon={walletMeta?.icon}
-              className={classes.walletIconBig}
-            />
-            <Google className={classes.walletIconSmall} />
-          </Box>
-          <Box className={classes.userData}>
-            <Typography
-              component="p"
-              noWrap
-              className={classes.emailText}
-              variant="body2"
-            >
-              {email}
-            </Typography>
-
-            <Typography
-              noWrap
-              variant="subtitle1"
-              color="textSecondary"
-              className={classes.subtitle}
-            >
-              {shrinkAddress(address)}
-            </Typography>
-          </Box>
-        </Box>
-        <Button
-          endIcon={<Logout />}
-          className={classes.signoutButton}
-          variant="text"
-          size="large"
-          onClick={handleSignout}
-        >
-          {t('header.sign-out')}
-        </Button>
-      </MenuItem>
-    );
-  }
+  const mainOauthProvider = oauthProviders?.[0];
+  const isGoogle = mainOauthProvider === GOOGLE_PROVIDER;
 
   return (
     <>
-      <Button
-        variant="text"
-        className={classes.menuButton}
-        disabled={loading}
-        onClick={handleOpen}
-      >
-        <div className={classes.desktopButtonContent}>
-          {desktopButtonContent}
-        </div>
-        {!isMobileSideBar && mobileButtonContent}
-      </Button>
-      <SignupMenu
-        isOpened={open}
-        anchorEl={anchorEl}
-        handleClose={handleClose}
-        className={classes.menu}
-      >
-        {top}
-        {bottom}
+      <MenuButton
+        isLoading={loading}
+        onOpen={handleOpen}
+        isSidebarType={isSidebarType}
+        isMobileType={isMobileType}
+        isDefaultType={isDefaultType}
+        desktopContent={
+          <>
+            {oauthWithoutWeb3 ? (
+              <>
+                <OauthIcon
+                  oauthProvider={mainOauthProvider}
+                  className={classes.oauthIcon}
+                />
+                {!isSidebarType && (
+                  <span className={classes.email}>
+                    {isGoogle ? shrinkedEmail : shrinkedLoginName}
+                  </span>
+                )}
+              </>
+            ) : (
+              <>
+                <WalletIcon icon={walletIcon} className={classes.walletIcon} />
+                {!isSidebarType && shrinkedAddress}
+              </>
+            )}
+          </>
+        }
+        mobileContent={
+          <MobileButtonContent
+            oauthWithoutWeb3={oauthWithoutWeb3}
+            web3WithoutOauth={web3WithoutOauth}
+            web3WithOauth={web3WithOauth}
+            walletIcon={walletIcon}
+            oauthProvider={mainOauthProvider}
+          />
+        }
+      />
+
+      <SignupMenu isOpened={open} anchorEl={anchorEl} handleClose={handleClose}>
+        <MenuContent
+          oauthWithoutWeb3={oauthWithoutWeb3}
+          web3WithoutOauth={web3WithoutOauth}
+          web3WithOauth={web3WithOauth}
+          email={shrinkedEmail}
+          loginName={shrinkedLoginName}
+          address={shrinkedAddress}
+          onConnect={handleConnect}
+          walletIcon={walletIcon}
+          isLoading={loading}
+          oauthProviders={oauthProviders}
+        />
       </SignupMenu>
 
       <SignupDialog

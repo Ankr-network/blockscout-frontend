@@ -8,6 +8,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import { i18nSlice } from 'modules/i18n/i18nSlice';
+
 import { extractMessage } from '../modules/common/utils/extractError';
 import { historyInstance } from '../modules/common/utils/historyInstance';
 import { NotificationActions } from '../domains/notification/store/NotificationActions';

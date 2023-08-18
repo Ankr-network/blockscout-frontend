@@ -3,8 +3,10 @@ import {
   ICreateTestClientRequest,
   ICreateTestClientResponse,
 } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
+
 import { authorizeBackoffice } from '../utils/authorizeBackoffice';
 
 interface IApiResponse {
@@ -23,6 +25,7 @@ export const {
       queryFn: async formData => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
+
         await authorizeBackoffice();
 
         const user = await backofficeGateway.createTestPremiumUser(formData);
@@ -35,6 +38,7 @@ export const {
         queryFulfilled
           .then(res => {
             const { data } = res;
+
             if (typeof data.user === 'object' && data.user.token) {
               toast.success(`Created test user for ${data.user.address}`);
             } else {

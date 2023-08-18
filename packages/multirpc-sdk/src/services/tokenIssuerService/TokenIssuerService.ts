@@ -17,6 +17,13 @@ interface TokenIssuerServiceParams extends BaseTokenIssuerServiceParams {
   oauthGateway: OauthGateway;
 }
 
+interface IssueJwtTokenParams {
+  transactionHash: PrefixedHex;
+  thresholdKey: UUID;
+  user: Web3Address;
+  publicKey: string;
+}
+
 export class TokenIssuerService extends BaseTokenIssuerService {
   private oauthGateway: OauthGateway;
 
@@ -68,12 +75,12 @@ export class TokenIssuerService extends BaseTokenIssuerService {
     return this.upgradeJwtToken(firstActiveToken, user);
   }
 
-  private async issueJwtToken(
-    transactionHash: PrefixedHex,
-    thresholdKey: UUID,
-    user: Web3Address,
-    publicKey: string,
-  ) {
+  private async issueJwtToken({
+    transactionHash,
+    thresholdKey,
+    user,
+    publicKey,
+  }: IssueJwtTokenParams) {
     // send issue request to ankr protocol
     const jwtToken = await this.getConsensusGateway().requestJwtToken({
       public_key: publicKey,
@@ -94,20 +101,20 @@ export class TokenIssuerService extends BaseTokenIssuerService {
       return issuedToken;
     }
 
-    const PAYGTransactionHash = await this.getPAYGTransactionHash(user);
+    const transactionHash = await this.getPAYGTransactionHash(user);
 
-    if (!PAYGTransactionHash) return {};
+    if (!transactionHash) return {};
 
-    const thresholdKeyId = await this.getThresholdKey();
+    const thresholdKey = await this.getThresholdKey();
 
-    if (!thresholdKeyId) return {};
+    if (!thresholdKey) return {};
 
-    return this.issueJwtToken(
-      PAYGTransactionHash,
-      thresholdKeyId,
+    return this.issueJwtToken({
+      transactionHash,
+      thresholdKey,
       user,
       publicKey,
-    );
+    });
   }
 
   public async upgradeSyntheticJwtToken(

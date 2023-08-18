@@ -2,11 +2,12 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 import { ChainId } from 'domains/chains/api/chain';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
-import { HEADER_HEIGHT } from './HeaderLogo/HeaderLogoStyles';
 import { IS_REACT_SNAP } from 'uiKit/NoReactSnap';
 import { hasAnkrsInfo } from 'domains/chains/screens/ChainItem/ChainItemUtils';
 import { TENET_LINEAR_GRADIENT_COLOR } from 'modules/themes/tenetTheme';
 import { Themes } from 'modules/themes/types';
+
+import { HEADER_HEIGHT } from './HeaderLogo/HeaderLogoStyles';
 
 const { REACT_APP_CHAIN_ID } = process.env;
 
@@ -20,6 +21,7 @@ interface HeaderStylesProps {
 
 export const BANNER_HEIGHT = 88;
 
+/* eslint-disable max-lines-per-function */
 export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
   root: {
     width: '100%',
@@ -56,6 +58,7 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
   },
   title: {
     // it's not possible to pass a separate function with this logic for react snap
+    /* eslint-disable no-nested-ternary */
     paddingTop: IS_REACT_SNAP
       ? hasAnkrsInfo(REACT_APP_CHAIN_ID as ChainId)
         ? HEADER_HEIGHT

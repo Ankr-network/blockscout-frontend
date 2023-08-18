@@ -3,7 +3,10 @@ import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { selectAuthData } from 'domains/auth/store/authSlice';
+import {
+  OauthProviderType,
+  selectAuthData,
+} from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
 
 export interface OauthAutoLoginResult {
@@ -12,6 +15,7 @@ export interface OauthAutoLoginResult {
   credentials?: IJwtToken;
   email?: string;
   workerTokenData?: WorkerTokenData;
+  oauthProviders?: OauthProviderType[];
 }
 
 export const {
@@ -27,6 +31,7 @@ export const {
           workerTokenData,
           address,
           email,
+          oauthProviders,
         } = selectAuthData(getState() as RootState);
 
         const service = MultiService.getService();
@@ -48,6 +53,7 @@ export const {
             workerTokenData,
             email,
             address,
+            oauthProviders,
           },
         };
       }),

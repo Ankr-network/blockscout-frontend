@@ -1,4 +1,5 @@
 import { PrivateStats } from 'multirpc-sdk';
+
 import { IUsageEntityMapped } from '../types';
 
 export const mapStatsToUsage = (

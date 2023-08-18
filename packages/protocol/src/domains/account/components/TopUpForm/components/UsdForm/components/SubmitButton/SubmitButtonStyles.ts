@@ -1,29 +1,28 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useSubmitButtonStyles = makeStyles<boolean>()((
-  theme,
-  hasCancelLabel,
-) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+export const useSubmitButtonStyles = makeStyles<boolean>()(
+  (theme, hasCancelLabel) => ({
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
 
-    gap: theme.spacing(3),
-  },
-  button: {
-    height: 48,
+      gap: theme.spacing(3),
+    },
+    button: {
+      height: 48,
 
-    borderRadius: 17,
-  },
-  cancelLabel: {
-    visibility: hasCancelLabel ? 'visible' : 'hidden',
+      borderRadius: 17,
+    },
+    cancelLabel: {
+      visibility: hasCancelLabel ? 'visible' : 'hidden',
 
-    color: theme.palette.grey[600],
+      color: theme.palette.grey[600],
 
-    textAlign: 'center',
+      textAlign: 'center',
 
-    fontSize: 14,
-    lineHeight: '140%',
-  },
-}));
+      fontSize: 14,
+      lineHeight: '140%',
+    },
+  }),
+);

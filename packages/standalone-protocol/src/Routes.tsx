@@ -1,5 +1,6 @@
-import { ChainId } from 'domains/chains/api/chain';
 import { Route, Switch } from 'react-router-dom';
+
+import { ChainId } from 'domains/chains/api/chain';
 
 import { ChainsRoutes, ChainsRoutesConfig } from './domains/chains/Routes';
 import { DefaultLayout } from './modules/layout/components/DefautLayout';

@@ -1,7 +1,9 @@
 import { createAction as createSmartAction } from 'redux-smart-actions';
 import { RequestAction } from '@redux-requests/core';
-import { MultiService } from '../../api/MultiService';
+
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
+
+import { MultiService } from '../../api/MultiService';
 
 export interface IChainParams {
   chainId: string; // 0x + hex string

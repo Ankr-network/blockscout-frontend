@@ -3,6 +3,7 @@ import React from 'react';
 
 export const InformationIcon = (props: SvgIconProps) => {
   const { width, height } = props;
+
   return (
     <SvgIcon
       {...props}

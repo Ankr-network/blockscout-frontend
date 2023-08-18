@@ -4,14 +4,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Router } from 'react-router-dom';
 
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
+import { ChainId } from 'domains/chains/api/chain';
+import { historyInstance } from 'modules/common/utils/historyInstance';
+import { initializeLocale } from 'modules/i18n/utils/initialize';
+
 import { persistor, store } from './store';
 import { Spinner } from './uiKit/Spinner';
 import { AppBase } from './modules/layout/components/AppBase/AppBase';
 import { Notifications } from './domains/notification/components/Notifications';
 import { Routes } from './Routes';
-import { ChainId } from 'domains/chains/api/chain';
-import { historyInstance } from 'modules/common/utils/historyInstance';
-import { initializeLocale } from 'modules/i18n/utils/initialize';
 
 initializeLocale();
 

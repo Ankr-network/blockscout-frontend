@@ -3,8 +3,10 @@ import {
   DeleteFromUserGroupRequest,
   DeleteFromUserGroupResponse,
 } from 'multirpc-sdk';
+
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
+
 import { authorizeBackoffice } from '../../clients/utils/authorizeBackoffice';
 
 export const {
@@ -19,6 +21,7 @@ export const {
       queryFn: async formData => {
         const service = await MultiService.getWeb3Service();
         const backofficeGateway = await service.getBackofficeGateway();
+
         await authorizeBackoffice();
 
         const group = await backofficeGateway.deleteFromUserGroup(formData);

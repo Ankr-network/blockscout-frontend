@@ -1,6 +1,8 @@
 import { Typography, Grid, GridSize, Box } from '@mui/material';
+
 import { renderBalance, renderUSD } from 'modules/common/utils/renderBalance';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
+
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
 interface IClientBalancesInfoProps {
@@ -13,6 +15,7 @@ export const ClientBalancesInfo = ({
   size = 3,
 }: IClientBalancesInfoProps) => {
   const { classes } = useStyles();
+
   return (
     <Box>
       <Grid className={classes.balancesGridWrapper} container spacing={3}>

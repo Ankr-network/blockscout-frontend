@@ -1,13 +1,12 @@
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ConnectWalletDialog } from 'modules/layout/components/ConnectWalletDialog';
 
 import { ANKRTopUpForm } from './ANKRTopUpForm';
-import {
-  useCheckBrokenTransaction,
-  useOnTopUpSubmit,
-} from './ANKRTopUpFormUtils';
 import { TopUpEmailDialog } from './TopUpEmailDialog';
 import { AnkrTopUpFormContainerProps } from './ANKRTopUpFormTypes';
+import { useOnTopUpSubmit } from './hooks/useOnTopUpSubmit';
+import { useCheckBrokenTransaction } from './hooks/useCheckBrokenTransaction';
 
 export const ANKRTopUpFormContainer = ({
   initialValues,
@@ -19,11 +18,12 @@ export const ANKRTopUpFormContainer = ({
 
   const emailData = useEmailData();
 
-  const { onSubmit, ...dialogProps } = useOnTopUpSubmit(
-    emailData?.confirmedEmail,
-    emailData?.pendingEmail,
-    trackSubmit,
-  );
+  const { onSubmit, emailDialogProps, connectWalletDialogProps } =
+    useOnTopUpSubmit(
+      emailData?.confirmedEmail,
+      emailData?.pendingEmail,
+      trackSubmit,
+    );
 
   return (
     <>
@@ -35,7 +35,11 @@ export const ANKRTopUpFormContainer = ({
         trackSubmit={trackSubmit}
         validateAmount={validateAmount}
       />
-      <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
+      <TopUpEmailDialog
+        dialogProps={emailDialogProps}
+        emailDataProps={emailData}
+      />
+      <ConnectWalletDialog {...connectWalletDialogProps} />
     </>
   );
 };

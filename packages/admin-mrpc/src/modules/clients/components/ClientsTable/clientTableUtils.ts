@@ -12,6 +12,7 @@ export function sortData({
   sortOrder?: 'asc' | 'desc';
 }) {
   const itemsToSort = [...rows];
+
   if (!sortBy || !sortOrder) {
     return rows;
   }
@@ -20,17 +21,22 @@ export function sortData({
     if (!i[sortBy]) {
       return 1;
     }
+
     if (!j[sortBy]) {
       return -1;
     }
+
     const a = compareType === 'number' ? +i[sortBy]! : i[sortBy]!;
     const b = compareType === 'number' ? +j[sortBy]! : j[sortBy]!;
+
     if (a < b) {
       return sortOrder === 'asc' ? -1 : 1;
     }
+
     if (a > b) {
       return sortOrder === 'asc' ? 1 : -1;
     }
+
     return 0;
   };
 

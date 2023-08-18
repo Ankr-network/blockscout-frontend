@@ -9,27 +9,35 @@ import {
 import { DefaultContentForm } from './DefaultContentForm';
 import {
   SignupDialogDefaultContentProps,
-  SignupDialogState,
   SignupFormValues,
+  OauthLoginType,
 } from './SignupDialogDefaultContentTypes';
 
 export const SignupDialogDefaultContent = ({
   onGoogleButtonClick,
+  onGithubButtonClick,
   setWeb3State,
 }: SignupDialogDefaultContentProps) => {
   const handleSetSignupSettings = useSetSignupSettings();
 
   const onSubmit = useCallback(
-    ({ state, hasMarketing }: SignupFormValues) => {
+    ({ loginType, hasMarketing }: SignupFormValues) => {
       handleSetSignupSettings(Boolean(hasMarketing));
 
-      if (state === SignupDialogState.WEB2) {
+      if (loginType === OauthLoginType.Google) {
         onGoogleButtonClick();
+      } else if (loginType === OauthLoginType.Github) {
+        onGithubButtonClick();
       } else {
         setWeb3State();
       }
     },
-    [onGoogleButtonClick, setWeb3State, handleSetSignupSettings],
+    [
+      onGoogleButtonClick,
+      onGithubButtonClick,
+      setWeb3State,
+      handleSetSignupSettings,
+    ],
   );
 
   const initialValues = useInitialValues();

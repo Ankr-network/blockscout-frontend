@@ -21,9 +21,11 @@ export class RpcGateway implements IRpcGateway {
       case 'solana': {
         return new SolanaRpc(params);
       }
+
       case 'near': {
         return new NearRpc(params);
       }
+
       default: {
         return new Rpc(params);
       }

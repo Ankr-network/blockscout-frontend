@@ -43,6 +43,7 @@ import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
 import { ReactComponent as MantleLogo } from 'assets/img/logo/mantle.svg';
 
+/* eslint-disable max-lines-per-function */
 export const getMenuList = (isMobileSiderBar: boolean) => [
   {
     chainId: ChainId.Ethereum,

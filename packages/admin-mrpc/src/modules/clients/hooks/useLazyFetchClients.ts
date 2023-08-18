@@ -1,5 +1,6 @@
-import { useLazyFetchCountersQuery } from '../actions/fetchCounters';
 import { useEffect } from 'react';
+
+import { useLazyFetchCountersQuery } from '../actions/fetchCounters';
 
 export const useLazyFetchClients = () => {
   const [fetchClients, { data, isLoading, isFetching, error }] =

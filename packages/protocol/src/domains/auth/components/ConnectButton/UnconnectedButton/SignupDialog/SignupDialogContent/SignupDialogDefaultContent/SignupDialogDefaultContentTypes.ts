@@ -1,17 +1,26 @@
 export enum SignupDialogState {
   DEFAULT = 'DEFAULT',
   WEB3 = 'WEB3',
-  WEB2 = 'WEB2',
 }
 
 export enum SignupFormField {
-  state = 'state',
+  loginType = 'loginType',
   hasTerms = 'hasTerms',
   hasMarketing = 'hasMarketing',
 }
 
+export enum OauthLoginType {
+  Google = 'google',
+  Github = 'github',
+}
+
+export type SignupFormLoginType =
+  | OauthLoginType.Google
+  | OauthLoginType.Github
+  | SignupDialogState.WEB3;
+
 export interface SignupFormValues {
-  [SignupFormField.state]?: SignupDialogState;
+  [SignupFormField.loginType]?: SignupFormLoginType;
   [SignupFormField.hasTerms]?: boolean;
   [SignupFormField.hasMarketing]?: boolean;
 }
@@ -22,5 +31,6 @@ export interface SignupFormErrors {
 
 export interface SignupDialogDefaultContentProps {
   onGoogleButtonClick: () => void;
+  onGithubButtonClick: () => void;
   setWeb3State: () => void;
 }

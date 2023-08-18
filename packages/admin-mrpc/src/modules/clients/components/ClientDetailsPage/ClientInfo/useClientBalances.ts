@@ -1,8 +1,9 @@
+import { Web3Address } from 'multirpc-sdk';
+import { useMemo } from 'react';
+
 import { useFetchBalancesQuery } from 'modules/clients/actions/fetchBalances';
 import { ClientBalancesMapped } from 'modules/clients/types';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
-import { Web3Address } from 'multirpc-sdk';
-import { useMemo } from 'react';
 
 interface IClientBalancesHookProps {
   client: ClientMapped;
@@ -21,9 +22,11 @@ export const useClientBalances = ({
     if (client) {
       return client;
     }
+
     if (currentClientBalance) {
       return currentClientBalance;
     }
+
     return undefined;
     // address also should be in dependencies to update balances for new address
     // eslint-disable-next-line react-hooks/exhaustive-deps

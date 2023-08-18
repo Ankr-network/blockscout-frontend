@@ -1,9 +1,10 @@
 import { Button, Typography } from '@material-ui/core';
+import { PROTOCOL_URL } from 'Routes';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
-import { useStyles } from './InfoStyles';
-import { PROTOCOL_URL } from 'Routes';
 import { ArrowRightIcon } from 'uiKit/Icons/ArrowRightIcon';
+
+import { useStyles } from './InfoStyles';
 
 export const Info = () => {
   const classes = useStyles();

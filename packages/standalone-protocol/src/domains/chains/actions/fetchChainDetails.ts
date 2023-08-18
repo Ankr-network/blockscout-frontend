@@ -4,6 +4,7 @@ import { createAction as createSmartAction } from 'redux-smart-actions';
 import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
+
 import { ChainId, getStandaloneUrl, StandaloneType } from '../api/chain';
 
 type IFetchChainDetailsResponseData = IWorkerGlobalStatus;

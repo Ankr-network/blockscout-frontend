@@ -1,10 +1,10 @@
 import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { selectTransaction } from '../store/accountTopUpSlice';
-import { useAddress } from './useAddress';
 
 export const useSelectTopUpTransaction = () => {
-  const address = useAddress();
+  const { address } = useAuth();
 
   return useAppSelector(state => selectTransaction(state, address));
 };

@@ -1,4 +1,5 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
+
 import { ChainId } from 'domains/chains/api/chain';
 import { TENET_LINEAR_GRADIENT_COLOR } from 'modules/themes/tenetTheme';
 import { Themes } from 'modules/themes/types';
@@ -7,6 +8,7 @@ interface CopyToClipProps {
   isCopied: boolean;
 }
 
+/* eslint-disable max-lines-per-function */
 export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
   container: {
     borderRadius: 12,

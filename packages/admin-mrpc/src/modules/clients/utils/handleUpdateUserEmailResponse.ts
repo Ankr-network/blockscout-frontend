@@ -19,6 +19,7 @@ export const handleUpdateUserEmailResponse = async (
   queryFulfilled
     .then(res => {
       const { data } = res;
+
       if (data.binding.email) {
         toast.success(`Updated user email for ${data.binding.address}`);
       } else {

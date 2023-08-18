@@ -2,6 +2,7 @@ import React, { ReactChild } from 'react';
 
 import { Themes } from 'modules/themes/types';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
+
 import { Footer } from '../Footer';
 import { useStyles } from './DefaultLayoutStyles';
 

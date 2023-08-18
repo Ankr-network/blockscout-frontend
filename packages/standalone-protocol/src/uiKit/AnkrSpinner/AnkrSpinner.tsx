@@ -1,4 +1,5 @@
 import { Box, Typography } from '@material-ui/core';
+
 import { t } from 'modules/i18n/utils/intl';
 
 import { ReactComponent as AnkrIcon } from './assets/ankr.svg';

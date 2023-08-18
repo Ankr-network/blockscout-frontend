@@ -1,5 +1,7 @@
 import { Box, Paper, Typography } from '@mui/material';
+
 import { ClientsTable } from 'modules/clients/components/ClientsTable';
+
 import { useGroupDetails } from './useGroupDetails';
 
 export const GroupDetails = () => {

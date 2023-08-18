@@ -1,6 +1,8 @@
 import { Box, Button, Input, Typography } from '@mui/material';
-import { ClientBalancesInfo } from './ClientBalancesInfo';
+
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
+
+import { ClientBalancesInfo } from './ClientBalancesInfo';
 import { useRates } from './useRates';
 import {
   ADD_CREDITS_ID,

@@ -18,7 +18,7 @@ export const EmailBlock = () => {
   const [getActiveEmailBinding, activeEmailBindingState] =
     useLazyUserSettingsGetActiveEmailBindingQuery();
 
-  const { hasOauthLogin } = useAuth();
+  const { hasGithubLogin, hasWeb3Connection } = useAuth();
 
   const {
     closeChangeEmailDialog,
@@ -29,6 +29,8 @@ export const EmailBlock = () => {
   useOnMount(() => {
     getActiveEmailBinding();
   });
+
+  const canChangeEmail = hasGithubLogin || hasWeb3Connection;
 
   return (
     <>
@@ -45,7 +47,7 @@ export const EmailBlock = () => {
             </Queries>
           </Typography>
 
-          {!hasOauthLogin && (
+          {canChangeEmail && (
             <Button
               size="large"
               variant="outlined"

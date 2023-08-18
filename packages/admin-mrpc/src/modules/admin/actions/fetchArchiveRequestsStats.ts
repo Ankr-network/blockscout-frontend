@@ -1,9 +1,10 @@
-import { web3Api } from 'store/queries/web3Api';
-import { MultiService } from 'modules/api/MultiService';
 import {
   IArchiveRequestsStatsRequest,
   IArchiveRequestsStatsResponse,
 } from 'multirpc-sdk';
+
+import { web3Api } from 'store/queries/web3Api';
+import { MultiService } from 'modules/api/MultiService';
 
 export const {
   useFetchArchiveRequestsStatsQuery,

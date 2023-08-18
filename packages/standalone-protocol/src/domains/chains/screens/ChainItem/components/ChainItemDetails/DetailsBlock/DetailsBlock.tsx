@@ -1,10 +1,10 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
+import { Skeleton } from '@material-ui/lab';
 
 import { useStyles } from './useStyles';
 import { DetailsBlockProps } from './DetailsBlockTypes';
-import { Skeleton } from '@material-ui/lab';
 
 export const DetailsBlock = ({
   title,

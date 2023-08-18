@@ -1,5 +1,7 @@
 import { Container } from '@mui/material';
 
+import { Header } from 'modules/layout/const';
+
 import { Logo } from '../Logo';
 import { HeaderContent } from '../Header/components/HeaderContent';
 import { MobileMenu } from '../MobileMenu';
@@ -27,7 +29,7 @@ export const MobileHeader = ({
       <Container className={classes.container} maxWidth={false}>
         <Logo />
         <div className={classes.buttons}>
-          <HeaderContent isMobile />
+          <HeaderContent type={Header.Mobile} />
           <MobileMenu
             chainsRoutes={chainsRoutes}
             isLoggedIn={isLoggedIn}

@@ -7,6 +7,7 @@ interface ShouldShowNegativeBalanceOfServiceDialogArguments {
   isDevRole: boolean;
   hasPremium: boolean;
   isFinanceRole: boolean;
+  isError: boolean;
 }
 
 export const shouldShowNegativeBalanceOfServiceDialog = ({
@@ -18,10 +19,13 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
   isDevRole,
   hasPremium,
   isFinanceRole,
+  isError,
 }: ShouldShowNegativeBalanceOfServiceDialogArguments) => {
   if (!isLoggedIn) return false;
 
   if (authLoading || isLoading) return false;
+
+  if (isError) return false;
 
   if (shouldShowUserGroupDialog) return false;
 

@@ -4,6 +4,7 @@ import { Typography, TypographyTypeMap } from '@mui/material';
 import classNames from 'classnames';
 
 import { ReactComponent as CopyIcon } from 'assets/img/copy.svg';
+
 import { useStyles } from './CopyToClipIconStyles';
 import { useCopyToClip } from './CopyToClipIconUtils';
 

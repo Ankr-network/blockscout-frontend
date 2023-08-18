@@ -1,6 +1,7 @@
-import { useStyles } from './StatusCircleStyles';
 import classNames from 'classnames';
 import { Box } from '@material-ui/core';
+
+import { useStyles } from './StatusCircleStyles';
 import { StatusCircleProps } from './StatusCircleProps';
 
 export const StatusCircle = ({

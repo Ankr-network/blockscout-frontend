@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+
 import { AXIOS_DEFAULT_CONFIG } from '../common';
 
 export class EnterpriseGateway {

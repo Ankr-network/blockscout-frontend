@@ -33,11 +33,11 @@ export class ContractService extends ContractReadService {
     publicKey: string,
     targetAddress: string,
   ): Promise<IWeb3SendResult> {
-    return this.PAYGContractManager.depositAnkrForUser(
-      amount,
+    return this.PAYGContractManager.depositAnkrForUser({
+      depositValue: amount,
       publicKey,
       targetAddress,
-    );
+    });
   }
 
   public async setAllowanceForPAYG(

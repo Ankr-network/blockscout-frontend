@@ -3,11 +3,9 @@ import { Form } from 'react-final-form';
 
 import { useStyles } from './ANKRTopUpFormStyles';
 import { AmountInputField, TopUpFormProps } from './ANKRTopUpFormTypes';
-import {
-  useRenderDisabledForm,
-  useRenderForm,
-  useInitialValues,
-} from './ANKRTopUpFormUtils';
+import { useInitialValues } from './hooks/useInitialValues';
+import { useRenderForm } from './hooks/useRenderForm';
+import { useRenderDisabledForm } from './hooks/useRenderDisabledForm';
 
 export const ANKRTopUpForm = ({
   hasLoginStep,

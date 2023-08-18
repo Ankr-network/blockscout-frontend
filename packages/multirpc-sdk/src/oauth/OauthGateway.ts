@@ -2,13 +2,18 @@ import axios, { AxiosInstance } from 'axios';
 
 import { AXIOS_DEFAULT_CONFIG, createTOTPHeaders } from '../common';
 import {
-  IOauthLoginParams,
+  IGoogleLoginParamsResponse,
   IOauthLoginResponse,
   ISecreteCodeLoginParams,
   IETHAddressesResponse,
   IDecodeJwtTokenParams,
   IDecodeJwtTokenResponse,
   ISyntheticJwtTokenResponse,
+  IOauthLoginParams,
+  ISecreteCodeLoginQueryParams,
+  AssociatedAccount,
+  IGoogleSecretCodeParams,
+  IOauthSecretCodeParams,
 } from './types';
 
 export class OauthGateway {
@@ -31,8 +36,8 @@ export class OauthGateway {
     });
   }
 
-  async getOauthLoginParams(): Promise<IOauthLoginParams> {
-    const { data } = await this.api.get<IOauthLoginParams>(
+  async getGoogleLoginParams() {
+    const { data } = await this.api.get<IGoogleLoginParamsResponse>(
       '/api/v1/googleOauth/getGoogleOauthParams',
     );
 
@@ -48,7 +53,48 @@ export class OauthGateway {
       body,
       {
         headers: createTOTPHeaders(totp),
-      }
+      },
+    );
+
+    return data;
+  }
+
+  async loginBySecretCode(
+    body: ISecreteCodeLoginParams,
+    params: ISecreteCodeLoginQueryParams,
+    totp?: string,
+  ) {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/oauth2/loginBySecretCode',
+      body,
+      {
+        params,
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async bindGoogleAccount(body: IGoogleSecretCodeParams, totp?: string) {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/auth/googleOauth/bindEmail',
+      body,
+      {
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async bindOauthAccount(body: IOauthSecretCodeParams, totp?: string) {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/auth/abstractBindings/bind',
+      body,
+      {
+        headers: createTOTPHeaders(totp),
+      },
     );
 
     return data;
@@ -78,12 +124,31 @@ export class OauthGateway {
     return data;
   }
 
-  async getSyntheticJwtToken(totp?: string): Promise<ISyntheticJwtTokenResponse> {
+  async getSyntheticJwtToken(
+    totp?: string,
+  ): Promise<ISyntheticJwtTokenResponse> {
     const { data } = await this.api.get<ISyntheticJwtTokenResponse>(
       '/api/v1/auth/jwt/getMySyntheticJwt',
       {
         headers: createTOTPHeaders(totp),
       },
+    );
+
+    return data;
+  }
+
+  async getOauthLoginParams({ provider }: IOauthLoginParams) {
+    const { data } = await this.api.get<IGoogleLoginParamsResponse>(
+      '/api/v1/oauth2/getProviderParams',
+      { params: { provider } },
+    );
+
+    return data;
+  }
+
+  async getAssociatedAccounts() {
+    const { data } = await this.api.get<AssociatedAccount[]>(
+      '/api/v1/auth/abstractBindings/list',
     );
 
     return data;

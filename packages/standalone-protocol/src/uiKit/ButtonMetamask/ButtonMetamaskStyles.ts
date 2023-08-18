@@ -1,5 +1,6 @@
 import { darken, lighten, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+
 import { ChainId } from 'domains/chains/api/chain';
 import { Themes } from 'modules/themes/types';
 

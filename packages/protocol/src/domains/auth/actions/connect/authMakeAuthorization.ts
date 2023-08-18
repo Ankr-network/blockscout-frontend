@@ -9,6 +9,8 @@ import { trackWeb3SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb3Sign
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { setGithubLoginName } from 'domains/oauth/actions/setGithubLoginName';
+import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 
 import { authConnect } from './connect';
 import { makeAuthorization } from './makeAuthorization';
@@ -74,6 +76,15 @@ export const {
       ) => {
         try {
           await queryFulfilled;
+
+          dispatch(setGithubLoginName.initiate());
+
+          dispatch(
+            userSettingsGetActiveEmailBinding.initiate({
+              params: undefined,
+              shouldNotify: false,
+            }),
+          );
         } catch (errorData: any) {
           const isTwoFAError =
             is2FAError(errorData) || is2FAError(errorData?.error);

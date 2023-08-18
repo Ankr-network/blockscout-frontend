@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import classNames from 'classnames';
+
 import { ReactComponent as MetamaskIcon } from '../../assets/img/metamask.svg';
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 

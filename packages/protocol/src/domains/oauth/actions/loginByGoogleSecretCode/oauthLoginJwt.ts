@@ -8,6 +8,11 @@ import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2Sign
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import {
+  GOOGLE_PROVIDER,
+  OauthProviderType,
+  selectAuthData,
+} from 'domains/auth/store/authSlice';
 
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
 import { loginUserJwt } from './loginUserJwt';
@@ -16,6 +21,7 @@ import {
   getTrackingParams,
   trackLoginSuccess,
 } from './loginByGoogleSecretCodeUtils';
+import { setGithubLoginName } from '../setGithubLoginName';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -40,46 +46,57 @@ export const {
               authorizationToken,
               encryptionPublicKey,
               ethAddressType,
+              provider = GOOGLE_PROVIDER,
             } = {},
           } = oauthLoginByGoogleSecretCode.select(undefined as any)(
             getState() as RootState,
           );
 
+          const authData = selectAuthData(getState() as RootState);
+
+          const oauthProviders: OauthProviderType[] = Array.isArray(
+            authData?.oauthProviders,
+          )
+            ? [...authData.oauthProviders, provider]
+            : [provider];
+
           if (ethAddressType === EthAddressType.Generated) {
             await loginSyntheticJwt(
               dispatch,
               {
+                ...authData,
                 address,
                 authorizationToken,
                 encryptionPublicKey,
                 ethAddressType,
+                oauthProviders,
               },
               totp,
             );
           }
 
           if (ethAddressType === EthAddressType.User) {
-            await loginUserJwt(dispatch, {
-              address,
-              authorizationToken,
-              encryptionPublicKey,
-              ethAddressType,
-            });
+            await loginUserJwt(
+              dispatch,
+              {
+                address,
+                authorizationToken,
+                encryptionPublicKey,
+                ethAddressType,
+                oauthProviders,
+              },
+              totp,
+            );
           }
-
-          await dispatch(
-            userSettingsGetActiveEmailBinding.initiate({
-              params: undefined as void,
-              shouldNotify: false,
-            }),
-          );
 
           await trackLoginSuccess({ getState });
 
           return { data: {} };
         },
-        errorHandler: (error, _args, { getState }) => {
+        errorHandler: (error, _args, { getState, dispatch }) => {
           trackWeb2SignUpFailure(getTrackingParams(getState as GetState));
+
+          dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
 
           return {
             error,
@@ -89,7 +106,16 @@ export const {
       onQueryStarted: async (_arg, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
+        dispatch(setGithubLoginName.initiate());
+
         dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
+
+        await dispatch(
+          userSettingsGetActiveEmailBinding.initiate({
+            params: undefined as void,
+            shouldNotify: false,
+          }),
+        );
       },
     }),
   }),

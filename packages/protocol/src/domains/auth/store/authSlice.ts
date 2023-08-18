@@ -1,4 +1,9 @@
-import { EthAddressType, IJwtToken, WorkerTokenData } from 'multirpc-sdk';
+import {
+  EthAddressType,
+  IJwtToken,
+  OauthLoginProvider,
+  WorkerTokenData,
+} from 'multirpc-sdk';
 import { IWalletMeta } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
@@ -9,6 +14,10 @@ import { clearCookie, getCookieByName, setCookie } from './cookie';
 
 const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';
 let WORKER_TOKEN_DATA: IAuthSlice['workerTokenData'];
+
+export const GOOGLE_PROVIDER = 'google';
+
+export type OauthProviderType = OauthLoginProvider | typeof GOOGLE_PROVIDER;
 
 export interface IAuthSlice {
   address?: string;
@@ -25,10 +34,13 @@ export interface IAuthSlice {
   workerTokenData?: WorkerTokenData;
   isInstantJwtParticipant?: boolean;
   hasWeb3Autoconnect?: boolean;
+  oauthProviders?: OauthProviderType[];
+  loginName?: string;
 }
 
 const initialState: IAuthSlice = {
   address: '',
+  oauthProviders: [],
 };
 
 export const authSlice = createSlice({

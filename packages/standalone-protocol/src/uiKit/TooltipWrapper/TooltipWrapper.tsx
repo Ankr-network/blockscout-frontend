@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { InformationIcon } from '../Icons/InformationIcon';
 
+import { InformationIcon } from '../Icons/InformationIcon';
 import {
   useTooltipWrapperStyles,
   TooltipElement,

@@ -1,5 +1,6 @@
 import { Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+
 import { MENU_WIDTH } from '../CrossMenu/CrossMenuStyles';
 
 export const RATE_LIMIT_BANNER_HEIGHT = 88;

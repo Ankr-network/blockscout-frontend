@@ -2,9 +2,10 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import classNames from 'classnames';
 
+import { t, tHTML } from 'modules/i18n/utils/intl';
+
 import { useStyles } from './AnnounceStyles';
 import { AnnounceProps } from './AnnounceProps';
-import { t, tHTML } from 'modules/i18n/utils/intl';
 
 export const Announce = ({ name, link, chainId = '' }: AnnounceProps) => {
   const classes = useStyles();

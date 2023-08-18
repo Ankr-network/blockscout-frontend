@@ -14,13 +14,13 @@ import { AccountMarker } from '../AccountMarker';
 import { useStyles } from './AccountDetailsButtonStyles';
 
 export interface AccountDetailsButtonProps {
-  isMobile?: boolean;
-  isMobileSideBar?: boolean;
+  isMobileType?: boolean;
+  isSidebarType?: boolean;
 }
 
 export const AccountDetailsButton = ({
-  isMobile = false,
-  isMobileSideBar = false,
+  isMobileType = false,
+  isSidebarType = false,
 }: AccountDetailsButtonProps) => {
   const { balance, hasStatusTransition, isLoading, status } =
     useAccountDetailsButton();
@@ -30,32 +30,47 @@ export const AccountDetailsButton = ({
   const showLoading = hasStatusAccess && isLoading;
   const isStatusTransitionActive = hasStatusAccess && hasStatusTransition;
 
-  const { classes } = useStyles({
+  const { cx, classes } = useStyles({
     hasStatusTransition: isStatusTransitionActive,
     hasStatusAccess,
-    isMobile,
-    isMobileSideBar,
   });
 
   const hasEndIcon = !showLoading && isStatusTransitionActive;
 
   return (
     <LoadableButton<'a', LinkProps>
-      className={classes.accountDetailsButtonRoot}
+      className={cx({
+        [classes.buttonRoot]: !isMobileType,
+        [classes.mobileTypeButtonRoot]: isMobileType,
+        [classes.sidebarTypeButtonRoot]: isSidebarType,
+      })}
       component={Link}
       loading={showLoading}
       to={AccountRoutesConfig.accountDetails.path}
       variant="text"
       endIcon={hasEndIcon && <CircularProgress size={20} />}
     >
-      <div className={classes.content}>
+      <div
+        className={cx(classes.content, {
+          [classes.mobileTypeContent]: isMobileType,
+        })}
+      >
         <GuardUserGroup blockName={statusBlockName}>
           <AccountMarker status={status} />
         </GuardUserGroup>
-        <span className={classes.label}>
+        <span
+          className={cx({
+            [classes.label]: !isMobileType,
+            [classes.mobileTypeLabel]: isMobileType,
+          })}
+        >
           <Balance balance={balance} className={classes.balance} />
-          {!isMobileSideBar && (
-            <span className={classes.currency}>
+          {!isMobileType && (
+            <span
+              className={cx(classes.currency, {
+                [classes.mobileTypeCurrency]: isMobileType,
+              })}
+            >
               &nbsp;{t('account.currencies.credit')}
             </span>
           )}

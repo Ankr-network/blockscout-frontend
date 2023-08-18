@@ -1,16 +1,15 @@
-import { LoadingState } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/LoadingState';
 import { SignupDialogContent } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/SignupDialogContent';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useSignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/useSignupDialog';
+import { useSignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog/SignupDialogContent/hooks/useSignupDialog';
 
 export interface SignUpContentProps {
-  onGoogleSignUp: () => void;
+  onOauthSignUp: () => void;
   onClose: () => void;
 }
 
 export const SignUpContent = ({
   onClose,
-  onGoogleSignUp,
+  onOauthSignUp,
 }: SignUpContentProps) => {
   const { hasOauthLogin } = useAuth();
 
@@ -18,22 +17,23 @@ export const SignUpContent = ({
     currentState,
     setWeb3State,
     onGoogleButtonClick,
-    loading,
-    onDialogClose,
-  } = useSignupDialog({ hasOauthLogin, onClose, onGoogleSignUp });
+    onGithubButtonClick,
+    isLoading,
+    onDialogCloseClick,
+    oauthLoginType,
+  } = useSignupDialog({ hasOauthLogin, onClose, onOauthSignUp });
 
   return (
     <>
-      {loading ? (
-        <LoadingState />
-      ) : (
-        <SignupDialogContent
-          currentState={currentState}
-          onDialogClose={onDialogClose}
-          onGoogleButtonClick={onGoogleButtonClick}
-          setWeb3State={setWeb3State}
-        />
-      )}
+      <SignupDialogContent
+        currentState={currentState}
+        onDialogClose={onDialogCloseClick}
+        onGoogleButtonClick={onGoogleButtonClick}
+        onGithubButtonClick={onGithubButtonClick}
+        setWeb3State={setWeb3State}
+        isLoading={isLoading}
+        oauthLoginType={oauthLoginType}
+      />
     </>
   );
 };

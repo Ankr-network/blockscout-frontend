@@ -1,6 +1,7 @@
 import { Web3Address } from 'multirpc-sdk';
-import { useLazyFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 import { useCallback, useEffect, useState } from 'react';
+
+import { useLazyFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 
 export const useTransactions = ({ address }: { address: Web3Address }) => {
   const [isFirstLoading, setIsFirstLoading] = useState(true);

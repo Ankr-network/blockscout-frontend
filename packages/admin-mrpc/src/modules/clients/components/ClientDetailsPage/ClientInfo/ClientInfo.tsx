@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   CardContent,
   Typography,
@@ -8,7 +8,6 @@ import {
   Paper,
   Input,
 } from '@mui/material';
-
 import { Spinner } from 'ui';
 import { IEthUserAddressV2, UserProject, Web3Address } from 'multirpc-sdk';
 
@@ -43,6 +42,7 @@ interface IClientInfoProps {
   isLoadingUserProjects: boolean;
 }
 
+/* eslint-disable max-lines-per-function */
 export const ClientInfo = ({
   address,
   currentClient = [],
@@ -92,6 +92,24 @@ export const ClientInfo = ({
     [],
   );
 
+  const renderClient = useCallback(
+    (user: ClientMapped) => {
+      if (isLoadingClients) return 'Loading...';
+
+      if (user.user) {
+        return (
+          <>
+            {user.user}
+            <ButtonCopy valueToCopy={user.user} />
+          </>
+        );
+      }
+
+      return <>unknown</>;
+    },
+    [isLoadingClients],
+  );
+
   const renderMainInfo = (user: ClientMapped) => (
     <Card key={user.user || user.address} className={classes.root}>
       <CardContent>
@@ -104,49 +122,12 @@ export const ClientInfo = ({
         </Typography>
         <br />
         <Typography variant="body2" component="p">
-          <b>Token:</b>{' '}
-          {isLoadingClients ? (
-            'Loading...'
-          ) : user.user ? (
-            <>
-              {user.user}
-              <ButtonCopy valueToCopy={user.user} />
-            </>
-          ) : (
-            <>unknown</>
-          )}
+          <b>Token:</b> {renderClient(user)}
         </Typography>
         {user.user && <ClientApiKeysModal token={user.user} />}
       </CardContent>
     </Card>
   );
-
-  const mapAddresses = (ethUserAddress: IEthUserAddressV2) => {
-    return (
-      <Card key={ethUserAddress.address} className={classes.root}>
-        <CardContent>
-          <Typography variant="body2">
-            <b>Address:</b> {ethUserAddress.address}
-          </Typography>
-          <br />
-          <br />
-          <Typography variant="body2">
-            <b>Type:</b> {ethUserAddress.type}
-          </Typography>
-          {ethUserAddress.publicKey && (
-            <>
-              <br />
-              <br />
-              <Typography variant="body2">
-                <b>Public Key:</b> {ethUserAddress.publicKey || 'unknown'}
-              </Typography>{' '}
-              <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
-            </>
-          )}
-        </CardContent>
-      </Card>
-    );
-  };
 
   const renderClientEmail = useMemo(() => {
     if (client?.email) {
@@ -171,6 +152,54 @@ export const ClientInfo = ({
 
     return NOT_FOUND_TEXT;
   }, [client?.email, isLoadingClients, clientsErrors, skeleton]);
+
+  const renderAddress = useMemo(() => {
+    if (isLoadingUserAddresses) {
+      return (
+        <>
+          <br />
+          <br />
+          <Spinner size={40} centered={false} />
+        </>
+      );
+    }
+
+    if (isErrorUserAddresses) return null;
+
+    return userAddressesData?.addresses.map(
+      (ethUserAddress: IEthUserAddressV2) => {
+        return (
+          <Card key={ethUserAddress.address} className={classes.root}>
+            <CardContent>
+              <Typography variant="body2">
+                <b>Address:</b> {ethUserAddress.address}
+              </Typography>
+              <br />
+              <br />
+              <Typography variant="body2">
+                <b>Type:</b> {ethUserAddress.type}
+              </Typography>
+              {ethUserAddress.publicKey && (
+                <>
+                  <br />
+                  <br />
+                  <Typography variant="body2">
+                    <b>Public Key:</b> {ethUserAddress.publicKey || 'unknown'}
+                  </Typography>{' '}
+                  <ButtonCopy valueToCopy={ethUserAddress.publicKey} />
+                </>
+              )}
+            </CardContent>
+          </Card>
+        );
+      },
+    );
+  }, [
+    isLoadingUserAddresses,
+    userAddressesData?.addresses,
+    isErrorUserAddresses,
+    classes.root,
+  ]);
 
   return (
     <>
@@ -234,15 +263,7 @@ export const ClientInfo = ({
         currentClient.map(renderMainInfo)
       )}
 
-      {isLoadingUserAddresses ? (
-        <>
-          <br />
-          <br />
-          <Spinner size={40} centered={false} />
-        </>
-      ) : isErrorUserAddresses ? null : (
-        userAddressesData?.addresses.map(mapAddresses)
-      )}
+      {renderAddress}
 
       <ClientBalances
         totalData={totalData}

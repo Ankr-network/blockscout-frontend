@@ -1,5 +1,6 @@
 import { Spinner } from 'ui';
 import { Paper, Typography } from '@mui/material';
+
 import { UserGroupsList } from 'modules/groups/actions/getUserGroups';
 import { t } from 'modules/i18n/utils/intl';
 

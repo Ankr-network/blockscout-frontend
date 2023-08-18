@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Web3Address } from 'multirpc-sdk';
+
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { clearSpaces } from 'modules/clients/utils/clearSpaces';
+
 import { useLazyFetchUsersEmailsQuery } from '../../actions/fetchUsersEmails';
 
 export const useSearchEmailBindingsInput = (
@@ -23,6 +25,7 @@ export const useSearchEmailBindingsInput = (
 
   useEffect(() => {
     const loadingState = isRequestLoading || isRequestFetching;
+
     setIsLoading(loadingState);
   }, [isRequestLoading, isRequestFetching]);
 
@@ -51,6 +54,7 @@ export const useSearchEmailBindingsInput = (
       if (!address) {
         return;
       }
+
       history.push({
         pathname: ClientsRoutesConfig.clientInfo.generatePath(address),
       });

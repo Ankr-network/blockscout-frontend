@@ -1,25 +1,34 @@
 import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
-import { SignupDialogWeb2Content } from './SignupDialogWeb2Content';
 import {
+  OauthLoginType,
   SignupDialogDefaultContent,
   SignupDialogState,
 } from './SignupDialogDefaultContent';
+import { OauthLoadingState } from '../OauthLoadingState';
 
 interface SignupDialogProps {
   currentState: SignupDialogState;
   onDialogClose: () => void;
   onGoogleButtonClick: () => void;
+  onGithubButtonClick: () => void;
   onSuccess?: () => void;
   setWeb3State: () => void;
+  isLoading: boolean;
+  oauthLoginType?: OauthLoginType;
 }
 
 export const SignupDialogContent = ({
   currentState,
   onDialogClose,
   onGoogleButtonClick,
+  onGithubButtonClick,
   onSuccess,
   setWeb3State,
+  isLoading,
+  oauthLoginType,
 }: SignupDialogProps) => {
+  if (isLoading) return <OauthLoadingState loginType={oauthLoginType} />;
+
   switch (currentState) {
     case SignupDialogState.WEB3:
       return (
@@ -29,14 +38,12 @@ export const SignupDialogContent = ({
         />
       );
 
-    case SignupDialogState.WEB2:
-      return <SignupDialogWeb2Content onClick={onGoogleButtonClick} />;
-
     case SignupDialogState.DEFAULT:
     default:
       return (
         <SignupDialogDefaultContent
           onGoogleButtonClick={onGoogleButtonClick}
+          onGithubButtonClick={onGithubButtonClick}
           setWeb3State={setWeb3State}
         />
       );

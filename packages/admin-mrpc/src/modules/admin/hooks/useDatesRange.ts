@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { addDays } from 'date-fns';
+
 import { MAX_RANGE_DAYS } from '../const';
 import { formatDateToIsoString } from './formatDateToIsoString';
 

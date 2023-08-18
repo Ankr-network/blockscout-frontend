@@ -121,6 +121,7 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
       if (error?.code === METAMASK_REJECTED_OPERATION_CODE) {
         throw error;
       }
+
       // if error we try to use mm public key
       const publicKey =
         await this.tokenDecryptionService.requestMetamaskEncryptionKey();

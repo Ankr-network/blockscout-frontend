@@ -22,7 +22,7 @@ export const useAmountFieldStyles = makeStyles<AmountFieldStylesProps>()(
 
       borderRadius: 17,
 
-      fontSize: 14, 
+      fontSize: 14,
 
       '& + p': {
         fontSize: 12,

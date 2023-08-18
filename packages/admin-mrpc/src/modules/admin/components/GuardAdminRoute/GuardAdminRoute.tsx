@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Route, RouteProps, useHistory } from 'react-router-dom';
-
 import { OverlaySpinner } from '@ankr.com/ui';
+
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 
 interface IGuardRoute extends RouteProps {
@@ -15,6 +15,7 @@ export const GuardAdminRoute = ({
   ...routeProps
 }: IGuardRoute) => {
   const history = useHistory();
+
   useEffect(() => {
     if (!hasSecretRouteAccess && !isLoading) {
       history.replace(ClientsRoutesConfig.clients.generatePath());

@@ -1,4 +1,5 @@
 import { darken, makeStyles, Theme } from '@material-ui/core';
+
 import { ChainId } from 'domains/chains/api/chain';
 import { MENU_WIDTH } from 'domains/chains/screens/ChainItem/components/CrossMenu/CrossMenuStyles';
 

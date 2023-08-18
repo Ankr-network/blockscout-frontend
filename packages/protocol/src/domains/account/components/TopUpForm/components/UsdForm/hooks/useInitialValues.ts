@@ -31,9 +31,7 @@ export const useInitialValues = ({
     }
 
     return {
-      [FormField.Amount]: shouldUseDefaultValue
-        ? DEFAULT_USD_VALUE_STRING
-        : '',
+      [FormField.Amount]: shouldUseDefaultValue ? DEFAULT_USD_VALUE_STRING : '',
       [FormField.PriceId]: ONE_TIME_PAYMENT_ID,
     };
   }, [bundleAmount, shouldUseDefaultValue, priceId]);

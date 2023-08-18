@@ -1,4 +1,5 @@
 import { IChartData } from 'modules/common/components/Chart';
+
 import { Timeframe } from '../types';
 
 const { Hour, Day, Week, Month } = Timeframe;

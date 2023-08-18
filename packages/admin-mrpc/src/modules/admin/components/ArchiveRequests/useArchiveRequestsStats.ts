@@ -1,6 +1,7 @@
-import { useLazyFetchArchiveRequestsStatsQuery } from '../../actions/fetchArchiveRequestsStats';
 import { useCallback } from 'react';
 import { Web3Address } from 'multirpc-sdk';
+
+import { useLazyFetchArchiveRequestsStatsQuery } from '../../actions/fetchArchiveRequestsStats';
 
 interface Params {
   blockchain: Web3Address;

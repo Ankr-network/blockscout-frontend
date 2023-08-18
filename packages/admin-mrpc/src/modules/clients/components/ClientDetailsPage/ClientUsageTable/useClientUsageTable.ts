@@ -6,7 +6,9 @@ import {
   PrivateStats,
   PrivateStatsInterval,
 } from 'multirpc-sdk';
+
 import { IUsageEntityMapped } from 'modules/clients/types';
+
 import { CustomRange } from '../useClientDetailsPage';
 import { Timeframe } from '../RequestsChart/types';
 
@@ -106,21 +108,26 @@ export const useClientUsageTable = ({
       if (!stats?.stats) {
         return 0;
       }
+
       if (!stats.stats[i]) {
         return 1;
       }
+
       if (!stats.stats[j]) {
         return -1;
       }
+
       const a = +stats.stats[i]!.totalRequests;
       const b = +stats.stats[j]!.totalRequests;
 
       if (a < b) {
         return 1;
       }
+
       if (a > b) {
         return -1;
       }
+
       return 0;
     },
     [stats?.stats],

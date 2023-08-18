@@ -2,6 +2,7 @@ import { ChangeEvent } from 'react';
 import { Button, Input, Typography } from '@mui/material';
 
 import { t } from 'modules/i18n/utils/intl';
+
 import { useAllowedUserProjectsModalStyles } from './AllowedProjectsModalStyles';
 
 interface AllowedUserProjectsModalProps {

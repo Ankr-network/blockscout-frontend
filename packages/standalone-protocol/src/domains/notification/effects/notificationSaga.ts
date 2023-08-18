@@ -18,6 +18,7 @@ function* showNotification(action: PayloadAction<INotificationProps>) {
     };
 
     setImmediate(() => emitter(onClose));
+
     return () => null;
   });
 

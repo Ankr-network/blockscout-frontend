@@ -1,13 +1,14 @@
 import { Fragment, useMemo } from 'react';
 import classNames from 'classnames';
 import { Typography } from '@material-ui/core';
+import { ANKR_WEBSITE_URL } from 'Routes';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './useStyles';
 import { visitMainSiteEvent } from 'modules/analytics/trackMixpanel';
-import { ReactComponent as HeartIcon } from './heart.svg';
 import { ChainsRoutesConfig } from 'domains/chains/Routes';
-import { ANKR_WEBSITE_URL } from 'Routes';
+
+import { useStyles } from './useStyles';
+import { ReactComponent as HeartIcon } from './heart.svg';
 import { getLinksList } from './FooterUtils';
 
 interface FooterProps {

@@ -4,7 +4,7 @@ import { t } from '@ankr.com/common';
 import { AmountValidator } from 'domains/account/components/TopUpForm/types';
 import { USD_THRESHOLD_VALUE } from 'domains/account/actions/usdTopUp/const';
 
-export const validateAmount: AmountValidator = (value) => {
+export const validateAmount: AmountValidator = value => {
   if (!value) {
     return t('validation.required');
   }

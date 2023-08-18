@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
 import { Input } from '@mui/material';
 import { IEmailBindingEntity } from 'multirpc-sdk';
+
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
+
 import { useSearchClientsInput } from './useSearchClientsInput';
 import { ClientTooltip } from './ClientTooltip';
 import { useSearchInputStyles } from './useSearchInputStyles';

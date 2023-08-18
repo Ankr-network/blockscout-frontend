@@ -1,6 +1,6 @@
 import { PrivateStatsInternal } from 'multirpc-sdk';
-import { Timeframe } from '../types';
 
+import { Timeframe } from '../types';
 import { formatChartData } from '../utils/userTopRequestsUtils';
 import { useTimeframe } from './useTimeframe';
 

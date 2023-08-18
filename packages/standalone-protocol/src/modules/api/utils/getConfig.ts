@@ -1,5 +1,6 @@
-import { API_ENV } from 'modules/common/utils/environment';
 import { configFromEnv } from 'multirpc-sdk';
+
+import { API_ENV } from 'modules/common/utils/environment';
 
 const { REACT_APP_CHAIN_ID } = process.env;
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
+
 import { useStyles } from './ChainItemHeaderStyles';
 
 interface IChainItemHeaderProps {

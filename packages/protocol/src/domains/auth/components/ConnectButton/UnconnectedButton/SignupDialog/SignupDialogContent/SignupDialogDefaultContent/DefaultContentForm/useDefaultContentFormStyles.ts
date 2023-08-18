@@ -1,13 +1,12 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useDefaultContentFormStyles = makeStyles()(theme => ({
+  form: {
+    marginTop: theme.spacing(7),
+  },
   button: {
     color: theme.palette.text.primary,
-    marginTop: theme.spacing(5),
-
-    '&+&': {
-      marginBottom: theme.spacing(10),
-    },
+    marginBottom: theme.spacing(3),
 
     '&.Mui-disabled': {
       background: 'transparent',
@@ -18,9 +17,14 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     },
   },
 
-  label: {
+  or: {
     fontWeight: 400,
+    textAlign: 'center',
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(4),
+  },
 
+  label: {
     '& a, & b': {
       fontWeight: 500,
       color: theme.palette.text.primary,
@@ -33,7 +37,7 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     alignItems: 'center',
     position: 'relative',
     left: -2,
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(3),
   },
   icon: {
     marginRight: theme.spacing(2),
@@ -47,6 +51,16 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
 
     '& svg': {
       width: 18,
+    },
+  },
+  checkboxes: {
+    marginTop: theme.spacing(1),
+  },
+
+  loginIcon: {
+    '&&': {
+      fontSize: 24,
+      color: theme.palette.text.primary,
     },
   },
 }));

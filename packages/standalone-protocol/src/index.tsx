@@ -1,10 +1,11 @@
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
 import { initializeMixpanel } from 'modules/analytics/initializeMixpanel';
 import { initializeSentry } from 'modules/sentry';
+
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
 const rootElement = document.getElementById('root');
 

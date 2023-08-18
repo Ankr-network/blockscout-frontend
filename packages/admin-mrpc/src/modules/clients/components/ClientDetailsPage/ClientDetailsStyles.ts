@@ -1,6 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 import { tabsClasses } from '@mui/material';
 
+/* eslint-disable max-lines-per-function */
 export const useClientDetailsStyles = makeStyles()(theme => ({
   /* Details Page */
   spinnerTransactions: {

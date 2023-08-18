@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/react';
-import { ChainId } from 'domains/chains/api/chain';
 import { ReactNode } from 'react';
+
+import { ChainId } from 'domains/chains/api/chain';
 
 import { ErrorBoundary } from './ErrorBoundary';
 

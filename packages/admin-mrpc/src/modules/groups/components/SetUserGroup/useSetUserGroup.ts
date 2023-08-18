@@ -1,7 +1,9 @@
 import { FormEvent, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { UserGroupRole, Web3Address } from 'multirpc-sdk';
+
 import { useModal } from 'modules/common/hooks/useModal';
+
 import { useSetUserGroupMutation } from '../../actions/setUserGroup';
 import { useUserRole } from '../UserRoleSelect/useUserRole';
 
@@ -37,6 +39,7 @@ export const useSetUserGroup = () => {
         [FormElementItems.groupAddress]: { value: groupAddressValue },
         [FormElementItems.userAddress]: { value: userAddressValue },
       } = e.target.elements;
+
       if (groupAddressValue && userAddressValue && role) {
         setUserGroup({
           groupAddress: groupAddressValue.toLowerCase(),

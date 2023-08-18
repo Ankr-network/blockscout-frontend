@@ -1,14 +1,15 @@
 import { useMemo, useCallback } from 'react';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useStyles } from './CopyButtonsStyles';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
-import { formatChain, getLink } from './CopyButtonsUtils';
 import { useIsXSDown } from 'modules/themes/useTheme';
 import { copyEndpointEvent } from 'modules/analytics/trackMixpanel';
+import { ChainId } from 'domains/chains/api/chain';
+
+import { useStyles } from './CopyButtonsStyles';
+import { formatChain, getLink } from './CopyButtonsUtils';
 import { NervosButtons } from './NervosButtons';
 import { ChainButtons } from './ChainButtons';
-import { ChainId } from 'domains/chains/api/chain';
 
 interface ICopyButtonsProps {
   data?: IChainItemDetails;

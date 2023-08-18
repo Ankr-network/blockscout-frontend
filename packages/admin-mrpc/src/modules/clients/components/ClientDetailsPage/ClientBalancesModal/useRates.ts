@@ -1,4 +1,5 @@
 import { CurrencyRateSymbol } from 'multirpc-sdk';
+
 import {
   CreditsRate,
   useFetchRateQuery,
@@ -12,6 +13,7 @@ const getCurrencyRate = (
   if (!rates) {
     return undefined;
   }
+
   return rates?.find(rate => rate.symbol === currencyRate);
 };
 
@@ -32,9 +34,11 @@ export const useRates = () => {
         ? renderBalance(value / equivalentInAnkr, 'ANKR')
         : 'unknown';
     }
+
     if (type === CurrencyRateSymbol['CREDIT/USD']) {
       return equivalentInUsd ? renderUSD(value / equivalentInUsd) : 'unknown';
     }
+
     return 'unknown';
   };
 

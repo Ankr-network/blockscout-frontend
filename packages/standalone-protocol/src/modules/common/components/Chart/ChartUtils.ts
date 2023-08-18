@@ -1,16 +1,23 @@
-import { Theme } from '@material-ui/core';
-import { t } from 'modules/i18n/utils/intl';
 import numeral from 'numeral';
 import { Props } from 'react-apexcharts';
 
-export const getChartOptions = (
-  dates: string[] = [],
-  hasGradient: boolean,
-  theme?: Theme,
-  isSMDown?: boolean,
+import { t } from 'modules/i18n/utils/intl';
+
+interface GetChartOptionsParams {
+  dates: string[];
+  hasGradient: boolean;
+  isSMDown?: boolean;
+  foreColor?: string;
+  gridBorderColor?: string;
+}
+
+export const getChartOptions = ({
+  dates = [],
+  hasGradient,
+  isSMDown,
   foreColor = '#fff',
-  gridBorderColor?: string,
-): Partial<Props['options']> => {
+  gridBorderColor,
+}: GetChartOptionsParams): Partial<Props['options']> => {
   return {
     chart: {
       foreColor,

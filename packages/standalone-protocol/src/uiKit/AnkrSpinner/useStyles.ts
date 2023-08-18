@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core/styles';
+
 import { ANKR_COLOR } from 'domains/chains/screens/ChainItem/components/Info/InfoStyles';
 
 interface SpinnerStyleProps {

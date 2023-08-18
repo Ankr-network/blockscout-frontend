@@ -1,5 +1,7 @@
 import { Spinner } from 'ui';
+
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+
 import { ClientsTable } from './ClientsTable';
 import { useLazyFetchClients } from '../hooks/useLazyFetchClients';
 
@@ -12,17 +14,21 @@ export const ClientsPage = () => {
 
   const { data, isLoading } = useLazyFetchClients();
 
-  return (
-    <>
-      {isLoading ? (
+  if (isLoading) {
+    return (
+      <>
         <Spinner />
-      ) : data?.counters ? (
-        <>
-          <ClientsTable clients={data.counters} />
-        </>
-      ) : (
-        'No data'
-      )}
-    </>
-  );
+      </>
+    );
+  }
+
+  if (data?.counters) {
+    return (
+      <>
+        <ClientsTable clients={data.counters} />
+      </>
+    );
+  }
+
+  return <>No data</>;
 };

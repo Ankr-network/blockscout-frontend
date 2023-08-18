@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { v4 } from 'uuid';
+
 import { IBackofficeGateway } from './interfaces';
 import {
   ICreateTestClientRequest,
