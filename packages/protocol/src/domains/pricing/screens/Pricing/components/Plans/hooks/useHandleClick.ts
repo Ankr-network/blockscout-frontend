@@ -32,9 +32,10 @@ export const useHandleClick = ({
   return useCallback(
     (planName: string) => {
       const isFreePlanName = planName === PLAN_LIST[0];
+      const isPremiumPlanName = planName === PLAN_LIST[1];
       const isEnterprisePlanName = planName === PLAN_LIST[2];
 
-      if (!isLoggedIn) {
+      if (!isLoggedIn && isPremiumPlanName) {
         onOpenSignupDialog();
 
         return;
