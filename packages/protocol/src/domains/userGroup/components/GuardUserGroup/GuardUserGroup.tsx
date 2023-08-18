@@ -14,17 +14,19 @@ import { useSelectedUserGroup } from '../../hooks/useSelectedUserGroup';
 
 interface GuardUserGroupProps extends GuardUserGroupParams {
   children: ReactNode;
-  shouldRedirect?: boolean;
-  placeholder?: ReactElement | null;
   isDisabled?: boolean;
+  placeholder?: ReactElement | null;
+  shouldForceRedirect?: boolean;
+  shouldRedirect?: boolean;
 }
 
 export const GuardUserGroup = ({
-  children,
   blockName,
-  shouldRedirect,
-  placeholder = null,
+  children,
   isDisabled,
+  placeholder = null,
+  shouldForceRedirect,
+  shouldRedirect,
 }: GuardUserGroupProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -43,12 +45,21 @@ export const GuardUserGroup = ({
   }, [dispatch]);
 
   useEffect(() => {
-    if (!hasAccess && shouldRedirect) {
+    if ((!hasAccess && shouldRedirect) || shouldForceRedirect) {
       history.replace(INDEX_PATH);
 
-      showNotification();
+      // show notification only if redirect hasn't been forced
+      if (!hasAccess && shouldRedirect) {
+        showNotification();
+      }
     }
-  }, [history, hasAccess, showNotification, shouldRedirect]);
+  }, [
+    hasAccess,
+    history,
+    shouldForceRedirect,
+    shouldRedirect,
+    showNotification,
+  ]);
 
   if (isDisabled && selectedGroupAddress) {
     return placeholder;

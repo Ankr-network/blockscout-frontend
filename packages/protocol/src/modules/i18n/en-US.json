@@ -140,6 +140,9 @@
     }
   },
   "projects": {
+    "placeholder": {
+      "title": "Unlock access to your personal account with&nbsp;"
+    },
     "breadcrumbs": "Projects",
     "list-project": {
       "title": "My Projects",
@@ -277,9 +280,7 @@
   },
   "dashboard": {
     "placeholder": {
-      "title": "Unlock access to your personal dashboard with&nbsp;",
-      "premium": "Premium",
-      "button": "Upgrade Now"
+      "title": "Unlock access to your personal dashboard with&nbsp;"
     },
     "breadcrumbs": "Premium Endpoints",
     "title": "Premium Endpoints",
@@ -1903,5 +1904,9 @@
       "checkbox": "Remember my choice"
     },
     "forbidden": "The page is beyond your user role. Ask the admin for the access you require."
+  },
+  "route-placeholder": {
+    "premium": "Premium",
+    "button": "Upgrade Now"
   }
 }
