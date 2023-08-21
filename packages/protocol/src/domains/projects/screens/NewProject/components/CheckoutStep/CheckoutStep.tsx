@@ -12,6 +12,7 @@ import { BlockchainIcon } from '../../../Projects/components/BlockchainIcon';
 import { useProjectChains } from '../../hooks/useProjectChains';
 import { PlanCard } from '../PlanStep/components/PlanCard';
 import { CheckoutSection } from './CheckoutSection';
+import { getFinalPrice } from '../../utils/getFinalPrice';
 
 const plan = plans[0]; // hardcoded as long as we have only 1 plan available
 
@@ -27,7 +28,11 @@ export const CheckoutStep = ({ setCurrentStep }: CheckoutStepProps) => {
   const { projectName, planPrice, whitelistItems, initiallySelectedChainIds } =
     useProjectFormValues(projectChains);
 
-  const renderedPlanPrice = useMemo(() => renderAmount(planPrice), [planPrice]);
+  const renderedPlanPrice = useMemo(() => {
+    const price = getFinalPrice(whitelistItems, planPrice);
+
+    return renderAmount(price);
+  }, [planPrice, whitelistItems]);
 
   const openChainStep = useCallback(
     () => setCurrentStep(NewProjectStep.Chain),

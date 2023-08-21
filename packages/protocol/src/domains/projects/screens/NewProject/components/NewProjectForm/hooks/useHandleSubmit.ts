@@ -16,6 +16,7 @@ import {
   NewProjectFormValues,
   NewProjectFormProps,
 } from '../NewProjectFormTypes';
+import { getFinalPrice } from '../../../utils/getFinalPrice';
 
 export const useHandleSubmit = (
   step: NewProjectStep,
@@ -115,7 +116,7 @@ export const useHandleSubmit = (
         }
 
         case NewProjectStep.Checkout: {
-          const { planPrice } = values;
+          const { planPrice, whitelistItems } = values;
           const isSuccess = await handleEnableWhitelist(false);
 
           if (isSuccess) {
@@ -127,7 +128,9 @@ export const useHandleSubmit = (
 
           if (!planPrice) return null;
 
-          const url = await handleCheckoutStepOnSubmit(planPrice);
+          const price = getFinalPrice(whitelistItems, planPrice);
+
+          const url = await handleCheckoutStepOnSubmit(price);
 
           if (url) {
             const submitResult = onSubmit(step, {

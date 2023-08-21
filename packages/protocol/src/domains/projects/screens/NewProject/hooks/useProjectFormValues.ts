@@ -2,6 +2,9 @@ import { useForm } from 'react-final-form';
 
 import { Chain, ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
+import { initialDialogValues } from 'domains/projects/store';
+
+import { NewProjectFormValues } from '../components/NewProjectForm/NewProjectFormTypes';
 
 export const getMainnetChains = (
   previouslySelectedMainnetIds: ChainID[],
@@ -71,13 +74,13 @@ export const getSelectedChains = ({
 };
 
 export const useProjectFormValues = (projectChains?: Chain[]) => {
-  const { getState, change } = useForm();
+  const { getState, change } = useForm<NewProjectFormValues>();
 
   const {
     values: {
       projectName,
       whitelistItems = [],
-      whitelistDialog,
+      whitelistDialog = initialDialogValues,
       isEditingWhitelistDialog = false,
       shouldSkipFormReset = false,
       indexOfEditingWhitelistItem = undefined,
@@ -93,16 +96,25 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
     ...selectedMainnetIds,
     ...selectedTestnetIds,
     ...selectedDevnetIds,
-  ];
+  ] as ChainID[];
 
   let selectedMainnetChains: Chain[] = [];
   let selectedTestnetChains: Chain[] = [];
   let selectedDevnetChains: Chain[] = [];
 
   if (projectChains) {
-    selectedMainnetChains = getMainnetChains(selectedMainnetIds, projectChains);
-    selectedTestnetChains = getTestnetChains(selectedTestnetIds, projectChains);
-    selectedDevnetChains = getDevnetChains(selectedDevnetIds, projectChains);
+    selectedMainnetChains = getMainnetChains(
+      selectedMainnetIds as ChainID[],
+      projectChains,
+    );
+    selectedTestnetChains = getTestnetChains(
+      selectedTestnetIds as ChainID[],
+      projectChains,
+    );
+    selectedDevnetChains = getDevnetChains(
+      selectedDevnetIds as ChainID[],
+      projectChains,
+    );
   }
 
   const { initiallySelectedChainIds } = getSelectedChains({
@@ -120,9 +132,9 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
     shouldSkipFormReset,
     indexOfEditingWhitelistItem,
     planPrice,
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
+    selectedMainnetIds: selectedMainnetIds as ChainID[],
+    selectedTestnetIds: selectedTestnetIds as ChainID[],
+    selectedDevnetIds: selectedDevnetIds as ChainID[],
     allSelectedChainIds,
     onChange: change,
     initiallySelectedChainIds,
