@@ -7,9 +7,10 @@ import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { ChainID } from 'domains/chains/types';
 import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
-import { useLazyAddToWhitelistQuery } from '../actions/addToWhitelist';
+import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
 
 interface IParamsForWhitelist {
   chainId: ChainID;
@@ -57,7 +58,7 @@ const getProjectValues = (project: NewProjectType) => {
 
 export const useEnableWhitelist = () => {
   const [addToWhitelist, { isLoading: isAddToWhitelistLoading }] =
-    useLazyAddToWhitelistQuery();
+    useQueryEndpoint(addToWhitelistAction);
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();
   const [
