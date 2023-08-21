@@ -1,19 +1,16 @@
 import { useCallback, useMemo } from 'react';
-import { t } from '@ankr.com/common';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
-import { useAppDispatch } from 'store/useAppDispatch';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ChainID } from 'domains/chains/types';
 import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
-import { useLazyAddToWhitelistQuery } from '../actions/addToWhitelist';
-import { newProjectIntlRoot } from '../const';
+import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
 
 interface IParamsForWhitelist {
   chainId: ChainID;
@@ -60,10 +57,8 @@ const getProjectValues = (project: NewProjectType) => {
 };
 
 export const useEnableWhitelist = () => {
-  const dispatch = useAppDispatch();
-
   const [addToWhitelist, { isLoading: isAddToWhitelistLoading }] =
-    useLazyAddToWhitelistQuery();
+    useQueryEndpoint(addToWhitelistAction);
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();
   const [
@@ -90,39 +85,25 @@ export const useEnableWhitelist = () => {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const params of paramsForWhitelistRequests) {
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        await addToWhitelist({
-          params: {
-            userEndpointToken,
-            chainId: checkChainsWithExtensionsAndGetChainId(params.chainId),
-            contractAddress: params.contractAddress,
-            group: groupAddress,
-            type: params.type,
-          },
-        });
-      } catch (e) {
-        isErrorOccured = true;
+      // eslint-disable-next-line no-await-in-loop
+      const { error } = await addToWhitelist({
+        params: {
+          userEndpointToken,
+          chainId: checkChainsWithExtensionsAndGetChainId(params.chainId),
+          contractAddress: params.contractAddress,
+          group: groupAddress,
+          type: params.type,
+        },
+      });
 
-        dispatch(
-          NotificationActions.showNotification({
-            message: t(
-              `${newProjectIntlRoot}.checkout-step.error-message.can-not-add-to-whitelist`,
-              {
-                contractAddress: params.contractAddress,
-                userEndpointToken,
-              },
-            ),
-            severity: 'error',
-          }),
-        );
+      if (error) {
+        isErrorOccured = true;
       }
     }
 
     return isErrorOccured;
   }, [
     addToWhitelist,
-    dispatch,
     groupAddress,
     paramsForWhitelistRequests,
     userEndpointToken,

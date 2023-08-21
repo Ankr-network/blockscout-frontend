@@ -22,7 +22,7 @@ export const AddAndEditWhitelistItemForm = ({
     allSelectedChainIds,
     isEditingWhitelistDialog,
     shouldSkipFormReset,
-    indexOfEditingWhitelistItem,
+    indexOfEditingWhitelistItem = 0,
     whitelistDialog,
     whitelistItems,
   } = useProjectFormValues();

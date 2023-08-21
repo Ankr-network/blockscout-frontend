@@ -8,10 +8,12 @@ import {
   UpgradePlanDialogType,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 
 import {
   getCommonMenuList,
-  getPremiumEndpointsList,
+  getEndpointsList,
   getLogoutItem,
   getMenuList,
   getSettingList,
@@ -21,7 +23,6 @@ import { MainNavigationSkeleton } from './MainNavigationSkeletion';
 
 interface IMainNavigationProps {
   chainsRoutes: string[];
-  hasJwtManagerAccess: boolean;
   isLoggedIn: boolean;
   isEnterpriseClient: boolean;
   isMobileSiderBar: boolean;
@@ -35,7 +36,6 @@ interface IMainNavigationProps {
 
 export const MainNavigation = ({
   chainsRoutes,
-  hasJwtManagerAccess,
   isLoggedIn,
   isEnterpriseClient,
   isMobileSiderBar,
@@ -47,23 +47,21 @@ export const MainNavigation = ({
   onSignoutClick,
 }: IMainNavigationProps) => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
+  const { isFreePremium } = useAuth();
+
+  const { hasReadAccess } = useJwtManager();
+  const hasProjects = !isLoggedIn || isFreePremium || hasReadAccess;
 
   const endpointsItems = useMemo(
     () =>
-      getPremiumEndpointsList({
+      getEndpointsList({
         chainsRoutes,
+        hasProjects,
         isEnterpriseClient,
-        onOpenUpgradePlanDialog: onOpen,
-        hasJwtManagerAccess,
         onAAPIClick,
+        onOpenUpgradePlanDialog: onOpen,
       }),
-    [
-      chainsRoutes,
-      onOpen,
-      isEnterpriseClient,
-      hasJwtManagerAccess,
-      onAAPIClick,
-    ],
+    [chainsRoutes, hasProjects, onOpen, isEnterpriseClient, onAAPIClick],
   );
 
   const commonItem = useMemo(
@@ -101,7 +99,7 @@ export const MainNavigation = ({
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
-          <Navigation items={commonItem} isMobileSiderBar={isMobileSiderBar} />
+          {!isMobileSiderBar && <Navigation items={commonItem} />}
           <Typography className={classes.tip}>
             {t('main-navigation.endpoints')}
           </Typography>

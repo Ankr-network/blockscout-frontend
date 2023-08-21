@@ -32,14 +32,13 @@ import { IS_ENTERPISE_ENABLED } from 'domains/auth/hooks/useEnterprise';
 
 interface EndpointListParams {
   chainsRoutes: string[];
+  hasProjects: boolean;
   isEnterpriseClient: boolean;
-  onOpenUpgradePlanDialog: () => void;
   onAAPIClick: () => void;
+  onOpenUpgradePlanDialog: () => void;
 }
 
-export interface PremiumEndpointListParams extends EndpointListParams {
-  hasJwtManagerAccess: boolean;
-}
+export interface PremiumEndpointListParams extends EndpointListParams {}
 
 export interface NavigationListParams extends EndpointListParams {
   isLoggedIn: boolean;
@@ -69,70 +68,58 @@ export const getCommonMenuList = (
   },
 ];
 
-const getProjectsItem = () => ({
-  StartIcon: Folder,
-  ActiveIcon: BoldFolder,
-  href: ProjectsRoutesConfig.projects.generatePath(),
-  label: t('main-navigation.projects'),
-  isNew: true,
-});
-
 export const getEndpointsList = ({
   chainsRoutes,
+  hasProjects,
   isEnterpriseClient,
-  onOpenUpgradePlanDialog,
   onAAPIClick,
-}: EndpointListParams): NavigationItem[] => [
-  {
-    StartIcon: Block,
-    ActiveIcon: Block,
-    href: ChainsRoutesConfig.chains.generatePath(),
-    isActive: (match, location) =>
-      isDashboardActive(match, location, chainsRoutes),
-    label: t('main-navigation.endpoints'),
-  },
-  {
-    StartIcon: AdvancedApi,
-    ActiveIcon: BoldAdvancedApi,
-    href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
-    label: t('main-navigation.advanced-api'),
-    onClick: onAAPIClick,
-  },
-  {
-    isNotLinkItem: !isEnterpriseClient,
-    isComingSoon: !IS_ENTERPISE_ENABLED,
-    isDisabled: !IS_ENTERPISE_ENABLED,
-    StartIcon: Diamonds,
-    ActiveIcon: Diamonds,
-    label: t('main-navigation.enterprise'),
-    href: EnterpriseRoutesConfig.chains.generatePath(),
-    onClick: () => {
-      track({ event: MixpanelEvent.SOON_ENTERPRISE });
-
-      if (!isEnterpriseClient && IS_ENTERPISE_ENABLED) {
-        onOpenUpgradePlanDialog();
-      }
+  onOpenUpgradePlanDialog,
+}: EndpointListParams) => {
+  const items: NavigationItem[] = [
+    {
+      StartIcon: Block,
+      ActiveIcon: Block,
+      href: ChainsRoutesConfig.chains.generatePath(),
+      isActive: (match, location) =>
+        isDashboardActive(match, location, chainsRoutes),
+      label: t('main-navigation.endpoints'),
     },
-  },
-];
+    {
+      StartIcon: AdvancedApi,
+      ActiveIcon: BoldAdvancedApi,
+      href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+      label: t('main-navigation.advanced-api'),
+      onClick: onAAPIClick,
+    },
+    {
+      isNotLinkItem: !isEnterpriseClient,
+      isComingSoon: !IS_ENTERPISE_ENABLED,
+      isDisabled: !IS_ENTERPISE_ENABLED,
+      StartIcon: Diamonds,
+      ActiveIcon: Diamonds,
+      label: t('main-navigation.enterprise'),
+      href: EnterpriseRoutesConfig.chains.generatePath(),
+      onClick: () => {
+        track({ event: MixpanelEvent.SOON_ENTERPRISE });
 
-export const getPremiumEndpointsList = ({
-  chainsRoutes,
-  isEnterpriseClient,
-  onOpenUpgradePlanDialog,
-  hasJwtManagerAccess,
-  onAAPIClick,
-}: PremiumEndpointListParams): NavigationItem[] => {
-  const endpoints = getEndpointsList({
-    chainsRoutes,
-    isEnterpriseClient,
-    onOpenUpgradePlanDialog,
-    onAAPIClick,
-  });
+        if (!isEnterpriseClient && IS_ENTERPISE_ENABLED) {
+          onOpenUpgradePlanDialog();
+        }
+      },
+    },
+  ];
 
-  if (hasJwtManagerAccess) endpoints.splice(1, 0, getProjectsItem());
+  if (hasProjects) {
+    items.push({
+      ActiveIcon: BoldFolder,
+      StartIcon: Folder,
+      href: ProjectsRoutesConfig.projects.generatePath(),
+      isNew: true,
+      label: t('main-navigation.projects'),
+    });
+  }
 
-  return endpoints;
+  return items;
 };
 
 export const getMenuList = (

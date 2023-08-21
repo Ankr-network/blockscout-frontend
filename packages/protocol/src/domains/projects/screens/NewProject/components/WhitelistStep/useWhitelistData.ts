@@ -8,6 +8,7 @@ import {
 } from 'domains/projects/const';
 import { isEVMBased } from 'domains/chains/utils/isEVMBased';
 import { WhiteListItem } from 'domains/projects/types';
+import { ChainID } from 'domains/chains/types';
 
 import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 
@@ -23,7 +24,8 @@ export const useWhitelistData = () => {
   );
 
   const hasEvmChain =
-    allSelectedChainIds.filter(chainId => isEVMBased(chainId)).length > 0;
+    allSelectedChainIds.filter(chainId => isEVMBased(chainId as ChainID))
+      .length > 0;
 
   const isAddingIPAllowed = useMemo(
     () => checkIsAddingAllowed(WhiteListItem.ip, MAX_AMOUNT_OF_IPS),

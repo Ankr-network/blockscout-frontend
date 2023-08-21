@@ -10,6 +10,7 @@ import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuth
 import { updateWhitelistMode } from 'domains/projects/actions/updateWhitelistMode';
 import { addAddressToWhitelist } from 'domains/projects/actions/addAddressToWhitelist';
 import { updateWhitelist } from 'domains/projects/actions/updateWhitelist';
+import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
 
 // Top level endpoints that should be re-initiated if
 // a 2FA error has been caught somewhere inside or in child endpoints.
@@ -23,6 +24,7 @@ const matcher = isAnyOf(
   updateWhitelistMode.matchRejected,
   addAddressToWhitelist.matchRejected,
   updateWhitelist.matchRejected,
+  addToWhitelist.matchRejected,
 );
 
 export const is2FARejectedAction = ((action: AnyAction) => {

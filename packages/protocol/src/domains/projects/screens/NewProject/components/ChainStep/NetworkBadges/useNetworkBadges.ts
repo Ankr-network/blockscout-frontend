@@ -11,6 +11,7 @@ import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 
 import { useProjectFormValues } from '../../../hooks/useProjectFormValues';
 import { getCurrentChainSelectedExtensions, getSelectedChains } from './utils';
+import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 
 export const useNetworkBadges = (
   chain: Chain,
@@ -68,7 +69,11 @@ export const useNetworkBadges = (
     currentChainSelectedDevnetChains.length > 0;
 
   const handleRemove = useCallback(
-    (chainId: ChainID, fieldName: string, currentFieldValues: string[]) => {
+    (
+      chainId: ChainID,
+      fieldName: keyof NewProjectFormValues,
+      currentFieldValues: string[],
+    ) => {
       onChange(
         fieldName,
         currentFieldValues.filter(currentId => currentId !== chainId),

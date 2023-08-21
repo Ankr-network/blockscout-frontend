@@ -28,6 +28,7 @@ export interface NewProjectFormValues {
   [ChainStepFields.selectedTestnetIds]?: string[];
   [ChainStepFields.selectedDevnetIds]?: string[];
   [WhitelistStepFields.userEndpointToken]?: string;
+  [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
   [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
   [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;
   [WhitelistStepFields.shouldSkipFormReset]?: boolean;

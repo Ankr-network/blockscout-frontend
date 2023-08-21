@@ -3,6 +3,7 @@ import { updateWhitelistMode } from 'domains/projects/actions/updateWhitelistMod
 import { useCreateJwtToken } from 'domains/jwtToken/hooks/useCreateJwtToken';
 import { usdTopUpFetchLinkForOneTimePayment } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
+import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
 
 export const useIsLoading = () => {
   const [, { isLoading: isUpdateWhitelistModeLoading }] =
@@ -11,11 +12,14 @@ export const useIsLoading = () => {
   const [, { isLoading: isFetchLinkForOneTimePaymentLoading }] =
     useQueryEndpoint(usdTopUpFetchLinkForOneTimePayment);
   const { isLoading: isWhitelistEnablingLoading } = useEnableWhitelist();
+  const [, { isLoading: isAddToWhitelistLoading }] =
+    useQueryEndpoint(addToWhitelist);
 
   return (
     isUpdateWhitelistModeLoading ||
     isCreateJwtTokenLoading ||
     isFetchLinkForOneTimePaymentLoading ||
-    isWhitelistEnablingLoading
+    isWhitelistEnablingLoading ||
+    isAddToWhitelistLoading
   );
 };

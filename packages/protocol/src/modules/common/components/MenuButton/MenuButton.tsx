@@ -17,7 +17,10 @@ export const MenuButton = (props: MenuButtonProps) => {
   const { open, onOpen } = props;
   const { isLightTheme } = useThemes();
 
-  const { classes } = useMenuButtonStyles({ isOpened: open, isLightTheme });
+  const { classes } = useMenuButtonStyles({
+    isOpened: open,
+    isLightTheme,
+  });
 
   return (
     <>

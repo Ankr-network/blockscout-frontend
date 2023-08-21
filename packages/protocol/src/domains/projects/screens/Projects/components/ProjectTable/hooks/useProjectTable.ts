@@ -1,59 +1,36 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { useFetchStatsByRangeMutation } from 'domains/projects/actions/fetchStatsByRange';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { Project } from 'domains/projects/utils/getAllProjects';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
-import { Project, StatsData } from 'domains/projects/utils/getAllProjects';
+import { useLazyFetchStatsByRangeQuery } from 'domains/projects/actions/fetchStatsByRange';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { useColumns } from './useColumns';
 
 export const useProjectTable = (projectData: Project[]) => {
-  const [fetchStatsByRangeQuery, { isLoading }] =
-    useFetchStatsByRangeMutation();
+  const [fetchStatsByRangeQuery, { isLoading, data: statsData }] =
+    useLazyFetchStatsByRangeQuery();
   const [tableData, setTableData] = useState(projectData);
 
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { jwtTokens } = useJwtTokenManager();
   const { columns } = useColumns(isLoading);
 
-  const fetchStats = useCallback(async () => {
-    const activityData = await Promise.all<StatsData>(
-      jwtTokens.map(async jwtToken => {
-        const data = await fetchStatsByRangeQuery({
-          group: selectedGroupAddress,
-          userEndpointToken: jwtToken.userEndpointToken,
-        });
-
-        // @ts-ignore
-        const hasError = data.error;
-
-        return {
-          statsByRange: hasError ? {} : data,
-          hasError,
-        };
-      }),
-    );
-
-    return activityData;
-  }, [fetchStatsByRangeQuery, selectedGroupAddress, jwtTokens]);
+  useEffect(() => {
+    if (jwtTokens.length > 0) {
+      fetchStatsByRangeQuery({ jwtTokens, group });
+    }
+  }, [fetchStatsByRangeQuery, group, jwtTokens]);
 
   useEffect(() => {
-    async function fetchData() {
-      const statsDatas = await fetchStats();
+    const result = projectData.map(item => ({
+      ...item,
+      statsData: statsData?.[item.userEndpointToken],
+    }));
 
-      const result = projectData.map((item, index) => ({
-        ...item,
-        statsData: statsDatas[index],
-      }));
-
-      setTableData(result);
-    }
-
-    if (jwtTokens.length > 0) {
-      fetchData();
-    }
-  }, [jwtTokens, fetchStats, projectData]);
+    setTableData(result);
+  }, [statsData, projectData]);
 
   return { columns, tableData };
 };

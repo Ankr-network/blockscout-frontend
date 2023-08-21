@@ -14,7 +14,7 @@ import { useIsLoading } from './hooks/useIsLoading';
 
 export const NewProject = () => {
   const { classes } = useNewProjectStyles();
-  const { handleSetStepConfig, projectStep, project } = useProjectConfig();
+  const { handleSetStepConfig, projectStep } = useProjectConfig();
   const isLoading = useIsLoading();
 
   const [currentStep, setCurrentStep] = useState<NewProjectStep>(
@@ -50,10 +50,7 @@ export const NewProject = () => {
 
   return (
     <Paper className={classes.root}>
-      <Header
-        step={currentStep}
-        amount={project ? project[NewProjectStep.Plan]?.planPrice : ''}
-      />
+      <Header step={currentStep} />
       <NewProjectForm
         step={currentStep}
         onSubmit={handleSubmit}

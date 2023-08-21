@@ -1,22 +1,15 @@
-import {
-  IGetWhitelistParamsResponse,
-  WhitelistItem,
-  StatsByRangeResponse,
-} from 'multirpc-sdk';
+import { IGetWhitelistParamsResponse, WhitelistItem } from 'multirpc-sdk';
 
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 
-export interface StatsData {
-  statsByRange: StatsByRangeResponse;
-  hasError: boolean;
-}
+import { StatsByRange } from '../actions/fetchStatsByRange';
 
 export interface Project {
   name: string;
-  whitelist?: WhitelistItem[];
-  userEndpointToken: string;
+  statsData?: StatsByRange;
   tokenIndex: number;
-  statsData: StatsData;
+  userEndpointToken: string;
+  whitelist?: WhitelistItem[];
 }
 
 interface UserEndpointInfo {
@@ -27,11 +20,14 @@ interface UserEndpointInfo {
 export const getAllProjects = (
   userEndpointInfo: UserEndpointInfo[],
   whitelists: IGetWhitelistParamsResponse[],
-): Project[] =>
-  userEndpointInfo.map((item, index) => ({
-    whitelist: whitelists[index]?.lists,
+) =>
+  userEndpointInfo.map<Project>((item, index) => ({
     name: renderProjectName(item.index),
-    userEndpointToken: item.userEndpoint,
+    statsData: {
+      data: undefined,
+      error: undefined,
+    },
     tokenIndex: item.index,
-    statsData: { statsByRange: {}, hasError: false },
+    userEndpointToken: item.userEndpoint,
+    whitelist: whitelists[index]?.lists,
   }));

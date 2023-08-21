@@ -60,21 +60,16 @@ export const Routes = () => {
         )}
       />
 
-      <GuardAuthRoute
+      <Route
         exact
         path={[
           ProjectsRoutesConfig.projects.path,
           ProjectsRoutesConfig.newProject.path,
         ]}
         render={() => (
-          <GuardUserGroup
-            shouldRedirect
-            blockName={BlockWithPermission.UsageData}
-          >
-            <DefaultLayout hasNoReactSnap>
-              <ProjectsRoutes />
-            </DefaultLayout>
-          </GuardUserGroup>
+          <DefaultLayout hasNoReactSnap>
+            <ProjectsRoutes />
+          </DefaultLayout>
         )}
       />
 
