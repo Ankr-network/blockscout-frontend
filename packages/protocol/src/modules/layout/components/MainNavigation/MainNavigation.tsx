@@ -99,7 +99,7 @@ export const MainNavigation = ({
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
-          <Navigation items={commonItem} isMobileSiderBar={isMobileSiderBar} />
+          {!isMobileSiderBar && <Navigation items={commonItem} />}
           <Typography className={classes.tip}>
             {t('main-navigation.endpoints')}
           </Typography>
