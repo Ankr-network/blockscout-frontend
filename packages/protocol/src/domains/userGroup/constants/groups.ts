@@ -10,6 +10,7 @@ export enum BlockWithPermission {
   AccountStatus, // access to account status information
   TosStatus, // access to the TOS status information
   UpgradePlan, // permissions to upgrade current plan
+  JwtManagerEdit, // permissions to edit project
 }
 
 export const OWNER_PERMISSIONS = [
@@ -22,6 +23,7 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.AccountStatus,
   BlockWithPermission.TosStatus,
   BlockWithPermission.UpgradePlan,
+  BlockWithPermission.JwtManagerEdit,
 ];
 
 export const DEVELOPER_PERMISSIONS = [
