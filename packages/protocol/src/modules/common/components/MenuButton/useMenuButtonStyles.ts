@@ -28,7 +28,7 @@ export const useMenuButtonStyles = makeStyles<MenuButtonStylesProps>()(
           ? theme.palette.common.black
           : theme.palette.common.white,
         backgroundColor: isOpened
-          ? theme.palette.grey[400]
+          ? theme.palette.grey[100]
           : theme.palette.background.paper,
 
         '& > svg': {
@@ -36,21 +36,21 @@ export const useMenuButtonStyles = makeStyles<MenuButtonStylesProps>()(
         },
 
         '&:hover': {
-          backgroundColor: theme.palette.grey[400],
+          backgroundColor: theme.palette.grey[100],
           '& > svg': {
             color: theme.palette.primary.main,
           },
         },
 
         '&:active': {
-          backgroundColor: theme.palette.grey[400],
+          backgroundColor: theme.palette.grey[100],
           '& > svg': {
             color: theme.palette.primary.main,
           },
         },
 
         [`&.${buttonBaseClasses.focusVisible}`]: {
-          backgroundColor: theme.palette.grey[400],
+          backgroundColor: theme.palette.grey[100],
           '& > svg': {
             color: theme.palette.primary.main,
           },
