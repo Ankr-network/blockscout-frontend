@@ -4,27 +4,33 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyChainsFetchUserRequestsQuery } from 'domains/chains/actions/private/fetchUserRequests';
 import { Timeframe } from 'domains/chains/types';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
-
-import { useSelectedUserGroup } from '../../userGroup/hooks/useSelectedUserGroup';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useRequestsBanner = (timeframe: Timeframe) => {
   const { workerTokenData } = useAuth();
-  const { groupToken } = useGroupJwtToken();
+  const { groupToken, isLoadingGroupToken } = useGroupJwtToken();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const userToken = useMemo(() => {
-    if (groupToken?.jwtToken) {
+    if (group && !isLoadingGroupToken) {
       return groupToken.jwtToken;
     }
 
-    return workerTokenData?.userEndpointToken ?? '';
-  }, [groupToken, workerTokenData?.userEndpointToken]);
+    return workerTokenData?.userEndpointToken;
+  }, [
+    groupToken,
+    workerTokenData?.userEndpointToken,
+    group,
+    isLoadingGroupToken,
+  ]);
 
   const [fetchUserRequests, userRequestsState] =
     useLazyChainsFetchUserRequestsQuery();
 
   useEffect(() => {
-    fetchUserRequests({ timeframe, userToken, group });
+    if (userToken) {
+      fetchUserRequests({ timeframe, userToken, group });
+    }
   }, [fetchUserRequests, timeframe, userToken, group]);
 
   return { userRequestsState };
