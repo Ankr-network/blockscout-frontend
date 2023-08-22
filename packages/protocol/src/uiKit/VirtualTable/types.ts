@@ -36,6 +36,7 @@ export interface VirtualTableProps<T extends Record<string, any>> {
 export interface VirtualTableColumn<T> {
   field: string;
   width?: number | string;
+  minWidth?: number | string;
   sortable?: boolean;
   headerName: React.ReactNode;
   render: ((row: T, index: number) => React.ReactNode) | string;

@@ -74,6 +74,7 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
             />
           );
         },
+        minWidth: '120px',
         sortable: false,
       },
       {
