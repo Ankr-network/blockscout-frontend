@@ -7,6 +7,11 @@ export const useColumnsStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gap: theme.spacing(1),
   },
+  name: {
+    '&&': {
+      width: `${theme.spacing(64)}`,
+    },
+  },
   tooltip: {
     cursor: 'pointer',
 
