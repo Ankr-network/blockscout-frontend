@@ -20,7 +20,7 @@ import { formatBlockchainToString, getRequests } from '../ProjectTableUtils';
 import { useColumnsStyles } from './useColumnsStyles';
 
 export const useColumns = (isProjectsActivityLoading: boolean) => {
-  const { classes } = useColumnsStyles();
+  const { classes, cx } = useColumnsStyles();
 
   const hasAccessForManaging = useGuardUserGroup({
     blockName: BlockWithPermission.JwtManagerEdit,
@@ -32,7 +32,7 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
         align: 'left',
         field: 'name',
         headerName: (
-          <span className={classes.header}>
+          <span className={cx(classes.header, classes.name)}>
             {t('projects.list-project.table.column-1')}
           </span>
         ),
@@ -74,6 +74,7 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
             />
           );
         },
+        minWidth: '120px',
         sortable: false,
       },
       {

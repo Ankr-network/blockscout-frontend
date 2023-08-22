@@ -210,6 +210,7 @@ export const Col = ({ col, rowData, rowIndex, colIndex }: ColProps) => {
       style={{
         width: col.width || `${colWidths.current[colIndex]}%`,
         textAlign: col.align,
+        minWidth: col.minWidth,
       }}
     >
       {renderCol}

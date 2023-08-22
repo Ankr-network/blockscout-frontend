@@ -9,5 +9,12 @@ export const useChipStyles = makeStyles()(theme => ({
     fontSize: 14,
     fontWeight: 500,
     lineHeight: '143%',
+
+    '& span': {
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   },
 }));
