@@ -37,8 +37,8 @@ export const NewProjectForm = ({
 
       const isChainSelected = Boolean(
         selectedMainnetIds?.length ||
-          selectedTestnetIds?.length ||
-          selectedDevnetIds?.length,
+        selectedTestnetIds?.length ||
+        selectedDevnetIds?.length,
       );
       const isWhitelistEmpty = whitelistItems?.length === 0;
 

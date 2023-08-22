@@ -3,9 +3,12 @@ import { useForm } from 'react-final-form';
 
 import { useProjectFormValues } from 'domains/projects/screens/NewProject/hooks/useProjectFormValues';
 import {
+  AddToWhitelistFormData,
   WhitelistStepFields,
   initialDialogValues,
 } from 'domains/projects/store';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { NewProjectStep } from 'domains/projects/types';
 
 import { MainForm } from './MainForm';
 
@@ -16,6 +19,7 @@ interface AddAndEditWhitelistItemFormProps {
 export const AddAndEditWhitelistItemForm = ({
   onClose,
 }: AddAndEditWhitelistItemFormProps) => {
+  const { handleSetStepConfig, project } = useProjectConfig();
   const { change } = useForm();
 
   const {
@@ -27,29 +31,59 @@ export const AddAndEditWhitelistItemForm = ({
     whitelistItems,
   } = useProjectFormValues();
 
-  const handleFormSubmit = useCallback(() => {
-    if (isEditingWhitelistDialog) {
-      const newWhitelistItems = [...whitelistItems];
+  const replaceWhiteListItemWithNewOne = useCallback(
+    (
+      items: AddToWhitelistFormData[],
+      index: number,
+      newWhitelistItem: AddToWhitelistFormData,
+    ): AddToWhitelistFormData[] => {
+      const newItems = [...items];
 
-      newWhitelistItems.splice(indexOfEditingWhitelistItem, 1, whitelistDialog);
-      change(WhitelistStepFields.whitelistItems, newWhitelistItems);
+      newItems.splice(index, 1, newWhitelistItem);
+
+      return newItems;
+    },
+    [],
+  );
+
+  const handleFormSubmit = useCallback(() => {
+    let newWhitelistItems = [];
+
+    if (isEditingWhitelistDialog) {
+      newWhitelistItems = replaceWhiteListItemWithNewOne(
+        whitelistItems,
+        indexOfEditingWhitelistItem,
+        whitelistDialog,
+      );
       change(WhitelistStepFields.isEditingWhitelistDialog, false);
       change(WhitelistStepFields.indexOfEditingWhitelistItem, undefined);
     } else {
-      change(WhitelistStepFields.whitelistItems, [
-        ...whitelistItems,
-        whitelistDialog,
-      ]);
+      newWhitelistItems = [...whitelistItems, whitelistDialog];
     }
+
+    change(WhitelistStepFields.whitelistItems, newWhitelistItems);
+
+    handleSetStepConfig(
+      NewProjectStep.Whitelist,
+      {
+        whitelistItems: newWhitelistItems,
+        userEndpointToken:
+          project[NewProjectStep.Whitelist]?.userEndpointToken ?? '',
+      },
+      NewProjectStep.Whitelist,
+    );
 
     change(WhitelistStepFields.whitelistDialog, initialDialogValues);
 
     onClose();
   }, [
     change,
+    handleSetStepConfig,
     indexOfEditingWhitelistItem,
     isEditingWhitelistDialog,
     onClose,
+    project,
+    replaceWhiteListItemWithNewOne,
     whitelistDialog,
     whitelistItems,
   ]);

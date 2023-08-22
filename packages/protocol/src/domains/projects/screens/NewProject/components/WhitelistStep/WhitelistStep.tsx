@@ -4,7 +4,13 @@ import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { WhitelistStepFields } from 'domains/projects/store';
+import {
+  AddToWhitelistFormData,
+  WhitelistStepFields,
+} from 'domains/projects/store';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { NewProjectStep } from 'domains/projects/types';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 import { useWhitelistStepStyles } from './useWhitelistStepStyles';
 import { Table } from './components/Table/Table';
@@ -16,7 +22,9 @@ export const WhitelistStep = () => {
   const { classes } = useWhitelistStepStyles();
 
   const { isOpened, onClose, onOpen } = useDialog();
-  const { onChange } = useProjectFormValues();
+  const { allSelectedChainIds, whitelistItems, onChange } =
+    useProjectFormValues();
+  const { handleSetStepConfig, project } = useProjectConfig();
 
   const {
     isAddingDomainAllowed,
@@ -28,6 +36,25 @@ export const WhitelistStep = () => {
     onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
     onOpen();
   }, [onChange, onOpen]);
+
+  useOnMount(() => {
+    const updatedWhitelistItems = (
+      whitelistItems as AddToWhitelistFormData[]
+    ).filter(item =>
+      item.chains.every(chain => allSelectedChainIds.includes(chain)),
+    );
+
+    onChange(WhitelistStepFields.whitelistItems, updatedWhitelistItems);
+    handleSetStepConfig(
+      NewProjectStep.Whitelist,
+      {
+        whitelistItems: updatedWhitelistItems,
+        userEndpointToken:
+          project[NewProjectStep.Whitelist]?.userEndpointToken ?? '',
+      },
+      NewProjectStep.Whitelist,
+    );
+  });
 
   return (
     <>

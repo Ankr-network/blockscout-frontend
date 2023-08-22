@@ -10,6 +10,8 @@ import {
   AddToWhitelistFormData,
   WhitelistStepFields,
 } from 'domains/projects/store';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { NewProjectStep } from 'domains/projects/types';
 
 interface ActionsMenuProps {
   index: number;
@@ -22,6 +24,7 @@ export const ActionsMenu = ({
   rowData,
   onWhitelistDialogOpen,
 }: ActionsMenuProps) => {
+  const { handleSetStepConfig, project } = useProjectConfig();
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
 
   const { change } = useForm();
@@ -55,8 +58,25 @@ export const ActionsMenu = ({
 
     newWhitelistItems.splice(index, 1);
     change(WhitelistStepFields.whitelistItems, newWhitelistItems);
+
+    handleSetStepConfig(
+      NewProjectStep.Whitelist,
+      {
+        whitelistItems: newWhitelistItems,
+        userEndpointToken:
+          project[NewProjectStep.Whitelist]?.userEndpointToken ?? '',
+      },
+      NewProjectStep.Plan,
+    );
     handleClose();
-  }, [index, whitelistItems, change, handleClose]);
+  }, [
+    whitelistItems,
+    index,
+    change,
+    project,
+    handleSetStepConfig,
+    handleClose,
+  ]);
 
   return (
     <MenuButton
