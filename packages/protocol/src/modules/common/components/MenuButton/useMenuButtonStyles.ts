@@ -86,6 +86,9 @@ export const useMenuButtonStyles = makeStyles<MenuButtonStylesProps>()(
       },
       menuItemIcon: {
         '&&': {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           color: theme.palette.grey[600],
         },
       },
