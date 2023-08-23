@@ -18,6 +18,7 @@ import {
 } from '../NewProjectFormTypes';
 import { getFinalPrice } from '../../../utils/getFinalPrice';
 
+// eslint-disable-next-line max-lines-per-function
 export const useHandleSubmit = (
   step: NewProjectStep,
   onSubmit: NewProjectFormProps['onSubmit'],
@@ -39,13 +40,21 @@ export const useHandleSubmit = (
             selectedMainnetIds = [],
             selectedTestnetIds = [],
             selectedDevnetIds = [],
+            selectedBeaconMainnetIds = [],
+            selectedBeaconTestnetIds = [],
+            selectedOpnodeMainnetIds = [],
+            selectedOpnodeTestnetIds = [],
           } = values;
 
           /* validation start */
           if (
             selectedMainnetIds.length === 0 &&
             selectedTestnetIds.length === 0 &&
-            selectedDevnetIds.length === 0
+            selectedDevnetIds.length === 0 &&
+            selectedBeaconMainnetIds.length === 0 &&
+            selectedBeaconTestnetIds.length === 0 &&
+            selectedOpnodeMainnetIds.length === 0 &&
+            selectedOpnodeTestnetIds.length === 0
           ) {
             dispatch(
               NotificationActions.showNotification({
@@ -66,6 +75,10 @@ export const useHandleSubmit = (
             selectedMainnetIds,
             selectedTestnetIds,
             selectedDevnetIds,
+            selectedBeaconMainnetIds,
+            selectedBeaconTestnetIds,
+            selectedOpnodeMainnetIds,
+            selectedOpnodeTestnetIds,
           });
         }
 

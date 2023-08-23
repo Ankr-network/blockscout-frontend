@@ -205,7 +205,8 @@
         "error-message": {
           "required": "Please select chain first"
         },
-        "tooltip-text": "This chain has only one option to select"
+        "tooltip-text": "This chain has only one option to select",
+        "mainnet-postfix": "{label} mainnet"
       },
       "step-2": {
         "title": "Whitelist",

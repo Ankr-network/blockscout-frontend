@@ -6,8 +6,12 @@ import {
 } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'domains/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import {
+  ProjectChainType,
+  ProjectChainTypeExtenders,
+} from 'domains/projects/types';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
@@ -30,7 +34,19 @@ const mapEndpoints = (endpoints: EndpointGroup[]) => {
   }));
 };
 
-export const TypeSelector = ({ chainTypes, endpoints }: ITypeSelectorProps) => {
+const mapChainToNestedItem = ({ id, name }: Chain) => ({
+  chainId: id,
+  label: name,
+});
+
+export const TypeSelector = ({
+  chainTypes,
+  endpoints,
+  beaconsMainnet,
+  beaconsTestnet,
+  opnodesMainnet,
+  opnodesTestnet,
+}: ITypeSelectorProps) => {
   const { classes } = useTypeSelectorStyles();
 
   const { onChange, isChecked, isIndeterminate } = useAllChainsSelection({
@@ -69,13 +85,45 @@ export const TypeSelector = ({ chainTypes, endpoints }: ITypeSelectorProps) => {
 
         return (
           <IndeterminateCheckbox
-            chainType={value as ChainType}
+            chainType={value as ProjectChainType}
             key={value}
             parentLabel={label}
             nestedItems={nestedItems}
           />
         );
       })}
+
+      {beaconsMainnet && (
+        <IndeterminateCheckbox
+          chainType={ProjectChainTypeExtenders.BeaconMainnet}
+          parentLabel="Beacon mainnet"
+          nestedItems={beaconsMainnet.map(mapChainToNestedItem)}
+        />
+      )}
+
+      {beaconsTestnet && (
+        <IndeterminateCheckbox
+          chainType={ProjectChainTypeExtenders.BeaconTestnet}
+          parentLabel="Beacon testnet"
+          nestedItems={beaconsTestnet.map(mapChainToNestedItem)}
+        />
+      )}
+
+      {opnodesMainnet && (
+        <IndeterminateCheckbox
+          chainType={ProjectChainTypeExtenders.OpnodeMainnet}
+          parentLabel="Opnode mainnet"
+          nestedItems={opnodesMainnet.map(mapChainToNestedItem)}
+        />
+      )}
+
+      {opnodesTestnet && (
+        <IndeterminateCheckbox
+          chainType={ProjectChainTypeExtenders.OpnodeTestnet}
+          parentLabel="Opnode testnet"
+          nestedItems={opnodesTestnet.map(mapChainToNestedItem)}
+        />
+      )}
     </FormControl>
   );
 };

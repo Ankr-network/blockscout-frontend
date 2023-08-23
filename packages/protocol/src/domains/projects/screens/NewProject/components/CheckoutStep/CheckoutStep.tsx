@@ -4,10 +4,10 @@ import { t } from '@ankr.com/common';
 
 import { newProjectIntlRoot, plans } from 'domains/projects/const';
 import { NewProjectStep } from 'domains/projects/types';
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 import { renderAmount } from '../../utils/renderAmount';
-import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 import { BlockchainIcon } from '../../../Projects/components/BlockchainIcon';
 import { useProjectChains } from '../../hooks/useProjectChains';
 import { PlanCard } from '../PlanStep/components/PlanCard';

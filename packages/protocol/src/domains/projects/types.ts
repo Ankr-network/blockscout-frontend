@@ -1,3 +1,5 @@
+import { Chain as MainChainType, ChainType } from '../chains/types';
+
 export enum NewProjectStep {
   Chain,
   Whitelist,
@@ -25,3 +27,19 @@ export enum WhiteListItem {
   address = 'address',
   all = 'all',
 }
+
+export enum ProjectChainTypeExtenders {
+  BeaconMainnet = 'beaconMainnet',
+  BeaconTestnet = 'BeaconTestnet',
+  OpnodeMainnet = 'OpnodeMainnet',
+  OpnodeTestnet = 'OpnodeTestnet',
+}
+
+export type ProjectChainType = ChainType | ProjectChainTypeExtenders;
+
+export type ProjectChainsType = MainChainType & {
+  beaconsMainnet?: MainChainType[];
+  beaconsTestnet?: MainChainType[];
+  opnodesMainnet?: MainChainType[];
+  opnodesTestnet?: MainChainType[];
+};

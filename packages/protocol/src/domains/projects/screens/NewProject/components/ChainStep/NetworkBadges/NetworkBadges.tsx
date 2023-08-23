@@ -5,13 +5,12 @@ import { t } from '@ankr.com/common';
 
 import { Chain, ChainID } from 'domains/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
-import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
+import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useNetworkBadges } from './useNetworkBadges';
 import { NetworkBadgeItem } from './NetworkBadgeItem';
 import { useNetworksBadgesStyles } from './useNetworksBadgesStyles';
-import { isChainHasSingleOptionToSelect } from '../../../utils/isChainHasSingleOptionToSelect';
-import { getCustomLabelWithZetachainPrefix } from '../../../utils/getCustomLabelWithZetachainPrefix';
 
 interface NetworkBadgesProps {
   chain: Chain;
@@ -33,20 +32,26 @@ export const NetworkBadges = ({
     currentChainSelectedExtensions,
     currentChainSelectedTestnetChains,
     currentChainSelectedDevnetChains,
-    hasSelectedChains,
+    currentChainSelectedBeaconMainnetChains,
+    currentChainSelectedBeaconTestnetChains,
+    currentChainSelectedOpnodeMainnetChains,
+    currentChainSelectedOpnodeTestnetChains,
     handleRemove,
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
+    isIconInfoVisible,
+    isEditButtonVisible,
   } = useNetworkBadges(chain, setSelectedChainsIds);
 
   const {
-    id: currentChainId,
-    name: currentChainName,
-    testnets = [],
-    devnets = [],
-    extensions = [],
-  } = chain;
+    selectedMainnetIds,
+    selectedTestnetIds,
+    selectedDevnetIds,
+    selectedBeaconMainnetIds,
+    selectedBeaconTestnetIds,
+    selectedOpnodeMainnetIds,
+    selectedOpnodeTestnetIds,
+  } = useProjectFormValues();
+
+  const { id: currentChainId, name: currentChainName } = chain;
 
   const handleOpenModal = useCallback(
     () => onOpenModal(chain),
@@ -68,7 +73,10 @@ export const NetworkBadges = ({
       return chains.map(({ id, name }) => (
         <NetworkBadgeItem
           key={id}
-          name={getCustomLabelWithZetachainPrefix({ chainId: id, label: name })}
+          name={getCustomLabelForChainsCornerCases({
+            chainId: id,
+            label: name,
+          })}
           onRemove={() => handleRemove(id, fieldName, selectedIds)}
         />
       ));
@@ -76,29 +84,13 @@ export const NetworkBadges = ({
     [handleRemove],
   );
 
-  const hasOnlyOneMainnetToSelect =
-    !testnets?.length && !devnets?.length && !extensions.length;
-
-  const hasOnlyOneTestnetToSelect =
-    isTestnetOnlyChain(chain.id) && testnets?.length === 1 && !devnets?.length;
-
-  const isIconInfoVisible =
-    (hasOnlyOneMainnetToSelect && isCurrentChainMainnetSelected) ||
-    (hasOnlyOneTestnetToSelect &&
-      currentChainSelectedTestnetChains.length === 1) ||
-    (isChainHasSingleOptionToSelect(chain.id) && isCurrentChainMainnetSelected);
-
-  const isEditButtonVisible =
-    !hasOnlyOneMainnetToSelect &&
-    !hasOnlyOneTestnetToSelect &&
-    hasSelectedChains &&
-    !isChainHasSingleOptionToSelect(chain.id);
-
   return (
     <div className={cx(classes.badgesWrapper, className)}>
       {isCurrentChainMainnetSelected && (
         <NetworkBadgeItem
-          name={`${currentChainName} mainnet`}
+          name={t('projects.new-project.step-1.mainnet-postfix', {
+            label: currentChainName,
+          })}
           onRemove={handleRemoveCurrentChainFromMainnet}
         />
       )}
@@ -119,6 +111,30 @@ export const NetworkBadges = ({
         currentChainSelectedDevnetChains,
         ChainStepFields.selectedDevnetIds,
         selectedDevnetIds,
+      )}
+
+      {renderSubChains(
+        currentChainSelectedBeaconMainnetChains,
+        ChainStepFields.selectedBeaconMainnetIds,
+        selectedBeaconMainnetIds,
+      )}
+
+      {renderSubChains(
+        currentChainSelectedBeaconTestnetChains,
+        ChainStepFields.selectedBeaconTestnetIds,
+        selectedBeaconTestnetIds,
+      )}
+
+      {renderSubChains(
+        currentChainSelectedOpnodeMainnetChains,
+        ChainStepFields.selectedOpnodeMainnetIds,
+        selectedOpnodeMainnetIds,
+      )}
+
+      {renderSubChains(
+        currentChainSelectedOpnodeTestnetChains,
+        ChainStepFields.selectedOpnodeTestnetIds,
+        selectedOpnodeTestnetIds,
       )}
 
       {isIconInfoVisible && (

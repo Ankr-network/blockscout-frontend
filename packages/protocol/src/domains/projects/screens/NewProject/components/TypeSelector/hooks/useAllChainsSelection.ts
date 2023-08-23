@@ -4,16 +4,21 @@ import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { ChainStepFields } from 'domains/projects/store';
-import { ChainID } from 'domains/chains/types';
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import { Chain, ChainID } from 'domains/chains/types';
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
-import { useProjectFormValues } from '../../../hooks/useProjectFormValues';
+import { useAvailableIds } from './useAvailableIds';
 
 export interface ITypeSelectorProps extends SelectMenuProps {
   chainTypes: ISelectOption[];
   endpoints: GroupedEndpoints;
+  beaconsMainnet?: Chain[];
+  beaconsTestnet?: Chain[];
+  opnodesMainnet?: Chain[];
+  opnodesTestnet?: Chain[];
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const useAllChainsSelection = ({
   endpoints,
 }: Omit<ITypeSelectorProps, 'chainTypes'>) => {
@@ -21,106 +26,155 @@ export const useAllChainsSelection = ({
     selectedMainnetIds,
     selectedTestnetIds,
     selectedDevnetIds,
+    selectedBeaconMainnetIds,
+    selectedBeaconTestnetIds,
+    selectedOpnodeMainnetIds,
+    selectedOpnodeTestnetIds,
     onChange: onFormChange,
   } = useProjectFormValues();
 
-  const allAvailableMainnetIds = endpoints.mainnet
-    .map(endpoint => endpoint.chains[0].id)
-    // zetachain is testnet only but has custom config that includes mainnet.
-    // So we need to filter this endpoint from available mainnet ids
-    .filter(chainId => chainId !== ChainID.ZETACHAIN)
-    // JSON-RPC and REST Tendermint subchains have the same path,
-    // so should we ignore JSON-RPC endpoints and show REST
-    .filter(chainId => !tendermintRpcChains.includes(chainId));
+  const {
+    allAvailableMainnetIds,
+    allAvailableTestnetIds,
+    allAvailableDevnetIds,
+    allAvailableBeaconMainnetIds,
+    allAvailableBeaconTestnetIds,
+    allAvailableOpnodeMainnetIds,
+    allAvailableOpnodeTestnetIds,
+    areAllAvailableChainsSelected,
+    hasCurrentChainSelectedIds,
+  } = useAvailableIds(endpoints);
 
-  const allAvailableTestnetIds = endpoints.testnet
-    .map(endpoint => endpoint.chains[0].id)
-    // JSON-RPC and REST Tendermint subchains have the same path,
-    // so should we ignore JSON-RPC endpoints and show REST
-    .filter(chainId => !tendermintRpcChains.includes(chainId));
+  const handleSelectAll = useCallback(() => {
+    const newMainnetIds = [
+      ...new Set([...selectedMainnetIds, ...allAvailableMainnetIds]),
+    ];
+    const newTestnetIds = [
+      ...new Set([...selectedTestnetIds, ...allAvailableTestnetIds]),
+    ];
+    const newDevnetIds = [
+      ...new Set([...selectedDevnetIds, ...allAvailableDevnetIds]),
+    ];
+    const newBeaconMainnetIds = [
+      ...new Set([
+        ...selectedBeaconMainnetIds,
+        ...allAvailableBeaconMainnetIds,
+      ]),
+    ];
+    const newBeaconTestnetIds = [
+      ...new Set([
+        ...selectedBeaconTestnetIds,
+        ...allAvailableBeaconTestnetIds,
+      ]),
+    ];
+    const newOpnodeMainnetIds = [
+      ...new Set([
+        ...selectedOpnodeMainnetIds,
+        ...allAvailableOpnodeMainnetIds,
+      ]),
+    ];
+    const newOpnodeTestnetIds = [
+      ...new Set([
+        ...selectedOpnodeTestnetIds,
+        ...allAvailableOpnodeTestnetIds,
+      ]),
+    ];
 
-  const allAvailableDevnetIds = endpoints.devnet.map(
-    endpoint => endpoint.chains[0].id,
-  );
+    onFormChange(ChainStepFields.selectedMainnetIds, newMainnetIds);
+    onFormChange(ChainStepFields.selectedTestnetIds, newTestnetIds);
+    onFormChange(ChainStepFields.selectedDevnetIds, newDevnetIds);
+    onFormChange(ChainStepFields.selectedBeaconMainnetIds, newBeaconMainnetIds);
+    onFormChange(ChainStepFields.selectedBeaconTestnetIds, newBeaconTestnetIds);
+    onFormChange(ChainStepFields.selectedOpnodeMainnetIds, newOpnodeMainnetIds);
+    onFormChange(ChainStepFields.selectedOpnodeTestnetIds, newOpnodeTestnetIds);
+  }, [
+    allAvailableDevnetIds,
+    allAvailableMainnetIds,
+    allAvailableTestnetIds,
+    allAvailableBeaconMainnetIds,
+    allAvailableBeaconTestnetIds,
+    allAvailableOpnodeMainnetIds,
+    allAvailableOpnodeTestnetIds,
+    onFormChange,
+    selectedDevnetIds,
+    selectedMainnetIds,
+    selectedTestnetIds,
+    selectedBeaconMainnetIds,
+    selectedBeaconTestnetIds,
+    selectedOpnodeMainnetIds,
+    selectedOpnodeTestnetIds,
+  ]);
 
-  const areAllMainnetIdsSelected = allAvailableMainnetIds.every(id =>
-    selectedMainnetIds.includes(id),
-  );
-
-  const areAllTestnetIdsSelected = allAvailableTestnetIds.every(id =>
-    selectedTestnetIds.includes(id),
-  );
-
-  const areAllDevnetIdsSelected = allAvailableDevnetIds.every(id =>
-    selectedDevnetIds.includes(id),
-  );
-
-  const areAllAvailableChainsSelected =
-    areAllMainnetIdsSelected &&
-    areAllTestnetIdsSelected &&
-    areAllDevnetIdsSelected;
-
-  const hasMainnetIdsSelected = endpoints.mainnet.some(endpoint =>
-    selectedMainnetIds.includes(endpoint.chains[0].id),
-  );
-
-  const hasTestnetIdsSelected = endpoints.testnet.some(endpoint =>
-    selectedTestnetIds.includes(endpoint.chains[0].id),
-  );
-
-  const hasDevnetIdsSelected = endpoints.devnet.some(endpoint =>
-    selectedDevnetIds.includes(endpoint.chains[0].id),
-  );
-
-  const hasCurrentChainSelectedIds =
-    hasMainnetIdsSelected || hasTestnetIdsSelected || hasDevnetIdsSelected;
+  const handleUnselectAll = useCallback(() => {
+    onFormChange(
+      ChainStepFields.selectedMainnetIds,
+      selectedMainnetIds.filter(
+        (id: ChainID) => !allAvailableMainnetIds.includes(id),
+      ),
+    );
+    onFormChange(
+      ChainStepFields.selectedTestnetIds,
+      selectedTestnetIds.filter(
+        (id: ChainID) => !allAvailableTestnetIds.includes(id),
+      ),
+    );
+    onFormChange(
+      ChainStepFields.selectedDevnetIds,
+      selectedDevnetIds.filter(
+        (id: ChainID) => !allAvailableDevnetIds.includes(id),
+      ),
+    );
+    onFormChange(
+      ChainStepFields.selectedBeaconMainnetIds,
+      selectedBeaconMainnetIds.filter(
+        (id: ChainID) => !allAvailableBeaconMainnetIds.includes(id),
+      ),
+    );
+    onFormChange(
+      ChainStepFields.selectedBeaconTestnetIds,
+      selectedBeaconTestnetIds.filter(
+        (id: ChainID) => !allAvailableBeaconTestnetIds.includes(id),
+      ),
+    );
+    onFormChange(
+      ChainStepFields.selectedOpnodeMainnetIds,
+      selectedOpnodeMainnetIds.filter(
+        (id: ChainID) => !allAvailableOpnodeMainnetIds.includes(id),
+      ),
+    );
+    onFormChange(
+      ChainStepFields.selectedOpnodeTestnetIds,
+      selectedOpnodeTestnetIds.filter(
+        (id: ChainID) => !allAvailableOpnodeTestnetIds.includes(id),
+      ),
+    );
+  }, [
+    allAvailableDevnetIds,
+    allAvailableMainnetIds,
+    allAvailableTestnetIds,
+    allAvailableBeaconMainnetIds,
+    allAvailableBeaconTestnetIds,
+    allAvailableOpnodeMainnetIds,
+    allAvailableOpnodeTestnetIds,
+    onFormChange,
+    selectedDevnetIds,
+    selectedMainnetIds,
+    selectedTestnetIds,
+    selectedBeaconMainnetIds,
+    selectedBeaconTestnetIds,
+    selectedOpnodeMainnetIds,
+    selectedOpnodeTestnetIds,
+  ]);
 
   const handleChangeAll = useCallback(
     (isChecked: boolean) => {
       if (isChecked) {
-        const newMainnetIds = [
-          ...new Set([...selectedMainnetIds, ...allAvailableMainnetIds]),
-        ];
-        const newTestnetIds = [
-          ...new Set([...selectedTestnetIds, ...allAvailableTestnetIds]),
-        ];
-        const newDevnetIds = [
-          ...new Set([...selectedDevnetIds, ...allAvailableDevnetIds]),
-        ];
-
-        onFormChange(ChainStepFields.selectedMainnetIds, newMainnetIds);
-        onFormChange(ChainStepFields.selectedTestnetIds, newTestnetIds);
-        onFormChange(ChainStepFields.selectedDevnetIds, newDevnetIds);
+        handleSelectAll();
       } else {
-        onFormChange(
-          ChainStepFields.selectedMainnetIds,
-          selectedMainnetIds.filter(
-            (id: ChainID) => !allAvailableMainnetIds.includes(id),
-          ),
-        );
-        onFormChange(
-          ChainStepFields.selectedTestnetIds,
-          selectedTestnetIds.filter(
-            (id: ChainID) => !allAvailableTestnetIds.includes(id),
-          ),
-        );
-        onFormChange(
-          ChainStepFields.selectedDevnetIds,
-          selectedDevnetIds.filter(
-            (id: ChainID) => !allAvailableDevnetIds.includes(id),
-          ),
-        );
+        handleUnselectAll();
       }
     },
-    [
-      allAvailableDevnetIds,
-      allAvailableMainnetIds,
-      allAvailableTestnetIds,
-      onFormChange,
-      selectedDevnetIds,
-      selectedMainnetIds,
-      selectedTestnetIds,
-    ],
+    [handleSelectAll, handleUnselectAll],
   );
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) =>

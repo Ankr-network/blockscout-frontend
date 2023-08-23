@@ -32,13 +32,21 @@ export const NewProjectForm = ({
         selectedMainnetIds,
         selectedTestnetIds,
         selectedDevnetIds,
+        selectedBeaconMainnetIds,
+        selectedBeaconTestnetIds,
+        selectedOpnodeMainnetIds,
+        selectedOpnodeTestnetIds,
         whitelistItems,
       } = getState().values || {};
 
       const isChainSelected = Boolean(
         selectedMainnetIds?.length ||
-        selectedTestnetIds?.length ||
-        selectedDevnetIds?.length,
+          selectedTestnetIds?.length ||
+          selectedDevnetIds?.length ||
+          selectedBeaconMainnetIds?.length ||
+          selectedBeaconTestnetIds?.length ||
+          selectedOpnodeMainnetIds?.length ||
+          selectedOpnodeTestnetIds?.length,
       );
       const isWhitelistEmpty = whitelistItems?.length === 0;
 

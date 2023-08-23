@@ -6,21 +6,28 @@ import {
   useMemo,
 } from 'react';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
-import { useProjectFormValues } from '../../../hooks/useProjectFormValues';
 import { getCurrentChainSelectedExtensions, getSelectedChains } from './utils';
+import { ProjectChain } from '../../../hooks/useProjectChains';
+import { isChainHasSingleOptionToSelect } from '../../../utils/isChainHasSingleOptionToSelect';
 import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 
+// eslint-disable-next-line max-lines-per-function
 export const useNetworkBadges = (
-  chain: Chain,
+  chain: ProjectChain,
   setSelectedChainsIds: Dispatch<SetStateAction<ChainID[]>>,
 ) => {
   const {
     id,
     testnets = [],
     devnets = [],
+    beaconsMainnet = [],
+    beaconsTestnet = [],
+    opnodesMainnet = [],
+    opnodesTestnet = [],
     extensions = [],
     extenders = [],
   } = chain;
@@ -29,6 +36,10 @@ export const useNetworkBadges = (
     selectedMainnetIds,
     selectedTestnetIds,
     selectedDevnetIds,
+    selectedBeaconMainnetIds,
+    selectedBeaconTestnetIds,
+    selectedOpnodeMainnetIds,
+    selectedOpnodeTestnetIds,
     onChange,
   } = useProjectFormValues();
 
@@ -62,11 +73,35 @@ export const useNetworkBadges = (
     [devnets, selectedDevnetIds],
   );
 
+  const currentChainSelectedBeaconMainnetChains = useMemo(
+    () => getSelectedChains(beaconsMainnet, selectedBeaconMainnetIds),
+    [beaconsMainnet, selectedBeaconMainnetIds],
+  );
+
+  const currentChainSelectedBeaconTestnetChains = useMemo(
+    () => getSelectedChains(beaconsTestnet, selectedBeaconTestnetIds),
+    [beaconsTestnet, selectedBeaconTestnetIds],
+  );
+
+  const currentChainSelectedOpnodeMainnetChains = useMemo(
+    () => getSelectedChains(opnodesMainnet, selectedOpnodeMainnetIds),
+    [opnodesMainnet, selectedOpnodeMainnetIds],
+  );
+
+  const currentChainSelectedOpnodeTestnetChains = useMemo(
+    () => getSelectedChains(opnodesTestnet, selectedOpnodeTestnetIds),
+    [opnodesTestnet, selectedOpnodeTestnetIds],
+  );
+
   const hasSelectedChains =
     isCurrentChainMainnetSelected ||
     currentChainSelectedExtensions.length > 0 ||
     currentChainSelectedTestnetChains.length > 0 ||
-    currentChainSelectedDevnetChains.length > 0;
+    currentChainSelectedDevnetChains.length > 0 ||
+    currentChainSelectedBeaconMainnetChains.length > 0 ||
+    currentChainSelectedBeaconTestnetChains.length > 0 ||
+    currentChainSelectedOpnodeMainnetChains.length > 0 ||
+    currentChainSelectedOpnodeTestnetChains.length > 0;
 
   const handleRemove = useCallback(
     (
@@ -90,15 +125,35 @@ export const useNetworkBadges = (
     }
   }, [hasSelectedChains, id, setSelectedChainsIds]);
 
+  const hasOnlyOneMainnetToSelect =
+    !testnets?.length && !devnets?.length && !extensions.length;
+
+  const hasOnlyOneTestnetToSelect =
+    isTestnetOnlyChain(chain.id) && testnets?.length === 1 && !devnets?.length;
+
+  const isIconInfoVisible =
+    (hasOnlyOneMainnetToSelect && isCurrentChainMainnetSelected) ||
+    (hasOnlyOneTestnetToSelect &&
+      currentChainSelectedTestnetChains.length === 1) ||
+    (isChainHasSingleOptionToSelect(chain.id) && isCurrentChainMainnetSelected);
+
+  const isEditButtonVisible =
+    !hasOnlyOneMainnetToSelect &&
+    !hasOnlyOneTestnetToSelect &&
+    hasSelectedChains &&
+    !isChainHasSingleOptionToSelect(chain.id);
+
   return {
     isCurrentChainMainnetSelected,
     currentChainSelectedExtensions,
     currentChainSelectedTestnetChains,
     currentChainSelectedDevnetChains,
-    hasSelectedChains,
+    currentChainSelectedBeaconMainnetChains,
+    currentChainSelectedBeaconTestnetChains,
+    currentChainSelectedOpnodeMainnetChains,
+    currentChainSelectedOpnodeTestnetChains,
     handleRemove,
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
+    isIconInfoVisible,
+    isEditButtonVisible,
   };
 };
