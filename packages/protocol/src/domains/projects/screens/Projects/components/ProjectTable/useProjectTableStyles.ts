@@ -5,6 +5,7 @@ export const useProjectTableStyles = makeStyles()(theme => ({
     padding: 0,
     backgroundColor: 'transparent',
     color: theme.palette.grey[600],
+    overflow: 'hidden',
   },
   head: {
     borderBottom: 'none',
