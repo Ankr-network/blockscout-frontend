@@ -219,8 +219,8 @@
         "success-message": "Smart contract address added successfully",
         "error-message": {
           "required": "Smart contract address is required",
-          "invalid": "Smart contract address is invalid",
-          "token-index-error": "Token index is not defined"
+          "token-index-error": "Token index is not defined",
+          "duplication": "This address has already been added"
         }
       },
       "checkout-step": {
