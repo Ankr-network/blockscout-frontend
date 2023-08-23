@@ -10,6 +10,10 @@ export enum ChainStepFields {
   selectedMainnetIds = 'selectedMainnetIds',
   selectedTestnetIds = 'selectedTestnetIds',
   selectedDevnetIds = 'selectedDevnetIds',
+  selectedBeaconMainnetIds = 'selectedBeaconMainnetIds',
+  selectedBeaconTestnetIds = 'selectedBeaconTestnetIds',
+  selectedOpnodeMainnetIds = 'selectedOpnodeMainnetIds',
+  selectedOpnodeTestnetIds = 'selectedOpnodeTestnetIds',
 }
 
 export enum WhitelistStepFields {
@@ -43,6 +47,10 @@ export interface NewProjectType {
     [ChainStepFields.selectedMainnetIds]?: string[];
     [ChainStepFields.selectedTestnetIds]?: string[];
     [ChainStepFields.selectedDevnetIds]?: string[];
+    [ChainStepFields.selectedBeaconMainnetIds]: string[];
+    [ChainStepFields.selectedBeaconTestnetIds]: string[];
+    [ChainStepFields.selectedOpnodeMainnetIds]: string[];
+    [ChainStepFields.selectedOpnodeTestnetIds]: string[];
   };
   [NewProjectStep.Whitelist]?: {
     [WhitelistStepFields.userEndpointToken]?: string;

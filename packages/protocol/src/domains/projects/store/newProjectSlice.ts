@@ -28,6 +28,10 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
       selectedMainnetIds: [],
       selectedTestnetIds: [],
       selectedDevnetIds: [],
+      selectedBeaconMainnetIds: [],
+      selectedBeaconTestnetIds: [],
+      selectedOpnodeMainnetIds: [],
+      selectedOpnodeTestnetIds: [],
     },
     [NewProjectStep.Whitelist]: {
       userEndpointToken: '',

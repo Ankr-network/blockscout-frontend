@@ -23,7 +23,6 @@ export const AddAndEditWhitelistItemForm = ({
   const { change } = useForm();
 
   const {
-    allSelectedChainIds,
     isEditingWhitelistDialog,
     shouldSkipFormReset,
     indexOfEditingWhitelistItem = 0,
@@ -94,7 +93,6 @@ export const AddAndEditWhitelistItemForm = ({
 
   return (
     <MainForm
-      chainIds={allSelectedChainIds}
       shouldSkipFormReset={shouldSkipFormReset}
       handleSubmit={handleFormSubmit}
     />

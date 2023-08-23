@@ -27,6 +27,10 @@ export interface NewProjectFormValues {
   [ChainStepFields.selectedMainnetIds]?: string[];
   [ChainStepFields.selectedTestnetIds]?: string[];
   [ChainStepFields.selectedDevnetIds]?: string[];
+  [ChainStepFields.selectedBeaconMainnetIds]?: string[];
+  [ChainStepFields.selectedBeaconTestnetIds]?: string[];
+  [ChainStepFields.selectedOpnodeMainnetIds]?: string[];
+  [ChainStepFields.selectedOpnodeTestnetIds]?: string[];
   [WhitelistStepFields.userEndpointToken]?: string;
   [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
   [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];

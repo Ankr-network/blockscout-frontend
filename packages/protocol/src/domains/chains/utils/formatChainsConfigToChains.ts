@@ -32,7 +32,7 @@ const getExtensions = (chains: Chain[]) => {
   }, {});
 };
 
-const getBeacons = (chains: Chain[]) => {
+export const getBeacons = (chains: Chain[]) => {
   return chains.reduce<Record<string, Chain[]>>((result, chain) => {
     const { chainExtends, type } = chain;
 
@@ -46,7 +46,7 @@ const getBeacons = (chains: Chain[]) => {
   }, {});
 };
 
-const getOpnodes = (chains: Chain[]) => {
+export const getOpnodes = (chains: Chain[]) => {
   return chains.reduce<Record<string, Chain[]>>((result, chain) => {
     const { chainExtends, type } = chain;
 

@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
+
 import { useChainSelectModal } from './useChainSelectModal';
 import { useProjectChains } from '../../../hooks/useProjectChains';
 import { useSelectedProjectChain } from './useSelectedProjectChain';
 import { useChainsTableColumns } from './useChainsTableColumns';
-import { useProjectFormValues } from '../../../hooks/useProjectFormValues';
 
 export const useChainsTable = () => {
   const { isOpened, onClose, onOpenModal, currentModalChain } =
