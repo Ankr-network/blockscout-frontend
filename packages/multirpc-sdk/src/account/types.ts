@@ -32,6 +32,7 @@ export enum AccountErrorCode {
   WrongState = 'wrong_state',
   TwoFARequired = '2fa_required',
   TwoFAWrong = '2fa_wrong',
+  InsufficientBalance = 'insufficient_balance'
 }
 
 export interface AccountErrorResponse {
@@ -575,7 +576,7 @@ export interface IUpdateWhitelistModeRequestParams {
 }
 
 export interface IUpdateWhitelistModeResponse
-  extends IUpdateWhitelistModeRequestParams {}
+  extends IUpdateWhitelistModeRequestParams { }
 
 export interface IUpdateWhitelistParams extends IUpdateWhitelistModeParams {
   blockchain: string;

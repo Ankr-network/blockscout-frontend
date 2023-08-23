@@ -1,4 +1,7 @@
+/* eslint-disable max-lines-per-function */
 import { useCallback, useMemo } from 'react';
+import { AccountErrorCode } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
@@ -8,9 +11,14 @@ import { ChainID } from 'domains/chains/types';
 import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { getAxiosAccountErrorCode } from 'store/utils/getAxiosAccountErrorCode';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
 import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
+import { newProjectIntlRoot } from '../const';
 
 interface IParamsForWhitelist {
   chainId: ChainID;
@@ -57,6 +65,8 @@ const getProjectValues = (project: NewProjectType) => {
 };
 
 export const useEnableWhitelist = () => {
+  const dispatch = useAppDispatch();
+
   const [addToWhitelist, { isLoading: isAddToWhitelistLoading }] =
     useQueryEndpoint(addToWhitelistAction);
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
@@ -82,6 +92,7 @@ export const useEnableWhitelist = () => {
 
   const handleAddAddressToWhitelist = useCallback(async () => {
     let isErrorOccured = false;
+    let shouldRedirectToStripe = false;
 
     // eslint-disable-next-line no-restricted-syntax
     for (const params of paramsForWhitelistRequests) {
@@ -98,15 +109,42 @@ export const useEnableWhitelist = () => {
 
       if (error) {
         isErrorOccured = true;
+
+        if (isAxiosAccountError(error)) {
+          const errorCode = getAxiosAccountErrorCode(error);
+          const isInsufficientBalanceError =
+            errorCode === AccountErrorCode.InsufficientBalance;
+
+          if (isInsufficientBalanceError) {
+            shouldRedirectToStripe = true;
+          }
+        } else {
+          dispatch(
+            NotificationActions.showNotification({
+              message: t(
+                `${newProjectIntlRoot}.checkout-step.error-message.can-not-add-to-whitelist`,
+                {
+                  contractAddress: params.contractAddress,
+                  userEndpointToken,
+                },
+              ),
+              severity: 'error',
+            }),
+          );
+        }
       }
     }
 
-    return isErrorOccured;
+    return {
+      isErrorOccured,
+      shouldRedirectToStripe,
+    };
   }, [
-    addToWhitelist,
     groupAddress,
     paramsForWhitelistRequests,
     userEndpointToken,
+    addToWhitelist,
+    dispatch,
   ]);
 
   const handleUpdateWhitelistMode = useCallback(async () => {
@@ -133,22 +171,38 @@ export const useEnableWhitelist = () => {
 
   const handleEnableWhitelist = useCallback(
     async (shouldReset = true) => {
-      const error = await handleAddAddressToWhitelist();
+      const { isErrorOccured, shouldRedirectToStripe } =
+        await handleAddAddressToWhitelist();
 
-      if (error) return false;
+      if (isErrorOccured)
+        return {
+          isSuccess: false,
+          shouldRedirectToStripe,
+        };
 
       const updateWhitelistError = await handleUpdateWhitelistMode();
 
-      if (updateWhitelistError) return false;
+      if (updateWhitelistError)
+        return {
+          isSuccess: false,
+          shouldRedirectToStripe: true,
+        };
 
       const updateJwtTokenFreezeStatusError =
         await handleUpdateJwtTokenFreezeStatus();
 
-      if (updateJwtTokenFreezeStatusError) return false;
+      if (updateJwtTokenFreezeStatusError)
+        return {
+          isSuccess: false,
+          shouldRedirectToStripe: true,
+        };
 
       if (shouldReset) handleResetConfig();
 
-      return true;
+      return {
+        isSuccess: true,
+        shouldRedirectToStripe: false,
+      };
     },
     [
       handleAddAddressToWhitelist,

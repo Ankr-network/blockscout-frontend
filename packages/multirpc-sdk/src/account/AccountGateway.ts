@@ -634,14 +634,14 @@ export class AccountGateway {
   }
 
   async getMyBundlesStatus(group?: Web3Address) {
-    const { data: { bundles }} = await this.api.get<GetMyBundlesStatusResponse>(
+    const { data: { bundles } } = await this.api.get<GetMyBundlesStatusResponse>(
       '/api/v1/auth/myBundles/status',
       { params: { group } },
     );
 
     return bundles;
   }
-  
+
   async updateWhitelistMode(
     bodyParams: IUpdateWhitelistModeRequestParams,
     queryParams: IUpdateWhitelistModeParams,
