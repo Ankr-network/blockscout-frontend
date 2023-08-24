@@ -539,11 +539,28 @@ export interface IJwtTokenResponse {
   index: number;
   jwt_data: string;
   is_encrypted: boolean;
+  name: string;
+  description: string;
+}
+
+export interface IJwtTokenStatusParams {
+  token: string;
+}
+
+export interface IJwtTokenStatusResponse {
+  suspended: boolean;
+  freemium: boolean;
+  frozen: boolean;
 }
 
 export interface IJwtTokenRequestParams extends IApiUserGroupParams {
   index: number;
   totp?: string;
+}
+
+export interface IJwtTokenRequestBody {
+  name?: string;
+  description?: string;
 }
 
 export interface IJwtTokenCreateParams extends IApiUserGroupParams {
@@ -575,7 +592,7 @@ export interface IUpdateWhitelistModeRequestParams {
 }
 
 export interface IUpdateWhitelistModeResponse
-  extends IUpdateWhitelistModeRequestParams {}
+  extends IUpdateWhitelistModeRequestParams { }
 
 export interface IUpdateWhitelistParams extends IUpdateWhitelistModeParams {
   blockchain: string;

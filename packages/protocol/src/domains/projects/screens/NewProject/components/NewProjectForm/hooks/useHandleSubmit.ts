@@ -37,6 +37,7 @@ export const useHandleSubmit = (
           const {
             projectName,
             tokenIndex,
+            userEndpointToken,
             selectedMainnetIds = [],
             selectedTestnetIds = [],
             selectedDevnetIds = [],
@@ -72,6 +73,7 @@ export const useHandleSubmit = (
           return onSubmit(step, {
             projectName,
             tokenIndex,
+            userEndpointToken,
             selectedMainnetIds,
             selectedTestnetIds,
             selectedDevnetIds,
@@ -83,7 +85,7 @@ export const useHandleSubmit = (
         }
 
         case NewProjectStep.Whitelist: {
-          const { whitelistItems, tokenIndex } = values;
+          const { whitelistItems, tokenIndex, userEndpointToken } = values;
 
           /* validation start */
           if (!tokenIndex) {
@@ -99,14 +101,22 @@ export const useHandleSubmit = (
             return null;
           }
 
-          const userEndpointToken = await handleWhitelistStepOnSubmit(
-            tokenIndex,
+          // TODO: MRPC-3371 rewrite it
+          if (!whitelistItems || whitelistItems.length === 0) {
+            return {
+              contractAddress: t(
+                'projects.new-project.step-2.error-message.required',
+              ),
+            };
+          }
+
+          const isUpdatedWithWhitelist = await handleWhitelistStepOnSubmit(
+            userEndpointToken,
           );
 
-          if (userEndpointToken) {
+          if (isUpdatedWithWhitelist) {
             return onSubmit(step, {
               whitelistItems,
-              userEndpointToken,
             });
           }
 

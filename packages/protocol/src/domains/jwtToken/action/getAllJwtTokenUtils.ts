@@ -29,11 +29,19 @@ export const formatTokenAndDecryptJwt = async (
   item: IJwtTokenResponse,
   primaryUserEndpointToken = '',
 ): Promise<JwtManagerToken> => {
-  const { index, jwt_data: jwtData, is_encrypted: isEncrypted } = item;
+  const {
+    index,
+    name,
+    description,
+    jwt_data: jwtData,
+    is_encrypted: isEncrypted,
+  } = item;
 
   if (index === PRIMARY_TOKEN_INDEX) {
     return {
       index,
+      name,
+      description,
       userEndpointToken: primaryUserEndpointToken,
       jwtData,
     };
@@ -43,6 +51,8 @@ export const formatTokenAndDecryptJwt = async (
 
   return {
     index,
+    name,
+    description,
     userEndpointToken,
     jwtData,
   };

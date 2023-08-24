@@ -11,6 +11,7 @@ interface ICardProps {
   isSelected: boolean;
   userEndpointToken: string;
   tokenIndex: number;
+  name: string;
   onProjectSelect: () => void;
   onProjectView: () => void;
 }
@@ -20,6 +21,7 @@ export const UserEndpointCard = ({
   onProjectSelect,
   userEndpointToken,
   tokenIndex,
+  name,
   onProjectView,
 }: ICardProps) => {
   const { classes } = useUserEndpointCardStyles(isSelected);
@@ -40,7 +42,7 @@ export const UserEndpointCard = ({
       onClick={onProjectSelect}
     >
       <Typography className={classes.name}>
-        {renderProjectName(tokenIndex)}
+        {name || renderProjectName(tokenIndex)}
       </Typography>
       <div className={classes.row}>
         <Typography className={classes.token}>

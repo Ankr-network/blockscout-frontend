@@ -3,6 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { selectCurrentAddress } from 'domains/auth/store';
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { RootState } from 'store';
+import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { getAllProjects } from '../utils/getAllProjects';
 import { fetchAddressWhitelists } from '../actions/fetchAddressWhitelists';
@@ -38,15 +39,24 @@ export const selectAllWhitelists = createSelector(
   ({ data: whitelists = [] }) => whitelists,
 );
 
+export const selectProjectsStatuses = createSelector(
+  fetchAllJwtTokensStatuses.select(),
+  ({ data: projectStatuses = [] }) => projectStatuses,
+);
+
 export const selectAllProjects = createSelector(
   selectJwtTokens,
   selectAllWhitelists,
-  (projects, whitelists) =>
+  selectProjectsStatuses,
+  (projects, whitelists, projectStatuses) =>
     getAllProjects(
       projects.map(item => ({
         userEndpoint: item.userEndpointToken,
         index: item.index,
+        name: item.name,
+        description: item.description,
       })),
       whitelists,
+      projectStatuses,
     ),
 );

@@ -20,6 +20,7 @@ interface IShowUserEndpointDialogProps {
   onClose: () => void;
   handleDeleteProjectOpen?: () => void;
   tokenIndex?: number;
+  name?: string;
   endpointToken?: string;
 }
 
@@ -29,6 +30,7 @@ export const UserEndpointDialog = ({
   tokenIndex,
   endpointToken,
   isOpened,
+  name,
   onClose,
   handleDeleteProjectOpen,
 }: IShowUserEndpointDialogProps) => {
@@ -36,7 +38,10 @@ export const UserEndpointDialog = ({
 
   const { hasOauthLogin } = useAuth();
 
-  const title = useMemo(() => renderProjectName(tokenIndex), [tokenIndex]);
+  const title = useMemo(
+    () => name || renderProjectName(tokenIndex),
+    [name, tokenIndex],
+  );
 
   const {
     isOpened: isLoginOpened,

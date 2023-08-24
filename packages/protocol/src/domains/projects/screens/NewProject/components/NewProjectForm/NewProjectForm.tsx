@@ -11,6 +11,7 @@ import {
 import { useHandleSubmit } from './hooks/useHandleSubmit';
 import { useInitialValues } from './hooks/useInitialValues';
 import { Footer } from '../Footer';
+import { Header } from '../Header';
 
 export const NewProjectForm = ({
   step,
@@ -52,6 +53,7 @@ export const NewProjectForm = ({
 
       return (
         <form onSubmit={handleSubmit}>
+          <Header step={step} />
           <NewProjectFormContent step={step} setCurrentStep={setCurrentStep} />
           <Footer
             isNextButtonDisabled={

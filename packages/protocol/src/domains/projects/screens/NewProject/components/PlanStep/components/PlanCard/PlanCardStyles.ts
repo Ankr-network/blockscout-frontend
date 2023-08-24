@@ -9,65 +9,55 @@ export const usePlanCardStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(5),
 
     width: '100%',
-    padding: theme.spacing(6),
+    padding: theme.spacing(4, 6, 6),
 
     borderRadius: 20,
 
     color: theme.palette.grey[900],
 
     cursor: 'pointer',
-
-    fontWeight: 700,
   },
   title: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
 
-    letterSpacing: '-0.03em',
-
     fontSize: 28,
     lineHeight: '31px',
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(1),
   },
-  price: {
-    letterSpacing: '-0.02em',
 
-    fontSize: 20,
-    lineHeight: '27px',
-
-    span: {
-      span: {
-        color: theme.palette.grey[600],
-
-        letterSpacing: '-0.01em',
-
-        fontSize: 16,
-        lineHeight: '22px',
-      },
-    },
-  },
-  features: {
+  top: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(),
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
 
-    color: theme.palette.grey[900],
+  img: {
+    width: 80,
+    height: 80,
+  },
 
-    letterSpacing: '-0.01em',
-
+  price: {
+    fontSize: 20,
+    lineHeight: 1,
     fontWeight: 700,
-    fontSize: 16,
-    lineHeight: '22px',
+    textAlign: 'right',
+    maxWidth: 80,
 
     span: {
       span: {
-        fontWeight: 400,
+        color: theme.palette.text.secondary,
+
+        fontSize: 12,
+        fontWeight: 500,
       },
     },
   },
+
   disabled: {
     cursor: 'default',
     background: theme.palette.background.default,

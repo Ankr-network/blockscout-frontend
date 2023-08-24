@@ -43,6 +43,8 @@ export const {
           if (shouldIgnoreTokenDecryption) {
             const mappedResult: JwtManagerToken[] = result.map(item => ({
               index: item.index,
+              name: item.name,
+              description: item.description,
               userEndpointToken: '',
               jwtData: '',
             }));
@@ -61,6 +63,8 @@ export const {
           if (!primaryData) {
             result.push({
               index: PRIMARY_TOKEN_INDEX,
+              name: '',
+              description: '',
               jwt_data: '',
               is_encrypted: false,
             });

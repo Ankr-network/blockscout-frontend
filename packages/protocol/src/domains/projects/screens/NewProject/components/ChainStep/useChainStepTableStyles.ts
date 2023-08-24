@@ -1,7 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { premiumTextStyles } from 'uiKit/Theme/themeUtils';
-
 export const useChainStepTableStyles = makeStyles()(theme => ({
   chainRow: {
     cursor: 'pointer',
@@ -9,13 +7,14 @@ export const useChainStepTableStyles = makeStyles()(theme => ({
   inactive: {
     opacity: 0.5,
   },
-  premiumLabelWrapper: {
-    backgroundColor: theme.palette.background.default,
-    borderRadius: 12,
-    display: 'inline-block',
-    padding: theme.spacing(1.5, 4),
+  checkWrapper: {
+    borderRadius: 8,
+    color: theme.palette.success.dark,
+    backgroundColor: theme.palette.success.light,
   },
-  premiumLabelText: {
-    ...premiumTextStyles,
+  crossWrapper: {
+    borderRadius: 8,
+    color: theme.palette.grey[600],
+    backgroundColor: theme.palette.grey.A100,
   },
 }));
