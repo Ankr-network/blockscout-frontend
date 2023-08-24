@@ -174,7 +174,8 @@
       "title": "Configure your Project",
       "footer": {
         "back-button": "Back",
-        "next-button": "Next"
+        "next-button": "Next",
+        "skip-button": "Skip for now"
       },
       "steps": {
         "0": "Project",
@@ -234,6 +235,7 @@
         "network": "Network",
         "whitelist": "White List",
         "installed": "Installed",
+        "not-installed": "Not installed",
         "plan": "Plan",
         "price": "Final Price",
         "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",

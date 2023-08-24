@@ -9,6 +9,7 @@ import { useFooterStyles } from './useFooterStyles';
 
 interface FooterProps {
   onBackClick: () => void;
+  shouldShowSkipButton?: boolean;
   isBackButtonDisabled?: boolean;
   isLoading: boolean;
   isNextButtonDisabled?: boolean;
@@ -16,6 +17,7 @@ interface FooterProps {
 
 export const Footer = ({
   onBackClick,
+  shouldShowSkipButton,
   isBackButtonDisabled,
   isLoading,
   isNextButtonDisabled,
@@ -34,14 +36,26 @@ export const Footer = ({
       >
         {t(`${newProjectIntlRoot}.footer.back-button`)}
       </Button>
-      <LoadingButton
-        size="large"
-        type="submit"
-        disabled={isLoading || validating || isNextButtonDisabled}
-        loading={isLoading}
-      >
-        {t(`${newProjectIntlRoot}.footer.next-button`)}
-      </LoadingButton>
+      <div className={classes.rightWrapper}>
+        {shouldShowSkipButton && (
+          <Button
+            size="large"
+            variant="outlined"
+            type="submit"
+            className={classes.skipButton}
+          >
+            {t(`${newProjectIntlRoot}.footer.skip-button`)}
+          </Button>
+        )}
+        <LoadingButton
+          size="large"
+          type="submit"
+          disabled={isLoading || validating || isNextButtonDisabled}
+          loading={isLoading}
+        >
+          {t(`${newProjectIntlRoot}.footer.next-button`)}
+        </LoadingButton>
+      </div>
     </div>
   );
 };

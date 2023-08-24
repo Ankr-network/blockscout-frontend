@@ -81,16 +81,16 @@ export const CheckoutStep = ({ setCurrentStep }: CheckoutStepProps) => {
             onEdit={openWhitelistStep}
             title={t(`${newProjectIntlRoot}.checkout-step.label-whitelist`)}
           >
-            {whitelistItems?.length > 0 && (
-              <div className={classes.whitelistBadge}>
-                <Typography
-                  variant="body2"
-                  className={classes.whitelistBadgeText}
-                >
-                  {t(`${newProjectIntlRoot}.checkout-step.installed`)}
-                </Typography>
-              </div>
-            )}
+            <div className={classes.whitelistBadge}>
+              <Typography
+                variant="body2"
+                className={classes.whitelistBadgeText}
+              >
+                {whitelistItems?.length > 0
+                  ? t(`${newProjectIntlRoot}.checkout-step.installed`)
+                  : t(`${newProjectIntlRoot}.checkout-step.not-installed`)}
+              </Typography>
+            </div>
           </CheckoutSection>
         </div>
         <div className={classes.rightPart}>

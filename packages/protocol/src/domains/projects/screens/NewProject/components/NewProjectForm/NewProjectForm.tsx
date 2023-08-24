@@ -59,6 +59,7 @@ export const NewProjectForm = ({
               (step === NewProjectStep.Whitelist && isWhitelistEmpty)
             }
             onBackClick={onBackClick}
+            shouldShowSkipButton={step === NewProjectStep.Whitelist}
             isLoading={isLoading}
           />
         </form>
