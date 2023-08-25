@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
+import { useDispatch } from 'react-redux';
+import { t } from '@ankr.com/common';
 
 import { useProjects } from 'domains/projects/hooks/useProjects';
 import { selectAllProjects } from 'domains/projects/store';
@@ -12,6 +14,7 @@ import {
   AddProjectState,
   useAddAndEditProject,
 } from 'domains/projects/hooks/useAddAndEditProject';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectTable } from '../ProjectTable';
@@ -23,6 +26,7 @@ import {
 import { AddProjectButton } from '../AddProjectButton';
 
 export const Projects = () => {
+  const dispatch = useDispatch();
   const [searchContent, setSearchContent] = useSearch();
 
   const { canEditProject } = useProjectConfig();
@@ -49,11 +53,26 @@ export const Projects = () => {
     async (values: AddAndEditProjectDialogType, form) => {
       const { name, description, isEditingProjectDialog, tokenIndex } = values;
 
+      const resultName = name ?? '';
+
+      if (allProjects.map(project => project.name).includes(resultName)) {
+        dispatch(
+          NotificationActions.showNotification({
+            message: t('projects.new-project.error-message.name-duplication', {
+              value: name,
+            }),
+            severity: 'error',
+          }),
+        );
+
+        return;
+      }
+
       if (isEditingProjectDialog) {
-        await handleUpdate(tokenIndex, name ?? '', description ?? '');
+        await handleUpdate(tokenIndex, resultName, description ?? '');
         handleCloseAddAndEditDialog();
       } else {
-        await handleCreate(name ?? '', description ?? '');
+        await handleCreate(resultName, description ?? '');
       }
 
       form.change(AddAndEditProjectDialogFields.isEditingProjectDialog, false);
@@ -64,6 +83,8 @@ export const Projects = () => {
     },
     [
       allowedAddProjectTokenIndex,
+      allProjects,
+      dispatch,
       handleCloseAddAndEditDialog,
       handleCreate,
       handleUpdate,
