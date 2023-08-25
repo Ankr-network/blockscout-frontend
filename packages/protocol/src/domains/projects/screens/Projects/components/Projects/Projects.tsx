@@ -54,8 +54,11 @@ export const Projects = () => {
       const { name, description, isEditingProjectDialog, tokenIndex } = values;
 
       const resultName = name ?? '';
+      const hasNameDuplication = allProjects.some(
+        project => project.name === resultName,
+      );
 
-      if (allProjects.map(project => project.name).includes(resultName)) {
+      if (hasNameDuplication) {
         dispatch(
           NotificationActions.showNotification({
             message: t('projects.new-project.error-message.name-duplication', {
