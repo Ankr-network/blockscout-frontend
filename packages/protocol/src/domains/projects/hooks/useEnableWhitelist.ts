@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import { useCallback, useMemo } from 'react';
-import { AccountErrorCode } from 'multirpc-sdk';
+import { AccountingErrorCode } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -14,7 +14,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { getAxiosAccountErrorCode } from 'store/utils/getAxiosAccountErrorCode';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
+import { isAxiosAccountingError } from 'store/utils/isAxiosAccountingError';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
 import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
@@ -110,10 +110,10 @@ export const useEnableWhitelist = () => {
       if (error) {
         isErrorOccured = true;
 
-        if (isAxiosAccountError(error)) {
+        if (isAxiosAccountingError(error)) {
           const errorCode = getAxiosAccountErrorCode(error);
           const isInsufficientBalanceError =
-            errorCode === AccountErrorCode.InsufficientBalance;
+            errorCode === AccountingErrorCode.InsufficientBalance;
 
           if (isInsufficientBalanceError) {
             shouldRedirectToStripe = true;
