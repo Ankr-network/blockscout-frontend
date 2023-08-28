@@ -15,7 +15,7 @@ export const useChainStep = () => {
 
   const savedTokenIndex = useRef(projectTokenIndex);
 
-  const { allowedAddProjectTokenIndex } = useJwtTokenManager(true);
+  const { allowedAddProjectTokenIndex } = useJwtTokenManager();
 
   const currentTokenIndex =
     savedTokenIndex.current || allowedAddProjectTokenIndex;

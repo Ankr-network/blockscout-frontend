@@ -1,9 +1,11 @@
 import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useForm } from 'react-final-form';
+import { useCallback } from 'react';
 
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { newProjectIntlRoot } from 'domains/projects/const';
+import { WhitelistStepFields } from 'domains/projects/store';
 
 import { useFooterStyles } from './useFooterStyles';
 
@@ -15,6 +17,8 @@ interface FooterProps {
   isNextButtonDisabled?: boolean;
 }
 
+const SHOW_SKIP_BUTTON = false;
+
 export const Footer = ({
   onBackClick,
   shouldShowSkipButton,
@@ -23,8 +27,12 @@ export const Footer = ({
   isNextButtonDisabled,
 }: FooterProps) => {
   const { classes } = useFooterStyles();
-  const form = useForm();
-  const { validating } = form.getState();
+  const { getState, change } = useForm();
+  const { validating } = getState();
+
+  const handleSkipClick = useCallback(() => {
+    change(WhitelistStepFields.whitelistItems, []);
+  }, [change]);
 
   return (
     <div className={classes.root}>
@@ -37,12 +45,13 @@ export const Footer = ({
         {t(`${newProjectIntlRoot}.footer.back-button`)}
       </Button>
       <div className={classes.rightWrapper}>
-        {shouldShowSkipButton && (
+        {shouldShowSkipButton && SHOW_SKIP_BUTTON && (
           <Button
             size="large"
             variant="outlined"
             type="submit"
             className={classes.skipButton}
+            onClick={handleSkipClick}
           >
             {t(`${newProjectIntlRoot}.footer.skip-button`)}
           </Button>
