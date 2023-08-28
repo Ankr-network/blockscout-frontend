@@ -22,7 +22,7 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ token, group, freeze }) => {
-          const service = MultiService.getService().getAccountGateway();
+          const service = MultiService.getService().getAccountingGateway();
 
           await service.updateJwtTokenFreezeStatus(
             {

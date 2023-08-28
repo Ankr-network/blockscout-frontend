@@ -14,7 +14,7 @@ export const {
             const service = MultiService.getService();
 
             const data = await service
-              .getAccountGateway()
+              .getAccountingGateway()
               .acceptNegativeBalanceTermsOfServices(params);
 
             return { data };

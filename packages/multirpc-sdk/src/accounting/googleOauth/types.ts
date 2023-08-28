@@ -1,5 +1,3 @@
-import { Address } from '@ankr.com/provider';
-
 export interface IGoogleLoginParamsResponse {
   client_id: string;
   oauth_url: string;
@@ -13,18 +11,8 @@ export interface IGoogleSecretCodeParams {
   state: string;
 }
 
-export interface IOauthSecretCodeParams extends IGoogleSecretCodeParams {
-  provider?: OauthLoginProvider;
-}
-
-export interface ISecreteCodeLoginParams extends IOauthSecretCodeParams {}
-
 export interface ILoginUserByGoogleSecretCodeParams
   extends IGoogleSecretCodeParams {}
-
-export interface ISecreteCodeLoginQueryParams {
-  provider: OauthLoginProvider;
-}
 
 export interface IOauthLoginResponse {
   access_token: string;
@@ -43,6 +31,7 @@ export interface IEthUserAddressWithDeprecatedPublicKey {
   public_key?: string; // deprecated. will be used only camelCase for publicKey. now is used by accounting gateway in user/addresses/api/v1/auth/googleOauth/getAllMyEthAddresses
   publicKey?: string; // used for backoffice GetUserAddressesResponse
 }
+
 export type IEthUserAddress = Omit<
   IEthUserAddressWithDeprecatedPublicKey,
   'publicKey'
@@ -63,19 +52,4 @@ export interface IDecodeJwtTokenResponse {
 
 export interface ISyntheticJwtTokenResponse {
   jwt_data: string;
-}
-
-export enum OauthLoginProvider {
-  Github = 'github',
-}
-
-export interface IOauthLoginParams {
-  provider: OauthLoginProvider;
-}
-
-export interface AssociatedAccount {
-  address: Address;
-  externalId: string;
-  login: string;
-  provider: OauthLoginProvider;
 }

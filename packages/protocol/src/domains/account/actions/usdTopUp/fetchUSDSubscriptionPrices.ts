@@ -39,7 +39,7 @@ export const {
       queryFn: createNotifyingQueryFn(async ({ group }) => {
         const service = MultiService.getService();
         const { productPrices } = await service
-          .getAccountGateway()
+          .getAccountingGateway()
           .getUSDSubscriptionPrices({ group });
 
         return { data: getSubscriptionPrices(productPrices) };

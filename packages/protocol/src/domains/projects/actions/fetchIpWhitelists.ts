@@ -23,7 +23,7 @@ export const {
       FetchIpWhitelistRequestParams
     >({
       queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const service = MultiService.getService().getAccountingGateway();
 
         const projects = selectJwtTokens(getState() as RootState);
 

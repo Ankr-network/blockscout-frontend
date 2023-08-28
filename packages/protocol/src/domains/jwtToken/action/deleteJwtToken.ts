@@ -22,7 +22,7 @@ export const {
             { params: { tokenIndex, group }, totp },
             { dispatch },
           ) => {
-            const service = MultiService.getService().getAccountGateway();
+            const service = MultiService.getService().getAccountingGateway();
 
             await service.deleteJwtToken({ index: tokenIndex, group, totp });
 

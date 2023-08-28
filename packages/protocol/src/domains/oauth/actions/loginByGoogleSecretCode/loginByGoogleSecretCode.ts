@@ -39,12 +39,12 @@ const getLoginData = async ({
 
   if (!provider) {
     return service
-      .getOauthGateway()
+      .getAccountingGateway()
       .loginUserByGoogleSecretCode(secretCodeData);
   }
 
   return service
-    .getOauthGateway()
+    .getAccountingGateway()
     .loginBySecretCode(secretCodeData, { provider });
 };
 
@@ -66,9 +66,9 @@ export const {
           let { authorizationToken } = selectAuthData(getState() as RootState);
 
           if (authorizationToken) {
-            service.getOauthGateway().addToken(authorizationToken);
+            service.getAccountingGateway().addToken(authorizationToken);
 
-            await bindAccountToLoggedInUser(authorizationToken, {
+            await bindAccountToLoggedInUser({
               code,
               state,
               provider,
@@ -84,7 +84,7 @@ export const {
           }
 
           const { addresses } = await service
-            .getOauthGateway()
+            .getAccountingGateway()
             .getETHAddresses(authorizationToken);
 
           const ethUserAddress = getEthUserAddress(addresses);
@@ -101,9 +101,8 @@ export const {
 
           const web3ReadService = await MultiService.getWeb3ReadService();
 
-          web3ReadService.getOauthGateway().addToken(authorizationToken);
-          service.getOauthGateway().addToken(authorizationToken);
-          service.getAccountGateway().addToken(authorizationToken);
+          web3ReadService.getAccountingGateway().addToken(authorizationToken);
+          service.getAccountingGateway().addToken(authorizationToken);
 
           return {
             data: {

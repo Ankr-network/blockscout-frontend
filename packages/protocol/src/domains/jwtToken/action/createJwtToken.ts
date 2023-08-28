@@ -25,7 +25,7 @@ export const {
           { tokenIndex, name, description, group },
           { dispatch },
         ) => {
-          const service = MultiService.getService().getAccountGateway();
+          const service = MultiService.getService().getAccountingGateway();
 
           const jwtToken = await service.createJwtToken(
             {

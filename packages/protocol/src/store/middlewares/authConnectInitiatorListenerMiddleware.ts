@@ -8,7 +8,7 @@ import {
   setTwoFACode,
 } from 'domains/userSettings/store/userSettingsSlice';
 import { is2FAError } from 'store/utils/is2FAError';
-import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
+import { getAxiosAccountingErrorMessage } from 'store/utils/getAxiosAccountingErrorMessage';
 import { userSettingsFetchTwoFAStatus } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 import { authConnectInitiator } from 'domains/auth/actions/connect/connectInitiator';
 import { authConnect } from 'domains/auth/actions/connect';
@@ -72,7 +72,7 @@ authConnectInitiatorListenerMiddleware.startListening({
     );
 
     if (is2FAError(error)) {
-      const message = getAxiosAccountErrorMessage(error);
+      const message = getAxiosAccountingErrorMessage(error);
 
       dispatch(setTwoFAErrorMessage(message));
     }

@@ -39,14 +39,16 @@ export const {
             ? await dispatch(accountFetchPublicKey.initiate()).unwrap()
             : undefined;
 
-        const { url } = await service.getAccountGateway().getLinkForCardPayment(
-          {
-            amount,
-            publicKey,
-            reason,
-          },
-          { group: groupAddress },
-        );
+        const { url } = await service
+          .getAccountingGateway()
+          .getLinkForCardPayment(
+            {
+              amount,
+              publicKey,
+              reason,
+            },
+            { group: groupAddress },
+          );
 
         return { data: url };
       },

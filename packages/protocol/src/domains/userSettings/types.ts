@@ -1,8 +1,8 @@
-import { AccountErrorResponse } from 'multirpc-sdk';
+import { AccountingErrorResponse } from 'multirpc-sdk';
 import { AxiosError } from 'axios';
 
 export type ErrorMessageGetter = (
-  error: AxiosError<AccountErrorResponse>,
+  error: AxiosError<AccountingErrorResponse>,
   email?: string,
 ) => string;
 

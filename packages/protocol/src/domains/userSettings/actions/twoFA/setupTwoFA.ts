@@ -29,7 +29,7 @@ export const {
       queryFn: async () => {
         const service = MultiService.getService();
 
-        const data = await service.getAccountGateway().initTwoFA();
+        const data = await service.getAccountingGateway().initTwoFA();
 
         return { data: getData(data) };
       },

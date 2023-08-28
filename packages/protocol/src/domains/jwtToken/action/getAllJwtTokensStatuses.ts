@@ -14,7 +14,7 @@ export const {
   endpoints: build => ({
     fetchAllJwtTokensStatuses: build.query<IJwtTokenStatusResponse[], void>({
       queryFn: async (_, { getState }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const service = MultiService.getService().getAccountingGateway();
 
         const projects = selectJwtTokens(getState() as RootState);
 

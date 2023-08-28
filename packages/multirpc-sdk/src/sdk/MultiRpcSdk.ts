@@ -1,4 +1,4 @@
-import { AccountGateway } from '../account';
+import { AccountingGateway } from '../accounting';
 import { ChainsConfig } from './buildUrls/types';
 import { IConfig, IBlockchainEntity } from '../common';
 import {
@@ -7,7 +7,6 @@ import {
   StandalonePublicGateway,
 } from '../public';
 import { EnterpriseGateway } from '../enterprise';
-import { OauthGateway } from '../oauth';
 import { RpcGateway } from '../rpc';
 import { WorkerGateway } from '../worker';
 import { buildPrivateUrls, buildPublicUrls } from './buildUrls';
@@ -15,9 +14,7 @@ import { buildPrivateUrls, buildPublicUrls } from './buildUrls';
 export class MultiRpcSdk {
   private publicGateway?: IPublicGateway;
 
-  private oauthGateway?: OauthGateway;
-
-  private accountGateway?: AccountGateway;
+  private accountingGateway?: AccountingGateway;
 
   private enterpriseGateway?: EnterpriseGateway;
 
@@ -67,21 +64,14 @@ export class MultiRpcSdk {
     return this.workerGateway;
   }
 
-  public getOauthGateway(): OauthGateway {
-    this.oauthGateway =
-      this.oauthGateway || new OauthGateway(this.config.accountUrl);
-
-    return this.oauthGateway;
-  }
-
-  public getAccountGateway(): AccountGateway {
-    this.accountGateway =
-      this.accountGateway ||
-      new AccountGateway({
+  public getAccountingGateway(): AccountingGateway {
+    this.accountingGateway =
+      this.accountingGateway ||
+      new AccountingGateway({
         baseURL: this.config.accountUrl,
       });
 
-    return this.accountGateway;
+    return this.accountingGateway;
   }
 
   public getEnterpriseGateway(): EnterpriseGateway {

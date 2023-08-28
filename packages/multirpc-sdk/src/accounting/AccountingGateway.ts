@@ -3,76 +3,111 @@ import { stringify } from 'qs';
 
 import {
   AXIOS_DEFAULT_CONFIG,
-  EmailConfirmationStatus,
   Web3Address,
   createTOTPHeaders,
 } from '../common';
 import {
-  IAggregatedPaymentHistoryRequest,
-  IAggregatedPaymentHistoryResponse,
-  IBalance,
-  ICanPayByCardResponse,
-  IDailyChargingParams,
-  IDailyChargingResponse,
-  IEmailResponse,
-  IGetActiveEmailBindingResponse,
-  IGetEmailBindingsResponse,
+  BundlePaymentPlan,
+  GetMyBundlesStatusResponse,
+  GetLinkForBundlePaymentRequest,
+} from './bundles';
+import {
   IGetLinkForCardPaymentRequest,
-  IGetLinkForCardPaymentResponse,
-  IGetLinkForRecurrentCardPaymentRequest,
   IGetSubscriptionPricesResponse,
+  IGetLinkForCardPaymentResponse,
   ISubscriptionsResponse,
-  INotificationsSettings,
-  IPaymentHistoryRequest,
-  IPaymentHistoryResponse,
-  PrivateStats,
-  PrivateStatsInterval,
-  IGetLatestRequestsResponse,
-  IGetLatestRequestsRequest,
-  UserRequestsResponse,
-  ICheckInstantJwtParticipantResponse,
-  IGetOrCreateInstantJwt,
-  IUserGroupsResponse,
-  IApiUserGroupParams,
-  IApiGetUserRequestsParams,
   IApiCancelSubscriptionRequestParams,
+  IGetLinkForRecurrentCardPaymentRequest,
+  ICanPayByCardResponse,
+} from './subscriptions';
+import {
+  IApiUserGroupParams,
+  IUserGroupsResponse,
   IGetGroupJwtRequestParams,
   IGetGroupJwtResponse,
+} from './userGroup';
+import {
+  IUpdateWhitelistModeParams,
+  IGetWhitelistParams,
+  IUpdateWhitelistModeRequestParams,
+  IUpdateWhitelistModeResponse,
+  IUpdateWhitelistParams,
+  IUpdateWhitelistParamsResponse,
+  IGetWhitelistParamsResponse,
+} from './whitelists';
+import {
+  NegativeBalanceTermsOfServicesStatusResponse,
+  NegativeBalanceTermsOfServicesStatusParams,
+} from './tos';
+import { INotificationsSettings } from './notification';
+import {
   InitTwoFAResponse,
   TwoFAStatusResponse,
   ConfirmTwoFARequestParams,
   ConfirmTwoFAResponse,
   DisableTwoFAResponse,
-  EmailBindingParams,
-  TotalStatsResponse,
-  NegativeBalanceTermsOfServicesStatusResponse,
-  NegativeBalanceTermsOfServicesStatusParams,
-  BundlePaymentPlan,
-  GetLinkForBundlePaymentRequest,
-  GetMyBundlesStatusResponse,
-  StatsByRangeRequest,
-  StatsByRangeResponse,
-  Top10StatsResponse,
-  Top10StatsParams,
+} from './totp';
+import {
+  ICheckInstantJwtParticipantResponse,
+  IGetOrCreateInstantJwt,
+} from './devDAO';
+import {
   IJwtTokenRequestParams,
   IJwtTokenLimitResponse,
   IJwtTokenResponse,
-  IUpdateWhitelistModeRequestParams,
-  IUpdateWhitelistModeParams,
-  IUpdateWhitelistModeResponse,
-  IUpdateWhitelistParams,
-  IUpdateWhitelistParamsResponse,
-  IGetWhitelistParams,
-  IGetWhitelistParamsResponse,
-  IJwtTokenRequestBody,
   IJwtTokenCreateParams,
   IUpdateJwtTokenFreezeStatusParams,
   IUpdateJwtTokenFreezeStatusRequestParams,
-  IJwtTokenStatusResponse,
+  IJwtTokenRequestBody,
   IJwtTokenStatusParams,
-} from './types';
+  IJwtTokenStatusResponse,
+} from './JWT';
+import {
+  IGetLatestRequestsResponse,
+  IGetLatestRequestsRequest,
+  StatsByRangeRequest,
+  StatsByRangeResponse,
+  PrivateStats,
+  PrivateStatsInterval,
+  Top10StatsResponse,
+  Top10StatsParams,
+  UserRequestsResponse,
+  TotalStatsResponse,
+  IApiGetUserRequestsParams,
+  IDailyChargingParams,
+  IDailyChargingResponse,
+} from './telemetry';
+import {
+  EmailConfirmationStatus,
+  IEmailResponse,
+  IGetEmailBindingsResponse,
+  IGetActiveEmailBindingResponse,
+  EmailBindingParams,
+} from './email';
+import {
+  IAggregatedPaymentHistoryRequest,
+  IAggregatedPaymentHistoryResponse,
+  IPaymentHistoryRequest,
+  IPaymentHistoryResponse,
+} from './transactionsHistory';
+import { IBalance } from './balance';
+import {
+  IGoogleLoginParamsResponse,
+  IOauthLoginResponse,
+  IETHAddressesResponse,
+  IDecodeJwtTokenParams,
+  IDecodeJwtTokenResponse,
+  IGoogleSecretCodeParams,
+  ISyntheticJwtTokenResponse,
+} from './googleOauth';
+import {
+  IOauthLoginParams,
+  ISecreteCodeLoginQueryParams,
+  IOauthSecretCodeParams,
+  AssociatedAccount,
+} from './oauth';
 
-export class AccountGateway {
+export class AccountingGateway {
   public api: AxiosInstance;
 
   constructor(private readonly config: AxiosRequestConfig) {
@@ -93,7 +128,7 @@ export class AccountGateway {
     this.api = axios.create({ ...this.config, ...AXIOS_DEFAULT_CONFIG });
   }
 
-  public async getAnkrBalance(params: IApiUserGroupParams): Promise<IBalance> {
+  public async getAnkrBalance(params: IApiUserGroupParams) {
     const { data: response } = await this.api.get<IBalance>(
       '/api/v1/auth/balance',
       { params },
@@ -133,9 +168,7 @@ export class AccountGateway {
     return response;
   }
 
-  public async getSubscriptions(
-    params: IApiUserGroupParams,
-  ): Promise<ISubscriptionsResponse> {
+  public async getSubscriptions(params: IApiUserGroupParams) {
     const { data: response } = await this.api.get<ISubscriptionsResponse>(
       '/api/v1/auth/payment/getMySubscriptions',
       { params },
@@ -239,18 +272,16 @@ export class AccountGateway {
     return bindings;
   }
 
-  async getActiveEmailBinding(): Promise<IGetActiveEmailBindingResponse> {
-    const { data: response } = await this.api.get<IEmailResponse>(
-      '/api/v1/auth/email/active',
-    );
+  async getActiveEmailBinding() {
+    const { data: response } =
+      await this.api.get<IGetActiveEmailBindingResponse>(
+        '/api/v1/auth/email/active',
+      );
 
     return response;
   }
 
-  async addNewEmailBinding({
-    email,
-    totp,
-  }: EmailBindingParams): Promise<IEmailResponse> {
+  async addNewEmailBinding({ email, totp }: EmailBindingParams) {
     const { data: response } = await this.api.post<IEmailResponse>(
       '/api/v1/auth/email/bind',
       null,
@@ -263,10 +294,7 @@ export class AccountGateway {
     return response;
   }
 
-  async editEmailBinding({
-    email,
-    totp,
-  }: EmailBindingParams): Promise<IEmailResponse> {
+  async editEmailBinding({ email, totp }: EmailBindingParams) {
     const { data: response } = await this.api.patch<IEmailResponse>(
       '/api/v1/auth/email/bind',
       null,
@@ -279,10 +307,7 @@ export class AccountGateway {
     return response;
   }
 
-  async confirmEmailBinding(
-    email: string,
-    code: string,
-  ): Promise<IEmailResponse> {
+  async confirmEmailBinding(email: string, code: string) {
     const { data: response } = await this.api.post<IEmailResponse>(
       '/api/v1/auth/email/confirm',
       null,
@@ -306,9 +331,7 @@ export class AccountGateway {
     return response;
   }
 
-  async editNotificationSettings(
-    data: INotificationsSettings,
-  ): Promise<INotificationsSettings> {
+  async editNotificationSettings(data: INotificationsSettings) {
     const { data: response } = await this.api.post<INotificationsSettings>(
       '/api/v1/auth/notification/configuration',
       data,
@@ -317,8 +340,8 @@ export class AccountGateway {
     return response;
   }
 
-  async getNotificationSettings(): Promise<INotificationsSettings> {
-    const { data: response } = await this.api.get(
+  async getNotificationSettings() {
+    const { data: response } = await this.api.get<INotificationsSettings>(
       '/api/v1/auth/notification/configuration',
     );
 
@@ -339,7 +362,7 @@ export class AccountGateway {
   public async getLinkForCardPayment(
     body: IGetLinkForCardPaymentRequest,
     params: IApiUserGroupParams,
-  ): Promise<IGetLinkForCardPaymentResponse> {
+  ) {
     const { data: response } =
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/depositWithCard',
@@ -353,7 +376,7 @@ export class AccountGateway {
   public async getLinkForRecurrentCardPayment(
     body: IGetLinkForRecurrentCardPaymentRequest,
     params: IApiUserGroupParams,
-  ): Promise<IGetLinkForCardPaymentResponse> {
+  ) {
     const { data: response } =
       await this.api.post<IGetLinkForCardPaymentResponse>(
         '/api/v1/auth/payment/subscribeOnRecurrentPayments',
@@ -537,7 +560,7 @@ export class AccountGateway {
     return response;
   }
 
-  async initTwoFA(): Promise<InitTwoFAResponse> {
+  async initTwoFA() {
     const { data: response } = await this.api.post<InitTwoFAResponse>(
       '/api/v1/auth/2fa/init',
     );
@@ -545,7 +568,7 @@ export class AccountGateway {
     return response;
   }
 
-  async getTwoFAStatus(): Promise<TwoFAStatusResponse> {
+  async getTwoFAStatus() {
     const { data: response } = await this.api.get<TwoFAStatusResponse>(
       '/api/v1/auth/2fa/status',
     );
@@ -553,9 +576,7 @@ export class AccountGateway {
     return response;
   }
 
-  async confirmTwoFA(
-    body: ConfirmTwoFARequestParams,
-  ): Promise<ConfirmTwoFAResponse> {
+  async confirmTwoFA(body: ConfirmTwoFARequestParams) {
     const { data: response } = await this.api.post<ConfirmTwoFAResponse>(
       '/api/v1/auth/2fa/confirm',
       body,
@@ -607,9 +628,7 @@ export class AccountGateway {
     return response;
   }
 
-  async getWhitelist(
-    queryParams: IGetWhitelistParams,
-  ): Promise<IGetWhitelistParamsResponse> {
+  async getWhitelist(queryParams: IGetWhitelistParams) {
     const { data } = await this.api.get<IGetWhitelistParamsResponse>(
       '/api/v1/auth/whitelist',
       { params: queryParams },
@@ -629,7 +648,7 @@ export class AccountGateway {
   async getLinkForBundlePayment(
     body: GetLinkForBundlePaymentRequest,
     params: IApiUserGroupParams,
-  ): Promise<IGetLinkForCardPaymentResponse> {
+  ) {
     const { data } = await this.api.post<IGetLinkForCardPaymentResponse>(
       '/api/v1/auth/myBundles/subscribe',
       body,
@@ -660,7 +679,9 @@ export class AccountGateway {
   }
 
   async getMyBundlesStatus(group?: Web3Address) {
-    const { data: { bundles } } = await this.api.get<GetMyBundlesStatusResponse>(
+    const {
+      data: { bundles },
+    } = await this.api.get<GetMyBundlesStatusResponse>(
       '/api/v1/auth/myBundles/status',
       { params: { group } },
     );
@@ -672,7 +693,7 @@ export class AccountGateway {
     bodyParams: IUpdateWhitelistModeRequestParams,
     queryParams: IUpdateWhitelistModeParams,
     totp?: string,
-  ): Promise<IUpdateWhitelistModeResponse> {
+  ) {
     const { data } = await this.api.patch<IUpdateWhitelistModeResponse>(
       '/api/v1/auth/whitelist/mode',
       bodyParams,
@@ -705,6 +726,122 @@ export class AccountGateway {
       '/api/v1/auth/whitelist',
       bodyParams,
       { headers: createTOTPHeaders(totp), params: queryParams },
+    );
+
+    return data;
+  }
+
+  async getGoogleLoginParams() {
+    const { data } = await this.api.get<IGoogleLoginParamsResponse>(
+      '/api/v1/googleOauth/getGoogleOauthParams',
+    );
+
+    return data;
+  }
+
+  async loginUserByGoogleSecretCode(
+    body: IOauthSecretCodeParams,
+    totp?: string,
+  ): Promise<IOauthLoginResponse> {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/googleOauth/loginUserByGoogleSecretCode',
+      body,
+      {
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async bindGoogleAccount(body: IGoogleSecretCodeParams, totp?: string) {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/auth/googleOauth/bindEmail',
+      body,
+      {
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async bindOauthAccount(body: IOauthSecretCodeParams, totp?: string) {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/auth/abstractBindings/bind',
+      body,
+      {
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async getETHAddresses(accessToken: string): Promise<IETHAddressesResponse> {
+    const { data } = await this.api.get<IETHAddressesResponse>(
+      '/api/v1/auth/googleOauth/getAllMyEthAddresses',
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    return data;
+  }
+
+  async decodeJwtToken(
+    body: IDecodeJwtTokenParams,
+  ): Promise<IDecodeJwtTokenResponse> {
+    const { data } = await this.api.post<IDecodeJwtTokenResponse>(
+      '/api/v1/auth/googleOauth/decodeJwtToken',
+      body,
+    );
+
+    return data;
+  }
+
+  async getSyntheticJwtToken(totp?: string) {
+    const { data } = await this.api.get<ISyntheticJwtTokenResponse>(
+      '/api/v1/auth/jwt/getMySyntheticJwt',
+      {
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async getAssociatedAccounts() {
+    const { data } = await this.api.get<AssociatedAccount[]>(
+      '/api/v1/auth/abstractBindings/list',
+    );
+
+    return data;
+  }
+
+  async loginBySecretCode(
+    body: IOauthSecretCodeParams,
+    params: ISecreteCodeLoginQueryParams,
+    totp?: string,
+  ) {
+    const { data } = await this.api.post<IOauthLoginResponse>(
+      '/api/v1/oauth2/loginBySecretCode',
+      body,
+      {
+        params,
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
+  async getOauthLoginParams({ provider }: IOauthLoginParams) {
+    const { data } = await this.api.get<IGoogleLoginParamsResponse>(
+      '/api/v1/oauth2/getProviderParams',
+      { params: { provider } },
     );
 
     return data;
