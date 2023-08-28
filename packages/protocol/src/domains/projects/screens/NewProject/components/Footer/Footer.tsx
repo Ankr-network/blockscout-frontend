@@ -17,6 +17,8 @@ interface FooterProps {
   isNextButtonDisabled?: boolean;
 }
 
+const SHOW_SKIP_BUTTON = false;
+
 export const Footer = ({
   onBackClick,
   shouldShowSkipButton,
@@ -43,7 +45,7 @@ export const Footer = ({
         {t(`${newProjectIntlRoot}.footer.back-button`)}
       </Button>
       <div className={classes.rightWrapper}>
-        {shouldShowSkipButton && (
+        {shouldShowSkipButton && SHOW_SKIP_BUTTON && (
           <Button
             size="large"
             variant="outlined"
