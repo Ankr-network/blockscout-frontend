@@ -3,11 +3,10 @@ import { Info } from '@ankr.com/ui';
 import { Skeleton, Tooltip } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { Project } from 'domains/projects/utils/getAllProjects';
-import { SoonLabel } from 'modules/common/components/SoonLabel';
-import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+import { VirtualTableColumn } from 'uiKit/VirtualTable';
+import { SoonLabel } from 'modules/common/components/SoonLabel';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
@@ -19,7 +18,16 @@ import { ProjectRequestsActivity } from '../../ProjectRequestsActivity';
 import { formatBlockchainToString, getRequests } from '../ProjectTableUtils';
 import { useColumnsStyles } from './useColumnsStyles';
 
-export const useColumns = (isProjectsActivityLoading: boolean) => {
+interface TableColumnsProps {
+  isProjectsActivityLoading: boolean;
+  onProjectDialogOpen: () => void;
+}
+
+// eslint-disable-next-line max-lines-per-function
+export const useColumns = ({
+  isProjectsActivityLoading,
+  onProjectDialogOpen,
+}: TableColumnsProps) => {
   const { classes, cx } = useColumnsStyles();
 
   const hasAccessForManaging = useGuardUserGroup({
@@ -36,11 +44,10 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
             {t('projects.list-project.table.column-1')}
           </span>
         ),
-        render: ({ name, userEndpointToken, tokenIndex }) => (
+        render: ({ name, userEndpointToken }) => (
           <ProjectName
             projectName={name}
             userEndpointToken={userEndpointToken}
-            tokenIndex={tokenIndex}
           />
         ),
         sortable: false,
@@ -145,10 +152,10 @@ export const useColumns = (isProjectsActivityLoading: boolean) => {
       result.push({
         field: 'menu',
         headerName: '',
-        render: ({ tokenIndex }) => (
+        render: rowData => (
           <ActionsMenu
-            isPrimary={tokenIndex === PRIMARY_TOKEN_INDEX}
-            tokenIndex={tokenIndex}
+            rowData={rowData}
+            onProjectDialogOpen={onProjectDialogOpen}
           />
         ),
         align: 'right',

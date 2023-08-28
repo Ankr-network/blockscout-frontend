@@ -33,7 +33,7 @@ const getParamsForWhitelistRequests = (
 
 const getProjectValues = (project: NewProjectType) => {
   const userEndpointToken =
-    project[NewProjectStep.Whitelist]?.userEndpointToken || '';
+    project[NewProjectStep.Chain]?.userEndpointToken || '';
   const whitelistItems =
     project[NewProjectStep.Whitelist]?.whitelistItems || [];
 

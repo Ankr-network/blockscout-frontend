@@ -63,21 +63,21 @@ export const useChainNodesLocationsStyles = makeStyles()(theme => ({
     },
   },
   row: {
-    display: 'flex',
-    alignItems: 'flex-start',
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    columnGap: theme.spacing(11),
     width: '100%',
+
+    [theme.breakpoints.up('lg')]: {
+      columnGap: theme.spacing(40),
+    },
+
+    [theme.breakpoints.up('xs')]: {
+      gridTemplateColumns: '1fr 1fr',
+    },
   },
   nodes: {
-    width: '50%',
-    marginRight: theme.spacing(40),
-
-    [theme.breakpoints.down('lg')]: {
-      marginRight: theme.spacing(11),
-    },
-
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
+    width: '100%',
   },
   empty: {
     textAlign: 'center',

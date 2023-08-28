@@ -9,6 +9,7 @@ import { ProjectsStatsParams } from '../types';
 
 export interface AllProjectsStats {
   index: JwtManagerToken['index'];
+  name: JwtManagerToken['name'];
   stats?: IApiPrivateStats;
 }
 
@@ -17,11 +18,12 @@ export interface AllProjectsStatsParams extends ProjectsStatsParams {
 }
 
 const getProjectStatsPromise = async (
-  { index, userEndpointToken }: JwtManagerToken,
+  { index, userEndpointToken, name }: JwtManagerToken,
   { group, interval }: ProjectsStatsParams,
   api: AccountGateway,
 ): Promise<AllProjectsStats> => ({
   index,
+  name,
   stats: await api.getPrivateStatsByPremiumId(
     interval,
     userEndpointToken,

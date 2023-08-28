@@ -17,7 +17,7 @@ const defaultData: IUserJwtToken = {
   jwtTokens: [],
 };
 
-export const useJwtTokenManager = (shouldIgnoreTokenDecryption?: boolean) => {
+export const useJwtTokenManager = () => {
   const {
     allowedJwtsCount: maxTokensLimit,
     hasReadAccess: shouldShowTokenManager,
@@ -42,16 +42,9 @@ export const useJwtTokenManager = (shouldIgnoreTokenDecryption?: boolean) => {
       fetchAllJwtTokenRequestsQuery({
         loading,
         group,
-        shouldIgnoreTokenDecryption,
       });
     }
-  }, [
-    shouldShowTokenManager,
-    loading,
-    fetchAllJwtTokenRequestsQuery,
-    group,
-    shouldIgnoreTokenDecryption,
-  ]);
+  }, [shouldShowTokenManager, loading, fetchAllJwtTokenRequestsQuery, group]);
 
   const allowedAddProjectTokenIndex = useMemo(
     () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwtTokens),

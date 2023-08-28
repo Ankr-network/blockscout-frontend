@@ -99,7 +99,7 @@ export const useMenuButtonStyles = makeStyles<MenuButtonStylesProps>()(
       paper: {
         borderRadius: 17,
         padding: '4px',
-        width: 109,
+        width: 121,
         transform: 'translateY(12px)',
         boxShadow:
           '0px 3px 15px 0px rgba(31, 34, 38, 0.10), 0px 2px 5px 0px rgba(31, 34, 38, 0.10)',

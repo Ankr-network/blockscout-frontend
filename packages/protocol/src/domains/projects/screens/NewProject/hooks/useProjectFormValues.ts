@@ -1,4 +1,5 @@
 import { useForm } from 'react-final-form';
+import { t } from '@ankr.com/common';
 
 import { Chain, ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
@@ -78,7 +79,7 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
 
   const {
     values: {
-      projectName,
+      projectName = t('projects.new-project.project-name-fallback'),
       whitelistItems = [],
       whitelistDialog = initialDialogValues,
       isEditingWhitelistDialog = false,

@@ -9,6 +9,7 @@
     "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
     "ip-validation": "Should be a valid IP address",
     "email-validation": "Should be a valid email",
+    "ascii-validation": "Non-latin characters are not allowed",
     "url-chain-validation": "URL must contain {chainId}",
     "public-url-validation": "Should not be a public endpoint of Ankr",
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
@@ -162,23 +163,76 @@
       "add-project": "Add Project",
       "edit-project": "Continue project configuration",
       "no-data": "No project found",
-      "edit": "Edit",
+      "freeze": "Freeze",
+      "unfreeze": "Unfreeze",
+      "edit": "Edit info",
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
       "requests": "Requests today",
       "count": "{value, number, ::compact-short }",
       "percent": "{sign, plural, =0 {} =1 {+} =-1 {-}}{percent, number, ::compact-short}%"
     },
+    "freeze-dialog": {
+      "titles": {
+        "freeze": "Freeze project",
+        "unfreeze": "Unfreeze project"
+      },
+      "descriptions": {
+        "freeze": "Are you sure you want to freeze the project? When you freezing your project it means all request will be rejected.",
+        "unfreeze": "Are you sure you want to unfreeze the project? Unfreezing your project will enable all allowed requests."
+      },
+      "submit-buttons": {
+        "freeze": "Freeze",
+        "unfreeze": "Unfreeze"
+      },
+      "cancel": "Cancel",
+      "success": {
+        "freeze": "Your project “{value}” has been frozen",
+        "unfreeze": "Your project “{value}” has been unfrozen"
+      }
+    },
+    "edit-project": {
+      "dialog": {
+        "title": "Edit project details",
+        "save": "Save",
+        "success-message": "The details of your project \"{value}\" have been changed",
+        "error-message": "Something went wrong — changes not saved. Try again."
+      }
+    },
     "new-project": {
       "breadcrumbs": "Create project",
-      "title": "Configure your Project",
+      "title": "Configure {projectName}",
+      "project-name-fallback": "your project",
+      "dialog": {
+        "title": "Add a new project",
+        "description": "Using Ankr mRPC requires a project to begin. Let’s do this",
+        "name-field": "Project name",
+        "name-placeholder": "Project123678",
+        "description-field": "Description",
+        "description-placeholder": "Add description",
+        "create": "Create project",
+        "cancel": "Cancel"
+      },
+      "success-dialog": {
+        "title": "Project created",
+        "description": "{value} has been created successfully. You can configure project’s parameters now and tap your project into Ankr mRPC. You can skip it, but be aware that a project will be in a draft mode till you finish configure.",
+        "configure-project": "Configure project",
+        "skip": "Skip for now"
+      },
+      "failed-dialog": {
+        "title": "Project creation failed",
+        "description": "Project creation failed. Check your Internet connection. Click<br/><b>Retry</b> — to resend creation request, or <b>Cancel</b> — to discard<br/>configured parameters.",
+        "retry": "Retry",
+        "cancel": "Cancel"
+      },
       "footer": {
         "back-button": "Back",
-        "next-button": "Next"
+        "next-button": "Next",
+        "skip-button": "Skip for now"
       },
       "steps": {
-        "0": "Project",
-        "1": "White List",
+        "0": "Chains",
+        "1": "Whitelist",
         "2": "Plan",
         "3": "Payment"
       },
@@ -196,11 +250,12 @@
         "btn-confirm": "Confirm",
         "btn-cancel": "Cancel"
       },
+      "helper": {
+        "link": "How to get started"
+      },
       "step-1": {
-        "title": "Create a Name and Select Chains",
-        "name": "Name",
-        "chainsPlaceholder": "My Project",
-        "chains": "Chains",
+        "title": "Select chain",
+        "description": "Choose all networks that your project will need to connect with.",
         "premium": "Premium",
         "error-message": {
           "required": "Please select chain first"
@@ -218,7 +273,6 @@
         "delete": "Delete",
         "success-message": "Smart contract address added successfully",
         "error-message": {
-          "required": "Smart contract address is required",
           "invalid": "Smart contract address is invalid",
           "token-index-error": "Token index is not defined"
         }
@@ -234,6 +288,7 @@
         "network": "Network",
         "whitelist": "White List",
         "installed": "Installed",
+        "not-installed": "Not installed",
         "plan": "Plan",
         "price": "Final Price",
         "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",
@@ -241,15 +296,16 @@
         "more": "+{additionalBlockchainsCount} more"
       },
       "plan-step": {
-        "title": "Choose your Plan",
+        "title": "Select your plan",
+        "description": "Choose the plan that best suits your unique needs.",
         "early-adopters": {
           "name": "Early Adopters (limited time offer)",
-          "price": "$10 <span>per smart contract</span>",
+          "price": "$10<br/><span>per smart contract</span>",
           "description": "<ul><li>One-time payment</span></li><li>Available for EVM-compatible chains</li><li>Replace contract address for free within 2 months</li></ul>"
         },
         "grow": {
           "name": "Grow",
-          "price": "$500 <span>per month</span>",
+          "price": "$500<br/><span>per month</span>",
           "description": "<ul><li>30M <span>monthly requests</span></li><li>10 <span>Whitelisted domains</span></li><li>3 <span>Whitelisted Smart Contracts</span></li><li>All EVM-compatible methods for all chains</span></li></ul>"
         }
       }
@@ -437,7 +493,7 @@
   },
   "jwt-token": {
     "default-project-name": "Primary",
-    "add-new-project": "Add new project",
+    "add-new-project": "Add a new project",
     "name": "Name",
     "unique-token": "Unique Token",
     "add": "Add",

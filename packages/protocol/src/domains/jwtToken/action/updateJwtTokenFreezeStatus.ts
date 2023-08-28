@@ -7,6 +7,9 @@ import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
+import { fetchAllJwtTokenRequests } from './getAllJwtToken';
+import { fetchAllJwtTokensStatuses } from './getAllJwtTokensStatuses';
+
 export const {
   useLazyUpdateJwtTokenFreezeStatusQuery,
   endpoints: { updateJwtTokenFreezeStatus },
@@ -37,6 +40,12 @@ export const {
           };
         },
       }),
+      onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+
+        dispatch(fetchAllJwtTokenRequests.initiate({ group }));
+        dispatch(fetchAllJwtTokensStatuses.initiate());
+      },
     }),
   }),
 });

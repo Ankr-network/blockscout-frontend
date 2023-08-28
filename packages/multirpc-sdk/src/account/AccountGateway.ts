@@ -64,9 +64,12 @@ import {
   IUpdateWhitelistParamsResponse,
   IGetWhitelistParams,
   IGetWhitelistParamsResponse,
+  IJwtTokenRequestBody,
   IJwtTokenCreateParams,
   IUpdateJwtTokenFreezeStatusParams,
   IUpdateJwtTokenFreezeStatusRequestParams,
+  IJwtTokenStatusResponse,
+  IJwtTokenStatusParams,
 } from './types';
 
 export class AccountGateway {
@@ -459,11 +462,25 @@ export class AccountGateway {
   }
 
   async createJwtToken(
+    body: IJwtTokenRequestBody,
     params: IJwtTokenCreateParams,
   ): Promise<IJwtTokenResponse> {
     const { data } = await this.api.post<IJwtTokenResponse>(
       `/api/v1/auth/jwt/additional`,
-      null,
+      body,
+      { params },
+    );
+
+    return data;
+  }
+
+  async updateJwtToken(
+    body: IJwtTokenRequestBody,
+    params: IJwtTokenRequestParams,
+  ): Promise<IJwtTokenResponse> {
+    const { data } = await this.api.patch<IJwtTokenResponse>(
+      `/api/v1/auth/jwt/additional`,
+      body,
       { params },
     );
 
@@ -477,6 +494,15 @@ export class AccountGateway {
     const { data } = await this.api.patch<null>(
       '/api/v1/auth/jwt/additional/freeze',
       bodyParams,
+      { params },
+    );
+
+    return data;
+  }
+
+  async getJwtTokenStatus(params: IJwtTokenStatusParams) {
+    const { data } = await this.api.get<IJwtTokenStatusResponse>(
+      '/api/v1/auth/jwt/additional/status',
       { params },
     );
 
@@ -634,14 +660,14 @@ export class AccountGateway {
   }
 
   async getMyBundlesStatus(group?: Web3Address) {
-    const { data: { bundles }} = await this.api.get<GetMyBundlesStatusResponse>(
+    const { data: { bundles } } = await this.api.get<GetMyBundlesStatusResponse>(
       '/api/v1/auth/myBundles/status',
       { params: { group } },
     );
 
     return bundles;
   }
-  
+
   async updateWhitelistMode(
     bodyParams: IUpdateWhitelistModeRequestParams,
     queryParams: IUpdateWhitelistModeParams,

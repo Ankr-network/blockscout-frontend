@@ -64,7 +64,7 @@ export const ActionsMenu = ({
       {
         whitelistItems: newWhitelistItems,
         userEndpointToken:
-          project[NewProjectStep.Whitelist]?.userEndpointToken ?? '',
+          project[NewProjectStep.Chain]?.userEndpointToken ?? '',
       },
       NewProjectStep.Plan,
     );

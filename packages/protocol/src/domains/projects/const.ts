@@ -29,3 +29,6 @@ export enum USDPaymentReason {
 export const MAX_AMOUNT_OF_IPS = 10;
 export const MAX_AMOUNT_OF_DOMAINS = 10;
 export const MAX_AMOUNT_OF_SMART_CONTRACT_ADDRESSES = 5;
+
+export const PROJECTS_DOCS_LINK =
+  'https://www.ankr.com/docs/rpc-service/getting-started/projects/';
