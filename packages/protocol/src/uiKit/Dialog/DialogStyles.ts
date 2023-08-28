@@ -76,7 +76,7 @@ export const useStyles = makeStyles<IUseStylesProps>()(
       overflow: 'hidden',
       textOverflow: 'ellipsis',
 
-      fontSize: 34,
+      fontSize: 28,
       fontWeight: 700,
       color: colorsMap[dialogTitleColor],
 
