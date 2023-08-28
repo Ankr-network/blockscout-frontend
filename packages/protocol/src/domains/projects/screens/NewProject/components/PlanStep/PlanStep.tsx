@@ -7,6 +7,7 @@ import { PlanCard } from './components/PlanCard';
 import { usePlanStepStyles } from './PlanStepStyles';
 import { useSelectPlanHandler } from './hooks/useSelectPlanHandler';
 import { useSelectedPlanName } from './hooks/useSelectedPlanName';
+import { HowToGetStartedLink } from '../HowToGetStartedLink';
 
 export const PlanStep = () => {
   const onCardClick = useSelectPlanHandler();
@@ -16,9 +17,22 @@ export const PlanStep = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6" className={classes.title}>
-        {t(`${newProjectIntlRoot}.plan-step.title`)}
-      </Typography>
+      <div className={classes.top}>
+        <div>
+          <Typography
+            variant="subtitle1"
+            className={classes.title}
+            component="div"
+          >
+            {t(`${newProjectIntlRoot}.plan-step.title`)}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {t(`${newProjectIntlRoot}.plan-step.description`)}
+          </Typography>
+        </div>
+        <HowToGetStartedLink />
+      </div>
+
       <div className={classes.cards}>
         {plans.map(plan => (
           <PlanCard

@@ -4,19 +4,26 @@ export const useChainStepStyles = makeStyles()(theme => ({
   chainsRoot: {
     marginTop: theme.spacing(10),
   },
+  chainsHeader: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  chainTitleWrapper: {
+    marginBottom: theme.spacing(4),
+    maxWidth: 460,
+    paddingRight: theme.spacing(4),
+  },
   title: {
-    marginBottom: theme.spacing(6),
+    marginBottom: theme.spacing(3),
   },
-  projectName: {
-    display: 'block',
-    marginBottom: theme.spacing(6),
-  },
-  nameInput: {
-    width: 450,
+  description: {
+    color: theme.palette.text.secondary,
   },
   tableContainer: {
     backgroundColor: 'transparent',
     padding: 0,
+    tableLayout: 'fixed',
   },
   cell: {
     '&&': {

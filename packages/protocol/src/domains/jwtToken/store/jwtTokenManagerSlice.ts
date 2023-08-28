@@ -7,6 +7,8 @@ export interface JwtManagerToken {
   index: number;
   userEndpointToken: string;
   jwtData: string;
+  name: string;
+  description: string;
 }
 
 interface ISetTokenIndexPayload {

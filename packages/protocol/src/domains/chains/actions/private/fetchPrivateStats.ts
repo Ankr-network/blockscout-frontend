@@ -30,15 +30,15 @@ export const {
         queryFn: createNotifyingQueryFn(
           async ({ interval, userEndpointToken, group }) => {
             const service = MultiService.getService();
-            const accountGateway = service.getAccountGateway();
+            const accountingGateway = service.getAccountingGateway();
 
             const data = await (userEndpointToken
-              ? accountGateway.getPrivateStatsByPremiumId(
+              ? accountingGateway.getPrivateStatsByPremiumId(
                   interval,
                   userEndpointToken,
                   group,
                 )
-              : accountGateway.getPrivateStats(interval, group));
+              : accountingGateway.getPrivateStats(interval, group));
 
             return { data: getPrivateStats(data) };
           },

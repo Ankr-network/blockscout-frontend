@@ -4,14 +4,10 @@ import {
   IPaymentHistoryEntityType,
   PrivateStats,
   PrivateStatsInterval,
-} from '../account';
-import {
+  IEthUserAddressWithDeprecatedPublicKey,
   EmailConfirmationStatus,
-  Network,
-  Web3Address,
-  BlockchainID,
-} from '../common';
-import { IEthUserAddressWithDeprecatedPublicKey } from '../oauth';
+} from '../accounting';
+import { Network, Web3Address, BlockchainID } from '../common';
 
 // just 200 http status code in case of success
 export type EmptyResponse = Record<string, never>;

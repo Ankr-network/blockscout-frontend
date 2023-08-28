@@ -2,41 +2,26 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 
-import { useCreateJwtToken } from 'domains/jwtToken/hooks/useCreateJwtToken';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useWhitelistStepOnSubmit = () => {
   const dispatch = useDispatch();
-  const { handleCreateJwtToken } = useCreateJwtToken();
   const [updateWhitelistMode, { isSuccess }] =
     useLazyUpdateWhitelistModeQuery();
   const { selectedGroupAddress: groupAddress } = useSelectedUserGroup();
 
   return useCallback(
-    async (tokenIndex: number) => {
-      const { data, error } = await handleCreateJwtToken(tokenIndex);
-
-      if (error) {
-        dispatch(
-          NotificationActions.showNotification({
-            message: (error as Error)?.message,
-            severity: 'error',
-          }),
-        );
-
-        return false;
-      }
-
-      if (data?.userEndpointToken) {
+    async (userEndpointToken?: string) => {
+      if (userEndpointToken) {
         if (isSuccess) {
-          return data?.userEndpointToken;
+          return userEndpointToken;
         }
 
         const { isError } = await updateWhitelistMode({
           params: {
-            userEndpointToken: data.userEndpointToken,
+            userEndpointToken,
             prohibitByDefault: true,
             groupAddress,
           },
@@ -46,7 +31,7 @@ export const useWhitelistStepOnSubmit = () => {
           return false;
         }
 
-        return data?.userEndpointToken;
+        return true;
       }
 
       dispatch(
@@ -58,12 +43,6 @@ export const useWhitelistStepOnSubmit = () => {
 
       return false;
     },
-    [
-      dispatch,
-      updateWhitelistMode,
-      handleCreateJwtToken,
-      groupAddress,
-      isSuccess,
-    ],
+    [dispatch, updateWhitelistMode, groupAddress, isSuccess],
   );
 };

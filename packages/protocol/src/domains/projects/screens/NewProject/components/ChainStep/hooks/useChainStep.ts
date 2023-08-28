@@ -10,11 +10,12 @@ import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 export const useChainStep = () => {
   const { change, getState } = useForm<NewProjectFormValues>();
 
-  const { tokenIndex: projectTokenIndex } = getState().values;
+  const { tokenIndex: projectTokenIndex, projectName: initProjectName } =
+    getState().values;
 
   const savedTokenIndex = useRef(projectTokenIndex);
 
-  const { allowedAddProjectTokenIndex } = useJwtTokenManager(true);
+  const { allowedAddProjectTokenIndex } = useJwtTokenManager();
 
   const currentTokenIndex =
     savedTokenIndex.current || allowedAddProjectTokenIndex;
@@ -22,7 +23,9 @@ export const useChainStep = () => {
   const { projectName } = useAddProject(currentTokenIndex);
 
   useEffect(() => {
-    change(ChainStepFields.projectName, projectName);
     change(ChainStepFields.tokenIndex, currentTokenIndex);
-  }, [change, projectName, currentTokenIndex]);
+    if (!initProjectName || initProjectName.length === 0) {
+      change(ChainStepFields.projectName, projectName);
+    }
+  }, [change, projectName, currentTokenIndex, initProjectName]);
 };

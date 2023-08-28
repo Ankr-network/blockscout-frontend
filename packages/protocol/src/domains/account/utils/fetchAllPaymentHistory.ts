@@ -12,7 +12,7 @@ export const fetchAllPaymentHistory = async (
   const service = MultiService.getService();
 
   const { cursor, transactions = [] } = await service
-    .getAccountGateway()
+    .getAccountingGateway()
     .getAggregatedPaymentHistory(request);
 
   const result: Response = {

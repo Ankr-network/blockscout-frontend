@@ -12,7 +12,7 @@ export const {
     fetchMyBundles: build.query<ISubscriptionsItem[], Web3Address | undefined>({
       providesTags: ['MyBundles'],
       queryFn: createNotifyingQueryFn(async group => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getMyBundles(group);
 

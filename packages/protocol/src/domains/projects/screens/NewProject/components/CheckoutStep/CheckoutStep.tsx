@@ -4,10 +4,10 @@ import { t } from '@ankr.com/common';
 
 import { newProjectIntlRoot, plans } from 'domains/projects/const';
 import { NewProjectStep } from 'domains/projects/types';
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 import { renderAmount } from '../../utils/renderAmount';
-import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 import { BlockchainIcon } from '../../../Projects/components/BlockchainIcon';
 import { useProjectChains } from '../../hooks/useProjectChains';
 import { PlanCard } from '../PlanStep/components/PlanCard';
@@ -81,16 +81,16 @@ export const CheckoutStep = ({ setCurrentStep }: CheckoutStepProps) => {
             onEdit={openWhitelistStep}
             title={t(`${newProjectIntlRoot}.checkout-step.label-whitelist`)}
           >
-            {whitelistItems?.length > 0 && (
-              <div className={classes.whitelistBadge}>
-                <Typography
-                  variant="body2"
-                  className={classes.whitelistBadgeText}
-                >
-                  {t(`${newProjectIntlRoot}.checkout-step.installed`)}
-                </Typography>
-              </div>
-            )}
+            <div className={classes.whitelistBadge}>
+              <Typography
+                variant="body2"
+                className={classes.whitelistBadgeText}
+              >
+                {whitelistItems?.length > 0
+                  ? t(`${newProjectIntlRoot}.checkout-step.installed`)
+                  : t(`${newProjectIntlRoot}.checkout-step.not-installed`)}
+              </Typography>
+            </div>
           </CheckoutSection>
         </div>
         <div className={classes.rightPart}>

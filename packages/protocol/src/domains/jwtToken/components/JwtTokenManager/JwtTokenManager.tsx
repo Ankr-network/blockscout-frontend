@@ -109,6 +109,7 @@ export const JwtTokenManager = () => {
         shouldConnectWallet={shouldConnectWallet}
         endpointToken={openedProject?.userEndpointToken}
         tokenIndex={openedProject?.index}
+        name={openedProject?.name}
         isOpened={isViewProjectOpened}
         onClose={onProjectClose}
         handleDeleteProjectOpen={handleDeleteProjectOpen}

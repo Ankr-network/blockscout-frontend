@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
-import { Box, Typography } from '@mui/material';
 import { Check, Cross } from '@ankr.com/ui';
-import { t } from '@ankr.com/common';
 
 import { Chain, ChainID } from 'domains/chains/types';
 
@@ -39,7 +37,7 @@ export const useChainsTableColumns = ({
     () => [
       {
         field: 'chain',
-        headerName: 'Chain',
+        headerName: 'Chains',
         render: chain => (
           <ChainRow
             chain={chain}
@@ -50,24 +48,51 @@ export const useChainsTableColumns = ({
           />
         ),
         align: 'left',
-        width: '30%',
+        width: '240px',
       },
       {
         field: 'archiveMethods',
         headerName: 'Archive methods',
         render: ({ id, isArchive }) => {
+          if (isArchive) {
+            return (
+              <Check
+                className={getColumnWrapperClassName(id, classes.checkWrapper)}
+              />
+            );
+          }
+
           return (
-            <Box className={getColumnWrapperClassName(id)}>
-              {isArchive ? (
-                <Check sx={theme => ({ color: theme.palette.primary.main })} />
-              ) : (
-                <Cross />
-              )}
-            </Box>
+            <Cross
+              className={getColumnWrapperClassName(id, classes.crossWrapper)}
+            />
           );
         },
         align: 'center',
         width: '15%',
+        maxWidth: '150px',
+      },
+      {
+        field: 'websocket',
+        headerName: 'WebSocket',
+        render: ({ id, hasWSFeature }) => {
+          if (!hasWSFeature) {
+            return (
+              <Cross
+                className={getColumnWrapperClassName(id, classes.crossWrapper)}
+              />
+            );
+          }
+
+          return (
+            <Check
+              className={getColumnWrapperClassName(id, classes.checkWrapper)}
+            />
+          );
+        },
+        align: 'center',
+        width: '15%',
+        maxWidth: '120px',
       },
       {
         field: 'network',
@@ -81,31 +106,7 @@ export const useChainsTableColumns = ({
           />
         ),
         align: 'left',
-        width: '40%',
-      },
-      {
-        field: 'websocket',
-        headerName: 'Websocket',
-        render: ({ id, hasWSFeature }) => {
-          if (!hasWSFeature) {
-            return <Cross className={getColumnWrapperClassName(id)} />;
-          }
-
-          return (
-            <Box
-              className={getColumnWrapperClassName(
-                id,
-                classes.premiumLabelWrapper,
-              )}
-            >
-              <Typography variant="body2" className={classes.premiumLabelText}>
-                {t('projects.new-project.step-1.premium')}
-              </Typography>
-            </Box>
-          );
-        },
-        align: 'center',
-        width: '150px',
+        width: 'auto',
       },
     ],
     [
@@ -114,8 +115,8 @@ export const useChainsTableColumns = ({
       onOpenModal,
       getColumnWrapperClassName,
       classes.chainRow,
-      classes.premiumLabelWrapper,
-      classes.premiumLabelText,
+      classes.crossWrapper,
+      classes.checkWrapper,
     ],
   );
 

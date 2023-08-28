@@ -9,12 +9,12 @@ on:
         description: Target
         required: true
         options:
-          - STAGE # www-stage.ankr.com/rpc/
-          - PROD # www.ankr.com/rpc/
-          - BS1 # bs-1-stage.dccn.ankr.com/rpc
-          - BS2 # bs-2-stage.dccn.ankr.com/rpc
-          - BS3 # bs-3-stage.dccn.ankr.com/rpc
-          - BS4 # bs-4-stage.dccn.ankr.com/rpc
+          - STAGE # https://www-stage.ankr.com/rpc/
+          - BS1 # https://bs-1-stage.dccn.ankr.com/rpc/
+          - BS2 # https://bs-2-stage.dccn.ankr.com/rpc/
+          - BS3 # https://bs-3-stage.dccn.ankr.com/rpc/
+          - BS4 # https://bs-4-stage.dccn.ankr.com/rpc/
+          - PROD # https://www.ankr.com/rpc/
       api:
         type: choice
         description: API
@@ -29,11 +29,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: nelonoel/branch-name@v1.0.1
       - uses: actions/setup-node@v3
         with:
           node-version: '16.13.0'
           cache: 'yarn'
+
+      - name: Send slack message
+        if: ${{ github.event.inputs.environment == 'PROD' }}
+        id: slack-init
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "${{ github.event.repository.name }}: Deploy of ${{ github.ref_name }} to ${{github.event.inputs.environment}} started",
+              "channel": "C02F5BTM33P"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_POST_MESSAGE }}
 
       - name: Prevent wrong version releasing
         if: ${{ github.event.inputs.environment == 'PROD' && github.ref != 'refs/heads/main' }}
@@ -41,11 +53,11 @@ jobs:
           echo "Production deployment is possible only from the main branch"
           exit 1
 
-      - name: Get deployment information
+      - name: Prevent wrong api releasing
+        if: ${{ github.event.inputs.environment == 'PROD' && github.event.inputs.api != 'PROD' }}
         run: |
-          echo "Branch: ${BRANCH_NAME}"
-          echo "Environment: ${{github.event.inputs.api}}"
-          echo "Domain: ${{github.event.inputs.environment}}"
+          echo "Production deployment is possible only with PROD api"
+          exit 1
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -100,3 +112,30 @@ jobs:
           DOMAIN: ${{ secrets[format('{0}{1}', github.event.inputs.environment, '_DOMAIN')] }}
         run: |
           node redirects.js
+
+
+      - name: Send slack message
+        if: ${{ success() && github.event.inputs.environment == 'PROD' }}
+        id: slack-success
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "${{ github.event.repository.name }}: Deploy of ${{ github.ref_name }} to ${{github.event.inputs.environment}} completed",
+              "channel": "C02F5BTM33P"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_POST_MESSAGE_HERE }}
+
+      - name: Send slack message
+        if: ${{ failure() && github.event.inputs.environment == 'PROD' }}
+        id: slack-failure
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "${{ github.event.repository.name }}: Deploy of ${{ github.ref_name }} to ${{github.event.inputs.environment}} failed",
+              "channel": "C02F5BTM33P"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_POST_MESSAGE_HERE }}

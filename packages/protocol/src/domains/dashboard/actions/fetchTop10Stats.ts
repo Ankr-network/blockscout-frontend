@@ -21,7 +21,7 @@ export const {
   endpoints: build => ({
     fetchTop10Stats: build.query<Top10StatsResponse, Top10StatsRequest>({
       queryFn: createNotifyingQueryFn(async params => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         /* backend does not support h1 and h24 interval for this endpoint */
         if (

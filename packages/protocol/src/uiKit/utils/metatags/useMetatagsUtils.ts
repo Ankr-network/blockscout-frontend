@@ -18,7 +18,7 @@ const renderPrefix = (name: ChainID) => {
   return renderedName;
 };
 
-const renderNervosName = (chainId: ChainID) => {
+export const renderNervosName = (chainId: ChainID) => {
   let name = capitalize(chainId);
 
   if (chainId === ChainID.NERVOS_CKB) {

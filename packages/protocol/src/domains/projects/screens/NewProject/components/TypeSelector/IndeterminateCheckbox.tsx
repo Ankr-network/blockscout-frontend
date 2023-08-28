@@ -1,18 +1,18 @@
 import { FormControlLabel, Checkbox, Box } from '@mui/material';
 
-import { ChainType } from 'domains/chains/types';
+import { ProjectChainType } from 'domains/projects/types';
+import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
 
 import {
-  NestedItem,
+  NestedItemBase,
   useNestedChainItemsSelection,
 } from './hooks/useNestedChainItemsSelection';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
-import { getCustomLabelWithZetachainPrefix } from '../../utils/getCustomLabelWithZetachainPrefix';
 
 interface IndeterminateCheckboxProps {
   parentLabel: string;
-  nestedItems: NestedItem[];
-  chainType: ChainType;
+  nestedItems: NestedItemBase[];
+  chainType: ProjectChainType;
 }
 
 const IndeterminateCheckbox = ({
@@ -23,12 +23,14 @@ const IndeterminateCheckbox = ({
   const {
     isParentIndeterminate,
     isParentChecked,
-    handleParentOnChange,
+    onSelectParent,
     checkedItems,
     handleChangeItem,
   } = useNestedChainItemsSelection(nestedItems, chainType);
 
   const { classes } = useTypeSelectorStyles();
+
+  const isVisibleNestedItemsList = nestedItems.length > 1;
 
   return (
     <div className={classes.checkboxGroupRoot}>
@@ -43,22 +45,22 @@ const IndeterminateCheckbox = ({
           <Checkbox
             indeterminate={isParentIndeterminate}
             checked={isParentChecked}
-            onChange={handleParentOnChange}
+            onChange={onSelectParent}
           />
         }
       />
 
       {/* Children */}
-      <Box className={classes.childrenWrapper}>
-        {checkedItems &&
-          nestedItems.map(item => (
+      {isVisibleNestedItemsList && (
+        <Box className={classes.childrenWrapper}>
+          {nestedItems.map(item => (
             <FormControlLabel
               classes={{
                 root: classes.formControlLabel,
                 label: classes.label,
               }}
               key={item.chainId}
-              label={getCustomLabelWithZetachainPrefix(item)}
+              label={getCustomLabelForChainsCornerCases(item)}
               control={
                 <Checkbox
                   checked={checkedItems.includes(item.chainId)}
@@ -69,7 +71,8 @@ const IndeterminateCheckbox = ({
               }
             />
           ))}
-      </Box>
+        </Box>
+      )}
     </div>
   );
 };

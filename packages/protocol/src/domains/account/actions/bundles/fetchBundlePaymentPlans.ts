@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     fetchBundlePaymentPlans: build.query<BundlePaymentPlan[], void>({
       queryFn: createNotifyingQueryFn(async () => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getBundlePaymentPlans();
 

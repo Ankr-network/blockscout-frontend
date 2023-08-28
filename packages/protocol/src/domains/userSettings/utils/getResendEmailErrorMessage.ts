@@ -1,42 +1,42 @@
-import { AccountErrorCode } from 'multirpc-sdk';
+import { AccountingErrorCode } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
+import { isAxiosAccountingError } from 'store/utils/isAxiosAccountingError';
 
 import { getEmailFallback } from '../const';
 import { ErrorMessageGetter } from '../types';
 import { getAccountErrorMessage } from './getAccountErrorMessage';
 import { getUnknownErrorMessage } from './getUnknownErrorMessage';
 
-const messageGettersMap: Record<AccountErrorCode, ErrorMessageGetter> = {
-  [AccountErrorCode.Aborted]: getAccountErrorMessage,
-  [AccountErrorCode.AlreadyExists]: (_, email = getEmailFallback()) =>
+const messageGettersMap: Record<AccountingErrorCode, ErrorMessageGetter> = {
+  [AccountingErrorCode.Aborted]: getAccountErrorMessage,
+  [AccountingErrorCode.AlreadyExists]: (_, email = getEmailFallback()) =>
     t('user-settings.errors.already-confirmed', { email }),
-  [AccountErrorCode.DatabaseError]: getAccountErrorMessage,
-  [AccountErrorCode.FailedPrecondition]: () =>
+  [AccountingErrorCode.DatabaseError]: getAccountErrorMessage,
+  [AccountingErrorCode.FailedPrecondition]: () =>
     t('user-settings.errors.too-many-resend-confirmation-requests', {
       minutes: 1,
       plural: '',
     }),
-  [AccountErrorCode.InternalError]: getAccountErrorMessage,
-  [AccountErrorCode.InvalidArgument]: getAccountErrorMessage,
-  [AccountErrorCode.NothingTodo]: () =>
+  [AccountingErrorCode.InternalError]: getAccountErrorMessage,
+  [AccountingErrorCode.InvalidArgument]: getAccountErrorMessage,
+  [AccountingErrorCode.NothingTodo]: () =>
     t('user-settings.errors.change-with-same-email'),
-  [AccountErrorCode.Unavailable]: getAccountErrorMessage,
-  [AccountErrorCode.WrongFormat]: getAccountErrorMessage,
-  [AccountErrorCode.WrongState]: () =>
+  [AccountingErrorCode.Unavailable]: getAccountErrorMessage,
+  [AccountingErrorCode.WrongFormat]: getAccountErrorMessage,
+  [AccountingErrorCode.WrongState]: () =>
     t('user-settings.errors.too-many-resend-confirmation-requests', {
       minutes: 1,
       plural: '',
     }),
-  [AccountErrorCode.NotFound]: () =>
+  [AccountingErrorCode.NotFound]: () =>
     t('user-settings.errors.change-inexistent'),
-  [AccountErrorCode.TwoFARequired]: () => '',
-  [AccountErrorCode.TwoFAWrong]: () => '',
-  [AccountErrorCode.InsufficientBalance]: () => '',
+  [AccountingErrorCode.TwoFARequired]: () => '',
+  [AccountingErrorCode.TwoFAWrong]: () => '',
+  [AccountingErrorCode.InsufficientBalance]: () => '',
 };
 
 export const getResendEmailErrorMessage = (error: unknown, email?: string) =>
-  isAxiosAccountError(error) && error.response?.data.error.code
+  isAxiosAccountingError(error) && error.response?.data.error.code
     ? messageGettersMap[error.response?.data.error.code](error, email)
     : getUnknownErrorMessage(error);

@@ -55,7 +55,7 @@ export const fetchPaymentHistory = async ({
 
   const requests: Requests = [
     transactionsCursor >= 0 && !deductionsOnly
-      ? service.getAccountGateway().getPaymentHistory({
+      ? service.getAccountingGateway().getPaymentHistory({
           cursor: transactionsCursor,
           from,
           limit: DEFAULT_LIMIT,
@@ -67,7 +67,7 @@ export const fetchPaymentHistory = async ({
         })
       : defaultRequest,
     deductionsCursor >= 0 && withDeductions
-      ? service.getAccountGateway().getAggregatedPaymentHistory({
+      ? service.getAccountingGateway().getAggregatedPaymentHistory({
           cursor: deductionsCursor,
           from,
           limit: DEFAULT_LIMIT,

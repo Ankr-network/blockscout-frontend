@@ -19,7 +19,7 @@ export const {
       queryFn: async () => {
         const service = MultiService.getService();
 
-        const data = await service.getAccountGateway().getTwoFAStatus();
+        const data = await service.getAccountingGateway().getTwoFAStatus();
 
         return {
           data: {

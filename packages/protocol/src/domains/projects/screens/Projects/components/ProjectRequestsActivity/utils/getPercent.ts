@@ -12,6 +12,7 @@ export const getPercent = ({
   const sign = (difference / (absoluteDifference || 1)) as PercentSign;
 
   const percent = (absoluteDifference / yesterdayRequests) * 100;
+  const isVisible = Number.isFinite(percent);
 
-  return { percent, sign };
+  return { isVisible, percent, sign };
 };

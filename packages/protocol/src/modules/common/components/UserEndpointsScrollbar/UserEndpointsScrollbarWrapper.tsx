@@ -23,13 +23,14 @@ export const UserEndpointsScrollbarWrapper = ({
   return (
     <UserEndpointsScrollbar jwtTokens={jwtTokens}>
       {jwtTokens.map(token => {
-        const { index, userEndpointToken } = token;
+        const { index, userEndpointToken, name } = token;
 
         return (
           <UserEndpointCard
             key={index}
             isSelected={index === selectedProjectIndex}
             tokenIndex={index}
+            name={name}
             userEndpointToken={userEndpointToken}
             onProjectSelect={() => handleSelectTokenIndex(index)}
             onProjectView={() => {

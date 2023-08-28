@@ -11,6 +11,7 @@ import {
 import { useHandleSubmit } from './hooks/useHandleSubmit';
 import { useInitialValues } from './hooks/useInitialValues';
 import { Footer } from '../Footer';
+import { Header } from '../Header';
 
 export const NewProjectForm = ({
   step,
@@ -32,18 +33,27 @@ export const NewProjectForm = ({
         selectedMainnetIds,
         selectedTestnetIds,
         selectedDevnetIds,
+        selectedBeaconMainnetIds,
+        selectedBeaconTestnetIds,
+        selectedOpnodeMainnetIds,
+        selectedOpnodeTestnetIds,
         whitelistItems,
       } = getState().values || {};
 
       const isChainSelected = Boolean(
         selectedMainnetIds?.length ||
-        selectedTestnetIds?.length ||
-        selectedDevnetIds?.length,
+          selectedTestnetIds?.length ||
+          selectedDevnetIds?.length ||
+          selectedBeaconMainnetIds?.length ||
+          selectedBeaconTestnetIds?.length ||
+          selectedOpnodeMainnetIds?.length ||
+          selectedOpnodeTestnetIds?.length,
       );
       const isWhitelistEmpty = whitelistItems?.length === 0;
 
       return (
         <form onSubmit={handleSubmit}>
+          <Header step={step} />
           <NewProjectFormContent step={step} setCurrentStep={setCurrentStep} />
           <Footer
             isNextButtonDisabled={
@@ -51,6 +61,7 @@ export const NewProjectForm = ({
               (step === NewProjectStep.Whitelist && isWhitelistEmpty)
             }
             onBackClick={onBackClick}
+            shouldShowSkipButton={step === NewProjectStep.Whitelist}
             isLoading={isLoading}
           />
         </form>

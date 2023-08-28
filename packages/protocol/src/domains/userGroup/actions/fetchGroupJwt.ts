@@ -20,13 +20,13 @@ export const {
     >({
       queryFn: async ({ group }) => {
         const service = MultiService.getService();
-        const accountGateway = service.getAccountGateway();
+        const accountingGateway = service.getAccountingGateway();
 
         if (!group) {
           return { data: null };
         }
 
-        const response = await accountGateway.getGroupJwtToken({ group });
+        const response = await accountingGateway.getGroupJwtToken({ group });
         const decryptedToken = await getUserEndpointToken(
           response.jwt_data,
           false,

@@ -20,7 +20,7 @@ export const {
           const service = await MultiService.getService();
 
           const { jwt_data: jwtData, is_encrypted: isEncrypted } = await service
-            .getAccountGateway()
+            .getAccountingGateway()
             .getOrCreateInstantJwt(totp);
 
           const jwtTokenData = await decryptJwt(jwtData, isEncrypted);
