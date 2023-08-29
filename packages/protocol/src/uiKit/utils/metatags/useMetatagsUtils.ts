@@ -48,13 +48,13 @@ const renderETHName = (chainId: ChainID) => {
   let name = 'Ethereum';
 
   if (chainId === ChainID.ETH_GOERLI) {
-    name = 'Goerli testnet';
+    name = 'Goerli Testnet';
   } else if (chainId === ChainID.ETH_RINKEBY) {
-    name = 'Rinkeby testnet';
+    name = 'Rinkeby Testnet';
   } else if (chainId === ChainID.ETH_ROPSTEN) {
-    name = 'Ropsten testnet';
+    name = 'Ropsten Testnet';
   } else if (chainId === ChainID.ETH_SEPOLIA) {
-    name = 'Sepolia testnet';
+    name = 'Sepolia Testnet';
   }
 
   return name;
@@ -94,24 +94,54 @@ const getTestnetChainName = (chainId: string) => {
 };
 
 const renderZetaChainName = (chainId: ChainID) => {
-  let name = 'ZetaChain testnet';
+  let name = 'ZetaChain Testnet';
 
   if (chainId === ChainID.ZETACHAIN_COSMOS_REST_TESTNET) {
-    name = 'ZetaChain Cosmos REST testnet';
+    name = 'ZetaChain Athens-2 Cosmos REST Testnet';
   } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET) {
-    name = 'ZetaChain Tendermint REST testnet';
+    name = 'ZetaChain Athens-2 Tendermint REST Testnet';
   } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET) {
-    name = 'ZetaChain Tendermint JSON-RPC testnet';
+    name = 'ZetaChain Athens-2 Tendermint JSON-RPC Testnet';
   } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
-    name = 'ZetaChain EVM RPC testnet';
+    name = 'ZetaChain Athens-2 EVM RPC Testnet';
   } else if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
-    name = 'ZetaChain Athens-3 Cosmos REST testnet';
+    name = 'ZetaChain Athens-3 Cosmos REST Testnet';
   } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET) {
-    name = 'ZetaChain Athens-3 Tendermint REST testnet';
+    name = 'ZetaChain Athens-3 Tendermint REST Testnet';
   } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET) {
-    name = 'ZetaChain Athens-3 Tendermint JSON-RPC testnet';
+    name = 'ZetaChain Athens-3 Tendermint JSON-RPC Testnet';
   } else if (chainId === ChainID.ZETACHAIN_EVM_ATHENS_TESTNET) {
-    name = 'ZetaChain Athens-3 EVM RPC testnet';
+    name = 'ZetaChain Athens-3 EVM RPC Testnet';
+  }
+
+  return name;
+};
+
+const renderZkevmName = (chainId: ChainID) => {
+  let name = 'Polygon zkEVM';
+
+  if (chainId === ChainID.POLYGON_ZKEVM_TESTNET) {
+    name = `${name} Testnet`;
+  }
+
+  return name;
+};
+
+const renderIotexName = (chainId: ChainID) => {
+  let name = 'IoTex';
+
+  if (chainId === ChainID.IOTEX_TESTNET) {
+    name = `${name} Testnet`;
+  }
+
+  return name;
+};
+
+const renderHecoName = (chainId: ChainID) => {
+  let name = 'Huobi ECO Chain';
+
+  if (chainId === ChainID.HECO_TESTNET) {
+    name = `${name} Testnet`;
   }
 
   return name;
@@ -122,24 +152,30 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
 
   name = mappingChainName(chainId, name);
 
-  if (chainId.includes(ChainID.NERVOS)) {
+  if (chainId === ChainID.ZKSYNC_ERA) {
+    name = 'zkSync Era';
+  } else if (chainId.includes(ChainID.POLYGON_ZKEVM)) {
+    name = renderZkevmName(chainId);
+  } else if (chainId.includes(ChainID.IOTEX)) {
+    name = renderIotexName(chainId);
+  } else if (chainId.includes(ChainID.HECO)) {
+    name = renderHecoName(chainId);
+  } else if (chainId.includes(ChainID.NERVOS)) {
     name = renderNervosName(chainId);
   } else if (chainId.includes(ChainID.SECRET)) {
     name = renderSecretName(chainId);
   } else if (chainId.includes(ChainID.ETH)) {
     name = renderETHName(chainId);
   } else if (chainId.includes(ChainID.HORIZEN_TESTNET)) {
-    name = 'Horizen Testnet';
+    name = 'Horizen EON Testnet';
   } else if (chainId.includes(ChainID.HORIZEN)) {
     name = 'Horizen EON';
   } else if (chainId.includes(ChainID.TENET)) {
-    name = 'Tenet Evm';
+    name = 'Tenet EVM';
   } else if (chainId.includes(ChainID.SCROLL_SEPOLIA_TESTNET)) {
     name = 'Scroll Sepolia Testnet';
   } else if (chainId.includes(ChainID.SCROLL)) {
     name = 'Scroll Testnet';
-  } else if (chainId === ChainID.POLYGON_ZKEVM) {
-    name = 'zkEVM';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
     name = 'Advanced API';
   } else if (chainId === ChainID.ARBITRUM_NOVA) {
@@ -147,25 +183,25 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   } else if (chainId.includes(ChainID.ZETACHAIN)) {
     name = renderZetaChainName(chainId);
   } else if (chainId === ChainID.TRON_JSON_RPC) {
-    name = 'Tron JSON-RPC';
+    name = 'TRON JSON-RPC';
   } else if (chainId === ChainID.BASE) {
     name = 'Base';
   } else if (chainId === ChainID.BTTC) {
     name = 'BitTorrent Chain Mainnet';
-  } else if (chainId.includes('_')) {
+  } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
     name = getSubchainName(renderPrefix(chainId));
+  }
+
+  if (name.includes('testnet')) {
+    name = name.replace('testnet', 'Testnet');
   }
 
   if (isBeacon(chainId)) {
     const beacon = beacons.find(({ id }) => id === chainId);
 
     name = beacon?.name ?? name;
-  }
-
-  if (chainId === ChainID.ZKSYNC_ERA) {
-    name = 'zkSync Era';
   }
 
   return name;
