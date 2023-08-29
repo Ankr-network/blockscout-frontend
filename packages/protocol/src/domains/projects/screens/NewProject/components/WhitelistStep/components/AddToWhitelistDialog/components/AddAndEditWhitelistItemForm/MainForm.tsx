@@ -86,14 +86,16 @@ export const MainForm = ({
           <FormControl
             className={cx(classes.formWrapper, classes.inputWrapper)}
           >
-            {preparedChains.map(({ id: chainId, name }) => (
+            {preparedChains.map(({ id: chainId, name, disabled }) => (
               <Field
                 name={AddToWhitelistFormFields.chains}
                 key={chainId}
                 label={name}
                 value={chainId}
                 disabled={
-                  isSmartContractAddressSelected && isAtLeastOneChainSelected
+                  (isSmartContractAddressSelected &&
+                    isAtLeastOneChainSelected) ||
+                  disabled
                 }
                 component={ChainItem}
                 type="checkbox"

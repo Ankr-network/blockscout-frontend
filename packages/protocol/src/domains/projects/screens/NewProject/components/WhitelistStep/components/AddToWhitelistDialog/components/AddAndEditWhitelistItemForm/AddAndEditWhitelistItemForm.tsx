@@ -12,6 +12,7 @@ import {
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { getDoArraysHaveIntersection } from 'domains/projects/screens/NewProject/utils/getDoArraysHaveIntersection';
 
 import { MainForm } from './MainForm';
 
@@ -58,9 +59,28 @@ export const AddAndEditWhitelistItemForm = ({
       whitelistDialog.value,
     );
 
+    let allowAddDuplicatValue = true;
+
+    if (doesNewValueExists) {
+      const filteredWhitelistItems = whitelistItems
+        .filter(item => item.value === whitelistDialog.value)
+        .map(item => item.chains)
+        .flat();
+
+      const isExistIntersection = getDoArraysHaveIntersection(
+        filteredWhitelistItems,
+        whitelistDialog.chains,
+      );
+
+      if (isExistIntersection) allowAddDuplicatValue = true;
+    }
+
     if (
-      (doesNewValueExists && !isEditingWhitelistDialog) ||
       (doesNewValueExists &&
+        !allowAddDuplicatValue &&
+        !isEditingWhitelistDialog) ||
+      (doesNewValueExists &&
+        !allowAddDuplicatValue &&
         isEditingWhitelistDialog &&
         whitelistItems[indexOfEditingWhitelistItem].value !==
           whitelistDialog.value)
