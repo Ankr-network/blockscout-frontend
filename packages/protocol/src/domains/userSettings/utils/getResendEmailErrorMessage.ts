@@ -33,6 +33,7 @@ const messageGettersMap: Record<AccountingErrorCode, ErrorMessageGetter> = {
     t('user-settings.errors.change-inexistent'),
   [AccountingErrorCode.TwoFARequired]: () => '',
   [AccountingErrorCode.TwoFAWrong]: () => '',
+  [AccountingErrorCode.InsufficientBalance]: () => '',
 };
 
 export const getResendEmailErrorMessage = (error: unknown, email?: string) =>

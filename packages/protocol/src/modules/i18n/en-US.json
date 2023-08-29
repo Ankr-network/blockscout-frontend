@@ -293,7 +293,10 @@
         "price": "Final Price",
         "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",
         "unprohibited": "All requests not prohibited",
-        "more": "+{additionalBlockchainsCount} more"
+        "more": "+{additionalBlockchainsCount} more",
+        "error-message": {
+          "can-not-add-to-whitelist": "Can not add {contractAddress} for {userEndpointToken}"
+        }
       },
       "plan-step": {
         "title": "Select your plan",

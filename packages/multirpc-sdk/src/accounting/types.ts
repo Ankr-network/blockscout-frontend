@@ -17,6 +17,7 @@ export enum AccountingErrorCode {
   WrongState = 'wrong_state',
   TwoFARequired = '2fa_required',
   TwoFAWrong = '2fa_wrong',
+  InsufficientBalance = 'insufficient_balance'
 }
 
 export interface AccountingErrorResponse {

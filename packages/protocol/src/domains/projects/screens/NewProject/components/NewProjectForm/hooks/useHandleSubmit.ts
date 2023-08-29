@@ -122,7 +122,8 @@ export const useHandleSubmit = (
 
         case NewProjectStep.Checkout: {
           const { planPrice, whitelistItems } = values;
-          const isSuccess = await handleEnableWhitelist(false);
+          const { isSuccess, shouldRedirectToStripe } =
+            await handleEnableWhitelist(false);
 
           if (isSuccess) {
             history.push(ProjectsRoutesConfig.projects.generatePath());
@@ -137,7 +138,7 @@ export const useHandleSubmit = (
 
           const url = await handleCheckoutStepOnSubmit(price);
 
-          if (url) {
+          if (url && shouldRedirectToStripe) {
             const submitResult = onSubmit(step, {
               isCheckedOut: true,
             });
