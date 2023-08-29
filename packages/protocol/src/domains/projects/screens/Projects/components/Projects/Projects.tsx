@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
@@ -51,6 +52,25 @@ export const Projects = () => {
 
   const handleFormSubmit = useCallback(
     async (values: AddAndEditProjectDialogType, form) => {
+      const nameFieldState = form.getFieldState(
+        AddAndEditProjectDialogFields.name,
+      );
+      const descriptionFieldState = form.getFieldState(
+        AddAndEditProjectDialogFields.description,
+      );
+
+      const isNothingChanged =
+        !nameFieldState.modified && !descriptionFieldState.modified;
+
+      if (isNothingChanged) {
+        handleCloseAddAndEditDialog();
+
+        return;
+      }
+
+      const isOnlyDescriptionChanged =
+        !nameFieldState.modified && descriptionFieldState.modified;
+
       const { name, description, isEditingProjectDialog, tokenIndex } = values;
 
       const resultName = name ?? '';
@@ -58,7 +78,7 @@ export const Projects = () => {
         project => project.name === resultName,
       );
 
-      if (hasNameDuplication) {
+      if (hasNameDuplication && !isOnlyDescriptionChanged) {
         dispatch(
           NotificationActions.showNotification({
             message: t('projects.new-project.error-message.name-duplication', {
