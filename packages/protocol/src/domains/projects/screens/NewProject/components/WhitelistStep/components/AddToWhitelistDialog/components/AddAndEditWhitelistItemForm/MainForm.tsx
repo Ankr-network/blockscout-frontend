@@ -9,8 +9,9 @@ import { Field } from 'react-final-form';
 import { t, tHTML } from '@ankr.com/common';
 
 import { OnChange } from 'modules/form/utils/OnChange';
+import { InputDialogFormField } from 'modules/common/components/InputDialogFormField';
 
-import { InputAddressField } from '../InputAddressField';
+import { useAddAndEditWhitelistItemFormStyles } from './useAddAndEditWhitelistItemFormStyles';
 import {
   getValidation,
   AddToWhitelistFormFields,
@@ -18,7 +19,6 @@ import {
 import { ChainItem } from '../ChainItem';
 import { SelectTypeField } from '../SelectTypeField';
 import { useMainForm } from './useMainForm';
-import { useAddToWhitelistFormStyles } from './useAddAndEditWhitelistItemFormStyles';
 
 interface MainFormProps {
   shouldSkipFormReset?: boolean;
@@ -29,7 +29,7 @@ export const MainForm = ({
   shouldSkipFormReset,
   handleSubmit,
 }: MainFormProps) => {
-  const { classes, cx } = useAddToWhitelistFormStyles();
+  const { classes, cx } = useAddAndEditWhitelistItemFormStyles();
 
   const {
     handleOnChange,
@@ -63,7 +63,7 @@ export const MainForm = ({
       </FormControl>
 
       <FormControl className={cx(classes.formWrapper, classes.inputWrapper)}>
-        <InputAddressField
+        <InputDialogFormField
           name={AddToWhitelistFormFields.value}
           isDisabled={!isTypeSelected}
           placeholder={t('projects.add-whitelist-dialog.enter')}

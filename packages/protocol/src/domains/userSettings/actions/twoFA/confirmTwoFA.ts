@@ -24,7 +24,9 @@ export const {
       queryFn: createConditionallyNotifyingQueryFn(async ({ totp }) => {
         const service = MultiService.getService();
 
-        const data = await service.getAccountGateway().confirmTwoFA({ totp });
+        const data = await service
+          .getAccountingGateway()
+          .confirmTwoFA({ totp });
 
         return { data };
       }),

@@ -5,6 +5,7 @@ import {
   DialogProps as MuiDialogProps,
   DialogTitle as MuiDialogTitle,
   IconButton,
+  Typography,
 } from '@mui/material';
 import {
   ReactNode,
@@ -94,7 +95,13 @@ export const Dialog = ({
       >
         {(dialogTitle.title || !shouldHideCloseButton) && (
           <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-            {dialogTitle.title}
+            {typeof dialogTitle.title === 'string' ? (
+              <Typography className={classes.titleText}>
+                {dialogTitle.title}
+              </Typography>
+            ) : (
+              dialogTitle.title
+            )}
 
             {!shouldHideCloseButton && (
               <IconButton

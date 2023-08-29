@@ -29,7 +29,7 @@ export const {
         const service = MultiService.getService();
 
         const result = await service
-          .getAccountGateway()
+          .getAccountingGateway()
           .getPrivateStats(PrivateStatsInterval.MONTH, group);
 
         return { data: getPrivateStats(result) };

@@ -20,7 +20,7 @@ import {
 import { shouldShowUserGroupDialog } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
 import { is2FAError } from 'store/utils/is2FAError';
-import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
+import { getAxiosAccountingErrorMessage } from 'store/utils/getAxiosAccountingErrorMessage';
 import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
 import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
@@ -156,7 +156,7 @@ listenerMiddleware.startListening({
     );
 
     if (is2FAError(error)) {
-      const message = getAxiosAccountErrorMessage(error);
+      const message = getAxiosAccountingErrorMessage(error);
 
       dispatch(setTwoFAErrorMessage(message));
     }

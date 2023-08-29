@@ -12,7 +12,9 @@ export const {
       queryFn: async () => {
         const service = MultiService.getService();
 
-        const data = await service.getOauthGateway().getAssociatedAccounts();
+        const data = await service
+          .getAccountingGateway()
+          .getAssociatedAccounts();
 
         return { data };
       },

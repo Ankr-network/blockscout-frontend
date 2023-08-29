@@ -33,7 +33,7 @@ export const {
       queryFn: async (_arg, { getState }) => {
         const service = MultiService.getService();
 
-        const { groups } = await service.getAccountGateway().getUserGroups();
+        const { groups } = await service.getAccountingGateway().getUserGroups();
 
         if (groups.length === 0) {
           return { data: groups };

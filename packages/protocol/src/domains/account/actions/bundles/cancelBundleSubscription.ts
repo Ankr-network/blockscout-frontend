@@ -20,7 +20,7 @@ export const {
       invalidatesTags: ['MyBundles'],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ params: { subscriptionId, group }, totp }) => {
-          const api = MultiService.getService().getAccountGateway();
+          const api = MultiService.getService().getAccountingGateway();
 
           await api.cancelBundleSubscription(subscriptionId, { group, totp });
 

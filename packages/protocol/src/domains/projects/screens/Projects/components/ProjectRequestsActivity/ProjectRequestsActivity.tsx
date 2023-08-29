@@ -12,7 +12,7 @@ export const ProjectRequestsActivity = ({
   todayRequests,
   yesterdayRequests,
 }: ProjectRequestsActivityProps) => {
-  const { percent, sign } = useMemo(
+  const { isVisible, percent, sign } = useMemo(
     () => getPercent({ todayRequests, yesterdayRequests }),
     [todayRequests, yesterdayRequests],
   );
@@ -31,7 +31,7 @@ export const ProjectRequestsActivity = ({
         {t('projects.list-project.count', { value: todayRequests })}
       </Typography>
       <Typography className={classes.percent} variant={'subtitle3' as Variant}>
-        {t('projects.list-project.percent', { percent, sign })}
+        {isVisible && t('projects.list-project.percent', { percent, sign })}
         {iconMap[sign]}
       </Typography>
     </div>

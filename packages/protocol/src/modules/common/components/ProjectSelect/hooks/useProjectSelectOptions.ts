@@ -28,10 +28,10 @@ const getSelectItems = (
   jwtTokens: JwtManagerToken[],
   shouldDisablePrimaryProject?: boolean,
 ): SelectOption[] => {
-  const items = jwtTokens.map(({ userEndpointToken, index }) => {
+  const items = jwtTokens.map(({ userEndpointToken, index, name }) => {
     return {
       value: userEndpointToken,
-      title: renderProjectName(index),
+      title: name || renderProjectName(index),
       isDisabled: index === PRIMARY_TOKEN_INDEX && shouldDisablePrimaryProject,
     };
   });

@@ -41,7 +41,7 @@ export const {
   endpoints: build => ({
     fetchStatsByRange: build.query<StatsByRangeResult, GetStatsByRangeParams>({
       queryFn: async ({ group, jwtTokens }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const service = MultiService.getService().getAccountingGateway();
 
         const promises = jwtTokens.map(({ userEndpointToken: token }) =>
           service.getUserStatsByRange({ duration, group, timeframe, token }),

@@ -6,19 +6,20 @@ export const usePlanStepStyles = makeStyles()(theme => ({
     flexDirection: 'column',
     gap: theme.spacing(8),
 
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(6),
   },
+
+  top: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+
   title: {
-    color: theme.palette.grey[900],
-
-    letterSpacing: '-0.03em',
-
     fontWeight: 700,
-    fontSize: 28,
-    lineHeight: '31px',
+    marginBottom: theme.spacing(1.5),
   },
   cards: {
     display: 'flex',
-    gap: theme.spacing(5),
+    gap: theme.spacing(7.5),
   },
 }));

@@ -1,6 +1,6 @@
-import { AccountErrorCode, IEmailResponse, Web3Address } from 'multirpc-sdk';
+import { AccountingErrorCode, IEmailResponse, Web3Address } from 'multirpc-sdk';
 
-import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
+import { isAxiosAccountingError } from 'store/utils/isAxiosAccountingError';
 
 export const checkIsRelatedWallet = (
   data?: IEmailResponse,
@@ -8,14 +8,14 @@ export const checkIsRelatedWallet = (
 ) => data && data.address === address.toLowerCase();
 
 const getCode = (error: unknown) =>
-  isAxiosAccountError(error) ? error.response?.data.error.code : undefined;
+  isAxiosAccountingError(error) ? error.response?.data.error.code : undefined;
 
 export const processError = (error: any) => {
   const code = getCode(error);
 
   return {
-    isCodeAlreadyUsed: code === AccountErrorCode.WrongState,
-    isConfirmationCodeNotFound: code === AccountErrorCode.NotFound,
-    isLinkExpired: code === AccountErrorCode.FailedPrecondition,
+    isCodeAlreadyUsed: code === AccountingErrorCode.WrongState,
+    isConfirmationCodeNotFound: code === AccountingErrorCode.NotFound,
+    isLinkExpired: code === AccountingErrorCode.FailedPrecondition,
   };
 };

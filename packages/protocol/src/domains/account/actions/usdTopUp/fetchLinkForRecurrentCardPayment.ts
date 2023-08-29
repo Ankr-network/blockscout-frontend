@@ -33,7 +33,7 @@ export const {
             : undefined;
 
         const { url } = await service
-          .getAccountGateway()
+          .getAccountingGateway()
           .getLinkForRecurrentCardPayment(
             {
               currency: USD_CURRENCY,

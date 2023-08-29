@@ -138,6 +138,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.SCROLL]: scrollIcon,
   [ChainID.SCROLL_TESTNET]: scrollIcon,
+  [ChainID.SCROLL_SEPOLIA_TESTNET]: scrollIcon,
 
   [ChainID.SECRET]: secretIcon,
   [ChainID.SECRET_COSMOS]: secretIcon,

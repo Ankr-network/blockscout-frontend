@@ -11,16 +11,21 @@ interface ProjectTableProps {
   data: Project[];
   isLoading: boolean;
   searchContent: string;
+  onProjectDialogOpen: () => void;
 }
 
 export const ProjectTable = ({
   data,
   isLoading,
   searchContent,
+  onProjectDialogOpen,
 }: ProjectTableProps) => {
   const { classes } = useProjectTableStyles();
 
-  const { columns, tableData } = useProjectTable(data);
+  const { columns, tableData } = useProjectTable({
+    projectData: data,
+    onProjectDialogOpen,
+  });
 
   return (
     <VirtualTable

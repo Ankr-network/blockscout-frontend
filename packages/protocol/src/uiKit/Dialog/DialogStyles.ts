@@ -57,19 +57,32 @@ export const useStyles = makeStyles<IUseStylesProps>()(
     },
 
     dialogTitle: {
+      display: 'flex',
+      alignItems: 'center',
       padding: 0,
       marginBottom: theme.spacing(2 * 3),
 
-      fontSize: 34,
-      fontWeight: 700,
       minHeight: 40,
-      color: colorsMap[dialogTitleColor],
       position: 'relative',
+
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 27,
+        marginBottom: theme.spacing(2 * 1),
+      },
+    },
+
+    titleText: {
+      marginRight: theme.spacing(10),
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+
+      fontSize: 28,
+      fontWeight: 700,
+      color: colorsMap[dialogTitleColor],
 
       [theme.breakpoints.down('xs')]: {
         minHeight: 32,
         fontSize: 27,
-        marginBottom: theme.spacing(2 * 1),
       },
     },
 

@@ -7,6 +7,7 @@ import { NewProjectStep, WhiteListItem } from '../types';
 export enum ChainStepFields {
   projectName = 'projectName',
   tokenIndex = 'tokenIndex',
+  userEndpointToken = 'userEndpointToken',
   selectedMainnetIds = 'selectedMainnetIds',
   selectedTestnetIds = 'selectedTestnetIds',
   selectedDevnetIds = 'selectedDevnetIds',
@@ -17,7 +18,6 @@ export enum ChainStepFields {
 }
 
 export enum WhitelistStepFields {
-  userEndpointToken = 'userEndpointToken',
   whitelistItems = 'whitelistItems',
   whitelistDialog = 'whitelistDialog',
   shouldSkipFormReset = 'shouldSkipFormReset',
@@ -44,6 +44,7 @@ export interface NewProjectType {
   [NewProjectStep.Chain]?: {
     [ChainStepFields.projectName]?: string;
     [ChainStepFields.tokenIndex]?: number | null;
+    [ChainStepFields.userEndpointToken]?: string;
     [ChainStepFields.selectedMainnetIds]?: string[];
     [ChainStepFields.selectedTestnetIds]?: string[];
     [ChainStepFields.selectedDevnetIds]?: string[];
@@ -53,7 +54,6 @@ export interface NewProjectType {
     [ChainStepFields.selectedOpnodeTestnetIds]: string[];
   };
   [NewProjectStep.Whitelist]?: {
-    [WhitelistStepFields.userEndpointToken]?: string;
     [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
     [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
     [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;
