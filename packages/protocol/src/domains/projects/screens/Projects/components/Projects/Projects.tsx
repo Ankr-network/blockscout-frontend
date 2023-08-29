@@ -55,14 +55,20 @@ export const Projects = () => {
       const nameFieldState = form.getFieldState(
         AddAndEditProjectDialogFields.name,
       );
+
       const descriptionFieldState = form.getFieldState(
         AddAndEditProjectDialogFields.description,
       );
 
+      const isDescriptionChanged = descriptionFieldState.modified;
       const isNothingChanged =
-        !nameFieldState.modified && !descriptionFieldState.modified;
+        !nameFieldState.modified && !isDescriptionChanged;
+      const isNameEqualWithInitalValue = !nameFieldState.dirtySinceLastSubmit;
 
-      if (isNothingChanged) {
+      if (
+        isNothingChanged ||
+        (isNameEqualWithInitalValue && !isDescriptionChanged)
+      ) {
         handleCloseAddAndEditDialog();
 
         return;
@@ -78,7 +84,11 @@ export const Projects = () => {
         project => project.name === resultName,
       );
 
-      if (hasNameDuplication && !isOnlyDescriptionChanged) {
+      if (
+        hasNameDuplication &&
+        !isNameEqualWithInitalValue &&
+        !isOnlyDescriptionChanged
+      ) {
         dispatch(
           NotificationActions.showNotification({
             message: t('projects.new-project.error-message.name-duplication', {
