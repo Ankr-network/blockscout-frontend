@@ -25,6 +25,7 @@ import {
   AddAndEditProjectDialogType,
 } from '../AddAndEditProjectForm/AddAndEditProjectFormUtils';
 import { AddProjectButton } from '../AddProjectButton';
+import { initialValues } from '../../hooks/useProjectFormValues';
 
 export const Projects = () => {
   const dispatch = useDispatch();
@@ -63,7 +64,7 @@ export const Projects = () => {
       const isDescriptionChanged = descriptionFieldState.modified;
       const isNothingChanged =
         !nameFieldState.modified && !isDescriptionChanged;
-      const isNameEqualWithInitalValue = !nameFieldState.dirtySinceLastSubmit;
+      const isNameEqualWithInitalValue = !nameFieldState.dirty;
 
       if (
         isNothingChanged ||
@@ -134,6 +135,7 @@ export const Projects = () => {
         // resetting form for adding project after editing another one
         if (values?.isEditingProjectDialog) {
           form.reset();
+          form.initialize(initialValues);
         }
 
         onAddAndEditDialogOpen();
