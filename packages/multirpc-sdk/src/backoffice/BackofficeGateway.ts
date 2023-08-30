@@ -60,6 +60,8 @@ import {
   DeleteUserProjectResponse,
   SetUserProjectAllowedJwtNumberParams,
   SetUserProjectAllowedJwtNumberResponse,
+  IUserByTokenRequest,
+  IUserByTokenResponse,
 } from './types';
 import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
@@ -197,6 +199,19 @@ export class BackofficeGateway implements IBackofficeGateway {
         params: {
           address: params.address,
         },
+      },
+    );
+
+    return response;
+  }
+
+  async getUserByToken(
+    params: IUserByTokenRequest,
+  ): Promise<IUserByTokenResponse> {
+    const { data: response } = await this.api.get<IUserByTokenResponse>(
+      '/users/profile/token',
+      {
+        params,
       },
     );
 

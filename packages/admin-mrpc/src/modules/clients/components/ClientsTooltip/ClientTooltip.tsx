@@ -1,9 +1,13 @@
 import { Button, Tooltip } from '@mui/material';
-import { IEmailBindingEntity, Web3Address } from 'multirpc-sdk';
+import {
+  IEmailBindingEntity,
+  IUserByTokenResponse,
+  Web3Address,
+} from 'multirpc-sdk';
 
 interface ClientTooltipProps {
   title: string;
-  client: IEmailBindingEntity;
+  client: IEmailBindingEntity | IUserByTokenResponse;
   onClientClick: (address?: Web3Address) => void;
   classes: Record<'clientItem' | 'clientButton' | 'tooltipWrapper', string>;
 }

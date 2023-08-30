@@ -259,6 +259,16 @@ export interface IUpdateUserProfileRequest {
 
 export type IUpdateUserProfileResponse = IUserProfileResponse;
 
+export interface IUserByTokenRequest {
+  token: string;
+}
+
+export interface IUserByTokenResponse {
+  address: Web3Address;
+  is_group: boolean;
+  email: string;
+}
+
 export interface IGetUserRevenueRequest {
   address: Web3Address;
 }

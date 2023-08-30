@@ -56,6 +56,8 @@ import {
   DeleteUserProjectResponse,
   SetUserProjectAllowedJwtNumberParams,
   SetUserProjectAllowedJwtNumberResponse,
+  IUserByTokenRequest,
+  IUserByTokenResponse,
 } from './types';
 import { IBlockchainEntity } from '../common';
 
@@ -97,6 +99,8 @@ export interface IBackofficeGateway {
   updateUserProfile(
     params: IUpdateUserProfileRequest,
   ): Promise<IUpdateUserProfileResponse>;
+
+  getUserByToken(params: IUserByTokenRequest): Promise<IUserByTokenResponse>;
 
   getUserRevenue(
     params: IGetUserRevenueRequest,

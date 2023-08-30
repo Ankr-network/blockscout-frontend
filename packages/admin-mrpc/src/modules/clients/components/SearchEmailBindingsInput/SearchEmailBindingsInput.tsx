@@ -1,24 +1,41 @@
 import { useCallback, useMemo } from 'react';
-import { Input } from '@mui/material';
-import { IEmailBindingEntity } from 'multirpc-sdk';
+import { Close } from '@ankr.com/ui';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { IEmailBindingEntity, IUserByTokenResponse } from 'multirpc-sdk';
 
-import { useSearchEmailBindingsInput } from './useSearchEmailBindingsInput';
-import { ClientTooltip } from '../SearchClientsInput/ClientTooltip';
-import { useSearchInputStyles } from '../SearchClientsInput/useSearchInputStyles';
+import {
+  FilterType,
+  MIN_SEARCH_VALUE_LENGTH,
+  useSearchEmailBindingsInput,
+} from './useSearchEmailBindingsInput';
+import { ClientTooltip } from '../ClientsTooltip';
+import { useSearchEmailBindingsInputStyles } from './useSearchEmailBindingsInputStyles';
 
 interface ISearchEmailBindingsInputProps {
-  filterType: 'email' | 'address';
+  filterType: FilterType;
 }
 
 export const SearchEmailBindingsInput = ({
   filterType,
 }: ISearchEmailBindingsInputProps) => {
-  const { isLoading, searchValue, foundClients, onClientClick, onChange } =
-    useSearchEmailBindingsInput(filterType);
-  const { classes, cx } = useSearchInputStyles();
+  const { classes, cx } = useSearchEmailBindingsInputStyles();
+
+  const {
+    error,
+    isLoading,
+    searchValue,
+    setSearchValue,
+    foundClients,
+    onClientClick,
+    onChange,
+  } = useSearchEmailBindingsInput(filterType);
+
+  const handleReset = () => {
+    setSearchValue('');
+  };
 
   const renderClient = useCallback(
-    (client: IEmailBindingEntity) => {
+    (client: IEmailBindingEntity | IUserByTokenResponse) => {
       const title = client.email
         ? `${client.email}\n${client.address}`
         : client.address;
@@ -37,7 +54,12 @@ export const SearchEmailBindingsInput = ({
   );
 
   const renderSearchResult = useMemo(() => {
-    if (!searchValue) return null;
+    if (!searchValue || searchValue.length < MIN_SEARCH_VALUE_LENGTH)
+      return null;
+
+    if (error) {
+      return <li className={cx(classes.clientItem, classes.error)}>{error}</li>;
+    }
 
     if (isLoading) {
       return (
@@ -56,9 +78,11 @@ export const SearchEmailBindingsInput = ({
     return foundClients.map(renderClient);
   }, [
     classes.clientItem,
+    classes.error,
     classes.notFound,
     cx,
     foundClients,
+    error,
     isLoading,
     renderClient,
     searchValue,
@@ -66,14 +90,29 @@ export const SearchEmailBindingsInput = ({
 
   return (
     <div className={classes.root}>
-      <Input
+      <TextField
         placeholder={`Search by ${filterType}`}
         onChange={onChange}
         value={searchValue}
-        className={classes.input}
         size="small"
-        disableUnderline
         color="secondary"
+        InputProps={{
+          classes: { root: classes.input },
+          endAdornment: !!searchValue && (
+            <InputAdornment position="end" disablePointerEvents={false}>
+              <IconButton
+                onClick={handleReset}
+                size="small"
+                edge="end"
+                color="primary"
+              >
+                <Close />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+        type={filterType === 'email' ? 'email' : 'text'}
+        autoComplete="off"
       />
 
       <ul className={classes.clientsList}>{renderSearchResult}</ul>
