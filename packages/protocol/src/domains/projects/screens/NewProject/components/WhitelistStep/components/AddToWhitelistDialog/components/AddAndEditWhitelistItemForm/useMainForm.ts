@@ -46,7 +46,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
   const { data: chainsData } = useAppSelector(selectBlockchains);
 
   const selectedType = whitelistDialog?.type;
-  const selectedValue = whitelistDialog?.value;
 
   const isTypeSelected = Boolean(selectedType);
   const isSmartContractAddressSelected = selectedType === WhiteListItem.address;
@@ -80,21 +79,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
     [chainIds, isSmartContractAddressSelected],
   );
 
-  const doesValueExists = whitelistItems
-    .map(item => item.value)
-    .includes(selectedValue);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  let chains: string[] = [];
-
-  if (doesValueExists) {
-    const filteredItems = whitelistItems.filter(
-      item => item.value === selectedValue,
-    );
-
-    chains = filteredItems.map(item => [...item.chains]).flat();
-  }
-
   const preparedChains = useMemo(
     () =>
       preparedChainIds.map(chainId => {
@@ -109,17 +93,12 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
           label: chainLabel,
         });
 
-        const doesChainIdExistForValue = chains.includes(chainId);
-
         return {
           id: chainId,
-          disabled:
-            doesChainIdExistForValue ||
-            (doesValueExists && selectedType === WhiteListItem.address),
           name,
         };
       }),
-    [chains, chainsData, doesValueExists, preparedChainIds, selectedType],
+    [chainsData, preparedChainIds],
   );
 
   const handleOnChange = useCallback(() => {
@@ -147,5 +126,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
     isAtLeastOneChainSelected,
     isFormFilled,
     whitelistDialog,
+    whitelistItems,
   };
 };

@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { Field } from 'react-final-form';
 import { t, tHTML } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { OnChange } from 'modules/form/utils/OnChange';
 import { InputDialogFormField } from 'modules/common/components/InputDialogFormField';
@@ -37,12 +38,18 @@ export const MainForm = ({
     isTypeSelected,
     selectedType,
     whitelistDialog,
+    whitelistItems,
     isValid,
     preparedChains,
     isSmartContractAddressSelected,
     isAtLeastOneChainSelected,
     isFormFilled,
   } = useMainForm(shouldSkipFormReset);
+
+  const whitelistValues = useMemo(
+    () => whitelistItems.map(item => item.value),
+    [whitelistItems],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -67,7 +74,11 @@ export const MainForm = ({
           name={AddToWhitelistFormFields.value}
           isDisabled={!isTypeSelected}
           placeholder={t('projects.add-whitelist-dialog.enter')}
-          validate={getValidation(selectedType)}
+          validate={getValidation(
+            selectedType,
+            whitelistDialog?.value,
+            whitelistValues,
+          )}
         />
       </FormControl>
 
@@ -86,16 +97,14 @@ export const MainForm = ({
           <FormControl
             className={cx(classes.formWrapper, classes.inputWrapper)}
           >
-            {preparedChains.map(({ id: chainId, name, disabled }) => (
+            {preparedChains.map(({ id: chainId, name }) => (
               <Field
                 name={AddToWhitelistFormFields.chains}
                 key={chainId}
                 label={name}
                 value={chainId}
                 disabled={
-                  (isSmartContractAddressSelected &&
-                    isAtLeastOneChainSelected) ||
-                  disabled
+                  isSmartContractAddressSelected && isAtLeastOneChainSelected
                 }
                 component={ChainItem}
                 type="checkbox"
