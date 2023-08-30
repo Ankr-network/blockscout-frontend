@@ -234,7 +234,7 @@
         "0": "Chains",
         "1": "Whitelist",
         "2": "Plan",
-        "3": "Payment"
+        "3": "Summary"
       },
       "chain": {
         "mainnet": "Mainnet",
@@ -278,12 +278,12 @@
         }
       },
       "checkout-step": {
-        "title": "Project summary",
+        "title": "Check all the details",
         "description": "Please ensure that all the details of your project are correct before proceeding to checkout.",
         "edit": "Edit",
         "label-chains": "Chains",
         "label-whitelist": "Whitelist",
-        "label-plan": "Your Plan",
+        "label-plan": "Current plan",
         "project": "Project",
         "network": "Network",
         "whitelist": "White List",
@@ -294,6 +294,7 @@
         "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",
         "unprohibited": "All requests not prohibited",
         "more": "+{additionalBlockchainsCount} more",
+        "usage": "{projectsUsed} of {projectsAllowed} projects used",
         "error-message": {
           "can-not-add-to-whitelist": "Can not add {contractAddress} for {userEndpointToken}"
         }
@@ -310,6 +311,11 @@
           "name": "Grow",
           "price": "$500<br/><span>per month</span>",
           "description": "<ul><li>30M <span>monthly requests</span></li><li>10 <span>Whitelisted domains</span></li><li>3 <span>Whitelisted Smart Contracts</span></li><li>All EVM-compatible methods for all chains</span></li></ul>"
+        },
+        "free": {
+          "name": "Free",
+          "price": "$0 <span>per month</span>",
+          "description": "<ul><li>1500 <span>requests per second</span></li><li>30 <span>chains</span></li><li>40 <span>regions</span></li><li>support portal</span></li></ul>"
         }
       }
     },

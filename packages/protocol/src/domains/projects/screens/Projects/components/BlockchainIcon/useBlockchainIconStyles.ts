@@ -8,8 +8,8 @@ export const useBlockchainIconStyles = makeStyles()(theme => ({
     paddingLeft: theme.spacing(3.5),
   },
   icon: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
+    width: theme.spacing(8),
+    height: theme.spacing(8),
     marginLeft: theme.spacing(-2),
   },
   more: {

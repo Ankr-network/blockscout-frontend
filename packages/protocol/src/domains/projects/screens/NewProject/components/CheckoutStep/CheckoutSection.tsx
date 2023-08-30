@@ -8,26 +8,32 @@ import { newProjectIntlRoot } from 'domains/projects/const';
 import { useCheckoutStepStyles } from './useCheckoutStepStyles';
 
 interface CheckoutSectionProps {
-  title: string;
-  onEdit?: () => void;
   children?: ReactNode;
+  className?: string;
+  onEdit?: () => void;
+  title: string;
+  titleClassName?: string;
 }
 
-const isEditButtonsHidden = true;
-
 export const CheckoutSection = ({
-  title,
-  onEdit,
   children,
+  className,
+  onEdit,
+  title,
+  titleClassName,
 }: CheckoutSectionProps) => {
-  const { classes } = useCheckoutStepStyles();
+  const { classes, cx } = useCheckoutStepStyles();
 
   return (
-    <div className={classes.section}>
-      <Typography className={classes.subtitle} variant="subtitle2">
+    <div className={cx(classes.section, className)}>
+      <Typography
+        className={cx(classes.sectionTitle, titleClassName)}
+        component="div"
+        variant="subtitle2"
+      >
         {title}
       </Typography>
-      {typeof onEdit === 'function' && !isEditButtonsHidden && (
+      {typeof onEdit === 'function' && (
         <Button
           onClick={onEdit}
           variant="text"
