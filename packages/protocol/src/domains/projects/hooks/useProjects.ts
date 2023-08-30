@@ -3,6 +3,7 @@ import isEqual from 'lodash.isequal';
 
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useLazyFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 
@@ -10,6 +11,7 @@ export const useProjects = () => {
   const {
     jwtTokens,
     enableAddProject: canAddProject,
+    allowedAddProjectTokenIndex,
     isLoading,
     isFetching,
   } = useJwtTokenManager();
@@ -19,6 +21,7 @@ export const useProjects = () => {
   const tokensRef = useRef(jwtTokens);
 
   const [fetchAllWhitelists] = useLazyFetchAllWhitelistsQuery();
+  const [fetchAllJwtTokensStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
 
   useEffect(() => {
     if (
@@ -31,15 +34,27 @@ export const useProjects = () => {
 
     tokensRef.current = jwtTokens;
 
-    const { abort } = fetchAllWhitelists({
+    const { abort: abortWhitelists } = fetchAllWhitelists({
       group: selectedGroupAddress,
     });
 
-    return abort;
-  }, [fetchAllWhitelists, isFetching, selectedGroupAddress, jwtTokens]);
+    const { abort: abortJwtTokensStatuses } = fetchAllJwtTokensStatuses();
+
+    return () => {
+      abortWhitelists();
+      abortJwtTokensStatuses();
+    };
+  }, [
+    isFetching,
+    selectedGroupAddress,
+    jwtTokens,
+    fetchAllWhitelists,
+    fetchAllJwtTokensStatuses,
+  ]);
 
   return {
     canAddProject,
+    allowedAddProjectTokenIndex,
     isLoading,
   };
 };

@@ -50,7 +50,7 @@ export const WhitelistStep = () => {
       {
         whitelistItems: updatedWhitelistItems,
         userEndpointToken:
-          project[NewProjectStep.Whitelist]?.userEndpointToken ?? '',
+          project[NewProjectStep.Chain]?.userEndpointToken ?? '',
       },
       NewProjectStep.Whitelist,
     );

@@ -9,8 +9,7 @@ import {
 import { isEVMBased } from 'domains/chains/utils/isEVMBased';
 import { WhiteListItem } from 'domains/projects/types';
 import { ChainID } from 'domains/chains/types';
-
-import { useProjectFormValues } from '../../hooks/useProjectFormValues';
+import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 export const useWhitelistData = () => {
   const { allSelectedChainIds, whitelistItems } = useProjectFormValues();

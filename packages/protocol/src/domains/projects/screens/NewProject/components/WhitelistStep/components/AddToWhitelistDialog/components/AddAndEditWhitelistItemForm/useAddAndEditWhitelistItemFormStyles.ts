@@ -3,7 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { isLightTheme } from 'uiKit/Theme/themeUtils';
 
-export const useAddToWhitelistFormStyles = makeStyles()(theme => ({
+export const useAddAndEditWhitelistItemFormStyles = makeStyles()(theme => ({
   formWrapper: {
     width: 530,
   },

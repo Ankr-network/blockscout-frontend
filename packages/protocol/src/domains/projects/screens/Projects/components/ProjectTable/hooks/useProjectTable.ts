@@ -7,7 +7,15 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 
 import { useColumns } from './useColumns';
 
-export const useProjectTable = (projectData: Project[]) => {
+interface ProjectTableColumnsProps {
+  projectData: Project[];
+  onProjectDialogOpen: () => void;
+}
+
+export const useProjectTable = ({
+  projectData,
+  onProjectDialogOpen,
+}: ProjectTableColumnsProps) => {
   const [fetchStatsByRangeQuery, { isLoading, data: statsData }] =
     useLazyFetchStatsByRangeQuery();
   const [tableData, setTableData] = useState(projectData);
@@ -15,7 +23,10 @@ export const useProjectTable = (projectData: Project[]) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { jwtTokens } = useJwtTokenManager();
-  const { columns } = useColumns(isLoading);
+  const { columns } = useColumns({
+    isProjectsActivityLoading: isLoading,
+    onProjectDialogOpen,
+  });
 
   useEffect(() => {
     if (jwtTokens.length > 0) {

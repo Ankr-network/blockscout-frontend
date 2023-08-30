@@ -16,6 +16,7 @@ export const useTypeSelectorStyles = makeStyles()(theme => ({
   },
   formControlLabel: {
     padding: theme.spacing(1, 0),
+    paddingLeft: theme.spacing(4),
   },
   label: {
     paddingLeft: theme.spacing(1.5),

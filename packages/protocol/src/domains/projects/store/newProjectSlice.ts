@@ -9,7 +9,7 @@ import {
 } from './types';
 import { plans } from '../const';
 
-const initialState: NewProjectSlice = {};
+const initialNewProjectState: NewProjectSlice = {};
 
 export const initialDialogValues: AddToWhitelistFormData = {
   type: undefined,
@@ -25,12 +25,16 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
     [NewProjectStep.Chain]: {
       projectName: '',
       tokenIndex: null,
+      userEndpointToken: '',
       selectedMainnetIds: [],
       selectedTestnetIds: [],
       selectedDevnetIds: [],
+      selectedBeaconMainnetIds: [],
+      selectedBeaconTestnetIds: [],
+      selectedOpnodeMainnetIds: [],
+      selectedOpnodeTestnetIds: [],
     },
     [NewProjectStep.Whitelist]: {
-      userEndpointToken: '',
       whitelistItems: [],
       isEditingWhitelistDialog: false,
       shouldSkipFormReset: false,
@@ -49,7 +53,7 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
 
 export const newProjectSlice = createSlice({
   name: 'newProject',
-  initialState,
+  initialState: initialNewProjectState,
   reducers: {
     setStepConfig: (state, action: PayloadAction<NewProjectConfigPayload>) => {
       const { address, step, projectStepConfig, nextStep } = action.payload;

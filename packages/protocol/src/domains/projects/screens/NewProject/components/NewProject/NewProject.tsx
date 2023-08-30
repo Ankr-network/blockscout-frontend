@@ -7,7 +7,6 @@ import { NewProjectType } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
-import { Header } from '../Header';
 import { NewProjectForm } from '../NewProjectForm';
 import { useNewProjectStyles } from './useNewProjectStyles';
 import { useIsLoading } from './hooks/useIsLoading';
@@ -50,7 +49,6 @@ export const NewProject = () => {
 
   return (
     <Paper className={classes.root}>
-      <Header step={currentStep} />
       <NewProjectForm
         step={currentStep}
         onSubmit={handleSubmit}

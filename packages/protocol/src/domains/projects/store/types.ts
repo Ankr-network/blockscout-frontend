@@ -7,13 +7,17 @@ import { NewProjectStep, WhiteListItem } from '../types';
 export enum ChainStepFields {
   projectName = 'projectName',
   tokenIndex = 'tokenIndex',
+  userEndpointToken = 'userEndpointToken',
   selectedMainnetIds = 'selectedMainnetIds',
   selectedTestnetIds = 'selectedTestnetIds',
   selectedDevnetIds = 'selectedDevnetIds',
+  selectedBeaconMainnetIds = 'selectedBeaconMainnetIds',
+  selectedBeaconTestnetIds = 'selectedBeaconTestnetIds',
+  selectedOpnodeMainnetIds = 'selectedOpnodeMainnetIds',
+  selectedOpnodeTestnetIds = 'selectedOpnodeTestnetIds',
 }
 
 export enum WhitelistStepFields {
-  userEndpointToken = 'userEndpointToken',
   whitelistItems = 'whitelistItems',
   whitelistDialog = 'whitelistDialog',
   shouldSkipFormReset = 'shouldSkipFormReset',
@@ -40,12 +44,16 @@ export interface NewProjectType {
   [NewProjectStep.Chain]?: {
     [ChainStepFields.projectName]?: string;
     [ChainStepFields.tokenIndex]?: number | null;
+    [ChainStepFields.userEndpointToken]?: string;
     [ChainStepFields.selectedMainnetIds]?: string[];
     [ChainStepFields.selectedTestnetIds]?: string[];
     [ChainStepFields.selectedDevnetIds]?: string[];
+    [ChainStepFields.selectedBeaconMainnetIds]: string[];
+    [ChainStepFields.selectedBeaconTestnetIds]: string[];
+    [ChainStepFields.selectedOpnodeMainnetIds]: string[];
+    [ChainStepFields.selectedOpnodeTestnetIds]: string[];
   };
   [NewProjectStep.Whitelist]?: {
-    [WhitelistStepFields.userEndpointToken]?: string;
     [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
     [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
     [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;

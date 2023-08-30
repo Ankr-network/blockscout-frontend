@@ -18,6 +18,7 @@ import {
 } from '../NewProjectFormTypes';
 import { getFinalPrice } from '../../../utils/getFinalPrice';
 
+// eslint-disable-next-line max-lines-per-function
 export const useHandleSubmit = (
   step: NewProjectStep,
   onSubmit: NewProjectFormProps['onSubmit'],
@@ -36,16 +37,25 @@ export const useHandleSubmit = (
           const {
             projectName,
             tokenIndex,
+            userEndpointToken,
             selectedMainnetIds = [],
             selectedTestnetIds = [],
             selectedDevnetIds = [],
+            selectedBeaconMainnetIds = [],
+            selectedBeaconTestnetIds = [],
+            selectedOpnodeMainnetIds = [],
+            selectedOpnodeTestnetIds = [],
           } = values;
 
           /* validation start */
           if (
             selectedMainnetIds.length === 0 &&
             selectedTestnetIds.length === 0 &&
-            selectedDevnetIds.length === 0
+            selectedDevnetIds.length === 0 &&
+            selectedBeaconMainnetIds.length === 0 &&
+            selectedBeaconTestnetIds.length === 0 &&
+            selectedOpnodeMainnetIds.length === 0 &&
+            selectedOpnodeTestnetIds.length === 0
           ) {
             dispatch(
               NotificationActions.showNotification({
@@ -63,14 +73,19 @@ export const useHandleSubmit = (
           return onSubmit(step, {
             projectName,
             tokenIndex,
+            userEndpointToken,
             selectedMainnetIds,
             selectedTestnetIds,
             selectedDevnetIds,
+            selectedBeaconMainnetIds,
+            selectedBeaconTestnetIds,
+            selectedOpnodeMainnetIds,
+            selectedOpnodeTestnetIds,
           });
         }
 
         case NewProjectStep.Whitelist: {
-          const { whitelistItems, tokenIndex } = values;
+          const { whitelistItems, tokenIndex, userEndpointToken } = values;
 
           /* validation start */
           if (!tokenIndex) {
@@ -86,23 +101,13 @@ export const useHandleSubmit = (
             return null;
           }
 
-          // TODO: MRPC-3371 rewrite it
-          if (!whitelistItems || whitelistItems.length === 0) {
-            return {
-              contractAddress: t(
-                'projects.new-project.step-2.error-message.required',
-              ),
-            };
-          }
-
-          const userEndpointToken = await handleWhitelistStepOnSubmit(
-            tokenIndex,
+          const isUpdatedWithWhitelist = await handleWhitelistStepOnSubmit(
+            userEndpointToken,
           );
 
-          if (userEndpointToken) {
+          if (isUpdatedWithWhitelist) {
             return onSubmit(step, {
               whitelistItems,
-              userEndpointToken,
             });
           }
 

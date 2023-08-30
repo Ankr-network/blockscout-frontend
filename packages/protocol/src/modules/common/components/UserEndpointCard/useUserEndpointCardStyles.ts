@@ -45,6 +45,9 @@ export const useUserEndpointCardStyles = makeStyles<boolean, 'view'>()(
       fontWeight: 700,
       width: theme.spacing(32),
       height: 32,
+      maxWidth: theme.spacing(51),
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
     view: {
       minWidth: 40,

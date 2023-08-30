@@ -1,4 +1,4 @@
-import { Box, Radio } from '@mui/material';
+import { Box, Radio, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { useCallback } from 'react';
 
@@ -6,6 +6,8 @@ import { Plan, PlanName } from 'domains/projects/types';
 
 import { PlanFeatures } from '../PlanFeatures';
 import { usePlanCardStyles } from './PlanCardStyles';
+import offer from './assets/offer.png';
+import grow from './assets/grow.png';
 
 export interface PlanProps {
   isSelected?: boolean;
@@ -43,8 +45,12 @@ export const PlanCard = ({
 
   return (
     <Box className={wrapperClassName} onClick={onClick}>
-      <div className={classes.title}>
-        <span>{t(title)}</span>
+      <div className={classes.top}>
+        <img
+          alt={name}
+          className={classes.img}
+          src={name === PlanName.EarlyAdopters ? offer : grow}
+        />
         {hasCheckbox && (
           <Radio
             checked={isSelected}
@@ -53,7 +59,11 @@ export const PlanCard = ({
           />
         )}
       </div>
-      <div className={classes.price}>{tHTML(price)}</div>
+
+      <div className={classes.title}>
+        <Typography variant="subtitle2">{t(title)}</Typography>
+        <div className={classes.price}>{tHTML(price)}</div>
+      </div>
       <PlanFeatures hasSoonLabel={disabled} description={description} />
     </Box>
   );

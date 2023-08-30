@@ -5,6 +5,7 @@ interface IFieldProps extends FieldRenderProps<string> {
   hasError?: (meta: FieldMetaState<any>) => boolean;
   isHelperTextVisible?: boolean;
   showLimitCounter?: boolean;
+  multiline?: boolean;
 }
 
 export interface GetHelperStringArguments {

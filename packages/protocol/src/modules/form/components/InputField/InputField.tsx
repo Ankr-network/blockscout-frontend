@@ -13,6 +13,7 @@ export const InputField = ({
   meta,
   showLimitCounter = false,
   InputProps = {},
+  multiline,
   ...rest
 }: InputFieldProps) => {
   const { classes, cx } = useInputFieldStyles();
@@ -35,6 +36,8 @@ export const InputField = ({
 
   return (
     <TextField
+      multiline={multiline}
+      maxRows={4}
       type={type}
       name={name}
       error={hasError(meta)}

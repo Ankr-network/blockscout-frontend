@@ -27,7 +27,9 @@ export const useAddProject = (tokenIndex: number) => {
     useCreateJwtToken();
 
   const handleCreate = useCallback(async () => {
-    const { data, error } = await handleCreateJwtToken(tokenIndex);
+    const { data, error } = await handleCreateJwtToken({
+      tokenIndex,
+    });
 
     if (error) {
       setAddProjectStep(AddProjectStep.failed);

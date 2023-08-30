@@ -10,6 +10,8 @@ import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 
 interface IRequestParams extends IApiUserGroupParams {
   tokenIndex: number;
+  name?: string;
+  description?: string;
 }
 
 export const {
@@ -19,12 +21,22 @@ export const {
   endpoints: build => ({
     createJwtToken: build.query<JwtManagerToken, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async ({ tokenIndex, group }, { dispatch }) => {
+        queryFn: async (
+          { tokenIndex, name, description, group },
+          { dispatch },
+        ) => {
           const service = MultiService.getService().getAccountGateway();
-          const jwtToken = await service.createJwtToken({
-            index: tokenIndex,
-            group,
-          });
+
+          const jwtToken = await service.createJwtToken(
+            {
+              name,
+              description,
+            },
+            {
+              index: tokenIndex,
+              group,
+            },
+          );
 
           const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
 

@@ -50,7 +50,9 @@ export const MainNavigation = ({
   const { isFreePremium } = useAuth();
 
   const { hasReadAccess } = useJwtManager();
-  const hasProjects = !isLoggedIn || isFreePremium || hasReadAccess;
+  const hasProjects = isMobileSiderBar
+    ? false
+    : !isLoggedIn || isFreePremium || hasReadAccess;
 
   const endpointsItems = useMemo(
     () =>

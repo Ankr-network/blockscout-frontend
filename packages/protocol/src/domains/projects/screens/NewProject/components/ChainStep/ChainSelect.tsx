@@ -1,28 +1,25 @@
 import { Box } from '@mui/material';
 
-import { Chain } from 'domains/chains/types';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 
 import { ChainSelectList } from '../ChainSelectList';
+import { ProjectChain } from '../../hooks/useProjectChains';
 
 interface ChainSelectProps {
   className?: string;
-  chain: Chain;
+  chain: ProjectChain;
 }
 
-export const ChainSelect = ({
-  chain: { id: chainId },
-  className,
-}: ChainSelectProps) => {
+export const ChainSelect = ({ chain, className }: ChainSelectProps) => {
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   return (
     <>
       <Box className={className}>
-        <ChainSelectList chainId={chainId} onOpenDialog={onOpen} />
+        <ChainSelectList chain={chain} onOpenDialog={onOpen} />
       </Box>
       <UpgradePlanDialog open={isOpened} onClose={onClose} />
     </>

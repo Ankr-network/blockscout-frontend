@@ -3,47 +3,57 @@ import { useForm } from 'react-final-form';
 
 import { ChainID, ChainType } from 'domains/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
-import { EndpointGroup } from 'modules/endpoints/types';
+import {
+  ProjectChainType,
+  ProjectChainTypeExtenders,
+} from 'domains/projects/types';
 
 export interface NestedItemBase {
   chainId: ChainID;
   label: string;
 }
 
-export type NestedItem = EndpointGroup & NestedItemBase;
-
 type ChainTypeField = Exclude<ChainStepFields, 'projectName' | 'tokenIndex'>;
 
-const mapChainTypeToFormField = (chainType: ChainType): ChainTypeField => {
+const mapChainTypeToFormField = (
+  chainType: ProjectChainType,
+): ChainTypeField => {
   switch (chainType) {
     default:
     case ChainType.Mainnet:
       return ChainStepFields.selectedMainnetIds;
-
     case ChainType.Testnet:
       return ChainStepFields.selectedTestnetIds;
-
     case ChainType.Devnet:
       return ChainStepFields.selectedDevnetIds;
+
+    case ProjectChainTypeExtenders.BeaconMainnet:
+      return ChainStepFields.selectedBeaconMainnetIds;
+    case ProjectChainTypeExtenders.BeaconTestnet:
+      return ChainStepFields.selectedBeaconTestnetIds;
+    case ProjectChainTypeExtenders.OpnodeMainnet:
+      return ChainStepFields.selectedOpnodeMainnetIds;
+    case ProjectChainTypeExtenders.OpnodeTestnet:
+      return ChainStepFields.selectedOpnodeTestnetIds;
   }
 };
 
 const checkIsParentUnchecked = (
-  nestedItems: NestedItem[],
+  nestedItems: NestedItemBase[],
   checkedItems: string[],
 ) => {
   return nestedItems.every(({ chainId }) => !checkedItems.includes(chainId));
 };
 
 const checkIsParentChecked = (
-  nestedItems: NestedItem[],
+  nestedItems: NestedItemBase[],
   checkedItems: string[],
 ) => {
   return nestedItems.every(({ chainId }) => checkedItems.includes(chainId));
 };
 
 const checkIsParentIndeterminate = (
-  nestedItems: NestedItem[],
+  nestedItems: NestedItemBase[],
   checkedItems: string[],
 ) => {
   return (
@@ -53,8 +63,8 @@ const checkIsParentIndeterminate = (
 };
 
 export const useNestedChainItemsSelection = (
-  nestedItems: NestedItem[],
-  chainType: ChainType,
+  nestedItems: NestedItemBase[],
+  chainType: ProjectChainType,
 ) => {
   const { change, getState } = useForm();
   const { values } = getState();
@@ -75,7 +85,7 @@ export const useNestedChainItemsSelection = (
       if (isChecked) {
         const newItems = nestedItems.map(item => item.chainId);
 
-        return setCheckedItems([...checkedItems, ...newItems]);
+        return setCheckedItems([...new Set([...checkedItems, ...newItems])]);
       }
 
       const newItems = checkedItems.filter(
@@ -124,7 +134,7 @@ export const useNestedChainItemsSelection = (
     return checkIsParentIndeterminate(nestedItems, checkedItems);
   }, [nestedItems, checkedItems]);
 
-  const handleParentOnChange = useCallback(
+  const handleParentChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) =>
       handleChangeAll(event.target.checked),
     [handleChangeAll],
@@ -133,7 +143,7 @@ export const useNestedChainItemsSelection = (
   return {
     isParentIndeterminate,
     isParentChecked,
-    handleParentOnChange,
+    onSelectParent: handleParentChange,
     checkedItems,
     handleChangeItem,
   };
