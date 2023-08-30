@@ -38,7 +38,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
   const {
     allSelectedChainIds: chainIds,
     whitelistDialog,
-    whitelistItems,
     isValid,
     onChange,
   } = useProjectFormValues();
@@ -126,6 +125,5 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
     isAtLeastOneChainSelected,
     isFormFilled,
     whitelistDialog,
-    whitelistItems,
   };
 };

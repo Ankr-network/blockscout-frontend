@@ -7,7 +7,6 @@ import {
 } from '@mui/material';
 import { Field } from 'react-final-form';
 import { t, tHTML } from '@ankr.com/common';
-import { useMemo } from 'react';
 
 import { OnChange } from 'modules/form/utils/OnChange';
 import { InputDialogFormField } from 'modules/common/components/InputDialogFormField';
@@ -38,18 +37,12 @@ export const MainForm = ({
     isTypeSelected,
     selectedType,
     whitelistDialog,
-    whitelistItems,
     isValid,
     preparedChains,
     isSmartContractAddressSelected,
     isAtLeastOneChainSelected,
     isFormFilled,
   } = useMainForm(shouldSkipFormReset);
-
-  const whitelistValues = useMemo(
-    () => whitelistItems.map(item => item.value),
-    [whitelistItems],
-  );
 
   return (
     <form onSubmit={handleSubmit}>
@@ -74,11 +67,7 @@ export const MainForm = ({
           name={AddToWhitelistFormFields.value}
           isDisabled={!isTypeSelected}
           placeholder={t('projects.add-whitelist-dialog.enter')}
-          validate={getValidation(
-            selectedType,
-            whitelistDialog?.value,
-            whitelistValues,
-          )}
+          validate={getValidation(selectedType)}
         />
       </FormControl>
 
