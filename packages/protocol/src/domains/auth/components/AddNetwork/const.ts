@@ -554,16 +554,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://blockscout.scroll.io/'],
   },
-  // add when blockExplorer will be ready
 
-  // [ChainID.SCROLL_SEPOLIA_TESTNET]: {
-  //   chainId: 534351,
-  //   chainName: 'Scroll Sepolia Testnet',
-  //   nativeCurrency: {
-  //     name: 'Ether',
-  //     symbol: 'ETH',
-  //     decimals: 18,
-  //   },
-  //   blockExplorerUrls: [],
-  // },
+  [ChainID.SCROLL_SEPOLIA_TESTNET]: {
+    chainId: 534351,
+    chainName: 'Scroll Sepolia Testnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://sepolia-blockscout.scroll.io/'],
+  },
 };
