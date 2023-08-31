@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 
 import { useProjects } from 'domains/projects/hooks/useProjects';
-import { selectAllProjects } from 'domains/projects/store';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { Search } from 'modules/common/components/Search';
 import { useAppSelector } from 'store/useAppSelector';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';

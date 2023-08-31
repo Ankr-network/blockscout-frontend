@@ -10,6 +10,8 @@ import { useMenu } from 'modules/common/hooks/useMenu';
 import { FreezeAndUnfreezeProjectDialog } from 'domains/jwtToken/components/FreezeAndUnfreezeProjectDialog';
 import { Project } from 'domains/projects/utils/getAllProjects';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectDraftTokenIndex } from 'domains/projects/store';
 
 import { AddAndEditProjectDialogFields } from '../AddAndEditProjectForm/AddAndEditProjectFormUtils';
 
@@ -31,6 +33,8 @@ export const ActionsMenu = ({
   } = rowData;
   const isPrimary = tokenIndex === PRIMARY_TOKEN_INDEX;
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
+
+  const draftTokenIndex = useAppSelector(selectDraftTokenIndex);
 
   const {
     isOpened: isDeleteProjectDialogOpened,
@@ -83,6 +87,7 @@ export const ActionsMenu = ({
         onClose={handleClose}
       >
         <MenuItem
+          disabled={tokenIndex === draftTokenIndex}
           startIcon={frozen ? <Unfreeze /> : <Freeze />}
           onClick={handleOpenFreezeDialog}
         >

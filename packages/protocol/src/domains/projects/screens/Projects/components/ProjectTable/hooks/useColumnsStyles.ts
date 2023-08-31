@@ -19,6 +19,9 @@ export const useColumnsStyles = makeStyles()(theme => ({
       color: theme.palette.primary.main,
     },
   },
+  skeleton: {
+    borderRadius: theme.spacing(2),
+  },
   infoIcon: {
     color: theme.palette.grey[400],
   },

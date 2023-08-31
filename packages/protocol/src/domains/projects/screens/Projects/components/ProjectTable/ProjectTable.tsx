@@ -23,7 +23,7 @@ export const ProjectTable = ({
   const { classes } = useProjectTableStyles();
 
   const { columns, tableData } = useProjectTable({
-    projectData: data,
+    projectsData: data,
     onProjectDialogOpen,
   });
 

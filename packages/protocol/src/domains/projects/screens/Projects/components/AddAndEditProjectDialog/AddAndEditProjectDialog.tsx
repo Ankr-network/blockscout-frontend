@@ -30,8 +30,9 @@ export const AddAndEditProjectDialog = ({
   onClose,
 }: AddAndEditProjectDialogProps) => {
   const { change } = useForm();
-  const { isLoading, setAddProjectState, handleResetConfiguringProjectConfig } =
-    useAddAndEditProject(allowedAddProjectTokenIndex);
+  const { isLoading, setAddProjectState } = useAddAndEditProject(
+    allowedAddProjectTokenIndex,
+  );
 
   const isInitialStep = useMemo(
     () => addProjectState === AddProjectState.initial,
@@ -48,19 +49,13 @@ export const AddAndEditProjectDialog = ({
 
   const handleCloseDialog = useCallback(() => {
     onClose();
-    handleResetConfiguringProjectConfig();
     setAddProjectState(AddProjectState.initial);
     change(AddAndEditProjectDialogFields.name, initialValues.name);
     change(
       AddAndEditProjectDialogFields.description,
       initialValues.description,
     );
-  }, [
-    change,
-    handleResetConfiguringProjectConfig,
-    onClose,
-    setAddProjectState,
-  ]);
+  }, [change, onClose, setAddProjectState]);
 
   return (
     <Dialog

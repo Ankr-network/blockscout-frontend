@@ -59,8 +59,8 @@ import {
   IUpdateJwtTokenFreezeStatusParams,
   IUpdateJwtTokenFreezeStatusRequestParams,
   IJwtTokenRequestBody,
-  IJwtTokenStatusParams,
-  IJwtTokenStatusResponse,
+  GetUserEndpointTokenStatusRequest,
+  GetUserEndpointTokenStatusResponse,
 } from './JWT';
 import {
   IGetLatestRequestsResponse,
@@ -523,9 +523,11 @@ export class AccountingGateway {
     return data;
   }
 
-  async getJwtTokenStatus(params: IJwtTokenStatusParams) {
-    const { data } = await this.api.get<IJwtTokenStatusResponse>(
-      '/api/v1/auth/jwt/additional/status',
+  async getUserEndpointTokenStatus(
+    params: GetUserEndpointTokenStatusRequest,
+  ): Promise<GetUserEndpointTokenStatusResponse> {
+    const { data } = await this.api.get<GetUserEndpointTokenStatusResponse>(
+      `/api/v1/auth/jwt/additional/status`,
       { params },
     );
 

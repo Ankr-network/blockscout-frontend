@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { EthAddressType, Tier } from 'multirpc-sdk';
+import { EthAddressType, Tier, PremiumStatus } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import {
@@ -55,6 +55,12 @@ export const selectHasFreemium = createSelector(
 export const selectHasPremium = createSelector(
   fetchPremiumStatus.select(''),
   ({ data: { isFreemium } = defaultPremiumStatusData }) => !isFreemium,
+);
+
+export const selectIsInactiveStatus = createSelector(
+  fetchPremiumStatus.select(''),
+  ({ data: { status } = defaultPremiumStatusData }) =>
+    status === PremiumStatus.INACTIVE,
 );
 
 export const selectPremiumStatusLoading = createSelector(

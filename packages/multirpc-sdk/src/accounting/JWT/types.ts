@@ -29,11 +29,11 @@ export interface IUpdateJwtTokenFreezeStatusRequestParams {
   freeze: boolean;
 }
 
-export interface IJwtTokenStatusParams {
+export interface GetUserEndpointTokenStatusRequest extends IApiUserGroupParams {
   token: string;
 }
 
-export interface IJwtTokenStatusResponse {
+export interface GetUserEndpointTokenStatusResponse {
   suspended: boolean;
   freemium: boolean;
   frozen: boolean;

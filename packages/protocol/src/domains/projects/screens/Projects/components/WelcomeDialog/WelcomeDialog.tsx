@@ -5,8 +5,8 @@ import { Dot } from '@ankr.com/ui';
 import { NavLink } from 'uiKit/NavLink';
 import { Dialog } from 'uiKit/Dialog';
 import { useContactWidget } from 'hooks/useContactWidget';
+import { PROJECTS_DOCS_LINK } from 'domains/projects/const';
 
-import { PROJECTS_DOCS_LINK } from '../ProjectHeader';
 import { useWelcomeDialog } from './hooks/useWelcomeDialog';
 import { useWelcomeDialogStyles } from './useWelcomeDialogStyles';
 import welcome from './assets/welcome.png';

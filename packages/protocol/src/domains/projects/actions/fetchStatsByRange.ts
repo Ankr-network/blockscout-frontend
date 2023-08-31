@@ -8,10 +8,13 @@ import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
-export interface GetStatsByRangeParams {
+interface GetStatsByRangeParams {
   jwtTokens: JwtManagerToken[];
   group?: string;
 }
+
+const duration = StatsByRangeDuration.TWO_DAYS;
+const timeframe = StatsByRangeTimeframe.DAY;
 
 export interface StatsByRangeResult {
   [userEndpointToken: string]: StatsByRange;
@@ -30,9 +33,6 @@ const isFulfilled = (
 const isRejected = (
   result: PromiseSettledResult<StatsByRangeResponse>,
 ): result is PromiseRejectedResult => result.status === 'rejected';
-
-const duration = StatsByRangeDuration.TWO_DAYS;
-const timeframe = StatsByRangeTimeframe.DAY;
 
 export const {
   endpoints: { fetchStatsByRange },
