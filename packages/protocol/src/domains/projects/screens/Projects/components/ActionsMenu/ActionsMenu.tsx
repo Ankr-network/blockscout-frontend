@@ -37,26 +37,17 @@ export const ActionsMenu = ({
     onOpen: onOpenDeleteProjectDialog,
     onClose: onCloseDeleteProjectDialog,
   } = useDialog();
-  const { initialize } = useForm();
+  const { change } = useForm();
 
   const handleEditByClick = useCallback(() => {
-    initialize({
-      [AddAndEditProjectDialogFields.name]: name,
-      [AddAndEditProjectDialogFields.description]: description,
-      [AddAndEditProjectDialogFields.isEditingProjectDialog]: true,
-      [AddAndEditProjectDialogFields.tokenIndex]: tokenIndex,
-    });
+    change(AddAndEditProjectDialogFields.name, name);
+    change(AddAndEditProjectDialogFields.description, description);
+    change(AddAndEditProjectDialogFields.isEditingProjectDialog, true);
+    change(AddAndEditProjectDialogFields.tokenIndex, tokenIndex);
 
     onProjectDialogOpen();
     handleClose();
-  }, [
-    initialize,
-    name,
-    description,
-    tokenIndex,
-    onProjectDialogOpen,
-    handleClose,
-  ]);
+  }, [name, description, tokenIndex, change, onProjectDialogOpen, handleClose]);
 
   const {
     isOpened: isFreezeAndUnfreezeProjectDialogOpened,
