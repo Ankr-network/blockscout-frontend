@@ -188,6 +188,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Base';
   } else if (chainId === ChainID.BTTC) {
     name = 'BitTorrent Chain Mainnet';
+  } else if (chainId.includes(ChainID.BERACHAIN)) {
+    name = 'Berachain Guarded Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
