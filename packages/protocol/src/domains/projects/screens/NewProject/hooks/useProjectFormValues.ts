@@ -74,6 +74,7 @@ export const getSelectedChains = ({
   return { selectedChains, initiallySelectedChainIds };
 };
 
+// TODO: remove it. it's duplicate of another one useProjectFormValues in common hooks folder
 export const useProjectFormValues = (projectChains?: Chain[]) => {
   const { getState, change } = useForm<NewProjectFormValues>();
 
@@ -91,6 +92,7 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
       selectedTestnetIds = [],
       selectedDevnetIds = [],
     },
+    valid,
   } = getState();
 
   const allSelectedChainIds = [
@@ -139,5 +141,6 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
     allSelectedChainIds,
     onChange: change,
     initiallySelectedChainIds,
+    isValid: valid,
   };
 };
