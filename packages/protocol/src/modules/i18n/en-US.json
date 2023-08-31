@@ -1312,12 +1312,10 @@
         },
         "bundle-dialog": {
           "title": "Unlock new possibilities for your project",
-          "description": "Subscribe to Ankr’s Premium RPC plan for $500 per month and unleash a variety of benefits.",
+          "description": "Subscribe to Ankr's Premium RPC plan for $500 per month and unleash a variety of benefits.",
           "requests": "30M monthly requests <span>(Limit resets based on your service start date)<span>",
-          "domains": "10 Whitelisted domains",
-          "addresses": "20 Whitelisted IP addresses",
           "management": "Team management",
-          "methods": "All EVM-compatible methods for all chains <span>(Solana and Advanced APIs not included)<span>",
+          "methods": "All blockchains methods for all chains <span>(Solana and Advanced APIs not included)<span>",
           "button": "Subscribe now"
         }
       },

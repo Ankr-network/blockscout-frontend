@@ -52,12 +52,6 @@ export const BundlePaymentDialog = ({
             {tHTML(`${intlRoot}.requests`)}
           </ListItem>
           <ListItem className={classes.feature}>
-            {t(`${intlRoot}.domains`)}
-          </ListItem>
-          <ListItem className={classes.feature}>
-            {t(`${intlRoot}.addresses`)}
-          </ListItem>
-          <ListItem className={classes.feature}>
             {t(`${intlRoot}.management`)}
           </ListItem>
           <ListItem className={classes.feature}>
