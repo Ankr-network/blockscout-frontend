@@ -19,6 +19,7 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectTable } from '../ProjectTable';
+import { WelcomeDialog } from '../WelcomeDialog';
 import { AddAndEditProjectDialog } from '../AddAndEditProjectDialog';
 import {
   AddAndEditProjectDialogFields,
@@ -171,6 +172,7 @@ export const Projects = () => {
             handleFormSubmit={handleSubmit}
             onClose={handleCloseAddAndEditDialog}
           />
+          <WelcomeDialog />
         </>
       );
     },

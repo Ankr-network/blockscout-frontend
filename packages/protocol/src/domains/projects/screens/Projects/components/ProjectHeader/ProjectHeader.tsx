@@ -7,7 +7,7 @@ import { NavLink } from 'uiKit/NavLink';
 
 import { useProjectHeaderStyles } from './useProjectHeaderStyles';
 
-const PROJECTS_DOCS_LINK =
+export const PROJECTS_DOCS_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/projects/';
 
 interface ProjectHeaderProps {

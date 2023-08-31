@@ -145,6 +145,14 @@
       "title": "Unlock access to your personal account with&nbsp;"
     },
     "breadcrumbs": "Projects",
+    "welcome-dialog": {
+      "title": "Welcome to Projects",
+      "description": "<p>Since your last visit we worked very hard on refining your experience with Ankr mRPC. Let us introduce you Projects! This is a place where your project will be placed.</p><p>You already have one preconfugured project which you can configure to you demands or create a new one. Below you can find a few useful links that can guide you into the light:</p>",
+      "how-to-get-start": "How to get started",
+      "support": "Support",
+      "config-button": "Configure project",
+      "skip-button": "Skip for now"
+    },
     "list-project": {
       "title": "My Projects",
       "how-to-get-started": "How to get started",

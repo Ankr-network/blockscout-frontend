@@ -20,7 +20,10 @@ export const useProjects = () => {
 
   const tokensRef = useRef(jwtTokens);
 
-  const [fetchAllWhitelists] = useLazyFetchAllWhitelistsQuery();
+  const [
+    fetchAllWhitelists,
+    { data: allWhitelists, isLoading: isLoadingAllWhitelists },
+  ] = useLazyFetchAllWhitelistsQuery();
   const [fetchAllJwtTokensStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
 
   useEffect(() => {
@@ -56,5 +59,7 @@ export const useProjects = () => {
     canAddProject,
     allowedAddProjectTokenIndex,
     isLoading,
+    allWhitelists,
+    isLoadingAllWhitelists,
   };
 };
