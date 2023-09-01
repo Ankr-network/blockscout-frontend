@@ -172,7 +172,7 @@ export const Projects = () => {
             handleFormSubmit={handleSubmit}
             onClose={handleCloseAddAndEditDialog}
           />
-          <WelcomeDialog />
+          <WelcomeDialog onCreateNewProject={onAddAndEditDialogOpen} />
         </>
       );
     },

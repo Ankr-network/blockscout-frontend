@@ -13,11 +13,15 @@ import welcome from './assets/welcome.png';
 
 const intl = 'projects.welcome-dialog';
 
-export const WelcomeDialog = () => {
+export const WelcomeDialog = ({
+  onCreateNewProject,
+}: {
+  onCreateNewProject: () => void;
+}) => {
   const { classes } = useWelcomeDialogStyles();
 
   const { isOpened, handleCreateNewProjectClick, handleSkipClick } =
-    useWelcomeDialog();
+    useWelcomeDialog(onCreateNewProject);
 
   const { openContactWidget } = useContactWidget();
 
@@ -55,7 +59,7 @@ export const WelcomeDialog = () => {
           fullWidth
           onClick={handleCreateNewProjectClick}
         >
-          {t(`${intl}.config-button`)}
+          {t(`${intl}.create-project-button`)}
         </Button>
         <Button variant="outlined" fullWidth onClick={handleSkipClick}>
           {t(`${intl}.skip-button`)}
