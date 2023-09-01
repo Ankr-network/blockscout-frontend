@@ -578,7 +578,7 @@
       "devnet": "Devnet"
     },
     "banner-zksync_era": "<b>Warning</b>: The zkSync Era node is&nbsp;still in&nbsp;<em>alpha</em> and subject to&nbsp;further updates. Users may experience downtime. If&nbsp;you notice discrepancies from the <a target=\"_blank\" href=\"https://era.zksync.io/docs/dev/building-on-zksync/interacting.html#quickstart-on-zksync\">main node API</a> please report directly to&nbsp;<a target=\"_blank\" href=\"https://zksync.io/contact\">Matter Labs</a>.",
-    "banner-polygon-zkevm": "<b>Warning</b>: We’re really sorry but this week you may experience disruptions and hectic behavior on Polygon zkEVM due to their work to advance and improve performance. August 30 — outages on Testnet, August 31 — outages on Mainnet.",
+    "banner-polygon-zkevm": "<b>Warning</b>: We’re really sorry but this week you may experience disruptions and hectic behavior on Polygon zkEVM due to their work to advance and improve performance.",
     "chain-subtypes": {
       "athens2": "Athens-2",
       "athens3": "Athens-3"
