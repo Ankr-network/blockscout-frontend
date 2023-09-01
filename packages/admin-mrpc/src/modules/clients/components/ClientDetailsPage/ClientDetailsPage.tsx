@@ -40,7 +40,7 @@ const mapPeriodToTimeframe: Record<any, Timeframe> = {
 
 export const ClientDetailsPage = () => {
   const {
-    isLoadingClients,
+    isCurrentClientLoading,
     currentClient,
     address,
     statsData,
@@ -55,14 +55,13 @@ export const ClientDetailsPage = () => {
     handleSwitchCurrent,
     isCurrentDayIncluded,
     isRangePeriod,
-    clientsErrors,
     userProjectsData,
     isLoadingUserProjects,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
 
-  if (!isLoadingClients && !currentClient) {
+  if (!isCurrentClientLoading && !currentClient) {
     return <>Client not found</>;
   }
 
@@ -73,10 +72,9 @@ export const ClientDetailsPage = () => {
       <ClientInfo
         address={address}
         currentClient={currentClient}
-        isLoadingClients={isLoadingClients}
+        isCurrentClientLoading={isCurrentClientLoading}
         totalData={totalData}
         isLoadingTotal={isLoadingTotal}
-        clientsErrors={clientsErrors}
         userProjectsData={userProjectsData}
         isLoadingUserProjects={isLoadingUserProjects}
       />

@@ -62,6 +62,10 @@ import {
   SetUserProjectAllowedJwtNumberResponse,
   IUserByTokenRequest,
   IUserByTokenResponse,
+  IUserTokensRequest,
+  IUserTokensResponse,
+  ICounterRequest,
+  ICountersEntity,
 } from './types';
 import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
@@ -210,6 +214,19 @@ export class BackofficeGateway implements IBackofficeGateway {
   ): Promise<IUserByTokenResponse> {
     const { data: response } = await this.api.get<IUserByTokenResponse>(
       '/users/profile/token',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getUserTokens(
+    params: IUserTokensRequest,
+  ): Promise<IUserTokensResponse> {
+    const { data: response } = await this.api.get<IUserTokensResponse>(
+      '/users/tokens',
       {
         params,
       },
@@ -460,6 +477,14 @@ export class BackofficeGateway implements IBackofficeGateway {
 
   async getBlockchains(): Promise<IBlockchainEntity[]> {
     const { data } = await this.api.get<IBlockchainEntity[]>('/blockchain');
+
+    return data;
+  }
+
+  async getCounter(params: ICounterRequest): Promise<ICountersEntity> {
+    const { data } = await this.api.get<ICountersEntity>(
+      `/counter/${params.user}`,
+    );
 
     return data;
   }

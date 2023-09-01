@@ -1,6 +1,10 @@
 import BigNumber from 'bignumber.js';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { EmailConfirmationStatus, ICountersEntity } from 'multirpc-sdk';
+import {
+  EmailConfirmationStatus,
+  ICountersEntity,
+  IUserTokensResponseEntity,
+} from 'multirpc-sdk';
 
 import { RootState } from 'store';
 
@@ -22,6 +26,7 @@ export type ClientMapped = Omit<ICountersEntity, 'user'> & {
   voucherExpiresDate?: Date;
   createdDate: CreatedDate;
   user: UserToken;
+  tokens?: IUserTokensResponseEntity[];
 };
 
 export interface IClientsSlice {

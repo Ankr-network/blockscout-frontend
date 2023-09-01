@@ -6,7 +6,7 @@ import { ClientBalancesMapped } from 'modules/clients/types';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 
 interface IClientBalancesHookProps {
-  client: ClientMapped;
+  client?: ClientMapped;
   isLoadingClients?: boolean;
   address: Web3Address;
 }

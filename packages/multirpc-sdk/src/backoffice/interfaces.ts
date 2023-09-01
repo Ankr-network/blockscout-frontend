@@ -58,6 +58,11 @@ import {
   SetUserProjectAllowedJwtNumberResponse,
   IUserByTokenRequest,
   IUserByTokenResponse,
+  IUserTokensRequest,
+  IUserTokensResponse,
+  ICounterRequest,
+  ICountersEntity,
+  ICounterResponse,
 } from './types';
 import { IBlockchainEntity } from '../common';
 
@@ -101,6 +106,8 @@ export interface IBackofficeGateway {
   ): Promise<IUpdateUserProfileResponse>;
 
   getUserByToken(params: IUserByTokenRequest): Promise<IUserByTokenResponse>;
+
+  getUserTokens(params: IUserTokensRequest): Promise<IUserTokensResponse>;
 
   getUserRevenue(
     params: IGetUserRevenueRequest,
@@ -173,6 +180,8 @@ export interface IBackofficeGateway {
   deleteBlockchain(blockchain: IBlockchainEntity): Promise<IBlockchainEntity>;
 
   getBlockchains(): Promise<IBlockchainEntity[]>;
+
+  getCounter(params: ICounterRequest): Promise<ICounterResponse>;
 
   getCounters(params?: ICountersRequest): Promise<ICountersResponse>;
 

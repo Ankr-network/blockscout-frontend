@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
@@ -7,7 +7,7 @@ import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { useLazyFetchUserStatsQuery } from 'modules/clients/actions/fetchUserStats';
 import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 import { useLazyFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
-import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
+import { useFetchUserByAddressQuery } from 'modules/clients/actions/fetchUserByAddress';
 import { useUserProjectsData } from 'modules/projects/hooks/useUserProjectsData';
 
 import { currentMonthParams, previousMonthParams } from '../../utils/dates';
@@ -50,10 +50,10 @@ export const useClientDetailsPage = () => {
   const [isCurrentDayIncluded, setIsCurrentDayIncluded] = useState(false);
 
   const {
-    data: clients,
-    isLoading: isLoadingClients,
-    isFetching: isFetchingClients,
-  } = useLazyFetchClients();
+    data: currentClient,
+    isLoading: isCurrentClientLoading,
+    isFetching: isCurrentClientFetching,
+  } = useFetchUserByAddressQuery(address);
 
   const [
     fetchStats,
@@ -76,13 +76,9 @@ export const useClientDetailsPage = () => {
   const { userProjectsData, isLoadingUserProjects } =
     useUserProjectsData(address);
 
-  const currentClient = clients?.counters?.filter(
-    client => client.address === address,
-  );
-
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.ChangeEvent<any>, newValue: number) => {
+  const handleChange = (event: ChangeEvent<any>, newValue: number) => {
     setValue(newValue);
   };
 
@@ -119,7 +115,7 @@ export const useClientDetailsPage = () => {
   };
 
   return {
-    isLoadingClients: isLoadingClients || isFetchingClients,
+    isCurrentClientLoading: isCurrentClientLoading || isCurrentClientFetching,
     currentClient,
     address,
     statsData: isRangePeriodValue ? statsByRangeData : statsData,
@@ -136,7 +132,6 @@ export const useClientDetailsPage = () => {
     handleSwitchCurrent,
     isCurrentDayIncluded,
     isRangePeriod: isRangePeriodValue,
-    clientsErrors: clients?.errors,
     userProjectsData,
     isLoadingUserProjects,
   };

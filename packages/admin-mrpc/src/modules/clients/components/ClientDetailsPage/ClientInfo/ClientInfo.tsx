@@ -9,12 +9,16 @@ import {
   Input,
 } from '@mui/material';
 import { Spinner } from 'ui';
-import { IEthUserAddressV2, UserProject, Web3Address } from 'multirpc-sdk';
+import {
+  IEthUserAddressV2,
+  IUserTokensResponseEntity,
+  UserProject,
+  Web3Address,
+} from 'multirpc-sdk';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
-import { ICountersError } from 'modules/clients/actions/fetchCounters';
 import { UserProjectsView } from 'modules/projects/components/UserProjectsView';
 
 import { UserTypeTag } from '../../UserTypeTag';
@@ -33,11 +37,10 @@ import { NOT_FOUND_TEXT } from '../const';
 
 interface IClientInfoProps {
   address: Web3Address;
-  currentClient?: ClientMapped[];
-  isLoadingClients?: boolean;
+  currentClient?: ClientMapped;
+  isCurrentClientLoading?: boolean;
   totalData?: IGetUserTotalMapped;
   isLoadingTotal?: boolean;
-  clientsErrors?: ICountersError[];
   userProjectsData?: UserProject[] | null;
   isLoadingUserProjects: boolean;
 }
@@ -45,15 +48,13 @@ interface IClientInfoProps {
 /* eslint-disable max-lines-per-function */
 export const ClientInfo = ({
   address,
-  currentClient = [],
-  isLoadingClients,
+  currentClient,
+  isCurrentClientLoading,
   totalData,
   isLoadingTotal,
-  clientsErrors,
   userProjectsData,
   isLoadingUserProjects,
 }: IClientInfoProps) => {
-  const [client] = currentClient;
   const {
     onChangeComment,
     commentInputValue,
@@ -72,8 +73,8 @@ export const ClientInfo = ({
   const { userGroups, isLoadingUserGroups } = useClientGroups({ address });
 
   const { clientBalances, isLoadingBalances } = useClientBalances({
-    client,
-    isLoadingClients,
+    client: currentClient,
+    isLoadingClients: isCurrentClientLoading,
     address,
   });
 
@@ -93,65 +94,67 @@ export const ClientInfo = ({
   );
 
   const renderClient = useCallback(
-    (user: ClientMapped) => {
-      if (isLoadingClients) return 'Loading...';
+    (token: IUserTokensResponseEntity) => {
+      if (isCurrentClientLoading) return 'Loading...';
 
-      if (user.user) {
+      if (token.token) {
         return (
           <>
-            {user.user}
-            <ButtonCopy valueToCopy={user.user} />
+            {token.token}
+            <ButtonCopy valueToCopy={token.token} />
           </>
         );
       }
 
       return <>unknown</>;
     },
-    [isLoadingClients],
+    [isCurrentClientLoading],
   );
 
-  const renderMainInfo = (user: ClientMapped) => (
-    <Card key={user.user || user.address} className={classes.root}>
-      <CardContent>
-        <Box display="flex" alignItems="center">
-          <UserTypeTag clientType={user.clientType} clientTtl={user.ttl} />
-        </Box>
-        <br />
-        <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
-          <b>Created:</b> {user?.createdDate?.toLocaleString() || 'unknown'}
-        </Typography>
-        <br />
-        <Typography variant="body2" component="p">
-          <b>Token:</b> {renderClient(user)}
-        </Typography>
-        {user.user && <ClientApiKeysModal token={user.user} />}
-      </CardContent>
-    </Card>
-  );
+  const renderMainInfo = (token: IUserTokensResponseEntity) =>
+    currentClient && (
+      <Card
+        key={currentClient.user || currentClient.address}
+        className={classes.root}
+      >
+        <CardContent>
+          <Box display="flex" alignItems="center">
+            <UserTypeTag
+              clientType={currentClient.clientType}
+              clientTtl={currentClient.ttl}
+            />
+          </Box>
+          <br />
+          <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
+            <b>Created:</b>{' '}
+            {currentClient?.createdDate?.toLocaleString() || 'unknown'}
+          </Typography>
+          <br />
+          <Typography variant="body2" component="p">
+            <b>Token:</b> {renderClient(token)}
+          </Typography>
+          {currentClient.user && (
+            <ClientApiKeysModal token={currentClient.user} />
+          )}
+        </CardContent>
+      </Card>
+    );
 
   const renderClientEmail = useMemo(() => {
-    if (client?.email) {
+    if (currentClient?.email) {
       return (
         <>
-          <b>Email:</b> {client?.email}
+          <b>Email:</b> {currentClient?.email}
         </>
       );
     }
 
-    if (isLoadingClients) {
+    if (isCurrentClientLoading) {
       return skeleton;
     }
 
-    if (
-      clientsErrors &&
-      clientsErrors.length > 0 &&
-      clientsErrors.find(error => error.type === 'email')
-    ) {
-      return <Typography color="error">Client email loading error</Typography>;
-    }
-
     return NOT_FOUND_TEXT;
-  }, [client?.email, isLoadingClients, clientsErrors, skeleton]);
+  }, [currentClient?.email, isCurrentClientLoading, skeleton]);
 
   const renderAddress = useMemo(() => {
     if (isLoadingUserAddresses) {
@@ -207,10 +210,10 @@ export const ClientInfo = ({
         {isLoadingProfile ? address : userName || address}
         {!userName && <ButtonCopy valueToCopy={address} />}
       </Typography>
-      {client && client.address && (
+      {currentClient && currentClient.address && (
         <>
-          <ClientBalancesModal currentClient={client} />
-          <ClientEditProfileModal currentClient={client} />
+          <ClientBalancesModal currentClient={currentClient} />
+          <ClientEditProfileModal currentClient={currentClient} />
           <ButtonCopy
             sx={{ mb: 4, ml: 4 }}
             label="Copy ETH address"
@@ -235,12 +238,13 @@ export const ClientInfo = ({
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
           {renderClientEmail}
-          <ClientEditEmailModal currentClient={client} />
-          {client?.status && (
+          <ClientEditEmailModal currentClient={currentClient} />
+          {currentClient?.status && (
             <>
               <br />
               <br />
-              <b>Status:</b> {isLoadingClients ? skeleton : client?.status}
+              <b>Status:</b>{' '}
+              {isCurrentClientLoading ? skeleton : currentClient?.status}
             </>
           )}
         </Typography>
@@ -253,14 +257,14 @@ export const ClientInfo = ({
         isLoadingUserProjects={isLoadingUserProjects}
       />
 
-      {isLoadingClients ? (
+      {isCurrentClientLoading ? (
         <>
           <br />
           <br />
           <Spinner size={40} centered={false} />
         </>
       ) : (
-        currentClient.map(renderMainInfo)
+        currentClient?.tokens?.map(renderMainInfo)
       )}
 
       {renderAddress}
