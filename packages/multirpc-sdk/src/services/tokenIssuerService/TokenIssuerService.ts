@@ -6,7 +6,7 @@ import {
   Web3Address,
   WorkerTokenData,
 } from '../../common';
-import { OauthGateway } from '../../oauth';
+import { AccountingGateway } from '../../accounting';
 import { formatHexToString } from './TokenIssuerServiceUtils';
 import {
   BaseTokenIssuerService,
@@ -14,7 +14,7 @@ import {
 } from './BaseTokenIssuerService';
 
 interface TokenIssuerServiceParams extends BaseTokenIssuerServiceParams {
-  oauthGateway: OauthGateway;
+  accountingGateway: AccountingGateway;
 }
 
 interface IssueJwtTokenParams {
@@ -25,14 +25,14 @@ interface IssueJwtTokenParams {
 }
 
 export class TokenIssuerService extends BaseTokenIssuerService {
-  private oauthGateway: OauthGateway;
+  private accountingGateway: AccountingGateway;
 
   public constructor(params: TokenIssuerServiceParams) {
-    const { oauthGateway, ...rest } = params;
+    const { accountingGateway, ...rest } = params;
 
     super(rest);
 
-    this.oauthGateway = oauthGateway;
+    this.accountingGateway = accountingGateway;
   }
 
   private async upgradeJwtToken(
@@ -42,7 +42,7 @@ export class TokenIssuerService extends BaseTokenIssuerService {
     try {
       const signedToken = jwtToken.signed_token;
 
-      const upgradedToken = await this.oauthGateway.decodeJwtToken({
+      const upgradedToken = await this.accountingGateway.decodeJwtToken({
         address,
         data_hex: signedToken,
       });

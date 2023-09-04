@@ -23,7 +23,7 @@ export const {
         const service = MultiService.getService();
 
         const data = await service
-          .getAccountGateway()
+          .getAccountingGateway()
           .editNotificationSettings(settings);
 
         const signUpSettings = selectSignupSettings(getState() as RootState);

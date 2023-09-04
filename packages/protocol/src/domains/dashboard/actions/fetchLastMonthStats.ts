@@ -19,7 +19,7 @@ export const {
   endpoints: build => ({
     fetchLastMonthStats: build.query<PrivateStats, FetchLastMonthStatsParams>({
       queryFn: createNotifyingQueryFn(async ({ group, userEndpointToken }) => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const promise = userEndpointToken
           ? api.getPrivateStatsByPremiumId(interval, userEndpointToken, group)

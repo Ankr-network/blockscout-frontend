@@ -11,7 +11,7 @@ export const loginSyntheticJwt = async (
   const web3ReadService = await MultiService.getWeb3ReadService();
 
   const syntheticTokenData = await service
-    .getOauthGateway()
+    .getAccountingGateway()
     .getSyntheticJwtToken(totp);
 
   const { jwtToken, workerTokenData } =

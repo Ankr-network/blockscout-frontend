@@ -6,9 +6,11 @@ import {
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { RootState } from 'store';
 
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 import { fetchAllJwtTokensStatuses } from './getAllJwtTokensStatuses';
+import { selectConfiguredProjectJwtTokens } from '../store/selectors';
 
 export const {
   useLazyUpdateJwtTokenFreezeStatusQuery,
@@ -22,7 +24,7 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ token, group, freeze }) => {
-          const service = MultiService.getService().getAccountGateway();
+          const service = MultiService.getService().getAccountingGateway();
 
           await service.updateJwtTokenFreezeStatus(
             {
@@ -40,11 +42,18 @@ export const {
           };
         },
       }),
-      onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (
+        { group },
+        { dispatch, queryFulfilled, getState },
+      ) => {
         await queryFulfilled;
 
+        const projects = selectConfiguredProjectJwtTokens(
+          getState() as RootState,
+        );
+
         dispatch(fetchAllJwtTokenRequests.initiate({ group }));
-        dispatch(fetchAllJwtTokensStatuses.initiate());
+        dispatch(fetchAllJwtTokensStatuses.initiate({ group, projects }));
       },
     }),
   }),

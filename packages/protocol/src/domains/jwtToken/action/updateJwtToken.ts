@@ -22,7 +22,7 @@ export const {
     updateJwtToken: build.query<JwtManagerToken, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ tokenIndex, name, description, group }) => {
-          const service = MultiService.getService().getAccountGateway();
+          const service = MultiService.getService().getAccountingGateway();
 
           const jwtToken = await service.updateJwtToken(
             {

@@ -16,7 +16,9 @@ export const {
       queryFn: createNotifyingQueryFn(async params => {
         const service = MultiService.getService();
 
-        const data = await service.getAccountGateway().getDailyCharging(params);
+        const data = await service
+          .getAccountingGateway()
+          .getDailyCharging(params);
 
         return { data };
       }),

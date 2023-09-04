@@ -33,6 +33,7 @@ export enum ChainGroupID {
   SUI = 'SUI',
   TENET = 'tenet',
   SCROLL = 'scroll',
+
   FALLBACK = 'FALLBACK',
 }
 

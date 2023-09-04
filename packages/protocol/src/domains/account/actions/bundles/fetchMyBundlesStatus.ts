@@ -16,7 +16,7 @@ export const {
     >({
       providesTags: ['MyBundles'],
       queryFn: createNotifyingQueryFn(async group => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getMyBundlesStatus(group);
 

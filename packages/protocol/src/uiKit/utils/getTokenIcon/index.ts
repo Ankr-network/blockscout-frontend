@@ -56,6 +56,8 @@ import suiIconDark from './darkModeIcons/sui.svg';
 import mantleIconDark from './darkModeIcons/mantle.svg';
 import tenetIconDark from './darkModeIcons/tenet.svg';
 import zksyncEraIconDark from './darkModeIcons/zksync_era.svg';
+import berachainIconDark from './darkModeIcons/berachain.svg';
+import berachainIcon from './icons/berachain.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -83,6 +85,10 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.BASE]: baseIcon,
   [ChainID.BASE_TESTNET]: baseIcon,
+
+  [ChainID.BERACHAIN]: berachainIcon,
+  [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIcon,
+  [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: berachainIcon,
 
   [ChainID.BTTC]: bttcIcon,
   [ChainID.CELO]: celoIcon,
@@ -138,6 +144,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.SCROLL]: scrollIcon,
   [ChainID.SCROLL_TESTNET]: scrollIcon,
+  [ChainID.SCROLL_SEPOLIA_TESTNET]: scrollIcon,
 
   [ChainID.SECRET]: secretIcon,
   [ChainID.SECRET_COSMOS]: secretIcon,
@@ -172,6 +179,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   ...chainIcons,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
+  [ChainID.BERACHAIN]: berachainIconDark,
+  [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIconDark,
+  [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: berachainIconDark,
   [ChainID.BTTC]: bttcIconDark,
   [ChainID.CELO]: celoIconDark,
   [ChainID.ETH]: ethIconDark,
@@ -218,11 +228,13 @@ const chainNameIcons: Record<string, string> = {
   aptos_testnet: aptosIcon,
   filecoin_testnet: filecoinIcon,
   zksync_era_testnet: zksyncEraIcon,
+  berachain_guarded_testnet_evm: berachainIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
   ...chainNameIcons,
   tenet_evm: tenetIconDark,
+  berachain_guarded_testnet_evm: berachainIconDark,
 };
 
 export function getChainIcon(name: string, isLightTheme: boolean) {

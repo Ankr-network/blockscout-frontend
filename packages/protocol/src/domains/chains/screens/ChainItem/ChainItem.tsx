@@ -19,9 +19,6 @@ export const ChainItem = () => {
       {chainId === ChainID.ZKSYNC_ERA && (
         <ChainItemBanner message={tHTML('chain-item.banner-zksync_era')} />
       )}
-      {chainId.includes(ChainID.POLYGON_ZKEVM) && (
-        <ChainItemBanner message={tHTML('chain-item.banner-polygon-zkevm')} />
-      )}
       {hasPrivateAccess ? (
         <PrivateChainItemQuery chainId={chainId} />
       ) : (

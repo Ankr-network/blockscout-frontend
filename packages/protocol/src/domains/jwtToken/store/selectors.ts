@@ -2,16 +2,30 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 import { selectCurrentAddress, selectIsLoggedIn } from 'domains/auth/store';
+import { selectDraftTokenIndex } from 'domains/projects/store';
 
 import { fetchAllJwtTokenRequests } from '../action/getAllJwtToken';
 import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
 import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
 
-const selectJwtTokenManager = (state: RootState) => state.jwtTokenManager;
+export const selectJwtTokenManager = (state: RootState) =>
+  state.jwtTokenManager;
 
 export const selectJwtTokens = createSelector(
   fetchAllJwtTokenRequests.select({}),
   ({ data: { jwtTokens = [] } = {} }) => jwtTokens,
+);
+
+export const selectJwtTokensLoadingState = createSelector(
+  fetchAllJwtTokenRequests.select({}),
+  ({ isLoading, isUninitialized }) => isLoading || isUninitialized,
+);
+
+export const selectConfiguredProjectJwtTokens = createSelector(
+  selectJwtTokens,
+  selectDraftTokenIndex,
+  (allJwtTokens, draftTokenIndex) =>
+    allJwtTokens.filter(jwtToken => jwtToken.index !== draftTokenIndex),
 );
 
 export const selectSelectedProject = createSelector(

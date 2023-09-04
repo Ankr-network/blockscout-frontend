@@ -15,7 +15,6 @@ interface IRequestParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyCreateJwtTokenQuery,
   endpoints: { createJwtToken },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
@@ -25,7 +24,7 @@ export const {
           { tokenIndex, name, description, group },
           { dispatch },
         ) => {
-          const service = MultiService.getService().getAccountGateway();
+          const service = MultiService.getService().getAccountingGateway();
 
           const jwtToken = await service.createJwtToken(
             {

@@ -68,6 +68,7 @@ export const AddAndEditWhitelistItemForm = ({
         whitelistItems: newWhitelistItems,
         userEndpointToken:
           project[NewProjectStep.Chain]?.userEndpointToken ?? '',
+        tokenIndex: project[NewProjectStep.Chain]?.tokenIndex,
       },
       NewProjectStep.Whitelist,
     );

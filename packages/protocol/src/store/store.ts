@@ -24,7 +24,8 @@ import { userSettingsSlice } from 'domains/userSettings/store/userSettingsSlice'
 import { userSettingsPersistConfig } from 'domains/userSettings/storage/userSettingsPersistConfig';
 import { userGroupSlice } from 'domains/userGroup/store';
 import { newProjectPersistConfig } from 'domains/projects/storage/newProjectPersistConfig';
-import { newProjectSlice } from 'domains/projects/store';
+import { newProjectSlice, projectsSlice } from 'domains/projects/store';
+import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistConfig';
 
 import { listenerMiddleware } from './middlewares/listenerMiddleware';
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
@@ -56,6 +57,7 @@ const rootReducer = combineReducers({
     userSettingsPersistConfig,
     userSettingsSlice.reducer,
   ),
+  projects: persistReducer(projectsPersistConfig, projectsSlice.reducer),
   newProject: persistReducer(newProjectPersistConfig, newProjectSlice.reducer),
 });
 

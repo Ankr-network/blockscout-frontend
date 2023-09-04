@@ -22,7 +22,7 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(
         async ({ group, priceId, productId }, { dispatch }) => {
-          const api = MultiService.getService().getAccountGateway();
+          const api = MultiService.getService().getAccountingGateway();
 
           const { url: data } = await api.getLinkForBundlePayment(
             {

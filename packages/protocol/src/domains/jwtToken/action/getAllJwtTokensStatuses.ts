@@ -1,33 +1,51 @@
-import { IJwtTokenStatusResponse } from 'multirpc-sdk';
+import {
+  GetUserEndpointTokenStatusResponse,
+  IApiUserGroupParams,
+} from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { RootState } from 'store';
 
-import { selectJwtTokens } from '../store/selectors';
+import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
+
+interface FetchTokenStatusParams extends IApiUserGroupParams {
+  projects: JwtManagerToken[];
+}
+
+export interface FetchTokenStatusResponse {
+  userEndpointToken: string;
+  status: GetUserEndpointTokenStatusResponse;
+}
 
 export const {
   useLazyFetchAllJwtTokensStatusesQuery,
-
   endpoints: { fetchAllJwtTokensStatuses },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchAllJwtTokensStatuses: build.query<IJwtTokenStatusResponse[], void>({
-      queryFn: async (_, { getState }) => {
-        const service = MultiService.getService().getAccountGateway();
-
-        const projects = selectJwtTokens(getState() as RootState);
+    fetchAllJwtTokensStatuses: build.query<
+      FetchTokenStatusResponse[],
+      FetchTokenStatusParams
+    >({
+      queryFn: async ({ projects, group }) => {
+        const service = MultiService.getService().getAccountingGateway();
 
         const projectsStatuses = await Promise.all(
-          projects.map(project =>
-            service.getJwtTokenStatus({
-              token: project.userEndpointToken,
-            }),
-          ),
+          projects.map(async ({ userEndpointToken }) => {
+            const status = await service.getUserEndpointTokenStatus({
+              token: userEndpointToken,
+              group,
+            });
+
+            return {
+              userEndpointToken,
+              status,
+            };
+          }),
         );
 
         return { data: projectsStatuses };
       },
     }),
   }),
+  overrideExisting: true,
 });

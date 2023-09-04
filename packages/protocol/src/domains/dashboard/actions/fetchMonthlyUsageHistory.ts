@@ -29,7 +29,7 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(
         async ({ group, token, monthly = true }) => {
-          const api = MultiService.getService().getAccountGateway();
+          const api = MultiService.getService().getAccountingGateway();
 
           const response = await api.getUserStatsByRange({
             group,

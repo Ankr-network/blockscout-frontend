@@ -5,8 +5,8 @@ import { TwoFAStatus } from 'multirpc-sdk';
 import { TwoFAInput } from 'domains/userSettings/components/TwoFADialog/components/TwoFAInput';
 import { useConfirmTwoFA } from 'domains/userSettings/screens/Settings/hooks/useConfirmTwoFA';
 import { useDisableTwoFA } from 'domains/userSettings/screens/Settings/hooks/useDisableTwoFA';
-import { isAxiosAccountError } from 'store/utils/isAxiosAccountError';
-import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
+import { isAxiosAccountingError } from 'store/utils/isAxiosAccountingError';
+import { getAxiosAccountingErrorMessage } from 'store/utils/getAxiosAccountingErrorMessage';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { userSettingsFetchTwoFAStatus } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 
@@ -38,8 +38,8 @@ export const TwoFAControlDialogDefault = ({
 
       let message = '';
 
-      if (isAxiosAccountError(error)) {
-        message = getAxiosAccountErrorMessage(error);
+      if (isAxiosAccountingError(error)) {
+        message = getAxiosAccountingErrorMessage(error);
         setErrorMessage(message);
       } else if (error) {
         setErrorView();

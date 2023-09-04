@@ -13,7 +13,7 @@ export const useRequestsBanner = (timeframe: Timeframe) => {
 
   const userToken = useMemo(() => {
     if (group && !isLoadingGroupToken) {
-      return groupToken.jwtToken;
+      return groupToken?.jwtToken;
     }
 
     return workerTokenData?.userEndpointToken;

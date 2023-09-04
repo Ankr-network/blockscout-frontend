@@ -54,14 +54,23 @@ export const chainGroups: ChainGroup[] = [
       ChainID.AVALANCHE_FUJI,
       ChainID.AVALANCHE_FUJI_EVM,
 
+      ChainID.BASE,
+
+      ChainID.BERACHAIN,
+      ChainID.BERACHAIN_GUARDED_TESTNET_EVM,
+
       ChainID.BSC,
       ChainID.BSC_TESTNET_CHAPEL,
+
       ChainID.BTTC,
       ChainID.CELO,
+
       ChainID.CHILIZ,
       ChainID.CHILIZ_TESTNET,
+
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
+
       ChainID.FLARE,
       ChainID.FLARE_EVM,
 
@@ -76,7 +85,7 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.METIS,
       ChainID.MOONBEAM,
-      ChainID.SYSCOIN,
+
       ChainID.OPTIMISM,
       ChainID.OPTIMISM_TESTNET,
 
@@ -84,6 +93,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.POLYGON_MUMBAI,
       ChainID.POLYGON_ZKEVM,
       ChainID.POLYGON_ZKEVM_TESTNET,
+
+      ChainID.SYSCOIN,
 
       ChainID.HECO,
       ChainID.HECO_TESTNET,
@@ -99,8 +110,6 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.ZETACHAIN_EVM_TESTNET,
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
-
-      ChainID.BASE,
 
       ChainID.ZKSYNC_ERA,
     ],

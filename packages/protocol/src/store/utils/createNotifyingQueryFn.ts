@@ -4,10 +4,10 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { extractMessage } from 'modules/common/utils/extractError';
 import { INotificationProps } from 'domains/notification/store/notificationSlice';
 
-import { getAxiosAccountErrorMessage } from './getAxiosAccountErrorMessage';
+import { getAxiosAccountingErrorMessage } from './getAxiosAccountingErrorMessage';
 import { is2FAError } from './is2FAError';
-import { isAxiosAccountEmailError } from './isAxiosAccountEmailError';
-import { isAxiosAccountError } from './isAxiosAccountError';
+import { isAxiosAccountEmailError } from './isAxiosAccountingEmailError';
+import { isAxiosAccountingError } from './isAxiosAccountingError';
 import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
 
@@ -26,8 +26,8 @@ export const makeNotification = (
     message = extractMessage(error.response?.data, 'error.permission');
   }
 
-  if (isAxiosAccountError(error)) {
-    message = getAxiosAccountErrorMessage(error);
+  if (isAxiosAccountingError(error)) {
+    message = getAxiosAccountingErrorMessage(error);
   }
 
   dispatch(

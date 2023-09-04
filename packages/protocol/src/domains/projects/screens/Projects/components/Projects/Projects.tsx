@@ -1,8 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
+import { useDispatch } from 'react-redux';
+import { t } from '@ankr.com/common';
 
 import { useProjects } from 'domains/projects/hooks/useProjects';
-import { selectAllProjects } from 'domains/projects/store';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { Search } from 'modules/common/components/Search';
 import { useAppSelector } from 'store/useAppSelector';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
@@ -12,17 +15,21 @@ import {
   AddProjectState,
   useAddAndEditProject,
 } from 'domains/projects/hooks/useAddAndEditProject';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectTable } from '../ProjectTable';
+import { WelcomeDialog } from '../WelcomeDialog';
 import { AddAndEditProjectDialog } from '../AddAndEditProjectDialog';
 import {
   AddAndEditProjectDialogFields,
   AddAndEditProjectDialogType,
 } from '../AddAndEditProjectForm/AddAndEditProjectFormUtils';
 import { AddProjectButton } from '../AddProjectButton';
+import { initialValues } from '../../hooks/useProjectFormValues';
 
 export const Projects = () => {
+  const dispatch = useDispatch();
   const [searchContent, setSearchContent] = useSearch();
 
   const { canEditProject } = useProjectConfig();
@@ -47,13 +54,60 @@ export const Projects = () => {
 
   const handleFormSubmit = useCallback(
     async (values: AddAndEditProjectDialogType, form) => {
+      const nameFieldState = form.getFieldState(
+        AddAndEditProjectDialogFields.name,
+      );
+
+      const descriptionFieldState = form.getFieldState(
+        AddAndEditProjectDialogFields.description,
+      );
+
+      const isDescriptionChanged = descriptionFieldState.modified;
+      const isNothingChanged =
+        !nameFieldState.modified && !isDescriptionChanged;
+      const isNameEqualWithInitalValue = !nameFieldState.dirty;
+
+      if (
+        isNothingChanged ||
+        (isNameEqualWithInitalValue && !isDescriptionChanged)
+      ) {
+        handleCloseAddAndEditDialog();
+
+        return;
+      }
+
+      const isOnlyDescriptionChanged =
+        !nameFieldState.modified && descriptionFieldState.modified;
+
       const { name, description, isEditingProjectDialog, tokenIndex } = values;
 
+      const resultName = name ?? '';
+      const hasNameDuplication = allProjects.some(
+        project => project.name === resultName,
+      );
+
+      if (
+        hasNameDuplication &&
+        !isNameEqualWithInitalValue &&
+        !isOnlyDescriptionChanged
+      ) {
+        dispatch(
+          NotificationActions.showNotification({
+            message: t('projects.new-project.error-message.name-duplication', {
+              value: name,
+            }),
+            severity: 'error',
+          }),
+        );
+
+        return;
+      }
+
       if (isEditingProjectDialog) {
-        await handleUpdate(tokenIndex, name ?? '', description ?? '');
+        await handleUpdate(tokenIndex, resultName, description ?? '');
         handleCloseAddAndEditDialog();
       } else {
-        await handleCreate(name ?? '', description ?? '');
+        await handleCreate(resultName, description ?? '');
       }
 
       form.change(AddAndEditProjectDialogFields.isEditingProjectDialog, false);
@@ -64,6 +118,8 @@ export const Projects = () => {
     },
     [
       allowedAddProjectTokenIndex,
+      allProjects,
+      dispatch,
       handleCloseAddAndEditDialog,
       handleCreate,
       handleUpdate,
@@ -80,6 +136,7 @@ export const Projects = () => {
         // resetting form for adding project after editing another one
         if (values?.isEditingProjectDialog) {
           form.reset();
+          form.initialize(initialValues);
         }
 
         onAddAndEditDialogOpen();
@@ -115,6 +172,7 @@ export const Projects = () => {
             handleFormSubmit={handleSubmit}
             onClose={handleCloseAddAndEditDialog}
           />
+          <WelcomeDialog onCreateNewProject={onAddAndEditDialogOpen} />
         </>
       );
     },

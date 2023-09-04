@@ -32,9 +32,10 @@ export const {
         async ({ loading, group }, { getState }) => {
           if (loading) return { data: { jwtTokens: [] } };
 
-          const accountGateway = MultiService.getService().getAccountGateway();
+          const accountingGateway =
+            MultiService.getService().getAccountingGateway();
 
-          const result = await accountGateway.getAllJwtToken({ group });
+          const result = await accountingGateway.getAllJwtToken({ group });
 
           const primaryData = result.find(
             item => item.index === PRIMARY_TOKEN_INDEX,

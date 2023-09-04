@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useHelperLinkStyles = makeStyles()(theme => ({
   helperLinkRoot: {
-    backgroundColor: theme.palette.grey[100],
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
     paddingLeft: theme.spacing(6),
     padding: theme.spacing(6, 6, 6, 6),

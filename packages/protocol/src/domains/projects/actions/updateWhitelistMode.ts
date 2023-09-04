@@ -25,7 +25,7 @@ export const {
           params: { userEndpointToken, prohibitByDefault, groupAddress },
           totp,
         }) => {
-          const service = MultiService.getService().getAccountGateway();
+          const service = MultiService.getService().getAccountingGateway();
 
           await service.updateWhitelistMode(
             {

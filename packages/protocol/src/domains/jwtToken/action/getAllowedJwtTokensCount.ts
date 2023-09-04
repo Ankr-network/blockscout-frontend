@@ -10,7 +10,7 @@ export const {
   endpoints: build => ({
     fetchAllowedJwtTokensCount: build.query<number, IApiUserGroupParams>({
       queryFn: async ({ group }) => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getAllowedJwtTokensCount({ group });
 

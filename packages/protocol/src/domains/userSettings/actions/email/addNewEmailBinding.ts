@@ -29,7 +29,7 @@ export const {
           const service = MultiService.getService();
 
           const data = await service
-            .getAccountGateway()
+            .getAccountingGateway()
             .addNewEmailBinding({ email, totp });
 
           return { data };
