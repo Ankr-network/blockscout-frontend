@@ -1,6 +1,6 @@
 import { Web3KeyReadProvider } from '@ankr.com/provider';
 
-import { OauthGateway } from '../oauth';
+import { AccountingGateway } from '../accounting';
 import { IConfig, IJwtToken, JwtTokenFullData, Web3Address } from '../common';
 import { PAYGReadContractManager } from '../PAYGContract';
 import { ContractReadService, TokenIssuerService } from '../services';
@@ -12,7 +12,7 @@ export class MultiRpcWeb3ReadSdk {
 
   private tokenIssuerService?: TokenIssuerService;
 
-  private oauthGateway?: OauthGateway;
+  private accountingGateway?: AccountingGateway;
 
   public constructor(
     private readonly keyProvider: Web3KeyReadProvider,
@@ -27,11 +27,12 @@ export class MultiRpcWeb3ReadSdk {
     return this.PAYGReadContractManager;
   }
 
-  public getOauthGateway(): OauthGateway {
-    this.oauthGateway =
-      this.oauthGateway || new OauthGateway(this.config.accountUrl);
+  public getAccountingGateway() {
+    this.accountingGateway =
+      this.accountingGateway ||
+      new AccountingGateway({ baseURL: this.config.accountUrl });
 
-    return this.oauthGateway;
+    return this.accountingGateway;
   }
 
   private getTokenIssuerService(): TokenIssuerService {
@@ -40,7 +41,7 @@ export class MultiRpcWeb3ReadSdk {
       new TokenIssuerService({
         config: this.config,
         PAYGContractManager: this.getPAYGReadContractManager(),
-        oauthGateway: this.getOauthGateway(),
+        accountingGateway: this.getAccountingGateway(),
       });
 
     return this.tokenIssuerService;

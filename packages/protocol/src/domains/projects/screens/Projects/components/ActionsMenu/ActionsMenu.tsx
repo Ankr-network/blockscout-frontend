@@ -10,6 +10,8 @@ import { useMenu } from 'modules/common/hooks/useMenu';
 import { FreezeAndUnfreezeProjectDialog } from 'domains/jwtToken/components/FreezeAndUnfreezeProjectDialog';
 import { Project } from 'domains/projects/utils/getAllProjects';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectDraftTokenIndex } from 'domains/projects/store';
 
 import { AddAndEditProjectDialogFields } from '../AddAndEditProjectForm/AddAndEditProjectFormUtils';
 
@@ -32,22 +34,33 @@ export const ActionsMenu = ({
   const isPrimary = tokenIndex === PRIMARY_TOKEN_INDEX;
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
 
+  const draftTokenIndex = useAppSelector(selectDraftTokenIndex);
+
   const {
     isOpened: isDeleteProjectDialogOpened,
     onOpen: onOpenDeleteProjectDialog,
     onClose: onCloseDeleteProjectDialog,
   } = useDialog();
-  const { change } = useForm();
+  const { initialize } = useForm();
 
   const handleEditByClick = useCallback(() => {
-    change(AddAndEditProjectDialogFields.name, name);
-    change(AddAndEditProjectDialogFields.description, description);
-    change(AddAndEditProjectDialogFields.isEditingProjectDialog, true);
-    change(AddAndEditProjectDialogFields.tokenIndex, tokenIndex);
+    initialize({
+      [AddAndEditProjectDialogFields.name]: name,
+      [AddAndEditProjectDialogFields.description]: description,
+      [AddAndEditProjectDialogFields.isEditingProjectDialog]: true,
+      [AddAndEditProjectDialogFields.tokenIndex]: tokenIndex,
+    });
 
     onProjectDialogOpen();
     handleClose();
-  }, [name, description, tokenIndex, change, onProjectDialogOpen, handleClose]);
+  }, [
+    initialize,
+    name,
+    description,
+    tokenIndex,
+    onProjectDialogOpen,
+    handleClose,
+  ]);
 
   const {
     isOpened: isFreezeAndUnfreezeProjectDialogOpened,
@@ -74,6 +87,7 @@ export const ActionsMenu = ({
         onClose={handleClose}
       >
         <MenuItem
+          disabled={tokenIndex === draftTokenIndex}
           startIcon={frozen ? <Unfreeze /> : <Freeze />}
           onClick={handleOpenFreezeDialog}
         >

@@ -1,108 +1,95 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useCheckoutStepStyles = makeStyles()(theme => {
-  const contentGap = 30;
-  const rigtPartSize = 300;
-  const leftPartSize = `calc(100% - ${rigtPartSize + contentGap}px)`;
+export const useCheckoutStepStyles = makeStyles()(theme => ({
+  root: {
+    display: 'flex',
+    gap: theme.spacing(7.5),
 
-  return {
-    root: {
-      marginTop: theme.spacing(8),
-    },
-    title: {
-      display: 'flex',
-      marginBottom: theme.spacing(3),
-    },
-    description: {
-      display: 'inline-flex',
-      marginBottom: theme.spacing(6),
-      maxWidth: 480,
-    },
-    content: {
-      display: 'flex',
-      gap: contentGap,
-    },
-    leftPart: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: leftPartSize,
-      gap: theme.spacing(4),
-    },
-    rightPart: {
-      display: 'flex',
-      width: rigtPartSize,
-    },
-    section: {
-      width: '100%',
-      border: `2px solid ${theme.palette.divider}`,
-      borderRadius: '17px',
-      padding: theme.spacing(5),
-      position: 'relative',
-    },
-    subtitle: {
-      fontSize: 14,
-      marginBottom: theme.spacing(2),
-      display: 'flex',
-    },
-    editButton: {
-      position: 'absolute',
-      right: theme.spacing(4),
-      top: theme.spacing(4),
-      fontWeight: 400,
-      color: theme.palette.text.secondary,
-    },
-    chainsListWrapper: {
-      overflow: 'hidden',
-    },
-    disabledPointerEvents: {
-      pointerEvents: 'none',
-      marginTop: theme.spacing(6),
-      padding: 0,
-    },
-    contractAddress: {
-      display: 'flex',
-      alignItems: 'center',
+    marginTop: theme.spacing(6),
+  },
+  left: {
+    flexGrow: 1,
 
-      color: theme.palette.success.main,
+    paddingTop: theme.spacing(2),
+  },
+  title: {
+    marginBottom: theme.spacing(3),
 
-      svg: {
-        color: theme.palette.success.main,
-      },
-    },
-    price: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      padding: theme.spacing(4, 0),
-    },
+    letterSpacing: '-0.02em',
 
-    planPrice: {
-      '& span span': {
-        marginLeft: theme.spacing(2),
-      },
+    lineHeight: '135%',
+  },
+  description: {
+    display: 'inline-flex',
 
-      '& span': {
-        letterSpacing: '-0.02em',
-      },
+    maxWidth: 480,
+    marginBottom: theme.spacing(6),
 
-      '& span:last-of-type span': {
-        color: theme.palette.primary.main,
-      },
-    },
-    plan: {
-      textTransform: 'capitalize',
-    },
+    letterSpacing: '-0.01em',
 
-    chainType: {
-      textTransform: 'capitalize',
-    },
-    whitelistBadge: {
-      borderRadius: 8,
-      backgroundColor: theme.palette.background.default,
-      width: 'fit-content',
-      padding: theme.spacing(0.5, 2),
-    },
-    whitelistBadgeText: {
-      fontSize: 14,
-    },
-  };
-});
+    lineHeight: '140%',
+  },
+  chainsSection: {
+    marginBottom: theme.spacing(3),
+  },
+  right: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    justifyContent: 'space-between',
+  },
+  link: {
+    width: '100%',
+  },
+  currentPlanSection: {
+    width: 294,
+    minHeight: 234,
+  },
+  currentPlanSectionTitle: {
+    marginBottom: theme.spacing(4),
+  },
+  section: {
+    position: 'relative',
+
+    width: '100%',
+    minHeight: 111,
+    padding: theme.spacing(5.75),
+
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: '17px',
+  },
+  sectionTitle: {
+    marginBottom: theme.spacing(3),
+
+    lineHeight: '135%',
+    fontSize: 14,
+  },
+  editButton: {
+    position: 'absolute',
+    top: theme.spacing(4),
+    right: theme.spacing(5.5),
+
+    minHeight: 32,
+    height: 32,
+    padding: theme.spacing(1.5, 3, 1.5, 2),
+
+    color: theme.palette.text.secondary,
+
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: '143%',
+  },
+  chainsListWrapper: {
+    overflow: 'hidden',
+  },
+  whitelistBadge: {
+    borderRadius: 8,
+    backgroundColor: theme.palette.background.default,
+    width: 'fit-content',
+    padding: theme.spacing(0.5, 2),
+  },
+  whitelistBadgeText: {
+    fontSize: 14,
+    lineHeight: '140%',
+  },
+}));

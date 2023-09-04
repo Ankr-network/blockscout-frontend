@@ -1,5 +1,4 @@
-import { Address } from '@ankr.com/provider';
-import { IGetWhitelistParamsResponse } from 'multirpc-sdk';
+import { IApiUserGroupParams, IGetWhitelistParamsResponse } from 'multirpc-sdk';
 
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { MultiService } from 'modules/api/MultiService';
@@ -9,10 +8,6 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 import { WhiteListItem } from '../types';
 
-interface FetchAllWhitelistRequestParams {
-  group?: Address;
-}
-
 export const {
   useLazyFetchAllWhitelistsQuery,
 
@@ -21,17 +16,17 @@ export const {
   endpoints: build => ({
     fetchAllWhitelists: build.query<
       IGetWhitelistParamsResponse[],
-      FetchAllWhitelistRequestParams
+      IApiUserGroupParams
     >({
       queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const service = MultiService.getService().getAccountingGateway();
 
         const projects = selectJwtTokens(getState() as RootState);
 
         const whitelists = await Promise.all(
-          projects.map(project =>
+          projects.map(projectItem =>
             service.getWhitelist({
-              token: project.userEndpointToken,
+              token: projectItem.userEndpointToken,
               type: WhiteListItem.all,
               group,
             }),

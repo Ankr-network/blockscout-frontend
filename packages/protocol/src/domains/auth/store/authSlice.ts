@@ -88,7 +88,7 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
       const service = MultiService.getService();
 
       if (state.auth?.authorizationToken) {
-        service.getAccountGateway().addToken(state.auth?.authorizationToken);
+        service.getAccountingGateway().addToken(state.auth?.authorizationToken);
       }
     }
 

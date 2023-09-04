@@ -1,7 +1,7 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
 import { t } from '@ankr.com/common';
-import { AccountErrorCode, TwoFAStatus } from 'multirpc-sdk';
+import { AccountingErrorCode, TwoFAStatus } from 'multirpc-sdk';
 
 import { oauthLoginByGoogleSecretCode } from 'domains/oauth/actions/loginByGoogleSecretCode';
 import {
@@ -10,14 +10,14 @@ import {
   setTwoFACode,
 } from 'domains/userSettings/store/userSettingsSlice';
 import { is2FAError } from 'store/utils/is2FAError';
-import { getAxiosAccountErrorMessage } from 'store/utils/getAxiosAccountErrorMessage';
+import { getAxiosAccountingErrorMessage } from 'store/utils/getAxiosAccountingErrorMessage';
 import { oauthLoginInitiator } from 'domains/oauth/actions/loginByGoogleSecretCode/loginInitiator';
 import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { userSettingsFetchTwoFAStatus } from 'domains/userSettings/actions/twoFA/fetchTwoFAStatus';
 import { oauthSignout } from 'domains/oauth/actions/signout';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { getAccountErrorCode } from 'domains/userSettings/utils/getAccountErrorCode';
+import { getAccountingErrorCode } from 'domains/userSettings/utils/getAccountingErrorCode';
 import { OauthRedirectionURLError } from 'domains/oauth/actions/loginByGoogleSecretCode/loginByGoogleSecretCodeUtils';
 
 export const oauthLoginInitiatorListenerMiddleware = createListenerMiddleware();
@@ -48,9 +48,9 @@ oauthLoginInitiatorListenerMiddleware.startListening({
         return;
       }
 
-      const code = getAccountErrorCode(secretCodeError as any);
+      const code = getAccountingErrorCode(secretCodeError as any);
 
-      const isBindingError = code === AccountErrorCode.AlreadyExists;
+      const isBindingError = code === AccountingErrorCode.AlreadyExists;
 
       dispatch(
         NotificationActions.showNotification({
@@ -102,7 +102,7 @@ oauthLoginInitiatorListenerMiddleware.startListening({
     );
 
     if (is2FAError(error)) {
-      const message = getAxiosAccountErrorMessage(error);
+      const message = getAxiosAccountingErrorMessage(error);
 
       dispatch(setTwoFAErrorMessage(message));
     }

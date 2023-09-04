@@ -1,47 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
-import { Project } from 'domains/projects/utils/getAllProjects';
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
-import { useLazyFetchStatsByRangeQuery } from 'domains/projects/actions/fetchStatsByRange';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import {
+  DEFAULT_PROJECT_STATUS,
+  Project,
+  ProjectTable,
+} from 'domains/projects/utils/getAllProjects';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectDraftTokenIndex } from 'domains/projects/store';
+import {
+  selectProjectsStatsByRange,
+  selectProjectsStatuses,
+} from 'domains/projects/store/WhitelistsSelector';
 
 import { useColumns } from './useColumns';
 
 interface ProjectTableColumnsProps {
-  projectData: Project[];
+  projectsData: Project[];
   onProjectDialogOpen: () => void;
 }
 
 export const useProjectTable = ({
-  projectData,
+  projectsData,
   onProjectDialogOpen,
 }: ProjectTableColumnsProps) => {
-  const [fetchStatsByRangeQuery, { isLoading, data: statsData }] =
-    useLazyFetchStatsByRangeQuery();
-  const [tableData, setTableData] = useState(projectData);
+  const draftTokenIndex = useAppSelector(selectDraftTokenIndex);
+  const statusData = useAppSelector(selectProjectsStatuses);
+  const activityData = useAppSelector(selectProjectsStatsByRange);
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
-  const { jwtTokens } = useJwtTokenManager();
   const { columns } = useColumns({
-    isProjectsActivityLoading: isLoading,
     onProjectDialogOpen,
   });
 
-  useEffect(() => {
-    if (jwtTokens.length > 0) {
-      fetchStatsByRangeQuery({ jwtTokens, group });
-    }
-  }, [fetchStatsByRangeQuery, group, jwtTokens]);
+  const tableData: ProjectTable[] = useMemo(
+    () =>
+      projectsData.map(data => {
+        const { userEndpointToken, tokenIndex } = data;
 
-  useEffect(() => {
-    const result = projectData.map(item => ({
-      ...item,
-      statsData: statsData?.[item.userEndpointToken],
-    }));
+        const currentStatusItem = statusData?.find(
+          statusDataItem =>
+            statusDataItem.userEndpointToken === userEndpointToken,
+        );
 
-    setTableData(result);
-  }, [statsData, projectData]);
+        const status = currentStatusItem?.status || DEFAULT_PROJECT_STATUS;
+
+        const projectStatus = {
+          ...status,
+          draft: draftTokenIndex === tokenIndex,
+        };
+
+        const currentActivityData = activityData?.[userEndpointToken];
+        const statsByRange = currentActivityData?.data ?? {};
+
+        return {
+          ...data,
+          projectStatus,
+          statsByRange,
+        };
+      }),
+
+    [activityData, draftTokenIndex, projectsData, statusData],
+  );
 
   return { columns, tableData };
 };

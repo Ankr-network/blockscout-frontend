@@ -81,22 +81,21 @@ export const trackLoginSuccess = async ({
   trackWeb2SignUpSuccess(getTrackingParams(getState as GetState));
 };
 
-export const bindAccountToLoggedInUser = async (
-  authorizationToken: string,
-  { code, state, provider }: OauthRedirectionURLState,
-) => {
+export const bindAccountToLoggedInUser = async ({
+  code,
+  state,
+  provider,
+}: OauthRedirectionURLState) => {
   const service = MultiService.getService();
 
-  service.getOauthGateway().addToken(authorizationToken);
-
   if (provider) {
-    return service.getOauthGateway().bindOauthAccount({
+    return service.getAccountingGateway().bindOauthAccount({
       ...buildSecretCodeData(code || '', state || ''),
       provider,
     });
   }
 
-  return service.getOauthGateway().bindGoogleAccount({
+  return service.getAccountingGateway().bindGoogleAccount({
     ...buildSecretCodeData(code || '', state || ''),
   });
 };

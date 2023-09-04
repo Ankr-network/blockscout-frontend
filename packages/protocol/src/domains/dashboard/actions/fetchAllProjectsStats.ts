@@ -1,4 +1,4 @@
-import { AccountGateway, IApiPrivateStats } from 'multirpc-sdk';
+import { AccountingGateway, IApiPrivateStats } from 'multirpc-sdk';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
@@ -20,7 +20,7 @@ export interface AllProjectsStatsParams extends ProjectsStatsParams {
 const getProjectStatsPromise = async (
   { index, userEndpointToken, name }: JwtManagerToken,
   { group, interval }: ProjectsStatsParams,
-  api: AccountGateway,
+  api: AccountingGateway,
 ): Promise<AllProjectsStats> => ({
   index,
   name,
@@ -42,7 +42,7 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(async params => {
         const service = MultiService.getService();
-        const api = service.getAccountGateway();
+        const api = service.getAccountingGateway();
 
         const data = await Promise.all(
           params.projects.map(project =>

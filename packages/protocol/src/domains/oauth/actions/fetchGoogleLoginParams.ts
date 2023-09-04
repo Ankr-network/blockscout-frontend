@@ -13,7 +13,9 @@ export const {
       queryFn: createNotifyingQueryFn(async () => {
         const service = MultiService.getService();
 
-        const data = await service.getOauthGateway().getGoogleLoginParams();
+        const data = await service
+          .getAccountingGateway()
+          .getGoogleLoginParams();
 
         const googleAuthUrl = buildOauthRedirectionUrl(data);
 

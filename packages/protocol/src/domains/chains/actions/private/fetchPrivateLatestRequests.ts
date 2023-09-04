@@ -27,7 +27,7 @@ export const {
         const service = MultiService.getService();
 
         const { user_requests: userRequests } = await service
-          .getAccountGateway()
+          .getAccountingGateway()
           .getLatestRequests({ group, limit: 10 });
 
         return {

@@ -145,6 +145,14 @@
       "title": "Unlock access to your personal account with&nbsp;"
     },
     "breadcrumbs": "Projects",
+    "welcome-dialog": {
+      "title": "Welcome to Projects",
+      "description": "<p>Since your last visit we worked very hard on refining your experience with Ankr mRPC. Let us introduce you Projects! This is a place where your project will be placed.</p><p>You already have one preconfigured project which you can configure to your demands or create a new one. Below you can find a few useful links that can guide you into the light:</p>",
+      "how-to-get-start": "How to get started",
+      "support": "Support",
+      "create-project-button": "Create project",
+      "skip-button": "Skip for now"
+    },
     "list-project": {
       "title": "My Projects",
       "how-to-get-started": "How to get started",
@@ -157,9 +165,13 @@
         "column-5-tooltip": "Requests for today (UTC time)"
       },
       "project-name-tooltip": "You can’t remove the Primary project.",
+      "draft": "Draft",
+      "suspended": "Suspended",
+      "frozen": "Frozen",
       "active": "Active",
-      "installed": "Installed",
-      "not-installed": "Not installed",
+      "inactive": "Inactive",
+      "implemented": "Implemented",
+      "not-implemented": "Not implemented",
       "add-project": "Add Project",
       "edit-project": "Continue project configuration",
       "no-data": "No project found",
@@ -234,7 +246,7 @@
         "0": "Chains",
         "1": "Whitelist",
         "2": "Plan",
-        "3": "Payment"
+        "3": "Summary"
       },
       "chain": {
         "mainnet": "Mainnet",
@@ -278,12 +290,12 @@
         }
       },
       "checkout-step": {
-        "title": "Project summary",
+        "title": "Check all the details",
         "description": "Please ensure that all the details of your project are correct before proceeding to checkout.",
         "edit": "Edit",
         "label-chains": "Chains",
         "label-whitelist": "Whitelist",
-        "label-plan": "Your Plan",
+        "label-plan": "Current plan",
         "project": "Project",
         "network": "Network",
         "whitelist": "White List",
@@ -293,7 +305,11 @@
         "price": "Final Price",
         "prohibited": "There are only three methods supported for whitelisting on&nbsp;the chosen blockchain: eth_call, eth_getLogs, eth_sendRawTransaction. All other methods and blockchains are prohibited.",
         "unprohibited": "All requests not prohibited",
-        "more": "+{additionalBlockchainsCount} more"
+        "more": "+{additionalBlockchainsCount} more",
+        "usage": "{projectsUsed} of {projectsAllowed} projects used",
+        "error-message": {
+          "can-not-add-to-whitelist": "Can not add {contractAddress} for {userEndpointToken}"
+        }
       },
       "plan-step": {
         "title": "Select your plan",
@@ -307,7 +323,15 @@
           "name": "Grow",
           "price": "$500<br/><span>per month</span>",
           "description": "<ul><li>30M <span>monthly requests</span></li><li>10 <span>Whitelisted domains</span></li><li>3 <span>Whitelisted Smart Contracts</span></li><li>All EVM-compatible methods for all chains</span></li></ul>"
+        },
+        "free": {
+          "name": "Free",
+          "price": "$0 <span>per month</span>",
+          "description": "<ul><li>1500 <span>requests per second</span></li><li>30 <span>chains</span></li><li>40 <span>regions</span></li><li>support portal</span></li></ul>"
         }
+      },
+      "error-message": {
+        "name-duplication": "The project \"{value}\" has already been added"
       }
     },
     "add-whitelist-dialog": {
@@ -578,7 +602,6 @@
       "devnet": "Devnet"
     },
     "banner-zksync_era": "<b>Warning</b>: The zkSync Era node is&nbsp;still in&nbsp;<em>alpha</em> and subject to&nbsp;further updates. Users may experience downtime. If&nbsp;you notice discrepancies from the <a target=\"_blank\" href=\"https://era.zksync.io/docs/dev/building-on-zksync/interacting.html#quickstart-on-zksync\">main node API</a> please report directly to&nbsp;<a target=\"_blank\" href=\"https://zksync.io/contact\">Matter Labs</a>.",
-    "banner-polygon-zkevm": "<b>Warning</b>: We’re really sorry but this week you may experience disruptions and hectic behavior on Polygon zkEVM due to their work to advance and improve performance. August 30 — outages on Testnet, August 31 — outages on Mainnet.",
     "chain-subtypes": {
       "athens2": "Athens-2",
       "athens3": "Athens-3"
@@ -1300,12 +1323,10 @@
         },
         "bundle-dialog": {
           "title": "Unlock new possibilities for your project",
-          "description": "Subscribe to Ankr’s Premium RPC plan for $500 per month and unleash a variety of benefits.",
+          "description": "Subscribe to Ankr's Premium RPC plan for $500 per month and unleash a variety of benefits.",
           "requests": "30M monthly requests <span>(Limit resets based on your service start date)<span>",
-          "domains": "10 Whitelisted domains",
-          "addresses": "20 Whitelisted IP addresses",
           "management": "Team management",
-          "methods": "All EVM-compatible methods for all chains <span>(Solana and Advanced APIs not included)<span>",
+          "methods": "All blockchains methods for all chains <span>(Solana and Advanced APIs not included)<span>",
           "button": "Subscribe now"
         }
       },

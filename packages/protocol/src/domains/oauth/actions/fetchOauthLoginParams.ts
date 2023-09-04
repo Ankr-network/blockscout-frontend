@@ -16,7 +16,7 @@ export const {
         const service = MultiService.getService();
 
         const data = await service
-          .getOauthGateway()
+          .getAccountingGateway()
           .getOauthLoginParams({ provider: OauthLoginProvider.Github });
 
         return { data: buildOauthRedirectionUrl(data) };

@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     fetchBalance: build.query<IBalance, IApiUserGroupParams>({
       queryFn: createNotifyingQueryFn(async ({ group }) => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getAnkrBalance({ group });
 

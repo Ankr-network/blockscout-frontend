@@ -27,7 +27,7 @@ export const {
         async ({ params: { email }, totp }) => {
           const service = MultiService.getService();
 
-          const data = await service.getAccountGateway().editEmailBinding({
+          const data = await service.getAccountingGateway().editEmailBinding({
             email,
             totp,
           });

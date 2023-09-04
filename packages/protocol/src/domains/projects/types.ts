@@ -10,6 +10,7 @@ export enum NewProjectStep {
 export enum PlanName {
   EarlyAdopters = 'Early Adopters',
   Grow = 'Grow',
+  Free = 'Free',
 }
 
 export interface Plan {

@@ -8,10 +8,13 @@ import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
-export interface GetStatsByRangeParams {
+interface GetStatsByRangeParams {
   jwtTokens: JwtManagerToken[];
   group?: string;
 }
+
+const duration = StatsByRangeDuration.TWO_DAYS;
+const timeframe = StatsByRangeTimeframe.DAY;
 
 export interface StatsByRangeResult {
   [userEndpointToken: string]: StatsByRange;
@@ -31,9 +34,6 @@ const isRejected = (
   result: PromiseSettledResult<StatsByRangeResponse>,
 ): result is PromiseRejectedResult => result.status === 'rejected';
 
-const duration = StatsByRangeDuration.TWO_DAYS;
-const timeframe = StatsByRangeTimeframe.DAY;
-
 export const {
   endpoints: { fetchStatsByRange },
   useLazyFetchStatsByRangeQuery,
@@ -41,7 +41,7 @@ export const {
   endpoints: build => ({
     fetchStatsByRange: build.query<StatsByRangeResult, GetStatsByRangeParams>({
       queryFn: async ({ group, jwtTokens }) => {
-        const service = MultiService.getService().getAccountGateway();
+        const service = MultiService.getService().getAccountingGateway();
 
         const promises = jwtTokens.map(({ userEndpointToken: token }) =>
           service.getUserStatsByRange({ duration, group, timeframe, token }),

@@ -1,44 +1,57 @@
 import {
+  StatsByRangeResponse,
+  GetUserEndpointTokenStatusResponse,
   IGetWhitelistParamsResponse,
   WhitelistItem,
-  IJwtTokenStatusResponse,
 } from 'multirpc-sdk';
 
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+import { FetchTokenStatusResponse } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
-import { StatsByRange } from '../actions/fetchStatsByRange';
+import { JwtManagerToken } from '../../jwtToken/store/jwtTokenManagerSlice';
+
+export interface ProjectStatus extends GetUserEndpointTokenStatusResponse {
+  draft?: boolean;
+}
 
 export interface Project {
   name: string;
   description: string;
-  statsData?: StatsByRange;
-  tokenIndex: number;
   isFrozen: boolean;
-  userEndpointToken: string;
   whitelist?: WhitelistItem[];
+  userEndpointToken: string;
+  tokenIndex: number;
 }
 
-interface UserEndpointInfo {
-  userEndpoint: string;
-  index: number;
-  name: string;
-  description: string;
+export interface ProjectTable extends Project {
+  statsByRange: StatsByRangeResponse;
+  projectStatus: ProjectStatus;
 }
+
+export const DEFAULT_PROJECT_STATUS: ProjectStatus = {
+  draft: false,
+  suspended: false,
+  frozen: false,
+  freemium: false,
+};
 
 export const getAllProjects = (
-  userEndpointInfo: UserEndpointInfo[],
+  userEndpointInfo: JwtManagerToken[],
   whitelists: IGetWhitelistParamsResponse[],
-  projectStatuses: IJwtTokenStatusResponse[],
-) =>
-  userEndpointInfo.map<Project>((item, index) => ({
-    name: item.name ? item.name : renderProjectName(item.index),
-    statsData: {
-      data: undefined,
-      error: undefined,
-    },
-    tokenIndex: item.index,
-    isFrozen: projectStatuses[index]?.frozen,
-    userEndpointToken: item.userEndpoint,
-    whitelist: whitelists[index]?.lists,
-    description: item.description,
-  }));
+  projectStatuses: FetchTokenStatusResponse[],
+): Project[] =>
+  userEndpointInfo.map((item, index) => {
+    const currentProjectStatus = projectStatuses.find(
+      projectStatus =>
+        projectStatus.userEndpointToken === item.userEndpointToken,
+    );
+
+    return {
+      whitelist: whitelists[index]?.lists,
+      name: item.name || renderProjectName(item.index),
+      tokenIndex: item.index,
+      isFrozen: Boolean(currentProjectStatus?.status?.frozen),
+      userEndpointToken: item.userEndpointToken,
+      description: item.description,
+    };
+  });
