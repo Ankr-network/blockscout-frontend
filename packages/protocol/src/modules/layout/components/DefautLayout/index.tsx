@@ -1,1 +1,1 @@
-export { DefaultLayout, CONTENT_WIDTH } from './DefautLayout';
+export { DefaultLayout, CONTENT_WIDTH } from './DefaultLayout';

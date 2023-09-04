@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     fetchAllProjectsTotalRequests: build.query<number, ProjectsStatsParams>({
       queryFn: createNotifyingQueryFn(async ({ interval, group }) => {
-        const api = MultiService.getService().getAccountGateway();
+        const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getPrivateStats(interval, group);
 

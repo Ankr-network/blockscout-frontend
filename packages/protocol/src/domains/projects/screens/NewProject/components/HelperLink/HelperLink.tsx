@@ -4,16 +4,17 @@ import { ExternalLink } from '@ankr.com/ui';
 import { useHelperLinkStyles } from './useHelperLinkStyles';
 
 interface HelperLinkProps {
-  text: string;
+  className?: string;
   href: string;
+  text: string;
 }
 
-export const HelperLink = ({ text, href }: HelperLinkProps) => {
-  const { classes } = useHelperLinkStyles();
+export const HelperLink = ({ className, text, href }: HelperLinkProps) => {
+  const { classes, cx } = useHelperLinkStyles();
 
   return (
     <Button
-      className={classes.helperLinkRoot}
+      className={cx(classes.helperLinkRoot, className)}
       href={href}
       target="_blank"
       endIcon={<ExternalLink className={classes.externalLinkIcon} />}

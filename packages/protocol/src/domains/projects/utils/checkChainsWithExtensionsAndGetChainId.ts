@@ -14,6 +14,10 @@ export const checkChainsWithExtensionsAndGetChainId = (chainId: ChainID) => {
       return checkPrivateChainsAndGetChainId(ChainID.HORIZEN_EVM);
     case ChainID.HORIZEN_TESTNET:
       return checkPrivateChainsAndGetChainId(ChainID.HORIZEN_TESTNET_EVM);
+    case ChainID.BERACHAIN:
+      return checkPrivateChainsAndGetChainId(
+        ChainID.BERACHAIN_GUARDED_TESTNET_EVM,
+      );
     default:
       return checkPrivateChainsAndGetChainId(chainId);
   }

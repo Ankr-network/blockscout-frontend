@@ -10,7 +10,7 @@ export const {
         const service = await MultiService.getService();
 
         const { is_participant: isParticipant } = await service
-          .getAccountGateway()
+          .getAccountingGateway()
           .checkDevdaoInstantJwtParticipant();
 
         return { data: isParticipant };

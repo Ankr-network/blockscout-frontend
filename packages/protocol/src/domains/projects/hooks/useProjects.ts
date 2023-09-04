@@ -6,6 +6,7 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 import { useLazyFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
+import { useLazyFetchStatsByRangeQuery } from '../actions/fetchStatsByRange';
 
 export const useProjects = () => {
   const {
@@ -16,45 +17,63 @@ export const useProjects = () => {
     isFetching,
   } = useJwtTokenManager();
 
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const tokensRef = useRef(jwtTokens);
 
-  const [fetchAllWhitelists] = useLazyFetchAllWhitelistsQuery();
-  const [fetchAllJwtTokensStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
+  const [
+    fetchAllWhitelists,
+    { data: allWhitelists, isLoading: isLoadingAllWhitelists },
+  ] = useLazyFetchAllWhitelistsQuery();
+
+  const [fetchStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
+
+  const [fetchStatsByRange] = useLazyFetchStatsByRangeQuery();
 
   useEffect(() => {
-    if (
+    const skipFetching =
       jwtTokens.length === 0 ||
       isFetching ||
-      isEqual(jwtTokens, tokensRef.current)
-    ) {
+      isEqual(jwtTokens, tokensRef.current);
+
+    if (skipFetching) {
       return () => {};
     }
 
     tokensRef.current = jwtTokens;
 
-    const { abort: abortWhitelists } = fetchAllWhitelists({
-      group: selectedGroupAddress,
+    const { abort: abortWhitelists } = fetchAllWhitelists({ group });
+
+    const { abort: abortStatuses } = fetchStatuses({
+      group,
+      projects: jwtTokens,
     });
 
-    const { abort: abortJwtTokensStatuses } = fetchAllJwtTokensStatuses();
+    const { abort: abortStats } = fetchStatsByRange({
+      group,
+      jwtTokens,
+    });
 
     return () => {
       abortWhitelists();
-      abortJwtTokensStatuses();
+      abortStatuses();
+      abortStats();
     };
   }, [
     isFetching,
-    selectedGroupAddress,
+    group,
     jwtTokens,
     fetchAllWhitelists,
-    fetchAllJwtTokensStatuses,
+    fetchStatuses,
+    fetchStatsByRange,
   ]);
 
   return {
     canAddProject,
     allowedAddProjectTokenIndex,
     isLoading,
+    allWhitelists,
+    isLoadingAllWhitelists,
+    isFetching,
   };
 };

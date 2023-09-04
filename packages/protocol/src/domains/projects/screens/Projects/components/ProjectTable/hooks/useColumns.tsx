@@ -1,9 +1,8 @@
-/* eslint-disable max-lines-per-function */
 import { Info } from '@ankr.com/ui';
-import { Skeleton, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { Project } from 'domains/projects/utils/getAllProjects';
+import { ProjectTable } from 'domains/projects/utils/getAllProjects';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { SoonLabel } from 'modules/common/components/SoonLabel';
@@ -11,31 +10,27 @@ import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 import { ActionsMenu } from '../../ActionsMenu';
-import { ActiveLabel } from '../../ActiveLabel';
 import { BlockchainIcon } from '../../BlockchainIcon';
 import { ProjectName } from '../../ProjectName';
 import { ProjectRequestsActivity } from '../../ProjectRequestsActivity';
 import { formatBlockchainToString, getRequests } from '../ProjectTableUtils';
 import { useColumnsStyles } from './useColumnsStyles';
+import { ProjectStatusLabel } from '../../ProjectStatusLabel';
 
 interface TableColumnsProps {
-  isProjectsActivityLoading: boolean;
   onProjectDialogOpen: () => void;
 }
 
-// eslint-disable-next-line max-lines-per-function
-export const useColumns = ({
-  isProjectsActivityLoading,
-  onProjectDialogOpen,
-}: TableColumnsProps) => {
+/* eslint-disable max-lines-per-function */
+export const useColumns = ({ onProjectDialogOpen }: TableColumnsProps) => {
   const { classes, cx } = useColumnsStyles();
 
   const hasAccessForManaging = useGuardUserGroup({
     blockName: BlockWithPermission.JwtManagerEdit,
   });
 
-  const columns = useLocaleMemo((): VirtualTableColumn<Project>[] => {
-    const result: VirtualTableColumn<Project>[] = [
+  const columns = useLocaleMemo((): VirtualTableColumn<ProjectTable>[] => {
+    const result: VirtualTableColumn<ProjectTable>[] = [
       {
         align: 'left',
         field: 'name',
@@ -60,7 +55,15 @@ export const useColumns = ({
             {t('projects.list-project.table.column-2')}
           </span>
         ),
-        render: () => <ActiveLabel />,
+        render: ({ projectStatus }) => {
+          const hasData = Object.keys(projectStatus).length !== 0;
+
+          if (!hasData) {
+            return t('common.no-data');
+          }
+
+          return <ProjectStatusLabel data={projectStatus} />;
+        },
         sortable: false,
       },
       {
@@ -72,7 +75,7 @@ export const useColumns = ({
           </span>
         ),
         render: ({ whitelist }) => {
-          const label = whitelist?.length ? 'installed' : 'not-installed';
+          const label = whitelist?.length ? 'implemented' : 'not-implemented';
 
           return (
             <SoonLabel
@@ -114,20 +117,12 @@ export const useColumns = ({
             </Tooltip>
           </span>
         ),
-        render: ({ statsData = {} }) => {
-          if (isProjectsActivityLoading) {
-            return (
-              <Skeleton variant="rectangular" style={{ borderRadius: 8 }} />
-            );
-          }
-
-          const { data = {}, error } = statsData;
-
-          if (error) {
+        render: ({ statsByRange }) => {
+          if (Object.keys(statsByRange).length === 0) {
             return t('common.no-data');
           }
 
-          const requests = getRequests(data);
+          const requests = getRequests(statsByRange);
 
           const [todayRequests, yesterdayRequests] = requests;
 
@@ -144,7 +139,6 @@ export const useColumns = ({
             />
           );
         },
-        sortable: false,
       },
     ];
 

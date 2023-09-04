@@ -4,11 +4,9 @@ import { ExternalLink } from '@ankr.com/ui';
 import { ReactNode } from 'react';
 
 import { NavLink } from 'uiKit/NavLink';
+import { PROJECTS_DOCS_LINK } from 'domains/projects/const';
 
 import { useProjectHeaderStyles } from './useProjectHeaderStyles';
-
-const PROJECTS_DOCS_LINK =
-  'https://www.ankr.com/docs/rpc-service/getting-started/projects/';
 
 interface ProjectHeaderProps {
   search: ReactNode;

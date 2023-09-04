@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 
 import { useProjects } from 'domains/projects/hooks/useProjects';
-import { selectAllProjects } from 'domains/projects/store';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { Search } from 'modules/common/components/Search';
 import { useAppSelector } from 'store/useAppSelector';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
@@ -15,6 +15,7 @@ import {
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectTable } from '../ProjectTable';
+import { WelcomeDialog } from '../WelcomeDialog';
 import { AddAndEditProjectDialog } from '../AddAndEditProjectDialog';
 import {
   AddAndEditProjectDialogFields,
@@ -115,6 +116,7 @@ export const Projects = () => {
             handleFormSubmit={handleSubmit}
             onClose={handleCloseAddAndEditDialog}
           />
+          <WelcomeDialog onCreateNewProject={onAddAndEditDialogOpen} />
         </>
       );
     },

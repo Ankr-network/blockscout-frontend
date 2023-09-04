@@ -6,7 +6,7 @@ export const useFooterStyles = makeStyles()(theme => ({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
 
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(17.5),
   },
   rightWrapper: {
     display: 'flex',
