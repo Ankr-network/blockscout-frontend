@@ -50,8 +50,10 @@ export const BaseChainsCard = ({
       tabIndex={0}
     >
       <div className={classes.mainInfo}>
-        <div>
-          <Typography className={classes.title}>{name}</Typography>
+        <div className={classes.info}>
+          <Typography className={classes.title} component="p">
+            {name}
+          </Typography>
           <Typography className={classes.subtitle}>
             {coinName.toUpperCase()}
           </Typography>

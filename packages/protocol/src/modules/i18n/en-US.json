@@ -329,6 +329,9 @@
           "price": "$0 <span>per month</span>",
           "description": "<ul><li>1500 <span>requests per second</span></li><li>30 <span>chains</span></li><li>40 <span>regions</span></li><li>support portal</span></li></ul>"
         }
+      },
+      "error-message": {
+        "name-duplication": "The project \"{value}\" has already been added"
       }
     },
     "add-whitelist-dialog": {
