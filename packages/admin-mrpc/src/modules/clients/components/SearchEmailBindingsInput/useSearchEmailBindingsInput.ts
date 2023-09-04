@@ -7,9 +7,8 @@ import { utils } from 'ethers';
 
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 import { clearSpaces } from 'modules/clients/utils/clearSpaces';
-
-import { useLazyFetchUsersEmailsQuery } from '../../actions/fetchUsersEmails';
-import { useLazyFetchUserByTokenQuery } from '../../actions/fetchUserByToken';
+import { useLazyFetchUsersEmailsQuery } from 'modules/clients/actions/fetchUsersEmails';
+import { useLazyFetchUserByTokenQuery } from 'modules/clients/actions/fetchUserByToken';
 
 export type FilterType = 'email' | 'address' | 'token';
 
@@ -63,39 +62,40 @@ export const useSearchEmailBindingsInput = (filterType: FilterType) => {
     isRequestByTokenFetching,
   ]);
 
-  const handleSearch = useCallback(
-    debounce(value => {
-      if (value) {
-        if (value.length >= MIN_SEARCH_VALUE_LENGTH) {
-          if (filterType === 'token') {
-            if (value.length !== 64 || !value.match(/^[0-9A-Fa-f]+$/)) {
-              setError('Invalid Token');
+  const handleSearch = useMemo(
+    () =>
+      debounce(value => {
+        if (value) {
+          if (value.length >= MIN_SEARCH_VALUE_LENGTH) {
+            if (filterType === 'token') {
+              if (value.length !== 64 || !value.match(/^[0-9A-Fa-f]+$/)) {
+                setError('Invalid Token');
+
+                return;
+              }
+
+              setError('');
+              fetchClientsByToken({ token: value });
 
               return;
             }
 
-            setError('');
-            fetchClientsByToken({ token: value });
+            if (filterType === 'address') {
+              if (!utils.isAddress(value)) {
+                setError('Invalid ETH Address');
 
-            return;
-          }
+                return;
+              }
 
-          if (filterType === 'address') {
-            if (!utils.isAddress(value)) {
-              setError('Invalid ETH Address');
-
-              return;
+              setError('');
             }
 
-            setError('');
+            fetchClientsByEmail({ filter: value, filter_type: filterType });
           }
-
-          fetchClientsByEmail({ filter: value, filter_type: filterType });
+        } else {
+          setError('');
         }
-      } else {
-        setError('');
-      }
-    }, SEARCH_DELAY),
+      }, SEARCH_DELAY),
     [fetchClientsByEmail, fetchClientsByToken, filterType],
   );
 
