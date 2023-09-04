@@ -111,34 +111,73 @@ export const ClientInfo = ({
     [isCurrentClientLoading],
   );
 
-  const renderMainInfo = (token: IUserTokensResponseEntity) =>
-    currentClient && (
-      <Card
-        key={currentClient.user || currentClient.address}
-        className={classes.root}
-      >
-        <CardContent>
-          <Box display="flex" alignItems="center">
-            <UserTypeTag
-              clientType={currentClient.clientType}
-              clientTtl={currentClient.ttl}
-            />
-          </Box>
+  const renderMainInfo = useCallback(
+    (token: IUserTokensResponseEntity) => {
+      if (currentClient) {
+        return (
+          <Card
+            key={currentClient.user || currentClient.address}
+            className={classes.root}
+          >
+            <CardContent>
+              <Box display="flex" alignItems="center">
+                <UserTypeTag
+                  clientType={currentClient.clientType}
+                  clientTtl={currentClient.ttl}
+                />
+              </Box>
+              <br />
+              <Typography
+                variant="body2"
+                component="p"
+                style={{ marginRight: 16 }}
+              >
+                <b>Created:</b>{' '}
+                {currentClient?.createdDate?.toLocaleString() || 'unknown'}
+              </Typography>
+              <br />
+              <Typography variant="body2" component="p">
+                <b>Token:</b> {renderClient(token)}
+              </Typography>
+              {currentClient.user && (
+                <ClientApiKeysModal token={currentClient.user} />
+              )}
+            </CardContent>
+          </Card>
+        );
+      }
+
+      return null;
+    },
+    [classes.root, currentClient, renderClient],
+  );
+
+  const renderTokens = useMemo(() => {
+    if (isCurrentClientLoading) {
+      return (
+        <>
           <br />
-          <Typography variant="body2" component="p" style={{ marginRight: 16 }}>
-            <b>Created:</b>{' '}
-            {currentClient?.createdDate?.toLocaleString() || 'unknown'}
-          </Typography>
           <br />
-          <Typography variant="body2" component="p">
-            <b>Token:</b> {renderClient(token)}
-          </Typography>
-          {currentClient.user && (
-            <ClientApiKeysModal token={currentClient.user} />
-          )}
-        </CardContent>
+          <Spinner size={40} centered={false} />
+        </>
+      );
+    }
+
+    if (currentClient?.tokens?.length) {
+      return currentClient?.tokens?.map(renderMainInfo);
+    }
+
+    return (
+      <Card className={classes.root}>
+        <CardContent>This client does not have tokens</CardContent>
       </Card>
     );
+  }, [
+    currentClient?.tokens,
+    isCurrentClientLoading,
+    renderMainInfo,
+    classes.root,
+  ]);
 
   const renderClientEmail = useMemo(() => {
     if (currentClient?.email) {
@@ -257,15 +296,7 @@ export const ClientInfo = ({
         isLoadingUserProjects={isLoadingUserProjects}
       />
 
-      {isCurrentClientLoading ? (
-        <>
-          <br />
-          <br />
-          <Spinner size={40} centered={false} />
-        </>
-      ) : (
-        currentClient?.tokens?.map(renderMainInfo)
-      )}
+      {renderTokens}
 
       {renderAddress}
 
