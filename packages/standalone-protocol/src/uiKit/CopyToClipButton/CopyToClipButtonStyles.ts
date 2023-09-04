@@ -351,6 +351,18 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         borderRadius: '6px 0 0 6px',
       },
     },
+
+    [`&.${ChainId.Flare}`]: {
+      backgroundColor: theme.palette.background.default,
+
+      '& $content': {
+        padding: 0,
+      },
+
+      '& $contentBackground': {
+        backgroundColor: theme.palette.background.default,
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied

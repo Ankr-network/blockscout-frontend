@@ -11,7 +11,6 @@ import { syscoinTheme } from 'modules/themes/syscoinTheme';
 import { arbitrumTheme } from 'modules/themes/arbitrumTheme';
 import { avalancheTheme } from 'modules/themes/avalancheTheme';
 import { chilizTheme } from 'modules/themes/chilizTheme';
-// import { mainTheme } from 'modules/themes/mainTheme';
 import { moonbeamTheme } from 'modules/themes/moonbeamTheme';
 import { nearTheme } from 'modules/themes/nearTheme';
 import { nervosTheme } from 'modules/themes/nervosTheme';
@@ -23,6 +22,7 @@ import { tenetTheme } from 'modules/themes/tenetTheme';
 import { zksyncEraTheme } from 'modules/themes/zksyncEraTheme';
 import { rolluxTheme } from 'modules/themes/rolluxTheme';
 import { mantleTheme } from 'modules/themes/mantleTheme';
+import { flareTheme } from 'modules/themes/flareTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -77,6 +77,9 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Filecoin:
       return filecoinTheme;
 
+    case ChainId.Flare:
+      return flareTheme;
+
     case ChainId.Klaytn:
       return klaytnTheme;
 
@@ -96,6 +99,6 @@ export const getTheme = (chainId?: ChainId) => {
       return mantleTheme;
 
     default:
-      return horizenTheme;
+      return flareTheme;
   }
 };

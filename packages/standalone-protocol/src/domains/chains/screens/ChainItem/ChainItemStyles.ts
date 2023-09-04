@@ -8,7 +8,7 @@ import tenetBackground from './assets/tenetBackground.png';
 
 const MAX_WIDTH = 1110;
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     position: 'relative',

@@ -206,6 +206,17 @@ const MANTLE_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://explorer.mantle.xyz'],
 };
 
+const FLARE_NETWORK_PARAMS = {
+  chainId: 14,
+  chainName: 'Flare C-chain by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Flare',
+    symbol: 'FLR',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://flare-explorer.flare.network'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -266,6 +277,9 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, HORIZEN_NETWORK_PARAMS);
     case 'mantle':
       return mapParams(chain, MANTLE_NETWORK_PARAMS);
+
+    case 'flare':
+      return mapParams(chain, FLARE_NETWORK_PARAMS);
 
     default:
       return undefined;
