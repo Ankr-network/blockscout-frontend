@@ -42,8 +42,9 @@ import {
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
 import { ReactComponent as MantleLogo } from 'assets/img/logo/mantle.svg';
+import { ReactComponent as FlareLogo } from 'assets/img/logo/flare.svg';
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export const getMenuList = (isMobileSiderBar: boolean) => [
   {
     chainId: ChainId.Ethereum,
@@ -134,6 +135,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: 'Mantle',
     logo: <MantleLogo />,
     url: 'https://mantle.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Flare,
+    name: 'Flare',
+    logo: <FlareLogo />,
+    url: 'https://flare.public-rpc.com/',
   },
   {
     chainId: ChainId.Chiliz,

@@ -12,7 +12,7 @@ export const FONTS = {
   primary: ['Inter', 'SF UI Display', 'Arial', 'sans-serif'].join(','),
 };
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export const createTheme = (defaultTheme: Theme) =>
   createMuiTheme({
     spacing: defaultTheme.spacing,

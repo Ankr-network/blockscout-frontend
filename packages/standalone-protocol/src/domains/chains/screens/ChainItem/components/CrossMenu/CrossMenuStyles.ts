@@ -15,7 +15,7 @@ const MENU_TOP = 60;
 const menuList = getMenuList(false);
 const MENU_ITEMS = menuList.length;
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
   dropMenu: {
     '&&': {
