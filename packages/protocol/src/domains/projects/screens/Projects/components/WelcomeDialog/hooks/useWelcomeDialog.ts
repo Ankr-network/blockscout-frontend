@@ -1,9 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import {
   selectProjectsSettings,
   setProjectsSettings,
@@ -11,11 +9,10 @@ import {
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useProjects } from 'domains/projects/hooks/useProjects';
 
-export const useWelcomeDialog = () => {
+export const useWelcomeDialog = (onCreateNewProject: () => void) => {
   const { isOpened, onOpen, onClose } = useDialog();
 
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const { address } = useAuth();
 
@@ -34,19 +31,19 @@ export const useWelcomeDialog = () => {
     }
   }, [address, isLoadingAllWhitelists, allWhitelists, onOpen, projectSettings]);
 
-  const handleCreateNewProjectClick = useCallback(() => {
-    dispatch(setProjectsSettings({ address, shouldShowWelcomeDialog: true }));
-    history.push(ProjectsRoutesConfig.newProject.generatePath());
-  }, [history, dispatch, address]);
-
-  const handleSkipClick = useCallback(() => {
+  const handleCloseWelcomeModal = useCallback(() => {
     dispatch(setProjectsSettings({ address, shouldShowWelcomeDialog: true }));
     onClose();
   }, [onClose, address, dispatch]);
 
+  const handleCreateNewProjectClick = useCallback(() => {
+    onCreateNewProject();
+    handleCloseWelcomeModal();
+  }, [handleCloseWelcomeModal, onCreateNewProject]);
+
   return {
     isOpened,
     handleCreateNewProjectClick,
-    handleSkipClick,
+    handleSkipClick: handleCloseWelcomeModal,
   };
 };

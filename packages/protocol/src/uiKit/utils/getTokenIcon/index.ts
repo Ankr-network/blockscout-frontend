@@ -228,11 +228,13 @@ const chainNameIcons: Record<string, string> = {
   aptos_testnet: aptosIcon,
   filecoin_testnet: filecoinIcon,
   zksync_era_testnet: zksyncEraIcon,
+  berachain_guarded_testnet_evm: berachainIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
   ...chainNameIcons,
   tenet_evm: tenetIconDark,
+  berachain_guarded_testnet_evm: berachainIconDark,
 };
 
 export function getChainIcon(name: string, isLightTheme: boolean) {

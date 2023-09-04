@@ -20,7 +20,7 @@ export const AddAndEditProjectForm = ({
 }: AddAndEditProjectFormProps) => {
   const { classes, cx } = useAddAndEditProjectFormStyles();
 
-  const { name, isEditingProjectDialog, valid } = useProjectFormValues();
+  const { name, valid } = useProjectFormValues();
 
   const isNameFilled = Boolean(name);
 
@@ -59,9 +59,7 @@ export const AddAndEditProjectForm = ({
         className={classes.submitButton}
         onClick={handleSubmit}
       >
-        {isEditingProjectDialog
-          ? t('projects.edit-project.dialog.save')
-          : t('projects.new-project.dialog.create')}
+        {t('projects.edit-project.dialog.save')}
       </LoadingButton>
     </form>
   );

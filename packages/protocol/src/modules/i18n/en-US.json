@@ -147,10 +147,10 @@
     "breadcrumbs": "Projects",
     "welcome-dialog": {
       "title": "Welcome to Projects",
-      "description": "<p>Since your last visit we worked very hard on refining your experience with Ankr mRPC. Let us introduce you Projects! This is a place where your project will be placed.</p><p>You already have one preconfugured project which you can configure to you demands or create a new one. Below you can find a few useful links that can guide you into the light:</p>",
+      "description": "<p>Since your last visit we worked very hard on refining your experience with Ankr mRPC. Let us introduce you Projects! This is a place where your project will be placed.</p><p>You already have one preconfigured project which you can configure to your demands or create a new one. Below you can find a few useful links that can guide you into the light:</p>",
       "how-to-get-start": "How to get started",
       "support": "Support",
-      "config-button": "Configure project",
+      "create-project-button": "Create project",
       "skip-button": "Skip for now"
     },
     "list-project": {
@@ -602,7 +602,6 @@
       "devnet": "Devnet"
     },
     "banner-zksync_era": "<b>Warning</b>: The zkSync Era node is&nbsp;still in&nbsp;<em>alpha</em> and subject to&nbsp;further updates. Users may experience downtime. If&nbsp;you notice discrepancies from the <a target=\"_blank\" href=\"https://era.zksync.io/docs/dev/building-on-zksync/interacting.html#quickstart-on-zksync\">main node API</a> please report directly to&nbsp;<a target=\"_blank\" href=\"https://zksync.io/contact\">Matter Labs</a>.",
-    "banner-polygon-zkevm": "<b>Warning</b>: We’re really sorry but this week you may experience disruptions and hectic behavior on Polygon zkEVM due to their work to advance and improve performance.",
     "chain-subtypes": {
       "athens2": "Athens-2",
       "athens3": "Athens-3"
