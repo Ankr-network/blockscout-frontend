@@ -152,6 +152,13 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     [`&.${ChainId.Mantle} span span span`]: {
       color: theme.palette.primary.main,
     },
+
+    [`&.${ChainId.Flare} span span span`]: {
+      background:
+        'linear-gradient(117deg, #D1AEDA 0%, #DCA5BD 47.40%, #C2BDE6 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -177,6 +184,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     },
 
     [`&.${ChainId.Mantle} span`]: {
+      color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Flare} span`]: {
       color: theme.palette.text.primary,
     },
 

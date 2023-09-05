@@ -74,6 +74,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Rollux:
       return '#EACF5E';
 
+    case ChainId.Flare:
+      return '#C2BDE6';
+
     default:
       return theme.palette.primary.dark;
   }

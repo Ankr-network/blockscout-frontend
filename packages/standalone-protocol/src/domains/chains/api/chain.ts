@@ -8,6 +8,7 @@ export enum ChainId {
   Chiliz = 'chiliz',
   Ethereum = 'eth',
   Fantom = 'fantom',
+  Flare = 'flare',
   HORIZEN_EON = 'horizen_eon',
   Harmony = 'harmony',
   IoTeX = 'iotex',
