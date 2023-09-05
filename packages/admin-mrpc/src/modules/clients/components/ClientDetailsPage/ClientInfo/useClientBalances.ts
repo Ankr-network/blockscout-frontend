@@ -16,7 +16,11 @@ export const useClientBalances = ({
   isLoadingClients,
   address,
 }: IClientBalancesHookProps) => {
-  const { data: currentClientBalance } = useFetchBalancesQuery({ address });
+  const {
+    data: currentClientBalance,
+    isLoading,
+    isFetching,
+  } = useFetchBalancesQuery({ address });
 
   const clientBalances: ClientBalancesMapped | undefined = useMemo(() => {
     if (client) {
@@ -32,7 +36,8 @@ export const useClientBalances = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, currentClientBalance, address]);
 
-  const isLoadingBalances = !currentClientBalance && isLoadingClients;
+  const isLoadingBalances =
+    (!currentClientBalance && isLoadingClients) || isLoading || isFetching;
 
   return {
     clientBalances,

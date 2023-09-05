@@ -15,8 +15,10 @@ import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 
 export const ClientEditProfileModal = ({
   currentClient,
+  disabled,
 }: {
   currentClient: ClientMapped;
+  disabled?: boolean;
 }) => {
   const { classes } = useStyles();
 
@@ -106,6 +108,7 @@ export const ClientEditProfileModal = ({
         className={classes.balancesBtn}
         startIcon={<IconEdit />}
         sx={{ ml: 4, mr: 2 }}
+        disabled={disabled}
       >
         Edit Client
       </Button>

@@ -8,10 +8,12 @@ import { ClientEditEmailModalContent } from './ClientEditEmailModalContent';
 
 interface IClientEditEmailModalProps {
   currentClient?: ClientMapped;
+  disabled?: boolean;
 }
 
 export const ClientEditEmailModal = ({
   currentClient,
+  disabled,
 }: IClientEditEmailModalProps) => {
   const {
     open,
@@ -34,7 +36,7 @@ export const ClientEditEmailModal = ({
         color="secondary"
         sx={{ ml: 4 }}
         startIcon={<IconEdit />}
-        disabled={isLoading}
+        disabled={isLoading || disabled}
       >
         Edit Email
       </Button>

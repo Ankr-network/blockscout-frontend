@@ -65,6 +65,7 @@ export const ClientInfo = ({
     userName,
     revenueData,
     isLoadingRevenue,
+    isFetchingRevenue,
   } = useClientInfo({ address });
 
   const { userAddressesData, isLoadingUserAddresses, isErrorUserAddresses } =
@@ -180,16 +181,16 @@ export const ClientInfo = ({
   ]);
 
   const renderClientEmail = useMemo(() => {
+    if (isCurrentClientLoading) {
+      return skeleton;
+    }
+
     if (currentClient?.email) {
       return (
         <>
           <b>Email:</b> {currentClient?.email}
         </>
       );
-    }
-
-    if (isCurrentClientLoading) {
-      return skeleton;
     }
 
     return NOT_FOUND_TEXT;
@@ -251,14 +252,21 @@ export const ClientInfo = ({
       </Typography>
       {currentClient && currentClient.address && (
         <>
-          <ClientBalancesModal currentClient={currentClient} />
-          <ClientEditProfileModal currentClient={currentClient} />
+          <ClientBalancesModal
+            currentClient={currentClient}
+            disabled={isCurrentClientLoading}
+          />
+          <ClientEditProfileModal
+            currentClient={currentClient}
+            disabled={isCurrentClientLoading}
+          />
           <ButtonCopy
             sx={{ mb: 4, ml: 4 }}
             label="Copy ETH address"
             variant="contained"
             color="secondary"
             valueToCopy={address}
+            disabled={isCurrentClientLoading}
           />
         </>
       )}
@@ -277,7 +285,10 @@ export const ClientInfo = ({
       <Paper sx={{ p: 5 }}>
         <Typography variant="body2" component="p">
           {renderClientEmail}
-          <ClientEditEmailModal currentClient={currentClient} />
+          <ClientEditEmailModal
+            currentClient={currentClient}
+            disabled={isCurrentClientLoading}
+          />
           {currentClient?.status && (
             <>
               <br />
@@ -303,9 +314,9 @@ export const ClientInfo = ({
       <ClientBalances
         totalData={totalData}
         clientBalances={clientBalances}
-        isLoadingBalances={isLoadingBalances}
+        isLoadingBalances={isCurrentClientLoading || isLoadingBalances}
         skeleton={skeleton}
-        isLoadingRevenue={isLoadingRevenue}
+        isLoadingRevenue={isLoadingRevenue || isFetchingRevenue}
         revenueData={revenueData}
         isLoadingTotal={isLoadingTotal}
       />
