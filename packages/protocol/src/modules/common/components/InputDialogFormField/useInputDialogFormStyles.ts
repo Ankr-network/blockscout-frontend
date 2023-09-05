@@ -12,7 +12,7 @@ export const useInputDialogFormStyles = makeStyles<InputDialogFormProps>()(
       fontSize: 14,
       height: isMultiline ? 120 : 44,
 
-      '& input': {
+      '&& input': {
         minHeight: 'auto',
         borderRadius: 'unset',
       },
