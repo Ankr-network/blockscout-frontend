@@ -102,7 +102,7 @@
     "en-US": "English"
   },
   "header": {
-    "wallet-button": "Sign up",
+    "wallet-button": "Sign in",
     "wallet-button-address": "Connect wallet {address}",
     "disconnect": "Disconnect",
     "already-premium": "Already Premium?",
@@ -112,7 +112,7 @@
     "sign-out": "Sign out"
   },
   "signup-modal": {
-    "title": "Sign up method",
+    "title": "Sign in method",
     "google": {
       "title": "Google Authentication",
       "description": "Connection Process"
@@ -1054,7 +1054,7 @@
   },
   "oauth": {
     "breadcrumbs": "Authorization",
-    "secret-code-error": "Wrong secret code. Try to sign up again",
+    "secret-code-error": "Wrong secret code. Try to sign in again",
     "binding-error": "This account has already been registered",
     "eth-address-error": "No ethUserAddress"
   },
