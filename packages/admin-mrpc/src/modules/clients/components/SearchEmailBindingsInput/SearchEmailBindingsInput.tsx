@@ -3,6 +3,8 @@ import { Close } from '@ankr.com/ui';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { IEmailBindingEntity, IUserByTokenResponse } from 'multirpc-sdk';
 
+import { t } from 'modules/i18n/utils/intl';
+
 import {
   FilterType,
   MIN_SEARCH_VALUE_LENGTH,
@@ -91,7 +93,7 @@ export const SearchEmailBindingsInput = ({
   return (
     <div className={classes.root}>
       <TextField
-        placeholder={`Search by ${filterType}`}
+        placeholder={t(`search-email-bindings-input.search-by.${filterType}`)}
         onChange={onChange}
         value={searchValue}
         size="small"
