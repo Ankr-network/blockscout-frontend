@@ -30,9 +30,9 @@
   },
   "search-email-bindings-input": {
     "search-by": {
-      "email": "email",
-      "address": "address",
-      "token": "API Key"
+      "email": "Search by email",
+      "address": "Search by address",
+      "token": "Search by API Key"
     }
   }
 }
