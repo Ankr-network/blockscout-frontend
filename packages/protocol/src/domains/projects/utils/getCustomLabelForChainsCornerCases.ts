@@ -46,5 +46,9 @@ export const getCustomLabelForChainsCornerCases = ({
     });
   }
 
+  if (chainId === ChainID.SUI_TESTNET) {
+    return 'Sui testnet';
+  }
+
   return label;
 };
