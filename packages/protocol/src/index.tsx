@@ -1,9 +1,10 @@
 import 'core-js/es/object/from-entries';
 import { hydrate, render } from 'react-dom';
-import { initGoogleGtm } from '@ankr.com/common';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@ankr.com/global-menu/src/assets/fonts/style.css';
+import { initGoogleGtm } from '@ankr.com/common';
+
 import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';
 import { initializeSentry } from 'modules/sentry';
 import { initializeLocale } from 'modules/i18n/utils/initialize';
