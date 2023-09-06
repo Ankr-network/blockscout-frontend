@@ -12,6 +12,8 @@ import { NestedItemBase } from '../screens/NewProject/components/TypeSelector/ho
 
 const PART_TO_DELETE_FROM_STRING = '(testnet)';
 
+const TENDERMINT_REST = `Tendermint REST`;
+
 export const getCustomLabelForChainsCornerCases = ({
   chainId,
   label,
@@ -33,7 +35,11 @@ export const getCustomLabelForChainsCornerCases = ({
   }
 
   if (tendermintRestChains.includes(chainId)) {
-    return `Tendermint`;
+    if (label === TENDERMINT_REST) {
+      return `Tendermint`;
+    }
+
+    return `Secret Network Tendermint`;
   }
 
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {
