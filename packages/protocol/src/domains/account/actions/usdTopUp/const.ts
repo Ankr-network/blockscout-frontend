@@ -10,4 +10,4 @@ export const DEFAULT_USD_VALUE_STRING = new BigNumber(
 
 export const USD_CURRENCY = 'USD';
 
-export const MAX_USD_DECIMALS = 1;
+export const MAX_USD_DECIMALS = 2;
