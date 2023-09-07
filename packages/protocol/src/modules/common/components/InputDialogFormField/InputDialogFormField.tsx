@@ -9,7 +9,7 @@ interface InputDialogFormFieldProps {
   name: string;
   placeholder: string;
   maxLength?: number;
-  validate?: (value: string) => string | undefined;
+  validate?: (value: string, allValues?: unknown) => string | undefined;
   isMultiline?: boolean;
   isDisabled?: boolean;
 }
@@ -25,8 +25,13 @@ export const InputDialogFormField = ({
   const { classes } = useInputDialogFormStyles({ isMultiline });
 
   const handleValidate = useCallback(
-    (data, allValues, meta) =>
-      !meta?.pristine && typeof validate === 'function' && validate(data),
+    (data, allValues, meta) => {
+      return (
+        !meta?.pristine &&
+        typeof validate === 'function' &&
+        validate(data, allValues)
+      );
+    },
     [validate],
   );
 
