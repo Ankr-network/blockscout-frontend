@@ -1,11 +1,11 @@
 import { t } from '@ankr.com/common';
 
-import { WhiteListItem } from 'domains/projects/types';
+import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { validateDomain } from 'modules/common/utils/validateDomain';
 import { validateIp } from 'modules/common/utils/validateIp';
 import { validateSmartContractAddress } from 'modules/common/utils/validateSmartContractAddress';
 import { ISelectOption } from 'uiKit/Select';
-import { AddToWhitelistFormData } from 'domains/projects/store';
+import { AddToWhitelistFormData, NewProjectType } from 'domains/projects/store';
 
 export const whitelistTypeLabelMap = (type?: WhiteListItem) => {
   switch (type) {
@@ -67,9 +67,12 @@ export const getOptionsByWhitelistTypes = ({
 export const getValidation = (type?: WhiteListItem) => {
   switch (type) {
     case WhiteListItem.address:
-      return (value: string, allValues: any) => {
+      return (
+        value: string,
+        allValues: NewProjectType[NewProjectStep.Whitelist],
+      ) => {
         if (
-          (allValues?.whitelistItems as AddToWhitelistFormData[])
+          (allValues?.whitelistItems ?? [])
             .map(item => item.value)
             .includes(value)
         ) {
@@ -80,7 +83,10 @@ export const getValidation = (type?: WhiteListItem) => {
       };
 
     case WhiteListItem.ip:
-      return (value: string, allValues: any) => {
+      return (
+        value: string,
+        allValues: NewProjectType[NewProjectStep.Whitelist],
+      ) => {
         if (
           (allValues?.whitelistItems as AddToWhitelistFormData[])
             .map(item => item.value)
@@ -93,7 +99,10 @@ export const getValidation = (type?: WhiteListItem) => {
       };
 
     case WhiteListItem.referer:
-      return (value: string, allValues: any) => {
+      return (
+        value: string,
+        allValues: NewProjectType[NewProjectStep.Whitelist],
+      ) => {
         if (
           (allValues?.whitelistItems as AddToWhitelistFormData[])
             .map(item => item.value)

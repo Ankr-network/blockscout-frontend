@@ -58,13 +58,15 @@ export const AddAndEditWhitelistItemForm = ({
       whitelistDialog.value,
     );
 
-    if (
-      (doesNewValueExists && !isEditingWhitelistDialog) ||
-      (doesNewValueExists &&
-        isEditingWhitelistDialog &&
-        whitelistItems[indexOfEditingWhitelistItem].value !==
-          whitelistDialog.value)
-    ) {
+    const isDuplicationInAddingDialog =
+      doesNewValueExists && !isEditingWhitelistDialog;
+    const isDuplicationInEditingDialog =
+      doesNewValueExists &&
+      isEditingWhitelistDialog &&
+      whitelistItems[indexOfEditingWhitelistItem].value !==
+        whitelistDialog.value;
+
+    if (isDuplicationInAddingDialog || isDuplicationInEditingDialog) {
       dispatch(
         NotificationActions.showNotification({
           message: t('projects.new-project.step-2.error-message.duplication'),

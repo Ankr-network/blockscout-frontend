@@ -4,8 +4,6 @@ import { ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { ProjectChainsType } from 'domains/projects/types';
 
-import { AddToWhitelistFormData } from '../store';
-
 const getMainnetChains = (
   previouslySelectedMainnetIds: ChainID[],
   chains?: ProjectChainsType[],
@@ -191,7 +189,7 @@ export const useProjectFormValues = (projectChains?: ProjectChainsType[]) => {
   return {
     projectName,
     planName,
-    whitelistItems: whitelistItems as AddToWhitelistFormData[],
+    whitelistItems,
     whitelistDialog,
     planPrice,
     selectedMainnetIds,

@@ -75,6 +75,7 @@ export const getSelectedChains = ({
 };
 
 // TODO: remove it. it's duplicate of another one useProjectFormValues in common hooks folder
+// https://ankrnetwork.atlassian.net/browse/MRPC-3652
 export const useProjectFormValues = (projectChains?: Chain[]) => {
   const { getState, change } = useForm<NewProjectFormValues>();
 
