@@ -6,7 +6,10 @@ import {
   selectSelectedUserGroupRole,
   selectUserGroupConfigByAddress,
 } from 'domains/userGroup/store';
-import { selectTotalBalance } from 'domains/account/store/selectors';
+import {
+  selectMyCurrentBundle,
+  selectTotalBalance,
+} from 'domains/account/store/selectors';
 
 import {
   defaultPremiumStatusData,
@@ -143,14 +146,21 @@ const freeToPremiumThreshold = getPremiumActivationThreshold();
 
 export const selectHasFreeToPremiumTransition = createSelector(
   selectTotalBalance,
+  selectMyCurrentBundle,
   selectHasFreemium,
   selectIsWeb3UserWithEmailBound,
-  (balance, hasFreemium, isWeb3UserWithEmailBound) =>
-    Boolean(
-      !isWeb3UserWithEmailBound &&
-        hasFreemium &&
-        new BigNumber(balance).isGreaterThanOrEqualTo(freeToPremiumThreshold),
-    ),
+  // eslint-disable-next-line max-params
+  (balance, myBundle, hasFreemium, isWeb3UserWithEmailBound) => {
+    const hasEnoughBalance = new BigNumber(balance).isGreaterThanOrEqualTo(
+      freeToPremiumThreshold,
+    );
+
+    const hasBundle = Boolean(myBundle);
+    const shouldBePremium = hasEnoughBalance || hasBundle;
+    const hasNoEmailBound = !isWeb3UserWithEmailBound;
+
+    return hasNoEmailBound && hasFreemium && shouldBePremium;
+  },
 );
 
 export const selectHasStatusTransition = createSelector(
