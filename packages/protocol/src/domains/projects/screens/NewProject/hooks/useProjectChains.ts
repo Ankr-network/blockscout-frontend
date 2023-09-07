@@ -1,12 +1,29 @@
+import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import {
+  chainGroups,
+  tendermintRpcChains,
+} from 'modules/endpoints/constants/groups';
 
 export type ProjectChain = Chain & {
   beaconsMainnet?: Chain[];
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
   opnodesTestnet?: Chain[];
+};
+
+const hasWsFeature = (chain: Chain) => {
+  const { mainnet, testnet, devnet } = getGroupedEndpoints({
+    chain,
+    groups: chainGroups,
+  });
+
+  const isMainnetHasWs = mainnet.find(item => item.urls.find(url => url?.ws));
+  const isTestnetHasWs = testnet.find(item => item.urls.find(url => url?.ws));
+  const isDevnetHasWs = devnet.find(item => item.urls.find(url => url?.ws));
+
+  return Boolean(isMainnetHasWs || isTestnetHasWs || isDevnetHasWs);
 };
 
 const mapProjectChains = (chain: Chain) => {
@@ -52,6 +69,7 @@ const mapProjectChains = (chain: Chain) => {
 
   const chainParams = {
     ...chain,
+    hasWSFeature: hasWsFeature(chain),
     testnets,
     beaconsMainnet,
     beaconsTestnet,
