@@ -8,6 +8,8 @@ import { ProjectRequestsActivityProps } from './types';
 import { PercentSign, getPercent } from './utils/getPercent';
 import { useProjectRequestsActivityStyles } from './useProjectRequestsActivityStyles';
 
+const variant = 'subtitle3' as Variant;
+
 export const ProjectRequestsActivity = ({
   todayRequests,
   yesterdayRequests,
@@ -27,13 +29,15 @@ export const ProjectRequestsActivity = ({
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.count} variant={'subtitle3' as Variant}>
+      <Typography className={classes.count} variant={variant}>
         {t('projects.list-project.count', { value: todayRequests })}
       </Typography>
-      <Typography className={classes.percent} variant={'subtitle3' as Variant}>
-        {isVisible && t('projects.list-project.percent', { percent, sign })}
-        {iconMap[sign]}
-      </Typography>
+      {isVisible && (
+        <Typography className={classes.percent} variant={variant}>
+          {t('projects.list-project.percent', { percent, sign })}
+          {iconMap[sign]}
+        </Typography>
+      )}
     </div>
   );
 };
