@@ -1,0 +1,61 @@
+{
+	"name": "@ankr.com/telemetry",
+	"version": "0.0.1",
+	"main": "./dist/cjs/index.js",
+	"module": "./dist/esm/index.js",
+	"types": "./src/index.ts",
+	"files": [
+		"dist",
+		"src"
+	],
+	"license": "MIT",
+	"private": false,
+	"scripts": {
+		"format": "lint-staged",
+		"lint:js": "eslint \"./src/**/*.{js,ts,jsx,tsx}\"",
+		"lint:js:fix": "yarn lint:js --fix --debug",
+		"storybook": "start-storybook -p 6006 -s public",
+		"build-storybook": "build-storybook -s public",
+		"build": "rollup -c",
+		"build:turbo": "cd ../.. && turbo run build --filter=@ankr.com/telemetry...",
+		"prepublish": "node prepublish.js",
+		"postpublish": "node prepublish.js revert",
+		"prepack": "node prepublish.js",
+		"postpack": "node prepublish.js revert",
+		"types": "tsc --noEmit -p tsconfig.json",
+		"clean": "rimraf build dist",
+		"watch": "yarn build -w"
+	},
+	"peerDependencies": {
+		"react": "17.x",
+		"react-dom": "17.x"
+	},
+	"dependencies": {
+		"@ankr.com/common": "*",
+		"@ankr.com/ui": "*",
+		"@material-ui/core": "^4.12.3",
+		"@material-ui/styles": "^4.11.4",
+		"@mui/material": "^5.14.7",
+		"@types/react-custom-scrollbars": "4.0.10",
+		"@typescript-eslint/eslint-plugin": "^6.1.0",
+		"bignumber.js": "^9.1.2",
+		"classnames": "^2.3.1",
+		"react-csv": "^2.2.2",
+		"react-custom-scrollbars": "^4.2.1",
+		"react-intl-universal": "^2.4.5",
+		"react-router": "^5.2.1",
+		"react-router-dom": "^5.2.0",
+		"recharts": "^2.8.0",
+		"tss-react": "^4.9.0"
+	},
+	"devDependencies": {
+		"lint-staged": "^10.5.4",
+		"prettier": "^2.2.1",
+		"rimraf": "3.0.2"
+	},
+	"lint-staged": {
+		"*.{ts,tsx}": [
+			"prettier --write"
+		]
+	}
+}

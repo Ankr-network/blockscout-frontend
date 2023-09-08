@@ -1,18 +1,22 @@
+import {
+  RequestsWidget,
+  MethodCallsWidget,
+  BaseTable,
+} from '@ankr.com/telemetry';
+import { t, tHTML } from '@ankr.com/common';
+
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
 import { ChainLayoutProps } from './types';
 import { EmptyLayoutGuard } from '../EmptyLayoutGuard';
 import { LocationsWidget } from '../LocationsWidget';
-import { MethodCallsWidget } from '../MethodCallsWidget';
-import { RequestsByIpWidget } from '../RequestsByIpWidget';
-import { RequestsWidget } from '../RequestsWidget';
-import { TopCountriesWidget } from '../TopCountriesWidget';
 import { useChainData } from './hooks/useChainData';
 import { useChainLayoutStyles } from './ChainLayoutStyles';
+import { timeframesMap } from '../../const';
 
 export const ChainLayout = ({
-  statsChainId,
   detailsChainId,
+  statsChainId,
   timeframe,
 }: ChainLayoutProps) => {
   const {
@@ -25,6 +29,8 @@ export const ChainLayout = ({
     requestsChartData,
     totalRequestsNumber,
     methodCalls,
+    blockHeight,
+    isLoadingTotalStats,
   } = useChainData({ statsChainId, detailsChainId, timeframe });
 
   const { hasSelectedProject } = useProjectSelect();
@@ -35,23 +41,37 @@ export const ChainLayout = ({
     <EmptyLayoutGuard data={requestsChartData}>
       <div className={classes.root}>
         <RequestsWidget
-          allTimeRequestsNumber={allTimeTotalRequestsNumber}
-          className={classes.requests}
-          data={requestsChartData}
           timeframe={timeframe}
-          totalRequestsNumber={totalRequestsNumber}
+          data={requestsChartData}
+          className={classes.requests}
+          isLoading={isLoadingTotalStats}
+          title={t('dashboard.requests-chart.title')}
+          requestsTitle={tHTML('dashboard.requests-chart.requests', {
+            timeframe: t(
+              `dashboard.requests-chart.timeframes.${timeframesMap[timeframe]}`,
+            ),
+            requests: totalRequestsNumber,
+          })}
+          allRequestsTitle={tHTML('dashboard.requests-chart.all-requests', {
+            requests: allTimeTotalRequestsNumber,
+          })}
         />
         <MethodCallsWidget
           className={classes.methods}
           total={chainStats?.total.count}
           requests={methodCalls}
           timeframe={timeframe}
-          chainId={detailsChainId}
+          blockHeight={blockHeight}
         />
         {!hasSelectedProject && (
-          <RequestsByIpWidget
+          <BaseTable
+            headingTitles={[
+              t('dashboard.requests-by-ip.ip'),
+              t('dashboard.requests-by-ip.requests'),
+            ]}
             className={classes.ipRequests}
             data={ipRequests}
+            title={t('dashboard.requests-by-ip.title')}
           />
         )}
         <LocationsWidget
@@ -60,7 +80,15 @@ export const ChainLayout = ({
           locations={locations}
         />
         {!hasSelectedProject && (
-          <TopCountriesWidget className={classes.countries} data={countries} />
+          <BaseTable
+            headingTitles={[
+              t('dashboard.top-countries.country'),
+              t('dashboard.top-countries.requests'),
+            ]}
+            title={t('dashboard.top-countries.title')}
+            className={classes.countries}
+            data={countries}
+          />
         )}
       </div>
     </EmptyLayoutGuard>
