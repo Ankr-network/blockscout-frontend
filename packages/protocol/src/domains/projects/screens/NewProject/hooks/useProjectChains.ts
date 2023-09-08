@@ -19,11 +19,9 @@ const hasWsFeature = (chain: Chain) => {
     groups: chainGroups,
   });
 
-  const isMainnetHasWs = mainnet.find(item => item.urls.find(url => url?.ws));
-  const isTestnetHasWs = testnet.find(item => item.urls.find(url => url?.ws));
-  const isDevnetHasWs = devnet.find(item => item.urls.find(url => url?.ws));
-
-  return Boolean(isMainnetHasWs || isTestnetHasWs || isDevnetHasWs);
+  return [mainnet, testnet, devnet].some(endpoints =>
+    endpoints.find(item => item.urls.find(url => url.ws)),
+  );
 };
 
 const mapProjectChains = (chain: Chain) => {
