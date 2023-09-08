@@ -10,7 +10,11 @@ export const useSoonLabelStyles = makeStyles()(theme => ({
     color: theme.palette.grey[600],
 
     fontWeight: 400,
-    fontSize: '14px !important',
     lineHeight: '20px',
+    whiteSpace: 'nowrap',
+
+    '&&': {
+      fontSize: 14,
+    },
   },
 }));
