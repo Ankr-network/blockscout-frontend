@@ -1,6 +1,5 @@
 import 'core-js/es/object/from-entries';
 import { hydrate, render } from 'react-dom';
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '@ankr.com/global-menu/src/assets/fonts/style.css';
 import { initGoogleGtm } from '@ankr.com/common';
