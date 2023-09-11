@@ -1,13 +1,6 @@
 import { BlockchainFeature, BlockchainType } from 'multirpc-sdk';
 
-import { Chain, ChainID, Timeframe } from 'domains/chains/types';
-
-export const timeframesMap: Record<Timeframe, string> = {
-  [Timeframe.Day]: 'day',
-  [Timeframe.Hour]: 'hour',
-  [Timeframe.Week]: 'week',
-  [Timeframe.Month]: 'month',
-};
+import { Chain, ChainID } from 'domains/chains/types';
 
 // fallback chain is used for initializing the ChainProtocolContext when chain is not selected
 export const fallbackChain: Chain = {

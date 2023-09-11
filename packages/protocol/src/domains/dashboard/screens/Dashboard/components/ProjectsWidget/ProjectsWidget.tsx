@@ -1,8 +1,6 @@
-import { t } from '@ankr.com/common';
-import { BasePieChart } from '@ankr.com/telemetry';
-
 import { Timeframe } from 'domains/chains/types';
 
+import { BasePieChart } from '../BasePieChart';
 import { text } from './utils/text';
 import { useProjectsData } from './hooks/useProjectsData';
 
@@ -19,7 +17,7 @@ export const ProjectsWidget = ({
 
   return (
     <BasePieChart
-      amount={t('dashboard.pie-chart.amount', { amount: amount.toString() })}
+      amount={amount}
       className={className}
       data={data}
       isLoading={isLoading}

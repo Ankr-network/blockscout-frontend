@@ -10,7 +10,6 @@ on:
         options:
           - ankr-global-menu
           - common
-          - telemetry
 
 jobs:
   publish:

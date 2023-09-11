@@ -1,6 +1,4 @@
-import { BasePieChart } from '@ankr.com/telemetry';
-import { t } from '@ankr.com/common';
-
+import { BasePieChart } from '../BasePieChart';
 import { text } from './utils/text';
 import { useChainCalls } from './hooks/useChainCalls';
 
@@ -13,9 +11,7 @@ export const ChainCallsWidget = ({ className }: ChainCallsWidgetProps) => {
 
   return (
     <BasePieChart
-      amount={t('dashboard.pie-chart.amount', {
-        amount: totalRequests.toString(),
-      })}
+      amount={totalRequests.toString()}
       className={className}
       data={data}
       isLoading={isLoading}
