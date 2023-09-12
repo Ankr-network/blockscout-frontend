@@ -9,8 +9,11 @@ on:
         description: Target
         required: true
         options:
-          - STAGE #https://multirpc-backoffice-stage.dccn.ankr.com/
-          - PROD  #https://multirpc-backoffice.dccn.ankr.com/
+          - STAGE # https://multirpc-backoffice-stage.dccn.ankr.com/
+          - BS1 # https://bs1-multirpc-backoffice.dccn.ankr.com/
+          - BS2 # https://bs2-multirpc-backoffice.dccn.ankr.com/
+          - BS3 # https://bs3-multirpc-backoffice.dccn.ankr.com/
+          - PROD  # https://multirpc-backoffice.dccn.ankr.com/
       api:
         type: choice
         description: API

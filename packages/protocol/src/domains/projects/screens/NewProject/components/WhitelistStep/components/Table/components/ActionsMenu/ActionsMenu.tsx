@@ -27,28 +27,33 @@ export const ActionsMenu = ({
   const { handleSetStepConfig, project } = useProjectConfig();
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
 
-  const { change } = useForm();
+  const { change, getState, initialize } = useForm();
+  const { values } = getState();
+
   const { whitelistItems } = useProjectFormValues();
 
   const handleEditByClick = useCallback(() => {
-    change(WhitelistStepFields.indexOfEditingWhitelistItem, index);
-
-    change(WhitelistStepFields.shouldSkipFormReset, true);
-    change(WhitelistStepFields.isEditingWhitelistDialog, true);
-
-    change(WhitelistStepFields.whitelistDialog, {
-      type: rowData.type,
-      value: rowData.value,
-      chains: rowData.chains,
+    initialize({
+      ...values,
+      [WhitelistStepFields.indexOfEditingWhitelistItem]: index,
+      [WhitelistStepFields.shouldSkipFormReset]: true,
+      [WhitelistStepFields.isEditingWhitelistDialog]: true,
+      [WhitelistStepFields.whitelistDialog]: {
+        type: rowData.type,
+        value: rowData.value,
+        chains: rowData.chains,
+      },
     });
+
     handleClose();
     onWhitelistDialogOpen();
   }, [
     index,
+    values,
     rowData.type,
     rowData.value,
     rowData.chains,
-    change,
+    initialize,
     handleClose,
     onWhitelistDialogOpen,
   ]);

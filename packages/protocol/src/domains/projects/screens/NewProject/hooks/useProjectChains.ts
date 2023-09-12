@@ -1,12 +1,29 @@
+import { useMemo } from 'react';
+
+import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import {
+  chainGroups,
+  tendermintRpcChains,
+} from 'modules/endpoints/constants/groups';
 
 export type ProjectChain = Chain & {
   beaconsMainnet?: Chain[];
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
   opnodesTestnet?: Chain[];
+};
+
+const hasWsFeature = (chain: Chain) => {
+  const { mainnet, testnet, devnet } = getGroupedEndpoints({
+    chain,
+    groups: chainGroups,
+  });
+
+  return [...mainnet, ...testnet, ...devnet]
+    .flatMap(item => item.urls)
+    .some(url => url.ws);
 };
 
 const mapProjectChains = (chain: Chain) => {
@@ -52,6 +69,7 @@ const mapProjectChains = (chain: Chain) => {
 
   const chainParams = {
     ...chain,
+    hasWSFeature: hasWsFeature(chain),
     testnets,
     beaconsMainnet,
     beaconsTestnet,
@@ -76,7 +94,7 @@ const mapProjectChains = (chain: Chain) => {
 export const useProjectChains = () => {
   const [chains = [], allChains, isLoading] = usePrivateChainsInfo();
 
-  const projectChains = chains.map(mapProjectChains);
+  const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
   return {
     projectChains,

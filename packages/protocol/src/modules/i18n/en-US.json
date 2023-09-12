@@ -5,6 +5,9 @@
     "domain-validation": "Use the following URL format: example.com",
     "url-validation": "Should be a valid URL",
     "smart-contract-address-validation": "Should be a valid smart contract address",
+    "smart-contract-already-exist": "This smart contract address is already on the list",
+    "domain-already-exist": "This domain is already on the list",
+    "ip-already-exist": "This IP address is already on the list",
     "https-validation": "Should be a valid https URL",
     "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
     "ip-validation": "Should be a valid IP address",
@@ -102,7 +105,7 @@
     "en-US": "English"
   },
   "header": {
-    "wallet-button": "Sign up",
+    "wallet-button": "Sign in",
     "wallet-button-address": "Connect wallet {address}",
     "disconnect": "Disconnect",
     "already-premium": "Already Premium?",
@@ -112,7 +115,7 @@
     "sign-out": "Sign out"
   },
   "signup-modal": {
-    "title": "Sign up method",
+    "title": "Sign in method",
     "google": {
       "title": "Google Authentication",
       "description": "Connection Process"
@@ -285,8 +288,9 @@
         "delete": "Delete",
         "success-message": "Smart contract address added successfully",
         "error-message": {
-          "invalid": "Smart contract address is invalid",
-          "token-index-error": "Token index is not defined"
+          "required": "Smart contract address is required",
+          "token-index-error": "Token index is not defined",
+          "duplication": "This address has already been added"
         }
       },
       "checkout-step": {
@@ -329,6 +333,9 @@
           "price": "$0 <span>per month</span>",
           "description": "<ul><li>1500 <span>requests per second</span></li><li>30 <span>chains</span></li><li>40 <span>regions</span></li><li>support portal</span></li></ul>"
         }
+      },
+      "error-message": {
+        "name-duplication": "The project \"{value}\" has already been added"
       }
     },
     "add-whitelist-dialog": {
@@ -1051,7 +1058,7 @@
   },
   "oauth": {
     "breadcrumbs": "Authorization",
-    "secret-code-error": "Wrong secret code. Try to sign up again",
+    "secret-code-error": "Wrong secret code. Try to sign in again",
     "binding-error": "This account has already been registered",
     "eth-address-error": "No ethUserAddress"
   },

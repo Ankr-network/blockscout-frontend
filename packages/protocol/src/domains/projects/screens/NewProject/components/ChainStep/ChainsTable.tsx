@@ -34,13 +34,14 @@ export const ChainsTable = () => {
       <TableContainer className={classes.tableContainer} component="table">
         <TableHead>
           <TableRow>
-            {columns.map(column => (
+            {columns.map(({ align, width, field, headerName }) => (
               <TableCell
-                key={column.field}
+                key={field}
                 className={classes.cell}
-                {...column}
+                align={align}
+                width={width}
               >
-                {column.headerName}
+                {headerName}
               </TableCell>
             ))}
           </TableRow>

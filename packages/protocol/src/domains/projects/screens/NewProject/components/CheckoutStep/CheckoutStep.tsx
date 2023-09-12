@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
@@ -21,6 +21,12 @@ interface CheckoutStepProps {
   setCurrentStep: Dispatch<SetStateAction<NewProjectStep>>;
 }
 
+interface WhitelistItem {
+  type: string;
+  value: string;
+  chains: string[];
+}
+
 // hardcoded as long as we have only 1 plan available
 const CURRENT_PLAN = plans[0];
 
@@ -29,8 +35,19 @@ export const CheckoutStep = ({ setCurrentStep }: CheckoutStepProps) => {
 
   const { projectChains } = useProjectChains();
 
-  const { whitelistItems, initiallySelectedChainIds } =
-    useProjectFormValues(projectChains);
+  const { whitelistItems } = useProjectFormValues(projectChains);
+
+  const whitelistChainIds = useMemo(
+    () => [
+      ...new Set(
+        whitelistItems.reduce(
+          (list: string[], item: WhitelistItem) => list.concat(item.chains),
+          [],
+        ),
+      ),
+    ],
+    [whitelistItems],
+  ) as string[];
 
   const openChainStep = useCallback(
     () => setCurrentStep(NewProjectStep.Chain),
@@ -70,7 +87,7 @@ export const CheckoutStep = ({ setCurrentStep }: CheckoutStepProps) => {
           title={t(`${newProjectIntlRoot}.checkout-step.label-chains`)}
         >
           <div className={classes.chainsListWrapper}>
-            <BlockchainIcon blockchains={initiallySelectedChainIds} />
+            <BlockchainIcon blockchains={whitelistChainIds} />
           </div>
         </CheckoutSection>
         <CheckoutSection

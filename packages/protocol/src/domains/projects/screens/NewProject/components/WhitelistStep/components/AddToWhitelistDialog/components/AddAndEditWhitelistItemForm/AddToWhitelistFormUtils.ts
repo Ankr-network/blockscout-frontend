@@ -1,10 +1,11 @@
 import { t } from '@ankr.com/common';
 
-import { WhiteListItem } from 'domains/projects/types';
+import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { validateDomain } from 'modules/common/utils/validateDomain';
 import { validateIp } from 'modules/common/utils/validateIp';
 import { validateSmartContractAddress } from 'modules/common/utils/validateSmartContractAddress';
 import { ISelectOption } from 'uiKit/Select';
+import { NewProjectType } from 'domains/projects/store';
 
 export const whitelistTypeLabelMap = (type?: WhiteListItem) => {
   switch (type) {
@@ -66,11 +67,53 @@ export const getOptionsByWhitelistTypes = ({
 export const getValidation = (type?: WhiteListItem) => {
   switch (type) {
     case WhiteListItem.address:
-      return validateSmartContractAddress;
+      return (value: string, allValues: unknown) => {
+        if (
+          (
+            (allValues as NewProjectType[NewProjectStep.Whitelist])
+              ?.whitelistItems ?? []
+          )
+            .map(item => item.value)
+            .includes(value)
+        ) {
+          return t('validation.smart-contract-already-exist');
+        }
+
+        return validateSmartContractAddress(value);
+      };
+
     case WhiteListItem.ip:
-      return validateIp;
+      return (value: string, allValues: unknown) => {
+        if (
+          (
+            (allValues as NewProjectType[NewProjectStep.Whitelist])
+              ?.whitelistItems ?? []
+          )
+            .map(item => item.value)
+            .includes(value)
+        ) {
+          return t('validation.ip-already-exist');
+        }
+
+        return validateIp(value);
+      };
+
     case WhiteListItem.referer:
-      return validateDomain;
+      return (value: string, allValues: unknown) => {
+        if (
+          (
+            (allValues as NewProjectType[NewProjectStep.Whitelist])
+              ?.whitelistItems ?? []
+          )
+            .map(item => item.value)
+            .includes(value)
+        ) {
+          return t('validation.domain-already-exist');
+        }
+
+        return validateDomain(value);
+      };
+
     default:
       return () => undefined;
   }

@@ -182,6 +182,7 @@ export enum ChainID {
   ZETACHAIN_ATHENS_TESTNET = 'zetachain-athens-testnet',
 
   ZKSYNC_ERA = 'zksync_era',
+  ZKSYNC_ERA_TESTNET = 'zksync_era_testnet',
 
   UNDEFINED = '',
 }
