@@ -506,6 +506,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://explorer.zksync.io/'],
   },
 
+  [ChainID.ZKSYNC_ERA_TESTNET]: {
+    chainId: 280,
+    chainName: 'zkSync Era Testnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://goerli.explorer.zksync.io/'],
+  },
+
   [ChainID.MANTLE]: MANTLE,
 
   [ChainID.MANTLE_TESTNET]: MANTLE_TESTNET,
