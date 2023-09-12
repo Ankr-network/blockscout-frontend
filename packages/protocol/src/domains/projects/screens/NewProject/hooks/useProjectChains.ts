@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
@@ -19,9 +21,9 @@ const hasWsFeature = (chain: Chain) => {
     groups: chainGroups,
   });
 
-  return [mainnet, testnet, devnet].some(endpoints =>
-    endpoints.find(item => item.urls.find(url => url.ws)),
-  );
+  return [...mainnet, ...testnet, ...devnet]
+    .flatMap(item => item.urls)
+    .some(url => url.ws);
 };
 
 const mapProjectChains = (chain: Chain) => {
@@ -92,7 +94,7 @@ const mapProjectChains = (chain: Chain) => {
 export const useProjectChains = () => {
   const [chains = [], allChains, isLoading] = usePrivateChainsInfo();
 
-  const projectChains = chains.map(mapProjectChains);
+  const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
   return {
     projectChains,

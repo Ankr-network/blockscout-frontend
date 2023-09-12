@@ -20,9 +20,11 @@ export const usePrivateChainsInfo = (): PrivateChains => {
   ] = useLazyChainsFetchPrivateChainsInfoQuery();
 
   useEffect(() => {
-    fetchPrivateChainsInfo({
-      userEndpointToken,
-    });
+    if (userEndpointToken) {
+      fetchPrivateChainsInfo({
+        userEndpointToken,
+      });
+    }
   }, [fetchPrivateChainsInfo, userEndpointToken]);
 
   return [chains, allChains, isLoading];
