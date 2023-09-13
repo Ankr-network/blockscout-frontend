@@ -5,7 +5,10 @@ import { Chain } from 'domains/chains/types';
 
 export const useNetworksConfigurations = (chains: Chain[]) => {
   return useMemo(
-    () => chains?.filter(chain => getNetworkConfiguration(chain)),
+    () =>
+      chains?.filter(chain =>
+        getNetworkConfiguration({ isEnterprise: false, publicChain: chain }),
+      ),
     [chains],
   );
 };

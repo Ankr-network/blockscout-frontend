@@ -9,11 +9,15 @@ export const fallbackChain: Chain = {
   urls: [
     {
       rpc: 'fakeChainUrl',
+      enterprise: 'fakeEnterpriseChainUrl',
+      enterpriseWs: 'fakeEnterpriseWsUrl',
     },
   ],
   hasWSFeature: false,
   hasRESTFeature: false,
   hasRPCFeature: false,
+  hasEnterpriseFeature: false,
+  isEnterpriseFeatureDisabled: false,
   coinName: 'fakeChain',
   name: 'fakeChain',
   type: BlockchainType.Mainnet,

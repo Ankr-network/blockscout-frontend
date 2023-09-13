@@ -6,6 +6,7 @@ import { EndpointProps } from '../Endpoint';
 export enum Feature {
   REST,
   RPC,
+  ENTERPRISE,
 }
 
 export interface MainEndpointsProps {

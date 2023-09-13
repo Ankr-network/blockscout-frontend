@@ -33,6 +33,7 @@ const flattenAllChainTypes = (chain: Chain): Chain[] => [
 ];
 
 const getMappedNetwork = (
+  isEnterprise?: boolean,
   chain?: Chain,
   flatChainId?: ChainID,
 ): IChainParams | undefined => {
@@ -48,7 +49,7 @@ const getMappedNetwork = (
     chainName: addNamePostfix(networkInfo.chainName),
 
     rpcUrls: flatNetworkURLs<ChainURL, Chain>(chain).mainnetURLs.map(
-      ({ rpc }) => rpc,
+      ({ rpc, enterprise }) => (isEnterprise ? enterprise : rpc),
     ),
   };
 };
@@ -82,24 +83,20 @@ export const getFlattenChain = ({
   return { flatChainId, flatChain };
 };
 
-export const getNetworkConfiguration = (
-  publicChain: Chain,
-  chainType?: ChainType,
-  group?: EndpointGroup,
-) => {
-  const shouldFlatten = chainType && group;
+interface GetNetworkConfigurationProps {
+  isEnterprise: boolean;
+  publicChain: Chain;
+}
 
-  if (shouldFlatten) {
-    const { flatChainId, flatChain } = getFlattenChain({
-      publicChain,
-      chainType,
-      group,
-    });
-
-    return getMappedNetwork(flatChain, flatChainId);
-  }
-
-  return getMappedNetwork(publicChain, publicChain?.id as ChainID);
+export const getNetworkConfiguration = ({
+  isEnterprise,
+  publicChain,
+}: GetNetworkConfigurationProps) => {
+  return getMappedNetwork(
+    isEnterprise,
+    publicChain,
+    publicChain?.id as ChainID,
+  );
 };
 
 const getFlattenChainAndId = ({
@@ -125,6 +122,7 @@ export const getNetworkParams = ({
   chainType,
   chainSubType,
   group,
+  isEnterprise = false,
 }: IUseAddNetworkButtonParams) => {
   const { flatChain, flatChainId } = getFlattenChainAndId({
     chain,
@@ -133,7 +131,10 @@ export const getNetworkParams = ({
     group,
   });
 
-  const networkConfiguration = getNetworkConfiguration(flatChain!);
+  const networkConfiguration = getNetworkConfiguration({
+    isEnterprise,
+    publicChain: flatChain!,
+  });
 
   return {
     chainId: flatChainId,

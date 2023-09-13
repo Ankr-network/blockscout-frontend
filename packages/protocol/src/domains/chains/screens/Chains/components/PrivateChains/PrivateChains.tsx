@@ -1,10 +1,10 @@
-import { BaseChains } from 'domains/chains/components/BaseChains';
+import { BaseChains } from 'modules/common/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { ChainsList } from 'modules/common/components/ChainsList';
 
 import { usePrivateChainsData } from './hooks/usePrivateChainsData';
 import { usePrivateChains } from './hooks/usePrivateChains';
-import { ChainsList } from '../ChainsList';
 import { PrivateChainsTop } from './PrivateChainsTop';
 import { PrivateChainCard } from './components/PrivateChainCard';
 

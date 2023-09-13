@@ -15,6 +15,7 @@ import { useMethodCallsTableStyles } from './useMethodCallsTableStyles';
 
 interface IMethodCallsTableProps {
   data: PrivateStatTopRequests[];
+  isCostHidden?: boolean;
 }
 
 const MAX_PERCENTS = 100;
@@ -23,7 +24,10 @@ const getUsagePercent = (maxCountTotal: number, count: number) => {
   return maxCountTotal ? (+count * MAX_PERCENTS) / maxCountTotal : 0;
 };
 
-export const MethodCallsTable = ({ data }: IMethodCallsTableProps) => {
+export const MethodCallsTable = ({
+  data,
+  isCostHidden,
+}: IMethodCallsTableProps) => {
   const { classes, cx } = useMethodCallsTableStyles();
 
   const maxCountTotal = useMemo(() => {
@@ -51,9 +55,11 @@ export const MethodCallsTable = ({ data }: IMethodCallsTableProps) => {
             <TableCell className={cx(classes.cell, classes.th)}>
               <b>{t('chain-item.method-calls.table.count')}</b>
             </TableCell>
-            <TableCell className={cx(classes.cell, classes.th)}>
-              <b>{t('chain-item.method-calls.table.total-cost')}</b>
-            </TableCell>
+            {!isCostHidden && (
+              <TableCell className={cx(classes.cell, classes.th)}>
+                <b>{t('chain-item.method-calls.table.total-cost')}</b>
+              </TableCell>
+            )}
             <TableCell className={cx(classes.cell, classes.th)}>
               <b>{t('chain-item.method-calls.table.percentage')}</b>
             </TableCell>
@@ -65,9 +71,11 @@ export const MethodCallsTable = ({ data }: IMethodCallsTableProps) => {
               <TableRow key={method}>
                 <TableCell className={classes.cell}>{method}</TableCell>
                 <TableCell className={classes.cell}>{count}</TableCell>
-                <TableCell className={classes.cell}>
-                  {total_cost ?? 0}
-                </TableCell>
+                {!isCostHidden && (
+                  <TableCell className={classes.cell}>
+                    {total_cost ?? 0}
+                  </TableCell>
+                )}
                 <TableCell className={classes.cell}>
                   <Box
                     className={classes.progressbar}

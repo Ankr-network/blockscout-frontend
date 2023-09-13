@@ -1,10 +1,63 @@
+import { t } from '@ankr.com/common';
+
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
+import { useRedirectToMrpcEndpointsOnGroupChange } from 'domains/enterprise/hooks/useRedirectToMrpcEndpointsOnGroupChange';
+import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectBlockchains } from 'domains/chains/store/selectors';
+import { Chain } from 'domains/chains/types';
+import { useEnterpriseStats } from 'domains/enterprise/hooks/useEnterpriseStats';
+
 import { UserEndpointsWrapper } from './UserEndpointsWrapper';
+import { EnterpriseChainsList } from './EnterpriseChainsList';
+import { useEnterpriseChainsStyles } from './useEnterpriseChainsStyles';
+import { useEnterpriseEndpoints } from './UserEndpointsWrapper/useEnterpriseEndpoints';
+
+// allows to unselect apikey on chains page
+// for filtering available chains and stats for particular chain or all chains
+const isUnselectAvailable = true;
 
 export const Chains = () => {
+  const { classes } = useEnterpriseChainsStyles();
+
+  useEnterpriseStats(true);
+
+  useSetBreadcrumbs([
+    {
+      title: t(EnterpriseRoutesConfig.chains.breadcrumbs),
+    },
+  ]);
+
+  useRedirectToMrpcEndpointsOnGroupChange();
+
+  const { apiKeys, isLoading, openedEndpoint, setOpenedEndpointIndex } =
+    useEnterpriseEndpoints();
+
+  const { handleSelectTokenIndex } = useSelectTokenIndex(isUnselectAvailable);
+
+  const { data: chains } = useAppSelector(selectBlockchains);
+
   return (
-    <>
-      <UserEndpointsWrapper />
-      <div>Chains</div>
-    </>
+    <NoReactSnap
+      fallback={
+        <ReactSnapChainsLinksGenerator
+          chains={chains as Chain[]}
+          chainLinkBuilder={EnterpriseRoutesConfig.chainDetails.generatePath}
+        />
+      }
+    >
+      <UserEndpointsWrapper
+        className={classes.endpointsWrapper}
+        onSelectToken={handleSelectTokenIndex}
+        apiKeys={apiKeys}
+        isLoading={isLoading}
+        openedEndpoint={openedEndpoint}
+        setOpenedEndpointIndex={setOpenedEndpointIndex}
+      />
+      <EnterpriseChainsList />
+    </NoReactSnap>
   );
 };

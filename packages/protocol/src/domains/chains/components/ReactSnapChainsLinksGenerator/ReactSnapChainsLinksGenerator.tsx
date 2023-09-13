@@ -1,7 +1,6 @@
 import { Fragment } from 'react';
 
 import { Chain } from 'domains/chains/types';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'uiKit/NavLink';
 
 interface ISubChainLinksGeneratorProps
@@ -21,6 +20,8 @@ const flatProtocolSubchains = (chains: Chain[]) =>
 const SubChainLinksGenerator = ({
   chains,
   rootChainID,
+  chainLinkBuilder,
+  addEndpointLinkBuilder,
 }: ISubChainLinksGeneratorProps) => {
   return (
     <>
@@ -46,18 +47,14 @@ const SubChainLinksGenerator = ({
 
           return (
             <Fragment key={name}>
-              <NavLink
-                isRouterLink
-                href={ChainsRoutesConfig.chainDetails.generatePath(
-                  rootChainID,
-                  id,
-                )}
-              />
+              <NavLink isRouterLink href={chainLinkBuilder(rootChainID, id)} />
 
               {!!subchains.length && (
                 <SubChainLinksGenerator
                   rootChainID={rootChainID}
                   chains={subchains}
+                  chainLinkBuilder={chainLinkBuilder}
+                  addEndpointLinkBuilder={addEndpointLinkBuilder}
                 />
               )}
             </Fragment>
@@ -70,10 +67,14 @@ const SubChainLinksGenerator = ({
 
 interface IReactSnapChainsLinksGeneratorProps {
   chains: Chain[];
+  chainLinkBuilder: (id: string, netId?: string) => string;
+  addEndpointLinkBuilder?: (id: string, netId?: string) => string;
 }
 
 export const ReactSnapChainsLinksGenerator = ({
   chains,
+  chainLinkBuilder,
+  addEndpointLinkBuilder,
 }: IReactSnapChainsLinksGeneratorProps) => {
   return (
     <>
@@ -88,18 +89,16 @@ export const ReactSnapChainsLinksGenerator = ({
           extenders = [],
         }) => (
           <Fragment key={name}>
-            <NavLink
-              isRouterLink
-              href={ChainsRoutesConfig.chainDetails.generatePath(id)}
-            />
+            <NavLink isRouterLink href={chainLinkBuilder(id)} />
 
-            <NavLink
-              isRouterLink
-              href={ChainsRoutesConfig.addEndpoint.generatePath(id)}
-            />
+            {addEndpointLinkBuilder && (
+              <NavLink isRouterLink href={addEndpointLinkBuilder(id)} />
+            )}
 
             <SubChainLinksGenerator
               rootChainID={id}
+              chainLinkBuilder={chainLinkBuilder}
+              addEndpointLinkBuilder={addEndpointLinkBuilder}
               chains={[
                 ...testnets,
                 ...devnets,

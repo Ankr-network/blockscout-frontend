@@ -1,22 +1,20 @@
-import { ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'domains/chains/types';
 
 import { CodeSampleWrapper } from './components/CodeSampleWrapper';
-import {
-  ChainItemHeaderContent,
-  ChainItemHeaderProps,
-} from './ChainItemHeaderContent';
 import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
 
-export const ChainItemHeader = (props: ChainItemHeaderProps) => {
-  const { chain } = props;
+interface ChainItemHeaderProps {
+  chain: Chain;
+  headerContent: JSX.Element;
+}
 
+export const ChainItemHeader = ({
+  chain,
+  headerContent,
+}: ChainItemHeaderProps) => {
   const isMultiChain = chain.id === ChainID.MULTICHAIN;
 
   const { classes } = useChainItemHeaderStyles();
-
-  const headerContent = (
-    <ChainItemHeaderContent isMultiChain={isMultiChain} {...props} />
-  );
 
   return (
     <>

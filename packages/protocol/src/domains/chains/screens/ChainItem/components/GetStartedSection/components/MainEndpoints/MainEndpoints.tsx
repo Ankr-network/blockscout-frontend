@@ -1,20 +1,33 @@
+import { t } from '@ankr.com/common';
+
 import { Endpoint } from '../Endpoint';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { MainEndpointsProps } from './types';
 import { Placeholder } from './components/Placeholder';
 import { useMainEndpoints } from './hooks/useMainEndpoints';
 import { useMainEndpointsStyles } from './MainEndpointsStyles';
+import { root } from '../../const';
+import { EndpointPlaceholder } from '../EndpointPlaceholder';
 
 export const MainEndpoints = ({
   hasConnectWalletMessage,
   hasPremium,
   onCopyEndpoint,
-  ...rest
+  feature,
+  chainSubType,
+  group,
+  hasPrivateAccess,
+  publicChain,
 }: MainEndpointsProps) => {
-  const { flattenURLs, hasFeature, hasPlaceholder, title } = useMainEndpoints({
-    ...rest,
-    hasPremium,
-  });
+  const { flattenURLs, hasFeature, hasPlaceholder, title, isDisabled } =
+    useMainEndpoints({
+      feature,
+      chainSubType,
+      group,
+      hasPrivateAccess,
+      publicChain,
+      hasPremium,
+    });
 
   const { classes } = useMainEndpointsStyles();
 
@@ -24,6 +37,22 @@ export const MainEndpoints = ({
 
   if (!hasFeature) {
     return null;
+  }
+
+  if (isDisabled) {
+    return (
+      <EndpointPlaceholder
+        label={t('enterprise.disabled-endpoint-placeholder')}
+        title={
+          <EndpointsHeader
+            title={t(`${root}.endpoints.title`, {
+              chainName: group.chainName,
+              urls: 1,
+            })}
+          />
+        }
+      />
+    );
   }
 
   if (hasPlaceholder) {

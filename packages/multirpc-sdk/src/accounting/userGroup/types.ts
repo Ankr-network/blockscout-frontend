@@ -2,7 +2,7 @@ import { Address } from '@ankr.com/provider';
 
 export interface IApiUserGroupParams {
   group?: Address;
-  totp?: string;
+  totp?: string; // TODO: remove this param from IApiUserGroupParams and use separately (https://ankrnetwork.atlassian.net/browse/MRPC-3690)
 }
 
 export enum GroupUserRole {

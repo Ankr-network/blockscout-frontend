@@ -23,13 +23,17 @@ export const useMainEndpoints = ({
 }: MainEndpointsHookParams) => {
   const { urls } = group;
   const isMultiChain = publicChain.id === ChainID.MULTICHAIN;
+  const isEnterprise = feature === Feature.ENTERPRISE;
 
   const subChain = getSubChainFromGroup(group);
 
-  const hasPlaceholder = useMemo(
-    () => checkPlaceholder(subChain, hasPrivateAccess && hasPremium),
-    [hasPrivateAccess, subChain, hasPremium],
-  );
+  const hasPlaceholder = useMemo(() => {
+    if (isEnterprise) return false;
+
+    return checkPlaceholder(subChain, hasPrivateAccess && hasPremium);
+  }, [hasPrivateAccess, subChain, hasPremium, isEnterprise]);
+
+  const isDisabled = isEnterprise && subChain.isEnterpriseFeatureDisabled;
 
   const [featureKey, urlKey] = useMemo(
     () => getFeatureKeys(feature),
@@ -48,5 +52,5 @@ export const useMainEndpoints = ({
 
   const hasFeature = subChain?.[featureKey];
 
-  return { flattenURLs, hasFeature, hasPlaceholder, title };
+  return { flattenURLs, hasFeature, hasPlaceholder, title, isDisabled };
 };

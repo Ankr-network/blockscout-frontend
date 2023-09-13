@@ -5,6 +5,8 @@ export interface BlockchainUrls {
   rpcURLs: string[];
   wsURLs: string[];
   restURLs: string[];
+  enterpriseURLs: string[];
+  enterpriseWsURLs: string[];
 }
 
 type ChainId = string;

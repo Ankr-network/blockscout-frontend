@@ -93,6 +93,8 @@ interface BuildPrivateUrlsParams {
   blockchains: IBlockchainEntity[];
   privateRpcUrl: string;
   privateWsUrl: string;
+  enterpriseRpcUrl: string;
+  enterpriseWsUrl: string;
   userEndpointToken?: string;
 }
 
@@ -100,6 +102,8 @@ export const buildPrivateUrls = ({
   blockchains,
   privateRpcUrl,
   privateWsUrl,
+  enterpriseRpcUrl,
+  enterpriseWsUrl,
   userEndpointToken = '',
 }: BuildPrivateUrlsParams) => {
   return [...blockchains].reduce<ChainsConfig>((result, blockchain) => {
@@ -141,7 +145,21 @@ export const buildPrivateUrls = ({
         })
       : [];
 
-    result[id] = { blockchain, rpcURLs, wsURLs, restURLs };
+    const enterpriseURLs: string[] = getUrls({
+      paths,
+      privateUrl: enterpriseRpcUrl,
+      userEndpointToken,
+      isAptos,
+    });
+
+    const enterpriseWsURLs: string[] = getUrls({
+      paths,
+      privateUrl: enterpriseWsUrl,
+      userEndpointToken,
+      isAptos,
+    });
+
+    result[id] = { blockchain, rpcURLs, wsURLs, restURLs, enterpriseURLs, enterpriseWsURLs };
 
     return result;
   }, {});

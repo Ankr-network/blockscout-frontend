@@ -10,12 +10,10 @@ import { ChainGroupID } from 'modules/endpoints/types';
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { ChainsRoutesConfig } from '../../routes';
-import { Chain, ChainType } from '../../types';
+import { ChainType } from '../../types';
+import { IPublicChainItemDetails } from '../public/fetchPublicChain';
 
-export interface IChainItemDetails {
-  chain: Chain;
-  unfilteredChain: Chain;
-  isChainArchived: boolean;
+export interface IPrivateChainItemDetails extends IPublicChainItemDetails {
   selectedType?: ChainType;
   selectedGroupId?: ChainGroupID;
 }
@@ -32,7 +30,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPrivateChain: build.query<
-      IChainItemDetails,
+      IPrivateChainItemDetails,
       FetchPrivateChainParams
     >({
       queryFn: createNotifyingQueryFn(

@@ -5,6 +5,7 @@ import {
 } from 'modules/common/components/UpgradePlanDialog';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useIsEnterpriseRoute } from 'modules/common/hooks/useIsEnterpriseRoute';
 
 import { EndpointsHeader } from '../EndpointsHeader';
 import { WSEndpoints } from '../WSEndpoints';
@@ -26,7 +27,8 @@ export const WsFeatureEndpoints = ({
   hasConnectWalletMessage,
   onCopyEndpoint,
 }: IWsFeatureEndpointsProps) => {
-  const { hasWSFeature, wss } = useWsFeatureEndpoints(group);
+  const { isEnterpriseRoute } = useIsEnterpriseRoute();
+  const { hasWSFeature, wss, enterpriseWss } = useWsFeatureEndpoints(group);
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
   const hasAccessToGroupWs = useGuardUserGroup({
@@ -40,7 +42,7 @@ export const WsFeatureEndpoints = ({
       {hasPremium ? (
         <WSEndpoints
           title={<EndpointsHeader title={title} />}
-          wss={wss}
+          wss={isEnterpriseRoute ? enterpriseWss : wss}
           hasConnectWalletMessage={hasConnectWalletMessage}
           onCopyEndpoint={onCopyEndpoint}
         />

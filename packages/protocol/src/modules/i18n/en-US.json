@@ -517,7 +517,9 @@
     }
   },
   "enterprise": {
-    "forbidden": "The page is beyond your user access. Ask the support for the access you require."
+    "breadcrumbs": "Enterprise",
+    "forbidden": "The page is beyond your user access. Ask the support for the access you require.",
+    "disabled-endpoint-placeholder": "Not Available"
   },
   "jwt-token": {
     "default-project-name": "Primary",

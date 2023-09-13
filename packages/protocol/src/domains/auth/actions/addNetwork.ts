@@ -16,7 +16,7 @@ import {
   selectHasPremium,
   selectHasWeb3Connection,
   selectIsLoggedIn,
-} from '../store/selectors';
+} from '../store';
 
 export interface AddNetworkParams {
   chainID: ChainID;

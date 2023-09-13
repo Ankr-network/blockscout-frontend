@@ -10,7 +10,7 @@ import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 
-export interface IChainItemDetails {
+export interface IPublicChainItemDetails {
   chain: Chain;
   unfilteredChain: Chain;
   isChainArchived: boolean;
@@ -20,7 +20,7 @@ export const {
   endpoints: { chainsFetchPublicChain },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchPublicChain: build.query<IChainItemDetails, string>({
+    chainsFetchPublicChain: build.query<IPublicChainItemDetails, string>({
       queryFn: createNotifyingQueryFn(async (chainId, { dispatch }) => {
         const [
           { data: { chains = [], allChains = [] } = {} },

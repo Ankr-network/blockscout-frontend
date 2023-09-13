@@ -22,6 +22,7 @@ export const getCachedData = (
 
   if (authData?.authorizationToken) {
     service.getAccountingGateway().addToken(authData?.authorizationToken);
+    service.getEnterpriseGateway().addToken(authData?.authorizationToken);
 
     if (authData?.workerTokenData) {
       service
@@ -46,6 +47,7 @@ export const setWeb3UserAuthorizationToken = async (
   );
 
   service.getAccountingGateway().addToken(authorizationToken);
+  service.getEnterpriseGateway().addToken(authorizationToken);
 };
 
 const isInstantJwtParticipant = async (dispatch: AppDispatch) => {

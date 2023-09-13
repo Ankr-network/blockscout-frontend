@@ -7,6 +7,7 @@ import {
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { usePremiumContentStyles } from './usePremiumContentStyles';
 
@@ -17,11 +18,13 @@ interface IPremiumContentProps {
 export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
   const { classes } = usePremiumContentStyles(isMultiChain);
 
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
   const { hasPremium } = useAuth();
 
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
-  if (hasPremium) return null;
+  if (hasPremium || isEnterpriseClient) return null;
 
   return (
     <>

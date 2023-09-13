@@ -5,16 +5,22 @@ import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerIn
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
-import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useEnterpriseStatusFetch } from 'domains/auth/hooks/useEnterpriseStatus';
+import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   const hasRoleAccess = useGuardUserGroup({
     blockName: BlockWithPermission.Billing,
   });
 
-  const skipFetching = isReactSnap || !isLoggedIn || !hasRoleAccess;
+  const shouldInitialize = !isReactSnap && isLoggedIn;
+
+  const { isEnterpriseClient } = useEnterpriseStatusFetch(shouldInitialize);
+
+  const skipFetching =
+    isReactSnap || !isLoggedIn || !hasRoleAccess || isEnterpriseClient;
 
   useAutoconnect();
 
@@ -22,8 +28,9 @@ export const useInitialization = (isLoggedIn: boolean) => {
   useMyBundles({ skipFetching });
 
   useCheckChangedSignupUserSettingsAndUpdate();
-  useJwtManagerInitializer(!isReactSnap && isLoggedIn);
+  useJwtManagerInitializer(shouldInitialize);
 
   usePremiumStatusSubscription();
+
   useBlockchainsLoader();
 };

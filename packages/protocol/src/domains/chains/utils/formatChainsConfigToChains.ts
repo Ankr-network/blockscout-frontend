@@ -213,7 +213,13 @@ const addPremiumOnly = (chains: Chain[]) => {
   return chains;
 };
 
-const getURLs = ({ restURLs, rpcURLs, wsURLs }: BlockchainUrls) => {
+const getURLs = ({
+  restURLs,
+  rpcURLs,
+  wsURLs,
+  enterpriseURLs,
+  enterpriseWsURLs,
+}: BlockchainUrls) => {
   const template = new Array(Math.max(restURLs.length, rpcURLs.length)).fill(
     '',
   );
@@ -222,10 +228,12 @@ const getURLs = ({ restURLs, rpcURLs, wsURLs }: BlockchainUrls) => {
     rpc: rpcURLs[index],
     ws: wsURLs[index],
     rest: restURLs[index],
+    enterprise: enterpriseURLs[index],
+    enterpriseWs: enterpriseWsURLs[index],
   }));
 };
 
-const getApiChains = (data: ChainsConfig) => {
+const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
   return Object.values(data).map(chain => {
     const { blockchain } = chain;
     const {
@@ -240,6 +248,11 @@ const getApiChains = (data: ChainsConfig) => {
 
     const isComingSoon = features.includes(BlockchainFeature.ComingSoon);
 
+    const isEnterpriseAvailable = availableChainIds?.includes(id);
+    const hasWSFeature = availableChainIds?.length
+      ? isEnterpriseAvailable
+      : features.includes(BlockchainFeature.WS);
+
     return {
       coinName,
       chainExtends,
@@ -250,7 +263,9 @@ const getApiChains = (data: ChainsConfig) => {
       urls: getURLs(chain),
       hasRESTFeature: features.includes(BlockchainFeature.REST),
       hasRPCFeature: features.includes(BlockchainFeature.RPC),
-      hasWSFeature: features.includes(BlockchainFeature.WS),
+      hasWSFeature,
+      hasEnterpriseFeature: true,
+      isEnterpriseFeatureDisabled: !isEnterpriseAvailable,
       isComingSoon,
       isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
       isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
@@ -273,8 +288,9 @@ const changeMainnetToChainWithoutMainnet = (chains: Chain[]) => {
 
 export const formatChainsConfigToChains = (
   data: ChainsConfig = {},
+  availableChainIds?: string[],
 ): Chain[] => {
-  const chains = getApiChains(data);
+  const chains = getApiChains(data, availableChainIds);
 
   const extensions = getExtensions(chains);
   const beacons = getBeacons(chains);

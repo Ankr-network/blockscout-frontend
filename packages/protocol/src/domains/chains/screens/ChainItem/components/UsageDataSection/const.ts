@@ -1,19 +1,6 @@
-import { PrivateStatsInterval } from 'multirpc-sdk';
-
-import { ChainID, Timeframe } from 'domains/chains/types';
+import { ChainID } from 'domains/chains/types';
 
 export const POLL_INTERVAL = 60_000;
-
-const { Hour, Day, Week, Month } = Timeframe;
-
-type Map = Record<Timeframe, PrivateStatsInterval>;
-
-export const timeframeToIntervalMap: Map = {
-  [Hour]: PrivateStatsInterval.HOUR,
-  [Day]: PrivateStatsInterval.DAY,
-  [Week]: PrivateStatsInterval.WEEK,
-  [Month]: PrivateStatsInterval.MONTH,
-};
 
 type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 

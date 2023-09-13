@@ -11,10 +11,26 @@ const buildRpcUrl = (rpcUrl: string, path: string) => {
   return rpcUrl.replace(blockchainNameTemplate, path);
 };
 
-export const buildPublicUrls = (
-  blockchainsApiResponse: IBlockchainEntity[],
-  publicRpcUrl: string,
-) => {
+const buildEnterpriseRpcUrl = (enterpriseRpcUrl: string, path: string) => {
+  return enterpriseRpcUrl.replace(blockchainNameTemplate, path);
+};
+
+interface BuildPublicUrlsProps {
+  blockchainsApiResponse: IBlockchainEntity[];
+  publicRpcUrl: string;
+  publicEnterpriseRpcUrl: string;
+  enterpriseWsUrl: string;
+}
+
+// TODO: https://github.com/Ankr-network/mrpc-frontend/pull/3941#discussion_r1303911072
+// make separate urlBuilders for MRPC and Enterprise
+// https://ankrnetwork.atlassian.net/browse/MRPC-3691
+export const buildPublicUrls = ({
+  blockchainsApiResponse,
+  publicRpcUrl,
+  publicEnterpriseRpcUrl,
+  enterpriseWsUrl,
+}: BuildPublicUrlsProps) => {
   const avalancheEvmItem = blockchainsApiResponse.find(
     item => item.id === 'avalanche-evm',
   );
@@ -78,13 +94,30 @@ export const buildPublicUrls = (
       ? blockchain?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) || []
       : [];
 
+    const enterpriseURLs: string[] =
+      blockchain?.paths?.map(path =>
+        buildEnterpriseRpcUrl(publicEnterpriseRpcUrl, path),
+      ) || [];
+
+    const enterpriseWsURLs: string[] =
+      blockchain?.paths?.map(path =>
+        buildEnterpriseRpcUrl(enterpriseWsUrl, path),
+      ) || [];
+
     const hasREST = blockchain.features.includes(BlockchainFeature.REST);
 
     const restURLs = hasREST
       ? blockchain?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) || []
       : [];
 
-    result[id] = { blockchain, rpcURLs, wsURLs: [], restURLs };
+    result[id] = {
+      blockchain,
+      rpcURLs,
+      wsURLs: [],
+      restURLs,
+      enterpriseURLs,
+      enterpriseWsURLs,
+    };
 
     return result;
   }, {});

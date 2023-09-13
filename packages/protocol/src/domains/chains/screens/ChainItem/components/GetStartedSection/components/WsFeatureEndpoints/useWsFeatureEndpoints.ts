@@ -10,6 +10,11 @@ export const useWsFeatureEndpoints = (group: EndpointGroup) => {
 
   const hasWSFeature = useMemo(() => subChain?.hasWSFeature, [subChain]);
   const wss = useMemo(() => urls.flatMap(({ ws }) => (ws ? [ws] : [])), [urls]);
+  const enterpriseWss = useMemo(
+    () =>
+      urls.flatMap(({ enterpriseWs }) => (enterpriseWs ? [enterpriseWs] : [])),
+    [urls],
+  );
 
-  return { hasWSFeature, wss };
+  return { hasWSFeature, wss, enterpriseWss };
 };

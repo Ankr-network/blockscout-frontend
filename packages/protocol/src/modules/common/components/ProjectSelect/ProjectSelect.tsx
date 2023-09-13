@@ -27,6 +27,7 @@ interface ProjectSelectProps extends SelectMenuProps {
   options: SelectOption[];
   handleSetOption: (value: string) => void;
   selectedOption: string;
+  onSelectToken?: (value: string) => void;
 }
 
 export const ProjectSelect = ({
@@ -36,6 +37,7 @@ export const ProjectSelect = ({
   menuProps,
   classNameMenuItem,
   selectProps,
+  onSelectToken,
 }: ProjectSelectProps) => {
   const { classes } = useProjectSelectStyles();
 
@@ -44,8 +46,12 @@ export const ProjectSelect = ({
       const { value } = event.target;
 
       handleSetOption(value as string);
+
+      if (onSelectToken) {
+        onSelectToken(value as string);
+      }
     },
-    [handleSetOption],
+    [handleSetOption, onSelectToken],
   );
 
   const renderValue = useCallback(

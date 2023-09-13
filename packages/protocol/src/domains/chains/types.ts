@@ -28,6 +28,8 @@ export interface ChainURL {
   rpc: string;
   ws?: string;
   rest?: string;
+  enterprise: string;
+  enterpriseWs: string;
 }
 
 type MainBlockchainEntity = Exclude<
@@ -54,6 +56,8 @@ export interface Chain extends MainBlockchainEntity {
   hasWSFeature: boolean;
   hasRESTFeature: boolean;
   hasRPCFeature: boolean;
+  hasEnterpriseFeature: boolean;
+  isEnterpriseFeatureDisabled: boolean;
 }
 
 export type GroupedBlockchainType = Record<string, Chain[]>;

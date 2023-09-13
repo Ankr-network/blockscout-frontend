@@ -40,6 +40,9 @@ type OmittedProps = Omit<ChainItemHeaderProps, 'toggleBeacon'>;
 
 interface ChainItemHeaderContentProps extends OmittedProps {
   isMultiChain: boolean;
+  isProtocolSwitcherHidden?: boolean;
+  isEnterprise?: boolean;
+  isMetamaskButtonHidden?: boolean;
 }
 
 export const ChainItemHeaderContent = ({
@@ -59,6 +62,9 @@ export const ChainItemHeaderContent = ({
   isChainArchived,
   isMultiChain,
   selectGroup,
+  isProtocolSwitcherHidden,
+  isEnterprise = false,
+  isMetamaskButtonHidden,
 }: ChainItemHeaderContentProps) => {
   const { protocolGroup, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
@@ -90,6 +96,8 @@ export const ChainItemHeaderContent = ({
           chainSubType={chainSubType}
           group={group}
           isChainArchived={isChainArchived}
+          isEnterprise={isEnterprise}
+          isMetamaskButtonHidden={isMetamaskButtonHidden}
         />
       )}
       <ChainSelectorContent
@@ -105,6 +113,7 @@ export const ChainItemHeaderContent = ({
         selectGroup={selectGroup}
         hasGroupSelector={hasGroupSelector}
         hasChainTypeSelector={hasChainTypeSelector}
+        isProtocolSwitcherHidden={isProtocolSwitcherHidden}
       />
       <div className={!isMultiChain ? classes.content : undefined}>
         <Endpoints

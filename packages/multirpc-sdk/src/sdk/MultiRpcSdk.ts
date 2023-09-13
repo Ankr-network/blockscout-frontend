@@ -1,5 +1,4 @@
 import { AccountingGateway } from '../accounting';
-import { ChainsConfig } from './buildUrls/types';
 import { IConfig, IBlockchainEntity } from '../common';
 import {
   IPublicGateway,
@@ -9,7 +8,7 @@ import {
 import { EnterpriseGateway } from '../enterprise';
 import { RpcGateway } from '../rpc';
 import { WorkerGateway } from '../worker';
-import { buildPrivateUrls, buildPublicUrls } from './buildUrls';
+import { ChainsConfig, buildPrivateUrls, buildPublicUrls } from './buildUrls';
 
 export class MultiRpcSdk {
   private publicGateway?: IPublicGateway;
@@ -85,22 +84,31 @@ export class MultiRpcSdk {
   }
 
   public formatPublicEndpoints(blockchains: IBlockchainEntity[]): ChainsConfig {
-    const { publicRpcUrl } = this.config;
+    const { publicRpcUrl, publicEnterpriseRpcUrl, enterpriseWsUrl } =
+      this.config;
 
-    return buildPublicUrls(blockchains, publicRpcUrl);
+    return buildPublicUrls({
+      blockchainsApiResponse: blockchains,
+      publicRpcUrl,
+      publicEnterpriseRpcUrl,
+      enterpriseWsUrl,
+    });
   }
 
   public formatPrivateEndpoints(
     blockchains: IBlockchainEntity[],
     userEndpointToken?: string,
   ): ChainsConfig {
-    const { privateRpcUrl, privateWsUrl } = this.config;
+    const { privateRpcUrl, privateWsUrl, enterpriseRpcUrl, enterpriseWsUrl } =
+      this.config;
 
     return buildPrivateUrls({
       blockchains,
       privateRpcUrl,
       privateWsUrl,
       userEndpointToken,
+      enterpriseRpcUrl,
+      enterpriseWsUrl,
     });
   }
 }

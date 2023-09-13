@@ -31,6 +31,7 @@ import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
+  EnterpriseChainDetailsRoutes,
   EnterpriseRoutes,
   EnterpriseRoutesConfig,
 } from 'domains/enterprise/routes';
@@ -207,7 +208,23 @@ export const Routes = () => {
           </DefaultLayout>
         )}
       />
-
+      <GuardAuthRoute
+        exact
+        path={[EnterpriseRoutesConfig.chainDetails.path]}
+        render={() => (
+          <GuardAuthEnterpriseRoute>
+            <Route
+              exact
+              path={EnterpriseRoutesConfig.chainDetails.path}
+              render={() => (
+                <DefaultLayout>
+                  <EnterpriseChainDetailsRoutes />
+                </DefaultLayout>
+              )}
+            />
+          </GuardAuthEnterpriseRoute>
+        )}
+      />
       <GuardPremiumEndpointRoute
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}

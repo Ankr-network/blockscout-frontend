@@ -16,6 +16,7 @@ interface IAddNetworkProps {
   hasPlusIcon?: boolean;
   label?: ReactNode;
   size?: 'large' | 'medium';
+  isEnterprise?: boolean;
 }
 
 export const AddNetworkButton = ({
@@ -27,6 +28,7 @@ export const AddNetworkButton = ({
   hasPlusIcon,
   label,
   size,
+  isEnterprise,
 }: IAddNetworkProps) => {
   const { loading } = useAuth();
 
@@ -35,6 +37,7 @@ export const AddNetworkButton = ({
     chainType,
     chainSubType,
     group,
+    isEnterprise,
   });
 
   /* hiding the addNetwork button for networks not supported in MetaMask */

@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { Timeframe } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
-import { ProjectSelect } from 'modules/common/components/ProjectSelect';
+import { ProjectSelectContainer } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
@@ -25,7 +25,7 @@ export const TimeframeSection = ({
   return (
     <Box className={classes.root}>
       <Box className={classes.left}>
-        <ProjectSelect />
+        <ProjectSelectContainer />
         <TimeframeTabs
           className={classes.timeframe}
           tabClassName={classes.tab}

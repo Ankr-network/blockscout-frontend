@@ -19,6 +19,7 @@ interface IChainSelectorContentProps {
   selectGroup: (id: ChainGroupID) => void;
   hasGroupSelector?: boolean;
   hasChainTypeSelector?: boolean;
+  isProtocolSwitcherHidden?: boolean;
 }
 
 export const ChainSelectorContent = ({
@@ -34,6 +35,7 @@ export const ChainSelectorContent = ({
   selectGroup,
   hasGroupSelector,
   hasChainTypeSelector,
+  isProtocolSwitcherHidden,
 }: IChainSelectorContentProps) => {
   const { classes } = useChainSelectorContentStyles();
 
@@ -73,7 +75,7 @@ export const ChainSelectorContent = ({
         visible={withGroupSelector}
         fullWidth
       />
-      <ChainProtocolSwitch />
+      {!isProtocolSwitcherHidden && <ChainProtocolSwitch />}
     </div>
   );
 };

@@ -1,14 +1,16 @@
+import { useMemo } from 'react';
+
 import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
-import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { IPublicChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
+import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
-import { Tab } from 'modules/common/hooks/useTabs';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
-import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { EndpointGroup } from 'modules/endpoints/types';
 import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
+import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderContent';
 
 import { usePublicChainType } from './usePublicChainType';
 import { useIsTestnetPremimumOnly } from './utils';
@@ -16,30 +18,22 @@ import { useIsTestnetPremimumOnly } from './utils';
 export interface ChainItem {
   chainProtocolContext: ChainProtocolContextValue;
   chain: Chain;
-  publicChain: Chain;
   chainType: ChainType;
-  chainTypeTab?: Tab<ChainType>;
-  chainTypeTabs: Tab<ChainType>[];
   chainSubType?: ChainSubType;
-  chainSubTypeTab?: Tab<ChainSubType>;
-  chainSubTypeTabs: Tab<ChainSubType>[];
   group: EndpointGroup;
-  groups: EndpointGroup[];
-  groupID: ChainGroupID;
-  groupTab?: Tab<ChainGroupID>;
-  groupTabs: Tab<ChainGroupID>[];
   name: string;
-  selectGroup: (id: ChainGroupID) => void;
   unfilteredGroup: EndpointGroup;
+  headerContent: JSX.Element;
 }
 
-type PublicChainItemParams = IChainItemDetails & {
+type PublicChainItemParams = IPublicChainItemDetails & {
   onBlockedTabClick: () => void;
 };
 
 export const usePublicChainItem = ({
   chain,
   unfilteredChain: publicChain,
+  isChainArchived,
   onBlockedTabClick,
 }: PublicChainItemParams): ChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
@@ -77,27 +71,61 @@ export const usePublicChainItem = ({
 
   const publicGroups = publicEndpoints[chainType];
 
+  const isMultiChain = chain.id === ChainID.MULTICHAIN;
+
   const unfilteredGroup =
     publicGroups.find(gr => gr.id === groupID) ||
     getFallbackEndpointGroup(chain.name);
 
+  const headerContent = useMemo(
+    () => (
+      <ChainItemHeaderContent
+        isMultiChain={isMultiChain}
+        chain={processChain(chain)}
+        publicChain={processChain(publicChain)}
+        chainType={chainType}
+        chainTypeTabs={chainTypeTabs}
+        chainTypeTab={chainTypeTab}
+        chainSubType={chainSubType}
+        chainSubTypeTab={chainSubTypeTab}
+        chainSubTypeTabs={chainSubTypeTabs}
+        group={group}
+        groups={groups}
+        groupID={groupID}
+        groupTabs={groupTabs}
+        groupTab={groupTab}
+        isChainArchived={isChainArchived}
+        selectGroup={selectGroup}
+      />
+    ),
+    [
+      isMultiChain,
+      chain,
+      publicChain,
+      chainType,
+      chainTypeTabs,
+      chainTypeTab,
+      chainSubType,
+      chainSubTypeTab,
+      chainSubTypeTabs,
+      group,
+      groups,
+      groupID,
+      groupTabs,
+      groupTab,
+      isChainArchived,
+      selectGroup,
+    ],
+  );
+
   return {
     chainProtocolContext,
     chain: processChain(chain),
-    publicChain: processChain(publicChain),
     chainType,
-    chainTypeTab,
-    chainTypeTabs,
     chainSubType,
-    chainSubTypeTab,
-    chainSubTypeTabs,
     group,
-    groups,
-    groupID,
-    groupTab,
-    groupTabs,
     name,
-    selectGroup,
     unfilteredGroup,
+    headerContent,
   };
 };

@@ -10,6 +10,8 @@ export const removeWsUrlIfUserIsNotPremium = (
     ...group,
     urls: group.urls.map(url => ({
       rpc: url.rpc,
+      enterprise: url.enterprise,
+      enterpriseWs: url.enterpriseWs,
     })),
   };
 };

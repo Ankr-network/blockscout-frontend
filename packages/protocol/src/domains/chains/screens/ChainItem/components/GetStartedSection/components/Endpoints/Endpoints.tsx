@@ -6,6 +6,7 @@ import { Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
+import { useIsEnterpriseRoute } from 'modules/common/hooks/useIsEnterpriseRoute';
 
 import { Feature, MainEndpoints } from '../MainEndpoints';
 import { root } from '../../const';
@@ -54,6 +55,8 @@ export const Endpoints = ({
     [publicChain, chainType],
   );
 
+  const { isEnterpriseRoute } = useIsEnterpriseRoute();
+
   const renderContent = useMemo(() => {
     if (hasComingSoonLabel) {
       return (
@@ -68,6 +71,29 @@ export const Endpoints = ({
             />
           }
         />
+      );
+    }
+
+    if (isEnterpriseRoute) {
+      return (
+        <>
+          <MainEndpoints
+            feature={Feature.ENTERPRISE}
+            group={group}
+            hasConnectWalletMessage={hasConnectWalletMessage}
+            hasPremium={false}
+            hasPrivateAccess
+            onCopyEndpoint={onCopyEndpoint}
+            publicChain={publicChain}
+          />
+          <WsFeatureEndpoints
+            title={t(`${root}.endpoints.websocket-title`)}
+            hasPremium
+            hasConnectWalletMessage={hasConnectWalletMessage}
+            onCopyEndpoint={onCopyEndpoint}
+            group={group}
+          />
+        </>
       );
     }
 
@@ -115,6 +141,7 @@ export const Endpoints = ({
       </>
     );
   }, [
+    isEnterpriseRoute,
     classes.placeholderLabel,
     group,
     hasComingSoonLabel,

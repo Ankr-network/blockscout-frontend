@@ -12,7 +12,7 @@ import {
 } from './useProjectSelectOptions';
 import { SelectOption } from '../ProjectSelect';
 
-const useResetIfSelectedProjectWasDeleted = (
+export const useResetIfSelectedProjectWasDeleted = (
   options: SelectOption[],
   address: string,
   selectedOption?: string,

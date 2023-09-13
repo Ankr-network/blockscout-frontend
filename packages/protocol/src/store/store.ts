@@ -32,6 +32,7 @@ import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnec
 import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
 import { rootSaga } from './rootSaga';
 import { web3Api } from './queries';
+import { enterpriseChainsSlice } from '../domains/enterprise/store/enterpriseSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
     accountTopUpSlice.reducer,
   ),
   chainsOriginURL: chainsSlice.reducer,
+  enterpriseOriginURL: enterpriseChainsSlice.reducer,
   requestComposer: requestComposerSlice.reducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
