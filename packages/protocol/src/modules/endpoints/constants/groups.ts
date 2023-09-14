@@ -6,7 +6,7 @@ import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
 const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
-    plural: isPlural ? t('chain-item.header.plural') : '',
+    plurals: isPlural ? 1 : 0,
   });
 
 export const getFallbackEndpointGroup = (
@@ -14,7 +14,7 @@ export const getFallbackEndpointGroup = (
 ): EndpointGroup => {
   const name = t('chain-item.header.endpoint-groups.fallback', {
     chain: endpointName,
-    plural: t('chain-item.header.plural'),
+    plurals: 1,
   });
 
   return {

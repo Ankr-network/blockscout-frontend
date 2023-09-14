@@ -16,7 +16,6 @@ const messageGettersMap: Record<AccountingErrorCode, ErrorMessageGetter> = {
   [AccountingErrorCode.FailedPrecondition]: () =>
     t('user-settings.errors.too-many-resend-confirmation-requests', {
       minutes: 1,
-      plural: '',
     }),
   [AccountingErrorCode.InternalError]: getAccountErrorMessage,
   [AccountingErrorCode.InvalidArgument]: getAccountErrorMessage,
@@ -27,7 +26,6 @@ const messageGettersMap: Record<AccountingErrorCode, ErrorMessageGetter> = {
   [AccountingErrorCode.WrongState]: () =>
     t('user-settings.errors.too-many-resend-confirmation-requests', {
       minutes: 1,
-      plural: '',
     }),
   [AccountingErrorCode.NotFound]: () =>
     t('user-settings.errors.change-inexistent'),
