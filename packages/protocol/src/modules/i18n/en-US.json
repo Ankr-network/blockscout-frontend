@@ -77,7 +77,8 @@
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
     "hubspot": "Hubspot form. No such element {selector}",
-    "common": "Oops! Something went wrong."
+    "common": "Oops! Something went wrong.",
+    "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts."
   },
   "main-navigation": {
     "dashboard": "Dashboard",

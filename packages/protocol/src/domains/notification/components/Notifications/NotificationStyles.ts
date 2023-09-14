@@ -14,8 +14,7 @@ export const useNotificationStyles = makeStyles()((theme: Theme) => ({
     '& button': {
       borderColor: theme.palette.common.white,
       borderRadius: '50%',
-      width: '60%',
-      height: '60%',
+      marginLeft: theme.spacing(1),
     },
     '& button:hover': {
       backgroundColor: 'transparent',
