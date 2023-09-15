@@ -38,7 +38,8 @@ export const useChainRow = ({
   const hasOnlyOneMainnetToSelect =
     (!chain.testnets?.length &&
       !chain.devnets?.length &&
-      !chain.extensions?.length) ||
+      !chain.extensions?.length &&
+      !chain.beacons?.length) ||
     isChainHasSingleOptionToSelect(chain.id);
 
   const hasOnlyOneTestnetToSelect =
