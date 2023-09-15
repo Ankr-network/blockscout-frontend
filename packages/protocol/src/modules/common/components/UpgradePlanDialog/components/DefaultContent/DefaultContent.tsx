@@ -2,8 +2,6 @@ import { Check } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
-
 import { Plan, PlanID } from '../../types';
 import { intlRoot } from '../../const';
 import { useDefaultContentStyles } from './DefaultContentStyles';
@@ -21,8 +19,7 @@ export const DefaultContent = ({
   onPremiumUpgradeButtonClick,
   plans,
 }: DefaultContentParams) => {
-  const { isLightTheme } = useThemes();
-  const { classes, cx } = useDefaultContentStyles(isLightTheme);
+  const { classes, cx } = useDefaultContentStyles();
 
   const clickHandlersMap: Record<PlanID, () => void> = {
     [PlanID.Free]: onFreeUpgradeButtonClick,
