@@ -1,40 +1,48 @@
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import {
-  selectProjectsSettings,
-  setProjectsSettings,
-} from 'domains/projects/store';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useProjects } from 'domains/projects/hooks/useProjects';
+
+import { useWelcomeDialogSettings } from './useWelcomeDialogSettings';
 
 export const useWelcomeDialog = (onCreateNewProject: () => void) => {
   const { isOpened, onOpen, onClose } = useDialog();
-
-  const dispatch = useDispatch();
-
-  const { address } = useAuth();
-
+  const { wasWelcomeDialogShown, setSettings } = useWelcomeDialogSettings();
   const { isLoadingAllWhitelists, allWhitelists } = useProjects();
 
-  const projectSettings = useSelector(selectProjectsSettings);
-
   useEffect(() => {
-    if (
-      !projectSettings[address] &&
+    const hasProjects =
+      !isLoadingAllWhitelists && allWhitelists && allWhitelists.length > 1;
+
+    if (hasProjects && !wasWelcomeDialogShown) {
+      setSettings();
+    }
+  }, [
+    isLoadingAllWhitelists,
+    allWhitelists,
+    setSettings,
+    wasWelcomeDialogShown,
+  ]);
+
+  const shouldOpenDialog = useMemo(() => {
+    return (
+      !wasWelcomeDialogShown &&
       !isLoadingAllWhitelists &&
       allWhitelists &&
       allWhitelists.length === 1
-    ) {
+    );
+  }, [isLoadingAllWhitelists, allWhitelists, wasWelcomeDialogShown]);
+
+  useEffect(() => {
+    if (shouldOpenDialog) {
       onOpen();
     }
-  }, [address, isLoadingAllWhitelists, allWhitelists, onOpen, projectSettings]);
+  }, [shouldOpenDialog, onOpen]);
 
   const handleCloseWelcomeModal = useCallback(() => {
-    dispatch(setProjectsSettings({ address, shouldShowWelcomeDialog: true }));
+    setSettings();
     onClose();
-  }, [onClose, address, dispatch]);
+  }, [onClose, setSettings]);
 
   const handleCreateNewProjectClick = useCallback(() => {
     onCreateNewProject();

@@ -13,11 +13,11 @@ import welcome from './assets/welcome.png';
 
 const intl = 'projects.welcome-dialog';
 
-export const WelcomeDialog = ({
-  onCreateNewProject,
-}: {
+interface WelcomeDialogProps {
   onCreateNewProject: () => void;
-}) => {
+}
+
+export const WelcomeDialog = ({ onCreateNewProject }: WelcomeDialogProps) => {
   const { classes } = useWelcomeDialogStyles();
 
   const { isOpened, handleCreateNewProjectClick, handleSkipClick } =
