@@ -1,15 +1,22 @@
-import { IChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { useMemo } from 'react';
+
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
 import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
-import { GroupedEndpoints } from 'modules/endpoints/types';
+import {
+  ChainGroupID,
+  EndpointGroup,
+  GroupedEndpoints,
+} from 'modules/endpoints/types';
+import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderContent';
 
 import {
   getPrivateChainSubTypeSelector,
@@ -33,9 +40,13 @@ interface PrivateChainItem extends ChainItem {
   chainSubTypes: ChainSubTypeItem[];
   selectSubType: (id: ChainSubType) => void;
   endpoints: GroupedEndpoints;
+  publicChain: Chain;
+  groups: EndpointGroup[];
+  groupID: ChainGroupID;
+  selectGroup: (id: ChainGroupID) => void;
 }
 
-type PrivateChainItemParams = IChainItemDetails & {
+type PrivateChainItemParams = IPrivateChainItemDetails & {
   onBlockedTabClick: () => void;
 };
 
@@ -45,6 +56,7 @@ export const usePrivateChainItem = ({
   selectedType,
   selectedGroupId,
   onBlockedTabClick,
+  isChainArchived,
 }: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -53,14 +65,14 @@ export const usePrivateChainItem = ({
 
   const { hasPremium } = useAuth();
 
-  const isTestnetPremimumOnly = useIsTestnetPremimumOnly(chain);
+  const isTestnetPremiumOnly = useIsTestnetPremimumOnly(chain);
 
   const { chainType, chainTypeTab, chainTypeTabs, selectType } =
     usePrivateChainType({
       chain,
       endpoints,
       netId,
-      isBlockedTestnet: !hasPremium && Boolean(isTestnetPremimumOnly),
+      isBlockedTestnet: !hasPremium && Boolean(isTestnetPremiumOnly),
       isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
       selectedType,
       onBlockedTabClick,
@@ -92,29 +104,67 @@ export const usePrivateChainItem = ({
 
   const chainTypes = getPrivateChainTypeSelector(endpoints);
   const chainSubTypes = getPrivateChainSubTypeSelector();
+  const isMultiChain = chain.id === ChainID.MULTICHAIN;
+
+  const headerContent = useMemo(
+    () => (
+      <ChainItemHeaderContent
+        isMultiChain={isMultiChain}
+        chain={processChain(chain)}
+        publicChain={processChain(publicChain)}
+        chainType={chainType}
+        chainTypeTabs={chainTypeTabs}
+        chainTypeTab={chainTypeTab}
+        chainSubType={chainSubType}
+        chainSubTypeTab={chainSubTypeTab}
+        chainSubTypeTabs={chainSubTypeTabs}
+        group={group}
+        groups={groups}
+        groupID={groupID}
+        groupTabs={groupTabs}
+        groupTab={groupTab}
+        isChainArchived={isChainArchived}
+        selectGroup={selectGroup}
+      />
+    ),
+    [
+      isMultiChain,
+      chain,
+      publicChain,
+      chainType,
+      chainTypeTabs,
+      chainTypeTab,
+      chainSubType,
+      chainSubTypeTab,
+      chainSubTypeTabs,
+      group,
+      groups,
+      groupID,
+      groupTabs,
+      groupTab,
+      isChainArchived,
+      selectGroup,
+    ],
+  );
 
   return {
     chainProtocolContext,
     chain: processChain(chain),
-    publicChain: processChain(publicChain),
     chainType,
-    chainTypeTab,
-    chainTypeTabs,
     chainSubType,
-    chainSubTypeTab,
-    chainSubTypeTabs,
-    chainSubTypes,
-    selectSubType,
     group,
-    groups,
-    groupID,
-    groupTab,
-    groupTabs,
     name,
-    selectGroup,
     unfilteredGroup,
+    headerContent,
+
     chainTypes,
     selectType,
+    chainSubTypes,
+    selectSubType,
     endpoints,
+    publicChain: processChain(publicChain),
+    groups,
+    groupID,
+    selectGroup,
   };
 };

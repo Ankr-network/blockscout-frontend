@@ -14,13 +14,11 @@ import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 
 import { getStatsChainId } from '../../../ChainItemSections/utils/getStatsChainId';
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
-import {
-  checkPrivateChainsAndGetChainId,
-  timeframeToIntervalMap,
-} from '../../const';
+import { checkPrivateChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
 
 export interface UsageDataParams {
@@ -31,7 +29,7 @@ export interface UsageDataParams {
   timeframe: Timeframe;
 }
 
-const getUserTopRequest = (
+export const getUserTopRequest = (
   privateStats: Partial<Record<string, PrivateStat>>,
   chainId: ChainID,
 ): PrivateStatTopRequests[] => {

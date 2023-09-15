@@ -38,8 +38,7 @@ export const {
         const web3ReadService = await MultiService.getWeb3ReadService();
 
         web3ReadService.getAccountingGateway().addToken(authorizationToken!);
-
-        service.getAccountingGateway().addToken(authorizationToken!);
+        service.getEnterpriseGateway().addToken(authorizationToken!);
 
         if (workerTokenData?.signedToken) {
           service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);

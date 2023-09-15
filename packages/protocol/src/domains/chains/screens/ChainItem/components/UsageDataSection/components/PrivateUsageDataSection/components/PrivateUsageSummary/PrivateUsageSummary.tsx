@@ -13,6 +13,7 @@ export interface UsageSummaryProps {
   timeframe: Timeframe;
   totalCost?: number;
   totalRequests: BigNumber;
+  isCostHidden?: boolean;
 }
 
 const root = 'chain-item.usage-data.usage-summary';
@@ -23,6 +24,7 @@ export const PrivateUsageSummary = ({
   timeframe,
   totalCost,
   totalRequests,
+  isCostHidden = false,
 }: UsageSummaryProps) => {
   const { total, average, cost } = useUsageSummary({
     timeframe,
@@ -36,7 +38,9 @@ export const PrivateUsageSummary = ({
     <div className={cx(className, classes.usageSummary)}>
       <Stat loading={loading} title={t(`${root}.total`)} value={total} />
       <Stat loading={loading} title={t(`${root}.average`)} value={average} />
-      <Stat loading={loading} title={t(`${root}.cost.title`)} value={cost} />
+      {!isCostHidden && (
+        <Stat loading={loading} title={t(`${root}.cost.title`)} value={cost} />
+      )}
     </div>
   );
 };

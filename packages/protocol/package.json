@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.56.2",
+  "version": "1.57.0",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -31,7 +31,7 @@
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "^1.10.2",
-    "@ankr.com/ui": "^0.10.2",
+    "@ankr.com/ui": "^0.10.3",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -172,7 +172,26 @@
       "/mm/",
       "/projects/",
       "/projects/new/",
-      "/enterprise/"
+      "/enterprise/",
+      "/enterprise/aptos/",
+      "/enterprise/arbitrum/",
+      "/enterprise/arbitrumnova/",
+      "/enterprise/avalanche/",
+      "/enterprise/base/",
+      "/enterprise/bsc/",
+      "/enterprise/eth/",
+      "/enterprise/fantom/",
+      "/enterprise/gnosis/",
+      "/enterprise/mantle/",
+      "/enterprise/optimism/",
+      "/enterprise/polygon/",
+      "/enterprise/polygon_zkevm/",
+      "/enterprise/rollux/",
+      "/enterprise/solana/",
+      "/enterprise/syscoin/",
+      "/enterprise/sui/",
+      "/enterprise/tenet-evm/",
+      "/enterprise/tron/"
     ],
     "inlineCss": true
   }

@@ -6,7 +6,7 @@ export const INDEX_PATH = '/';
 export const PATH_CHAIN_DETAILS = `${INDEX_PATH}:chainId/:netId?`;
 export const PATH_ADD_ENDPOINT = `${INDEX_PATH}:chainId/add`;
 
-interface ChainDetailsPageParams {
+export interface ChainDetailsPageParams {
   chainId: string;
   netId?: string;
 }

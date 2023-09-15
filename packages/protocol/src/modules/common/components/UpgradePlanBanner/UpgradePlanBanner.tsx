@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { BannerSkeleton } from '../BannerSkeleton';
 import {
@@ -25,6 +26,8 @@ export const UpgradePlanBanner = ({
   const { hasPremium, loading, hasWeb3Connection, hasPrivateAccess } =
     useAuth();
 
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
   const { isDefault, isOpened, onClose, onOpen, type } =
     useURLBasedUpgradePlanDialog();
 
@@ -44,9 +47,9 @@ export const UpgradePlanBanner = ({
     return undefined;
   }, [isPublicUser, isDefault, hasWeb3Connection, hasPrivateAccess]);
 
-  // Upgrade plan banner should be hidden for premium users on chains page
+  // Upgrade plan banner should be hidden for premium and enterprise users on chains page
   // as we are now showing them the request banner with the same call to action
-  if (hasPremium && !isAdvancedApi) return null;
+  if ((hasPremium && !isAdvancedApi) || isEnterpriseClient) return null;
 
   if (loading) return <BannerSkeleton />;
 

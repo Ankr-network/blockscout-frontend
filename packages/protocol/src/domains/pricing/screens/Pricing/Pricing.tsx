@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 
 import { Plans } from './components/Plans';
 import { usePricingStyles } from './usePricingStyles';
@@ -20,6 +21,8 @@ export const Pricing = () => {
       title: t('plan.breadcrumbs'),
     },
   ]);
+
+  useRedirectToEnterpriseOnGroupChange();
 
   return (
     <div className={classes.root}>

@@ -43,6 +43,7 @@ export const useGetStartedSection = ({
       isChainProtocolSwitchEnabled,
       hasPrivateAccess,
     });
+
     const isVisible = hasUpgradeBanner || hasRequestComposer;
 
     if (!isVisible) {

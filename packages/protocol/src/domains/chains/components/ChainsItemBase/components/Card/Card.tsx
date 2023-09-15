@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
 
 import { ChainID } from 'domains/chains/types';
-
-import { useClickHandler } from './hooks/useClickHandler';
+import { useChainItemClickHandler } from 'modules/common/hooks/useChainItemClickHandler';
 
 export interface CardProps {
   chainId: ChainID;
@@ -11,7 +10,7 @@ export interface CardProps {
 }
 
 export const Card = ({ chainId, children, className }: CardProps) => {
-  const onClick = useClickHandler(chainId);
+  const onClick = useChainItemClickHandler(chainId);
 
   return (
     <a className={className} onClick={onClick} role="button" tabIndex={0}>

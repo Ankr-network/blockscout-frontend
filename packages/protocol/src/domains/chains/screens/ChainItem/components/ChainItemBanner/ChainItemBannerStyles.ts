@@ -1,13 +1,11 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-import { CONTENT_WIDTH } from 'modules/layout/components/DefautLayout';
+import { CONTAINER_STYLES } from 'modules/layout/components/DefautLayout';
 
 export const useChainItemBannerStyles = makeStyles()((theme: Theme) => ({
   root: {
-    maxWidth: CONTENT_WIDTH,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    ...CONTAINER_STYLES,
 
     backgroundImage: 'none',
     marginBottom: theme.spacing(10),

@@ -9,7 +9,7 @@ import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
@@ -21,6 +21,12 @@ import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWaletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
 
 export const CONTENT_WIDTH = 1120;
+
+export const CONTAINER_STYLES = {
+  maxWidth: CONTENT_WIDTH,
+  marginLeft: 'auto',
+  marginRight: 'auto',
+};
 
 export interface ILayoutProps {
   children?: ReactChild;
@@ -48,7 +54,7 @@ export const DefaultLayout = ({
     isLightTheme,
   });
   const { isLoggedIn, loading } = useAuth();
-  const { isClient } = useEnterprise();
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
   const chainsRoutes = usePublicChainsRoutes();
   const { isWeb3UserWithEmailBound } = useConnectWaletDialog();
 
@@ -58,7 +64,7 @@ export const DefaultLayout = ({
         chainsRoutes={chainsRoutes}
         className={classes.sidebar}
         isLoggedIn={isLoggedIn}
-        isEnterpriseClient={isClient}
+        isEnterpriseClient={isEnterpriseClient}
         loading={loading}
         hasLogo
       />
@@ -75,7 +81,7 @@ export const DefaultLayout = ({
           className={classes.mobileHeader}
           chainsRoutes={chainsRoutes}
           isLoggedIn={isLoggedIn}
-          isEnterpriseClient={isClient}
+          isEnterpriseClient={isEnterpriseClient}
           loading={loading}
         />
         <Container

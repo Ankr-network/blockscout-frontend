@@ -3,13 +3,14 @@ import { useMemo } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 
-import { getCode } from '../utils/getCode';
+import { getCodeMrpc, getCodeEnterprise } from '../utils/getCode';
 import { languagesMap } from '../const';
 import { Technology } from '../../../types';
 
 export interface SnippetsParams {
   technology: Technology;
   group: EndpointGroup;
+  isEnterprise: boolean;
 }
 
 export interface Snippets {
@@ -21,11 +22,16 @@ export interface Snippets {
 export const useSnippets = ({
   group,
   technology,
+  isEnterprise,
 }: SnippetsParams): Snippets => {
-  const [httpCode, wssCode] = useMemo(
-    () => getCode(technology, group),
-    [technology, group],
-  );
+  const [httpCode, wssCode] = useMemo(() => {
+    if (isEnterprise) {
+      return getCodeEnterprise(technology, group);
+    }
+
+    return getCodeMrpc(technology, group);
+  }, [technology, group, isEnterprise]);
+
   const language = languagesMap[technology];
 
   return { httpCode, language, wssCode };

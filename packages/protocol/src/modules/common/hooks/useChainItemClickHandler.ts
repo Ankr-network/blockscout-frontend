@@ -1,12 +1,11 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
+import { Path } from 'history';
 
-import { ChainID } from 'domains/chains/types';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { setOriginChainURL } from 'domains/chains/store/chainsSlice';
 
-export const useClickHandler = (chainId: ChainID) => {
+export const useChainItemClickHandler = (path: Path) => {
   const dispatch = useDispatch();
   const {
     location: { pathname },
@@ -16,6 +15,6 @@ export const useClickHandler = (chainId: ChainID) => {
   return useCallback(() => {
     dispatch(setOriginChainURL(pathname));
 
-    push(ChainsRoutesConfig.chainDetails.generatePath(chainId));
-  }, [chainId, dispatch, pathname, push]);
+    push(path);
+  }, [path, dispatch, pathname, push]);
 };

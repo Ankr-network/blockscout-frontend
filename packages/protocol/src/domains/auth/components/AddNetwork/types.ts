@@ -11,4 +11,5 @@ export interface IUseAddNetworkButtonParams {
   chainType?: ChainType;
   chainSubType?: ChainSubType;
   group?: EndpointGroup;
+  isEnterprise?: boolean;
 }

@@ -67,13 +67,13 @@ export const MainNavigation = ({
   );
 
   const commonItem = useMemo(
-    () => getCommonMenuList(onDashboardClick),
-    [onDashboardClick],
+    () => getCommonMenuList(onDashboardClick, isEnterpriseClient),
+    [onDashboardClick, isEnterpriseClient],
   );
 
   const menuItems = useMemo(
-    () => getMenuList(isLoggedIn, onDocsClick),
-    [isLoggedIn, onDocsClick],
+    () => getMenuList(isLoggedIn, onDocsClick, isEnterpriseClient),
+    [isLoggedIn, onDocsClick, isEnterpriseClient],
   );
 
   const settingItems = useMemo(

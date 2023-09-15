@@ -10,6 +10,7 @@ import { shouldShowNegativeBalanceOfServiceDialog } from 'domains/userSettings/u
 import { useHasUserGroupDialog } from 'modules/common/components/UpgradePlanDialog/hooks/useHasUserGroupDialog';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export const useNegativeBalanceTermsOfServices = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
@@ -24,9 +25,18 @@ export const useNegativeBalanceTermsOfServices = () => {
 
   const shouldShowUserGroupDialog = useHasUserGroupDialog();
 
+  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+    useEnterpriseClientStatus();
+
   const [
     fetchTermsOfServices,
-    { data: { tosAccepted } = { tosAccepted: false }, isError, isLoading },
+    {
+      data: { tosAccepted } = { tosAccepted: false },
+      isError,
+      isLoading,
+      isFetching,
+      isUninitialized,
+    },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
   const [
@@ -35,7 +45,12 @@ export const useNegativeBalanceTermsOfServices = () => {
   ] = useQueryEndpoint(acceptNegativeBalanceTermsOfServices);
 
   useEffect(() => {
-    if (address && hasGroupAccess) {
+    if (
+      address &&
+      hasGroupAccess &&
+      !isEnterpriseClient &&
+      !isLoadingEnterpriseStatus
+    ) {
       fetchTermsOfServices(
         selectedGroupAddress
           ? {
@@ -44,7 +59,14 @@ export const useNegativeBalanceTermsOfServices = () => {
           : undefined,
       );
     }
-  }, [address, fetchTermsOfServices, selectedGroupAddress, hasGroupAccess]);
+  }, [
+    address,
+    fetchTermsOfServices,
+    selectedGroupAddress,
+    hasGroupAccess,
+    isEnterpriseClient,
+    isLoadingEnterpriseStatus,
+  ]);
 
   const shouldShowDialog = useMemo(
     () =>
@@ -52,23 +74,31 @@ export const useNegativeBalanceTermsOfServices = () => {
         isLoggedIn,
         authLoading,
         isLoading,
+        isFetching,
+        isUninitialized,
         shouldShowUserGroupDialog,
         tosAccepted,
         isDevRole,
         hasPremium,
         isFinanceRole,
         isError,
+        isEnterpriseClient,
+        isLoadingEnterpriseStatus,
       }),
     [
       isLoggedIn,
       authLoading,
       isLoading,
+      isFetching,
+      isUninitialized,
       shouldShowUserGroupDialog,
       tosAccepted,
       isDevRole,
       hasPremium,
       isFinanceRole,
       isError,
+      isEnterpriseClient,
+      isLoadingEnterpriseStatus,
     ],
   );
 

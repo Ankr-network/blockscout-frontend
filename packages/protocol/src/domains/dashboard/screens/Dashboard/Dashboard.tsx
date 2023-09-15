@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
-import { ProjectSelect } from 'modules/common/components/ProjectSelect';
+import { ProjectSelectContainer } from 'modules/common/components/ProjectSelect';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import {
@@ -89,7 +89,7 @@ export const Dashboard = () => {
           <div className={classes.selectorContent}>
             {shouldShowTokenManager && (
               <div className={classes.projectSelect}>
-                <ProjectSelect
+                <ProjectSelectContainer
                   classNameMenuItem={classNameMenuItem}
                   menuProps={menuProps}
                   selectProps={selectProps}

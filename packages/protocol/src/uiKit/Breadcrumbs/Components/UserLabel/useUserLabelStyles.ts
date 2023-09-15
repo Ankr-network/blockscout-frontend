@@ -1,9 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import {
-  enterpriseLabel,
-  getPremiumColorGradient,
-} from 'uiKit/Theme/themeUtils';
+import { isLightTheme, getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
@@ -37,10 +34,16 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(1.5),
-    padding: theme.spacing(0, 2.5),
-    color: theme.palette.common.white,
+    padding: theme.spacing(0, 2, 0, 1),
+    color: isLightTheme(theme)
+      ? theme.palette.common.white
+      : theme.palette.common.black,
     borderRadius: 8,
-    background: enterpriseLabel,
-    height: 28,
+    background: isLightTheme(theme)
+      ? theme.palette.grey[900]
+      : theme.palette.common.white,
+  },
+  enterpriseIcon: {
+    color: 'inherit',
   },
 }));

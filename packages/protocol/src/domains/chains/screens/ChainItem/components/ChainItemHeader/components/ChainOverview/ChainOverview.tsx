@@ -19,6 +19,8 @@ export interface ChainOverviewProps {
   chainSubType?: ChainSubType;
   group: EndpointGroup;
   isChainArchived: boolean;
+  isEnterprise: boolean;
+  isMetamaskButtonHidden?: boolean;
 }
 
 export const ChainOverview = ({
@@ -27,6 +29,8 @@ export const ChainOverview = ({
   chainSubType,
   group,
   isChainArchived,
+  isEnterprise,
+  isMetamaskButtonHidden,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
@@ -48,16 +52,20 @@ export const ChainOverview = ({
         </div>
         <div className={classes.right}>
           <ChainDocsLink chain={chain} />
-          {chain && !isChainProtocolSwitchEnabled && !isTronRestApi && (
-            <AddNetworkButton
-              chainType={chainType}
-              chainSubType={chainSubType}
-              className={classes.addNetworkButton}
-              group={group}
-              label={<MetamaskButtonLabel />}
-              chain={chain}
-            />
-          )}
+          {chain &&
+            !isChainProtocolSwitchEnabled &&
+            !isTronRestApi &&
+            !isMetamaskButtonHidden && (
+              <AddNetworkButton
+                chainType={chainType}
+                chainSubType={chainSubType}
+                className={classes.addNetworkButton}
+                group={group}
+                label={<MetamaskButtonLabel />}
+                chain={chain}
+                isEnterprise={isEnterprise}
+              />
+            )}
         </div>
       </div>
     </div>

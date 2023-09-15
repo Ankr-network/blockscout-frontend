@@ -11,12 +11,29 @@ const LoadableChainsContainer: LoadableComponent<any> = loadable(
   },
 );
 
+const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
+  async () => import('../screens/ChainItem').then(module => module.ChainItem),
+  {
+    fallback: <OverlaySpinner />,
+  },
+);
+
 export function EnterpriseRoutes() {
   return (
     <Route
       exact
       path={EnterpriseRoutesConfig.chains.path}
       component={LoadableChainsContainer}
+    />
+  );
+}
+
+export function EnterpriseChainDetailsRoutes() {
+  return (
+    <Route
+      exact
+      path={EnterpriseRoutesConfig.chainDetails.path}
+      component={LoadableChainDetailsContainer}
     />
   );
 }

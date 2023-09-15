@@ -13,12 +13,15 @@ import {
   AdvancedApi,
   BoldAdvancedApi,
   Logout,
+  Briefcase,
 } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
-import { Diamonds } from 'uiKit/Icons/Diamonds';
+import {
+  ENTERPRISE_ROUTE_PATH,
+  EnterpriseRoutesConfig,
+} from 'domains/enterprise/routes';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
@@ -28,7 +31,6 @@ import { track } from 'modules/analytics/mixpanel/utils/track';
 import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { IS_ENTERPISE_ENABLED } from 'domains/auth/hooks/useEnterprise';
 
 interface EndpointListParams {
   chainsRoutes: string[];
@@ -38,28 +40,26 @@ interface EndpointListParams {
   onOpenUpgradePlanDialog: () => void;
 }
 
-export interface PremiumEndpointListParams extends EndpointListParams {}
-
-export interface NavigationListParams extends EndpointListParams {
-  isLoggedIn: boolean;
-  onDocsClick: () => void;
-  onSettingsClick: () => void;
-}
-
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
 
-const isDashboardActive = (
+const checkIsChainsRoute = (
   match: Match | null,
-  location: History['location'],
+  { pathname }: History['location'],
   chainsRoutes: string[],
-) =>
-  match?.isExact ||
-  chainsRoutes.some(route => location.pathname.includes(route));
+) => {
+  if (pathname.includes(ENTERPRISE_ROUTE_PATH)) {
+    return false;
+  }
+
+  return match?.isExact || chainsRoutes.some(route => pathname.includes(route));
+};
 
 export const getCommonMenuList = (
   onDashboardClick: () => void,
+  isEnterpriseClient: boolean,
 ): NavigationItem[] => [
   {
+    isDisabled: isEnterpriseClient,
     StartIcon: Dashboard,
     ActiveIcon: Dashboard,
     href: DashboardRoutesConfig.dashboard.generatePath(),
@@ -77,14 +77,16 @@ export const getEndpointsList = ({
 }: EndpointListParams) => {
   const items: NavigationItem[] = [
     {
+      isDisabled: isEnterpriseClient,
       StartIcon: Block,
       ActiveIcon: Block,
       href: ChainsRoutesConfig.chains.generatePath(),
       isActive: (match, location) =>
-        isDashboardActive(match, location, chainsRoutes),
+        checkIsChainsRoute(match, location, chainsRoutes),
       label: t('main-navigation.endpoints'),
     },
     {
+      isDisabled: isEnterpriseClient,
       StartIcon: AdvancedApi,
       ActiveIcon: BoldAdvancedApi,
       href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
@@ -93,16 +95,14 @@ export const getEndpointsList = ({
     },
     {
       isNotLinkItem: !isEnterpriseClient,
-      isComingSoon: !IS_ENTERPISE_ENABLED,
-      isDisabled: !IS_ENTERPISE_ENABLED,
-      StartIcon: Diamonds,
-      ActiveIcon: Diamonds,
+      StartIcon: Briefcase,
+      ActiveIcon: Briefcase,
       label: t('main-navigation.enterprise'),
       href: EnterpriseRoutesConfig.chains.generatePath(),
       onClick: () => {
         track({ event: MixpanelEvent.SOON_ENTERPRISE });
 
-        if (!isEnterpriseClient && IS_ENTERPISE_ENABLED) {
+        if (!isEnterpriseClient) {
           onOpenUpgradePlanDialog();
         }
       },
@@ -111,6 +111,7 @@ export const getEndpointsList = ({
 
   if (hasProjects) {
     items.push({
+      isDisabled: isEnterpriseClient,
       ActiveIcon: BoldFolder,
       StartIcon: Folder,
       href: ProjectsRoutesConfig.projects.generatePath(),
@@ -125,9 +126,11 @@ export const getEndpointsList = ({
 export const getMenuList = (
   isLoggedIn: boolean,
   onDocsClick: () => void,
+  isEnterpriseClient: boolean,
 ): NavigationItem[] => {
   const menuList = [
     {
+      isDisabled: isEnterpriseClient,
       StartIcon: CoinStack,
       ActiveIcon: CoinStack,
       href: PricingRoutesConfig.pricing.generatePath(),
@@ -142,6 +145,7 @@ export const getMenuList = (
   ];
 
   const billingItem = {
+    isDisabled: isEnterpriseClient,
     StartIcon: Wallet,
     ActiveIcon: Wallet,
     href: AccountRoutesConfig.accountDetails.generatePath(),

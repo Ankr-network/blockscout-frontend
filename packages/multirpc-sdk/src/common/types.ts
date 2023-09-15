@@ -154,6 +154,9 @@ export interface IConfig {
   ankrTokenContractAddress: PrefixedHex;
   premiumPlanContractAddress: PrefixedHex;
   confirmationBlocks: number;
+  publicEnterpriseRpcUrl: string;
+  enterpriseRpcUrl: string;
+  enterpriseWsUrl: string;
   privateRpcUrl: string;
   privateWsUrl: string;
   publicRpcUrl: string;

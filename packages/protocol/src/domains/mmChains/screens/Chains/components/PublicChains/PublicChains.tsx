@@ -1,5 +1,5 @@
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { BaseChains } from 'domains/chains/components/BaseChains';
+import { BaseChains } from 'modules/common/components/BaseChains';
 import { usePublicChainsData } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChainsData';
 import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';

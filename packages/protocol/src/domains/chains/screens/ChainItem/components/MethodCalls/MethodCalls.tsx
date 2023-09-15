@@ -12,12 +12,14 @@ interface IMethodCallsProps {
   loading: boolean;
   data: PrivateStatTopRequests[];
   timeframe: Timeframe;
+  isCostHidden?: boolean;
 }
 
 export const MethodCalls = ({
   loading,
   data,
   timeframe,
+  isCostHidden,
 }: IMethodCallsProps) => {
   const { classes } = useMethodCallStyles();
 
@@ -29,7 +31,7 @@ export const MethodCalls = ({
           <OverlaySpinner />
         </div>
       ) : (
-        <MethodCallsTable data={data} />
+        <MethodCallsTable data={data} isCostHidden={isCostHidden} />
       )}
     </Box>
   );

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-
-import { Diamonds } from 'uiKit/Icons/Diamonds';
+import { Briefcase } from '@ankr.com/ui';
 
 import { getLabel } from './UserLabelUtils';
 import { useUserLabelStyles } from './useUserLabelStyles';
@@ -34,7 +33,9 @@ export const UserLabel = ({
 
   return (
     <div className={className}>
-      {isEnterpriseClient && <Diamonds fontSize="small" color="secondary" />}
+      {isEnterpriseClient && (
+        <Briefcase fontSize="small" className={classes.enterpriseIcon} />
+      )}
       {label}
     </div>
   );

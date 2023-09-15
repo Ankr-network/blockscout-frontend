@@ -1,15 +1,14 @@
 import { ReactNode } from 'react';
 
-import { Chain } from 'domains/chains/types';
 import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 
-export interface IChainsListProps {
-  chains: Chain[];
+export interface IChainsListProps<T> {
+  chains: T[];
   children: ReactNode;
 }
 
-export const ChainsList = ({ chains, children }: IChainsListProps) => {
+export function ChainsList<T>({ chains, children }: IChainsListProps<T>) {
   const { classes } = useChainListStyles();
 
   if (chains.length === 0) {
@@ -17,4 +16,4 @@ export const ChainsList = ({ chains, children }: IChainsListProps) => {
   }
 
   return <div className={classes.root}>{children}</div>;
-};
+}

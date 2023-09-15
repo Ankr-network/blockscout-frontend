@@ -11,6 +11,7 @@ import { updateWhitelistMode } from 'domains/projects/actions/updateWhitelistMod
 import { addAddressToWhitelist } from 'domains/projects/actions/addAddressToWhitelist';
 import { updateWhitelist } from 'domains/projects/actions/updateWhitelist';
 import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
+import { fetchEnterpriseEndpoints } from 'domains/enterprise/actions/fetchEnterpriseEndpoints';
 
 // Top level endpoints that should be re-initiated if
 // a 2FA error has been caught somewhere inside or in child endpoints.
@@ -25,6 +26,7 @@ const matcher = isAnyOf(
   addAddressToWhitelist.matchRejected,
   updateWhitelist.matchRejected,
   addToWhitelist.matchRejected,
+  fetchEnterpriseEndpoints.matchRejected,
 );
 
 export const is2FARejectedAction = ((action: AnyAction) => {
