@@ -5,7 +5,11 @@ import { useHistory } from 'react-router';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
+import {
+  EnterpriseClientJwtManagerItem,
+  selectEnterpriseApiKeysAsJwtManagerTokens,
+} from 'domains/enterprise/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
 interface UseApiKeySelectionIfNoSelectedTokenProps {
   apiKeys: EnterpriseClientJwtManagerItem[];
@@ -22,8 +26,15 @@ export const useApiKeySelectionIfNoSelectedToken = ({
 
   const { push } = useHistory();
 
+  const { isLoading } = useAppSelector(
+    selectEnterpriseApiKeysAsJwtManagerTokens,
+  );
+
   useEffect(() => {
-    if (!tokenIndex || tokenIndex === -1 || !hasChainData) {
+    const isTokenNotAvailable =
+      !tokenIndex || tokenIndex === -1 || !hasChainData;
+
+    if (isTokenNotAvailable && !isLoading) {
       const newTokenIndex = apiKeys[0]?.index;
 
       dispatch(setSelectedTokenIndex({ tokenIndex: newTokenIndex, address }));
@@ -34,5 +45,5 @@ export const useApiKeySelectionIfNoSelectedToken = ({
     }
 
     return () => {};
-  }, [tokenIndex, dispatch, apiKeys, address, hasChainData, push]);
+  }, [tokenIndex, dispatch, apiKeys, address, hasChainData, push, isLoading]);
 };
