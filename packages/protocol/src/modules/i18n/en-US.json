@@ -1256,7 +1256,7 @@
       "change-inexistent": "Attempting to change the email that hasn't been registered yet",
       "address-pending-other-email-binding": "There is an email address already associated with your wallet",
       "too-many-change-email-requests": "You can change your email once in {minutes, plural, =1 {minute} other {minutes}}",
-      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes, plural, =1 {minute} other {minutes}}",
+      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} {minutes, plural, =1 {minute} other {minutes}}",
       "already-confirmed": "The email address {email} has already been registered",
       "invalid-email": "The email address `{email}` is invalid"
     },
