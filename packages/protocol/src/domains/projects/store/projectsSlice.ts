@@ -10,7 +10,7 @@ interface IProjectsSlice {
 
 export interface ProjectsSettings {
   address: string;
-  shouldShowWelcomeDialog: boolean;
+  wasWelcomeDialogShown: boolean;
 }
 
 const initialState: IProjectsSlice = {
@@ -22,9 +22,9 @@ export const projectsSlice = createSlice({
   initialState,
   reducers: {
     setProjectsSettings: (state, action: PayloadAction<ProjectsSettings>) => {
-      const { address, shouldShowWelcomeDialog } = action.payload;
+      const { address, wasWelcomeDialogShown } = action.payload;
 
-      state.settings[address] = shouldShowWelcomeDialog;
+      state.settings[address] = wasWelcomeDialogShown;
     },
   },
 });

@@ -51,14 +51,14 @@ const selectEnterpriseEndpoints = createSelector(
 
 export const selectEnterpriseApiKeysAsJwtManagerTokens = createSelector(
   selectEnterpriseEndpoints,
-  ({ data: apiKeysArray = [], isLoading }) => {
+  ({ data: apiKeysArray = [], isLoading, isUninitialized }) => {
     const apiKeys: EnterpriseClientJwtManagerItem[] = apiKeysArray
       .map(mapEnterpriseApiKeysToJwtManagerTokens)
       .filter(({ blockchains }) => Boolean(blockchains));
 
     return {
       apiKeys,
-      isLoading,
+      isLoading: isLoading || isUninitialized,
     };
   },
 );

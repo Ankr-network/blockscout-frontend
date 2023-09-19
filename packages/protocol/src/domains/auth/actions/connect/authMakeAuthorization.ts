@@ -1,4 +1,5 @@
 import { EWalletId, getWalletName } from '@ankr.com/provider';
+import { t } from '@ankr.com/common';
 
 import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
@@ -11,6 +12,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { setGithubLoginName } from 'domains/oauth/actions/setGithubLoginName';
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+import { isEmptyEthAddressAuthError } from 'store/utils/isEmptyEthAddressAuthError';
 
 import { authConnect } from './connect';
 import { makeAuthorization } from './makeAuthorization';
@@ -96,10 +98,15 @@ export const {
 
             disconnectService();
 
+            const message = isEmptyEthAddressAuthError(errorData?.error)
+              ? t('error.empty-eth')
+              : errorData?.error?.message;
+
             dispatch(
               NotificationActions.showNotification({
-                message: errorData?.error?.message,
+                message,
                 severity: 'error',
+                autoHideDuration: null,
               }),
             );
 

@@ -23,7 +23,6 @@ const messageGettersMap: Record<AccountingErrorCode, ErrorMessageGetter> = {
   [AccountingErrorCode.WrongState]: () =>
     t('user-settings.errors.too-many-change-email-requests', {
       minutes: 1,
-      plural: '',
     }),
   [AccountingErrorCode.NotFound]: () =>
     t('user-settings.errors.change-inexistent'),

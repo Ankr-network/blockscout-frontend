@@ -77,7 +77,8 @@
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
     "hubspot": "Hubspot form. No such element {selector}",
-    "common": "Oops! Something went wrong."
+    "common": "Oops! Something went wrong.",
+    "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts."
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -633,25 +634,24 @@
       "endpoints-title": "Provider URLs",
       "private-endpoints-tooltip": "Use Provider URL as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
       "public-endpoints-tooltip": "Use Provider URL as your main API endpoint for development.",
-      "plural": "s",
       "settings-button": "Settings",
       "endpoint-groups": {
-        "standard-evm-api": "Standard EVM API{plural}",
-        "c-chain": "C-Chain{plural}",
-        "p-chain": "P-Chain{plural}",
-        "x-chain": "X-Chain{plural}",
-        "ethereum-endpoint": "Ethereum Endpoint{plural}",
-        "nervos-evm": "Standard EVM and Polyjuice API{plural}",
-        "nervos-gw": "Godwoken API{plural}",
-        "nervos-ckb": "Nervos CKB Endpoint{plural}",
+        "standard-evm-api": "Standard EVM API{plurals, plural, =1 {s} other {}}",
+        "c-chain": "C-Chain{plurals, plural, =1 {s} other {}}",
+        "p-chain": "P-Chain{plurals, plural, =1 {s} other {}}",
+        "x-chain": "X-Chain{plurals, plural, =1 {s} other {}}",
+        "ethereum-endpoint": "Ethereum Endpoint{plurals, plural, =1 {s} other {}}",
+        "nervos-evm": "Standard EVM and Polyjuice API{plurals, plural, =1 {s} other {}}",
+        "nervos-gw": "Godwoken API{plurals, plural, =1 {s} other {}}",
+        "nervos-ckb": "Nervos CKB Endpoint{plurals, plural, =1 {s} other {}}",
         "tendermint-rpc": "Tendermint JSON-RPC",
         "tendermint-rest": "Tendermint REST",
         "cosmos-rest": "Cosmos REST",
-        "solana-api": "Solana API{plural}",
+        "solana-api": "Solana API{plurals, plural, =1 {s} other {}}",
         "rest-api": "REST API",
-        "sui": "Sui API{plural}",
+        "sui": "Sui API{plurals, plural, =1 {s} other {}}",
         "json-rpc": "JSON-RPC",
-        "fallback": "{chain} Endpoint{plural}",
+        "fallback": "{chain} Endpoint{plurals, plural, =1 {s} other {}}",
         "empty": "Endpoints will be available soon"
       },
       "beacon-label": "Beacon",
@@ -1117,13 +1117,8 @@
         "title": "Learn More"
       }
     },
-    "private-endpoints": {
-      "title": "Premium Nodes",
-      "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
-      "plural": "s"
-    },
     "user-endpoints": {
-      "title": "My Endpoints",
+      "title": "My Endpoint{plurals, plural, =1 {s} other {}}",
       "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic."
     },
     "community-endpoints": {
@@ -1257,12 +1252,11 @@
       "change-email-button": "Change Email"
     },
     "errors": {
-      "plural": "s",
       "change-with-same-email": "Please use an address that is different from your current one",
       "change-inexistent": "Attempting to change the email that hasn't been registered yet",
       "address-pending-other-email-binding": "There is an email address already associated with your wallet",
-      "too-many-change-email-requests": "You can change your email once in {minutes} minute{plural}",
-      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} minute{plural}",
+      "too-many-change-email-requests": "You can change your email once in {minutes, plural, =1 {minute} other {minutes}}",
+      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} {minutes, plural, =1 {minute} other {minutes}}",
       "already-confirmed": "The email address {email} has already been registered",
       "invalid-email": "The email address `{email}` is invalid"
     },
