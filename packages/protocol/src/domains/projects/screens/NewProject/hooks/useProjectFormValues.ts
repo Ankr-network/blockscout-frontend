@@ -36,7 +36,11 @@ export const getTestnetChains = (
     // zetachain is testnet only but has custom config that includes mainnet.
     // so we have to ignore isTestnetOnlyChain condition
     // and use common case for this chain to get testnet chains
-    if (isTestnetOnlyChain(id) && id !== ChainID.ZETACHAIN) {
+    if (
+      isTestnetOnlyChain(id) &&
+      id !== ChainID.ZETACHAIN &&
+      id !== ChainID.SCROLL
+    ) {
       return previouslySelectedIds.includes(id);
     }
 
