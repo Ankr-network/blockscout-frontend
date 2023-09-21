@@ -16,6 +16,7 @@ import {
   selectUSDBalance,
   selectVoucherBalance,
 } from '../store/selectors';
+import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientStatus';
 
 export interface BalanceParams {
   skipFetching?: boolean;
@@ -30,8 +31,14 @@ export const useBalance = ({
 }: BalanceParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { isLoggedIn } = useAuth();
+  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+    useEnterpriseClientStatus();
 
-  const shouldFetch = isLoggedIn && !skipFetching;
+  const shouldFetch =
+    isLoggedIn &&
+    !skipFetching &&
+    !isEnterpriseClient &&
+    !isLoadingEnterpriseStatus;
 
   const [fetch] = useLazyFetchBalanceQuery(options);
 

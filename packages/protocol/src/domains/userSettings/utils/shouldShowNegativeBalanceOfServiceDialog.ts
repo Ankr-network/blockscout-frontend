@@ -6,9 +6,8 @@ interface ShouldShowNegativeBalanceOfServiceDialogArguments {
   isUninitialized: boolean;
   shouldShowUserGroupDialog: boolean;
   tosAccepted: boolean;
-  isDevRole: boolean;
   hasPremium: boolean;
-  isFinanceRole: boolean;
+  hasGroupAccess: boolean;
   isError: boolean;
   isEnterpriseClient: boolean;
   isLoadingEnterpriseStatus: boolean;
@@ -22,9 +21,8 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
   isUninitialized,
   shouldShowUserGroupDialog,
   tosAccepted,
-  isDevRole,
   hasPremium,
-  isFinanceRole,
+  hasGroupAccess,
   isError,
   isEnterpriseClient,
   isLoadingEnterpriseStatus,
@@ -46,11 +44,7 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
 
   if (tosAccepted) return false;
 
-  if (isDevRole) return false;
-
   if (isEnterpriseClient) return false;
 
-  if (hasPremium || isFinanceRole) return true;
-
-  return false;
+  return hasPremium || hasGroupAccess;
 };

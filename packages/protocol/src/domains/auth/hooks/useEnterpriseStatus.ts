@@ -4,16 +4,16 @@ import { useLazyFetchIsEnterpriseClientQuery } from 'domains/enterprise/actions/
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useEnterpriseStatusFetch = (shouldInitialize: boolean) => {
-  const [fetchEnterpriseStatus, { data }] =
+  const [fetchEnterpriseStatus, { data, isUninitialized }] =
     useLazyFetchIsEnterpriseClientQuery();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   useEffect(() => {
-    if (shouldInitialize) {
+    if (shouldInitialize && isUninitialized) {
       fetchEnterpriseStatus({ group });
     }
-  }, [fetchEnterpriseStatus, shouldInitialize, group]);
+  }, [fetchEnterpriseStatus, shouldInitialize, group, data, isUninitialized]);
 
   return {
     isEnterpriseClient: data,

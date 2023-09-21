@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { setUserGroupConfig } from 'domains/userGroup/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { fetchIsEnterpriseClient } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 
 import { GroupItemProps } from '../types';
 
@@ -19,6 +20,14 @@ export const useGroupItem = ({ group, onSelect }: GroupItemProps) => {
   const onClick = useCallback(async () => {
     // wait till animation ends
     await sleep(200);
+
+    const isPersonalAccountSelected = groupAddress === address;
+
+    await dispatch(
+      fetchIsEnterpriseClient.initiate({
+        group: isPersonalAccountSelected ? undefined : groupAddress,
+      }),
+    );
 
     onSelect();
 

@@ -10,6 +10,7 @@ import {
   selectMyCurrentBundleRequestsUsed,
 } from '../store/selectors';
 import { useLazyFetchMyBundlesStatusQuery } from '../actions/bundles/fetchMyBundlesStatus';
+import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientStatus';
 
 export interface MyBundlesStatusParams {
   skipFetching?: boolean;
@@ -19,18 +20,26 @@ export const useMyBundlesStatus = ({
   skipFetching = false,
 }: MyBundlesStatusParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+    useEnterpriseClientStatus();
 
   const [fetch] = useLazyFetchMyBundlesStatusQuery();
 
   useEffect(() => {
-    if (!skipFetching) {
+    if (!skipFetching && !isEnterpriseClient && !isLoadingEnterpriseStatus) {
       const { unsubscribe } = fetch(group);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetch, group, skipFetching]);
+  }, [
+    fetch,
+    group,
+    skipFetching,
+    isEnterpriseClient,
+    isLoadingEnterpriseStatus,
+  ]);
 
   const statuses = useAppSelector(selectMyBundlesStatus);
 

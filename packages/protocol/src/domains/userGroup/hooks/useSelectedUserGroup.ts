@@ -2,6 +2,7 @@ import {
   selectSelectedUserGroup,
   selectSelectedUserGroupIndex,
   selectUserGroupJwtBySelectedGroupAddress,
+  selectUserGroupLoading,
 } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectAuthData } from 'domains/auth/store/authSlice';
@@ -26,6 +27,7 @@ export const useSelectedUserGroup = () => {
   const selectedGroupJwt = useAppSelector(
     selectUserGroupJwtBySelectedGroupAddress,
   );
+  const isLoadingGroups = useAppSelector(selectUserGroupLoading);
 
   return {
     group,
@@ -34,5 +36,6 @@ export const useSelectedUserGroup = () => {
     selectedGroupAddress,
     isGroupSelected,
     selectedGroupJwt,
+    isLoadingGroups,
   };
 };
