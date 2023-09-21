@@ -23,7 +23,7 @@ const mapEnterpriseApiKeysToJwtManagerTokens = (
 ) => {
   return {
     index,
-    name: '',
+    name: endpoint.enterprise_api_key_name || '',
     description: '',
     jwtData: '',
     ...endpoint,
