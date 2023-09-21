@@ -86,11 +86,11 @@ export const formatRequestsCount = (
   data?: Record<ChainID, string>,
 ) => {
   return chains.map(item => {
-    const { id, chainWithoutMainnet: { id: frontChainId } = {} } = item;
+    const { id } = item;
 
     return {
       ...item,
-      totalRequests: new BigNumber(data?.[frontChainId ?? id] ?? 0),
+      totalRequests: new BigNumber(data?.[id] ?? 0),
     };
   });
 };

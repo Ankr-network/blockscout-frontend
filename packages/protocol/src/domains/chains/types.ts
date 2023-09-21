@@ -48,7 +48,6 @@ export interface Chain extends MainBlockchainEntity {
   urls: ChainURL[];
   totalRequests?: BigNumber;
   chainExtends?: string;
-  chainWithoutMainnet?: Partial<Chain>;
   beacons?: Chain[];
   opnodes?: Chain[];
   testnets?: Chain[];

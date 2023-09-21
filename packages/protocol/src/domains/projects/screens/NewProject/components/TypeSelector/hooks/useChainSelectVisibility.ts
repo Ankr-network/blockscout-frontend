@@ -15,7 +15,6 @@ interface ChainSelectVisibilityHookProps {
 }
 
 export const useChainSelectVisibility = ({
-  chainTypes,
   chainType,
   groups,
   isTestnetOnlyChain,
@@ -23,11 +22,9 @@ export const useChainSelectVisibility = ({
 }: ChainSelectVisibilityHookProps) => {
   const { protocolGroup } = useChainProtocolContext();
 
-  const withChainTypeSelector = chainTypes.length > 1;
   const withGroupSelector = groups.length > 1;
 
-  const isVisible =
-    withChainTypeSelector || withGroupSelector || Boolean(protocolGroup);
+  const isGroupSelectorVisible = withGroupSelector || Boolean(protocolGroup);
 
   useEffect(() => {
     if (isTestnetOnlyChain && chainType === ChainType.Mainnet) {
@@ -35,5 +32,5 @@ export const useChainSelectVisibility = ({
     }
   }, [isTestnetOnlyChain, chainType, selectType]);
 
-  return isVisible;
+  return isGroupSelectorVisible;
 };

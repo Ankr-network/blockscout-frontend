@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+const TAB_BORDER_RADIUS = 11;
+
 export const useChainSelectorContentStyles = makeStyles()(theme => ({
   controls: {
     display: 'flex',
@@ -19,16 +21,25 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
   },
-  desktopGroupSelector: {
+  chainTypeTabs: {
+    '&': {
+      borderRadius: TAB_BORDER_RADIUS,
+    },
+  },
+  groupTabs: {
     '&&': {
+      borderRadius: TAB_BORDER_RADIUS,
+
       [theme.breakpoints.down('sm')]: {
         display: 'none !important',
       },
     },
   },
-  rootMobileGroupSelector: {
+  groupSelector: {
     '&&': {
-      display: 'none',
+      div: {
+        borderRadius: 11,
+      },
 
       [theme.breakpoints.down('sm')]: {
         display: 'flex',

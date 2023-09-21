@@ -33,7 +33,7 @@ export const PrivateChainSelectedContent = ({
 }: IPrivateChainSelectedContentProps) => {
   const { classes } = useChainSelectorContentStyles();
 
-  const isVisible = useChainSelectVisibility({
+  const isGroupSelectorVisible = useChainSelectVisibility({
     chainTypes,
     chainType,
     groups,
@@ -41,26 +41,25 @@ export const PrivateChainSelectedContent = ({
     selectType,
   });
 
-  if (!isVisible) return null;
-
   return (
     <div className={classes.selectors}>
-      {!isTestnetOnlyChain && (
-        <TypeSelector
-          chainType={chainType}
-          chainTypes={chainTypes}
-          onTypeSelect={selectType}
+      <TypeSelector
+        chainType={chainType}
+        chainTypes={chainTypes}
+        classNameMenuItem={classNameMenuItem}
+        isMenuAlwaysVisible
+        menuProps={menuProps}
+        onTypeSelect={selectType}
+      />
+      {isGroupSelectorVisible && (
+        <GroupSelector
+          groupID={groupID}
+          groups={groups}
+          onGroupSelect={selectGroup}
           menuProps={menuProps}
           classNameMenuItem={classNameMenuItem}
         />
       )}
-      <GroupSelector
-        groupID={groupID}
-        groups={groups}
-        onGroupSelect={selectGroup}
-        menuProps={menuProps}
-        classNameMenuItem={classNameMenuItem}
-      />
       {!ignoreProtocol && <ChainProtocolSwitch />}
     </div>
   );

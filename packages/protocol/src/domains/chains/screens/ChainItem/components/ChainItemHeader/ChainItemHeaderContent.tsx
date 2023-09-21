@@ -16,7 +16,6 @@ import { ChainOverview } from './components/ChainOverview';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { useChainItemPlaceholder } from './useChainItemPlaceholder';
 import { hasGroupSelector as checkHasGroupSelector } from './utils/hasGroupSelector';
-import { hasChainTypeSelector as checkHasChainTypeSelector } from './utils/hasChainTypeSelector';
 
 export interface ChainItemHeaderProps {
   chain: Chain;
@@ -66,8 +65,7 @@ export const ChainItemHeaderContent = ({
   isEnterprise = false,
   isMetamaskButtonHidden,
 }: ChainItemHeaderContentProps) => {
-  const { protocolGroup, isChainProtocolSwitchEnabled } =
-    useChainProtocolContext();
+  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   const endpointsGroup = useMemo(
     () => getEndpointsGroup({ group, isChainProtocolSwitchEnabled }),
@@ -79,10 +77,6 @@ export const ChainItemHeaderContent = ({
   const hasGroupSelector = useMemo(
     () => checkHasGroupSelector(chain.id, groupID),
     [chain.id, groupID],
-  );
-  const hasChainTypeSelector = useMemo(
-    () => checkHasChainTypeSelector(chain.id),
-    [chain.id],
   );
 
   return (
@@ -101,7 +95,6 @@ export const ChainItemHeaderContent = ({
         />
       )}
       <ChainSelectorContent
-        protocolGroup={protocolGroup}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
         chainSubTypeTabs={chainSubTypeTabs}
@@ -112,7 +105,6 @@ export const ChainItemHeaderContent = ({
         groupTab={groupTab}
         selectGroup={selectGroup}
         hasGroupSelector={hasGroupSelector}
-        hasChainTypeSelector={hasChainTypeSelector}
         isProtocolSwitcherHidden={isProtocolSwitcherHidden}
       />
       <div className={!isMultiChain ? classes.content : undefined}>

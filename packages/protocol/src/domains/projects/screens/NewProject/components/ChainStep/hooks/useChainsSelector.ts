@@ -58,7 +58,7 @@ export const useChainsSelector = (
     onBlockedTabClick,
   });
 
-  const isMainnetHidden = shouldHideMainnet(chainSelectItem?.id)
+  const isMainnetHidden = shouldHideMainnet(chainSelectItem?.id);
 
   const chainTypesForTypeSelector = isMainnetHidden
     ? chainTypes.filter(type => type.value !== ChainType.Mainnet)

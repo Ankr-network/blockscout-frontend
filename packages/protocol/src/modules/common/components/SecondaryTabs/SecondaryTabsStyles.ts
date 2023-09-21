@@ -8,7 +8,7 @@ export const useSecondaryTabsStyles = makeStyles()((theme: Theme) => ({
     width: 'auto',
 
     border: `2px solid ${theme.palette.background.default}`,
-    borderRadius: theme.spacing(2 * 1.75),
+    borderRadius: theme.spacing(3.5),
 
     background: theme.palette.background.default,
   },

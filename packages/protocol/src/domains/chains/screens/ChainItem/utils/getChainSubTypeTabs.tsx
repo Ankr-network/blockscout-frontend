@@ -1,7 +1,7 @@
 import { Chain, ChainID, ChainSubType } from 'domains/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 
+import { ChainTypeTab } from '../components/ChainTypeTab';
 import { chainSubTypeTabs } from '../constants/chainTypeTabs';
 
 export const getChainSubTypeTabs = ({
@@ -13,7 +13,7 @@ export const getChainSubTypeTabs = ({
     return chainSubTypeTabs.map(({ id, title }) => ({
       id,
       title: (isSelected: boolean) => (
-        <SecondaryTab isSelected={isSelected} label={title} />
+        <ChainTypeTab isSelected={isSelected} label={title} />
       ),
       isDisabled: false,
     }));
