@@ -3,22 +3,22 @@ import { generatePath, useParams } from 'react-router-dom';
 import { ChainDetailsPageParams } from 'domains/chains/routes';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const ENTERPRISE_ROUTE_PATH = 'enterprise';
+export const ENTERPRISE_ROUTE_NAME = 'enterprise';
 
-const INDEX_PATH = `/${ENTERPRISE_ROUTE_PATH}/`;
-const PATH_CHAIN_DETAILS = `${INDEX_PATH}:chainId/:netId?`;
+const ENTERPRISE_ROOT_PATH = `/${ENTERPRISE_ROUTE_NAME}/`;
+const ENTERPRISE_CHAIN_DETAILS_PATH = `${ENTERPRISE_ROOT_PATH}:chainId/:netId?`;
 
 export const EnterpriseRoutesConfig = createRouteConfig(
   {
     chains: {
-      path: INDEX_PATH,
-      generatePath: () => INDEX_PATH,
+      path: ENTERPRISE_ROOT_PATH,
+      generatePath: () => ENTERPRISE_ROOT_PATH,
       breadcrumbs: 'enterprise.breadcrumbs',
     },
     chainDetails: {
-      path: PATH_CHAIN_DETAILS,
+      path: ENTERPRISE_CHAIN_DETAILS_PATH,
       generatePath: (chainId: string, netId?: string) =>
-        generatePath(PATH_CHAIN_DETAILS, { chainId, netId }),
+        generatePath(ENTERPRISE_CHAIN_DETAILS_PATH, { chainId, netId }),
       useParams: () => {
         const { chainId, netId } = useParams<ChainDetailsPageParams>();
 
@@ -29,5 +29,5 @@ export const EnterpriseRoutesConfig = createRouteConfig(
       },
     },
   },
-  INDEX_PATH,
+  ENTERPRISE_ROOT_PATH,
 );

@@ -5,13 +5,11 @@ import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import { useRedirectToMrpcEndpointsOnGroupChange } from 'domains/enterprise/hooks/useRedirectToMrpcEndpointsOnGroupChange';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectBlockchains } from 'domains/chains/store/selectors';
-import { Chain } from 'domains/chains/types';
 import { useEnterpriseStats } from 'domains/enterprise/hooks/useEnterpriseStats';
 import { selectEnterpriseEndpointsError } from 'domains/enterprise/store/selectors';
 import { Error } from 'modules/common/components/SentryErrorBoundary/Error';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { UserEndpointsWrapper } from './UserEndpointsWrapper';
 import { EnterpriseChainsList } from './EnterpriseChainsList';
@@ -27,7 +25,7 @@ export const Chains = () => {
 
   const endpointsRequestError = useAppSelector(selectEnterpriseEndpointsError);
 
-  useEnterpriseStats(true);
+  useEnterpriseStats(!isReactSnap);
 
   useSetBreadcrumbs([
     {
@@ -42,17 +40,8 @@ export const Chains = () => {
 
   const { handleSelectTokenIndex } = useSelectTokenIndex(isUnselectAvailable);
 
-  const { data: chains } = useAppSelector(selectBlockchains);
-
   return (
-    <NoReactSnap
-      fallback={
-        <ReactSnapChainsLinksGenerator
-          chains={chains as Chain[]}
-          chainLinkBuilder={EnterpriseRoutesConfig.chainDetails.generatePath}
-        />
-      }
-    >
+    <NoReactSnap fallback={<div />}>
       {endpointsRequestError ? (
         <Error
           hasLayout={false}

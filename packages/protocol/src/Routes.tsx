@@ -32,7 +32,7 @@ import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   EnterpriseChainDetailsRoutes,
-  EnterpriseRoutes,
+  EnterpriseChainsRoutes,
   EnterpriseRoutesConfig,
 } from 'domains/enterprise/routes';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
@@ -42,6 +42,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useInitialization } from 'hooks/useInitialization';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 /* eslint-disable max-lines-per-function */
 export const Routes = () => {
@@ -152,6 +153,7 @@ export const Routes = () => {
         )}
       />
       <GuardAuthRoute
+        hasReactSnapCheck={isReactSnap}
         exact
         path={[EnterpriseRoutesConfig.chains.path]}
         render={() => (
@@ -161,7 +163,7 @@ export const Routes = () => {
               path={EnterpriseRoutesConfig.chains.path}
               render={() => (
                 <DefaultLayout>
-                  <EnterpriseRoutes />
+                  <EnterpriseChainsRoutes />
                 </DefaultLayout>
               )}
             />
@@ -209,6 +211,7 @@ export const Routes = () => {
         )}
       />
       <GuardAuthRoute
+        hasReactSnapCheck={isReactSnap}
         exact
         path={[EnterpriseRoutesConfig.chainDetails.path]}
         render={() => (
