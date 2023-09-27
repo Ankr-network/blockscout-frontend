@@ -47,9 +47,10 @@ export function ProjectsRoutes() {
     return <OverlaySpinner />;
   }
 
-  const Component = hasReadAccess
-    ? LoadableProjectsContainer
-    : LoadableProjectsPlaceholderContainer;
+  const Component =
+    hasReadAccess && !isFreePremium
+      ? LoadableProjectsContainer
+      : LoadableProjectsPlaceholderContainer;
 
   return (
     <GuardUserGroup

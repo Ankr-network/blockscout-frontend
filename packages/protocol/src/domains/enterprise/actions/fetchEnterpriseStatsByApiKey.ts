@@ -8,31 +8,30 @@ import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
-export interface FetchEnterpriseStatsParams extends IApiUserGroupParams {
+export interface FetchEnterpriseStatsByApiKeyParams
+  extends IApiUserGroupParams {
   interval: PrivateStatsInterval;
-  userEndpointToken?: string;
+  userEndpointToken: string;
 }
 
 export const {
-  useLazyChainsFetchEnterpriseStatsQuery,
-  endpoints: { chainsFetchEnterpriseStats },
+  useLazyChainsFetchEnterpriseStatsByApiKeyQuery,
+  endpoints: { chainsFetchEnterpriseStatsByApiKey },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchEnterpriseStats: build.query<
+    chainsFetchEnterpriseStatsByApiKey: build.query<
       PrivateStats,
-      FetchEnterpriseStatsParams
+      FetchEnterpriseStatsByApiKeyParams
     >({
       queryFn: createNotifyingQueryFn(
         async ({ interval, userEndpointToken }) => {
           const service = MultiService.getService();
           const enterpriseGateway = service.getEnterpriseGateway();
 
-          const data = await (userEndpointToken
-            ? enterpriseGateway.getEnterpriseStatsByPremiumId(
-                interval,
-                userEndpointToken,
-              )
-            : enterpriseGateway.getEnterpriseStats(interval));
+          const data = await enterpriseGateway.getEnterpriseStatsByPremiumId(
+            interval,
+            userEndpointToken,
+          );
 
           return { data };
         },

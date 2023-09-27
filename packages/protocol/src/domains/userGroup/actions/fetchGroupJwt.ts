@@ -8,6 +8,8 @@ import { fetchPremiumStatus } from 'domains/auth/actions/fetchPremiumStatus';
 
 import { GroupJwtData } from '../types';
 import { setUserGroupJwt } from '../store';
+import { selectEnterpriseStatus } from '../../enterprise/store/selectors';
+import { RootState } from '../../../store';
 
 export const {
   endpoints: { userGroupFetchGroupJwt },
@@ -41,12 +43,19 @@ export const {
           },
         };
       },
-      onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (
+        { group },
+        { dispatch, queryFulfilled, getState },
+      ) => {
         const { data: groupJwt } = await queryFulfilled;
 
         if (group && groupJwt) {
           dispatch(setUserGroupJwt({ groupAddress: group, ...groupJwt }));
-          if (groupJwt.jwtToken) {
+
+          const state = getState() as RootState;
+          const { data: isEnterpriseClient } = selectEnterpriseStatus(state);
+
+          if (groupJwt.jwtToken && !isEnterpriseClient) {
             dispatch(fetchPremiumStatus.initiate(groupJwt.jwtToken));
           }
         }

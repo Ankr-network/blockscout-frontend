@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
@@ -13,10 +13,9 @@ import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainIte
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { getPrivateUsageData } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/PrivateUsageDataSectionUtils';
 import { useAppSelector } from 'store/useAppSelector';
-import { useEnterpriseSelectedToken } from 'domains/enterprise/hooks/useEnterpriseSelectedToken';
-import { useLazyChainsFetchEnterpriseStatsQuery } from 'domains/enterprise/actions/fetchEnterpriseStats';
-import { selectEnterpriseStats } from 'domains/enterprise/store/selectors';
+import { selectEnterpriseStatsBySelectedApiKey } from 'domains/enterprise/store/selectors';
 import { useMonthEnterpriseStats } from 'domains/enterprise/hooks/useMonthEnterpriseStats';
+import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';
 
 export const useEnterpriseUsageData = ({
   chain,
@@ -45,28 +44,16 @@ export const useEnterpriseUsageData = ({
     data,
     isLoading: areEnterpriseStatsLoading,
     error: enterpriseStatsError,
-  } = useAppSelector(selectEnterpriseStats);
+  } = useAppSelector(selectEnterpriseStatsBySelectedApiKey);
 
   const enterpriseStats = useMemo(() => {
     return data?.stats || {};
   }, [data]);
 
-  const [fetchStats] = useLazyChainsFetchEnterpriseStatsQuery();
-
-  const { userEndpointToken } = useEnterpriseSelectedToken();
-
-  useEffect(() => {
-    fetchStats({
-      interval: timeframeToIntervalMap[timeframe],
-      userEndpointToken,
-    });
-  }, [
-    fetchStats,
-    timeframe,
-    chainType,
-    userEndpointToken,
-    isChainProtocolSwitchEnabled,
-  ]);
+  useEnterpriseStatsRequest({
+    interval: timeframeToIntervalMap[timeframe],
+    shouldFetch: true,
+  });
 
   const userTopRequests = getUserTopRequest(
     enterpriseStats,
