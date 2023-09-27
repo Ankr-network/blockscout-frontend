@@ -44,6 +44,20 @@ const renderSecretName = (chainId: ChainID) => {
   return name;
 };
 
+const renderSeiName = (chainId: ChainID) => {
+  const name = capitalize(chainId);
+
+  const namesMap: Partial<Record<ChainID, string>> = {
+    [ChainID.SEI]: 'Sei',
+    [ChainID.SEI_COSMOS_GRPS_WEB]: 'Sei Cosmos gRPC-web',
+    [ChainID.SEI_COSMOS_REST]: 'Sei Cosmos REST',
+    [ChainID.SEI_REST]: 'Sei Tendermint REST',
+    [ChainID.SEI_RPC]: 'Sei Tendermint JSON-RPC',
+  };
+
+  return namesMap[chainId] ?? name;
+};
+
 const renderETHName = (chainId: ChainID) => {
   let name = 'Ethereum';
 
@@ -164,6 +178,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderNervosName(chainId);
   } else if (chainId.includes(ChainID.SECRET)) {
     name = renderSecretName(chainId);
+  } else if (chainId.includes(ChainID.SEI)) {
+    name = renderSeiName(chainId);
   } else if (chainId.includes(ChainID.ETH)) {
     name = renderETHName(chainId);
   } else if (chainId.includes(ChainID.HORIZEN_TESTNET)) {

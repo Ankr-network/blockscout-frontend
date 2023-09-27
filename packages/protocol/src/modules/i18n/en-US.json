@@ -652,7 +652,8 @@
         "sui": "Sui API{plurals, plural, =1 {s} other {}}",
         "json-rpc": "JSON-RPC",
         "fallback": "{chain} Endpoint{plurals, plural, =1 {s} other {}}",
-        "empty": "Endpoints will be available soon"
+        "empty": "Endpoints will be available soon",
+        "grpc": "Cosmos gRPC{plurals, plural, =1 {s} other {}}"
       },
       "beacon-label": "Beacon",
       "opnode-label": "Op-node"

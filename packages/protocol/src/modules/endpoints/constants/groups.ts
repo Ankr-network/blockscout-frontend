@@ -32,12 +32,14 @@ export const tendermintRpcChains = [
   ChainID.SECRET_RPC,
   ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+  ChainID.SEI_RPC,
 ];
 
 export const tendermintRestChains = [
   ChainID.SECRET_REST,
   ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+  ChainID.SEI_REST,
 ];
 
 export const chainGroups: ChainGroup[] = [
@@ -225,22 +227,23 @@ export const chainGroups: ChainGroup[] = [
     chains: [ChainID.NERVOS_CKB],
   },
   {
-    id: ChainGroupID.SECRET_RPC,
+    id: ChainGroupID.TENDERMINT_RPC,
     name: getName('tendermint-rpc'),
     pluralName: getName('tendermint-rpc', true),
     chains: tendermintRpcChains,
   },
   {
-    id: ChainGroupID.SECRET_REST,
+    id: ChainGroupID.TENDERMINT_REST,
     name: getName('tendermint-rest'),
     pluralName: getName('tendermint-rest', true),
     chains: tendermintRestChains,
   },
   {
-    id: ChainGroupID.SECRET_COSMOS_REST,
+    id: ChainGroupID.COSMOS_REST,
     name: getName('cosmos-rest'),
     pluralName: getName('cosmos-rest', true),
     chains: [
+      ChainID.SEI_COSMOS_REST,
       ChainID.SECRET_COSMOS_REST,
       ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
       ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
@@ -275,5 +278,11 @@ export const chainGroups: ChainGroup[] = [
     name: getName('sui'),
     pluralName: getName('sui', true),
     chains: [ChainID.SUI, ChainID.SUI_TESTNET],
+  },
+  {
+    id: ChainGroupID.GRPC,
+    name: getName('grpc'),
+    pluralName: getName('grpc', true),
+    chains: [ChainID.SEI_COSMOS_GRPS_WEB],
   },
 ];

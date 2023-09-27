@@ -4,6 +4,7 @@ import {
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
+  SEI_IDS,
   blockchainNameTemplate,
   userNameTemplate,
 } from './constants';
@@ -18,6 +19,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isEthSepoliaBeacon = id === 'eth_sepolia_beacon';
   const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(id);
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.includes(id);
+  const isSei = SEI_IDS.includes(id);
 
   return (
     isTron ||
@@ -28,7 +30,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isEthBeacon ||
     isEthGoerliBeacon ||
     isEthSepoliaBeacon ||
-    isZetaChain
+    isZetaChain ||
+    isSei
   );
 };
 
@@ -110,10 +113,12 @@ export const buildPrivateUrls = ({
     const { id } = blockchain;
     const hasRPC =
       blockchain.features.includes(BlockchainFeature.RPC) ||
-      blockchain.features.includes(BlockchainFeature.ComingSoon);
+      blockchain.features.includes(BlockchainFeature.ComingSoon) ||
+      blockchain.features.includes(BlockchainFeature.GRPC);
     const hasWS = blockchain.features.includes(BlockchainFeature.WS);
 
     const paths = getPaths(blockchain);
+
     const isAptos = APTOS_IDS.includes(id);
 
     const rpcURLs: string[] = hasRPC
