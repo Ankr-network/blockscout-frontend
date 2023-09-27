@@ -12,7 +12,8 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export const useNegativeBalanceTermsOfServices = () => {
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const { selectedGroupAddress: group, isLoadingGroups } =
+    useSelectedUserGroup();
 
   const { isLoggedIn, hasPremium, loading: authLoading } = useAuth();
 
@@ -29,10 +30,10 @@ export const useNegativeBalanceTermsOfServices = () => {
     fetchTermsOfServices,
     {
       data: { tosAccepted } = { tosAccepted: false },
-      isError,
-      isLoading,
-      isFetching,
-      isUninitialized,
+      isError: isErrorTosAcceptStatus,
+      isLoading: isLoadingTosAcceptStatus,
+      isFetching: isFetchingTosAcceptStatus,
+      isUninitialized: isUninitializedTosAcceptStatus,
     },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
@@ -69,30 +70,32 @@ export const useNegativeBalanceTermsOfServices = () => {
       shouldShowNegativeBalanceOfServiceDialog({
         isLoggedIn,
         authLoading,
-        isLoading,
-        isFetching,
-        isUninitialized,
+        isLoadingTosAcceptStatus,
+        isFetchingTosAcceptStatus,
+        isUninitializedTosAcceptStatus,
         shouldShowUserGroupDialog,
         tosAccepted,
         hasPremium,
         hasGroupAccess,
-        isError,
+        isErrorTosAcceptStatus,
         isEnterpriseClient,
         isLoadingEnterpriseStatus,
+        isLoadingGroups,
       }),
     [
       isLoggedIn,
       authLoading,
-      isLoading,
-      isFetching,
-      isUninitialized,
+      isLoadingTosAcceptStatus,
+      isFetchingTosAcceptStatus,
+      isUninitializedTosAcceptStatus,
       shouldShowUserGroupDialog,
       tosAccepted,
       hasPremium,
       hasGroupAccess,
-      isError,
+      isErrorTosAcceptStatus,
       isEnterpriseClient,
       isLoadingEnterpriseStatus,
+      isLoadingGroups,
     ],
   );
 
