@@ -4,6 +4,8 @@ import { Form, FormRenderProps } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useProjects } from 'domains/projects/hooks/useProjects';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { Search } from 'modules/common/components/Search';
@@ -172,7 +174,9 @@ export const Projects = () => {
             handleFormSubmit={handleSubmit}
             onClose={handleCloseAddAndEditDialog}
           />
-          <WelcomeDialog onCreateNewProject={onAddAndEditDialogOpen} />
+          <GuardUserGroup blockName={BlockWithPermission.ProjectsWelcomeDialog}>
+            <WelcomeDialog onCreateNewProject={onAddAndEditDialogOpen} />
+          </GuardUserGroup>
         </>
       );
     },

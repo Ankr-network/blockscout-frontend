@@ -58,6 +58,7 @@ import tenetIconDark from './darkModeIcons/tenet.svg';
 import zksyncEraIconDark from './darkModeIcons/zksync_era.svg';
 import berachainIconDark from './darkModeIcons/berachain.svg';
 import berachainIcon from './icons/berachain.svg';
+import seiIcon from './icons/sei.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -153,6 +154,12 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SECRET_REST]: secretIcon,
   [ChainID.SECRET_RPC]: secretIcon,
 
+  [ChainID.SEI]: seiIcon,
+  [ChainID.SEI_COSMOS_GRPS_WEB]: seiIcon,
+  [ChainID.SEI_COSMOS_REST]: seiIcon,
+  [ChainID.SEI_REST]: seiIcon,
+  [ChainID.SEI_RPC]: seiIcon,
+
   [ChainID.SOLANA]: solIcon,
   [ChainID.SOLANA_DEVNET]: solIcon,
   [ChainID.SYSCOIN]: syscoinIcon,
@@ -229,6 +236,8 @@ const chainNameIcons: Record<string, string> = {
   filecoin_testnet: filecoinIcon,
   zksync_era_testnet: zksyncEraIcon,
   berachain_guarded_testnet_evm: berachainIcon,
+  sei_cosmos: seiIcon,
+  sei_grpc: seiIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {

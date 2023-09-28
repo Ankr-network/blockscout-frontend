@@ -26,7 +26,8 @@ export const useChainSelectVisibility = ({
   const withChainTypeSelector = chainTypes.length > 1;
   const withGroupSelector = groups.length > 1;
 
-  const isGroupSelectorVisible = withGroupSelector || withChainTypeSelector || Boolean(protocolGroup);
+  const isGroupSelectorVisible =
+    withGroupSelector || withChainTypeSelector || Boolean(protocolGroup);
 
   useEffect(() => {
     if (isTestnetOnlyChain && chainType === ChainType.Mainnet) {

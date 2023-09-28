@@ -7,6 +7,7 @@ import { iotexTheme } from 'modules/themes/iotexTheme';
 import { klaytnTheme } from 'modules/themes/klaytnTheme';
 import { polygonTheme } from 'modules/themes/polygonTheme';
 import { secretTheme } from 'modules/themes/secretTheme';
+import { seiTheme } from 'modules/themes/seiTheme';
 import { syscoinTheme } from 'modules/themes/syscoinTheme';
 import { arbitrumTheme } from 'modules/themes/arbitrumTheme';
 import { avalancheTheme } from 'modules/themes/avalancheTheme';
@@ -74,6 +75,9 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Secret:
       return secretTheme;
 
+    case ChainId.Sei:
+      return seiTheme;
+
     case ChainId.Filecoin:
       return filecoinTheme;
 
@@ -99,6 +103,6 @@ export const getTheme = (chainId?: ChainId) => {
       return mantleTheme;
 
     default:
-      return flareTheme;
+      return seiTheme;
   }
 };

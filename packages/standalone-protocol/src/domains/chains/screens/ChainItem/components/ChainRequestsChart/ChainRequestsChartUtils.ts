@@ -112,6 +112,9 @@ export const getForeColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Gnosis:
       return theme.palette.grey['500'];
 
+    case ChainId.Sei:
+      return theme.palette.grey['500'];
+
     default:
       return theme.palette.text.primary;
   }

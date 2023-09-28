@@ -158,6 +158,13 @@ export enum ChainID {
   SECRET_COSMOS_REST = 'scrt-cosmos-rest',
   SECRET_REST = 'scrt-rest',
   SECRET_RPC = 'scrt-rpc',
+
+  SEI = 'sei',
+  SEI_COSMOS_GRPS_WEB = 'sei-cosmos-grpc-web',
+  SEI_COSMOS_REST = 'sei-cosmos-rest',
+  SEI_REST = 'sei-rest',
+  SEI_RPC = 'sei-rpc',
+
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',
   SYSCOIN = 'syscoin',

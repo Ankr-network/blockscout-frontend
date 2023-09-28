@@ -36,10 +36,14 @@ export const getCustomLabelForChainsCornerCases = ({
 
   if (tendermintRestChains.includes(chainId)) {
     if (label === TENDERMINT_REST) {
-      return `Tendermint`;
+      return 'Tendermint';
     }
 
-    return `Secret Network Tendermint`;
+    if (chainId === ChainID.SEI_REST) {
+      return 'Sei Tendermint';
+    }
+
+    return 'Secret Network Tendermint';
   }
 
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {

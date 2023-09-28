@@ -73,7 +73,8 @@ export const useChainRow = ({
       if (
         id !== ChainID.SECRET &&
         id !== ChainID.ZETACHAIN &&
-        id !== ChainID.SCROLL
+        id !== ChainID.SCROLL &&
+        id !== ChainID.SEI
       ) {
         change(ChainStepFields.selectedMainnetIds, [
           ...currentSelectedMainnetIds,

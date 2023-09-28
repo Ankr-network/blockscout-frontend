@@ -11,6 +11,7 @@ export enum BlockWithPermission {
   TosStatus, // access to the TOS status information
   UpgradePlan, // permissions to upgrade current plan
   JwtManagerEdit, // permissions to edit project
+  ProjectsWelcomeDialog, // permissions to see welcome dialog (projects page)
   EnterpriseStatus, // permissions to request group enterprise status
 }
 
@@ -25,6 +26,7 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.TosStatus,
   BlockWithPermission.UpgradePlan,
   BlockWithPermission.JwtManagerEdit,
+  BlockWithPermission.ProjectsWelcomeDialog,
   BlockWithPermission.EnterpriseStatus,
 ];
 

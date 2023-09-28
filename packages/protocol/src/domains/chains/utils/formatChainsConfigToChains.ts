@@ -246,7 +246,9 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
       premiumOnly,
       urls: getURLs(chain),
       hasRESTFeature: features.includes(BlockchainFeature.REST),
-      hasRPCFeature: features.includes(BlockchainFeature.RPC),
+      hasRPCFeature:
+        features.includes(BlockchainFeature.RPC) ||
+        features.includes(BlockchainFeature.GRPC),
       hasWSFeature,
       hasEnterpriseFeature: true,
       isEnterpriseFeatureDisabled: !isEnterpriseAvailable,

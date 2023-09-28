@@ -23,6 +23,7 @@ export enum ChainId {
   Gnosis = 'gnosis',
   Syscoin = 'syscoin',
   Secret = 'scrt',
+  Sei = 'sei',
   Tenet = 'tenet_evm',
   ZksyncEra = 'zksync_era',
   Filecoin = 'filecoin',

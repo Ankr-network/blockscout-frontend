@@ -179,6 +179,7 @@ export enum BlockchainFeature {
   WS = 'ws',
   ComingSoon = 'coming soon',
   REST = 'rest',
+  GRPC = 'grpc',
 }
 
 export enum BlockchainType {

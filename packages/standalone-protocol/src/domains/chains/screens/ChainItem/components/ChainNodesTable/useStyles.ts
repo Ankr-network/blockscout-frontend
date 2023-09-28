@@ -58,6 +58,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       border: `1px solid ${theme.palette.grey[300]}`,
       borderRadius: 20,
     },
+
+    [`&.${ChainId.Sei} $cellThead`]: {
+      color: theme.palette.grey['500'],
+    },
   },
   header: {
     padding: theme.spacing(2, 0),

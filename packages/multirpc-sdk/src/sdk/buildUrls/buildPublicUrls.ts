@@ -4,6 +4,7 @@ import {
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
+  SEI_IDS,
   blockchainNameTemplate,
 } from './constants';
 
@@ -86,9 +87,14 @@ export const buildPublicUrls = ({
       blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
     }
 
+    if (SEI_IDS.includes(id)) {
+      blockchain.paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
+    }
+
     const hasRPC =
       blockchain.features.includes(BlockchainFeature.RPC) ||
-      blockchain.features.includes(BlockchainFeature.ComingSoon);
+      blockchain.features.includes(BlockchainFeature.ComingSoon) ||
+      blockchain.features.includes(BlockchainFeature.GRPC);
 
     const rpcURLs: string[] = hasRPC
       ? blockchain?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) || []
