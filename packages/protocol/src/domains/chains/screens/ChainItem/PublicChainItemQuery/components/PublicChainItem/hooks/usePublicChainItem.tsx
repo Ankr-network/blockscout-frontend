@@ -6,7 +6,6 @@ import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
@@ -81,8 +80,8 @@ export const usePublicChainItem = ({
     () => (
       <ChainItemHeaderContent
         isMultiChain={isMultiChain}
-        chain={processChain(chain)}
-        publicChain={processChain(publicChain)}
+        chain={chain}
+        publicChain={publicChain}
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
@@ -120,7 +119,7 @@ export const usePublicChainItem = ({
 
   return {
     chainProtocolContext,
-    chain: processChain(chain),
+    chain,
     chainType,
     chainSubType,
     group,

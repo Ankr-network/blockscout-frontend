@@ -174,7 +174,7 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Tenet EVM';
   } else if (chainId.includes(ChainID.SCROLL_SEPOLIA_TESTNET)) {
     name = 'Scroll Sepolia Testnet';
-  } else if (chainId.includes(ChainID.SCROLL)) {
+  } else if (chainId.includes(ChainID.SCROLL_TESTNET)) {
     name = 'Scroll Testnet';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
     name = 'Advanced API';
@@ -188,7 +188,7 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Base';
   } else if (chainId === ChainID.BTTC) {
     name = 'BitTorrent Chain Mainnet';
-  } else if (chainId.includes(ChainID.BERACHAIN)) {
+  } else if (chainId.includes(ChainID.BERACHAIN_GUARDED_TESTNET)) {
     name = 'Berachain Guarded Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));

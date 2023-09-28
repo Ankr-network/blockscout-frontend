@@ -19,7 +19,7 @@ import { t } from '@ankr.com/common';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import {
-  ENTERPRISE_ROUTE_PATH,
+  ENTERPRISE_ROUTE_NAME,
   EnterpriseRoutesConfig,
 } from 'domains/enterprise/routes';
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -47,7 +47,7 @@ const checkIsChainsRoute = (
   { pathname }: History['location'],
   chainsRoutes: string[],
 ) => {
-  if (pathname.includes(ENTERPRISE_ROUTE_PATH)) {
+  if (pathname.includes(ENTERPRISE_ROUTE_NAME)) {
     return false;
   }
 

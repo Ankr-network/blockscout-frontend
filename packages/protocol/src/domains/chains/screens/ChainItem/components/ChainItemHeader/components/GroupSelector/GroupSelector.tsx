@@ -1,31 +1,31 @@
 import { SelectChangeEvent } from '@mui/material';
 import { useCallback, useMemo } from 'react';
 
-import { Select } from 'uiKit/Select';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
+import { Select } from 'uiKit/Select';
 
-import { useStyles } from './MobileGroupSelectorStyles';
 import { getOptionsByTabs } from './utils/getOptionsByTabs';
+import { useGroupSelectorStyles } from './useGroupSelectorStyles';
 
-export interface MobileGroupSelectorProps {
+export interface GroupSelectorProps {
   className?: string;
-  rootClassName?: string;
+  fullWidth?: boolean;
   groupID: ChainGroupID;
   groups: EndpointGroup[];
   onGroupSelect: (id: ChainGroupID) => void;
+  rootClassName?: string;
   visible?: boolean;
-  fullWidth?: boolean;
 }
 
-export const MobileGroupSelector = ({
+export const GroupSelector = ({
   className,
-  rootClassName,
+  fullWidth,
   groupID,
   groups,
   onGroupSelect,
+  rootClassName,
   visible = true,
-  fullWidth,
-}: MobileGroupSelectorProps) => {
+}: GroupSelectorProps) => {
   const onChange = useCallback(
     (event: SelectChangeEvent<unknown>) => {
       const chainGroup = event.target.value as ChainGroupID;
@@ -37,7 +37,7 @@ export const MobileGroupSelector = ({
 
   const options = useMemo(() => getOptionsByTabs(groups), [groups]);
 
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useGroupSelectorStyles();
 
   return visible ? (
     <Select
@@ -47,7 +47,7 @@ export const MobileGroupSelector = ({
         },
       }}
       rootClassName={rootClassName}
-      className={cx(className, classes.mobileGroupSelector)}
+      className={cx(className, classes.root)}
       classes={{
         select: classes.select,
       }}

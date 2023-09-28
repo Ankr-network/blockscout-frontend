@@ -80,8 +80,7 @@ export const getChainName = ({
   privateChain,
   publicChain,
 }: ChainNameParams) => {
-  const { name, chainWithoutMainnet: { name: frontChainName = '' } = {} } =
-    privateChain || publicChain || {};
+  const { name } = privateChain || publicChain || {};
 
-  return frontChainName || name || chainId;
+  return name || chainId;
 };

@@ -5,7 +5,6 @@ import { getChainName } from 'uiKit/utils/metatags';
 import { Chain } from 'domains/chains/types';
 
 import { useNetId } from './useNetId';
-import { processChain } from '../utils/processChain';
 
 export interface ICommonChainItemParams {
   chain: Chain;
@@ -23,8 +22,8 @@ export const useCommonChainItem = ({
   const publicEndpoints = useGroupedEndpoints(chain);
 
   return {
-    chain: processChain(chain),
-    publicChain: processChain(publicChain),
+    chain,
+    publicChain,
     name,
     endpoints,
     netId,

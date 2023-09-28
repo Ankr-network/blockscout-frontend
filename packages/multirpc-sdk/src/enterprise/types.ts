@@ -10,6 +10,7 @@ interface EnterpriseBlockchain {
 
 export interface EnterpriseClientEndpoint {
   enterprise_api_key: string;
+  enterprise_api_key_name: string;
   blockchains?: EnterpriseBlockchain[]
 }
 

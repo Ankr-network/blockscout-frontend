@@ -95,7 +95,7 @@ export const DefaultLayout = ({
           </div>
           {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
         </Container>
-        {isLoggedIn && (
+        {isLoggedIn && !isEnterpriseClient && (
           <GuardUserGroup blockName={BlockWithPermission.Billing}>
             <StatusTransitionDialog />
           </GuardUserGroup>

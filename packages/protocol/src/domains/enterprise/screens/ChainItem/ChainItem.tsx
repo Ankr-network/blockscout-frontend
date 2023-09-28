@@ -1,4 +1,5 @@
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 import { useEnterpriseChainItemQuery } from './useEnterpriseChainItemQuery';
 import { UserEndpointsWrapper } from '../Chains/UserEndpointsWrapper';
@@ -27,16 +28,18 @@ export const ChainItem = () => {
 
   return (
     <div className={classes.chainItemWrapper}>
-      <UserEndpointsWrapper
-        onSelectToken={handleSelectTokenIndex}
-        apiKeys={apiKeys}
-        isLoading={isLoading}
-        openedEndpoint={openedEndpoint}
-        setOpenedEndpointIndex={setOpenedEndpointIndex}
-      />
-      {chainData && (
-        <EnterpriseChainDetails data={chainData} apiKeys={apiKeys} />
-      )}
+      <NoReactSnap>
+        <UserEndpointsWrapper
+          onSelectToken={handleSelectTokenIndex}
+          apiKeys={apiKeys}
+          isLoading={isLoading}
+          openedEndpoint={openedEndpoint}
+          setOpenedEndpointIndex={setOpenedEndpointIndex}
+        />
+        {chainData && (
+          <EnterpriseChainDetails data={chainData} apiKeys={apiKeys} />
+        )}
+      </NoReactSnap>
     </div>
   );
 };

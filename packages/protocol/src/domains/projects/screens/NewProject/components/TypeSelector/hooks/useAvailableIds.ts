@@ -1,7 +1,7 @@
-import { ChainID } from 'domains/chains/types';
 import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
+import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 
 export const useAvailableIds = (endpoints: GroupedEndpoints) => {
   const {
@@ -18,7 +18,7 @@ export const useAvailableIds = (endpoints: GroupedEndpoints) => {
     .map(endpoint => endpoint.chains[0].id)
     // zetachain is testnet only but has custom config that includes mainnet.
     // So we need to filter this endpoint from available mainnet ids
-    .filter(chainId => chainId !== ChainID.ZETACHAIN)
+    .filter(chainId => !isTestnetOnlyChain(chainId))
     // JSON-RPC and REST Tendermint subchains have the same path,
     // so should we ignore JSON-RPC endpoints and show REST
     .filter(chainId => !tendermintRpcChains.includes(chainId));

@@ -4,7 +4,6 @@ import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSn
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 import { ChainsList } from 'modules/common/components/ChainsList';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 
 import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
@@ -33,13 +32,7 @@ export const PublicChains = () => {
   return (
     <BaseChains loading={loading} top={<UpgradePlanBanner isPublicUser />}>
       <NoReactSnap
-        fallback={
-          <ReactSnapChainsLinksGenerator
-            chains={allChains}
-            chainLinkBuilder={ChainsRoutesConfig.chainDetails.generatePath}
-            addEndpointLinkBuilder={ChainsRoutesConfig.addEndpoint.generatePath}
-          />
-        }
+        fallback={<ReactSnapChainsLinksGenerator chains={allChains} />}
       >
         <>
           <BaseChainsHeader

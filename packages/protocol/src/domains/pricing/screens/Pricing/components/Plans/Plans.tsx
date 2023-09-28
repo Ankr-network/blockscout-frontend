@@ -19,7 +19,7 @@ import { Plan } from './components/Plan';
 export const Plans = () => {
   const { classes } = usePlansStyles();
 
-  const { isFinanceRole } = usePermissionsAndRole();
+  const { deprecatedIsFinanceRole } = usePermissionsAndRole();
 
   const { isLoggedIn, hasOauthLogin, hasPremium } = useAuth();
   const {
@@ -40,7 +40,7 @@ export const Plans = () => {
 
   const handleClick = useHandleClick({
     isLoggedIn,
-    isFinanceRole,
+    isFinanceRole: deprecatedIsFinanceRole,
     hasPremium,
     onOpenUpgradePlanDialog,
     onOpenSignupDialog,
@@ -49,7 +49,7 @@ export const Plans = () => {
 
   const isButtonDisabled = useIsButtonDisabled({
     hasPremium,
-    isFinanceRole,
+    isFinanceRole: deprecatedIsFinanceRole,
   });
 
   return (

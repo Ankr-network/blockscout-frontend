@@ -29,15 +29,10 @@ export const usePermissionsAndRole = () => {
     [selectedGroupRole],
   );
 
-  const isDevRole = selectedGroupRole === GroupUserRole.dev;
   const isFinanceRole = selectedGroupRole === GroupUserRole.finance;
-  const isOwnerRole = selectedGroupRole === GroupUserRole.owner;
 
   return {
     permissions,
-    role: selectedGroupRole,
-    isDevRole,
-    isFinanceRole,
-    isOwnerRole,
+    deprecatedIsFinanceRole: isFinanceRole, // deprecated param. use BlockWithPermission to get the permissions
   };
 };

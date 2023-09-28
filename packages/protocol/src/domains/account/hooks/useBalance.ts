@@ -1,5 +1,5 @@
 import { SubscriptionOptions } from '@reduxjs/toolkit/dist/query/core/apiState';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -16,6 +16,7 @@ import {
   selectUSDBalance,
   selectVoucherBalance,
 } from '../store/selectors';
+import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientStatus';
 
 export interface BalanceParams {
   skipFetching?: boolean;
@@ -30,8 +31,17 @@ export const useBalance = ({
 }: BalanceParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { isLoggedIn } = useAuth();
+  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+    useEnterpriseClientStatus();
 
-  const shouldFetch = isLoggedIn && !skipFetching;
+  const shouldFetch = useMemo(
+    () =>
+      isLoggedIn &&
+      !skipFetching &&
+      !isEnterpriseClient &&
+      !isLoadingEnterpriseStatus,
+    [isEnterpriseClient, isLoadingEnterpriseStatus, isLoggedIn, skipFetching],
+  );
 
   const [fetch] = useLazyFetchBalanceQuery(options);
 
@@ -43,7 +53,7 @@ export const useBalance = ({
     }
 
     return () => {};
-  }, [fetch, group, shouldFetch]);
+  }, [fetch, shouldFetch, group]);
 
   const ankrBalance = useAppSelector(selectAnkrBalance);
   const ankrBalanceWithoutVouchers = useAppSelector(

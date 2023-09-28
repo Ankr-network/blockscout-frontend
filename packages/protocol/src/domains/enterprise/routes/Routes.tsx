@@ -18,7 +18,7 @@ const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
   },
 );
 
-export function EnterpriseRoutes() {
+export function EnterpriseChainsRoutes() {
   return (
     <Route
       exact

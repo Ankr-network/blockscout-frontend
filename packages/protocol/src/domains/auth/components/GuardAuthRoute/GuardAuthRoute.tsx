@@ -3,14 +3,19 @@ import { OverlaySpinner } from '@ankr.com/ui';
 
 import { useGuardAuth } from 'domains/auth/hooks/useGuardAuth';
 
-interface GuardAuthRouteProps extends RouteProps {}
+interface GuardAuthRouteProps extends RouteProps {
+  hasReactSnapCheck?: boolean;
+}
 
-export const GuardAuthRoute = ({ ...routeProps }: GuardAuthRouteProps) => {
+export const GuardAuthRoute = ({
+  hasReactSnapCheck,
+  ...routeProps
+}: GuardAuthRouteProps) => {
   const { loading, hasAuthData } = useGuardAuth();
 
   if (loading) {
     return <OverlaySpinner />;
   }
 
-  return hasAuthData ? <Route {...routeProps} /> : null;
+  return hasAuthData || hasReactSnapCheck ? <Route {...routeProps} /> : null;
 };

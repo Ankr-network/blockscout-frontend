@@ -8,6 +8,13 @@ import { fallbackChain } from 'domains/dashboard/screens/Dashboard/const';
 import { ChainID, ChainType } from 'domains/chains/types';
 import { ChainGroupID } from 'modules/endpoints/types';
 
+const shouldHideMainnet = (chainID?: ChainID) => {
+  const isZetaChain = chainID === ChainID.ZETACHAIN;
+  const isScroll = chainID === ChainID.SCROLL;
+
+  return isZetaChain || isScroll;
+};
+
 export const useChainsSelector = (
   nestedSelectedChainId: ChainID,
   onBlockedTabClick: () => void,
@@ -51,14 +58,13 @@ export const useChainsSelector = (
     onBlockedTabClick,
   });
 
-  const isZetaChain = chainSelectItem?.id === ChainID.ZETACHAIN;
+  const isMainnetHidden = shouldHideMainnet(chainSelectItem?.id);
 
-  // Zetachain is testnet only so mainnet is not available
-  const chainTypesForTypeSelector = isZetaChain
+  const chainTypesForTypeSelector = isMainnetHidden
     ? chainTypes.filter(type => type.value !== ChainType.Mainnet)
     : chainTypes;
 
-  const hasTypeSelector = !isTestnetOnlyChainSelected || isZetaChain;
+  const hasTypeSelector = !isTestnetOnlyChainSelected || isMainnetHidden;
 
   return {
     chainProtocolContext,

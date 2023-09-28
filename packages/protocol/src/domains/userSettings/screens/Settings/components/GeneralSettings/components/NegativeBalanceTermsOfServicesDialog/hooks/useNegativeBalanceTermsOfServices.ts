@@ -3,7 +3,6 @@ import { useEffect, useMemo } from 'react';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
 import { fetchNegativeBalanceTermsOfServicesStatus } from 'domains/userSettings/actions/negativeBalanceTermsOfServices/fetchNegativeBalanceTermsOfServicesStatus';
 import { acceptNegativeBalanceTermsOfServices } from 'domains/userSettings/actions/negativeBalanceTermsOfServices/acceptNegativeBalanceTermsOfServices';
 import { shouldShowNegativeBalanceOfServiceDialog } from 'domains/userSettings/utils/shouldShowNegativeBalanceOfServiceDialog';
@@ -13,11 +12,10 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export const useNegativeBalanceTermsOfServices = () => {
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { selectedGroupAddress: group, isLoadingGroups } =
+    useSelectedUserGroup();
 
-  const { address, isLoggedIn, hasPremium, loading: authLoading } = useAuth();
-
-  const { isFinanceRole, isDevRole } = usePermissionsAndRole();
+  const { isLoggedIn, hasPremium, loading: authLoading } = useAuth();
 
   const hasGroupAccess = useGuardUserGroup({
     blockName: BlockWithPermission.TosStatus,
@@ -32,10 +30,10 @@ export const useNegativeBalanceTermsOfServices = () => {
     fetchTermsOfServices,
     {
       data: { tosAccepted } = { tosAccepted: false },
-      isError,
-      isLoading,
-      isFetching,
-      isUninitialized,
+      isError: isErrorTosAcceptStatus,
+      isLoading: isLoadingTosAcceptStatus,
+      isFetching: isFetchingTosAcceptStatus,
+      isUninitialized: isUninitializedTosAcceptStatus,
     },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
@@ -45,24 +43,23 @@ export const useNegativeBalanceTermsOfServices = () => {
   ] = useQueryEndpoint(acceptNegativeBalanceTermsOfServices);
 
   useEffect(() => {
-    if (
-      address &&
+    const shouldFetchTos =
+      isLoggedIn &&
+      !authLoading &&
       hasGroupAccess &&
       !isEnterpriseClient &&
-      !isLoadingEnterpriseStatus
-    ) {
-      fetchTermsOfServices(
-        selectedGroupAddress
-          ? {
-              group: selectedGroupAddress,
-            }
-          : undefined,
-      );
+      !isLoadingEnterpriseStatus;
+
+    if (shouldFetchTos) {
+      const fetchParams = group ? { group } : undefined;
+
+      fetchTermsOfServices(fetchParams);
     }
   }, [
-    address,
+    authLoading,
+    isLoggedIn,
     fetchTermsOfServices,
-    selectedGroupAddress,
+    group,
     hasGroupAccess,
     isEnterpriseClient,
     isLoadingEnterpriseStatus,
@@ -73,32 +70,32 @@ export const useNegativeBalanceTermsOfServices = () => {
       shouldShowNegativeBalanceOfServiceDialog({
         isLoggedIn,
         authLoading,
-        isLoading,
-        isFetching,
-        isUninitialized,
+        isLoadingTosAcceptStatus,
+        isFetchingTosAcceptStatus,
+        isUninitializedTosAcceptStatus,
         shouldShowUserGroupDialog,
         tosAccepted,
-        isDevRole,
         hasPremium,
-        isFinanceRole,
-        isError,
+        hasGroupAccess,
+        isErrorTosAcceptStatus,
         isEnterpriseClient,
         isLoadingEnterpriseStatus,
+        isLoadingGroups,
       }),
     [
       isLoggedIn,
       authLoading,
-      isLoading,
-      isFetching,
-      isUninitialized,
+      isLoadingTosAcceptStatus,
+      isFetchingTosAcceptStatus,
+      isUninitializedTosAcceptStatus,
       shouldShowUserGroupDialog,
       tosAccepted,
-      isDevRole,
       hasPremium,
-      isFinanceRole,
-      isError,
+      hasGroupAccess,
+      isErrorTosAcceptStatus,
       isEnterpriseClient,
       isLoadingEnterpriseStatus,
+      isLoadingGroups,
     ],
   );
 

@@ -7,12 +7,13 @@ import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsCon
 import { selectAddress } from 'domains/auth/store';
 import { selectJwtTokenManager } from 'domains/jwtToken/store/selectors';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
+import { getEnterpriseStats } from '../actions/utils';
 import { fetchIsEnterpriseClient } from '../actions/fetchIsEnterpriseClient';
 import { fetchEnterpriseEndpoints } from '../actions/fetchEnterpriseEndpoints';
-import { chainsFetchEnterpriseStats } from '../actions/fetchEnterpriseStats';
-import { selectUserGroupConfigByAddress } from '../../userGroup/store';
-import { getEnterpriseStats } from '../actions/utils';
+import { chainsFetchEnterpriseStatsByApiKey } from '../actions/fetchEnterpriseStatsByApiKey';
+import { chainsFetchEnterpriseStatsTotal } from '../actions/fetchEnterpriseStatsTotal';
 
 export type EnterpriseClientJwtManagerItem = EnterpriseClientEndpoint &
   JwtManagerToken;
@@ -23,7 +24,7 @@ const mapEnterpriseApiKeysToJwtManagerTokens = (
 ) => {
   return {
     index,
-    name: '',
+    name: endpoint.enterprise_api_key_name || '',
     description: '',
     jwtData: '',
     ...endpoint,
@@ -48,6 +49,11 @@ const selectEnterpriseEndpoints = createSelector(
   fetchEnterpriseEndpoints.select({ params: {} }),
   data => data,
 );
+
+export const selectEnterpriseEndpointsError = createSelector<
+  any, // should be typeof selectEnterpriseEndpoints, but it is readonly. so just declared any to describe the return type
+  Error | undefined
+>(selectEnterpriseEndpoints, ({ error }: { error?: Error }) => error);
 
 export const selectEnterpriseApiKeysAsJwtManagerTokens = createSelector(
   selectEnterpriseEndpoints,
@@ -144,12 +150,23 @@ export const selectEnterpriseChains = createSelector(
   },
 );
 
-export const selectEnterpriseStats = createSelector(
-  chainsFetchEnterpriseStats.select(undefined as any), // ignore params
-  state => {
+export const selectEnterpriseStatsBySelectedApiKey = createSelector(
+  selectEnterpriseSelectedApiKey,
+  chainsFetchEnterpriseStatsByApiKey.select(undefined as any),
+  chainsFetchEnterpriseStatsTotal.select(undefined as any),
+  (selectedEnterpriseSelectedApiKey, statsByApiKey, statsTotal) => {
+    if (selectedEnterpriseSelectedApiKey) {
+      return {
+        ...statsByApiKey,
+        data: statsByApiKey.data
+          ? getEnterpriseStats(statsByApiKey.data)
+          : undefined,
+      };
+    }
+
     return {
-      ...state,
-      data: state.data ? getEnterpriseStats(state.data) : undefined,
+      ...statsTotal,
+      data: statsTotal.data ? getEnterpriseStats(statsTotal.data) : undefined,
     };
   },
 );

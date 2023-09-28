@@ -1,13 +1,12 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { premiumText } from 'uiKit/Theme/themeUtils';
 
-export const useLockedTabStyles = makeStyles()((theme: Theme) => ({
+export const useLockedTabStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(2 * 0.5),
+    gap: theme.spacing(1),
   },
   icon: {
     '&&': {
@@ -15,13 +14,10 @@ export const useLockedTabStyles = makeStyles()((theme: Theme) => ({
     },
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 600,
     background: premiumText,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
-    [theme.breakpoints.down('xl')]: {
-      fontSize: 14,
-    },
   },
 }));

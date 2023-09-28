@@ -128,10 +128,7 @@ const getGroups = ({ fallback, groups, nets = [] }: GetGroupParams) => {
 };
 
 const getFallback = (chain: Chain) => {
-  const { chainWithoutMainnet: { name: frontChainName } = {} } = chain;
-  const chainName = frontChainName || chain.name;
-
-  return getFallbackEndpointGroup(chainName);
+  return getFallbackEndpointGroup(chain.name);
 };
 
 export interface GetGrouppedEndpointsParams {

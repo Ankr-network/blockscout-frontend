@@ -8,15 +8,8 @@ import {
 import { ChainID } from 'domains/chains/types';
 import { mappingChainName } from 'domains/auth/utils/mappingchainName';
 
-import { isTestnetOnlyChain } from './isTestnetOnlyChain';
 import { GroupedBlockchainType, Chain, ChainURL } from '../types';
 import { isEvmExtension } from './isEvmExtension';
-
-const getChainWithoutMainnet = ({ id, name, urls }: Chain) => ({
-  id,
-  name,
-  urls,
-});
 
 const getExtensions = (chains: Chain[]) => {
   return chains.reduce<Record<string, Chain[]>>((result, chain) => {
@@ -149,20 +142,11 @@ const addExtensions = ({
     const { id, type } = chain;
 
     if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
-      const defaultTestnet = testnets[id]?.[0];
-
       result.push({
         ...chain,
         testnets: testnets[id],
         devnets: devnets[id],
         opnodes: opnodes[id],
-        chainWithoutMainnet: isTestnetOnlyChain(id)
-          ? getChainWithoutMainnet(
-              id === ChainID.SCROLL
-                ? testnets[id]?.[1] || defaultTestnet
-                : defaultTestnet,
-            )
-          : undefined,
       });
     }
 
@@ -273,19 +257,6 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
   });
 };
 
-const changeMainnetToChainWithoutMainnet = (chains: Chain[]) => {
-  return chains.map(item => {
-    const { id, chainWithoutMainnet, urls } = item;
-
-    return {
-      ...item,
-      ...(chainWithoutMainnet || {}),
-      urls: chainWithoutMainnet ? [] : urls,
-      id,
-    };
-  });
-};
-
 export const formatChainsConfigToChains = (
   data: ChainsConfig = {},
   availableChainIds?: string[],
@@ -312,5 +283,5 @@ export const formatChainsConfigToChains = (
   const chainsWithExtenders = addExtenders(chainsWithExtensions);
   const chainsWithPremiumOnly = addPremiumOnly(chainsWithExtenders);
 
-  return changeMainnetToChainWithoutMainnet(chainsWithPremiumOnly);
+  return chainsWithPremiumOnly;
 };

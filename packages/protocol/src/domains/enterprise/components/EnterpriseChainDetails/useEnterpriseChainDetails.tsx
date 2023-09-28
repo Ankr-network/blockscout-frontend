@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
-import { processChain } from 'domains/chains/screens/ChainItem/utils/processChain';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
@@ -116,8 +115,8 @@ export const useEnterpriseChainDetails = ({
     () => (
       <ChainItemHeaderContent
         isMultiChain={isMultiChain}
-        chain={processChain(chain)}
-        publicChain={processChain(publicChain)}
+        chain={chain}
+        publicChain={publicChain}
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
@@ -159,7 +158,7 @@ export const useEnterpriseChainDetails = ({
 
   return {
     chainProtocolContext,
-    chain: processChain(chain),
+    chain,
     chainType,
     chainSubType,
     group,
@@ -172,7 +171,7 @@ export const useEnterpriseChainDetails = ({
     chainSubTypes,
     selectSubType,
     endpoints,
-    publicChain: processChain(publicChain),
+    publicChain,
     groups,
     groupID,
     selectGroup,

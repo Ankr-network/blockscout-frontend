@@ -1,13 +1,12 @@
 import { ChainSubType, ChainType } from 'domains/chains/types';
+import { GroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/GroupSelector';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { SecondaryTabs } from 'modules/common/components/SecondaryTabs';
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
-import { MobileGroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MobileGroupSelector';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 
 interface IChainSelectorContentProps {
-  protocolGroup?: EndpointGroup;
   chainTypeTab?: Tab<ChainType>;
   chainTypeTabs: Tab<ChainType>[];
   chainSubTypeTab?: Tab<ChainSubType>;
@@ -18,12 +17,12 @@ interface IChainSelectorContentProps {
   groupTabs: Tab<ChainGroupID>[];
   selectGroup: (id: ChainGroupID) => void;
   hasGroupSelector?: boolean;
-  hasChainTypeSelector?: boolean;
   isProtocolSwitcherHidden?: boolean;
 }
 
+const MIN_GROUP_TABS = 2;
+
 export const ChainSelectorContent = ({
-  protocolGroup,
   chainTypeTab,
   chainTypeTabs,
   chainSubTypeTabs,
@@ -34,46 +33,44 @@ export const ChainSelectorContent = ({
   groupTabs,
   selectGroup,
   hasGroupSelector,
-  hasChainTypeSelector,
   isProtocolSwitcherHidden,
 }: IChainSelectorContentProps) => {
   const { classes } = useChainSelectorContentStyles();
 
-  const withChainTypeSelector =
-    chainTypeTabs.length > 1 || hasChainTypeSelector;
-  const withChainSubTypeSelector = chainSubTypeTabs?.length > 1;
-  const withGroupSelector = groupTabs.length > 1 || hasGroupSelector;
+  const withChainSubTypeSelector = chainSubTypeTabs.length > 1;
 
-  const isVisible =
-    withChainTypeSelector || withGroupSelector || Boolean(protocolGroup);
-
-  if (!isVisible) return null;
+  const withGroupSelector = withChainSubTypeSelector;
+  const withGroupTabs =
+    !withGroupSelector &&
+    (groupTabs.length >= MIN_GROUP_TABS || hasGroupSelector);
 
   return (
     <div className={classes.controls}>
       <SecondaryTabs
+        className={classes.chainTypeTabs}
         selectedTab={chainTypeTab}
         tabs={chainTypeTabs}
-        visible={withChainTypeSelector}
+        visible
       />
       <SecondaryTabs
+        className={classes.chainTypeTabs}
         selectedTab={chainSubTypeTab}
         tabs={chainSubTypeTabs}
         visible={withChainSubTypeSelector}
       />
       <SecondaryTabs
-        className={classes.desktopGroupSelector}
+        className={classes.groupTabs}
         selectedTab={groupTab}
         tabs={groupTabs}
-        visible={withGroupSelector}
+        visible={withGroupTabs}
       />
-      <MobileGroupSelector
-        rootClassName={classes.rootMobileGroupSelector}
+      <GroupSelector
+        fullWidth
         groupID={groupID}
         groups={groups}
         onGroupSelect={selectGroup}
+        rootClassName={classes.groupSelector}
         visible={withGroupSelector}
-        fullWidth
       />
       {!isProtocolSwitcherHidden && <ChainProtocolSwitch />}
     </div>

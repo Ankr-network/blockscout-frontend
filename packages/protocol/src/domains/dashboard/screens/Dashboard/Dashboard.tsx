@@ -27,6 +27,7 @@ import { useLastMonthStats } from './hooks/useLastMonthStats';
 import { useSelectorVisibility } from './components/ChainSelector/useSelectorVisibility';
 import { SubTypeSelector } from './components/SubTypeSelector';
 
+// eslint-disable-next-line
 export const Dashboard = () => {
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 
@@ -35,11 +36,12 @@ export const Dashboard = () => {
   ]);
 
   const {
-    networksConfigurations,
     allChains,
+    isLoading,
+    networksConfigurations,
+    rawChains,
     timeframe,
     timeframeTabs,
-    isLoading,
   } = useDashboard();
 
   const {
@@ -51,7 +53,7 @@ export const Dashboard = () => {
     chain,
     unfilteredChain,
     isTestnetOnlyChainSelected,
-  } = useChainsSelector({ chains: networksConfigurations, allChains });
+  } = useChainsSelector({ chains: rawChains, allChains });
 
   const {
     statsChainId,

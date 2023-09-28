@@ -1,4 +1,5 @@
 import { ChainType as Type } from 'domains/chains/types';
+import { ChainTypeTab } from 'domains/chains/screens/ChainItem/components/ChainTypeTab';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import {
@@ -6,7 +7,6 @@ import {
   getChainTypeTabs,
 } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
-import { SecondaryTab } from 'modules/common/components/SecondaryTab';
 import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';
 
 interface GetPrivateChainTypeTabsParams {
@@ -39,7 +39,7 @@ export const getPrivateChainTypeTabs = ({
           );
 
           return (
-            <SecondaryTab
+            <ChainTypeTab
               isLast={index === list.length - 1}
               isSelected={!isBlocked && isSelected}
               label={label}
