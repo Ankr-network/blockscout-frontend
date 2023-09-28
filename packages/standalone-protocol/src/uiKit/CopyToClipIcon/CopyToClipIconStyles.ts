@@ -96,6 +96,18 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
         },
       },
     },
+
+    [`&.${ChainId.Sei}`]: {
+      '& $content': {
+        '&:hover': {
+          backgroundColor: theme.palette.background.default,
+
+          '& $copyIcon': {
+            color: theme.palette.primary.light,
+          },
+        },
+      },
+    },
   },
 
   message: {
@@ -117,6 +129,10 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
     },
 
     [`&.${ChainId.Flare}`]: {
+      backgroundColor: theme.palette.background.default,
+    },
+
+    [`&.${ChainId.Sei}`]: {
       backgroundColor: theme.palette.background.default,
     },
   },

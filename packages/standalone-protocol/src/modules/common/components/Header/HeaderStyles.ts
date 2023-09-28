@@ -159,6 +159,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     },
+
+    [`&.${ChainId.Sei} span span span`]: {
+      color: theme.palette.primary.main,
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -189,6 +193,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
 
     [`&.${ChainId.Flare} span`]: {
       color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Sei} span`]: {
+      color: theme.palette.grey[800],
     },
 
     '& span': {
