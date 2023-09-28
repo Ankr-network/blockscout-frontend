@@ -11,24 +11,36 @@ import { useEnterpriseStatusFetch } from 'domains/auth/hooks/useEnterpriseStatus
 import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
 
 export const useInitialization = (isLoggedIn: boolean) => {
-  const hasRoleAccess = useGuardUserGroup({
+  const hasBillingRoleAccess = useGuardUserGroup({
     blockName: BlockWithPermission.Billing,
+  });
+
+  const hasJwtReadRoleAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.JwtManagerRead,
   });
 
   const shouldInitialize = !isReactSnap && isLoggedIn;
 
-  const { isEnterpriseClient } = useEnterpriseStatusFetch(shouldInitialize);
+  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+    useEnterpriseStatusFetch(shouldInitialize);
 
-  const skipFetching =
-    isReactSnap || !isLoggedIn || !hasRoleAccess || isEnterpriseClient;
+  const skipFetchingBase =
+    isReactSnap ||
+    !isLoggedIn ||
+    isEnterpriseClient ||
+    isLoadingEnterpriseStatus;
+
+  const skipFetchingBilling = skipFetchingBase || !hasBillingRoleAccess;
+
+  const skipFetchingJwt = skipFetchingBase || !hasJwtReadRoleAccess;
 
   useAutoconnect();
 
-  useBalance({ skipFetching });
-  useMyBundles({ skipFetching });
+  useBalance({ skipFetching: skipFetchingBilling });
+  useMyBundles({ skipFetching: skipFetchingBilling });
 
   useCheckChangedSignupUserSettingsAndUpdate();
-  useJwtManagerInitializer(shouldInitialize);
+  useJwtManagerInitializer({ skipFetching: skipFetchingJwt });
 
   usePremiumStatusSubscription();
 

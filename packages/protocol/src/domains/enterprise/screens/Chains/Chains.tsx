@@ -1,11 +1,12 @@
 import { t } from '@ankr.com/common';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import { useRedirectToMrpcEndpointsOnGroupChange } from 'domains/enterprise/hooks/useRedirectToMrpcEndpointsOnGroupChange';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { useEnterpriseStats } from 'domains/enterprise/hooks/useEnterpriseStats';
+import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';
 import { selectEnterpriseEndpointsError } from 'domains/enterprise/store/selectors';
 import { Error } from 'modules/common/components/SentryErrorBoundary/Error';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
@@ -20,12 +21,17 @@ import { useEnterpriseEndpoints } from './UserEndpointsWrapper/useEnterpriseEndp
 // for filtering available chains and stats for particular chain or all chains
 const isUnselectAvailable = true;
 
+const defaultInterval = PrivateStatsInterval.MONTH;
+
 export const Chains = () => {
   const { classes } = useEnterpriseChainsStyles();
 
   const endpointsRequestError = useAppSelector(selectEnterpriseEndpointsError);
 
-  useEnterpriseStats(!isReactSnap);
+  useEnterpriseStatsRequest({
+    interval: defaultInterval,
+    shouldFetch: !isReactSnap,
+  });
 
   useSetBreadcrumbs([
     {

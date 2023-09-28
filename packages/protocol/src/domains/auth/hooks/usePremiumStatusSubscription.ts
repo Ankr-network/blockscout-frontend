@@ -7,7 +7,8 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 
 import { useLazyFetchPremiumStatusQuery } from '../actions/fetchPremiumStatus';
-import { selectUserEndpointToken } from '../store/selectors';
+import { selectUserEndpointToken } from '../store';
+import { useEnterpriseClientStatus } from './useEnterpriseClientStatus';
 
 const options: Options['subscriptionOptions'] = {
   pollingInterval: 30_000,
@@ -24,21 +25,31 @@ export const usePremiumStatusSubscription = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
+  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+    useEnterpriseClientStatus();
+
   useEffect(() => {
     const token = groupToken?.jwtToken || userEndpointToken;
 
-    if (!hasAccess || !token) {
+    if (!hasAccess || !token || isEnterpriseClient) {
       return () => {};
     }
 
-    if (token) {
+    if (token && !isEnterpriseClient && !isLoadingEnterpriseStatus) {
       const { unsubscribe } = fetch(token);
 
       return unsubscribe;
     }
 
     return () => {};
-  }, [fetch, groupToken?.jwtToken, hasAccess, userEndpointToken]);
+  }, [
+    fetch,
+    groupToken?.jwtToken,
+    hasAccess,
+    userEndpointToken,
+    isEnterpriseClient,
+    isLoadingEnterpriseStatus,
+  ]);
 
   return { isUninitialized };
 };

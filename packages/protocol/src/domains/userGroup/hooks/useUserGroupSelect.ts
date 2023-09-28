@@ -2,11 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { GroupUserRole, UserGroup } from 'multirpc-sdk';
 
-import {
-  resetUserGroupConfig,
-  setUserGroupConfig,
-} from 'domains/userGroup/store';
+import { resetUserGroupConfig } from 'domains/userGroup/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { fetchIsEnterpriseClient } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 
 import { useUserGroupConfig } from './useUserGroupConfig';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
@@ -49,15 +47,28 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
     }
   }, [address, dispatch, groups, isLoading, savedSelectedGroupAddress]);
 
-  const handleSetUserGroup = useCallback(() => {
-    dispatch(
-      setUserGroupConfig({
-        address,
-        selectedGroupAddress,
-        selectedGroupRole,
-        shouldRemind,
-      }),
+  const handleSetUserGroup = useCallback(async () => {
+    const isPersonalAccountSelected =
+      selectedGroupAddress === address || !selectedGroupAddress;
+
+    const group = isPersonalAccountSelected ? undefined : selectedGroupAddress;
+
+    const newUserGroupConfig = {
+      address,
+      selectedGroupAddress,
+      selectedGroupRole,
+      shouldRemind,
+    };
+
+    const fetchEnterpriseStatusParams = {
+      group,
+      newUserGroupConfig,
+    };
+
+    await dispatch(
+      fetchIsEnterpriseClient.initiate(fetchEnterpriseStatusParams),
     );
+
     dispatch(shouldShowUserGroupDialog.initiate());
   }, [
     dispatch,

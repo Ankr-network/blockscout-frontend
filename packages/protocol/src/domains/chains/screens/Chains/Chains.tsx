@@ -11,7 +11,7 @@ import { PublicChains } from './components/PublicChains';
 
 export const Chains = () => {
   const { hasPrivateAccess } = useAuth();
-  const { isFinanceRole } = usePermissionsAndRole();
+  const { deprecatedIsFinanceRole } = usePermissionsAndRole();
 
   useRedirectToEnterpriseOnGroupChange();
 
@@ -21,7 +21,7 @@ export const Chains = () => {
     },
   ]);
 
-  if (hasPrivateAccess && !isFinanceRole) {
+  if (hasPrivateAccess && !deprecatedIsFinanceRole) {
     return <PrivateChains />;
   }
 

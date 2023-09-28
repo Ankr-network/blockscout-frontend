@@ -1,27 +1,13 @@
-import { Route, RouteProps, useHistory } from 'react-router-dom';
+import { Route, RouteProps } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
-import { useEffect } from 'react';
 
-import { INDEX_PATH } from 'domains/chains/routes';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { chainsFetchPrivateChain } from 'domains/chains/actions/private/fetchPrivateChain';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useGuardPremiumRedirect } from 'domains/auth/hooks/useGuardPremiumRedirect';
 
 export const GuardPremiumEndpointRoute = (props: RouteProps) => {
-  const history = useHistory();
-  const { loading, hasPrivateAccess, isLoggedIn } = useAuth();
-  const [, fetchChainState] = useQueryEndpoint(chainsFetchPrivateChain);
+  const { loading } = useAuth();
 
-  const shouldRedirect =
-    isLoggedIn &&
-    !hasPrivateAccess &&
-    fetchChainState?.data?.chain?.premiumOnly;
-
-  useEffect(() => {
-    if (shouldRedirect) {
-      history.replace(INDEX_PATH);
-    }
-  }, [shouldRedirect, history]);
+  const { shouldRedirect } = useGuardPremiumRedirect();
 
   if (loading) {
     return <OverlaySpinner />;
