@@ -4,19 +4,25 @@ import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainTypeTab } from '../components/ChainTypeTab';
 import { chainSubTypeTabs } from '../constants/chainTypeTabs';
 
+export interface ChainSubtypeTabsParams {
+  availableSubtypes?: ChainSubType[];
+  chain: Chain;
+}
+
 export const getChainSubTypeTabs = ({
   chain,
-}: {
-  chain: Chain;
-}): Tab<ChainSubType>[] => {
+  availableSubtypes = [ChainSubType.Athens2, ChainSubType.Athens3],
+}: ChainSubtypeTabsParams) => {
   if (chain.id === ChainID.ZETACHAIN) {
-    return chainSubTypeTabs.map(({ id, title }) => ({
-      id,
-      title: (isSelected: boolean) => (
-        <ChainTypeTab isSelected={isSelected} label={title} />
-      ),
-      isDisabled: false,
-    }));
+    return chainSubTypeTabs
+      .filter(({ id }) => availableSubtypes.includes(id))
+      .map<Tab<ChainSubType>>(({ id, title }) => ({
+        id,
+        title: (isSelected: boolean) => (
+          <ChainTypeTab isSelected={isSelected} label={title} />
+        ),
+        isDisabled: false,
+      }));
   }
 
   return [];

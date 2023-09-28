@@ -251,7 +251,6 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
         features.includes(BlockchainFeature.GRPC),
       hasWSFeature,
       hasEnterpriseFeature: true,
-      isEnterpriseFeatureDisabled: !isEnterpriseAvailable,
       isComingSoon,
       isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
       isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,

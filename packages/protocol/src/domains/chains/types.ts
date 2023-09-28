@@ -56,7 +56,6 @@ export interface Chain extends MainBlockchainEntity {
   hasRESTFeature: boolean;
   hasRPCFeature: boolean;
   hasEnterpriseFeature: boolean;
-  isEnterpriseFeatureDisabled: boolean;
 }
 
 export type GroupedBlockchainType = Record<string, Chain[]>;

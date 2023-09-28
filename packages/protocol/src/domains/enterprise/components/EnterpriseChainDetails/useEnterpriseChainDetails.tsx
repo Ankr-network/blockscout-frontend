@@ -22,7 +22,11 @@ import {
 import { ChainTypeItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { useAppSelector } from 'store/useAppSelector';
 import { getChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getChainId';
-import { selectEnterpriseBlockchainsDependingOnSelectedApiKey } from 'domains/enterprise/store/selectors';
+import { getSubchainIds } from 'domains/enterprise/utils/getSubchainIds';
+import {
+  selectAvailableSubTypes,
+  selectEnterpriseBlockchainsDependingOnSelectedApiKey,
+} from 'domains/enterprise/store/selectors';
 
 interface ChainSubTypeItem {
   value: ChainSubType;
@@ -45,6 +49,7 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   onBlockedTabClick: () => void;
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const useEnterpriseChainDetails = ({
   chain,
   unfilteredChain: publicChain,
@@ -69,8 +74,11 @@ export const useEnterpriseChainDetails = ({
       onBlockedTabClick,
     });
 
+  const availableSubtypes = useAppSelector(selectAvailableSubTypes);
+
   const { chainSubType, chainSubTypeTab, chainSubTypeTabs, selectSubType } =
     useChainSubType({
+      availableSubtypes,
       chain,
       netId,
     });
@@ -107,7 +115,13 @@ export const useEnterpriseChainDetails = ({
     selectEnterpriseBlockchainsDependingOnSelectedApiKey,
   );
 
-  const isMetamaskButtonHidden = !enterpriseSubChainIds.includes(subChainId);
+  const subchainIds = useMemo(() => getSubchainIds(chain), [chain]);
+
+  const isMetamaskButtonHidden = !enterpriseSubChainIds.some(
+    enterpriseSubChainId =>
+      enterpriseSubChainId === subChainId ||
+      subchainIds.includes(enterpriseSubChainId),
+  );
 
   const isMultiChain = chain.id === ChainID.MULTICHAIN;
 

@@ -10,14 +10,14 @@ import { useEnterpriseEndpoints } from '../Chains/UserEndpointsWrapper/useEnterp
 import { useApiKeySelectionIfNoSelectedToken } from './useApiKeySelectionIfNoSelectedToken';
 
 export const ChainItem = () => {
-  const { chainId, chainData } = useEnterpriseChainItemQuery();
+  const { chainData } = useEnterpriseChainItemQuery();
 
   const { handleSelectTokenIndex } = useSelectTokenIndex();
 
   useRedirectToMrpcEndpointsOnGroupChange();
 
   const { apiKeys, isLoading, openedEndpoint, setOpenedEndpointIndex } =
-    useEnterpriseEndpoints(chainId);
+    useEnterpriseEndpoints(chainData?.chain);
 
   useApiKeySelectionIfNoSelectedToken({
     apiKeys,

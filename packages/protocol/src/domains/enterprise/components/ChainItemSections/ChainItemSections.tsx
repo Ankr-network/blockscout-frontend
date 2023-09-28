@@ -4,12 +4,7 @@ import { ChainType } from 'domains/chains/types';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useChainItemSectionsStyles } from 'domains/chains/screens/ChainItem/components/ChainItemSections/ChainItemSectionsStyles';
 import { IChainItemTabsProps } from 'domains/chains/screens/ChainItem/components/ChainItemSections';
-import { useAppSelector } from 'store/useAppSelector';
-import { getChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getChainId';
-import {
-  EnterpriseClientJwtManagerItem,
-  selectEnterpriseBlockchainsDependingOnSelectedApiKey,
-} from 'domains/enterprise/store/selectors';
+import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { useSectionsTabs } from './useSectionsTabs';
 
@@ -39,19 +34,6 @@ export const ChainItemSections = ({
     apiKeys,
   });
 
-  const subChainId = getChainId({
-    publicChain: chain,
-    chainType,
-    chainSubType,
-    group,
-  });
-
-  const subChainsList = useAppSelector(
-    selectEnterpriseBlockchainsDependingOnSelectedApiKey,
-  );
-
-  const isSubChainAvailable = subChainsList.includes(subChainId);
-
   const { classes } = useChainItemSectionsStyles();
   const { chains } = group;
 
@@ -61,7 +43,7 @@ export const ChainItemSections = ({
   const isTestnetComingSoon =
     chainType === ChainType.Testnet && chains[0]?.testnets?.[0]?.isComingSoon;
 
-  if (isMainnetComingSoon || isTestnetComingSoon || !isSubChainAvailable) {
+  if (isMainnetComingSoon || isTestnetComingSoon) {
     return null;
   }
 

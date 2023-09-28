@@ -12,6 +12,7 @@ import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { getChainSubTypeTabs } from '../utils/getChainSubTypeTabs';
 
 export interface ChainSubTypeParams {
+  availableSubtypes?: ChainSubType[];
   chain: Chain;
   netId?: string;
 }
@@ -45,15 +46,13 @@ const getInitialChainSubType = (
 };
 
 export const useChainSubType = ({
+  availableSubtypes,
   chain,
   netId,
 }: ChainSubTypeParams): ChainSubTypeResult => {
   const tabs = useMemo(
-    () =>
-      getChainSubTypeTabs({
-        chain,
-      }),
-    [chain],
+    () => getChainSubTypeTabs({ chain, availableSubtypes }),
+    [availableSubtypes, chain],
   );
 
   const [chainSubTypeTabs, chainSubTypeTab, selectSubType] =

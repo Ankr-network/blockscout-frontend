@@ -17,7 +17,6 @@ export const fallbackChain: Chain = {
   hasRESTFeature: false,
   hasRPCFeature: false,
   hasEnterpriseFeature: false,
-  isEnterpriseFeatureDisabled: false,
   coinName: 'fakeChain',
   name: 'fakeChain',
   type: BlockchainType.Mainnet,
