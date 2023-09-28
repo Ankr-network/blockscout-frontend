@@ -6,10 +6,11 @@ export const useEnterpriseClientStatus = () => {
     data: isEnterpriseClient = false,
     isLoading,
     isUninitialized,
+    error,
   } = useAppSelector(selectEnterpriseStatus);
 
   return {
-    isEnterpriseClient,
+    isEnterpriseClient: error ? false : isEnterpriseClient,
     isLoadingEnterpriseStatus: isLoading || isUninitialized,
   };
 };

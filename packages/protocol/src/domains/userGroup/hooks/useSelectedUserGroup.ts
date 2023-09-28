@@ -12,21 +12,28 @@ import { useUserGroupConfig } from './useUserGroupConfig';
 export const useSelectedUserGroup = () => {
   const { selectedGroupAddress: savedSelectedGroupAddress } =
     useUserGroupConfig();
+
   const authData = useAppSelector(selectAuthData);
 
   const group = useAppSelector(selectSelectedUserGroup);
+
   const index = useAppSelector(selectSelectedUserGroupIndex);
+
   const isPersonal = savedSelectedGroupAddress
     ? authData?.address?.toLowerCase() ===
       savedSelectedGroupAddress?.toLowerCase()
     : true;
+
   const selectedGroupAddress = isPersonal
     ? undefined
     : savedSelectedGroupAddress;
+
   const isGroupSelected = Boolean(selectedGroupAddress);
+
   const selectedGroupJwt = useAppSelector(
     selectUserGroupJwtBySelectedGroupAddress,
   );
+
   const isLoadingGroups = useAppSelector(selectUserGroupLoading);
 
   return {

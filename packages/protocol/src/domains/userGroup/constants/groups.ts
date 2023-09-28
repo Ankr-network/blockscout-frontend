@@ -12,6 +12,7 @@ export enum BlockWithPermission {
   UpgradePlan, // permissions to upgrade current plan
   JwtManagerEdit, // permissions to edit project
   ProjectsWelcomeDialog, // permissions to see welcome dialog (projects page)
+  EnterpriseStatus, // permissions to request group enterprise status
 }
 
 export const OWNER_PERMISSIONS = [
@@ -26,6 +27,7 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.UpgradePlan,
   BlockWithPermission.JwtManagerEdit,
   BlockWithPermission.ProjectsWelcomeDialog,
+  BlockWithPermission.EnterpriseStatus,
 ];
 
 export const DEVELOPER_PERMISSIONS = [

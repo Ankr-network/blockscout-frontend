@@ -4,7 +4,7 @@ import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useAppSelector } from 'store/useAppSelector';
 import {
   selectEnterpriseChains,
-  selectEnterpriseStats,
+  selectEnterpriseStatsBySelectedApiKey,
 } from 'domains/enterprise/store/selectors';
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { ChainsList } from 'modules/common/components/ChainsList';
@@ -24,7 +24,9 @@ export const EnterpriseChainsList = () => {
 
   const [searchContent, setSearchContent] = useSearch();
 
-  const { data: { stats = {} } = {} } = useAppSelector(selectEnterpriseStats);
+  const { data: { stats = {} } = {} } = useAppSelector(
+    selectEnterpriseStatsBySelectedApiKey,
+  );
 
   const processedChains = useMemo(
     () =>

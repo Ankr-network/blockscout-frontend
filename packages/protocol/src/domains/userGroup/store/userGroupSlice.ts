@@ -10,6 +10,8 @@ interface UserGroupConfig {
   selectedGroupRole?: GroupUserRole;
 }
 
+export type UserGroupConfigWithAddress = UserGroupConfig & { address: Address };
+
 export interface IUserGroupSlice {
   userGroupConfig: Record<Address, UserGroupConfig>;
   userGroupJwt: Record<Address, GroupJwtData>;
