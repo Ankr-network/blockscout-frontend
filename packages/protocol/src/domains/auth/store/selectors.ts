@@ -2,10 +2,9 @@ import BigNumber from 'bignumber.js';
 import { EthAddressType, Tier, PremiumStatus } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  selectSelectedUserGroupRole,
-  selectUserGroupConfigByAddress,
-} from 'domains/userGroup/store';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { getPermissions } from 'domains/userGroup/utils/getPermissions';
+import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import {
   selectMyCurrentBundle,
   selectTotalBalance,
@@ -165,9 +164,16 @@ export const selectHasFreeToPremiumTransition = createSelector(
 
 export const selectHasStatusTransition = createSelector(
   selectHasFreeToPremiumTransition,
-  selectSelectedUserGroupRole,
-  (hasFreeToPremiumTransition, userRole) =>
-    userRole !== 'GROUP_ROLE_DEV' && hasFreeToPremiumTransition,
+  selectUserGroupConfigByAddress,
+  (hasFreeToPremiumTransition, { selectedGroupRole }) => {
+    const permissions = getPermissions(selectedGroupRole);
+
+    const hasAccess = permissions.includes(
+      BlockWithPermission.StatusTransition,
+    );
+
+    return hasAccess && hasFreeToPremiumTransition;
+  },
 );
 
 export const selectHasConnectWalletMessage = createSelector(

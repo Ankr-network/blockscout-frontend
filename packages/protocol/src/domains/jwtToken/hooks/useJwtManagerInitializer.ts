@@ -1,7 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
@@ -23,10 +25,15 @@ export const useJwtManagerInitializer = ({
 
   useEffect(() => reset, [reset]);
 
-  const shouldFetch = useMemo(
-    () => !skipFetching && !isEnterpriseClient && !isLoadingEnterpriseStatus,
-    [skipFetching, isEnterpriseClient, isLoadingEnterpriseStatus],
-  );
+  const hasAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.JwtManagerRead,
+  });
+
+  const shouldFetch =
+    !skipFetching &&
+    hasAccess &&
+    !isEnterpriseClient &&
+    !isLoadingEnterpriseStatus;
 
   useEffect(() => {
     if (shouldFetch) {

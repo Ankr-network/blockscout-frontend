@@ -10,8 +10,8 @@ export enum BlockWithPermission {
   AccountStatus, // access to account status information
   TosStatus, // access to the TOS status information
   UpgradePlan, // permissions to upgrade current plan
-  JwtManagerEdit, // permissions to edit project
   ProjectsWelcomeDialog, // permissions to see welcome dialog (projects page)
+  StatusTransition, // permissions to have status transition state
   EnterpriseStatus, // permissions to request group enterprise status
 }
 
@@ -25,8 +25,8 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.AccountStatus,
   BlockWithPermission.TosStatus,
   BlockWithPermission.UpgradePlan,
-  BlockWithPermission.JwtManagerEdit,
   BlockWithPermission.ProjectsWelcomeDialog,
+  BlockWithPermission.StatusTransition,
   BlockWithPermission.EnterpriseStatus,
 ];
 
@@ -41,7 +41,6 @@ export const FINANCE_PERMISSIONS = [
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
   BlockWithPermission.TosStatus,
-  BlockWithPermission.AccountStatus,
 ];
 
 export const PERSONAL_GROUP_NAME = 'Personal';
