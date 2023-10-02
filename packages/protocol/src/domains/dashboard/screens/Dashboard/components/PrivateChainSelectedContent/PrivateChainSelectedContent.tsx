@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 import { ChainType } from 'domains/chains/types';
@@ -7,6 +9,7 @@ import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 
 import { GroupSelector } from '../GroupSelector';
 import { TypeSelector } from '../TypeSelector';
+import { mergeTendermintsGroups } from './utils/mergeTendermintsGroups';
 
 export interface IPrivateChainSelectedContentProps extends SelectMenuProps {
   chainType: ChainType;
@@ -33,10 +36,12 @@ export const PrivateChainSelectedContent = ({
 }: IPrivateChainSelectedContentProps) => {
   const { classes } = useChainSelectorContentStyles();
 
+  const mergedGroups = useMemo(() => mergeTendermintsGroups(groups), [groups]);
+
   const isGroupSelectorVisible = useChainSelectVisibility({
     chainTypes,
     chainType,
-    groups,
+    groups: mergedGroups,
     isTestnetOnlyChain,
     selectType,
   });
@@ -54,7 +59,7 @@ export const PrivateChainSelectedContent = ({
       {isGroupSelectorVisible && (
         <GroupSelector
           groupID={groupID}
-          groups={groups}
+          groups={mergedGroups}
           onGroupSelect={selectGroup}
           menuProps={menuProps}
           classNameMenuItem={classNameMenuItem}
