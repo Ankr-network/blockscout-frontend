@@ -23,6 +23,7 @@ export enum ChainGroupID {
   REST_API = 'rest-api',
   RINKEBY = 'rinkeby',
   ROPSTEN = 'ropsten',
+  HOLESKY = 'holesky',
   TENDERMINT_RPC = 'tendermint-rpc',
   TENDERMINT_REST = 'tendermint-rest',
   COSMOS_REST = 'cosmos-rest',

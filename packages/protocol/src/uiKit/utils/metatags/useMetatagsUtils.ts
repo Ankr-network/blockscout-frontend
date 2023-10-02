@@ -69,6 +69,8 @@ const renderETHName = (chainId: ChainID) => {
     name = 'Ropsten Testnet';
   } else if (chainId === ChainID.ETH_SEPOLIA) {
     name = 'Sepolia Testnet';
+  } else if (chainId === ChainID.ETH_HOLESKY) {
+    name = 'Holesky Testnet';
   }
 
   return name;

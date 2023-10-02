@@ -186,6 +186,12 @@ export const chainGroups: ChainGroup[] = [
     ],
   },
   {
+    id: ChainGroupID.HOLESKY,
+    name: 'Holesky',
+    pluralName: 'Holesky',
+    chains: [ChainID.ETH_HOLESKY],
+  },
+  {
     id: ChainGroupID.HORIZEN,
     name: 'Horizen',
     pluralName: 'Horizen',

@@ -98,6 +98,7 @@ export enum ChainID {
   ETH_ROPSTEN = 'eth_ropsten',
   ETH_SEPOLIA = 'eth_sepolia',
   ETH_SEPOLIA_BEACON = 'eth_sepolia_beacon',
+  ETH_HOLESKY = 'eth_holesky',
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
   FILECOIN = 'filecoin',
