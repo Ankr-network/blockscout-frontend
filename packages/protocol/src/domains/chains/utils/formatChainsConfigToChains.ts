@@ -232,10 +232,8 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
 
     const isComingSoon = features.includes(BlockchainFeature.ComingSoon);
 
-    const isEnterpriseAvailable = availableChainIds?.includes(id);
-    const hasWSFeature = availableChainIds?.length
-      ? isEnterpriseAvailable
-      : features.includes(BlockchainFeature.WS);
+    const hasEnterpriseFeature = availableChainIds?.includes(id);
+    const hasWSFeature = features.includes(BlockchainFeature.WS);
 
     return {
       coinName,
@@ -250,7 +248,7 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
         features.includes(BlockchainFeature.RPC) ||
         features.includes(BlockchainFeature.GRPC),
       hasWSFeature,
-      hasEnterpriseFeature: true,
+      hasEnterpriseFeature,
       isComingSoon,
       isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
       isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,

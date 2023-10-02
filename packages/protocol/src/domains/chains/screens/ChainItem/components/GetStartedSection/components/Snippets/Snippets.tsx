@@ -1,28 +1,20 @@
 import { Box } from '@mui/material';
 
-import { EndpointGroup } from 'modules/endpoints/types';
-import { useIsEnterpriseRoute } from 'modules/common/hooks/useIsEnterpriseRoute';
-
 import { CodeSnippet } from '../CodeSnippet';
 import { ConnectionType, Technology } from '../../types';
-import { useSnippets } from './hooks/useSnippets';
 import { useStyles } from './SnippetsStyles';
+import { languagesMap } from './const';
 
 export interface SnippetsProps {
-  group: EndpointGroup;
   technology: Technology;
+  httpCode: string;
+  wssCode?: string;
 }
 
-export const Snippets = ({ group, technology }: SnippetsProps) => {
+export const Snippets = ({ httpCode, wssCode, technology }: SnippetsProps) => {
   const { classes } = useStyles();
 
-  const { isEnterpriseRoute: isEnterprise } = useIsEnterpriseRoute();
-
-  const { httpCode, language, wssCode } = useSnippets({
-    group,
-    technology,
-    isEnterprise,
-  });
+  const language = languagesMap[technology];
 
   return (
     <Box className={classes.snippets}>

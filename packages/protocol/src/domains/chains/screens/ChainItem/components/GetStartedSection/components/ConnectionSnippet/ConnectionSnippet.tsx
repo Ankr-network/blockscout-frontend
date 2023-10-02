@@ -1,23 +1,29 @@
-import { EndpointGroup } from 'modules/endpoints/types';
+import { Dispatch, SetStateAction } from 'react';
 
 import { Snippets } from '../Snippets';
 import { Tabs } from '../Tabs';
 import { useStyles } from './ConnectionSnippetStyles';
-import { useTechnology } from './hooks/useTechnology';
+import { Technology } from '../../types';
 
 export interface ConnectionSnippetProps {
-  group: EndpointGroup;
+  technology: Technology;
+  setTechnology: Dispatch<SetStateAction<Technology>>;
+  httpCode: string;
+  wssCode?: string;
 }
 
-export const ConnectionSnippet = ({ group }: ConnectionSnippetProps) => {
-  const [technology, setTechnology] = useTechnology();
-
+export const ConnectionSnippet = ({
+  technology,
+  setTechnology,
+  httpCode,
+  wssCode,
+}: ConnectionSnippetProps) => {
   const { classes } = useStyles();
 
   return (
     <div className={classes.connectionSnippet}>
       <Tabs setTechnology={setTechnology} />
-      <Snippets group={group} technology={technology} />
+      <Snippets httpCode={httpCode} wssCode={wssCode} technology={technology} />
     </div>
   );
 };

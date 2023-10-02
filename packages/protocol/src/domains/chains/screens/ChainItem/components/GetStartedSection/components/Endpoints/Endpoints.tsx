@@ -6,7 +6,6 @@ import { Chain, ChainType } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
-import { useIsEnterpriseRoute } from 'modules/common/hooks/useIsEnterpriseRoute';
 
 import { Feature, MainEndpoints } from '../MainEndpoints';
 import { root } from '../../const';
@@ -14,6 +13,7 @@ import { useEndpointsStyles } from './EndpointsStyles';
 import { WsFeatureEndpoints } from '../WsFeatureEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';
 import { EndpointsHeader } from '../EndpointsHeader';
+import { useWsFeatureEndpoints } from '../WsFeatureEndpoints/useWsFeatureEndpoints';
 
 export interface EndpointsProps {
   publicChain: Chain;
@@ -55,7 +55,7 @@ export const Endpoints = ({
     [publicChain, chainType],
   );
 
-  const { isEnterpriseRoute } = useIsEnterpriseRoute();
+  const { hasWSFeature, wss } = useWsFeatureEndpoints(group);
 
   const renderContent = useMemo(() => {
     if (hasComingSoonLabel) {
@@ -71,29 +71,6 @@ export const Endpoints = ({
             />
           }
         />
-      );
-    }
-
-    if (isEnterpriseRoute) {
-      return (
-        <>
-          <MainEndpoints
-            feature={Feature.ENTERPRISE}
-            group={group}
-            hasConnectWalletMessage={hasConnectWalletMessage}
-            hasPremium={false}
-            hasPrivateAccess
-            onCopyEndpoint={onCopyEndpoint}
-            publicChain={publicChain}
-          />
-          <WsFeatureEndpoints
-            title={t(`${root}.endpoints.websocket-title`)}
-            hasPremium
-            hasConnectWalletMessage={hasConnectWalletMessage}
-            onCopyEndpoint={onCopyEndpoint}
-            group={group}
-          />
-        </>
       );
     }
 
@@ -136,21 +113,23 @@ export const Endpoints = ({
           hasPremium={hasPremium}
           hasConnectWalletMessage={hasConnectWalletMessage}
           onCopyEndpoint={onCopyEndpoint}
-          group={group}
+          hasWSFeature={hasWSFeature}
+          wss={wss}
         />
       </>
     );
   }, [
-    isEnterpriseRoute,
     classes.placeholderLabel,
     group,
     hasComingSoonLabel,
     hasConnectWalletMessage,
     hasPremium,
     hasPrivateAccess,
+    hasWSFeature,
     onCopyEndpoint,
     placeholder,
     publicChain,
+    wss,
   ]);
 
   return <Box className={classes.endpointsList}>{renderContent}</Box>;

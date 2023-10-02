@@ -4,20 +4,22 @@ import { ChainID } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
-import { ConnectionSnippet } from './components/ConnectionSnippet';
+import {
+  ConnectionSnippet,
+  ConnectionSnippetProps,
+} from './components/ConnectionSnippet';
 import { MultiChainBenefits } from './components/MultichainBenefits';
 import { UpgradeBanner } from './components/UpgradeBanner';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
-import { removeWsUrlIfUserIsNotPremium } from './GetStartedSectionUtils';
 import { useChainProtocolContext } from '../../hooks/useChainProtocolContext';
 
-export interface GetStartedSectionProps {
+export interface GetStartedSectionProps extends ConnectionSnippetProps {
   chainId: string;
   group: EndpointGroup;
   hasUpgradeBanner: boolean;
   publicUrl: string;
-  hasPremium: boolean;
   hasRequestComposer: boolean;
 }
 
@@ -26,8 +28,11 @@ export const GetStartedSection = ({
   group,
   hasUpgradeBanner,
   publicUrl,
-  hasPremium,
   hasRequestComposer,
+  technology,
+  setTechnology,
+  httpCode,
+  wssCode,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
@@ -36,10 +41,7 @@ export const GetStartedSection = ({
 
   const isEvmBased = useMemo(() => isGroupEvmBased(group), [group]);
 
-  const codeSnippetGroup = useMemo(
-    () => removeWsUrlIfUserIsNotPremium(group, hasPremium),
-    [group, hasPremium],
-  );
+  const { hasPremium } = useAuth();
 
   return (
     <div className={classes.getStartedSection}>
@@ -47,7 +49,12 @@ export const GetStartedSection = ({
       {hasUpgradeBanner && !isMultiChain && <UpgradeBanner />}
 
       {!isChainProtocolSwitchEnabled && isEvmBased && (
-        <ConnectionSnippet group={codeSnippetGroup} />
+        <ConnectionSnippet
+          technology={technology}
+          setTechnology={setTechnology}
+          httpCode={httpCode}
+          wssCode={hasPremium ? wssCode : undefined}
+        />
       )}
       {!isChainProtocolSwitchEnabled && hasRequestComposer && (
         <RequestComposer

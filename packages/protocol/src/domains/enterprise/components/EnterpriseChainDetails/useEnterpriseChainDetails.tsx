@@ -21,7 +21,7 @@ import {
 } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/utils';
 import { ChainTypeItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { useAppSelector } from 'store/useAppSelector';
-import { getChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getChainId';
+import { getChainId } from 'modules/chains/utils/getChainId';
 import { getSubchainIds } from 'domains/enterprise/utils/getSubchainIds';
 import {
   selectAvailableSubTypes,

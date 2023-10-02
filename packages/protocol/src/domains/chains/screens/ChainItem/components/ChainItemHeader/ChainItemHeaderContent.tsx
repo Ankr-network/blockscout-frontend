@@ -10,6 +10,7 @@ import { Endpoints } from 'domains/chains/screens/ChainItem/components/GetStarte
 import { PremiumContent } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from 'domains/chains/screens/ChainItem/utils/getEndpointsGroup';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
+import { EnterpriseEndpoints } from 'domains/enterprise/components/EnterpriseEndpoints';
 
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
@@ -108,12 +109,20 @@ export const ChainItemHeaderContent = ({
         isProtocolSwitcherHidden={isProtocolSwitcherHidden}
       />
       <div className={!isMultiChain ? classes.content : undefined}>
-        <Endpoints
-          publicChain={publicChain}
-          chainType={chainType}
-          group={endpointsGroup}
-          placeholder={placeholder}
-        />
+        {isEnterprise ? (
+          <EnterpriseEndpoints
+            publicChain={publicChain}
+            chainType={chainType}
+            group={endpointsGroup}
+          />
+        ) : (
+          <Endpoints
+            publicChain={publicChain}
+            chainType={chainType}
+            group={endpointsGroup}
+            placeholder={placeholder}
+          />
+        )}
         <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
           <PremiumContent isMultiChain={isMultiChain} />
         </GuardUserGroup>
