@@ -11,7 +11,7 @@ export interface ChainSubtypeTabsParams {
 
 export const getChainSubTypeTabs = ({
   chain,
-  availableSubtypes = [ChainSubType.Athens2, ChainSubType.Athens3],
+  availableSubtypes = [ChainSubType.Athens3],
 }: ChainSubtypeTabsParams) => {
   if (chain.id === ChainID.ZETACHAIN) {
     return chainSubTypeTabs

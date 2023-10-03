@@ -112,15 +112,7 @@ const getTestnetChainName = (chainId: string) => {
 const renderZetaChainName = (chainId: ChainID) => {
   let name = 'ZetaChain Testnet';
 
-  if (chainId === ChainID.ZETACHAIN_COSMOS_REST_TESTNET) {
-    name = 'ZetaChain Athens-2 Cosmos REST Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET) {
-    name = 'ZetaChain Athens-2 Tendermint REST Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET) {
-    name = 'ZetaChain Athens-2 Tendermint JSON-RPC Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
-    name = 'ZetaChain Athens-2 EVM RPC Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
+  if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
     name = 'ZetaChain Athens-3 Cosmos REST Testnet';
   } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET) {
     name = 'ZetaChain Athens-3 Tendermint REST Testnet';
