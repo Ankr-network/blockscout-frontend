@@ -14,6 +14,7 @@ export interface UseSectionsParams {
   chain: Chain;
   group: EndpointGroup;
   publicUrl: string;
+  hasWssAccess?: boolean;
 }
 
 export const useAvailableSections = ({
@@ -22,6 +23,7 @@ export const useAvailableSections = ({
   chain,
   group,
   publicUrl,
+  hasWssAccess,
 }: UseSectionsParams) => {
   const { id: chainId } = chain;
   const { timeframe, timeframeTabs } = useTimeframe();
@@ -33,6 +35,7 @@ export const useAvailableSections = ({
     getSelectHandler,
     group,
     publicUrl,
+    hasWssAccess,
   });
 
   const debugMenuSection = useDebugMenuSection({

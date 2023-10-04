@@ -1,29 +1,15 @@
 import { useMemo } from 'react';
 
-import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
-import {
-  chainGroups,
-  tendermintRpcChains,
-} from 'modules/endpoints/constants/groups';
+import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 
 export type ProjectChain = Chain & {
   beaconsMainnet?: Chain[];
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
   opnodesTestnet?: Chain[];
-};
-
-const hasWsFeature = (chain: Chain) => {
-  const { mainnet, testnet, devnet } = getGroupedEndpoints({
-    chain,
-    groups: chainGroups,
-  });
-
-  return [...mainnet, ...testnet, ...devnet]
-    .flatMap(item => item.urls)
-    .some(url => url.ws);
 };
 
 const mapProjectChains = (chain: Chain) => {

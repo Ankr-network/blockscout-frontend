@@ -21,6 +21,7 @@ export interface GetStartedSectionParams {
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
   publicUrl: string;
+  hasWssAccess?: boolean;
 }
 
 export const useGetStartedSection = ({
@@ -71,6 +72,7 @@ export const useGetStartedSection = ({
           setTechnology={setTechnology}
           httpCode={httpCode}
           wssCode={wssCode}
+          hasWssAccess={hasPremium}
         />
       ),
       onSelect: getSelectHandler(SectionID.GetStarted),
@@ -93,5 +95,6 @@ export const useGetStartedSection = ({
     httpCode,
     wssCode,
     getSelectHandler,
+    hasPremium,
   ]);
 };
