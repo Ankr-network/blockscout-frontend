@@ -586,4 +586,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://sepolia-blockscout.scroll.io/'],
   },
+
+  [ChainID.XDC]: {
+    chainId: 50,
+    chainName: 'XDC Network',
+    nativeCurrency: {
+      name: 'XDC',
+      symbol: 'XDC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://xdcscan.io'],
+  },
 };

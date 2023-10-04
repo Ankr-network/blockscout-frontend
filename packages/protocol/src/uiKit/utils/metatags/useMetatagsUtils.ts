@@ -196,8 +196,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'TRON JSON-RPC';
   } else if (chainId === ChainID.BASE) {
     name = 'Base';
-  } else if (chainId === ChainID.BTTC) {
-    name = 'BitTorrent Chain Mainnet';
+  } else if (chainId === ChainID.XDC) {
+    name = 'XDC Network';
   } else if (chainId.includes(ChainID.BERACHAIN_GUARDED_TESTNET)) {
     name = 'Berachain Guarded Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {
