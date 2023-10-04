@@ -69,8 +69,9 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   name: {
-    width: theme.spacing(41.5),
-    height: theme.spacing(11),
+    width: 166,
+    height: 28,
+    borderRadius: 17,
   },
   icon: {
     width: theme.spacing(14),
@@ -78,6 +79,7 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
   },
   content: {
     width: '100%',
-    height: theme.spacing(13.5),
+    height: 32,
+    borderRadius: 17,
   },
 }));
