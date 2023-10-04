@@ -1,24 +1,42 @@
+import { IBlockchainEntity } from 'multirpc-sdk';
 import { useMemo } from 'react';
-import { BlockchainID } from 'multirpc-sdk';
 
-import { useAppSelector } from 'store/useAppSelector';
+import { Chain } from 'domains/chains/types';
+import { selectBlockchains } from 'domains/chains/store/selectors';
 import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
-export const useApiKeys = (chainId?: BlockchainID) => {
+import { getSubchainIds } from './utils/getSubchainIds';
+
+const defaultBlockchains: IBlockchainEntity[] = [];
+
+export const useApiKeys = (chain?: Chain) => {
+  const { data: blockchains = defaultBlockchains } =
+    useAppSelector(selectBlockchains);
+
   const { apiKeys = [], isLoading } = useAppSelector(
     selectEnterpriseApiKeysAsJwtManagerTokens,
+  );
+
+  const chainId = chain?.id;
+
+  const subchainIds = useMemo(
+    () => [chainId, ...getSubchainIds(blockchains, chainId)],
+    [blockchains, chainId],
   );
 
   const filteredApiKeys = useMemo(
     () =>
       apiKeys.filter(apiKey =>
-        apiKey.blockchains?.some(({ blockchain }) => blockchain === chainId),
+        apiKey.blockchains?.some(({ blockchain }) =>
+          subchainIds.includes(blockchain),
+        ),
       ),
-    [apiKeys, chainId],
+    [apiKeys, subchainIds],
   );
 
   return {
-    apiKeys: chainId ? filteredApiKeys : apiKeys,
+    apiKeys: chain ? filteredApiKeys : apiKeys,
     isLoading,
   };
 };

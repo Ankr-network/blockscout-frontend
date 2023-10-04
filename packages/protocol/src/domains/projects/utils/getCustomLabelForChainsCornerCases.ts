@@ -1,10 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import {
-  ChainID,
-  ZETACHAIN_ATHENS2_CHAINS,
-  ZETACHAIN_ATHENS3_CHAINS,
-} from 'domains/chains/types';
+import { ChainID, ZETACHAIN_ATHENS3_CHAINS } from 'domains/chains/types';
 import { tendermintRestChains } from 'modules/endpoints/constants/groups';
 import { renderNervosName } from 'uiKit/utils/metatags';
 
@@ -18,14 +14,6 @@ export const getCustomLabelForChainsCornerCases = ({
   chainId,
   label,
 }: NestedItemBase) => {
-  if (ZETACHAIN_ATHENS2_CHAINS.includes(chainId)) {
-    if (tendermintRestChains.includes(chainId)) {
-      return `Athens 2 Zetachain Tendermint`;
-    }
-
-    return `Athens 2 ${label.replace(PART_TO_DELETE_FROM_STRING, '')}`;
-  }
-
   if (ZETACHAIN_ATHENS3_CHAINS.includes(chainId)) {
     if (tendermintRestChains.includes(chainId)) {
       return `Athens 3 Zetachain Tendermint`;

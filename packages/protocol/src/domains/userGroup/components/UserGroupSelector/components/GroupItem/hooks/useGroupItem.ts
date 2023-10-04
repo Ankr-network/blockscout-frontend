@@ -1,10 +1,11 @@
 import { sleep } from '@ankr.com/common';
-import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 
+import { fetchIsEnterpriseClient } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
+import { resetEndpoint } from 'store/utils/resetEndpoint';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { fetchIsEnterpriseClient } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 
 import { GroupItemProps } from '../types';
 
@@ -18,7 +19,7 @@ export const useGroupItem = ({
 
   const isSelected = groupAddress === selectedGroup?.groupAddress;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onClick = useCallback(async () => {
     // wait till animation ends
@@ -40,6 +41,8 @@ export const useGroupItem = ({
     };
 
     await dispatch(fetchIsEnterpriseClient.initiate(isClientFetchParams));
+
+    resetEndpoint('fetchPremiumStatus', dispatch);
 
     onSelect();
   }, [address, dispatch, groupAddress, onSelect, userRole]);

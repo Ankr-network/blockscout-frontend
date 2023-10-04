@@ -10,7 +10,7 @@ import {
   ChainSubType,
 } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { getChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getChainId';
+import { getChainId } from 'modules/chains/utils/getChainId';
 import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';
 
 import { IChainParams } from '../../actions/addNetwork';

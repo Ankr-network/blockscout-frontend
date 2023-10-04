@@ -8,7 +8,6 @@ export enum ChainType {
 }
 
 export enum ChainSubType {
-  Athens2 = 'athens2',
   Athens3 = 'athens3',
 }
 
@@ -56,7 +55,6 @@ export interface Chain extends MainBlockchainEntity {
   hasRESTFeature: boolean;
   hasRPCFeature: boolean;
   hasEnterpriseFeature: boolean;
-  isEnterpriseFeatureDisabled: boolean;
 }
 
 export type GroupedBlockchainType = Record<string, Chain[]>;
@@ -99,6 +97,7 @@ export enum ChainID {
   ETH_ROPSTEN = 'eth_ropsten',
   ETH_SEPOLIA = 'eth_sepolia',
   ETH_SEPOLIA_BEACON = 'eth_sepolia_beacon',
+  ETH_HOLESKY = 'eth_holesky',
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
   FILECOIN = 'filecoin',
@@ -177,12 +176,6 @@ export enum ChainID {
   SUI_TESTNET = 'sui_testnet',
 
   ZETACHAIN = 'zetachain',
-  /* Athens-2 */
-  ZETACHAIN_COSMOS_REST_TESTNET = 'zetachain-cosmos-rest-testnet',
-  ZETACHAIN_EVM_TESTNET = 'zetachain-evm-testnet',
-  ZETACHAIN_TENDERMINT_REST_TESTNET = 'zetachain-tendermint-rest-testnet',
-  ZETACHAIN_TENDERMINT_RPC_TESTNET = 'zetachain-tendermint-rpc-testnet',
-  ZETACHAIN_TESTNET = 'zetachain-testnet',
 
   /* Athens-3 */
   ZETACHAIN_COSMOS_REST_ATHENS_TESTNET = 'zetachain-cosmos-rest-athens-testnet',
@@ -196,13 +189,6 @@ export enum ChainID {
 
   UNDEFINED = '',
 }
-
-export const ZETACHAIN_ATHENS2_CHAINS = [
-  ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
-  ChainID.ZETACHAIN_EVM_TESTNET,
-  ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
-  ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
-];
 
 export const ZETACHAIN_ATHENS3_CHAINS = [
   ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,

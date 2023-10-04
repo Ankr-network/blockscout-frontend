@@ -3,10 +3,7 @@ import { CircularProgress } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { LoadableButton } from 'uiKit/LoadableButton';
-import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 import { useAccountDetailsButton } from './hooks/useAccountDetailsButton';
 import { Balance } from '../Balance';
@@ -25,17 +22,9 @@ export const AccountDetailsButton = ({
   const { balance, hasStatusTransition, isLoading, status } =
     useAccountDetailsButton();
 
-  const statusBlockName = BlockWithPermission.AccountStatus;
-  const hasStatusAccess = useGuardUserGroup({ blockName: statusBlockName });
-  const showLoading = hasStatusAccess && isLoading;
-  const isStatusTransitionActive = hasStatusAccess && hasStatusTransition;
+  const { cx, classes } = useStyles({ hasStatusTransition });
 
-  const { cx, classes } = useStyles({
-    hasStatusTransition: isStatusTransitionActive,
-    hasStatusAccess,
-  });
-
-  const hasEndIcon = !showLoading && isStatusTransitionActive;
+  const hasEndIcon = !isLoading && hasStatusTransition;
 
   return (
     <LoadableButton<'a', LinkProps>
@@ -45,7 +34,7 @@ export const AccountDetailsButton = ({
         [classes.sidebarTypeButtonRoot]: isSidebarType,
       })}
       component={Link}
-      loading={showLoading}
+      loading={isLoading}
       to={AccountRoutesConfig.accountDetails.path}
       variant="text"
       endIcon={hasEndIcon && <CircularProgress size={20} />}
@@ -55,9 +44,7 @@ export const AccountDetailsButton = ({
           [classes.mobileTypeContent]: isMobileType,
         })}
       >
-        <GuardUserGroup blockName={statusBlockName}>
-          <AccountMarker status={status} />
-        </GuardUserGroup>
+        <AccountMarker status={status} />
         <span
           className={cx({
             [classes.label]: !isMobileType,

@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import { BlockchainID } from 'multirpc-sdk';
+
+import { Chain } from 'domains/chains/types';
 
 import { useApiKeys } from './useApiKeys';
 
-export const useEnterpriseEndpoints = (chainId?: BlockchainID) => {
-  const { apiKeys, isLoading } = useApiKeys(chainId);
+export const useEnterpriseEndpoints = (chain?: Chain) => {
+  const { apiKeys, isLoading } = useApiKeys(chain);
 
   const [openedEndpointIndex, setOpenedEndpointIndex] = useState(-1);
 

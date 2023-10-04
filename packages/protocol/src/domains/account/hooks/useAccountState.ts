@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 import { useBalance } from './useBalance';
 import { getAccountState } from '../utils/getAccountState';
@@ -17,6 +19,10 @@ export const useAccountState = () => {
     premiumStatus,
   } = useAuth();
 
+  const hasRolePermission = useGuardUserGroup({
+    blockName: BlockWithPermission.AccountStatus,
+  });
+
   return useMemo(
     () =>
       getAccountState({
@@ -24,6 +30,7 @@ export const useAccountState = () => {
         balanceLevel,
         hasFreemium,
         hasPremium,
+        hasRolePermission,
         hasTransition,
         premiumStatus,
       }),
@@ -32,6 +39,7 @@ export const useAccountState = () => {
       balanceLevel,
       hasFreemium,
       hasPremium,
+      hasRolePermission,
       hasTransition,
       premiumStatus,
     ],

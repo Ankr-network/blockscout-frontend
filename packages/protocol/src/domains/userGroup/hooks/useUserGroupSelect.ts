@@ -1,17 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { GroupUserRole, UserGroup } from 'multirpc-sdk';
 
-import { resetUserGroupConfig } from 'domains/userGroup/store';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { fetchIsEnterpriseClient } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
+import { resetEndpoint } from 'store/utils/resetEndpoint';
+import { resetUserGroupConfig } from 'domains/userGroup/store';
+import { useAppDispatch } from 'store/useAppDispatch';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
-import { useUserGroupConfig } from './useUserGroupConfig';
+import { BlockWithPermission } from '../constants/groups';
+import { getPermissions } from '../utils/getPermissions';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
+import { useUserGroupConfig } from './useUserGroupConfig';
 
 export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   const { address } = useAuth();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     shouldRemind: savedShouldRemind,
@@ -86,8 +89,17 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
     (groupAddress: string, userRole: GroupUserRole) => {
       setSelectedGroupAddress(groupAddress);
       setSelectedGroupRole(userRole);
+
+      const permissions = getPermissions(userRole);
+      const hasAccountStatusPermission = permissions.includes(
+        BlockWithPermission.AccountStatus,
+      );
+
+      if (!hasAccountStatusPermission) {
+        resetEndpoint('fetchPremiumStatus', dispatch);
+      }
     },
-    [],
+    [dispatch],
   );
 
   return {

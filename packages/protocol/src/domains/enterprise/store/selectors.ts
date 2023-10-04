@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { EnterpriseClientEndpoint } from 'multirpc-sdk/src/enterprise/types';
 
+import { ChainSubType, ZETACHAIN_ATHENS3_CHAINS } from 'domains/chains/types';
 import { MultiService } from 'modules/api/MultiService';
 import { selectBlockchains } from 'domains/chains/store/selectors';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
@@ -9,11 +10,12 @@ import { selectJwtTokenManager } from 'domains/jwtToken/store/selectors';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
-import { getEnterpriseStats } from '../actions/utils';
-import { fetchIsEnterpriseClient } from '../actions/fetchIsEnterpriseClient';
-import { fetchEnterpriseEndpoints } from '../actions/fetchEnterpriseEndpoints';
 import { chainsFetchEnterpriseStatsByApiKey } from '../actions/fetchEnterpriseStatsByApiKey';
 import { chainsFetchEnterpriseStatsTotal } from '../actions/fetchEnterpriseStatsTotal';
+import { fetchEnterpriseEndpoints } from '../actions/fetchEnterpriseEndpoints';
+import { fetchIsEnterpriseClient } from '../actions/fetchIsEnterpriseClient';
+import { filterBlockchains } from './utils/filterBlockchains';
+import { getEnterpriseStats } from '../actions/utils';
 
 export type EnterpriseClientJwtManagerItem = EnterpriseClientEndpoint &
   JwtManagerToken;
@@ -134,17 +136,22 @@ export const selectEnterpriseChains = createSelector(
     enterpriseChains,
     userEndpointToken,
   ) => {
+    const filteredBlockchains = filterBlockchains(
+      blockchains,
+      enterpriseChains,
+    );
+
     const publicService = MultiService.getService();
 
     const formattedChains = publicService.formatPrivateEndpoints(
-      blockchains,
+      filteredBlockchains,
       userEndpointToken,
     );
 
     const chains = formatChainsConfigToChains(
       formattedChains,
       enterpriseChains,
-    ).filter(chain => enterpriseChains.includes(chain.id));
+    );
 
     return { chains, isLoading };
   },
@@ -168,5 +175,22 @@ export const selectEnterpriseStatsBySelectedApiKey = createSelector(
       ...statsTotal,
       data: statsTotal.data ? getEnterpriseStats(statsTotal.data) : undefined,
     };
+  },
+);
+
+export const selectAvailableSubTypes = createSelector(
+  selectEnterpriseBlockchainsDependingOnSelectedApiKey,
+  enterpriseChains => {
+    const availableSubtypes = [];
+
+    const isAthens3Available = ZETACHAIN_ATHENS3_CHAINS.some(id =>
+      enterpriseChains.includes(id),
+    );
+
+    if (isAthens3Available) {
+      availableSubtypes.push(ChainSubType.Athens3);
+    }
+
+    return availableSubtypes;
   },
 );

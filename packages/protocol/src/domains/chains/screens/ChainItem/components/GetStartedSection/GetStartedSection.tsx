@@ -5,20 +5,22 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
-import { ConnectionSnippet } from './components/ConnectionSnippet';
+import {
+  ConnectionSnippet,
+  ConnectionSnippetProps,
+} from './components/ConnectionSnippet';
 import { MultiChainBenefits } from './components/MultichainBenefits';
 import { UpgradeBanner } from './components/UpgradeBanner';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
-import { removeWsUrlIfUserIsNotPremium } from './GetStartedSectionUtils';
 import { useChainProtocolContext } from '../../hooks/useChainProtocolContext';
 
-export interface GetStartedSectionProps {
+export interface GetStartedSectionProps extends ConnectionSnippetProps {
   chainId: string;
   group: EndpointGroup;
   hasUpgradeBanner: boolean;
   publicUrl: string;
-  hasPremium: boolean;
   hasRequestComposer: boolean;
+  hasWssAccess?: boolean;
 }
 
 export const GetStartedSection = ({
@@ -26,8 +28,12 @@ export const GetStartedSection = ({
   group,
   hasUpgradeBanner,
   publicUrl,
-  hasPremium,
   hasRequestComposer,
+  technology,
+  setTechnology,
+  httpCode,
+  wssCode,
+  hasWssAccess,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
@@ -36,18 +42,18 @@ export const GetStartedSection = ({
 
   const isEvmBased = useMemo(() => isGroupEvmBased(group), [group]);
 
-  const codeSnippetGroup = useMemo(
-    () => removeWsUrlIfUserIsNotPremium(group, hasPremium),
-    [group, hasPremium],
-  );
-
   return (
     <div className={classes.getStartedSection}>
       {isMultiChain && <MultiChainBenefits />}
       {hasUpgradeBanner && !isMultiChain && <UpgradeBanner />}
 
       {!isChainProtocolSwitchEnabled && isEvmBased && (
-        <ConnectionSnippet group={codeSnippetGroup} />
+        <ConnectionSnippet
+          technology={technology}
+          setTechnology={setTechnology}
+          httpCode={httpCode}
+          wssCode={hasWssAccess ? wssCode : undefined}
+        />
       )}
       {!isChainProtocolSwitchEnabled && hasRequestComposer && (
         <RequestComposer

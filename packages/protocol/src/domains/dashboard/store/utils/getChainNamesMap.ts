@@ -28,6 +28,14 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
         .join(' ');
     }
 
+    if (checkedID === ChainID.SEI) {
+      result[checkedID] = 'Sei Tendermint';
+    }
+
+    if (checkedID === ChainID.SECRET) {
+      result[checkedID] = 'Secret Network Tendermint';
+    }
+
     return result;
   }, {});
 };

@@ -26,7 +26,7 @@ export const useColumns = ({ onProjectDialogOpen }: TableColumnsProps) => {
   const { classes, cx } = useColumnsStyles();
 
   const hasAccessForManaging = useGuardUserGroup({
-    blockName: BlockWithPermission.JwtManagerEdit,
+    blockName: BlockWithPermission.JwtManagerWrite,
   });
 
   const columns = useLocaleMemo((): VirtualTableColumn<ProjectTable>[] => {

@@ -33,8 +33,6 @@ export const useMainEndpoints = ({
     return checkPlaceholder(subChain, hasPrivateAccess && hasPremium);
   }, [hasPrivateAccess, subChain, hasPremium, isEnterprise]);
 
-  const isDisabled = isEnterprise && subChain.isEnterpriseFeatureDisabled;
-
   const [featureKey, urlKey] = useMemo(
     () => getFeatureKeys(feature),
     [feature],
@@ -52,5 +50,5 @@ export const useMainEndpoints = ({
 
   const hasFeature = subChain?.[featureKey];
 
-  return { flattenURLs, hasFeature, hasPlaceholder, title, isDisabled };
+  return { flattenURLs, hasFeature, hasPlaceholder, title };
 };

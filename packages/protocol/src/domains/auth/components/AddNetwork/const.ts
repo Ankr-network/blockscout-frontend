@@ -218,6 +218,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://sepolia.etherscan.io/'],
   },
 
+  [ChainID.ETH_HOLESKY]: {
+    chainId: 17000,
+    chainName: 'Ethereum Holesky',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://ethereum-holesky.publicnode.com/'],
+  },
+
   [ChainID.FANTOM]: {
     chainId: 250,
     chainName: 'Fantom Opera',
@@ -527,7 +538,6 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.ZETACHAIN]: ZETACHAIN,
 
-  [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
   [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: ZETACHAIN,
 
   [ChainID.TRON]: TRON_CHAIN_JSON_RPC,
