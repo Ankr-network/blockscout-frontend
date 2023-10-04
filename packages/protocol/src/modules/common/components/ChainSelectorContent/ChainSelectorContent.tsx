@@ -42,7 +42,9 @@ export const ChainSelectorContent = ({
   const { classes } = useChainSelectorContentStyles();
 
   const hasEnoughGroups = groupTabs.length >= MIN_GROUP_ITEMS;
-  const hasEnoughSubTypes = chainSubTypeTabs.length >= MIN_SUBTYPE_ITEMS;
+  const hasEnoughSubTypes =
+    chainSubTypeTabs.length >= MIN_SUBTYPE_ITEMS ||
+    chainSubTypeTab?.id === ChainSubType.Athens3;
 
   const withGroupSelector = hasEnoughSubTypes;
   const withMobileGroupSelector = isMobile && hasEnoughGroups;

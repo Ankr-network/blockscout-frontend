@@ -1,11 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { EnterpriseClientEndpoint } from 'multirpc-sdk/src/enterprise/types';
 
-import {
-  ChainSubType,
-  ZETACHAIN_ATHENS2_CHAINS,
-  ZETACHAIN_ATHENS3_CHAINS,
-} from 'domains/chains/types';
+import { ChainSubType, ZETACHAIN_ATHENS3_CHAINS } from 'domains/chains/types';
 import { MultiService } from 'modules/api/MultiService';
 import { selectBlockchains } from 'domains/chains/store/selectors';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
@@ -186,17 +182,10 @@ export const selectAvailableSubTypes = createSelector(
   selectEnterpriseBlockchainsDependingOnSelectedApiKey,
   enterpriseChains => {
     const availableSubtypes = [];
-    const isAthens2Available = ZETACHAIN_ATHENS2_CHAINS.some(id =>
-      enterpriseChains.includes(id),
-    );
 
     const isAthens3Available = ZETACHAIN_ATHENS3_CHAINS.some(id =>
       enterpriseChains.includes(id),
     );
-
-    if (isAthens2Available) {
-      availableSubtypes.push(ChainSubType.Athens2);
-    }
 
     if (isAthens3Available) {
       availableSubtypes.push(ChainSubType.Athens3);

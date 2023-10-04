@@ -13,8 +13,7 @@ import { root } from 'domains/chains/screens/ChainItem/components/GetStartedSect
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
 import { useWsFeatureEndpoints } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/WsFeatureEndpoints/useWsFeatureEndpoints';
 import { useEndpointsStyles } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/Endpoints/EndpointsStyles';
-
-import { useAvailableSubChainId } from '../../hooks/useAvailableSubchainId';
+import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 
 interface EnterpriseEndpointsProps {
   group: EndpointGroup;
@@ -34,12 +33,6 @@ export const EnterpriseEndpoints = ({
 
   const { classes } = useEndpointsStyles();
 
-  const { isSubChainAvailable } = useAvailableSubChainId({
-    publicChain,
-    chainType,
-    group,
-  });
-
   return (
     <Box className={classes.endpointsList}>
       <MainEndpoints
@@ -56,7 +49,7 @@ export const EnterpriseEndpoints = ({
         hasPremium
         hasConnectWalletMessage={hasConnectWalletMessage}
         onCopyEndpoint={onCopyEndpoint}
-        hasWSFeature={isSubChainAvailable && publicChain.hasWSFeature}
+        hasWSFeature={hasWsFeature(publicChain)}
         wss={enterpriseWss}
       />
     </Box>

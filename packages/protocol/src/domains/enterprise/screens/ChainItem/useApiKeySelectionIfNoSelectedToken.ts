@@ -32,10 +32,10 @@ export const useApiKeySelectionIfNoSelectedToken = ({
 
   useEffect(() => {
     const isTokenNotAvailable =
-      !tokenIndex || tokenIndex === -1 || !hasChainData;
+      typeof tokenIndex !== 'number' || tokenIndex === -1 || !hasChainData;
 
     if (isTokenNotAvailable && !isLoading) {
-      const newTokenIndex = apiKeys[0]?.index;
+      const newTokenIndex = apiKeys[tokenIndex + 1]?.index;
 
       dispatch(setSelectedTokenIndex({ tokenIndex: newTokenIndex, address }));
 

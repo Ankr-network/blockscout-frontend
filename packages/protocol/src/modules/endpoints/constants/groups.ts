@@ -30,14 +30,12 @@ export const getFallbackEndpointGroup = (
 
 export const tendermintRpcChains = [
   ChainID.SECRET_RPC,
-  ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
   ChainID.SEI_RPC,
 ];
 
 export const tendermintRestChains = [
   ChainID.SECRET_REST,
-  ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
   ChainID.SEI_REST,
 ];
@@ -110,7 +108,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
 
-      ChainID.ZETACHAIN_EVM_TESTNET,
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
       ChainID.ZKSYNC_ERA,
@@ -251,7 +248,6 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.SEI_COSMOS_REST,
       ChainID.SECRET_COSMOS_REST,
-      ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
       ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
     ],
   },

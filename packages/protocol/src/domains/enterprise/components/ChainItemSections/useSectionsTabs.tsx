@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import {
   useAvailableSections,
@@ -7,6 +9,7 @@ import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItem
 import { useInitialSection } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useInitialSection';
 import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
 import { SectionsBase } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useSectionsTabs';
+import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 
 import { useGetStartedSection } from './useGetStartedSection';
 import { useUsageDataSection } from './useUsageDataSection';
@@ -24,12 +27,15 @@ export const useSectionsTabs = ({
   publicUrl,
   apiKeys,
 }: EnterpriseUseSectionsParams): SectionsBase => {
+  const hasWssAccess = useMemo(() => hasWsFeature(chain), [chain]);
+
   const { getSelectHandler, timeframe, timeframeTabs } = useAvailableSections({
     chainType,
     chainSubType,
     chain,
     group,
     publicUrl,
+    hasWssAccess,
   });
 
   const usageDataSection = useUsageDataSection({
@@ -48,6 +54,7 @@ export const useSectionsTabs = ({
     getSelectHandler,
     group,
     publicUrl,
+    hasWssAccess,
   });
 
   const tabs = [getStartedSection, usageDataSection].filter(

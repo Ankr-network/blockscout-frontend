@@ -7,7 +7,6 @@ import { IChainItemTabsProps } from 'domains/chains/screens/ChainItem/components
 import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { useSectionsTabs } from './useSectionsTabs';
-import { useAvailableSubChainId } from '../../hooks/useAvailableSubchainId';
 
 interface EnterpriseChainItemSectionsProps extends IChainItemTabsProps {
   apiKeys: EnterpriseClientJwtManagerItem[];
@@ -35,13 +34,6 @@ export const ChainItemSections = ({
     apiKeys,
   });
 
-  const { isSubChainAvailable } = useAvailableSubChainId({
-    publicChain: chain,
-    chainType,
-    chainSubType,
-    group,
-  });
-
   const { classes } = useChainItemSectionsStyles();
   const { chains } = group;
 
@@ -51,7 +43,7 @@ export const ChainItemSections = ({
   const isTestnetComingSoon =
     chainType === ChainType.Testnet && chains[0]?.testnets?.[0]?.isComingSoon;
 
-  if (isMainnetComingSoon || isTestnetComingSoon || !isSubChainAvailable) {
+  if (isMainnetComingSoon || isTestnetComingSoon) {
     return null;
   }
 

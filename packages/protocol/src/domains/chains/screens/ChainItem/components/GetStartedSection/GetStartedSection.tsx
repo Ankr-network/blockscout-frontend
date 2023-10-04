@@ -4,7 +4,6 @@ import { ChainID } from 'domains/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import {
   ConnectionSnippet,
@@ -21,6 +20,7 @@ export interface GetStartedSectionProps extends ConnectionSnippetProps {
   hasUpgradeBanner: boolean;
   publicUrl: string;
   hasRequestComposer: boolean;
+  hasWssAccess?: boolean;
 }
 
 export const GetStartedSection = ({
@@ -33,6 +33,7 @@ export const GetStartedSection = ({
   setTechnology,
   httpCode,
   wssCode,
+  hasWssAccess,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
@@ -40,8 +41,6 @@ export const GetStartedSection = ({
   const { classes } = useGetStartedSectionStyles();
 
   const isEvmBased = useMemo(() => isGroupEvmBased(group), [group]);
-
-  const { hasPremium } = useAuth();
 
   return (
     <div className={classes.getStartedSection}>
@@ -53,7 +52,7 @@ export const GetStartedSection = ({
           technology={technology}
           setTechnology={setTechnology}
           httpCode={httpCode}
-          wssCode={hasPremium ? wssCode : undefined}
+          wssCode={hasWssAccess ? wssCode : undefined}
         />
       )}
       {!isChainProtocolSwitchEnabled && hasRequestComposer && (

@@ -14,6 +14,7 @@ export const useGetStartedSection = ({
   getSelectHandler,
   group,
   publicUrl,
+  hasWssAccess,
 }: GetStartedSectionParams) => {
   const [technology, setTechnology] = useTechnology();
 
@@ -38,6 +39,7 @@ export const useGetStartedSection = ({
         setTechnology={setTechnology}
         httpCode={httpCode}
         wssCode={wssCode}
+        hasWssAccess={hasWssAccess}
       />
     ),
     onSelect: getSelectHandler(SectionID.GetStarted),
