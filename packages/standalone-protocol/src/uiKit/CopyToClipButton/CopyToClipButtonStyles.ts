@@ -371,6 +371,21 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         },
       },
     },
+
+    [`&.${ChainId.XDC}`]: {
+      '& $content': {
+        padding: 0,
+      },
+
+      '& $button': {
+        color: theme.palette.text.primary,
+        borderRadius: 12,
+
+        '&:hover': {
+          color: theme.palette.text.primary,
+        },
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied
@@ -414,6 +429,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     width: '40%',
     height: '100%',
     color: theme.palette.text.secondary,
+
     [theme.breakpoints.down('sm')]: {
       fontSize: 16,
     },

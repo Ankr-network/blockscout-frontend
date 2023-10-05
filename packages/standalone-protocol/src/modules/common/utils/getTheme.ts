@@ -24,6 +24,7 @@ import { zksyncEraTheme } from 'modules/themes/zksyncEraTheme';
 import { rolluxTheme } from 'modules/themes/rolluxTheme';
 import { mantleTheme } from 'modules/themes/mantleTheme';
 import { flareTheme } from 'modules/themes/flareTheme';
+import { XDCTheme } from 'modules/themes/XDCTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -102,7 +103,10 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Mantle:
       return mantleTheme;
 
+    case ChainId.XDC:
+      return XDCTheme;
+
     default:
-      return seiTheme;
+      return XDCTheme;
   }
 };

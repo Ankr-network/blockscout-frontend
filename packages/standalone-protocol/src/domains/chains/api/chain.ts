@@ -29,6 +29,7 @@ export enum ChainId {
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
+  XDC = 'xdc',
 }
 
 export const HORIZEN_NAME = 'Horizen EON';
@@ -40,6 +41,8 @@ export const POLYGON_NAME = 'Polygon PoS';
 export const TENET_NAME = 'Tenet';
 
 export const ZKSYNC_ERA_NAME = 'zkSync Era';
+
+export const XDC_NAME = 'XDC Network';
 
 const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 

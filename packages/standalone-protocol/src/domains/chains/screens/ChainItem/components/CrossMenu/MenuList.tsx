@@ -38,6 +38,7 @@ import {
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
   ZKSYNC_ERA_NAME,
+  XDC_NAME,
 } from 'domains/chains/api/chain';
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
@@ -45,6 +46,7 @@ import { ReactComponent as MantleLogo } from 'assets/img/logo/mantle.svg';
 import { ReactComponent as FlareLogo } from 'assets/img/logo/flare.svg';
 import { ReactComponent as SeiLogo } from 'assets/img/logo/sei.svg';
 import { ReactComponent as SeiMobileLogo } from 'assets/img/logo/seiMobile.svg';
+import { ReactComponent as XDCLogo } from 'assets/img/logo/XDC.svg';
 
 // eslint-disable-next-line max-lines-per-function
 export const getMenuList = (isMobileSiderBar: boolean) => [
@@ -77,6 +79,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: POLYGON_ZKEVM_CHAIN_NAME,
     logo: isMobileSiderBar ? <PolygonZkemvMobileLogo /> : <PolygonZkemvLogo />,
     url: 'https://polygon-rpc.com/zkevm/',
+  },
+  {
+    chainId: ChainId.XDC,
+    name: XDC_NAME,
+    logo: <XDCLogo />,
+    url: 'https://xdc.public-rpc.com/',
   },
   {
     chainId: ChainId.Nervos,

@@ -50,6 +50,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       border: `2px solid ${theme.palette.grey['200']}`,
     },
 
+    [`&.${ChainId.XDC} $block`]: {
+      borderRadius: 18,
+    },
+
     [`&.${ChainId.Nervos} $block`]: {
       borderRadius: 0,
       position: 'relative',

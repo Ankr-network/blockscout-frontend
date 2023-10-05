@@ -77,6 +77,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Flare:
       return '#C2BDE6';
 
+    case ChainId.XDC:
+      return '#9F99D1';
+
     default:
       return theme.palette.primary.dark;
   }
@@ -91,6 +94,7 @@ export const hasGradient = (chainId: ChainId) => {
     case ChainId.Gnosis:
     case ChainId.Secret:
     case ChainId.Mantle:
+    case ChainId.XDC:
       return false;
 
     default:
@@ -102,6 +106,7 @@ export const getGridBorderColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
     case ChainId.Secret:
       return '#413F49';
+
     default:
       return theme?.palette?.grey['300'];
   }
@@ -110,8 +115,6 @@ export const getGridBorderColor = (chainId: ChainId, theme: Theme) => {
 export const getForeColor = (chainId: ChainId, theme: Theme) => {
   switch (chainId) {
     case ChainId.Gnosis:
-      return theme.palette.grey['500'];
-
     case ChainId.Sei:
       return theme.palette.grey['500'];
 

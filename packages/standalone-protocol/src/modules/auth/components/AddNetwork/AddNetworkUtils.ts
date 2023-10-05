@@ -217,6 +217,17 @@ const FLARE_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://flare-explorer.flare.network'],
 };
 
+const XDC_NETWORK_PARAMS = {
+  chainId: 50,
+  chainName: 'XDC Network',
+  nativeCurrency: {
+    name: 'XDC',
+    symbol: 'XDC',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://xdcscan.io'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -280,6 +291,9 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
 
     case 'flare':
       return mapParams(chain, FLARE_NETWORK_PARAMS);
+
+    case 'xdc':
+      return mapParams(chain, XDC_NETWORK_PARAMS);
 
     default:
       return undefined;
