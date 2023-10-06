@@ -6,6 +6,7 @@ import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 
 export type ProjectChain = Chain & {
+  mainnets?: Chain[];
   beaconsMainnet?: Chain[];
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
@@ -14,16 +15,19 @@ export type ProjectChain = Chain & {
 
 const mapProjectChains = (chain: Chain) => {
   const {
-    testnets: chainTestnets,
     beacons: beaconsMainnet,
+    id,
     opnodes: opnodesMainnet,
+    testnets: chainTestnets,
   } = chain;
+
+  const endpoints = getGroupedEndpoints({ chain, groups: chainGroups });
 
   const testnets = chainTestnets?.flatMap(testnet => {
     const { extensions: testnetExtensions = [] } = testnet;
 
     if (testnetExtensions.length > 0) {
-      return [testnet, ...testnetExtensions];
+      return [...testnetExtensions];
     }
 
     return testnet;
@@ -55,15 +59,28 @@ const mapProjectChains = (chain: Chain) => {
 
   const chainParams = {
     ...chain,
+    mainnets: endpoints.mainnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    devnets: endpoints.devnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    testnets: endpoints.testnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
     hasWSFeature: hasWsFeature(chain),
-    testnets,
     beaconsMainnet,
     beaconsTestnet,
     opnodesMainnet,
     opnodesTestnet,
   };
 
-  if (chain.id === ChainID.SECRET || chain.id === ChainID.ZETACHAIN) {
+  if (
+    id !== ChainID.SECRET &&
+    id !== ChainID.ZETACHAIN &&
+    id !== ChainID.SCROLL &&
+    id !== ChainID.SEI
+  ) {
     return {
       ...chainParams,
       // JSON-RPC and REST Tendermint subchains have the same path,
@@ -78,13 +95,14 @@ const mapProjectChains = (chain: Chain) => {
 };
 
 export const useProjectChains = () => {
-  const [chains = [], allChains, isLoading] = usePrivateChainsInfo();
+  const {
+    allChains,
+    chains = [],
+    isLoading,
+    isUninitialized,
+  } = usePrivateChainsInfo();
 
   const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
-  return {
-    projectChains,
-    allChains,
-    isLoading,
-  };
+  return { allChains, isLoading, isUninitialized, projectChains };
 };

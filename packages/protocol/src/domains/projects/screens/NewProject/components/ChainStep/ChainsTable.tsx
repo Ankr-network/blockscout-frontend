@@ -8,26 +8,47 @@ import {
 } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { Dialog } from 'uiKit/Dialog';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
+import { NoResult } from 'modules/common/components/NoResult';
 
 import { useChainStepStyles } from './useChainStepStyles';
 import { ChainSelectModal } from '../ChainSelectModal';
 import { useChainsTable } from './hooks/useChainsTable';
 
-export const ChainsTable = () => {
+interface IChainsTableProps {
+  searchContent: string;
+}
+
+export const ChainsTable = ({ searchContent }: IChainsTableProps) => {
   const { classes } = useChainStepStyles();
 
   const {
-    isLoading,
     columns,
-    projectChains,
-    isOpened,
     currentModalChain,
     handleCloseModal,
+    handleConfirmModal,
+    isLoading,
+    isOpened,
+    isUninitialized,
+    projectChains,
   } = useChainsTable();
 
-  if (isLoading) return <OverlaySpinner />;
+  const chains = useMemo(
+    () =>
+      projectChains.filter(chain =>
+        getFilteredChainsByName(chain, searchContent),
+      ),
+    [projectChains, searchContent],
+  );
+
+  if (isLoading || isUninitialized) return <OverlaySpinner />;
+
+  if (chains.length === 0) {
+    return <NoResult />;
+  }
 
   return (
     <>
@@ -48,7 +69,7 @@ export const ChainsTable = () => {
         </TableHead>
 
         <TableBody>
-          {projectChains.map((row, index) => (
+          {chains.map((row, index) => (
             <TableRow key={index}>
               {columns.map((column, field) => {
                 const { render, align } = column;
@@ -68,16 +89,26 @@ export const ChainsTable = () => {
         title={t('projects.new-project.chain-modal.title')}
         titleClassName={classes.dialogTitle}
         open={isOpened}
+        paperClassName={classes.dialogPaper}
         onClose={handleCloseModal}
+        hasTitleWrapper={false}
       >
         {currentModalChain && (
           <ChainSelectModal selectedChain={currentModalChain}>
             <Button
-              className={classes.modalBtn}
               fullWidth
-              onClick={handleCloseModal}
+              className={classes.modalBtn}
+              onClick={handleConfirmModal}
             >
               {t('projects.new-project.chain-modal.btn-confirm')}
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              className={classes.modalBtn}
+              onClick={handleCloseModal}
+            >
+              {t('projects.new-project.chain-modal.btn-cancel')}
             </Button>
           </ChainSelectModal>
         )}

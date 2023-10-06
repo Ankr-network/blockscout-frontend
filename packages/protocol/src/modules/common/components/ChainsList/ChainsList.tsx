@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
-import { NoResult } from 'domains/chains/components/ChainsList/NoResult';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
+
+import { NoResult } from '../NoResult';
 
 export interface IChainsListProps<T> {
   chains: T[];

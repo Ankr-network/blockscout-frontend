@@ -3,7 +3,7 @@ import { utils } from 'ethers';
 
 export const validateSmartContractAddress = (value: string) => {
   if (typeof value !== 'string') {
-    return t('validation.required');
+    return t('validation.smart-contract-required');
   }
 
   if (!utils.isAddress(value)) {

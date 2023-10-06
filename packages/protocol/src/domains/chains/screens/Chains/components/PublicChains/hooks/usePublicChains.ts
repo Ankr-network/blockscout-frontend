@@ -5,12 +5,9 @@ import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/acti
 import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 
-import {
-  sortPublicChains,
-  formatRequestsCount,
-  filteredByNameChains,
-} from './utils';
+import { sortPublicChains, formatRequestsCount } from './utils';
 
 export interface ChainsParams {
   chains: Chain[];
@@ -37,7 +34,7 @@ export const usePublicChains = ({
         sortType,
         isLoading: arePublicStatsLoading,
       })
-        .filter(item => filteredByNameChains(item, searchContent))
+        .filter(item => getFilteredChainsByName(item, searchContent))
         .filter(excludeMultiChain),
     [searchContent, chains, data, sortType, arePublicStatsLoading],
   );

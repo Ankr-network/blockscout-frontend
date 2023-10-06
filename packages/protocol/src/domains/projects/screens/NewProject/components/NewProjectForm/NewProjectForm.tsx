@@ -1,5 +1,6 @@
 import { Form, FormRenderProps } from 'react-final-form';
 import { useCallback } from 'react';
+import { Paper } from '@mui/material';
 
 import { NewProjectStep } from 'domains/projects/types';
 
@@ -12,14 +13,15 @@ import { useHandleSubmit } from './hooks/useHandleSubmit';
 import { useInitialValues } from './hooks/useInitialValues';
 import { Footer } from '../Footer';
 import { Header } from '../Header';
+import { useNewProjectFormStyles } from './useNewProjectFormStyles';
 
 export const NewProjectForm = ({
   step,
-  setCurrentStep,
   onSubmit,
   onBackClick,
   isLoading,
 }: NewProjectFormProps) => {
+  const { classes } = useNewProjectFormStyles();
   const handleFormSubmit = useHandleSubmit(step, onSubmit);
 
   const initialValues = useInitialValues();
@@ -30,6 +32,7 @@ export const NewProjectForm = ({
       handleSubmit,
     }: FormRenderProps<NewProjectFormValues>) => {
       const {
+        name,
         selectedMainnetIds,
         selectedTestnetIds,
         selectedDevnetIds,
@@ -49,25 +52,33 @@ export const NewProjectForm = ({
           selectedOpnodeMainnetIds?.length ||
           selectedOpnodeTestnetIds?.length,
       );
-      const isWhitelistEmpty = whitelistItems?.length === 0;
+
+      const isNextButtonDisabled =
+        (step === NewProjectStep.General && !name) ||
+        (step === NewProjectStep.Chains && !isChainSelected);
 
       return (
         <form onSubmit={handleSubmit}>
-          <Header step={step} />
-          <NewProjectFormContent step={step} setCurrentStep={setCurrentStep} />
+          <div className={classes.contentWrapper}>
+            <Paper className={classes.root}>
+              <Header step={step} />
+              <NewProjectFormContent step={step} />
+            </Paper>
+          </div>
           <Footer
-            isNextButtonDisabled={
-              (step === NewProjectStep.Chain && !isChainSelected) ||
-              (step === NewProjectStep.Whitelist && isWhitelistEmpty)
-            }
+            step={step}
+            isNextButtonDisabled={isNextButtonDisabled}
             onBackClick={onBackClick}
-            shouldShowSkipButton={step === NewProjectStep.Whitelist}
+            shouldShowSkipButton={
+              step === NewProjectStep.Whitelist &&
+              (!whitelistItems || whitelistItems?.length === 0)
+            }
             isLoading={isLoading}
           />
         </form>
       );
     },
-    [step, setCurrentStep, onBackClick, isLoading],
+    [step, classes.contentWrapper, classes.root, onBackClick, isLoading],
   );
 
   return (

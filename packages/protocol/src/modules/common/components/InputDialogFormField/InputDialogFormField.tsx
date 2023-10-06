@@ -9,9 +9,14 @@ interface InputDialogFormFieldProps {
   name: string;
   placeholder: string;
   maxLength?: number;
-  validate?: (value: string, allValues?: unknown) => string | undefined;
   isMultiline?: boolean;
+  isRequired?: boolean;
+  shouldSkipPristineForValidation?: boolean;
   isDisabled?: boolean;
+  isHelperTextVisible?: boolean;
+  isLimitCounterVisible?: boolean;
+  className?: string;
+  validate?: (value: string, allValues?: unknown) => string | undefined;
 }
 
 export const InputDialogFormField = ({
@@ -19,28 +24,33 @@ export const InputDialogFormField = ({
   placeholder,
   maxLength = 128,
   isMultiline,
+  isRequired,
+  shouldSkipPristineForValidation = false,
   isDisabled,
+  isHelperTextVisible = false,
+  isLimitCounterVisible = false,
+  className,
   validate,
 }: InputDialogFormFieldProps) => {
-  const { classes } = useInputDialogFormStyles({ isMultiline });
+  const { classes, cx } = useInputDialogFormStyles({ isMultiline });
 
   const handleValidate = useCallback(
-    (data, allValues, meta) => {
-      return (
-        !meta?.pristine &&
-        typeof validate === 'function' &&
-        validate(data, allValues)
-      );
-    },
-    [validate],
+    (data, allValues, meta) =>
+      (!meta?.pristine || shouldSkipPristineForValidation) &&
+      typeof validate === 'function' &&
+      validate(data),
+    [shouldSkipPristineForValidation, validate],
   );
 
   return (
     <Field
+      isRequired={isRequired}
+      isHelperTextVisible={isHelperTextVisible}
+      isLimitCounterVisible={isLimitCounterVisible}
       component={InputField}
       name={name}
       placeholder={placeholder}
-      className={classes.domain}
+      className={cx(classes.domain, className)}
       variant="outlined"
       type="textarea"
       multiline={isMultiline}

@@ -15,5 +15,5 @@ export const selectNewProjectConfig = createSelector(
 
 export const selectDraftTokenIndex = createSelector(
   selectNewProjectConfig,
-  ({ project = {} }) => project?.[NewProjectStep.Chain]?.tokenIndex,
+  ({ project = {} }) => project?.[NewProjectStep.General]?.tokenIndex,
 );

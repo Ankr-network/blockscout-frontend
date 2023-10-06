@@ -55,7 +55,7 @@ export const useColumns = ({ onWhitelistDialogOpen }: TableColumnsProps) => {
       },
       {
         field: 'chains',
-        headerName: 'Chain allowance',
+        headerName: 'Chain',
         render: ({ chains }) => <BlockchainIcon blockchains={chains} />,
         align: 'left',
         width: '25%',

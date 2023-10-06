@@ -1,35 +1,40 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
 
+import { Search } from 'modules/common/components/Search';
+import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
+
 import { useChainStepStyles } from './useChainStepStyles';
 import { ChainsTable } from './ChainsTable';
-import { useChainStep } from './hooks/useChainStep';
-import { HowToGetStartedLink } from '../HowToGetStartedLink';
 
 export const ChainStep = () => {
   const { classes } = useChainStepStyles();
 
-  useChainStep();
+  const [searchContent, setSearchContent] = useSearch();
 
   return (
     <div className={classes.chainsRoot}>
       <div className={classes.chainsHeader}>
         <div className={classes.chainTitleWrapper}>
           <Typography className={classes.title} variant="h6">
-            {t('projects.new-project.step-1.title')}
+            {t('projects.new-project.step-2.title')}
           </Typography>
           <Typography
             className={classes.description}
             variant="body2"
             component="p"
           >
-            {t('projects.new-project.step-1.description')}
+            {t('projects.new-project.step-2.description')}
           </Typography>
         </div>
-        <HowToGetStartedLink />
+        <Search
+          searchContent={searchContent}
+          className={classes.search}
+          setSearchContent={setSearchContent}
+        />
       </div>
 
-      <ChainsTable />
+      <ChainsTable searchContent={searchContent} />
     </div>
   );
 };

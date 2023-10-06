@@ -13,91 +13,91 @@ import { useAppSelector } from 'store/useAppSelector';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import {
-  AddProjectState,
-  useAddAndEditProject,
-} from 'domains/projects/hooks/useAddAndEditProject';
+import { useEditProject } from 'domains/projects/hooks/useEditProject';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import {
+  ContentType,
+  UpgradePlanDialog,
+} from 'modules/common/components/UpgradePlanDialog';
+import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectTable } from '../ProjectTable';
-import { WelcomeDialog } from '../WelcomeDialog';
-import { AddAndEditProjectDialog } from '../AddAndEditProjectDialog';
-import {
-  AddAndEditProjectDialogFields,
-  AddAndEditProjectDialogType,
-} from '../AddAndEditProjectForm/AddAndEditProjectFormUtils';
 import { AddProjectButton } from '../AddProjectButton';
-import { initialValues } from '../../hooks/useProjectFormValues';
+import { WelcomeDialog } from '../WelcomeDialog';
+import { EditProjectDialog } from '../EditProjectDialog';
+import {
+  EditProjectDialogType,
+  EditProjectDialogFields,
+} from '../EditProjectDialog/EditProjectDialogUtils';
+import { UpgdareAccountDialog } from '../UpgdareAccountDialog';
 
 export const Projects = () => {
   const dispatch = useDispatch();
   const [searchContent, setSearchContent] = useSearch();
 
+  const { isFreePremium } = useAuth();
+
   const { canEditProject } = useProjectConfig();
-  const { canAddProject, allowedAddProjectTokenIndex, isLoading } =
-    useProjects();
+  const { canAddProject, isLoading } = useProjects();
 
   const allProjects = useAppSelector(selectAllProjects);
 
   const {
-    isOpened: isAddAndEditDialogOpened,
-    onClose: onAddAndEditDialogClose,
-    onOpen: onAddAndEditDialogOpen,
+    isOpened: isEditDialogOpened,
+    onClose: onEditDialogClose,
+    onOpen: onEditDialogOpen,
   } = useDialog();
 
-  const { addProjectState, handleCreate, handleUpdate, setAddProjectState } =
-    useAddAndEditProject(allowedAddProjectTokenIndex);
+  const {
+    isOpened: isUpgradeAccountDialogOpened,
+    onClose: onUpgradeAccountDialogClose,
+    onOpen: onUpgradeAccountDialogOpen,
+  } = useDialog();
 
-  const handleCloseAddAndEditDialog = useCallback(() => {
-    onAddAndEditDialogClose();
-    setAddProjectState(AddProjectState.initial);
-  }, [onAddAndEditDialogClose, setAddProjectState]);
+  const {
+    isOpened: isPlansDialogOpened,
+    onClose: onPlansDialogClose,
+    onOpen: onPlansDialogOpen,
+  } = useDialog();
+
+  const { handleUpdate } = useEditProject();
+
+  const handleClickSeePlans = useCallback(() => {
+    onUpgradeAccountDialogClose();
+    onPlansDialogOpen();
+  }, [onPlansDialogOpen, onUpgradeAccountDialogClose]);
 
   const handleFormSubmit = useCallback(
-    async (values: AddAndEditProjectDialogType, form) => {
-      const nameFieldState = form.getFieldState(
-        AddAndEditProjectDialogFields.name,
-      );
+    async (values: EditProjectDialogType, form) => {
+      const nameFieldState = form.getFieldState(EditProjectDialogFields.name);
 
-      const descriptionFieldState = form.getFieldState(
-        AddAndEditProjectDialogFields.description,
-      );
+      const isNameEqualWithInitalValue =
+        !nameFieldState.dirty || !nameFieldState.modified;
 
-      const isDescriptionChanged = descriptionFieldState.modified;
-      const isNothingChanged =
-        !nameFieldState.modified && !isDescriptionChanged;
-      const isNameEqualWithInitalValue = !nameFieldState.dirty;
-
-      if (
-        isNothingChanged ||
-        (isNameEqualWithInitalValue && !isDescriptionChanged)
-      ) {
-        handleCloseAddAndEditDialog();
+      if (isNameEqualWithInitalValue) {
+        onEditDialogClose();
 
         return;
       }
 
-      const isOnlyDescriptionChanged =
-        !nameFieldState.modified && descriptionFieldState.modified;
-
-      const { name, description, isEditingProjectDialog, tokenIndex } = values;
+      const { name, tokenIndex } = values;
 
       const resultName = name ?? '';
       const hasNameDuplication = allProjects.some(
         project => project.name === resultName,
       );
 
-      if (
-        hasNameDuplication &&
-        !isNameEqualWithInitalValue &&
-        !isOnlyDescriptionChanged
-      ) {
+      if (hasNameDuplication && !isNameEqualWithInitalValue) {
         dispatch(
           NotificationActions.showNotification({
-            message: t('projects.new-project.error-message.name-duplication', {
-              value: name,
-            }),
+            message: t(
+              'projects.rename-dialog.error-message.name-duplication',
+              {
+                value: name,
+              },
+            ),
             severity: 'error',
           }),
         );
@@ -105,45 +105,21 @@ export const Projects = () => {
         return;
       }
 
-      if (isEditingProjectDialog) {
-        await handleUpdate(tokenIndex, resultName, description ?? '');
-        handleCloseAddAndEditDialog();
-      } else {
-        await handleCreate(resultName, description ?? '');
-      }
+      await handleUpdate({
+        tokenIndex,
+        name: resultName,
+        oldName: nameFieldState.initial,
+      });
 
-      form.change(AddAndEditProjectDialogFields.isEditingProjectDialog, false);
-      form.change(
-        AddAndEditProjectDialogFields.tokenIndex,
-        allowedAddProjectTokenIndex,
-      );
+      onEditDialogClose();
     },
-    [
-      allowedAddProjectTokenIndex,
-      allProjects,
-      dispatch,
-      handleCloseAddAndEditDialog,
-      handleCreate,
-      handleUpdate,
-    ],
+    [allProjects, handleUpdate, onEditDialogClose, dispatch],
   );
 
   const hasProjectButton = (!isLoading && canAddProject) || canEditProject;
 
   const renderForm = useCallback(
-    ({ form, handleSubmit }: FormRenderProps<AddAndEditProjectDialogType>) => {
-      const handleOpenAddProjectDialog = () => {
-        const { values } = form.getState();
-
-        // resetting form for adding project after editing another one
-        if (values?.isEditingProjectDialog) {
-          form.reset();
-          form.initialize(initialValues);
-        }
-
-        onAddAndEditDialogOpen();
-      };
-
+    ({ handleSubmit }: FormRenderProps<EditProjectDialogType>) => {
       return (
         <>
           <ProjectHeader
@@ -158,40 +134,59 @@ export const Projects = () => {
             searchContent={searchContent}
             data={allProjects}
             isLoading={isLoading}
-            onProjectDialogOpen={onAddAndEditDialogOpen}
+            onProjectDialogOpen={onEditDialogOpen}
           />
           {hasProjectButton && (
             <AddProjectButton
               canEditProject={canEditProject}
-              handleOpenAddProjectDialog={handleOpenAddProjectDialog}
+              isFreemiumUser={isFreePremium}
+              onOpenUpgradeAccountDialog={onUpgradeAccountDialogOpen}
             />
           )}
 
-          <AddAndEditProjectDialog
-            isOpened={isAddAndEditDialogOpened}
-            addProjectState={addProjectState}
-            allowedAddProjectTokenIndex={allowedAddProjectTokenIndex}
+          <WelcomeDialog />
+
+          <UpgdareAccountDialog
+            isOpened={isUpgradeAccountDialogOpened}
+            handleClickSeePlans={handleClickSeePlans}
+            handleClose={onUpgradeAccountDialogClose}
+          />
+
+          <UpgradePlanDialog
+            currency={TopUpCurrency.USD}
+            defaultState={ContentType.DEFAULT}
+            onClose={onPlansDialogClose}
+            open={isPlansDialogOpened}
+          />
+
+          <EditProjectDialog
+            isOpened={isEditDialogOpened}
             handleFormSubmit={handleSubmit}
-            onClose={handleCloseAddAndEditDialog}
+            onClose={onEditDialogClose}
           />
           <GuardUserGroup blockName={BlockWithPermission.ProjectsWelcomeDialog}>
-            <WelcomeDialog onCreateNewProject={onAddAndEditDialogOpen} />
+            <WelcomeDialog />
           </GuardUserGroup>
         </>
       );
     },
     [
+      allProjects,
+      canEditProject,
+      hasProjectButton,
+      isEditDialogOpened,
+      isLoading,
+      isUpgradeAccountDialogOpened,
+      isPlansDialogOpened,
+      isFreePremium,
+      onEditDialogClose,
+      onEditDialogOpen,
       searchContent,
       setSearchContent,
-      allProjects,
-      isLoading,
-      onAddAndEditDialogOpen,
-      hasProjectButton,
-      canEditProject,
-      isAddAndEditDialogOpened,
-      addProjectState,
-      allowedAddProjectTokenIndex,
-      handleCloseAddAndEditDialog,
+      onUpgradeAccountDialogOpen,
+      handleClickSeePlans,
+      onPlansDialogClose,
+      onUpgradeAccountDialogClose,
     ],
   );
 

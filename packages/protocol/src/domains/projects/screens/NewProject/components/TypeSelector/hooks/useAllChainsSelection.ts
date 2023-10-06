@@ -177,11 +177,16 @@ export const useAllChainsSelection = ({
     [handleSelectAll, handleUnselectAll],
   );
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) =>
-    handleChangeAll(event.target.checked);
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) =>
+      handleChangeAll(event.target.checked),
+    [handleChangeAll],
+  );
 
   return {
     onChange,
+    handleSelectAll,
+    handleUnselectAll,
     isChecked: areAllAvailableChainsSelected,
     isIndeterminate:
       hasCurrentChainSelectedIds && !areAllAvailableChainsSelected,

@@ -4,19 +4,18 @@ import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 
 import { NewProjectStep } from 'domains/projects/types';
-import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
-import { TopUpOrigin } from 'domains/account/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 
-import { useCheckoutStepOnSubmit } from './useCheckoutStepOnSubmit';
 import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
 import {
   NewProjectFormValues,
   NewProjectFormProps,
 } from '../NewProjectFormTypes';
-import { getFinalPrice } from '../../../utils/getFinalPrice';
+import { useGeneralStepOnSubmit } from './useGeneralStepOnSubmit';
 
 // eslint-disable-next-line max-lines-per-function
 export const useHandleSubmit = (
@@ -24,43 +23,38 @@ export const useHandleSubmit = (
   onSubmit: NewProjectFormProps['onSubmit'],
 ) => {
   const dispatch = useDispatch();
+  const handleGeneralStepOnSubmit = useGeneralStepOnSubmit();
   const handleWhitelistStepOnSubmit = useWhitelistStepOnSubmit();
-  const handleCheckoutStepOnSubmit = useCheckoutStepOnSubmit();
   const { handleEnableWhitelist, handleResetConfig } = useEnableWhitelist();
   const history = useHistory();
+
+  const allProjects = useAppSelector(selectAllProjects);
 
   return useCallback(
     async (values: NewProjectFormValues) => {
       switch (step) {
-        case NewProjectStep.Chain:
+        case NewProjectStep.General:
         default: {
           const {
-            projectName,
+            name,
+            description,
             tokenIndex,
-            userEndpointToken,
-            selectedMainnetIds = [],
-            selectedTestnetIds = [],
-            selectedDevnetIds = [],
-            selectedBeaconMainnetIds = [],
-            selectedBeaconTestnetIds = [],
-            selectedOpnodeMainnetIds = [],
-            selectedOpnodeTestnetIds = [],
+            userEndpointToken: sliceUserEndpointToken,
           } = values;
 
+          const hasNameDuplication = allProjects.some(
+            project => project.name === name,
+          );
+
           /* validation start */
-          if (
-            selectedMainnetIds.length === 0 &&
-            selectedTestnetIds.length === 0 &&
-            selectedDevnetIds.length === 0 &&
-            selectedBeaconMainnetIds.length === 0 &&
-            selectedBeaconTestnetIds.length === 0 &&
-            selectedOpnodeMainnetIds.length === 0 &&
-            selectedOpnodeTestnetIds.length === 0
-          ) {
+          if (hasNameDuplication) {
             dispatch(
               NotificationActions.showNotification({
                 message: t(
-                  'projects.new-project.step-1.error-message.required',
+                  'projects.rename-dialog.error-message.name-duplication',
+                  {
+                    value: name,
+                  },
                 ),
                 severity: 'error',
               }),
@@ -68,26 +62,7 @@ export const useHandleSubmit = (
 
             return null;
           }
-          /* validation end */
 
-          return onSubmit(step, {
-            projectName,
-            tokenIndex,
-            userEndpointToken,
-            selectedMainnetIds,
-            selectedTestnetIds,
-            selectedDevnetIds,
-            selectedBeaconMainnetIds,
-            selectedBeaconTestnetIds,
-            selectedOpnodeMainnetIds,
-            selectedOpnodeTestnetIds,
-          });
-        }
-
-        case NewProjectStep.Whitelist: {
-          const { whitelistItems, tokenIndex, userEndpointToken } = values;
-
-          /* validation start */
           if (!tokenIndex) {
             dispatch(
               NotificationActions.showNotification({
@@ -101,29 +76,83 @@ export const useHandleSubmit = (
             return null;
           }
 
-          const isUpdatedWithWhitelist = await handleWhitelistStepOnSubmit(
-            userEndpointToken,
+          if (!name) {
+            dispatch(
+              NotificationActions.showNotification({
+                message: t(
+                  'projects.new-project.step-2.error-message.required',
+                ),
+                severity: 'error',
+              }),
+            );
+
+            return null;
+          }
+          /* validation end */
+
+          const data = await handleGeneralStepOnSubmit(
+            tokenIndex,
+            name,
+            description,
           );
 
-          if (isUpdatedWithWhitelist) {
-            return onSubmit(step, {
-              whitelistItems,
-            });
+          return onSubmit(step, {
+            name,
+            description,
+            userEndpointToken:
+              sliceUserEndpointToken || data?.userEndpointToken,
+          });
+        }
+
+        case NewProjectStep.Chains: {
+          const {
+            selectedMainnetIds = [],
+            selectedTestnetIds = [],
+            selectedDevnetIds = [],
+            selectedBeaconMainnetIds = [],
+            selectedBeaconTestnetIds = [],
+            selectedOpnodeMainnetIds = [],
+            selectedOpnodeTestnetIds = [],
+          } = values;
+
+          if (
+            selectedMainnetIds.length === 0 &&
+            selectedTestnetIds.length === 0 &&
+            selectedDevnetIds.length === 0 &&
+            selectedBeaconMainnetIds.length === 0 &&
+            selectedBeaconTestnetIds.length === 0 &&
+            selectedOpnodeMainnetIds.length === 0 &&
+            selectedOpnodeTestnetIds.length === 0
+          ) {
+            dispatch(
+              NotificationActions.showNotification({
+                message: t(
+                  'projects.new-project.step-2.error-message.required',
+                ),
+                severity: 'error',
+              }),
+            );
+
+            return null;
           }
 
-          return null;
+          return onSubmit(step, {
+            selectedMainnetIds,
+            selectedTestnetIds,
+            selectedDevnetIds,
+            selectedBeaconMainnetIds,
+            selectedBeaconTestnetIds,
+            selectedOpnodeMainnetIds,
+            selectedOpnodeTestnetIds,
+          });
         }
 
-        case NewProjectStep.Plan: {
-          const { planName, planPrice } = values;
+        case NewProjectStep.Whitelist: {
+          const { userEndpointToken } = values;
 
-          return onSubmit(step, { planName, planPrice });
-        }
+          await handleWhitelistStepOnSubmit(userEndpointToken);
 
-        case NewProjectStep.Checkout: {
-          const { planPrice, whitelistItems } = values;
-          const { isSuccess, shouldRedirectToStripe } =
-            await handleEnableWhitelist(false);
+          const { isSuccess } = await handleEnableWhitelist(false);
 
           if (isSuccess) {
             history.push(ProjectsRoutesConfig.projects.generatePath());
@@ -132,33 +161,16 @@ export const useHandleSubmit = (
             return null;
           }
 
-          if (!planPrice) return null;
-
-          const price = getFinalPrice(whitelistItems, planPrice);
-
-          const url = await handleCheckoutStepOnSubmit(price);
-
-          if (url && shouldRedirectToStripe) {
-            const submitResult = onSubmit(step, {
-              isCheckedOut: true,
-            });
-
-            await dispatch(setTopUpOrigin(TopUpOrigin.PROJECTS));
-
-            window.location.href = url;
-
-            return submitResult;
-          }
-
           return null;
         }
       }
     },
     [
+      allProjects,
       step,
       onSubmit,
+      handleGeneralStepOnSubmit,
       handleWhitelistStepOnSubmit,
-      handleCheckoutStepOnSubmit,
       dispatch,
       handleEnableWhitelist,
       history,

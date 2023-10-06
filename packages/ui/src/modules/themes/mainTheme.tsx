@@ -177,10 +177,6 @@ export const mainTheme = createTheme({
         '#launcher': {
           display: 'none',
         },
-
-        '.jsd-widget-mobile': {
-          bottom: '70px !important',
-        },
       },
     },
 

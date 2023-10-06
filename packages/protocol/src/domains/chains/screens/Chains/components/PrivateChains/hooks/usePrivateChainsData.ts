@@ -13,8 +13,11 @@ export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);
   const { loading: isConnecting } = useAuth();
 
-  const [privateChains, privateAllChains, privateChainsLoading] =
-    usePrivateChainsInfo();
+  const {
+    chains: privateChains,
+    allChains: privateAllChains,
+    isLoading: privateChainsLoading,
+  } = usePrivateChainsInfo();
 
   const { selectedProject: userEndpointToken } =
     useTokenManagerConfigSelector();

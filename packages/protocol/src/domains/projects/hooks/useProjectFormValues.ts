@@ -125,6 +125,7 @@ export const useProjectFormValues = (projectChains?: ProjectChainsType[]) => {
   const {
     values: {
       projectName,
+      tokenIndex,
       whitelistItems = [],
       whitelistDialog,
       planName,
@@ -192,6 +193,7 @@ export const useProjectFormValues = (projectChains?: ProjectChainsType[]) => {
 
   return {
     projectName,
+    tokenIndex,
     planName,
     whitelistItems,
     whitelistDialog,

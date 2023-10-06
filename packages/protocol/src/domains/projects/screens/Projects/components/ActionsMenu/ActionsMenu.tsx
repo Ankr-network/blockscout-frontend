@@ -1,4 +1,4 @@
-import { Delete, Edit, Freeze, Unfreeze } from '@ankr.com/ui';
+import { Delete, Rename, Freeze, Unfreeze } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 import { useForm } from 'react-final-form';
@@ -13,7 +13,7 @@ import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectDraftTokenIndex } from 'domains/projects/store';
 
-import { AddAndEditProjectDialogFields } from '../AddAndEditProjectForm/AddAndEditProjectFormUtils';
+import { EditProjectDialogFields } from '../EditProjectDialog/EditProjectDialogUtils';
 
 interface ActionsMenuProps {
   rowData: Project;
@@ -24,13 +24,7 @@ export const ActionsMenu = ({
   rowData,
   onProjectDialogOpen,
 }: ActionsMenuProps) => {
-  const {
-    tokenIndex,
-    isFrozen: frozen,
-    userEndpointToken,
-    name,
-    description,
-  } = rowData;
+  const { tokenIndex, isFrozen: frozen, userEndpointToken, name } = rowData;
   const isPrimary = tokenIndex === PRIMARY_TOKEN_INDEX;
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
 
@@ -45,22 +39,13 @@ export const ActionsMenu = ({
 
   const handleEditByClick = useCallback(() => {
     initialize({
-      [AddAndEditProjectDialogFields.name]: name,
-      [AddAndEditProjectDialogFields.description]: description,
-      [AddAndEditProjectDialogFields.isEditingProjectDialog]: true,
-      [AddAndEditProjectDialogFields.tokenIndex]: tokenIndex,
+      [EditProjectDialogFields.name]: name,
+      [EditProjectDialogFields.tokenIndex]: tokenIndex,
     });
 
     onProjectDialogOpen();
     handleClose();
-  }, [
-    initialize,
-    name,
-    description,
-    tokenIndex,
-    onProjectDialogOpen,
-    handleClose,
-  ]);
+  }, [initialize, name, tokenIndex, onProjectDialogOpen, handleClose]);
 
   const {
     isOpened: isFreezeAndUnfreezeProjectDialogOpened,
@@ -87,6 +72,14 @@ export const ActionsMenu = ({
         onClose={handleClose}
       >
         <MenuItem
+          disabled={isPrimary}
+          startIcon={<Rename />}
+          onClick={handleEditByClick}
+        >
+          {t('projects.list-project.rename')}
+        </MenuItem>
+
+        <MenuItem
           disabled={tokenIndex === draftTokenIndex}
           startIcon={frozen ? <Unfreeze /> : <Freeze />}
           onClick={handleOpenFreezeDialog}
@@ -94,14 +87,6 @@ export const ActionsMenu = ({
           {frozen
             ? t('projects.list-project.unfreeze')
             : t('projects.list-project.freeze')}
-        </MenuItem>
-
-        <MenuItem
-          disabled={isPrimary}
-          startIcon={<Edit />}
-          onClick={handleEditByClick}
-        >
-          {t('projects.list-project.edit')}
         </MenuItem>
 
         <MenuItem

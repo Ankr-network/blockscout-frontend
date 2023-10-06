@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
-import { Check, Cross } from '@ankr.com/ui';
+import { Check, Cross, Warning } from '@ankr.com/ui';
+import { Tooltip } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { Chain, ChainID } from 'domains/chains/types';
 
 import { useChainStepTableStyles } from '../useChainStepTableStyles';
 import { ChainRow } from '../ChainRow';
 import { NetworkBadges } from '../NetworkBadges';
-import { useColumnWrapperClassName } from './useColumnWrapperClassName';
 
 export interface TableColumn<T> {
   field: string;
@@ -29,10 +30,6 @@ export const useChainsTableColumns = ({
 }: ChainsTableColumnsHookProps) => {
   const { classes } = useChainStepTableStyles();
 
-  const { getColumnWrapperClassName } = useColumnWrapperClassName(
-    selectedProjectChainsIds,
-  );
-
   const columns: TableColumn<Chain>[] = useMemo(
     () => [
       {
@@ -42,57 +39,36 @@ export const useChainsTableColumns = ({
           <ChainRow
             chain={chain}
             selectedProjectChainsIds={selectedProjectChainsIds}
-            setSelectedProjectChainsIds={setSelectedProjectChainsIds}
-            handleOpenModal={onOpenModal}
-            className={getColumnWrapperClassName(chain?.id, classes.chainRow)}
+            setSelectedChainsIds={setSelectedProjectChainsIds}
+            className={classes.chainRow}
           />
         ),
         align: 'left',
-        width: '240px',
+        width: '30%',
       },
       {
         field: 'archiveMethods',
-        headerName: 'Archive methods',
-        render: ({ id, isArchive }) => {
+        headerName: (
+          <div className={classes.archiveDataHeader}>
+            {t('projects.new-project.step-2.active-data')}
+            <Tooltip
+              title="Shows whether a chain supports querying archive data"
+              placement="top"
+            >
+              <Warning className={classes.tooltipIcon} />
+            </Tooltip>
+          </div>
+        ),
+        render: ({ isArchive }) => {
           if (isArchive) {
-            return (
-              <Check
-                className={getColumnWrapperClassName(id, classes.checkWrapper)}
-              />
-            );
+            return <Check className={classes.checkWrapper} />;
           }
 
-          return (
-            <Cross
-              className={getColumnWrapperClassName(id, classes.crossWrapper)}
-            />
-          );
+          return <Cross className={classes.crossWrapper} />;
         },
-        align: 'center',
-        width: '15%',
+        align: 'left',
+        width: '150px',
         maxWidth: '150px',
-      },
-      {
-        field: 'websocket',
-        headerName: 'WebSocket',
-        render: ({ id, hasWSFeature }) => {
-          if (!hasWSFeature) {
-            return (
-              <Cross
-                className={getColumnWrapperClassName(id, classes.crossWrapper)}
-              />
-            );
-          }
-
-          return (
-            <Check
-              className={getColumnWrapperClassName(id, classes.checkWrapper)}
-            />
-          );
-        },
-        align: 'center',
-        width: '15%',
-        maxWidth: '120px',
       },
       {
         field: 'network',
@@ -101,7 +77,6 @@ export const useChainsTableColumns = ({
           <NetworkBadges
             chain={chain}
             setSelectedChainsIds={setSelectedProjectChainsIds}
-            className={getColumnWrapperClassName(chain?.id)}
             onOpenModal={onOpenModal}
           />
         ),
@@ -113,10 +88,11 @@ export const useChainsTableColumns = ({
       selectedProjectChainsIds,
       setSelectedProjectChainsIds,
       onOpenModal,
-      getColumnWrapperClassName,
+      classes.archiveDataHeader,
       classes.chainRow,
       classes.crossWrapper,
       classes.checkWrapper,
+      classes.tooltipIcon,
     ],
   );
 

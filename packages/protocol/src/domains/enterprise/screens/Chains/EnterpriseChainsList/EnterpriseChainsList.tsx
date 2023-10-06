@@ -7,13 +7,13 @@ import {
   selectEnterpriseStatsBySelectedApiKey,
 } from 'domains/enterprise/store/selectors';
 import { BaseChains } from 'modules/common/components/BaseChains';
+import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ChainsList } from 'modules/common/components/ChainsList';
 import { Timeframe } from 'domains/chains/types';
-import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
-import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
-import { sortPrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/utils';
-import { filteredByNameChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/utils';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
+import { sortPrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/utils';
+import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
 
 import { EnterpriseChainCard } from '../EnterpriseChainCard';
 
@@ -35,7 +35,7 @@ export const EnterpriseChainsList = () => {
         sortType,
         stats,
       })
-        .filter(item => filteredByNameChains(item, searchContent))
+        .filter(item => getFilteredChainsByName(item, searchContent))
         .filter(excludeMultiChain),
     [stats, chains, sortType, searchContent],
   );

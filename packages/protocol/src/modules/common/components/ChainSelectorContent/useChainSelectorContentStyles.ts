@@ -46,4 +46,12 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
       },
     },
   },
+  title: {
+    marginBottom: theme.spacing(5),
+
+    letterSpacing: '-0.02em',
+
+    fontWeight: 700,
+    lineHeight: '135%',
+  },
 }));

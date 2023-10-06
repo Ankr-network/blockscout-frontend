@@ -1,4 +1,4 @@
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { Box, Button, Typography } from '@mui/material';
 
 import { Dialog } from 'uiKit/Dialog';
@@ -6,6 +6,8 @@ import { useProjectFormValues } from 'domains/projects/screens/NewProject/hooks/
 
 import { useAddToWhitelistDialogStyles } from './useAddToWhitelistDialogStyles';
 import { AddAndEditWhitelistItemForm } from './components/AddAndEditWhitelistItemForm';
+import { getTitle } from './AddToWhitelistDialogUtils';
+import { getDialogDescription } from './components/AddAndEditWhitelistItemForm/AddToWhitelistFormUtils';
 
 interface AddToWhitelistDialogProps {
   isOpen: boolean;
@@ -18,17 +20,15 @@ export const AddToWhitelistDialog = ({
 }: AddToWhitelistDialogProps) => {
   const { classes } = useAddToWhitelistDialogStyles();
 
-  const { isEditingWhitelistDialog } = useProjectFormValues();
+  const { isEditingWhitelistDialog, whitelistDialog } = useProjectFormValues();
+
+  const { type } = whitelistDialog;
 
   return (
     <Dialog
       open={isOpen}
       onClose={onClose}
-      title={t(
-        `projects.add-whitelist-dialog.titles.${
-          isEditingWhitelistDialog ? 'edit' : 'add'
-        }`,
-      )}
+      title={getTitle(isEditingWhitelistDialog, type)}
     >
       <Box className={classes.root}>
         <Typography
@@ -36,7 +36,7 @@ export const AddToWhitelistDialog = ({
           component="p"
           className={classes.description}
         >
-          {tHTML('projects.add-whitelist-dialog.description')}
+          {getDialogDescription(type)}
         </Typography>
 
         <AddAndEditWhitelistItemForm onClose={onClose} />

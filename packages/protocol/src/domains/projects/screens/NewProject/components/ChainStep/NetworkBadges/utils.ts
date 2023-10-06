@@ -1,7 +1,13 @@
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainBadge, ChainID } from 'domains/chains/types';
 
-export const getSelectedChains = (chains: Chain[], selectedIds: ChainID[]) =>
-  chains.filter(chain => selectedIds.includes(chain.id));
+export const getChainsBadges = (
+  chains: Chain[],
+  selectedIds: ChainID[],
+): ChainBadge[] =>
+  chains.map(chain => ({
+    ...chain,
+    isSelected: selectedIds.includes(chain.id),
+  }));
 
 interface GetCurrentChainSelectedExtensionsProps {
   chainId: ChainID;
@@ -19,7 +25,7 @@ const getSecretChainExtensions = (
 ) => {
   const chainsWithoutSecretMainnet = getChainsWithoutSecretMainnet(subChains);
 
-  return getSelectedChains(chainsWithoutSecretMainnet, selectedMainnetIds);
+  return getChainsBadges(chainsWithoutSecretMainnet, selectedMainnetIds);
 };
 
 export const getCurrentChainSelectedExtensions = ({
@@ -32,5 +38,5 @@ export const getCurrentChainSelectedExtensions = ({
     return getSecretChainExtensions(subChains, selectedMainnetIds);
   }
 
-  return getSelectedChains(subChains, selectedMainnetIds);
+  return getChainsBadges(subChains, selectedMainnetIds);
 };
