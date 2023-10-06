@@ -23,7 +23,7 @@ export const useHandleSubmit = (
   onSubmit: NewProjectFormProps['onSubmit'],
 ) => {
   const dispatch = useDispatch();
-  const handleGeneralStepOnSubmit = useGeneralStepOnSubmit();
+  const { handleCreateToken, handleUpdateToken } = useGeneralStepOnSubmit();
   const handleWhitelistStepOnSubmit = useWhitelistStepOnSubmit();
   const { handleEnableWhitelist, handleResetConfig } = useEnableWhitelist();
   const history = useHistory();
@@ -43,7 +43,12 @@ export const useHandleSubmit = (
           } = values;
 
           const hasNameDuplication = allProjects.some(
-            project => project.name === name,
+            project =>
+              project.name === name && project.tokenIndex !== tokenIndex,
+          );
+
+          const isExistedToken = allProjects.some(
+            project => project.tokenIndex === tokenIndex,
           );
 
           /* validation start */
@@ -90,11 +95,9 @@ export const useHandleSubmit = (
           }
           /* validation end */
 
-          const data = await handleGeneralStepOnSubmit(
-            tokenIndex,
-            name,
-            description,
-          );
+          const data = await (isExistedToken
+            ? handleUpdateToken(tokenIndex, name, description)
+            : handleCreateToken(tokenIndex, name, description));
 
           return onSubmit(step, {
             name,
@@ -170,12 +173,13 @@ export const useHandleSubmit = (
       allProjects,
       step,
       onSubmit,
-      handleGeneralStepOnSubmit,
       handleWhitelistStepOnSubmit,
       dispatch,
       handleEnableWhitelist,
       history,
       handleResetConfig,
+      handleCreateToken,
+      handleUpdateToken,
     ],
   );
 };
