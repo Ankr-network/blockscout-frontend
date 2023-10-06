@@ -2,8 +2,12 @@ import { useMemo } from 'react';
 
 import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import {
+  tendermintRpcChains,
+  chainGroups,
+} from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 
 export type ProjectChain = Chain & {
   mainnets?: Chain[];
