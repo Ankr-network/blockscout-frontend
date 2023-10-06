@@ -46,7 +46,7 @@ export const ChainButtons = ({
           buttonText={t('chain-item.copy-button.button-text')}
           text={netLink}
           textMessage={message}
-          className={classes.copyButton}
+          className={classNames(classes.copyButton, chainId)}
           onCopy={onCopy}
           chainId={chainId}
         />

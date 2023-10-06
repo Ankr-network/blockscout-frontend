@@ -108,6 +108,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
 
+      ChainID.XDC,
+
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
       ChainID.ZKSYNC_ERA,

@@ -43,7 +43,7 @@ export const getContent = ({
       />
     ),
     [SIGN_UP]: <SignUpContent onClose={onClose} onOauthSignUp={resetTitle} />,
-    [TOP_UP]: <AccountDetailsTopUp />,
+    [TOP_UP]: <AccountDetailsTopUp hasHeader={false} />,
     [CONTACT_SALES_FORM]: <ContactSalesForm onSubmit={onSubmitContactForm} />,
     [CONTACT_SALES_SUCCESS]: (
       <ContactSalesForm onSubmit={onSubmitContactForm} />

@@ -59,6 +59,7 @@ import zksyncEraIconDark from './darkModeIcons/zksync_era.svg';
 import berachainIconDark from './darkModeIcons/berachain.svg';
 import berachainIcon from './icons/berachain.svg';
 import seiIcon from './icons/sei.svg';
+import xdcIcon from './icons/xdc.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -170,6 +171,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.XDAI]: stakeIcon,
   [ChainID.SUI]: suiIcon,
   [ChainID.SUI_TESTNET]: suiIcon,
+
+  [ChainID.XDC]: xdcIcon,
+
   [ChainID.ZETACHAIN]: zetachainIcon,
   [ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET]: zetachainIcon,
   [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: zetachainIcon,

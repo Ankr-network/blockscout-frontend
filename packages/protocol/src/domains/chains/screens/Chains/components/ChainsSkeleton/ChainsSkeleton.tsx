@@ -17,10 +17,10 @@ export const ChainsSkeleton = () => {
         {new Array(SKELETON_AMOUNT).fill('').map((item, index) => (
           <div key={`${item}-${index}`} className={classes.skeleton}>
             <div className={classes.row}>
-              <Skeleton className={classes.name} variant="text" />
+              <Skeleton className={classes.name} variant="rectangular" />
               <Skeleton className={classes.icon} variant="circular" />
             </div>
-            <Skeleton className={classes.content} variant="text" />
+            <Skeleton className={classes.content} variant="rectangular" />
           </div>
         ))}
       </div>

@@ -175,6 +175,8 @@ export enum ChainID {
   SUI = 'sui',
   SUI_TESTNET = 'sui_testnet',
 
+  XDC = 'xdc',
+
   ZETACHAIN = 'zetachain',
 
   /* Athens-3 */

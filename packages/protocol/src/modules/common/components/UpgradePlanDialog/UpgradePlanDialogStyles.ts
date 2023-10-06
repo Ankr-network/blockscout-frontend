@@ -43,7 +43,7 @@ export const useUpgradePlanDialogStyles =
       justifyContent: 'space-between',
       alignItems: 'center',
 
-      marginBottom: theme.spacing(10),
+      marginBottom: theme.spacing(3),
       color: theme.palette.text.primary,
 
       fontSize: 28,
