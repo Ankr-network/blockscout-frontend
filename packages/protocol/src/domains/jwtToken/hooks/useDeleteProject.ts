@@ -5,6 +5,8 @@ import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { is2FAError } from 'store/utils/is2FAError';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { NewProjectStep } from 'domains/projects/types';
 
 import { jwtTokenIntlRoot } from '../utils/utils';
 
@@ -20,6 +22,10 @@ const getTitle = (deleteProjectStep: DeleteProjectStep) => {
 };
 
 export const useDeleteProject = (tokenIndex: number, onSuccess: () => void) => {
+  const { project, handleResetConfig } = useProjectConfig();
+  const newProjectTokenIndex = project?.[NewProjectStep.General]?.tokenIndex;
+  const shouldResetNewProject = tokenIndex === newProjectTokenIndex;
+
   const [deleteProjectStep, setDeleteProjectStep] = useState(
     DeleteProjectStep.initial,
   );
@@ -42,6 +48,10 @@ export const useDeleteProject = (tokenIndex: number, onSuccess: () => void) => {
     } else {
       setDeleteProjectStep(DeleteProjectStep.initial);
 
+      if (shouldResetNewProject) {
+        handleResetConfig();
+      }
+
       onSuccess();
     }
 
@@ -53,6 +63,8 @@ export const useDeleteProject = (tokenIndex: number, onSuccess: () => void) => {
     setDeleteProjectStep,
     reset,
     group,
+    shouldResetNewProject,
+    handleResetConfig,
   ]);
 
   const title = useMemo(() => getTitle(deleteProjectStep), [deleteProjectStep]);

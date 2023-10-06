@@ -99,6 +99,7 @@ export const useHandleSubmit = (
           return onSubmit(step, {
             name,
             description,
+            tokenIndex,
             userEndpointToken:
               sliceUserEndpointToken || data?.userEndpointToken,
           });
