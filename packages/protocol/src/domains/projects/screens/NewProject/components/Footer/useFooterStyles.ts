@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { SIDEBAR_WIDTH } from 'modules/layout/components/SideBar';
+
 export const useFooterStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
@@ -9,8 +11,8 @@ export const useFooterStyles = makeStyles()(theme => ({
     padding: theme.spacing(2.5, 7),
     marginTop: 'auto',
     borderRadius: 0,
-    width: '100%',
-    position: 'absolute',
+    width: `calc(100% - ${SIDEBAR_WIDTH}px)`,
+    position: 'fixed',
     bottom: 0,
     right: 0,
   },
