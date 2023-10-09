@@ -48,6 +48,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
       border: `2px solid ${theme.palette.text.primary}`,
     },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+    },
   },
   link: {
     width: '100%',

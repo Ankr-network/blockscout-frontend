@@ -106,6 +106,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       color: theme.palette.primary.main,
     },
 
+    [`&.${ChainId.Scroll} span span span`]: {
+      color: theme.palette.primary.main,
+    },
+
     [`&.${ChainId.Fantom}`]: {
       background: `linear-gradient(to right, #ec4574, #7db6e0)`,
       WebkitBackgroundClip: 'text',

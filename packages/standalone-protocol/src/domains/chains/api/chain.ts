@@ -21,6 +21,7 @@ export enum ChainId {
   Solana = 'solana',
   Moonbeam = 'moonbeam',
   Gnosis = 'gnosis',
+  Scroll = 'scroll',
   Syscoin = 'syscoin',
   Secret = 'scrt',
   Sei = 'sei',
