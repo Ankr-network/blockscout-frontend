@@ -47,9 +47,14 @@ import { ReactComponent as FlareLogo } from 'assets/img/logo/flare.svg';
 import { ReactComponent as SeiLogo } from 'assets/img/logo/sei.svg';
 import { ReactComponent as SeiMobileLogo } from 'assets/img/logo/seiMobile.svg';
 import { ReactComponent as XDCLogo } from 'assets/img/logo/XDC.svg';
+import { ReactComponent as XDCLightLogo } from 'assets/img/logo/XDCLight.svg';
+import scrollLogoSrc from 'assets/img/logo/scroll.png';
 
 // eslint-disable-next-line max-lines-per-function
-export const getMenuList = (isMobileSiderBar: boolean) => [
+export const getMenuList = (
+  isMobileSiderBar: boolean,
+  isLightTheme: boolean,
+) => [
   {
     chainId: ChainId.Ethereum,
     name: 'Ethereum',
@@ -81,9 +86,15 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://polygon-rpc.com/zkevm/',
   },
   {
+    chainId: ChainId.Scroll,
+    name: 'Scroll',
+    logo: <img src={scrollLogoSrc} alt="scroll" height="24px" width="24px" />,
+    url: 'https://scroll.public-rpc.com/',
+  },
+  {
     chainId: ChainId.XDC,
     name: XDC_NAME,
-    logo: <XDCLogo />,
+    logo: isLightTheme ? <XDCLogo /> : <XDCLightLogo />,
     url: 'https://xdc.public-rpc.com/',
   },
   {

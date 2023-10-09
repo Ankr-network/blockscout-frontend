@@ -40,6 +40,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
         ? theme.palette.primary.main
         : theme.palette.common.white;
 
+    case ChainId.Scroll:
+      return '#62E2D1';
+
     default:
       return theme.palette.primary.main;
   }
@@ -95,6 +98,7 @@ export const hasGradient = (chainId: ChainId) => {
     case ChainId.Secret:
     case ChainId.Mantle:
     case ChainId.XDC:
+    case ChainId.Scroll:
       return false;
 
     default:
@@ -117,6 +121,9 @@ export const getForeColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Gnosis:
     case ChainId.Sei:
       return theme.palette.grey['500'];
+
+    case ChainId.Scroll:
+      return theme.palette.grey['800'];
 
     default:
       return theme.palette.text.primary;
