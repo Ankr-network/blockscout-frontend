@@ -219,13 +219,24 @@ const FLARE_NETWORK_PARAMS = {
 
 const XDC_NETWORK_PARAMS = {
   chainId: 50,
-  chainName: 'XDC Network',
+  chainName: 'XDC Network by Ankr Protocol',
   nativeCurrency: {
     name: 'XDC',
     symbol: 'XDC',
     decimals: 18,
   },
   blockExplorerUrls: ['https://xdcscan.io'],
+};
+
+const SCROLL_NETWORK_PARAMS = {
+  chainId: 534352,
+  chainName: 'Scroll Mainnet by Ankr Protocol',
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://blockscout.scroll.io'],
 };
 
 const mapParams = (
@@ -294,6 +305,9 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
 
     case 'xdc':
       return mapParams(chain, XDC_NETWORK_PARAMS);
+
+    case 'scroll':
+      return mapParams(chain, SCROLL_NETWORK_PARAMS);
 
     default:
       return undefined;

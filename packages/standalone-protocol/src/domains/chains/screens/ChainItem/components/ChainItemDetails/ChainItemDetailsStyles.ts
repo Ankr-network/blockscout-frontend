@@ -98,6 +98,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
       borderRadius: 0,
       border: `1px solid ${theme.palette.common.black}`,
     },
+
+    [`&.${ChainId.Scroll} $block`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+
+      '& h6': {
+        color: theme.palette.text.secondary,
+      },
+    },
   },
 
   block: {},
