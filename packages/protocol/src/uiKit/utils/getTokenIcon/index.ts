@@ -260,7 +260,7 @@ export function getChainIcon(name: string, isLightTheme: boolean) {
 }
 
 export const getBlockchainsUrls = (
-  blockchains: string[],
+  blockchains: string[] = [],
   isLightTheme = false,
 ) => {
   const blockchainIcons = blockchains.map(blockchain =>
