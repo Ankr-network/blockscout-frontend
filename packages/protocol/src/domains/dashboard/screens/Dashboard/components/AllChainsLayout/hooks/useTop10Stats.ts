@@ -1,23 +1,34 @@
 import { useEffect, useMemo } from 'react';
-import { IpDetails, Top10StatItem } from 'multirpc-sdk';
+import { Top10StatItem } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { BaseTableData } from '@ankr.com/telemetry';
 
 import { ChainID, Timeframe } from 'domains/chains/types';
 import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { TopCountriesData } from '../../TopCountriesWidget';
+const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
-const mapIpRequests = (ip: Top10StatItem): IpDetails => ({
-  ip: ip.key,
-  count: ip.value,
-  total_cost: 0,
+const mapIpRequests = (ip: Top10StatItem): BaseTableData => ({
+  label: ip.key,
+  value: t('dashboard.requests-by-ip.count', { count: ip.value }),
 });
 
-const mapCountries = (country: Top10StatItem): TopCountriesData => ({
-  country: country.key,
-  count: country.value,
-});
+const mapCountries = (country: Top10StatItem): BaseTableData => {
+  let regionName = '';
+
+  try {
+    regionName = regionNames.of(country.key) ?? '';
+  } catch {
+    regionName = country.key;
+  }
+
+  return {
+    label: regionName,
+    value: t('dashboard.top-countries.count', { count: country.value }),
+  };
+};
 
 export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
   const [fetchTop10Stats, { data: top10Data }] = useLazyFetchTop10StatsQuery();

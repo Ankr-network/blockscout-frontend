@@ -1,10 +1,11 @@
 import { StatsByRangeRequest, StatsByRangeResponse } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { UsageHistoryData } from '@ankr.com/telemetry';
 
 import { web3Api } from 'store/queries';
 import { MultiService } from 'modules/api/MultiService';
 import { Locale } from 'modules/i18n/types/locale';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { UsageHistoryData } from 'domains/dashboard/store/types';
 
 const mapStatsResponseToUsageHistoryData = (response: StatsByRangeResponse) =>
   Object.entries(response)
@@ -14,7 +15,7 @@ const mapStatsResponseToUsageHistoryData = (response: StatsByRangeResponse) =>
 
       return {
         month: date.toLocaleString(Locale.en, { month: 'long' }),
-        calls,
+        calls: t('dashboard.usage-history.calls-number', { calls }),
       };
     });
 
