@@ -3,7 +3,7 @@ import isValidDomain from 'is-valid-domain';
 
 export const validateDomain = (value: string) => {
   if (typeof value !== 'string') {
-    return t('validation.required');
+    return t('validation.domain-required');
   }
 
   if (!isValidDomain(value)) {

@@ -1,19 +1,11 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 
 import { ChainID } from 'domains/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
-import { getCurrentChainSelectedExtensions, getSelectedChains } from './utils';
+import { getChainsBadges } from './utils';
 import { ProjectChain } from '../../../hooks/useProjectChains';
-import { isChainHasSingleOptionToSelect } from '../../../utils/isChainHasSingleOptionToSelect';
-import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 
 // eslint-disable-next-line max-lines-per-function
 export const useNetworkBadges = (
@@ -22,14 +14,13 @@ export const useNetworkBadges = (
 ) => {
   const {
     id,
+    mainnets = [],
     testnets = [],
     devnets = [],
     beaconsMainnet = [],
     beaconsTestnet = [],
     opnodesMainnet = [],
     opnodesTestnet = [],
-    extensions = [],
-    extenders = [],
   } = chain;
 
   const {
@@ -40,82 +31,119 @@ export const useNetworkBadges = (
     selectedBeaconTestnetIds,
     selectedOpnodeMainnetIds,
     selectedOpnodeTestnetIds,
-    onChange,
   } = useProjectFormValues();
 
-  const currentChainSelectedExtensions = useMemo(
-    () =>
-      getCurrentChainSelectedExtensions({
-        chainId: chain.id,
-        subChains: [...extensions, ...extenders], // we need to add extenders for ChainID.SECRET and ChainID.NERVOS
-        selectedMainnetIds,
-      }),
-    [chain.id, extenders, extensions, selectedMainnetIds],
-  );
-
-  const isCurrentChainMainnetSelected: boolean = useMemo(
-    () => selectedMainnetIds.includes(id),
-    [id, selectedMainnetIds],
-  );
-
-  const currentChainSelectedTestnetChains = useMemo(() => {
+  const currentChainMainnetChainsBadges = useMemo(() => {
     if (isTestnetOnlyChain(id)) {
-      if (selectedTestnetIds.includes(id)) {
-        return [chain];
+      if (selectedMainnetIds.includes(id)) {
+        return [{ ...chain, isSelected: false }];
       }
     }
 
-    return getSelectedChains(testnets, selectedTestnetIds);
-  }, [id, testnets, selectedTestnetIds, chain]);
+    return getChainsBadges(mainnets, selectedMainnetIds);
+  }, [id, mainnets, selectedMainnetIds, chain]);
+  const currentChainSelectedMainnetChainsBadges = useMemo(
+    () =>
+      currentChainMainnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainMainnetChainsBadges],
+  );
 
-  const currentChainSelectedDevnetChains = useMemo(
-    () => getSelectedChains(devnets, selectedDevnetIds),
+  const currentChainTestnetChainsBadges = useMemo(() => {
+    if (isTestnetOnlyChain(id)) {
+      if (selectedTestnetIds.includes(id)) {
+        return [{ ...chain, isSelected: false }];
+      }
+    }
+
+    return getChainsBadges(testnets, selectedTestnetIds);
+  }, [id, testnets, selectedTestnetIds, chain]);
+  const currentChainSelectedTestnetChainsBadges = useMemo(
+    () =>
+      currentChainTestnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainTestnetChainsBadges],
+  );
+
+  const currentChainDevnetChainsBadges = useMemo(
+    () => getChainsBadges(devnets, selectedDevnetIds),
     [devnets, selectedDevnetIds],
   );
+  const currentChainSelectedDevnetChainsBadges = useMemo(
+    () =>
+      currentChainDevnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainDevnetChainsBadges],
+  );
 
-  const currentChainSelectedBeaconMainnetChains = useMemo(
-    () => getSelectedChains(beaconsMainnet, selectedBeaconMainnetIds),
+  const currentChainBeaconMainnetChainsBadges = useMemo(
+    () => getChainsBadges(beaconsMainnet, selectedBeaconMainnetIds),
     [beaconsMainnet, selectedBeaconMainnetIds],
   );
+  const currentChainSelectedBeaconMainnetChainsBadges = useMemo(
+    () =>
+      currentChainBeaconMainnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainBeaconMainnetChainsBadges],
+  );
 
-  const currentChainSelectedBeaconTestnetChains = useMemo(
-    () => getSelectedChains(beaconsTestnet, selectedBeaconTestnetIds),
+  const currentChainBeaconTestnetChainsBadges = useMemo(
+    () => getChainsBadges(beaconsTestnet, selectedBeaconTestnetIds),
     [beaconsTestnet, selectedBeaconTestnetIds],
   );
-
-  const currentChainSelectedOpnodeMainnetChains = useMemo(
-    () => getSelectedChains(opnodesMainnet, selectedOpnodeMainnetIds),
-    [opnodesMainnet, selectedOpnodeMainnetIds],
+  const currentChainSelectedBeaconTestnetChainsBadges = useMemo(
+    () =>
+      currentChainBeaconTestnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainBeaconTestnetChainsBadges],
   );
 
-  const currentChainSelectedOpnodeTestnetChains = useMemo(
-    () => getSelectedChains(opnodesTestnet, selectedOpnodeTestnetIds),
+  const currentChainOpnodeMainnetChainsBadges = useMemo(
+    () => getChainsBadges(opnodesMainnet, selectedOpnodeMainnetIds),
+    [opnodesMainnet, selectedOpnodeMainnetIds],
+  );
+  const currentChainSelectedOpnodeMainnetChainsBadges = useMemo(
+    () =>
+      currentChainOpnodeMainnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainOpnodeMainnetChainsBadges],
+  );
+
+  const currentChainOpnodeTestnetChainsBadges = useMemo(
+    () => getChainsBadges(opnodesTestnet, selectedOpnodeTestnetIds),
     [opnodesTestnet, selectedOpnodeTestnetIds],
+  );
+  const currentChainSelectedOpnodeTestnetChainsBadges = useMemo(
+    () =>
+      currentChainOpnodeTestnetChainsBadges.filter(
+        chainBadge => chainBadge.isSelected,
+      ),
+    [currentChainOpnodeTestnetChainsBadges],
   );
 
   const hasSelectedChains =
-    isCurrentChainMainnetSelected ||
-    currentChainSelectedExtensions.length > 0 ||
-    currentChainSelectedTestnetChains.length > 0 ||
-    currentChainSelectedDevnetChains.length > 0 ||
-    currentChainSelectedBeaconMainnetChains.length > 0 ||
-    currentChainSelectedBeaconTestnetChains.length > 0 ||
-    currentChainSelectedOpnodeMainnetChains.length > 0 ||
-    currentChainSelectedOpnodeTestnetChains.length > 0;
+    currentChainSelectedMainnetChainsBadges.length > 0 ||
+    currentChainSelectedTestnetChainsBadges.length > 0 ||
+    currentChainSelectedDevnetChainsBadges.length > 0 ||
+    currentChainSelectedBeaconMainnetChainsBadges.length > 0 ||
+    currentChainSelectedBeaconTestnetChainsBadges.length > 0 ||
+    currentChainSelectedOpnodeMainnetChainsBadges.length > 0 ||
+    currentChainSelectedOpnodeTestnetChainsBadges.length > 0;
 
-  const handleRemove = useCallback(
-    (
-      chainId: ChainID,
-      fieldName: keyof NewProjectFormValues,
-      currentFieldValues: string[],
-    ) => {
-      onChange(
-        fieldName,
-        currentFieldValues.filter(currentId => currentId !== chainId),
-      );
-    },
-    [onChange],
-  );
+  const hasMultipleChains =
+    currentChainMainnetChainsBadges
+      .concat(currentChainTestnetChainsBadges)
+      .concat(currentChainDevnetChainsBadges)
+      .concat(currentChainBeaconMainnetChainsBadges)
+      .concat(currentChainBeaconTestnetChainsBadges)
+      .concat(currentChainOpnodeMainnetChainsBadges)
+      .concat(currentChainOpnodeTestnetChainsBadges).length > 1;
 
   useEffect(() => {
     if (!hasSelectedChains) {
@@ -125,35 +153,14 @@ export const useNetworkBadges = (
     }
   }, [hasSelectedChains, id, setSelectedChainsIds]);
 
-  const hasOnlyOneMainnetToSelect =
-    !testnets?.length && !devnets?.length && !extensions.length;
-
-  const hasOnlyOneTestnetToSelect =
-    isTestnetOnlyChain(chain.id) && testnets?.length === 1 && !devnets?.length;
-
-  const isIconInfoVisible =
-    (hasOnlyOneMainnetToSelect && isCurrentChainMainnetSelected) ||
-    (hasOnlyOneTestnetToSelect &&
-      currentChainSelectedTestnetChains.length === 1) ||
-    (isChainHasSingleOptionToSelect(chain.id) && isCurrentChainMainnetSelected);
-
-  const isEditButtonVisible =
-    !hasOnlyOneMainnetToSelect &&
-    !hasOnlyOneTestnetToSelect &&
-    hasSelectedChains &&
-    !isChainHasSingleOptionToSelect(chain.id);
-
   return {
-    isCurrentChainMainnetSelected,
-    currentChainSelectedExtensions,
-    currentChainSelectedTestnetChains,
-    currentChainSelectedDevnetChains,
-    currentChainSelectedBeaconMainnetChains,
-    currentChainSelectedBeaconTestnetChains,
-    currentChainSelectedOpnodeMainnetChains,
-    currentChainSelectedOpnodeTestnetChains,
-    handleRemove,
-    isIconInfoVisible,
-    isEditButtonVisible,
+    currentChainMainnetChainsBadges,
+    currentChainTestnetChainsBadges,
+    currentChainDevnetChainsBadges,
+    currentChainBeaconMainnetChainsBadges,
+    currentChainBeaconTestnetChainsBadges,
+    currentChainOpnodeMainnetChainsBadges,
+    currentChainOpnodeTestnetChainsBadges,
+    isEditButtonVisible: hasSelectedChains && hasMultipleChains,
   };
 };

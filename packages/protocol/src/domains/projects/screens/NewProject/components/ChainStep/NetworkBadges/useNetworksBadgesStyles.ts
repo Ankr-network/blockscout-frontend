@@ -13,18 +13,30 @@ export const useNetworksBadgesStyles = makeStyles()(theme => {
     badge: {
       display: 'inline-flex',
       alignItems: 'center',
-      borderRadius: theme.shape.borderRadius,
-      padding: theme.spacing(1.5, 3),
-      backgroundColor: theme.palette.background.default,
-      whiteSpace: 'nowrap',
-      fontWeight: 500,
+
       maxWidth: '100%',
+      maxHeight: 30,
+      padding: theme.spacing(1, 3),
+
+      borderRadius: 12,
+
+      backgroundColor: theme.palette.background.default,
+
+      whiteSpace: 'nowrap',
+
+      fontWeight: 500,
     },
     badgeLabel: {
       display: 'inline',
       textOverflow: 'ellipsis',
-      maxWidth: `calc(100% - ${iconFontSize * 2}px)`,
       overflow: 'hidden',
+      color: theme.palette.text.secondary,
+
+      letterSpacing: '-0.01em',
+      lineHeight: '140%',
+    },
+    selectedBadgeLabel: {
+      color: theme.palette.text.primary,
     },
     closeIcon: {
       '&&': {
@@ -38,8 +50,10 @@ export const useNetworksBadgesStyles = makeStyles()(theme => {
       height: 'auto',
     },
     editButton: {
-      width: 35,
-      height: 35,
+      width: 30,
+      height: 30,
+      border: 'none',
+      borderRadius: 12,
     },
     editIcon: {
       color: theme.palette.primary.main,

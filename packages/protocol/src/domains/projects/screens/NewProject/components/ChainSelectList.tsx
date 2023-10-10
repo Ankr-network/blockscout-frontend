@@ -1,3 +1,6 @@
+import { t } from '@ankr.com/common';
+import { Typography } from '@mui/material';
+
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 
@@ -53,6 +56,10 @@ export const ChainSelectList = ({
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
+      <Typography variant="body1" component="p" className={classes.title}>
+        {t('projects.new-project.chain-modal.supported-network')}
+      </Typography>
+
       <div className={classes.selectors}>
         <TypeSelector
           chainTypes={chainTypes}

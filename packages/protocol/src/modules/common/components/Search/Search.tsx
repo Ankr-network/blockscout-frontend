@@ -7,11 +7,16 @@ import { useSearchStyles } from './useSearchStyles';
 
 interface ISearchProps {
   searchContent: string;
+  className?: string;
   setSearchContent: (searchContent: string) => void;
 }
 
-export const Search = ({ searchContent, setSearchContent }: ISearchProps) => {
-  const { classes } = useSearchStyles(Boolean(searchContent));
+export const Search = ({
+  searchContent,
+  className,
+  setSearchContent,
+}: ISearchProps) => {
+  const { classes, cx } = useSearchStyles(Boolean(searchContent));
 
   const handleResetClick = useCallback(
     () => setSearchContent(''),
@@ -33,7 +38,7 @@ export const Search = ({ searchContent, setSearchContent }: ISearchProps) => {
       onChange={handleChange}
       placeholder={t('common.search')}
       InputProps={{
-        className: classes.root,
+        className: cx(classes.root, className),
         startAdornment: (
           <Icon>
             <SearchIcon className={classes.searchIcon} />

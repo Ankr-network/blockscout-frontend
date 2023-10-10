@@ -18,14 +18,14 @@ interface StepperProps {
 }
 
 export const Stepper = ({ step: activeStep, className }: StepperProps) => {
-  const { classes } = useStepperStyles();
+  const { classes, cx } = useStepperStyles();
 
   const steps = useMemo(() => getSteps(), []);
 
   return (
     <MuiStepper
       activeStep={activeStep - 1}
-      className={className}
+      className={cx(classes.root, className)}
       alternativeLabel
       connector={<Connector />}
     >

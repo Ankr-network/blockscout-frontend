@@ -9,16 +9,16 @@ import {
 import { isEVMBased } from 'domains/chains/utils/isEVMBased';
 import { WhiteListItem } from 'domains/projects/types';
 import { ChainID } from 'domains/chains/types';
-import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
+
+import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 
 export const useWhitelistData = () => {
   const { allSelectedChainIds, whitelistItems } = useProjectFormValues();
 
   const checkIsAddingAllowed = useCallback(
     (fieldName: string, maxAmount: number) =>
-      (whitelistItems as AddToWhitelistFormData[]).filter(
-        x => x.type === fieldName,
-      ).length < maxAmount,
+      whitelistItems.filter(({ type }) => type === fieldName).length <
+      maxAmount,
     [whitelistItems],
   );
 

@@ -20,6 +20,9 @@ export const useChainStepStyles = makeStyles()(theme => ({
   description: {
     color: theme.palette.text.secondary,
   },
+  search: {
+    backgroundColor: theme.palette.background.default,
+  },
   tableContainer: {
     backgroundColor: 'transparent',
     padding: 0,
@@ -42,16 +45,25 @@ export const useChainStepStyles = makeStyles()(theme => ({
   inactive: {
     opacity: 0.5,
   },
+  dialogPaper: {
+    width: 600,
+  },
   dialogTitle: {
-    fontSize: 28,
-    paddingRight: theme.spacing(15),
-    alignItems: 'center',
     display: 'flex',
+    alignItems: 'center',
+
+    marginBottom: theme.spacing(3),
+    paddingRight: theme.spacing(15),
+
+    letterSpacing: '-0.03em',
+
+    fontSize: 28,
+    lineHeight: '110%',
   },
   chainItemWrapper: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3, 5),
-    marginBottom: theme.spacing(4),
+    padding: theme.spacing(4, 5),
+    marginBottom: theme.spacing(8),
   },
   chainItem: {
     display: 'flex',
@@ -62,5 +74,23 @@ export const useChainStepStyles = makeStyles()(theme => ({
   },
   modalBtn: {
     marginTop: theme.spacing(3),
+  },
+  chainModalDescription: {
+    marginBottom: theme.spacing(5),
+
+    color: theme.palette.text.secondary,
+    letterSpacing: '-0.01em',
+
+    fontSize: 16,
+    lineHeight: '140%',
+  },
+  selectedChainLabel: {
+    marginBottom: theme.spacing(),
+
+    color: theme.palette.text.secondary,
+
+    fontSize: 14,
+    fontWeight: 700,
+    lineHeight: '135%',
   },
 }));

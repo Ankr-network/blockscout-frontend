@@ -1,10 +1,9 @@
 import { Chain as MainChainType, ChainType } from '../chains/types';
 
 export enum NewProjectStep {
-  Chain,
+  General,
+  Chains,
   Whitelist,
-  Plan,
-  Checkout,
 }
 
 export enum PlanName {

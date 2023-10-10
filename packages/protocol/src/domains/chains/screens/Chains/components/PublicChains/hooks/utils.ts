@@ -94,6 +94,3 @@ export const formatRequestsCount = (
     };
   });
 };
-
-export const filteredByNameChains = (chains: Chain, searchContent: string) =>
-  chains.name.toLocaleLowerCase().includes(searchContent.toLowerCase());

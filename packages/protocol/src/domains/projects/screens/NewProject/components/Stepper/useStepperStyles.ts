@@ -2,6 +2,10 @@ import { makeStyles } from 'tss-react/mui';
 import { StepConnector, stepLabelClasses, styled } from '@mui/material';
 
 export const useStepperStyles = makeStyles()(theme => ({
+  root: {
+    width: '100%',
+    borderBottom: `1px solid ${theme.palette.grey[100]}`,
+  },
   iconContainer: {
     display: 'none',
   },
@@ -26,6 +30,7 @@ export const useStepperStyles = makeStyles()(theme => ({
   text: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     fontSize: 16,
     fontWeight: 600,
     lineHeight: 1.5,

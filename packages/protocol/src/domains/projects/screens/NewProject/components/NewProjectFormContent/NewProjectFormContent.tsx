@@ -1,33 +1,23 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import { NewProjectStep } from 'domains/projects/types';
 
 import { ChainStep } from '../ChainStep';
-import { CheckoutStep } from '../CheckoutStep';
 import { WhitelistStep } from '../WhitelistStep';
-import { PlanStep } from '../PlanStep';
+import { GeneralStep } from '../GeneralStep';
 
 interface NewProjectFormContentProps {
   step: NewProjectStep;
-  setCurrentStep: Dispatch<SetStateAction<NewProjectStep>>;
 }
 
-export const NewProjectFormContent = ({
-  step,
-  setCurrentStep,
-}: NewProjectFormContentProps) => {
+export const NewProjectFormContent = ({ step }: NewProjectFormContentProps) => {
   switch (step) {
-    case NewProjectStep.Chain:
+    case NewProjectStep.General:
     default:
+      return <GeneralStep />;
+
+    case NewProjectStep.Chains:
       return <ChainStep />;
 
     case NewProjectStep.Whitelist:
       return <WhitelistStep />;
-
-    case NewProjectStep.Plan:
-      return <PlanStep />;
-
-    case NewProjectStep.Checkout:
-      return <CheckoutStep setCurrentStep={setCurrentStep} />;
   }
 };

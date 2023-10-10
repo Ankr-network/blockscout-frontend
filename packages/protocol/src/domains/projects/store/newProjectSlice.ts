@@ -1,31 +1,31 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { NewProjectStep } from '../types';
+import { NewProjectStep, WhiteListItem } from '../types';
 import {
   AddToWhitelistFormData,
   NewProjectConfig,
   NewProjectConfigPayload,
   NewProjectSlice,
 } from './types';
-import { plans } from '../const';
 
 const initialNewProjectState: NewProjectSlice = {};
 
 export const initialDialogValues: AddToWhitelistFormData = {
-  type: undefined,
+  type: WhiteListItem.referer,
   value: '',
   chains: [],
 };
 
-const { name: defaultPlanName, USDPrice: defaultUSDPrice } = plans[0];
-
 const DEFAULT_NEW_PROJECT: NewProjectConfig = {
-  step: NewProjectStep.Chain,
+  step: NewProjectStep.General,
   project: {
-    [NewProjectStep.Chain]: {
-      projectName: '',
+    [NewProjectStep.General]: {
+      name: '',
+      description: '',
       tokenIndex: null,
       userEndpointToken: '',
+    },
+    [NewProjectStep.Chains]: {
       selectedMainnetIds: [],
       selectedTestnetIds: [],
       selectedDevnetIds: [],
@@ -40,13 +40,6 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
       shouldSkipFormReset: false,
       indexOfEditingWhitelistItem: undefined,
       whitelistDialog: initialDialogValues,
-    },
-    [NewProjectStep.Plan]: {
-      planName: defaultPlanName,
-      planPrice: defaultUSDPrice,
-    },
-    [NewProjectStep.Checkout]: {
-      isCheckedOut: false,
     },
   },
 };

@@ -1,25 +1,27 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
-import { Chain } from 'domains/chains/types';
 import { useLazyChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
-
-export type PrivateChains = [Chain[], Chain[], boolean];
 
 const defaultData = {
   chains: [],
   allChains: [],
 };
 
-export const usePrivateChainsInfo = (): PrivateChains => {
+export const usePrivateChainsInfo = () => {
   const userEndpointToken = useUserEndpointToken();
 
   const [
     fetchPrivateChainsInfo,
-    { data: { chains, allChains } = defaultData, isLoading },
+    {
+      data: { chains, allChains } = defaultData,
+      isLoading,
+      isFetching,
+      isUninitialized,
+    },
   ] = useLazyChainsFetchPrivateChainsInfoQuery();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (userEndpointToken) {
       fetchPrivateChainsInfo({
         userEndpointToken,
@@ -27,5 +29,5 @@ export const usePrivateChainsInfo = (): PrivateChains => {
     }
   }, [fetchPrivateChainsInfo, userEndpointToken]);
 
-  return [chains, allChains, isLoading];
+  return { chains, allChains, isLoading, isFetching, isUninitialized };
 };

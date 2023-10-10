@@ -5,7 +5,7 @@ import { useProjects } from 'domains/projects/hooks/useProjects';
 
 import { useWelcomeDialogSettings } from './useWelcomeDialogSettings';
 
-export const useWelcomeDialog = (onCreateNewProject: () => void) => {
+export const useWelcomeDialog = () => {
   const { isOpened, onOpen, onClose } = useDialog();
   const { wasWelcomeDialogShown, setSettings } = useWelcomeDialogSettings();
   const { isLoadingAllWhitelists, allWhitelists } = useProjects();
@@ -45,9 +45,8 @@ export const useWelcomeDialog = (onCreateNewProject: () => void) => {
   }, [onClose, setSettings]);
 
   const handleCreateNewProjectClick = useCallback(() => {
-    onCreateNewProject();
     handleCloseWelcomeModal();
-  }, [handleCloseWelcomeModal, onCreateNewProject]);
+  }, [handleCloseWelcomeModal]);
 
   return {
     isOpened,

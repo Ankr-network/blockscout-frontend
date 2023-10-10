@@ -34,6 +34,7 @@ export type IDialogProps = Omit<
   titleClassName?: string;
   closeButtonClassName?: string;
   canCloseDialogByClickOutside?: boolean;
+  hasTitleWrapper?: boolean;
 };
 
 export const Dialog = ({
@@ -47,6 +48,7 @@ export const Dialog = ({
   paperClassName,
   titleClassName,
   closeButtonClassName,
+  hasTitleWrapper = true,
   ...props
 }: IDialogProps) => {
   const { isLightTheme } = useThemes();
@@ -95,7 +97,7 @@ export const Dialog = ({
       >
         {(dialogTitle.title || !shouldHideCloseButton) && (
           <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-            {typeof dialogTitle.title === 'string' ? (
+            {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
               <Typography className={classes.titleText}>
                 {dialogTitle.title}
               </Typography>

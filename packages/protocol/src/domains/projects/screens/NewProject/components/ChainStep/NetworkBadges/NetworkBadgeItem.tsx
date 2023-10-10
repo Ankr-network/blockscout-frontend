@@ -1,26 +1,30 @@
 import React from 'react';
-import { IconButton, Typography } from '@mui/material';
-import { Close } from '@ankr.com/ui';
+import { Typography } from '@mui/material';
 
 import { useNetworksBadgesStyles } from './useNetworksBadgesStyles';
 
 interface NetworkBadgeItemProps {
   name: string;
-  onRemove: () => void;
+  isSelected: boolean;
 }
 
-export const NetworkBadgeItem = ({ name, onRemove }: NetworkBadgeItemProps) => {
-  const { classes } = useNetworksBadgesStyles();
+export const NetworkBadgeItem = ({
+  name,
+  isSelected,
+}: NetworkBadgeItemProps) => {
+  const { classes, cx } = useNetworksBadgesStyles();
 
   return (
     <div className={classes.badge} title={name}>
-      <Typography variant="body2" className={classes.badgeLabel}>
+      <Typography
+        variant="body2"
+        className={cx(
+          classes.badgeLabel,
+          isSelected && classes.selectedBadgeLabel,
+        )}
+      >
         {name}
       </Typography>
-
-      <IconButton onClick={onRemove} className={classes.closeButton}>
-        <Close className={classes.closeIcon} />
-      </IconButton>
     </div>
   );
 };

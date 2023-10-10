@@ -1,4 +1,4 @@
-import { t } from '@ankr.com/common';
+import { t, tHTML } from '@ankr.com/common';
 
 import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { validateDomain } from 'modules/common/utils/validateDomain';
@@ -7,14 +7,16 @@ import { validateSmartContractAddress } from 'modules/common/utils/validateSmart
 import { ISelectOption } from 'uiKit/Select';
 import { NewProjectType } from 'domains/projects/store';
 
+const intlKey = 'projects.add-whitelist-dialog';
+
 export const whitelistTypeLabelMap = (type?: WhiteListItem) => {
   switch (type) {
     case WhiteListItem.address:
-      return t('projects.add-whitelist-dialog.smart-contract');
+      return t(`${intlKey}.smart-contract`);
     case WhiteListItem.ip:
-      return t('projects.add-whitelist-dialog.ip-address');
+      return t(`${intlKey}.ip-address`);
     case WhiteListItem.referer:
-      return t('projects.add-whitelist-dialog.domain');
+      return t(`${intlKey}.domain`);
     default:
       return '';
   }
@@ -29,40 +31,6 @@ export enum AddToWhitelistFormFields {
 export interface IWhiteListSelectOption extends ISelectOption {
   value: WhiteListItem;
 }
-
-interface GetTypeOptionsArgs {
-  isAddingDomainAllowed: boolean;
-  isAddingIPAllowed: boolean;
-  isAddingSmartContractAllowed: boolean;
-}
-
-export const getOptionsByWhitelistTypes = ({
-  isAddingDomainAllowed,
-  isAddingIPAllowed,
-  isAddingSmartContractAllowed,
-}: GetTypeOptionsArgs): IWhiteListSelectOption[] => {
-  const options: IWhiteListSelectOption[] = [];
-
-  options.push({
-    disabled: !isAddingDomainAllowed,
-    label: whitelistTypeLabelMap(WhiteListItem.referer),
-    value: WhiteListItem.referer,
-  });
-
-  options.push({
-    disabled: !isAddingIPAllowed,
-    label: whitelistTypeLabelMap(WhiteListItem.ip),
-    value: WhiteListItem.ip,
-  });
-
-  options.push({
-    disabled: !isAddingSmartContractAllowed,
-    label: whitelistTypeLabelMap(WhiteListItem.address),
-    value: WhiteListItem.address,
-  });
-
-  return options;
-};
 
 export const getValidation = (type?: WhiteListItem) => {
   switch (type) {
@@ -116,5 +84,55 @@ export const getValidation = (type?: WhiteListItem) => {
 
     default:
       return () => undefined;
+  }
+};
+
+export const getPlaceholder = (type?: WhiteListItem) => {
+  switch (type) {
+    case WhiteListItem.address:
+      return t(`${intlKey}.enter-smart-contract`);
+    case WhiteListItem.ip:
+      return t(`${intlKey}.enter-ip`);
+    case WhiteListItem.referer:
+      return t(`${intlKey}.enter-domain`);
+    default:
+      return t(`${intlKey}.enter`);
+  }
+};
+
+export const getLabel = (type?: WhiteListItem) => {
+  switch (type) {
+    case WhiteListItem.address:
+      return t(`${intlKey}.smart-contract-label`);
+    case WhiteListItem.ip:
+      return t(`${intlKey}.ip-label`);
+    case WhiteListItem.referer:
+      return t(`${intlKey}.domain-label`);
+    default:
+      return '';
+  }
+};
+
+export const getDialogDescription = (type?: WhiteListItem) => {
+  switch (type) {
+    case WhiteListItem.ip:
+    case WhiteListItem.referer:
+    default:
+      return tHTML(`${intlKey}.description-10`);
+    case WhiteListItem.address:
+      return tHTML(`${intlKey}.description-5`);
+  }
+};
+
+export const getSelectChainDescription = (type?: WhiteListItem) => {
+  switch (type) {
+    case WhiteListItem.address:
+      return tHTML(`${intlKey}.select-chain-description-smart-contract`);
+    case WhiteListItem.ip:
+      return tHTML(`${intlKey}.select-chain-description-ip`);
+    case WhiteListItem.referer:
+      return tHTML(`${intlKey}.select-chain-description-domain`);
+    default:
+      return '';
   }
 };

@@ -4,8 +4,9 @@ import { FieldMetaState, FieldRenderProps } from 'react-final-form';
 interface IFieldProps extends FieldRenderProps<string> {
   hasError?: (meta: FieldMetaState<any>) => boolean;
   isHelperTextVisible?: boolean;
-  showLimitCounter?: boolean;
+  isLimitCounterVisible?: boolean;
   multiline?: boolean;
+  isRequired?: boolean;
 }
 
 export interface GetHelperStringArguments {

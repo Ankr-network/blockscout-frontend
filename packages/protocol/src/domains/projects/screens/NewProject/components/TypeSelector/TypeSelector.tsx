@@ -14,11 +14,11 @@ import {
 } from 'domains/projects/types';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
-import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 import {
   ITypeSelectorProps,
   useAllChainsSelection,
 } from './hooks/useAllChainsSelection';
+import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 
 const mapEndpoints = (endpoints: EndpointGroup[]) => {
   // JSON-RPC and REST Tendermint subchains have the same path,
@@ -61,11 +61,7 @@ export const TypeSelector = ({
           root: classes.formControlLabel,
         }}
         label={
-          <Typography
-            fontWeight={800}
-            variant="body2"
-            className={classes.label}
-          >
+          <Typography variant="body2" className={classes.label}>
             {t('projects.new-project.chain-modal.select-all-label')}
           </Typography>
         }

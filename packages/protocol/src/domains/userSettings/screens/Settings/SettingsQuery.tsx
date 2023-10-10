@@ -13,9 +13,9 @@ export const SettingsQuery = () => {
   useSettingsBreadcrumbs();
 
   const bannerProps = useEmailBannerProps(emailData);
-  const { confirmedEmail, isLoading } = emailData;
+  const { confirmedEmail, isLoading, pristine } = emailData;
 
-  if (isLoading) {
+  if (isLoading || pristine) {
     return <OverlaySpinner />;
   }
 

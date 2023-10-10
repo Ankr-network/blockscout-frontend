@@ -85,29 +85,31 @@ export const ChainItemHeaderContent = ({
       {isMultiChain ? (
         <MultiChainOverview />
       ) : (
-        <ChainOverview
-          chain={chain}
-          chainType={chainType}
-          chainSubType={chainSubType}
-          group={group}
-          isChainArchived={isChainArchived}
-          isEnterprise={isEnterprise}
-          isMetamaskButtonHidden={isMetamaskButtonHidden}
-        />
+        <>
+          <ChainOverview
+            chain={chain}
+            chainType={chainType}
+            chainSubType={chainSubType}
+            group={group}
+            isChainArchived={isChainArchived}
+            isEnterprise={isEnterprise}
+            isMetamaskButtonHidden={isMetamaskButtonHidden}
+          />
+          <ChainSelectorContent
+            chainTypeTabs={chainTypeTabs}
+            chainTypeTab={chainTypeTab}
+            chainSubTypeTabs={chainSubTypeTabs}
+            chainSubTypeTab={chainSubTypeTab}
+            groups={groups}
+            groupID={groupID}
+            groupTabs={groupTabs}
+            groupTab={groupTab}
+            selectGroup={selectGroup}
+            hasGroupSelector={hasGroupSelector}
+            isProtocolSwitcherHidden={isProtocolSwitcherHidden}
+          />
+        </>
       )}
-      <ChainSelectorContent
-        chainTypeTabs={chainTypeTabs}
-        chainTypeTab={chainTypeTab}
-        chainSubTypeTabs={chainSubTypeTabs}
-        chainSubTypeTab={chainSubTypeTab}
-        groups={groups}
-        groupID={groupID}
-        groupTabs={groupTabs}
-        groupTab={groupTab}
-        selectGroup={selectGroup}
-        hasGroupSelector={hasGroupSelector}
-        isProtocolSwitcherHidden={isProtocolSwitcherHidden}
-      />
       <div className={!isMultiChain ? classes.content : undefined}>
         {isEnterprise ? (
           <EnterpriseEndpoints

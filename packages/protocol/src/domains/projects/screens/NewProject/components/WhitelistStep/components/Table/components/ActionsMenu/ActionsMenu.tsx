@@ -24,7 +24,7 @@ export const ActionsMenu = ({
   rowData,
   onWhitelistDialogOpen,
 }: ActionsMenuProps) => {
-  const { handleSetStepConfig, project } = useProjectConfig();
+  const { handleSetStepConfig } = useProjectConfig();
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
 
   const { change, getState, initialize } = useForm();
@@ -68,20 +68,11 @@ export const ActionsMenu = ({
       NewProjectStep.Whitelist,
       {
         whitelistItems: newWhitelistItems,
-        userEndpointToken:
-          project[NewProjectStep.Chain]?.userEndpointToken ?? '',
       },
-      NewProjectStep.Plan,
+      NewProjectStep.Whitelist,
     );
     handleClose();
-  }, [
-    whitelistItems,
-    index,
-    change,
-    project,
-    handleSetStepConfig,
-    handleClose,
-  ]);
+  }, [whitelistItems, index, change, handleSetStepConfig, handleClose]);
 
   return (
     <MenuButton
@@ -91,11 +82,11 @@ export const ActionsMenu = ({
       onClose={handleClose}
     >
       <MenuItem startIcon={<Edit />} onClick={handleEditByClick}>
-        {t('projects.new-project.step-2.edit')}
+        {t('projects.new-project.step-3.edit')}
       </MenuItem>
 
       <MenuItem startIcon={<Delete />} onClick={handleDeleteByClick}>
-        {t('projects.new-project.step-2.delete')}
+        {t('projects.new-project.step-3.delete')}
       </MenuItem>
     </MenuButton>
   );

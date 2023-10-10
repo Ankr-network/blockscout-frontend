@@ -48,6 +48,6 @@ export const useProjectConfig = () => {
     project,
     canEditProject:
       typeof projectStep === 'number' &&
-      Boolean(project[NewProjectStep.Chain]?.userEndpointToken),
+      Boolean(project[NewProjectStep.General]?.userEndpointToken),
   };
 };

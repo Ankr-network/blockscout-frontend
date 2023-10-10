@@ -26,7 +26,7 @@ export const ChainItem = ({
     <FormControlLabel
       className={className}
       label={
-        <Typography variant="body2" lineHeight="140%" className={classes.label}>
+        <Typography variant="body2" className={classes.label}>
           {label}
         </Typography>
       }

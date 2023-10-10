@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useForm } from 'react-final-form';
 
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
@@ -8,10 +9,17 @@ import { useSelectedProjectChain } from './useSelectedProjectChain';
 import { useChainsTableColumns } from './useChainsTableColumns';
 
 export const useChainsTable = () => {
-  const { isOpened, onClose, onOpenModal, currentModalChain } =
-    useChainSelectModal();
+  const {
+    currentModalChain,
+    isOpened,
+    onClose,
+    onOpenModal,
+    valuesBeforeChange: valuesBeforeChangeInSelectModal,
+  } = useChainSelectModal();
 
-  const { projectChains, isLoading } = useProjectChains();
+  const { reset } = useForm();
+
+  const { projectChains, isLoading, isUninitialized } = useProjectChains();
 
   const { initiallySelectedChainIds } = useProjectFormValues(projectChains);
 
@@ -33,13 +41,23 @@ export const useChainsTable = () => {
     onClose();
   }, [onSaveSelectedChain, onClose]);
 
+  const handleCloseModal = useCallback(() => {
+    if (valuesBeforeChangeInSelectModal) {
+      reset(valuesBeforeChangeInSelectModal);
+    }
+
+    onClose();
+  }, [reset, onClose, valuesBeforeChangeInSelectModal]);
+
   return {
-    isLoading,
     columns,
-    projectChains,
-    isOpened,
     currentModalChain,
-    handleCloseModal: handleSetProjectChainsIdsAndClose,
+    handleCloseModal,
+    handleConfirmModal: handleSetProjectChainsIdsAndClose,
     isCurrentChainSelected,
+    isLoading,
+    isOpened,
+    isUninitialized,
+    projectChains,
   };
 };

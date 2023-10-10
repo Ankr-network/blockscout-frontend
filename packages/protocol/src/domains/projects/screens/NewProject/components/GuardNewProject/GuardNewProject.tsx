@@ -16,7 +16,7 @@ interface GuardNewProjectProps {
 export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { project } = useProjectConfig();
+  const { project, projectStep } = useProjectConfig();
   const { enableAddProject, isLoaded } = useJwtTokenManager();
 
   const showNotification = useCallback(() => {
@@ -30,7 +30,9 @@ export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
 
   const hasAccess =
     enableAddProject ||
-    typeof project[NewProjectStep.Chain]?.tokenIndex === 'number';
+    typeof project[NewProjectStep.General]?.tokenIndex === 'number' ||
+    projectStep === NewProjectStep.Chains ||
+    projectStep === NewProjectStep.Whitelist;
 
   useEffect(() => {
     if (!hasAccess && isLoaded) {
