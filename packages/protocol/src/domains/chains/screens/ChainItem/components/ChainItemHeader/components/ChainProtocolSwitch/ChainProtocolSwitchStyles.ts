@@ -18,7 +18,7 @@ export const useChainProtocolSwitchStyles = makeStyles<void, 'switchTrack'>()(
       color: theme.palette.grey[600],
 
       fontWeight: 600,
-      fontSize: 16,
+      fontSize: 14,
       lineHeight: '24px',
     },
   }),
