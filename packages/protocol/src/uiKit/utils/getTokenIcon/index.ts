@@ -60,6 +60,7 @@ import berachainIconDark from './darkModeIcons/berachain.svg';
 import berachainIcon from './icons/berachain.svg';
 import seiIcon from './icons/sei.svg';
 import xdcIcon from './icons/xdc.svg';
+import xdcIconDark from './darkModeIcons/xdc.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -221,6 +222,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI]: suiIconDark,
   [ChainID.SUI_TESTNET]: suiIconDark,
   [ChainID.ZKSYNC_ERA]: zksyncEraIconDark,
+  [ChainID.XDC]: xdcIconDark,
 };
 
 const chainNameIcons: Record<string, string> = {
