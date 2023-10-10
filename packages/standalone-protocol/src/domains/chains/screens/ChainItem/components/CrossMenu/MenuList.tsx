@@ -48,7 +48,7 @@ import { ReactComponent as SeiLogo } from 'assets/img/logo/sei.svg';
 import { ReactComponent as SeiMobileLogo } from 'assets/img/logo/seiMobile.svg';
 import { ReactComponent as XDCLogo } from 'assets/img/logo/XDC.svg';
 import { ReactComponent as XDCLightLogo } from 'assets/img/logo/XDCLight.svg';
-import scrollLogoSrc from 'assets/img/logo/scroll.png';
+// import scrollLogoSrc from 'assets/img/logo/scroll.png';
 
 // eslint-disable-next-line max-lines-per-function
 export const getMenuList = (
@@ -85,12 +85,12 @@ export const getMenuList = (
     logo: isMobileSiderBar ? <PolygonZkemvMobileLogo /> : <PolygonZkemvLogo />,
     url: 'https://polygon-rpc.com/zkevm/',
   },
-  {
-    chainId: ChainId.Scroll,
-    name: 'Scroll',
-    logo: <img src={scrollLogoSrc} alt="scroll" height="24px" width="24px" />,
-    url: 'https://scroll.public-rpc.com/',
-  },
+  // {
+  //   chainId: ChainId.Scroll,
+  //   name: 'Scroll',
+  //   logo: <img src={scrollLogoSrc} alt="scroll" height="24px" width="24px" />,
+  //   url: 'https://scroll.public-rpc.com/',
+  // },
   {
     chainId: ChainId.XDC,
     name: XDC_NAME,
