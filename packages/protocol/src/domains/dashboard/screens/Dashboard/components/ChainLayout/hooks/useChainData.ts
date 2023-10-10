@@ -3,12 +3,14 @@ import { useMemo } from 'react';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
   selectAllTimeTotalRequestsNumber,
+  selectBlockHeight,
   selectChainStats,
   selectLocationsByChainID,
   selectLocationsLoading,
   selectMethodCallsByChainID,
   selectTotalRequestsByChainID,
   selectTotalRequestsNumberByChainID,
+  selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
@@ -53,6 +55,12 @@ export const useChainData = ({
 
   const { countries, ipRequests } = useTop10Stats(timeframe, statsChainId);
 
+  const isLoadingTotalStats = useAppSelector(selectTotalStatsLoading);
+
+  const blockHeight = useAppSelector(state =>
+    selectBlockHeight(state, detailsChainId),
+  );
+
   return {
     allTimeTotalRequestsNumber,
     areLocationsLoading,
@@ -63,5 +71,7 @@ export const useChainData = ({
     requestsChartData,
     totalRequestsNumber,
     methodCalls,
+    isLoadingTotalStats,
+    blockHeight,
   };
 };
