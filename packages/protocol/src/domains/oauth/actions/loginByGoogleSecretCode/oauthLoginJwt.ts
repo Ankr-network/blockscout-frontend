@@ -1,4 +1,4 @@
-import { EthAddressType } from 'multirpc-sdk';
+import { EthAddressType, OauthLoginProvider } from 'multirpc-sdk';
 import { push } from 'connected-react-router';
 
 import { GetState, RootState } from 'store';
@@ -8,11 +8,7 @@ import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2Sign
 import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import {
-  GOOGLE_PROVIDER,
-  OauthProviderType,
-  selectAuthData,
-} from 'domains/auth/store/authSlice';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
 import { loginUserJwt } from './loginUserJwt';
@@ -46,7 +42,7 @@ export const {
               authorizationToken,
               encryptionPublicKey,
               ethAddressType,
-              provider = GOOGLE_PROVIDER,
+              provider = OauthLoginProvider.Google,
             } = {},
           } = oauthLoginByGoogleSecretCode.select(undefined as any)(
             getState() as RootState,
@@ -54,7 +50,7 @@ export const {
 
           const authData = selectAuthData(getState() as RootState);
 
-          const oauthProviders: OauthProviderType[] = Array.isArray(
+          const oauthProviders: OauthLoginProvider[] = Array.isArray(
             authData?.oauthProviders,
           )
             ? [...authData.oauthProviders, provider]

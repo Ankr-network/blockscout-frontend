@@ -17,10 +17,15 @@ export const {
           account => account.provider === OauthLoginProvider.Github,
         );
 
+        const hasGoogleProvider = data?.some(
+          account => account.provider === OauthLoginProvider.Google,
+        );
+
         if (associatedAccount) {
           dispatch(
             setAuthData({
               loginName: associatedAccount?.login,
+              hasGoogleProvider,
             }),
           );
         }

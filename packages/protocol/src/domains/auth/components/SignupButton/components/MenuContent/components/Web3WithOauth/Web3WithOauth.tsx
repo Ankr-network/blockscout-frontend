@@ -1,9 +1,5 @@
 import { WalletIcon } from '@ankr.com/ui';
-
-import {
-  GOOGLE_PROVIDER,
-  OauthProviderType,
-} from 'domains/auth/store/authSlice';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 import { GoogleMenuItemButton } from '../../../MenuItemButton/components/GoogleMenuItemButton';
 import { GithubMenuItemButton } from '../../../MenuItemButton/components/GithubMenuItemButton';
@@ -15,7 +11,7 @@ interface Web3WithOauthProps {
   walletIcon?: string;
   address: string;
   email?: string;
-  oauthProviders: OauthProviderType[];
+  oauthProviders: OauthLoginProvider[];
   loginName?: string;
 }
 
@@ -27,7 +23,7 @@ export const Web3WithOauth = ({
   oauthProviders,
   loginName,
 }: Web3WithOauthProps) => {
-  const isGoogle = oauthProviders[0] === GOOGLE_PROVIDER;
+  const isGoogle = oauthProviders[0] === OauthLoginProvider.Google;
 
   return (
     <>

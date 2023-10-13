@@ -1,5 +1,6 @@
+import { OauthLoginProvider } from 'multirpc-sdk';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { OauthProviderType } from 'domains/auth/store/authSlice';
 
 import { Web3WithoutOauth } from './components/Web3WithoutOauth';
 import { Web3WithOauth } from './components/Web3WithOauth';
@@ -14,7 +15,7 @@ interface MenuContentProps {
   onConnect: () => void;
   walletIcon?: string;
   isLoading: boolean;
-  oauthProviders?: OauthProviderType[];
+  oauthProviders?: OauthLoginProvider[];
   loginName?: string;
 }
 

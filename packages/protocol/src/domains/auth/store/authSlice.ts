@@ -15,10 +15,6 @@ import { clearCookie, getCookieByName, setCookie } from './cookie';
 const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';
 let WORKER_TOKEN_DATA: IAuthSlice['workerTokenData'];
 
-export const GOOGLE_PROVIDER = 'google';
-
-export type OauthProviderType = OauthLoginProvider | typeof GOOGLE_PROVIDER;
-
 export interface IAuthSlice {
   address?: string;
   authorizationToken?: string;
@@ -34,8 +30,9 @@ export interface IAuthSlice {
   workerTokenData?: WorkerTokenData;
   isInstantJwtParticipant?: boolean;
   hasWeb3Autoconnect?: boolean;
-  oauthProviders?: OauthProviderType[];
+  oauthProviders?: OauthLoginProvider[];
   loginName?: string;
+  hasGoogleProvider?: boolean;
 }
 
 const initialState: IAuthSlice = {

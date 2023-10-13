@@ -1,7 +1,4 @@
-import {
-  GOOGLE_PROVIDER,
-  OauthProviderType,
-} from 'domains/auth/store/authSlice';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 import { OauthIcon } from '../../../OauthIcon';
 import { GoogleMenuItemButton } from '../../../MenuItemButton/components/GoogleMenuItemButton';
@@ -17,7 +14,7 @@ interface OauthWithoutWeb3Props {
   email?: string;
   loginName?: string;
   isUserEthAddressType: boolean;
-  oauthProviders?: OauthProviderType[];
+  oauthProviders?: OauthLoginProvider[];
 }
 
 export const OauthWithoutWeb3 = ({
@@ -31,7 +28,7 @@ export const OauthWithoutWeb3 = ({
 }: OauthWithoutWeb3Props) => {
   const providers = [...oauthProviders];
   const mainProvider = providers.shift();
-  const isGoogle = mainProvider === GOOGLE_PROVIDER;
+  const isGoogle = mainProvider === OauthLoginProvider.Google;
 
   return (
     <>

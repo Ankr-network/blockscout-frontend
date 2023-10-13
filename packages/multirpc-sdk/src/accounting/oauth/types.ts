@@ -2,6 +2,7 @@ import { IGoogleSecretCodeParams } from '../googleOauth';
 
 export enum OauthLoginProvider {
   Github = 'github',
+  Google = 'google',
 }
 
 export interface IOauthLoginParams {
