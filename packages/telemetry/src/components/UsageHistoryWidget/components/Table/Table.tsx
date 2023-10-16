@@ -4,10 +4,10 @@ import { HeadRow } from '../HeadRow';
 import { TableRow } from '../TableRow';
 import { formatData } from '../../utils/formatData';
 import { useTableSyles } from './TableStyles';
-import { UsageHistoryData } from '../../../../types';
+import { UsageHistoryDataMapped } from '../../../../types';
 
 export interface TableProps {
-  data: UsageHistoryData[];
+  data: UsageHistoryDataMapped[];
   headingTitles: string[];
 }
 

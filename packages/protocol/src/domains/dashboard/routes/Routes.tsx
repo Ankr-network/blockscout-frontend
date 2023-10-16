@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { DashboardRoutesConfig } from './routesConfig';
 
@@ -26,6 +27,7 @@ const LoadableDashboardPlaceholder: LoadableComponent<any> = loadable(
 
 export function DashboardRoutes() {
   const { hasPremium, loading } = useAuth();
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   useRedirectForSmallDevices();
 
@@ -33,9 +35,10 @@ export function DashboardRoutes() {
     return <OverlaySpinner />;
   }
 
-  const Component = hasPremium
-    ? LoadableDashboardContainer
-    : LoadableDashboardPlaceholder;
+  const Component =
+    hasPremium || isEnterpriseClient
+      ? LoadableDashboardContainer
+      : LoadableDashboardPlaceholder;
 
   return (
     <Route

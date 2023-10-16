@@ -5,16 +5,18 @@ import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
 import { Timeframe } from 'domains/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-
-import { useSortType } from '../../../hooks/useSortType';
-import { usePrivateChainsInfo } from './usePrivateChainsInfo';
+import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
+import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
 
 export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);
   const { loading: isConnecting } = useAuth();
 
-  const [privateChains, privateAllChains, privateChainsLoading] =
-    usePrivateChainsInfo();
+  const {
+    chains,
+    allChains,
+    isLoading: privateChainsLoading,
+  } = usePrivateChainsInfo();
 
   const { selectedProject: userEndpointToken } =
     useTokenManagerConfigSelector();
@@ -30,8 +32,8 @@ export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const [searchContent, setSearchContent] = useSearch();
 
   return {
-    chains: privateChains,
-    allChains: privateAllChains,
+    chains,
+    allChains,
     loading: isConnecting || privateChainsLoading,
     setSortType,
     sortType,

@@ -17,16 +17,18 @@ import {
 export interface RoutePlaceholderProps extends RoutePlaceholderStylesProps {
   breadcrumbs: string;
   title: string;
+  shouldSkipRedirect?: boolean;
 }
 
 export const RoutePlaceholder = ({
   breadcrumbs,
   title,
+  shouldSkipRedirect,
   ...stylesProps
 }: RoutePlaceholderProps) => {
   useSetBreadcrumbs([{ title: breadcrumbs }]);
 
-  useRedirectToEnterpriseOnGroupChange();
+  useRedirectToEnterpriseOnGroupChange(shouldSkipRedirect);
 
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 

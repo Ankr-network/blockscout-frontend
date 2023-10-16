@@ -6,14 +6,14 @@ export interface TableRowProps {
 }
 
 export const TableRow = ({ data }: TableRowProps) => {
-  const { calls, isFirst, length, month, opacity } = data;
+  const { isFirst, length, month, opacity, formattedCallsValue } = data;
 
   const { classes } = useTableRowStyles({ length, isFirst, opacity });
 
   return (
     <div className={classes.row}>
       <div className={classes.cell}>{month}</div>
-      <div className={classes.cell}>{calls}</div>
+      <div className={classes.cell}>{formattedCallsValue}</div>
       <div className={classes.cell}>
         <div className={classes.line} />
       </div>

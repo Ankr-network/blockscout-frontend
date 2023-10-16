@@ -1,17 +1,14 @@
 import { useEffect } from 'react';
 
-import { Chain } from 'domains/chains/types';
 import { useLazyChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
-
-export type PrivateChains = [Chain[], Chain[], boolean];
 
 const defaultData = {
   chains: [],
   allChains: [],
 };
 
-export const usePrivateChainsInfo = (): PrivateChains => {
+export const usePrivateChainsInfo = (skipFetching?: boolean) => {
   const userEndpointToken = useUserEndpointToken();
 
   const [
@@ -20,12 +17,12 @@ export const usePrivateChainsInfo = (): PrivateChains => {
   ] = useLazyChainsFetchPrivateChainsInfoQuery();
 
   useEffect(() => {
-    if (userEndpointToken) {
+    if (!skipFetching) {
       fetchPrivateChainsInfo({
         userEndpointToken,
       });
     }
-  }, [fetchPrivateChainsInfo, userEndpointToken]);
+  }, [fetchPrivateChainsInfo, userEndpointToken, skipFetching]);
 
-  return [chains, allChains, isLoading];
+  return { chains, allChains, isLoading };
 };

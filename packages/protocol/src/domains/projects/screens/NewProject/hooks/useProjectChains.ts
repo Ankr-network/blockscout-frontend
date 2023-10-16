@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 
-import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
+import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
 import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 
 export type ProjectChain = Chain & {
   beaconsMainnet?: Chain[];
@@ -78,13 +79,13 @@ const mapProjectChains = (chain: Chain) => {
 };
 
 export const useProjectChains = () => {
-  const [chains = [], allChains, isLoading] = usePrivateChainsInfo();
+  const userEndpointToken = useUserEndpointToken();
+  const skipChainsFetching = !userEndpointToken;
+
+  const { chains, allChains, isLoading } =
+    usePrivateChainsInfo(skipChainsFetching);
 
   const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
-  return {
-    projectChains,
-    allChains,
-    isLoading,
-  };
+  return { allChains, isLoading, projectChains };
 };

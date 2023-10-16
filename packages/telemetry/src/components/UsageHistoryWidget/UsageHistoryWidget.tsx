@@ -1,18 +1,18 @@
 import { Paper, SxProps } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { ScrollableContainer } from '../ScrollableContainer';
 import { Table } from './components/Table';
 import { Title } from '../Title';
 import { useUsageHistoryWidgetStyles } from './UsageHistoryWidgetStyles';
-import { UsageHistoryData } from '../../types';
-import { Theme } from '@mui/material/styles';
+import { UsageHistoryDataMapped } from '../../types';
 
 export interface UsageHistoryWidgetProps {
   className: string;
   title: string;
   headingTitles: string[];
-  data: UsageHistoryData[];
+  data: UsageHistoryDataMapped[];
   sx?: SxProps<Theme>;
 }
 

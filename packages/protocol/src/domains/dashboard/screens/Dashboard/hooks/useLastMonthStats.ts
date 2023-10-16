@@ -3,8 +3,10 @@ import { useEffect, useRef } from 'react';
 import { useLazyFetchLastMonthStatsQuery } from 'domains/dashboard/actions/fetchLastMonthStats';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 export const useLastMonthStats = (isChainSelected: boolean) => {
+  const { gateway } = useMultiServiceGateway();
   const [fetch] = useLazyFetchLastMonthStatsQuery();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
@@ -18,10 +20,14 @@ export const useLastMonthStats = (isChainSelected: boolean) => {
     if (!isChainSelected) {
       if (isGroupChanged) {
         groupRef.current = group;
-        fetch({ group });
+        fetch({ group, gateway });
       }
 
-      fetch({ group, userEndpointToken: selectedProjectEndpointToken });
+      fetch({
+        group,
+        userEndpointToken: selectedProjectEndpointToken,
+        gateway,
+      });
     }
-  }, [fetch, group, isChainSelected, selectedProjectEndpointToken]);
+  }, [fetch, group, isChainSelected, selectedProjectEndpointToken, gateway]);
 };

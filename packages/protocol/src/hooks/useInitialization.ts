@@ -21,14 +21,14 @@ export const useInitialization = (isLoggedIn: boolean) => {
 
   const shouldInitialize = !isReactSnap && isLoggedIn;
 
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseStatusFetch(shouldInitialize);
 
   const skipFetchingBase =
     isReactSnap ||
     !isLoggedIn ||
     isEnterpriseClient ||
-    isLoadingEnterpriseStatus;
+    isEnterpriseStatusLoading;
 
   const skipFetchingBilling = skipFetchingBase || !hasBillingRoleAccess;
 
