@@ -28,7 +28,7 @@ export const {
           const service = MultiService.getService();
           const enterpriseGateway = service.getEnterpriseGateway();
 
-          const data = await enterpriseGateway.getEnterpriseStatsByPremiumId(
+          const data = await enterpriseGateway.getPrivateStatsByPremiumId(
             interval,
             userEndpointToken,
           );

@@ -24,8 +24,12 @@ export interface BaseTableDataProps {
 export type BaseTableData = BaseTableDataProps;
 
 export interface UsageHistoryData {
-  calls: number | string;
+  calls: number;
   month: string;
+}
+
+export interface UsageHistoryDataMapped extends UsageHistoryData {
+  formattedCallsValue: string;
 }
 
 export type TranslationNumberFn = (value: number) => string;

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { MutableRefObject, ReactNode, useRef } from 'react';
 import { useTheme } from '@mui/material';
 import {
   Area,
@@ -13,7 +13,6 @@ import { BaseAxisProps } from 'recharts/types/util/types';
 
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
-import { useYAxisWidth } from './hooks/useYAxisWidth';
 import { TranslationRequestWidget } from '../../types';
 
 export interface IChartData {
@@ -43,7 +42,7 @@ export const Chart = ({
   loading,
   hasFixedHeight = true,
 }: IChartProps) => {
-  const [ref, yAxisWidth] = useYAxisWidth();
+  const ref = useRef<MutableRefObject<HTMLElement>>();
 
   const theme = useTheme();
   const { classes, cx } = useStyles();
@@ -81,7 +80,6 @@ export const Chart = ({
           tickFormatter={xAxisTickFormatter}
         />
         <YAxis
-          width={yAxisWidth}
           tickLine={false}
           tick={{ fill: theme.palette.text.secondary, dx: -5 }}
           stroke=""

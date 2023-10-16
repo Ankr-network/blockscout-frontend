@@ -23,7 +23,7 @@ export const useNegativeBalanceTermsOfServices = () => {
 
   const shouldShowUserGroupDialog = useHasUserGroupDialog();
 
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const [
@@ -48,7 +48,7 @@ export const useNegativeBalanceTermsOfServices = () => {
       !authLoading &&
       hasGroupAccess &&
       !isEnterpriseClient &&
-      !isLoadingEnterpriseStatus;
+      !isEnterpriseStatusLoading;
 
     if (shouldFetchTos) {
       const fetchParams = group ? { group } : undefined;
@@ -62,7 +62,7 @@ export const useNegativeBalanceTermsOfServices = () => {
     group,
     hasGroupAccess,
     isEnterpriseClient,
-    isLoadingEnterpriseStatus,
+    isEnterpriseStatusLoading,
   ]);
 
   const shouldShowDialog = useMemo(
@@ -79,7 +79,7 @@ export const useNegativeBalanceTermsOfServices = () => {
         hasGroupAccess,
         isErrorTosAcceptStatus,
         isEnterpriseClient,
-        isLoadingEnterpriseStatus,
+        isEnterpriseStatusLoading,
         isLoadingGroups,
       }),
     [
@@ -94,7 +94,7 @@ export const useNegativeBalanceTermsOfServices = () => {
       hasGroupAccess,
       isErrorTosAcceptStatus,
       isEnterpriseClient,
-      isLoadingEnterpriseStatus,
+      isEnterpriseStatusLoading,
       isLoadingGroups,
     ],
   );

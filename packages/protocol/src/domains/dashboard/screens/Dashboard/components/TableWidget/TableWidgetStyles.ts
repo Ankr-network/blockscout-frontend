@@ -51,7 +51,7 @@ export const useTableWidgetStyles = makeStyles()(theme => {
       gap: theme.spacing(2),
       borderTop: `1px solid ${theme.palette.grey[100]}`,
 
-      '&:nth-child(2)': {
+      '&:nth-of-type(2)': {
         [theme.breakpoints.up('xl')]: {
           borderTop: 'none',
         },

@@ -12,16 +12,16 @@ interface IGuardAuthEnterpriseRouteProps {
 export const GuardAuthEnterpriseRoute = ({
   children,
 }: IGuardAuthEnterpriseRouteProps): JSX.Element | null => {
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const history = useHistory();
 
   useEffect(() => {
-    if (!isLoadingEnterpriseStatus && !isEnterpriseClient && !isReactSnap) {
+    if (!isEnterpriseStatusLoading && !isEnterpriseClient && !isReactSnap) {
       history.replace(INDEX_PATH);
     }
-  }, [history, isEnterpriseClient, isLoadingEnterpriseStatus]);
+  }, [history, isEnterpriseClient, isEnterpriseStatusLoading]);
 
   return isEnterpriseClient || isReactSnap ? <>{children}</> : null;
 };

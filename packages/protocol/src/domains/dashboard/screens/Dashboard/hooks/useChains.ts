@@ -1,7 +1,7 @@
 import { SortType } from 'domains/chains/types';
 import { processTestnetOnlyChains } from 'domains/mmChains/screens/Chains/utils/processTestnetOnlyChains';
 import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
-import { usePrivateChainsData } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsData';
+import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 
 export const useChains = () => {
   const { chains, allChains, timeframe, timeframeTabs, isLoading, error } =

@@ -7,6 +7,7 @@ import { ChainID, Timeframe } from 'domains/chains/types';
 import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
@@ -35,13 +36,25 @@ export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
+  const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
+
   useEffect(() => {
-    fetchTop10Stats({
-      intervalType: timeframeToIntervalMap[timeframe],
-      group,
-      blockchain,
-    });
-  }, [fetchTop10Stats, timeframe, group, blockchain]);
+    if (!isEnterpriseStatusLoading) {
+      fetchTop10Stats({
+        intervalType: timeframeToIntervalMap[timeframe],
+        group,
+        blockchain,
+        gateway,
+      });
+    }
+  }, [
+    fetchTop10Stats,
+    timeframe,
+    group,
+    blockchain,
+    gateway,
+    isEnterpriseStatusLoading,
+  ]);
 
   const countries = useMemo(() => {
     return top10Data?.countries?.map(mapCountries) || [];

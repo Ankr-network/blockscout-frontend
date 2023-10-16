@@ -1,7 +1,9 @@
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export const useDashboardProjects = () => {
-  const { hasReadAccess: shouldShowTokenManager } = useJwtManager();
+  const { hasReadAccess } = useJwtManager();
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
-  return { shouldShowTokenManager };
+  return { shouldShowTokenManager: isEnterpriseClient || hasReadAccess };
 };

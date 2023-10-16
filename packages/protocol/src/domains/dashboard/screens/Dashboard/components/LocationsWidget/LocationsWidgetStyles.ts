@@ -54,7 +54,7 @@ export const useLocationsWidgetStyles = makeStyles()(theme => {
       borderTop: `1px solid ${theme.palette.grey[100]}`,
       alignItems: 'center',
 
-      '&:nth-child(2)': {
+      '&:nth-of-type(2)': {
         [theme.breakpoints.up('xl')]: {
           borderTop: 'none',
         },

@@ -5,9 +5,8 @@ import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
 import { Timeframe } from 'domains/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-
-import { useSortType } from '../../../hooks/useSortType';
-import { usePrivateChainsInfo } from './usePrivateChainsInfo';
+import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
+import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
 
 export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { timeframe, timeframeTabs } = useTimeframe(Timeframe.Month);
