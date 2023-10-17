@@ -103,14 +103,10 @@ export const useProjectChains = () => {
   const userEndpointToken = useUserEndpointToken();
   const skipChainsFetching = !userEndpointToken;
 
-  const {
-    allChains,
-    chains = [],
-    isLoading,
-    isUninitialized,
-  } = usePrivateChainsInfo(skipChainsFetching);
+  const { chains, allChains, isLoading, isUninitialized } =
+    usePrivateChainsInfo(skipChainsFetching);
 
   const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
-  return { allChains, isLoading, isUninitialized, projectChains };
+  return { allChains, isLoading, projectChains, isUninitialized };
 };

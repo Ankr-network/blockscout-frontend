@@ -13,8 +13,8 @@ export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const { loading: isConnecting } = useAuth();
 
   const {
-    chains: privateChains,
-    allChains: privateAllChains,
+    chains,
+    allChains,
     isLoading: privateChainsLoading,
   } = usePrivateChainsInfo();
 
@@ -32,8 +32,8 @@ export const usePrivateChainsData = (ignoreJwtManager?: boolean) => {
   const [searchContent, setSearchContent] = useSearch();
 
   return {
-    chains: privateChains,
-    allChains: privateAllChains,
+    chains,
+    allChains,
     loading: isConnecting || privateChainsLoading,
     setSortType,
     sortType,
