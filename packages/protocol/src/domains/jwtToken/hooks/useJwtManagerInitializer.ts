@@ -18,7 +18,7 @@ export const useJwtManagerInitializer = ({
 }: UseJwtManagerInitializerParams) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const [fetch, , reset] = useQueryEndpoint(fetchAllowedJwtTokensCount);
@@ -33,7 +33,7 @@ export const useJwtManagerInitializer = ({
     !skipFetching &&
     hasAccess &&
     !isEnterpriseClient &&
-    !isLoadingEnterpriseStatus;
+    !isEnterpriseStatusLoading;
 
   useEffect(() => {
     if (shouldFetch) {

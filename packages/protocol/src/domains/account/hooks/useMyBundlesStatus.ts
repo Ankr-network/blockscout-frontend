@@ -20,13 +20,13 @@ export const useMyBundlesStatus = ({
   skipFetching = false,
 }: MyBundlesStatusParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const [fetch] = useLazyFetchMyBundlesStatusQuery();
 
   useEffect(() => {
-    if (!skipFetching && !isEnterpriseClient && !isLoadingEnterpriseStatus) {
+    if (!skipFetching && !isEnterpriseClient && !isEnterpriseStatusLoading) {
       const { unsubscribe } = fetch(group);
 
       return unsubscribe;
@@ -38,7 +38,7 @@ export const useMyBundlesStatus = ({
     group,
     skipFetching,
     isEnterpriseClient,
-    isLoadingEnterpriseStatus,
+    isEnterpriseStatusLoading,
   ]);
 
   const statuses = useAppSelector(selectMyBundlesStatus);

@@ -8,14 +8,14 @@ export const useAuthCodeInputStyles = makeStyles<boolean>()(
       justifyContent: 'space-between',
       gap: theme.spacing(3),
 
-      '& input: nth-child(3)': {
+      '& input: nth-of-type(3)': {
         marginRight: theme.spacing(10),
       },
 
       [theme.breakpoints.down('sm')]: {
         gap: theme.spacing(1.5),
 
-        '& input: nth-child(3)': {
+        '& input: nth-of-type(3)': {
           marginRight: theme.spacing(0),
         },
       },

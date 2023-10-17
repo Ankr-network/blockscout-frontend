@@ -8,3 +8,7 @@ export interface ChainCalls {
   calls: number;
   name: string;
 }
+
+export interface ChainCallsMapped extends ChainCalls {
+  formattedCallsValue: string;
+}

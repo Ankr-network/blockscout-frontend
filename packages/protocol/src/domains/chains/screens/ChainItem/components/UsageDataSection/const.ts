@@ -66,5 +66,13 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SEI_RPC]: ChainID.SEI,
 };
 
-export const checkPrivateChainsAndGetChainId = (chainId: ChainID) =>
-  PRIVATE_CHAIN_ID_LINK_MAP[chainId] || chainId;
+export const checkPrivateChainsAndGetChainId = (
+  chainId: ChainID,
+  ignoredIds?: ChainID[],
+) => {
+  if (ignoredIds?.includes(chainId)) {
+    return chainId;
+  }
+
+  return PRIVATE_CHAIN_ID_LINK_MAP[chainId] || chainId;
+};

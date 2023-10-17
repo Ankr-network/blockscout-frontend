@@ -56,10 +56,9 @@ const checkIsChainsRoute = (
 
 export const getCommonMenuList = (
   onDashboardClick: () => void,
-  isEnterpriseClient: boolean,
 ): NavigationItem[] => [
   {
-    isDisabled: isEnterpriseClient,
+    isDisabled: false,
     StartIcon: Dashboard,
     ActiveIcon: Dashboard,
     href: DashboardRoutesConfig.dashboard.generatePath(),

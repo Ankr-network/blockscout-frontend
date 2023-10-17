@@ -11,6 +11,6 @@ export const useEnterpriseClientStatus = () => {
 
   return {
     isEnterpriseClient: error ? false : isEnterpriseClient,
-    isLoadingEnterpriseStatus: isLoading || isUninitialized,
+    isEnterpriseStatusLoading: isLoading || isUninitialized,
   };
 };

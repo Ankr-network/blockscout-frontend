@@ -5,13 +5,15 @@ import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClien
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
-export const useRedirectToEnterpriseOnGroupChange = () => {
+export const useRedirectToEnterpriseOnGroupChange = (
+  shouldSkipRedirect?: boolean,
+) => {
   const { push } = useHistory();
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   useEffect(() => {
-    if (isEnterpriseClient && !isReactSnap) {
+    if (isEnterpriseClient && !isReactSnap && !shouldSkipRedirect) {
       push(EnterpriseRoutesConfig.chains.generatePath());
     }
-  }, [isEnterpriseClient, push]);
+  }, [isEnterpriseClient, push, shouldSkipRedirect]);
 };

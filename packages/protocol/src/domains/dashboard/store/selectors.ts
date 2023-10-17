@@ -202,8 +202,11 @@ export const selectProjectsStats = createSelector(
 export const selectTotalStats = createSelector(
   fetchUserTotalStats.select({}),
   selectSelectedProject,
-  ({ data }, project) =>
-    project ? data?.premium_tokens?.[maskUserEndpointToken(project)] : data,
+  ({ data }, project) => {
+    const token = maskUserEndpointToken(project);
+
+    return token ? data?.premium_tokens?.[token] : data;
+  },
 );
 
 export const selectAllTimeTotalRequestsNumber = createSelector(
