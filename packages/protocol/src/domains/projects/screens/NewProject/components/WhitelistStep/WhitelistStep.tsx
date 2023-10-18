@@ -44,7 +44,7 @@ export const WhitelistStep = () => {
     const updatedWhitelistItems = (
       whitelistItems as AddToWhitelistFormData[]
     ).filter(item =>
-      item.chains.every(chain => allSelectedChainIds.includes(chain)),
+      item.chains?.every(chain => allSelectedChainIds.includes(chain)),
     );
 
     onChange(WhitelistStepFields.whitelistItems, updatedWhitelistItems);

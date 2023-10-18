@@ -1,5 +1,5 @@
 import { t } from '@ankr.com/common';
-import { ButtonBase, Menu, Typography } from '@mui/material';
+import { Menu, Typography, Button } from '@mui/material';
 import { ArrowDown } from '@ankr.com/ui';
 import { useCallback } from 'react';
 import { useForm } from 'react-final-form';
@@ -64,11 +64,19 @@ export const AddWhitelistMenuButton = ({
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
+  const isButtonDisabled =
+    isAddingDomainDisabled &&
+    isAddingIPDisabled &&
+    isAddingSmartContractDisabled;
+
   return (
     <>
-      <ButtonBase
-        className={cx(classes.menuButton, className)}
+      <Button
+        className={cx(classes.menuButton, className, {
+          [classes.disabled]: isButtonDisabled,
+        })}
         onClick={handleOpen}
+        disabled={isButtonDisabled}
       >
         <Typography variant="body2" className={classes.menuButtonLabel}>
           {t(
@@ -78,7 +86,7 @@ export const AddWhitelistMenuButton = ({
           )}
           <ArrowDown className={classes.menuButtonIcon} />
         </Typography>
-      </ButtonBase>
+      </Button>
 
       <Menu
         MenuListProps={{
