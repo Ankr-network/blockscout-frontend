@@ -28,6 +28,7 @@ export enum WhitelistStepFields {
   shouldSkipFormReset = 'shouldSkipFormReset',
   indexOfEditingWhitelistItem = 'indexOfEditingWhitelistItem',
   isEditingWhitelistDialog = 'isEditingWhitelistDialog',
+  isCheckedOut = 'isCheckedOut',
 }
 
 export enum PlanStepFields {
@@ -68,6 +69,7 @@ export interface NewProjectType {
     [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;
     [WhitelistStepFields.shouldSkipFormReset]?: boolean;
     [WhitelistStepFields.indexOfEditingWhitelistItem]?: number;
+    [WhitelistStepFields.isCheckedOut]?: boolean;
   };
 }
 

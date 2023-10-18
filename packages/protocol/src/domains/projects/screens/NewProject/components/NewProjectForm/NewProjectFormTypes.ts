@@ -17,6 +17,7 @@ export interface NewProjectFormProps {
   ) => void;
   onBackClick: () => void;
   isLoading: boolean;
+  isSuccess: boolean;
 }
 
 export interface NewProjectFormValues {

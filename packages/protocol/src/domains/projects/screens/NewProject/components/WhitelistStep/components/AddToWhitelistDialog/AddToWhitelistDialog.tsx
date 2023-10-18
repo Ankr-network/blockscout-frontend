@@ -3,11 +3,13 @@ import { Box, Button, Typography } from '@mui/material';
 
 import { Dialog } from 'uiKit/Dialog';
 import { useProjectFormValues } from 'domains/projects/screens/NewProject/hooks/useProjectFormValues';
+import { WhiteListItem } from 'domains/projects/types';
 
 import { useAddToWhitelistDialogStyles } from './useAddToWhitelistDialogStyles';
 import { AddAndEditWhitelistItemForm } from './components/AddAndEditWhitelistItemForm';
 import { getTitle } from './AddToWhitelistDialogUtils';
 import { getDialogDescription } from './components/AddAndEditWhitelistItemForm/AddToWhitelistFormUtils';
+import { ContractAttention } from './components/ContractAttention';
 
 interface AddToWhitelistDialogProps {
   isOpen: boolean;
@@ -38,6 +40,7 @@ export const AddToWhitelistDialog = ({
         >
           {getDialogDescription(type)}
         </Typography>
+        {type === WhiteListItem.address && <ContractAttention />}
 
         <AddAndEditWhitelistItemForm onClose={onClose} />
 

@@ -1,7 +1,7 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
+import { projectApi } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 
@@ -17,7 +17,7 @@ export interface AddToWhitelistParams extends IApiUserGroupParams {
 export const {
   useLazyAddToWhitelistQuery,
   endpoints: { addToWhitelist },
-} = web3Api.injectEndpoints({
+} = projectApi.injectEndpoints({
   endpoints: build => ({
     addToWhitelist: build.query<null, TwoFAQueryFnParams<AddToWhitelistParams>>(
       {

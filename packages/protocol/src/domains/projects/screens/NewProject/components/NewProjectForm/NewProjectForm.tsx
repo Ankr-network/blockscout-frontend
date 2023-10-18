@@ -14,15 +14,21 @@ import { useInitialValues } from './hooks/useInitialValues';
 import { Footer } from '../Footer';
 import { Header } from '../Header';
 import { useNewProjectFormStyles } from './useNewProjectFormStyles';
+import { SummaryDialog } from './components/SummaryDialog';
 
 export const NewProjectForm = ({
   step,
   onSubmit,
   onBackClick,
   isLoading,
+  isSuccess,
 }: NewProjectFormProps) => {
   const { classes } = useNewProjectFormStyles();
-  const handleFormSubmit = useHandleSubmit(step, onSubmit);
+  const {
+    handleSubmit: handleFormSubmit,
+    isOpened,
+    onClose,
+  } = useHandleSubmit(step, onSubmit);
 
   const initialValues = useInitialValues();
 
@@ -69,16 +75,31 @@ export const NewProjectForm = ({
             step={step}
             isNextButtonDisabled={isNextButtonDisabled}
             onBackClick={onBackClick}
+            isLoading={isLoading}
             shouldShowSkipButton={
               step === NewProjectStep.Whitelist &&
               (!whitelistItems || whitelistItems?.length === 0)
             }
+          />
+          <SummaryDialog
+            isOpened={isOpened}
+            onClose={onClose}
             isLoading={isLoading}
+            isSuccess={isSuccess}
           />
         </form>
       );
     },
-    [step, classes.contentWrapper, classes.root, onBackClick, isLoading],
+    [
+      step,
+      classes.contentWrapper,
+      classes.root,
+      onBackClick,
+      isLoading,
+      isOpened,
+      onClose,
+      isSuccess,
+    ],
   );
 
   return (

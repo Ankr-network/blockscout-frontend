@@ -6,7 +6,7 @@ export const useAddToWhitelistDialogStyles = makeStyles()(theme => ({
   },
   description: {
     color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(6),
+    marginBottom: theme.spacing(4),
     lineHeight: '22.4px',
   },
 }));
