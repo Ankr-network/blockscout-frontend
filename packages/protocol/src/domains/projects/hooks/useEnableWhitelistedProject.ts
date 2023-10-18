@@ -1,17 +1,26 @@
 import { useEffect } from 'react';
 
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { NewProjectStep } from 'domains/projects/types';
 
 import { useEnableWhitelist } from './useEnableWhitelist';
 
 export const useEnableWhitelistedProject = (hasReason: boolean) => {
-  const { project = {}, projectStep } = useProjectConfig();
+  const { project = {} } = useProjectConfig();
 
-  const { handleEnableWhitelist } = useEnableWhitelist();
+  const { handleEnableWhitelist, isLoading, userEndpointToken } =
+    useEnableWhitelist();
 
   useEffect(() => {
-    if (hasReason) {
+    const isCheckedOut = project?.[NewProjectStep.Whitelist]?.isCheckedOut;
+
+    if (isCheckedOut && hasReason) {
       handleEnableWhitelist();
     }
-  }, [handleEnableWhitelist, project, projectStep, hasReason]);
+  }, [handleEnableWhitelist, project, hasReason]);
+
+  return {
+    isLoading,
+    userEndpointToken,
+  };
 };

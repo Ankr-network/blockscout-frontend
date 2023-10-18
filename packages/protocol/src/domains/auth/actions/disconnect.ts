@@ -1,7 +1,7 @@
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { resetAuthData, selectAuthData } from 'domains/auth/store/authSlice';
 import { trackSignOut } from 'modules/analytics/mixpanel/trackSignOut';
-import { web3Api } from 'store/queries';
+import { web3Api, projectApi } from 'store/queries';
 import { RootState } from 'store';
 import {
   resetUserGroupConfig,
@@ -23,6 +23,7 @@ export const {
         dispatch(resetAuthData());
 
         dispatch(web3Api.util.resetApiState());
+        dispatch(projectApi.util.resetApiState());
 
         trackSignOut();
 

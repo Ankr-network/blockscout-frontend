@@ -19,11 +19,26 @@ import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 import { EmptyList } from './components/EmptyList';
 import { WhitelistItemsCounter } from './components/WhitelistItemsCounter';
 import { AddWhitelistMenuButton } from './components/AddWhitelistMenuButton';
+import { AddContractDialog } from './components/AddContractDialog';
 
+let wasAddWhitelistDialogOpened = false;
+
+/* eslint-disable max-lines-per-function */
 export const WhitelistStep = () => {
   const { classes } = useWhitelistStepStyles();
 
-  const { isOpened, onClose, onOpen } = useDialog();
+  const {
+    isOpened: isAddToWhitelistDialogOpened,
+    onClose: onAddToWhitelistDialogClose,
+    onOpen: onAddToWhitelistDialogOpen,
+  } = useDialog();
+
+  const {
+    isOpened: isAddContractDialogOpened,
+    onClose: onAddContractDialogClose,
+    onOpen: onAddContractDialogOpen,
+  } = useDialog();
+
   const { allSelectedChainIds, whitelistItems, onChange } =
     useProjectFormValues();
   const { handleSetStepConfig } = useProjectConfig();
@@ -35,10 +50,31 @@ export const WhitelistStep = () => {
     isAddingSmartContractAllowed,
   } = useWhitelistData();
 
-  const handleOpenAddWhitelist = useCallback(() => {
-    onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
-    onOpen();
-  }, [onChange, onOpen]);
+  const handleWhitelistDialogOpen = useCallback(
+    (type?: WhiteListItem) => {
+      if (type === WhiteListItem.address && !wasAddWhitelistDialogOpened) {
+        onAddContractDialogOpen();
+      } else {
+        onAddToWhitelistDialogOpen();
+      }
+    },
+    [onAddContractDialogOpen, onAddToWhitelistDialogOpen],
+  );
+
+  const handleOpenAddWhitelist = useCallback(
+    (type?: WhiteListItem) => {
+      onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
+      handleWhitelistDialogOpen(type);
+    },
+    [onChange, handleWhitelistDialogOpen],
+  );
+
+  const handleAddContractDialogNext = useCallback(() => {
+    wasAddWhitelistDialogOpened = true;
+
+    onAddToWhitelistDialogOpen();
+    onAddContractDialogClose();
+  }, [onAddToWhitelistDialogOpen, onAddContractDialogClose]);
 
   useOnMount(() => {
     const updatedWhitelistItems = (
@@ -77,7 +113,7 @@ export const WhitelistStep = () => {
           isAddingDomainDisabled={isAddingDomainDisabled}
           isAddingIPDisabled={isAddingIPDisabled}
           isAddingSmartContractDisabled={isAddingSmartContractDisabled}
-          onWhitelistDialogOpen={onOpen}
+          onWhitelistDialogOpen={handleWhitelistDialogOpen}
         />
       ) : (
         <>
@@ -94,7 +130,10 @@ export const WhitelistStep = () => {
             <WhitelistItemsCounter type={WhiteListItem.address} />
           </div>
 
-          <Table data={data} onWhitelistDialogOpen={onOpen} />
+          <Table
+            data={data}
+            onWhitelistDialogOpen={handleWhitelistDialogOpen}
+          />
 
           <AddWhitelistMenuButton
             isSetupMode={false}
@@ -106,7 +145,15 @@ export const WhitelistStep = () => {
         </>
       )}
 
-      <AddToWhitelistDialog isOpen={isOpened} onClose={onClose} />
+      <AddContractDialog
+        isOpen={isAddContractDialogOpened}
+        onClose={onAddContractDialogClose}
+        onNext={handleAddContractDialogNext}
+      />
+      <AddToWhitelistDialog
+        isOpen={isAddToWhitelistDialogOpened}
+        onClose={onAddToWhitelistDialogClose}
+      />
     </>
   );
 };

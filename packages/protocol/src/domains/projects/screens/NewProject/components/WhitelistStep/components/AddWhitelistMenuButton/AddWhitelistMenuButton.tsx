@@ -18,7 +18,7 @@ export interface IAddWhitelistMenuButtonProps {
   isAddingSmartContractDisabled: boolean;
   isSetupMode: boolean;
   className?: string;
-  onWhitelistDialogOpen: () => void;
+  onWhitelistDialogOpen: (type: WhiteListItem) => void;
 }
 
 export const AddWhitelistMenuButton = ({
@@ -44,7 +44,7 @@ export const AddWhitelistMenuButton = ({
     change(WhitelistStepFields.whitelistDialog, {
       type: WhiteListItem.referer,
     });
-    onWhitelistDialogOpen();
+    onWhitelistDialogOpen(WhiteListItem.referer);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
@@ -52,7 +52,7 @@ export const AddWhitelistMenuButton = ({
     change(WhitelistStepFields.whitelistDialog, {
       type: WhiteListItem.ip,
     });
-    onWhitelistDialogOpen();
+    onWhitelistDialogOpen(WhiteListItem.ip);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
@@ -60,7 +60,7 @@ export const AddWhitelistMenuButton = ({
     change(WhitelistStepFields.whitelistDialog, {
       type: WhiteListItem.address,
     });
-    onWhitelistDialogOpen();
+    onWhitelistDialogOpen(WhiteListItem.address);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 

@@ -34,16 +34,9 @@ export const EmptyList = ({
         {t(`${intlKey}.title`)}
       </Typography>
 
-      <div className={classes.descriptionRoot}>
-        <Typography variant="body1" color="textSecondary">
-          {t(`${intlKey}.feel-secure`)}
-        </Typography>
-
-        <div>
-          <DescriptionCase text={t(`${intlKey}.secure-project`)} />
-          <DescriptionCase text={t(`${intlKey}.control-interaction`)} />
-          <DescriptionCase text={t(`${intlKey}.know-users`)} />
-        </div>
+      <div className={classes.description}>
+        <DescriptionCase text={t(`${intlKey}.control-interaction`)} />
+        <DescriptionCase text={t(`${intlKey}.smart-contracts`)} />
       </div>
 
       <AddWhitelistMenuButton

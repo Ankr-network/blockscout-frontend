@@ -11,6 +11,8 @@ interface IInfoCardProps {
   align: Align;
   titleClassName?: string;
   descriptionClassName?: string;
+  imgUrl?: string;
+  className?: string;
 }
 
 export const InfoCard = ({
@@ -20,11 +22,14 @@ export const InfoCard = ({
   align,
   titleClassName,
   descriptionClassName,
+  imgUrl,
+  className,
 }: IInfoCardProps) => {
   const { classes, cx } = useStyles(align);
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={cx(classes.paper, className)}>
+      {imgUrl && <img alt="" className={classes.image} src={imgUrl} />}
       <Typography variant="h4" className={cx(classes.title, titleClassName)}>
         {title}
       </Typography>

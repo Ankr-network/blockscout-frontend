@@ -197,5 +197,6 @@ export const useEnableWhitelist = () => {
       isAddToWhitelistLoading ||
       isWhitelistModeLoading ||
       isJwtTokenFreezeStatusLoading,
+    userEndpointToken,
   };
 };
