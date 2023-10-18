@@ -24,7 +24,7 @@ export const {
 
         const result = await service
           .getEnterpriseGateway()
-          .getEnterpriseStats(PrivateStatsInterval.MONTH, group);
+          .getPrivateStats(PrivateStatsInterval.MONTH, group);
 
         return { data: getEnterpriseStats(result) };
       }),

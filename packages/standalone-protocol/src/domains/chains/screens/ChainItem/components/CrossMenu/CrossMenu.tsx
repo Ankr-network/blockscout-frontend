@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { IconButton } from '@material-ui/core';
 import classNames from 'classnames';
 import { PROTOCOL_URL } from 'Routes';
 
 import { t } from 'modules/i18n/utils/intl';
-import { useIsMDUp } from 'modules/themes/useTheme';
+import { useIsLightTheme, useIsMDUp } from 'modules/themes/useTheme';
 import { ReactComponent as MenuIcon } from 'assets/img/menu.svg';
 import { ReactComponent as CloseIcon } from 'assets/img/close.svg';
 import { ReactComponent as AnkrLogo } from 'assets/img/logo/ankr.svg';
@@ -27,10 +27,11 @@ export const CrossMenu = ({
   isMobileSiderBar = false,
 }: ICrossMenuProps) => {
   const classes = useCrossMenuStyles();
+  const isLightTheme = useIsLightTheme();
 
   const menuList = useMemo(
-    () => getMenuList(isMobileSiderBar),
-    [isMobileSiderBar],
+    () => getMenuList(isMobileSiderBar, isLightTheme),
+    [isMobileSiderBar, isLightTheme],
   );
 
   const [open, setOpen] = useState(false);

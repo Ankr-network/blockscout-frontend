@@ -12,7 +12,7 @@ export const aggregateTotalRequestsNumber = ({
   ids,
   stats = {},
 }: AggregateTotalRequestsNumberParams) =>
-  [...new Set(ids.map(checkPrivateChainsAndGetChainId))].reduce(
+  [...new Set(ids.map(id => checkPrivateChainsAndGetChainId(id)))].reduce(
     (result, id) => result + (stats[id]?.total_requests ?? 0),
     0,
   );

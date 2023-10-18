@@ -1,16 +1,23 @@
 import { useEffect } from 'react';
 
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 import { useLazyFetchUserTotalStatsQuery } from 'domains/dashboard/actions/fetchUserTotalStats';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useUserTotalStats = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
+  const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
+
   const [fetch] = useLazyFetchUserTotalStatsQuery();
 
   useEffect(() => {
-    const { unsubscribe } = fetch({ group });
+    if (!isEnterpriseStatusLoading) {
+      const { abort } = fetch({ group, gateway });
 
-    return unsubscribe;
-  }, [fetch, group]);
+      return abort;
+    }
+
+    return () => {};
+  }, [group, fetch, gateway, isEnterpriseStatusLoading]);
 };

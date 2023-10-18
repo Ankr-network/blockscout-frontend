@@ -12,7 +12,7 @@ const ITEM_HEIGHT = 48;
 const ANKR_HEIGHT = 66;
 const MENU_TOP = 60;
 
-const menuList = getMenuList(false);
+const menuList = getMenuList(false, false);
 const MENU_ITEMS = menuList.length;
 
 // eslint-disable-next-line max-lines-per-function
@@ -160,7 +160,7 @@ export const useCrossMenuStyles = makeStyles<Theme>(theme => ({
       display: 'block',
     },
 
-    '&:hover svg': {
+    '&:hover svg, &:hover img': {
       width: 36,
       height: 36,
     },

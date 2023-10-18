@@ -1,7 +1,11 @@
-import { AccountingGateway, IApiPrivateStats } from 'multirpc-sdk';
+import {
+  AccountingGateway,
+  IApiPrivateStats,
+  EnterpriseGateway,
+} from 'multirpc-sdk';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { MultiService } from 'modules/api/MultiService';
+import { accountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
@@ -20,7 +24,7 @@ export interface AllProjectsStatsParams extends ProjectsStatsParams {
 const getProjectStatsPromise = async (
   { index, userEndpointToken, name }: JwtManagerToken,
   { group, interval }: ProjectsStatsParams,
-  api: AccountingGateway,
+  api: AccountingGateway | EnterpriseGateway,
 ): Promise<AllProjectsStats> => ({
   index,
   name,
@@ -40,18 +44,17 @@ export const {
       AllProjectsStats[],
       AllProjectsStatsParams
     >({
-      queryFn: createNotifyingQueryFn(async params => {
-        const service = MultiService.getService();
-        const api = service.getAccountingGateway();
+      queryFn: createNotifyingQueryFn(
+        async ({ projects, group, interval, gateway = accountingGateway }) => {
+          const data = await Promise.all(
+            projects.map(project =>
+              getProjectStatsPromise(project, { group, interval }, gateway),
+            ),
+          );
 
-        const data = await Promise.all(
-          params.projects.map(project =>
-            getProjectStatsPromise(project, params, api),
-          ),
-        );
-
-        return { data };
-      }),
+          return { data };
+        },
+      ),
     }),
   }),
   overrideExisting: true,

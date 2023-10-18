@@ -17,6 +17,6 @@ export const useEnterpriseStatusFetch = (shouldInitialize: boolean) => {
 
   return {
     isEnterpriseClient: data,
-    isLoadingEnterpriseStatus: isLoading || isUninitialized,
+    isEnterpriseStatusLoading: isLoading || isUninitialized,
   };
 };

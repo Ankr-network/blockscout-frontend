@@ -83,6 +83,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       borderRadius: 0,
       backgroundColor: theme.palette.grey[700],
     },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+    },
   },
   nodes: {
     marginTop: theme.spacing(6),
@@ -132,6 +136,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Filecoin}`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.grey[700],
+    },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
     },
   },
   spinner: {

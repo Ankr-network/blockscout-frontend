@@ -31,7 +31,7 @@ interface IMainNavigationProps {
   onDashboardClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
-  onSignoutClick: () => void;
+  onSignOutClick: () => void;
 }
 
 export const MainNavigation = ({
@@ -44,7 +44,7 @@ export const MainNavigation = ({
   onDashboardClick,
   onDocsClick,
   onSettingsClick,
-  onSignoutClick,
+  onSignOutClick,
 }: IMainNavigationProps) => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
   const { isFreePremium } = useAuth();
@@ -67,8 +67,8 @@ export const MainNavigation = ({
   );
 
   const commonItem = useMemo(
-    () => getCommonMenuList(onDashboardClick, isEnterpriseClient),
-    [onDashboardClick, isEnterpriseClient],
+    () => getCommonMenuList(onDashboardClick),
+    [onDashboardClick],
   );
 
   const menuItems = useMemo(
@@ -82,8 +82,8 @@ export const MainNavigation = ({
   );
 
   const logoutItems = useMemo(
-    () => getLogoutItem(onSignoutClick),
-    [onSignoutClick],
+    () => getLogoutItem(onSignOutClick),
+    [onSignOutClick],
   );
 
   const { classes } = useMainNavigationStyles(isMobileSiderBar);

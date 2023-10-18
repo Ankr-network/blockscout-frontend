@@ -31,7 +31,7 @@ export const useBalance = ({
 }: BalanceParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { isLoggedIn } = useAuth();
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const shouldFetch = useMemo(
@@ -39,8 +39,8 @@ export const useBalance = ({
       isLoggedIn &&
       !skipFetching &&
       !isEnterpriseClient &&
-      !isLoadingEnterpriseStatus,
-    [isEnterpriseClient, isLoadingEnterpriseStatus, isLoggedIn, skipFetching],
+      !isEnterpriseStatusLoading,
+    [isEnterpriseClient, isEnterpriseStatusLoading, isLoggedIn, skipFetching],
   );
 
   const [fetch] = useLazyFetchBalanceQuery(options);

@@ -27,7 +27,6 @@ import { useLastMonthStats } from './hooks/useLastMonthStats';
 import { useSelectorVisibility } from './components/ChainSelector/useSelectorVisibility';
 import { SubTypeSelector } from './components/SubTypeSelector';
 
-// eslint-disable-next-line
 export const Dashboard = () => {
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 

@@ -25,7 +25,7 @@ export const usePremiumStatusSubscription = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const usePremiumStatusSubscription = () => {
       return () => {};
     }
 
-    if (token && !isEnterpriseClient && !isLoadingEnterpriseStatus) {
+    if (token && !isEnterpriseClient && !isEnterpriseStatusLoading) {
       const { unsubscribe } = fetch(token);
 
       return unsubscribe;
@@ -48,7 +48,7 @@ export const usePremiumStatusSubscription = () => {
     hasAccess,
     userEndpointToken,
     isEnterpriseClient,
-    isLoadingEnterpriseStatus,
+    isEnterpriseStatusLoading,
   ]);
 
   return { isUninitialized };

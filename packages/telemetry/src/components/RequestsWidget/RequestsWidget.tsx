@@ -1,0 +1,50 @@
+import { Header } from './components/Header';
+import { RequestsChart } from '../RequestsChart';
+import { IChartData } from '../Chart';
+import { Timeframe, TranslationRequestWidget } from '../../types';
+import { SxProps, Theme } from '@mui/material';
+
+export interface RequestsWidgetProps {
+  className?: string;
+  data: IChartData[];
+  timeframe: Timeframe;
+  isLoading: boolean;
+  sx?: SxProps<Theme>;
+  translation?: TranslationRequestWidget;
+}
+
+export const RequestsWidget = ({
+  sx,
+  className,
+  data = [],
+  timeframe,
+  isLoading,
+  translation = {
+    date: (value: Date) => `date ${value}`,
+    time: (value: Date) => `time ${value}`,
+    callsCount: (value: number) => `callsCount ${value}`,
+    title: 'Title',
+    placeholderTitle: 'placeholderTitle',
+    placeholderSubtitle: 'placeholderSubtitle',
+    requestsTitle: 'placeholderSubtitle',
+    allRequestsTitle: 'allRequestsTitle',
+  },
+}: RequestsWidgetProps) => {
+  return (
+    <RequestsChart
+      className={className}
+      isLoading={isLoading}
+      timeframe={timeframe}
+      data={data}
+      sx={sx}
+      translation={translation}
+      title={
+        <Header
+          title={translation.title}
+          requestsTitle={translation.requestsTitle}
+          allRequestsTitle={translation.allRequestsTitle}
+        />
+      }
+    />
+  );
+};

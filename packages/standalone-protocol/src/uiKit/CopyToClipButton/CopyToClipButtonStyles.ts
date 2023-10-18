@@ -386,6 +386,27 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         },
       },
     },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+
+      '& $content': {
+        padding: 0,
+
+        '&:hover $button': {
+          color: theme.palette.text.primary,
+        },
+      },
+
+      '& $button': {
+        color: theme.palette.text.primary,
+        borderRadius: 12,
+
+        '&:hover': {
+          color: theme.palette.text.primary,
+        },
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied

@@ -90,3 +90,8 @@ export class MultiService {
     return MultiService.service;
   }
 }
+
+export const accountingGateway =
+  MultiService.getService().getAccountingGateway();
+export const enterpriseGateway =
+  MultiService.getService().getEnterpriseGateway();

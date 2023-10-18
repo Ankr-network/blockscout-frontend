@@ -10,7 +10,7 @@ interface ShouldShowNegativeBalanceOfServiceDialogArguments {
   hasGroupAccess: boolean;
   isErrorTosAcceptStatus: boolean;
   isEnterpriseClient: boolean;
-  isLoadingEnterpriseStatus: boolean;
+  isEnterpriseStatusLoading: boolean;
   isLoadingGroups: boolean;
 }
 
@@ -26,7 +26,7 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
   hasGroupAccess,
   isErrorTosAcceptStatus,
   isEnterpriseClient,
-  isLoadingEnterpriseStatus,
+  isEnterpriseStatusLoading,
   isLoadingGroups,
 }: ShouldShowNegativeBalanceOfServiceDialogArguments) => {
   if (!isLoggedIn) return false;
@@ -36,7 +36,7 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
     isLoadingTosAcceptStatus ||
     isFetchingTosAcceptStatus ||
     isUninitializedTosAcceptStatus ||
-    isLoadingEnterpriseStatus ||
+    isEnterpriseStatusLoading ||
     isLoadingGroups
   )
     return false;
