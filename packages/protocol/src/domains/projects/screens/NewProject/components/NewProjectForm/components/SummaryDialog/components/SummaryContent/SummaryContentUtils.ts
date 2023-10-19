@@ -10,12 +10,10 @@ export const PRICE_FOR_CONTRACT_CREDITS = MILLION_ANKR_TOKENS * 100;
 
 export const getCreditsAndUsdPrice = (contractsCount = 0) => {
   return {
-    credits: new BigNumber(PRICE_FOR_CONTRACT_CREDITS)
-      .multipliedBy(contractsCount)
-      .toString(),
-    usd: new BigNumber(PRICE_FOR_CONTRACT_USD)
-      .multipliedBy(contractsCount)
-      .toString(),
+    credits: new BigNumber(PRICE_FOR_CONTRACT_CREDITS).multipliedBy(
+      contractsCount,
+    ),
+    usd: new BigNumber(PRICE_FOR_CONTRACT_USD).multipliedBy(contractsCount),
   };
 };
 

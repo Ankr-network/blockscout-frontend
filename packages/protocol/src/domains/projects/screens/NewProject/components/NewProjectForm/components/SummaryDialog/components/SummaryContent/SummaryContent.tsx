@@ -41,7 +41,7 @@ export const SummaryContent = ({ onClose }: SummaryContentProps) => {
     [contractsCount],
   );
   const onCreditsPayClick = useCreditsPayment(values?.userEndpointToken);
-  const onCreditCardPayClick = useCreditCardPayment(usd);
+  const onCreditCardPayClick = useCreditCardPayment(usd.toString());
 
   const isInsufficientBalance = useMemo(
     () => new BigNumber(creditBalance)?.isLessThan(credits),
@@ -76,8 +76,8 @@ export const SummaryContent = ({ onClose }: SummaryContentProps) => {
         </Typography>
         <Typography variant="subtitle2">
           {t(`${projectsIntlRoot}.summary.info.total-amount`, {
-            credits,
-            usd,
+            credits: credits.toString(),
+            usd: usd.toString(),
           })}
         </Typography>
       </div>
