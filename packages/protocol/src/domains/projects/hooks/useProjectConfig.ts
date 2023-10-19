@@ -10,6 +10,7 @@ import {
   resetConfig,
 } from 'domains/projects/store';
 import { selectCurrentAddress } from 'domains/auth/store';
+import { projectApi } from 'store/queries';
 
 export const useProjectConfig = () => {
   const dispatch = useDispatch();
@@ -36,10 +37,10 @@ export const useProjectConfig = () => {
     [dispatch, address],
   );
 
-  const handleResetConfig = useCallback(
-    () => dispatch(resetConfig(address)),
-    [dispatch, address],
-  );
+  const handleResetConfig = useCallback(() => {
+    dispatch(resetConfig(address));
+    dispatch(projectApi.util.resetApiState());
+  }, [dispatch, address]);
 
   return {
     handleSetStepConfig,
