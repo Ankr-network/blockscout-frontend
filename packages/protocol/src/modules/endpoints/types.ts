@@ -34,7 +34,7 @@ export enum ChainGroupID {
   X_CHAIN = 'x-chain',
   SUI = 'SUI',
   TENET = 'tenet',
-  SCROLL = 'scroll',
+  SCROLL_ALPHA = 'scroll_testnet',
 
   FALLBACK = 'FALLBACK',
 }

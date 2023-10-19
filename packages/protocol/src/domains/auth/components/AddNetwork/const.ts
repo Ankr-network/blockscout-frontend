@@ -565,6 +565,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://goerli.basescan.org/'],
   },
 
+  [ChainID.SCROLL]: {
+    chainId: 534352,
+    chainName: 'Scroll Mainnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockscout.scroll.io'],
+  },
+
   [ChainID.SCROLL_TESTNET]: {
     chainId: 534353,
     chainName: 'Scroll Alpha Testnet',
@@ -573,7 +584,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       symbol: 'ETH',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://blockscout.scroll.io/'],
+    blockExplorerUrls: ['https://alpha-blockscout.scroll.io'],
   },
 
   [ChainID.SCROLL_SEPOLIA_TESTNET]: {

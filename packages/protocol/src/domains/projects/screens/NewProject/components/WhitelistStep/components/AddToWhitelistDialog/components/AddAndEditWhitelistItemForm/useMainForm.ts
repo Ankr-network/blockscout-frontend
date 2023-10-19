@@ -9,16 +9,12 @@ import { getChainName } from 'uiKit/utils/metatags';
 import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 import { WhiteListItem } from 'domains/projects/types';
-import { ChainID } from 'domains/chains/types';
 
 import { AddToWhitelistFormFields } from './AddToWhitelistFormUtils';
 
 const getChainLabel = (fallBackName: string, chain?: IBlockchainEntity) => {
   if (chain?.name) {
-    if (
-      chain?.type === BlockchainType.Mainnet &&
-      chain?.id !== ChainID.SCROLL
-    ) {
+    if (chain?.type === BlockchainType.Mainnet) {
       return t('projects.new-project.step-2.mainnet-postfix', {
         label: chain.name,
       });

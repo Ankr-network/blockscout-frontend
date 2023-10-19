@@ -6,8 +6,6 @@ export const checkChainsWithExtensionsAndGetChainId = (chainId: ChainID) => {
   switch (chainId) {
     case ChainID.TENET:
       return checkPrivateChainsAndGetChainId(ChainID.TENET_EVM);
-    case ChainID.SCROLL:
-      return checkPrivateChainsAndGetChainId(ChainID.SCROLL_TESTNET);
     case ChainID.HORIZEN:
       return checkPrivateChainsAndGetChainId(ChainID.HORIZEN_EVM);
     case ChainID.HORIZEN_TESTNET:

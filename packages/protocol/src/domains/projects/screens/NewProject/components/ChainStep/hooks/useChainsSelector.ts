@@ -10,9 +10,8 @@ import { ChainGroupID } from 'modules/endpoints/types';
 
 const shouldHideMainnet = (chainID?: ChainID) => {
   const isZetaChain = chainID === ChainID.ZETACHAIN;
-  const isScroll = chainID === ChainID.SCROLL;
 
-  return isZetaChain || isScroll;
+  return isZetaChain;
 };
 
 export const useChainsSelector = (
