@@ -21,17 +21,23 @@ export const ChainSelectModal = ({
 
   return (
     <>
+      <Typography
+        className={classes.chainModalDescription}
+        component="p"
+        variant="caption"
+      >
+        {t('projects.new-project.chain-modal.description')}
+      </Typography>
       <Paper className={classes.chainItemWrapper}>
         <Typography
-          variant="caption"
-          color="textSecondary"
-          mb={1}
+          className={classes.selectedChainLabel}
           component="p"
+          variant="caption"
         >
           {t('projects.new-project.chain-modal.selected-chain-label')}
         </Typography>
         <div className={classes.chainItem}>
-          <ChainItem chain={selectedChain} isChainTypeHidden />
+          <ChainItem chain={selectedChain} hasCoinName={false} />
         </div>
       </Paper>
       <ChainSelect

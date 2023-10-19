@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import { NewProjectStep } from 'domains/projects/types';
 import {
   ChainStepFields,
@@ -8,26 +6,29 @@ import {
   WhitelistStepFields,
   NewProjectType,
   AddToWhitelistFormData,
+  GeneralStepFields,
 } from 'domains/projects/store';
 
 export interface NewProjectFormProps {
   step: NewProjectStep;
-  setCurrentStep: Dispatch<SetStateAction<NewProjectStep>>;
   onSubmit: (
     step: NewProjectStep,
     stepValues: NewProjectType[NewProjectStep],
   ) => void;
   onBackClick: () => void;
   isLoading: boolean;
+  isSuccess: boolean;
 }
 
 export interface NewProjectFormValues {
+  [GeneralStepFields.name]?: string;
+  [GeneralStepFields.description]?: string;
+  [GeneralStepFields.tokenIndex]?: number;
+  [GeneralStepFields.userEndpointToken]?: string;
   [ChainStepFields.projectName]?: string;
-  [ChainStepFields.tokenIndex]?: number;
   [ChainStepFields.selectedMainnetIds]?: string[];
   [ChainStepFields.selectedTestnetIds]?: string[];
   [ChainStepFields.selectedDevnetIds]?: string[];
-  [ChainStepFields.userEndpointToken]?: string;
   [ChainStepFields.selectedBeaconMainnetIds]?: string[];
   [ChainStepFields.selectedBeaconTestnetIds]?: string[];
   [ChainStepFields.selectedOpnodeMainnetIds]?: string[];

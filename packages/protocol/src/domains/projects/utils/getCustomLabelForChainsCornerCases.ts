@@ -39,7 +39,7 @@ export const getCustomLabelForChainsCornerCases = ({
   }
 
   if (chainId === ChainID.ROLLUX_OPNODE) {
-    return t('projects.new-project.step-1.mainnet-postfix', {
+    return t('projects.new-project.step-2.mainnet-postfix', {
       label,
     });
   }

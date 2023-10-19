@@ -27,11 +27,7 @@ export const useWhitelistStepOnSubmit = () => {
           },
         });
 
-        if (isError) {
-          return false;
-        }
-
-        return true;
+        return !isError;
       }
 
       dispatch(

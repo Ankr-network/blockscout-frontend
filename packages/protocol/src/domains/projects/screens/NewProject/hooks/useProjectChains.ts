@@ -2,11 +2,16 @@ import { useMemo } from 'react';
 
 import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import {
+  tendermintRpcChains,
+  chainGroups,
+} from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 
 export type ProjectChain = Chain & {
+  mainnets?: Chain[];
   beaconsMainnet?: Chain[];
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
@@ -15,16 +20,19 @@ export type ProjectChain = Chain & {
 
 const mapProjectChains = (chain: Chain) => {
   const {
-    testnets: chainTestnets,
     beacons: beaconsMainnet,
+    id,
     opnodes: opnodesMainnet,
+    testnets: chainTestnets,
   } = chain;
+
+  const endpoints = getGroupedEndpoints({ chain, groups: chainGroups });
 
   const testnets = chainTestnets?.flatMap(testnet => {
     const { extensions: testnetExtensions = [] } = testnet;
 
     if (testnetExtensions.length > 0) {
-      return [testnet, ...testnetExtensions];
+      return [...testnetExtensions];
     }
 
     return testnet;
@@ -56,15 +64,23 @@ const mapProjectChains = (chain: Chain) => {
 
   const chainParams = {
     ...chain,
+    mainnets: endpoints.mainnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    devnets: endpoints.devnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    testnets: endpoints.testnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
     hasWSFeature: hasWsFeature(chain),
-    testnets,
     beaconsMainnet,
     beaconsTestnet,
     opnodesMainnet,
     opnodesTestnet,
   };
 
-  if (chain.id === ChainID.SECRET || chain.id === ChainID.ZETACHAIN) {
+  if (id !== ChainID.SECRET && id !== ChainID.ZETACHAIN && id !== ChainID.SEI) {
     return {
       ...chainParams,
       // JSON-RPC and REST Tendermint subchains have the same path,
@@ -82,10 +98,10 @@ export const useProjectChains = () => {
   const userEndpointToken = useUserEndpointToken();
   const skipChainsFetching = !userEndpointToken;
 
-  const { chains, allChains, isLoading } =
+  const { chains, allChains, isLoading, isUninitialized } =
     usePrivateChainsInfo(skipChainsFetching);
 
   const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
-  return { allChains, isLoading, projectChains };
+  return { allChains, isLoading, projectChains, isUninitialized };
 };

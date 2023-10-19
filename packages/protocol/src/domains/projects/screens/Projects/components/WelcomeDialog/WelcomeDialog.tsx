@@ -6,6 +6,7 @@ import { NavLink } from 'uiKit/NavLink';
 import { Dialog } from 'uiKit/Dialog';
 import { useContactWidget } from 'hooks/useContactWidget';
 import { PROJECTS_DOCS_LINK } from 'domains/projects/const';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 import { useWelcomeDialog } from './hooks/useWelcomeDialog';
 import { useWelcomeDialogStyles } from './useWelcomeDialogStyles';
@@ -13,15 +14,11 @@ import welcome from './assets/welcome.png';
 
 const intl = 'projects.welcome-dialog';
 
-interface WelcomeDialogProps {
-  onCreateNewProject: () => void;
-}
-
-export const WelcomeDialog = ({ onCreateNewProject }: WelcomeDialogProps) => {
+export const WelcomeDialog = () => {
   const { classes } = useWelcomeDialogStyles();
 
   const { isOpened, handleCreateNewProjectClick, handleSkipClick } =
-    useWelcomeDialog(onCreateNewProject);
+    useWelcomeDialog();
 
   const { openContactWidget } = useContactWidget();
 
@@ -53,14 +50,15 @@ export const WelcomeDialog = ({ onCreateNewProject }: WelcomeDialogProps) => {
           <Dot size="small" />
           {t(`${intl}.support`)}
         </Button>
-        <Button
+        <NavLink
           className={classes.configButton}
           variant="contained"
           fullWidth
+          href={ProjectsRoutesConfig.newProject.generatePath()}
           onClick={handleCreateNewProjectClick}
         >
           {t(`${intl}.create-project-button`)}
-        </Button>
+        </NavLink>
         <Button variant="outlined" fullWidth onClick={handleSkipClick}>
           {t(`${intl}.skip-button`)}
         </Button>

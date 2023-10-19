@@ -10,22 +10,20 @@ interface ChainRowProps extends ChainRowParams {
 export const ChainRow = ({
   chain,
   selectedProjectChainsIds,
-  setSelectedProjectChainsIds,
-  handleOpenModal,
+  setSelectedChainsIds,
   className,
 }: ChainRowProps) => {
   const { isCurrentChainActive, handleSelectChains } = useChainRow({
     chain,
     selectedProjectChainsIds,
-    setSelectedProjectChainsIds,
-    handleOpenModal,
+    setSelectedChainsIds,
   });
 
   return (
     <Box
-      display="flex"
       alignItems="center"
       className={className}
+      display="flex"
       onClick={handleSelectChains}
     >
       <Checkbox

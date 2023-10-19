@@ -20,14 +20,16 @@ import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientS
 
 export interface BalanceParams {
   skipFetching?: boolean;
+  options?: SubscriptionOptions;
 }
 
-const options: SubscriptionOptions = {
+const defaultOptions: SubscriptionOptions = {
   pollingInterval: 30_000,
 };
 
 export const useBalance = ({
   skipFetching = false,
+  options = defaultOptions,
 }: BalanceParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { isLoggedIn } = useAuth();

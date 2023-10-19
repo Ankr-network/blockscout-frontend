@@ -1,10 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router';
 
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const JSD_WIDGET_ID = 'jsd-widget';
 
 const JSD_WIDGET_MOBILE_CLASS_NAME = 'jsd-widget-mobile';
+
+const JSD_WIDGET_PROJECT_CLASS_NAME = 'jsd-widget-project';
 
 export const JSD_HELP_BUTTON_ID = 'help-button';
 
@@ -30,20 +35,38 @@ const observeWidgetOpeningStyles = () => {
   return observer;
 };
 
-const useMobileStyles = (isMobile: boolean) => {
+const useNewProjectPageStyles = () => {
+  const {
+    listen,
+    location: { pathname: initialPathName },
+  } = useHistory();
+  const [isNewProject, setIsNewProject] = useState<boolean>(false);
+
+  useOnMount(() => {
+    setIsNewProject(Boolean(initialPathName));
+  });
+
+  useEffect(() => {
+    const unlisten = listen(({ pathname }) => {
+      setIsNewProject(pathname === ProjectsRoutesConfig.newProject.path);
+    });
+
+    return unlisten;
+  }, [listen, initialPathName]);
+
   useEffect(() => {
     setTimeout(() => {
       const target = document.getElementById(JSD_WIDGET_ID);
 
       if (!target) return;
 
-      if (isMobile) {
-        target.classList.add(JSD_WIDGET_MOBILE_CLASS_NAME);
+      if (isNewProject) {
+        target.classList.add(JSD_WIDGET_PROJECT_CLASS_NAME);
       } else {
-        target.classList.remove(JSD_WIDGET_MOBILE_CLASS_NAME);
+        target.classList.remove(JSD_WIDGET_PROJECT_CLASS_NAME);
       }
     }, 100);
-  }, [isMobile]);
+  }, [isNewProject]);
 };
 
 const useStyleObserver = (isMobile: boolean) => {
@@ -67,6 +90,6 @@ const useStyleObserver = (isMobile: boolean) => {
 export const useJSDWidget = () => {
   const isMobile = useIsSMDown();
 
-  useMobileStyles(isMobile);
+  useNewProjectPageStyles();
   useStyleObserver(isMobile);
 };

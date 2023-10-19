@@ -8,6 +8,7 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 interface GuardNewProjectProps {
   children: ReactNode;
@@ -16,7 +17,7 @@ interface GuardNewProjectProps {
 export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { project } = useProjectConfig();
+  const { project, projectStep, handleResetConfig } = useProjectConfig();
   const { enableAddProject, isLoaded } = useJwtTokenManager();
 
   const showNotification = useCallback(() => {
@@ -30,7 +31,11 @@ export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
 
   const hasAccess =
     enableAddProject ||
-    typeof project[NewProjectStep.Chain]?.tokenIndex === 'number';
+    typeof project[NewProjectStep.General]?.tokenIndex === 'number' ||
+    projectStep === NewProjectStep.Chains ||
+    projectStep === NewProjectStep.Whitelist;
+
+  const isCheckedOut = project?.[NewProjectStep.Whitelist]?.isCheckedOut;
 
   useEffect(() => {
     if (!hasAccess && isLoaded) {
@@ -39,6 +44,13 @@ export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
       showNotification();
     }
   }, [hasAccess, showNotification, history, isLoaded]);
+
+  useOnMount(() => {
+    if (isCheckedOut) {
+      history.replace(ProjectsRoutesConfig.projects.generatePath());
+      handleResetConfig();
+    }
+  });
 
   return isLoaded && hasAccess ? <>{children}</> : null;
 };

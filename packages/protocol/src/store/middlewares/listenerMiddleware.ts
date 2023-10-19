@@ -176,7 +176,7 @@ listenerMiddleware.startListening({
     const deletedTokenIndex = originalArgs?.params?.tokenIndex;
 
     const { project } = selectNewProjectConfig(getState() as RootState);
-    const newProjectTokenIndex = project?.[NewProjectStep.Chain]?.tokenIndex;
+    const newProjectTokenIndex = project?.[NewProjectStep.General]?.tokenIndex;
 
     if (deletedTokenIndex === newProjectTokenIndex) {
       const address = selectCurrentAddress(getState() as RootState);

@@ -1,4 +1,4 @@
-import { Plus } from '@ankr.com/ui';
+import { Plus, Lock } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
 
@@ -9,35 +9,44 @@ import { useAddProjectButtonStyles } from './useAddProjectButtonStyles';
 
 interface AddProjectButtonProps {
   canEditProject: boolean;
-  handleOpenAddProjectDialog: () => void;
+  isFreemiumUser: boolean;
+  onOpenUpgradeAccountDialog: () => void;
 }
 
 export const AddProjectButton = ({
   canEditProject,
-  handleOpenAddProjectDialog,
+  isFreemiumUser,
+  onOpenUpgradeAccountDialog,
 }: AddProjectButtonProps) => {
   const { classes } = useAddProjectButtonStyles();
 
-  if (canEditProject) {
+  if (isFreemiumUser) {
     return (
-      <NavLink
-        className={classes.root}
-        href={ProjectsRoutesConfig.newProject.generatePath()}
+      <Button
         fullWidth
-        startIcon={<Plus />}
+        variant="outlined"
+        className={classes.root}
+        startIcon={<Lock className={classes.icon} />}
+        onClick={onOpenUpgradeAccountDialog}
       >
-        {t(
-          `projects.list-project.${
-            canEditProject ? 'edit-project' : 'add-project'
-          }`,
-        )}
-      </NavLink>
+        {t(`projects.list-project.create-project`)}
+      </Button>
     );
   }
 
   return (
-    <Button fullWidth startIcon={<Plus />} onClick={handleOpenAddProjectDialog}>
-      {t('projects.list-project.add-project')}
-    </Button>
+    <NavLink
+      fullWidth
+      variant="outlined"
+      className={classes.root}
+      href={ProjectsRoutesConfig.newProject.generatePath()}
+      startIcon={<Plus className={classes.icon} />}
+    >
+      {t(
+        `projects.list-project.${
+          canEditProject ? 'edit-project' : 'create-project'
+        }`,
+      )}
+    </NavLink>
   );
 };

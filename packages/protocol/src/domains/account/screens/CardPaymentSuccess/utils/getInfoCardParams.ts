@@ -1,11 +1,19 @@
 import { t, tHTML } from '@ankr.com/common';
 
-export const getInfoCardParams = (hasPremium: boolean) => {
-  const section = hasPremium ? 'billing' : 'pricing';
+interface GetInfoCardParamsArguments {
+  hasPremium: boolean;
+}
+
+export const getInfoCardParams = ({
+  hasPremium,
+}: GetInfoCardParamsArguments) => {
+  const sectionName = hasPremium ? 'billing' : 'pricing';
 
   return {
-    button: t(`account.card-payment-success.button`),
-    description: tHTML(`account.card-payment-success.${section}.description`),
-    title: tHTML(`account.card-payment-success.${section}.title`),
+    title: tHTML(`account.card-payment-success.${sectionName}.title`),
+    description: tHTML(
+      `account.card-payment-success.${sectionName}.description`,
+    ),
+    button: t(`account.card-payment-success.${sectionName}.button`),
   };
 };

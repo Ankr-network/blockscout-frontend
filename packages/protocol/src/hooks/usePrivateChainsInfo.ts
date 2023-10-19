@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 import { useLazyChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
@@ -13,16 +13,16 @@ export const usePrivateChainsInfo = (skipFetching?: boolean) => {
 
   const [
     fetchPrivateChainsInfo,
-    { data: { chains, allChains } = defaultData, isLoading },
+    { data: { chains, allChains } = defaultData, isLoading, isUninitialized },
   ] = useLazyChainsFetchPrivateChainsInfoQuery();
 
-  useEffect(() => {
-    if (!skipFetching) {
+  useLayoutEffect(() => {
+    if (!skipFetching && userEndpointToken) {
       fetchPrivateChainsInfo({
         userEndpointToken,
       });
     }
   }, [fetchPrivateChainsInfo, userEndpointToken, skipFetching]);
 
-  return { chains, allChains, isLoading };
+  return { chains, allChains, isLoading, isUninitialized };
 };

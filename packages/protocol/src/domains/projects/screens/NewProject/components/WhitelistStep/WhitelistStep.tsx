@@ -1,7 +1,6 @@
-import { Button, Divider, Typography } from '@mui/material';
-import { Plus } from '@ankr.com/ui';
+import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import {
@@ -9,7 +8,7 @@ import {
   WhitelistStepFields,
 } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { NewProjectStep } from 'domains/projects/types';
+import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 import { useWhitelistStepStyles } from './useWhitelistStepStyles';
@@ -17,31 +16,71 @@ import { Table } from './components/Table/Table';
 import { AddToWhitelistDialog } from './components/AddToWhitelistDialog';
 import { useWhitelistData } from './useWhitelistData';
 import { useProjectFormValues } from '../../hooks/useProjectFormValues';
+import { EmptyList } from './components/EmptyList';
+import { WhitelistItemsCounter } from './components/WhitelistItemsCounter';
+import { AddWhitelistMenuButton } from './components/AddWhitelistMenuButton';
+import { AddContractDialog } from './components/AddContractDialog';
 
+let wasAddWhitelistDialogOpened = false;
+
+/* eslint-disable max-lines-per-function */
 export const WhitelistStep = () => {
   const { classes } = useWhitelistStepStyles();
 
-  const { isOpened, onClose, onOpen } = useDialog();
-  const { allSelectedChainIds, whitelistItems, onChange } =
-    useProjectFormValues();
-  const { handleSetStepConfig, project } = useProjectConfig();
+  const {
+    isOpened: isAddToWhitelistDialogOpened,
+    onClose: onAddToWhitelistDialogClose,
+    onOpen: onAddToWhitelistDialogOpen,
+  } = useDialog();
 
   const {
+    isOpened: isAddContractDialogOpened,
+    onClose: onAddContractDialogClose,
+    onOpen: onAddContractDialogOpen,
+  } = useDialog();
+
+  const { allSelectedChainIds, whitelistItems, onChange } =
+    useProjectFormValues();
+  const { handleSetStepConfig } = useProjectConfig();
+
+  const {
+    data,
     isAddingDomainAllowed,
     isAddingIPAllowed,
     isAddingSmartContractAllowed,
   } = useWhitelistData();
 
-  const handleOpenAddWhitelist = useCallback(() => {
-    onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
-    onOpen();
-  }, [onChange, onOpen]);
+  const handleWhitelistDialogOpen = useCallback(
+    (type?: WhiteListItem) => {
+      if (type === WhiteListItem.address && !wasAddWhitelistDialogOpened) {
+        onAddContractDialogOpen();
+      } else {
+        onAddToWhitelistDialogOpen();
+      }
+    },
+    [onAddContractDialogOpen, onAddToWhitelistDialogOpen],
+  );
+
+  const handleOpenAddWhitelist = useCallback(
+    (type?: WhiteListItem) => {
+      onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
+      handleWhitelistDialogOpen(type);
+    },
+    [onChange, handleWhitelistDialogOpen],
+  );
+
+  const handleAddContractDialogNext = useCallback(() => {
+    wasAddWhitelistDialogOpened = true;
+
+    onAddToWhitelistDialogOpen();
+    onAddContractDialogClose();
+  }, [onAddToWhitelistDialogOpen, onAddContractDialogClose]);
 
   useOnMount(() => {
     const updatedWhitelistItems = (
       whitelistItems as AddToWhitelistFormData[]
     ).filter(item =>
-      item.chains.every(chain => allSelectedChainIds.includes(chain)),
+      item.chains?.every(chain => allSelectedChainIds.includes(chain)),
     );
 
     onChange(WhitelistStepFields.whitelistItems, updatedWhitelistItems);
@@ -49,41 +88,72 @@ export const WhitelistStep = () => {
       NewProjectStep.Whitelist,
       {
         whitelistItems: updatedWhitelistItems,
-        userEndpointToken:
-          project[NewProjectStep.Chain]?.userEndpointToken ?? '',
       },
-      NewProjectStep.Whitelist,
+      NewProjectStep.Chains,
     );
   });
 
+  const isAddingDomainDisabled = useMemo(
+    () => !isAddingDomainAllowed,
+    [isAddingDomainAllowed],
+  );
+  const isAddingIPDisabled = useMemo(
+    () => !isAddingIPAllowed,
+    [isAddingIPAllowed],
+  );
+  const isAddingSmartContractDisabled = useMemo(
+    () => !isAddingSmartContractAllowed,
+    [isAddingSmartContractAllowed],
+  );
+
   return (
     <>
-      <Typography className={classes.title} variant="h6">
-        {t('projects.new-project.step-2.title')}
-      </Typography>
-      <Typography variant="body2" component="p" className={classes.plug}>
-        {tHTML('projects.new-project.step-2.plug')}
-      </Typography>
+      {data.length === 0 ? (
+        <EmptyList
+          isAddingDomainDisabled={isAddingDomainDisabled}
+          isAddingIPDisabled={isAddingIPDisabled}
+          isAddingSmartContractDisabled={isAddingSmartContractDisabled}
+          onWhitelistDialogOpen={handleWhitelistDialogOpen}
+        />
+      ) : (
+        <>
+          <Typography className={classes.title} variant="h6">
+            {t('projects.new-project.step-3.title')}
+          </Typography>
+          <Typography variant="body2" component="p" className={classes.plug}>
+            {tHTML('projects.new-project.step-3.plug')}
+          </Typography>
 
-      <Table onWhitelistDialogOpen={onOpen} />
+          <div className={classes.countersWrapper}>
+            <WhitelistItemsCounter type={WhiteListItem.referer} />
+            <WhitelistItemsCounter type={WhiteListItem.ip} />
+            <WhitelistItemsCounter type={WhiteListItem.address} />
+          </div>
 
-      <Button
-        size="medium"
-        disabled={
-          !isAddingDomainAllowed &&
-          !isAddingIPAllowed &&
-          !isAddingSmartContractAllowed
-        }
-        className={classes.button}
-        onClick={handleOpenAddWhitelist}
-        startIcon={<Plus />}
-      >
-        {t('projects.new-project.step-2.btn')}
-      </Button>
+          <Table
+            data={data}
+            onWhitelistDialogOpen={handleWhitelistDialogOpen}
+          />
 
-      <Divider />
+          <AddWhitelistMenuButton
+            isSetupMode={false}
+            isAddingDomainDisabled={isAddingDomainDisabled}
+            isAddingIPDisabled={isAddingIPDisabled}
+            isAddingSmartContractDisabled={isAddingSmartContractDisabled}
+            onWhitelistDialogOpen={handleOpenAddWhitelist}
+          />
+        </>
+      )}
 
-      <AddToWhitelistDialog isOpen={isOpened} onClose={onClose} />
+      <AddContractDialog
+        isOpen={isAddContractDialogOpened}
+        onClose={onAddContractDialogClose}
+        onNext={handleAddContractDialogNext}
+      />
+      <AddToWhitelistDialog
+        isOpen={isAddToWhitelistDialogOpened}
+        onClose={onAddToWhitelistDialogClose}
+      />
     </>
   );
 };

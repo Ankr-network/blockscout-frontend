@@ -3,7 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 export const useTableStyles = makeStyles()(theme => ({
   tableContainer: {
     backgroundColor: 'transparent',
-    marginBottom: theme.spacing(4),
+    marginBottom: theme.spacing(6),
   },
   headerCell: {
     fontSize: 14,

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useForm } from 'react-final-form';
 import { useCallback } from 'react';
@@ -6,10 +6,12 @@ import { useCallback } from 'react';
 import { LoadingButton } from 'uiKit/LoadingButton';
 import { newProjectIntlRoot } from 'domains/projects/const';
 import { WhitelistStepFields } from 'domains/projects/store';
+import { NewProjectStep } from 'domains/projects/types';
 
 import { useFooterStyles } from './useFooterStyles';
 
 interface FooterProps {
+  step: NewProjectStep;
   onBackClick: () => void;
   shouldShowSkipButton?: boolean;
   isBackButtonDisabled?: boolean;
@@ -17,9 +19,8 @@ interface FooterProps {
   isNextButtonDisabled?: boolean;
 }
 
-const SHOW_SKIP_BUTTON = false;
-
 export const Footer = ({
+  step,
   onBackClick,
   shouldShowSkipButton,
   isBackButtonDisabled,
@@ -35,36 +36,49 @@ export const Footer = ({
   }, [change]);
 
   return (
-    <div className={classes.root}>
+    <Paper className={classes.root}>
       <Button
         size="large"
         onClick={onBackClick}
         variant="outlined"
         disabled={isBackButtonDisabled || isLoading}
       >
-        {t(`${newProjectIntlRoot}.footer.back-button`)}
+        {t(
+          `${newProjectIntlRoot}.footer.${
+            step === NewProjectStep.General
+              ? 'back-to-projects-button'
+              : 'back-button'
+          }`,
+        )}
       </Button>
+      <Typography variant="body2" component="p" className={classes.step}>
+        {t(`${newProjectIntlRoot}.footer.step-counter`, {
+          value: ++step,
+        })}
+      </Typography>
       <div className={classes.rightWrapper}>
-        {shouldShowSkipButton && SHOW_SKIP_BUTTON && (
-          <Button
+        {shouldShowSkipButton ? (
+          <LoadingButton
             size="large"
             variant="outlined"
             type="submit"
             className={classes.skipButton}
             onClick={handleSkipClick}
+            loading={isLoading}
           >
             {t(`${newProjectIntlRoot}.footer.skip-button`)}
-          </Button>
+          </LoadingButton>
+        ) : (
+          <LoadingButton
+            size="large"
+            type="submit"
+            disabled={isLoading || validating || isNextButtonDisabled}
+            loading={isLoading}
+          >
+            {t(`${newProjectIntlRoot}.footer.next-button`)}
+          </LoadingButton>
         )}
-        <LoadingButton
-          size="large"
-          type="submit"
-          disabled={isLoading || validating || isNextButtonDisabled}
-          loading={isLoading}
-        >
-          {t(`${newProjectIntlRoot}.footer.next-button`)}
-        </LoadingButton>
       </div>
-    </div>
+    </Paper>
   );
 };

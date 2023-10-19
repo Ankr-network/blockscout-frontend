@@ -14,17 +14,17 @@ export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: flexAlign[align],
-    padding: theme.spacing(2 * 5),
+    padding: theme.spacing(10),
     borderRadius: 30,
-    maxWidth: 618,
+    width: 600,
 
     [theme.breakpoints.down('xs')]: {
-      padding: theme.spacing(2 * 2.5),
+      padding: theme.spacing(5),
       borderRadius: 20,
     },
   },
   title: {
-    marginBottom: theme.spacing(2 * 2),
+    marginBottom: theme.spacing(4),
     fontWeight: 700,
     fontSize: 34,
     textAlign: align,
@@ -34,7 +34,7 @@ export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
     },
   },
   description: {
-    marginBottom: theme.spacing(2 * 4),
+    marginBottom: theme.spacing(8),
     fontSize: 17,
     textAlign: 'center',
 
@@ -46,5 +46,11 @@ export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
         textDecoration: 'underline',
       },
     },
+  },
+  image: {
+    height: 120,
+    width: 120,
+    margin: 'auto',
+    marginBottom: theme.spacing(4),
   },
 }));

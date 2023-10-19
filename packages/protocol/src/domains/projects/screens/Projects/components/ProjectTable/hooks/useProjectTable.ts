@@ -6,7 +6,7 @@ import {
   ProjectTable,
 } from 'domains/projects/utils/getAllProjects';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectDraftTokenIndex } from 'domains/projects/store';
+import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import {
   selectProjectsStatsByRange,
   selectProjectsStatuses,
@@ -23,7 +23,8 @@ export const useProjectTable = ({
   projectsData,
   onProjectDialogOpen,
 }: ProjectTableColumnsProps) => {
-  const draftTokenIndex = useAppSelector(selectDraftTokenIndex);
+  const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
+
   const statusData = useAppSelector(selectProjectsStatuses);
   const activityData = useAppSelector(selectProjectsStatsByRange);
 
@@ -34,7 +35,7 @@ export const useProjectTable = ({
   const tableData: ProjectTable[] = useMemo(
     () =>
       projectsData.map(data => {
-        const { userEndpointToken, tokenIndex } = data;
+        const { userEndpointToken } = data;
 
         const currentStatusItem = statusData?.find(
           statusDataItem =>
@@ -45,7 +46,7 @@ export const useProjectTable = ({
 
         const projectStatus = {
           ...status,
-          draft: draftTokenIndex === tokenIndex,
+          draft: draftUserEndpointToken === userEndpointToken,
         };
 
         const currentActivityData = activityData?.[userEndpointToken];
@@ -58,7 +59,7 @@ export const useProjectTable = ({
         };
       }),
 
-    [activityData, draftTokenIndex, projectsData, statusData],
+    [activityData, draftUserEndpointToken, projectsData, statusData],
   );
 
   return { columns, tableData };

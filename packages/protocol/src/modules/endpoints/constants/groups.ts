@@ -114,13 +114,15 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.ZKSYNC_ERA,
       ChainID.ZKSYNC_ERA_TESTNET,
+
+      ChainID.SCROLL,
     ],
   },
   {
-    id: ChainGroupID.SCROLL,
+    id: ChainGroupID.SCROLL_ALPHA,
     name: 'Scroll Alpha',
     pluralName: 'Scroll Alpha',
-    chains: [ChainID.SCROLL, ChainID.SCROLL_TESTNET],
+    chains: [ChainID.SCROLL_TESTNET],
   },
   {
     id: ChainGroupID.C_CHAIN,

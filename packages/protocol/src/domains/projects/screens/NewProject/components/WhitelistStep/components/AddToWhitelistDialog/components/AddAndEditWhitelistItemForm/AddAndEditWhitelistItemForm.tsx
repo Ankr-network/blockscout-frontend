@@ -23,7 +23,7 @@ export const AddAndEditWhitelistItemForm = ({
   onClose,
 }: AddAndEditWhitelistItemFormProps) => {
   const dispatch = useDispatch();
-  const { handleSetStepConfig, project } = useProjectConfig();
+  const { handleSetStepConfig } = useProjectConfig();
   const { change } = useForm();
 
   const {
@@ -69,7 +69,7 @@ export const AddAndEditWhitelistItemForm = ({
     if (isDuplicationInAddingDialog || isDuplicationInEditingDialog) {
       dispatch(
         NotificationActions.showNotification({
-          message: t('projects.new-project.step-2.error-message.duplication'),
+          message: t('projects.new-project.step-3.error-message.duplication'),
           severity: 'error',
         }),
       );
@@ -95,9 +95,6 @@ export const AddAndEditWhitelistItemForm = ({
       NewProjectStep.Whitelist,
       {
         whitelistItems: newWhitelistItems,
-        userEndpointToken:
-          project[NewProjectStep.Chain]?.userEndpointToken ?? '',
-        tokenIndex: project[NewProjectStep.Chain]?.tokenIndex,
       },
       NewProjectStep.Whitelist,
     );
@@ -108,7 +105,6 @@ export const AddAndEditWhitelistItemForm = ({
   }, [
     indexOfEditingWhitelistItem,
     isEditingWhitelistDialog,
-    project,
     whitelistDialog,
     whitelistItems,
     change,

@@ -36,6 +36,10 @@ type MainBlockchainEntity = Exclude<
   'extends' | 'features' | 'paths' | 'id'
 >;
 
+export interface ChainBadge extends Chain {
+  isSelected: boolean;
+}
+
 export interface Chain extends MainBlockchainEntity {
   id: ChainID;
   isArchive?: boolean;

@@ -1,22 +1,55 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { NewProjectStep } from 'domains/projects/types';
+import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
+import { useBalance } from 'domains/account/hooks/useBalance';
 
 import { useEnableWhitelist } from './useEnableWhitelist';
+import { getCreditsAndUsdPrice } from '../screens/NewProject/components/NewProjectForm/components/SummaryDialog/components/SummaryContent/SummaryContentUtils';
+import { NewProjectType } from '../store';
+
+const creditsPriceForContracts = (project: NewProjectType) => {
+  const smartContractCount = project?.[
+    NewProjectStep.Whitelist
+  ]?.whitelistItems?.filter(
+    item => item.type === WhiteListItem.address,
+  )?.length;
+
+  const { credits } = getCreditsAndUsdPrice(smartContractCount);
+
+  return credits;
+};
 
 export const useEnableWhitelistedProject = (hasReason: boolean) => {
-  const { project = {}, projectStep } = useProjectConfig();
+  const { project = {} } = useProjectConfig();
 
-  const { handleEnableWhitelist } = useEnableWhitelist();
+  const { handleEnableWhitelist, isLoading, userEndpointToken } =
+    useEnableWhitelist();
+
+  const { creditBalance } = useBalance({
+    options: { pollingInterval: 10_000 },
+  });
+
+  const isBalanceMoreThanPriceForContracts = useMemo(
+    () => creditsPriceForContracts(project).isLessThanOrEqualTo(creditBalance),
+    [project, creditBalance],
+  );
 
   useEffect(() => {
-    const isCheckedOut =
-      projectStep === NewProjectStep.Checkout &&
-      project?.[NewProjectStep.Checkout]?.isCheckedOut;
+    const isCheckedOut = project?.[NewProjectStep.Whitelist]?.isCheckedOut;
 
-    if (isCheckedOut && hasReason) {
+    if (isCheckedOut && hasReason && isBalanceMoreThanPriceForContracts) {
       handleEnableWhitelist();
     }
-  }, [handleEnableWhitelist, project, projectStep, hasReason]);
+  }, [
+    handleEnableWhitelist,
+    project,
+    hasReason,
+    isBalanceMoreThanPriceForContracts,
+  ]);
+
+  return {
+    isLoading: isLoading || !isBalanceMoreThanPriceForContracts,
+    userEndpointToken,
+  };
 };

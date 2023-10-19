@@ -9,21 +9,13 @@ import { getChainName } from 'uiKit/utils/metatags';
 import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 import { WhiteListItem } from 'domains/projects/types';
-import { ChainID } from 'domains/chains/types';
 
-import {
-  AddToWhitelistFormFields,
-  getOptionsByWhitelistTypes,
-} from './AddToWhitelistFormUtils';
-import { useWhitelistData } from '../../../../useWhitelistData';
+import { AddToWhitelistFormFields } from './AddToWhitelistFormUtils';
 
 const getChainLabel = (fallBackName: string, chain?: IBlockchainEntity) => {
   if (chain?.name) {
-    if (
-      chain?.type === BlockchainType.Mainnet &&
-      chain?.id !== ChainID.SCROLL
-    ) {
-      return t('projects.new-project.step-1.mainnet-postfix', {
+    if (chain?.type === BlockchainType.Mainnet) {
+      return t('projects.new-project.step-2.mainnet-postfix', {
         label: chain.name,
       });
     }
@@ -54,33 +46,9 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
   const isFormFilled =
     isTypeSelected && isAtLeastOneChainSelected && isValueFilled;
 
-  const {
-    isAddingDomainAllowed,
-    isAddingIPAllowed,
-    isAddingSmartContractAllowed,
-  } = useWhitelistData();
-
-  const selectOptions = useMemo(
-    () =>
-      getOptionsByWhitelistTypes({
-        isAddingDomainAllowed,
-        isAddingIPAllowed,
-        isAddingSmartContractAllowed,
-      }),
-    [isAddingDomainAllowed, isAddingIPAllowed, isAddingSmartContractAllowed],
-  );
-
-  const preparedChainIds = useMemo(
-    () =>
-      chainIds.filter(chainId =>
-        isSmartContractAddressSelected ? isEVMBased(chainId) : true,
-      ),
-    [chainIds, isSmartContractAddressSelected],
-  );
-
   const preparedChains = useMemo(
     () =>
-      preparedChainIds.map(chainId => {
+      chainIds.map(chainId => {
         const fallBackName = getChainName(chainId);
 
         const currentChain = chainsData?.find(chain => chain.id === chainId);
@@ -94,10 +62,13 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
 
         return {
           id: chainId,
+          disabled: isSmartContractAddressSelected
+            ? !isEVMBased(chainId)
+            : false,
           name,
         };
       }),
-    [chainsData, preparedChainIds],
+    [chainsData, isSmartContractAddressSelected, chainIds],
   );
 
   const handleOnChange = useCallback(() => {
@@ -116,7 +87,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
 
   return {
     handleOnChange,
-    selectOptions,
     isTypeSelected,
     selectedType,
     isValid,

@@ -1,5 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { useForm } from 'react-final-form';
 
+import { Chain, ChainID } from 'domains/chains/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useChainSelectModal } from './useChainSelectModal';
@@ -8,10 +10,22 @@ import { useSelectedProjectChain } from './useSelectedProjectChain';
 import { useChainsTableColumns } from './useChainsTableColumns';
 
 export const useChainsTable = () => {
-  const { isOpened, onClose, onOpenModal, currentModalChain } =
-    useChainSelectModal();
+  const {
+    currentModalChain,
+    isOpened,
+    onClose,
+    onOpenModal,
+    valuesBeforeChange: valuesBeforeChangeInSelectModal,
+  } = useChainSelectModal();
 
-  const { projectChains, isLoading } = useProjectChains();
+  const [
+    selectedChainIdsBeforeChangeInSelectModal,
+    setSelectedChainIdsBeforeChangeInSelectModal,
+  ] = useState<ChainID[]>();
+
+  const { reset } = useForm();
+
+  const { projectChains, isLoading, isUninitialized } = useProjectChains();
 
   const { initiallySelectedChainIds } = useProjectFormValues(projectChains);
 
@@ -22,8 +36,16 @@ export const useChainsTable = () => {
     isCurrentChainSelected,
   } = useSelectedProjectChain(initiallySelectedChainIds, currentModalChain);
 
+  const handleOpenModal = useCallback(
+    (chain: Chain) => {
+      setSelectedChainIdsBeforeChangeInSelectModal(selectedProjectChainsIds);
+      onOpenModal(chain);
+    },
+    [onOpenModal, selectedProjectChainsIds],
+  );
+
   const { columns } = useChainsTableColumns({
-    onOpenModal,
+    onOpenModal: handleOpenModal,
     selectedProjectChainsIds,
     setSelectedProjectChainsIds,
   });
@@ -33,13 +55,33 @@ export const useChainsTable = () => {
     onClose();
   }, [onSaveSelectedChain, onClose]);
 
+  const handleCloseModal = useCallback(() => {
+    if (valuesBeforeChangeInSelectModal) {
+      reset(valuesBeforeChangeInSelectModal);
+    }
+
+    if (selectedChainIdsBeforeChangeInSelectModal) {
+      setSelectedProjectChainsIds(selectedChainIdsBeforeChangeInSelectModal);
+    }
+
+    onClose();
+  }, [
+    onClose,
+    reset,
+    selectedChainIdsBeforeChangeInSelectModal,
+    setSelectedProjectChainsIds,
+    valuesBeforeChangeInSelectModal,
+  ]);
+
   return {
-    isLoading,
     columns,
-    projectChains,
-    isOpened,
     currentModalChain,
-    handleCloseModal: handleSetProjectChainsIdsAndClose,
+    handleCloseModal,
+    handleConfirmModal: handleSetProjectChainsIdsAndClose,
     isCurrentChainSelected,
+    isLoading,
+    isOpened,
+    isUninitialized,
+    projectChains,
   };
 };

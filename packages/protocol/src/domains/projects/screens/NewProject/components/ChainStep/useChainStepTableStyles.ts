@@ -8,13 +8,19 @@ export const useChainStepTableStyles = makeStyles()(theme => ({
     opacity: 0.5,
   },
   checkWrapper: {
-    borderRadius: 8,
     color: theme.palette.success.dark,
-    backgroundColor: theme.palette.success.light,
   },
   crossWrapper: {
-    borderRadius: 8,
     color: theme.palette.grey[600],
-    backgroundColor: theme.palette.grey.A100,
+  },
+  archiveDataHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
+  tooltipIcon: {
+    '&:hover': {
+      color: theme.palette.primary.dark,
+    },
   },
 }));

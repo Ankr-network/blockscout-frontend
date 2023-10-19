@@ -127,7 +127,7 @@ export const Routes = () => {
         ]}
         hasAuthData={isLoggedIn}
         render={() => (
-          <DefaultLayout>
+          <DefaultLayout hasNoReactSnap>
             <CenterContainer>
               <ConnectWalletCard />
             </CenterContainer>

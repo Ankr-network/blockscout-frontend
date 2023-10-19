@@ -84,7 +84,7 @@ export const useColumns = ({ onProjectDialogOpen }: TableColumnsProps) => {
             />
           );
         },
-        minWidth: '120px',
+        minWidth: '150px',
         sortable: false,
       },
       {

@@ -34,12 +34,12 @@ export const useWhitelistStepStyles = makeStyles()(theme => ({
   },
   plug: {
     whiteSpace: 'pre-wrap',
-    color: theme.palette.text.secondary,
-    marginBottom: theme.spacing(8),
+    marginBottom: theme.spacing(6),
+    maxWidth: 450,
   },
-  button: {
-    width: 132,
-    height: 40,
-    marginBottom: theme.spacing(20),
+  countersWrapper: {
+    display: 'flex',
+    gap: theme.spacing(1),
+    marginBottom: theme.spacing(10),
   },
 }));

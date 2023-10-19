@@ -4,10 +4,15 @@ import { ChainID } from 'domains/chains/types';
 
 import { NewProjectStep, WhiteListItem } from '../types';
 
-export enum ChainStepFields {
-  projectName = 'projectName',
+export enum GeneralStepFields {
+  name = 'name',
+  description = 'description',
   tokenIndex = 'tokenIndex',
   userEndpointToken = 'userEndpointToken',
+}
+
+export enum ChainStepFields {
+  projectName = 'projectName',
   selectedMainnetIds = 'selectedMainnetIds',
   selectedTestnetIds = 'selectedTestnetIds',
   selectedDevnetIds = 'selectedDevnetIds',
@@ -23,6 +28,7 @@ export enum WhitelistStepFields {
   shouldSkipFormReset = 'shouldSkipFormReset',
   indexOfEditingWhitelistItem = 'indexOfEditingWhitelistItem',
   isEditingWhitelistDialog = 'isEditingWhitelistDialog',
+  isCheckedOut = 'isCheckedOut',
 }
 
 export enum PlanStepFields {
@@ -35,16 +41,20 @@ export enum CheckoutStepFields {
 }
 
 export interface AddToWhitelistFormData {
-  type?: WhiteListItem;
+  type: WhiteListItem;
   value: string;
   chains: ChainID[];
 }
 
 export interface NewProjectType {
-  [NewProjectStep.Chain]?: {
+  [NewProjectStep.General]?: {
+    [GeneralStepFields.name]?: string;
+    [GeneralStepFields.description]?: string;
+    [GeneralStepFields.userEndpointToken]?: string;
+    [GeneralStepFields.tokenIndex]?: number | null;
+  };
+  [NewProjectStep.Chains]?: {
     [ChainStepFields.projectName]?: string;
-    [ChainStepFields.tokenIndex]?: number | null;
-    [ChainStepFields.userEndpointToken]?: string;
     [ChainStepFields.selectedMainnetIds]?: string[];
     [ChainStepFields.selectedTestnetIds]?: string[];
     [ChainStepFields.selectedDevnetIds]?: string[];
@@ -59,13 +69,7 @@ export interface NewProjectType {
     [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;
     [WhitelistStepFields.shouldSkipFormReset]?: boolean;
     [WhitelistStepFields.indexOfEditingWhitelistItem]?: number;
-  };
-  [NewProjectStep.Plan]?: {
-    [PlanStepFields.planName]?: string;
-    [PlanStepFields.planPrice]?: string;
-  };
-  [NewProjectStep.Checkout]?: {
-    [CheckoutStepFields.isCheckedOut]?: boolean;
+    [WhitelistStepFields.isCheckedOut]?: boolean;
   };
 }
 
