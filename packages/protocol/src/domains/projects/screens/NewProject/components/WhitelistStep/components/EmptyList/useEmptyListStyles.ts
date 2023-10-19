@@ -22,12 +22,8 @@ export const useEmptyListStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(5),
     textAlign: 'center',
   },
-  descriptionRoot: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    columnGap: theme.spacing(7.5),
-    alignItems: 'center',
-    height: '100%',
+  description: {
+    maxWidth: 506,
     marginBottom: theme.spacing(8),
   },
 }));

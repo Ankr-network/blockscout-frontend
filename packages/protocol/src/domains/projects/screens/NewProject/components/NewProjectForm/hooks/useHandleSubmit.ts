@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 
-import { NewProjectStep } from 'domains/projects/types';
+import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
 import {
@@ -23,14 +24,18 @@ export const useHandleSubmit = (
   onSubmit: NewProjectFormProps['onSubmit'],
 ) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const { handleCreateToken, handleUpdateToken } = useGeneralStepOnSubmit();
   const handleWhitelistStepOnSubmit = useWhitelistStepOnSubmit();
   const { handleEnableWhitelist, handleResetConfig } = useEnableWhitelist();
-  const history = useHistory();
+
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const allProjects = useAppSelector(selectAllProjects);
 
-  return useCallback(
+  const handleSubmit = useCallback(
+    // eslint-disable-next-line max-lines-per-function
     async (values: NewProjectFormValues) => {
       switch (step) {
         case NewProjectStep.General:
@@ -152,17 +157,30 @@ export const useHandleSubmit = (
         }
 
         case NewProjectStep.Whitelist: {
-          const { userEndpointToken } = values;
+          const { whitelistItems, userEndpointToken } = values;
+
+          const hasContracts = whitelistItems?.some(
+            item => item.type === WhiteListItem.address,
+          );
+
+          if (hasContracts) {
+            onSubmit(step, {
+              whitelistItems,
+            });
+
+            return onOpen();
+          }
 
           await handleWhitelistStepOnSubmit(userEndpointToken);
 
           const { isSuccess } = await handleEnableWhitelist(false);
 
           if (isSuccess) {
-            history.push(ProjectsRoutesConfig.projects.generatePath());
-            handleResetConfig();
+            if (!hasContracts) {
+              history.push(ProjectsRoutesConfig.projects.generatePath());
+            }
 
-            return null;
+            handleResetConfig();
           }
 
           return null;
@@ -173,13 +191,20 @@ export const useHandleSubmit = (
       allProjects,
       step,
       onSubmit,
-      handleWhitelistStepOnSubmit,
       dispatch,
-      handleEnableWhitelist,
-      history,
-      handleResetConfig,
       handleCreateToken,
       handleUpdateToken,
+      onOpen,
+      handleEnableWhitelist,
+      handleResetConfig,
+      handleWhitelistStepOnSubmit,
+      history,
     ],
   );
+
+  return {
+    handleSubmit,
+    isOpened,
+    onClose,
+  };
 };

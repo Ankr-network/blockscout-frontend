@@ -35,6 +35,7 @@ export const useWhitelistStepStyles = makeStyles()(theme => ({
   plug: {
     whiteSpace: 'pre-wrap',
     marginBottom: theme.spacing(6),
+    maxWidth: 450,
   },
   countersWrapper: {
     display: 'flex',

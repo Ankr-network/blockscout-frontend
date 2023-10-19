@@ -23,12 +23,12 @@ export const useMyBundles = ({
 }: MyBundlesParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const shouldFetch = useMemo(
-    () => !skipFetching && !isEnterpriseClient && !isLoadingEnterpriseStatus,
-    [isEnterpriseClient, isLoadingEnterpriseStatus, skipFetching],
+    () => !skipFetching && !isEnterpriseClient && !isEnterpriseStatusLoading,
+    [isEnterpriseClient, isEnterpriseStatusLoading, skipFetching],
   );
 
   const [fetch] = useLazyFetchMyBundlesQuery();

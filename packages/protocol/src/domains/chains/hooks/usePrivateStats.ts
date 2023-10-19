@@ -4,6 +4,7 @@ import { PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
 import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 interface PrivateStatsParams {
   interval: PrivateStatsInterval;
@@ -23,6 +24,9 @@ export const usePrivateStats = ({
   userEndpointToken,
 }: PrivateStatsParams): PrivateStatsReturn => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
+
   const [
     fetchPrivateStats,
     { data = {}, isLoading: arePrivateStatsLoading, error: privateStatsError },
@@ -34,15 +38,31 @@ export const usePrivateStats = ({
   useEffect(() => reset, [reset]);
 
   useEffect(() => {
-    const isGroupChanged = groupRef.current !== group;
+    if (!isEnterpriseStatusLoading) {
+      const isGroupChanged = groupRef.current !== group;
 
-    if (isGroupChanged) {
-      groupRef.current = group;
-      fetchPrivateStats({ interval, userEndpointToken: undefined, group });
+      if (isGroupChanged) {
+        groupRef.current = group;
+
+        fetchPrivateStats({
+          interval,
+          userEndpointToken: undefined,
+          group,
+          gateway,
+        });
+      }
+
+      fetchPrivateStats({ interval, userEndpointToken, group, gateway });
     }
-
-    fetchPrivateStats({ interval, userEndpointToken, group });
-  }, [fetchPrivateStats, interval, requestKey, userEndpointToken, group]);
+  }, [
+    fetchPrivateStats,
+    interval,
+    requestKey,
+    userEndpointToken,
+    group,
+    gateway,
+    isEnterpriseStatusLoading,
+  ]);
 
   return { arePrivateStatsLoading, data, privateStatsError };
 };

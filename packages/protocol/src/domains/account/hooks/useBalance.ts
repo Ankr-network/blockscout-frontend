@@ -20,18 +20,20 @@ import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientS
 
 export interface BalanceParams {
   skipFetching?: boolean;
+  options?: SubscriptionOptions;
 }
 
-const options: SubscriptionOptions = {
+const defaultOptions: SubscriptionOptions = {
   pollingInterval: 30_000,
 };
 
 export const useBalance = ({
   skipFetching = false,
+  options = defaultOptions,
 }: BalanceParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { isLoggedIn } = useAuth();
-  const { isEnterpriseClient, isLoadingEnterpriseStatus } =
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const shouldFetch = useMemo(
@@ -39,8 +41,8 @@ export const useBalance = ({
       isLoggedIn &&
       !skipFetching &&
       !isEnterpriseClient &&
-      !isLoadingEnterpriseStatus,
-    [isEnterpriseClient, isLoadingEnterpriseStatus, isLoggedIn, skipFetching],
+      !isEnterpriseStatusLoading,
+    [isEnterpriseClient, isEnterpriseStatusLoading, isLoggedIn, skipFetching],
   );
 
   const [fetch] = useLazyFetchBalanceQuery(options);

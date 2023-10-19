@@ -4,6 +4,7 @@ export * from './rpc';
 export * from './sdk';
 export * from './worker';
 export * from './accounting';
+export * from './enterprise';
 export * from './backoffice';
 export * from './public';
 export * from './services';

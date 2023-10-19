@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useLazyFetchMonthlyUsageHistoryQuery } from 'domains/dashboard/actions/fetchMonthlyUsageHistory';
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 export const useMonthlyStats = () => {
   const [fetch, { data, isLoading }] = useLazyFetchMonthlyUsageHistoryQuery();
@@ -10,9 +11,19 @@ export const useMonthlyStats = () => {
 
   const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
 
+  const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
+
   useEffect(() => {
-    fetch({ group, token: selectedProjectEndpointToken });
-  }, [fetch, group, selectedProjectEndpointToken]);
+    if (!isEnterpriseStatusLoading) {
+      fetch({ group, token: selectedProjectEndpointToken, gateway });
+    }
+  }, [
+    fetch,
+    group,
+    selectedProjectEndpointToken,
+    gateway,
+    isEnterpriseStatusLoading,
+  ]);
 
   return {
     data,

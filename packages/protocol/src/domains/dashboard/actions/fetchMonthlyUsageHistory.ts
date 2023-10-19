@@ -1,12 +1,19 @@
 import { StatsByRangeRequest, StatsByRangeResponse } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { UsageHistoryDataMapped } from '@ankr.com/telemetry';
 
 import { web3Api } from 'store/queries';
-import { MultiService } from 'modules/api/MultiService';
+import { accountingGateway } from 'modules/api/MultiService';
 import { Locale } from 'modules/i18n/types/locale';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { UsageHistoryData } from 'domains/dashboard/store/types';
 
-const mapStatsResponseToUsageHistoryData = (response: StatsByRangeResponse) =>
+import { Gateway } from '../types';
+
+type FetchMonthlyUsageHistoryParams = StatsByRangeRequest & Gateway;
+
+const mapStatsResponseToUsageHistoryData = (
+  response: StatsByRangeResponse,
+): UsageHistoryDataMapped[] =>
   Object.entries(response)
     .reverse()
     .map(([timestamp, calls]) => {
@@ -15,6 +22,9 @@ const mapStatsResponseToUsageHistoryData = (response: StatsByRangeResponse) =>
       return {
         month: date.toLocaleString(Locale.en, { month: 'long' }),
         calls,
+        formattedCallsValue: t('dashboard.usage-history.calls-number', {
+          calls,
+        }),
       };
     });
 
@@ -24,14 +34,17 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchMonthlyUsageHistory: build.query<
-      UsageHistoryData[],
-      StatsByRangeRequest
+      UsageHistoryDataMapped[],
+      FetchMonthlyUsageHistoryParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ group, token, monthly = true }) => {
-          const api = MultiService.getService().getAccountingGateway();
-
-          const response = await api.getUserStatsByRange({
+        async ({
+          group,
+          token,
+          monthly = true,
+          gateway = accountingGateway,
+        }) => {
+          const response = await gateway.getUserStatsByRange({
             group,
             token,
             monthly,

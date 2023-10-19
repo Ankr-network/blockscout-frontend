@@ -25,7 +25,7 @@ export const {
         const service = MultiService.getService();
         const enterpriseGateway = service.getEnterpriseGateway();
 
-        const data = await enterpriseGateway.getEnterpriseStats(interval);
+        const data = await enterpriseGateway.getPrivateStats(interval);
 
         return { data };
       }),

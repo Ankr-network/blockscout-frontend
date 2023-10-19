@@ -1,5 +1,5 @@
 import { t } from '@ankr.com/common';
-import { ButtonBase, Menu, Typography } from '@mui/material';
+import { Menu, Typography, Button } from '@mui/material';
 import { ArrowDown } from '@ankr.com/ui';
 import { useCallback } from 'react';
 import { useForm } from 'react-final-form';
@@ -18,7 +18,7 @@ export interface IAddWhitelistMenuButtonProps {
   isAddingSmartContractDisabled: boolean;
   isSetupMode: boolean;
   className?: string;
-  onWhitelistDialogOpen: () => void;
+  onWhitelistDialogOpen: (type: WhiteListItem) => void;
 }
 
 export const AddWhitelistMenuButton = ({
@@ -44,7 +44,7 @@ export const AddWhitelistMenuButton = ({
     change(WhitelistStepFields.whitelistDialog, {
       type: WhiteListItem.referer,
     });
-    onWhitelistDialogOpen();
+    onWhitelistDialogOpen(WhiteListItem.referer);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
@@ -52,7 +52,7 @@ export const AddWhitelistMenuButton = ({
     change(WhitelistStepFields.whitelistDialog, {
       type: WhiteListItem.ip,
     });
-    onWhitelistDialogOpen();
+    onWhitelistDialogOpen(WhiteListItem.ip);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
@@ -60,15 +60,23 @@ export const AddWhitelistMenuButton = ({
     change(WhitelistStepFields.whitelistDialog, {
       type: WhiteListItem.address,
     });
-    onWhitelistDialogOpen();
+    onWhitelistDialogOpen(WhiteListItem.address);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
+  const isButtonDisabled =
+    isAddingDomainDisabled &&
+    isAddingIPDisabled &&
+    isAddingSmartContractDisabled;
+
   return (
     <>
-      <ButtonBase
-        className={cx(classes.menuButton, className)}
+      <Button
+        className={cx(classes.menuButton, className, {
+          [classes.disabled]: isButtonDisabled,
+        })}
         onClick={handleOpen}
+        disabled={isButtonDisabled}
       >
         <Typography variant="body2" className={classes.menuButtonLabel}>
           {t(
@@ -78,7 +86,7 @@ export const AddWhitelistMenuButton = ({
           )}
           <ArrowDown className={classes.menuButtonIcon} />
         </Typography>
-      </ButtonBase>
+      </Button>
 
       <Menu
         MenuListProps={{

@@ -40,6 +40,7 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
       shouldSkipFormReset: false,
       indexOfEditingWhitelistItem: undefined,
       whitelistDialog: initialDialogValues,
+      isCheckedOut: false,
     },
   },
 };

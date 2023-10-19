@@ -292,7 +292,7 @@
       },
       "step-3": {
         "title": "Add to Whitelist",
-        "plug": "Define domains, IPs, and smart contracts allowed to interact<br/>with project's endpoints. Each dialog adds a single item.<br/>Open a new dialog for each item you add.",
+        "plug": "Define domains and IPs allowed to&nbsp;interact with project&rsquo;s endpoints&nbsp;&mdash; free of&nbsp;charge. Define smart contracts&nbsp;&mdash; 100M&nbsp;API Credits ($10) per item. Open a&nbsp;new dialog for each item you add.",
         "label": "Smart contract address",
         "placeholder": "0x000000",
         "btn": "Add",
@@ -306,17 +306,15 @@
           "duplication": "This address has already been added"
         },
         "empty-list": {
-          "title": "Configure whitelist",
-          "feel-secure": "Feel secure with the mRPC whitelist",
-          "secure-project": "Secure your project from abuse",
-          "control-interaction": "Control endpoints interaction by domains, IPs, and smart contracts",
-          "know-users": "Know who uses your endpoints"
+          "title": "Secure project with Whitelist",
+          "control-interaction": "Control endpoints interaction by domains (max 10 items) and IPs (max 10 items) — free of charge.",
+          "smart-contracts": "Control endpoints interaction by smart contracts (max 3 items) — 100M API Credits (10$) per smart contract."
         },
         "add-whitelist-menu": {
           "domain": "Domain",
           "ip": "IP",
-          "smart-contract": "Smart contract",
-          "setup": "Setup Whitelist",
+          "smart-contract": "Smart contract ($)",
+          "setup": "Configure whitelist",
           "add": "Add"
         },
         "whitelist-items-counter": {
@@ -377,7 +375,8 @@
         "edit": "Edit whitelist"
       },
       "description-10": "Your service plan supports adding ten whitelist items. Each<br/>dialog adds a single item. Open a new dialog for each item<br/>you add.",
-      "description-5": "Your service plan supports adding five whitelist items. Each<br/>dialog adds a single item. Open a new dialog for each item<br/>you add.",
+      "address-description": "Each dialog adds a&nbsp;single item. Open a&nbsp;new dialog for each item you add.",
+      "address-warning": "Attention! Only three methods are available to query whitelist smart contracts:",
       "select-type": "Select type",
       "select": "Select",
       "domain": "Domain",
@@ -398,7 +397,28 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     },
-    "final-price": "Final Price: <span>${usdValue}.00</span>"
+    "add-contract-dialog": {
+      "title": "Add smart contract",
+      "description": "Adding smart contracts into Whitelist costs 100M&nbsp;API Credits ($10) per item. Max whitelist capacity is&nbsp;3&nbsp;items per project.",
+      "proceed": "Proceed",
+      "cancel": "Cancel"
+    },
+    "final-price": "Final Price: <span>${usdValue}.00</span>",
+    "summary": {
+      "title": "Summary",
+      "description": "Smart contract added into Whitelist",
+      "info": {
+        "contract": "Smart contract",
+        "price": "{contractsCount} x {credits, number, ::compact-short} API Credits (${usd}.00)",
+        "total": "Total",
+        "total-amount": "{credits, number, ::compact-short} API Credits (${usd}.00)",
+        "button-credits": "Pay with Credits",
+        "button-stripe": "Pay with Stripe",
+        "balance": "Balance: {balance, number, ::compact-short} API Credits",
+        "cancel": "Cancel",
+        "tooltip": "Insufficient balance; API Credit payment unavailable."
+      }
+    }
   },
   "dashboard": {
     "placeholder": {
@@ -1463,13 +1483,20 @@
       "breadcrumbs": "Billing",
       "pricing": {
         "title": "Everything looks good!",
-        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min."
+        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
+        "button": "Go to Endpoints"
       },
       "billing": {
         "title": "Operation succeeded.",
-        "description": "The payment has been rendered successfully — enjoy your <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">Rate limits</a>"
+        "description": "The payment has been rendered successfully — enjoy your <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">Rate limits</a>",
+        "button": "Go to Endpoints"
       },
-      "button": "Go to Endpoints"
+      "whitelist": {
+        "title": "Success",
+        "description-loading": "Payment success. Your project is configuring.",
+        "description": "Your project has been configured.",
+        "button": "Done"
+      }
     },
     "card-payment-failure": {
       "breadcrumbs": "Billing",

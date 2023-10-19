@@ -13,6 +13,11 @@ import {
   IApiUserGroupParams,
   PrivateStats,
   PrivateStatsInterval,
+  StatsByRangeRequest,
+  StatsByRangeResponse,
+  Top10StatsParams,
+  Top10StatsResponse,
+  TotalStatsResponse,
 } from '../accounting';
 
 export class EnterpriseGateway {
@@ -56,7 +61,12 @@ export class EnterpriseGateway {
     return response;
   }
 
-  async getEnterpriseStats(
+  /**
+   * Some telemetry endpoints (auth/enterprise/stats...) are added with same naming as in accounting gateway
+   * in order to save the backward compatibility
+   * */
+
+  async getPrivateStats(
     intervalType: PrivateStatsInterval,
     group?: string,
   ): Promise<PrivateStats> {
@@ -70,18 +80,58 @@ export class EnterpriseGateway {
     return response;
   }
 
-  async getEnterpriseStatsByPremiumId(
+  async getPrivateStatsByPremiumId(
     intervalType: PrivateStatsInterval,
     apiKey: string,
-    group?: Web3Address,
   ): Promise<PrivateStats> {
     const { data } = await this.api.get<PrivateStats>(
       `/api/v1/auth/enterprise/stats/apiKey`,
       {
-        params: { intervalType, apiKey, group },
+        params: { intervalType, apiKey },
       },
     );
 
     return data;
+  }
+
+  async getTop10Stats(params: Top10StatsParams): Promise<Top10StatsResponse> {
+    const { data } = await this.api.get<Top10StatsResponse>(
+      `/api/v1/auth/enterprise/stats/top10`,
+      {
+        params,
+      },
+    );
+
+    return data;
+  }
+
+  /**
+   * Returns total stats for each day between from and to
+   * In case of empty params, to would be now, and from would be now - 180 days
+   * Query Params (all are optional):
+   * - from milliseconds
+   * - to milliseconds
+   * - monthly if set true returns aggregated stats by month
+   * - token if set, returns only stats for specified premium-token */
+  async getUserStatsByRange(
+    params: StatsByRangeRequest,
+  ): Promise<StatsByRangeResponse> {
+    const { data: response } = await this.api.get<StatsByRangeResponse>(
+      '/api/v1/auth/enterprise/stats/totals/range',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getUserTotalStats(group?: Web3Address) {
+    const { data: response } = await this.api.get<TotalStatsResponse>(
+      '/api/v1/auth/enterprise/stats/totals',
+      { params: { group } },
+    );
+
+    return response.blockchains_info;
   }
 }

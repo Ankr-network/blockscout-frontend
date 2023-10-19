@@ -31,13 +31,14 @@ import { listenerMiddleware } from './middlewares/listenerMiddleware';
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
 import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
 import { rootSaga } from './rootSaga';
-import { web3Api } from './queries';
+import { web3Api, projectApi } from './queries';
 import { enterpriseChainsSlice } from '../domains/enterprise/store/enterpriseSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
 const rootReducer = combineReducers({
   [web3Api.reducerPath]: web3Api.reducer,
+  [projectApi.reducerPath]: projectApi.reducer,
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   theme: persistReducer(themePersistConfig, themeSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
@@ -70,6 +71,7 @@ export const store = configureStore({
       serializableCheck: false,
     })
       .concat(web3Api.middleware)
+      .concat(projectApi.middleware)
       .prepend(listenerMiddleware.middleware)
       .prepend(authConnectInitiatorListenerMiddleware.middleware)
       .prepend(oauthLoginInitiatorListenerMiddleware.middleware)

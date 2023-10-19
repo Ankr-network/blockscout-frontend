@@ -42,6 +42,15 @@ export const InputDialogFormField = ({
     [shouldSkipPristineForValidation, validate],
   );
 
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    },
+    [],
+  );
+
   return (
     <Field
       isRequired={isRequired}
@@ -65,6 +74,7 @@ export const InputDialogFormField = ({
       // passing maxLength in InputProps doesn't work
       // eslint-disable-next-line react/jsx-no-duplicate-props
       inputProps={{ maxLength }}
+      onKeyPress={handleKeyPress}
     />
   );
 };

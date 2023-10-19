@@ -119,8 +119,9 @@ export const getDialogDescription = (type?: WhiteListItem) => {
     case WhiteListItem.referer:
     default:
       return tHTML(`${intlKey}.description-10`);
+
     case WhiteListItem.address:
-      return tHTML(`${intlKey}.description-5`);
+      return tHTML(`${intlKey}.address-description`);
   }
 };
 
@@ -128,10 +129,13 @@ export const getSelectChainDescription = (type?: WhiteListItem) => {
   switch (type) {
     case WhiteListItem.address:
       return tHTML(`${intlKey}.select-chain-description-smart-contract`);
+
     case WhiteListItem.ip:
       return tHTML(`${intlKey}.select-chain-description-ip`);
+
     case WhiteListItem.referer:
       return tHTML(`${intlKey}.select-chain-description-domain`);
+
     default:
       return '';
   }

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
+import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
 import { Chain, ChainID } from 'domains/chains/types';
 import {
   tendermintRpcChains,
@@ -8,6 +8,7 @@ import {
 } from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
+import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 
 export type ProjectChain = Chain & {
   mainnets?: Chain[];
@@ -79,12 +80,7 @@ const mapProjectChains = (chain: Chain) => {
     opnodesTestnet,
   };
 
-  if (
-    id !== ChainID.SECRET &&
-    id !== ChainID.ZETACHAIN &&
-    id !== ChainID.SCROLL &&
-    id !== ChainID.SEI
-  ) {
+  if (id !== ChainID.SECRET && id !== ChainID.ZETACHAIN && id !== ChainID.SEI) {
     return {
       ...chainParams,
       // JSON-RPC and REST Tendermint subchains have the same path,
@@ -99,14 +95,13 @@ const mapProjectChains = (chain: Chain) => {
 };
 
 export const useProjectChains = () => {
-  const {
-    allChains,
-    chains = [],
-    isLoading,
-    isUninitialized,
-  } = usePrivateChainsInfo();
+  const userEndpointToken = useUserEndpointToken();
+  const skipChainsFetching = !userEndpointToken;
+
+  const { chains, allChains, isLoading, isUninitialized } =
+    usePrivateChainsInfo(skipChainsFetching);
 
   const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
 
-  return { allChains, isLoading, isUninitialized, projectChains };
+  return { allChains, isLoading, projectChains, isUninitialized };
 };

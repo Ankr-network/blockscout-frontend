@@ -1,10 +1,12 @@
 import { IApiUserGroupParams, TotalStatsBlockchainsInfo } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
+import { accountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
-export type FetchUserTotalStatsParams = Pick<IApiUserGroupParams, 'group'>;
+import { Gateway } from '../types';
+
+export type FetchUserTotalStatsParams = IApiUserGroupParams & Gateway;
 
 export const {
   endpoints: { fetchUserTotalStats },
@@ -15,13 +17,13 @@ export const {
       TotalStatsBlockchainsInfo,
       FetchUserTotalStatsParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ group }) => {
-        const api = MultiService.getService().getAccountingGateway();
+      queryFn: createNotifyingQueryFn(
+        async ({ group, gateway = accountingGateway }) => {
+          const data = await gateway.getUserTotalStats(group);
 
-        const data = await api.getUserTotalStats(group);
-
-        return { data };
-      }),
+          return { data };
+        },
+      ),
     }),
   }),
   overrideExisting: true,
