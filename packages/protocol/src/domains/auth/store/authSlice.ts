@@ -32,7 +32,6 @@ export interface IAuthSlice {
   hasWeb3Autoconnect?: boolean;
   oauthProviders?: OauthLoginProvider[];
   loginName?: string;
-  hasGoogleProvider?: boolean;
 }
 
 const initialState: IAuthSlice = {

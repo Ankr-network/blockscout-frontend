@@ -5,7 +5,6 @@ import { GetState, RootState } from 'store';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
-import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { selectAuthData } from 'domains/auth/store/authSlice';
@@ -17,7 +16,7 @@ import {
   getTrackingParams,
   trackLoginSuccess,
 } from './loginByGoogleSecretCodeUtils';
-import { setGithubLoginName } from '../setGithubLoginName';
+import { setGithubLoginNameAndEmail } from '../setGithubLoginNameAndEmail';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -102,16 +101,9 @@ export const {
       onQueryStarted: async (_arg, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(setGithubLoginName.initiate());
+        await dispatch(setGithubLoginNameAndEmail.initiate());
 
         dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-
-        await dispatch(
-          userSettingsGetActiveEmailBinding.initiate({
-            params: undefined as void,
-            shouldNotify: false,
-          }),
-        );
       },
     }),
   }),

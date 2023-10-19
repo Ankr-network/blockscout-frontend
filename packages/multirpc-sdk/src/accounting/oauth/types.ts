@@ -13,6 +13,7 @@ export interface AssociatedAccount {
   externalId: string;
   login: string;
   provider: OauthLoginProvider;
+  email?: string;
 }
 
 export interface IOauthSecretCodeParams extends IGoogleSecretCodeParams {
