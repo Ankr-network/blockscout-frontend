@@ -9,6 +9,10 @@ export interface IUpdateWhitelistModeParams extends IApiUserGroupParams {
   type: UserEndpointTokenMode;
 }
 
+export interface IWhitelistBlockchainsParams extends IApiUserGroupParams {
+  token: string; // endpointToken
+}
+
 export interface IGetWhitelistParams extends IUpdateWhitelistModeParams {
   group?: Address;
 }

@@ -7,6 +7,7 @@ import { useLazyFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/g
 
 import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 import { useLazyFetchStatsByRangeQuery } from '../actions/fetchStatsByRange';
+import { useLazyFetchWhitelistBlockchainsQuery } from '../actions/fetchWhitelistBlockchains';
 
 export const useProjects = () => {
   const {
@@ -26,6 +27,14 @@ export const useProjects = () => {
     { data: allWhitelists, isLoading: isLoadingAllWhitelists },
   ] = useLazyFetchAllWhitelistsQuery();
 
+  const [
+    fetchAllWhitelistsBlockchains,
+    {
+      data: allWhitelistsBlockchains,
+      isLoading: isLoadingAllWhitelistsBlockchains,
+    },
+  ] = useLazyFetchWhitelistBlockchainsQuery();
+
   const [fetchStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
 
   const [fetchStatsByRange] = useLazyFetchStatsByRangeQuery();
@@ -44,6 +53,10 @@ export const useProjects = () => {
 
     const { abort: abortWhitelists } = fetchAllWhitelists({ group });
 
+    const { abort: abortWhitelistsBlockchains } = fetchAllWhitelistsBlockchains(
+      { group },
+    );
+
     const { abort: abortStatuses } = fetchStatuses({
       group,
       projects: jwtTokens,
@@ -56,6 +69,7 @@ export const useProjects = () => {
 
     return () => {
       abortWhitelists();
+      abortWhitelistsBlockchains();
       abortStatuses();
       abortStats();
     };
@@ -64,6 +78,7 @@ export const useProjects = () => {
     group,
     jwtTokens,
     fetchAllWhitelists,
+    fetchAllWhitelistsBlockchains,
     fetchStatuses,
     fetchStatsByRange,
   ]);
@@ -74,6 +89,8 @@ export const useProjects = () => {
     isLoading,
     allWhitelists,
     isLoadingAllWhitelists,
+    allWhitelistsBlockchains,
+    isLoadingAllWhitelistsBlockchains,
     isFetching,
   };
 };
