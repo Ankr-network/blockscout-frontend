@@ -12,6 +12,6 @@ export const evmGroups: ChainGroupID[] = [
   ChainGroupID.SEPOLIA,
   ChainGroupID.HOLESKY,
   ChainGroupID.TENET,
-  ChainGroupID.SCROLL,
+  ChainGroupID.SCROLL_ALPHA,
   ChainGroupID.STANDARD_EVM,
 ];

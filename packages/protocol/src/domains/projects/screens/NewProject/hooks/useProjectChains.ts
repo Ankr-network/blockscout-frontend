@@ -80,12 +80,7 @@ const mapProjectChains = (chain: Chain) => {
     opnodesTestnet,
   };
 
-  if (
-    id !== ChainID.SECRET &&
-    id !== ChainID.ZETACHAIN &&
-    id !== ChainID.SCROLL &&
-    id !== ChainID.SEI
-  ) {
+  if (id !== ChainID.SECRET && id !== ChainID.ZETACHAIN && id !== ChainID.SEI) {
     return {
       ...chainParams,
       // JSON-RPC and REST Tendermint subchains have the same path,
