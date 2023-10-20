@@ -24,7 +24,8 @@ export const {
         dispatch(
           setAuthData({
             loginName: associatedAccount?.login,
-            email: associatedGoogleAccount?.email,
+            email:
+              associatedGoogleAccount?.email || associatedGoogleAccount?.login,
           }),
         );
 
