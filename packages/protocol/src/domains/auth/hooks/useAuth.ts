@@ -21,7 +21,7 @@ import {
   selectIsUserEthAddressType,
   selectPremiumStatus,
   selectPremiumUntilDate,
-} from '../store/selectors';
+} from '../store';
 import { useWeb3Connection } from './useWeb3Connection';
 
 export const useAuth = () => {

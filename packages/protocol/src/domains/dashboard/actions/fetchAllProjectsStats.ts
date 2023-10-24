@@ -5,7 +5,7 @@ import {
 } from 'multirpc-sdk';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { accountingGateway } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
@@ -45,7 +45,12 @@ export const {
       AllProjectsStatsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ projects, group, interval, gateway = accountingGateway }) => {
+        async ({
+          projects,
+          group,
+          interval,
+          gateway = getAccountingGateway(),
+        }) => {
           const data = await Promise.all(
             projects.map(project =>
               getProjectStatsPromise(project, { group, interval }, gateway),

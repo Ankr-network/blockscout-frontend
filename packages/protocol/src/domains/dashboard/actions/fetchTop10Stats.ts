@@ -4,7 +4,7 @@ import {
   Top10StatsResponse,
 } from 'multirpc-sdk';
 
-import { accountingGateway } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
@@ -29,7 +29,7 @@ export const {
           intervalType,
           blockchain,
           group,
-          gateway = accountingGateway,
+          gateway = getAccountingGateway(),
         }) => {
           /* backend does not support h1 and h24 interval for this endpoint */
           if (

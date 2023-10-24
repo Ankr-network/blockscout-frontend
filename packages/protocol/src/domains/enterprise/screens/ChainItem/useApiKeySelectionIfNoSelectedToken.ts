@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { UNSELECTED_TOKEN_INDEX } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import {
   EnterpriseClientJwtManagerItem,
@@ -32,7 +33,9 @@ export const useApiKeySelectionIfNoSelectedToken = ({
 
   useEffect(() => {
     const isTokenNotAvailable =
-      typeof tokenIndex !== 'number' || tokenIndex === -1 || !hasChainData;
+      typeof tokenIndex !== 'number' ||
+      tokenIndex === UNSELECTED_TOKEN_INDEX ||
+      !hasChainData;
 
     if (isTokenNotAvailable && !isLoading) {
       const newTokenIndex = apiKeys[tokenIndex + 1]?.index;

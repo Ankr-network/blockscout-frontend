@@ -91,7 +91,8 @@ export class MultiService {
   }
 }
 
-export const accountingGateway =
+export const getAccountingGateway = () =>
   MultiService.getService().getAccountingGateway();
-export const enterpriseGateway =
+
+export const getEnterpriseGateway = () =>
   MultiService.getService().getEnterpriseGateway();

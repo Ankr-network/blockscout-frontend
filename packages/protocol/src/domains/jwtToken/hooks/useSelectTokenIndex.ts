@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 import { useTokenManagerConfigSelector } from './useTokenManagerConfigSelector';
 
-const UNSELECTED_TOKEN_INDEX = -1;
+export const UNSELECTED_TOKEN_INDEX = -1;
 
 export const useSelectTokenIndex = (isUnselectAvailable?: boolean) => {
   const dispatch = useDispatch();
@@ -13,6 +13,11 @@ export const useSelectTokenIndex = (isUnselectAvailable?: boolean) => {
   const { address, tokenIndex } = useTokenManagerConfigSelector();
 
   const [currentTokenIndex, setIndex] = useState(tokenIndex);
+
+  useEffect(() => {
+    setIndex(tokenIndex);
+    dispatch(setSelectedTokenIndex({ tokenIndex, address }));
+  }, [address, dispatch, tokenIndex]);
 
   const handleSelectTokenIndex = useCallback(
     (newIndex: number) => {

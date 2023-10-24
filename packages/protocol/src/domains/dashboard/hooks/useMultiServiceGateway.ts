@@ -1,11 +1,16 @@
-import { accountingGateway, enterpriseGateway } from 'modules/api/MultiService';
+import {
+  getAccountingGateway,
+  getEnterpriseGateway,
+} from 'modules/api/MultiService';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export const useMultiServiceGateway = () => {
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
-  const gateway = isEnterpriseClient ? enterpriseGateway : accountingGateway;
+  const gateway = isEnterpriseClient
+    ? getEnterpriseGateway()
+    : getAccountingGateway();
 
   return { gateway, isEnterpriseStatusLoading };
 };
