@@ -1,6 +1,6 @@
 import { IApiUserGroupParams, TotalStatsBlockchainsInfo } from 'multirpc-sdk';
 
-import { accountingGateway } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
@@ -18,7 +18,7 @@ export const {
       FetchUserTotalStatsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ group, gateway = accountingGateway }) => {
+        async ({ group, gateway = getAccountingGateway() }) => {
           const data = await gateway.getUserTotalStats(group);
 
           return { data };

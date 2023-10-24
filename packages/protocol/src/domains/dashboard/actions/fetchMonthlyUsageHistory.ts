@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 import { UsageHistoryDataMapped } from '@ankr.com/telemetry';
 
 import { web3Api } from 'store/queries';
-import { accountingGateway } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { Locale } from 'modules/i18n/types/locale';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
@@ -42,7 +42,7 @@ export const {
           group,
           token,
           monthly = true,
-          gateway = accountingGateway,
+          gateway = getAccountingGateway(),
         }) => {
           const response = await gateway.getUserStatsByRange({
             group,
