@@ -15,7 +15,7 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
 import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
-import { useAddBlockchainsToWhitelistMutation } from '../actions/addBlockchainsToWhitelist';
+import { useLazyAddBlockchainsToWhitelistQuery } from '../actions/addBlockchainsToWhitelist';
 import { newProjectIntlRoot } from '../const';
 
 interface IParamsForWhitelist {
@@ -71,7 +71,7 @@ export const useEnableWhitelist = () => {
   const [
     addBlockchainsToWhitelistRequest,
     { isLoading: isAddBlockchainsToWhitelistLoading },
-  ] = useAddBlockchainsToWhitelistMutation();
+  ] = useLazyAddBlockchainsToWhitelistQuery();
 
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();
@@ -132,6 +132,7 @@ export const useEnableWhitelist = () => {
     const mappedChainIds = (chainIds as ChainID[]).map(
       checkChainsWithExtensionsAndGetChainId,
     );
+
     const response = await addBlockchainsToWhitelistRequest({
       params: {
         userEndpointToken,
