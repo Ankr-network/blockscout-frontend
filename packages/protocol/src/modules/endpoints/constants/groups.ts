@@ -115,6 +115,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ZKSYNC_ERA,
       ChainID.ZKSYNC_ERA_TESTNET,
 
+      ChainID.LINEA,
+
       ChainID.SCROLL,
     ],
   },
