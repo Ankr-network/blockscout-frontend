@@ -1,7 +1,6 @@
 import { Box, MenuItem } from '@mui/material';
 import { ReactNode } from 'react';
-
-import { OauthProviderType } from 'domains/auth/store/authSlice';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 import { useUserInfoMenuItemStyles } from './useUserInfoMenuItemStyles';
 import { UserLogo } from './components/UserLogo';
@@ -10,7 +9,7 @@ import { UserData } from './components/UserData';
 interface UserInfoMenuItemProps {
   signoutButton: ReactNode;
   isLoading: boolean;
-  providers?: OauthProviderType[];
+  providers?: OauthLoginProvider[];
   icon: ReactNode;
   title?: string;
   subtitle?: string;

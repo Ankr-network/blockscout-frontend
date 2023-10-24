@@ -528,6 +528,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://goerli.explorer.zksync.io/'],
   },
 
+  [ChainID.LINEA]: {
+    chainId: 59144,
+    chainName: 'Linea Mainnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://lineascan.build'],
+  },
+
   [ChainID.MANTLE]: MANTLE,
 
   [ChainID.MANTLE_TESTNET]: MANTLE_TESTNET,

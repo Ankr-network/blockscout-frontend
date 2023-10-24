@@ -2,11 +2,9 @@ import { Github, Google } from '@ankr.com/ui';
 import { OauthLoginProvider } from 'multirpc-sdk';
 import { CSSProperties } from 'react';
 
-import { OauthProviderType } from 'domains/auth/store/authSlice';
-
 interface OauthIconProps {
   className?: string;
-  oauthProvider?: OauthProviderType;
+  oauthProvider?: OauthLoginProvider;
   styles?: CSSProperties;
 }
 

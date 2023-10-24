@@ -10,7 +10,6 @@ import { WhiteListItem } from '../types';
 
 export const {
   useLazyFetchAllWhitelistsQuery,
-
   endpoints: { fetchAllWhitelists },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

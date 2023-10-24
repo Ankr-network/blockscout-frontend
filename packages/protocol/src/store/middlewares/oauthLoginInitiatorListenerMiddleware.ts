@@ -50,7 +50,9 @@ oauthLoginInitiatorListenerMiddleware.startListening({
 
       const code = getAccountingErrorCode(secretCodeError as any);
 
-      const isBindingError = code === AccountingErrorCode.AlreadyExists;
+      const isBindingError =
+        code === AccountingErrorCode.AlreadyExists ||
+        code === AccountingErrorCode.FailedPrecondition;
 
       dispatch(
         NotificationActions.showNotification({

@@ -13,7 +13,7 @@ import { ActionsMenu } from '../../ActionsMenu';
 import { BlockchainIcon } from '../../BlockchainIcon';
 import { ProjectName } from '../../ProjectName';
 import { ProjectRequestsActivity } from '../../ProjectRequestsActivity';
-import { formatBlockchainToString, getRequests } from '../ProjectTableUtils';
+import { getRequests } from '../ProjectTableUtils';
 import { useColumnsStyles } from './useColumnsStyles';
 import { ProjectStatusLabel } from '../../ProjectStatusLabel';
 
@@ -95,9 +95,7 @@ export const useColumns = ({ onProjectDialogOpen }: TableColumnsProps) => {
             {t('projects.list-project.table.column-4')}
           </span>
         ),
-        render: ({ whitelist }) => {
-          const blockchains = formatBlockchainToString(whitelist);
-
+        render: ({ blockchains }) => {
           return blockchains && <BlockchainIcon blockchains={blockchains} />;
         },
         sortable: false,

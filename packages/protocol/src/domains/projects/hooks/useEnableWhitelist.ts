@@ -15,6 +15,7 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
 import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
+import { useLazyAddBlockchainsToWhitelistQuery } from '../actions/addBlockchainsToWhitelist';
 import { newProjectIntlRoot } from '../const';
 
 interface IParamsForWhitelist {
@@ -66,8 +67,15 @@ export const useEnableWhitelist = () => {
 
   const [addToWhitelist, { isLoading: isAddToWhitelistLoading }] =
     useQueryEndpoint(addToWhitelistAction);
+
+  const [
+    addBlockchainsToWhitelistRequest,
+    { isLoading: isAddBlockchainsToWhitelistLoading },
+  ] = useLazyAddBlockchainsToWhitelistQuery();
+
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();
+
   const [
     updateJwtTokenFreezeStatus,
     { isLoading: isJwtTokenFreezeStatusLoading },
@@ -75,7 +83,7 @@ export const useEnableWhitelist = () => {
 
   const { project = {}, handleResetConfig } = useProjectConfig();
 
-  const { userEndpointToken, whitelistItems } = useMemo(
+  const { chainIds, userEndpointToken, whitelistItems } = useMemo(
     () => getProjectValues(project),
     [project],
   );
@@ -121,12 +129,32 @@ export const useEnableWhitelist = () => {
       }
     }
 
+    const mappedChainIds = (chainIds as ChainID[]).map(
+      checkChainsWithExtensionsAndGetChainId,
+    );
+
+    const response = await addBlockchainsToWhitelistRequest({
+      params: {
+        userEndpointToken,
+        blockchains: mappedChainIds,
+        group: groupAddress,
+      },
+    });
+
+    // response is expected to be one of the types data | error.
+    // @ts-ignore
+    if (response.error) {
+      isErrorOccured = true;
+    }
+
     return isErrorOccured;
   }, [
     groupAddress,
     paramsForWhitelistRequests,
     userEndpointToken,
+    chainIds,
     addToWhitelist,
+    addBlockchainsToWhitelistRequest,
     dispatch,
   ]);
 
@@ -194,6 +222,7 @@ export const useEnableWhitelist = () => {
     handleEnableWhitelist,
     handleResetConfig,
     isLoading:
+      isAddBlockchainsToWhitelistLoading ||
       isAddToWhitelistLoading ||
       isWhitelistModeLoading ||
       isJwtTokenFreezeStatusLoading,

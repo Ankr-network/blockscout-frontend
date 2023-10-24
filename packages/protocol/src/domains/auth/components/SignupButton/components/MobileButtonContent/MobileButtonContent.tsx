@@ -1,6 +1,5 @@
 import { WalletIcon } from '@ankr.com/ui';
-
-import { OauthProviderType } from 'domains/auth/store/authSlice';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 import { useMobileButtonContentStyles } from './useMobileButtonContentStyles';
 import { OauthIcon } from '../OauthIcon';
@@ -10,7 +9,7 @@ interface MobileButtonContentProps {
   oauthWithoutWeb3: boolean;
   web3WithOauth: boolean;
   walletIcon?: string;
-  oauthProvider?: OauthProviderType;
+  oauthProvider?: OauthLoginProvider;
 }
 
 export const MobileButtonContent = ({

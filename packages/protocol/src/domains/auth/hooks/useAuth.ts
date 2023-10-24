@@ -3,7 +3,7 @@ import { OauthLoginProvider } from 'multirpc-sdk';
 import { useAppSelector } from 'store/useAppSelector';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
 
-import { GOOGLE_PROVIDER, selectAuthData } from '../store/authSlice';
+import { selectAuthData } from '../store/authSlice';
 import {
   selectAddress,
   selectHasConnectWalletMessage,
@@ -57,7 +57,7 @@ export const useAuth = () => {
     ...oauthRest,
     oauthProviders,
     hasGithubLogin: oauthProviders?.includes(OauthLoginProvider.Github),
-    hasGoogleLogin: oauthProviders?.includes(GOOGLE_PROVIDER),
+    hasGoogleLogin: oauthProviders?.includes(OauthLoginProvider.Google),
     address,
     hasWeb3Connection: Boolean(hasWeb3Connection),
     isWalletConnected: Boolean(address),

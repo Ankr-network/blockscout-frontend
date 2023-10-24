@@ -3,7 +3,6 @@ import { t } from '@ankr.com/common';
 import { IGetActiveEmailBindingResponse } from 'multirpc-sdk';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyUserSettingsGetActiveEmailBindingQuery } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
@@ -18,8 +17,6 @@ export const EmailBlock = () => {
   const [getActiveEmailBinding, activeEmailBindingState] =
     useLazyUserSettingsGetActiveEmailBindingQuery();
 
-  const { hasGithubLogin, hasWeb3Connection } = useAuth();
-
   const {
     closeChangeEmailDialog,
     isChangeEmailDialogOpen,
@@ -29,8 +26,6 @@ export const EmailBlock = () => {
   useOnMount(() => {
     getActiveEmailBinding();
   });
-
-  const canChangeEmail = hasGithubLogin || hasWeb3Connection;
 
   return (
     <>
@@ -47,17 +42,15 @@ export const EmailBlock = () => {
             </Queries>
           </Typography>
 
-          {canChangeEmail && (
-            <Button
-              size="large"
-              variant="outlined"
-              color="secondary"
-              className={classes.button}
-              onClick={openChangeEmailDialog}
-            >
-              {t('user-settings.settings-screen.change-email-button')}
-            </Button>
-          )}
+          <Button
+            size="large"
+            variant="outlined"
+            color="secondary"
+            className={classes.button}
+            onClick={openChangeEmailDialog}
+          >
+            {t('user-settings.settings-screen.change-email-button')}
+          </Button>
         </Paper>
         <WalletBlock />
       </div>

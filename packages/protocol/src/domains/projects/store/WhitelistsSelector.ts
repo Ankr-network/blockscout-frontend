@@ -6,9 +6,15 @@ import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtToke
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { getAllProjects } from '../utils/getAllProjects';
 import { fetchStatsByRange } from '../actions/fetchStatsByRange';
+import { fetchWhitelistBlockchains } from '../actions/fetchWhitelistBlockchains';
 
-export const selectAllWhitelists = createSelector(
+const selectAllWhitelists = createSelector(
   fetchAllWhitelists.select({}),
+  ({ data: whitelists = [] }) => whitelists,
+);
+
+const selectAllWhitelistsBlockchains = createSelector(
+  fetchWhitelistBlockchains.select({}),
   ({ data: whitelists = [] }) => whitelists,
 );
 
@@ -30,7 +36,14 @@ export const selectProjectsStatusesIsUninitialized = createSelector(
 export const selectAllProjects = createSelector(
   selectJwtTokens,
   selectAllWhitelists,
+  selectAllWhitelistsBlockchains,
   selectProjectsStatuses,
-  (projects, whitelists, projectStatuses) =>
-    getAllProjects(projects, whitelists, projectStatuses),
+  // eslint-disable-next-line max-params
+  (projects, whitelists, whitelistBlockchains, projectStatuses) =>
+    getAllProjects({
+      projects,
+      whitelists,
+      whitelistBlockchains,
+      projectStatuses,
+    }),
 );

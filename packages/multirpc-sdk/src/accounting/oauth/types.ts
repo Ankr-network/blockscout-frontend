@@ -1,9 +1,9 @@
-import { Address } from '@ankr.com/provider';
-
 import { IGoogleSecretCodeParams } from '../googleOauth';
 
 export enum OauthLoginProvider {
   Github = 'github',
+  Google = 'google',
+  Email = 'email',
 }
 
 export interface IOauthLoginParams {
@@ -11,10 +11,10 @@ export interface IOauthLoginParams {
 }
 
 export interface AssociatedAccount {
-  address: Address;
   externalId: string;
   login: string;
   provider: OauthLoginProvider;
+  email?: string;
 }
 
 export interface IOauthSecretCodeParams extends IGoogleSecretCodeParams {

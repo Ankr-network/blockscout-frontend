@@ -5,6 +5,7 @@ import {
   AXIOS_DEFAULT_CONFIG,
   Web3Address,
   createTOTPHeaders,
+  BlockchainID,
 } from '../common';
 import {
   BundlePaymentPlan,
@@ -34,6 +35,7 @@ import {
   IUpdateWhitelistParams,
   IUpdateWhitelistParamsResponse,
   IGetWhitelistParamsResponse,
+  IWhitelistBlockchainsParams,
 } from './whitelists';
 import {
   NegativeBalanceTermsOfServicesStatusResponse,
@@ -726,6 +728,29 @@ export class AccountingGateway {
   ): Promise<IUpdateWhitelistParamsResponse> {
     const { data } = await this.api.patch<IUpdateWhitelistParamsResponse>(
       '/api/v1/auth/whitelist',
+      bodyParams,
+      { headers: createTOTPHeaders(totp), params: queryParams },
+    );
+
+    return data;
+  }
+
+  async getWhitelistBlockchains(queryParams: IWhitelistBlockchainsParams) {
+    const { data } = await this.api.get<BlockchainID[]>(
+      '/api/v1/auth/whitelist/blockchains',
+      { params: queryParams },
+    );
+
+    return data;
+  }
+
+  async addBlockchainsToWhitelist(
+    bodyParams: BlockchainID[],
+    queryParams: IWhitelistBlockchainsParams,
+    totp?: string,
+  ) {
+    const { data } = await this.api.post<BlockchainID[]>(
+      '/api/v1/auth/whitelist/blockchains',
       bodyParams,
       { headers: createTOTPHeaders(totp), params: queryParams },
     );

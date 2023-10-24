@@ -11,6 +11,7 @@ import { updateWhitelistMode } from 'domains/projects/actions/updateWhitelistMod
 import { addAddressToWhitelist } from 'domains/projects/actions/addAddressToWhitelist';
 import { updateWhitelist } from 'domains/projects/actions/updateWhitelist';
 import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
+import { addBlockchainsToWhitelist } from 'domains/projects/actions/addBlockchainsToWhitelist';
 import { fetchEnterpriseEndpoints } from 'domains/enterprise/actions/fetchEnterpriseEndpoints';
 
 // Top level endpoints that should be re-initiated if
@@ -26,6 +27,7 @@ const matcher = isAnyOf(
   addAddressToWhitelist.matchRejected,
   updateWhitelist.matchRejected,
   addToWhitelist.matchRejected,
+  addBlockchainsToWhitelist.matchRejected,
   fetchEnterpriseEndpoints.matchRejected,
 );
 
