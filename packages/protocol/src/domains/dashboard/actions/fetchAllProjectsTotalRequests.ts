@@ -1,4 +1,4 @@
-import { accountingGateway } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     fetchAllProjectsTotalRequests: build.query<number, ProjectsStatsParams>({
       queryFn: createNotifyingQueryFn(
-        async ({ interval, group, gateway = accountingGateway }) => {
+        async ({ interval, group, gateway = getAccountingGateway() }) => {
           const data = await gateway.getPrivateStats(interval, group);
 
           return { data: data?.total_requests ?? 0 };

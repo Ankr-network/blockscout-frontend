@@ -5,7 +5,7 @@ import {
   PrivateStatsInterval,
 } from 'multirpc-sdk';
 
-import { accountingGateway } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { Gateway } from 'domains/dashboard/types';
@@ -34,7 +34,7 @@ export const {
             interval,
             userEndpointToken,
             group,
-            gateway = accountingGateway,
+            gateway = getAccountingGateway(),
           }) => {
             const data = await (userEndpointToken
               ? gateway.getPrivateStatsByPremiumId(
