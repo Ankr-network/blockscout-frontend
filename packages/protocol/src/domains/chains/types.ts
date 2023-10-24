@@ -130,6 +130,9 @@ export enum ChainID {
   KLAYTN = 'klaytn',
   KLAYTN_TESTNET = 'klaytn_testnet',
   KUSAMA = 'kusama',
+
+  LINEA = 'linea',
+
   MANTLE = 'mantle',
   MANTLE_TESTNET = 'mantle_testnet',
   METIS = 'metis',
