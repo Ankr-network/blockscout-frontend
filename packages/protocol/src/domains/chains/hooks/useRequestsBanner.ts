@@ -12,6 +12,10 @@ export const useRequestsBanner = (timeframe: Timeframe) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const userToken = useMemo(() => {
+    if (isLoadingGroupToken) {
+      return undefined;
+    }
+
     if (group && !isLoadingGroupToken) {
       return groupToken?.jwtToken;
     }
