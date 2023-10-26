@@ -10,10 +10,10 @@ import {
   YAxis,
 } from 'recharts';
 import { BaseAxisProps } from 'recharts/types/util/types';
+import { useYAxisWidth } from '@ankr.com/telemetry';
 
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
-import { useYAxisWidth } from './hooks/useYAxisWidth';
 
 export interface IChartData {
   time: Date;
@@ -32,6 +32,7 @@ export interface IChartProps {
 
 const ANIMATION_DURATION = 500;
 const FIXED_HEIGHT = 270;
+const Y_AXIS_MARGIN = 15;
 
 export const Chart = ({
   data,
@@ -79,7 +80,7 @@ export const Chart = ({
           tickFormatter={xAxisTickFormatter}
         />
         <YAxis
-          width={yAxisWidth}
+          width={yAxisWidth + Y_AXIS_MARGIN}
           tickLine={false}
           tick={{ fill: theme.palette.text.secondary, dx: -5 }}
           stroke=""
