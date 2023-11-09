@@ -92,6 +92,8 @@ export enum ChainID {
   CHILIZ = 'chiliz',
   CHILIZ_TESTNET = 'chiliz_testnet',
 
+  CORE = 'core',
+
   ETH = 'eth',
   ETH_BEACON = 'eth_beacon',
   ETH_GOERLI = 'eth_goerli',

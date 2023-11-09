@@ -68,6 +68,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.CHILIZ,
       ChainID.CHILIZ_TESTNET,
 
+      ChainID.CORE,
+
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
 

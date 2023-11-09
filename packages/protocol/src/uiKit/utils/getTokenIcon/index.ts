@@ -8,6 +8,7 @@ import bscIcon from './icons/bsc.svg';
 import bttcIcon from './icons/bttc.svg';
 import celoIcon from './icons/celo.svg';
 import chilizIcon from './icons/chiliz.svg';
+import coreIcon from './icons/core.svg';
 import defaultIcon from './icons/default-icon.svg';
 import ethIcon from './icons/eth.svg';
 import filecoinIcon from './icons/filecoin.svg';
@@ -99,6 +100,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.CELO]: celoIcon,
   [ChainID.CHILIZ]: chilizIcon,
   [ChainID.CHILIZ_TESTNET]: chilizIcon,
+  [ChainID.CORE]: coreIcon,
   [ChainID.ETH]: ethIcon,
   [ChainID.ETH_BEACON]: ethIcon,
   [ChainID.ETH_GOERLI]: ethIcon,
