@@ -72,6 +72,17 @@ const CELO_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://explorer.celo.org'],
 };
 
+const CORE_NETWORK_PARAMS = {
+  chainId: 1116,
+  chainName: 'Core by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Core (Mainnet)',
+    symbol: 'CORE',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://rpc-core.icecreamswap.com'],
+};
+
 const ARBITRUM_NETWORK_PARAMS = {
   chainId: 42161,
   chainName: 'Arbitrum by Ankr Protocol',
@@ -273,6 +284,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return undefined;
     case 'celo':
       return mapParams(chain, CELO_NETWORK_PARAMS);
+    case 'core':
+      return mapParams(chain, CORE_NETWORK_PARAMS);
     case 'arbitrum':
       return mapParams(chain, ARBITRUM_NETWORK_PARAMS);
     case 'near':

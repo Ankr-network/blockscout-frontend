@@ -60,6 +60,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   chart: {
     marginTop: theme.spacing(6),
 
+    [`&.${ChainId.Core}`]: {
+      backgroundColor: theme.palette.grey[100],
+    },
+
     [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
@@ -99,6 +103,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
+    },
+
+    [`&.${ChainId.Core}`]: {
+      backgroundColor: theme.palette.grey[100],
     },
 
     [`&.${ChainId.Avalanche}`]: {

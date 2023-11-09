@@ -88,6 +88,12 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       },
     },
 
+    [`&.${ChainId.Core}`]: {
+      '& .chainId': {
+        color: theme.palette.primary.main,
+      },
+    },
+
     [`&.${ChainId.Harmony}`]: {
       background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
       WebkitBackgroundClip: 'text',
@@ -170,6 +176,9 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
+      color: theme.palette.text.primary,
+    },
+    [`&.${ChainId.Core} span`]: {
       color: theme.palette.text.primary,
     },
     [`&.${ChainId.Moonbeam} span`]: {
