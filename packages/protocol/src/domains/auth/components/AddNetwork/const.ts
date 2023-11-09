@@ -203,6 +203,18 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['http://spicy-explorer.chiliz.com/'],
   },
 
+  // https://chainlist.org/chain/1116?testnets=true
+  [ChainID.CORE]: {
+    chainId: 1116,
+    chainName: 'Core Blockchain Mainnet',
+    nativeCurrency: {
+      name: 'Core Blockchain Mainnet',
+      symbol: 'CORE',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://rpc-core.icecreamswap.com'],
+  },
+
   // * ChainID.ETH, ChainID.ETH_GOERLI, ChainID.ETH_RINKEBY, ChainID.ETH_ROPSTEN
   // * Can't be added as they are default Metamask chains
 
