@@ -88,6 +88,14 @@ export const useButtonMetamaskStyles = makeStyles<Theme>(theme => ({
         backgroundColor: '#767c82',
       },
     },
+
+    [`&.${ChainId.Core}`]: {
+      backgroundColor: theme.palette.grey[100],
+
+      '&:hover': {
+        backgroundColor: theme.palette.grey[200],
+      },
+    },
   },
   size_large: {
     minWidth: 72,

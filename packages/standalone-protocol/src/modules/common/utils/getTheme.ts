@@ -26,6 +26,7 @@ import { mantleTheme } from 'modules/themes/mantleTheme';
 import { flareTheme } from 'modules/themes/flareTheme';
 import { XDCTheme } from 'modules/themes/XDCTheme';
 import { scrollTheme } from 'modules/themes/scrollTheme';
+import { coreTheme } from 'modules/themes/coreTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -109,6 +110,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Scroll:
       return scrollTheme;
+
+    case ChainId.Core:
+      return coreTheme;
 
     default:
       return scrollTheme;

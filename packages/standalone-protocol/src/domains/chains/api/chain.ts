@@ -6,6 +6,7 @@ export enum ChainId {
   BSC = 'bsc',
   Celo = 'celo',
   Chiliz = 'chiliz',
+  Core = 'core',
   Ethereum = 'eth',
   Fantom = 'fantom',
   Flare = 'flare',
