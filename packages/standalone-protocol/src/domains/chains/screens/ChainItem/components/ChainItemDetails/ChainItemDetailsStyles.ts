@@ -23,6 +23,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: '#E5E5F5',
     },
 
+    [`&.${ChainId.Core} $block`]: {
+      backgroundColor: theme.palette.grey[100],
+    },
+
     [`&.${ChainId.Harmony} $block`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },

@@ -48,6 +48,7 @@ import { ReactComponent as SeiLogo } from 'assets/img/logo/sei.svg';
 import { ReactComponent as SeiMobileLogo } from 'assets/img/logo/seiMobile.svg';
 import { ReactComponent as XDCLogo } from 'assets/img/logo/XDC.svg';
 import { ReactComponent as XDCLightLogo } from 'assets/img/logo/XDCLight.svg';
+import { ReactComponent as CoreLogo } from 'assets/img/logo/core.svg';
 import scrollLogoSrc from 'assets/img/logo/scroll.png';
 
 // eslint-disable-next-line max-lines-per-function
@@ -222,5 +223,11 @@ export const getMenuList = (
     name: 'Klaytn',
     logo: isMobileSiderBar ? <KlaytnMobileLogo /> : <KlaytnLogo />,
     url: 'https://klaytn.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Core,
+    name: 'Core',
+    logo: <CoreLogo />,
+    url: 'https://core.public-rpc.com/',
   },
 ];
