@@ -79,6 +79,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.GNOSIS,
       ChainID.GNOSIS_BEACON,
       ChainID.GNOSIS_TESTNET,
+      ChainID.GNOSIS_TESTNET_BEACON,
 
       ChainID.HARMONY,
 
@@ -194,7 +195,7 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.HOLESKY,
     name: 'Holesky',
     pluralName: 'Holesky',
-    chains: [ChainID.ETH_HOLESKY],
+    chains: [ChainID.ETH_HOLESKY, ChainID.ETH_HOLESKY_BEACON],
   },
   {
     id: ChainGroupID.HORIZEN,
