@@ -178,7 +178,6 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.ETH_GOERLI,
       ChainID.ETH_GOERLI_BEACON,
-      ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
     ],
   },
