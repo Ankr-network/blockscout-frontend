@@ -22,7 +22,9 @@ interface TableColumnsProps {
 }
 
 /* eslint-disable max-lines-per-function */
-export const useColumns = ({ onProjectDialogOpen }: TableColumnsProps) => {
+export const useProjectsTableColumns = ({
+  onProjectDialogOpen,
+}: TableColumnsProps) => {
   const { classes, cx } = useColumnsStyles();
 
   const hasAccessForManaging = useGuardUserGroup({

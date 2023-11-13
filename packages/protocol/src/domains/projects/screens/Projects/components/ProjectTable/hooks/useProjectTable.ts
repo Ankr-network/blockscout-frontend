@@ -12,7 +12,7 @@ import {
   selectProjectsStatuses,
 } from 'domains/projects/store/WhitelistsSelector';
 
-import { useColumns } from './useColumns';
+import { useProjectsTableColumns } from './useProjectsTableColumns';
 
 interface ProjectTableColumnsProps {
   projectsData: Project[];
@@ -28,7 +28,7 @@ export const useProjectTable = ({
   const statusData = useAppSelector(selectProjectsStatuses);
   const activityData = useAppSelector(selectProjectsStatsByRange);
 
-  const { columns } = useColumns({
+  const { columns } = useProjectsTableColumns({
     onProjectDialogOpen,
   });
 

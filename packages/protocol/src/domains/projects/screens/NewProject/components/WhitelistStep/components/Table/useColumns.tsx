@@ -6,7 +6,7 @@ import { BlockchainIcon } from 'domains/projects/screens/Projects/components/Blo
 
 import { useTableStyles } from './useTableStyles';
 import { whitelistTypeLabelMap } from '../AddToWhitelistDialog/components/AddAndEditWhitelistItemForm/AddToWhitelistFormUtils';
-import { ActionsMenu } from './components/ActionsMenu/ActionsMenu';
+import { ActionsMenu } from './components/ActionsMenu';
 
 export interface TableColumn<T> {
   field: string;
