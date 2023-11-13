@@ -104,6 +104,7 @@ export enum ChainID {
   ETH_SEPOLIA = 'eth_sepolia',
   ETH_SEPOLIA_BEACON = 'eth_sepolia_beacon',
   ETH_HOLESKY = 'eth_holesky',
+  ETH_HOLESKY_BEACON = 'eth_holesky_beacon',
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
   FILECOIN = 'filecoin',
@@ -117,6 +118,8 @@ export enum ChainID {
   GNOSIS = 'gnosis',
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',
+  GNOSIS_TESTNET_BEACON = 'gnosis_testnet_beacon',
+
   HARMONY = 'harmony',
 
   HORIZEN = 'horizen',

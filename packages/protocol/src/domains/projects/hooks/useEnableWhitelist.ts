@@ -47,12 +47,20 @@ const getProjectValues = (project: NewProjectType) => {
     selectedMainnetIds = [],
     selectedTestnetIds = [],
     selectedDevnetIds = [],
+    selectedOpnodeMainnetIds = [],
+    selectedOpnodeTestnetIds = [],
+    selectedBeaconMainnetIds = [],
+    selectedBeaconTestnetIds = [],
   } = project[NewProjectStep.Chains] || {};
 
   const chainIds = [
     ...selectedMainnetIds,
     ...selectedTestnetIds,
     ...selectedDevnetIds,
+    ...selectedOpnodeMainnetIds,
+    ...selectedOpnodeTestnetIds,
+    ...selectedBeaconMainnetIds,
+    ...selectedBeaconTestnetIds,
   ];
 
   return {
