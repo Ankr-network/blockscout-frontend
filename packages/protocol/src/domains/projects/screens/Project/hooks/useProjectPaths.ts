@@ -8,9 +8,8 @@ import {
 export const useProjectPaths = ({
   chains,
   projectBlockchains,
-  whitelist,
 }: ProjectPathsParams) =>
   useMemo(
-    () => getProjectPaths({ chains, projectBlockchains, whitelist }),
-    [chains, projectBlockchains, whitelist],
+    () => getProjectPaths({ chains, projectBlockchains }),
+    [chains, projectBlockchains],
   );
