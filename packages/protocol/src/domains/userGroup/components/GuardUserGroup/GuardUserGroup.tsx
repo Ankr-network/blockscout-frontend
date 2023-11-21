@@ -2,8 +2,8 @@ import { useHistory } from 'react-router';
 import { useCallback, useEffect, ReactNode, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
-import { INDEX_PATH } from 'routes/constants';
 
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import {
   GuardUserGroupParams,
@@ -46,7 +46,7 @@ export const GuardUserGroup = ({
 
   useEffect(() => {
     if ((!hasAccess && shouldRedirect) || shouldForceRedirect) {
-      history.replace(INDEX_PATH);
+      history.replace(ChainsRoutesConfig.chains.path);
 
       // show notification only if redirect hasn't been forced
       if (!hasAccess && shouldRedirect) {
