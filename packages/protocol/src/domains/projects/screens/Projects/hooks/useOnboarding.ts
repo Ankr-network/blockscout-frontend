@@ -5,8 +5,6 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 
 const ONBOARDING_FLAG = 'isOnboardingCompleted';
 
-const isOnboardingCompleted = localStorage.getItem(ONBOARDING_FLAG);
-
 export const useOnboarding = () => {
   const { isLoggedIn } = useAuth();
 
@@ -17,7 +15,7 @@ export const useOnboarding = () => {
     if (isLoggedIn) {
       // check isOnboardingCompleted flag in localstorage
       // if it's not set, we need to show onboardingDialog
-      if (!isOnboardingCompleted) {
+      if (!localStorage.getItem(ONBOARDING_FLAG)) {
         onOpen();
       }
     }
