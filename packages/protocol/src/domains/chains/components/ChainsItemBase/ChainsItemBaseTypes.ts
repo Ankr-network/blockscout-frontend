@@ -1,4 +1,4 @@
-import { Chain, ChainID, ChainURL, Timeframe } from 'domains/chains/types';
+import { Chain, ChainID, ChainURL, Timeframe } from 'modules/chains/types';
 
 export interface ChainsItemQueryProps {
   chain: Chain;

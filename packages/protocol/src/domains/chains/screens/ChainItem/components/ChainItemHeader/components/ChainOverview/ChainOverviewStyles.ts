@@ -5,6 +5,7 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   chainOverview: {
     display: 'flex',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
 
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
@@ -12,26 +13,23 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   },
   left: {
     display: 'flex',
-    gap: theme.spacing(2 * 2),
+    gap: theme.spacing(2),
 
     [theme.breakpoints.down('xs')]: {
       alignItems: 'center',
     },
   },
   description: {
-    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 
   addNetworkButton: {
-    minWidth: 'auto',
-    whiteSpace: 'nowrap',
-    padding: theme.spacing(0, 2 * 1.5),
-
     '&&': {
       backgroundColor: theme.palette.background.paper,
     },
     display: 'flex',
-    borderRadius: theme.spacing(2 * 2),
 
     '&:hover': {
       '&&': {
@@ -42,18 +40,46 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
     [theme.breakpoints.up('lg')]: {
       flexShrink: 0,
       '&&': {
-        padding: theme.spacing(2 * 1.5, 2 * 3),
+        padding: theme.spacing(3, 6),
       },
     },
   },
   right: {
     display: 'flex',
-    gap: theme.spacing(3),
+    gap: theme.spacing(2),
 
     [theme.breakpoints.down('xs')]: {
-      flexDirection: 'column',
-      marginTop: theme.spacing(2 * 4.5),
-      gap: theme.spacing(3.5),
+      marginTop: theme.spacing(9),
     },
+  },
+
+  top: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+
+  coinName: {
+    fontWeight: 400,
+    fontSize: 16,
+
+    marginLeft: theme.spacing(2),
+  },
+
+  archiveLabel: {
+    display: 'flex',
+    alignItems: 'center',
+
+    borderRadius: theme.spacing(2),
+
+    fontWeight: 400,
+    fontSize: theme.spacing(3.5),
+    lineHeight: theme.spacing(5),
+  },
+
+  docsLink: {
+    height: 28,
+    minHeight: 28,
+    position: 'relative',
+    top: 2,
   },
 }));

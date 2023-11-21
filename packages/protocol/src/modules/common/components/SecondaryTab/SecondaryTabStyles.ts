@@ -42,17 +42,12 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
         lineHeight: theme.spacing(2 * 2.5),
       },
       [TabSize.ExtraSmall]: {
-        padding: theme.spacing(2 * 0.5, 2 * 1.5),
+        padding: theme.spacing(0.5, 2),
 
-        borderRadius: 9,
-
-        letterSpacing: '0.01em',
+        borderRadius: 8,
 
         fontWeight: 500,
-        fontSize: theme.spacing(2 * 1.75),
-        lineHeight: theme.spacing(2 * 2.5),
-        height: '100%',
-        minHeight: '100%',
+        fontSize: 14,
         minWidth: 'auto',
       },
     };

@@ -1,4 +1,4 @@
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 export const getSubchainIds = (chain: Chain): string[] => [
   chain.id,

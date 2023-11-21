@@ -1,6 +1,6 @@
 import { BlockchainType } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
@@ -19,6 +19,9 @@ const isAvalancheChain = (id: ChainGroupID) =>
 
 const isTronRestApi = (chainID: ChainID, groupID: ChainGroupID) =>
   chainID === ChainID.TRON && groupID === ChainGroupID.REST_API;
+
+const isArbitrumTestnet = (chainId: ChainID) =>
+  chainId === ChainID.ARBITRUM_TESTNET;
 
 export const hasRequestComposer = ({
   chainId,
@@ -47,6 +50,7 @@ export const hasRequestComposer = ({
       isGroupEvmBased(group) ||
       isAvalancheChain(group.id) ||
       isGroupSolanaBased(group.id)) &&
-    !isChainProtocolSwitchEnabled
+    !isChainProtocolSwitchEnabled &&
+    !isArbitrumTestnet(group.chains[0].id)
   );
 };

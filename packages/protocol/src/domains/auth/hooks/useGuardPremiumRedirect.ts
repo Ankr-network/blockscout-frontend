@@ -1,9 +1,9 @@
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
+import { INDEX_PATH } from 'routes/constants';
 
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchPrivateChain } from 'domains/chains/actions/private/fetchPrivateChain';
-import { INDEX_PATH } from 'domains/chains/routes';
 
 import { useAuth } from './useAuth';
 

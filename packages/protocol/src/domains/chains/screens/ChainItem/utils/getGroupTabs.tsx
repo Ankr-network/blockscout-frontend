@@ -1,8 +1,8 @@
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { chackHasWSFeature } from 'modules/common/components/GetStartedSection/components/WsFeatureEndpoints/useWsFeatureEndpoints';
 
 import { GroupTab } from '../components/GroupTab';
-import { chackHasWSFeature } from '../components/GetStartedSection/components/WsFeatureEndpoints/useWsFeatureEndpoints';
 
 export const getGroupTabs = (groups: EndpointGroup[]) => {
   return groups.map<Tab<ChainGroupID>>((group, index) => {

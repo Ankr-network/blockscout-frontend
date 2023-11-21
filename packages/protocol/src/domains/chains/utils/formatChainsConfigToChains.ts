@@ -5,14 +5,20 @@ import {
   ChainsConfig,
 } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import {
+  ChainID,
+  GroupedBlockchainType,
+  Chain,
+  ChainURL,
+} from 'modules/chains/types';
 import { mappingChainName } from 'domains/auth/utils/mappingchainName';
 
-import { GroupedBlockchainType, Chain, ChainURL } from '../types';
 import { isEvmExtension } from './isEvmExtension';
 
+type ChainsResult = Record<string, Chain[]>;
+
 const getExtensions = (chains: Chain[]) => {
-  return chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return chains.reduce<ChainsResult>((result, chain) => {
     const { type, chainExtends } = chain;
 
     if (type === BlockchainType.Extension && chainExtends) {
@@ -26,7 +32,7 @@ const getExtensions = (chains: Chain[]) => {
 };
 
 export const getBeacons = (chains: Chain[]) => {
-  return chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Beacon && chainExtends) {
@@ -40,7 +46,7 @@ export const getBeacons = (chains: Chain[]) => {
 };
 
 export const getOpnodes = (chains: Chain[]) => {
-  return chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Opnode && chainExtends) {
@@ -98,7 +104,7 @@ const getExtendedChains = ({
 };
 
 export const getTestnets = (extendedChains: Chain[]) => {
-  return extendedChains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return extendedChains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Testnet && chainExtends) {
@@ -112,7 +118,7 @@ export const getTestnets = (extendedChains: Chain[]) => {
 };
 
 export const getDevnets = (extendedChains: Chain[]) => {
-  return extendedChains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return extendedChains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Devnet && chainExtends) {
@@ -155,7 +161,7 @@ const addExtensions = ({
 };
 
 export const addExtenders = (chains: Chain[]) => {
-  const extenders = chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  const extenders = chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends } = chain;
 
     if (chainExtends) {
@@ -228,6 +234,7 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
       type,
       premiumOnly,
       features,
+      paths,
     } = blockchain;
 
     const isComingSoon = features.includes(BlockchainFeature.ComingSoon);
@@ -252,6 +259,7 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
       isComingSoon,
       isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
       isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
+      paths,
     } as Chain;
   });
 };

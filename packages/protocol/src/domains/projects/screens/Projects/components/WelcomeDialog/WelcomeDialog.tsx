@@ -7,10 +7,10 @@ import { Dialog } from 'uiKit/Dialog';
 import { useContactWidget } from 'hooks/useContactWidget';
 import { PROJECTS_DOCS_LINK } from 'domains/projects/const';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { ProjectsWellcomeImage } from 'domains/projects/components/ProjectsWelcomeImage';
 
 import { useWelcomeDialog } from './hooks/useWelcomeDialog';
 import { useWelcomeDialogStyles } from './useWelcomeDialogStyles';
-import welcome from './assets/welcome.png';
 
 const intl = 'projects.welcome-dialog';
 
@@ -29,7 +29,7 @@ export const WelcomeDialog = () => {
       onClose={handleSkipClick}
       paperClassName={classes.dialog}
       closeButtonClassName={classes.close}
-      title={<img alt="welcome" className={classes.icon} src={welcome} />}
+      title={<ProjectsWellcomeImage className={classes.icon} />}
       titleClassName={classes.title}
       canCloseDialogByClickOutside={false}
     >

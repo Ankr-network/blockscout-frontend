@@ -23,28 +23,6 @@ export const useChainStepStyles = makeStyles()(theme => ({
   search: {
     backgroundColor: theme.palette.background.default,
   },
-  tableContainer: {
-    backgroundColor: 'transparent',
-    padding: 0,
-    tableLayout: 'fixed',
-  },
-  cell: {
-    '&&': {
-      borderColor: theme.palette.divider,
-      backgroundColor: 'transparent',
-      borderRadius: 0,
-      fontWeight: 400,
-    },
-    '&:first-of-type': {
-      paddingLeft: 0,
-    },
-    '&:last-of-type': {
-      paddingRight: 0,
-    },
-  },
-  inactive: {
-    opacity: 0.5,
-  },
   dialogPaper: {
     width: 600,
   },

@@ -20,7 +20,7 @@ export const PrivateChains = () => {
     searchContent,
     setSearchContent,
     timeframe,
-  } = usePrivateChainsData(true);
+  } = usePrivateChainsData({ ignoreJwtManager: true });
 
   const { processedChains } = usePrivateChains({
     allChains,

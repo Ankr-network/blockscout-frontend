@@ -5,10 +5,10 @@ import { IChartData } from '../Chart';
 export interface RequestsChartProps {
   className?: string;
   data: IChartData[];
-  hasFixedHeight?: boolean;
   isLoading?: boolean;
   timeframe: Timeframe;
   title: ReactNode;
+  isFlexibleHeight?: boolean;
 }
 
 export enum Timeframe {

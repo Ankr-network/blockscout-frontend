@@ -1,13 +1,13 @@
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 
-import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
+import { NewProjectStep } from 'domains/projects/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
@@ -29,8 +29,6 @@ export const useHandleSubmit = (
   const { handleCreateToken, handleUpdateToken } = useGeneralStepOnSubmit();
   const handleWhitelistStepOnSubmit = useWhitelistStepOnSubmit();
   const { handleEnableWhitelist, handleResetConfig } = useEnableWhitelist();
-
-  const { isOpened, onClose, onOpen } = useDialog();
 
   const allProjects = useAppSelector(selectAllProjects);
 
@@ -160,15 +158,13 @@ export const useHandleSubmit = (
           const { whitelistItems, userEndpointToken } = values;
 
           const hasContracts = whitelistItems?.some(
-            item => item.type === WhiteListItem.address,
+            item => item.type === UserEndpointTokenMode.ADDRESS,
           );
 
           if (hasContracts) {
             onSubmit(step, {
               whitelistItems,
             });
-
-            return onOpen();
           }
 
           await handleWhitelistStepOnSubmit(userEndpointToken);
@@ -194,7 +190,6 @@ export const useHandleSubmit = (
       dispatch,
       handleCreateToken,
       handleUpdateToken,
-      onOpen,
       handleEnableWhitelist,
       handleResetConfig,
       handleWhitelistStepOnSubmit,
@@ -202,9 +197,5 @@ export const useHandleSubmit = (
     ],
   );
 
-  return {
-    handleSubmit,
-    isOpened,
-    onClose,
-  };
+  return { handleSubmit };
 };

@@ -1,13 +1,15 @@
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
+import { Typography } from '@mui/material';
+import { Variant } from '@mui/material/styles/createTypography';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { Endpoints } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/Endpoints';
-import { PremiumContent } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/PremiumContent';
+import { Endpoints } from 'modules/common/components/GetStartedSection/components/Endpoints';
+import { PremiumContent } from 'modules/common/components/GetStartedSection/components/PremiumContent';
 import { getEndpointsGroup } from 'domains/chains/screens/ChainItem/utils/getEndpointsGroup';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { EnterpriseEndpoints } from 'domains/enterprise/components/EnterpriseEndpoints';
@@ -19,52 +21,60 @@ import { useChainItemPlaceholder } from './useChainItemPlaceholder';
 import { hasGroupSelector as checkHasGroupSelector } from './utils/hasGroupSelector';
 
 export interface ChainItemHeaderProps {
+  additionalSelector?: ReactNode;
   chain: Chain;
-  publicChain: Chain;
-  chainType: ChainType;
-  chainTypeTab?: Tab<ChainType>;
-  chainTypeTabs: Tab<ChainType>[];
   chainSubType?: ChainSubType;
   chainSubTypeTab?: Tab<ChainSubType>;
   chainSubTypeTabs: Tab<ChainSubType>[];
+  chainType: ChainType;
+  chainTypeTab?: Tab<ChainType>;
+  chainTypeTabs: Tab<ChainType>[];
   group: EndpointGroup;
-  groups: EndpointGroup[];
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
+  groups: EndpointGroup[];
   isChainArchived: boolean;
+  publicChain: Chain;
   selectGroup: (id: ChainGroupID) => void;
 }
 
 type OmittedProps = Omit<ChainItemHeaderProps, 'toggleBeacon'>;
 
 interface ChainItemHeaderContentProps extends OmittedProps {
-  isMultiChain: boolean;
-  isProtocolSwitcherHidden?: boolean;
   isEnterprise?: boolean;
   isMetamaskButtonHidden?: boolean;
+  isMultiChain: boolean;
+  isProtocolSwitcherHidden?: boolean;
+  isGroupSelectorAutoWidth?: boolean;
+  isPremiumLabelHidden?: boolean;
+  requestsString?: string;
 }
 
 export const ChainItemHeaderContent = ({
+  additionalSelector,
   chain,
-  publicChain,
-  chainType,
-  chainTypeTab,
-  chainTypeTabs,
   chainSubType,
   chainSubTypeTab,
   chainSubTypeTabs,
+  chainType,
+  chainTypeTab,
+  chainTypeTabs,
   group,
-  groups,
   groupID,
   groupTab,
   groupTabs,
+  groups,
   isChainArchived,
-  isMultiChain,
-  selectGroup,
-  isProtocolSwitcherHidden,
   isEnterprise = false,
   isMetamaskButtonHidden,
+  isMultiChain,
+  isProtocolSwitcherHidden,
+  publicChain,
+  selectGroup,
+  isGroupSelectorAutoWidth,
+  isPremiumLabelHidden,
+  requestsString,
 }: ChainItemHeaderContentProps) => {
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
@@ -96,19 +106,31 @@ export const ChainItemHeaderContent = ({
             isMetamaskButtonHidden={isMetamaskButtonHidden}
           />
           <ChainSelectorContent
-            chainTypeTabs={chainTypeTabs}
-            chainTypeTab={chainTypeTab}
-            chainSubTypeTabs={chainSubTypeTabs}
+            additionalSelector={additionalSelector}
             chainSubTypeTab={chainSubTypeTab}
-            groups={groups}
+            chainSubTypeTabs={chainSubTypeTabs}
+            chainTypeTab={chainTypeTab}
+            chainTypeTabs={chainTypeTabs}
             groupID={groupID}
-            groupTabs={groupTabs}
             groupTab={groupTab}
-            selectGroup={selectGroup}
+            groupTabs={groupTabs}
+            groups={groups}
             hasGroupSelector={hasGroupSelector}
             isProtocolSwitcherHidden={isProtocolSwitcherHidden}
+            selectGroup={selectGroup}
+            isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
           />
         </>
+      )}
+      {requestsString && (
+        <Typography
+          sx={{ mt: 3 }}
+          variant={'body3' as Variant}
+          color="textSecondary"
+          component="p"
+        >
+          {requestsString}
+        </Typography>
       )}
       <div className={!isMultiChain ? classes.content : undefined}>
         {isEnterprise ? (
@@ -123,6 +145,7 @@ export const ChainItemHeaderContent = ({
             chainType={chainType}
             group={endpointsGroup}
             placeholder={placeholder}
+            isPremiumLabelHidden={isPremiumLabelHidden}
           />
         )}
         <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>

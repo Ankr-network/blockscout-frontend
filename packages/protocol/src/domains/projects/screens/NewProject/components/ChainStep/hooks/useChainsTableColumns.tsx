@@ -1,21 +1,12 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
-import { Check, Cross, Warning } from '@ankr.com/ui';
-import { Tooltip } from '@mui/material';
-import { t } from '@ankr.com/common';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { ArchiveMethodsCell } from 'domains/projects/components/ArchiveMethodsCell';
+import { ArchiveMethodsCellHeader } from 'domains/projects/components/ArchiveMethodsCellHeader';
+import { Chain, ChainID } from 'modules/chains/types';
+import { ChainsTableColumn } from 'domains/projects/components/ChainsTable';
 
-import { useChainStepTableStyles } from '../useChainStepTableStyles';
-import { ChainRow } from '../ChainRow';
-import { NetworkBadges } from '../NetworkBadges';
-
-export interface TableColumn<T> {
-  field: string;
-  width?: number | string;
-  headerName: React.ReactNode;
-  render: (row: T, index: number) => React.ReactNode;
-  align?: 'left' | 'center' | 'right';
-}
+import { ChainCell } from '../components/ChainCell';
+import { NetworkBadges } from '../components/NetworkBadges';
 
 interface ChainsTableColumnsHookProps {
   onOpenModal: (chain: Chain) => void;
@@ -28,19 +19,16 @@ export const useChainsTableColumns = ({
   selectedProjectChainsIds,
   setSelectedProjectChainsIds,
 }: ChainsTableColumnsHookProps) => {
-  const { classes } = useChainStepTableStyles();
-
-  const columns: TableColumn<Chain>[] = useMemo(
-    () => [
+  const columns = useMemo(
+    (): ChainsTableColumn[] => [
       {
         field: 'chain',
         headerName: 'Chains',
         render: chain => (
-          <ChainRow
+          <ChainCell
             chain={chain}
             selectedProjectChainsIds={selectedProjectChainsIds}
             setSelectedChainsIds={setSelectedProjectChainsIds}
-            className={classes.chainRow}
           />
         ),
         align: 'left',
@@ -48,24 +36,8 @@ export const useChainsTableColumns = ({
       },
       {
         field: 'archiveMethods',
-        headerName: (
-          <div className={classes.archiveDataHeader}>
-            {t('projects.new-project.step-2.active-data')}
-            <Tooltip
-              title="Shows whether a chain supports querying archive data"
-              placement="top"
-            >
-              <Warning className={classes.tooltipIcon} />
-            </Tooltip>
-          </div>
-        ),
-        render: ({ isArchive }) => {
-          if (isArchive) {
-            return <Check className={classes.checkWrapper} />;
-          }
-
-          return <Cross className={classes.crossWrapper} />;
-        },
+        headerName: <ArchiveMethodsCellHeader />,
+        render: ({ isArchive }) => <ArchiveMethodsCell isArchive={isArchive} />,
         align: 'left',
         width: '150px',
         maxWidth: '150px',
@@ -84,16 +56,7 @@ export const useChainsTableColumns = ({
         width: 'auto',
       },
     ],
-    [
-      selectedProjectChainsIds,
-      setSelectedProjectChainsIds,
-      onOpenModal,
-      classes.archiveDataHeader,
-      classes.chainRow,
-      classes.crossWrapper,
-      classes.checkWrapper,
-      classes.tooltipIcon,
-    ],
+    [onOpenModal, selectedProjectChainsIds, setSelectedProjectChainsIds],
   );
 
   return {

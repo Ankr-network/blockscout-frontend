@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import {
   selectProjectsStats,
   selectProjectsTotalRequestNumber,

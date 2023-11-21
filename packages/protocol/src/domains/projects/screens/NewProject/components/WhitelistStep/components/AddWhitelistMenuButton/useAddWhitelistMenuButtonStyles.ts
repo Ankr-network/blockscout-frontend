@@ -18,15 +18,6 @@ export const useAddWhitelistMenuButtonStyles = makeStyles<
     : theme.palette.primary.dark;
 
   return {
-    paper: {
-      width: 193,
-      borderRadius: 17,
-      padding: theme.spacing(1),
-      transform: 'translateY(12px)',
-      boxShadow:
-        '0px 3px 15px 0px rgba(31, 34, 38, 0.10), 0px 2px 5px 0px rgba(31, 34, 38, 0.10)',
-      marginTop: isSetupMode ? theme.spacing(2) : 0,
-    },
     menuButton: {
       height: isSetupMode ? 48 : 40,
       padding: isSetupMode

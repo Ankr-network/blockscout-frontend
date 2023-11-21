@@ -5,7 +5,7 @@ import { InputField } from 'modules/form/components/InputField/InputField';
 
 import { useInputDialogFormStyles } from './useInputDialogFormStyles';
 
-interface InputDialogFormFieldProps {
+export interface InputDialogFormFieldProps {
   name: string;
   placeholder: string;
   maxLength?: number;
@@ -17,6 +17,7 @@ interface InputDialogFormFieldProps {
   isLimitCounterVisible?: boolean;
   className?: string;
   validate?: (value: string, allValues?: unknown) => string | undefined;
+  autofocus?: boolean;
 }
 
 export const InputDialogFormField = ({
@@ -31,6 +32,7 @@ export const InputDialogFormField = ({
   isLimitCounterVisible = false,
   className,
   validate,
+  autofocus,
 }: InputDialogFormFieldProps) => {
   const { classes, cx } = useInputDialogFormStyles({ isMultiline });
 
@@ -64,6 +66,7 @@ export const InputDialogFormField = ({
       type="textarea"
       multiline={isMultiline}
       validate={handleValidate}
+      autofocus={autofocus}
       InputProps={{
         classes: {
           root: classes.inputBase,

@@ -2,8 +2,8 @@ import { useHistory } from 'react-router';
 import { useCallback, useEffect, ReactNode, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
+import { INDEX_PATH } from 'routes/constants';
 
-import { INDEX_PATH } from 'domains/chains/routes';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import {
   GuardUserGroupParams,

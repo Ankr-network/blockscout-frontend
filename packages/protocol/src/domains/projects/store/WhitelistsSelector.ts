@@ -6,16 +6,39 @@ import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtToke
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { getAllProjects } from '../utils/getAllProjects';
 import { fetchStatsByRange } from '../actions/fetchStatsByRange';
-import { fetchWhitelistBlockchains } from '../actions/fetchWhitelistBlockchains';
+import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';
 
 const selectAllWhitelists = createSelector(
   fetchAllWhitelists.select({}),
   ({ data: whitelists = [] }) => whitelists,
 );
 
+const selectAllWhitelistsLoading = createSelector(
+  fetchAllWhitelists.select({}),
+  ({ isLoading }) => isLoading,
+);
+
 const selectAllWhitelistsBlockchains = createSelector(
-  fetchWhitelistBlockchains.select({}),
+  fetchWhitelistsBlockchains.select(undefined as unknown as never),
   ({ data: whitelists = [] }) => whitelists,
+);
+
+const selectAllWhitelistsBlockchainsLoading = createSelector(
+  fetchWhitelistsBlockchains.select(undefined as unknown as never),
+  ({ isLoading }) => isLoading,
+);
+
+const selectProjectsStatusesLoading = createSelector(
+  fetchAllJwtTokensStatuses.select({ projects: [] }),
+  ({ isLoading }) => isLoading,
+);
+
+export const selectProjectsPageRequestsLoading = createSelector(
+  selectAllWhitelistsLoading,
+  selectAllWhitelistsBlockchainsLoading,
+  selectProjectsStatusesLoading,
+  (isLoadingWhitelists, isLoadingBlockchains, isLoadingStatuses) =>
+    isLoadingWhitelists || isLoadingBlockchains || isLoadingStatuses,
 );
 
 export const selectProjectsStatuses = createSelector(
@@ -38,12 +61,14 @@ export const selectAllProjects = createSelector(
   selectAllWhitelists,
   selectAllWhitelistsBlockchains,
   selectProjectsStatuses,
+  selectProjectsPageRequestsLoading,
   // eslint-disable-next-line max-params
-  (projects, whitelists, whitelistBlockchains, projectStatuses) =>
+  (projects, whitelists, whitelistBlockchains, projectStatuses, isLoading) =>
     getAllProjects({
       projects,
       whitelists,
       whitelistBlockchains,
       projectStatuses,
+      isLoading,
     }),
 );

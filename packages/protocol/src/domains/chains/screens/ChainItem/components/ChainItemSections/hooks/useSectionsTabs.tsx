@@ -1,4 +1,4 @@
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 
 import { SectionID } from '../types';
@@ -17,6 +17,7 @@ export interface SectionsBase {
 export interface Sections extends SectionsBase {
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];
+  hasPrivateAccess?: boolean;
 }
 
 export const useSectionsTabs = ({
@@ -25,6 +26,7 @@ export const useSectionsTabs = ({
   chain,
   group,
   publicUrl,
+  hasPrivateAccess,
 }: UseSectionsParams): Sections => {
   const {
     getStartedSection,
@@ -39,6 +41,7 @@ export const useSectionsTabs = ({
     chain,
     group,
     publicUrl,
+    hasPrivateAccess,
   });
 
   const tabs = [

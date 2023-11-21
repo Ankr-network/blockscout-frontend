@@ -8,6 +8,7 @@ import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenMa
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 const defaultData: IUserJwtToken = {
   jwtTokens: [],
@@ -22,6 +23,14 @@ export const useUserEndpointToken = () => {
   const { groupToken } = useGroupJwtToken();
   const { isGroupSelected } = useSelectedUserGroup();
 
+  // for project details page we should use userEndpointToken from url
+  const { projectId: userEndpointToken } =
+    ProjectsRoutesConfig.project.useParams();
+
+  if (userEndpointToken) {
+    return userEndpointToken;
+  }
+
   if (isLoading) {
     return undefined;
   }
@@ -34,5 +43,9 @@ export const useUserEndpointToken = () => {
     return workerTokenData?.userEndpointToken;
   }
 
-  return jwtTokens.find(token => token.index === tokenIndex)?.userEndpointToken;
+  const selectedToken = jwtTokens.find(
+    token => token.index === tokenIndex,
+  )?.userEndpointToken;
+
+  return selectedToken;
 };

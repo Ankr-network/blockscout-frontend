@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { useLazyFetchLastMonthStatsQuery } from 'domains/dashboard/actions/fetchLastMonthStats';
+import { useLazyFetchLastMonthStatsQuery } from 'modules/stats/actions/fetchLastMonthStats';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';

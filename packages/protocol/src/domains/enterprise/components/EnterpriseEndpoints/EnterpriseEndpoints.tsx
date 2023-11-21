@@ -3,17 +3,17 @@ import { Box } from '@mui/material';
 
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'modules/chains/types';
+import { root } from 'modules/common/components/GetStartedSection/const';
+import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
+import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+import { useEndpointsStyles } from 'modules/common/components/GetStartedSection/components/Endpoints/EndpointsStyles';
+import { useWsFeatureEndpoints } from 'modules/common/components/GetStartedSection/components/WsFeatureEndpoints/useWsFeatureEndpoints';
+import { WsFeatureEndpoints } from 'modules/common/components/GetStartedSection/components/WsFeatureEndpoints';
 import {
   Feature,
   MainEndpoints,
-} from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/MainEndpoints';
-import { WsFeatureEndpoints } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/WsFeatureEndpoints';
-import { root } from 'domains/chains/screens/ChainItem/components/GetStartedSection/const';
-import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
-import { useWsFeatureEndpoints } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/WsFeatureEndpoints/useWsFeatureEndpoints';
-import { useEndpointsStyles } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/Endpoints/EndpointsStyles';
-import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+} from 'modules/common/components/GetStartedSection/components/MainEndpoints';
 
 interface EnterpriseEndpointsProps {
   group: EndpointGroup;

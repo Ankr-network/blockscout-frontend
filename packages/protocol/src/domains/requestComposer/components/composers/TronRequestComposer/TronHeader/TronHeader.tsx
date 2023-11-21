@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchTronLastBlockNumber } from 'domains/requestComposer/actions/tron/fetchTronLastBlockNumber';
 

@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { t } from '@ankr.com/common';
 import { LoadingButton } from '@ankr.com/ui';
 import { Button, Typography } from '@mui/material';
@@ -9,7 +10,7 @@ import { useProjectDialogContentStyles } from './useProjectDialogContentStyles';
 interface IFailedContentProps {
   isLoading: boolean;
   onClose: () => void;
-  onTryAgain: () => void;
+  onTryAgain: (event?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const FailedContent = ({

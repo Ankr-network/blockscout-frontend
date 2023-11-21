@@ -14,9 +14,9 @@ import {
   useLazyChainsFetchPublicChainsQuery,
 } from 'domains/chains/actions/public/fetchPublicChains';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { useLazyChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
+import { useLazyChainsFetchChainNodesDetailQuery } from 'modules/chains/actions/fetchChainNodesDetail';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 
 import { getScheme } from './AddEndpointUtils';

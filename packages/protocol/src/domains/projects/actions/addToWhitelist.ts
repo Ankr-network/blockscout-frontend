@@ -1,17 +1,15 @@
-import { IApiUserGroupParams } from 'multirpc-sdk';
+import { IApiUserGroupParams, UserEndpointTokenMode } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { projectApi } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 
-import { WhiteListItem } from '../types';
-
 export interface AddToWhitelistParams extends IApiUserGroupParams {
   userEndpointToken: string;
   chainId: string;
   contractAddress: string;
-  type?: WhiteListItem;
+  type?: UserEndpointTokenMode;
 }
 
 export const {
@@ -28,7 +26,7 @@ export const {
               group,
               chainId,
               contractAddress,
-              type = WhiteListItem.address,
+              type = UserEndpointTokenMode.ADDRESS,
             },
             totp,
           }) => {

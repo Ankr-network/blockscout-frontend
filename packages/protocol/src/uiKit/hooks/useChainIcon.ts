@@ -1,4 +1,4 @@
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 import { selectIsLightTheme } from 'modules/layout/store/themeSlice';
 import { useAppSelector } from 'store/useAppSelector';

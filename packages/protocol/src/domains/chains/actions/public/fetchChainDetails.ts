@@ -1,10 +1,9 @@
 import { Timeframe } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID, Chain } from 'modules/chains/types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
-import { Chain } from '../../types';
 import {
   IApiChainDetails,
   chainsFetchChainTimeframeData,

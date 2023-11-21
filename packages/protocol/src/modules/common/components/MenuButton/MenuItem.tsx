@@ -1,5 +1,5 @@
 import { MenuItem as BaseMenuItem, Button, Typography } from '@mui/material';
-import { ReactNode } from 'react';
+import { ReactNode, useCallback } from 'react';
 
 import { useMenuButtonStyles } from './useMenuButtonStyles';
 
@@ -21,6 +21,17 @@ export const MenuItem = ({
     isLightTheme: undefined,
   });
 
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+
+      if (typeof onClick === 'function') {
+        onClick();
+      }
+    },
+    [onClick],
+  );
+
   return (
     <BaseMenuItem
       variant="text"
@@ -28,7 +39,7 @@ export const MenuItem = ({
       className={classes.menuItem}
       startIcon={<div className={classes.menuItemIcon}>{startIcon}</div>}
       component={Button}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <Typography variant="body2" className={classes.menuItemText}>
         {children}

@@ -1,4 +1,5 @@
-import { INDEX_PATH } from 'domains/chains/routes';
+import { INDEX_PATH } from 'routes/constants';
+
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const INDEX_MM_PATH = `${INDEX_PATH}mm/`;

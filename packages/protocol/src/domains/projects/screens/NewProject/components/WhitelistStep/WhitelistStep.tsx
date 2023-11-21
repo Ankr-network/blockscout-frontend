@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { t, tHTML } from '@ankr.com/common';
 import { useCallback, useMemo } from 'react';
 
@@ -8,7 +9,8 @@ import {
   WhitelistStepFields,
 } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
+import { NewProjectStep } from 'domains/projects/types';
+import { WhitelistItemsCounters } from 'domains/projects/components/WhitelistItemsCounters';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 import { useWhitelistStepStyles } from './useWhitelistStepStyles';
@@ -17,13 +19,8 @@ import { AddToWhitelistDialog } from './components/AddToWhitelistDialog';
 import { useWhitelistData } from './useWhitelistData';
 import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 import { EmptyList } from './components/EmptyList';
-import { WhitelistItemsCounter } from './components/WhitelistItemsCounter';
 import { AddWhitelistMenuButton } from './components/AddWhitelistMenuButton';
-import { AddContractDialog } from './components/AddContractDialog';
 
-let wasAddWhitelistDialogOpened = false;
-
-/* eslint-disable max-lines-per-function */
 export const WhitelistStep = () => {
   const { classes } = useWhitelistStepStyles();
 
@@ -31,12 +28,6 @@ export const WhitelistStep = () => {
     isOpened: isAddToWhitelistDialogOpened,
     onClose: onAddToWhitelistDialogClose,
     onOpen: onAddToWhitelistDialogOpen,
-  } = useDialog();
-
-  const {
-    isOpened: isAddContractDialogOpened,
-    onClose: onAddContractDialogClose,
-    onOpen: onAddContractDialogOpen,
   } = useDialog();
 
   const { allSelectedChainIds, whitelistItems, onChange } =
@@ -50,31 +41,10 @@ export const WhitelistStep = () => {
     isAddingSmartContractAllowed,
   } = useWhitelistData();
 
-  const handleWhitelistDialogOpen = useCallback(
-    (type?: WhiteListItem) => {
-      if (type === WhiteListItem.address && !wasAddWhitelistDialogOpened) {
-        onAddContractDialogOpen();
-      } else {
-        onAddToWhitelistDialogOpen();
-      }
-    },
-    [onAddContractDialogOpen, onAddToWhitelistDialogOpen],
-  );
-
-  const handleOpenAddWhitelist = useCallback(
-    (type?: WhiteListItem) => {
-      onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
-      handleWhitelistDialogOpen(type);
-    },
-    [onChange, handleWhitelistDialogOpen],
-  );
-
-  const handleAddContractDialogNext = useCallback(() => {
-    wasAddWhitelistDialogOpened = true;
-
+  const handleOpenAddWhitelist = useCallback(() => {
+    onChange(WhitelistStepFields.isEditingWhitelistDialog, false);
     onAddToWhitelistDialogOpen();
-    onAddContractDialogClose();
-  }, [onAddToWhitelistDialogOpen, onAddContractDialogClose]);
+  }, [onChange, onAddToWhitelistDialogOpen]);
 
   useOnMount(() => {
     const updatedWhitelistItems = (
@@ -106,6 +76,27 @@ export const WhitelistStep = () => {
     [isAddingSmartContractAllowed],
   );
 
+  const refererCounts = useMemo(
+    () =>
+      whitelistItems.filter(item => item.type === UserEndpointTokenMode.REFERER)
+        .length,
+    [whitelistItems],
+  );
+
+  const ipsCounts = useMemo(
+    () =>
+      whitelistItems.filter(item => item.type === UserEndpointTokenMode.IP)
+        .length,
+    [whitelistItems],
+  );
+
+  const addressesCounts = useMemo(
+    () =>
+      whitelistItems.filter(item => item.type === UserEndpointTokenMode.ADDRESS)
+        .length,
+    [whitelistItems],
+  );
+
   return (
     <>
       {data.length === 0 ? (
@@ -113,7 +104,7 @@ export const WhitelistStep = () => {
           isAddingDomainDisabled={isAddingDomainDisabled}
           isAddingIPDisabled={isAddingIPDisabled}
           isAddingSmartContractDisabled={isAddingSmartContractDisabled}
-          onWhitelistDialogOpen={handleWhitelistDialogOpen}
+          onWhitelistDialogOpen={onAddToWhitelistDialogOpen}
         />
       ) : (
         <>
@@ -123,18 +114,16 @@ export const WhitelistStep = () => {
           <Typography variant="body2" component="p" className={classes.plug}>
             {tHTML('projects.new-project.step-3.plug')}
           </Typography>
-
-          <div className={classes.countersWrapper}>
-            <WhitelistItemsCounter type={WhiteListItem.referer} />
-            <WhitelistItemsCounter type={WhiteListItem.ip} />
-            <WhitelistItemsCounter type={WhiteListItem.address} />
-          </div>
-
+          <WhitelistItemsCounters
+            className={classes.counters}
+            domainsCount={refererCounts}
+            ipsCount={ipsCounts}
+            smartContractsCount={addressesCounts}
+          />
           <Table
             data={data}
-            onWhitelistDialogOpen={handleWhitelistDialogOpen}
+            onWhitelistDialogOpen={onAddToWhitelistDialogOpen}
           />
-
           <AddWhitelistMenuButton
             isSetupMode={false}
             isAddingDomainDisabled={isAddingDomainDisabled}
@@ -144,12 +133,6 @@ export const WhitelistStep = () => {
           />
         </>
       )}
-
-      <AddContractDialog
-        isOpen={isAddContractDialogOpened}
-        onClose={onAddContractDialogClose}
-        onNext={handleAddContractDialogNext}
-      />
       <AddToWhitelistDialog
         isOpen={isAddToWhitelistDialogOpened}
         onClose={onAddToWhitelistDialogClose}

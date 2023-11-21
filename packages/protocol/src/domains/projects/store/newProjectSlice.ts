@@ -1,6 +1,7 @@
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { NewProjectStep, WhiteListItem } from '../types';
+import { NewProjectStep } from '../types';
 import {
   AddToWhitelistFormData,
   NewProjectConfig,
@@ -11,7 +12,7 @@ import {
 const initialNewProjectState: NewProjectSlice = {};
 
 export const initialDialogValues: AddToWhitelistFormData = {
-  type: WhiteListItem.referer,
+  type: UserEndpointTokenMode.REFERER,
   value: '',
   chains: [],
 };

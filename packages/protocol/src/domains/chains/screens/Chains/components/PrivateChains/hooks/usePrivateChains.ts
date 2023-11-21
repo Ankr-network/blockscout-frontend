@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { SortType, Chain } from 'domains/chains/types';
+import { SortType, Chain } from 'modules/chains/types';
 import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';

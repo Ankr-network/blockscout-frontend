@@ -3,7 +3,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 

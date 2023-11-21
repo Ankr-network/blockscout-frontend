@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
@@ -6,7 +6,7 @@ import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
@@ -22,6 +22,7 @@ import {
   getPrivateChainTypeSelector,
 } from './utils';
 import { usePrivateChainType } from './usePrivateChainType';
+import { useRequestsString } from './useRequestsString';
 
 export interface ChainTypeItem {
   value: ChainType;
@@ -46,16 +47,27 @@ interface PrivateChainItem extends ChainItem {
 }
 
 type PrivateChainItemParams = IPrivateChainItemDetails & {
-  onBlockedTabClick: () => void;
+  additionalSelector?: ReactNode;
+  onBlockedTabClick?: () => void;
+  isGroupSelectorAutoWidth?: boolean;
+  isHiddenMainnet?: boolean;
+  isPremiumLabelHidden?: boolean;
+  isChainRequestStatsVisible?: boolean;
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const usePrivateChainItem = ({
+  additionalSelector,
   chain,
-  unfilteredChain: publicChain,
-  selectedType,
-  selectedGroupId,
-  onBlockedTabClick,
   isChainArchived,
+  onBlockedTabClick,
+  selectedGroupId,
+  selectedType,
+  unfilteredChain: publicChain,
+  isGroupSelectorAutoWidth,
+  isHiddenMainnet,
+  isPremiumLabelHidden,
+  isChainRequestStatsVisible,
 }: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -73,6 +85,7 @@ export const usePrivateChainItem = ({
       netId,
       isBlockedTestnet: !hasPremium && Boolean(isTestnetPremiumOnly),
       isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
+      isHiddenMainnet,
       selectedType,
       onBlockedTabClick,
     });
@@ -95,6 +108,15 @@ export const usePrivateChainItem = ({
   );
   const chainProtocolContext = useChainProtocol({ group, netId });
 
+  const { requestsString } = useRequestsString({
+    chain,
+    chainType,
+    chainSubType,
+    group,
+    chainProtocolContext,
+    isChainRequestStatsVisible,
+  });
+
   const publicGroups = publicEndpoints[chainType];
 
   const unfilteredGroup =
@@ -108,41 +130,50 @@ export const usePrivateChainItem = ({
   const headerContent = useMemo(
     () => (
       <ChainItemHeaderContent
-        isMultiChain={isMultiChain}
+        additionalSelector={additionalSelector}
         chain={chain}
-        publicChain={publicChain}
-        chainType={chainType}
-        chainTypeTabs={chainTypeTabs}
-        chainTypeTab={chainTypeTab}
         chainSubType={chainSubType}
         chainSubTypeTab={chainSubTypeTab}
         chainSubTypeTabs={chainSubTypeTabs}
+        chainType={chainType}
+        chainTypeTab={chainTypeTab}
+        chainTypeTabs={chainTypeTabs}
         group={group}
-        groups={groups}
         groupID={groupID}
-        groupTabs={groupTabs}
         groupTab={groupTab}
+        groupTabs={groupTabs}
+        groups={groups}
         isChainArchived={isChainArchived}
+        isMultiChain={isMultiChain}
+        publicChain={publicChain}
         selectGroup={selectGroup}
+        isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
+        isPremiumLabelHidden={isPremiumLabelHidden}
+        requestsString={isChainRequestStatsVisible ? requestsString : undefined}
       />
     ),
     [
-      isMultiChain,
+      additionalSelector,
       chain,
-      publicChain,
-      chainType,
-      chainTypeTabs,
-      chainTypeTab,
       chainSubType,
       chainSubTypeTab,
       chainSubTypeTabs,
+      chainType,
+      chainTypeTab,
+      chainTypeTabs,
       group,
-      groups,
       groupID,
-      groupTabs,
       groupTab,
+      groupTabs,
+      groups,
       isChainArchived,
+      isMultiChain,
+      publicChain,
       selectGroup,
+      isGroupSelectorAutoWidth,
+      isPremiumLabelHidden,
+      requestsString,
+      isChainRequestStatsVisible,
     ],
   );
 

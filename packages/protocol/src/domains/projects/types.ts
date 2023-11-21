@@ -1,4 +1,4 @@
-import { Chain as MainChainType, ChainType } from '../chains/types';
+import { Chain as MainChainType, ChainType } from 'modules/chains/types';
 
 export enum NewProjectStep {
   General,
@@ -19,13 +19,6 @@ export interface Plan {
   description: string;
   USDPrice: string;
   disabled?: boolean;
-}
-
-export enum WhiteListItem {
-  ip = 'ip',
-  referer = 'referer',
-  address = 'address',
-  all = 'all',
 }
 
 export enum ProjectChainTypeExtenders {

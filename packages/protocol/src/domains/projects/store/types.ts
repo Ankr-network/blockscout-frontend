@@ -1,8 +1,9 @@
 import { Address } from '@ankr.com/provider';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
-import { NewProjectStep, WhiteListItem } from '../types';
+import { NewProjectStep } from '../types';
 
 export enum GeneralStepFields {
   name = 'name',
@@ -41,7 +42,7 @@ export enum CheckoutStepFields {
 }
 
 export interface AddToWhitelistFormData {
-  type: WhiteListItem;
+  type: UserEndpointTokenMode;
   value: string;
   chains: ChainID[];
 }

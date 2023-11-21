@@ -1,5 +1,5 @@
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 import { getEVMTestnet } from './getEVMTestnet';
 

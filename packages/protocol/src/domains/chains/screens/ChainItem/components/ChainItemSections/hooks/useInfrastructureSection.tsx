@@ -2,7 +2,7 @@ import { BlockchainType } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { ChainID, Chain, ChainType, ChainSubType } from 'domains/chains/types';
+import { ChainID, Chain, ChainType, ChainSubType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';

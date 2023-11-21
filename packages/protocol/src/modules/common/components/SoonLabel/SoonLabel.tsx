@@ -17,7 +17,10 @@ export const SoonLabel = ({
   const { classes, cx } = useSoonLabelStyles();
 
   return (
-    <Typography component={component} className={cx(className, classes.root)}>
+    <Typography
+      component={component}
+      className={cx(classes.soonLabel, className)}
+    >
       {label || t('common.soon')}
     </Typography>
   );

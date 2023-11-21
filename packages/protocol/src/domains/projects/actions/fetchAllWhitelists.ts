@@ -1,12 +1,14 @@
-import { IApiUserGroupParams, IGetWhitelistParamsResponse } from 'multirpc-sdk';
+import {
+  IApiUserGroupParams,
+  IGetWhitelistParamsResponse,
+  UserEndpointTokenMode,
+} from 'multirpc-sdk';
 
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-
-import { WhiteListItem } from '../types';
 
 export const {
   useLazyFetchAllWhitelistsQuery,
@@ -26,7 +28,7 @@ export const {
           projects.map(projectItem =>
             service.getWhitelist({
               token: projectItem.userEndpointToken,
-              type: WhiteListItem.all,
+              type: UserEndpointTokenMode.ALL,
               group,
             }),
           ),

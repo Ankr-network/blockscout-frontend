@@ -6,11 +6,9 @@ export const useTimeframeTabsStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: theme.spacing(2 * 0.25),
-
+    gap: theme.spacing(0.5),
     border: `2px solid ${theme.palette.divider}`,
     borderRadius: 11,
-
     backgroundColor: theme.palette.grey[100],
   },
   tab: {

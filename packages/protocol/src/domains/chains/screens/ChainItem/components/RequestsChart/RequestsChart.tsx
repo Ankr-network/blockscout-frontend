@@ -12,13 +12,13 @@ export const RequestsChart = ({
   loading,
   timeframe,
   totalRequestsHistory,
+  isFlexibleHeight,
 }: RequestsChartProps) => {
   const data = useChartData({ isLoggedIn, timeframe, totalRequestsHistory });
 
   return (
     <RequestChartBase
       data={data}
-      hasFixedHeight
       isLoading={loading || isConnecting}
       timeframe={timeframe}
       title={
@@ -27,6 +27,7 @@ export const RequestsChart = ({
           title={t('chain-item.usage-data.chart.title')}
         />
       }
+      isFlexibleHeight={isFlexibleHeight}
     />
   );
 };

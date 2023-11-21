@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 export const useIsRequestsMapVisible = (countries?: CountryMap) => {
   return useMemo(() => !!Object.keys(countries || {}).length, [countries]);

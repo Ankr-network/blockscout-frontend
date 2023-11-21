@@ -1,4 +1,4 @@
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 export interface ILayoutProps {
   timeframe: Timeframe;

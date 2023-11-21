@@ -5,8 +5,8 @@ export const useConsoleStyles = makeStyles()((theme: Theme) => ({
   console: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(2 * 3.5),
+    gap: theme.spacing(7),
 
-    padding: theme.spacing(0, 2 * 3.5),
+    padding: theme.spacing(0, 7),
   },
 }));

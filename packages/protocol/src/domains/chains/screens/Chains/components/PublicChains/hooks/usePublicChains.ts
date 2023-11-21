@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Chain, SortType, Timeframe } from 'domains/chains/types';
+import { Chain, SortType, Timeframe } from 'modules/chains/types';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { getChainsDictionary } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useTheme } from '@mui/material';
 import {
   Area,
@@ -27,12 +27,16 @@ export interface IChartProps {
   xAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   yAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   loading?: boolean;
-  hasFixedHeight?: boolean;
+  height?: number;
+  isFlexibleHeight?: boolean;
+  hasHorizontalLines?: boolean;
+  width?: string | number;
 }
 
 const ANIMATION_DURATION = 500;
 const FIXED_HEIGHT = 270;
 const Y_AXIS_MARGIN = 15;
+const WIDTH = '99%';
 
 export const Chart = ({
   data,
@@ -40,7 +44,10 @@ export const Chart = ({
   xAxisTickFormatter,
   yAxisTickFormatter = () => '',
   loading,
-  hasFixedHeight = true,
+  height = FIXED_HEIGHT,
+  isFlexibleHeight,
+  hasHorizontalLines = true,
+  width = WIDTH,
 }: IChartProps) => {
   const [ref, yAxisWidth] = useYAxisWidth();
 
@@ -50,8 +57,8 @@ export const Chart = ({
   return (
     <ResponsiveContainer
       className={classes.root}
-      width="99%"
-      height={hasFixedHeight ? FIXED_HEIGHT : undefined}
+      width={width}
+      height={isFlexibleHeight ? undefined : height}
       ref={ref}
     >
       <AreaChart
@@ -69,7 +76,7 @@ export const Chart = ({
         <CartesianGrid
           style={{ stroke: theme.palette.grey[100] }}
           strokeWidth={1}
-          horizontal
+          horizontal={hasHorizontalLines}
           vertical={false}
         />
         <XAxis

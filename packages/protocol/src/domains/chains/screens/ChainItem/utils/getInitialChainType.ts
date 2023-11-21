@@ -1,4 +1,4 @@
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'modules/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 
 interface CheckSubnetsArguments {
@@ -24,6 +24,7 @@ interface GetInitialChainTypeParams {
   chain: Chain;
   netId?: string;
   isMainnetPremiumOnly?: boolean;
+  isHiddenMainnet?: boolean;
   selectedType?: ChainType;
 }
 
@@ -31,6 +32,7 @@ export const getInitialChainType = ({
   chain,
   netId,
   isMainnetPremiumOnly,
+  isHiddenMainnet,
   selectedType,
 }: GetInitialChainTypeParams): ChainType => {
   if (selectedType) {
@@ -39,7 +41,7 @@ export const getInitialChainType = ({
 
   const { id, devnets = [], testnets = [] } = chain;
 
-  if (isTestnetOnlyChain(id)) {
+  if (isTestnetOnlyChain(id) || isHiddenMainnet) {
     return ChainType.Testnet;
   }
 

@@ -1,5 +1,5 @@
 import { More } from '@ankr.com/ui';
-import { ButtonBase, Menu, MenuProps } from '@mui/material';
+import { ButtonBase, ButtonProps, Menu, MenuProps } from '@mui/material';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
@@ -10,21 +10,26 @@ export type MenuButtonProps = Pick<
   'children' | 'anchorEl' | 'open'
 > & {
   onOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  buttonProps?: ButtonProps;
   onClose: () => void;
 };
 
 export const MenuButton = (props: MenuButtonProps) => {
-  const { open, onOpen } = props;
+  const { open, onOpen, buttonProps = {}, ...menuProps } = props;
   const { isLightTheme } = useThemes();
 
-  const { classes } = useMenuButtonStyles({
+  const { cx, classes } = useMenuButtonStyles({
     isOpened: open,
     isLightTheme,
   });
 
   return (
     <>
-      <ButtonBase className={classes.menuButton} onClick={onOpen}>
+      <ButtonBase
+        {...buttonProps}
+        className={cx(classes.menuButton, buttonProps.className)}
+        onClick={onOpen}
+      >
         <More />
       </ButtonBase>
 
@@ -36,6 +41,7 @@ export const MenuButton = (props: MenuButtonProps) => {
           vertical: 'bottom',
           horizontal: 'right',
         }}
+        open={open}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -43,7 +49,7 @@ export const MenuButton = (props: MenuButtonProps) => {
         PaperProps={{
           className: classes.paper,
         }}
-        {...props}
+        {...menuProps}
       />
     </>
   );

@@ -86,11 +86,7 @@ export const CopyToClipIcon = ({
             <div className={classes.copy}>
               {!hideIcon && <Copy className={classes.copyIcon} />}
               {copyText && (
-                <Typography
-                  variant="subtitle1"
-                  noWrap
-                  className={classes.copyText}
-                >
+                <Typography variant="body2" noWrap className={classes.copyText}>
                   {copyText}
                 </Typography>
               )}

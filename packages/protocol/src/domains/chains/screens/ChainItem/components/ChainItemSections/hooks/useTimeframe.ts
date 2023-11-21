@@ -1,33 +1,32 @@
 import { useMemo } from 'react';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { usageTimeframe } from 'domains/chains/constants/timeframes';
+import { USAGE_FULL_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 
 export interface TimeframeResult {
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];
 }
 
-export const useTimeframe = (initialTimeframe?: Timeframe): TimeframeResult => {
-  const { hasPrivateAccess } = useAuth();
+interface UseTimeframeParams {
+  timeframes?: Timeframe[];
+  initialTimeframe?: Timeframe;
+}
 
-  const [tabs, initialTabID] = useMemo(() => {
-    const [timeframes, initial] = hasPrivateAccess
-      ? [usageTimeframe, Timeframe.Day]
-      : [usageTimeframe, Timeframe.Month];
-
-    const timeframesResult = timeframes.map<Tab<Timeframe>>(id => ({ id }));
-
-    return [timeframesResult, initialTimeframe || initial];
-  }, [hasPrivateAccess, initialTimeframe]);
+export const useTimeframe = ({
+  timeframes = USAGE_FULL_TIMEFRAME_LIST,
+  initialTimeframe = Timeframe.Month,
+}: UseTimeframeParams): TimeframeResult => {
+  const tabs = useMemo(
+    () => timeframes.map<Tab<Timeframe>>(id => ({ id })),
+    [timeframes],
+  );
 
   const [timeframeTabs, timeframeTab] = useTabs<Timeframe>({
-    initialTabID,
+    initialTabID: initialTimeframe,
     tabs,
   });
-  const timeframe = timeframeTab?.id ?? tabs[0].id;
 
-  return { timeframe, timeframeTabs };
+  return { timeframe: timeframeTab?.id ?? tabs[0].id, timeframeTabs };
 };

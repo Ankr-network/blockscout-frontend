@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { SelectChangeEvent } from '@mui/material';
 
 import { Select } from 'uiKit/Select';
-import { SortType } from 'domains/chains/types';
+import { SortType } from 'modules/chains/types';
 
 import { useOptions } from './ChainsSortSelectUtils';
 import { useStyles } from './ChainsSortSelectStyles';

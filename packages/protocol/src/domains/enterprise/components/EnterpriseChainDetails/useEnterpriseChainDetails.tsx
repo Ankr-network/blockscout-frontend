@@ -6,7 +6,7 @@ import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 import {
   ChainGroupID,

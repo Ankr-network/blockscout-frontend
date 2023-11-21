@@ -6,7 +6,7 @@ import {
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';

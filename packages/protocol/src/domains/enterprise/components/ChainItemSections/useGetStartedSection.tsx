@@ -2,12 +2,12 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { GetStartedSectionParams } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useGetStartedSection';
-import { GetStartedSection } from 'domains/chains/screens/ChainItem/components/GetStartedSection';
+import { GetStartedSection } from 'modules/common/components/GetStartedSection';
 import { PrimaryTab } from 'domains/chains/screens/ChainItem/components/PrimaryTab';
 import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItemSections/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-import { getCodeEnterprise } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/Snippets/utils/getCode';
-import { useTechnology } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
+import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
+import { getCodeEnterprise } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
 
 export const useGetStartedSection = ({
   chainId,

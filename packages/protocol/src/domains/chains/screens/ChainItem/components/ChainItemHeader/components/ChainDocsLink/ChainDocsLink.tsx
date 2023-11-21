@@ -1,51 +1,48 @@
-import { Button } from '@mui/material';
 import { Doc } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
-import { Chain } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { NavLink } from 'uiKit/NavLink';
 
 import { getChainDocsLink } from '../../utils/getChainDocsLink';
 import { useChainDocsLinkStyles } from './ChainDocsLinkStyles';
 
 export interface ChainDocsLinkProps {
-  chain: Chain;
+  id: ChainID;
   className?: string;
   variant?: 'contained' | 'outlined';
   size?: 'small' | 'medium' | 'large';
 }
 
 export const ChainDocsLink = ({
-  chain: { id },
-  className,
+  id,
+  className = '',
   variant = 'outlined',
   size = 'medium',
 }: ChainDocsLinkProps) => {
-  const { classes, cx } = useChainDocsLinkStyles();
+  const { classes } = useChainDocsLinkStyles();
 
   const { chainProtocol, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
 
-  const link = getChainDocsLink(
-    id,
-    isChainProtocolSwitchEnabled,
-    chainProtocol,
+  const link = useMemo(
+    () =>
+      getChainDocsLink(id, isChainProtocolSwitchEnabled, chainProtocol) || '',
+    [id, isChainProtocolSwitchEnabled, chainProtocol],
   );
 
   return (
-    <Button
-      className={cx(classes.button, className)}
-      classes={{
-        iconSizeMedium: classes.iconSize,
-      }}
+    <NavLink
+      className={className}
       disabled={!link}
-      href={link || ''}
-      startIcon={<Doc />}
-      target="_blank"
+      href={link}
+      startIcon={<Doc className={classes.icon} />}
       variant={variant}
       size={size}
     >
       {t('chain-item.header.docs')}
-    </Button>
+    </NavLink>
   );
 };

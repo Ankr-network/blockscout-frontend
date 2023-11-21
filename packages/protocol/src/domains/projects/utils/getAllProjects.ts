@@ -10,7 +10,7 @@ import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { FetchTokenStatusResponse } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { JwtManagerToken } from '../../jwtToken/store/jwtTokenManagerSlice';
-import { MappedWhitelistBlockchainsResponse } from '../actions/fetchWhitelistBlockchains';
+import { MappedWhitelistBlockchainsResponse } from '../actions/fetchWhitelistsBlockchains';
 
 export interface ProjectStatus extends GetUserEndpointTokenStatusResponse {
   draft?: boolean;
@@ -29,6 +29,7 @@ export interface Project {
 export interface ProjectTable extends Project {
   statsByRange: StatsByRangeResponse;
   projectStatus: ProjectStatus;
+  isLoading?: boolean;
 }
 
 export const DEFAULT_PROJECT_STATUS: ProjectStatus = {
@@ -43,12 +44,14 @@ interface GetAllProjectsParams {
   whitelists: IGetWhitelistParamsResponse[];
   whitelistBlockchains: MappedWhitelistBlockchainsResponse[];
   projectStatuses: FetchTokenStatusResponse[];
+  isLoading: boolean;
 }
 
 export const getAllProjects = ({
   projects,
   whitelists,
   whitelistBlockchains,
+  isLoading,
   projectStatuses,
 }: GetAllProjectsParams): Project[] =>
   projects.map((item, index) => {
@@ -64,6 +67,7 @@ export const getAllProjects = ({
     return {
       whitelist: whitelists[index]?.lists,
       blockchains,
+      isLoading,
       name: item.name || renderProjectName(item.index),
       tokenIndex: item.index,
       isFrozen: Boolean(currentProjectStatus?.status?.frozen),

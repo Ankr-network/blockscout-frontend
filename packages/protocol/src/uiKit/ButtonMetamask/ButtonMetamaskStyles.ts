@@ -4,7 +4,9 @@ import { makeStyles } from 'tss-react/mui';
 export const useButtonMetamaskStyles = makeStyles<void, 'plusIconWrapper'>()(
   (theme: Theme, _params, classes) => ({
     button: {
-      padding: theme.spacing(2 * 0.875),
+      width: 32,
+      minWidth: 32,
+
       position: 'relative',
       overflow: 'visible',
       border: `2px solid ${theme.palette.background.default}`,
@@ -24,20 +26,13 @@ export const useButtonMetamaskStyles = makeStyles<void, 'plusIconWrapper'>()(
         },
       },
     },
-    size_large: {
-      minWidth: 48,
-      minHeight: 48,
 
-      /* size for metamask fox icon */
-      '& > span > svg': {
-        width: '30px',
-        height: '30px',
+    icon: {
+      '&&': {
+        fontSize: 20,
       },
     },
-    size_medium: {
-      minWidth: 42,
-      minHeight: 42,
-    },
+
     plusIconWrapper: {
       position: 'absolute',
       backgroundColor: theme.palette.primary.main,

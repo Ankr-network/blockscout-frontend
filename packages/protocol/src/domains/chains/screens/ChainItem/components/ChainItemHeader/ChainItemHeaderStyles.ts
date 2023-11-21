@@ -2,11 +2,9 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useChainItemHeaderStyles = makeStyles()(theme => ({
   chainItemHeader: {
-    marginBottom: theme.spacing(2 * 7.5),
-    padding: theme.spacing(2 * 3.75),
-
-    borderRadius: theme.spacing(2 * 3.75),
-
+    marginBottom: theme.spacing(9),
+    padding: theme.spacing(7.5),
+    borderRadius: theme.spacing(7.5),
     background: theme.palette.background.paper,
   },
 }));
@@ -19,7 +17,7 @@ export const useChainItemHeaderContentStyles = makeStyles()(theme => ({
     justifyContent: 'center',
     gap: theme.spacing(7.5),
 
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(6),
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',

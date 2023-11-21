@@ -8,7 +8,6 @@ import { InfoCard } from 'domains/userSettings/components/InfoCard';
 import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEnableWhitelistedProject } from 'domains/projects/hooks/useEnableWhitelistedProject';
 import { LoadingButton } from 'uiKit/LoadingButton';
 
 import { getInfoCardParams } from './utils/getInfoCardParams';
@@ -16,15 +15,9 @@ import { getOriginRoute } from './utils/getOriginRoute';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { useClickHandler } from './hooks/useClickHandler';
 import { useTrackSuccessfulTopUp } from './hooks/useTrackSuccessfulTopUp';
-import { useIsWhitelistReason } from './hooks/useIsWhitelistReason';
 import success from './assets/success.png';
-import { WhitelistInfoCard } from './components/WhitelistInfoCard';
 
 export const CardPaymentSuccess = () => {
-  const isWhitelistReason = useIsWhitelistReason();
-
-  const { isLoading } = useEnableWhitelistedProject(isWhitelistReason);
-
   useTrackSuccessfulTopUp();
 
   const topUpOrigin = useSelector(selectTopUpOrigin);
@@ -39,7 +32,7 @@ export const CardPaymentSuccess = () => {
 
   const { hasPremium } = useAuth();
 
-  const onClick = useClickHandler(isWhitelistReason);
+  const onClick = useClickHandler();
 
   const { classes } = useCardPaymentSuccessStyles();
 
@@ -50,28 +43,18 @@ export const CardPaymentSuccess = () => {
 
   return (
     <CenterContainer>
-      {isWhitelistReason ? (
-        <WhitelistInfoCard isLoading={isLoading} />
-      ) : (
-        <InfoCard
-          align="center"
-          description={description}
-          descriptionClassName={classes.description}
-          title={title}
-          titleClassName={classes.title}
-          imgUrl={success}
-        >
-          <LoadingButton
-            onClick={onClick}
-            size="large"
-            fullWidth
-            loading={isLoading}
-            disabled={isLoading}
-          >
-            {isLoading ? '' : button}
-          </LoadingButton>
-        </InfoCard>
-      )}
+      <InfoCard
+        align="center"
+        description={description}
+        descriptionClassName={classes.description}
+        title={title}
+        titleClassName={classes.title}
+        imgUrl={success}
+      >
+        <LoadingButton fullWidth onClick={onClick} size="large">
+          {button}
+        </LoadingButton>
+      </InfoCard>
     </CenterContainer>
   );
 };

@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
-import { ChainType } from 'domains/chains/types';
+import { ChainType } from 'modules/chains/types';
 import { useChainSelectVisibility } from 'domains/projects/screens/NewProject/components/TypeSelector/hooks/useChainSelectVisibility';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';

@@ -1,4 +1,4 @@
-import { ChainType as Type } from 'domains/chains/types';
+import { ChainType as Type } from 'modules/chains/types';
 import { ChainTypeTab } from 'domains/chains/screens/ChainItem/components/ChainTypeTab';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -13,13 +13,15 @@ interface GetPrivateChainTypeTabsParams {
   endpoints: GroupedEndpoints;
   isBlockedTestnet: boolean;
   isBlockedMainnet?: boolean;
-  onBlockedTabClick: () => void;
+  isHiddenMainnet?: boolean;
+  onBlockedTabClick?: () => void;
 }
 
 export const getPrivateChainTypeTabs = ({
   endpoints,
   isBlockedTestnet,
   isBlockedMainnet,
+  isHiddenMainnet,
   onBlockedTabClick,
 }: GetPrivateChainTypeTabsParams): Tab<Type>[] =>
   getChainTypeTabs()
@@ -28,6 +30,7 @@ export const getPrivateChainTypeTabs = ({
       const blockedTestnet = isBlockedTestnet && id === Type.Testnet;
       const blockedMainnet = isBlockedMainnet && id === Type.Mainnet;
       const isBlocked = blockedTestnet || blockedMainnet;
+      const isHidden = isHiddenMainnet && id === Type.Mainnet;
 
       return {
         id,
@@ -43,11 +46,12 @@ export const getPrivateChainTypeTabs = ({
               isLast={index === list.length - 1}
               isSelected={!isBlocked && isSelected}
               label={label}
-              onClick={() => isBlocked && onBlockedTabClick()}
+              onClick={() => isBlocked && onBlockedTabClick?.()}
             />
           );
         },
-        isDisabled: isBlocked,
+        isDisabled: isBlocked || isHidden,
+        isHidden,
       };
     });
 

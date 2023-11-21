@@ -1,7 +1,7 @@
 import { useAppSelector } from 'store/useAppSelector';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 
 import { selectEnterpriseBlockchainsDependingOnSelectedApiKey } from '../store/selectors';
 

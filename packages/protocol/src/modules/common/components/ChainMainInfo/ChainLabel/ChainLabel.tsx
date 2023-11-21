@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import { Variant } from '@mui/material/styles/createTypography';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { StatusCircle } from 'uiKit/StatusCircle';
@@ -18,7 +19,7 @@ export const ChainLabel = ({
   label,
   tooltip = '',
   labelClassName,
-  isStatusIndicatorVisible = true,
+  isStatusIndicatorVisible,
 }: ArchiveLabelProps) => {
   const { classes, cx } = useStyles();
 
@@ -28,7 +29,8 @@ export const ChainLabel = ({
         <Typography
           className={cx(labelClassName, classes.label)}
           component="div"
-          variant="body2"
+          variant={'body4' as Variant}
+          color="textSecondary"
         >
           {isStatusIndicatorVisible && (
             <StatusCircle mr={2} status="success" className={classes.circle} />

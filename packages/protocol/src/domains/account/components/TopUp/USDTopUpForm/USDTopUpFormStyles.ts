@@ -23,6 +23,10 @@ export const useStyles = makeStyles()(theme => ({
   },
   tab: {
     borderRadius: 17,
+
+    '& > div': {
+      width: 'auto',
+    },
   },
   bottom: {
     display: 'flex',

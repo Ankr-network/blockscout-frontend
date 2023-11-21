@@ -1,5 +1,5 @@
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 export const useNetId = () => {
   const { netId } = ChainsRoutesConfig.chainDetails.useParams();

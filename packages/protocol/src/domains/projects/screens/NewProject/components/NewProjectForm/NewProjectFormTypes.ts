@@ -8,6 +8,7 @@ import {
   AddToWhitelistFormData,
   GeneralStepFields,
 } from 'domains/projects/store';
+import { ChainID } from 'modules/chains/types';
 
 export interface NewProjectFormProps {
   step: NewProjectStep;
@@ -17,7 +18,6 @@ export interface NewProjectFormProps {
   ) => void;
   onBackClick: () => void;
   isLoading: boolean;
-  isSuccess: boolean;
 }
 
 export interface NewProjectFormValues {
@@ -26,13 +26,13 @@ export interface NewProjectFormValues {
   [GeneralStepFields.tokenIndex]?: number;
   [GeneralStepFields.userEndpointToken]?: string;
   [ChainStepFields.projectName]?: string;
-  [ChainStepFields.selectedMainnetIds]?: string[];
-  [ChainStepFields.selectedTestnetIds]?: string[];
-  [ChainStepFields.selectedDevnetIds]?: string[];
-  [ChainStepFields.selectedBeaconMainnetIds]?: string[];
-  [ChainStepFields.selectedBeaconTestnetIds]?: string[];
-  [ChainStepFields.selectedOpnodeMainnetIds]?: string[];
-  [ChainStepFields.selectedOpnodeTestnetIds]?: string[];
+  [ChainStepFields.selectedMainnetIds]?: ChainID[];
+  [ChainStepFields.selectedTestnetIds]?: ChainID[];
+  [ChainStepFields.selectedDevnetIds]?: ChainID[];
+  [ChainStepFields.selectedBeaconMainnetIds]?: ChainID[];
+  [ChainStepFields.selectedBeaconTestnetIds]?: ChainID[];
+  [ChainStepFields.selectedOpnodeMainnetIds]?: ChainID[];
+  [ChainStepFields.selectedOpnodeTestnetIds]?: ChainID[];
   [WhitelistStepFields.whitelistDialog]?: AddToWhitelistFormData;
   [WhitelistStepFields.whitelistItems]?: AddToWhitelistFormData[];
   [WhitelistStepFields.isEditingWhitelistDialog]?: boolean;

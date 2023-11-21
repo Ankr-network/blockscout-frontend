@@ -2,7 +2,17 @@ import { Address } from '@ankr.com/provider';
 
 import { IApiUserGroupParams } from '../userGroup';
 
-export type UserEndpointTokenMode = 'ip' | 'referer' | 'address' | 'all';
+export enum UserEndpointTokenMode {
+  ADDRESS = 'address',
+  ALL = 'all',
+  IP = 'ip',
+  REFERER = 'referer',
+}
+
+export enum ReplaceWhitelistItemsMode {
+  Merge = 'merge',
+  Overwrite = 'overwrite',
+}
 
 export interface IUpdateWhitelistModeParams extends IApiUserGroupParams {
   token: string; // endpointToken
@@ -47,3 +57,23 @@ export interface IUpdateWhitelistModeResponse
 export interface IUpdateWhitelistParams extends IUpdateWhitelistModeParams {
   blockchain: string;
 }
+
+export interface ReplaceWhitelistParams extends IApiUserGroupParams {
+  // endpoint token
+  token: string;
+  mode?: ReplaceWhitelistItemsMode;
+}
+
+export type ReplaceWhitelistBodyKey =
+  UserEndpointTokenMode.ADDRESS |
+  UserEndpointTokenMode.IP |
+  UserEndpointTokenMode.REFERER;
+
+export interface ReplaceWhitelistBody
+  extends Record<ReplaceWhitelistBodyKey, WhitelistToReplace> {}
+
+type BlockchainPath = string;
+export interface WhitelistToReplace extends Record<BlockchainPath, string[]> {}
+
+export interface ReplaceWhitelistResponse
+  extends ReplaceWhitelistBody, IUpdateWhitelistModeRequestParams {}

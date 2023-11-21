@@ -1,4 +1,4 @@
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 const extensionOnlyChain: ChainID[] = [ChainID.SECRET, ChainID.SEI];
 

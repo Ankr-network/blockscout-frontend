@@ -31,6 +31,7 @@ export interface VirtualTableProps<T extends Record<string, any>> {
   rows: T[];
   searchContent?: string;
   searchKey?: string;
+  onRowClick?: (data: T) => void;
 }
 
 export interface VirtualTableColumn<T> {

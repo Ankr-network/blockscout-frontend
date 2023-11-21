@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { Chain, Timeframe } from 'domains/chains/types';
+import { Chain, Timeframe } from 'modules/chains/types';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 

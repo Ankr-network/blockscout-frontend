@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 

@@ -37,9 +37,7 @@ export const useWhitelistStepStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(6),
     maxWidth: 450,
   },
-  countersWrapper: {
-    display: 'flex',
-    gap: theme.spacing(1),
+  counters: {
     marginBottom: theme.spacing(10),
   },
 }));

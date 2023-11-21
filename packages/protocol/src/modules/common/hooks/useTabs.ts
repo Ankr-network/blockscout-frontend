@@ -20,6 +20,7 @@ export interface Tab<TI = DefaultTabID> {
   content?: ReactNode;
   id: TabID<TI>;
   isDisabled?: boolean;
+  isHidden?: boolean;
   onSelect?: () => void;
   title?: ReactNode;
 }

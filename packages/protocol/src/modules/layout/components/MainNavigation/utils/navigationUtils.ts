@@ -54,7 +54,7 @@ const checkIsChainsRoute = (
   return match?.isExact || chainsRoutes.some(route => pathname.includes(route));
 };
 
-export const getCommonMenuList = (
+export const getDashboardMenuList = (
   onDashboardClick: () => void,
 ): NavigationItem[] => [
   {
@@ -187,6 +187,8 @@ export const getExternalButtonProps = ({
   isComingSoon,
   isDisabled,
   isEnabled,
+  isNew,
+  isNotLinkItem,
   ...props
 }: NavigationItem): ButtonProps<'a', { component: 'a' }> => ({
   ...props,
@@ -202,23 +204,23 @@ export const getExternalButtonProps = ({
 
 export const getCommonButtonProps = (
   {
-    ActiveIcon,
-    StartIcon,
     isActive,
     isComingSoon,
     isDisabled,
     isEnabled,
-    ...props
+    onClick,
+    href,
+    label,
   }: NavigationItem,
   activeClassName: string,
 ): ButtonProps<NavLink, NavLinkProps> => ({
-  ...props,
   activeClassName,
-  disabled: !isEnabled && !isComingSoon && (!props.href || isDisabled),
+  disabled: !isEnabled && !isComingSoon && (!href || isDisabled),
   isActive,
-  key: props.label,
-  onClick: props.onClick,
-  to: props.href ?? '',
+  key: label,
+  title: label,
+  onClick,
+  to: href ?? '',
   variant: 'text',
 });
 
@@ -229,6 +231,8 @@ export const getNotLinkButtonProps = ({
   isComingSoon,
   isDisabled,
   isEnabled,
+  isNew,
+  isNotLinkItem,
   ...props
 }: NavigationItem): ButtonProps => ({
   ...props,

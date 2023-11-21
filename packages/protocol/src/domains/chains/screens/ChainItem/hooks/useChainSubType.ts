@@ -5,7 +5,7 @@ import {
   ChainID,
   ZETACHAIN_ATHENS3_CHAINS,
   ChainSubType,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 
 import { getChainSubTypeTabs } from '../utils/getChainSubTypeTabs';

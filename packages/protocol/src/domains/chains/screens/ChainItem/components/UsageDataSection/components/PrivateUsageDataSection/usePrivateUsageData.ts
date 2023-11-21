@@ -6,7 +6,7 @@ import {
   ChainType,
   Timeframe,
   ChainSubType,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';

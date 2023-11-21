@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { getChainName } from 'uiKit/utils/metatags';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 import { useNetId } from './useNetId';
 

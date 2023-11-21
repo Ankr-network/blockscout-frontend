@@ -1,10 +1,17 @@
 import { generatePath, useParams } from 'react-router-dom';
+import { INDEX_PATH } from 'routes/constants';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const INDEX_PATH = '/';
-export const PATH_CHAIN_DETAILS = `${INDEX_PATH}:chainId/:netId?`;
-export const PATH_ADD_ENDPOINT = `${INDEX_PATH}:chainId/add`;
+export const CHAIN_DETAILS_SUBPATH = ':chainId/:netId?';
+export const ADD_ENDPOINT_SUBPATH = ':chainId/add';
+
+export const CHAINS_PATH = '/chains/';
+export const PATH_CHAIN_DETAILS = `${CHAINS_PATH}${CHAIN_DETAILS_SUBPATH}`;
+export const PATH_ADD_ENDPOINT = `${CHAINS_PATH}${ADD_ENDPOINT_SUBPATH}`;
+
+export const PATH_CHAIN_DETAILS_DIRECT = `${INDEX_PATH}${CHAIN_DETAILS_SUBPATH}`;
+export const PATH_ADD_ENDPOINT_DIRECT = `${INDEX_PATH}${ADD_ENDPOINT_SUBPATH}`;
 
 export interface ChainDetailsPageParams {
   chainId: string;
@@ -14,8 +21,8 @@ export interface ChainDetailsPageParams {
 export const ChainsRoutesConfig = createRouteConfig(
   {
     chains: {
-      path: INDEX_PATH,
-      generatePath: () => INDEX_PATH,
+      path: CHAINS_PATH,
+      generatePath: () => CHAINS_PATH,
       breadcrumbs: 'chains.breadcrumbs',
     },
     chainDetails: {
@@ -31,6 +38,11 @@ export const ChainsRoutesConfig = createRouteConfig(
         };
       },
     },
+    chainDetailsDirect: {
+      path: PATH_CHAIN_DETAILS_DIRECT,
+      generatePath: (chainId: string, netId?: string) =>
+        generatePath(PATH_CHAIN_DETAILS_DIRECT, { chainId, netId }),
+    },
     addEndpoint: {
       path: PATH_ADD_ENDPOINT,
       breadcrumbs: 'chains.add-endpoint.breadcrumbs',
@@ -43,6 +55,11 @@ export const ChainsRoutesConfig = createRouteConfig(
           chainId,
         };
       },
+    },
+    addEndpointDirect: {
+      path: PATH_ADD_ENDPOINT_DIRECT,
+      generatePath: (chainId: string) =>
+        generatePath(PATH_ADD_ENDPOINT_DIRECT, { chainId }),
     },
   },
   INDEX_PATH,

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
@@ -52,13 +52,16 @@ export const BaseNavButton = ({
           classes.link,
           isComingSoon && classes.comingSoon,
           isDisabled && classes.disabled,
+          isNew && classes.newLinkWrapper,
         )}
         endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
         startIcon={<StartIcon />}
       >
         {label}
         {isNew && (
-          <SoonLabel className={classes.soon} label={t('common.new')} />
+          <Paper className={classes.newLabelWrapper}>
+            <SoonLabel className={classes.soon} label={t('common.new')} />
+          </Paper>
         )}
         {isComingSoon && <SoonLabel className={classes.soon} />}
       </Button>
@@ -90,13 +93,18 @@ export const BaseNavButton = ({
         classes.link,
         isComingSoon && classes.comingSoon,
         isDisabled && classes.disabled,
+        isNew && classes.newLinkWrapper,
       )}
       component={NavLink}
       endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
       startIcon={<StartIcon />}
     >
       {label}
-      {isNew && <SoonLabel className={classes.soon} label={t('common.new')} />}
+      {isNew && (
+        <Paper className={classes.newLabelWrapper}>
+          <SoonLabel className={classes.soon} label={t('common.new')} />
+        </Paper>
+      )}
       {isComingSoon && <SoonLabel className={classes.soon} />}
     </Button>
   );

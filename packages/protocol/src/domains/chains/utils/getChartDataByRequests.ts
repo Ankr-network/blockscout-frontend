@@ -1,5 +1,5 @@
 import { IChartData } from 'modules/common/components/Chart';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 const { Hour, Day, Week, Month } = Timeframe;
 

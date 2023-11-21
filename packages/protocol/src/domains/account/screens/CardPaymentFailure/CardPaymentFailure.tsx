@@ -9,11 +9,9 @@ import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useCardPaymentFailureStyles } from './useCardPaymentFailureStyles';
 import { useClickHandler } from './hooks/useClickHandler';
 import { useTrackFailureTopUp } from './hooks/useTrackFailureTopUp';
-import { useIsWhitelistReason } from '../CardPaymentSuccess/hooks/useIsWhitelistReason';
 
 export const CardPaymentFailure = () => {
   useTrackFailureTopUp();
-  const isWhitelistReason = useIsWhitelistReason();
 
   useSetBreadcrumbs([
     {
@@ -21,7 +19,7 @@ export const CardPaymentFailure = () => {
     },
   ]);
 
-  const onClick = useClickHandler(isWhitelistReason);
+  const onClick = useClickHandler();
 
   const { classes } = useCardPaymentFailureStyles();
 

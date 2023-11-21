@@ -73,7 +73,9 @@ export const Breadcrumbs = ({
             key={title}
             component="div"
           >
-            {capitalize(title)}
+            <span className={classes.breadcrumbsTitle}>
+              {capitalize(title)}
+            </span>
             {userLabel}
           </Typography>
         );

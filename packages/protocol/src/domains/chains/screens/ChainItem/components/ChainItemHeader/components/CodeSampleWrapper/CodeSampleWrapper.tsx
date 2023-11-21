@@ -2,7 +2,7 @@ import { Box, Button, Paper } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { ReactNode, useState } from 'react';
 
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
@@ -15,19 +15,21 @@ interface CodeSampleWrapperProps {
   chain: Chain;
   header: ReactNode;
   url?: string;
+  codeSampleWrapperClassName?: string;
 }
 
 export const CodeSampleWrapper = ({
   chain,
   header,
   url,
+  codeSampleWrapperClassName,
 }: CodeSampleWrapperProps) => {
   const { isLightTheme } = useThemes();
   const { classes, cx } = useStyles(isLightTheme);
   const [codeType, setCodeType] = useState(CodeType.ANKRJS);
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={cx(classes.root, codeSampleWrapperClassName)}>
       <Box className={classes.header}>
         {header}
         <Box className={classes.buttons}>
@@ -35,7 +37,7 @@ export const CodeSampleWrapper = ({
             className={cx(classes.btn, classes.btnDocs)}
             size="large"
             variant="contained"
-            chain={chain}
+            id={chain.id}
           />
           <Button
             className={classes.btn}

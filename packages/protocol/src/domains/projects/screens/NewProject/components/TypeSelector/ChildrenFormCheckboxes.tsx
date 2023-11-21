@@ -1,6 +1,7 @@
 import { Box, FormControlLabel, Typography, Checkbox } from '@mui/material';
 
 import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
+import { useTreeStyles } from 'modules/common/styles/useTreeStyles';
 
 import { NestedItemBase } from './hooks/useNestedChainItemsSelection';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
@@ -17,13 +18,14 @@ export const ChildrenFormCheckboxes = ({
   handleChangeItem,
 }: IChildrenFormCheckboxesProps) => {
   const { classes, cx } = useTypeSelectorStyles();
+  const { classes: classesTree } = useTreeStyles();
 
   return (
-    <Box className={classes.childrenWrapper}>
+    <Box className={cx(classes.childrenWrapper, classesTree.treeWrapper)}>
       {nestedItems.map(item => (
         <FormControlLabel
           classes={{
-            root: classes.formControlLabel,
+            root: cx(classes.formControlLabel, classesTree.treeItem),
             label: classes.label,
           }}
           key={item.chainId}

@@ -5,7 +5,7 @@ import {
   BSC_CHAIN_NAME,
   mappingChainName,
 } from 'domains/auth/utils/mappingchainName';
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { isBeacon } from 'domains/chains/utils/isBeacon';
 
 const renderPrefix = (name: ChainID) => {

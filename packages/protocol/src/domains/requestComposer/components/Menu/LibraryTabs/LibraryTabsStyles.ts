@@ -13,12 +13,8 @@ export const useTopUpTabsStyles = makeStyles()((theme: Theme) => ({
     marginBottom: theme.spacing(2 * 1.5),
     width: '100%',
 
-    '& > div': {
+    '& div': {
       width: '100%',
-
-      '& > div, button': {
-        width: '100%',
-      },
     },
   },
 }));

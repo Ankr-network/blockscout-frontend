@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-final-form';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useChainSelectModal } from './useChainSelectModal';
@@ -25,7 +25,7 @@ export const useChainsTable = () => {
 
   const { reset } = useForm();
 
-  const { projectChains, isLoading, isUninitialized } = useProjectChains();
+  const { projectChains } = useProjectChains();
 
   const { initiallySelectedChainIds } = useProjectFormValues(projectChains);
 
@@ -79,9 +79,7 @@ export const useChainsTable = () => {
     handleCloseModal,
     handleConfirmModal: handleSetProjectChainsIdsAndClose,
     isCurrentChainSelected,
-    isLoading,
     isOpened,
-    isUninitialized,
     projectChains,
   };
 };

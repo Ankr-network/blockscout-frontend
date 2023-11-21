@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { IPublicChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
-import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -27,6 +27,7 @@ export interface ChainItem {
 
 type PublicChainItemParams = IPublicChainItemDetails & {
   onBlockedTabClick: () => void;
+  isPremiumLabelHidden?: boolean;
 };
 
 export const usePublicChainItem = ({
@@ -34,6 +35,7 @@ export const usePublicChainItem = ({
   unfilteredChain: publicChain,
   isChainArchived,
   onBlockedTabClick,
+  isPremiumLabelHidden,
 }: PublicChainItemParams): ChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -95,10 +97,12 @@ export const usePublicChainItem = ({
         groupTab={groupTab}
         isChainArchived={isChainArchived}
         selectGroup={selectGroup}
+        isPremiumLabelHidden={isPremiumLabelHidden}
       />
     ),
     [
       isMultiChain,
+      isPremiumLabelHidden,
       chain,
       publicChain,
       chainType,

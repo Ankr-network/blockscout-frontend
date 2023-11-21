@@ -1,4 +1,4 @@
-import { Web3Address } from 'multirpc-sdk';
+import { UserEndpointTokenMode, Web3Address } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
@@ -32,7 +32,11 @@ export const {
               whitelist: true,
               prohibit_by_default: prohibitByDefault,
             },
-            { token: userEndpointToken, type: 'address', group: groupAddress },
+            {
+              group: groupAddress,
+              token: userEndpointToken,
+              type: UserEndpointTokenMode.ADDRESS,
+            },
             totp,
           );
 

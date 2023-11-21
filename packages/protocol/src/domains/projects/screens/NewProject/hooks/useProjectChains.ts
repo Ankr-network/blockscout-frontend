@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
 
-import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import {
   tendermintRpcChains,
   chainGroups,
 } from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
-import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/selectors';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 export type ProjectChain = Chain & {
   mainnets?: Chain[];
@@ -94,14 +95,20 @@ const mapProjectChains = (chain: Chain) => {
   return chainParams;
 };
 
+const { useParams } = ProjectsRoutesConfig.project;
+
 export const useProjectChains = () => {
-  const userEndpointToken = useUserEndpointToken();
-  const skipChainsFetching = !userEndpointToken;
+  const { projectId: userEndpointToken } = useParams();
 
-  const { chains, allChains, isLoading, isUninitialized } =
-    usePrivateChainsInfo(skipChainsFetching);
+  const chains = useAppSelector(state =>
+    selectConfiguredBlockchainsForToken(state, userEndpointToken),
+  );
 
-  const projectChains = useMemo(() => chains.map(mapProjectChains), [chains]);
+  const projectChains = useMemo(
+    () =>
+      chains.map(mapProjectChains).sort((a, b) => a.name.localeCompare(b.name)),
+    [chains],
+  );
 
-  return { allChains, isLoading, projectChains, isUninitialized };
+  return { projectChains };
 };

@@ -2,7 +2,7 @@ import {
   BSC_CHAIN_NAME,
   TRON_CHAIN_NAME,
 } from 'domains/auth/utils/mappingchainName';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import { NetworkInfo } from './types';
 
@@ -630,5 +630,16 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://xdcscan.io'],
+  },
+
+  [ChainID.XDC_TESTNET]: {
+    chainId: 51,
+    chainName: 'XDC Testnet',
+    nativeCurrency: {
+      name: 'TXDC',
+      symbol: 'TXDC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.apothem.network/'],
   },
 };
