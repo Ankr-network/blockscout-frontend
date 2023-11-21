@@ -8,9 +8,9 @@ import { useProjectPaths } from './useProjectPaths';
 import { useProjectChainsTabs } from './useProjectChainsTabs';
 
 export const useProjectChains = (): ProjectChainsContextValue => {
-  const { chains, isLoading, projectBlockchains, whitelist } = useProjectData();
+  const { chains, isLoading, projectBlockchains } = useProjectData();
 
-  const paths = useProjectPaths({ chains, projectBlockchains, whitelist });
+  const paths = useProjectPaths({ chains, projectBlockchains });
 
   const projectChains = useMemo(
     () => filterChainsByPaths({ chains, paths }),
