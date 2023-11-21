@@ -1,4 +1,4 @@
-import { ChainType } from 'domains/chains/types';
+import { ChainType } from 'modules/chains/types';
 
 import { EndpointType } from '../const';
 

@@ -2,7 +2,7 @@ import {
   ChainID,
   ZETACHAIN_ATHENS3_CHAINS,
   ChainSubType,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 
 export const filterChainsBySubType = (
   chainIds: ChainID[],

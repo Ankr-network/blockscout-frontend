@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { RPCInfoFun } from 'uiKit/RPCInfoFunc/RPCInfoFunc';
-import { Chain, ChainID, ChainURL } from 'domains/chains/types';
+import { Chain, ChainID, ChainURL } from 'modules/chains/types';
 
 interface ChainsItemLinkProps {
   chain?: Chain;

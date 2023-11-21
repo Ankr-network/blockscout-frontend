@@ -1,4 +1,4 @@
-import { ChainID, Chain, ChainURL } from 'domains/chains/types';
+import { ChainID, Chain, ChainURL } from 'modules/chains/types';
 
 export interface ChainGroup {
   id: ChainGroupID;
@@ -63,4 +63,8 @@ export interface GroupedEndpoints {
   mainnet: EndpointGroup[];
   testnet: EndpointGroup[];
   devnet: EndpointGroup[];
+  beaconsMainnet: EndpointGroup[];
+  opnodesMainnet: EndpointGroup[];
+  beaconsTestnet: EndpointGroup[];
+  opnodesTestnet: EndpointGroup[];
 }

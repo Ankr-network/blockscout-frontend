@@ -1,7 +1,7 @@
 import { useEffect, ReactNode } from 'react';
 import { useHistory } from 'react-router';
+import { INDEX_PATH } from 'routes/constants';
 
-import { INDEX_PATH } from 'domains/chains/routes';
 import { fetchPremiumStatus } from 'domains/auth/actions/fetchPremiumStatus';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 

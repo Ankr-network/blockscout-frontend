@@ -7,7 +7,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 
-import { ChainSubType } from 'domains/chains/types';
+import { ChainSubType } from 'modules/chains/types';
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 

@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 
-import { Chain } from 'domains/chains/types';
-import { NavLink } from 'uiKit/NavLink';
-import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { Chain } from 'modules/chains/types';
+import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
+import { NavLink } from 'uiKit/NavLink';
 
 interface ISubChainLinksGeneratorProps
   extends IReactSnapChainsLinksGeneratorProps {
@@ -55,6 +55,14 @@ const SubChainLinksGenerator = ({
                 )}
               />
 
+              <NavLink
+                isRouterLink
+                href={ChainsRoutesConfig.chainDetailsDirect.generatePath(
+                  rootChainID,
+                  id,
+                )}
+              />
+
               {!!subchains.length && (
                 <SubChainLinksGenerator
                   rootChainID={rootChainID}
@@ -100,6 +108,16 @@ export const ReactSnapChainsLinksGenerator = ({
             <NavLink
               isRouterLink
               href={ChainsRoutesConfig.addEndpoint.generatePath(id)}
+            />
+
+            <NavLink
+              isRouterLink
+              href={ChainsRoutesConfig.chainDetailsDirect.generatePath(id)}
+            />
+
+            <NavLink
+              isRouterLink
+              href={ChainsRoutesConfig.addEndpointDirect.generatePath(id)}
             />
 
             <SubChainLinksGenerator

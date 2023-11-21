@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { getBlockchainsUrls } from 'uiKit/utils/getTokenIcon';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
@@ -8,16 +9,25 @@ import { useBlockchainIconStyles } from './useBlockchainIconStyles';
 
 interface BlockchainIconProps {
   blockchains: string[];
+  moreLabelKey?: string;
+  isPaddingLeftIgnored?: boolean;
 }
 
 const MAX_VISIBLE_ICONS_COUNT = 5;
 
-export const BlockchainIcon = ({ blockchains }: BlockchainIconProps) => {
-  const { classes } = useBlockchainIconStyles();
+export const BlockchainIcon = ({
+  blockchains,
+  moreLabelKey = 'projects.new-project.checkout-step.more',
+  isPaddingLeftIgnored,
+}: BlockchainIconProps) => {
+  const { classes, cx } = useBlockchainIconStyles();
 
   const { isLightTheme } = useThemes();
 
-  const blockchainUrls = getBlockchainsUrls(blockchains, isLightTheme);
+  const blockchainUrls = useMemo(
+    () => getBlockchainsUrls(blockchains, isLightTheme),
+    [blockchains, isLightTheme],
+  );
 
   const additionalBlockchainsCount =
     blockchainUrls.length - MAX_VISIBLE_ICONS_COUNT;
@@ -25,7 +35,11 @@ export const BlockchainIcon = ({ blockchains }: BlockchainIconProps) => {
   const visibleChains = blockchainUrls.slice(0, MAX_VISIBLE_ICONS_COUNT);
 
   return (
-    <div className={classes.root}>
+    <div
+      className={cx(classes.root, {
+        [classes.noPaddingLeft]: isPaddingLeftIgnored,
+      })}
+    >
       {visibleChains.map(src => (
         <img
           key={src}
@@ -36,9 +50,7 @@ export const BlockchainIcon = ({ blockchains }: BlockchainIconProps) => {
       ))}
       {blockchainUrls.length > MAX_VISIBLE_ICONS_COUNT && (
         <Typography className={classes.more} variant="caption">
-          {t('projects.new-project.checkout-step.more', {
-            additionalBlockchainsCount,
-          })}
+          {t(moreLabelKey, { additionalBlockchainsCount })}
         </Typography>
       )}
     </div>

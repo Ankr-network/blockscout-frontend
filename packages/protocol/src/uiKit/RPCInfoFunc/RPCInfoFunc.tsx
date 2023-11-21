@@ -3,7 +3,7 @@ import { TypographyTypeMap, Typography } from '@mui/material';
 import { MetaMaskWallet } from '@ankr.com/ui';
 
 import { useAddNetworkButton } from 'domains/auth/components/AddNetwork/useAddNetworkButton';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useRPCInfoFunStyle } from './useRPCInfoFunStyle';

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Switcher } from 'modules/common/components/Switcher';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { getLabelByTimeframe } from 'domains/chains/screens/ChainItem/components/UsageDataSection/UsageDataSectionUtils';
 
 import { useStyles } from './ChainMainInfoStyles';

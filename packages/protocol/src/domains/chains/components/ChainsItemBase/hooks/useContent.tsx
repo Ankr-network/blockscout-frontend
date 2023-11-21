@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 import { Content, ContentProps } from '../components/Content';

@@ -1,4 +1,4 @@
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';

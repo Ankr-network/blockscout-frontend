@@ -5,7 +5,7 @@ import { useChains } from 'domains/dashboard/screens/Dashboard/hooks/useChains';
 import { useChainsSelector as useChainsSelect } from 'domains/dashboard/screens/Dashboard/hooks/useChainsSelector';
 import { useChainSelectorGroups } from 'domains/dashboard/screens/Dashboard/hooks/useChainSelectorGroups';
 import { fallbackChain } from 'domains/dashboard/screens/Dashboard/const';
-import { ChainID, ChainType } from 'domains/chains/types';
+import { ChainID, ChainType } from 'modules/chains/types';
 import { ChainGroupID } from 'modules/endpoints/types';
 
 const shouldHideMainnet = (chainID?: ChainID) => {

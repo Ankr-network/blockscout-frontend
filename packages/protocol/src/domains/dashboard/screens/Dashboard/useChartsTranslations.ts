@@ -1,8 +1,9 @@
 import { t, tHTML } from '@ankr.com/common';
 import { useMemo } from 'react';
 
+import { Timeframe } from 'modules/chains/types';
+
 import { timeframesMap } from './const';
-import { Timeframe } from '../../../chains/types';
 
 interface GetRequestsChartTranslationsProps {
   timeframe: Timeframe;

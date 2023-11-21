@@ -10,15 +10,18 @@ export interface AddBlockchainsToWhitelistParams extends IApiUserGroupParams {
   blockchains: BlockchainID[];
 }
 
+export const CACHE_KEY_ENABLE_WHITELISTS = 'enableWhitelists';
+
 export const {
   endpoints: { addBlockchainsToWhitelist },
-  useLazyAddBlockchainsToWhitelistQuery,
+  useAddBlockchainsToWhitelistMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    addBlockchainsToWhitelist: build.query<
+    addBlockchainsToWhitelist: build.mutation<
       null,
       TwoFAQueryFnParams<AddBlockchainsToWhitelistParams>
     >({
+      invalidatesTags: ['WhitelistBlockchains'],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
           params: { userEndpointToken, group, blockchains },

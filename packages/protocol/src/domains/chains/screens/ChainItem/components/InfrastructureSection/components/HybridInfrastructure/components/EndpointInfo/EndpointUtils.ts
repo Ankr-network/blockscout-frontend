@@ -1,7 +1,7 @@
 import { IProvider } from 'multirpc-sdk';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { Chain, ChainURL } from 'domains/chains/types';
+import { Chain, ChainURL } from 'modules/chains/types';
 
 export const getChainById = (
   chains: Chain[],

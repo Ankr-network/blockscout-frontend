@@ -1,14 +1,15 @@
 import { t } from '@ankr.com/common';
-import { Menu, Typography, Button } from '@mui/material';
+import { Button, MenuItemProps, Typography } from '@mui/material';
 import { ArrowDown } from '@ankr.com/ui';
-import { useCallback } from 'react';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-final-form';
 
+import { AddWhitelistMenu } from 'domains/projects/components/AddWhitelistMenu';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { MenuItem } from 'modules/common/components/MenuButton';
 import { WhitelistStepFields } from 'domains/projects/store';
-import { WhiteListItem } from 'domains/projects/types';
+import { whitelistTypeLabelMap } from 'domains/projects/const';
 
 import { useAddWhitelistMenuButtonStyles } from './useAddWhitelistMenuButtonStyles';
 
@@ -18,7 +19,7 @@ export interface IAddWhitelistMenuButtonProps {
   isAddingSmartContractDisabled: boolean;
   isSetupMode: boolean;
   className?: string;
-  onWhitelistDialogOpen: (type: WhiteListItem) => void;
+  onWhitelistDialogOpen: (type: UserEndpointTokenMode) => void;
 }
 
 export const AddWhitelistMenuButton = ({
@@ -42,27 +43,63 @@ export const AddWhitelistMenuButton = ({
 
   const handleClickAddDomain = useCallback(() => {
     change(WhitelistStepFields.whitelistDialog, {
-      type: WhiteListItem.referer,
+      type: UserEndpointTokenMode.REFERER,
     });
-    onWhitelistDialogOpen(WhiteListItem.referer);
+    onWhitelistDialogOpen(UserEndpointTokenMode.REFERER);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
   const handleClickAddIp = useCallback(() => {
     change(WhitelistStepFields.whitelistDialog, {
-      type: WhiteListItem.ip,
+      type: UserEndpointTokenMode.IP,
     });
-    onWhitelistDialogOpen(WhiteListItem.ip);
+    onWhitelistDialogOpen(UserEndpointTokenMode.IP);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
 
   const handleClickAddSmartContract = useCallback(() => {
     change(WhitelistStepFields.whitelistDialog, {
-      type: WhiteListItem.address,
+      type: UserEndpointTokenMode.ADDRESS,
     });
-    onWhitelistDialogOpen(WhiteListItem.address);
+    onWhitelistDialogOpen(UserEndpointTokenMode.ADDRESS);
     handleClose();
   }, [change, handleClose, onWhitelistDialogOpen]);
+
+  const onClose = useCallback(() => handleClose(), [handleClose]);
+
+  const menuItems = useMemo(
+    (): MenuItemProps[] => [
+      {
+        children: t(whitelistTypeLabelMap[UserEndpointTokenMode.REFERER], {
+          plurals: 1,
+        }),
+        disabled: isAddingDomainDisabled,
+        onClick: handleClickAddDomain,
+      },
+      {
+        children: t(whitelistTypeLabelMap[UserEndpointTokenMode.IP], {
+          plurals: 1,
+        }),
+        disabled: isAddingIPDisabled,
+        onClick: handleClickAddIp,
+      },
+      {
+        children: t(whitelistTypeLabelMap[UserEndpointTokenMode.ADDRESS], {
+          plurals: 1,
+        }),
+        disabled: isAddingSmartContractDisabled,
+        onClick: handleClickAddSmartContract,
+      },
+    ],
+    [
+      handleClickAddDomain,
+      handleClickAddIp,
+      handleClickAddSmartContract,
+      isAddingDomainDisabled,
+      isAddingIPDisabled,
+      isAddingSmartContractDisabled,
+    ],
+  );
 
   const isButtonDisabled =
     isAddingDomainDisabled &&
@@ -87,44 +124,13 @@ export const AddWhitelistMenuButton = ({
           <ArrowDown className={classes.menuButtonIcon} />
         </Typography>
       </Button>
-
-      <Menu
-        MenuListProps={{
-          'aria-labelledby': 'long-button',
-        }}
-        anchorOrigin={{
-          vertical: isSetupMode ? 'bottom' : 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: isSetupMode ? 'top' : 'bottom',
-          horizontal: 'right',
-        }}
-        PaperProps={{
-          className: classes.paper,
-        }}
+      <AddWhitelistMenu
         anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
-        <MenuItem
-          disabled={isAddingDomainDisabled}
-          onClick={handleClickAddDomain}
-        >
-          {t('projects.new-project.step-3.add-whitelist-menu.domain')}
-        </MenuItem>
-
-        <MenuItem disabled={isAddingIPDisabled} onClick={handleClickAddIp}>
-          {t('projects.new-project.step-3.add-whitelist-menu.ip')}
-        </MenuItem>
-
-        <MenuItem
-          disabled={isAddingSmartContractDisabled}
-          onClick={handleClickAddSmartContract}
-        >
-          {t('projects.new-project.step-3.add-whitelist-menu.smart-contract')}
-        </MenuItem>
-      </Menu>
+        isOpened={open}
+        items={menuItems}
+        location={isSetupMode ? 'bottom' : 'top'}
+        onClose={onClose}
+      />
     </>
   );
 };

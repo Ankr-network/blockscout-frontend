@@ -1,4 +1,4 @@
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
 export type ChainNamesMap = Record<string, string>;

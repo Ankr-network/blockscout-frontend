@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 
 import { ISelectOption } from 'uiKit/Select';
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
 

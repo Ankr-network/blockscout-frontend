@@ -4,7 +4,10 @@ import { useCreateJwtToken } from 'domains/jwtToken/hooks/useCreateJwtToken';
 import { usdTopUpFetchLinkForOneTimePayment } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
 import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
-import { addBlockchainsToWhitelist } from 'domains/projects/actions/addBlockchainsToWhitelist';
+import {
+  CACHE_KEY_ENABLE_WHITELISTS,
+  useAddBlockchainsToWhitelistMutation,
+} from 'domains/projects/actions/addBlockchainsToWhitelist';
 
 export const useIsLoading = () => {
   const [, { isLoading: isUpdateWhitelistModeLoading }] =
@@ -15,9 +18,10 @@ export const useIsLoading = () => {
   const { isLoading: isWhitelistEnablingLoading } = useEnableWhitelist();
   const [, { isLoading: isAddToWhitelistLoading }] =
     useQueryEndpoint(addToWhitelist);
-  const [, { isLoading: isBlockchainsBindingLoading }] = useQueryEndpoint(
-    addBlockchainsToWhitelist,
-  );
+  const [, { isLoading: isBlockchainsBindingLoading }] =
+    useAddBlockchainsToWhitelistMutation({
+      fixedCacheKey: CACHE_KEY_ENABLE_WHITELISTS,
+    });
 
   return (
     isUpdateWhitelistModeLoading ||

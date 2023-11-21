@@ -3,8 +3,8 @@ import Scrollbars from 'react-custom-scrollbars';
 import { t } from '@ankr.com/common';
 
 import { CodeHighlighter } from 'modules/common/components/CodeHighlighter';
-import { ViewProps } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/CodeSnippet';
-import { CopyCodeButton } from 'domains/chains/screens/ChainItem/components/GetStartedSection/components/CopyCodeButton';
+import { ViewProps } from 'modules/common/components/GetStartedSection/components/CodeSnippet';
+import { CopyCodeButton } from 'modules/common/components/GetStartedSection/components/CopyCodeButton';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { overridenViewStyle, overridenThumbStyle } from './SampleCodeUtils';

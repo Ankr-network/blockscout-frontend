@@ -1,6 +1,6 @@
 import { BlockchainID, IBlockchainEntity } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 type BlockchainsMap = Record<string, IBlockchainEntity>;
 

@@ -19,7 +19,7 @@ export const useRequestComposerStyles = makeStyles<StylesProps>()(
     },
     container: {
       display: 'flex',
-      gap: theme.spacing(2 * 3.5),
+      gap: theme.spacing(7),
     },
     right: {
       display: 'grid',

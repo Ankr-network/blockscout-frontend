@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import {
   IChainParams,

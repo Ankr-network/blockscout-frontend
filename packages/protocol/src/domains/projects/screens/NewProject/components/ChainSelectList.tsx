@@ -57,7 +57,7 @@ export const ChainSelectList = ({
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <Typography variant="body1" component="p" className={classes.title}>
-        {t('projects.new-project.chain-modal.supported-network')}
+        {t('projects.networks-selector.title')}
       </Typography>
 
       <div className={classes.selectors}>

@@ -12,7 +12,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 
 import {
-  getCommonMenuList,
+  getDashboardMenuList,
   getEndpointsList,
   getLogoutItem,
   getMenuList,
@@ -52,7 +52,7 @@ export const MainNavigation = ({
   const { hasReadAccess } = useJwtManager();
   const hasProjects = isMobileSiderBar
     ? false
-    : !isLoggedIn || isFreePremium || hasReadAccess;
+    : !loading || !isLoggedIn || isFreePremium || hasReadAccess;
 
   const endpointsItems = useMemo(
     () =>
@@ -66,8 +66,8 @@ export const MainNavigation = ({
     [chainsRoutes, hasProjects, onOpen, isEnterpriseClient, onAAPIClick],
   );
 
-  const commonItem = useMemo(
-    () => getCommonMenuList(onDashboardClick),
+  const dashboardItem = useMemo(
+    () => getDashboardMenuList(onDashboardClick),
     [onDashboardClick],
   );
 
@@ -101,7 +101,7 @@ export const MainNavigation = ({
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
-          {!isMobileSiderBar && <Navigation items={commonItem} />}
+          {!isMobileSiderBar && <Navigation items={dashboardItem} />}
           <Typography className={classes.tip}>
             {t('main-navigation.endpoints')}
           </Typography>

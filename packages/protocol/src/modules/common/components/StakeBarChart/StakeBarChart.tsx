@@ -14,7 +14,7 @@ import {
 import { Payload, Props } from 'recharts/types/component/DefaultLegendContent';
 
 import { StatusCircle } from 'uiKit/StatusCircle';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { useTimeframe } from 'domains/chains/hooks/useTimeframe';
 import { TopRequestsResultData, useStakeBarChart } from 'modules/common';
 

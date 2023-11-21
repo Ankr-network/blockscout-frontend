@@ -24,7 +24,7 @@ export const ChainRequestsLabel = ({
   }
 
   return (
-    <div className={cx(classes.root, className)}>
+    <div className={className}>
       <Typography
         className={cx(descriptionClassName, classes.subtitle)}
         color={descriptionColor}

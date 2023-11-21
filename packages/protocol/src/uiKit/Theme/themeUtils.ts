@@ -23,7 +23,7 @@ export const premiumText = `linear-gradient(269.98deg, #5F87F4 0.02%, #A963FF 49
 export const premiumTextStyles = {
   display: 'inline',
   width: 'fit-content',
-  background: premiumText,
+  backgroundImage: premiumText,
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
 };

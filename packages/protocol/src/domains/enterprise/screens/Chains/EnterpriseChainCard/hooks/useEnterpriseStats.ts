@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { aggregateTotalRequestsNumber } from 'domains/chains/screens/Chains/components/PrivateChains/utils/aggregateTotalRequestsNumber';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectEnterpriseStatsBySelectedApiKey } from 'domains/enterprise/store/selectors';

@@ -1,4 +1,4 @@
-import { ChainID, Chain } from 'domains/chains/types';
+import { ChainID, Chain } from 'modules/chains/types';
 
 import { flatChains } from './flatChains';
 

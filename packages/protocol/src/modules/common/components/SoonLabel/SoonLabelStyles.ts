@@ -1,7 +1,9 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+
 export const useSoonLabelStyles = makeStyles()(theme => ({
-  root: {
+  soonLabel: {
     padding: theme.spacing(0.5, 2),
 
     borderRadius: 8,
@@ -15,6 +17,8 @@ export const useSoonLabelStyles = makeStyles()(theme => ({
 
     '&&': {
       fontSize: 14,
+      WebkitBackgroundClip: 'text',
+      background: isReactSnap ? 'transparent' : undefined,
     },
   },
 }));

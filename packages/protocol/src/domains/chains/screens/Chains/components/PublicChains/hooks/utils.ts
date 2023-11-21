@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { ChainID, SortType, Chain } from 'domains/chains/types';
+import { ChainID, SortType, Chain } from 'modules/chains/types';
 import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 
 import { SortPublicChainsParams } from '../PublicChainsTypes';

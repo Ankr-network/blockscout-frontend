@@ -1,0 +1,40 @@
+import { makeStyles } from 'tss-react/mui';
+
+export const useRequestsStyles = makeStyles()(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  top: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: theme.spacing(2),
+  },
+  left: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  },
+  title: {
+    marginRight: theme.spacing(2),
+    fontSize: 16,
+  },
+  button: {
+    display: 'flex',
+    gap: theme.spacing(2),
+  },
+
+  timeframe: {
+    marginLeft: 'auto',
+    height: 28,
+
+    '&&': {
+      borderRadius: 10,
+    },
+  },
+
+  tab: {
+    height: 24,
+    minHeight: 24,
+  },
+}));

@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
@@ -48,6 +48,7 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.ARBITRUM,
       ChainID.ARBITRUM_NOVA,
+      ChainID.ARBITRUM_TESTNET,
 
       ChainID.AVALANCHE,
       ChainID.AVALANCHE_EVM,
@@ -112,6 +113,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE_TESTNET,
 
       ChainID.XDC,
+      ChainID.XDC_TESTNET,
 
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
@@ -177,6 +179,7 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'Goerli',
     chains: [
       ChainID.ETH_GOERLI,
+      ChainID.ETH_GOERLI_BEACON,
       ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
     ],

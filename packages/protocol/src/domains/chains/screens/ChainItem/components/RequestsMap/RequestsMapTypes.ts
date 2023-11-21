@@ -1,5 +1,5 @@
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 export interface RequestsMapProps {
   loading: boolean;

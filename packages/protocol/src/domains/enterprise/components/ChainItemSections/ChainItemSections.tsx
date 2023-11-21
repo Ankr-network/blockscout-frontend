@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainType } from 'modules/chains/types';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useChainItemSectionsStyles } from 'domains/chains/screens/ChainItem/components/ChainItemSections/ChainItemSectionsStyles';
 import { IChainItemTabsProps } from 'domains/chains/screens/ChainItem/components/ChainItemSections';
@@ -32,6 +32,7 @@ export const ChainItemSections = ({
     group,
     publicUrl: enterpriseUrl,
     apiKeys,
+    hasPrivateAccess: true,
   });
 
   const { classes } = useChainItemSectionsStyles();

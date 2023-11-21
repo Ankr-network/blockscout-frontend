@@ -289,6 +289,7 @@ interface RowProps {
   index: number;
   rowContainerClass?: string;
   rowClass?: string;
+  onClick?: (data: unknown) => void;
 }
 
 export const Row = ({
@@ -296,6 +297,7 @@ export const Row = ({
   index,
   rowContainerClass,
   rowClass,
+  onClick,
 }: RowProps) => {
   const { rows, cols, expandedRow, renderExpand, recalculateRows } = useTable();
   const { classes, cx } = useStyles();
@@ -303,7 +305,12 @@ export const Row = ({
   const rowData = rows[index];
 
   return (
-    <div style={style} className={cx(classes.vRow)}>
+    <div
+      style={style}
+      className={cx(classes.vRow)}
+      onClick={() => typeof onClick === 'function' && onClick(rowData)}
+      role="presentation"
+    >
       <div
         className={cx(classes.rowColumn, rowContainerClass, {
           [classes.rowExpanded]: expandedRow === index,
@@ -333,6 +340,7 @@ export const Row = ({
 export const useRowRenderer = (
   rowContainerClass?: string,
   rowClass?: string,
+  onClick?: (data: any) => void,
 ) => {
   const { cache } = useTable();
 
@@ -351,12 +359,13 @@ export const useRowRenderer = (
             style={style}
             rowContainerClass={rowContainerClass}
             rowClass={rowClass}
+            onClick={onClick}
           />
         </CellMeasurer>
       );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rowContainerClass, rowClass],
+    [rowContainerClass, rowClass, onClick],
   );
 
   return rowRenderer;

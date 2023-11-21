@@ -1,7 +1,7 @@
 import { chainGroups } from 'modules/endpoints/constants/groups';
 import { evmGroups } from 'modules/endpoints/constants/evmGroups';
+import { ChainID } from 'modules/chains/types';
 
-import { ChainID } from '../types';
 import { isBeacon, isOpnode } from './isBeacon';
 
 export const isEVMBased = (chainID: ChainID) =>

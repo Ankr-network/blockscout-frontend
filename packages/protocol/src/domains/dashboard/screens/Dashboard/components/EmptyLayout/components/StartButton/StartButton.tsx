@@ -1,8 +1,7 @@
 import { ArrowRightSmall } from '@ankr.com/ui';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-
-import { INDEX_PATH } from 'domains/chains/routes';
+import { INDEX_PATH } from 'routes/constants';
 
 import { text } from '../../utils/text';
 import { useStartButtonStyles } from './StartButtonStyles';

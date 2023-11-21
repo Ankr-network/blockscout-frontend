@@ -1,11 +1,11 @@
-import { SortType } from 'domains/chains/types';
+import { SortType, Timeframe } from 'modules/chains/types';
 import { processTestnetOnlyChains } from 'domains/mmChains/screens/Chains/utils/processTestnetOnlyChains';
 import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
 import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 
-export const useChains = () => {
+export const useChains = (timeframes?: Timeframe[]) => {
   const { chains, allChains, timeframe, timeframeTabs, isLoading, error } =
-    usePrivateChainsData();
+    usePrivateChainsData({ timeframes });
 
   const { processedChains } = usePrivateChains({
     allChains,

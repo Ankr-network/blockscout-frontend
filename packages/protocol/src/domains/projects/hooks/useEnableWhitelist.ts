@@ -1,12 +1,13 @@
 /* eslint-disable max-lines-per-function */
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
-import { ChainID } from 'domains/chains/types';
+import { NewProjectStep } from 'domains/projects/types';
+import { ChainID } from 'modules/chains/types';
 import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -15,13 +16,16 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
 import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
-import { useLazyAddBlockchainsToWhitelistQuery } from '../actions/addBlockchainsToWhitelist';
+import {
+  CACHE_KEY_ENABLE_WHITELISTS,
+  useAddBlockchainsToWhitelistMutation,
+} from '../actions/addBlockchainsToWhitelist';
 import { newProjectIntlRoot } from '../const';
 
 interface IParamsForWhitelist {
   chainId: ChainID;
   contractAddress: string;
-  type?: WhiteListItem;
+  type?: UserEndpointTokenMode;
 }
 
 const getParamsForWhitelistRequests = (
@@ -79,7 +83,9 @@ export const useEnableWhitelist = () => {
   const [
     addBlockchainsToWhitelistRequest,
     { isLoading: isAddBlockchainsToWhitelistLoading },
-  ] = useLazyAddBlockchainsToWhitelistQuery();
+  ] = useAddBlockchainsToWhitelistMutation({
+    fixedCacheKey: CACHE_KEY_ENABLE_WHITELISTS,
+  });
 
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
     useLazyUpdateWhitelistModeQuery();

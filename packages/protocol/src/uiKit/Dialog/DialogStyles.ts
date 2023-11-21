@@ -48,11 +48,11 @@ export const useStyles = makeStyles<IUseStylesProps>()(
       boxShadow:
         '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 0px 50px rgba(31, 34, 38, 0.1)',
       borderRadius: 40,
-      padding: theme.spacing(2 * 5),
+      padding: theme.spacing(10),
 
       [theme.breakpoints.down('xs')]: {
         borderRadius: 20,
-        padding: theme.spacing(2 * 2.5),
+        padding: theme.spacing(5),
       },
     },
 
@@ -67,12 +67,11 @@ export const useStyles = makeStyles<IUseStylesProps>()(
 
       [theme.breakpoints.down('xs')]: {
         fontSize: 27,
-        marginBottom: theme.spacing(2 * 1),
+        marginBottom: theme.spacing(2),
       },
     },
 
     titleText: {
-      marginRight: theme.spacing(10),
       overflow: 'hidden',
       textOverflow: 'ellipsis',
 
@@ -104,6 +103,7 @@ export const useStyles = makeStyles<IUseStylesProps>()(
       fontSize: '2rem',
       right: 0,
       position: 'absolute',
+      marginLeft: theme.spacing(10),
 
       [theme.breakpoints.down('xs')]: {
         width: 32,

@@ -3,7 +3,7 @@ import { Top10StatItem } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { BaseTableData } from '@ankr.com/telemetry';
 
-import { ChainID, Timeframe } from 'domains/chains/types';
+import { ChainID, Timeframe } from 'modules/chains/types';
 import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';

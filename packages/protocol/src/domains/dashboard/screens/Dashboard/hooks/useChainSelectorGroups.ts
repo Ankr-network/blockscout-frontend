@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Chain, ChainID, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainType } from 'modules/chains/types';
 import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';

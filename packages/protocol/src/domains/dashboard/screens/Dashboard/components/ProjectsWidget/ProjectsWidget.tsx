@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { BasePieChart } from '@ankr.com/telemetry';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { text } from './utils/text';
 import { useProjectsData } from './hooks/useProjectsData';

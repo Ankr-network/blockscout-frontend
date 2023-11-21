@@ -7,7 +7,7 @@ import { useLazyFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/g
 
 import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 import { useLazyFetchStatsByRangeQuery } from '../actions/fetchStatsByRange';
-import { useLazyFetchWhitelistBlockchainsQuery } from '../actions/fetchWhitelistBlockchains';
+import { useLazyFetchWhitelistsBlockchainsQuery } from '../actions/fetchWhitelistsBlockchains';
 
 export const useProjects = () => {
   const {
@@ -16,6 +16,7 @@ export const useProjects = () => {
     allowedAddProjectTokenIndex,
     isLoading,
     isFetching,
+    isLoaded,
   } = useJwtTokenManager();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -33,7 +34,7 @@ export const useProjects = () => {
       data: allWhitelistsBlockchains,
       isLoading: isLoadingAllWhitelistsBlockchains,
     },
-  ] = useLazyFetchWhitelistBlockchainsQuery();
+  ] = useLazyFetchWhitelistsBlockchainsQuery();
 
   const [fetchStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
 
@@ -54,7 +55,7 @@ export const useProjects = () => {
     const { abort: abortWhitelists } = fetchAllWhitelists({ group });
 
     const { abort: abortWhitelistsBlockchains } = fetchAllWhitelistsBlockchains(
-      { group },
+      { group, projects: jwtTokens },
     );
 
     const { abort: abortStatuses } = fetchStatuses({
@@ -73,9 +74,10 @@ export const useProjects = () => {
       abortStatuses();
       abortStats();
     };
+    // we don't need to refetch data as soon as group changed, so this param is excluded from deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isFetching,
-    group,
     jwtTokens,
     fetchAllWhitelists,
     fetchAllWhitelistsBlockchains,
@@ -92,5 +94,6 @@ export const useProjects = () => {
     allWhitelistsBlockchains,
     isLoadingAllWhitelistsBlockchains,
     isFetching,
+    isLoaded,
   };
 };

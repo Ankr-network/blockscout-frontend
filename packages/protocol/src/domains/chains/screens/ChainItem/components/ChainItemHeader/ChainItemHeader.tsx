@@ -1,4 +1,4 @@
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 
 import { CodeSampleWrapper } from './components/CodeSampleWrapper';
 import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
@@ -6,15 +6,19 @@ import { useChainItemHeaderStyles } from './ChainItemHeaderStyles';
 interface ChainItemHeaderProps {
   chain: Chain;
   headerContent: JSX.Element;
+  className?: string;
+  codeSampleWrapperClassName?: string;
 }
 
 export const ChainItemHeader = ({
   chain,
   headerContent,
+  className,
+  codeSampleWrapperClassName,
 }: ChainItemHeaderProps) => {
   const isMultiChain = chain.id === ChainID.MULTICHAIN;
 
-  const { classes } = useChainItemHeaderStyles();
+  const { cx, classes } = useChainItemHeaderStyles();
 
   return (
     <>
@@ -23,9 +27,12 @@ export const ChainItemHeader = ({
           chain={chain}
           header={headerContent}
           url={chain.urls[0].rpc}
+          codeSampleWrapperClassName={codeSampleWrapperClassName}
         />
       ) : (
-        <div className={classes.chainItemHeader}>{headerContent}</div>
+        <div className={cx(classes.chainItemHeader, className)}>
+          {headerContent}
+        </div>
       )}
     </>
   );

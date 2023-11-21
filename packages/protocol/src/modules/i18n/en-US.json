@@ -151,8 +151,57 @@
     }
   },
   "projects": {
+    "onboarding": {
+      "stepper": "{currentStepNumber} of {stepsCount}",
+      "step1": {
+        "title": "What’s new",
+        "description": "The Projects feature is meant to help you organize your endpoints by their specific sphere of usage — by project. Keep your finger on each projects' pulse. Monitor, control, and secure interaction with your projects' endpoints.",
+        "link": "See how to get started with Projects"
+      },
+      "step2": {
+        "title": "Functionality",
+        "description": "<ul><li>Organize and control your project’s endpoints.</li><li>Monitor multiple projects’ statistics.</li><li>Enable/disable your project’s endpoints in one click.</li><li>Define domains, IPs, and smart contracts allowed for endpoints interaction.</li></ul>",
+        "link": "See how to get started with Projects"
+      },
+      "step3": {
+        "title": "Data transfer",
+        "description": "Don't worry — all your previously configured projects' data is safely transferred into the new projects structure. Your chains, networks, and transactions history data is intact. On top of that, now you can secure your projects' endpoints with multiple whitelist options.",
+        "link": "See how to get started with Projects"
+      },
+      "back": "Back",
+      "next": "Next",
+      "done": "Done"
+    },
+    "whitelist-types": {
+      "all": "All",
+      "domain": "Domain{plurals, plural, =2 {s} other {}}",
+      "ip": "IP{plurals, plural, =2 {s} other {}}",
+      "smart-contract": "Smart contract{plurals, plural, =2 {s} other {}}"
+    },
     "placeholder": {
       "title": "Unlock access to your personal account with&nbsp;"
+    },
+    "chains-table": {
+      "archive-methods": {
+        "header": "Archive data",
+        "tooltip": "Shows whether a chain supports querying archive data"
+      }
+    },
+    "selected-chain-card": {
+      "label": "Selected chain"
+    },
+    "networks-selector": {
+      "title": "Supported networks"
+    },
+    "whitelist-actions-menu": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "whitelist-items-counter": {
+      "count": "{count}/{limit}"
+    },
+    "whitelist-item-chains-selector": {
+      "title": "Chains"
     },
     "breadcrumbs": "Projects",
     "welcome-dialog": {
@@ -172,14 +221,21 @@
       "see-plans": "See plans",
       "cancel": "Cancel"
     },
+    "edit-dialog": {
+      "success-message": "Project info updated successfully",
+      "error-message": "Error occurred while updating project info. Try again"
+    },
     "list-project": {
       "title": "My Projects",
-      "how-to-get-started": "How to get started",
+      "projects-count": "{userProjectsCount} of {totalProjectsCount} projects used",
+      "tooltip": "The number of projects depends on your plan.",
+      "how-to-get-started": "Get started with projects",
+      "learn-more": "See what's new",
       "table": {
         "column-1": "Name",
-        "column-2": "Project status",
-        "column-3": "White list",
-        "column-4": "Connected chains",
+        "column-2": "Status",
+        "column-3": "Whitelist",
+        "column-4": "Chains",
         "column-5": "Requests today",
         "column-5-tooltip": "Requests for today (UTC time)"
       },
@@ -189,8 +245,8 @@
       "frozen": "Frozen",
       "active": "Active",
       "inactive": "Inactive",
-      "implemented": "Implemented",
-      "not-implemented": "Not implemented",
+      "implemented": "Installed",
+      "not-implemented": "Not installed",
       "create-project": "Create Project",
       "edit-project": "Continue project configuration",
       "no-data": "No project found",
@@ -199,6 +255,7 @@
       "rename": "Rename",
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
+      "resume-setup": "Resume setup",
       "requests": "Requests today",
       "count": "{value, number, ::compact-short }",
       "percent": "{sign, plural, =0 {} =1 {+} =-1 {-}}{percent, number, ::compact-short}%"
@@ -262,8 +319,6 @@
       "chain-modal": {
         "title": "Select networks",
         "description": "Pick a network for the chain selected.",
-        "selected-chain-label": "Selected chain",
-        "supported-network": "Supported networks",
         "select-all-label": "Select all",
         "btn-confirm": "Confirm",
         "btn-cancel": "Cancel"
@@ -278,13 +333,13 @@
         "name-field": "* Name",
         "name-placeholder": "Enter a name (required)",
         "description-field": "Description",
-        "description-placeholder": "Add description"
+        "description-placeholder": "Add description",
+        "save": "Confirm"
       },
       "step-2": {
         "title": "Select chains",
         "description": "Select chains and networks your project requires.",
         "premium": "Premium",
-        "active-data": " Archive data",
         "error-message": {
           "required": "Please select chain first"
         },
@@ -292,12 +347,10 @@
       },
       "step-3": {
         "title": "Add to Whitelist",
-        "plug": "Define domains and IPs allowed to&nbsp;interact with project&rsquo;s endpoints&nbsp;&mdash; free of&nbsp;charge. Define smart contracts&nbsp;&mdash; 100M&nbsp;API Credits ($10) per item. Open a&nbsp;new dialog for each item you add.",
+        "plug": "Define domains, IPs and smart contracts to interact with project's endpoints. Open a new dialog for each item you add.",
         "label": "Smart contract address",
         "placeholder": "0x000000",
         "btn": "Add",
-        "edit": "Edit",
-        "delete": "Delete",
         "success-message": "Smart contract address added successfully",
         "error-message": {
           "invalid": "Smart contract address is invalid",
@@ -307,21 +360,12 @@
         },
         "empty-list": {
           "title": "Secure project with Whitelist",
-          "control-interaction": "Control endpoints interaction by domains (max 10 items) and IPs (max 10 items) — free of charge.",
-          "smart-contracts": "Control endpoints interaction by smart contracts (max 3 items) — 100M API Credits (10$) per smart contract."
+          "control-interaction": "Control endpoints interaction by domains (max 10 items) and IPs (max 10 items).",
+          "smart-contracts": "Control endpoints interaction by smart contracts (max 3 items)."
         },
         "add-whitelist-menu": {
-          "domain": "Domain",
-          "ip": "IP",
-          "smart-contract": "Smart contract ($)",
           "setup": "Configure whitelist",
           "add": "Add"
-        },
-        "whitelist-items-counter": {
-          "domains": "Domains",
-          "ips": "IPs",
-          "smart-contracts": "Smart contracts",
-          "counter": "{value}/{limit}"
         }
       },
       "checkout-step": {
@@ -389,7 +433,6 @@
       "enter-domain": "Enter domain address",
       "enter-ip": "Enter IP",
       "enter-smart-contract": "Enter smart contract address",
-      "select-chain": "Chains",
       "select-chain-description-domain": "Select chains the endpoints of which can be accessed by the<br/>domain address provided.",
       "select-chain-description-ip": "Select chains the endpoints of which can be accessed by the<br/>IP address provided.",
       "select-chain-description-smart-contract": "Select chains the endpoints of which can be accessed by the<br/>smart contract address provided.",
@@ -397,26 +440,158 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     },
-    "add-contract-dialog": {
-      "title": "Add smart contract",
-      "description": "Adding smart contracts into Whitelist costs 100M&nbsp;API Credits ($10) per item. Max whitelist capacity is&nbsp;3&nbsp;items per project.",
-      "proceed": "Proceed",
-      "cancel": "Cancel"
+    "final-price": "Final Price: <span>${usdValue}.00</span>"
+  },
+  "project": {
+    "banner": {
+      "frozen": "You've set the dApp project's status to Frozen, which disables querying its endpoints. Click Unfreeze to continue querying the endpoints.",
+      "suspended": "All your projects have been suspended due to the insufficient account balance. Top up your balance to continue using our services.",
+      "suspended-button": "Top up balance"
     },
-    "final-price": "Final Price: <span>${usdValue}.00</span>",
-    "summary": {
-      "title": "Summary",
-      "description": "Smart contract added into Whitelist",
-      "info": {
-        "contract": "Smart contract",
-        "price": "{contractsCount} x {credits, number, ::compact-short} API Credits (${usd}.00)",
-        "total": "Total",
-        "total-amount": "{credits, number, ::compact-short} API Credits (${usd}.00)",
-        "button-credits": "Pay with Credits",
-        "button-stripe": "Pay with Stripe",
-        "balance": "Balance: {balance, number, ::compact-short} API Credits",
-        "cancel": "Cancel",
-        "tooltip": "Insufficient balance; API Credit payment unavailable."
+    "not-found": "Project not found",
+    "deleted": "Project is successfully deleted",
+    "header": {
+      "docs-btn": "Docs",
+      "edit-info-btn": "Add description",
+      "edit-info-dialog-title": "Edit project info",
+      "edit-info-dialog-description": "Give your project a name. Optionally, add a description — to identify its purpose.",
+      "edit-info-dialog-name-label": "Name",
+      "edit-info-dialog-name-placeholder": "Default project",
+      "edit-info-dialog-description-label": "Description",
+      "edit-info-dialog-description-placeholder": "These attributes, generally in the form of demographics, do not bring a team closer to understanding a customer’s consumption, or non-consumption.",
+      "edit-info-dialog-btn-save": "Save",
+      "edit-info-dialog-btn-cancel": "Cancel",
+      "header-menu-edit-button": "Edit Info",
+      "header-menu-delete-button": "Delete"
+    },
+    "chain-details": {
+      "requests": {
+        "no-requests": "Requests: no requests during last 24 hours",
+        "has-requests": "Requests: {hourRequests} (last hour), {dayRequests} (24h)"
+      },
+      "networks-button": "Networks"
+    },
+    "add-chains-form": {
+      "title": "Add chains",
+      "description": "Select chains your project requires to interact with.",
+      "error": "At least one chain must be selected"
+    },
+    "configure-networks-form": {
+      "title": "Configure networks",
+      "description": "Select networks to use for this chain.",
+      "error": "At least one network must be selected"
+    },
+    "configure-whitelist-form": {
+      "title": "Configure whitelist",
+      "description": "Define domains, IPs, and smart contracts allowed to interact with project's endpoints.",
+      "add-whitelist-button": "Add",
+      "whitelist-table": {
+        "more-chains": "+{additionalBlockchainsCount}"
+      },
+      "whitelist-placeholder": "You have no whitelist items yet.",
+      "delete-dialog": {
+        "title": "Delete whitelist item",
+        "description": "Whitelist item deletion implies complete removal of the item's\nassociated data (address, chains). This action can't be\nundone. Delete whitelist item?",
+        "delete-button": "Delete",
+        "cancel-button": "Cancel"
+      }
+    },
+    "add-domain-form": {
+      "title": "Add domain",
+      "description": "Add a domain into the whitelist to allow its interaction with the project's endpoints.",
+      "input": {
+        "label": "Domain address",
+        "placeholder": "Enter domain address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the domain address provided."
+      }
+    },
+    "add-ip-form": {
+      "title": "Add IP",
+      "description": "Add an IP into the whitelist to allow its interaction with the project's endpoints.",
+      "input": {
+        "label": "IP",
+        "placeholder": "Enter IP"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the IP address provided."
+      }
+    },
+    "add-smart-contract-form": {
+      "title": "Add smart contract",
+      "description": "Add a smart contract into the whitelist to allow its interaction with the project's endpoints.",
+      "input": {
+        "label": "Smart contract",
+        "placeholder": "Enter smart contract address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the smart contract address provided. Supported for EVM-compatible chains only."
+      }
+    },
+    "edit-domain-form": {
+      "title": "Edit domain",
+      "description": "Edit your domain's whitelist details (address, chains).",
+      "input": {
+        "label": "Domain address",
+        "placeholder": "Enter domain address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the domain address provided."
+      }
+    },
+    "edit-ip-form": {
+      "title": "Edit IP",
+      "description": "Edit your IP's whitelist details (address, chains).",
+      "input": {
+        "label": "IP",
+        "placeholder": "Enter IP"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the IP address provided."
+      }
+    },
+    "edit-smart-contract-form": {
+      "title": "Edit smart contract",
+      "description": "Edit your smart contract's whitelist details (address, chains).",
+      "input": {
+        "label": "Smart contract",
+        "placeholder": "Enter smart contract address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the smart contract address provided. Supported for EVM-compatible chains only."
+      }
+    },
+    "sidebar": {
+      "confirm-button": "Confirm",
+      "cancel-button": "Cancel"
+    },
+    "total-requests": {
+      "title": "Total requests",
+      "dashboard-button": "Dashboard",
+      "empty": "No data for statistics yet"
+    },
+    "whitelist": {
+      "title": "Whitelist",
+      "configure-button": "Configure"
+    },
+    "endpoints": {
+      "add-chains-button": "Add chains"
+    },
+    "footer": {
+      "title": "Learn more",
+      "learn-more-link": "Learn more",
+      "docs-title": "Docs",
+      "docs": {
+        "getting-started": "Getting started",
+        "pricing": "Pricing",
+        "supported-chains": "Supported chains"
+      },
+      "social-links-title": "Social links",
+      "social-links": {
+        "discord": "Discord",
+        "twitter": "Twitter",
+        "blog": "Medium"
       }
     }
   },
@@ -527,7 +702,7 @@
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
-    "archive": "Archive",
+    "archive": "Archived",
     "beta": "BETA",
     "soon": "Soon",
     "coming-soon": "Coming Soon",
@@ -582,7 +757,7 @@
     "disabled-endpoint-placeholder": "Not Available"
   },
   "jwt-token": {
-    "default-project-name": "Primary",
+    "default-project-name": "Default",
     "add-new-project": "Add a new project",
     "name": "Name",
     "unique-token": "Unique Token",
@@ -604,7 +779,7 @@
       "try-again": "Try again"
     },
     "delete-project": {
-      "title": "Are you sure want to delete the project?",
+      "title": "Delete project?",
       "info": "This action can't be undone!",
       "delete": "Delete",
       "cancel": "Cancel"
@@ -665,7 +840,11 @@
     "chain-types": {
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "devnet": "Devnet"
+      "devnet": "Devnet",
+      "opnodes-mainnet": "Opnode mainnet",
+      "opnodes-testnet": "Opnode testnet",
+      "beacons-mainnet": "Beacon mainnet",
+      "beacons-testnet": "Beacon testnet"
     },
     "banner-zksync_era": "<b>Warning</b>: The zkSync Era node is&nbsp;still in&nbsp;<em>alpha</em> and subject to&nbsp;further updates. Users may experience downtime. If&nbsp;you notice discrepancies from the <a target=\"_blank\" href=\"https://era.zksync.io/docs/dev/building-on-zksync/interacting.html#quickstart-on-zksync\">main node API</a> please report directly to&nbsp;<a target=\"_blank\" href=\"https://zksync.io/contact\">Matter Labs</a>.",
     "chain-subtypes": {
@@ -704,6 +883,7 @@
         "nervos-ckb": "Nervos CKB Endpoint{plurals, plural, =1 {s} other {}}",
         "tendermint-rpc": "Tendermint JSON-RPC",
         "tendermint-rest": "Tendermint REST",
+        "tendermint": "Tendermint",
         "cosmos-rest": "Cosmos REST",
         "solana-api": "Solana API{plurals, plural, =1 {s} other {}}",
         "rest-api": "REST API",
@@ -1135,7 +1315,9 @@
     "new": "new",
     "search": "Search",
     "no-search-result": "Nothing found for your request",
-    "no-data": "No data available"
+    "no-data": "No data available",
+    "show-more": "more",
+    "show-less": "Show less"
   },
   "providers": {
     "endpoint": {
@@ -1484,18 +1666,12 @@
       "pricing": {
         "title": "Everything looks good!",
         "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
-        "button": "Go to Endpoints"
+        "button": "Go to Projects"
       },
       "billing": {
         "title": "Operation succeeded.",
         "description": "The payment has been rendered successfully — enjoy your <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">Rate limits</a>",
-        "button": "Go to Endpoints"
-      },
-      "whitelist": {
-        "title": "Success",
-        "description-loading": "Payment success. Your project is configuring.",
-        "description": "Your project has been configured.",
-        "button": "Done"
+        "button": "Go to Projects"
       }
     },
     "card-payment-failure": {

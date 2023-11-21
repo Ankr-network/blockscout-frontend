@@ -1,4 +1,4 @@
-import React, { MutableRefObject, ReactNode, useRef } from 'react';
+import React, { ReactNode } from 'react';
 import { useTheme } from '@mui/material';
 import {
   Area,
@@ -14,6 +14,7 @@ import { BaseAxisProps } from 'recharts/types/util/types';
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
 import { TranslationRequestWidget } from '../../types';
+import { useYAxisWidth } from './hooks/useYAxisWidth';
 
 export interface IChartData {
   time: Date;
@@ -33,6 +34,7 @@ export interface IChartProps {
 
 const ANIMATION_DURATION = 500;
 const FIXED_HEIGHT = 270;
+const Y_AXIS_MARGIN = 15;
 
 export const Chart = ({
   data,
@@ -42,7 +44,7 @@ export const Chart = ({
   loading,
   hasFixedHeight = true,
 }: IChartProps) => {
-  const ref = useRef<MutableRefObject<HTMLElement>>();
+  const [ref, yAxisWidth] = useYAxisWidth();
 
   const theme = useTheme();
   const { classes, cx } = useStyles();
@@ -84,6 +86,7 @@ export const Chart = ({
           tick={{ fill: theme.palette.text.secondary, dx: -5 }}
           stroke=""
           tickFormatter={yAxisTickFormatter}
+          width={yAxisWidth + Y_AXIS_MARGIN}
         />
         {tooltipContent && <Tooltip content={tooltipContent as any} />}
         <Area

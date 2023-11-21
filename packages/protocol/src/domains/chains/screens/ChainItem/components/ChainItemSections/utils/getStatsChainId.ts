@@ -1,5 +1,5 @@
 import { EndpointGroup } from 'modules/endpoints/types';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { ChainIdParams, getChainId } from 'modules/chains/utils/getChainId';
 
 import { ChainProtocol } from '../../../constants/ChainProtocolContext';

@@ -3,7 +3,7 @@ import { Button, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { useChainItemClickHandler } from 'modules/common/hooks/useChainItemClickHandler';
-import { Timeframe, Chain } from 'domains/chains/types';
+import { Timeframe, Chain } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 

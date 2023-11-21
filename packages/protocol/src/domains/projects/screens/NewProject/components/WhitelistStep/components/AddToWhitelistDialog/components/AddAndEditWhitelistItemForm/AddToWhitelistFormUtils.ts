@@ -1,6 +1,7 @@
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { t, tHTML } from '@ankr.com/common';
 
-import { NewProjectStep, WhiteListItem } from 'domains/projects/types';
+import { NewProjectStep } from 'domains/projects/types';
 import { validateDomain } from 'modules/common/utils/validateDomain';
 import { validateIp } from 'modules/common/utils/validateIp';
 import { validateSmartContractAddress } from 'modules/common/utils/validateSmartContractAddress';
@@ -9,13 +10,13 @@ import { NewProjectType } from 'domains/projects/store';
 
 const intlKey = 'projects.add-whitelist-dialog';
 
-export const whitelistTypeLabelMap = (type?: WhiteListItem) => {
+export const whitelistTypeLabelMap = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
+    case UserEndpointTokenMode.ADDRESS:
       return t(`${intlKey}.smart-contract`);
-    case WhiteListItem.ip:
+    case UserEndpointTokenMode.IP:
       return t(`${intlKey}.ip-address`);
-    case WhiteListItem.referer:
+    case UserEndpointTokenMode.REFERER:
       return t(`${intlKey}.domain`);
     default:
       return '';
@@ -29,12 +30,12 @@ export enum AddToWhitelistFormFields {
 }
 
 export interface IWhiteListSelectOption extends ISelectOption {
-  value: WhiteListItem;
+  value: UserEndpointTokenMode;
 }
 
-export const getValidation = (type?: WhiteListItem) => {
+export const getValidation = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
+    case UserEndpointTokenMode.ADDRESS:
       return (value: string, allValues: unknown) => {
         if (
           (
@@ -50,7 +51,7 @@ export const getValidation = (type?: WhiteListItem) => {
         return validateSmartContractAddress(value);
       };
 
-    case WhiteListItem.ip:
+    case UserEndpointTokenMode.IP:
       return (value: string, allValues: unknown) => {
         if (
           (
@@ -66,7 +67,7 @@ export const getValidation = (type?: WhiteListItem) => {
         return validateIp(value);
       };
 
-    case WhiteListItem.referer:
+    case UserEndpointTokenMode.REFERER:
       return (value: string, allValues: unknown) => {
         if (
           (
@@ -87,53 +88,50 @@ export const getValidation = (type?: WhiteListItem) => {
   }
 };
 
-export const getPlaceholder = (type?: WhiteListItem) => {
+export const getPlaceholder = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
+    case UserEndpointTokenMode.ADDRESS:
       return t(`${intlKey}.enter-smart-contract`);
-    case WhiteListItem.ip:
+    case UserEndpointTokenMode.IP:
       return t(`${intlKey}.enter-ip`);
-    case WhiteListItem.referer:
+    case UserEndpointTokenMode.REFERER:
       return t(`${intlKey}.enter-domain`);
     default:
       return t(`${intlKey}.enter`);
   }
 };
 
-export const getLabel = (type?: WhiteListItem) => {
+export const getLabel = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
+    case UserEndpointTokenMode.ADDRESS:
       return t(`${intlKey}.smart-contract-label`);
-    case WhiteListItem.ip:
+    case UserEndpointTokenMode.IP:
       return t(`${intlKey}.ip-label`);
-    case WhiteListItem.referer:
+    case UserEndpointTokenMode.REFERER:
       return t(`${intlKey}.domain-label`);
     default:
       return '';
   }
 };
 
-export const getDialogDescription = (type?: WhiteListItem) => {
+export const getDialogDescription = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.ip:
-    case WhiteListItem.referer:
+    case UserEndpointTokenMode.IP:
+    case UserEndpointTokenMode.REFERER:
     default:
       return tHTML(`${intlKey}.description-10`);
-
-    case WhiteListItem.address:
+    case UserEndpointTokenMode.ADDRESS:
       return tHTML(`${intlKey}.address-description`);
   }
 };
 
-export const getSelectChainDescription = (type?: WhiteListItem) => {
+export const getSelectChainDescription = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
+    case UserEndpointTokenMode.ADDRESS:
       return tHTML(`${intlKey}.select-chain-description-smart-contract`);
-
-    case WhiteListItem.ip:
+    case UserEndpointTokenMode.IP:
       return tHTML(`${intlKey}.select-chain-description-ip`);
-
-    case WhiteListItem.referer:
+    case UserEndpointTokenMode.REFERER:
       return tHTML(`${intlKey}.select-chain-description-domain`);
 
     default:

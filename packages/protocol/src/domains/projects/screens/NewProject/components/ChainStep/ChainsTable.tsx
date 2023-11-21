@@ -1,21 +1,17 @@
-import {
-  TableBody,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableCell,
-  Button,
-} from '@mui/material';
+import { Button } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
+import { ChainsTable as ChainsTableBase } from 'domains/projects/components/ChainsTable';
 import { Dialog } from 'uiKit/Dialog';
-import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 import { NoResult } from 'modules/common/components/NoResult';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectNodesDetailsLoadingStatus } from 'modules/chains/store/selectors';
 
-import { useChainStepStyles } from './useChainStepStyles';
 import { ChainSelectModal } from '../ChainSelectModal';
+import { useChainStepStyles } from './useChainStepStyles';
 import { useChainsTable } from './hooks/useChainsTable';
 
 interface IChainsTableProps {
@@ -30,9 +26,7 @@ export const ChainsTable = ({ searchContent }: IChainsTableProps) => {
     currentModalChain,
     handleCloseModal,
     handleConfirmModal,
-    isLoading,
     isOpened,
-    isUninitialized,
     projectChains,
   } = useChainsTable();
 
@@ -44,7 +38,9 @@ export const ChainsTable = ({ searchContent }: IChainsTableProps) => {
     [projectChains, searchContent],
   );
 
-  if (isLoading || isUninitialized) return <OverlaySpinner />;
+  const isLoading = useAppSelector(selectNodesDetailsLoadingStatus);
+
+  if (isLoading) return <OverlaySpinner />;
 
   if (chains.length === 0) {
     return <NoResult />;
@@ -52,39 +48,7 @@ export const ChainsTable = ({ searchContent }: IChainsTableProps) => {
 
   return (
     <>
-      <TableContainer className={classes.tableContainer} component="table">
-        <TableHead>
-          <TableRow>
-            {columns.map(({ align, width, field, headerName }) => (
-              <TableCell
-                key={field}
-                className={classes.cell}
-                align={align}
-                width={width}
-              >
-                {headerName}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {chains.map((row, index) => (
-            <TableRow key={index}>
-              {columns.map((column, field) => {
-                const { render, align } = column;
-
-                return (
-                  <TableCell key={field} align={align} className={classes.cell}>
-                    {render(row, index)}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </TableContainer>
-
+      <ChainsTableBase chains={chains} columns={columns} />
       <Dialog
         title={t('projects.new-project.chain-modal.title')}
         titleClassName={classes.dialogTitle}

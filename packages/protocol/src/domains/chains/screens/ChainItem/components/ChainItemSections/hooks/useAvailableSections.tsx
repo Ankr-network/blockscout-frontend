@@ -1,4 +1,9 @@
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import {
+  Chain,
+  ChainSubType,
+  ChainType,
+  Timeframe,
+} from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 
 import { useTimeframe } from './useTimeframe';
@@ -14,6 +19,7 @@ export interface UseSectionsParams {
   chain: Chain;
   group: EndpointGroup;
   publicUrl: string;
+  hasPrivateAccess?: boolean;
   hasWssAccess?: boolean;
 }
 
@@ -23,10 +29,13 @@ export const useAvailableSections = ({
   chain,
   group,
   publicUrl,
+  hasPrivateAccess,
   hasWssAccess,
 }: UseSectionsParams) => {
   const { id: chainId } = chain;
-  const { timeframe, timeframeTabs } = useTimeframe();
+  const { timeframe, timeframeTabs } = useTimeframe({
+    initialTimeframe: hasPrivateAccess ? Timeframe.Day : Timeframe.Month,
+  });
 
   const getSelectHandler = useTabSelectHandlerGetter();
 

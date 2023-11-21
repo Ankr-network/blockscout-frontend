@@ -8,7 +8,7 @@ import {
   ChainURL,
   ChainType,
   ChainSubType,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
 import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';

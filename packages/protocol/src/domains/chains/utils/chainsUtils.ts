@@ -1,4 +1,4 @@
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 export const getPublicUrl = (url: string) =>
   url.substring(0, url.lastIndexOf('/'));

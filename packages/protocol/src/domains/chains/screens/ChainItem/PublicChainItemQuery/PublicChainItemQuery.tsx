@@ -1,6 +1,6 @@
 import { IPublicChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { useStyles } from '../ChainItemStyles';

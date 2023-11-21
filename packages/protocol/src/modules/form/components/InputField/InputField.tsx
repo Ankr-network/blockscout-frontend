@@ -15,6 +15,7 @@ export const InputField = ({
   InputProps = {},
   multiline,
   isRequired,
+  autofocus,
   ...rest
 }: InputFieldProps) => {
   const { classes, cx } = useInputFieldStyles();
@@ -44,6 +45,7 @@ export const InputField = ({
 
   return (
     <TextField
+      autoFocus={autofocus}
       required={isRequired}
       multiline={multiline}
       maxRows={4}

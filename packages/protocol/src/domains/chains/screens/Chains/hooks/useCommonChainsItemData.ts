@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 import { BlockchainType } from 'multirpc-sdk';
 
-import { Chain, ChainURL } from 'domains/chains/types';
+import { Chain, ChainURL } from 'modules/chains/types';
 
 export const getUrls = (chain: Chain) => {
   return [

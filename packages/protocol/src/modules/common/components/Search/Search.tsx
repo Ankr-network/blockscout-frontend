@@ -6,8 +6,9 @@ import { Close, Search as SearchIcon, TextField } from '@ankr.com/ui';
 import { useSearchStyles } from './useSearchStyles';
 
 interface ISearchProps {
-  searchContent: string;
   className?: string;
+  rootClassName?: string;
+  searchContent: string;
   setSearchContent: (searchContent: string) => void;
 }
 
@@ -15,6 +16,7 @@ export const Search = ({
   searchContent,
   className,
   setSearchContent,
+  rootClassName,
 }: ISearchProps) => {
   const { classes, cx } = useSearchStyles(Boolean(searchContent));
 
@@ -34,6 +36,7 @@ export const Search = ({
 
   return (
     <TextField
+      className={rootClassName}
       value={searchContent}
       onChange={handleChange}
       placeholder={t('common.search')}

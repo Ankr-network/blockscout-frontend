@@ -1,4 +1,4 @@
-import { Chain, ChainID, ChainSubType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType } from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 
 import { ChainTypeTab } from '../components/ChainTypeTab';

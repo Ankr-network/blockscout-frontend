@@ -1,4 +1,4 @@
-import { ChainType } from 'domains/chains/types';
+import { ChainType } from 'modules/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 
 type Map = Record<ChainType, keyof GroupedEndpoints>;

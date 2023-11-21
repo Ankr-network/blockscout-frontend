@@ -1,18 +1,14 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { ExternalLink } from '@ankr.com/ui';
-import { ReactNode } from 'react';
 
 import { NavLink } from 'uiKit/NavLink';
 import { PROJECTS_DOCS_LINK } from 'domains/projects/const';
 
+import { AvailableProjectsCount } from '../AvailableProjectsCount';
 import { useProjectHeaderStyles } from './useProjectHeaderStyles';
 
-interface ProjectHeaderProps {
-  search: ReactNode;
-}
-
-export const ProjectHeader = ({ search }: ProjectHeaderProps) => {
+export const ProjectHeader = () => {
   const { classes } = useProjectHeaderStyles();
 
   return (
@@ -21,12 +17,14 @@ export const ProjectHeader = ({ search }: ProjectHeaderProps) => {
         <Typography variant="h5" className={classes.title}>
           {t('projects.list-project.title')}
         </Typography>
-        <NavLink className={classes.link} href={PROJECTS_DOCS_LINK}>
-          {t('projects.list-project.how-to-get-started')}
-          <ExternalLink color="primary" />
-        </NavLink>
+
+        <AvailableProjectsCount />
       </div>
-      {search}
+
+      <NavLink className={classes.link} href={PROJECTS_DOCS_LINK}>
+        {t('projects.list-project.how-to-get-started')}
+        <ExternalLink color="primary" />
+      </NavLink>
     </div>
   );
 };

@@ -11,7 +11,7 @@ export const useRequestsChart = ({
   data,
   isLoading,
   timeframe,
-  hasFixedHeight = false,
+  isFlexibleHeight = true,
 }: Omit<RequestsChartProps, 'className' | 'title'>) => {
   const xAxisTickFormatter = useCallback(
     value => formatXAxis(value, timeframe),
@@ -26,12 +26,12 @@ export const useRequestsChart = ({
   const chartProps: IChartProps = useMemo(
     () => ({
       data,
-      hasFixedHeight,
       loading: isLoading,
       xAxisTickFormatter,
       yAxisTickFormatter,
+      isFlexibleHeight,
     }),
-    [data, hasFixedHeight, isLoading, xAxisTickFormatter, yAxisTickFormatter],
+    [data, isLoading, xAxisTickFormatter, yAxisTickFormatter, isFlexibleHeight],
   );
 
   const { hasPreloader, hasChart, hasPlaceholder } = useContent({

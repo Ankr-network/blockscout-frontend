@@ -11,10 +11,13 @@ import { useRequestsChartStyles } from './RequestsChartStyles';
 export const RequestsChart = ({
   title,
   className,
-  ...props
+  data,
+  isLoading,
+  timeframe,
+  isFlexibleHeight,
 }: RequestsChartProps) => {
   const { chartProps, hasChart, hasPlaceholder, hasPreloader } =
-    useRequestsChart(props);
+    useRequestsChart({ data, isLoading, timeframe, isFlexibleHeight });
 
   const { classes, cx } = useRequestsChartStyles();
 

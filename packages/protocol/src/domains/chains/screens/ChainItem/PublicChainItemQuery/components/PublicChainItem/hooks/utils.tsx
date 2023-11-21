@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'modules/chains/types';
 import { ChainTypeTab } from 'domains/chains/screens/ChainItem/components/ChainTypeTab';
 import { GroupedEndpoints as Endpoints } from 'modules/endpoints/types';
 import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';

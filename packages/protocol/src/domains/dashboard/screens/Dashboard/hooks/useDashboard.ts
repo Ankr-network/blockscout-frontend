@@ -1,4 +1,4 @@
-import { useChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
+import { useChainsFetchChainNodesDetailQuery } from 'modules/chains/actions/fetchChainNodesDetail';
 
 import { useUserTotalStats } from './useUserTotalStats';
 import { useChains } from './useChains';

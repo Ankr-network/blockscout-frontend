@@ -9,7 +9,7 @@ export const useStyles = makeStyles<boolean>()(
       display: 'flex',
       overflow: 'hidden',
       alignItems: 'center',
-      marginBottom: theme.spacing(10),
+      backgroundImage: 'none',
     },
     header: {
       width: '50%',

@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { TimeframeSwitcher } from 'domains/chains/components/TimeframeSwitcher';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { useStyles } from './HeaderStyles';
 

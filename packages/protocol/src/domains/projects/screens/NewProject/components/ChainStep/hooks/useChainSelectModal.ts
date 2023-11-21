@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-final-form';
 
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';

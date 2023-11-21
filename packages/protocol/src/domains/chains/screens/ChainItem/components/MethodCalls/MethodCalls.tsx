@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { PrivateStatTopRequests } from 'multirpc-sdk';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { Header } from './components/Header';
 import { MethodCallsTable } from './components/MethodCallsTable';

@@ -26,7 +26,6 @@ export const useTypeSelectorStyles = makeStyles()(theme => ({
   childrenWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    marginLeft: theme.spacing(5),
   },
   formControlLabel: {
     padding: theme.spacing(1, 0),

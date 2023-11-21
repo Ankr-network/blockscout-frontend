@@ -2,6 +2,7 @@ import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
+import { ChainID } from 'modules/chains/types';
 
 export const useAvailableIds = (endpoints: GroupedEndpoints) => {
   const {
@@ -35,19 +36,19 @@ export const useAvailableIds = (endpoints: GroupedEndpoints) => {
 
   const allAvailableBeaconMainnetIds = endpoints.mainnet
     .flatMap(endpoint => endpoint.chains[0].beacons?.flatMap(item => item.id))
-    .filter(Boolean);
+    .filter(Boolean) as ChainID[];
 
   const allAvailableBeaconTestnetIds = endpoints.testnet
     .flatMap(endpoint => endpoint.chains[0].beacons?.flatMap(item => item.id))
-    .filter(Boolean);
+    .filter(Boolean) as ChainID[];
 
   const allAvailableOpnodeMainnetIds = endpoints.mainnet
     .flatMap(endpoint => endpoint.chains[0].opnodes?.flatMap(item => item.id))
-    .filter(Boolean);
+    .filter(Boolean) as ChainID[];
 
   const allAvailableOpnodeTestnetIds = endpoints.testnet
     .flatMap(endpoint => endpoint.chains[0].opnodes?.flatMap(item => item.id))
-    .filter(Boolean);
+    .filter(Boolean) as ChainID[];
 
   const areAllMainnetIdsSelected = allAvailableMainnetIds.every(id =>
     selectedMainnetIds.includes(id),

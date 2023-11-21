@@ -5,24 +5,16 @@ import { NewProjectStep } from 'domains/projects/types';
 import { NewProjectType } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
-import { addBlockchainsToWhitelist } from 'domains/projects/actions/addBlockchainsToWhitelist';
 
 import { NewProjectForm } from '../NewProjectForm';
 import { useIsLoading } from './hooks/useIsLoading';
 
 export const NewProject = () => {
   const { handleSetStepConfig, projectStep } = useProjectConfig();
-  const isLoading = useIsLoading();
-  const [, { isSuccess: isAddToWhitelistSuccess }] =
-    useQueryEndpoint(addToWhitelist);
-  const [, { isSuccess: isBlockchainsBindingSuccess }] = useQueryEndpoint(
-    addBlockchainsToWhitelist,
-  );
-  const isSuccess = isAddToWhitelistSuccess && isBlockchainsBindingSuccess;
 
-  const [currentStep, setCurrentStep] = useState<NewProjectStep>(
+  const isLoading = useIsLoading();
+
+  const [currentStep, setCurrentStep] = useState(
     projectStep || NewProjectStep.General,
   );
 
@@ -59,7 +51,6 @@ export const NewProject = () => {
       step={currentStep}
       onSubmit={handleSubmit}
       isLoading={isLoading}
-      isSuccess={isSuccess}
       onBackClick={handleBackClick}
     />
   );

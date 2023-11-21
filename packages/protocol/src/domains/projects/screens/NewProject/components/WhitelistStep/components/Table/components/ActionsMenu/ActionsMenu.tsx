@@ -1,9 +1,6 @@
-import { Delete, Edit } from '@ankr.com/ui';
-import { t } from '@ankr.com/common';
 import { useForm } from 'react-final-form';
 import { useCallback } from 'react';
 
-import { MenuButton, MenuItem } from 'modules/common/components/MenuButton';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { useProjectFormValues } from 'domains/projects/screens/NewProject/hooks/useProjectFormValues';
 import {
@@ -12,6 +9,7 @@ import {
 } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
+import { WhitelistActionsMenu } from 'domains/projects/components/WhitelistActionsMenu';
 
 interface ActionsMenuProps {
   index: number;
@@ -75,19 +73,13 @@ export const ActionsMenu = ({
   }, [whitelistItems, index, change, handleSetStepConfig, handleClose]);
 
   return (
-    <MenuButton
+    <WhitelistActionsMenu
       anchorEl={anchorEl}
-      open={open}
-      onOpen={handleOpen}
       onClose={handleClose}
-    >
-      <MenuItem startIcon={<Edit />} onClick={handleEditByClick}>
-        {t('projects.new-project.step-3.edit')}
-      </MenuItem>
-
-      <MenuItem startIcon={<Delete />} onClick={handleDeleteByClick}>
-        {t('projects.new-project.step-3.delete')}
-      </MenuItem>
-    </MenuButton>
+      onDelete={handleDeleteByClick}
+      onEdit={handleEditByClick}
+      onOpen={handleOpen}
+      open={open}
+    />
   );
 };

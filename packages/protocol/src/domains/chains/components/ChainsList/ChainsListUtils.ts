@@ -1,6 +1,6 @@
 import { BlockchainType } from 'multirpc-sdk';
 
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 import { ChainMap } from './ChainsListTypes';
 

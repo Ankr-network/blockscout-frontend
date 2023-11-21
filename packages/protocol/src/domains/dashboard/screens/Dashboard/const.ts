@@ -1,6 +1,6 @@
 import { BlockchainFeature, BlockchainType } from 'multirpc-sdk';
 
-import { Chain, ChainID, Timeframe } from 'domains/chains/types';
+import { Chain, ChainID, Timeframe } from 'modules/chains/types';
 
 export const timeframesMap: Record<Timeframe, string> = {
   [Timeframe.Day]: 'day',

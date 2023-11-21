@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { getNetworkConfiguration } from 'domains/auth/components/AddNetwork/AddNetworkUtils';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 export const useNetworksConfigurations = (chains: Chain[]) => {
   return useMemo(

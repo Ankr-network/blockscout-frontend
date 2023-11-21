@@ -36,6 +36,9 @@ import {
   IUpdateWhitelistParamsResponse,
   IGetWhitelistParamsResponse,
   IWhitelistBlockchainsParams,
+  ReplaceWhitelistParams,
+  ReplaceWhitelistBody,
+  ReplaceWhitelistResponse,
 } from './whitelists';
 import {
   NegativeBalanceTermsOfServicesStatusResponse,
@@ -753,6 +756,20 @@ export class AccountingGateway {
       '/api/v1/auth/whitelist/blockchains',
       bodyParams,
       { headers: createTOTPHeaders(totp), params: queryParams },
+    );
+
+    return data;
+  }
+
+  async replaceWhitelist(
+    params: ReplaceWhitelistParams,
+    body: ReplaceWhitelistBody,
+    totp?: string,
+  ) {
+    const { data } = await this.api.post<ReplaceWhitelistResponse>(
+      '/api/v1/auth/whitelist/replace',
+      body,
+      { headers: createTOTPHeaders(totp), params },
     );
 
     return data;

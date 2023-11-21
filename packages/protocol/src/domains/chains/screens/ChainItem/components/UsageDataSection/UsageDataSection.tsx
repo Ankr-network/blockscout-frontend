@@ -3,7 +3,7 @@ import {
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
 

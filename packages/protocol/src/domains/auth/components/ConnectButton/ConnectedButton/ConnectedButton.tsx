@@ -22,6 +22,7 @@ export const ConnectedButton = ({ isMobile }: ConnectedButtonProps) => {
     handleClose();
     handleDisconnect();
   }, [handleClose, handleDisconnect]);
+  const onClose = useCallback(() => handleClose(), [handleClose]);
 
   return (
     <>
@@ -40,7 +41,7 @@ export const ConnectedButton = ({ isMobile }: ConnectedButtonProps) => {
         keepMounted
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         TransitionComponent={Fade}
         disableScrollLock
         anchorOrigin={{

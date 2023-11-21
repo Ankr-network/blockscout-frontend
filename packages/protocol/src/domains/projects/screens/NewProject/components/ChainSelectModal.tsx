@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import { Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
+import { SelectedChainCard } from 'domains/projects/components/SelectedChainCard';
 
-import { ChainItem } from './ChainItem';
 import { ChainSelect } from './ChainStep/ChainSelect';
 import { useChainStepStyles } from './ChainStep/useChainStepStyles';
 
@@ -28,18 +28,7 @@ export const ChainSelectModal = ({
       >
         {t('projects.new-project.chain-modal.description')}
       </Typography>
-      <Paper className={classes.chainItemWrapper}>
-        <Typography
-          className={classes.selectedChainLabel}
-          component="p"
-          variant="caption"
-        >
-          {t('projects.new-project.chain-modal.selected-chain-label')}
-        </Typography>
-        <div className={classes.chainItem}>
-          <ChainItem chain={selectedChain} hasCoinName={false} />
-        </div>
-      </Paper>
+      <SelectedChainCard chain={selectedChain} />
       <ChainSelect
         className={classes.chainSelectListWrapper}
         chain={selectedChain}

@@ -44,6 +44,11 @@ export const selectAllowedJwtsCount = createSelector(
   ({ data = 0 }) => data,
 );
 
+export const selectAllProjectsCount = createSelector(
+  selectJwtTokens,
+  projects => projects.length,
+);
+
 export const selectHasJwtManagerAccess = createSelector(
   selectAllowedJwtsCountState,
   selectAllowedJwtsCount,

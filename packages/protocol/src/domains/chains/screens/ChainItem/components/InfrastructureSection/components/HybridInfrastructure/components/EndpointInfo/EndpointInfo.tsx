@@ -2,7 +2,7 @@ import { IProvider } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 
 import { UserEndpoints } from '../UserEndpoints';
 import {

@@ -6,7 +6,7 @@ import {
 } from 'domains/chains/utils/requestsBannerUtils';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 interface FetchUserRequestsParams extends IApiUserGroupParams {
   timeframe: Timeframe;

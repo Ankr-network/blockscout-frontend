@@ -26,13 +26,13 @@ export const Table = ({ data, onWhitelistDialogOpen }: TableProps) => {
     <TableContainer className={classes.tableContainer} component="table">
       <TableHead>
         <TableRow>
-          {columns.map(column => (
+          {columns.map(({ render, headerName, ...column }) => (
             <TableCell
               key={column.field}
               className={cx(classes.headerCell, classes.cell)}
               {...column}
             >
-              {column.headerName}
+              {headerName}
             </TableCell>
           ))}
         </TableRow>

@@ -1,4 +1,4 @@
-import { ChainID } from '../types';
+import { ChainID } from 'modules/chains/types';
 
 const beacons: ChainID[] = [
   ChainID.ETH_BEACON,

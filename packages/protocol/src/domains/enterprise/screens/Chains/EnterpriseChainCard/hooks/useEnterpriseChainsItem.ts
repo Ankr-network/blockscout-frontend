@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
 
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { getChainIDs } from 'domains/chains/screens/Chains/components/PrivateChains/utils/getChainIDs';
 

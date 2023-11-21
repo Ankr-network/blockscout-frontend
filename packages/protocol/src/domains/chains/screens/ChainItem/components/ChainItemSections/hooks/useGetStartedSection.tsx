@@ -1,20 +1,20 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { GetStartedSection } from 'modules/common/components/GetStartedSection';
+import { getCodeMrpc } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
+import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
 
-import { GetStartedSection } from '../../GetStartedSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { checkUpgradeBanner } from '../utils/checkUpgradeBanner';
 import { hasRequestComposer as hasRequestComposerFn } from '../utils/hasRequestComposer';
-import { useTechnology } from '../../GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
-import { getCodeMrpc } from '../../GetStartedSection/components/Snippets/utils/getCode';
 
 export interface GetStartedSectionParams {
   chainId: ChainID;
@@ -42,7 +42,7 @@ export const useGetStartedSection = ({
   const [technology, setTechnology] = useTechnology();
 
   const [httpCode, wssCode] = useMemo(() => {
-    return getCodeMrpc(technology, group);
+    return getCodeMrpc(technology, group.urls);
   }, [technology, group]);
 
   return useMemo((): Tab<SectionID> | undefined => {

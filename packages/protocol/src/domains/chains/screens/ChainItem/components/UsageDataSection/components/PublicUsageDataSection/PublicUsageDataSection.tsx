@@ -3,7 +3,7 @@ import {
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -71,6 +71,7 @@ export const PublicUsageDataSection = ({
             loading={loading}
             timeframe={timeframe}
             totalRequestsHistory={totalRequestsHistory}
+            isFlexibleHeight={false}
           />
           <RequestsMap
             loading={loading}

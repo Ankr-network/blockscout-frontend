@@ -4,13 +4,12 @@ import { t } from '@ankr.com/common';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainArchived';
-import { ChainID } from 'domains/chains/types';
+import { ChainID, ChainType } from 'modules/chains/types';
 import { ChainGroupID } from 'modules/endpoints/types';
+import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
 
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
-import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { ChainsRoutesConfig } from '../../routes';
-import { ChainType } from '../../types';
 import { IPublicChainItemDetails } from '../public/fetchPublicChain';
 
 export interface IPrivateChainItemDetails extends IPublicChainItemDetails {

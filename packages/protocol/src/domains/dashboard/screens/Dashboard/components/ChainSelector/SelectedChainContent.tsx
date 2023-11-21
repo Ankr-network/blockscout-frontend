@@ -1,4 +1,4 @@
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 import { SelectedContent } from './SelectedContent';

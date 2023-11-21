@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
 
 import { IChartData } from 'modules/common/components/Chart';
+import { formatNumber } from 'modules/common/utils/formatNumber';
 
 import { formatDate } from './utils/formatDate';
-import { formatNumber } from './utils/formatNumber';
 import { useTooltipStyles } from './TooltipStyles';
 
 export interface TooltipProps {

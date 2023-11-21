@@ -1,10 +1,13 @@
 import { Button, FormControl, InputLabel, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { OnChange } from 'modules/form/utils/OnChange';
 import { InputDialogFormField } from 'modules/common/components/InputDialogFormField';
-import { WhiteListItem } from 'domains/projects/types';
+import { WhitelistItemChainsSelectorTitle } from 'domains/projects/components/WhitelistItemChainsSelectorTitle';
+import { WhitelistItemsCounter } from 'domains/projects/components/WhitelistItemsCounter';
 
 import { useAddAndEditWhitelistItemFormStyles } from './useAddAndEditWhitelistItemFormStyles';
 import {
@@ -16,7 +19,6 @@ import {
 } from './AddToWhitelistFormUtils';
 import { ChainItem } from '../ChainItem';
 import { useMainForm } from './useMainForm';
-import { WhitelistItemsCounter } from '../../../WhitelistItemsCounter';
 
 interface MainFormProps {
   shouldSkipFormReset?: boolean;
@@ -38,16 +40,24 @@ export const MainForm = ({
     isSmartContractAddressSelected,
     isAtLeastOneChainSelected,
     isFormFilled,
+    whitelistItems,
   } = useMainForm(shouldSkipFormReset);
 
   const isSubmitButtonDisabled = !isFormFilled || !isValid;
 
+  const whitelistCount = useMemo(
+    () => whitelistItems.filter(item => item.type === selectedType).length,
+    [whitelistItems, selectedType],
+  );
+
   return (
     <form onSubmit={handleSubmit}>
       <OnChange name={AddToWhitelistFormFields.type}>{handleOnChange}</OnChange>
-
-      <WhitelistItemsCounter type={selectedType} className={classes.counter} />
-
+      <WhitelistItemsCounter
+        type={selectedType ?? UserEndpointTokenMode.REFERER}
+        className={classes.counter}
+        count={whitelistCount}
+      />
       <FormControl className={classes.formWrapper}>
         <InputLabel className={classes.label}>
           {getLabel(selectedType)}
@@ -61,14 +71,10 @@ export const MainForm = ({
           validate={getValidation(selectedType)}
         />
       </FormControl>
-
-      <Typography component="p" className={classes.chainsTitle}>
-        {t('projects.add-whitelist-dialog.select-chain')}
-      </Typography>
-
+      <WhitelistItemChainsSelectorTitle />
       <Typography component="p" className={classes.description}>
         {getSelectChainDescription(selectedType)}
-        {selectedType === WhiteListItem.address &&
+        {selectedType === UserEndpointTokenMode.ADDRESS &&
           ` ${t('projects.add-whitelist-dialog.only-evm-chains')}`}
       </Typography>
 

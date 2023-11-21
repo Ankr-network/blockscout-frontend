@@ -69,7 +69,6 @@ export const useStyles = makeStyles<boolean>()(
     },
     breadcrumbsLi: {
       overflow: 'hidden',
-
       flexShrink: 0,
 
       '&:last-child': {
@@ -84,6 +83,11 @@ export const useStyles = makeStyles<boolean>()(
       fontSize: 28,
       lineHeight: 1.167,
       color: theme.palette.grey[900],
+    },
+    breadcrumbsTitle: {
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
     mobileBackButton: {
       fontSize: 20,

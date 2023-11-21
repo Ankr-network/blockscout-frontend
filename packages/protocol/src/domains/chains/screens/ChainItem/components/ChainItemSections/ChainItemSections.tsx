@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -29,7 +29,7 @@ export const ChainItemSections = ({
 }: IChainItemTabsProps) => {
   const { shouldShowTokenManager } = useTokenManagerConfigSelector();
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, hasPrivateAccess } = useAuth();
 
   const rpcUrl = useMemo(
     () => unfilteredGroup?.urls[0]?.rpc ?? unfilteredGroup?.urls[0]?.rest,
@@ -42,6 +42,7 @@ export const ChainItemSections = ({
     chain,
     group,
     publicUrl: isLoggedIn ? getPublicUrl(rpcUrl) : rpcUrl,
+    hasPrivateAccess,
   });
 
   const { classes } = useChainItemSectionsStyles();

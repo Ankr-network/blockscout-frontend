@@ -7,8 +7,9 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     display: 'flex',
     gap: theme.spacing(3),
     alignItems: 'center',
-
-    marginTop: theme.spacing(8),
+    paddingBottom: theme.spacing(4),
+    borderBottom: `1px solid ${theme.palette.background.default}`,
+    marginTop: theme.spacing(10),
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',

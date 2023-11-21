@@ -1,6 +1,6 @@
 import { Delete, Rename, Freeze, Unfreeze } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { useCallback } from 'react';
+import { MouseEvent, useCallback } from 'react';
 import { useForm } from 'react-final-form';
 
 import { MenuButton, MenuItem } from 'modules/common/components/MenuButton';
@@ -8,15 +8,16 @@ import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDi
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { FreezeAndUnfreezeProjectDialog } from 'domains/jwtToken/components/FreezeAndUnfreezeProjectDialog';
-import { Project } from 'domains/projects/utils/getAllProjects';
+import { ProjectTable } from 'domains/projects/utils/getAllProjects';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
+import { selectIsInactiveStatus } from 'domains/auth/store';
 
 import { EditProjectDialogFields } from '../EditProjectDialog/EditProjectDialogUtils';
 
 interface ActionsMenuProps {
-  rowData: Project;
+  rowData: ProjectTable;
   onProjectDialogOpen: () => void;
 }
 
@@ -24,7 +25,13 @@ export const ActionsMenu = ({
   rowData,
   onProjectDialogOpen,
 }: ActionsMenuProps) => {
-  const { tokenIndex, isFrozen: frozen, userEndpointToken, name } = rowData;
+  const {
+    tokenIndex,
+    isFrozen: frozen,
+    userEndpointToken,
+    name,
+    projectStatus,
+  } = rowData;
   const isPrimary = tokenIndex === PRIMARY_TOKEN_INDEX;
   const { anchorEl, handleOpen, handleClose, open } = useMenu();
 
@@ -53,6 +60,20 @@ export const ActionsMenu = ({
     onClose: onCloseFreezeAndUnfreezeProjectDialog,
   } = useDialog();
 
+  const handleCloseDeleteProjectDialog = (
+    event?: MouseEvent<HTMLButtonElement>,
+  ) => {
+    event?.stopPropagation();
+    onCloseDeleteProjectDialog();
+  };
+
+  const handleCloseFreezeAndUnfreezeProjectDialog = (
+    event?: MouseEvent<HTMLButtonElement>,
+  ) => {
+    event?.stopPropagation();
+    onCloseFreezeAndUnfreezeProjectDialog();
+  };
+
   const handleOpenFreezeDialog = useCallback(() => {
     onOpenFreezeAndUnfreezeProjectDialog();
     handleClose();
@@ -63,6 +84,13 @@ export const ActionsMenu = ({
     handleClose();
   }, [handleClose, onOpenDeleteProjectDialog]);
 
+  const isUserAccountInactive = useAppSelector(selectIsInactiveStatus);
+
+  const isFreezeProjectButtonDisabled =
+    userEndpointToken === draftUserEndpointToken ||
+    projectStatus.suspended ||
+    isUserAccountInactive;
+
   return (
     <>
       <MenuButton
@@ -70,6 +98,9 @@ export const ActionsMenu = ({
         open={open}
         onOpen={handleOpen}
         onClose={handleClose}
+        // we need to disable propagation to prevent routing on disabled menu item
+        // @ts-ignore
+        onClick={e => e.stopPropagation()}
       >
         <MenuItem
           disabled={isPrimary}
@@ -80,7 +111,7 @@ export const ActionsMenu = ({
         </MenuItem>
 
         <MenuItem
-          disabled={userEndpointToken === draftUserEndpointToken}
+          disabled={isFreezeProjectButtonDisabled}
           startIcon={frozen ? <Unfreeze /> : <Freeze />}
           onClick={handleOpenFreezeDialog}
         >
@@ -101,7 +132,7 @@ export const ActionsMenu = ({
       <DeleteProjectDialog
         open={isDeleteProjectDialogOpened}
         tokenIndex={tokenIndex}
-        onClose={onCloseDeleteProjectDialog}
+        onClose={handleCloseDeleteProjectDialog}
       />
 
       <FreezeAndUnfreezeProjectDialog
@@ -109,7 +140,7 @@ export const ActionsMenu = ({
         open={isFreezeAndUnfreezeProjectDialogOpened}
         userEndpointToken={userEndpointToken}
         projectName={name}
-        onClose={onCloseFreezeAndUnfreezeProjectDialog}
+        onClose={handleCloseFreezeAndUnfreezeProjectDialog}
       />
     </>
   );

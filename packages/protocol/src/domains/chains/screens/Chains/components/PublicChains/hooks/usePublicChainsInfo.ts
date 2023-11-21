@@ -1,4 +1,4 @@
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { useChainsFetchPublicChainsInfoQuery } from 'domains/chains/actions/public/fetchPublicChainsInfo';
 
 export type PublicChains = [Chain[], Chain[], boolean];

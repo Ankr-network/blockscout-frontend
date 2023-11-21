@@ -1,4 +1,4 @@
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { Header } from './components/Header';
 import { Stats } from './components/Stats';

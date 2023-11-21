@@ -1,4 +1,4 @@
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import aptosIcon from './icons/aptos.svg';
 import arbitrumIcon from './icons/arbitrum.svg';
@@ -68,6 +68,7 @@ import lineaIconDark from './darkModeIcons/linea.svg';
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
   [ChainID.ARBITRUM]: arbitrumIcon,
+  [ChainID.ARBITRUM_TESTNET]: arbitrumIcon,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIcon,
   [ChainID.AVALANCHE]: avaxIcon,
   [ChainID.AVALANCHE_C]: avaxIcon,
@@ -180,6 +181,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI_TESTNET]: suiIcon,
 
   [ChainID.XDC]: xdcIcon,
+  [ChainID.XDC_TESTNET]: xdcIcon,
 
   [ChainID.ZETACHAIN]: zetachainIcon,
   [ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET]: zetachainIcon,
@@ -232,6 +234,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI_TESTNET]: suiIconDark,
   [ChainID.ZKSYNC_ERA]: zksyncEraIconDark,
   [ChainID.XDC]: xdcIconDark,
+  [ChainID.XDC_TESTNET]: xdcIconDark,
   [ChainID.LINEA]: lineaIconDark,
 };
 
