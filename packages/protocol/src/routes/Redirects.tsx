@@ -1,16 +1,19 @@
 import { Redirect, Route } from 'react-router';
 
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 import { INDEX_PATH } from './constants';
 
 export const Redirects = () => {
   const { isLoggedIn } = useAuth();
 
-  const { hasReadAccess: hasAccessToProjects } = useJwtManager();
+  const hasAccessToProjects = useGuardUserGroup({
+    blockName: BlockWithPermission.JwtManagerRead,
+  });
 
   const shouldRedirectToProjects = isLoggedIn && hasAccessToProjects;
 
