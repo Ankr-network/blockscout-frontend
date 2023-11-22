@@ -41,7 +41,6 @@ import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardA
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useInitialization } from 'hooks/useInitialization';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 import { Redirects } from './Redirects';
@@ -49,8 +48,6 @@ import { Redirects } from './Redirects';
 /* eslint-disable max-lines-per-function */
 export const Routes = () => {
   const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
-
-  useInitialization(isLoggedIn);
 
   return (
     <Switch>
