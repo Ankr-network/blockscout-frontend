@@ -23,9 +23,12 @@ import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
 import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
+// eslint-disable-next-line max-lines-per-function
 export const useTopUp = () => {
-  const { address } = useAuth();
+  const { address: personalAddress } = useAuth();
   const { selectedGroupAddress } = useSelectedUserGroup();
+
+  const address = selectedGroupAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
 
