@@ -266,7 +266,7 @@
         "unfreeze": "Unfreeze project"
       },
       "descriptions": {
-        "freeze": "Are you sure you want to freeze the project? When you freezing your project it means all request will be rejected.",
+        "freeze": "Do you want to freeze the project? Freezing your project will disable its endpoints from interaction.",
         "unfreeze": "Are you sure you want to unfreeze the project? Unfreezing your project will enable all allowed requests."
       },
       "submit-buttons": {
