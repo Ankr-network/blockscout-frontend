@@ -7,6 +7,7 @@ import { t } from 'modules/i18n/utils/intl';
 
 import {
   FilterType,
+  IAddressBindingsResult,
   MIN_SEARCH_VALUE_LENGTH,
   useSearchEmailBindingsInput,
 } from './useSearchEmailBindingsInput';
@@ -37,14 +38,19 @@ export const SearchEmailBindingsInput = ({
   };
 
   const renderClient = useCallback(
-    (client: IEmailBindingEntity | IUserByTokenResponse) => {
-      const title = client.email
+    (
+      client:
+        | IEmailBindingEntity
+        | IUserByTokenResponse
+        | IAddressBindingsResult,
+    ) => {
+      const title = client?.email
         ? `${client.email}\n${client.address}`
         : client.address;
 
       return (
         <ClientTooltip
-          key={client.address || client.email}
+          key={client.address || client?.email}
           title={title}
           client={client}
           classes={classes}
@@ -89,8 +95,6 @@ export const SearchEmailBindingsInput = ({
     renderClient,
     searchValue,
   ]);
-
-  console.log('timofei foundClients', foundClients);
 
   return (
     <div className={classes.root}>

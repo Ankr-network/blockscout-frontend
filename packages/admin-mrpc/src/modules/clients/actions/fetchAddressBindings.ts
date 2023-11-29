@@ -25,16 +25,7 @@ export const {
           });
 
         const actionData = {
-          data: {
-            ...(bindingAddressesResponse.tokens ?? []),
-            // addresses: [
-            //   ...bindingAddressesResponse.addresses.map(userAddress => ({
-            //     address: userAddress.address,
-            //     type: userAddress.type,
-            //     publicKey: userAddress.publicKey,
-            //   })),
-            // ],
-          },
+          data: bindingAddressesResponse.tokens ?? [],
         };
 
         return actionData;

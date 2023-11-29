@@ -5,9 +5,11 @@ import {
   Web3Address,
 } from 'multirpc-sdk';
 
+import { IAddressBindingsResult } from '../SearchEmailBindingsInput/useSearchEmailBindingsInput';
+
 interface ClientTooltipProps {
   title: string;
-  client: IEmailBindingEntity | IUserByTokenResponse;
+  client: IEmailBindingEntity | IUserByTokenResponse | IAddressBindingsResult;
   onClientClick: (address?: Web3Address) => void;
   classes: Record<'clientItem' | 'clientButton' | 'tooltipWrapper', string>;
 }
@@ -30,7 +32,7 @@ export const ClientTooltip = ({
           className={classes.clientButton}
           onClick={() => onClientClick(client.address)}
         >
-          {client.email || client.address}
+          {client?.email || client.address}
         </Button>
       </Tooltip>
     </li>
