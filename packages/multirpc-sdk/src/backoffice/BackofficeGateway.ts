@@ -60,6 +60,8 @@ import {
   DeleteUserProjectResponse,
   SetUserProjectAllowedJwtNumberParams,
   SetUserProjectAllowedJwtNumberResponse,
+  IAddressBindingsRequest,
+  IAddressBindingsResponse,
   IUserByTokenRequest,
   IUserByTokenResponse,
   IUserTokensRequest,
@@ -520,5 +522,18 @@ export class BackofficeGateway implements IBackofficeGateway {
     const { data } = await this.api.post<INodeEntity[]>('/legacy', {});
 
     return data;
+  }
+
+  async getAddressBindings(
+    params: IAddressBindingsRequest,
+  ): Promise<IAddressBindingsResponse> {
+    const { data: response } = await this.api.get<IAddressBindingsResponse>(
+      '/users/tokens',
+      {
+        params,
+      },
+    );
+
+    return response;
   }
 }

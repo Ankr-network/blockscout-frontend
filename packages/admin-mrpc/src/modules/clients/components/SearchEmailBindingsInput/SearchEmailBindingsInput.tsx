@@ -90,6 +90,8 @@ export const SearchEmailBindingsInput = ({
     searchValue,
   ]);
 
+  console.log('timofei foundClients', foundClients);
+
   return (
     <div className={classes.root}>
       <TextField
