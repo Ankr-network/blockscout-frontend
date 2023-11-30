@@ -10,9 +10,11 @@ import { ClientBalancesModalContent } from './ClientBalancesModalContent';
 export const ClientBalancesModal = ({
   currentClient,
   isMenuElement,
+  disabled,
 }: {
   currentClient: ClientMapped;
   isMenuElement?: boolean;
+  disabled?: boolean;
 }) => {
   const { classes } = useStyles();
   const { open, handleOpen, handleClose } = useModal();
@@ -35,6 +37,7 @@ export const ClientBalancesModal = ({
           color="secondary"
           className={classes.balancesBtn}
           startIcon={<IconWallet />}
+          disabled={disabled}
         >
           Manage Credits
         </Button>

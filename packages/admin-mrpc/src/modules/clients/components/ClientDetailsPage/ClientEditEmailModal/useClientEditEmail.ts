@@ -5,7 +5,7 @@ import { useModal } from 'modules/common/hooks/useModal';
 import { useCreateUserEmailMutation } from 'modules/clients/actions/createUserEmail';
 import { useUpdateUserEmailMutation } from 'modules/clients/actions/updateUserEmail';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
-import { useLazyFetchClients } from 'modules/clients/hooks/useLazyFetchClients';
+import { useLazyFetchUserByAddressQuery } from 'modules/clients/actions/fetchUserByAddress';
 
 export interface FormElements {
   elements: {
@@ -22,16 +22,15 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
   const [createUserEmail, { isLoading: isLoadingCreateEmail }] =
     useCreateUserEmailMutation();
 
-  const {
-    fetchClients,
-    isFetching: isFetchingClients,
-    isLoading: isLoadingClients,
-  } = useLazyFetchClients();
+  const [
+    fetchUserByAddress,
+    { isLoading: isCurrentClientLoading, isFetching: isCurrentClientFetching },
+  ] = useLazyFetchUserByAddressQuery();
 
   const isLoading =
     isLoadingUpdateEmail ||
-    isFetchingClients ||
-    isLoadingClients ||
+    isCurrentClientLoading ||
+    isCurrentClientFetching ||
     isLoadingCreateEmail;
 
   const { open, handleOpen, handleClose } = useModal();
@@ -47,15 +46,16 @@ export const useClientEditEmail = (currentClient?: ClientMapped) => {
   const handleResponse = useCallback(
     (res: any) => {
       if (
+        currentClient?.address &&
         typeof res?.data?.binding === 'object' &&
         res?.data?.binding !== null &&
         'email' in res.data.binding
       ) {
-        fetchClients(undefined, true);
+        fetchUserByAddress(currentClient.address);
         handleClose();
       }
     },
-    [handleClose, fetchClients],
+    [handleClose, fetchUserByAddress, currentClient?.address],
   );
 
   const handleSubmit = useCallback(

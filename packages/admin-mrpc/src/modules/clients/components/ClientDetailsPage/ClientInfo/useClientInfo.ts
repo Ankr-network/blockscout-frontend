@@ -19,6 +19,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {
     data: revenueData,
     isLoading: isLoadingRevenue,
+    isFetching: isFetchingRevenue,
     refetch: refetchRevenue,
   } = useFetchUserRevenueQuery({ address });
 
@@ -94,5 +95,6 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
     userName: !isErrorProfile && profileData?.user?.name,
     revenueData,
     isLoadingRevenue,
+    isFetchingRevenue,
   };
 };

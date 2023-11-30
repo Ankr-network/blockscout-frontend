@@ -1,5 +1,5 @@
 import { ChangeEvent } from 'react';
-import { Button, Input, Typography } from '@mui/material';
+import { Box, Button, Input, Typography } from '@mui/material';
 
 import { t } from 'modules/i18n/utils/intl';
 
@@ -25,7 +25,7 @@ export const AllowedUserProjectsModal = ({
   const isSubmitDisabled = isLoading || !jwtLimit || Number(jwtLimit) <= 0;
 
   return (
-    <div className={classes.modalContent}>
+    <Box className={classes.modalContent}>
       <Typography variant="h6">{t('projects.modal.title')}</Typography>
       <Input
         type="number"
@@ -40,6 +40,6 @@ export const AllowedUserProjectsModal = ({
       <Button fullWidth onClick={onSetJwtLimit} disabled={isSubmitDisabled}>
         {t('projects.modal.submit-button')}
       </Button>
-    </div>
+    </Box>
   );
 };

@@ -4,7 +4,7 @@ run-name: Deploy of ${{ github.ref_name }} to ${{github.event.inputs.environment
 on:
   workflow_dispatch:
     inputs:
-      domain:
+      environment:
         type: choice
         description: Target
         required: true
@@ -28,17 +28,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: nelonoel/branch-name@v1.0.1
       - uses: actions/setup-node@v3
         with:
           node-version: '16.13.0'
           cache: 'yarn'
-
-      - name: Get deployment information
-        run: |
-          echo "Branch: ${{github.ref}}"
-          echo "Domain: ${{github.event.inputs.domain}}"
-          echo "API: ${{github.event.inputs.api}}"
 
       - name: Install dependencies
         run: |
@@ -74,8 +67,8 @@ jobs:
       - name: Copy files to the production website with the AWS CLI
         working-directory: ./packages/admin-mrpc
         env:
-          DOMAIN: ${{ secrets[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.domain, '_DOMAIN')] }}
-          DISTRIBUTION_ID: ${{ secrets[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.domain, '_DISTRIBUTION_ID')] }}
+          DOMAIN: ${{ vars[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.environment, '_DOMAIN')] }}
+          DISTRIBUTION_ID: ${{ vars[format('{0}{1}{2}', 'MULTIRPC_BACKOFFICE_', github.event.inputs.environment, '_DISTRIBUTION_ID')] }}
         run: |
           aws s3 sync --delete ./build s3://$DOMAIN/ --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
