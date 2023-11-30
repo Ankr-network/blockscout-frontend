@@ -68,7 +68,10 @@ export const useSearchEmailBindingsInput = (filterType: FilterType) => {
 
   const foundClients = useMemo(() => {
     if (filterType === 'token') {
-      return foundClientsByToken;
+      return foundClientsByToken.map(client => ({
+        address: client.address,
+        email: client.email,
+      }));
     }
 
     const doesClientExist =
@@ -82,7 +85,10 @@ export const useSearchEmailBindingsInput = (filterType: FilterType) => {
 
     if (doesClientExist) {
       return !foundClientsByEmail.length
-        ? foundClientsByEmail
+        ? foundClientsByEmail.map(client => ({
+            address: client.address,
+            email: client.email,
+          }))
         : [
             {
               address: searchValue,
