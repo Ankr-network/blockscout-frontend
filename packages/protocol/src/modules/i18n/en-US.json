@@ -295,7 +295,7 @@
     "new-project": {
       "breadcrumbs": "Create",
       "title": "Create project",
-      "how-to-get-started": "Get started with projects",
+      "how-to-get-started": "See project's getting started",
       "project-name-fallback": "your project",
       "footer": {
         "back-button": "Back",
