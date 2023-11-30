@@ -1,4 +1,4 @@
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { RootState } from 'store';
 import { chainsFetchPublicChains } from 'domains/chains/actions/public/fetchPublicChains';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';

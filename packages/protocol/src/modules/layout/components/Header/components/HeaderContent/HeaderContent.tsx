@@ -9,6 +9,7 @@ import { ThemeSwitcher } from 'modules/layout/components/ThemeSwitcher';
 import { UserGroupSelector } from 'domains/userGroup/components/UserGroupSelector';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { Header } from 'modules/layout/const';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 interface HeaderContentProps {
   type?: Header;
@@ -22,6 +23,7 @@ export const HeaderContent = ({
   const isMobileType = type === Header.Mobile;
 
   const { isLoggedIn } = useAuth();
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const hasUserGroups = useAppSelector(selectHasUserGroups);
 
@@ -47,7 +49,7 @@ export const HeaderContent = ({
 
   return (
     <>
-      {isLoggedIn && (
+      {isLoggedIn && !isEnterpriseClient && (
         <AccountDetailsButton
           isMobileType={isMobileType}
           isSidebarType={isSidebarType}

@@ -5,13 +5,19 @@ import { InputField } from 'modules/form/components/InputField/InputField';
 
 import { useInputDialogFormStyles } from './useInputDialogFormStyles';
 
-interface InputDialogFormFieldProps {
+export interface InputDialogFormFieldProps {
   name: string;
   placeholder: string;
   maxLength?: number;
-  validate?: (value: string) => string | undefined;
   isMultiline?: boolean;
+  isRequired?: boolean;
+  shouldSkipPristineForValidation?: boolean;
   isDisabled?: boolean;
+  isHelperTextVisible?: boolean;
+  isLimitCounterVisible?: boolean;
+  className?: string;
+  validate?: (value: string, allValues?: unknown) => string | undefined;
+  autofocus?: boolean;
 }
 
 export const InputDialogFormField = ({
@@ -19,27 +25,48 @@ export const InputDialogFormField = ({
   placeholder,
   maxLength = 128,
   isMultiline,
+  isRequired,
+  shouldSkipPristineForValidation = false,
   isDisabled,
+  isHelperTextVisible = false,
+  isLimitCounterVisible = false,
+  className,
   validate,
+  autofocus,
 }: InputDialogFormFieldProps) => {
-  const { classes } = useInputDialogFormStyles({ isMultiline });
+  const { classes, cx } = useInputDialogFormStyles({ isMultiline });
 
   const handleValidate = useCallback(
     (data, allValues, meta) =>
-      !meta?.pristine && typeof validate === 'function' && validate(data),
-    [validate],
+      (!meta?.pristine || shouldSkipPristineForValidation) &&
+      typeof validate === 'function' &&
+      validate(data),
+    [shouldSkipPristineForValidation, validate],
+  );
+
+  const handleKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    },
+    [],
   );
 
   return (
     <Field
+      isRequired={isRequired}
+      isHelperTextVisible={isHelperTextVisible}
+      isLimitCounterVisible={isLimitCounterVisible}
       component={InputField}
       name={name}
       placeholder={placeholder}
-      className={classes.domain}
+      className={cx(classes.domain, className)}
       variant="outlined"
       type="textarea"
       multiline={isMultiline}
       validate={handleValidate}
+      autofocus={autofocus}
       InputProps={{
         classes: {
           root: classes.inputBase,
@@ -50,6 +77,7 @@ export const InputDialogFormField = ({
       // passing maxLength in InputProps doesn't work
       // eslint-disable-next-line react/jsx-no-duplicate-props
       inputProps={{ maxLength }}
+      onKeyPress={handleKeyPress}
     />
   );
 };

@@ -73,6 +73,7 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
 
       '& $content': {
         border: `1px solid ${theme.palette.grey[300]}`,
+
         '&:hover': {
           backgroundColor: theme.palette.common.white,
         },
@@ -81,9 +82,30 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
 
     [`&.${ChainId.POLYGON_ZKEVM} `]: {
       borderRadius: 0,
+
       '& $content': {
         borderRadius: theme.spacing(1.5),
         border: `2px solid ${theme.palette.grey[300]}`,
+      },
+    },
+
+    [`&.${ChainId.Flare} `]: {
+      '& $content': {
+        '&:hover': {
+          backgroundColor: theme.palette.background.default,
+        },
+      },
+    },
+
+    [`&.${ChainId.Sei}`]: {
+      '& $content': {
+        '&:hover': {
+          backgroundColor: theme.palette.background.default,
+
+          '& $copyIcon': {
+            color: theme.palette.primary.light,
+          },
+        },
       },
     },
   },
@@ -104,6 +126,14 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
 
     [`&.${ChainId.Gnosis}`]: {
       backgroundColor: theme.palette.common.white,
+    },
+
+    [`&.${ChainId.Flare}`]: {
+      backgroundColor: theme.palette.background.default,
+    },
+
+    [`&.${ChainId.Sei}`]: {
+      backgroundColor: theme.palette.background.default,
     },
   },
 

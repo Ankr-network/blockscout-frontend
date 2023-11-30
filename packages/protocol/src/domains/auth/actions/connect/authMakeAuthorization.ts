@@ -1,4 +1,5 @@
 import { EWalletId, getWalletName } from '@ankr.com/provider';
+import { t } from '@ankr.com/common';
 
 import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
@@ -9,8 +10,8 @@ import { trackWeb3SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb3Sign
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { setGithubLoginName } from 'domains/oauth/actions/setGithubLoginName';
-import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+import { setGithubLoginNameAndEmail } from 'domains/oauth/actions/setGithubLoginNameAndEmail';
+import { isEmptyEthAddressAuthError } from 'store/utils/isEmptyEthAddressAuthError';
 
 import { authConnect } from './connect';
 import { makeAuthorization } from './makeAuthorization';
@@ -77,14 +78,7 @@ export const {
         try {
           await queryFulfilled;
 
-          dispatch(setGithubLoginName.initiate());
-
-          dispatch(
-            userSettingsGetActiveEmailBinding.initiate({
-              params: undefined,
-              shouldNotify: false,
-            }),
-          );
+          await dispatch(setGithubLoginNameAndEmail.initiate());
         } catch (errorData: any) {
           const isTwoFAError =
             is2FAError(errorData) || is2FAError(errorData?.error);
@@ -96,10 +90,15 @@ export const {
 
             disconnectService();
 
+            const message = isEmptyEthAddressAuthError(errorData?.error)
+              ? t('error.empty-eth')
+              : errorData?.error?.message;
+
             dispatch(
               NotificationActions.showNotification({
-                message: errorData?.error?.message,
+                message,
                 severity: 'error',
+                autoHideDuration: null,
               }),
             );
 

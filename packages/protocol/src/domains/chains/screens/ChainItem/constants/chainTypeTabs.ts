@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { ChainSubType, ChainType } from 'domains/chains/types';
+import { ChainSubType, ChainType } from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 
 export const getChainTypeTabs = (): Tab<ChainType>[] => [
@@ -18,14 +18,9 @@ export const getChainTypeTabs = (): Tab<ChainType>[] => [
   },
 ];
 
-const getAthens2 = () => t('chain-item.chain-subtypes.athens2');
 const getAthens3 = () => t('chain-item.chain-subtypes.athens3');
 
 export const chainSubTypeTabs: Tab<ChainSubType>[] = [
-  {
-    id: ChainSubType.Athens2,
-    title: getAthens2(),
-  },
   {
     id: ChainSubType.Athens3,
     title: getAthens3(),

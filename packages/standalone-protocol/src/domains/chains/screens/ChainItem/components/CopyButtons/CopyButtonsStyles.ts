@@ -42,6 +42,16 @@ export const useStyles = makeStyles<Theme>(theme => ({
       border: `1px solid ${theme.palette.common.black}`,
       borderRadius: 0,
     },
+
+    [`&.${ChainId.Flare}`]: {
+      backgroundColor: theme.palette.background.paper,
+
+      border: `2px solid ${theme.palette.text.primary}`,
+    },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+    },
   },
   link: {
     width: '100%',

@@ -2,7 +2,7 @@ import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
 import { PrefixedHex } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
@@ -16,7 +16,7 @@ import {
   selectHasPremium,
   selectHasWeb3Connection,
   selectIsLoggedIn,
-} from '../store/selectors';
+} from '../store';
 
 export interface AddNetworkParams {
   chainID: ChainID;

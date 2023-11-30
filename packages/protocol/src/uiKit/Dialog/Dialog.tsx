@@ -2,12 +2,14 @@ import { Close } from '@ankr.com/ui';
 import {
   Dialog as MuiDialog,
   DialogContent as MuiDialogContent,
+  DialogProps,
   DialogProps as MuiDialogProps,
   DialogTitle as MuiDialogTitle,
   IconButton,
   Typography,
 } from '@mui/material';
 import {
+  MouseEvent,
   ReactNode,
   useCallback,
   useLayoutEffect,
@@ -23,9 +25,9 @@ import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
 
 export type IDialogProps = Omit<
   MuiDialogProps,
-  'BackdropProps' | 'PaperProps' | 'title'
+  'BackdropProps' | 'PaperProps' | 'title' | 'onClose'
 > & {
-  onClose?: () => void;
+  onClose?: (event?: MouseEvent<HTMLButtonElement>) => void;
   shouldHideCloseButton?: boolean;
   initialTitle?: string;
   title?: ReactNode;
@@ -34,6 +36,7 @@ export type IDialogProps = Omit<
   titleClassName?: string;
   closeButtonClassName?: string;
   canCloseDialogByClickOutside?: boolean;
+  hasTitleWrapper?: boolean;
 };
 
 export const Dialog = ({
@@ -47,6 +50,7 @@ export const Dialog = ({
   paperClassName,
   titleClassName,
   closeButtonClassName,
+  hasTitleWrapper = true,
   ...props
 }: IDialogProps) => {
   const { isLightTheme } = useThemes();
@@ -56,11 +60,14 @@ export const Dialog = ({
     color: DialogTitleColor.Regular,
   });
 
-  const handleClose = useCallback(() => {
-    if (typeof onClose === 'function') {
-      onClose();
-    }
-  }, [onClose]);
+  const handleClose = useCallback(
+    (event?: MouseEvent<HTMLButtonElement>) => {
+      if (typeof onClose === 'function') {
+        onClose(event);
+      }
+    },
+    [onClose],
+  );
 
   useLayoutEffect(() => {
     setDialogTitle({ title });
@@ -91,11 +98,15 @@ export const Dialog = ({
           },
         }}
         {...props}
-        onClose={canCloseDialogByClickOutside ? handleClose : undefined}
+        onClose={
+          canCloseDialogByClickOutside
+            ? (handleClose as DialogProps['onClose'])
+            : undefined
+        }
       >
         {(dialogTitle.title || !shouldHideCloseButton) && (
           <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-            {typeof dialogTitle.title === 'string' ? (
+            {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
               <Typography className={classes.titleText}>
                 {dialogTitle.title}
               </Typography>

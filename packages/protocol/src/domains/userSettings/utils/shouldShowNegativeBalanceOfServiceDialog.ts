@@ -1,39 +1,55 @@
 interface ShouldShowNegativeBalanceOfServiceDialogArguments {
   isLoggedIn: boolean;
   authLoading: boolean;
-  isLoading: boolean;
+  isLoadingTosAcceptStatus: boolean;
+  isFetchingTosAcceptStatus: boolean;
+  isUninitializedTosAcceptStatus: boolean;
   shouldShowUserGroupDialog: boolean;
   tosAccepted: boolean;
-  isDevRole: boolean;
   hasPremium: boolean;
-  isFinanceRole: boolean;
-  isError: boolean;
+  hasGroupAccess: boolean;
+  isErrorTosAcceptStatus: boolean;
+  isEnterpriseClient: boolean;
+  isEnterpriseStatusLoading: boolean;
+  isLoadingGroups: boolean;
 }
 
 export const shouldShowNegativeBalanceOfServiceDialog = ({
   isLoggedIn,
   authLoading,
-  isLoading,
+  isLoadingTosAcceptStatus,
+  isFetchingTosAcceptStatus,
+  isUninitializedTosAcceptStatus,
   shouldShowUserGroupDialog,
   tosAccepted,
-  isDevRole,
   hasPremium,
-  isFinanceRole,
-  isError,
+  hasGroupAccess,
+  isErrorTosAcceptStatus,
+  isEnterpriseClient,
+  isEnterpriseStatusLoading,
+  isLoadingGroups,
 }: ShouldShowNegativeBalanceOfServiceDialogArguments) => {
   if (!isLoggedIn) return false;
 
-  if (authLoading || isLoading) return false;
+  if (
+    authLoading ||
+    isLoadingTosAcceptStatus ||
+    isFetchingTosAcceptStatus ||
+    isUninitializedTosAcceptStatus ||
+    isEnterpriseStatusLoading ||
+    isLoadingGroups
+  )
+    return false;
 
-  if (isError) return false;
+  if (isErrorTosAcceptStatus) return false;
 
   if (shouldShowUserGroupDialog) return false;
 
   if (tosAccepted) return false;
 
-  if (isDevRole) return false;
+  if (isEnterpriseClient) return false;
 
-  if (hasPremium || isFinanceRole) return true;
+  if (!hasGroupAccess) return false;
 
-  return false;
+  return hasPremium;
 };

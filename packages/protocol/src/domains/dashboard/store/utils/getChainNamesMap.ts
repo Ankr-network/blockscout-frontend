@@ -1,4 +1,4 @@
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
 export type ChainNamesMap = Record<string, string>;
@@ -26,6 +26,14 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
         .split(' ')
         .filter(word => word !== 'RPC')
         .join(' ');
+    }
+
+    if (checkedID === ChainID.SEI) {
+      result[checkedID] = 'Sei Tendermint';
+    }
+
+    if (checkedID === ChainID.SECRET) {
+      result[checkedID] = 'Secret Network Tendermint';
     }
 
     return result;

@@ -106,10 +106,12 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.7.6.tgz#cc8c858f68aa6d7e754c406022c0869f7496f6e0"
   integrity sha512-NjgWqxuNhy/FQ2TXEqVeRn1GuN3S1DoXRbkxVr2MfIlFkT2QZAoA1/1jXKpKXhVu9RYNdxAjxd+6wTf1Rs7dSw==
 
-"@ankr.com/ui@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.10.2.tgz#0b839bf6386b6757679c38f614ffb1cd0c838040"
-  integrity sha512-O7dg2qY6pzCS4yy39QoCAQY6YW3nUg8t5KlVufWL7eLlCKJdkEnE0texEIUYdbezxmZ5gMtvLbq0RZhTa/Q2RQ==
+"@ankr.com/ui@^0.10.8":
+  version "0.10.8"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.10.8.tgz#722e90a32058e126a7d91c16ef284bf9a05ef39b"
+  integrity sha512-Cc2Ho6iVl6/Xl8l28oNEyiZ0PJOoZst/25PFmiWnZ6DMwz14hZv6u1o2kGWqnMXUETtp/PSwwrWDE6AhDf3zxg==
+  dependencies:
+    tss-react "^4.9.2"
 
 "@ankr.com/ui@^0.7.1":
   version "0.7.1"
@@ -25199,6 +25201,15 @@ tss-react@^4.4.1:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-4.4.2.tgz#0c09d677dd5ba2a532291a4c926325776ba65728"
   integrity sha512-typ6yVmBGz1GIHmWaN+bmwHaAfxZLImfiNTiGIfJCFgas3rEpdYSty2/JENXAFvzKFl53CHc/6Z/FM2EkE2ZTQ==
+  dependencies:
+    "@emotion/cache" "*"
+    "@emotion/serialize" "*"
+    "@emotion/utils" "*"
+
+tss-react@^4.9.2:
+  version "4.9.3"
+  resolved "https://registry.yarnpkg.com/tss-react/-/tss-react-4.9.3.tgz#69ce18bcf83fe96d99d35f44a036c7b507f66eff"
+  integrity sha512-TqI0kBFmgW0f5YIOD2PMdHu6FnqSxVDUf5uJ7+gVkhemtMfwdlFpvXpddgSesktizr9PU9hY2nZ+kNnf0KQb9A==
   dependencies:
     "@emotion/cache" "*"
     "@emotion/serialize" "*"

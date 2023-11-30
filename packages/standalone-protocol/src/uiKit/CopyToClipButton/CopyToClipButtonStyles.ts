@@ -351,6 +351,82 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         borderRadius: '6px 0 0 6px',
       },
     },
+
+    [`&.${ChainId.Flare}`]: {
+      backgroundColor: theme.palette.background.default,
+
+      '& $content': {
+        padding: 0,
+      },
+
+      '& $contentBackground': {
+        backgroundColor: theme.palette.background.default,
+      },
+    },
+
+    [`&.${ChainId.Sei}`]: {
+      '& $button': {
+        '&:hover': {
+          backgroundColor: theme.palette.primary.light,
+        },
+      },
+    },
+
+    [`&.${ChainId.XDC}`]: {
+      '& $content': {
+        padding: 0,
+      },
+
+      '& $button': {
+        color: theme.palette.text.primary,
+        borderRadius: 12,
+
+        '&:hover': {
+          color: theme.palette.text.primary,
+        },
+      },
+    },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+
+      '& $content': {
+        padding: 0,
+
+        '&:hover $button': {
+          color: theme.palette.text.primary,
+        },
+      },
+
+      '& $button': {
+        color: theme.palette.text.primary,
+        borderRadius: 12,
+
+        '&:hover': {
+          color: theme.palette.text.primary,
+        },
+      },
+    },
+
+    [`&.${ChainId.Core}`]: {
+      '& $content': {
+        padding: 0,
+        backgroundColor: theme.palette.grey[100],
+
+        '&:hover': {
+          backgroundColor: theme.palette.grey[200],
+        },
+
+        '&:hover $button': {
+          backgroundColor: theme.palette.primary.light,
+          color: theme.palette.text.primary,
+        },
+      },
+
+      '& $button': {
+        color: theme.palette.text.primary,
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied
@@ -394,6 +470,7 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
     width: '40%',
     height: '100%',
     color: theme.palette.text.secondary,
+
     [theme.breakpoints.down('sm')]: {
       fontSize: 16,
     },

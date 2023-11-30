@@ -1,12 +1,9 @@
-import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
+import { IJwtToken, OauthLoginProvider, WorkerTokenData } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import {
-  OauthProviderType,
-  selectAuthData,
-} from 'domains/auth/store/authSlice';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
 
 export interface OauthAutoLoginResult {
@@ -15,7 +12,7 @@ export interface OauthAutoLoginResult {
   credentials?: IJwtToken;
   email?: string;
   workerTokenData?: WorkerTokenData;
-  oauthProviders?: OauthProviderType[];
+  oauthProviders?: OauthLoginProvider[];
 }
 
 export const {
@@ -38,8 +35,7 @@ export const {
         const web3ReadService = await MultiService.getWeb3ReadService();
 
         web3ReadService.getAccountingGateway().addToken(authorizationToken!);
-
-        service.getAccountingGateway().addToken(authorizationToken!);
+        service.getEnterpriseGateway().addToken(authorizationToken!);
 
         if (workerTokenData?.signedToken) {
           service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);

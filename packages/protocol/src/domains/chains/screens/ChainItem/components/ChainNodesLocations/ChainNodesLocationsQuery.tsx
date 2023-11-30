@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { INodesDetailEntity } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { useChainsFetchChainNodesDetailQuery } from 'domains/chains/actions/fetchChainNodesDetail';
+import { useChainsFetchChainNodesDetailQuery } from 'modules/chains/actions/fetchChainNodesDetail';
 import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
 
 import { ChainNodesLocations } from './ChainNodesLocations';

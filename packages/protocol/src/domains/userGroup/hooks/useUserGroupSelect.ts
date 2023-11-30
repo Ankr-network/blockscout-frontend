@@ -1,19 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { GroupUserRole, UserGroup } from 'multirpc-sdk';
 
-import {
-  resetUserGroupConfig,
-  setUserGroupConfig,
-} from 'domains/userGroup/store';
+import { fetchIsEnterpriseClient } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
+import { resetEndpoint } from 'store/utils/resetEndpoint';
+import { resetUserGroupConfig } from 'domains/userGroup/store';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
-import { useUserGroupConfig } from './useUserGroupConfig';
+import { BlockWithPermission } from '../constants/groups';
+import { getPermissions } from '../utils/getPermissions';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
+import { useUserGroupConfig } from './useUserGroupConfig';
 
 export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   const { address } = useAuth();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     shouldRemind: savedShouldRemind,
@@ -49,15 +50,28 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
     }
   }, [address, dispatch, groups, isLoading, savedSelectedGroupAddress]);
 
-  const handleSetUserGroup = useCallback(() => {
-    dispatch(
-      setUserGroupConfig({
-        address,
-        selectedGroupAddress,
-        selectedGroupRole,
-        shouldRemind,
-      }),
+  const handleSetUserGroup = useCallback(async () => {
+    const isPersonalAccountSelected =
+      selectedGroupAddress === address || !selectedGroupAddress;
+
+    const group = isPersonalAccountSelected ? undefined : selectedGroupAddress;
+
+    const newUserGroupConfig = {
+      address,
+      selectedGroupAddress,
+      selectedGroupRole,
+      shouldRemind,
+    };
+
+    const fetchEnterpriseStatusParams = {
+      group,
+      newUserGroupConfig,
+    };
+
+    await dispatch(
+      fetchIsEnterpriseClient.initiate(fetchEnterpriseStatusParams),
     );
+
     dispatch(shouldShowUserGroupDialog.initiate());
   }, [
     dispatch,
@@ -75,8 +89,17 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
     (groupAddress: string, userRole: GroupUserRole) => {
       setSelectedGroupAddress(groupAddress);
       setSelectedGroupRole(userRole);
+
+      const permissions = getPermissions(userRole);
+      const hasAccountStatusPermission = permissions.includes(
+        BlockWithPermission.AccountStatus,
+      );
+
+      if (!hasAccountStatusPermission) {
+        resetEndpoint('fetchPremiumStatus', dispatch);
+      }
     },
-    [],
+    [dispatch],
   );
 
   return {

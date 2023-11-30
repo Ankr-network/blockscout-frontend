@@ -1,6 +1,6 @@
-import { IChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 
@@ -20,7 +20,7 @@ export const PrivateChainItemQuery = ({ chainId }: ChainItemProps) => {
       <div className={classes.root}>
         <ExpiredTokenBanner />
         <JwtTokenManager />
-        <Queries<IChainItemDetails>
+        <Queries<IPrivateChainItemDetails>
           isPreloadDisabled
           queryStates={[fetchChainState]}
         >

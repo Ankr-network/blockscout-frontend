@@ -17,6 +17,11 @@ export const selectUserGroupConfigByAddress = createSelector(
   ({ address = '' }, userGroupConfig) => userGroupConfig[address] ?? {},
 );
 
+export const selectUserGroupLoading = createSelector(
+  userGroupFetchGroups.select(),
+  ({ isLoading }) => isLoading,
+);
+
 export const selectUserGroups = createSelector(
   userGroupFetchGroups.select(),
   ({ data: userGroups = [] }) => userGroups,

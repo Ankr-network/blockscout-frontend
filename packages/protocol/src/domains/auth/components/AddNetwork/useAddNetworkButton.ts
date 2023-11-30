@@ -10,12 +10,14 @@ export const useAddNetworkButton = ({
   chainType,
   chainSubType,
   group,
+  isEnterprise,
 }: IUseAddNetworkButtonParams) => {
   const { handleAddNetwork } = useAddNetwork();
 
   const { chainId, networkConfiguration } = useMemo(
-    () => getNetworkParams({ chain, chainType, chainSubType, group }),
-    [chain, chainType, chainSubType, group],
+    () =>
+      getNetworkParams({ chain, chainType, chainSubType, group, isEnterprise }),
+    [chain, chainType, chainSubType, group, isEnterprise],
   );
 
   if (!networkConfiguration) return null;

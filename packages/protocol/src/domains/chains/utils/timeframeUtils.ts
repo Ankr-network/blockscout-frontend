@@ -7,7 +7,7 @@ import {
   getYear,
 } from 'date-fns';
 
-import { Timeframe } from '../types';
+import { Timeframe } from 'modules/chains/types';
 
 export const ONE_MINUTE_LIFETIME = 60 * 1000;
 export const ONE_HOUR_LIFETIME = 60 * ONE_MINUTE_LIFETIME;

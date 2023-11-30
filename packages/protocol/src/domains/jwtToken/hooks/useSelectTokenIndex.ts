@@ -5,24 +5,40 @@ import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSli
 
 import { useTokenManagerConfigSelector } from './useTokenManagerConfigSelector';
 
-export const useSelectTokenIndex = () => {
+export const UNSELECTED_TOKEN_INDEX = -1;
+
+export const useSelectTokenIndex = (isUnselectAvailable?: boolean) => {
   const dispatch = useDispatch();
 
   const { address, tokenIndex } = useTokenManagerConfigSelector();
 
   const [currentTokenIndex, setIndex] = useState(tokenIndex);
 
+  useEffect(() => {
+    setIndex(tokenIndex);
+    dispatch(setSelectedTokenIndex({ tokenIndex, address }));
+  }, [address, dispatch, tokenIndex]);
+
   const handleSelectTokenIndex = useCallback(
     (newIndex: number) => {
-      setIndex(newIndex);
-      dispatch(setSelectedTokenIndex({ tokenIndex: newIndex, address }));
-    },
-    [dispatch, address],
-  );
+      const shouldUnselect =
+        isUnselectAvailable && newIndex === currentTokenIndex;
 
-  useEffect(() => {
-    handleSelectTokenIndex(tokenIndex);
-  }, [handleSelectTokenIndex, tokenIndex]);
+      if (shouldUnselect) {
+        setIndex(UNSELECTED_TOKEN_INDEX);
+        dispatch(
+          setSelectedTokenIndex({
+            tokenIndex: UNSELECTED_TOKEN_INDEX,
+            address,
+          }),
+        );
+      } else {
+        setIndex(newIndex);
+        dispatch(setSelectedTokenIndex({ tokenIndex: newIndex, address }));
+      }
+    },
+    [dispatch, address, isUnselectAvailable, currentTokenIndex],
+  );
 
   return {
     tokenIndex: currentTokenIndex,

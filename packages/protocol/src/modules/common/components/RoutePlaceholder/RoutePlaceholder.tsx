@@ -6,6 +6,7 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 
 import imgLock from './assets/lock.png';
 import {
@@ -16,14 +17,18 @@ import {
 export interface RoutePlaceholderProps extends RoutePlaceholderStylesProps {
   breadcrumbs: string;
   title: string;
+  shouldSkipRedirect?: boolean;
 }
 
 export const RoutePlaceholder = ({
   breadcrumbs,
   title,
+  shouldSkipRedirect,
   ...stylesProps
 }: RoutePlaceholderProps) => {
   useSetBreadcrumbs([{ title: breadcrumbs }]);
+
+  useRedirectToEnterpriseOnGroupChange(shouldSkipRedirect);
 
   const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
 

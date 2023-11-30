@@ -1,17 +1,23 @@
-import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
-import { SecondaryTab } from 'modules/common/components/SecondaryTab';
+import { Tab } from 'modules/common/hooks/useTabs';
+import { chackHasWSFeature } from 'modules/common/components/GetStartedSection/components/WsFeatureEndpoints/useWsFeatureEndpoints';
 
-export const getGroupTabs = (groups: EndpointGroup[]): Tab<ChainGroupID>[] =>
-  groups.map<Tab<ChainGroupID>>(
-    ({ id, urlsCount, name, pluralName }, index) => ({
+import { GroupTab } from '../components/GroupTab';
+
+export const getGroupTabs = (groups: EndpointGroup[]) => {
+  return groups.map<Tab<ChainGroupID>>((group, index) => {
+    const { id, urlsCount, name, pluralName } = group;
+    const hasWs = chackHasWSFeature(group);
+
+    return {
       id,
       title: (isSelected: boolean) => (
-        <SecondaryTab
+        <GroupTab
           isLast={index === groups.length - 1}
           isSelected={isSelected}
-          label={urlsCount > 1 ? pluralName : name}
+          label={urlsCount > 1 || hasWs ? pluralName : name}
         />
       ),
-    }),
-  );
+    };
+  });
+};

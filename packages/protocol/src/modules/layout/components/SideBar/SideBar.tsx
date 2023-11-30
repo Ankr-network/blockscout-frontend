@@ -49,7 +49,7 @@ export const SideBar = ({
         onDashboardClick={onDashboardClick}
         onDocsClick={onDocsClick}
         onSettingsClick={onSettingsClick}
-        onSignoutClick={handleDisconnect}
+        onSignOutClick={handleDisconnect}
       />
     </aside>
   );

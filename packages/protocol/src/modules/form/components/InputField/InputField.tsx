@@ -11,9 +11,11 @@ export const InputField = ({
   input: { name, onBlur, onChange, value, type, placeholder },
   isHelperTextVisible,
   meta,
-  showLimitCounter = false,
+  isLimitCounterVisible = false,
   InputProps = {},
   multiline,
+  isRequired,
+  autofocus,
   ...rest
 }: InputFieldProps) => {
   const { classes, cx } = useInputFieldStyles();
@@ -27,15 +29,24 @@ export const InputField = ({
       value,
       meta,
       maxLength,
-      showLimitCounter,
+      showLimitCounter: isLimitCounterVisible,
       hasError,
     });
 
     return text || (isHelperTextVisible && <>&nbsp;</>);
-  }, [value, meta, maxLength, showLimitCounter, hasError, isHelperTextVisible]);
+  }, [
+    value,
+    meta,
+    maxLength,
+    isLimitCounterVisible,
+    hasError,
+    isHelperTextVisible,
+  ]);
 
   return (
     <TextField
+      autoFocus={autofocus}
+      required={isRequired}
       multiline={multiline}
       maxRows={4}
       type={type}

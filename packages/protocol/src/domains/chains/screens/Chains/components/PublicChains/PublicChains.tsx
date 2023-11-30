@@ -1,12 +1,12 @@
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ReactSnapChainsLinksGenerator } from 'domains/chains/components/ReactSnapChainsLinksGenerator';
-import { BaseChains } from 'domains/chains/components/BaseChains';
+import { BaseChains } from 'modules/common/components/BaseChains';
 import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
+import { ChainsList } from 'modules/common/components/ChainsList';
 
 import { usePublicChains } from './hooks/usePublicChains';
 import { usePublicChainsData } from './hooks/usePublicChainsData';
-import { ChainsList } from '../ChainsList';
 import { PublicChainCard } from './components/PublicChainCard';
 
 export const PublicChains = () => {

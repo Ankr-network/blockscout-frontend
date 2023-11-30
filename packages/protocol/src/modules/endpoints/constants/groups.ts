@@ -1,12 +1,12 @@
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 
 const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
-    plural: isPlural ? t('chain-item.header.plural') : '',
+    plurals: isPlural ? 1 : 0,
   });
 
 export const getFallbackEndpointGroup = (
@@ -14,7 +14,7 @@ export const getFallbackEndpointGroup = (
 ): EndpointGroup => {
   const name = t('chain-item.header.endpoint-groups.fallback', {
     chain: endpointName,
-    plural: t('chain-item.header.plural'),
+    plurals: 1,
   });
 
   return {
@@ -30,14 +30,14 @@ export const getFallbackEndpointGroup = (
 
 export const tendermintRpcChains = [
   ChainID.SECRET_RPC,
-  ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+  ChainID.SEI_RPC,
 ];
 
 export const tendermintRestChains = [
   ChainID.SECRET_REST,
-  ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+  ChainID.SEI_REST,
 ];
 
 export const chainGroups: ChainGroup[] = [
@@ -48,6 +48,7 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.ARBITRUM,
       ChainID.ARBITRUM_NOVA,
+      ChainID.ARBITRUM_TESTNET,
 
       ChainID.AVALANCHE,
       ChainID.AVALANCHE_EVM,
@@ -68,6 +69,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.CHILIZ,
       ChainID.CHILIZ_TESTNET,
 
+      ChainID.CORE,
+
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
 
@@ -77,6 +80,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.GNOSIS,
       ChainID.GNOSIS_BEACON,
       ChainID.GNOSIS_TESTNET,
+      ChainID.GNOSIS_TESTNET_BEACON,
 
       ChainID.HARMONY,
 
@@ -108,17 +112,24 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
 
-      ChainID.ZETACHAIN_EVM_TESTNET,
+      ChainID.XDC,
+      ChainID.XDC_TESTNET,
+
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
       ChainID.ZKSYNC_ERA,
+      ChainID.ZKSYNC_ERA_TESTNET,
+
+      ChainID.LINEA,
+
+      ChainID.SCROLL,
     ],
   },
   {
-    id: ChainGroupID.SCROLL,
+    id: ChainGroupID.SCROLL_ALPHA,
     name: 'Scroll Alpha',
     pluralName: 'Scroll Alpha',
-    chains: [ChainID.SCROLL, ChainID.SCROLL_TESTNET],
+    chains: [ChainID.SCROLL_TESTNET],
   },
   {
     id: ChainGroupID.C_CHAIN,
@@ -169,6 +180,7 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.ETH_GOERLI,
       ChainID.ETH_GOERLI_BEACON,
+      ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
     ],
   },
@@ -181,6 +193,12 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ETH_SEPOLIA_BEACON,
       ChainID.SCROLL_SEPOLIA_TESTNET,
     ],
+  },
+  {
+    id: ChainGroupID.HOLESKY,
+    name: 'Holesky',
+    pluralName: 'Holesky',
+    chains: [ChainID.ETH_HOLESKY, ChainID.ETH_HOLESKY_BEACON],
   },
   {
     id: ChainGroupID.HORIZEN,
@@ -224,24 +242,24 @@ export const chainGroups: ChainGroup[] = [
     chains: [ChainID.NERVOS_CKB],
   },
   {
-    id: ChainGroupID.SECRET_RPC,
+    id: ChainGroupID.TENDERMINT_RPC,
     name: getName('tendermint-rpc'),
     pluralName: getName('tendermint-rpc', true),
     chains: tendermintRpcChains,
   },
   {
-    id: ChainGroupID.SECRET_REST,
+    id: ChainGroupID.TENDERMINT_REST,
     name: getName('tendermint-rest'),
     pluralName: getName('tendermint-rest', true),
     chains: tendermintRestChains,
   },
   {
-    id: ChainGroupID.SECRET_COSMOS_REST,
+    id: ChainGroupID.COSMOS_REST,
     name: getName('cosmos-rest'),
     pluralName: getName('cosmos-rest', true),
     chains: [
+      ChainID.SEI_COSMOS_REST,
       ChainID.SECRET_COSMOS_REST,
-      ChainID.ZETACHAIN_COSMOS_REST_TESTNET,
       ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
     ],
   },
@@ -274,5 +292,11 @@ export const chainGroups: ChainGroup[] = [
     name: getName('sui'),
     pluralName: getName('sui', true),
     chains: [ChainID.SUI, ChainID.SUI_TESTNET],
+  },
+  {
+    id: ChainGroupID.GRPC,
+    name: getName('grpc'),
+    pluralName: getName('grpc', true),
+    chains: [ChainID.SEI_COSMOS_GRPS_WEB],
   },
 ];

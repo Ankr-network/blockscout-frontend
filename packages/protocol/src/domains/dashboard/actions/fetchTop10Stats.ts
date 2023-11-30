@@ -1,16 +1,20 @@
 import {
+  IApiUserGroupParams,
   PrivateStatsInterval,
-  Top10StatsParams,
   Top10StatsResponse,
 } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
-type Top10StatsRequest = Omit<Top10StatsParams, 'intervalType'> & {
-  intervalType: PrivateStatsInterval;
-};
+import { Gateway } from '../types';
+
+type Top10StatsRequest = Gateway &
+  IApiUserGroupParams & {
+    blockchain?: string;
+    intervalType: PrivateStatsInterval;
+  };
 
 const emptyResponse: Top10StatsResponse = { countries: [], ips: [] };
 
@@ -20,21 +24,30 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchTop10Stats: build.query<Top10StatsResponse, Top10StatsRequest>({
-      queryFn: createNotifyingQueryFn(async params => {
-        const api = MultiService.getService().getAccountingGateway();
+      queryFn: createNotifyingQueryFn(
+        async ({
+          intervalType,
+          blockchain,
+          group,
+          gateway = getAccountingGateway(),
+        }) => {
+          /* backend does not support h1 and h24 interval for this endpoint */
+          if (
+            intervalType === PrivateStatsInterval.HOUR ||
+            intervalType === PrivateStatsInterval.DAY
+          ) {
+            return { data: emptyResponse };
+          }
 
-        /* backend does not support h1 and h24 interval for this endpoint */
-        if (
-          params.intervalType === PrivateStatsInterval.HOUR ||
-          params.intervalType === PrivateStatsInterval.DAY
-        ) {
-          return { data: emptyResponse };
-        }
+          const data = await gateway.getTop10Stats({
+            intervalType,
+            blockchain,
+            group,
+          });
 
-        const data = await api.getTop10Stats(params as Top10StatsParams);
-
-        return { data };
-      }),
+          return { data };
+        },
+      ),
     }),
   }),
   overrideExisting: true,

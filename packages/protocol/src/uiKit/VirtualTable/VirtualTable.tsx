@@ -27,12 +27,14 @@ function VirtualTableInternal<T extends Record<string, any>>(
     minWidth,
     moreBtnText,
     preloader,
+    onRowClick,
   } = props;
   const { classes, cx } = useStyles();
   const { cache, ref, rows } = useTable();
   const rowRenderer = useRowRenderer(
     tableClasses?.rowContainer,
     tableClasses?.row,
+    onRowClick,
   );
   const isEmpty = rows.length === 0;
 

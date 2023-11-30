@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const HEADER_HEIGHT_XS = 66;
-export const HEADER_HEIGHT_XL = 80;
+import { premiumTextStyles } from 'uiKit/Theme/themeUtils';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 interface IBaseNavButtonProps {
   isLightTheme: boolean;
@@ -9,40 +9,39 @@ interface IBaseNavButtonProps {
 }
 
 export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
+  // eslint-disable-next-line max-lines-per-function
   (theme, { isLightTheme, isMobileSiderBar }) => ({
     link: {
       width: '100%',
       height: 48,
       color: theme.palette.grey[600],
       justifyContent: 'flex-start',
-      padding: theme.spacing(2 * 1.5),
+      padding: theme.spacing(3),
       fontWeight: 400,
       cursor: 'pointer',
       position: 'relative',
       '&&': {
-        paddingLeft: theme.spacing(2 * 6),
+        paddingLeft: theme.spacing(12),
       },
       '&& span:nth-of-type(1)': {
         position: 'absolute',
         left: 0,
         display: 'flex',
-        marginRight: theme.spacing(2 * -0.5),
-        marginLeft: theme.spacing(2 * 1),
+        marginRight: theme.spacing(1),
+        marginLeft: theme.spacing(2),
       },
       '&& span:nth-of-type(2)': {
         position: 'absolute',
         left: 0,
         display: 'none',
       },
-
       '&& svg': {
         fontSize: 24,
         strokeWidth: 1.2,
         [theme.breakpoints.down('sm')]: {
-          marginRight: theme.spacing(2 * 1),
+          marginRight: theme.spacing(2),
         },
       },
-
       '&:hover': {
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.background.default,
@@ -58,11 +57,9 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
           display: 'flex',
         },
       },
-
       [theme.breakpoints.down('sm')]: {
         position: 'relative',
         color: theme.palette.text.secondary,
-
         '&:after': {
           content: '""',
           display: isMobileSiderBar ? 'none' : 'flex',
@@ -74,7 +71,6 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
           width: 'calc(90% - 45px)',
         },
       },
-
       [`&.Mui-disabled`]: {
         '&&': {
           backgroundColor: 'transparent',
@@ -97,7 +93,16 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
       },
     },
     soon: {
-      marginLeft: theme.spacing(1),
+      verticalAlign: 'text-bottom',
+      position: 'relative',
+      ...premiumTextStyles,
+    },
+    newLabelWrapper: {
+      marginLeft: theme.spacing(2),
+      backgroundColor: isReactSnap
+        ? 'transparent'
+        : theme.palette.background.default,
+      borderRadius: theme.spacing(2),
     },
     disabled: {
       '&&': {
@@ -121,6 +126,16 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
         },
         '&& span:nth-of-type(2)': {
           display: 'flex',
+        },
+      },
+      '& > div': {
+        backgroundColor: theme.palette.background.paper,
+      },
+    },
+    newLinkWrapper: {
+      '&:hover': {
+        '& > div': {
+          backgroundColor: theme.palette.background.paper,
         },
       },
     },

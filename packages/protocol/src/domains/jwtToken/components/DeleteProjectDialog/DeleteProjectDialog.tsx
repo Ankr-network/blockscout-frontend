@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { MouseEvent, useCallback, useMemo } from 'react';
 
 import { Dialog } from 'uiKit/Dialog';
 import {
@@ -9,12 +9,13 @@ import {
 import { useDeleteProjectDialogStyles } from './useDeleteProjectDialogStyles';
 import { DeleteProjectContent } from '../ProjectDialogContent/DeleteProjectContent';
 import { FailedContent } from '../ProjectDialogContent/FailedContent';
+import { useDeleteProjectNotification } from './useDeleteProjectNotification';
 
 interface IDeleteProjectDialogProps {
   tokenIndex: number;
   onSuccess?: () => void;
   open: boolean;
-  onClose: () => void;
+  onClose: (event?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const DeleteProjectDialog = ({
@@ -25,13 +26,22 @@ export const DeleteProjectDialog = ({
 }: IDeleteProjectDialogProps) => {
   const { classes } = useDeleteProjectDialogStyles();
 
-  const handleSuccess = useCallback(() => {
-    if (typeof onSuccess === 'function') {
-      onSuccess();
-    }
+  const { showDeleteProjectNotification } = useDeleteProjectNotification();
 
-    onClose();
-  }, [onSuccess, onClose]);
+  const handleSuccess = useCallback(
+    (is2FaError: boolean, event?: MouseEvent<HTMLButtonElement>) => {
+      if (typeof onSuccess === 'function') {
+        onSuccess();
+      }
+
+      if (!is2FaError) {
+        showDeleteProjectNotification();
+      }
+
+      onClose(event);
+    },
+    [onSuccess, onClose, showDeleteProjectNotification],
+  );
 
   const {
     isLoading,
@@ -41,15 +51,21 @@ export const DeleteProjectDialog = ({
     handleDelete,
   } = useDeleteProject(tokenIndex, handleSuccess);
 
-  const isFailedStep = deleteProjectStep === DeleteProjectStep.failed;
+  const isFailedStep = useMemo(
+    () => deleteProjectStep === DeleteProjectStep.failed,
+    [deleteProjectStep],
+  );
 
-  const handleClose = useCallback(() => {
-    if (isFailedStep) {
-      setDeleteProjectStep(DeleteProjectStep.initial);
-    }
+  const handleClose = useCallback(
+    (event?: MouseEvent<HTMLButtonElement>) => {
+      if (isFailedStep) {
+        setDeleteProjectStep(DeleteProjectStep.initial);
+      }
 
-    onClose();
-  }, [setDeleteProjectStep, onClose, isFailedStep]);
+      onClose(event);
+    },
+    [setDeleteProjectStep, onClose, isFailedStep],
+  );
 
   return (
     <Dialog

@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 import { useLazyInfrastructureApiAddPrivateEndpointQuery } from 'domains/infrastructure/actions/addPrivateEndpoint';
 import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';

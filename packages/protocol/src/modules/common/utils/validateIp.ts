@@ -5,7 +5,7 @@ import { isIpAddress } from './isIpAddress';
 
 export const validateIp = (value?: string) => {
   if (typeof value !== 'string') {
-    return t('validation.required');
+    return t('validation.ip-required');
   }
 
   if (!isIpAddress(value) && !ipRegex.v6({ exact: true }).test(value)) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainType } from 'modules/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 // TODO: we need to remove it to some chains common folder
 import { ChainTypeItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
@@ -26,8 +26,8 @@ export const useChainSelectVisibility = ({
   const withChainTypeSelector = chainTypes.length > 1;
   const withGroupSelector = groups.length > 1;
 
-  const isVisible =
-    withChainTypeSelector || withGroupSelector || Boolean(protocolGroup);
+  const isGroupSelectorVisible =
+    withGroupSelector || withChainTypeSelector || Boolean(protocolGroup);
 
   useEffect(() => {
     if (isTestnetOnlyChain && chainType === ChainType.Mainnet) {
@@ -35,5 +35,5 @@ export const useChainSelectVisibility = ({
     }
   }, [isTestnetOnlyChain, chainType, selectType]);
 
-  return isVisible;
+  return isGroupSelectorVisible;
 };

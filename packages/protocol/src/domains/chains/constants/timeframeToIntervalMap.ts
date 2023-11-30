@@ -1,6 +1,6 @@
 import { PrivateStatsInterval, PublicStatsInterval } from 'multirpc-sdk';
 
-import { Timeframe } from '../types';
+import { Timeframe } from 'modules/chains/types';
 
 const { Hour, Day, Week, Month } = Timeframe;
 

@@ -1,11 +1,9 @@
-import { t } from '@ankr.com/common';
-import { ReactNode, useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { ReactNode, useEffect } from 'react';
 import { useHistory } from 'react-router';
+import { INDEX_PATH } from 'routes/constants';
 
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { INDEX_PATH } from 'domains/chains/routes';
-import { useEnterprise } from 'domains/auth/hooks/useEnterprise';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 interface IGuardAuthEnterpriseRouteProps {
   children: ReactNode;
@@ -14,27 +12,16 @@ interface IGuardAuthEnterpriseRouteProps {
 export const GuardAuthEnterpriseRoute = ({
   children,
 }: IGuardAuthEnterpriseRouteProps): JSX.Element | null => {
-  const { isClient } = useEnterprise();
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
+    useEnterpriseClientStatus();
 
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  const showNotification = useCallback(() => {
-    dispatch(
-      NotificationActions.showNotification({
-        message: t('enterprise.forbidden'),
-        severity: 'error',
-      }),
-    );
-  }, [dispatch]);
 
   useEffect(() => {
-    if (!isClient) {
+    if (!isEnterpriseStatusLoading && !isEnterpriseClient && !isReactSnap) {
       history.replace(INDEX_PATH);
-
-      showNotification();
     }
-  }, [history, isClient, showNotification]);
+  }, [history, isEnterpriseClient, isEnterpriseStatusLoading]);
 
-  return isClient ? <>{children}</> : null;
+  return isEnterpriseClient || isReactSnap ? <>{children}</> : null;
 };

@@ -1,18 +1,13 @@
-import { EthAddressType } from 'multirpc-sdk';
+import { EthAddressType, OauthLoginProvider } from 'multirpc-sdk';
 import { push } from 'connected-react-router';
 
 import { GetState, RootState } from 'store';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
-import { userSettingsGetActiveEmailBinding } from 'domains/userSettings/actions/email/getActiveEmailBinding';
 import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import {
-  GOOGLE_PROVIDER,
-  OauthProviderType,
-  selectAuthData,
-} from 'domains/auth/store/authSlice';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
 import { loginUserJwt } from './loginUserJwt';
@@ -21,7 +16,7 @@ import {
   getTrackingParams,
   trackLoginSuccess,
 } from './loginByGoogleSecretCodeUtils';
-import { setGithubLoginName } from '../setGithubLoginName';
+import { setGithubLoginNameAndEmail } from '../setGithubLoginNameAndEmail';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -46,7 +41,7 @@ export const {
               authorizationToken,
               encryptionPublicKey,
               ethAddressType,
-              provider = GOOGLE_PROVIDER,
+              provider = OauthLoginProvider.Google,
             } = {},
           } = oauthLoginByGoogleSecretCode.select(undefined as any)(
             getState() as RootState,
@@ -54,7 +49,7 @@ export const {
 
           const authData = selectAuthData(getState() as RootState);
 
-          const oauthProviders: OauthProviderType[] = Array.isArray(
+          const oauthProviders: OauthLoginProvider[] = Array.isArray(
             authData?.oauthProviders,
           )
             ? [...authData.oauthProviders, provider]
@@ -106,16 +101,9 @@ export const {
       onQueryStarted: async (_arg, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(setGithubLoginName.initiate());
+        await dispatch(setGithubLoginNameAndEmail.initiate());
 
         dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
-
-        await dispatch(
-          userSettingsGetActiveEmailBinding.initiate({
-            params: undefined as void,
-            shouldNotify: false,
-          }),
-        );
       },
     }),
   }),

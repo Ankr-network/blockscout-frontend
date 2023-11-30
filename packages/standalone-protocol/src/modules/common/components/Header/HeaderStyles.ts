@@ -88,6 +88,12 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       },
     },
 
+    [`&.${ChainId.Core}`]: {
+      '& .chainId': {
+        color: theme.palette.primary.main,
+      },
+    },
+
     [`&.${ChainId.Harmony}`]: {
       background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.light} 100%)`,
       WebkitBackgroundClip: 'text',
@@ -103,6 +109,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     },
 
     [`&.${ChainId.BSC} span`]: {
+      color: theme.palette.primary.main,
+    },
+
+    [`&.${ChainId.Scroll} span span span`]: {
       color: theme.palette.primary.main,
     },
 
@@ -152,9 +162,23 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     [`&.${ChainId.Mantle} span span span`]: {
       color: theme.palette.primary.main,
     },
+
+    [`&.${ChainId.Flare} span span span`]: {
+      background:
+        'linear-gradient(117deg, #D1AEDA 0%, #DCA5BD 47.40%, #C2BDE6 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    },
+
+    [`&.${ChainId.Sei} span span span`]: {
+      color: theme.palette.primary.main,
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
+      color: theme.palette.text.primary,
+    },
+    [`&.${ChainId.Core} span`]: {
       color: theme.palette.text.primary,
     },
     [`&.${ChainId.Moonbeam} span`]: {
@@ -178,6 +202,14 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
 
     [`&.${ChainId.Mantle} span`]: {
       color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Flare} span`]: {
+      color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Sei} span`]: {
+      color: theme.palette.grey[800],
     },
 
     '& span': {

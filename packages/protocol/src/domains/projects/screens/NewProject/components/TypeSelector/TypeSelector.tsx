@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import {
   ProjectChainType,
@@ -14,17 +14,17 @@ import {
 } from 'domains/projects/types';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
-import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 import {
   ITypeSelectorProps,
   useAllChainsSelection,
 } from './hooks/useAllChainsSelection';
+import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 
 const mapEndpoints = (endpoints: EndpointGroup[]) => {
   // JSON-RPC and REST Tendermint subchains have the same path,
   // so should we ignore JSON-RPC endpoints and show REST
   const filteredEndpoints = endpoints.filter(
-    endpoint => endpoint.id !== ChainGroupID.SECRET_RPC,
+    endpoint => endpoint.id !== ChainGroupID.TENDERMINT_RPC,
   );
 
   return filteredEndpoints.map(endpoint => ({
@@ -61,11 +61,7 @@ export const TypeSelector = ({
           root: classes.formControlLabel,
         }}
         label={
-          <Typography
-            fontWeight={800}
-            variant="body2"
-            className={classes.label}
-          >
+          <Typography variant="body2" className={classes.label}>
             {t('projects.new-project.chain-modal.select-all-label')}
           </Typography>
         }

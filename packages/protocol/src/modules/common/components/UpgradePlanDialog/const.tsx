@@ -116,12 +116,29 @@ const registerPlans: Plan[] = [
 
 const premiumPlans = [freePlan, premiumPlan, enterprisePlan];
 
+const enterprisePlans: Plan[] = [
+  {
+    ...freePlan,
+    renderButton: () => null,
+  },
+  {
+    ...premiumPlan,
+    isHighlighted: false,
+    renderButton: ({ color, variant = 'contained', onClick }) => (
+      <Button color={color} variant={variant} onClick={onClick}>
+        {t(`${intlRoot}.${PlanID.Premium}.button`)}
+      </Button>
+    ),
+  },
+  {
+    ...enterprisePlan,
+    isHighlighted: true,
+  },
+];
+
 export const plansMap: Record<UpgradePlanDialogType, [Plan[], Plan[]]> = {
   [UpgradePlanDialogType.Default]: [defaultPlans, defaultPremiumPlans],
   [UpgradePlanDialogType.Register]: [registerPlans, registerPlans],
   [UpgradePlanDialogType.Premium]: [premiumPlans, premiumPlans],
-  [UpgradePlanDialogType.Enterprise]: [
-    defaultPremiumPlans,
-    defaultPremiumPlans,
-  ],
+  [UpgradePlanDialogType.Enterprise]: [enterprisePlans, defaultPremiumPlans],
 };

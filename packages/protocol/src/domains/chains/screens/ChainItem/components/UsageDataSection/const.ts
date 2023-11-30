@@ -1,19 +1,6 @@
-import { PrivateStatsInterval } from 'multirpc-sdk';
-
-import { ChainID, Timeframe } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 export const POLL_INTERVAL = 60_000;
-
-const { Hour, Day, Week, Month } = Timeframe;
-
-type Map = Record<Timeframe, PrivateStatsInterval>;
-
-export const timeframeToIntervalMap: Map = {
-  [Hour]: PrivateStatsInterval.HOUR,
-  [Day]: PrivateStatsInterval.DAY,
-  [Week]: PrivateStatsInterval.WEEK,
-  [Month]: PrivateStatsInterval.MONTH,
-};
 
 type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 
@@ -24,11 +11,11 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SECRET_COSMOS_GRPC_WEB]: ChainID.SECRET,
   [ChainID.SECRET_COSMOS_REST]: ChainID.SECRET,
 
-  [ChainID.ZETACHAIN_COSMOS_REST_TESTNET]: ChainID.ZETACHAIN_TESTNET,
-  [ChainID.ZETACHAIN_EVM_TESTNET]: ChainID.ZETACHAIN_TESTNET,
-  [ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET]: ChainID.ZETACHAIN_TESTNET,
-  [ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET]: ChainID.ZETACHAIN_TESTNET,
-  [ChainID.ZETACHAIN_TESTNET]: ChainID.ZETACHAIN_TESTNET,
+  [ChainID.SEI_COSMOS_GRPS_WEB]: ChainID.SEI,
+  [ChainID.SEI_COSMOS_REST]: ChainID.SEI,
+  [ChainID.SEI_REST]: ChainID.SEI,
+  [ChainID.SEI_RPC]: ChainID.SEI,
+
   [ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET]:
     ChainID.ZETACHAIN_ATHENS_TESTNET,
   [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: ChainID.ZETACHAIN_ATHENS_TESTNET,
@@ -55,14 +42,6 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SECRET_COSMOS_GRPC_WEB]: ChainID.SECRET_COSMOS,
   [ChainID.SECRET_COSMOS_REST]: ChainID.SECRET_COSMOS,
 
-  [ChainID.ZETACHAIN_COSMOS_REST_TESTNET]: 'zetachain_testnet' as ChainID,
-  [ChainID.ZETACHAIN_EVM_TESTNET]: 'zetachain_evm_testnet' as ChainID,
-  [ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET]:
-    'zetachain_tendermint_testnet' as ChainID,
-  [ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET]:
-    'zetachain_tendermint_testnet' as ChainID,
-  [ChainID.ZETACHAIN_TESTNET]: 'zetachain_testnet' as ChainID,
-
   [ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET]:
     'zetachain_athens_testnet' as ChainID,
   [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]:
@@ -80,7 +59,20 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]:
     'berachain_guarded_testnet_evm' as ChainID,
+
+  [ChainID.SEI_COSMOS_GRPS_WEB]: 'sei_grpc' as ChainID,
+  [ChainID.SEI_COSMOS_REST]: 'sei_cosmos' as ChainID,
+  [ChainID.SEI_REST]: ChainID.SEI,
+  [ChainID.SEI_RPC]: ChainID.SEI,
 };
 
-export const checkPrivateChainsAndGetChainId = (chainId: ChainID) =>
-  PRIVATE_CHAIN_ID_LINK_MAP[chainId] || chainId;
+export const checkPrivateChainsAndGetChainId = (
+  chainId: ChainID,
+  ignoredIds?: ChainID[],
+) => {
+  if (ignoredIds?.includes(chainId)) {
+    return chainId;
+  }
+
+  return PRIVATE_CHAIN_ID_LINK_MAP[chainId] || chainId;
+};

@@ -72,6 +72,17 @@ const CELO_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://explorer.celo.org'],
 };
 
+const CORE_NETWORK_PARAMS = {
+  chainId: 1116,
+  chainName: 'Core by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Core (Mainnet)',
+    symbol: 'CORE',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://rpc-core.icecreamswap.com'],
+};
+
 const ARBITRUM_NETWORK_PARAMS = {
   chainId: 42161,
   chainName: 'Arbitrum by Ankr Protocol',
@@ -206,6 +217,39 @@ const MANTLE_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://explorer.mantle.xyz'],
 };
 
+const FLARE_NETWORK_PARAMS = {
+  chainId: 14,
+  chainName: 'Flare C-chain by Ankr Protocol',
+  nativeCurrency: {
+    name: 'Flare',
+    symbol: 'FLR',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://flare-explorer.flare.network'],
+};
+
+const XDC_NETWORK_PARAMS = {
+  chainId: 50,
+  chainName: 'XDC Network by Ankr Protocol',
+  nativeCurrency: {
+    name: 'XDC',
+    symbol: 'XDC',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://xdcscan.io'],
+};
+
+const SCROLL_NETWORK_PARAMS = {
+  chainId: 534352,
+  chainName: 'Scroll Mainnet by Ankr Protocol',
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://blockscout.scroll.io'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -240,6 +284,8 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return undefined;
     case 'celo':
       return mapParams(chain, CELO_NETWORK_PARAMS);
+    case 'core':
+      return mapParams(chain, CORE_NETWORK_PARAMS);
     case 'arbitrum':
       return mapParams(chain, ARBITRUM_NETWORK_PARAMS);
     case 'near':
@@ -266,6 +312,15 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
       return mapParams(chain, HORIZEN_NETWORK_PARAMS);
     case 'mantle':
       return mapParams(chain, MANTLE_NETWORK_PARAMS);
+
+    case 'flare':
+      return mapParams(chain, FLARE_NETWORK_PARAMS);
+
+    case 'xdc':
+      return mapParams(chain, XDC_NETWORK_PARAMS);
+
+    case 'scroll':
+      return mapParams(chain, SCROLL_NETWORK_PARAMS);
 
     default:
       return undefined;

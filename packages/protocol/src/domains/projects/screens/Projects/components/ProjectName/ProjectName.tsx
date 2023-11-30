@@ -1,9 +1,6 @@
 import { Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
-import { useMemo } from 'react';
 
-import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
-import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { CopyEndpointToken } from 'modules/common/components/CopyEndpointToken/CopyEndpointToken';
 
 import { useProjectNameStyles } from './useProjectNameStyles';
 
@@ -18,11 +15,6 @@ export const ProjectName = ({
 }: ProjectNameProps) => {
   const { classes } = useProjectNameStyles();
 
-  const copyText = useMemo(
-    () => shrinkAddress(userEndpointToken),
-    [userEndpointToken],
-  );
-
   return (
     <div className={classes.root}>
       <div className={classes.row}>
@@ -30,14 +22,7 @@ export const ProjectName = ({
           {projectName}
         </Typography>
       </div>
-      <CopyToClipIcon
-        className={classes.endpoint}
-        text={userEndpointToken}
-        copyText={copyText}
-        message={t('common.copy-message')}
-        textClassName={classes.text}
-        messageClassName={classes.message}
-      />
+      <CopyEndpointToken userEndpointToken={userEndpointToken} />
     </div>
   );
 };

@@ -12,9 +12,9 @@ import {
 } from 'recharts';
 import { ScaleType } from 'recharts/types/util/types';
 import { useTheme } from '@mui/material';
+import { useYAxisWidth } from '@ankr.com/telemetry';
 
 import { useIsXLDown } from 'uiKit/Theme/useTheme';
-import { useYAxisWidth } from 'modules/common/components/Chart/hooks/useYAxisWidth';
 
 import { IRequestsData } from '../../utils/requestsBannerUtils';
 import { useActiveBarIndex } from './hooks/useActiveBarIndex';

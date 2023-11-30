@@ -6,22 +6,19 @@ import { NavLink } from 'uiKit/NavLink';
 import { Dialog } from 'uiKit/Dialog';
 import { useContactWidget } from 'hooks/useContactWidget';
 import { PROJECTS_DOCS_LINK } from 'domains/projects/const';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { ProjectsWellcomeImage } from 'domains/projects/components/ProjectsWelcomeImage';
 
 import { useWelcomeDialog } from './hooks/useWelcomeDialog';
 import { useWelcomeDialogStyles } from './useWelcomeDialogStyles';
-import welcome from './assets/welcome.png';
 
 const intl = 'projects.welcome-dialog';
 
-export const WelcomeDialog = ({
-  onCreateNewProject,
-}: {
-  onCreateNewProject: () => void;
-}) => {
+export const WelcomeDialog = () => {
   const { classes } = useWelcomeDialogStyles();
 
   const { isOpened, handleCreateNewProjectClick, handleSkipClick } =
-    useWelcomeDialog(onCreateNewProject);
+    useWelcomeDialog();
 
   const { openContactWidget } = useContactWidget();
 
@@ -32,7 +29,7 @@ export const WelcomeDialog = ({
       onClose={handleSkipClick}
       paperClassName={classes.dialog}
       closeButtonClassName={classes.close}
-      title={<img alt="welcome" className={classes.icon} src={welcome} />}
+      title={<ProjectsWellcomeImage className={classes.icon} />}
       titleClassName={classes.title}
       canCloseDialogByClickOutside={false}
     >
@@ -53,14 +50,15 @@ export const WelcomeDialog = ({
           <Dot size="small" />
           {t(`${intl}.support`)}
         </Button>
-        <Button
+        <NavLink
           className={classes.configButton}
           variant="contained"
           fullWidth
+          href={ProjectsRoutesConfig.newProject.generatePath()}
           onClick={handleCreateNewProjectClick}
         >
           {t(`${intl}.create-project-button`)}
-        </Button>
+        </NavLink>
         <Button variant="outlined" fullWidth onClick={handleSkipClick}>
           {t(`${intl}.skip-button`)}
         </Button>

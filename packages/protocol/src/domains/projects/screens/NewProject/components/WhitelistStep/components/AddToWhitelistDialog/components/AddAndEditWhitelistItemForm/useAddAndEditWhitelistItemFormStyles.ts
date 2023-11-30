@@ -53,10 +53,6 @@ export const useAddAndEditWhitelistItemFormStyles = makeStyles()(theme => ({
     color: theme.palette.text.secondary,
     marginBottom: theme.spacing(3),
   },
-  divider: {
-    height: 1,
-    marginBottom: theme.spacing(4),
-  },
   chainWrapper: {
     marginBottom: theme.spacing(3),
   },
@@ -64,5 +60,8 @@ export const useAddAndEditWhitelistItemFormStyles = makeStyles()(theme => ({
     color: isLightTheme(theme)
       ? theme.palette.text.primary
       : theme.palette.common.white,
+  },
+  counter: {
+    marginBottom: theme.spacing(8),
   },
 }));

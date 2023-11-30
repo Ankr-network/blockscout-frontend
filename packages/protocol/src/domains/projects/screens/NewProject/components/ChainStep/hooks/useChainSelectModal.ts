@@ -1,26 +1,37 @@
 import { useCallback, useState } from 'react';
+import { useForm } from 'react-final-form';
 
+import { Chain } from 'modules/chains/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { Chain } from 'domains/chains/types';
+
+import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 
 export const useChainSelectModal = () => {
   const { isOpened, onClose, onOpen } = useDialog();
   const [currentModalChain, setCurrentModalChain] = useState<
     Chain | undefined
   >();
+  const [valuesBeforeChange, setValuesBeforeChange] =
+    useState<NewProjectFormValues>();
+
+  const { getState } = useForm<NewProjectFormValues>();
+  const { values } = getState();
 
   const onOpenModal = useCallback(
     (chain: Chain) => {
+      setValuesBeforeChange(values);
+
       onOpen();
       setCurrentModalChain(chain);
     },
-    [onOpen, setCurrentModalChain],
+    [onOpen, setCurrentModalChain, values],
   );
 
   return {
+    currentModalChain,
     isOpened,
     onClose,
     onOpenModal,
-    currentModalChain,
+    valuesBeforeChange,
   };
 };

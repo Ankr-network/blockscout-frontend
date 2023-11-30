@@ -2,7 +2,7 @@ import {
   BSC_CHAIN_NAME,
   TRON_CHAIN_NAME,
 } from 'domains/auth/utils/mappingchainName';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import { NetworkInfo } from './types';
 
@@ -203,6 +203,18 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['http://spicy-explorer.chiliz.com/'],
   },
 
+  // https://chainlist.org/chain/1116?testnets=true
+  [ChainID.CORE]: {
+    chainId: 1116,
+    chainName: 'Core Blockchain Mainnet',
+    nativeCurrency: {
+      name: 'Core Blockchain Mainnet',
+      symbol: 'CORE',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://rpc-core.icecreamswap.com'],
+  },
+
   // * ChainID.ETH, ChainID.ETH_GOERLI, ChainID.ETH_RINKEBY, ChainID.ETH_ROPSTEN
   // * Can't be added as they are default Metamask chains
 
@@ -216,6 +228,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://sepolia.etherscan.io/'],
+  },
+
+  [ChainID.ETH_HOLESKY]: {
+    chainId: 17000,
+    chainName: 'Ethereum Holesky',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://ethereum-holesky.publicnode.com/'],
   },
 
   [ChainID.FANTOM]: {
@@ -506,6 +529,28 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://explorer.zksync.io/'],
   },
 
+  [ChainID.ZKSYNC_ERA_TESTNET]: {
+    chainId: 280,
+    chainName: 'zkSync Era Testnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://goerli.explorer.zksync.io/'],
+  },
+
+  [ChainID.LINEA]: {
+    chainId: 59144,
+    chainName: 'Linea Mainnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://lineascan.build'],
+  },
+
   [ChainID.MANTLE]: MANTLE,
 
   [ChainID.MANTLE_TESTNET]: MANTLE_TESTNET,
@@ -516,7 +561,6 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.ZETACHAIN]: ZETACHAIN,
 
-  [ChainID.ZETACHAIN_EVM_TESTNET]: ZETACHAIN,
   [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: ZETACHAIN,
 
   [ChainID.TRON]: TRON_CHAIN_JSON_RPC,
@@ -544,6 +588,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://goerli.basescan.org/'],
   },
 
+  [ChainID.SCROLL]: {
+    chainId: 534352,
+    chainName: 'Scroll Mainnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockscout.scroll.io'],
+  },
+
   [ChainID.SCROLL_TESTNET]: {
     chainId: 534353,
     chainName: 'Scroll Alpha Testnet',
@@ -552,7 +607,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       symbol: 'ETH',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://blockscout.scroll.io/'],
+    blockExplorerUrls: ['https://alpha-blockscout.scroll.io'],
   },
 
   [ChainID.SCROLL_SEPOLIA_TESTNET]: {
@@ -564,5 +619,27 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://sepolia-blockscout.scroll.io/'],
+  },
+
+  [ChainID.XDC]: {
+    chainId: 50,
+    chainName: 'XDC Network',
+    nativeCurrency: {
+      name: 'XDC',
+      symbol: 'XDC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://xdcscan.io'],
+  },
+
+  [ChainID.XDC_TESTNET]: {
+    chainId: 51,
+    chainName: 'XDC Testnet',
+    nativeCurrency: {
+      name: 'TXDC',
+      symbol: 'TXDC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.apothem.network/'],
   },
 };

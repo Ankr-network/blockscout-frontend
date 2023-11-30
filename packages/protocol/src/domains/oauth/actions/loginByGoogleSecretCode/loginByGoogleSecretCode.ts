@@ -103,6 +103,7 @@ export const {
 
           web3ReadService.getAccountingGateway().addToken(authorizationToken);
           service.getAccountingGateway().addToken(authorizationToken);
+          service.getEnterpriseGateway().addToken(authorizationToken);
 
           return {
             data: {

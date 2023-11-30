@@ -1,8 +1,18 @@
-import { usePrivateChainsInfo } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChainsInfo';
-import { Chain, ChainID } from 'domains/chains/types';
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import { useMemo } from 'react';
+
+import { Chain, ChainID } from 'modules/chains/types';
+import {
+  tendermintRpcChains,
+  chainGroups,
+} from 'modules/endpoints/constants/groups';
+import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/selectors';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 export type ProjectChain = Chain & {
+  mainnets?: Chain[];
   beaconsMainnet?: Chain[];
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
@@ -11,16 +21,19 @@ export type ProjectChain = Chain & {
 
 const mapProjectChains = (chain: Chain) => {
   const {
-    testnets: chainTestnets,
     beacons: beaconsMainnet,
+    id,
     opnodes: opnodesMainnet,
+    testnets: chainTestnets,
   } = chain;
+
+  const endpoints = getGroupedEndpoints({ chain, groups: chainGroups });
 
   const testnets = chainTestnets?.flatMap(testnet => {
     const { extensions: testnetExtensions = [] } = testnet;
 
     if (testnetExtensions.length > 0) {
-      return [testnet, ...testnetExtensions];
+      return [...testnetExtensions];
     }
 
     return testnet;
@@ -52,14 +65,23 @@ const mapProjectChains = (chain: Chain) => {
 
   const chainParams = {
     ...chain,
-    testnets,
+    mainnets: endpoints.mainnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    devnets: endpoints.devnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    testnets: endpoints.testnet
+      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
+      .map(x => x.chains[0]),
+    hasWSFeature: hasWsFeature(chain),
     beaconsMainnet,
     beaconsTestnet,
     opnodesMainnet,
     opnodesTestnet,
   };
 
-  if (chain.id === ChainID.SECRET || chain.id === ChainID.ZETACHAIN) {
+  if (id !== ChainID.SECRET && id !== ChainID.ZETACHAIN && id !== ChainID.SEI) {
     return {
       ...chainParams,
       // JSON-RPC and REST Tendermint subchains have the same path,
@@ -73,14 +95,20 @@ const mapProjectChains = (chain: Chain) => {
   return chainParams;
 };
 
+const { useParams } = ProjectsRoutesConfig.project;
+
 export const useProjectChains = () => {
-  const [chains = [], allChains, isLoading] = usePrivateChainsInfo();
+  const { projectId: userEndpointToken } = useParams();
 
-  const projectChains = chains.map(mapProjectChains);
+  const chains = useAppSelector(state =>
+    selectConfiguredBlockchainsForToken(state, userEndpointToken),
+  );
 
-  return {
-    projectChains,
-    allChains,
-    isLoading,
-  };
+  const projectChains = useMemo(
+    () =>
+      chains.map(mapProjectChains).sort((a, b) => a.name.localeCompare(b.name)),
+    [chains],
+  );
+
+  return { projectChains };
 };

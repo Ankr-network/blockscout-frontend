@@ -6,8 +6,10 @@ export enum ChainId {
   BSC = 'bsc',
   Celo = 'celo',
   Chiliz = 'chiliz',
+  Core = 'core',
   Ethereum = 'eth',
   Fantom = 'fantom',
+  Flare = 'flare',
   HORIZEN_EON = 'horizen_eon',
   Harmony = 'harmony',
   IoTeX = 'iotex',
@@ -20,13 +22,16 @@ export enum ChainId {
   Solana = 'solana',
   Moonbeam = 'moonbeam',
   Gnosis = 'gnosis',
+  Scroll = 'scroll',
   Syscoin = 'syscoin',
   Secret = 'scrt',
+  Sei = 'sei',
   Tenet = 'tenet_evm',
   ZksyncEra = 'zksync_era',
   Filecoin = 'filecoin',
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
+  XDC = 'xdc',
 }
 
 export const HORIZEN_NAME = 'Horizen EON';
@@ -38,6 +43,8 @@ export const POLYGON_NAME = 'Polygon PoS';
 export const TENET_NAME = 'Tenet';
 
 export const ZKSYNC_ERA_NAME = 'zkSync Era';
+
+export const XDC_NAME = 'XDC Network';
 
 const STANDALONE_CHAINS = [ChainId.BSC, ChainId.Polygon, ChainId.Fantom];
 

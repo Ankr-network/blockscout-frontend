@@ -5,7 +5,7 @@ import {
   BSC_CHAIN_NAME,
   mappingChainName,
 } from 'domains/auth/utils/mappingchainName';
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { isBeacon } from 'domains/chains/utils/isBeacon';
 
 const renderPrefix = (name: ChainID) => {
@@ -44,6 +44,20 @@ const renderSecretName = (chainId: ChainID) => {
   return name;
 };
 
+const renderSeiName = (chainId: ChainID) => {
+  const name = capitalize(chainId);
+
+  const namesMap: Partial<Record<ChainID, string>> = {
+    [ChainID.SEI]: 'Sei',
+    [ChainID.SEI_COSMOS_GRPS_WEB]: 'Sei Cosmos gRPC-web',
+    [ChainID.SEI_COSMOS_REST]: 'Sei Cosmos REST',
+    [ChainID.SEI_REST]: 'Sei Tendermint REST',
+    [ChainID.SEI_RPC]: 'Sei Tendermint JSON-RPC',
+  };
+
+  return namesMap[chainId] ?? name;
+};
+
 const renderETHName = (chainId: ChainID) => {
   let name = 'Ethereum';
 
@@ -55,6 +69,8 @@ const renderETHName = (chainId: ChainID) => {
     name = 'Ropsten Testnet';
   } else if (chainId === ChainID.ETH_SEPOLIA) {
     name = 'Sepolia Testnet';
+  } else if (chainId === ChainID.ETH_HOLESKY) {
+    name = 'Holesky Testnet';
   }
 
   return name;
@@ -96,15 +112,7 @@ const getTestnetChainName = (chainId: string) => {
 const renderZetaChainName = (chainId: ChainID) => {
   let name = 'ZetaChain Testnet';
 
-  if (chainId === ChainID.ZETACHAIN_COSMOS_REST_TESTNET) {
-    name = 'ZetaChain Athens-2 Cosmos REST Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_TESTNET) {
-    name = 'ZetaChain Athens-2 Tendermint REST Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_RPC_TESTNET) {
-    name = 'ZetaChain Athens-2 Tendermint JSON-RPC Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_EVM_TESTNET) {
-    name = 'ZetaChain Athens-2 EVM RPC Testnet';
-  } else if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
+  if (chainId === ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET) {
     name = 'ZetaChain Athens-3 Cosmos REST Testnet';
   } else if (chainId === ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET) {
     name = 'ZetaChain Athens-3 Tendermint REST Testnet';
@@ -164,6 +172,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = renderNervosName(chainId);
   } else if (chainId.includes(ChainID.SECRET)) {
     name = renderSecretName(chainId);
+  } else if (chainId.includes(ChainID.SEI)) {
+    name = renderSeiName(chainId);
   } else if (chainId.includes(ChainID.ETH)) {
     name = renderETHName(chainId);
   } else if (chainId.includes(ChainID.HORIZEN_TESTNET)) {
@@ -174,7 +184,7 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Tenet EVM';
   } else if (chainId.includes(ChainID.SCROLL_SEPOLIA_TESTNET)) {
     name = 'Scroll Sepolia Testnet';
-  } else if (chainId.includes(ChainID.SCROLL)) {
+  } else if (chainId.includes(ChainID.SCROLL_TESTNET)) {
     name = 'Scroll Testnet';
   } else if (ADVANCED_API_PATH.includes(chainId)) {
     name = 'Advanced API';
@@ -186,9 +196,9 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'TRON JSON-RPC';
   } else if (chainId === ChainID.BASE) {
     name = 'Base';
-  } else if (chainId === ChainID.BTTC) {
-    name = 'BitTorrent Chain Mainnet';
-  } else if (chainId.includes(ChainID.BERACHAIN)) {
+  } else if (chainId === ChainID.XDC) {
+    name = 'XDC Network';
+  } else if (chainId.includes(ChainID.BERACHAIN_GUARDED_TESTNET)) {
     name = 'Berachain Guarded Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));

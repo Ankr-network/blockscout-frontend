@@ -27,4 +27,14 @@ export const useProjectHeaderStyles = makeStyles()(theme => ({
       },
     },
   },
+  linkOnBoarding: {
+    '&:before': {
+      content: '""',
+      width: 4,
+      height: 4,
+      borderRadius: '50%',
+      backgroundColor: theme.palette.grey[500],
+      marginRight: theme.spacing(2),
+    },
+  },
 }));

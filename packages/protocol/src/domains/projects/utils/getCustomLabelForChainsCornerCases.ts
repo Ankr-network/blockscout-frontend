@@ -1,10 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import {
-  ChainID,
-  ZETACHAIN_ATHENS2_CHAINS,
-  ZETACHAIN_ATHENS3_CHAINS,
-} from 'domains/chains/types';
+import { ChainID, ZETACHAIN_ATHENS3_CHAINS } from 'modules/chains/types';
 import { tendermintRestChains } from 'modules/endpoints/constants/groups';
 import { renderNervosName } from 'uiKit/utils/metatags';
 
@@ -12,18 +8,12 @@ import { NestedItemBase } from '../screens/NewProject/components/TypeSelector/ho
 
 const PART_TO_DELETE_FROM_STRING = '(testnet)';
 
+const TENDERMINT_REST = `Tendermint REST`;
+
 export const getCustomLabelForChainsCornerCases = ({
   chainId,
   label,
 }: NestedItemBase) => {
-  if (ZETACHAIN_ATHENS2_CHAINS.includes(chainId)) {
-    if (tendermintRestChains.includes(chainId)) {
-      return `Athens 2 Zetachain Tendermint`;
-    }
-
-    return `Athens 2 ${label.replace(PART_TO_DELETE_FROM_STRING, '')}`;
-  }
-
   if (ZETACHAIN_ATHENS3_CHAINS.includes(chainId)) {
     if (tendermintRestChains.includes(chainId)) {
       return `Athens 3 Zetachain Tendermint`;
@@ -33,7 +23,15 @@ export const getCustomLabelForChainsCornerCases = ({
   }
 
   if (tendermintRestChains.includes(chainId)) {
-    return `Tendermint`;
+    if (label === TENDERMINT_REST) {
+      return 'Tendermint';
+    }
+
+    if (chainId === ChainID.SEI_REST) {
+      return 'Sei Tendermint';
+    }
+
+    return 'Secret Network Tendermint';
   }
 
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {
@@ -41,9 +39,13 @@ export const getCustomLabelForChainsCornerCases = ({
   }
 
   if (chainId === ChainID.ROLLUX_OPNODE) {
-    return t('projects.new-project.step-1.mainnet-postfix', {
+    return t('projects.new-project.step-2.mainnet-postfix', {
       label,
     });
+  }
+
+  if (chainId === ChainID.SUI_TESTNET) {
+    return 'Sui testnet';
   }
 
   return label;

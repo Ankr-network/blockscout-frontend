@@ -6,13 +6,13 @@
 Use path `/chain/:chainId`
 
 ## How to add new chain
-- Add chainid to ChainId enum
+- Add chainid to ChainId enum in `packages/standalone-protocol/src/domains/chains/api/chain.ts`
 - Go to development mode by this url `/chain/:chainId`
-- Add new theme to packages/standalone-protocol/src/modules/common/utils/getTheme.ts
+- Add new theme to `packages/standalone-protocol/src/modules/common/utils/getTheme.ts`
 - Add chain to CrossMenu
 - Check metatags in useMetatags
-- For EVM compatible chains add config to packages/standalone-protocol/src/modules/auth/components/AddNetwork/AddNetworkUtils.ts
-- Add const to .github/workflows/standalone-protocol.yml to `NAMES` variable
+- For EVM compatible chains add config to `packages/standalone-protocol/src/modules/auth/components/AddNetwork/AddNetworkUtils.ts`
+- Add const to `.github/workflows/standalone-protocol.yml` to `NAMES` variable
 - If it's a chain with relative path (like polygon/zkevm) update build-chains.sh
 
 

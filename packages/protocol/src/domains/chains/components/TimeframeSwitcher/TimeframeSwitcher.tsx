@@ -1,5 +1,5 @@
 import { Switcher } from 'modules/common/components/Switcher';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { getValue } from './const';
 

@@ -1,4 +1,4 @@
-import { Chain, SortType } from 'domains/chains/types';
+import { Chain, SortType } from 'modules/chains/types';
 import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 
 import { SortPrivateChainsParams } from '../PrivateChainsTypes';

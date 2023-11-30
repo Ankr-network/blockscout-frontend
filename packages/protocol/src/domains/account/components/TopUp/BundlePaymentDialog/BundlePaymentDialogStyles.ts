@@ -33,6 +33,7 @@ export const useBundlePaymentDialogStyles = makeStyles()(theme => ({
   unlockIcon: {
     width: 240,
     height: 240,
+    margin: 'auto',
   },
   content: {
     padding: theme.spacing(0, 10, 10),

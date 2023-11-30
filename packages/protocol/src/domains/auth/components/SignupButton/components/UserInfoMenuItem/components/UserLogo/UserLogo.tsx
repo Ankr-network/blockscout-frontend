@@ -1,14 +1,13 @@
 import { Box } from '@mui/material';
 import { ReactNode } from 'react';
-
-import { OauthProviderType } from 'domains/auth/store/authSlice';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 import { useUserLogoStyles } from './useUserLogoStyles';
 import { OauthIcon } from '../../../OauthIcon';
 
 interface UserLogoProps {
   children: ReactNode;
-  providers?: OauthProviderType[];
+  providers?: OauthLoginProvider[];
 }
 
 const INITIAL_GAP = -2;

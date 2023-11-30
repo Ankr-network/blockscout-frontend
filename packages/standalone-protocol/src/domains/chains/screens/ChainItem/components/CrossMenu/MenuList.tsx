@@ -38,13 +38,24 @@ import {
   POLYGON_ZKEVM_CHAIN_NAME,
   TENET_NAME,
   ZKSYNC_ERA_NAME,
+  XDC_NAME,
 } from 'domains/chains/api/chain';
 import { ReactComponent as RolluxLogo } from 'assets/img/logo/rollux.svg';
 import { ReactComponent as RolluxMobileLogo } from 'assets/img/logo/rolluxMobile.svg';
 import { ReactComponent as MantleLogo } from 'assets/img/logo/mantle.svg';
+import { ReactComponent as FlareLogo } from 'assets/img/logo/flare.svg';
+import { ReactComponent as SeiLogo } from 'assets/img/logo/sei.svg';
+import { ReactComponent as SeiMobileLogo } from 'assets/img/logo/seiMobile.svg';
+import { ReactComponent as XDCLogo } from 'assets/img/logo/XDC.svg';
+import { ReactComponent as XDCLightLogo } from 'assets/img/logo/XDCLight.svg';
+import { ReactComponent as CoreLogo } from 'assets/img/logo/core.svg';
+import scrollLogoSrc from 'assets/img/logo/scroll.png';
 
-/* eslint-disable max-lines-per-function */
-export const getMenuList = (isMobileSiderBar: boolean) => [
+// eslint-disable-next-line max-lines-per-function
+export const getMenuList = (
+  isMobileSiderBar: boolean,
+  isLightTheme: boolean,
+) => [
   {
     chainId: ChainId.Ethereum,
     name: 'Ethereum',
@@ -74,6 +85,18 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: POLYGON_ZKEVM_CHAIN_NAME,
     logo: isMobileSiderBar ? <PolygonZkemvMobileLogo /> : <PolygonZkemvLogo />,
     url: 'https://polygon-rpc.com/zkevm/',
+  },
+  {
+    chainId: ChainId.Scroll,
+    name: 'Scroll',
+    logo: <img src={scrollLogoSrc} alt="scroll" height="24px" width="24px" />,
+    url: 'https://scroll.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.XDC,
+    name: XDC_NAME,
+    logo: isLightTheme ? <XDCLogo /> : <XDCLightLogo />,
+    url: 'https://xdc.public-rpc.com/',
   },
   {
     chainId: ChainId.Nervos,
@@ -136,6 +159,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://mantle.public-rpc.com/',
   },
   {
+    chainId: ChainId.Flare,
+    name: 'Flare',
+    logo: <FlareLogo />,
+    url: 'https://flare.public-rpc.com/',
+  },
+  {
     chainId: ChainId.Chiliz,
     name: 'Chiliz',
     logo: <ChilizLogo />,
@@ -172,6 +201,12 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     url: 'https://syscoin.public-rpc.com/',
   },
   {
+    chainId: ChainId.Sei,
+    name: 'Sei',
+    logo: isMobileSiderBar ? <SeiMobileLogo /> : <SeiLogo />,
+    url: 'https://sei.public-rpc.com/',
+  },
+  {
     chainId: ChainId.Secret,
     name: 'Secret',
     logo: <SecretLogo />,
@@ -188,5 +223,11 @@ export const getMenuList = (isMobileSiderBar: boolean) => [
     name: 'Klaytn',
     logo: isMobileSiderBar ? <KlaytnMobileLogo /> : <KlaytnLogo />,
     url: 'https://klaytn.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Core,
+    name: 'Core',
+    logo: <CoreLogo />,
+    url: 'https://core.public-rpc.com/',
   },
 ];

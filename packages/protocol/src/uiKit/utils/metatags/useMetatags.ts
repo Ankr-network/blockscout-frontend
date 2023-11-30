@@ -1,12 +1,12 @@
 import { Theme } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
+import { INDEX_PATH } from 'routes/constants';
 
-import { INDEX_PATH } from 'domains/chains/routes';
 import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import { getChainName } from './useMetatagsUtils';
 import packageJson from '../../../../package.json';

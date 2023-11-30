@@ -6,7 +6,7 @@ import { BlockchainIcon } from 'domains/projects/screens/Projects/components/Blo
 
 import { useTableStyles } from './useTableStyles';
 import { whitelistTypeLabelMap } from '../AddToWhitelistDialog/components/AddAndEditWhitelistItemForm/AddToWhitelistFormUtils';
-import { ActionsMenu } from './components/ActionsMenu/ActionsMenu';
+import { ActionsMenu } from './components/ActionsMenu';
 
 export interface TableColumn<T> {
   field: string;
@@ -55,7 +55,7 @@ export const useColumns = ({ onWhitelistDialogOpen }: TableColumnsProps) => {
       },
       {
         field: 'chains',
-        headerName: 'Chain allowance',
+        headerName: 'Chain',
         render: ({ chains }) => <BlockchainIcon blockchains={chains} />,
         align: 'left',
         width: '25%',

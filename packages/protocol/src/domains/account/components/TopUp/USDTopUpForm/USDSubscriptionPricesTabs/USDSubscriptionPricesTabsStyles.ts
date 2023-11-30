@@ -12,18 +12,16 @@ export const useUSDSubscriptionPricesTabsStyles = makeStyles<boolean>()(
       border: hasTabs ? `2px solid ${theme.palette.background.default}` : '',
       marginBottom: hasTabs ? theme.spacing(3) : '0',
 
-      '& > div': {
+      '& div': {
         width: '100%',
+      },
 
-        '& > div': {
-          width: '100%',
-        },
-
+      '& > div': {
         '& button': {
           padding: theme.spacing(1.5),
 
           [`@media (max-width:${ACCOUNT_MAX_WIDTH}px)`]: {
-            padding: theme.spacing(1.5, 0),
+            padding: theme.spacing(1.5),
             marginRight: 0,
           },
         },

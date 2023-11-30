@@ -7,6 +7,9 @@ export const useBlockchainIconStyles = makeStyles()(theme => ({
     alignItems: 'center',
     paddingLeft: theme.spacing(3.5),
   },
+  noPaddingLeft: {
+    paddingLeft: 0,
+  },
   icon: {
     width: theme.spacing(8),
     height: theme.spacing(8),

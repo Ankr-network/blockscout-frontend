@@ -1,79 +1,94 @@
-import { ChainSubType, ChainType } from 'domains/chains/types';
+import { ReactNode } from 'react';
+
+import { ChainSubType, ChainType } from 'modules/chains/types';
+import { GroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/GroupSelector';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { SecondaryTabs } from 'modules/common/components/SecondaryTabs';
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
-import { MobileGroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MobileGroupSelector';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 interface IChainSelectorContentProps {
-  protocolGroup?: EndpointGroup;
-  chainTypeTab?: Tab<ChainType>;
-  chainTypeTabs: Tab<ChainType>[];
+  additionalSelector?: ReactNode;
   chainSubTypeTab?: Tab<ChainSubType>;
   chainSubTypeTabs: Tab<ChainSubType>[];
-  groups: EndpointGroup[];
+  chainTypeTab?: Tab<ChainType>;
+  chainTypeTabs: Tab<ChainType>[];
   groupID: ChainGroupID;
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
-  selectGroup: (id: ChainGroupID) => void;
+  groups: EndpointGroup[];
   hasGroupSelector?: boolean;
-  hasChainTypeSelector?: boolean;
+  isProtocolSwitcherHidden?: boolean;
+  selectGroup: (id: ChainGroupID) => void;
+  isGroupSelectorAutoWidth?: boolean;
 }
 
+const MIN_GROUP_ITEMS = 2;
+const MIN_SUBTYPE_ITEMS = 2;
+
 export const ChainSelectorContent = ({
-  protocolGroup,
+  additionalSelector,
+  chainSubTypeTab,
+  chainSubTypeTabs,
   chainTypeTab,
   chainTypeTabs,
-  chainSubTypeTabs,
-  chainSubTypeTab,
-  groups,
   groupID,
   groupTab,
   groupTabs,
-  selectGroup,
+  groups,
   hasGroupSelector,
-  hasChainTypeSelector,
+  isProtocolSwitcherHidden,
+  selectGroup,
+  isGroupSelectorAutoWidth = false,
 }: IChainSelectorContentProps) => {
+  const isMobile = useIsSMDown();
+
   const { classes } = useChainSelectorContentStyles();
 
-  const withChainTypeSelector =
-    chainTypeTabs.length > 1 || hasChainTypeSelector;
-  const withChainSubTypeSelector = chainSubTypeTabs?.length > 1;
-  const withGroupSelector = groupTabs.length > 1 || hasGroupSelector;
+  const hasEnoughGroups = groupTabs.length >= MIN_GROUP_ITEMS;
+  const hasEnoughSubTypes =
+    chainSubTypeTabs.length >= MIN_SUBTYPE_ITEMS ||
+    chainSubTypeTab?.id === ChainSubType.Athens3;
 
-  const isVisible =
-    withChainTypeSelector || withGroupSelector || Boolean(protocolGroup);
-
-  if (!isVisible) return null;
+  const withGroupSelector = hasEnoughSubTypes;
+  const withMobileGroupSelector = isMobile && hasEnoughGroups;
+  const withGroupTabs =
+    (!withGroupSelector && hasEnoughGroups) || hasGroupSelector;
 
   return (
     <div className={classes.controls}>
       <SecondaryTabs
+        className={classes.chainTypeTabs}
         selectedTab={chainTypeTab}
         tabs={chainTypeTabs}
-        visible={withChainTypeSelector}
+        visible
       />
       <SecondaryTabs
+        className={classes.chainTypeTabs}
         selectedTab={chainSubTypeTab}
         tabs={chainSubTypeTabs}
-        visible={withChainSubTypeSelector}
+        visible={hasEnoughSubTypes}
       />
       <SecondaryTabs
-        className={classes.desktopGroupSelector}
+        className={classes.groupTabs}
         selectedTab={groupTab}
         tabs={groupTabs}
-        visible={withGroupSelector}
+        visible={withGroupTabs}
       />
-      <MobileGroupSelector
-        rootClassName={classes.rootMobileGroupSelector}
+      <GroupSelector
+        fullWidth={!isGroupSelectorAutoWidth}
         groupID={groupID}
         groups={groups}
         onGroupSelect={selectGroup}
-        visible={withGroupSelector}
-        fullWidth
+        rootClassName={classes.groupSelector}
+        visible={
+          (withGroupSelector || withMobileGroupSelector) && groups.length > 0
+        }
       />
-      <ChainProtocolSwitch />
+      {!isProtocolSwitcherHidden && <ChainProtocolSwitch />}
+      {additionalSelector}
     </div>
   );
 };

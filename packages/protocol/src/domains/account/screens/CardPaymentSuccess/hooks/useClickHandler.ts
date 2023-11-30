@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 
-import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
-const path = ChainsRoutesConfig.chains.generatePath();
+const path = ProjectsRoutesConfig.projects.generatePath();
 
 export const useClickHandler = () => {
   const history = useHistory();

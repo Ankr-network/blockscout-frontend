@@ -1,13 +1,15 @@
-import { FormControlLabel, Checkbox, Box } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { ArrowDown } from '@ankr.com/ui';
 
 import { ProjectChainType } from 'domains/projects/types';
-import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
 
 import {
   NestedItemBase,
   useNestedChainItemsSelection,
 } from './hooks/useNestedChainItemsSelection';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
+import { ParentFormCheckbox } from './ParentFormCheckbox';
+import { ChildrenFormCheckboxes } from './ChildrenFormCheckboxes';
 
 interface IndeterminateCheckboxProps {
   parentLabel: string;
@@ -34,44 +36,35 @@ const IndeterminateCheckbox = ({
 
   return (
     <div className={classes.checkboxGroupRoot}>
-      {/* Parent */}
-      <FormControlLabel
-        classes={{
-          root: classes.formControlLabel,
-          label: classes.label,
-        }}
-        label={parentLabel}
-        control={
-          <Checkbox
-            indeterminate={isParentIndeterminate}
-            checked={isParentChecked}
-            onChange={onSelectParent}
-          />
-        }
-      />
-
-      {/* Children */}
-      {isVisibleNestedItemsList && (
-        <Box className={classes.childrenWrapper}>
-          {nestedItems.map(item => (
-            <FormControlLabel
-              classes={{
-                root: classes.formControlLabel,
-                label: classes.label,
-              }}
-              key={item.chainId}
-              label={getCustomLabelForChainsCornerCases(item)}
-              control={
-                <Checkbox
-                  checked={checkedItems.includes(item.chainId)}
-                  onChange={event =>
-                    handleChangeItem(event.target.checked, item.chainId)
-                  }
-                />
-              }
+      {isVisibleNestedItemsList ? (
+        <Accordion className={classes.accordion}>
+          <AccordionSummary
+            className={classes.accordionSummary}
+            expandIcon={<ArrowDown />}
+          >
+            <ParentFormCheckbox
+              parentLabel={parentLabel}
+              isParentIndeterminate={isParentIndeterminate}
+              isParentChecked={isParentChecked}
+              onSelectParent={onSelectParent}
             />
-          ))}
-        </Box>
+          </AccordionSummary>
+
+          <AccordionDetails>
+            <ChildrenFormCheckboxes
+              nestedItems={nestedItems}
+              checkedItems={checkedItems}
+              handleChangeItem={handleChangeItem}
+            />
+          </AccordionDetails>
+        </Accordion>
+      ) : (
+        <ParentFormCheckbox
+          parentLabel={parentLabel}
+          isParentIndeterminate={isParentIndeterminate}
+          isParentChecked={isParentChecked}
+          onSelectParent={onSelectParent}
+        />
       )}
     </div>
   );

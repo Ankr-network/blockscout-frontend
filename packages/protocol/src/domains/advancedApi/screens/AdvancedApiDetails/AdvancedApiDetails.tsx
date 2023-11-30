@@ -6,9 +6,10 @@ import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PrivateChainItemQuery } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery';
 import { PublicChainItemQuery } from 'domains/chains/screens/ChainItem/PublicChainItemQuery';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
-import { CONTENT_WIDTH } from 'modules/layout/components/DefautLayout';
+import { CONTAINER_STYLES } from 'modules/layout/components/DefautLayout';
+import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 
 export const AdvancedApiDetails = () => {
   const { hasPrivateAccess, loading } = useAuth();
@@ -19,10 +20,10 @@ export const AdvancedApiDetails = () => {
     },
   ]);
 
+  useRedirectToEnterpriseOnGroupChange();
+
   return (
-    <Box
-      sx={{ maxWidth: CONTENT_WIDTH, marginLeft: 'auto', marginRight: 'auto' }}
-    >
+    <Box sx={CONTAINER_STYLES}>
       {/* Banner with "upgrade plan" should be hidden for enterprise */}
       <UpgradePlanBanner isAdvancedApi />
 

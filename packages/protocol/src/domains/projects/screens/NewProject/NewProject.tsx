@@ -11,6 +11,10 @@ import { GuardNewProject } from './components/GuardNewProject';
 export const NewProjectPage = () => {
   useSetBreadcrumbs([
     {
+      title: t(ProjectsRoutesConfig.projects.breadcrumbs),
+      link: ProjectsRoutesConfig.projects.generatePath(),
+    },
+    {
       title: t(ProjectsRoutesConfig.newProject.breadcrumbs),
     },
   ]);

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { PrivateStatTopRequestsData } from 'multirpc-sdk';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { NUMBER_OF_SHOW_X_TICK } from '../StakeBarChartUtils';
 

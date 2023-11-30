@@ -12,6 +12,9 @@ import {
   PRIMARY_TOKEN_INDEX,
 } from 'domains/jwtToken/utils/utils';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { SelectOption } from '../ProjectSelect';
 
@@ -48,10 +51,24 @@ export const useProjectSelectOptions = (
     fetchAllJwtTokenRequests,
   );
 
-  const options = useMemo(
-    () => getSelectItems(jwtTokens, shouldDisablePrimaryProject),
-    [jwtTokens, shouldDisablePrimaryProject],
+  const { apiKeys: enterpriseJwtTokens } = useAppSelector(
+    selectEnterpriseApiKeysAsJwtManagerTokens,
   );
+
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
+  const options = useMemo(() => {
+    if (isEnterpriseClient) {
+      return getSelectItems(enterpriseJwtTokens, shouldDisablePrimaryProject);
+    }
+
+    return getSelectItems(jwtTokens, shouldDisablePrimaryProject);
+  }, [
+    isEnterpriseClient,
+    jwtTokens,
+    shouldDisablePrimaryProject,
+    enterpriseJwtTokens,
+  ]);
 
   return options;
 };

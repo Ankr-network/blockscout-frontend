@@ -11,8 +11,8 @@ interface Params {
 export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
   (theme: Theme, { size, isDisabled }: Params, classes) => ({
     text: {
-      marginRight: theme.spacing(2 * 0.5),
-      fontSize: size === 'm' ? 12 : 14,
+      marginRight: theme.spacing(1),
+      fontSize: size === 'm' ? 12 : 16,
       transition: 'color .3s',
     },
     container: {
@@ -36,8 +36,8 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       width: '100%',
       padding:
         size === 'm'
-          ? theme.spacing(2 * 1, 2 * 1.125, 2 * 1.125)
-          : theme.spacing(2 * 1.25, 2 * 1.125),
+          ? theme.spacing(2, 2.25, 2 * 2.25)
+          : theme.spacing(2.25, 2.25),
 
       cursor: 'default',
     },
@@ -48,9 +48,7 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       alignItems: 'center',
       width: '100%',
       padding:
-        size === 'm'
-          ? theme.spacing(2 * 0.75, 2 * 1.125)
-          : theme.spacing(2 * 1, 2 * 1.6875),
+        size === 'm' ? theme.spacing(1.5, 2.25) : theme.spacing(2, 3.375),
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       background: theme.palette.background.default,
       minHeight: 36,
@@ -71,8 +69,8 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
 
     copyIcon: {
       fontSize: 24,
-      marginLeft: theme.spacing(2 * 1),
-      color: theme.palette.primary.main,
+      marginLeft: theme.spacing(2),
+      color: theme.palette.text.secondary,
       transition: 'color .3s',
     },
     copy: {
@@ -80,13 +78,15 @@ export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
       alignItems: 'center',
     },
     copyText: {
-      fontSize: 16,
       color: theme.palette.primary.main,
-      marginLeft: theme.spacing(2 * 1),
+      marginLeft: theme.spacing(2),
       fontWeight: 'bold',
       transition: 'color .3s',
       lineHeight: 1,
       overflow: 'initial',
+      '&&': {
+        fontSize: 14,
+      },
     },
   }),
 );

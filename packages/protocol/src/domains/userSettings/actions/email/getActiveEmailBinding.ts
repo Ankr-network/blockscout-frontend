@@ -5,7 +5,6 @@ import {
   createConditionallyNotifyingQueryFn,
 } from 'store/utils/createConditionallyNotifyingQueryFn';
 import { MultiService } from 'modules/api/MultiService';
-import { setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
 
 export const {
@@ -17,19 +16,15 @@ export const {
       IGetActiveEmailBindingResponse,
       ConditionallyNotifyingQueryFnParams<void> | void
     >({
-      queryFn: createConditionallyNotifyingQueryFn(
-        async (_args, { dispatch }) => {
-          const service = MultiService.getService();
+      queryFn: createConditionallyNotifyingQueryFn(async () => {
+        const service = MultiService.getService();
 
-          const data = await service
-            .getAccountingGateway()
-            .getActiveEmailBinding();
+        const data = await service
+          .getAccountingGateway()
+          .getActiveEmailBinding();
 
-          dispatch(setAuthData({ email: data?.email }));
-
-          return { data };
-        },
-      ),
+        return { data };
+      }),
     }),
   }),
 });

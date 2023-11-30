@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
+import { Typography } from '@mui/material';
+import { t, tHTML } from '@ankr.com/common';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { Chain, ChainID, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { MetamaskButtonLabel } from 'domains/chains/components/MetamaskButtonLabel';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
+import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
+import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 
 import { ChainDocsLink } from '../ChainDocsLink';
 import { ChainLogo } from '../ChainLogo';
-import { ChainSubtitle } from '../ChainSubtitle';
-import { ChainTitle } from '../ChainTitle';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
 
 export interface ChainOverviewProps {
@@ -19,6 +20,8 @@ export interface ChainOverviewProps {
   chainSubType?: ChainSubType;
   group: EndpointGroup;
   isChainArchived: boolean;
+  isEnterprise: boolean;
+  isMetamaskButtonHidden?: boolean;
 }
 
 export const ChainOverview = ({
@@ -27,6 +30,8 @@ export const ChainOverview = ({
   chainSubType,
   group,
   isChainArchived,
+  isEnterprise,
+  isMetamaskButtonHidden,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
@@ -36,26 +41,51 @@ export const ChainOverview = ({
     [chain, group],
   );
 
+  const { name, coinName, id } = chain;
+
+  const hasMetamaskButton =
+    chain &&
+    !isChainProtocolSwitchEnabled &&
+    !isTronRestApi &&
+    !isMetamaskButtonHidden;
+
   return (
     <div>
       <div className={classes.chainOverview}>
         <div className={classes.left}>
           <ChainLogo chain={chain} />
           <div className={classes.description}>
-            <ChainTitle chain={chain} />
-            <ChainSubtitle chain={chain} isChainArchived={isChainArchived} />
+            <div className={classes.top}>
+              <Typography variant="subtitle2" color="textPrimary">
+                {name}
+              </Typography>
+              <ChainRequestsLabel
+                descriptionClassName={classes.coinName}
+                description={coinName}
+                descriptionColor="textSecondary"
+              />
+            </div>
+
+            {isChainArchived && (
+              <ChainLabel
+                label={t('chains.archive')}
+                labelClassName={classes.archiveLabel}
+                tooltip={tHTML('chains.archive-tooltip-text')}
+              />
+            )}
           </div>
         </div>
         <div className={classes.right}>
-          <ChainDocsLink chain={chain} />
-          {chain && !isChainProtocolSwitchEnabled && !isTronRestApi && (
+          <ChainDocsLink id={id} size="small" className={classes.docsLink} />
+          {hasMetamaskButton && (
             <AddNetworkButton
               chainType={chainType}
               chainSubType={chainSubType}
               className={classes.addNetworkButton}
               group={group}
-              label={<MetamaskButtonLabel />}
               chain={chain}
+              isEnterprise={isEnterprise}
+              size="small"
             />
           )}
         </div>

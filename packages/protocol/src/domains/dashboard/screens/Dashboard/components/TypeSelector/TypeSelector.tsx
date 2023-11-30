@@ -7,7 +7,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 
-import { ChainType } from 'domains/chains/types';
+import { ChainType } from 'modules/chains/types';
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 
@@ -18,15 +18,17 @@ import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
 interface ITypeSelectorProps extends SelectMenuProps {
   chainType: ChainType;
   chainTypes: ISelectOption[];
+  isMenuAlwaysVisible?: boolean;
   onTypeSelect: (id: ChainType) => void;
 }
 
 export const TypeSelector = ({
   chainType,
   chainTypes,
-  onTypeSelect,
-  menuProps,
   classNameMenuItem,
+  menuProps,
+  isMenuAlwaysVisible = false,
+  onTypeSelect,
 }: ITypeSelectorProps) => {
   const { classes, cx } = useTypeSelectorStyles();
 
@@ -43,7 +45,7 @@ export const TypeSelector = ({
 
   const selectProps = useSelectorVisibility();
 
-  if (chainTypes.length <= 1) {
+  if (chainTypes.length <= 1 && !isMenuAlwaysVisible) {
     return null;
   }
 

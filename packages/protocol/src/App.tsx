@@ -3,6 +3,7 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
+import { AppRouter } from 'routes/AppRouter';
 
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { Notifications } from 'domains/notification/components/Notifications';
@@ -12,7 +13,6 @@ import { historyInstance } from 'modules/common/utils/historyInstance';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 
-import { Routes } from './Routes';
 import { persistor, store } from './store';
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
             </NoReactSnap>
             <ScrollToTop />
             <BreadcrumbsProvider>
-              <Routes />
+              <AppRouter />
             </BreadcrumbsProvider>
             <NoSsr>
               <Notifications />

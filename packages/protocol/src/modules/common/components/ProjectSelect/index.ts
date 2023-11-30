@@ -1,1 +1,2 @@
-export { ProjectSelectContainer as ProjectSelect } from './ProjectSelectContainer';
+export * from './ProjectSelectContainer';
+export * from './ProjectSelect';

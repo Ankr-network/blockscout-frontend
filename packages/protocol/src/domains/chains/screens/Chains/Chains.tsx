@@ -4,13 +4,16 @@ import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePermissionsAndRole } from 'domains/userGroup/hooks/usePermissionsAndRole';
+import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
 
 export const Chains = () => {
   const { hasPrivateAccess } = useAuth();
-  const { isFinanceRole } = usePermissionsAndRole();
+  const { deprecatedIsFinanceRole } = usePermissionsAndRole();
+
+  useRedirectToEnterpriseOnGroupChange();
 
   useSetBreadcrumbs([
     {
@@ -18,7 +21,7 @@ export const Chains = () => {
     },
   ]);
 
-  if (hasPrivateAccess && !isFinanceRole) {
+  if (hasPrivateAccess && !deprecatedIsFinanceRole) {
     return <PrivateChains />;
   }
 

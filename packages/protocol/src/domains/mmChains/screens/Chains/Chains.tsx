@@ -1,11 +1,12 @@
 import { t } from '@ankr.com/common';
 
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
+import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 
+import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
 import { useAuth } from '../../../auth/hooks/useAuth';
-import { PrivateChains } from './components/PrivateChains';
 
 export const Chains = () => {
   const { hasPrivateAccess, hasPremium, isFreePremium } = useAuth();
@@ -15,6 +16,8 @@ export const Chains = () => {
       title: t(ChainsRoutesConfig.chains.breadcrumbs),
     },
   ]);
+
+  useRedirectToEnterpriseOnGroupChange();
 
   if (hasPrivateAccess) {
     return (

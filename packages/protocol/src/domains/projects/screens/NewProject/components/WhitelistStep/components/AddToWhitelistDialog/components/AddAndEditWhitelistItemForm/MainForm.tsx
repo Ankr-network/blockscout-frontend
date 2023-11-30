@@ -1,23 +1,23 @@
-import {
-  Button,
-  Divider,
-  FormControl,
-  InputLabel,
-  Typography,
-} from '@mui/material';
+import { Button, FormControl, InputLabel, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
-import { t, tHTML } from '@ankr.com/common';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { OnChange } from 'modules/form/utils/OnChange';
 import { InputDialogFormField } from 'modules/common/components/InputDialogFormField';
+import { WhitelistItemChainsSelectorTitle } from 'domains/projects/components/WhitelistItemChainsSelectorTitle';
+import { WhitelistItemsCounter } from 'domains/projects/components/WhitelistItemsCounter';
 
 import { useAddAndEditWhitelistItemFormStyles } from './useAddAndEditWhitelistItemFormStyles';
 import {
   getValidation,
   AddToWhitelistFormFields,
+  getPlaceholder,
+  getLabel,
+  getSelectChainDescription,
 } from './AddToWhitelistFormUtils';
 import { ChainItem } from '../ChainItem';
-import { SelectTypeField } from '../SelectTypeField';
 import { useMainForm } from './useMainForm';
 
 interface MainFormProps {
@@ -33,83 +33,75 @@ export const MainForm = ({
 
   const {
     handleOnChange,
-    selectOptions,
     isTypeSelected,
     selectedType,
-    whitelistDialog,
     isValid,
     preparedChains,
     isSmartContractAddressSelected,
     isAtLeastOneChainSelected,
     isFormFilled,
+    whitelistItems,
   } = useMainForm(shouldSkipFormReset);
+
+  const isSubmitButtonDisabled = !isFormFilled || !isValid;
+
+  const whitelistCount = useMemo(
+    () => whitelistItems.filter(item => item.type === selectedType).length,
+    [whitelistItems, selectedType],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
       <OnChange name={AddToWhitelistFormFields.type}>{handleOnChange}</OnChange>
-
-      <FormControl className={cx(classes.formWrapper, classes.selectWrapper)}>
+      <WhitelistItemsCounter
+        type={selectedType ?? UserEndpointTokenMode.REFERER}
+        className={classes.counter}
+        count={whitelistCount}
+      />
+      <FormControl className={classes.formWrapper}>
         <InputLabel className={classes.label}>
-          {t('projects.add-whitelist-dialog.select-type')}
+          {getLabel(selectedType)}
         </InputLabel>
-        <Field
-          name={AddToWhitelistFormFields.type}
-          key={AddToWhitelistFormFields.type}
-          component={SelectTypeField}
-          variant="outlined"
-          options={selectOptions}
-          isTypeSelected={isTypeSelected}
-        />
-      </FormControl>
-
-      <FormControl className={cx(classes.formWrapper, classes.inputWrapper)}>
         <InputDialogFormField
+          isRequired
+          shouldSkipPristineForValidation
           name={AddToWhitelistFormFields.value}
           isDisabled={!isTypeSelected}
-          placeholder={t('projects.add-whitelist-dialog.enter')}
+          placeholder={getPlaceholder(selectedType)}
           validate={getValidation(selectedType)}
         />
       </FormControl>
+      <WhitelistItemChainsSelectorTitle />
+      <Typography component="p" className={classes.description}>
+        {getSelectChainDescription(selectedType)}
+        {selectedType === UserEndpointTokenMode.ADDRESS &&
+          ` ${t('projects.add-whitelist-dialog.only-evm-chains')}`}
+      </Typography>
 
-      {whitelistDialog?.value && isValid && (
-        <>
-          <Typography component="p" className={classes.chainsTitle}>
-            {t('projects.add-whitelist-dialog.select-chain')}
-          </Typography>
-
-          <Typography component="p" className={classes.description}>
-            {tHTML('projects.add-whitelist-dialog.select-chain-description')}
-          </Typography>
-
-          <Divider className={classes.divider} />
-
-          <FormControl
-            className={cx(classes.formWrapper, classes.inputWrapper)}
-          >
-            {preparedChains.map(({ id: chainId, name }) => (
-              <Field
-                name={AddToWhitelistFormFields.chains}
-                key={chainId}
-                label={name}
-                value={chainId}
-                disabled={
-                  isSmartContractAddressSelected && isAtLeastOneChainSelected
-                }
-                component={ChainItem}
-                type="checkbox"
-                className={classes.chainWrapper}
-              />
-            ))}
-          </FormControl>
-        </>
-      )}
+      <FormControl className={cx(classes.formWrapper, classes.inputWrapper)}>
+        {preparedChains.map(({ id: chainId, name, disabled }) => (
+          <Field
+            name={AddToWhitelistFormFields.chains}
+            key={chainId}
+            label={name}
+            value={chainId}
+            disabled={
+              (isSmartContractAddressSelected && isAtLeastOneChainSelected) ||
+              disabled
+            }
+            component={ChainItem}
+            type="checkbox"
+            className={classes.chainWrapper}
+          />
+        ))}
+      </FormControl>
 
       <Button
         fullWidth
         size="large"
         disabled={!isFormFilled || !isValid}
         className={classes.submitButton}
-        onClick={handleSubmit}
+        onClick={isSubmitButtonDisabled ? undefined : handleSubmit}
       >
         {t('projects.add-whitelist-dialog.confirm')}
       </Button>

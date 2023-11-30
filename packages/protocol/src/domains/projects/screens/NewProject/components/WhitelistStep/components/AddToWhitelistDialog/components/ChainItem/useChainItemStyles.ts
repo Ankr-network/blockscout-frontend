@@ -8,6 +8,8 @@ interface ChainItemStylesProps {
 export const useChainItemStyles = makeStyles<ChainItemStylesProps>()(
   (theme, { isChecked, disabled }) => ({
     label: {
+      lineHeight: '140%',
+      fontWeight: 700,
       color:
         !isChecked && disabled
           ? theme.palette.text.disabled

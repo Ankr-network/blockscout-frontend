@@ -2,9 +2,15 @@
   "title": "RPC",
   "validation": {
     "required": "This field is required",
+    "domain-required": "Please enter your domain address",
+    "ip-required": "Please enter your IP address",
+    "smart-contract-required": "Please enter your smart contract address",
     "domain-validation": "Use the following URL format: example.com",
     "url-validation": "Should be a valid URL",
     "smart-contract-address-validation": "Should be a valid smart contract address",
+    "smart-contract-already-exist": "This smart contract address is already on the list",
+    "domain-already-exist": "This domain is already on the list",
+    "ip-already-exist": "This IP address is already on the list",
     "https-validation": "Should be a valid https URL",
     "url-check-health": "You entered the wrong network address or the block height on your endpoint is far behind",
     "ip-validation": "Should be a valid IP address",
@@ -19,21 +25,24 @@
     "max": "Should be less than {value}",
     "min": "Should be at least {value}"
   },
+  "form": {
+    "limit-counter": "{value} / {maxLimit}"
+  },
   "meta": {
-    "title": "Decentralized Infrastructure to Power Your dApp",
-    "description": "Build now with RPCs to access over a dozen blockchains",
+    "title": "Check out the price of Ankr's Remote procedure call (RPC)",
+    "description": "Check out the price of Ankr's RPC (Remote Procedure Call). Plans that scale with you: Free, Premium RPC (Pay as you go) and Enterprise RPC. Contact us!",
     "og-title": "Decentralized Infrastructure to Power Your dApp",
     "og-description": "Build now with RPCs to access over a dozen blockchains",
     "public": {
-      "title": "Access a Variety of Public RPC Endpoints",
-      "description": "Choose from over a dozen instant RPC endpoints and build on the chain of your choice",
-      "og-title": "Your Gateway to Build on Web3",
-      "og-description": "Get developer APIs, RPCs, exclusive endpoints& WebSockets for more chains",
+      "title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
+      "description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
+      "og-title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
+      "og-description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "chain-item": {
-      "title": "Your Instant RPC Gateway to {chainId}",
-      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
+      "title": "[{chainId} RPC] get now your instant Remote procedure call gateway!",
+      "description": "{chainId} RPC (Remote Procedure Call). Power your Web3 application with Ankr's RPC making requests quickly, securely and decentralized. Check plans available!",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
       "og-description": "Use a fast, reliable & free {chainId} public RPC endpoint",
       "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
@@ -74,7 +83,8 @@
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
     "hubspot": "Hubspot form. No such element {selector}",
-    "common": "Oops! Something went wrong."
+    "common": "Oops! Something went wrong.",
+    "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts."
   },
   "main-navigation": {
     "dashboard": "Dashboard",
@@ -102,7 +112,7 @@
     "en-US": "English"
   },
   "header": {
-    "wallet-button": "Sign up",
+    "wallet-button": "Sign in",
     "wallet-button-address": "Connect wallet {address}",
     "disconnect": "Disconnect",
     "already-premium": "Already Premium?",
@@ -112,7 +122,7 @@
     "sign-out": "Sign out"
   },
   "signup-modal": {
-    "title": "Sign up method",
+    "title": "Sign in method",
     "google": {
       "title": "Google Authentication",
       "description": "Connection Process"
@@ -141,8 +151,57 @@
     }
   },
   "projects": {
+    "onboarding": {
+      "stepper": "{currentStepNumber} of {stepsCount}",
+      "step1": {
+        "title": "What’s new",
+        "description": "The Projects feature is meant to help you organize your endpoints by their specific sphere of usage — by project. Keep your finger on each projects' pulse. Monitor, control, and secure interaction with your projects' endpoints.",
+        "link": "See how to get started with Projects"
+      },
+      "step2": {
+        "title": "Functionality",
+        "description": "<ul><li>Organize and control your project’s endpoints.</li><li>Monitor multiple projects’ statistics.</li><li>Enable/disable your project’s endpoints in one click.</li><li>Define domains, IPs, and smart contracts allowed for endpoints interaction.</li></ul>",
+        "link": "See how to get started with Projects"
+      },
+      "step3": {
+        "title": "Data transfer",
+        "description": "Don't worry — all your previously configured projects' data is safely transferred into the new projects structure. Your chains, networks, and transactions history data is intact. On top of that, now you can secure your projects' endpoints with multiple whitelist options.",
+        "link": "See how to get started with Projects"
+      },
+      "back": "Back",
+      "next": "Next",
+      "done": "Done"
+    },
+    "whitelist-types": {
+      "all": "All",
+      "domain": "Domain{plurals, plural, =2 {s} other {}}",
+      "ip": "IP{plurals, plural, =2 {s} other {}}",
+      "smart-contract": "Smart contract{plurals, plural, =2 {s} other {}}"
+    },
     "placeholder": {
       "title": "Unlock access to your personal account with&nbsp;"
+    },
+    "chains-table": {
+      "archive-methods": {
+        "header": "Archive data",
+        "tooltip": "Shows whether a chain supports querying archive data"
+      }
+    },
+    "selected-chain-card": {
+      "label": "Selected chain"
+    },
+    "networks-selector": {
+      "title": "Supported networks"
+    },
+    "whitelist-actions-menu": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "whitelist-items-counter": {
+      "count": "{count}/{limit}"
+    },
+    "whitelist-item-chains-selector": {
+      "title": "Chains"
     },
     "breadcrumbs": "Projects",
     "welcome-dialog": {
@@ -153,14 +212,30 @@
       "create-project-button": "Create project",
       "skip-button": "Skip for now"
     },
+    "upgrade-account-dialog": {
+      "title": "Upgrade your account",
+      "description": "Getting an access to enhanced functionality upgrading your account<br />to Premium.",
+      "item-1": "Websockets",
+      "item-2": "Advanced developer API",
+      "item-3": "1,500 reqs/sec",
+      "see-plans": "See plans",
+      "cancel": "Cancel"
+    },
+    "edit-dialog": {
+      "success-message": "Project info updated successfully",
+      "error-message": "Error occurred while updating project info. Try again"
+    },
     "list-project": {
       "title": "My Projects",
-      "how-to-get-started": "How to get started",
+      "projects-count": "{userProjectsCount} of {totalProjectsCount} projects used",
+      "tooltip": "The number of projects depends on your plan.",
+      "how-to-get-started": "See project's getting started",
+      "learn-more": "See what's new",
       "table": {
         "column-1": "Name",
-        "column-2": "Project status",
-        "column-3": "White list",
-        "column-4": "Connected chains",
+        "column-2": "Status",
+        "column-3": "Whitelist",
+        "column-4": "Chains",
         "column-5": "Requests today",
         "column-5-tooltip": "Requests for today (UTC time)"
       },
@@ -170,16 +245,17 @@
       "frozen": "Frozen",
       "active": "Active",
       "inactive": "Inactive",
-      "implemented": "Implemented",
-      "not-implemented": "Not implemented",
-      "add-project": "Add Project",
+      "implemented": "Installed",
+      "not-implemented": "Not installed",
+      "create-project": "Create Project",
       "edit-project": "Continue project configuration",
       "no-data": "No project found",
       "freeze": "Freeze",
       "unfreeze": "Unfreeze",
-      "edit": "Edit info",
+      "rename": "Rename",
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
+      "resume-setup": "Resume setup",
       "requests": "Requests today",
       "count": "{value, number, ::compact-short }",
       "percent": "{sign, plural, =0 {} =1 {+} =-1 {-}}{percent, number, ::compact-short}%"
@@ -190,7 +266,7 @@
         "unfreeze": "Unfreeze project"
       },
       "descriptions": {
-        "freeze": "Are you sure you want to freeze the project? When you freezing your project it means all request will be rejected.",
+        "freeze": "Do you want to freeze the project? Freezing your project will disable its endpoints from interaction.",
         "unfreeze": "Are you sure you want to unfreeze the project? Unfreezing your project will enable all allowed requests."
       },
       "submit-buttons": {
@@ -203,50 +279,35 @@
         "unfreeze": "Your project “{value}” has been unfrozen"
       }
     },
-    "edit-project": {
-      "dialog": {
-        "title": "Edit project details",
-        "save": "Save",
-        "success-message": "The details of your project \"{value}\" have been changed",
-        "error-message": "Something went wrong — changes not saved. Try again."
+    "rename-dialog": {
+      "title": "Rename",
+      "description": "Please enter a new name for the project",
+      "name-field": "Name",
+      "name-placeholder": "Fill a name",
+      "success-message": "\"{oldValue}\" renamed to \"{newValue}\"",
+      "save": "Confirm",
+      "cancel": "Cancel",
+      "error-message": {
+        "something-wrong": "Something went wrong — changes not saved. Try again.",
+        "name-duplication": "The project \"{value}\" has already been added"
       }
     },
     "new-project": {
-      "breadcrumbs": "Create project",
-      "title": "Configure {projectName}",
+      "breadcrumbs": "Create",
+      "title": "Create project",
+      "how-to-get-started": "See project's getting started",
       "project-name-fallback": "your project",
-      "dialog": {
-        "title": "Add a new project",
-        "description": "Using Ankr mRPC requires a project to begin. Let’s do this",
-        "name-field": "Project name",
-        "name-placeholder": "Project123678",
-        "description-field": "Description",
-        "description-placeholder": "Add description",
-        "create": "Create project",
-        "cancel": "Cancel"
-      },
-      "success-dialog": {
-        "title": "Project created",
-        "description": "{value} has been created successfully. You can configure project’s parameters now and tap your project into Ankr mRPC. You can skip it, but be aware that a project will be in a draft mode till you finish configure.",
-        "configure-project": "Configure project",
-        "skip": "Skip for now"
-      },
-      "failed-dialog": {
-        "title": "Project creation failed",
-        "description": "Project creation failed. Check your Internet connection. Click<br/><b>Retry</b> — to resend creation request, or <b>Cancel</b> — to discard<br/>configured parameters.",
-        "retry": "Retry",
-        "cancel": "Cancel"
-      },
       "footer": {
         "back-button": "Back",
+        "back-to-projects-button": "Back to Projects",
         "next-button": "Next",
-        "skip-button": "Skip for now"
+        "skip-button": "Skip for now",
+        "step-counter": "{value} / 3"
       },
       "steps": {
-        "0": "Chains",
-        "1": "Whitelist",
-        "2": "Plan",
-        "3": "Summary"
+        "0": "General info",
+        "1": "Chains",
+        "2": "Whitelist"
       },
       "chain": {
         "mainnet": "Mainnet",
@@ -256,9 +317,9 @@
         "limit": "You have reached the maximum number of projects."
       },
       "chain-modal": {
-        "title": "Add network for a selected chain",
-        "selected-chain-label": "Selected Chain",
-        "select-all-label": "Available Chains",
+        "title": "Select networks",
+        "description": "Pick a network for the chain selected.",
+        "select-all-label": "Select all",
         "btn-confirm": "Confirm",
         "btn-cancel": "Cancel"
       },
@@ -266,27 +327,45 @@
         "link": "How to get started"
       },
       "step-1": {
-        "title": "Select chain",
-        "description": "Choose all networks that your project will need to connect with.",
+        "title": "Provide project basics",
+        "description": "Give your project a name. Optionally, add a description to<br/>identify its purpose.",
+        "require-description": "* indicates a required field",
+        "name-field": "* Name",
+        "name-placeholder": "Enter a name (required)",
+        "description-field": "Description",
+        "description-placeholder": "Add description",
+        "save": "Confirm"
+      },
+      "step-2": {
+        "title": "Select chains",
+        "description": "Select chains and networks your project requires.",
         "premium": "Premium",
         "error-message": {
           "required": "Please select chain first"
         },
-        "tooltip-text": "This chain has only one option to select",
         "mainnet-postfix": "{label} mainnet"
       },
-      "step-2": {
-        "title": "Whitelist",
-        "plug": "Manage the domains, IPs, and smart contracts that have<br/>access to your endpoints.",
+      "step-3": {
+        "title": "Add to Whitelist",
+        "plug": "Define domains, IPs and smart contracts to interact with project's endpoints. Open a new dialog for each item you add.",
         "label": "Smart contract address",
         "placeholder": "0x000000",
         "btn": "Add",
-        "edit": "Edit",
-        "delete": "Delete",
         "success-message": "Smart contract address added successfully",
         "error-message": {
           "invalid": "Smart contract address is invalid",
-          "token-index-error": "Token index is not defined"
+          "required": "Smart contract address is required",
+          "token-index-error": "Token index is not defined",
+          "duplication": "This address has already been added"
+        },
+        "empty-list": {
+          "title": "Secure project with Whitelist",
+          "control-interaction": "Control endpoints interaction by domains (max 10 items) and IPs (max 10 items).",
+          "smart-contracts": "Control endpoints interaction by smart contracts (max 3 items)."
+        },
+        "add-whitelist-menu": {
+          "setup": "Configure whitelist",
+          "add": "Add"
         }
       },
       "checkout-step": {
@@ -329,32 +408,192 @@
           "price": "$0 <span>per month</span>",
           "description": "<ul><li>1500 <span>requests per second</span></li><li>30 <span>chains</span></li><li>40 <span>regions</span></li><li>support portal</span></li></ul>"
         }
-      },
-      "error-message": {
-        "name-duplication": "The project \"{value}\" has already been added"
       }
     },
     "add-whitelist-dialog": {
       "titles": {
         "add": "Add to whitelist",
+        "add-domain": "Add domain",
+        "add-ip": "Add IP",
+        "add-smart-contract": "Add smart contract",
         "edit": "Edit whitelist"
       },
-      "description": "You can add domains, IPs, or smart contracts to your whitelist<br/>that have access to the endpoints. Any requests not from the<br/>authorized whitelist will be rejected.",
+      "description-10": "Your service plan supports adding ten whitelist items. Each<br/>dialog adds a single item. Open a new dialog for each item<br/>you add.",
+      "address-description": "Each dialog adds a&nbsp;single item. Open a&nbsp;new dialog for each item you add.",
+      "address-warning": "Attention! Only three methods are available to query whitelist smart contracts:",
       "select-type": "Select type",
       "select": "Select",
       "domain": "Domain",
       "ip-address": "IP address",
       "smart-contract": "Smart contract",
+      "domain-label": "Domain address",
+      "ip-label": "IP",
+      "smart-contract-label": "Smart contract",
       "enter": "Enter",
-      "enter-domain": "Enter domain",
-      "enter-ip": "Enter IP address",
+      "enter-domain": "Enter domain address",
+      "enter-ip": "Enter IP",
       "enter-smart-contract": "Enter smart contract address",
-      "select-chain": "Select chain",
-      "select-chain-description": "Specify access to endpoints for selected chains. Smart<br/>contracts can only be added to EVM compatible chains.",
+      "select-chain-description-domain": "Select chains the endpoints of which can be accessed by the<br/>domain address provided.",
+      "select-chain-description-ip": "Select chains the endpoints of which can be accessed by the<br/>IP address provided.",
+      "select-chain-description-smart-contract": "Select chains the endpoints of which can be accessed by the<br/>smart contract address provided.",
+      "only-evm-chains": "Supported for EVM-compatible chains only.",
       "confirm": "Confirm",
       "cancel": "Cancel"
     },
     "final-price": "Final Price: <span>${usdValue}.00</span>"
+  },
+  "project": {
+    "banner": {
+      "frozen": "You've set the dApp project's status to Frozen, which disables querying its endpoints. Click Unfreeze to continue querying the endpoints.",
+      "suspended": "All your projects have been suspended due to the insufficient account balance. Top up your balance to continue using our services.",
+      "suspended-button": "Top up balance"
+    },
+    "not-found": "Project not found",
+    "deleted": "Project is successfully deleted",
+    "header": {
+      "docs-btn": "Docs",
+      "edit-info-btn": "Add description",
+      "edit-info-dialog-title": "Edit project info",
+      "edit-info-dialog-description": "Give your project a name. Optionally, add a description — to identify its purpose.",
+      "edit-info-dialog-name-label": "Name",
+      "edit-info-dialog-name-placeholder": "Default project",
+      "edit-info-dialog-description-label": "Description",
+      "edit-info-dialog-description-placeholder": "These attributes, generally in the form of demographics, do not bring a team closer to understanding a customer’s consumption, or non-consumption.",
+      "edit-info-dialog-btn-save": "Save",
+      "edit-info-dialog-btn-cancel": "Cancel",
+      "header-menu-edit-button": "Edit Info",
+      "header-menu-delete-button": "Delete"
+    },
+    "chain-details": {
+      "requests": {
+        "no-requests": "Requests: no requests during last 24 hours",
+        "has-requests": "Requests: {hourRequests} (last hour), {dayRequests} (24h)"
+      },
+      "networks-button": "Networks"
+    },
+    "add-chains-form": {
+      "title": "Add chains",
+      "description": "Select chains your project requires to interact with.",
+      "error": "At least one chain must be selected"
+    },
+    "configure-networks-form": {
+      "title": "Configure networks",
+      "description": "Select networks to use for this chain.",
+      "error": "At least one network must be selected"
+    },
+    "configure-whitelist-form": {
+      "title": "Configure whitelist",
+      "description": "Define domains, IPs, and smart contracts allowed to interact with project's endpoints.",
+      "add-whitelist-button": "Add",
+      "whitelist-table": {
+        "more-chains": "+{additionalBlockchainsCount}"
+      },
+      "whitelist-placeholder": "You have no whitelist items yet.",
+      "delete-dialog": {
+        "title": "Delete whitelist item",
+        "description": "Whitelist item deletion implies complete removal of the item's\nassociated data (address, chains). This action can't be\nundone. Delete whitelist item?",
+        "delete-button": "Delete",
+        "cancel-button": "Cancel"
+      }
+    },
+    "add-domain-form": {
+      "title": "Add domain",
+      "description": "Add a domain into the whitelist to allow its interaction with the project's endpoints.",
+      "input": {
+        "label": "Domain address",
+        "placeholder": "Enter domain address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the domain address provided."
+      }
+    },
+    "add-ip-form": {
+      "title": "Add IP",
+      "description": "Add an IP into the whitelist to allow its interaction with the project's endpoints.",
+      "input": {
+        "label": "IP",
+        "placeholder": "Enter IP"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the IP address provided."
+      }
+    },
+    "add-smart-contract-form": {
+      "title": "Add smart contract",
+      "description": "Add a smart contract into the whitelist to allow its interaction with the project's endpoints.",
+      "input": {
+        "label": "Smart contract",
+        "placeholder": "Enter smart contract address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the smart contract address provided. Supported for EVM-compatible chains only."
+      }
+    },
+    "edit-domain-form": {
+      "title": "Edit domain",
+      "description": "Edit your domain's whitelist details (address, chains).",
+      "input": {
+        "label": "Domain address",
+        "placeholder": "Enter domain address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the domain address provided."
+      }
+    },
+    "edit-ip-form": {
+      "title": "Edit IP",
+      "description": "Edit your IP's whitelist details (address, chains).",
+      "input": {
+        "label": "IP",
+        "placeholder": "Enter IP"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the IP address provided."
+      }
+    },
+    "edit-smart-contract-form": {
+      "title": "Edit smart contract",
+      "description": "Edit your smart contract's whitelist details (address, chains).",
+      "input": {
+        "label": "Smart contract",
+        "placeholder": "Enter smart contract address"
+      },
+      "chains-selector": {
+        "description": "Select chains the endpoints of which can be accessed by the smart contract address provided. Supported for EVM-compatible chains only."
+      }
+    },
+    "sidebar": {
+      "confirm-button": "Confirm",
+      "cancel-button": "Cancel"
+    },
+    "total-requests": {
+      "title": "Total requests",
+      "dashboard-button": "Dashboard",
+      "empty": "No data for statistics yet"
+    },
+    "whitelist": {
+      "title": "Whitelist",
+      "configure-button": "Configure"
+    },
+    "endpoints": {
+      "add-chains-button": "Add chains"
+    },
+    "footer": {
+      "title": "Learn more",
+      "learn-more-link": "Learn more",
+      "docs-title": "Docs",
+      "docs": {
+        "getting-started": "Getting started",
+        "pricing": "Pricing",
+        "supported-chains": "Supported chains"
+      },
+      "social-links-title": "Social links",
+      "social-links": {
+        "discord": "Discord",
+        "twitter": "Twitter",
+        "blog": "Medium"
+      }
+    }
   },
   "dashboard": {
     "placeholder": {
@@ -463,7 +702,7 @@
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
-    "archive": "Archive",
+    "archive": "Archived",
     "beta": "BETA",
     "soon": "Soon",
     "coming-soon": "Coming Soon",
@@ -513,10 +752,12 @@
     }
   },
   "enterprise": {
-    "forbidden": "The page is beyond your user access. Ask the support for the access you require."
+    "breadcrumbs": "Enterprise",
+    "forbidden": "The page is beyond your user access. Ask the support for the access you require.",
+    "disabled-endpoint-placeholder": "Not Available"
   },
   "jwt-token": {
-    "default-project-name": "Primary",
+    "default-project-name": "Default",
     "add-new-project": "Add a new project",
     "name": "Name",
     "unique-token": "Unique Token",
@@ -538,7 +779,7 @@
       "try-again": "Try again"
     },
     "delete-project": {
-      "title": "Are you sure want to delete the project?",
+      "title": "Delete project?",
       "info": "This action can't be undone!",
       "delete": "Delete",
       "cancel": "Cancel"
@@ -599,11 +840,14 @@
     "chain-types": {
       "mainnet": "Mainnet",
       "testnet": "Testnet",
-      "devnet": "Devnet"
+      "devnet": "Devnet",
+      "opnodes-mainnet": "Opnode mainnet",
+      "opnodes-testnet": "Opnode testnet",
+      "beacons-mainnet": "Beacon mainnet",
+      "beacons-testnet": "Beacon testnet"
     },
     "banner-zksync_era": "<b>Warning</b>: The zkSync Era node is&nbsp;still in&nbsp;<em>alpha</em> and subject to&nbsp;further updates. Users may experience downtime. If&nbsp;you notice discrepancies from the <a target=\"_blank\" href=\"https://era.zksync.io/docs/dev/building-on-zksync/interacting.html#quickstart-on-zksync\">main node API</a> please report directly to&nbsp;<a target=\"_blank\" href=\"https://zksync.io/contact\">Matter Labs</a>.",
     "chain-subtypes": {
-      "athens2": "Athens-2",
       "athens3": "Athens-3"
     },
     "banner": {
@@ -627,26 +871,27 @@
       "endpoints-title": "Provider URLs",
       "private-endpoints-tooltip": "Use Provider URL as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
       "public-endpoints-tooltip": "Use Provider URL as your main API endpoint for development.",
-      "plural": "s",
       "settings-button": "Settings",
       "endpoint-groups": {
-        "standard-evm-api": "Standard EVM API{plural}",
-        "c-chain": "C-Chain{plural}",
-        "p-chain": "P-Chain{plural}",
-        "x-chain": "X-Chain{plural}",
-        "ethereum-endpoint": "Ethereum Endpoint{plural}",
-        "nervos-evm": "Standard EVM and Polyjuice API{plural}",
-        "nervos-gw": "Godwoken API{plural}",
-        "nervos-ckb": "Nervos CKB Endpoint{plural}",
+        "standard-evm-api": "Standard EVM API{plurals, plural, =1 {s} other {}}",
+        "c-chain": "C-Chain{plurals, plural, =1 {s} other {}}",
+        "p-chain": "P-Chain{plurals, plural, =1 {s} other {}}",
+        "x-chain": "X-Chain{plurals, plural, =1 {s} other {}}",
+        "ethereum-endpoint": "Ethereum Endpoint{plurals, plural, =1 {s} other {}}",
+        "nervos-evm": "Standard EVM and Polyjuice API{plurals, plural, =1 {s} other {}}",
+        "nervos-gw": "Godwoken API{plurals, plural, =1 {s} other {}}",
+        "nervos-ckb": "Nervos CKB Endpoint{plurals, plural, =1 {s} other {}}",
         "tendermint-rpc": "Tendermint JSON-RPC",
         "tendermint-rest": "Tendermint REST",
+        "tendermint": "Tendermint",
         "cosmos-rest": "Cosmos REST",
-        "solana-api": "Solana API{plural}",
+        "solana-api": "Solana API{plurals, plural, =1 {s} other {}}",
         "rest-api": "REST API",
-        "sui": "Sui API{plural}",
+        "sui": "Sui API{plurals, plural, =1 {s} other {}}",
         "json-rpc": "JSON-RPC",
-        "fallback": "{chain} Endpoint{plural}",
-        "empty": "Endpoints will be available soon"
+        "fallback": "{chain} Endpoint{plurals, plural, =1 {s} other {}}",
+        "empty": "Endpoints will be available soon",
+        "grpc": "Cosmos gRPC{plurals, plural, =1 {s} other {}}"
       },
       "beacon-label": "Beacon",
       "opnode-label": "Op-node"
@@ -1054,7 +1299,7 @@
   },
   "oauth": {
     "breadcrumbs": "Authorization",
-    "secret-code-error": "Wrong secret code. Try to sign up again",
+    "secret-code-error": "Wrong secret code. Try to sign in again",
     "binding-error": "This account has already been registered",
     "eth-address-error": "No ethUserAddress"
   },
@@ -1070,7 +1315,9 @@
     "new": "new",
     "search": "Search",
     "no-search-result": "Nothing found for your request",
-    "no-data": "No data available"
+    "no-data": "No data available",
+    "show-more": "more",
+    "show-less": "Show less"
   },
   "providers": {
     "endpoint": {
@@ -1111,13 +1358,8 @@
         "title": "Learn More"
       }
     },
-    "private-endpoints": {
-      "title": "Premium Nodes",
-      "tooltip": "Use Premium Endpoint as your main API endpoint for development. Do not use \"My Endpoints\" directly.",
-      "plural": "s"
-    },
     "user-endpoints": {
-      "title": "My Endpoints",
+      "title": "My Endpoint{plurals, plural, =1 {s} other {}}",
       "tooltip": "Will be prioritized ahead of Premium Nodes when serving traffic."
     },
     "community-endpoints": {
@@ -1251,12 +1493,11 @@
       "change-email-button": "Change Email"
     },
     "errors": {
-      "plural": "s",
       "change-with-same-email": "Please use an address that is different from your current one",
       "change-inexistent": "Attempting to change the email that hasn't been registered yet",
       "address-pending-other-email-binding": "There is an email address already associated with your wallet",
-      "too-many-change-email-requests": "You can change your email once in {minutes} minute{plural}",
-      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} minute{plural}",
+      "too-many-change-email-requests": "You can change your email once in {minutes, plural, =1 {minute} other {minutes}}",
+      "too-many-resend-confirmation-requests": "You can resend the confirmation email in {minutes} {minutes, plural, =1 {minute} other {minutes}}",
       "already-confirmed": "The email address {email} has already been registered",
       "invalid-email": "The email address `{email}` is invalid"
     },
@@ -1424,13 +1665,14 @@
       "breadcrumbs": "Billing",
       "pricing": {
         "title": "Everything looks good!",
-        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min."
+        "description": "After Ethereum network validation you will see your updated wallet balance and Premium Endpoints. Usual waiting time is ≈15 min.",
+        "button": "Go to Projects"
       },
       "billing": {
         "title": "Operation succeeded.",
-        "description": "The payment has been rendered successfully — enjoy your <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">Rate limits</a>"
-      },
-      "button": "Go to Endpoints"
+        "description": "The payment has been rendered successfully — enjoy your <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">Rate limits</a>",
+        "button": "Go to Projects"
+      }
     },
     "card-payment-failure": {
       "breadcrumbs": "Billing",

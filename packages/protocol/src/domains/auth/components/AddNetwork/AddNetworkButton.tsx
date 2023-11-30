@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
-import { Chain, ChainSubType, ChainType } from 'domains/chains/types';
+import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
@@ -13,9 +13,9 @@ interface IAddNetworkProps {
   chainSubType?: ChainSubType;
   group?: EndpointGroup;
   className?: string;
-  hasPlusIcon?: boolean;
   label?: ReactNode;
-  size?: 'large' | 'medium';
+  size?: 'large' | 'medium' | 'small';
+  isEnterprise?: boolean;
 }
 
 export const AddNetworkButton = ({
@@ -24,9 +24,9 @@ export const AddNetworkButton = ({
   chainSubType,
   group,
   className,
-  hasPlusIcon,
   label,
   size,
+  isEnterprise,
 }: IAddNetworkProps) => {
   const { loading } = useAuth();
 
@@ -35,6 +35,7 @@ export const AddNetworkButton = ({
     chainType,
     chainSubType,
     group,
+    isEnterprise,
   });
 
   /* hiding the addNetwork button for networks not supported in MetaMask */
@@ -45,7 +46,6 @@ export const AddNetworkButton = ({
   return (
     <ButtonMetamask
       className={className}
-      hasPlusIcon={hasPlusIcon}
       isDisabled={loading}
       label={label}
       onClick={handleButtonClick}

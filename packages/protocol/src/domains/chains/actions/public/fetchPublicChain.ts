@@ -4,13 +4,13 @@ import { t } from '@ankr.com/common';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainArchived';
+import { Chain } from 'modules/chains/types';
+import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
 
-import { Chain } from '../../types';
 import { ChainsRoutesConfig } from '../../routes';
-import { chainsFetchChainNodesDetail } from '../fetchChainNodesDetail';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 
-export interface IChainItemDetails {
+export interface IPublicChainItemDetails {
   chain: Chain;
   unfilteredChain: Chain;
   isChainArchived: boolean;
@@ -20,7 +20,7 @@ export const {
   endpoints: { chainsFetchPublicChain },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchPublicChain: build.query<IChainItemDetails, string>({
+    chainsFetchPublicChain: build.query<IPublicChainItemDetails, string>({
       queryFn: createNotifyingQueryFn(async (chainId, { dispatch }) => {
         const [
           { data: { chains = [], allChains = [] } = {} },

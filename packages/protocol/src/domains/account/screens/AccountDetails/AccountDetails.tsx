@@ -5,6 +5,7 @@ import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 
 import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
@@ -20,6 +21,8 @@ export const AccountDetails = () => {
       title: t(AccountRoutesConfig.accountDetails.breadcrumbs),
     },
   ]);
+
+  useRedirectToEnterpriseOnGroupChange();
 
   const { classes } = useStyles();
 

@@ -16,5 +16,6 @@ export const DashboardPlaceholder = () => (
     bgSmDark={bgSmDark}
     breadcrumbs={t(DashboardRoutesConfig.dashboard.breadcrumbs)}
     title={tHTML('dashboard.placeholder.title')}
+    shouldSkipRedirect
   />
 );

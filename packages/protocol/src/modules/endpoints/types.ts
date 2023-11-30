@@ -1,4 +1,4 @@
-import { ChainID, Chain, ChainURL } from 'domains/chains/types';
+import { ChainID, Chain, ChainURL } from 'modules/chains/types';
 
 export interface ChainGroup {
   id: ChainGroupID;
@@ -11,6 +11,7 @@ export enum ChainGroupID {
   C_CHAIN = 'c-chain',
   ETH_MAINNET = 'eth-mainnet',
   GOERLI = 'goerli',
+  GRPC = 'grpc',
   HORIZEN = 'horizen',
   JSON_RPC = 'json-rpc',
   KOVAN = 'kovan',
@@ -22,9 +23,10 @@ export enum ChainGroupID {
   REST_API = 'rest-api',
   RINKEBY = 'rinkeby',
   ROPSTEN = 'ropsten',
-  SECRET_RPC = 'scrt-rpc',
-  SECRET_REST = 'scrt-rest',
-  SECRET_COSMOS_REST = 'scrt-cosmos-rest',
+  HOLESKY = 'holesky',
+  TENDERMINT_RPC = 'tendermint-rpc',
+  TENDERMINT_REST = 'tendermint-rest',
+  COSMOS_REST = 'cosmos-rest',
   SEPOLIA = 'sepolia',
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',
@@ -32,7 +34,7 @@ export enum ChainGroupID {
   X_CHAIN = 'x-chain',
   SUI = 'SUI',
   TENET = 'tenet',
-  SCROLL = 'scroll',
+  SCROLL_ALPHA = 'scroll_testnet',
 
   FALLBACK = 'FALLBACK',
 }
@@ -61,4 +63,8 @@ export interface GroupedEndpoints {
   mainnet: EndpointGroup[];
   testnet: EndpointGroup[];
   devnet: EndpointGroup[];
+  beaconsMainnet: EndpointGroup[];
+  opnodesMainnet: EndpointGroup[];
+  beaconsTestnet: EndpointGroup[];
+  opnodesTestnet: EndpointGroup[];
 }

@@ -2,7 +2,7 @@ import { Timeframe } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
 
 import { AppDispatch } from 'store';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';

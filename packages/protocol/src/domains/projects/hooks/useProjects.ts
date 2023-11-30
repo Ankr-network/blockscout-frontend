@@ -7,6 +7,7 @@ import { useLazyFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/g
 
 import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 import { useLazyFetchStatsByRangeQuery } from '../actions/fetchStatsByRange';
+import { useLazyFetchWhitelistsBlockchainsQuery } from '../actions/fetchWhitelistsBlockchains';
 
 export const useProjects = () => {
   const {
@@ -15,6 +16,7 @@ export const useProjects = () => {
     allowedAddProjectTokenIndex,
     isLoading,
     isFetching,
+    isLoaded,
   } = useJwtTokenManager();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -25,6 +27,14 @@ export const useProjects = () => {
     fetchAllWhitelists,
     { data: allWhitelists, isLoading: isLoadingAllWhitelists },
   ] = useLazyFetchAllWhitelistsQuery();
+
+  const [
+    fetchAllWhitelistsBlockchains,
+    {
+      data: allWhitelistsBlockchains,
+      isLoading: isLoadingAllWhitelistsBlockchains,
+    },
+  ] = useLazyFetchWhitelistsBlockchainsQuery();
 
   const [fetchStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
 
@@ -44,6 +54,10 @@ export const useProjects = () => {
 
     const { abort: abortWhitelists } = fetchAllWhitelists({ group });
 
+    const { abort: abortWhitelistsBlockchains } = fetchAllWhitelistsBlockchains(
+      { group, projects: jwtTokens },
+    );
+
     const { abort: abortStatuses } = fetchStatuses({
       group,
       projects: jwtTokens,
@@ -56,14 +70,17 @@ export const useProjects = () => {
 
     return () => {
       abortWhitelists();
+      abortWhitelistsBlockchains();
       abortStatuses();
       abortStats();
     };
+    // we don't need to refetch data as soon as group changed, so this param is excluded from deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isFetching,
-    group,
     jwtTokens,
     fetchAllWhitelists,
+    fetchAllWhitelistsBlockchains,
     fetchStatuses,
     fetchStatsByRange,
   ]);
@@ -74,6 +91,9 @@ export const useProjects = () => {
     isLoading,
     allWhitelists,
     isLoadingAllWhitelists,
+    allWhitelistsBlockchains,
+    isLoadingAllWhitelistsBlockchains,
     isFetching,
+    isLoaded,
   };
 };

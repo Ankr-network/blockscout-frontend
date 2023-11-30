@@ -11,6 +11,13 @@ export const ENABLED_ZETACHAIN_IDS = [
   'zetachain-cosmos-rest-athens-testnet',
 ];
 
+// Sei ids which have different public and private endpoints
+export const SEI_IDS = [
+  'sei-cosmos-grpc-web',
+  'sei-cosmos-rest',
+  'sei-rest',
+];
+
 export const APTOS_IDS = ['aptos', 'aptos_testnet'];
 
 export const blockchainNameTemplate = '{blockchain}';

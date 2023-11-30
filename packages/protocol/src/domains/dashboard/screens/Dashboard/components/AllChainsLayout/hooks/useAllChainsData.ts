@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
   selectAllTimeTotalRequestsNumber,
@@ -8,6 +8,7 @@ import {
   selectLocationsLoading,
   selectTotalRequests,
   selectTotalRequestsNumber,
+  selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
@@ -29,6 +30,8 @@ export const useAllChainsData = (timeframe: Timeframe) => {
 
   const { countries, ipRequests } = useTop10Stats(timeframe);
 
+  const isLoadingTotalStats = useAppSelector(selectTotalStatsLoading);
+
   return {
     allTimeTotalRequestsNumber,
     areLocationsLoading,
@@ -37,5 +40,6 @@ export const useAllChainsData = (timeframe: Timeframe) => {
     locations,
     requestsChartData,
     totalRequestsNumber,
+    isLoadingTotalStats,
   };
 };

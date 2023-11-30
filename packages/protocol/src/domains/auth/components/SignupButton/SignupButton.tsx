@@ -1,9 +1,9 @@
 import { useCallback, useMemo, useState } from 'react';
 import { WalletIcon } from '@ankr.com/ui';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMenu } from 'modules/common/hooks/useMenu';
-import { GOOGLE_PROVIDER } from 'domains/auth/store/authSlice';
 
 import { UnconnectedButton } from '../ConnectButton/UnconnectedButton';
 import { shrinkUserData } from './SignupButtonUtils';
@@ -74,7 +74,7 @@ export const SignupButton = ({
   const walletIcon = walletMeta?.icon;
 
   const mainOauthProvider = oauthProviders?.[0];
-  const isGoogle = mainOauthProvider === GOOGLE_PROVIDER;
+  const isGoogle = mainOauthProvider === OauthLoginProvider.Google;
 
   return (
     <>

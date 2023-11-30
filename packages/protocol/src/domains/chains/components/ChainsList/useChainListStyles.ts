@@ -6,7 +6,7 @@ export const useChainListStyles = makeStyles()((theme: Theme) => ({
     display: 'grid',
     alignItems: 'center',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: theme.spacing(2 * 3.5),
+    gap: theme.spacing(7),
 
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',
@@ -15,25 +15,6 @@ export const useChainListStyles = makeStyles()((theme: Theme) => ({
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',
     },
-  },
-  container: {
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    paddingTop: theme.spacing(7.5),
-
-    [theme.breakpoints.down('sm')]: {
-      paddingTop: theme.spacing(20),
-    },
-  },
-  text: {
-    marginTop: theme.spacing(7.5),
-    color: theme.palette.grey[300],
-    fontSize: 35,
-    fontWeight: 700,
   },
   wrapper: {
     height: '100%',

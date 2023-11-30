@@ -2,9 +2,10 @@ import { t } from '@ankr.com/common';
 import { Button, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { useClickHandler } from 'domains/chains/components/ChainsItemBase/components/Card/hooks/useClickHandler';
-import { Timeframe, Chain } from 'domains/chains/types';
+import { useChainItemClickHandler } from 'modules/common/hooks/useChainItemClickHandler';
+import { Timeframe, Chain } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 
 import { useChainCardStyles } from './useChainCardStyles';
 import { Information } from './Information';
@@ -40,7 +41,9 @@ export const BaseChainsCard = ({
 
   const icon = useChainIcon(id);
 
-  const onClickDefault = useClickHandler(id);
+  const onClickDefault = useChainItemClickHandler(
+    ChainsRoutesConfig.chainDetails.generatePath(id),
+  );
 
   return (
     <div

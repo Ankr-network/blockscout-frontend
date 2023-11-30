@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
-import { Paper } from '@mui/material';
 
 import { NewProjectStep } from 'domains/projects/types';
 import { NewProjectType } from 'domains/projects/store';
@@ -8,23 +7,22 @@ import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 import { NewProjectForm } from '../NewProjectForm';
-import { useNewProjectStyles } from './useNewProjectStyles';
 import { useIsLoading } from './hooks/useIsLoading';
 
 export const NewProject = () => {
-  const { classes } = useNewProjectStyles();
   const { handleSetStepConfig, projectStep } = useProjectConfig();
+
   const isLoading = useIsLoading();
 
-  const [currentStep, setCurrentStep] = useState<NewProjectStep>(
-    projectStep || NewProjectStep.Chain,
+  const [currentStep, setCurrentStep] = useState(
+    projectStep || NewProjectStep.General,
   );
 
   const { push } = useHistory();
 
   const handleBackClick = useCallback(() => {
     setCurrentStep(step => {
-      if (step > NewProjectStep.Chain) {
+      if (step > NewProjectStep.General) {
         return --step;
       }
 
@@ -37,7 +35,8 @@ export const NewProject = () => {
   const handleSubmit = useCallback(
     (step: NewProjectStep, stepValues: NewProjectType[NewProjectStep]) => {
       setCurrentStep(oldStep => {
-        const nextStep = step !== NewProjectStep.Checkout ? ++oldStep : oldStep;
+        const nextStep =
+          step === NewProjectStep.Whitelist ? oldStep : ++oldStep;
 
         handleSetStepConfig(step, stepValues, nextStep);
 
@@ -48,14 +47,11 @@ export const NewProject = () => {
   );
 
   return (
-    <Paper className={classes.root}>
-      <NewProjectForm
-        step={currentStep}
-        onSubmit={handleSubmit}
-        isLoading={isLoading}
-        onBackClick={handleBackClick}
-        setCurrentStep={setCurrentStep}
-      />
-    </Paper>
+    <NewProjectForm
+      step={currentStep}
+      onSubmit={handleSubmit}
+      isLoading={isLoading}
+      onBackClick={handleBackClick}
+    />
   );
 };

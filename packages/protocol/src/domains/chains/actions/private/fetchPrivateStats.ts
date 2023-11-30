@@ -5,9 +5,10 @@ import {
   PrivateStatsInterval,
 } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+import { Gateway } from 'domains/dashboard/types';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -16,10 +17,11 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-export interface FetchPrivateStatsParams extends IApiUserGroupParams {
-  interval: PrivateStatsInterval;
-  userEndpointToken?: string;
-}
+export type FetchPrivateStatsParams = IApiUserGroupParams &
+  Gateway & {
+    interval: PrivateStatsInterval;
+    userEndpointToken?: string;
+  };
 
 export const {
   endpoints: { chainsFetchPrivateStats },
@@ -28,17 +30,19 @@ export const {
     chainsFetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>(
       {
         queryFn: createNotifyingQueryFn(
-          async ({ interval, userEndpointToken, group }) => {
-            const service = MultiService.getService();
-            const accountingGateway = service.getAccountingGateway();
-
+          async ({
+            interval,
+            userEndpointToken,
+            group,
+            gateway = getAccountingGateway(),
+          }) => {
             const data = await (userEndpointToken
-              ? accountingGateway.getPrivateStatsByPremiumId(
+              ? gateway.getPrivateStatsByPremiumId(
                   interval,
                   userEndpointToken,
                   group,
                 )
-              : accountingGateway.getPrivateStats(interval, group));
+              : gateway.getPrivateStats(interval, group));
 
             return { data: getPrivateStats(data) };
           },

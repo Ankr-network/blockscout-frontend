@@ -7,11 +7,11 @@ import { iotexTheme } from 'modules/themes/iotexTheme';
 import { klaytnTheme } from 'modules/themes/klaytnTheme';
 import { polygonTheme } from 'modules/themes/polygonTheme';
 import { secretTheme } from 'modules/themes/secretTheme';
+import { seiTheme } from 'modules/themes/seiTheme';
 import { syscoinTheme } from 'modules/themes/syscoinTheme';
 import { arbitrumTheme } from 'modules/themes/arbitrumTheme';
 import { avalancheTheme } from 'modules/themes/avalancheTheme';
 import { chilizTheme } from 'modules/themes/chilizTheme';
-// import { mainTheme } from 'modules/themes/mainTheme';
 import { moonbeamTheme } from 'modules/themes/moonbeamTheme';
 import { nearTheme } from 'modules/themes/nearTheme';
 import { nervosTheme } from 'modules/themes/nervosTheme';
@@ -23,6 +23,10 @@ import { tenetTheme } from 'modules/themes/tenetTheme';
 import { zksyncEraTheme } from 'modules/themes/zksyncEraTheme';
 import { rolluxTheme } from 'modules/themes/rolluxTheme';
 import { mantleTheme } from 'modules/themes/mantleTheme';
+import { flareTheme } from 'modules/themes/flareTheme';
+import { XDCTheme } from 'modules/themes/XDCTheme';
+import { scrollTheme } from 'modules/themes/scrollTheme';
+import { coreTheme } from 'modules/themes/coreTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -74,8 +78,14 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Secret:
       return secretTheme;
 
+    case ChainId.Sei:
+      return seiTheme;
+
     case ChainId.Filecoin:
       return filecoinTheme;
+
+    case ChainId.Flare:
+      return flareTheme;
 
     case ChainId.Klaytn:
       return klaytnTheme;
@@ -95,7 +105,16 @@ export const getTheme = (chainId?: ChainId) => {
     case ChainId.Mantle:
       return mantleTheme;
 
+    case ChainId.XDC:
+      return XDCTheme;
+
+    case ChainId.Scroll:
+      return scrollTheme;
+
+    case ChainId.Core:
+      return coreTheme;
+
     default:
-      return horizenTheme;
+      return scrollTheme;
   }
 };

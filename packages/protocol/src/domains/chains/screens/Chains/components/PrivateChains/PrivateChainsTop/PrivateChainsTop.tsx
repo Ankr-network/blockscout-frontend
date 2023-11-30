@@ -1,6 +1,6 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { RequestsBannerContainer } from 'domains/chains/components/RequestsBannerContainer/RequestsBannerContainer';
 import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';

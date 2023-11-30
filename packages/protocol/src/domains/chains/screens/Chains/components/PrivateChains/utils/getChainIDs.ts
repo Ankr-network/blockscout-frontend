@@ -1,6 +1,4 @@
-import { Chain } from 'domains/chains/types';
-
-import { getChainID } from './getChainID';
+import { Chain } from 'modules/chains/types';
 
 const flatChain = (chain: Chain): Chain[] => [
   chain,
@@ -15,7 +13,7 @@ const flatChain = (chain: Chain): Chain[] => [
 export const getChainIDs = (chain: Chain) => {
   const subchains = flatChain(chain);
 
-  const ids = subchains.map(getChainID);
+  const ids = subchains.map(({ id }) => id);
 
   return [...new Set(ids)];
 };

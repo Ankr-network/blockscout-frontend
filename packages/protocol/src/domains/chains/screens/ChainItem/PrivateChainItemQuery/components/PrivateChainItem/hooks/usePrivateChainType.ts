@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ChainType, Chain } from 'domains/chains/types';
+import { ChainType, Chain } from 'modules/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useTabs } from 'modules/common/hooks/useTabs';
 import { getInitialChainType } from 'domains/chains/screens/ChainItem/utils/getInitialChainType';
@@ -15,7 +15,8 @@ export interface ChainTypeParams {
   selectedType?: ChainType;
   isBlockedTestnet: boolean;
   isBlockedMainnet?: boolean;
-  onBlockedTabClick: () => void;
+  isHiddenMainnet?: boolean;
+  onBlockedTabClick?: () => void;
 }
 
 export const usePrivateChainType = ({
@@ -25,6 +26,7 @@ export const usePrivateChainType = ({
   selectedType,
   isBlockedTestnet,
   isBlockedMainnet,
+  isHiddenMainnet,
   onBlockedTabClick,
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(
@@ -33,9 +35,16 @@ export const usePrivateChainType = ({
         endpoints,
         isBlockedTestnet,
         isBlockedMainnet,
+        isHiddenMainnet,
         onBlockedTabClick,
       }),
-    [endpoints, isBlockedTestnet, isBlockedMainnet, onBlockedTabClick],
+    [
+      endpoints,
+      isBlockedTestnet,
+      isBlockedMainnet,
+      isHiddenMainnet,
+      onBlockedTabClick,
+    ],
   );
 
   const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
@@ -44,8 +53,9 @@ export const usePrivateChainType = ({
       netId,
       selectedType,
       isMainnetPremiumOnly: isBlockedMainnet,
+      isHiddenMainnet,
     }),
-    tabs,
+    tabs: tabs.filter(tab => !tab.isHidden),
   });
 
   return {

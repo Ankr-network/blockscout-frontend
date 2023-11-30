@@ -4,7 +4,7 @@ import { useCallback, useMemo } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
 
 import { ItemHeader } from '../ItemHeader';

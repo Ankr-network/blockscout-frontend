@@ -1,8 +1,10 @@
 import { useForm } from 'react-final-form';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { ProjectChainsType } from 'domains/projects/types';
+
+import { NewProjectFormValues } from '../screens/NewProject/components/NewProjectForm/NewProjectFormTypes';
 
 const getMainnetChains = (
   previouslySelectedMainnetIds: ChainID[],
@@ -116,11 +118,12 @@ export const getSelectedChains = ({
 };
 
 export const useProjectFormValues = (projectChains?: ProjectChainsType[]) => {
-  const { getState, change } = useForm();
+  const { getState, change } = useForm<NewProjectFormValues>();
 
   const {
     values: {
       projectName,
+      tokenIndex,
       whitelistItems = [],
       whitelistDialog,
       planName,
@@ -188,6 +191,7 @@ export const useProjectFormValues = (projectChains?: ProjectChainsType[]) => {
 
   return {
     projectName,
+    tokenIndex,
     planName,
     whitelistItems,
     whitelistDialog,

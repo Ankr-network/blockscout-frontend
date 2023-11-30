@@ -13,6 +13,7 @@ export const useStyles = makeStyles<Props>()((theme: Theme, props: Props) => ({
   },
   tab: {
     whiteSpace: 'nowrap',
+    color: theme.palette.text.primary,
     '&:not(:last-child)': {
       marginRight: theme.spacing(0),
     },
@@ -22,6 +23,11 @@ export const useStyles = makeStyles<Props>()((theme: Theme, props: Props) => ({
     alignItems: 'center',
   },
   right: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: props.orientation === 'vertical' ? 'column' : 'row',
+  },
+  tabsInner: {
     display: 'flex',
     alignItems: 'center',
     flexDirection: props.orientation === 'vertical' ? 'column' : 'row',

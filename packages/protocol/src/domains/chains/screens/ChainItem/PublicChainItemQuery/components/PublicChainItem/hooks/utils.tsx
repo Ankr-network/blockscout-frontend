@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 
-import { Chain, ChainType } from 'domains/chains/types';
+import { Chain, ChainType } from 'modules/chains/types';
+import { ChainTypeTab } from 'domains/chains/screens/ChainItem/components/ChainTypeTab';
 import { GroupedEndpoints as Endpoints } from 'modules/endpoints/types';
-import { Tab } from 'modules/common/hooks/useTabs';
-import { SecondaryTab } from 'modules/common/components/SecondaryTab';
-import { getChainTypeTabs } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
-import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
 import { LockedTab } from 'domains/chains/screens/ChainItem/components/LockedTab';
+import { Tab } from 'modules/common/hooks/useTabs';
+import { chainTypeToEndpointsKeyMap } from 'domains/chains/screens/ChainItem/constants/chainTypeToEndpointsKeyMap';
+import { getChainTypeTabs } from 'domains/chains/screens/ChainItem/constants/chainTypeTabs';
 
 const isTestnetPremimumOnly = (chain: Chain) => {
   return chain.testnets && chain?.testnets?.length > 0
@@ -48,7 +48,7 @@ export const getPublicChainTypeTabs = ({
           );
 
           return (
-            <SecondaryTab
+            <ChainTypeTab
               isLast={index === list.length - 1}
               isSelected={!isBlocked && isSelected}
               label={label}

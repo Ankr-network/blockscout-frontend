@@ -1,12 +1,15 @@
 import { makeStyles } from 'tss-react/mui';
 
+const TAB_BORDER_RADIUS = 11;
+
 export const useChainSelectorContentStyles = makeStyles()(theme => ({
   controls: {
     display: 'flex',
     gap: theme.spacing(3),
     alignItems: 'center',
-
-    marginTop: theme.spacing(8),
+    paddingBottom: theme.spacing(4),
+    borderBottom: `1px solid ${theme.palette.background.default}`,
+    marginTop: theme.spacing(10),
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
@@ -19,20 +22,37 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
   },
-  desktopGroupSelector: {
+  chainTypeTabs: {
+    '&': {
+      borderRadius: TAB_BORDER_RADIUS,
+    },
+  },
+  groupTabs: {
     '&&': {
+      borderRadius: TAB_BORDER_RADIUS,
+
       [theme.breakpoints.down('sm')]: {
         display: 'none !important',
       },
     },
   },
-  rootMobileGroupSelector: {
+  groupSelector: {
     '&&': {
-      display: 'none',
+      div: {
+        borderRadius: 11,
+      },
 
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
       },
     },
+  },
+  title: {
+    marginBottom: theme.spacing(5),
+
+    letterSpacing: '-0.02em',
+
+    fontWeight: 700,
+    lineHeight: '135%',
   },
 }));

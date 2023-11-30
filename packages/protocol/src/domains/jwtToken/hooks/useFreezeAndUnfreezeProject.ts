@@ -1,5 +1,5 @@
 import { t } from '@ankr.com/common';
-import { useCallback, useMemo } from 'react';
+import { MouseEvent, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -13,7 +13,7 @@ interface FreezeAndUnfreezeProjectProps {
   isFreeze: boolean;
   userEndpointToken: string;
   projectName: string;
-  onSuccess: () => void;
+  onSuccess: (event?: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const useFreezeAndUnfreezeProject = ({
@@ -51,40 +51,45 @@ export const useFreezeAndUnfreezeProject = ({
     updateJwtTokenFreezeStatus,
   );
 
-  const handeUpdateStatus = useCallback(async () => {
-    const { error } = await updateProjectFreezeStatus({
-      token: userEndpointToken,
-      group: selectedGroupAddress,
-      freeze: isFreeze,
-    });
+  const handeUpdateStatus = useCallback(
+    async (event?: MouseEvent<HTMLButtonElement>) => {
+      event?.stopPropagation();
 
-    const severity = error ? 'error' : 'success';
-    const message = error
-      ? t('error.common')
-      : getSuccessFreezeMessage(isFreeze, projectName);
+      const { error } = await updateProjectFreezeStatus({
+        token: userEndpointToken,
+        group: selectedGroupAddress,
+        freeze: isFreeze,
+      });
 
-    dispatch(
-      NotificationActions.showNotification({
-        message,
-        severity,
-      }),
-    );
+      const severity = error ? 'error' : 'success';
+      const message = error
+        ? t('error.common')
+        : getSuccessFreezeMessage(isFreeze, projectName);
 
-    if (!error) {
-      onSuccess();
-    }
+      dispatch(
+        NotificationActions.showNotification({
+          message,
+          severity,
+        }),
+      );
 
-    reset();
-  }, [
-    updateProjectFreezeStatus,
-    userEndpointToken,
-    selectedGroupAddress,
-    isFreeze,
-    reset,
-    dispatch,
-    projectName,
-    onSuccess,
-  ]);
+      if (!error) {
+        onSuccess(event);
+      }
+
+      reset();
+    },
+    [
+      updateProjectFreezeStatus,
+      userEndpointToken,
+      selectedGroupAddress,
+      isFreeze,
+      reset,
+      dispatch,
+      projectName,
+      onSuccess,
+    ],
+  );
 
   return {
     titleText,

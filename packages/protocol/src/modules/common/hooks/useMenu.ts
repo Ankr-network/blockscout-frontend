@@ -7,14 +7,20 @@ export function useMenu() {
   const open = Boolean(anchorEl);
   const handleOpen = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
+
       setAnchorEl(event.currentTarget);
     },
     [],
   );
 
-  const handleClose = useCallback(() => {
-    setAnchorEl(null);
-  }, []);
+  const handleClose = useCallback(
+    (event?: React.MouseEvent<HTMLButtonElement>) => {
+      event?.stopPropagation();
+      setAnchorEl(null);
+    },
+    [],
+  );
 
   return { open, anchorEl, handleOpen, handleClose };
 }

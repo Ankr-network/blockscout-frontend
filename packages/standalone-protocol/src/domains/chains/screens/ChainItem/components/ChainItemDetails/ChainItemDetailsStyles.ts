@@ -23,6 +23,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       backgroundColor: '#E5E5F5',
     },
 
+    [`&.${ChainId.Core} $block`]: {
+      backgroundColor: theme.palette.grey[100],
+    },
+
     [`&.${ChainId.Harmony} $block`]: {
       border: `2px solid ${theme.palette.grey[300]}`,
     },
@@ -48,6 +52,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [`&.${ChainId.Chiliz} $block`]: {
       border: `2px solid ${theme.palette.grey['200']}`,
+    },
+
+    [`&.${ChainId.XDC} $block`]: {
+      borderRadius: 18,
     },
 
     [`&.${ChainId.Nervos} $block`]: {
@@ -93,6 +101,14 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Rollux} $block`]: {
       borderRadius: 0,
       border: `1px solid ${theme.palette.common.black}`,
+    },
+
+    [`&.${ChainId.Scroll} $block`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+
+      '& h6': {
+        color: theme.palette.text.secondary,
+      },
     },
   },
 

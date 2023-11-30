@@ -6,10 +6,11 @@ import {
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
@@ -36,7 +37,8 @@ export const useUsageDataSection = ({
   timeframeTabs,
 }: UsageDataSectionParams) => {
   const { hasPremium, hasPrivateAccess, isLoggedIn } = useAuth();
-  const shouldHideUsageData = !hasPremium && isLoggedIn;
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+  const shouldHideUsageData = !hasPremium && isLoggedIn && !isEnterpriseClient;
 
   return useMemo(() => {
     if (shouldHideUsageData) return null;
@@ -51,7 +53,7 @@ export const useUsageDataSection = ({
           group={group}
           timeframe={timeframe}
           timeframeTabs={timeframeTabs}
-          hasPrivateAccess={hasPrivateAccess}
+          hasPrivateAccess={hasPrivateAccess || isEnterpriseClient}
         />
       ),
       onSelect: getSelectHandler(SectionID.UsageData),
@@ -63,14 +65,15 @@ export const useUsageDataSection = ({
       ),
     };
   }, [
+    shouldHideUsageData,
     chain,
     chainType,
     chainSubType,
-    getSelectHandler,
     group,
     timeframe,
     timeframeTabs,
-    shouldHideUsageData,
     hasPrivateAccess,
+    isEnterpriseClient,
+    getSelectHandler,
   ]);
 };

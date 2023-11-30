@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 const MINUTE = 60;
 const HOUR = MINUTE * 60;

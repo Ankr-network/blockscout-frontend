@@ -2,11 +2,13 @@ import BigNumber from 'bignumber.js';
 import { EthAddressType, Tier, PremiumStatus } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { getPermissions } from 'domains/userGroup/utils/getPermissions';
+import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import {
-  selectSelectedUserGroupRole,
-  selectUserGroupConfigByAddress,
-} from 'domains/userGroup/store';
-import { selectTotalBalance } from 'domains/account/store/selectors';
+  selectMyCurrentBundle,
+  selectTotalBalance,
+} from 'domains/account/store/selectors';
 
 import {
   defaultPremiumStatusData,
@@ -143,21 +145,35 @@ const freeToPremiumThreshold = getPremiumActivationThreshold();
 
 export const selectHasFreeToPremiumTransition = createSelector(
   selectTotalBalance,
+  selectMyCurrentBundle,
   selectHasFreemium,
   selectIsWeb3UserWithEmailBound,
-  (balance, hasFreemium, isWeb3UserWithEmailBound) =>
-    Boolean(
-      !isWeb3UserWithEmailBound &&
-        hasFreemium &&
-        new BigNumber(balance).isGreaterThanOrEqualTo(freeToPremiumThreshold),
-    ),
+  // eslint-disable-next-line max-params
+  (balance, myBundle, hasFreemium, isWeb3UserWithEmailBound) => {
+    const hasEnoughBalance = new BigNumber(balance).isGreaterThanOrEqualTo(
+      freeToPremiumThreshold,
+    );
+
+    const hasBundle = Boolean(myBundle);
+    const shouldBePremium = hasEnoughBalance || hasBundle;
+    const hasNoEmailBound = !isWeb3UserWithEmailBound;
+
+    return hasNoEmailBound && hasFreemium && shouldBePremium;
+  },
 );
 
 export const selectHasStatusTransition = createSelector(
   selectHasFreeToPremiumTransition,
-  selectSelectedUserGroupRole,
-  (hasFreeToPremiumTransition, userRole) =>
-    userRole !== 'GROUP_ROLE_DEV' && hasFreeToPremiumTransition,
+  selectUserGroupConfigByAddress,
+  (hasFreeToPremiumTransition, { selectedGroupRole }) => {
+    const permissions = getPermissions(selectedGroupRole);
+
+    const hasAccess = permissions.includes(
+      BlockWithPermission.StatusTransition,
+    );
+
+    return hasAccess && hasFreeToPremiumTransition;
+  },
 );
 
 export const selectHasConnectWalletMessage = createSelector(

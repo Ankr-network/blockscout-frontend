@@ -1,6 +1,6 @@
-import { IChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
+import { IPublicChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { useStyles } from '../ChainItemStyles';
@@ -17,7 +17,7 @@ export const PublicChainItemQuery = ({ chainId, loading }: ChainItemProps) => {
   return (
     <PremiumOnlyChainGuard chain={fetchChainState.data?.chain}>
       <div className={classes.root}>
-        <Queries<IChainItemDetails>
+        <Queries<IPublicChainItemDetails>
           isPreloadDisabled
           queryStates={[fetchChainState]}
         >

@@ -1,8 +1,8 @@
-import { BaseNavButton } from './BaseNavButton';
 import {
+  BaseNavButton,
   NavigationItem,
   NavigationProps,
-} from './BaseNavButton/BaseNavButtonTypes';
+} from './BaseNavButton';
 
 export const Navigation = ({ items, isMobileSiderBar }: NavigationProps) => {
   return (

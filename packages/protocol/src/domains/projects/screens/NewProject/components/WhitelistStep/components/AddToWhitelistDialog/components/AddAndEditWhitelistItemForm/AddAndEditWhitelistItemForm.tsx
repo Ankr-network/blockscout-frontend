@@ -1,5 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-final-form';
+import { useDispatch } from 'react-redux';
+import { t } from '@ankr.com/common';
 
 import { useProjectFormValues } from 'domains/projects/screens/NewProject/hooks/useProjectFormValues';
 import {
@@ -9,6 +11,7 @@ import {
 } from 'domains/projects/store';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 import { MainForm } from './MainForm';
 
@@ -19,7 +22,8 @@ interface AddAndEditWhitelistItemFormProps {
 export const AddAndEditWhitelistItemForm = ({
   onClose,
 }: AddAndEditWhitelistItemFormProps) => {
-  const { handleSetStepConfig, project } = useProjectConfig();
+  const dispatch = useDispatch();
+  const { handleSetStepConfig } = useProjectConfig();
   const { change } = useForm();
 
   const {
@@ -48,6 +52,31 @@ export const AddAndEditWhitelistItemForm = ({
   const handleFormSubmit = useCallback(() => {
     let newWhitelistItems = [];
 
+    const whitelistItemsAddresses = whitelistItems.map(item => item.value);
+
+    const doesNewValueExists = whitelistItemsAddresses.includes(
+      whitelistDialog.value,
+    );
+
+    const isDuplicationInAddingDialog =
+      doesNewValueExists && !isEditingWhitelistDialog;
+    const isDuplicationInEditingDialog =
+      doesNewValueExists &&
+      isEditingWhitelistDialog &&
+      whitelistItems[indexOfEditingWhitelistItem].value !==
+        whitelistDialog.value;
+
+    if (isDuplicationInAddingDialog || isDuplicationInEditingDialog) {
+      dispatch(
+        NotificationActions.showNotification({
+          message: t('projects.new-project.step-3.error-message.duplication'),
+          severity: 'error',
+        }),
+      );
+
+      return;
+    }
+
     if (isEditingWhitelistDialog) {
       newWhitelistItems = replaceWhiteListItemWithNewOne(
         whitelistItems,
@@ -66,9 +95,6 @@ export const AddAndEditWhitelistItemForm = ({
       NewProjectStep.Whitelist,
       {
         whitelistItems: newWhitelistItems,
-        userEndpointToken:
-          project[NewProjectStep.Chain]?.userEndpointToken ?? '',
-        tokenIndex: project[NewProjectStep.Chain]?.tokenIndex,
       },
       NewProjectStep.Whitelist,
     );
@@ -77,15 +103,15 @@ export const AddAndEditWhitelistItemForm = ({
 
     onClose();
   }, [
-    change,
-    handleSetStepConfig,
     indexOfEditingWhitelistItem,
     isEditingWhitelistDialog,
-    onClose,
-    project,
-    replaceWhiteListItemWithNewOne,
     whitelistDialog,
     whitelistItems,
+    change,
+    dispatch,
+    handleSetStepConfig,
+    onClose,
+    replaceWhiteListItemWithNewOne,
   ]);
 
   useEffect(() => {

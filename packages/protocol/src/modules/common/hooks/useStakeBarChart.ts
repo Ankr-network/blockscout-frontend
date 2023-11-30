@@ -2,7 +2,7 @@ import { PrivateStatTopRequestsData } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
 
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 

@@ -4,53 +4,32 @@ import { MetaMaskWallet } from '@ankr.com/ui';
 
 import { useButtonMetamaskStyles } from './ButtonMetamaskStyles';
 
-interface IButtonSpecialProps {
+interface ButtonMetamaskProps {
   className?: string;
-  hasPlusIcon?: boolean;
   isDisabled?: boolean;
   label?: ReactNode;
   onClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  size?: 'large' | 'medium';
+  size?: 'large' | 'medium' | 'small';
 }
 
 export const ButtonMetamask = ({
-  className,
-  hasPlusIcon = false,
+  className = '',
   isDisabled,
   label,
   onClick,
   size = 'large',
-}: IButtonSpecialProps) => {
+}: ButtonMetamaskProps) => {
   const { classes, cx } = useButtonMetamaskStyles();
 
   return (
-    <>
-      <Button
-        disabled={isDisabled}
-        className={cx(classes.button, classes[`size_${size}`], className)}
-        onClick={onClick}
-      >
-        <MetaMaskWallet />
-        {label}
-        {hasPlusIcon && (
-          <span className={classes.plusIconWrapper}>
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 10 10"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M6 0H4V4L0 4V6H4V10H6V6H10V4L6 4V0Z"
-                fill="white"
-              />
-            </svg>
-          </span>
-        )}
-      </Button>
-    </>
+    <Button
+      disabled={isDisabled}
+      className={cx(classes.button, className)}
+      size={size}
+      onClick={onClick}
+    >
+      <MetaMaskWallet className={classes.icon} />
+      {label}
+    </Button>
   );
 };

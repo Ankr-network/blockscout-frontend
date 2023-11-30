@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.56.1",
+  "version": "1.60.3b",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -31,8 +31,9 @@
     "@ankr.com/common": "*",
     "@ankr.com/global-menu": "*",
     "@ankr.com/provider": "^1.10.2",
-    "@ankr.com/ui": "^0.10.2",
+    "@ankr.com/ui": "^0.10.8",
     "@ankr.com/utils": "^1.1.1",
+    "@ankr.com/telemetry": "*",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@loadable/component": "^5.14.1",
@@ -169,10 +170,10 @@
       "/account/failure/",
       "/settings/confirmation",
       "/oauth/",
+      "/enterprise/",
       "/mm/",
       "/projects/",
-      "/projects/new/",
-      "/enterprise/"
+      "/projects/new/"
     ],
     "inlineCss": true
   }

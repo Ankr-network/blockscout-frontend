@@ -1,13 +1,15 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { GetStartedSection } from 'modules/common/components/GetStartedSection';
+import { getCodeMrpc } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
+import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
 
-import { GetStartedSection } from '../../GetStartedSection';
 import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
@@ -19,6 +21,7 @@ export interface GetStartedSectionParams {
   getSelectHandler: TabSelectHandlerGetter;
   group: EndpointGroup;
   publicUrl: string;
+  hasWssAccess?: boolean;
 }
 
 export const useGetStartedSection = ({
@@ -36,6 +39,12 @@ export const useGetStartedSection = ({
 
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
+  const [technology, setTechnology] = useTechnology();
+
+  const [httpCode, wssCode] = useMemo(() => {
+    return getCodeMrpc(technology, group.urls);
+  }, [technology, group]);
+
   return useMemo((): Tab<SectionID> | undefined => {
     const hasRequestComposer = hasRequestComposerFn({
       chainId,
@@ -43,6 +52,7 @@ export const useGetStartedSection = ({
       isChainProtocolSwitchEnabled,
       hasPrivateAccess,
     });
+
     const isVisible = hasUpgradeBanner || hasRequestComposer;
 
     if (!isVisible) {
@@ -57,8 +67,12 @@ export const useGetStartedSection = ({
           group={group}
           hasUpgradeBanner={hasUpgradeBanner}
           publicUrl={publicUrl}
-          hasPremium={hasPremium}
           hasRequestComposer={hasRequestComposer}
+          technology={technology}
+          setTechnology={setTechnology}
+          httpCode={httpCode}
+          wssCode={wssCode}
+          hasWssAccess={hasPremium}
         />
       ),
       onSelect: getSelectHandler(SectionID.GetStarted),
@@ -71,12 +85,16 @@ export const useGetStartedSection = ({
     };
   }, [
     chainId,
-    getSelectHandler,
     group,
     isChainProtocolSwitchEnabled,
+    hasPrivateAccess,
     hasUpgradeBanner,
     publicUrl,
+    technology,
+    setTechnology,
+    httpCode,
+    wssCode,
+    getSelectHandler,
     hasPremium,
-    hasPrivateAccess,
   ]);
 };

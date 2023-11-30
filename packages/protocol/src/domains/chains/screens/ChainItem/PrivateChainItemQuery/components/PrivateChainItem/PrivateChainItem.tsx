@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { H1Tag } from 'uiKit/H1Tag';
-import { IChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
@@ -15,7 +15,7 @@ import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 
 export interface ChainItemProps {
-  data: IChainItemDetails;
+  data: IPrivateChainItemDetails;
 }
 
 export const PrivateChainItem = ({ data }: ChainItemProps) => {
@@ -24,21 +24,12 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   const {
     chainProtocolContext,
     chain,
-    publicChain,
     chainType,
-    chainTypeTab,
-    chainTypeTabs,
     group,
     chainSubType,
-    chainSubTypeTab,
-    chainSubTypeTabs,
-    groups,
     unfilteredGroup,
-    groupID,
-    groupTab,
-    groupTabs,
     name,
-    selectGroup,
+    headerContent,
   } = usePrivateChainItem({
     ...data,
     onBlockedTabClick: onOpen,
@@ -51,27 +42,11 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
-      <ChainItemHeader
-        chain={chain}
-        publicChain={publicChain}
-        chainType={chainType}
-        chainTypeTabs={chainTypeTabs}
-        chainTypeTab={chainTypeTab}
-        chainSubType={chainSubType}
-        chainSubTypeTab={chainSubTypeTab}
-        chainSubTypeTabs={chainSubTypeTabs}
-        group={group}
-        groups={groups}
-        groupID={groupID}
-        groupTabs={groupTabs}
-        groupTab={groupTab}
-        isChainArchived={data.isChainArchived}
-        selectGroup={selectGroup}
-      />
+      <ChainItemHeader chain={chain} headerContent={headerContent} />
       <ChainItemSections
         chainType={chainType}
         chainSubType={chainSubType}
-        data={data}
+        chain={data.chain}
         group={group}
         unfilteredGroup={unfilteredGroup}
       />

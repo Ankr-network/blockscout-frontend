@@ -5,21 +5,20 @@ import {
   ChainsConfig,
 } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import {
+  ChainID,
+  GroupedBlockchainType,
+  Chain,
+  ChainURL,
+} from 'modules/chains/types';
 import { mappingChainName } from 'domains/auth/utils/mappingchainName';
 
-import { isTestnetOnlyChain } from './isTestnetOnlyChain';
-import { GroupedBlockchainType, Chain, ChainURL } from '../types';
 import { isEvmExtension } from './isEvmExtension';
 
-const getChainWithoutMainnet = ({ id, name, urls }: Chain) => ({
-  id,
-  name,
-  urls,
-});
+type ChainsResult = Record<string, Chain[]>;
 
 const getExtensions = (chains: Chain[]) => {
-  return chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return chains.reduce<ChainsResult>((result, chain) => {
     const { type, chainExtends } = chain;
 
     if (type === BlockchainType.Extension && chainExtends) {
@@ -33,7 +32,7 @@ const getExtensions = (chains: Chain[]) => {
 };
 
 export const getBeacons = (chains: Chain[]) => {
-  return chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Beacon && chainExtends) {
@@ -47,7 +46,7 @@ export const getBeacons = (chains: Chain[]) => {
 };
 
 export const getOpnodes = (chains: Chain[]) => {
-  return chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Opnode && chainExtends) {
@@ -105,7 +104,7 @@ const getExtendedChains = ({
 };
 
 export const getTestnets = (extendedChains: Chain[]) => {
-  return extendedChains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return extendedChains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Testnet && chainExtends) {
@@ -119,7 +118,7 @@ export const getTestnets = (extendedChains: Chain[]) => {
 };
 
 export const getDevnets = (extendedChains: Chain[]) => {
-  return extendedChains.reduce<Record<string, Chain[]>>((result, chain) => {
+  return extendedChains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Devnet && chainExtends) {
@@ -149,20 +148,11 @@ const addExtensions = ({
     const { id, type } = chain;
 
     if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
-      const defaultTestnet = testnets[id]?.[0];
-
       result.push({
         ...chain,
         testnets: testnets[id],
         devnets: devnets[id],
         opnodes: opnodes[id],
-        chainWithoutMainnet: isTestnetOnlyChain(id)
-          ? getChainWithoutMainnet(
-              id === ChainID.SCROLL
-                ? testnets[id]?.[1] || defaultTestnet
-                : defaultTestnet,
-            )
-          : undefined,
       });
     }
 
@@ -171,7 +161,7 @@ const addExtensions = ({
 };
 
 export const addExtenders = (chains: Chain[]) => {
-  const extenders = chains.reduce<Record<string, Chain[]>>((result, chain) => {
+  const extenders = chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends } = chain;
 
     if (chainExtends) {
@@ -213,7 +203,13 @@ const addPremiumOnly = (chains: Chain[]) => {
   return chains;
 };
 
-const getURLs = ({ restURLs, rpcURLs, wsURLs }: BlockchainUrls) => {
+const getURLs = ({
+  restURLs,
+  rpcURLs,
+  wsURLs,
+  enterpriseURLs,
+  enterpriseWsURLs,
+}: BlockchainUrls) => {
   const template = new Array(Math.max(restURLs.length, rpcURLs.length)).fill(
     '',
   );
@@ -222,10 +218,12 @@ const getURLs = ({ restURLs, rpcURLs, wsURLs }: BlockchainUrls) => {
     rpc: rpcURLs[index],
     ws: wsURLs[index],
     rest: restURLs[index],
+    enterprise: enterpriseURLs[index],
+    enterpriseWs: enterpriseWsURLs[index],
   }));
 };
 
-const getApiChains = (data: ChainsConfig) => {
+const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
   return Object.values(data).map(chain => {
     const { blockchain } = chain;
     const {
@@ -236,9 +234,13 @@ const getApiChains = (data: ChainsConfig) => {
       type,
       premiumOnly,
       features,
+      paths,
     } = blockchain;
 
     const isComingSoon = features.includes(BlockchainFeature.ComingSoon);
+
+    const hasEnterpriseFeature = availableChainIds?.includes(id);
+    const hasWSFeature = features.includes(BlockchainFeature.WS);
 
     return {
       coinName,
@@ -249,32 +251,24 @@ const getApiChains = (data: ChainsConfig) => {
       premiumOnly,
       urls: getURLs(chain),
       hasRESTFeature: features.includes(BlockchainFeature.REST),
-      hasRPCFeature: features.includes(BlockchainFeature.RPC),
-      hasWSFeature: features.includes(BlockchainFeature.WS),
+      hasRPCFeature:
+        features.includes(BlockchainFeature.RPC) ||
+        features.includes(BlockchainFeature.GRPC),
+      hasWSFeature,
+      hasEnterpriseFeature,
       isComingSoon,
       isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
       isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
+      paths,
     } as Chain;
-  });
-};
-
-const changeMainnetToChainWithoutMainnet = (chains: Chain[]) => {
-  return chains.map(item => {
-    const { id, chainWithoutMainnet, urls } = item;
-
-    return {
-      ...item,
-      ...(chainWithoutMainnet || {}),
-      urls: chainWithoutMainnet ? [] : urls,
-      id,
-    };
   });
 };
 
 export const formatChainsConfigToChains = (
   data: ChainsConfig = {},
+  availableChainIds?: string[],
 ): Chain[] => {
-  const chains = getApiChains(data);
+  const chains = getApiChains(data, availableChainIds);
 
   const extensions = getExtensions(chains);
   const beacons = getBeacons(chains);
@@ -296,5 +290,5 @@ export const formatChainsConfigToChains = (
   const chainsWithExtenders = addExtenders(chainsWithExtensions);
   const chainsWithPremiumOnly = addPremiumOnly(chainsWithExtenders);
 
-  return changeMainnetToChainWithoutMainnet(chainsWithPremiumOnly);
+  return chainsWithPremiumOnly;
 };

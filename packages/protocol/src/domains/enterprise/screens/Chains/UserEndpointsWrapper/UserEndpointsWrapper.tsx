@@ -1,80 +1,68 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
 import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  EnterpriseClientJwtManagerItem,
+  selectEnterpriseUserEndpointToken,
+} from 'domains/enterprise/store/selectors';
 
 import { useUserEndpointsWrapperStyles } from './useUserEndpointsWrapperStyles';
 
-const jwtTokensMock = [
-  {
-    index: 0,
-    userEndpointToken: 'mockedUserEndpointToken-0',
-    name: 'project 0',
-    description: 'description 0',
-    jwtData: '',
-  },
-  {
-    index: 1,
-    userEndpointToken: 'mockedUserEndpointToken-1',
-    name: 'project 1',
-    description: 'description 1',
-    jwtData: '',
-  },
-  {
-    index: 2,
-    userEndpointToken: 'mockedUserEndpointToken-2',
-    name: 'project 2',
-    description: 'description 2',
-    jwtData: '',
-  },
-  {
-    index: 3,
-    userEndpointToken: 'mockedUserEndpointToken-3',
-    name: 'project 3',
-    description: 'description 3',
-    jwtData: '',
-  },
-  {
-    index: 4,
-    userEndpointToken: 'mockedUserEndpointToken-4',
-    name: 'project 4',
-    description: 'description 4',
-    jwtData: '',
-  },
-  {
-    index: 5,
-    userEndpointToken: 'mockedUserEndpointToken-5',
-    name: 'project 5',
-    description: 'description 5',
-    jwtData: '',
-  },
-];
+interface UserEndpointsWrapperProps {
+  className?: string;
+  onSelectToken?: (index: number) => void;
+  apiKeys: EnterpriseClientJwtManagerItem[];
+  isLoading: boolean;
+  openedEndpoint?: EnterpriseClientJwtManagerItem;
+  setOpenedEndpointIndex: (index: number) => void;
+}
 
-export const UserEndpointsWrapper = () => {
+export const UserEndpointsWrapper = ({
+  className,
+  onSelectToken = () => {},
+  apiKeys,
+  isLoading,
+  openedEndpoint,
+  setOpenedEndpointIndex,
+}: UserEndpointsWrapperProps) => {
   const {
     isOpened: isViewEndpointOpened,
     onOpen: onEndpointOpen,
     onClose: onEndpointClose,
   } = useDialog();
 
-  const [openedEndpointIndex, setOpenedEndpointIndex] = useState(-1);
+  const selectedApiKey = useAppSelector(selectEnterpriseUserEndpointToken);
 
-  const openedEndpoint = useMemo(
-    () => jwtTokensMock.find(item => item.index === openedEndpointIndex),
-    [openedEndpointIndex],
-  );
+  const selectedProjectIndex = useMemo(() => {
+    if (!selectedApiKey) {
+      return -1;
+    }
 
-  const { classes } = useUserEndpointsWrapperStyles();
+    const currentApiKey = apiKeys.find(
+      apiKey => apiKey.enterprise_api_key === selectedApiKey,
+    );
+
+    if (!currentApiKey) {
+      return -1;
+    }
+
+    return currentApiKey.index;
+  }, [apiKeys, selectedApiKey]);
+
+  const { classes, cx } = useUserEndpointsWrapperStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={cx(classes.userEndpointsWrapperRoot, className)}>
       <UserEndpointsScrollbarWrapper
-        jwtTokens={jwtTokensMock}
-        selectedProjectIndex={-1}
-        handleSelectTokenIndex={() => {}}
+        jwtTokens={apiKeys}
+        selectedProjectIndex={selectedProjectIndex}
+        handleSelectTokenIndex={onSelectToken}
         setOpenedProjectIndex={setOpenedEndpointIndex}
         onProjectOpen={onEndpointOpen}
+        isLoading={isLoading}
       />
       <UserEndpointDialog
         shouldConnectWallet={false}

@@ -2,11 +2,10 @@ import { makeStyles } from 'tss-react/mui';
 
 export interface UseStylesParams {
   hasStatusTransition: boolean;
-  hasStatusAccess: boolean;
 }
 
 export const useStyles = makeStyles<UseStylesParams>()(
-  (theme, { hasStatusTransition, hasStatusAccess }) => ({
+  (theme, { hasStatusTransition }) => ({
     buttonRoot: {
       flexShrink: 0,
       border: 'none',
@@ -23,7 +22,7 @@ export const useStyles = makeStyles<UseStylesParams>()(
       backgroundColor: theme.palette.background.paper,
 
       [theme.breakpoints.down('xs')]: {
-        display: hasStatusAccess ? 'inline-flex' : 'none',
+        display: 'inline-flex',
         minWidth: 40,
       },
     },

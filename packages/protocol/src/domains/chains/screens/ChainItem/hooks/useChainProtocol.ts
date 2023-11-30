@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { EndpointGroup } from 'modules/endpoints/types';
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { isBeacon, isOpnode } from 'domains/chains/utils/isBeacon';
 
 import { getBeaconGroup, getOpnodeGroup } from '../utils/getBeaconGroup';

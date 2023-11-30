@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { Chain } from 'domains/chains/types';
+import { Chain } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export interface PremiumOnlyChainGuardProps {

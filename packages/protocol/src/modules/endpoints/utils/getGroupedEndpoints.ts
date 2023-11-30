@@ -1,4 +1,4 @@
-import { ChainID, Chain, ChainURL } from 'domains/chains/types';
+import { ChainID, Chain, ChainURL } from 'modules/chains/types';
 
 import { getFallbackEndpointGroup } from '../constants/groups';
 import { ChainGroup, EndpointGroup, GroupedEndpoints } from '../types';
@@ -128,10 +128,7 @@ const getGroups = ({ fallback, groups, nets = [] }: GetGroupParams) => {
 };
 
 const getFallback = (chain: Chain) => {
-  const { chainWithoutMainnet: { name: frontChainName } = {} } = chain;
-  const chainName = frontChainName || chain.name;
-
-  return getFallbackEndpointGroup(chainName);
+  return getFallbackEndpointGroup(chain.name);
 };
 
 export interface GetGrouppedEndpointsParams {
@@ -158,10 +155,38 @@ export const getGroupedEndpoints = ({
     fallback: getFallback(chain),
     nets: chain.devnets,
   });
+  const beaconsMainnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: chain.beacons,
+  });
+  const beaconsTestnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: chain.testnets
+      ?.flatMap(testnet => testnet.beacons)
+      .filter(Boolean) as Chain[],
+  });
+  const opnodesMainnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: chain.opnodes,
+  });
+  const opnodesTestnetGroups = getGroups({
+    groups,
+    fallback: getFallback(chain),
+    nets: chain.testnets
+      ?.flatMap(testnet => testnet.opnodes)
+      .filter(Boolean) as Chain[],
+  });
 
   return {
     mainnet: mainnetGroups,
     testnet: testnetGroups,
     devnet: devnetGroups,
+    beaconsMainnet: beaconsMainnetGroups,
+    beaconsTestnet: beaconsTestnetGroups,
+    opnodesMainnet: opnodesMainnetGroups,
+    opnodesTestnet: opnodesTestnetGroups,
   };
 };

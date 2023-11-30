@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
@@ -9,20 +8,16 @@ import { InfoCard } from 'domains/userSettings/components/InfoCard';
 import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useEnableWhitelistedProject } from 'domains/projects/hooks/useEnableWhitelistedProject';
+import { LoadingButton } from 'uiKit/LoadingButton';
 
 import { getInfoCardParams } from './utils/getInfoCardParams';
 import { getOriginRoute } from './utils/getOriginRoute';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { useClickHandler } from './hooks/useClickHandler';
 import { useTrackSuccessfulTopUp } from './hooks/useTrackSuccessfulTopUp';
-import { useIsWhitelistReason } from './hooks/useIsWhitelistReason';
+import success from './assets/success.png';
 
 export const CardPaymentSuccess = () => {
-  const isWhitelistReason = useIsWhitelistReason();
-
-  useEnableWhitelistedProject(isWhitelistReason);
-
   useTrackSuccessfulTopUp();
 
   const topUpOrigin = useSelector(selectTopUpOrigin);
@@ -42,7 +37,7 @@ export const CardPaymentSuccess = () => {
   const { classes } = useCardPaymentSuccessStyles();
 
   const { button, description, title } = useMemo(
-    () => getInfoCardParams(hasPremium),
+    () => getInfoCardParams({ hasPremium }),
     [hasPremium],
   );
 
@@ -54,10 +49,11 @@ export const CardPaymentSuccess = () => {
         descriptionClassName={classes.description}
         title={title}
         titleClassName={classes.title}
+        imgUrl={success}
       >
-        <Button onClick={onClick} size="large">
+        <LoadingButton fullWidth onClick={onClick} size="large">
           {button}
-        </Button>
+        </LoadingButton>
       </InfoCard>
     </CenterContainer>
   );

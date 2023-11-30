@@ -1,22 +1,24 @@
 import { useMemo } from 'react';
+import { Briefcase } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
-import { Diamonds } from 'uiKit/Icons/Diamonds';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { getLabel } from './UserLabelUtils';
 import { useUserLabelStyles } from './useUserLabelStyles';
 
 export interface IUserLabelProps {
   hasPremium?: boolean;
-  isEnterpriseClient?: boolean;
   hasStatusTransition?: boolean;
 }
 
 export const UserLabel = ({
   hasPremium = false,
-  isEnterpriseClient = false,
   hasStatusTransition = false,
 }: IUserLabelProps) => {
   const { classes, cx } = useUserLabelStyles();
+
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const hasPremiumLabel = hasStatusTransition ? !hasPremium : hasPremium;
 
@@ -27,15 +29,18 @@ export const UserLabel = ({
     [classes.enterprise]: isEnterpriseClient,
   });
 
-  const label = useMemo(
-    () => getLabel(hasPremiumLabel, isEnterpriseClient),
-    [hasPremiumLabel, isEnterpriseClient],
-  );
+  const label = useMemo(() => getLabel(hasPremiumLabel), [hasPremiumLabel]);
 
   return (
     <div className={className}>
-      {isEnterpriseClient && <Diamonds fontSize="small" color="secondary" />}
-      {label}
+      {isEnterpriseClient ? (
+        <>
+          <Briefcase fontSize="small" className={classes.enterpriseIcon} />
+          {t('chains.user-enterprise')}
+        </>
+      ) : (
+        label
+      )}
     </div>
   );
 };

@@ -10,6 +10,8 @@ interface UserGroupConfig {
   selectedGroupRole?: GroupUserRole;
 }
 
+export type UserGroupConfigWithAddress = UserGroupConfig & { address: Address };
+
 export interface IUserGroupSlice {
   userGroupConfig: Record<Address, UserGroupConfig>;
   userGroupJwt: Record<Address, GroupJwtData>;
@@ -20,8 +22,10 @@ const initialState: IUserGroupSlice = {
   userGroupJwt: {},
 };
 
+export const USER_GROUP_ACTION_NAME = 'userGroup';
+
 export const userGroupSlice = createSlice({
-  name: 'userGroup',
+  name: USER_GROUP_ACTION_NAME,
   initialState,
   reducers: {
     setUserGroupConfig: (

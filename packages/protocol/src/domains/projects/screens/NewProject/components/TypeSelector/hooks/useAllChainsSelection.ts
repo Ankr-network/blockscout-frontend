@@ -4,7 +4,7 @@ import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { ChainStepFields } from 'domains/projects/store';
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useAvailableIds } from './useAvailableIds';
@@ -177,11 +177,16 @@ export const useAllChainsSelection = ({
     [handleSelectAll, handleUnselectAll],
   );
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) =>
-    handleChangeAll(event.target.checked);
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) =>
+      handleChangeAll(event.target.checked),
+    [handleChangeAll],
+  );
 
   return {
     onChange,
+    handleSelectAll,
+    handleUnselectAll,
     isChecked: areAllAvailableChainsSelected,
     isIndeterminate:
       hasCurrentChainSelectedIds && !areAllAvailableChainsSelected,

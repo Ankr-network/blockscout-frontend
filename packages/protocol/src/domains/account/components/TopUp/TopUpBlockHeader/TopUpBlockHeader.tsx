@@ -6,14 +6,22 @@ import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
 
 import { useTopUpBlockHeaderStyles } from './TopUpBlockHeaderStyles';
 
-export const TopUpBlockHeader = () => {
+interface TopUpBlockHeaderProps {
+  hasHeader?: boolean;
+}
+
+export const TopUpBlockHeader = ({
+  hasHeader = true,
+}: TopUpBlockHeaderProps) => {
   const { classes } = useTopUpBlockHeaderStyles();
 
   return (
     <Box className={classes.top}>
-      <Typography variant="subtitle1" className={classes.title}>
-        {t('account.account-details.top-up.title')}
-      </Typography>
+      {hasHeader && (
+        <Typography variant="subtitle1" className={classes.title}>
+          {t('account.account-details.top-up.title')}
+        </Typography>
+      )}
       <Button
         className={classes.link}
         classes={{

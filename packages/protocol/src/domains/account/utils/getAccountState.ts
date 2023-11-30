@@ -10,6 +10,7 @@ export interface AccountStateParams {
   balanceLevel: BalanceLevel;
   hasFreemium: boolean;
   hasPremium: boolean;
+  hasRolePermission?: boolean;
   hasTransition: boolean;
   premiumStatus?: PremiumStatus;
 }
@@ -70,11 +71,52 @@ const getPremiumAccountState = ({
   return { isPAYG: false, status: AccountStatus.RED };
 };
 
+const getUnpermittedRoleAccountState = (balanceLevel: BalanceLevel) => {
+  if (balanceLevel === BalanceLevel.TOO_LOW) {
+    return {
+      descriptionKey: 'account.descriptions.critical',
+      icon: AccountIcon.ERROR,
+      isPAYG: true,
+      status: AccountStatus.RED,
+    };
+  }
+
+  const hasRedStatus =
+    balanceLevel === BalanceLevel.ZERO ||
+    balanceLevel === BalanceLevel.CRITICAL ||
+    balanceLevel === BalanceLevel.RED;
+
+  if (hasRedStatus) {
+    return {
+      descriptionKey: 'account.descriptions.red',
+      icon: AccountIcon.ERROR,
+      isPAYG: true,
+      status: AccountStatus.RED,
+    };
+  }
+
+  if (balanceLevel === BalanceLevel.YELLOW) {
+    return {
+      descriptionKey: 'account.descriptions.yellow',
+      icon: AccountIcon.WARNING,
+      isPAYG: true,
+      status: AccountStatus.YELLOW,
+    };
+  }
+
+  if (balanceLevel === BalanceLevel.GREEN) {
+    return { isPAYG: true, status: AccountStatus.GREEN };
+  }
+
+  return { isPAYG: false, status: AccountStatus.RED };
+};
+
 export const getAccountState = ({
   balance,
   balanceLevel,
   hasFreemium,
   hasPremium,
+  hasRolePermission,
   hasTransition,
   premiumStatus,
 }: AccountStateParams): AccountState => {
@@ -93,6 +135,10 @@ export const getAccountState = ({
       isPAYG: false,
       status: AccountStatus.RED,
     };
+  }
+
+  if (!hasRolePermission) {
+    return getUnpermittedRoleAccountState(balanceLevel);
   }
 
   if (hasPremium) {

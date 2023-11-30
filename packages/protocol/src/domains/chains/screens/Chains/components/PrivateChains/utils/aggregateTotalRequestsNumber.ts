@@ -1,6 +1,6 @@
 import { PrivateStatsInternal } from 'multirpc-sdk';
 
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
 export interface AggregateTotalRequestsNumberParams {
@@ -12,7 +12,7 @@ export const aggregateTotalRequestsNumber = ({
   ids,
   stats = {},
 }: AggregateTotalRequestsNumberParams) =>
-  [...new Set(ids.map(checkPrivateChainsAndGetChainId))].reduce(
+  [...new Set(ids.map(id => checkPrivateChainsAndGetChainId(id)))].reduce(
     (result, id) => result + (stats[id]?.total_requests ?? 0),
     0,
   );

@@ -1,8 +1,11 @@
-import { Chain, ChainType } from 'domains/chains/types';
+import { useMemo } from 'react';
+
+import { Chain, ChainID, ChainType } from 'modules/chains/types';
 import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 import { ChainGroupID } from 'modules/endpoints/types';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 interface IDashboardChainSelector {
   chain: Chain;
@@ -42,6 +45,8 @@ export const useChainSelectorGroups = ({
     onBlockedTabClick,
   });
 
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
   const mappedChainId = getStatsChainId({
     publicChain,
     chainType,
@@ -52,8 +57,14 @@ export const useChainSelectorGroups = ({
     chainProtocol: chainProtocolContext.chainProtocol,
   });
 
+  const ignoredIds = useMemo(
+    // Tenet chain for enterprise stats has different chain id from mrpc
+    () => (isEnterpriseClient ? [ChainID.TENET_EVM] : undefined),
+    [isEnterpriseClient],
+  );
+
   return {
-    statsChainId: checkPrivateChainsAndGetChainId(mappedChainId),
+    statsChainId: checkPrivateChainsAndGetChainId(mappedChainId, ignoredIds),
     detailsChainId: mappedChainId,
     chainProtocolContext,
     chainType,

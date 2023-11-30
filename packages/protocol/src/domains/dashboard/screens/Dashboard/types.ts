@@ -1,4 +1,4 @@
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 export interface ILayoutProps {
   timeframe: Timeframe;
@@ -7,4 +7,8 @@ export interface ILayoutProps {
 export interface ChainCalls {
   calls: number;
   name: string;
+}
+
+export interface ChainCallsMapped extends ChainCalls {
+  formattedCallsValue: string;
 }

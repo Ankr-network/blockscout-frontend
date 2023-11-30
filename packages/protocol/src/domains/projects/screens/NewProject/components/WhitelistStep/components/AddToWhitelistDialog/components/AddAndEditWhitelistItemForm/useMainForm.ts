@@ -1,38 +1,14 @@
+import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
-import { BlockchainType, IBlockchainEntity } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
 
-import { selectBlockchains } from 'domains/chains/store/selectors';
-import { useAppSelector } from 'store/useAppSelector';
+import { getChainName as getFallbackChainsName } from 'uiKit/utils/metatags';
+import { getChainName } from 'domains/projects/utils/getChainName';
 import { isEVMBased } from 'domains/chains/utils/isEVMBased';
-import { getChainName } from 'uiKit/utils/metatags';
-import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
+import { selectBlockchains } from 'modules/chains/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
-import { WhiteListItem } from 'domains/projects/types';
-import { ChainID } from 'domains/chains/types';
 
-import {
-  AddToWhitelistFormFields,
-  getOptionsByWhitelistTypes,
-} from './AddToWhitelistFormUtils';
-import { useWhitelistData } from '../../../../useWhitelistData';
-
-const getChainLabel = (fallBackName: string, chain?: IBlockchainEntity) => {
-  if (chain?.name) {
-    if (
-      chain?.type === BlockchainType.Mainnet &&
-      chain?.id !== ChainID.SCROLL
-    ) {
-      return t('projects.new-project.step-1.mainnet-postfix', {
-        label: chain.name,
-      });
-    }
-
-    return chain.name;
-  }
-
-  return fallBackName;
-};
+import { AddToWhitelistFormFields } from './AddToWhitelistFormUtils';
 
 export const useMainForm = (shouldSkipFormReset?: boolean) => {
   const {
@@ -40,6 +16,7 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
     whitelistDialog,
     isValid,
     onChange,
+    whitelistItems,
   } = useProjectFormValues();
 
   const { data: chainsData } = useAppSelector(selectBlockchains);
@@ -47,66 +24,44 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
   const selectedType = whitelistDialog?.type;
 
   const isTypeSelected = Boolean(selectedType);
-  const isSmartContractAddressSelected = selectedType === WhiteListItem.address;
+  const isSmartContractAddressSelected =
+    selectedType === UserEndpointTokenMode.ADDRESS;
   const isValueFilled = Boolean(whitelistDialog?.value);
-  const isAtLeastOneChainSelected = whitelistDialog?.chains?.length > 0;
+  const isAtLeastOneChainSelected = Number(whitelistDialog?.chains?.length) > 0;
 
   const isFormFilled =
     isTypeSelected && isAtLeastOneChainSelected && isValueFilled;
 
-  const {
-    isAddingDomainAllowed,
-    isAddingIPAllowed,
-    isAddingSmartContractAllowed,
-  } = useWhitelistData();
-
-  const selectOptions = useMemo(
-    () =>
-      getOptionsByWhitelistTypes({
-        isAddingDomainAllowed,
-        isAddingIPAllowed,
-        isAddingSmartContractAllowed,
-      }),
-    [isAddingDomainAllowed, isAddingIPAllowed, isAddingSmartContractAllowed],
-  );
-
-  const preparedChainIds = useMemo(
-    () =>
-      chainIds.filter(chainId =>
-        isSmartContractAddressSelected ? isEVMBased(chainId) : true,
-      ),
-    [chainIds, isSmartContractAddressSelected],
-  );
-
   const preparedChains = useMemo(
     () =>
-      preparedChainIds.map(chainId => {
-        const fallBackName = getChainName(chainId);
-
+      chainIds.map(chainId => {
         const currentChain = chainsData?.find(chain => chain.id === chainId);
-
-        const chainLabel = getChainLabel(fallBackName, currentChain);
-
-        const name = getCustomLabelForChainsCornerCases({
-          chainId,
-          label: chainLabel,
-        });
 
         return {
           id: chainId,
-          name,
+          disabled: isSmartContractAddressSelected
+            ? !isEVMBased(chainId)
+            : false,
+          name: currentChain
+            ? getChainName(currentChain)
+            : getFallbackChainsName(chainId),
         };
       }),
-    [chainsData, preparedChainIds],
+    [chainsData, isSmartContractAddressSelected, chainIds],
   );
 
   const handleOnChange = useCallback(() => {
     if (shouldSkipFormReset) return;
 
-    if (whitelistDialog?.chains)
+    if (whitelistDialog?.chains) {
+      // @ts-ignore whitelistDialog.chains was moved to enum instead of string
       onChange(AddToWhitelistFormFields.chains, undefined);
-    if (whitelistDialog?.value)
+    }
+
+    if (whitelistDialog?.value) {
+      // @ts-ignore whitelistDialog.value was moved to enum instead of string
       onChange(AddToWhitelistFormFields.value, undefined);
+    }
   }, [
     onChange,
     whitelistDialog?.chains,
@@ -116,7 +71,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
 
   return {
     handleOnChange,
-    selectOptions,
     isTypeSelected,
     selectedType,
     isValid,
@@ -125,5 +79,6 @@ export const useMainForm = (shouldSkipFormReset?: boolean) => {
     isAtLeastOneChainSelected,
     isFormFilled,
     whitelistDialog,
+    whitelistItems,
   };
 };

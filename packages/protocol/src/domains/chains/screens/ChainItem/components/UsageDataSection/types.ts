@@ -3,7 +3,7 @@ import { PrivateStatTopRequests } from 'multirpc-sdk';
 
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 export interface PublicStats {
   countries: CountryMap;

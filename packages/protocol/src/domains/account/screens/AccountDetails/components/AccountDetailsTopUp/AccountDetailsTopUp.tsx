@@ -8,10 +8,12 @@ import { useAccountDetailsTopUpTabs } from './AccountDetailsTopupUtils';
 
 interface IAccountDetailsTopUpProps {
   className?: string;
+  hasHeader?: boolean;
 }
 
 export const AccountDetailsTopUp = ({
   className,
+  hasHeader,
 }: IAccountDetailsTopUpProps) => {
   const { isUserEthAddressType } = useAuth();
   const { bundle500 } = useBundlePaymentPlans({ skipFetching: true });
@@ -28,7 +30,7 @@ export const AccountDetailsTopUp = ({
   );
 
   return (
-    <TopUp className={className}>
+    <TopUp className={className} hasHeader={hasHeader}>
       <TabsManager
         selectedTab={selectedTab}
         tabs={tabs}

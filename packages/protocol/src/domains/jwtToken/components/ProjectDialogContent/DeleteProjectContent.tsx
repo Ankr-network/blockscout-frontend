@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { LoadingButton } from '@ankr.com/ui';
@@ -8,7 +9,7 @@ import { useDeleteProjectDialogStyles } from '../DeleteProjectDialog/useDeletePr
 
 interface IDeleteProjectDialogContentProps {
   isLoading: boolean;
-  handleDelete: () => void;
+  handleDelete: (event?: MouseEvent<HTMLButtonElement>) => void;
   onClose: () => void;
 }
 

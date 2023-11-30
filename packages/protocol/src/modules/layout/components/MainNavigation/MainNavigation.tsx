@@ -12,7 +12,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 
 import {
-  getCommonMenuList,
+  getDashboardMenuList,
   getEndpointsList,
   getLogoutItem,
   getMenuList,
@@ -31,7 +31,7 @@ interface IMainNavigationProps {
   onDashboardClick: () => void;
   onDocsClick: () => void;
   onSettingsClick: () => void;
-  onSignoutClick: () => void;
+  onSignOutClick: () => void;
 }
 
 export const MainNavigation = ({
@@ -44,7 +44,7 @@ export const MainNavigation = ({
   onDashboardClick,
   onDocsClick,
   onSettingsClick,
-  onSignoutClick,
+  onSignOutClick,
 }: IMainNavigationProps) => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
   const { isFreePremium } = useAuth();
@@ -52,7 +52,7 @@ export const MainNavigation = ({
   const { hasReadAccess } = useJwtManager();
   const hasProjects = isMobileSiderBar
     ? false
-    : !isLoggedIn || isFreePremium || hasReadAccess;
+    : !loading || !isLoggedIn || isFreePremium || hasReadAccess;
 
   const endpointsItems = useMemo(
     () =>
@@ -66,14 +66,14 @@ export const MainNavigation = ({
     [chainsRoutes, hasProjects, onOpen, isEnterpriseClient, onAAPIClick],
   );
 
-  const commonItem = useMemo(
-    () => getCommonMenuList(onDashboardClick),
+  const dashboardItem = useMemo(
+    () => getDashboardMenuList(onDashboardClick),
     [onDashboardClick],
   );
 
   const menuItems = useMemo(
-    () => getMenuList(isLoggedIn, onDocsClick),
-    [isLoggedIn, onDocsClick],
+    () => getMenuList(isLoggedIn, onDocsClick, isEnterpriseClient),
+    [isLoggedIn, onDocsClick, isEnterpriseClient],
   );
 
   const settingItems = useMemo(
@@ -82,8 +82,8 @@ export const MainNavigation = ({
   );
 
   const logoutItems = useMemo(
-    () => getLogoutItem(onSignoutClick),
-    [onSignoutClick],
+    () => getLogoutItem(onSignOutClick),
+    [onSignOutClick],
   );
 
   const { classes } = useMainNavigationStyles(isMobileSiderBar);
@@ -101,7 +101,7 @@ export const MainNavigation = ({
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
-          {!isMobileSiderBar && <Navigation items={commonItem} />}
+          {!isMobileSiderBar && <Navigation items={dashboardItem} />}
           <Typography className={classes.tip}>
             {t('main-navigation.endpoints')}
           </Typography>

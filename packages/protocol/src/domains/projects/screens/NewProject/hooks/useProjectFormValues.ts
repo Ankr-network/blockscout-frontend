@@ -1,7 +1,7 @@
 import { useForm } from 'react-final-form';
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainID } from 'domains/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { initialDialogValues } from 'domains/projects/store';
 
@@ -74,6 +74,8 @@ export const getSelectedChains = ({
   return { selectedChains, initiallySelectedChainIds };
 };
 
+// TODO: remove it. it's duplicate of another one useProjectFormValues in common hooks folder
+// https://ankrnetwork.atlassian.net/browse/MRPC-3652
 export const useProjectFormValues = (projectChains?: Chain[]) => {
   const { getState, change } = useForm<NewProjectFormValues>();
 
@@ -91,6 +93,7 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
       selectedTestnetIds = [],
       selectedDevnetIds = [],
     },
+    valid,
   } = getState();
 
   const allSelectedChainIds = [
@@ -139,5 +142,6 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
     allSelectedChainIds,
     onChange: change,
     initiallySelectedChainIds,
+    isValid: valid,
   };
 };

@@ -8,18 +8,20 @@ export interface TopUpProps {
   children: ReactNode;
   className?: string;
   header?: ReactNode;
+  hasHeader?: boolean;
 }
 
 export const TopUp = ({
   children,
   className,
-  header = <TopUpBlockHeader />,
+  hasHeader,
+  header,
 }: TopUpProps) => {
   const { classes, cx } = useTopUpStyles({});
 
   return (
     <Box className={cx(classes.root, className)}>
-      {header}
+      {header || <TopUpBlockHeader hasHeader={hasHeader} />}
       {children}
     </Box>
   );

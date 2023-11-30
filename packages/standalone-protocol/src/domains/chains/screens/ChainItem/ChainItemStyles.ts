@@ -8,7 +8,7 @@ import tenetBackground from './assets/tenetBackground.png';
 
 const MAX_WIDTH = 1110;
 
-/* eslint-disable max-lines-per-function */
+// eslint-disable-next-line max-lines-per-function
 export const useStyles = makeStyles<Theme>(theme => ({
   root: {
     position: 'relative',
@@ -60,6 +60,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   chart: {
     marginTop: theme.spacing(6),
 
+    [`&.${ChainId.Core}`]: {
+      backgroundColor: theme.palette.grey[100],
+    },
+
     [`&.${ChainId.Arbitrum}`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.background.paper,
@@ -83,6 +87,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
       borderRadius: 0,
       backgroundColor: theme.palette.grey[700],
     },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
+    },
   },
   nodes: {
     marginTop: theme.spacing(6),
@@ -95,6 +103,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
     [`&.${ChainId.IoTeX}`]: {
       border: `1px solid ${theme.palette.grey['200']}`,
+    },
+
+    [`&.${ChainId.Core}`]: {
+      backgroundColor: theme.palette.grey[100],
     },
 
     [`&.${ChainId.Avalanche}`]: {
@@ -132,6 +144,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Filecoin}`]: {
       borderRadius: 0,
       backgroundColor: theme.palette.grey[700],
+    },
+
+    [`&.${ChainId.Scroll}`]: {
+      border: `1px solid ${theme.palette.primary.light}`,
     },
   },
   spinner: {

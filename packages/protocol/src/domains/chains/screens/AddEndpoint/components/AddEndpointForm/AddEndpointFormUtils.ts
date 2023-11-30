@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { IPrivateEndpoint } from 'multirpc-sdk';
 
-import { Chain, ChainURL } from 'domains/chains/types';
+import { Chain, ChainURL } from 'modules/chains/types';
 
 export const initialValues = {};
 

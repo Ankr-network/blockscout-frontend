@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
 
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
-import { Timeframe } from 'domains/chains/types';
+import { Timeframe } from 'modules/chains/types';
 
 import { UsageData } from '../../types';
 import { makePrivateCountryMap } from '../../utils/makePrivateCountryMap';

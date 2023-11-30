@@ -1,8 +1,11 @@
-import { ChainID } from 'domains/chains/types';
+import { ChainID } from 'modules/chains/types';
 
 import { chainGroups } from '../constants/groups';
 
-export const getGroupIdByChainId = (chainId?: ChainID) =>
+export const getGroupByChainId = (chainId?: ChainID) =>
   chainId
-    ? chainGroups.find(({ chains }) => chains.includes(chainId))?.id
+    ? chainGroups.find(({ chains }) => chains.includes(chainId))
     : undefined;
+
+export const getGroupIdByChainId = (chainId?: ChainID) =>
+  getGroupByChainId(chainId)?.id;

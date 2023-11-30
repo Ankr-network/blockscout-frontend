@@ -28,12 +28,8 @@ export const useTopUpStyles = makeStyles<TopUpStyleProps>()((theme, props) => ({
 
     marginBottom: theme.spacing(4),
 
-    '& > div': {
+    '& div': {
       width: '100%',
-
-      '& > div': {
-        width: '100%',
-      },
     },
   },
 }));

@@ -4,12 +4,12 @@ import {
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'domains/chains/types';
+} from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { getChainId } from 'modules/chains/utils/getChainId';
 
 import { checkPublicChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
-import { getChainId } from '../../../ChainItemSections/utils/getChainId';
 import { usePublicStats } from './usePublicStats';
 
 export interface UsageDataParams {

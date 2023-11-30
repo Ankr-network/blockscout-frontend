@@ -5,8 +5,6 @@ import { AddEmailFormContentState } from '../AddEmailForm/types';
 export const getTitle = (key: AddEmailFormContentState) => {
   switch (key) {
     case AddEmailFormContentState.ADD_EMAIL:
-      return t('user-settings.email-banner.add-step.title');
-
     case AddEmailFormContentState.CHANGE_EMAIL:
       return t('user-settings.email-banner.add-step.title');
 

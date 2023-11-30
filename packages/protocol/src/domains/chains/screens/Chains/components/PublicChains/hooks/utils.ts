@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { ChainID, SortType, Chain } from 'domains/chains/types';
+import { ChainID, SortType, Chain } from 'modules/chains/types';
 import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 
 import { SortPublicChainsParams } from '../PublicChainsTypes';
@@ -86,14 +86,11 @@ export const formatRequestsCount = (
   data?: Record<ChainID, string>,
 ) => {
   return chains.map(item => {
-    const { id, chainWithoutMainnet: { id: frontChainId } = {} } = item;
+    const { id } = item;
 
     return {
       ...item,
-      totalRequests: new BigNumber(data?.[frontChainId ?? id] ?? 0),
+      totalRequests: new BigNumber(data?.[id] ?? 0),
     };
   });
 };
-
-export const filteredByNameChains = (chains: Chain, searchContent: string) =>
-  chains.name.toLocaleLowerCase().includes(searchContent.toLowerCase());

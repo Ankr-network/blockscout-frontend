@@ -1,10 +1,12 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, MouseEvent } from 'react';
 import { t } from '@ankr.com/common';
 
 import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { is2FAError } from 'store/utils/is2FAError';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { NewProjectStep } from 'domains/projects/types';
 
 import { jwtTokenIntlRoot } from '../utils/utils';
 
@@ -19,7 +21,17 @@ const getTitle = (deleteProjectStep: DeleteProjectStep) => {
     : t(`${jwtTokenIntlRoot}.${deleteProjectStep}.title`);
 };
 
-export const useDeleteProject = (tokenIndex: number, onSuccess: () => void) => {
+export const useDeleteProject = (
+  tokenIndex: number,
+  onSuccess: (
+    is2FaError: boolean,
+    event?: MouseEvent<HTMLButtonElement>,
+  ) => void,
+) => {
+  const { project, handleResetConfig } = useProjectConfig();
+  const newProjectTokenIndex = project?.[NewProjectStep.General]?.tokenIndex;
+  const shouldResetNewProject = tokenIndex === newProjectTokenIndex;
+
   const [deleteProjectStep, setDeleteProjectStep] = useState(
     DeleteProjectStep.initial,
   );
@@ -29,31 +41,42 @@ export const useDeleteProject = (tokenIndex: number, onSuccess: () => void) => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const handleDelete = useCallback(async () => {
-    const { error } = await deleteProject({
-      params: {
-        tokenIndex,
-        group,
-      },
-    });
+  const handleDelete = useCallback(
+    async (event?: MouseEvent<HTMLButtonElement>) => {
+      event?.stopPropagation();
 
-    if (error && !is2FAError(error)) {
-      setDeleteProjectStep(DeleteProjectStep.failed);
-    } else {
-      setDeleteProjectStep(DeleteProjectStep.initial);
+      const { error } = await deleteProject({
+        params: {
+          tokenIndex,
+          group,
+        },
+      });
 
-      onSuccess();
-    }
+      if (error && !is2FAError(error)) {
+        setDeleteProjectStep(DeleteProjectStep.failed);
+      } else {
+        setDeleteProjectStep(DeleteProjectStep.initial);
 
-    reset();
-  }, [
-    tokenIndex,
-    deleteProject,
-    onSuccess,
-    setDeleteProjectStep,
-    reset,
-    group,
-  ]);
+        if (shouldResetNewProject) {
+          handleResetConfig();
+        }
+
+        onSuccess(is2FAError(error), event);
+      }
+
+      reset();
+    },
+    [
+      tokenIndex,
+      deleteProject,
+      onSuccess,
+      setDeleteProjectStep,
+      reset,
+      group,
+      shouldResetNewProject,
+      handleResetConfig,
+    ],
+  );
 
   const title = useMemo(() => getTitle(deleteProjectStep), [deleteProjectStep]);
 

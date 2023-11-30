@@ -1,5 +1,5 @@
 import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
-import { Timeframe, Chain } from 'domains/chains/types';
+import { Timeframe, Chain } from 'modules/chains/types';
 
 import { usePublicChainsItem } from './hooks/usePublicChainsItem';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';

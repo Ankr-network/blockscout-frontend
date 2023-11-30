@@ -1,4 +1,4 @@
-import { ChainID, Timeframe } from 'domains/chains/types';
+import { ChainID, Timeframe } from 'modules/chains/types';
 
 export interface ChainLayoutProps {
   statsChainId: ChainID;

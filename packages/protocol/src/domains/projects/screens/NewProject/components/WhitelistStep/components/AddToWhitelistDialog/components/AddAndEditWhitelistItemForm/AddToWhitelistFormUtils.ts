@@ -1,19 +1,23 @@
-import { t } from '@ankr.com/common';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { t, tHTML } from '@ankr.com/common';
 
-import { WhiteListItem } from 'domains/projects/types';
+import { NewProjectStep } from 'domains/projects/types';
 import { validateDomain } from 'modules/common/utils/validateDomain';
 import { validateIp } from 'modules/common/utils/validateIp';
 import { validateSmartContractAddress } from 'modules/common/utils/validateSmartContractAddress';
 import { ISelectOption } from 'uiKit/Select';
+import { NewProjectType } from 'domains/projects/store';
 
-export const whitelistTypeLabelMap = (type?: WhiteListItem) => {
+const intlKey = 'projects.add-whitelist-dialog';
+
+export const whitelistTypeLabelMap = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
-      return t('projects.add-whitelist-dialog.smart-contract');
-    case WhiteListItem.ip:
-      return t('projects.add-whitelist-dialog.ip-address');
-    case WhiteListItem.referer:
-      return t('projects.add-whitelist-dialog.domain');
+    case UserEndpointTokenMode.ADDRESS:
+      return t(`${intlKey}.smart-contract`);
+    case UserEndpointTokenMode.IP:
+      return t(`${intlKey}.ip-address`);
+    case UserEndpointTokenMode.REFERER:
+      return t(`${intlKey}.domain`);
     default:
       return '';
   }
@@ -26,52 +30,111 @@ export enum AddToWhitelistFormFields {
 }
 
 export interface IWhiteListSelectOption extends ISelectOption {
-  value: WhiteListItem;
+  value: UserEndpointTokenMode;
 }
 
-interface GetTypeOptionsArgs {
-  isAddingDomainAllowed: boolean;
-  isAddingIPAllowed: boolean;
-  isAddingSmartContractAllowed: boolean;
-}
-
-export const getOptionsByWhitelistTypes = ({
-  isAddingDomainAllowed,
-  isAddingIPAllowed,
-  isAddingSmartContractAllowed,
-}: GetTypeOptionsArgs): IWhiteListSelectOption[] => {
-  const options: IWhiteListSelectOption[] = [];
-
-  options.push({
-    disabled: !isAddingDomainAllowed,
-    label: whitelistTypeLabelMap(WhiteListItem.referer),
-    value: WhiteListItem.referer,
-  });
-
-  options.push({
-    disabled: !isAddingIPAllowed,
-    label: whitelistTypeLabelMap(WhiteListItem.ip),
-    value: WhiteListItem.ip,
-  });
-
-  options.push({
-    disabled: !isAddingSmartContractAllowed,
-    label: whitelistTypeLabelMap(WhiteListItem.address),
-    value: WhiteListItem.address,
-  });
-
-  return options;
-};
-
-export const getValidation = (type?: WhiteListItem) => {
+export const getValidation = (type?: UserEndpointTokenMode) => {
   switch (type) {
-    case WhiteListItem.address:
-      return validateSmartContractAddress;
-    case WhiteListItem.ip:
-      return validateIp;
-    case WhiteListItem.referer:
-      return validateDomain;
+    case UserEndpointTokenMode.ADDRESS:
+      return (value: string, allValues: unknown) => {
+        if (
+          (
+            (allValues as NewProjectType[NewProjectStep.Whitelist])
+              ?.whitelistItems ?? []
+          )
+            .map(item => item.value)
+            .includes(value)
+        ) {
+          return t('validation.smart-contract-already-exist');
+        }
+
+        return validateSmartContractAddress(value);
+      };
+
+    case UserEndpointTokenMode.IP:
+      return (value: string, allValues: unknown) => {
+        if (
+          (
+            (allValues as NewProjectType[NewProjectStep.Whitelist])
+              ?.whitelistItems ?? []
+          )
+            .map(item => item.value)
+            .includes(value)
+        ) {
+          return t('validation.ip-already-exist');
+        }
+
+        return validateIp(value);
+      };
+
+    case UserEndpointTokenMode.REFERER:
+      return (value: string, allValues: unknown) => {
+        if (
+          (
+            (allValues as NewProjectType[NewProjectStep.Whitelist])
+              ?.whitelistItems ?? []
+          )
+            .map(item => item.value)
+            .includes(value)
+        ) {
+          return t('validation.domain-already-exist');
+        }
+
+        return validateDomain(value);
+      };
+
     default:
       return () => undefined;
+  }
+};
+
+export const getPlaceholder = (type?: UserEndpointTokenMode) => {
+  switch (type) {
+    case UserEndpointTokenMode.ADDRESS:
+      return t(`${intlKey}.enter-smart-contract`);
+    case UserEndpointTokenMode.IP:
+      return t(`${intlKey}.enter-ip`);
+    case UserEndpointTokenMode.REFERER:
+      return t(`${intlKey}.enter-domain`);
+    default:
+      return t(`${intlKey}.enter`);
+  }
+};
+
+export const getLabel = (type?: UserEndpointTokenMode) => {
+  switch (type) {
+    case UserEndpointTokenMode.ADDRESS:
+      return t(`${intlKey}.smart-contract-label`);
+    case UserEndpointTokenMode.IP:
+      return t(`${intlKey}.ip-label`);
+    case UserEndpointTokenMode.REFERER:
+      return t(`${intlKey}.domain-label`);
+    default:
+      return '';
+  }
+};
+
+export const getDialogDescription = (type?: UserEndpointTokenMode) => {
+  switch (type) {
+    case UserEndpointTokenMode.IP:
+    case UserEndpointTokenMode.REFERER:
+    default:
+      return tHTML(`${intlKey}.description-10`);
+    case UserEndpointTokenMode.ADDRESS:
+      return tHTML(`${intlKey}.address-description`);
+  }
+};
+
+export const getSelectChainDescription = (type?: UserEndpointTokenMode) => {
+  switch (type) {
+    case UserEndpointTokenMode.ADDRESS:
+      return tHTML(`${intlKey}.select-chain-description-smart-contract`);
+    case UserEndpointTokenMode.IP:
+      return tHTML(`${intlKey}.select-chain-description-ip`);
+    case UserEndpointTokenMode.REFERER:
+      return tHTML(`${intlKey}.select-chain-description-domain`);
+
+    default:
+      return '';
   }
 };
