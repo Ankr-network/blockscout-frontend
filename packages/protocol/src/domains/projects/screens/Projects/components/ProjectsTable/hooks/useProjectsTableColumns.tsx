@@ -1,6 +1,7 @@
 import { Info } from '@ankr.com/ui';
-import { Button, Skeleton, Tooltip } from '@mui/material';
+import { Button, Skeleton, Tooltip, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { Variant } from '@mui/material/styles/createTypography';
 
 import { ProjectTable } from 'domains/projects/utils/getAllProjects';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -135,7 +136,7 @@ export const useProjectsTableColumns = ({
             return <Skeleton width="100px" variant="text" />;
           }
 
-          if (projectStatus.draft) {
+          if (projectStatus.draft && hasAccessForManaging) {
             return (
               <Button size="small" className={classes.resumeSetupLabel}>
                 {t(`projects.list-project.resume-setup`)}
@@ -154,7 +155,11 @@ export const useProjectsTableColumns = ({
           const isEmpty = requests.length === 0 || todayRequests === 0;
 
           if (isEmpty) {
-            return t('projects.list-project.no-requests-yet');
+            return (
+              <Typography variant={'body3' as Variant}>
+                {t('projects.list-project.no-requests-yet')}
+              </Typography>
+            );
           }
 
           return (

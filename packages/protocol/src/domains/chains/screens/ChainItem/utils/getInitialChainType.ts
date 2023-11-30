@@ -14,7 +14,10 @@ const checkSubnets = ({
   netId,
   isMainnetPremiumOnly,
 }: CheckSubnetsArguments) => {
-  const isSubnetTab = nets?.find(el => netId?.includes(el.id));
+  const isSubnetTab = nets?.find(
+    el =>
+      netId?.includes(el.id) || el.extensions?.some(({ id }) => netId === id),
+  );
   const isMainnetDisabledAndNets = isMainnetPremiumOnly && nets?.length > 0;
 
   return isSubnetTab || isMainnetDisabledAndNets ? subnetTab : undefined;

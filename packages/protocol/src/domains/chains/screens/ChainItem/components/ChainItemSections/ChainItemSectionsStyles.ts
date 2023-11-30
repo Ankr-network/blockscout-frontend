@@ -12,9 +12,9 @@ export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
     minHeight: 44,
     overflowX: 'scroll',
 
+    /* hiding scrollbar styles: */
     MsOverflowStyle: 'none',
     scrollbarWidth: 'none',
-
     '&::-webkit-scrollbar': {
       display: 'none',
     },

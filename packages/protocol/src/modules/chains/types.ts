@@ -66,6 +66,8 @@ export interface Chain extends MainBlockchainEntity {
 export type GroupedBlockchainType = Record<string, Chain[]>;
 
 export enum ChainID {
+  ALL_CHAINS = 'all_chains',
+
   APTOS = 'aptos',
   ARBITRUM = 'arbitrum',
   ARBITRUM_NOVA = 'arbitrumnova',
@@ -173,10 +175,15 @@ export enum ChainID {
   SECRET_RPC = 'scrt-rpc',
 
   SEI = 'sei',
-  SEI_COSMOS_GRPS_WEB = 'sei-cosmos-grpc-web',
+  SEI_COSMOS_GRPC_WEB = 'sei-cosmos-grpc-web',
   SEI_COSMOS_REST = 'sei-cosmos-rest',
   SEI_REST = 'sei-rest',
   SEI_RPC = 'sei-rpc',
+  SEI_TESTNET = 'sei-testnet',
+  SEI_RPC_TESTNET = 'sei-rpc-testnet',
+  SEI_REST_TESTNET = 'sei-rest-testnet',
+  SEI_COSMOS_REST_TESTNET = 'sei-cosmos-rest-testnet',
+  SEI_COSMOS_GRPC_TESTNET = 'sei-cosmos-grpc-web-testnet',
 
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',

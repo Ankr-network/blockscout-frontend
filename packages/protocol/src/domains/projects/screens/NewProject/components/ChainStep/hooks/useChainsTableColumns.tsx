@@ -24,8 +24,9 @@ export const useChainsTableColumns = ({
       {
         field: 'chain',
         headerName: 'Chains',
-        render: chain => (
+        render: ({ chain, allChains }) => (
           <ChainCell
+            allChains={allChains}
             chain={chain}
             selectedProjectChainsIds={selectedProjectChainsIds}
             setSelectedChainsIds={setSelectedProjectChainsIds}
@@ -37,7 +38,9 @@ export const useChainsTableColumns = ({
       {
         field: 'archiveMethods',
         headerName: <ArchiveMethodsCellHeader />,
-        render: ({ isArchive }) => <ArchiveMethodsCell isArchive={isArchive} />,
+        render: ({ chain: { isArchive } }) => (
+          <ArchiveMethodsCell isArchive={isArchive} />
+        ),
         align: 'left',
         width: '150px',
         maxWidth: '150px',
@@ -45,7 +48,7 @@ export const useChainsTableColumns = ({
       {
         field: 'network',
         headerName: 'Networks',
-        render: chain => (
+        render: ({ chain }) => (
           <NetworkBadges
             chain={chain}
             setSelectedChainsIds={setSelectedProjectChainsIds}

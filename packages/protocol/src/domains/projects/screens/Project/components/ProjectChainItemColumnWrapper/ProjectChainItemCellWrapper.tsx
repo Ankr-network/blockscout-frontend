@@ -7,9 +7,11 @@ import {
 } from 'modules/chains/store/selectors';
 import { Chain, ChainPath } from 'modules/chains/types';
 import { ChainCell } from 'domains/projects/components/ChainCell';
+import { getSubchainIds } from 'modules/chains/utils/getSubchainIds';
 
 interface ProjectChainItemProps {
   chain: Chain;
+  allChains: Chain[];
   selectedChainPaths: ChainPath[];
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
@@ -17,6 +19,7 @@ interface ProjectChainItemProps {
 
 export const ProjectChainItemCellWrapper = ({
   chain,
+  allChains,
   selectedChainPaths,
   selectAllSubChainPaths,
   unSelectAllSubChainPaths,
@@ -47,12 +50,21 @@ export const ProjectChainItemCellWrapper = ({
     unSelectAllSubChainPaths,
   ]);
 
+  const areAllChainsSelected = useMemo(() => {
+    return allChains.every(chainItem => {
+      const allChainIds = getSubchainIds(chainItem);
+
+      return allChainIds.some(chainId => selectedChainIds.includes(chainId));
+    });
+  }, [allChains, selectedChainIds]);
+
   return (
     <ChainCell
       chain={chain}
       onChainSelect={onChainSelect}
       selectedChainIds={selectedChainIds}
       isCheckboxChecked={isCheckboxChecked}
+      areAllChainsSelected={areAllChainsSelected}
     />
   );
 };

@@ -23,9 +23,10 @@ export const useProjectChainsTableColumns = ({
       {
         field: 'chain',
         headerName: 'Chains',
-        render: chain => (
+        render: ({ chain, allChains }) => (
           <ProjectChainItemCellWrapper
             chain={chain}
+            allChains={allChains}
             selectedChainPaths={selectedChainPaths}
             selectAllSubChainPaths={selectAllSubChainPaths}
             unSelectAllSubChainPaths={unSelectAllSubChainPaths}
@@ -37,7 +38,9 @@ export const useProjectChainsTableColumns = ({
       {
         field: 'archiveMethods',
         headerName: <ArchiveMethodsCellHeader />,
-        render: ({ isArchive }) => <ArchiveMethodsCell isArchive={isArchive} />,
+        render: ({ chain: { isArchive } }) => (
+          <ArchiveMethodsCell isArchive={isArchive} />
+        ),
         align: 'left',
         width: '150px',
         maxWidth: '150px',

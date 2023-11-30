@@ -20,8 +20,10 @@ export const useProjectsOnboardingDialogStyles = makeStyles()(theme => ({
     backgroundSize: `auto ${bgHeight}px`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'top, center',
-    '-ms-overflow-style': 'none',
-    'scrollbar-width': 'none',
+
+    /* hiding scrollbar styles: */
+    MsOverflowStyle: 'none',
+    scrollbarWidth: 'none',
     '&::-webkit-scrollbar': {
       display: 'none',
     },

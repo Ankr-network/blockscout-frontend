@@ -21,6 +21,10 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
 
     result[checkedID] = name;
 
+    if (checkedID === ('sei_testnet' as ChainID)) {
+      result[checkedID] = 'Sei Testnet Tendermint';
+    }
+
     if (checkedID === ('zetachain_tendermint_testnet' as ChainID)) {
       result[checkedID] = name
         .split(' ')

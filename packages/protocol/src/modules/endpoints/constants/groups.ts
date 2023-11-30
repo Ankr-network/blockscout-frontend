@@ -32,12 +32,14 @@ export const tendermintRpcChains = [
   ChainID.SECRET_RPC,
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
   ChainID.SEI_RPC,
+  ChainID.SEI_RPC_TESTNET,
 ];
 
 export const tendermintRestChains = [
   ChainID.SECRET_REST,
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
   ChainID.SEI_REST,
+  ChainID.SEI_REST_TESTNET,
 ];
 
 export const chainGroups: ChainGroup[] = [
@@ -259,6 +261,7 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('cosmos-rest', true),
     chains: [
       ChainID.SEI_COSMOS_REST,
+      ChainID.SEI_COSMOS_REST_TESTNET,
       ChainID.SECRET_COSMOS_REST,
       ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
     ],
@@ -297,6 +300,6 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.GRPC,
     name: getName('grpc'),
     pluralName: getName('grpc', true),
-    chains: [ChainID.SEI_COSMOS_GRPS_WEB],
+    chains: [ChainID.SEI_COSMOS_GRPC_WEB, ChainID.SEI_COSMOS_GRPC_TESTNET],
   },
 ];

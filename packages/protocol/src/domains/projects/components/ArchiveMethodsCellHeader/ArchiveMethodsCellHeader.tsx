@@ -1,5 +1,5 @@
 import { Tooltip } from '@mui/material';
-import { Warning } from '@ankr.com/ui';
+import { Info } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { useArchiveMethodsCellStyles } from './useArchiveMethodsCellHeaderStyles';
@@ -14,7 +14,7 @@ export const ArchiveMethodsCellHeader = () => {
         placement="top"
         title={t('projects.chains-table.archive-methods.tooltip')}
       >
-        <Warning className={classes.tooltipIcon} />
+        <Info className={classes.tooltipIcon} />
       </Tooltip>
     </div>
   );

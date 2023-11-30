@@ -5,7 +5,7 @@ import { ChainID } from 'modules/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
-interface ITypeSelectorProps extends SelectMenuProps {
+export interface ITypeSelectorProps extends SelectMenuProps {
   allAvailableMainnetIds: ChainID[];
   allAvailableTestnetIds: ChainID[];
   allAvailableDevnetIds: ChainID[];
