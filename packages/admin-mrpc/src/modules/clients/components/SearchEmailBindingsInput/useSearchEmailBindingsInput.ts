@@ -20,7 +20,7 @@ export const MIN_SEARCH_VALUE_LENGTH = 2;
 
 const SEARCH_DELAY: Milliseconds = 500;
 
-export interface IAddressBindingsResult {
+export interface IClientBindingsResult {
   address: Web3Address;
   email?: string;
 }
@@ -71,22 +71,23 @@ export const useSearchEmailBindingsInput = (filterType: FilterType) => {
       return foundClientsByToken;
     }
 
-    if (
+    const doesClientExist =
       currentClientBalance?.amount ||
       currentClientBalance?.amountAnkr ||
       currentClientBalance?.creditAnkrAmount ||
       currentClientBalance?.creditUsdAmount ||
       currentClientBalance?.creditVoucherAmount ||
       !!addressBindings.length ||
-      !!foundClientsByEmail.length
-    ) {
+      !!foundClientsByEmail.length;
+
+    if (doesClientExist) {
       return !foundClientsByEmail.length
         ? foundClientsByEmail
         : [
             {
               address: searchValue,
               email: undefined,
-            } as IAddressBindingsResult,
+            } as IClientBindingsResult,
           ];
     }
 
