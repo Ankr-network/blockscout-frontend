@@ -56,12 +56,13 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   top: {
     display: 'flex',
     alignItems: 'center',
+    margin: 0,
   },
 
   coinName: {
     fontWeight: 400,
     fontSize: 16,
-
+    display: 'flex',
     marginLeft: theme.spacing(2),
   },
 
