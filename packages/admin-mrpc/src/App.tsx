@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
+import './assets/fonts/styles.css';
 import { store } from 'store';
 import { AppBase } from 'modules/layout/components/AppBase/AppBase';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';

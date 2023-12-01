@@ -1,4 +1,5 @@
 import { Switch, Route, Redirect } from 'react-router';
+import { Box } from '@mui/material';
 
 import { Layout } from 'modules/layout/components/Layout';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
@@ -12,6 +13,8 @@ import { useSecretRouteAccess } from 'modules/admin/hooks/useSecretRouteAccess';
 import { GroupsPageWrapper } from 'modules/groups/components/GroupsPageWrapper';
 import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
 import { GroupDetails } from 'modules/groups/components/GroupDetails';
+import { SignInRoutesConfig } from 'modules/signIn/SignInRoutesConfig';
+import { SignInPage } from 'modules/signIn/components/SignInPage/SignInPage';
 
 function GroupsRoutes() {
   return (
@@ -58,6 +61,18 @@ function ClientsRoutes() {
   );
 }
 
+function SignInRoutes() {
+  return (
+    <>
+      <Route
+        exact
+        path={SignInRoutesConfig.signIn.path}
+        component={SignInPage}
+      />
+    </>
+  );
+}
+
 export const Routes = () => {
   const {
     hasTestDriveTokenCreationAccess,
@@ -67,6 +82,16 @@ export const Routes = () => {
 
   return (
     <Switch>
+      <Route
+        exact
+        path={[SignInRoutesConfig.signIn.path]}
+        render={() => (
+          <Box>
+            <SignInRoutes />
+          </Box>
+        )}
+      />
+
       <Route
         exact
         path={[
