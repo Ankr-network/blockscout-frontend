@@ -21,10 +21,6 @@ export const useProjectStyles = makeStyles()(theme => ({
     gridArea: 'banner',
     marginBottom: theme.spacing(8),
   },
-  bannerButton: {
-    whiteSpace: 'nowrap',
-    flexShrink: 0,
-  },
   header: {
     marginTop: theme.spacing(-8),
     gridArea: 'header',

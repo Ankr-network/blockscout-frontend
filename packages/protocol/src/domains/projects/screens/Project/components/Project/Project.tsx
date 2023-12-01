@@ -1,14 +1,8 @@
 import { t } from '@ankr.com/common';
-import { Button } from '@mui/material';
-import { useHistory } from 'react-router';
-import { useCallback } from 'react';
 
 import { ProjectChainsContext } from 'domains/projects/screens/Project/constants';
 import { useProjectChains } from 'domains/projects/screens/Project/hooks/useProjectChains';
 import { useRedirectToProjectsListPageOnGroupChange } from 'domains/projects/screens/Project/hooks/useRedirectToProjectsListPageOnGroupChange';
-import { AccountRoutesConfig } from 'domains/account/Routes';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 import { ProjectChains } from '../ProjectChains';
 import { ProjectFooter } from '../ProjectFooter';
@@ -17,12 +11,11 @@ import { Requests } from '../Requests';
 import { Whitelist } from '../Whitelist';
 import { useProjectStyles } from './useProjectStyles';
 import { useProjectStatus } from '../../hooks/useProjectStatus';
-import { ProjectBanner } from '../ProjectBanner';
+import { ProjectBanner } from '../../../../components/ProjectBanner';
 import { useProjectStatsInitialization } from '../../hooks/useProjectStatsInitialization';
 
 export const Project = () => {
   const { classes } = useProjectStyles();
-  const { push } = useHistory();
 
   useRedirectToProjectsListPageOnGroupChange();
 
@@ -34,10 +27,6 @@ export const Project = () => {
     projectStatus: { frozen: isFrozen, suspended: isSuspended },
   } = useProjectStatus();
 
-  const redirectToBalance = useCallback(() => {
-    push(AccountRoutesConfig.accountDetails.generatePath());
-  }, [push]);
-
   return (
     <ProjectChainsContext.Provider value={projectChainsData}>
       <div className={classes.root}>
@@ -45,23 +34,6 @@ export const Project = () => {
           <ProjectBanner
             className={classes.banner}
             message={t('project.banner.frozen')}
-          />
-        )}
-        {isSuspended && (
-          <ProjectBanner
-            className={classes.banner}
-            message={t('project.banner.suspended')}
-            button={
-              <GuardUserGroup blockName={BlockWithPermission.Billing}>
-                <Button
-                  className={classes.bannerButton}
-                  size="small"
-                  onClick={redirectToBalance}
-                >
-                  {t('project.banner.suspended-button')}
-                </Button>
-              </GuardUserGroup>
-            }
           />
         )}
         <ProjectHeader className={classes.header} />
