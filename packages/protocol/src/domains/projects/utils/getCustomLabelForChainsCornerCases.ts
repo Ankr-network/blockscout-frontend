@@ -31,7 +31,13 @@ export const getCustomLabelForChainsCornerCases = ({
       return 'Sei Tendermint';
     }
 
-    return 'Secret Network Tendermint';
+    if (chainId === ChainID.SEI_REST_TESTNET) {
+      return 'Sei Testnet Tendermint';
+    }
+
+    if (chainId === ChainID.SECRET_REST) {
+      return 'Secret Network Tendermint';
+    }
   }
 
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {

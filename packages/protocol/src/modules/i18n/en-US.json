@@ -229,7 +229,7 @@
       "title": "My Projects",
       "projects-count": "{userProjectsCount} of {totalProjectsCount} projects used",
       "tooltip": "The number of projects depends on your plan.",
-      "how-to-get-started": "See project's getting started",
+      "how-to-get-started": "Get started with projects",
       "learn-more": "See what's new",
       "table": {
         "column-1": "Name",
