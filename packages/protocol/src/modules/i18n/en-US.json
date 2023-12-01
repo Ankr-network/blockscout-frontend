@@ -29,20 +29,20 @@
     "limit-counter": "{value} / {maxLimit}"
   },
   "meta": {
-    "title": "Decentralized Infrastructure to Power Your dApp",
-    "description": "Build now with RPCs to access over a dozen blockchains",
+    "title": "Check out the price of Ankr's Remote procedure call (RPC)",
+    "description": "Check out the price of Ankr's RPC (Remote Procedure Call). Plans that scale with you: Free, Premium RPC (Pay as you go) and Enterprise RPC. Contact us!",
     "og-title": "Decentralized Infrastructure to Power Your dApp",
     "og-description": "Build now with RPCs to access over a dozen blockchains",
     "public": {
-      "title": "Access a Variety of Public RPC Endpoints",
-      "description": "Choose from over a dozen instant RPC endpoints and build on the chain of your choice",
-      "og-title": "Your Gateway to Build on Web3",
-      "og-description": "Get developer APIs, RPCs, exclusive endpoints& WebSockets for more chains",
+      "title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
+      "description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
+      "og-title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
+      "og-description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "chain-item": {
-      "title": "Your Instant RPC Gateway to {chainId}",
-      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
+      "title": "[{chainId} RPC] get now your instant Remote procedure call gateway!",
+      "description": "{chainId} RPC (Remote Procedure Call). Power your Web3 application with Ankr's RPC making requests quickly, securely and decentralized. Check plans available!",
       "og-title": "Build on {chainId} With Instant RPC Endpoint",
       "og-description": "Use a fast, reliable & free {chainId} public RPC endpoint",
       "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
@@ -266,7 +266,7 @@
         "unfreeze": "Unfreeze project"
       },
       "descriptions": {
-        "freeze": "Are you sure you want to freeze the project? When you freezing your project it means all request will be rejected.",
+        "freeze": "Do you want to freeze the project? Freezing your project will disable its endpoints from interaction.",
         "unfreeze": "Are you sure you want to unfreeze the project? Unfreezing your project will enable all allowed requests."
       },
       "submit-buttons": {
@@ -295,7 +295,7 @@
     "new-project": {
       "breadcrumbs": "Create",
       "title": "Create project",
-      "how-to-get-started": "See project's getting started",
+      "how-to-get-started": "Get started with projects",
       "project-name-fallback": "your project",
       "footer": {
         "back-button": "Back",
@@ -689,6 +689,7 @@
     "notice-button": "Let's talk"
   },
   "chains": {
+    "select-all": "Select All",
     "breadcrumbs": "Endpoints",
     "user-free": "Free",
     "user-premium": "Premium",

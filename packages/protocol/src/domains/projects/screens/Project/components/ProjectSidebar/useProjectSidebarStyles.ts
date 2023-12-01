@@ -8,6 +8,7 @@ export const useProjectSidebarStyles = makeStyles()(theme => ({
     minWidth: 540,
 
     borderRadius: 0,
+    backgroundImage: 'none',
   },
   content: {
     padding: theme.spacing(0, 8),

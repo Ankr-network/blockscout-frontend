@@ -122,22 +122,6 @@ export const selectAllSubChainIdsWithPathByChainId = createSelector(
   },
 );
 
-export const selectAllPathsByChainId = createSelector(
-  selectConfiguredBlockchains,
-  (_state: RootState, chainId: ChainID) => chainId,
-  (blockchains, chainId) => {
-    const currentChain = blockchains?.find(
-      blockchain => blockchain.id === chainId,
-    );
-
-    if (currentChain) {
-      return getAllPathsByChain(currentChain);
-    }
-
-    return [chainId];
-  },
-);
-
 export const selectAllChainsPaths = createSelector(
   selectBlockchains,
   ({ data: blockchains }) => {
@@ -146,7 +130,7 @@ export const selectAllChainsPaths = createSelector(
         const chainPaths = blockchain?.paths?.filter(Boolean);
 
         if (!chainPaths) {
-          return undefined;
+          return [];
         }
 
         const chainPathsProcessed = chainPaths
@@ -160,6 +144,49 @@ export const selectAllChainsPaths = createSelector(
     if (!allChainPaths) return [];
 
     return getUniqueArray([...allChainPaths]);
+  },
+);
+
+export const selectAllPathsByChainId = createSelector(
+  selectConfiguredBlockchains,
+  (_state: RootState, chainId: ChainID) => chainId,
+  selectAllChainsPaths,
+  (blockchains, chainId, allChainsPaths = []) => {
+    const currentChain = blockchains?.find(
+      blockchain => blockchain.id === chainId,
+    );
+
+    if (currentChain) {
+      return getAllPathsByChain(currentChain);
+    }
+
+    if (chainId === ChainID.ALL_CHAINS) {
+      return allChainsPaths;
+    }
+
+    return [];
+  },
+);
+
+export const selectAllChainsIds = createSelector(
+  selectBlockchains,
+  ({ data: blockchains }) => {
+    const allChainIds: ChainID[] =
+      blockchains?.flatMap(blockchain => {
+        const hasPaths = blockchain?.paths?.length !== 0;
+
+        if (!hasPaths) {
+          return [];
+        }
+
+        const chainIdsProcessed = blockchain.id as ChainID;
+
+        return chainIdsProcessed;
+      }) || [];
+
+    if (!allChainIds) return [];
+
+    return getUniqueArray([...allChainIds]);
   },
 );
 

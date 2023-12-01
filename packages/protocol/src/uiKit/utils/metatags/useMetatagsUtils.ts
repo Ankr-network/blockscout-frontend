@@ -49,10 +49,14 @@ const renderSeiName = (chainId: ChainID) => {
 
   const namesMap: Partial<Record<ChainID, string>> = {
     [ChainID.SEI]: 'Sei',
-    [ChainID.SEI_COSMOS_GRPS_WEB]: 'Sei Cosmos gRPC-web',
+    [ChainID.SEI_COSMOS_GRPC_WEB]: 'Sei Cosmos gRPC-web',
     [ChainID.SEI_COSMOS_REST]: 'Sei Cosmos REST',
     [ChainID.SEI_REST]: 'Sei Tendermint REST',
     [ChainID.SEI_RPC]: 'Sei Tendermint JSON-RPC',
+    [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'Sei Cosmos gRPC-web Testnet',
+    [ChainID.SEI_COSMOS_REST_TESTNET]: 'Sei Cosmos REST Testnet',
+    [ChainID.SEI_REST_TESTNET]: 'Sei Tendermint REST Testnet',
+    [ChainID.SEI_RPC_TESTNET]: 'Sei Tendermint JSON-RPC Testnet',
   };
 
   return namesMap[chainId] ?? name;

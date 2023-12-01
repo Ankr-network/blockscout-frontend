@@ -1,4 +1,4 @@
-import { Chain } from 'modules/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 import { useChainLogoStyles } from './ChainLogoStyles';
@@ -18,11 +18,15 @@ export const ChainLogo = ({
 
   const icon = useChainIcon(id);
 
-  return icon ? (
+  if (id === ChainID.ALL_CHAINS || !icon) {
+    return null;
+  }
+
+  return (
     <img
       alt={`${name} logo`}
       className={cx(classes.chainLogo, className)}
       src={icon}
     />
-  ) : null;
+  );
 };

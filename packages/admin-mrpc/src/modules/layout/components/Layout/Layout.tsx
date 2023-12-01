@@ -6,7 +6,6 @@ import { useAppSelector } from 'modules/../store/useAppSelector';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
-import { SearchClientsInput } from 'modules/clients/components/SearchClientsInput';
 import { SearchEmailBindingsInput } from 'modules/clients/components/SearchEmailBindingsInput';
 
 import { Header } from '../Header';
@@ -55,11 +54,13 @@ export const Layout = ({
                 }
               />
             </Toolbar>
-            <Toolbar disableGutters>
-              {address && <SearchClientsInput />}
-              {address && <SearchEmailBindingsInput filterType="email" />}
-              {address && <SearchEmailBindingsInput filterType="address" />}
-            </Toolbar>
+            {address && (
+              <Toolbar disableGutters>
+                <SearchEmailBindingsInput filterType="token" />
+                <SearchEmailBindingsInput filterType="email" />
+                <SearchEmailBindingsInput filterType="address" />
+              </Toolbar>
+            )}
           </Container>
         </AppBar>
       </HideOnScroll>

@@ -13,6 +13,7 @@ export interface ChainCellProps {
   selectedChainIds: ChainID[];
   onChainSelect: (ids: ChainID[]) => void;
   isCheckboxChecked?: boolean;
+  areAllChainsSelected: boolean;
 }
 
 export const ChainCell = ({
@@ -20,6 +21,7 @@ export const ChainCell = ({
   onChainSelect,
   selectedChainIds,
   isCheckboxChecked,
+  areAllChainsSelected,
 }: ChainCellProps) => {
   const { id } = chain;
 
@@ -31,25 +33,46 @@ export const ChainCell = ({
     (event: MouseEvent) => {
       event.stopPropagation();
 
-      onChainSelect(allSubchainPaths as ChainID[]);
+      return onChainSelect(allSubchainPaths as ChainID[]);
     },
     [onChainSelect, allSubchainPaths],
   );
 
   const { classes } = useChainCellStyles();
 
+  const isAllChainsSelector = id === ChainID.ALL_CHAINS;
+
   const isChecked = useMemo(() => {
+    if (isAllChainsSelector) {
+      return areAllChainsSelected;
+    }
+
     if (typeof isCheckboxChecked === 'undefined') {
-      return selectedChainIds.includes(chain.id);
+      return selectedChainIds.includes(id);
     }
 
     return isCheckboxChecked;
-  }, [chain.id, isCheckboxChecked, selectedChainIds]);
+  }, [
+    isAllChainsSelector,
+    isCheckboxChecked,
+    areAllChainsSelected,
+    selectedChainIds,
+    id,
+  ]);
+
+  const isIndeterminate = useMemo(() => {
+    if (isAllChainsSelector) {
+      return selectedChainIds.length > 0 && !areAllChainsSelected;
+    }
+
+    return false;
+  }, [isAllChainsSelector, selectedChainIds.length, areAllChainsSelected]);
 
   return (
     <Box className={classes.root} onClick={onClick}>
       <Checkbox
         checked={isChecked}
+        indeterminate={isIndeterminate}
         className={classes.checkbox}
         onClick={onClick}
       />

@@ -16,6 +16,10 @@ export const SEI_IDS = [
   'sei-cosmos-grpc-web',
   'sei-cosmos-rest',
   'sei-rest',
+
+  'sei-rest-testnet',
+  'sei-cosmos-rest-testnet',
+  'sei-cosmos-grpc-web-testnet',
 ];
 
 export const APTOS_IDS = ['aptos', 'aptos_testnet'];

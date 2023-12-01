@@ -7,6 +7,8 @@ import { ProjectChainsContext } from 'domains/projects/screens/Project/constants
 import { useProjectChains } from 'domains/projects/screens/Project/hooks/useProjectChains';
 import { useRedirectToProjectsListPageOnGroupChange } from 'domains/projects/screens/Project/hooks/useRedirectToProjectsListPageOnGroupChange';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 import { ProjectChains } from '../ProjectChains';
 import { ProjectFooter } from '../ProjectFooter';
@@ -50,13 +52,15 @@ export const Project = () => {
             className={classes.banner}
             message={t('project.banner.suspended')}
             button={
-              <Button
-                className={classes.bannerButton}
-                size="small"
-                onClick={redirectToBalance}
-              >
-                {t('project.banner.suspended-button')}
-              </Button>
+              <GuardUserGroup blockName={BlockWithPermission.Billing}>
+                <Button
+                  className={classes.bannerButton}
+                  size="small"
+                  onClick={redirectToBalance}
+                >
+                  {t('project.banner.suspended-button')}
+                </Button>
+              </GuardUserGroup>
             }
           />
         )}

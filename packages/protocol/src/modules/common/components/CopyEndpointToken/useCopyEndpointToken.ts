@@ -34,5 +34,6 @@ export const useCopyEndpointToken = makeStyles()(theme => ({
     backgroundColor: 'transparent',
     justifyContent: 'flex-start',
     padding: 0,
+    fontSize: 14,
   },
 }));

@@ -1,6 +1,6 @@
 {
   "name": "admin-mrpc",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -55,8 +55,10 @@
     "bignumber.js": "^9.1.0",
     "classnames": "^2.3.1",
     "date-fns": "^2.29.3",
+    "ethers": "5.7.0",
     "lodash.invert": "^4.3.0",
     "lodash.isequal": "^4.5.0",
+    "lodash.debounce": "^4.0.8",
     "multirpc-sdk": "*",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
@@ -87,6 +89,7 @@
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^27.5.2",
     "@types/lodash.invert": "^4.3.7",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/node": "^16.11.56",
     "@types/react": "^17.0.0",
     "@types/react-copy-to-clipboard": "^5.0.4",

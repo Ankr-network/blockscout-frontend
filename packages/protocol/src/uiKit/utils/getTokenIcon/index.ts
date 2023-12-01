@@ -165,10 +165,15 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SECRET_RPC]: secretIcon,
 
   [ChainID.SEI]: seiIcon,
-  [ChainID.SEI_COSMOS_GRPS_WEB]: seiIcon,
+  [ChainID.SEI_COSMOS_GRPC_WEB]: seiIcon,
   [ChainID.SEI_COSMOS_REST]: seiIcon,
   [ChainID.SEI_REST]: seiIcon,
   [ChainID.SEI_RPC]: seiIcon,
+  [ChainID.SEI_TESTNET]: seiIcon,
+  [ChainID.SEI_RPC_TESTNET]: seiIcon,
+  [ChainID.SEI_REST_TESTNET]: seiIcon,
+  [ChainID.SEI_COSMOS_REST_TESTNET]: seiIcon,
+  [ChainID.SEI_COSMOS_GRPC_TESTNET]: seiIcon,
 
   [ChainID.SOLANA]: solIcon,
   [ChainID.SOLANA_DEVNET]: solIcon,
@@ -254,6 +259,10 @@ const chainNameIcons: Record<string, string> = {
   berachain_guarded_testnet_evm: berachainIcon,
   sei_cosmos: seiIcon,
   sei_grpc: seiIcon,
+  sei: seiIcon,
+  sei_testnet: seiIcon,
+  sei_cosmos_testnet: seiIcon,
+  sei_grpc_testnet: seiIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {

@@ -27,5 +27,12 @@
       "placeholder": "type limit number",
       "submit-button": "Set allowed projects limit"
     }
+  },
+  "search-email-bindings-input": {
+    "search-by": {
+      "email": "Search by email",
+      "address": "Search by address",
+      "token": "Search by API Key"
+    }
   }
 }

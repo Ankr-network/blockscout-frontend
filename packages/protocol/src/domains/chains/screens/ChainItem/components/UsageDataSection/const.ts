@@ -11,10 +11,15 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SECRET_COSMOS_GRPC_WEB]: ChainID.SECRET,
   [ChainID.SECRET_COSMOS_REST]: ChainID.SECRET,
 
-  [ChainID.SEI_COSMOS_GRPS_WEB]: ChainID.SEI,
+  [ChainID.SEI_COSMOS_GRPC_WEB]: ChainID.SEI,
   [ChainID.SEI_COSMOS_REST]: ChainID.SEI,
   [ChainID.SEI_REST]: ChainID.SEI,
   [ChainID.SEI_RPC]: ChainID.SEI,
+  [ChainID.SEI_TESTNET]: ChainID.SEI_TESTNET,
+  [ChainID.SEI_RPC_TESTNET]: ChainID.SEI_TESTNET,
+  [ChainID.SEI_REST_TESTNET]: ChainID.SEI_TESTNET,
+  [ChainID.SEI_COSMOS_REST_TESTNET]: ChainID.SEI_TESTNET,
+  [ChainID.SEI_COSMOS_GRPC_TESTNET]: ChainID.SEI_TESTNET,
 
   [ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET]:
     ChainID.ZETACHAIN_ATHENS_TESTNET,
@@ -60,10 +65,15 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]:
     'berachain_guarded_testnet_evm' as ChainID,
 
-  [ChainID.SEI_COSMOS_GRPS_WEB]: 'sei_grpc' as ChainID,
+  [ChainID.SEI_COSMOS_GRPC_WEB]: 'sei_grpc' as ChainID,
   [ChainID.SEI_COSMOS_REST]: 'sei_cosmos' as ChainID,
   [ChainID.SEI_REST]: ChainID.SEI,
   [ChainID.SEI_RPC]: ChainID.SEI,
+  [ChainID.SEI_TESTNET]: 'sei_testnet' as ChainID,
+  [ChainID.SEI_RPC_TESTNET]: 'sei_testnet' as ChainID,
+  [ChainID.SEI_REST_TESTNET]: 'sei_testnet' as ChainID,
+  [ChainID.SEI_COSMOS_REST_TESTNET]: 'sei_cosmos_testnet' as ChainID,
+  [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'sei_grpc_testnet' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (

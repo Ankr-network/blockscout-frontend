@@ -255,6 +255,32 @@ export interface IUpdateUserProfileRequest {
 
 export type IUpdateUserProfileResponse = IUserProfileResponse;
 
+export interface IUserByTokenRequest {
+  token: string;
+}
+
+export interface IUserByTokenResponse {
+  address: Web3Address;
+  is_group: boolean;
+  email: string;
+}
+
+export interface IUserTokensRequest {
+  address: Web3Address;
+}
+
+export interface IUserTokensResponseEntity {
+  id: string;
+  origin: string;
+  token: string;
+  type: string;
+  index: number;
+}
+
+export interface IUserTokensResponse {
+  tokens: IUserTokensResponseEntity[];
+}
+
 export interface IGetUserRevenueRequest {
   address: Web3Address;
 }
@@ -424,6 +450,12 @@ export interface ICountersEntity {
 export interface ICountersEntityMapped extends ICountersEntity {
   createdAt: Date;
 }
+
+export interface ICounterRequest {
+  user: string;
+}
+
+export interface ICounterResponse extends ICountersEntity {}
 
 export interface ICountersRequest {
   limit?: number;

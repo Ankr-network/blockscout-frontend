@@ -1,9 +1,6 @@
-import { Spinner } from 'ui';
+import { Box } from '@mui/material';
 
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-
-import { ClientsTable } from './ClientsTable';
-import { useLazyFetchClients } from '../hooks/useLazyFetchClients';
 
 export const ClientsPage = () => {
   useSetBreadcrumbs([
@@ -12,23 +9,5 @@ export const ClientsPage = () => {
     },
   ]);
 
-  const { data, isLoading } = useLazyFetchClients();
-
-  if (isLoading) {
-    return (
-      <>
-        <Spinner />
-      </>
-    );
-  }
-
-  if (data?.counters) {
-    return (
-      <>
-        <ClientsTable clients={data.counters} />
-      </>
-    );
-  }
-
-  return <>No data</>;
+  return <Box>Start searching for a Client by filling in the inputs above</Box>;
 };
