@@ -22,10 +22,6 @@ export const getCustomLabelForChainsCornerCases = ({
     return `Athens 3 ${label.replace(PART_TO_DELETE_FROM_STRING, '')}`;
   }
 
-  if (chainId === ChainID.SEI_REST_TESTNET) {
-    return 'Sei Testnet Tendermint';
-  }
-
   if (tendermintRestChains.includes(chainId)) {
     if (label === TENDERMINT_REST) {
       return 'Tendermint';
@@ -33,6 +29,10 @@ export const getCustomLabelForChainsCornerCases = ({
 
     if (chainId === ChainID.SEI_REST) {
       return 'Sei Tendermint';
+    }
+
+    if (chainId === ChainID.SEI_REST_TESTNET) {
+      return 'Sei Testnet Tendermint';
     }
 
     if (chainId === ChainID.SECRET_REST) {
