@@ -74,27 +74,34 @@ export const useSearchEmailBindingsInput = (filterType: FilterType) => {
       }));
     }
 
+    if (filterType === 'email') {
+      return foundClientsByEmail.map(client => ({
+        address: client.address,
+        email: client.email,
+      }));
+    }
+
     const doesClientExist =
-      currentClientBalance?.amount ||
-      currentClientBalance?.amountAnkr ||
-      currentClientBalance?.creditAnkrAmount ||
-      currentClientBalance?.creditUsdAmount ||
-      currentClientBalance?.creditVoucherAmount ||
+      !!currentClientBalance?.amount ||
+      !!currentClientBalance?.amountAnkr ||
+      !!currentClientBalance?.creditAnkrAmount ||
+      !!currentClientBalance?.creditUsdAmount ||
+      !!currentClientBalance?.creditVoucherAmount ||
       !!addressBindings.length ||
       !!foundClientsByEmail.length;
 
     if (doesClientExist) {
       return !foundClientsByEmail.length
-        ? foundClientsByEmail.map(client => ({
-            address: client.address,
-            email: client.email,
-          }))
-        : [
+        ? [
             {
               address: searchValue,
               email: undefined,
             } as IClientBindingsResult,
-          ];
+          ]
+        : foundClientsByEmail.map(client => ({
+            address: client.address,
+            email: client.email,
+          }));
     }
 
     return [];

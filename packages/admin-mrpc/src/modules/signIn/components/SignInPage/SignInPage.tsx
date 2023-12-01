@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-import { SignInForm } from '../SignInForm/SignInForm';
+import { SignInForm } from '../SignInForm';
 import bg from '../../assets/bg.png';
 
 const useStyles = makeStyles<string>()((theme, image) => ({
