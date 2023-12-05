@@ -54,15 +54,6 @@ const SubChainLinksGenerator = ({
                   id,
                 )}
               />
-
-              <NavLink
-                isRouterLink
-                href={ChainsRoutesConfig.chainDetailsDirect.generatePath(
-                  rootChainID,
-                  id,
-                )}
-              />
-
               {!!subchains.length && (
                 <SubChainLinksGenerator
                   rootChainID={rootChainID}
@@ -109,17 +100,6 @@ export const ReactSnapChainsLinksGenerator = ({
               isRouterLink
               href={ChainsRoutesConfig.addEndpoint.generatePath(id)}
             />
-
-            <NavLink
-              isRouterLink
-              href={ChainsRoutesConfig.chainDetailsDirect.generatePath(id)}
-            />
-
-            <NavLink
-              isRouterLink
-              href={ChainsRoutesConfig.addEndpointDirect.generatePath(id)}
-            />
-
             <SubChainLinksGenerator
               rootChainID={id}
               chains={[

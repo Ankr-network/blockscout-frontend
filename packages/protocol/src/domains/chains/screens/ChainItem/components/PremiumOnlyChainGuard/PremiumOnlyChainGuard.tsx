@@ -14,16 +14,16 @@ export const PremiumOnlyChainGuard = ({
   chain,
   children,
 }: PremiumOnlyChainGuardProps) => {
-  const { hasPrivateAccess } = useAuth();
+  const { hasPrivateAccess, isLoggedIn } = useAuth();
   const { replace } = useHistory();
 
   const isPremiumOnly = Boolean(chain?.premiumOnly);
 
   useEffect(() => {
     if (isPremiumOnly && !hasPrivateAccess) {
-      replace(ChainsRoutesConfig.chains.generatePath());
+      replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
     }
-  }, [hasPrivateAccess, isPremiumOnly, replace]);
+  }, [hasPrivateAccess, isLoggedIn, isPremiumOnly, replace]);
 
   return children;
 };

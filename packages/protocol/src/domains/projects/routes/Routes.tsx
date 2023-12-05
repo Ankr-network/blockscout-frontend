@@ -49,19 +49,29 @@ const { useParams } = ProjectsRoutesConfig.project;
 export function ProjectsRoutes() {
   useRedirectForSmallDevices();
 
-  const { hasReadAccess, loading } = useJwtManager();
+  const {
+    hasReadAccess: hasJwtManagerReadAccess,
+    isInitialized: isJwtManagerInitialized,
+    loading: isJwtManagerLoading,
+  } = useJwtManager();
   const { isFreePremium, isLoggedIn } = useAuth();
 
   const { projectId } = useParams();
 
-  if (loading) {
+  if (isJwtManagerLoading) {
     return <OverlaySpinner />;
   }
+
+  const shouldForceRedirect =
+    isLoggedIn &&
+    !isFreePremium &&
+    isJwtManagerInitialized &&
+    !hasJwtManagerReadAccess;
 
   return (
     <GuardUserGroup
       blockName={BlockWithPermission.UsageData}
-      shouldForceRedirect={isLoggedIn && !isFreePremium && !hasReadAccess}
+      shouldForceRedirect={shouldForceRedirect}
       shouldRedirect
     >
       <Switch>
@@ -82,7 +92,7 @@ export function ProjectsRoutes() {
               );
             }
 
-            return hasReadAccess && !isFreePremium ? (
+            return hasJwtManagerReadAccess && !isFreePremium ? (
               <LoadableProjectsContainer />
             ) : (
               <LoadableProjectsPlaceholderContainer />

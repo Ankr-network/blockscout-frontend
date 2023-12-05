@@ -36,6 +36,7 @@ interface EndpointListParams {
   chainsRoutes: string[];
   hasProjects: boolean;
   isEnterpriseClient: boolean;
+  isLoggedIn: boolean;
   onAAPIClick: () => void;
   onOpenUpgradePlanDialog: () => void;
 }
@@ -71,6 +72,7 @@ export const getEndpointsList = ({
   chainsRoutes,
   hasProjects,
   isEnterpriseClient,
+  isLoggedIn,
   onAAPIClick,
   onOpenUpgradePlanDialog,
 }: EndpointListParams) => {
@@ -79,7 +81,7 @@ export const getEndpointsList = ({
       isDisabled: isEnterpriseClient,
       StartIcon: Block,
       ActiveIcon: Block,
-      href: ChainsRoutesConfig.chains.generatePath(),
+      href: ChainsRoutesConfig.chains.generatePath({ isLoggedIn }),
       isActive: (match, location) =>
         checkIsChainsRoute(match, location, chainsRoutes),
       label: t('main-navigation.endpoints'),

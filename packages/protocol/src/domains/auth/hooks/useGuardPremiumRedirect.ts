@@ -1,7 +1,7 @@
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
-import { INDEX_PATH } from 'routes/constants';
 
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { chainsFetchPrivateChain } from 'domains/chains/actions/private/fetchPrivateChain';
 
@@ -19,9 +19,9 @@ export const useGuardPremiumRedirect = () => {
 
   useEffect(() => {
     if (shouldRedirect) {
-      history.replace(INDEX_PATH);
+      history.replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
     }
-  }, [shouldRedirect, history]);
+  }, [isLoggedIn, shouldRedirect, history]);
 
   return { shouldRedirect };
 };

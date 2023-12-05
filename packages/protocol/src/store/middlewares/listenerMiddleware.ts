@@ -29,6 +29,7 @@ import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { resetConfig, selectNewProjectConfig } from 'domains/projects/store';
 import { NewProjectStep } from 'domains/projects/types';
 import { selectCurrentAddress } from 'domains/auth/store';
+import { resetOriginChainURL } from 'domains/chains/store/chainsSlice';
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -111,8 +112,10 @@ listenerMiddleware.startListening({
 
 listenerMiddleware.startListening({
   matcher: isAnyOf(authDisconnect.matchFulfilled, oauthSignout.matchFulfilled),
-  effect: async (_action, { cancelActiveListeners }) => {
+  effect: async (_action, { cancelActiveListeners, dispatch }) => {
     cancelActiveListeners();
+
+    dispatch(resetOriginChainURL());
   },
 });
 

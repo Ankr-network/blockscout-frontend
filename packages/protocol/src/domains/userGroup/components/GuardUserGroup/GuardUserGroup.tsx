@@ -9,6 +9,7 @@ import {
   GuardUserGroupParams,
   useGuardUserGroup,
 } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useSelectedUserGroup } from '../../hooks/useSelectedUserGroup';
 
@@ -31,6 +32,7 @@ export const GuardUserGroup = ({
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const { isLoggedIn } = useAuth();
   const hasAccess = useGuardUserGroup({ blockName });
 
   const { selectedGroupAddress } = useSelectedUserGroup();
@@ -46,7 +48,7 @@ export const GuardUserGroup = ({
 
   useEffect(() => {
     if ((!hasAccess && shouldRedirect) || shouldForceRedirect) {
-      history.replace(ChainsRoutesConfig.chains.path);
+      history.replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
 
       // show notification only if redirect hasn't been forced
       if (!hasAccess && shouldRedirect) {
@@ -56,6 +58,7 @@ export const GuardUserGroup = ({
   }, [
     hasAccess,
     history,
+    isLoggedIn,
     shouldForceRedirect,
     shouldRedirect,
     showNotification,

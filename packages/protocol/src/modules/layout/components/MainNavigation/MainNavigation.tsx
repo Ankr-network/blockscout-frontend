@@ -62,8 +62,16 @@ export const MainNavigation = ({
         isEnterpriseClient,
         onAAPIClick,
         onOpenUpgradePlanDialog: onOpen,
+        isLoggedIn,
       }),
-    [chainsRoutes, hasProjects, onOpen, isEnterpriseClient, onAAPIClick],
+    [
+      chainsRoutes,
+      hasProjects,
+      isEnterpriseClient,
+      isLoggedIn,
+      onAAPIClick,
+      onOpen,
+    ],
   );
 
   const dashboardItem = useMemo(

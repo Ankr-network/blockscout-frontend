@@ -43,7 +43,7 @@ export const useHandleClick = ({
       }
 
       if (isFreePlanName) {
-        history.replace(ChainsRoutesConfig.chains.path);
+        history.replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
 
         return;
       }

@@ -7,6 +7,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
 import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
@@ -103,7 +104,7 @@ export const {
 
         await dispatch(setGithubLoginNameAndEmail.initiate());
 
-        dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
+        dispatch(push(ProjectsRoutesConfig.projects.generatePath()));
       },
     }),
   }),
