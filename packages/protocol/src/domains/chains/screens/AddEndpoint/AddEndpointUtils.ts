@@ -2,8 +2,9 @@ import { useCallback, useRef } from 'react';
 import { INodesDetailEntity } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 
 export const getScheme = (data: INodesDetailEntity[] = []): string => {
   if (!data) return '';
@@ -15,6 +16,7 @@ export const getScheme = (data: INodesDetailEntity[] = []): string => {
 
 export const useEndpointBreadcrumbs = (chainName = '', id = '') => {
   const { setBreadcrumbs } = useBreadcrumbs();
+  const { isLoggedIn } = useAuth();
 
   const hasBreadcrumbsRef = useRef<boolean>(false);
 
@@ -28,7 +30,7 @@ export const useEndpointBreadcrumbs = (chainName = '', id = '') => {
       setBreadcrumbs([
         {
           title: t(ChainsRoutesConfig.chains.breadcrumbs),
-          link: ChainsRoutesConfig.chains.path,
+          link: ChainsRoutesConfig.chains.generatePath({ isLoggedIn }),
         },
         {
           title,
@@ -39,7 +41,7 @@ export const useEndpointBreadcrumbs = (chainName = '', id = '') => {
         },
       ]);
     },
-    [setBreadcrumbs],
+    [isLoggedIn, setBreadcrumbs],
   );
 
   handleSetBreadcrumbs(chainName, id);

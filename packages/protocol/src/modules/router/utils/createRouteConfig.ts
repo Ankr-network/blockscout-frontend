@@ -1,6 +1,6 @@
 export interface BaseRoute {
   path: string;
-  generatePath: (...args: unknown[]) => string;
+  generatePath: (...args: any[]) => string;
   useParams?: (...args: unknown[]) => unknown;
   breadcrumbs?: string;
 }

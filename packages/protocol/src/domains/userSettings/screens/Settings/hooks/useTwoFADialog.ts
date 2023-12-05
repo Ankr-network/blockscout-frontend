@@ -16,10 +16,12 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { oauthSignout } from 'domains/oauth/actions/signout';
 import { OauthRoutesConfig } from 'domains/oauth/routes';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useTwoFADialog = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const { isLoggedIn } = useAuth();
 
   const isOpened = useAppSelector(selectIsTwoFADialogOpened);
   const errorMessage = useAppSelector(selectTwoFAErrorMessage);
@@ -50,8 +52,8 @@ export const useTwoFADialog = () => {
       }),
     );
     dispatch(oauthSignout.initiate());
-    dispatch(push(ChainsRoutesConfig.chains.generatePath()));
-  }, [dispatch, pathname]);
+    dispatch(push(ChainsRoutesConfig.chains.generatePath({ isLoggedIn })));
+  }, [dispatch, isLoggedIn, pathname]);
 
   const handleClose = useCallback(() => {
     dispatch(setIsTwoFADialogOpened(false));

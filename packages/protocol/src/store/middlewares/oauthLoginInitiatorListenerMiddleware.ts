@@ -43,7 +43,13 @@ oauthLoginInitiatorListenerMiddleware.startListening({
         (secretCodeError as any).message ===
         OauthRedirectionURLError.AccessDenied
       ) {
-        dispatch(push(ChainsRoutesConfig.chains.generatePath()));
+        dispatch(
+          push(
+            ChainsRoutesConfig.chains.generatePath({
+              isLoggedIn: false,
+            }),
+          ),
+        );
 
         return;
       }
@@ -67,7 +73,13 @@ oauthLoginInitiatorListenerMiddleware.startListening({
         dispatch(oauthSignout.initiate());
       }
 
-      dispatch(push(ChainsRoutesConfig.chains.generatePath()));
+      dispatch(
+        push(
+          ChainsRoutesConfig.chains.generatePath({
+            isLoggedIn: false,
+          }),
+        ),
+      );
 
       return;
     }
@@ -90,7 +102,13 @@ oauthLoginInitiatorListenerMiddleware.startListening({
           );
 
           dispatch(oauthSignout.initiate());
-          dispatch(push(ChainsRoutesConfig.chains.generatePath()));
+          dispatch(
+            push(
+              ChainsRoutesConfig.chains.generatePath({
+                isLoggedIn: false,
+              }),
+            ),
+          );
         }
       });
 

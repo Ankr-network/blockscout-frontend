@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { AccountRoutes, AccountRoutesConfig } from 'domains/account/Routes';
 import {
@@ -43,11 +43,14 @@ import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
-import { Redirects } from './Redirects';
+import { INDEX_PATH } from './constants';
+import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
 
 /* eslint-disable max-lines-per-function */
 export const Routes = () => {
   const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
+
+  const shouldRedirectToProjects = useShouldRedirectToProjects();
 
   return (
     <Switch>
@@ -89,7 +92,11 @@ export const Routes = () => {
           </GuardUserGroup>
         )}
       />
-
+      {shouldRedirectToProjects && (
+        <Route exact path={INDEX_PATH}>
+          <Redirect to={ProjectsRoutesConfig.projects.path} />
+        </Route>
+      )}
       <GuardAuthRoute
         exact
         path={[
@@ -242,7 +249,6 @@ export const Routes = () => {
           </GuardUserGroup>
         )}
       />
-      <Redirects />
       <Route
         render={() => (
           <DefaultLayout>

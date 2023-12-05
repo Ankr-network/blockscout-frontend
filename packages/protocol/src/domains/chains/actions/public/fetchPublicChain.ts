@@ -34,7 +34,13 @@ export const {
         const unfilteredChain = allChains.find(item => item.id === chainId);
 
         if (!chain || !unfilteredChain) {
-          dispatch(replace(ChainsRoutesConfig.chains.generatePath()));
+          dispatch(
+            replace(
+              ChainsRoutesConfig.chains.generatePath({
+                isLoggedIn: false,
+              }),
+            ),
+          );
 
           throw new Error(t('chain-item.not-found'));
         }

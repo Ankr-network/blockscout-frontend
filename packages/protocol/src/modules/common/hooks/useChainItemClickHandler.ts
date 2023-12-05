@@ -8,13 +8,13 @@ import { setOriginChainURL } from 'domains/chains/store/chainsSlice';
 export const useChainItemClickHandler = (path: Path) => {
   const dispatch = useDispatch();
   const {
-    location: { pathname },
+    location: { pathname, search },
     push,
   } = useHistory();
 
   return useCallback(() => {
-    dispatch(setOriginChainURL(pathname));
+    dispatch(setOriginChainURL(`${pathname}${search}`));
 
     push(path);
-  }, [path, dispatch, pathname, push]);
+  }, [path, dispatch, pathname, search, push]);
 };
