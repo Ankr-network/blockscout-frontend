@@ -6,7 +6,7 @@ export const useStyles = makeStyles<boolean>()(
     link: shouldShowMobileBreadcrumbs
       ? {
           cursor: 'pointer',
-          fontSize: 28,
+          fontSize: 22,
           fontWeight: 'bold',
           lineHeight: 1.167,
           color: theme.palette.grey[900],
@@ -24,7 +24,7 @@ export const useStyles = makeStyles<boolean>()(
         }
       : {
           cursor: 'pointer',
-          fontSize: 28,
+          fontSize: 22,
           fontWeight: 'bold',
           lineHeight: 1.167,
           letterSpacing: '-0.02em',
@@ -80,7 +80,7 @@ export const useStyles = makeStyles<boolean>()(
       alignItems: 'center',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      fontSize: 28,
+      fontSize: 22,
       lineHeight: 1.167,
       color: theme.palette.grey[900],
     },

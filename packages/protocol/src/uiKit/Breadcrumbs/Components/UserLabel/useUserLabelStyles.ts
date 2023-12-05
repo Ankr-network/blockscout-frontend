@@ -4,7 +4,7 @@ import { isLightTheme, getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
-    marginLeft: 20,
+    marginLeft: theme.spacing(4),
     fontSize: 14,
     fontWeight: 500,
     lineHeight: '20.02px',
