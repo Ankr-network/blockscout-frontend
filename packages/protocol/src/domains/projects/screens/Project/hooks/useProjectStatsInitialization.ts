@@ -1,31 +1,28 @@
-import { useEffect } from 'react';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useMemo } from 'react';
 
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { chainsFetchProjectStatsFor1h } from 'domains/projects/actions/fetchProjectStatsFor1h';
-import { chainsFetchProjectStatsFor24h } from 'domains/projects/actions/fetchProjectStatsFor24h';
+import { useFetchProjectChainsStatsFor1hQuery } from 'domains/projects/actions/fetchProjectChainsStatsFor1h';
+import { useFetchProjectChainsStatsFor24hQuery } from 'domains/projects/actions/fetchProjectChainsStatsFor24h';
+import { useFetchProjectTotalRequestsForLastTwoDaysQuery } from 'domains/projects/actions/fetchProjectTotalRequestsForLastTwoDays';
+import { useFetchProjectTotalRequestsForLastTwoHoursQuery } from 'domains/projects/actions/fetchProjectTotalRequestsForLastTwoHours';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useProjectStatsInitialization = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { projectId: userEndpointToken } =
-    ProjectsRoutesConfig.project.useParams();
+  const { projectId: token } = ProjectsRoutesConfig.project.useParams();
 
-  const [fetchProjectStatsFor1h] = useQueryEndpoint(
-    chainsFetchProjectStatsFor1h,
-  );
-
-  const [fetchProjectStatsFor24h] = useQueryEndpoint(
-    chainsFetchProjectStatsFor24h,
-  );
-
-  useEffect(() => {
-    if (userEndpointToken) {
-      fetchProjectStatsFor1h({ userEndpointToken, group });
-      fetchProjectStatsFor24h({ userEndpointToken, group });
-    }
-    // token is changing on group change, so group param is removed to avoid double fetch
+  const statsParams = useMemo(
+    () => (token ? { group, token } : skipToken),
+    // token is changing on group change, so group param is removed to avoid
+    // double fetch
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchProjectStatsFor1h, fetchProjectStatsFor24h, userEndpointToken]);
+    [token],
+  );
+
+  useFetchProjectTotalRequestsForLastTwoHoursQuery(statsParams);
+  useFetchProjectTotalRequestsForLastTwoDaysQuery(statsParams);
+  useFetchProjectChainsStatsFor1hQuery(statsParams);
+  useFetchProjectChainsStatsFor24hQuery(statsParams);
 };

@@ -1,17 +1,17 @@
-import { Typography } from '@mui/material';
 import { Dashboard } from '@ankr.com/ui';
-import { t } from '@ankr.com/common';
+import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
+import { t } from '@ankr.com/common';
 
-import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
-import { TabSize } from 'modules/common/components/SecondaryTab';
-import { NavLink } from 'uiKit/NavLink';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
+import { NavLink } from 'uiKit/NavLink';
+import { TabSize } from 'modules/common/components/SecondaryTab';
+import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 
 import { PaperBlock } from '../PaperBlock';
-import { useRequestsStyles } from './useRequestsStyles';
-import { useRequests } from '../../hooks/useRequests';
 import { RequestsInfo } from './components/RequestsInfo';
+import { useRequests } from '../../hooks/useRequests';
+import { useRequestsStyles } from './useRequestsStyles';
 
 interface RequestsProps {
   className?: string;
@@ -21,11 +21,12 @@ export const Requests = ({ className }: RequestsProps) => {
   const { classes } = useRequestsStyles();
 
   const {
+    isLoading,
+    relativeChange,
+    requestsChartData,
+    requestsCount,
     timeframe,
     timeframeTabs,
-    requestsChartData,
-    isLoading,
-    totalRequestsCount,
   } = useRequests();
 
   return (
@@ -60,7 +61,8 @@ export const Requests = ({ className }: RequestsProps) => {
       <RequestsInfo
         data={requestsChartData}
         isLoading={isLoading}
-        totalRequestsCount={totalRequestsCount}
+        relativeChange={relativeChange}
+        totalRequestsCount={requestsCount}
       />
     </PaperBlock>
   );

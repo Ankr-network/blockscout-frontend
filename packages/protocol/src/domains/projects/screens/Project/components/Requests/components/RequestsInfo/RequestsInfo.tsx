@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
+import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { formatLongNumber } from 'modules/common/utils/formatNumber';
@@ -9,26 +10,33 @@ import {
   IChartProps,
 } from 'modules/common/components/Chart';
 
-import { useRequestsInfoStyles } from './useRequestsInfoStyles';
 import { EmptyRequestsGuard } from '../EmptyRequestsGuard';
+import {
+  RelativeChangeSign,
+  useRequestsInfoStyles,
+} from './useRequestsInfoStyles';
 
 interface RequestsInfoProps {
   data: IChartData[];
   isLoading: boolean;
+  relativeChange?: number;
   totalRequestsCount: number;
 }
-
-const HAS_PERCENT = false;
 
 export const RequestsInfo = ({
   data,
   isLoading,
+  relativeChange,
   totalRequestsCount,
 }: RequestsInfoProps) => {
-  const { classes } = useRequestsInfoStyles();
+  const relativeChangeSign = Math.sign(
+    relativeChange ?? 0,
+  ) as RelativeChangeSign;
 
-  const chartProps: IChartProps = useMemo(
-    () => ({
+  const { classes } = useRequestsInfoStyles(relativeChangeSign);
+
+  const chartProps = useMemo(
+    (): IChartProps => ({
       data,
       hasHorizontalLines: false,
       xAxisTickFormatter: () => '',
@@ -38,19 +46,29 @@ export const RequestsInfo = ({
     [data],
   );
 
+  const nonEmptyData = useMemo(
+    () => data.filter(({ value }) => Boolean(value)),
+    [data],
+  );
+
+  const intlKey =
+    relativeChange === 0
+      ? 'project.total-requests.relative-change-zero'
+      : 'project.total-requests.relative-change';
+
   return (
-    <EmptyRequestsGuard data={data} isLoading={isLoading}>
+    <EmptyRequestsGuard data={nonEmptyData} isLoading={isLoading}>
       <div className={classes.chart}>
         <div className={classes.requestsCount}>
           <Typography variant="h6" className={classes.count}>
             {formatLongNumber(totalRequestsCount)}
           </Typography>
-          {HAS_PERCENT && (
+          {typeof relativeChange !== 'undefined' && (
             <Typography
-              variant={'body4' as Variant}
               className={classes.percent}
+              variant={'body4' as Variant}
             >
-              -1.5%
+              {t(intlKey, { relativeChange, relativeChangeSign })}
             </Typography>
           )}
         </div>

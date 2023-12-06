@@ -1,20 +1,23 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { selectCurrentAddress } from 'domains/auth/store';
+import { MilliSeconds } from 'modules/common/constants/const';
 import { RootState } from 'store';
-import { aggregateRequests } from 'modules/stats/utils/aggregateRequests';
-import { getAllChainsRequests } from 'modules/stats/utils/getAllChainsRequests';
+import { selectCurrentAddress } from 'domains/auth/store';
 
-import {
-  FetchProjectWhitelistParams,
-  fetchProjectWhitelist,
-} from '../actions/fetchProjectWhitelist';
 import { NewProjectStep } from '../types';
-import { chainsFetchProjectStatsFor1h } from '../actions/fetchProjectStatsFor1h';
-import { chainsFetchProjectStatsFor24h } from '../actions/fetchProjectStatsFor24h';
+import { fetchProjectChainsStatsFor1h } from '../actions/fetchProjectChainsStatsFor1h';
+import { fetchProjectChainsStatsFor24h } from '../actions/fetchProjectChainsStatsFor24h';
+import { fetchProjectTotalRequestsForLastTwoDays } from '../actions/fetchProjectTotalRequestsForLastTwoDays';
+import { fetchProjectTotalRequestsForLastTwoHours } from '../actions/fetchProjectTotalRequestsForLastTwoHours';
+import { fetchProjectWhitelist } from '../actions/fetchProjectWhitelist';
+import { filterTotalRequests } from './utils/filterTotalRequests';
+import { getRelativeChange } from './utils/getRelativeChange';
+import { sumTotalRequests } from './utils/sumTotalRequests';
 
 const selectNewProject = (state: RootState) => state.newProject;
+
+const actionSelectParams = undefined as never;
 
 export const selectNewProjectConfig = createSelector(
   selectNewProject,
@@ -33,7 +36,7 @@ export const selectDraftUserEndpointToken = createSelector(
 );
 
 export const selectProjectWhitelistState = createSelector(
-  fetchProjectWhitelist.select({} as unknown as FetchProjectWhitelistParams),
+  fetchProjectWhitelist.select(actionSelectParams),
   state => state,
 );
 
@@ -48,36 +51,143 @@ export const selectProjectWhitelistByType = createSelector(
   (whitelist, type) => whitelist.filter(item => item.type === type),
 );
 
-export const selectProjectStatsFor1h = createSelector(
-  chainsFetchProjectStatsFor1h.select(undefined as unknown as never),
-  requestState => requestState,
+export const selectProjectChainsStatsFor1hState = createSelector(
+  fetchProjectChainsStatsFor1h.select(actionSelectParams),
+  state => state,
 );
 
-export const selectProjectStatsFor24h = createSelector(
-  chainsFetchProjectStatsFor24h.select(undefined as unknown as never),
-  requestState => requestState,
+export const selectProjectChainsStatsFor24hState = createSelector(
+  fetchProjectChainsStatsFor24h.select(actionSelectParams),
+  state => state,
 );
 
-export const selectProjectTotalRequestsFor1h = createSelector(
-  selectProjectStatsFor1h,
-  ({ data }) => {
-    return data?.stats
-      ? aggregateRequests(getAllChainsRequests(data?.stats))
-      : {};
+export const selectProjectTotalRequestsForLastTwoHoursState = createSelector(
+  fetchProjectTotalRequestsForLastTwoHours.select(actionSelectParams),
+  state => state,
+);
+
+export const selectProjectTotalRequestsForLastTwoHoursLoading = createSelector(
+  selectProjectTotalRequestsForLastTwoHoursState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectProjectTotalRequestsForLastTwoHours = createSelector(
+  selectProjectTotalRequestsForLastTwoHoursState,
+  ({ data = {} }) => data,
+);
+
+export const selectProjectTotalRequestsForLastTwoHoursTimestamp =
+  createSelector(
+    selectProjectTotalRequestsForLastTwoHoursState,
+    ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
+  );
+
+export const selectProjectTotalRequestsForLastHour = createSelector(
+  selectProjectTotalRequestsForLastTwoHours,
+  selectProjectTotalRequestsForLastTwoHoursTimestamp,
+  (totalRequests, now) => {
+    const hourAgo = now - MilliSeconds.Hour;
+    const filter = (timestamp: number) => timestamp > hourAgo;
+
+    return filterTotalRequests({ filter, totalRequests });
   },
 );
 
-export const selectProjectTotalRequestsFor24h = createSelector(
-  selectProjectStatsFor24h,
-  ({ data }) => {
-    return data?.stats
-      ? aggregateRequests(getAllChainsRequests(data?.stats))
-      : {};
+export const selectProjectTotalRequestsCountForLastHour = createSelector(
+  selectProjectTotalRequestsForLastHour,
+  lastHourRequests => sumTotalRequests(lastHourRequests),
+);
+
+export const selectProjectTotalRequestsForPreviousHour = createSelector(
+  selectProjectTotalRequestsForLastTwoHours,
+  selectProjectTotalRequestsForLastTwoHoursTimestamp,
+  (totalRequests, now) => {
+    const hourAgo = now - MilliSeconds.Hour;
+    const filter = (timestamp: number) => timestamp < hourAgo;
+
+    return filterTotalRequests({ filter, totalRequests });
   },
+);
+
+export const selectProjectTotalRequestsCountForPreviousHour = createSelector(
+  selectProjectTotalRequestsForPreviousHour,
+  previousHourRequests => sumTotalRequests(previousHourRequests),
+);
+
+export const selectRelativeChangeForLastHour = createSelector(
+  selectProjectTotalRequestsCountForLastHour,
+  selectProjectTotalRequestsCountForPreviousHour,
+  (lastHourCount, previousHourCount) =>
+    getRelativeChange({
+      currentValue: lastHourCount,
+      previousValue: previousHourCount,
+    }),
+);
+
+export const selectProjectTotalRequestsForLastTwoDaysState = createSelector(
+  fetchProjectTotalRequestsForLastTwoDays.select(actionSelectParams),
+  state => state,
+);
+
+export const selectProjectTotalRequestsForLastTwoDaysLoading = createSelector(
+  selectProjectTotalRequestsForLastTwoDaysState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectProjectTotalRequestsForLastTwoDays = createSelector(
+  selectProjectTotalRequestsForLastTwoDaysState,
+  ({ data = {} }) => data,
+);
+
+export const selectProjectTotalRequestsForLastTwoDaysTimestamp = createSelector(
+  selectProjectTotalRequestsForLastTwoDaysState,
+  ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
+);
+
+export const selectProjectTotalRequestsForLastDay = createSelector(
+  selectProjectTotalRequestsForLastTwoDays,
+  selectProjectTotalRequestsForLastTwoDaysTimestamp,
+  (totalRequests, now) => {
+    const dayAgo = now - MilliSeconds.Day;
+    const filter = (timestamp: number) => timestamp > dayAgo;
+
+    return filterTotalRequests({ filter, totalRequests });
+  },
+);
+
+export const selectProjectTotalRequestsCountForLastDay = createSelector(
+  selectProjectTotalRequestsForLastDay,
+  lastDayRequests => sumTotalRequests(lastDayRequests),
+);
+
+export const selectProjectTotalRequestsForPreviousDay = createSelector(
+  selectProjectTotalRequestsForLastTwoDays,
+  selectProjectTotalRequestsForLastTwoDaysTimestamp,
+  (totalRequests, now) => {
+    const dayAgo = now - MilliSeconds.Day;
+    const filter = (timestamp: number) => timestamp < dayAgo;
+
+    return filterTotalRequests({ filter, totalRequests });
+  },
+);
+
+export const selectProjectTotalRequestsCountForPreviousDay = createSelector(
+  selectProjectTotalRequestsForPreviousDay,
+  previousDayRequests => sumTotalRequests(previousDayRequests),
+);
+
+export const selectRelativeChangeForLastDay = createSelector(
+  selectProjectTotalRequestsCountForLastDay,
+  selectProjectTotalRequestsCountForPreviousDay,
+  (lastDayCount, previousDayCount) =>
+    getRelativeChange({
+      currentValue: lastDayCount,
+      previousValue: previousDayCount,
+    }),
 );
 
 export const selectProjectTotalRequestsFor1hByChain = createSelector(
-  selectProjectStatsFor1h,
+  selectProjectChainsStatsFor1hState,
   (_state: RootState, chainId: string) => chainId,
   ({ data }, chainId) => {
     return data?.stats?.[chainId]?.total_requests ?? 0;
@@ -85,7 +195,7 @@ export const selectProjectTotalRequestsFor1hByChain = createSelector(
 );
 
 export const selectProjectTotalRequestsFor24hByChain = createSelector(
-  selectProjectStatsFor24h,
+  selectProjectChainsStatsFor24hState,
   (_state: RootState, chainId: string) => chainId,
   ({ data }, chainId) => {
     return data?.stats?.[chainId]?.total_requests ?? 0;

@@ -569,7 +569,9 @@
     "total-requests": {
       "title": "Total requests",
       "dashboard-button": "Dashboard",
-      "empty": "No data for statistics yet"
+      "empty": "No data for statistics yet",
+      "relative-change": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::percent .0}",
+      "relative-change-zero": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::compact-short}%"
     },
     "whitelist": {
       "title": "Whitelist",
