@@ -15,7 +15,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       border: '2px solid rgba(31, 34, 38, 0.1)',
     },
   },
-  metamaskIcon: {
+  providerIcon: {
     marginRight: theme.spacing(2),
   },
 }));

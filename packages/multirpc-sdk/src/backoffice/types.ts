@@ -497,3 +497,7 @@ export interface IAddressBindingsRequest {
 export interface IAddressBindingsResponse {
   tokens?: IAddressBindingEntity[];
 }
+
+export interface IGetExternalEmailResponse {
+  external_email: string;
+}

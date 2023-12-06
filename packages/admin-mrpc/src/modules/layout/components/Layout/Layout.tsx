@@ -38,7 +38,7 @@ export const Layout = ({
 }: ILayoutProps) => {
   const { classes } = useStyles();
 
-  const address = useAppSelector(store => store.auth.address);
+  const email = useAppSelector(store => store.auth.email);
 
   return (
     <div className={classes.wrapper}>
@@ -47,14 +47,14 @@ export const Layout = ({
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Header
-                address={address}
+                userName={email}
                 hasSecretRouteAccess={hasSecretRouteAccess}
                 hasTestDriveTokenCreationAccess={
                   hasTestDriveTokenCreationAccess
                 }
               />
             </Toolbar>
-            {address && (
+            {email && (
               <Toolbar disableGutters>
                 <SearchEmailBindingsInput filterType="token" />
                 <SearchEmailBindingsInput filterType="email" />

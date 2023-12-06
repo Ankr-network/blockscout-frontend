@@ -21,6 +21,7 @@ export class MultiService {
         MultiService.instance = new AdminMrpcSdk(
           provider,
           configFromEnv(API_ENV).backofficeUrl,
+          configFromEnv(API_ENV).uAuthUrl,
         );
       }
     });

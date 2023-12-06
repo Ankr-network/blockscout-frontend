@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AuthProviderEnum } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 
 export interface IAuthSlice {
-  address?: string;
+  email?: string;
   backofficeAuthorizationToken?: string;
+  expiresAt?: string;
+  provider?: AuthProviderEnum;
 }
 
 const initialState: IAuthSlice = {};
@@ -14,20 +17,31 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
-      const { address, backofficeAuthorizationToken } = action.payload;
+      const { email, backofficeAuthorizationToken, expiresAt, provider } =
+        action.payload;
 
       if (backofficeAuthorizationToken) {
         state.backofficeAuthorizationToken = backofficeAuthorizationToken;
       }
 
-      if (address) {
-        state.address = address;
+      if (provider) {
+        state.provider = provider;
+      }
+
+      if (expiresAt) {
+        state.expiresAt = expiresAt;
+      }
+
+      if (email) {
+        state.email = email;
       }
     },
 
     resetAuthData: state => {
-      state.address = undefined;
+      state.email = undefined;
       state.backofficeAuthorizationToken = undefined;
+      state.expiresAt = undefined;
+      state.provider = undefined;
     },
   },
 });

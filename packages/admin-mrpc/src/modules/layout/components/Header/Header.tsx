@@ -9,21 +9,21 @@ import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
 import { Logo } from '../Logo';
 
 interface HeaderProps {
-  address?: string;
+  userName?: string;
   hasSecretRouteAccess?: boolean;
   hasTestDriveTokenCreationAccess?: boolean;
 }
 
 export const Header = ({
-  address,
+  userName,
   hasSecretRouteAccess,
   hasTestDriveTokenCreationAccess,
 }: HeaderProps) => {
   return (
     <>
       <Logo />
-      {address && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
-      {address && (
+      {userName && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
+      {userName && (
         <Button
           sx={{ mr: 4 }}
           component={NavLink}

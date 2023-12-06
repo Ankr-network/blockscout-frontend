@@ -1,5 +1,10 @@
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { useCallback } from 'react';
+import { Spinner } from 'ui';
+import { AuthProviderEnum } from 'multirpc-sdk';
+
+import { useLazyFetchAuthLinkQuery } from 'modules/signIn/actions/fetchAuthLink';
 
 import { ReactComponent as AnkrIcon } from '../../assets/ankr-logo.svg';
 import { ReactComponent as GoogleIcon } from '../../assets/google.svg';
@@ -51,8 +56,36 @@ const useStyles = makeStyles()(theme => ({
   },
 }));
 
+const SPINNER_SIZE = 24;
+
+const IS_GITHUB_AUTH_ENABLED = false;
+
 export const SignInForm = () => {
   const { classes } = useStyles();
+  const [fetchAuthLink, { originalArgs, isFetching }] =
+    useLazyFetchAuthLinkQuery();
+
+  const redirectToUAuth = useCallback((url = '') => {
+    // TODO: update react-router to v6 to use useNavigation
+    // then we could change it to navigate(url, {replace: true});
+    window.location.replace(url);
+  }, []);
+
+  const onGoogleButtonClick = useCallback(async () => {
+    const { data: uAuthUrl } = await fetchAuthLink(
+      AuthProviderEnum.AUTH_PROVIDER_GOOGLE,
+    );
+
+    redirectToUAuth(uAuthUrl);
+  }, [fetchAuthLink, redirectToUAuth]);
+
+  const onGithubButtonClick = useCallback(async () => {
+    const { data: uAuthUrl } = await fetchAuthLink(
+      AuthProviderEnum.AUTH_PROVIDER_GITHUB,
+    );
+
+    redirectToUAuth(uAuthUrl);
+  }, [fetchAuthLink, redirectToUAuth]);
 
   return (
     <div className={classes.root}>
@@ -66,19 +99,37 @@ export const SignInForm = () => {
         className={classes.button}
         size="large"
         variant="outlined"
+        disabled={isFetching}
+        onClick={onGoogleButtonClick}
         startIcon={<GoogleIcon className={classes.buttonIcon} />}
+        endIcon={
+          isFetching &&
+          originalArgs === AuthProviderEnum.AUTH_PROVIDER_GOOGLE && (
+            <Spinner size={SPINNER_SIZE} centered={false} />
+          )
+        }
       >
         Continue with Google
       </Button>
 
-      <Button
-        className={classes.button}
-        size="large"
-        variant="outlined"
-        startIcon={<GithubIcon className={classes.buttonIcon} />}
-      >
-        Continue with GitHub
-      </Button>
+      {IS_GITHUB_AUTH_ENABLED && (
+        <Button
+          className={classes.button}
+          size="large"
+          variant="outlined"
+          disabled={isFetching}
+          onClick={onGithubButtonClick}
+          startIcon={<GithubIcon className={classes.buttonIcon} />}
+          endIcon={
+            isFetching &&
+            originalArgs === AuthProviderEnum.AUTH_PROVIDER_GITHUB && (
+              <Spinner size={SPINNER_SIZE} centered={false} />
+            )
+          }
+        >
+          Continue with GitHub
+        </Button>
+      )}
 
       <Typography className={classes.note}>
         By continuing you agree to our <a href="href">terms of service</a>

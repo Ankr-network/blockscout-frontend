@@ -1,6 +1,8 @@
 import { Box } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+import { useAuthData } from 'modules/signIn/components/SignInPage/useAuthData';
+
 import { SignInForm } from '../SignInForm';
 import bg from '../../assets/bg.png';
 
@@ -34,6 +36,8 @@ const useStyles = makeStyles<string>()((theme, image) => ({
 
 export const SignInPage = () => {
   const { classes } = useStyles(bg);
+
+  useAuthData();
 
   return (
     <Box className={classes.root}>

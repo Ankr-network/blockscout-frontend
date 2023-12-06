@@ -68,6 +68,7 @@ import {
   IUserTokensResponse,
   ICounterRequest,
   ICountersEntity,
+  IGetExternalEmailResponse,
 } from './types';
 import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
@@ -535,5 +536,11 @@ export class BackofficeGateway implements IBackofficeGateway {
     );
 
     return response;
+  }
+
+  async getUsetEmail(): Promise<IGetExternalEmailResponse> {
+    const { data } = await this.api.get<IGetExternalEmailResponse>('/externalEmail');
+
+    return data;
   }
 }
