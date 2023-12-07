@@ -4,17 +4,13 @@ import {
   StatsByRangeTimeframe,
 } from 'multirpc-sdk';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
-interface GetStatsByRangeParams {
-  jwtTokens: JwtManagerToken[];
+export interface FetchAllProjectsTotalRequestsForLastTwoDaysParams {
+  tokens: string[];
   group?: string;
 }
-
-const duration = StatsByRangeDuration.TWO_DAYS;
-const timeframe = StatsByRangeTimeframe.DAY;
 
 export interface StatsByRangeResult {
   [userEndpointToken: string]: StatsByRange;
@@ -34,16 +30,22 @@ const isRejected = (
   result: PromiseSettledResult<StatsByRangeResponse>,
 ): result is PromiseRejectedResult => result.status === 'rejected';
 
+const duration = StatsByRangeDuration.TWO_DAYS;
+const timeframe = StatsByRangeTimeframe.HOUR;
+
 export const {
-  endpoints: { fetchStatsByRange },
-  useLazyFetchStatsByRangeQuery,
+  endpoints: { fetchAllProjectsTotalRequestsForLastTwoDays },
+  useFetchAllProjectsTotalRequestsForLastTwoDaysQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchStatsByRange: build.query<StatsByRangeResult, GetStatsByRangeParams>({
-      queryFn: async ({ group, jwtTokens }) => {
+    fetchAllProjectsTotalRequestsForLastTwoDays: build.query<
+      StatsByRangeResult,
+      FetchAllProjectsTotalRequestsForLastTwoDaysParams
+    >({
+      queryFn: async ({ group, tokens }) => {
         const service = MultiService.getService().getAccountingGateway();
 
-        const promises = jwtTokens.map(({ userEndpointToken: token }) =>
+        const promises = tokens.map(token =>
           service.getUserStatsByRange({ duration, group, timeframe, token }),
         );
 
@@ -51,7 +53,9 @@ export const {
 
         const data = results.reduce<StatsByRangeResult>(
           (stats, result, index) => {
-            stats[jwtTokens[index].userEndpointToken] = {
+            const userEndpointToken = tokens[index];
+
+            stats[userEndpointToken] = {
               data: isFulfilled(result) ? result.value : undefined,
               error: isRejected(result) ? result.reason : undefined,
             };

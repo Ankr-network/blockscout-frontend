@@ -8,7 +8,7 @@ import { web3Api } from 'store/queries';
 
 import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
 
-interface FetchTokenStatusParams extends IApiUserGroupParams {
+export interface FetchTokenStatusParams extends IApiUserGroupParams {
   projects: JwtManagerToken[];
 }
 
@@ -18,8 +18,9 @@ export interface FetchTokenStatusResponse {
 }
 
 export const {
-  useLazyFetchAllJwtTokensStatusesQuery,
   endpoints: { fetchAllJwtTokensStatuses },
+  useFetchAllJwtTokensStatusesQuery,
+  useLazyFetchAllJwtTokensStatusesQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllJwtTokensStatuses: build.query<

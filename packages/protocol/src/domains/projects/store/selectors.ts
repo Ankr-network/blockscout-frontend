@@ -6,6 +6,8 @@ import { RootState } from 'store';
 import { selectCurrentAddress } from 'domains/auth/store';
 
 import { NewProjectStep } from '../types';
+import { ProjectActivity } from './types';
+import { fetchAllProjectsTotalRequestsForLastTwoDays } from '../actions/fetchAllProjectsTotalRequestsForLastTwoDays';
 import { fetchProjectChainsStatsFor1h } from '../actions/fetchProjectChainsStatsFor1h';
 import { fetchProjectChainsStatsFor24h } from '../actions/fetchProjectChainsStatsFor24h';
 import { fetchProjectTotalRequestsForLastTwoDays } from '../actions/fetchProjectTotalRequestsForLastTwoDays';
@@ -199,5 +201,77 @@ export const selectProjectTotalRequestsFor24hByChain = createSelector(
   (_state: RootState, chainId: string) => chainId,
   ({ data }, chainId) => {
     return data?.stats?.[chainId]?.total_requests ?? 0;
+  },
+);
+
+export const selectAllProjectsTotalRequestsState = createSelector(
+  fetchAllProjectsTotalRequestsForLastTwoDays.select(actionSelectParams),
+  state => state,
+);
+
+export const selectAllProjectsTotalRequestsLoading = createSelector(
+  selectAllProjectsTotalRequestsState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectAllProjectsTotalRequests = createSelector(
+  selectAllProjectsTotalRequestsState,
+  ({ data = {} }) => data,
+);
+
+export const selectAllProjectsTotalRequestsTimestamp = createSelector(
+  selectAllProjectsTotalRequestsState,
+  ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
+);
+
+export const selectAllProjectsActivity = createSelector(
+  selectAllProjectsTotalRequests,
+  selectAllProjectsTotalRequestsTimestamp,
+  (totalRequests, now) => {
+    const dayAgo = now - MilliSeconds.Day;
+
+    const filterLastDay = (timestamp: number) => timestamp > dayAgo;
+    const filterPreviousDay = (timestamp: number) => timestamp < dayAgo;
+
+    return Object.fromEntries(
+      Object.entries(totalRequests).map(
+        ([token, { data: projectTotalRequests = {} }]) => {
+          const projectTotalRequestsForLastDay = filterTotalRequests({
+            filter: filterLastDay,
+            totalRequests: projectTotalRequests,
+          });
+
+          const projectTotalRequestsCountForLastDay = sumTotalRequests(
+            projectTotalRequestsForLastDay,
+          );
+
+          const projectTotalRequestsForPreviousDay = filterTotalRequests({
+            filter: filterPreviousDay,
+            totalRequests: projectTotalRequests,
+          });
+
+          const projectTotalRequestsCountForPrevousDay = sumTotalRequests(
+            projectTotalRequestsForPreviousDay,
+          );
+
+          const hasData =
+            Object.keys(projectTotalRequestsForLastDay).length > 0;
+
+          const isEmpty = !hasData || projectTotalRequestsCountForLastDay === 0;
+
+          const projectActivity: ProjectActivity = {
+            hasData,
+            isEmpty,
+            lastDayTotalRequestsCount: projectTotalRequestsCountForLastDay,
+            relativeChange: getRelativeChange({
+              currentValue: projectTotalRequestsCountForLastDay,
+              previousValue: projectTotalRequestsCountForPrevousDay,
+            }),
+          };
+
+          return [token, projectActivity];
+        },
+      ),
+    );
   },
 );

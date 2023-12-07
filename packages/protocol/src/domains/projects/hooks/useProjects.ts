@@ -1,13 +1,10 @@
-import { useEffect, useRef } from 'react';
-import isEqual from 'lodash.isequal';
-
+import { useFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useLazyFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
-import { useLazyFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
-import { useLazyFetchStatsByRangeQuery } from '../actions/fetchStatsByRange';
-import { useLazyFetchWhitelistsBlockchainsQuery } from '../actions/fetchWhitelistsBlockchains';
+import { useFetchAllProjectsTotalRequestsForLastTwoDaysQuery } from '../actions/fetchAllProjectsTotalRequestsForLastTwoDays';
+import { useFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
+import { useFetchWhitelistsBlockchainsQuery } from '../actions/fetchWhitelistsBlockchains';
+import { useProjectsDataParams } from './useProjectsDataParams';
 
 export const useProjects = () => {
   const {
@@ -19,81 +16,34 @@ export const useProjects = () => {
     isLoaded,
   } = useJwtTokenManager();
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const {
+    allTotalRequestsParams,
+    allWhitelistsBlockchainsParams,
+    allWhitelistsParams,
+    statusesParams,
+  } = useProjectsDataParams({ jwts: jwtTokens, jwtsFetching: isFetching });
 
-  const tokensRef = useRef(jwtTokens);
+  const { data: allWhitelists, isLoading: isLoadingAllWhitelists } =
+    useFetchAllWhitelistsQuery(allWhitelistsParams);
 
-  const [
-    fetchAllWhitelists,
-    { data: allWhitelists, isLoading: isLoadingAllWhitelists },
-  ] = useLazyFetchAllWhitelistsQuery();
+  const {
+    data: allWhitelistsBlockchains,
+    isLoading: isLoadingAllWhitelistsBlockchains,
+  } = useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams);
 
-  const [
-    fetchAllWhitelistsBlockchains,
-    {
-      data: allWhitelistsBlockchains,
-      isLoading: isLoadingAllWhitelistsBlockchains,
-    },
-  ] = useLazyFetchWhitelistsBlockchainsQuery();
+  useFetchAllJwtTokensStatusesQuery(statusesParams);
 
-  const [fetchStatuses] = useLazyFetchAllJwtTokensStatusesQuery();
-
-  const [fetchStatsByRange] = useLazyFetchStatsByRangeQuery();
-
-  useEffect(() => {
-    const skipFetching =
-      jwtTokens.length === 0 ||
-      isFetching ||
-      isEqual(jwtTokens, tokensRef.current);
-
-    if (skipFetching) {
-      return () => {};
-    }
-
-    tokensRef.current = jwtTokens;
-
-    const { abort: abortWhitelists } = fetchAllWhitelists({ group });
-
-    const { abort: abortWhitelistsBlockchains } = fetchAllWhitelistsBlockchains(
-      { group, projects: jwtTokens },
-    );
-
-    const { abort: abortStatuses } = fetchStatuses({
-      group,
-      projects: jwtTokens,
-    });
-
-    const { abort: abortStats } = fetchStatsByRange({
-      group,
-      jwtTokens,
-    });
-
-    return () => {
-      abortWhitelists();
-      abortWhitelistsBlockchains();
-      abortStatuses();
-      abortStats();
-    };
-    // we don't need to refetch data as soon as group changed, so this param is excluded from deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isFetching,
-    jwtTokens,
-    fetchAllWhitelists,
-    fetchAllWhitelistsBlockchains,
-    fetchStatuses,
-    fetchStatsByRange,
-  ]);
+  useFetchAllProjectsTotalRequestsForLastTwoDaysQuery(allTotalRequestsParams);
 
   return {
-    canAddProject,
-    allowedAddProjectTokenIndex,
-    isLoading,
     allWhitelists,
-    isLoadingAllWhitelists,
     allWhitelistsBlockchains,
-    isLoadingAllWhitelistsBlockchains,
+    allowedAddProjectTokenIndex,
+    canAddProject,
     isFetching,
     isLoaded,
+    isLoading,
+    isLoadingAllWhitelists,
+    isLoadingAllWhitelistsBlockchains,
   };
 };

@@ -5,12 +5,12 @@ import {
   Project,
   ProjectTable,
 } from 'domains/projects/utils/getAllProjects';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import {
-  selectProjectsStatsByRange,
-  selectProjectsStatuses,
-} from 'domains/projects/store/WhitelistsSelector';
+  selectAllProjectsActivity,
+  selectDraftUserEndpointToken,
+} from 'domains/projects/store';
+import { selectProjectsStatuses } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { useProjectsTableColumns } from './useProjectsTableColumns';
 
@@ -25,8 +25,8 @@ export const useProjectsTable = ({
 }: ProjectTableColumnsProps) => {
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 
+  const allProjectsActivity = useAppSelector(selectAllProjectsActivity);
   const statusData = useAppSelector(selectProjectsStatuses);
-  const activityData = useAppSelector(selectProjectsStatsByRange);
 
   const { columns } = useProjectsTableColumns({
     onProjectDialogOpen,
@@ -49,17 +49,12 @@ export const useProjectsTable = ({
           draft: draftUserEndpointToken === userEndpointToken,
         };
 
-        const currentActivityData = activityData?.[userEndpointToken];
-        const statsByRange = currentActivityData?.data ?? {};
+        const projectActivity = allProjectsActivity[userEndpointToken];
 
-        return {
-          ...data,
-          projectStatus,
-          statsByRange,
-        };
+        return { ...data, projectActivity, projectStatus };
       }),
 
-    [activityData, draftUserEndpointToken, projectsData, statusData],
+    [allProjectsActivity, draftUserEndpointToken, projectsData, statusData],
   );
 
   return { columns, tableData };

@@ -16,7 +16,6 @@ import { BlockchainIcon } from '../../BlockchainIcon';
 import { ProjectName } from '../../ProjectName';
 import { ProjectRequestsActivity } from '../../ProjectRequestsActivity';
 import { WhitelistStatus } from '../components/WhitelistStatus';
-import { getRequests } from '../ProjectsTableUtils';
 import { useColumnsStyles } from './useColumnsStyles';
 
 interface TableColumnsProps {
@@ -131,7 +130,7 @@ export const useProjectsTableColumns = ({
             </Tooltip>
           </span>
         ),
-        render: ({ statsByRange, projectStatus, isLoading }) => {
+        render: ({ projectActivity, projectStatus, isLoading }) => {
           if (isLoading) {
             return <Skeleton width="100px" variant="text" />;
           }
@@ -144,17 +143,11 @@ export const useProjectsTableColumns = ({
             );
           }
 
-          if (Object.keys(statsByRange).length === 0) {
+          if (!projectActivity?.hasData) {
             return t('common.no-data');
           }
 
-          const requests = getRequests(statsByRange);
-
-          const [todayRequests, yesterdayRequests] = requests;
-
-          const isEmpty = requests.length === 0 || todayRequests === 0;
-
-          if (isEmpty) {
+          if (projectActivity?.isEmpty) {
             return (
               <Typography variant={'body3' as Variant}>
                 {t('projects.list-project.no-requests-yet')}
@@ -162,12 +155,7 @@ export const useProjectsTableColumns = ({
             );
           }
 
-          return (
-            <ProjectRequestsActivity
-              todayRequests={todayRequests}
-              yesterdayRequests={yesterdayRequests}
-            />
-          );
+          return <ProjectRequestsActivity {...projectActivity} />;
         },
         width: '15%',
       },

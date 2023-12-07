@@ -10,13 +10,14 @@ export interface MappedWhitelistBlockchainsResponse {
   blockchains: BlockchainID[];
 }
 
-interface FetchWhitelistsBlockchainsParams extends IApiUserGroupParams {
+export interface FetchWhitelistsBlockchainsParams extends IApiUserGroupParams {
   projects: JwtManagerToken[];
 }
 
 export const {
-  useLazyFetchWhitelistsBlockchainsQuery,
   endpoints: { fetchWhitelistsBlockchains },
+  useFetchWhitelistsBlockchainsQuery,
+  useLazyFetchWhitelistsBlockchainsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchWhitelistsBlockchains: build.query<

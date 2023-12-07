@@ -2,40 +2,44 @@ import { DownTriangle, UpperTriangle } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { t } from '@ankr.com/common';
-import { useMemo } from 'react';
 
-import { ProjectRequestsActivityProps } from './types';
-import { PercentSign, getPercent } from './utils/getPercent';
+import { ProjectActivity } from 'domains/projects/store';
+import { Sign } from 'modules/common/types/types';
+
 import { useProjectRequestsActivityStyles } from './useProjectRequestsActivityStyles';
 
 const variant = 'subtitle3' as Variant;
 
+export interface ProjectRequestsActivityProps extends ProjectActivity {}
+
 export const ProjectRequestsActivity = ({
-  todayRequests,
-  yesterdayRequests,
+  lastDayTotalRequestsCount,
+  relativeChange,
 }: ProjectRequestsActivityProps) => {
-  const { isVisible, percent, sign } = useMemo(
-    () => getPercent({ todayRequests, yesterdayRequests }),
-    [todayRequests, yesterdayRequests],
-  );
+  const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
 
-  const { classes } = useProjectRequestsActivityStyles(sign);
+  const { classes } = useProjectRequestsActivityStyles(relativeChangeSign);
 
-  const iconMap: Record<PercentSign, JSX.Element> = {
+  const iconMap: Record<Sign, JSX.Element> = {
     0: <></>,
     1: <UpperTriangle className={classes.icon} />,
     [-1]: <DownTriangle className={classes.icon} />,
   };
 
+  const intlKey =
+    relativeChange === 0
+      ? 'projects.list-project.relative-change-zero'
+      : 'projects.list-project.relative-change';
+
   return (
     <div className={classes.root}>
       <Typography className={classes.count} variant={variant}>
-        {t('projects.list-project.count', { value: todayRequests })}
+        {t('projects.list-project.count', { value: lastDayTotalRequestsCount })}
       </Typography>
-      {isVisible && (
+      {typeof relativeChange !== 'undefined' && (
         <Typography className={classes.percent} variant={variant}>
-          {t('projects.list-project.percent', { percent, sign })}
-          {iconMap[sign]}
+          {t(intlKey, { relativeChange, relativeChangeSign })}
+          {iconMap[relativeChangeSign]}
         </Typography>
       )}
     </div>

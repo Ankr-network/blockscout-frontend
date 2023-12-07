@@ -1,8 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-export type RelativeChangeSign = 1 | -1 | 0;
+import { Sign } from 'modules/common/types/types';
 
-export const useRequestsInfoStyles = makeStyles<RelativeChangeSign>()(
+export const useRequestsInfoStyles = makeStyles<Sign>()(
   (theme, relativeChangeSign) => {
     const persentColors = {
       [-1]: theme.palette.error.main,

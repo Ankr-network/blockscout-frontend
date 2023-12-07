@@ -3,3 +3,5 @@ export enum Env {
   Production = 'prod',
   Stage = 'staging',
 }
+
+export type Sign = -1 | 0 | 1;

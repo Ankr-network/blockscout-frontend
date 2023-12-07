@@ -3,18 +3,16 @@ import { Variant } from '@mui/material/styles/createTypography';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { formatLongNumber } from 'modules/common/utils/formatNumber';
 import {
   Chart,
   IChartData,
   IChartProps,
 } from 'modules/common/components/Chart';
+import { Sign } from 'modules/common/types/types';
+import { formatLongNumber } from 'modules/common/utils/formatNumber';
 
 import { EmptyRequestsGuard } from '../EmptyRequestsGuard';
-import {
-  RelativeChangeSign,
-  useRequestsInfoStyles,
-} from './useRequestsInfoStyles';
+import { useRequestsInfoStyles } from './useRequestsInfoStyles';
 
 interface RequestsInfoProps {
   data: IChartData[];
@@ -29,9 +27,7 @@ export const RequestsInfo = ({
   relativeChange,
   totalRequestsCount,
 }: RequestsInfoProps) => {
-  const relativeChangeSign = Math.sign(
-    relativeChange ?? 0,
-  ) as RelativeChangeSign;
+  const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
 
   const { classes } = useRequestsInfoStyles(relativeChangeSign);
 
