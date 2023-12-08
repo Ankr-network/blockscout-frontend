@@ -17,6 +17,9 @@ export const useStyles = makeStyles<Props>()((theme: Theme, props: Props) => ({
     '&:not(:last-child)': {
       marginRight: theme.spacing(0),
     },
+    '& span': {
+      fontWeight: 500,
+    },
   },
   left: {
     display: 'flex',

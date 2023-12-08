@@ -24,6 +24,7 @@ export const ConfigureButton = ({ isDisabled }: ConfigureButtonProps) => {
         size="small"
         startIcon={<Gear className={classes.icon} />}
         variant="outlined"
+        className={classes.button}
       >
         {t('project.whitelist.configure-button')}
       </Button>
