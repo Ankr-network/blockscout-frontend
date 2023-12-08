@@ -3,11 +3,19 @@ import { AuthProviderEnum } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 
+export enum MetatamskAuthProviderEnum {
+  AUTH_PROVIDER_METAMASK = 'AUTH_PROVIDER_METAMASK',
+}
+
+export type BackofficeAuthProviderEnum =
+  | AuthProviderEnum
+  | MetatamskAuthProviderEnum;
+
 export interface IAuthSlice {
   email?: string;
   backofficeAuthorizationToken?: string;
   expiresAt?: string;
-  provider?: AuthProviderEnum;
+  provider?: BackofficeAuthProviderEnum;
 }
 
 const initialState: IAuthSlice = {};
