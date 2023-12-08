@@ -28,6 +28,11 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   addNetworkButton: {
     '&&': {
       backgroundColor: theme.palette.background.paper,
+      height: 32,
+      width: 32,
+      minHeight: 32,
+      padding: 0,
+      borderRadius: theme.spacing(3),
     },
     display: 'flex',
 
@@ -39,9 +44,6 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
 
     [theme.breakpoints.up('lg')]: {
       flexShrink: 0,
-      '&&': {
-        padding: theme.spacing(3, 6),
-      },
     },
   },
   right: {
@@ -77,9 +79,9 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   },
 
   docsLink: {
-    height: 28,
-    minHeight: 28,
-    position: 'relative',
-    top: 2,
+    height: 30,
+    minHeight: 30,
+    borderRadius: theme.spacing(3),
+    padding: theme.spacing(0, 3),
   },
 }));

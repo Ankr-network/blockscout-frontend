@@ -22,6 +22,10 @@ export const useNetworkSelectorStyles = makeStyles()(theme => ({
   },
   summaryRoot: {
     padding: 0,
+
+    '& svg': {
+      color: theme.palette.grey[400],
+    },
   },
   summaryContent: {
     margin: 0,

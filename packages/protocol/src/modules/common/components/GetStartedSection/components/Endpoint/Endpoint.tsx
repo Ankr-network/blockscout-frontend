@@ -1,8 +1,10 @@
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { CopyToClipIcon, ICopyToClipIconProps } from 'uiKit/CopyToClipIcon';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 
 import { useEndpointStyles } from './EndpointStyles';
 
@@ -12,6 +14,8 @@ export interface EndpointProps {
   url: string;
 }
 
+const URL_DIVIDER_SYMBOL = '/';
+
 export const Endpoint = ({
   hasConnectWalletMessage,
   onCopy,
@@ -20,6 +24,24 @@ export const Endpoint = ({
   const { classes } = useEndpointStyles();
 
   const { isOpened, onOpen, onClose } = useDialog();
+
+  const textLabel = useMemo(() => {
+    if (hasConnectWalletMessage) {
+      return t('chains.connect-wallet');
+    }
+
+    const splittedUrl = url.split(URL_DIVIDER_SYMBOL);
+
+    return splittedUrl
+      .map((value, index) => {
+        if (index === splittedUrl.length - 1) {
+          return shrinkAddress(value);
+        }
+
+        return value;
+      })
+      .join(URL_DIVIDER_SYMBOL);
+  }, [hasConnectWalletMessage, url]);
 
   return (
     <>
@@ -31,6 +53,7 @@ export const Endpoint = ({
         onCopy={onCopy}
         size="l"
         text={hasConnectWalletMessage ? t('chains.connect-wallet') : url}
+        textLabel={textLabel}
         textColor="textSecondary"
       />
       <SignupDialog isOpen={isOpened} onClose={onClose} hasOauthLogin />

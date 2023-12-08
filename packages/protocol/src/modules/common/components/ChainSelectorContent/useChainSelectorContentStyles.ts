@@ -10,6 +10,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     paddingBottom: theme.spacing(4),
     borderBottom: `1px solid ${theme.palette.background.default}`,
     marginTop: theme.spacing(10),
+    flexWrap: 'wrap',
 
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
