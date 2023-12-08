@@ -22,7 +22,6 @@ interface ProjectDetailsFormProps {
     values: ProjectDetailsFormValues,
     form: unknown,
   ) => Promise<void>;
-  isDefaultProject: boolean;
   isDescriptionFocusedByDefault?: boolean;
 }
 
@@ -31,7 +30,6 @@ export const ProjectDetailsForm = ({
   projectDescription,
   isUpdateLoading,
   handleFormSubmit,
-  isDefaultProject,
   isDescriptionFocusedByDefault,
 }: ProjectDetailsFormProps) => {
   const { classes } = useProjectDetailsDialogStyles();
@@ -53,7 +51,6 @@ export const ProjectDetailsForm = ({
               maxLength={MAX_PROJECT_NAME_LENGTH}
               validate={validateAscii}
               placeholder={t('projects.new-project.step-1.name-placeholder')}
-              isDisabled={isDefaultProject}
             />
           </FormControl>
 
@@ -89,7 +86,7 @@ export const ProjectDetailsForm = ({
         </form>
       );
     },
-    [classes, isDefaultProject, isUpdateLoading, isDescriptionFocusedByDefault],
+    [classes, isUpdateLoading, isDescriptionFocusedByDefault],
   );
 
   return (

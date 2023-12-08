@@ -4,9 +4,9 @@ import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
-import { getAllProjects } from '../utils/getAllProjects';
-import { fetchStatsByRange } from '../actions/fetchStatsByRange';
 import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';
+import { getAllProjects } from '../utils/getAllProjects';
+import { selectAllProjectsTotalRequestsLoading } from './selectors';
 
 const selectAllWhitelists = createSelector(
   fetchAllWhitelists.select({}),
@@ -37,18 +37,23 @@ export const selectProjectsPageRequestsLoading = createSelector(
   selectAllWhitelistsLoading,
   selectAllWhitelistsBlockchainsLoading,
   selectProjectsStatusesLoading,
-  (isLoadingWhitelists, isLoadingBlockchains, isLoadingStatuses) =>
-    isLoadingWhitelists || isLoadingBlockchains || isLoadingStatuses,
+  selectAllProjectsTotalRequestsLoading,
+  (
+    isLoadingWhitelists,
+    isLoadingBlockchains,
+    isLoadingStatuses,
+    allProjectsTotalRequestsLoading,
+    // eslint-disable-next-line max-params
+  ) =>
+    isLoadingWhitelists ||
+    isLoadingBlockchains ||
+    isLoadingStatuses ||
+    allProjectsTotalRequestsLoading,
 );
 
 export const selectProjectsStatuses = createSelector(
   fetchAllJwtTokensStatuses.select({ projects: [] }),
   ({ data: projectStatuses = [] }) => projectStatuses,
-);
-
-export const selectProjectsStatsByRange = createSelector(
-  fetchStatsByRange.select({ jwtTokens: [] }),
-  ({ data: projectsStats = {} }) => projectsStats,
 );
 
 export const selectProjectsStatusesIsUninitialized = createSelector(

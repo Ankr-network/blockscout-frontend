@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import {
   Area,
@@ -13,7 +13,6 @@ import { BaseAxisProps } from 'recharts/types/util/types';
 
 import { useStyles } from './ChartStyles';
 import { MARGIN } from './ChartUtils';
-import { TranslationRequestWidget } from '../../types';
 import { useYAxisWidth } from './hooks/useYAxisWidth';
 
 export interface IChartData {
@@ -28,13 +27,17 @@ export interface IChartProps {
   xAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   yAxisTickFormatter?: BaseAxisProps['tickFormatter'];
   loading?: boolean;
+  height?: number;
   hasFixedHeight?: boolean;
-  translation: TranslationRequestWidget;
+  hasHorizontalLines?: boolean;
+  width?: string | number;
+  isDisabledColor?: boolean;
 }
 
 const ANIMATION_DURATION = 500;
 const FIXED_HEIGHT = 270;
 const Y_AXIS_MARGIN = 15;
+const WIDTH = '99%';
 
 export const Chart = ({
   data,
@@ -42,18 +45,30 @@ export const Chart = ({
   xAxisTickFormatter,
   yAxisTickFormatter,
   loading,
+  height = FIXED_HEIGHT,
   hasFixedHeight = true,
+  hasHorizontalLines = true,
+  width = WIDTH,
+  isDisabledColor,
 }: IChartProps) => {
   const [ref, yAxisWidth] = useYAxisWidth();
 
   const theme = useTheme();
   const { classes, cx } = useStyles();
 
+  const strokeColor = useMemo(() => {
+    if (isDisabledColor) {
+      return theme.palette.grey[400];
+    }
+
+    return theme.palette.primary.main;
+  }, [isDisabledColor, theme]);
+
   return (
     <ResponsiveContainer
       className={classes.root}
-      width="99%"
-      height={hasFixedHeight ? FIXED_HEIGHT : undefined}
+      width={width}
+      height={hasFixedHeight ? height : undefined}
       ref={ref}
     >
       <AreaChart
@@ -71,7 +86,7 @@ export const Chart = ({
         <CartesianGrid
           style={{ stroke: theme.palette.grey[100] }}
           strokeWidth={1}
-          horizontal
+          horizontal={hasHorizontalLines}
           vertical={false}
         />
         <XAxis
@@ -91,7 +106,7 @@ export const Chart = ({
         {tooltipContent && <Tooltip content={tooltipContent as any} />}
         <Area
           dataKey="value"
-          stroke={theme.palette.primary.main}
+          stroke={strokeColor}
           strokeWidth={2}
           fill="url(#valueColor)"
           type="monotone"
@@ -99,7 +114,7 @@ export const Chart = ({
         />
         <Area
           dataKey="extraValue"
-          stroke={theme.palette.primary.main}
+          stroke={strokeColor}
           strokeWidth={2}
           fill="url(#extraValueColor)"
           strokeDasharray="3"

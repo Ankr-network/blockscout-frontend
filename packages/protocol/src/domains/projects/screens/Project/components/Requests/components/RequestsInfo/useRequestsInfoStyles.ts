@@ -1,27 +1,44 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useRequestsInfoStyles = makeStyles()(theme => ({
-  chart: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginTop: theme.spacing(8),
-  },
-  requestsCount: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
+import { Sign } from 'modules/common/types/types';
 
-  count: {
-    letterSpacing: '-0.84px',
-  },
+export const useRequestsInfoStyles = makeStyles<Sign>()(
+  (theme, relativeChangeSign) => {
+    const persentColors = {
+      [-1]: theme.palette.error.main,
+      0: theme.palette.text.secondary,
+      1: theme.palette.success.main,
+    };
 
-  percent: {
-    fontWeight: 500,
-    color: theme.palette.error.main,
-  },
+    return {
+      chart: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginTop: theme.spacing(8),
+      },
+      requestsCount: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: theme.spacing(0.5),
+      },
 
-  requestsChart: {
-    marginRight: theme.spacing(10),
+      count: {
+        letterSpacing: '-0.84px',
+      },
+
+      percent: {
+        fontWeight: 500,
+        color: persentColors[relativeChangeSign],
+      },
+
+      requestsChart: {
+        marginRight: theme.spacing(10),
+      },
+
+      disabled: {
+        color: theme.palette.grey[400],
+      },
+    };
   },
-}));
+);

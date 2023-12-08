@@ -164,6 +164,7 @@ export interface IConfig {
   workerUrl: string;
   accountUrl: string;
   backofficeUrl: string;
+  uAuthUrl: string;
 
   payAsYouGoAnkrTokenContractAddress: string;
   payAsYouGoContractAddress: string;

@@ -8,9 +8,12 @@ export const useEndpointPlaceholderStyles = makeStyles()(theme => ({
   },
   container: {
     width: '100%',
-    padding: '10px 13.5px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0px 13.5px',
     backgroundColor: theme.palette.background.default,
     minHeight: 36,
+    height: 40,
     borderRadius: theme.spacing(3.5),
   },
 }));

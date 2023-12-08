@@ -1,5 +1,4 @@
 import {
-  StatsByRangeResponse,
   GetUserEndpointTokenStatusResponse,
   IGetWhitelistParamsResponse,
   WhitelistItem,
@@ -11,6 +10,7 @@ import { FetchTokenStatusResponse } from 'domains/jwtToken/action/getAllJwtToken
 
 import { JwtManagerToken } from '../../jwtToken/store/jwtTokenManagerSlice';
 import { MappedWhitelistBlockchainsResponse } from '../actions/fetchWhitelistsBlockchains';
+import { ProjectActivity } from '../store';
 
 export interface ProjectStatus extends GetUserEndpointTokenStatusResponse {
   draft?: boolean;
@@ -27,8 +27,8 @@ export interface Project {
 }
 
 export interface ProjectTable extends Project {
-  statsByRange: StatsByRangeResponse;
   projectStatus: ProjectStatus;
+  projectActivity?: ProjectActivity;
   isLoading?: boolean;
 }
 

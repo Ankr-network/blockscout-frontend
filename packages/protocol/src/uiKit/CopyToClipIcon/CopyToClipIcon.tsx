@@ -16,6 +16,7 @@ export interface ICopyToClipIconProps {
   onCopy?: (text: string) => void;
   size?: 'm' | 'l';
   text: string;
+  textLabel?: string;
   textClassName?: string;
   messageClassName?: string;
   textColor?: TypographyTypeMap['props']['color'];
@@ -31,6 +32,7 @@ export const CopyToClipIcon = ({
   onCopy = () => {},
   size = 'm',
   text,
+  textLabel,
   textClassName,
   messageClassName,
   textColor = 'textSecondary',
@@ -81,7 +83,7 @@ export const CopyToClipIcon = ({
               className={cx(classes.text, textClassName)}
               color={textColor}
             >
-              {text}
+              {textLabel ?? text}
             </Typography>
             <div className={classes.copy}>
               {!hideIcon && <Copy className={classes.copyIcon} />}

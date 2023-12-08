@@ -89,3 +89,10 @@ export interface NewProjectConfigPayload extends BaseNewProject {
 }
 
 export type NewProjectSlice = Record<Address, NewProjectConfig>;
+
+export interface ProjectActivity {
+  hasData: boolean;
+  isEmpty: boolean;
+  lastDayTotalRequestsCount: number;
+  relativeChange?: number;
+}

@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { Close } from '@ankr.com/ui';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
-import { IEmailBindingEntity, IUserByTokenResponse } from 'multirpc-sdk';
 
 import { t } from 'modules/i18n/utils/intl';
 
 import {
   FilterType,
+  IClientBindingsResult,
   MIN_SEARCH_VALUE_LENGTH,
   useSearchEmailBindingsInput,
 } from './useSearchEmailBindingsInput';
@@ -37,14 +37,14 @@ export const SearchEmailBindingsInput = ({
   };
 
   const renderClient = useCallback(
-    (client: IEmailBindingEntity | IUserByTokenResponse) => {
-      const title = client.email
+    (client: IClientBindingsResult) => {
+      const title = client?.email
         ? `${client.email}\n${client.address}`
         : client.address;
 
       return (
         <ClientTooltip
-          key={client.address || client.email}
+          key={client.address || client?.email}
           title={title}
           client={client}
           classes={classes}

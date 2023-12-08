@@ -22,6 +22,7 @@ export const ProjectSidebarFooter = ({
   return (
     <div className={classes.root}>
       <LoadingButton
+        size="large"
         disabled={isConfirmationDisabled}
         fullWidth
         loading={isConfirming}
@@ -30,7 +31,12 @@ export const ProjectSidebarFooter = ({
       >
         {t('project.sidebar.confirm-button')}
       </LoadingButton>
-      <Button onClick={onCancelButtonClick} fullWidth variant="outlined">
+      <Button
+        size="large"
+        onClick={onCancelButtonClick}
+        fullWidth
+        variant="outlined"
+      >
         {t('project.sidebar.cancel-button')}
       </Button>
     </div>

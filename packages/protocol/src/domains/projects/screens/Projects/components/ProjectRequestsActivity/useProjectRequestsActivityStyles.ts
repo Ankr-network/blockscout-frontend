@@ -1,10 +1,10 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { PercentSign } from './utils/getPercent';
+import { Sign } from 'modules/common/types/types';
 
-export const useProjectRequestsActivityStyles = makeStyles<PercentSign>()(
+export const useProjectRequestsActivityStyles = makeStyles<Sign>()(
   (theme, sign) => {
-    const colorMap: Record<PercentSign, string> = {
+    const colorMap = {
       0: theme.palette.text.secondary,
       1: theme.palette.success.main,
       [-1]: theme.palette.error.main,

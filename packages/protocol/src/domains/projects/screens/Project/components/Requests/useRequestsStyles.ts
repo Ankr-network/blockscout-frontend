@@ -22,6 +22,8 @@ export const useRequestsStyles = makeStyles()(theme => ({
   button: {
     display: 'flex',
     gap: theme.spacing(2),
+    height: 30,
+    minHeight: 30,
   },
 
   timeframe: {

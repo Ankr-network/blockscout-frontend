@@ -61,8 +61,10 @@ import {
   IUserTokensRequest,
   IUserTokensResponse,
   ICounterRequest,
-  ICountersEntity,
   ICounterResponse,
+  IAddressBindingsResponse,
+  IAddressBindingsRequest,
+  IGetExternalEmailResponse,
 } from './types';
 import { IBlockchainEntity } from '../common';
 
@@ -186,4 +188,8 @@ export interface IBackofficeGateway {
   getCounters(params?: ICountersRequest): Promise<ICountersResponse>;
 
   migrateLegacy(): Promise<INodeEntity[]>;
+
+  getAddressBindings(params: IAddressBindingsRequest): Promise<IAddressBindingsResponse>;
+
+  getUsetEmail(): Promise<IGetExternalEmailResponse>;
 }

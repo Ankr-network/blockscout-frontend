@@ -11,8 +11,8 @@ import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 export const {
-  useLazyFetchAllWhitelistsQuery,
   endpoints: { fetchAllWhitelists },
+  useFetchAllWhitelistsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllWhitelists: build.query<

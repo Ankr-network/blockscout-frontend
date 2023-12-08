@@ -1,8 +1,8 @@
 {
   "title": "Multi RPC Admin Panel",
   "header": {
-    "wallet-button": "Connect",
-    "disconnect": "Disconnect"
+    "login-button": "Log in",
+    "logout": "Log out"
   },
   "error": {
     "access-token-error": "Access token error",

@@ -17,28 +17,25 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-export type FetchProjectStatsFor1hParams = IApiUserGroupParams &
+export type FetchProjectChainsStatsFor24hParams = IApiUserGroupParams &
   Gateway & {
-    userEndpointToken: string;
+    token: string;
   };
 
 export const {
-  endpoints: { chainsFetchProjectStatsFor1h },
+  endpoints: { fetchProjectChainsStatsFor24h },
+  useFetchProjectChainsStatsFor24hQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchProjectStatsFor1h: build.query<
+    fetchProjectChainsStatsFor24h: build.query<
       PrivateStats,
-      FetchProjectStatsFor1hParams
+      FetchProjectChainsStatsFor24hParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({
-          userEndpointToken,
-          group,
-          gateway = getAccountingGateway(),
-        }) => {
+        async ({ token, group, gateway = getAccountingGateway() }) => {
           const data = await gateway.getPrivateStatsByPremiumId(
-            PrivateStatsInterval.HOUR,
-            userEndpointToken,
+            PrivateStatsInterval.DAY,
+            token,
             group,
           );
 

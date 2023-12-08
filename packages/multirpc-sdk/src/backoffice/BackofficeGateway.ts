@@ -60,12 +60,15 @@ import {
   DeleteUserProjectResponse,
   SetUserProjectAllowedJwtNumberParams,
   SetUserProjectAllowedJwtNumberResponse,
+  IAddressBindingsRequest,
+  IAddressBindingsResponse,
   IUserByTokenRequest,
   IUserByTokenResponse,
   IUserTokensRequest,
   IUserTokensResponse,
   ICounterRequest,
   ICountersEntity,
+  IGetExternalEmailResponse,
 } from './types';
 import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
@@ -518,6 +521,25 @@ export class BackofficeGateway implements IBackofficeGateway {
 
   async migrateLegacy(): Promise<any> {
     const { data } = await this.api.post<INodeEntity[]>('/legacy', {});
+
+    return data;
+  }
+
+  async getAddressBindings(
+    params: IAddressBindingsRequest,
+  ): Promise<IAddressBindingsResponse> {
+    const { data: response } = await this.api.get<IAddressBindingsResponse>(
+      '/users/tokens',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async getUsetEmail(): Promise<IGetExternalEmailResponse> {
+    const { data } = await this.api.get<IGetExternalEmailResponse>('/externalEmail');
 
     return data;
   }

@@ -12,7 +12,7 @@ interface IClientBalances {
   totalData?: IGetUserTotalMapped;
   clientBalances?: ClientBalancesMapped;
   isLoadingBalances?: boolean;
-  skeleton: JSX.Element;
+  skeletonSlot: JSX.Element;
   isLoadingRevenue: boolean;
   revenueData?: RevenueDataMapped;
   isLoadingTotal?: boolean;
@@ -22,7 +22,7 @@ export const ClientBalances = ({
   totalData,
   isLoadingBalances,
   clientBalances,
-  skeleton,
+  skeletonSlot,
   isLoadingRevenue,
   revenueData,
   isLoadingTotal,
@@ -46,12 +46,12 @@ export const ClientBalances = ({
         <Typography variant="subtitle1" component="p">
           <b>
             {isLoadingBalances
-              ? skeleton
+              ? skeletonSlot
               : formatNumber(clientBalances?.amount)}
           </b>
         </Typography>
         <Typography variant="caption" component="p">
-          {isLoadingBalances ? skeleton : amountUsdText}
+          {isLoadingBalances ? skeletonSlot : amountUsdText}
         </Typography>
       </Grid>
 
@@ -62,7 +62,7 @@ export const ClientBalances = ({
         <Typography variant="subtitle1" component="p">
           <b>
             {isLoadingBalances
-              ? skeleton
+              ? skeletonSlot
               : renderUSD(clientBalances?.creditUsdAmount)}
           </b>
         </Typography>
@@ -74,12 +74,12 @@ export const ClientBalances = ({
         </Typography>
         <Typography variant="subtitle1" component="p">
           {isLoadingRevenue
-            ? skeleton
+            ? skeletonSlot
             : formatNumber(revenueData?.totalCreditsAmount)}
         </Typography>
         <Typography variant="caption" component="p">
           {isLoadingRevenue ? (
-            skeleton
+            skeletonSlot
           ) : (
             <>{renderUSD(revenueData?.totalUsdAmount)} Equivalent in USD</>
           )}
@@ -93,13 +93,13 @@ export const ClientBalances = ({
         <Typography variant="subtitle1" component="p">
           <b>
             {isLoadingBalances
-              ? skeleton
+              ? skeletonSlot
               : formatNumber(clientBalances?.creditVoucherAmount)}
           </b>
         </Typography>
         {clientBalances?.voucherExpiresDate && (
           <Typography variant="caption" component="p">
-            {isLoadingBalances ? skeleton : voucherExpiresAtText}
+            {isLoadingBalances ? skeletonSlot : voucherExpiresAtText}
           </Typography>
         )}
       </Grid>
@@ -110,10 +110,10 @@ export const ClientBalances = ({
         </Typography>
 
         <Typography variant="subtitle1" component="p">
-          <b>{isLoadingTotal ? skeleton : totalCostText}</b>
+          <b>{isLoadingTotal ? skeletonSlot : totalCostText}</b>
         </Typography>
         <Typography variant="caption" component="p">
-          {isLoadingTotal ? skeleton : statsFromText}
+          {isLoadingTotal ? skeletonSlot : statsFromText}
         </Typography>
       </Grid>
 
@@ -123,10 +123,10 @@ export const ClientBalances = ({
         </Typography>
 
         <Typography variant="subtitle1" component="p">
-          <b>{isLoadingTotal ? skeleton : totalRequestsText}</b>
+          <b>{isLoadingTotal ? skeletonSlot : totalRequestsText}</b>
         </Typography>
         <Typography variant="caption" component="p">
-          {isLoadingTotal ? skeleton : statsFromText}
+          {isLoadingTotal ? skeletonSlot : statsFromText}
         </Typography>
       </Grid>
     </Grid>

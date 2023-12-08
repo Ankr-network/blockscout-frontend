@@ -10,6 +10,13 @@ export const isMainnet = currentEnv === Env.Production;
 
 export const ZERO = new BigNumber(0);
 
+export enum MilliSeconds {
+  Second = 1000,
+  Minute = Second * 60,
+  Hour = Minute * 60,
+  Day = Hour * 24,
+}
+
 export const TWITTER_COLOR = '#479AE9';
 export const DISCORD_COLOR = '#5865F2';
 export const ANKR_DOCS_LINK = 'https://www.ankr.com/docs/';

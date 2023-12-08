@@ -455,7 +455,7 @@ export interface ICounterRequest {
   user: string;
 }
 
-export interface ICounterResponse extends ICountersEntity {}
+export interface ICounterResponse extends ICountersEntity { }
 
 export interface ICountersRequest {
   limit?: number;
@@ -480,4 +480,24 @@ export interface INodeEntity {
   city: string;
   features: string[];
   isArchive: boolean;
+}
+
+export interface IAddressBindingEntity {
+  id: string;
+  origin: string;
+  token: string;
+  type: string;
+  index: number;
+}
+
+export interface IAddressBindingsRequest {
+  address: Web3Address;
+}
+
+export interface IAddressBindingsResponse {
+  tokens?: IAddressBindingEntity[];
+}
+
+export interface IGetExternalEmailResponse {
+  external_email: string;
 }

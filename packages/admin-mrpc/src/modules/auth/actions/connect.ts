@@ -8,7 +8,7 @@ import { TOKEN_LIFETIME } from 'modules/common/const';
 import { connectProvider } from './connectUtils';
 
 interface IResponseData {
-  address: Web3Address;
+  email: Web3Address;
   backofficeAuthorizationToken: string;
 }
 
@@ -28,7 +28,7 @@ export const {
 
         return {
           data: {
-            address,
+            email: address,
             backofficeAuthorizationToken,
           },
         };

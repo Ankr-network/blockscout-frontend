@@ -1,12 +1,20 @@
 import { store } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { selectAuthData } from 'modules/auth/store/authSlice';
+import { resetAuthData, selectAuthData } from 'modules/auth/store/authSlice';
 
 export const authorizeBackoffice = async () => {
   const service = await MultiService.getWeb3Service();
-  const { backofficeAuthorizationToken } = selectAuthData(store.getState());
+  const { backofficeAuthorizationToken, expiresAt } = selectAuthData(
+    store.getState(),
+  );
 
-  if (!backofficeAuthorizationToken) {
+  const nowTimestamp = new Date().getDate();
+  const expiresTimestamp = expiresAt ? new Date(expiresAt).getDate() : 0;
+
+  const isTokenExpired = nowTimestamp > expiresTimestamp;
+
+  if (!backofficeAuthorizationToken || isTokenExpired) {
+    store.dispatch(resetAuthData());
     throw Error('not authorized');
   }
 
