@@ -2,12 +2,8 @@ import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
+import { Chart, IChartData, IChartProps } from '@ankr.com/telemetry';
 
-import {
-  Chart,
-  IChartData,
-  IChartProps,
-} from 'modules/common/components/Chart';
 import { Sign } from 'modules/common/types/types';
 import { formatLongNumber } from 'modules/common/utils/formatNumber';
 
@@ -19,6 +15,7 @@ interface RequestsInfoProps {
   isLoading: boolean;
   relativeChange?: number;
   totalRequestsCount: number;
+  isDisabled?: boolean;
 }
 
 export const RequestsInfo = ({
@@ -26,20 +23,23 @@ export const RequestsInfo = ({
   isLoading,
   relativeChange,
   totalRequestsCount,
+  isDisabled,
 }: RequestsInfoProps) => {
   const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
 
-  const { classes } = useRequestsInfoStyles(relativeChangeSign);
+  const { cx, classes } = useRequestsInfoStyles(relativeChangeSign);
 
   const chartProps = useMemo(
     (): IChartProps => ({
       data,
       hasHorizontalLines: false,
       xAxisTickFormatter: () => '',
+      yAxisTickFormatter: () => '',
       height: 52,
       width: 220,
+      isDisabledColor: isDisabled,
     }),
-    [data],
+    [data, isDisabled],
   );
 
   const nonEmptyData = useMemo(
@@ -56,12 +56,19 @@ export const RequestsInfo = ({
     <EmptyRequestsGuard data={nonEmptyData} isLoading={isLoading}>
       <div className={classes.chart}>
         <div className={classes.requestsCount}>
-          <Typography variant="h6" className={classes.count}>
+          <Typography
+            variant="h6"
+            className={cx(classes.count, {
+              [classes.disabled]: isDisabled,
+            })}
+          >
             {formatLongNumber(totalRequestsCount)}
           </Typography>
           {typeof relativeChange !== 'undefined' && (
             <Typography
-              className={classes.percent}
+              className={cx(classes.percent, {
+                [classes.disabled]: isDisabled,
+              })}
               variant={'body4' as Variant}
             >
               {t(intlKey, { relativeChange, relativeChangeSign })}

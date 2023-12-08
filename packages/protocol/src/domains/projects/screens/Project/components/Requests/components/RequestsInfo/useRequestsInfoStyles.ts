@@ -35,6 +35,10 @@ export const useRequestsInfoStyles = makeStyles<Sign>()(
       requestsChart: {
         marginRight: theme.spacing(10),
       },
+
+      disabled: {
+        color: theme.palette.grey[400],
+      },
     };
   },
 );

@@ -4,6 +4,12 @@ import { RequestsChartProps } from '../types';
 import { formatXAxis } from '../utils/formatXAxis';
 import { useContent } from './useContent';
 import { IChartProps } from '../../Chart';
+import { TranslationRequestWidget } from '../../../types';
+
+interface UseRequestsChartProps
+  extends Omit<RequestsChartProps, 'className' | 'title'> {
+  translation: TranslationRequestWidget;
+}
 
 export const useRequestsChart = ({
   translation,
@@ -11,7 +17,7 @@ export const useRequestsChart = ({
   isLoading,
   timeframe,
   hasFixedHeight = false,
-}: Omit<RequestsChartProps, 'className' | 'title'>) => {
+}: UseRequestsChartProps) => {
   const xAxisTickFormatter = useCallback(
     (value: Date) =>
       formatXAxis(

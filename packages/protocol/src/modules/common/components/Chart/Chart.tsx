@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useTheme } from '@mui/material';
 import {
   Area,
@@ -31,6 +31,7 @@ export interface IChartProps {
   isFlexibleHeight?: boolean;
   hasHorizontalLines?: boolean;
   width?: string | number;
+  isDisabledColor?: boolean;
 }
 
 const ANIMATION_DURATION = 500;
@@ -48,11 +49,20 @@ export const Chart = ({
   isFlexibleHeight,
   hasHorizontalLines = true,
   width = WIDTH,
+  isDisabledColor,
 }: IChartProps) => {
   const [ref, yAxisWidth] = useYAxisWidth();
 
   const theme = useTheme();
   const { classes, cx } = useStyles();
+
+  const strokeColor = useMemo(() => {
+    if (isDisabledColor) {
+      return theme.palette.grey[400];
+    }
+
+    return theme.palette.primary.main;
+  }, [isDisabledColor, theme]);
 
   return (
     <ResponsiveContainer
@@ -96,7 +106,7 @@ export const Chart = ({
         {tooltipContent && <Tooltip content={tooltipContent as any} />}
         <Area
           dataKey="value"
-          stroke={theme.palette.primary.main}
+          stroke={strokeColor}
           strokeWidth={2}
           fill="url(#valueColor)"
           type="monotone"
@@ -104,7 +114,7 @@ export const Chart = ({
         />
         <Area
           dataKey="extraValue"
-          stroke={theme.palette.primary.main}
+          stroke={strokeColor}
           strokeWidth={2}
           fill="url(#extraValueColor)"
           strokeDasharray="3"

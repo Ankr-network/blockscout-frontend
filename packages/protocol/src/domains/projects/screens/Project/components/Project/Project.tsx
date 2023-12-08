@@ -37,7 +37,10 @@ export const Project = () => {
           />
         )}
         <ProjectHeader className={classes.header} />
-        <Requests className={classes.requests} />
+        <Requests
+          isDisabled={isFrozen || isSuspended}
+          className={classes.requests}
+        />
         <Whitelist className={classes.whitelist} />
         <ProjectChains className={classes.endpoints} />
         <ProjectFooter className={classes.footer} />

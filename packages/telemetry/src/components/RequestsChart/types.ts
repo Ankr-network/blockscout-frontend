@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import { IChartData, IChartProps } from '../Chart';
-import { Timeframe } from '../../types';
+import { IChartData } from '../Chart';
+import { Timeframe, TranslationRequestWidget } from '../../types';
 import { SxProps } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 
-export interface RequestsChartProps extends Pick<IChartProps, 'translation'> {
+export interface RequestsChartProps {
   className?: string;
   data: IChartData[];
   hasFixedHeight?: boolean;
@@ -12,4 +12,5 @@ export interface RequestsChartProps extends Pick<IChartProps, 'translation'> {
   timeframe: Timeframe;
   title: ReactNode;
   sx?: SxProps<Theme>;
+  translation: TranslationRequestWidget;
 }

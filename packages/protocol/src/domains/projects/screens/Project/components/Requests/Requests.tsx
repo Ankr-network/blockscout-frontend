@@ -15,9 +15,10 @@ import { useRequestsStyles } from './useRequestsStyles';
 
 interface RequestsProps {
   className?: string;
+  isDisabled?: boolean;
 }
 
-export const Requests = ({ className }: RequestsProps) => {
+export const Requests = ({ className, isDisabled }: RequestsProps) => {
   const { classes } = useRequestsStyles();
 
   const {
@@ -59,6 +60,7 @@ export const Requests = ({ className }: RequestsProps) => {
         </NavLink>
       </div>
       <RequestsInfo
+        isDisabled={isDisabled}
         data={requestsChartData}
         isLoading={isLoading}
         relativeChange={relativeChange}
