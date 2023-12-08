@@ -46,14 +46,14 @@ export const useProjectChainsTabsScroll = (
         wrapperElement.offsetHeight < wrapperElement.scrollHeight ||
         wrapperElement.offsetWidth < wrapperElement.scrollWidth;
 
-      setForwardButtonVisible(hasOverflowingChildren);
-
       const isScrolledToEnd =
         wrapperElement.scrollLeft + BUTTON_WIDTH >=
         wrapperElement.scrollWidth - wrapperElement.offsetWidth;
 
       if (isScrolledToEnd) {
         setForwardButtonVisible(false);
+      } else {
+        setForwardButtonVisible(hasOverflowingChildren);
       }
 
       const isWrapperScrolled = wrapperElement?.scrollLeft > 0;

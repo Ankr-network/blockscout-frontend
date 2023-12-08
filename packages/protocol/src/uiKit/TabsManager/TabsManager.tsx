@@ -1,3 +1,5 @@
+import { ScrollContainer } from 'react-indiana-drag-scroll';
+
 import { useStyles } from './TabsManagerStyles';
 import { DefaultTabID, TabsManagerProps } from './TabsManagerTypes';
 
@@ -24,7 +26,7 @@ export function TabsManager<TI = DefaultTabID>({
   return (
     <>
       <div className={cx(classes.tabs, className)}>
-        <div
+        <ScrollContainer
           className={cx(classes.right, classNameTabsWrapper)}
           ref={refTabsScrollWrapper}
           onScroll={onScrollTabsInner}
@@ -52,7 +54,7 @@ export function TabsManager<TI = DefaultTabID>({
                 </div>
               ))}
           </div>
-        </div>
+        </ScrollContainer>
         {additionalContent && (
           <div className={classes.left}>{additionalContent}</div>
         )}
