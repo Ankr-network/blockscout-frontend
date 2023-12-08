@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
@@ -30,7 +31,8 @@ export const CardPaymentSuccess = () => {
     },
   ]);
 
-  const { hasPremium } = useAuth();
+  const { hasPremium, isPremiumStatusInitLoading, isPremiumStatusInitialized } =
+    useAuth();
 
   const onClick = useClickHandler();
 
@@ -40,6 +42,10 @@ export const CardPaymentSuccess = () => {
     () => getInfoCardParams({ hasPremium }),
     [hasPremium],
   );
+
+  if (isPremiumStatusInitLoading || !isPremiumStatusInitialized) {
+    return <OverlaySpinner />;
+  }
 
   return (
     <CenterContainer>
