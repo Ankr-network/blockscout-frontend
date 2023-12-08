@@ -3,7 +3,6 @@ import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
-import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 
 import { useProjectDetailsDialogStyles } from './useProjectDetailsDialogStyles';
 import {
@@ -51,7 +50,6 @@ export const ProjectDetailsDialog = ({
           projectName={projectName}
           isUpdateLoading={isUpdateLoading}
           handleFormSubmit={handleFormSubmit}
-          isDefaultProject={projectIndex === PRIMARY_TOKEN_INDEX}
           isDescriptionFocusedByDefault={!projectDescription}
         />
 

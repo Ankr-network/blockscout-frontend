@@ -102,11 +102,7 @@ export const ActionsMenu = ({
         // @ts-ignore
         onClick={e => e.stopPropagation()}
       >
-        <MenuItem
-          disabled={isPrimary}
-          startIcon={<Rename />}
-          onClick={handleEditByClick}
-        >
+        <MenuItem startIcon={<Rename />} onClick={handleEditByClick}>
           {t('projects.list-project.rename')}
         </MenuItem>
 
