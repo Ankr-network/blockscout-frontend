@@ -92,6 +92,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.BASE]: baseIcon,
   [ChainID.BASE_TESTNET]: baseIcon,
+  [ChainID.BASE_SEPOLIA]: baseIcon,
 
   [ChainID.BERACHAIN]: berachainIcon,
   [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIcon,
@@ -143,6 +144,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.NERVOS_GW]: nervosIcon,
   [ChainID.OPTIMISM]: optimisimIcon,
   [ChainID.OPTIMISM_TESTNET]: optimisimIcon,
+  [ChainID.OPTIMISM_SEPOLIA]: optimisimIcon,
   [ChainID.POLKADOT]: polkadotIcon,
   [ChainID.POLYGON]: polygonIcon,
   [ChainID.POLYGON_MUMBAI]: polygonIcon,
