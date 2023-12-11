@@ -1,6 +1,3 @@
-import { t } from '@ankr.com/common';
-
-import { H1Tag } from 'uiKit/H1Tag';
 import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
 import { ChainItemSections } from 'domains/chains/screens/ChainItem/components/ChainItemSections';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
@@ -28,7 +25,6 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
     chainSubType,
     group,
     unfilteredGroup,
-    name,
     headerContent,
   } = usePublicChainItem({
     ...data,
@@ -41,7 +37,6 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
-      <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader chain={chain} headerContent={headerContent} />
       <ChainItemSections
         chainType={chainType}
