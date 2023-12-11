@@ -2,7 +2,10 @@ import { Web3Address } from 'multirpc-sdk';
 
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
-import { setAuthData } from 'modules/auth/store/authSlice';
+import {
+  MetatamskAuthProviderEnum,
+  setAuthData,
+} from 'modules/auth/store/authSlice';
 import { TOKEN_LIFETIME } from 'modules/common/const';
 
 import { connectProvider } from './connectUtils';
@@ -30,6 +33,8 @@ export const {
           data: {
             email: address,
             backofficeAuthorizationToken,
+            expiresAt: Date.now() + TOKEN_LIFETIME,
+            provider: MetatamskAuthProviderEnum.AUTH_PROVIDER_METAMASK,
           },
         };
       },

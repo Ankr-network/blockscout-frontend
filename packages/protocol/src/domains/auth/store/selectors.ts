@@ -70,6 +70,11 @@ export const selectPremiumStatusLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
+export const selectPremiumStatusValue = createSelector(
+  fetchPremiumStatus.select(''),
+  ({ data }) => data,
+);
+
 export const selectIsOldPremium = createSelector(
   selectAuthData,
   selectIsTokenExpired,

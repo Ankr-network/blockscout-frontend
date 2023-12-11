@@ -93,7 +93,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MOONBEAM,
 
       ChainID.OPTIMISM,
-      ChainID.OPTIMISM_TESTNET,
 
       ChainID.POLYGON,
       ChainID.POLYGON_MUMBAI,
@@ -184,6 +183,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ETH_GOERLI_BEACON,
       ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
+      ChainID.OPTIMISM_TESTNET,
     ],
   },
   {
@@ -194,6 +194,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ETH_SEPOLIA,
       ChainID.ETH_SEPOLIA_BEACON,
       ChainID.SCROLL_SEPOLIA_TESTNET,
+      ChainID.OPTIMISM_SEPOLIA,
+      ChainID.BASE_SEPOLIA,
     ],
   },
   {

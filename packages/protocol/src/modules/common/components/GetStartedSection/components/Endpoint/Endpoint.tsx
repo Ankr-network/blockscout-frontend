@@ -5,6 +5,8 @@ import { CopyToClipIcon, ICopyToClipIconProps } from 'uiKit/CopyToClipIcon';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectHasPrivateAccess } from 'domains/auth/store';
 
 import { useEndpointStyles } from './EndpointStyles';
 
@@ -25,9 +27,15 @@ export const Endpoint = ({
 
   const { isOpened, onOpen, onClose } = useDialog();
 
+  const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
+
   const textLabel = useMemo(() => {
     if (hasConnectWalletMessage) {
       return t('chains.connect-wallet');
+    }
+
+    if (!hasPrivateAccess) {
+      return url;
     }
 
     const splittedUrl = url.split(URL_DIVIDER_SYMBOL);
@@ -41,7 +49,7 @@ export const Endpoint = ({
         return value;
       })
       .join(URL_DIVIDER_SYMBOL);
-  }, [hasConnectWalletMessage, url]);
+  }, [hasConnectWalletMessage, hasPrivateAccess, url]);
 
   return (
     <>

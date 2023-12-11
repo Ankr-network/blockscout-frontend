@@ -86,6 +86,7 @@ export enum ChainID {
   BSC_TESTNET_CHAPEL = 'bsc_testnet_chapel',
 
   BASE = 'base',
+  BASE_SEPOLIA = 'base_sepolia',
   BASE_TESTNET = 'base_goerli',
 
   BERACHAIN = 'berachain',
@@ -152,6 +153,7 @@ export enum ChainID {
   NERVOS_CKB = 'nervos_ckb',
   NERVOS_GW = 'nervos_gw',
   OPTIMISM = 'optimism',
+  OPTIMISM_SEPOLIA = 'optimism_sepolia',
   OPTIMISM_TESTNET = 'optimism_testnet',
   POLKADOT = 'polkadot',
   POLYGON = 'polygon',

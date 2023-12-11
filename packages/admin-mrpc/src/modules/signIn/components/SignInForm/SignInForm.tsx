@@ -5,10 +5,11 @@ import { Spinner } from 'ui';
 import { AuthProviderEnum } from 'multirpc-sdk';
 
 import { useLazyFetchAuthLinkQuery } from 'modules/signIn/actions/fetchAuthLink';
+import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
+import { useLazyAuthConnectQuery } from 'modules/auth/actions/connect';
 
 import { ReactComponent as AnkrIcon } from '../../assets/ankr-logo.svg';
 import { ReactComponent as GoogleIcon } from '../../assets/google.svg';
-import { ReactComponent as GithubIcon } from '../../assets/github.svg';
 
 const useStyles = makeStyles()(theme => ({
   root: {
@@ -58,12 +59,12 @@ const useStyles = makeStyles()(theme => ({
 
 const SPINNER_SIZE = 24;
 
-const IS_GITHUB_AUTH_ENABLED = false;
-
 export const SignInForm = () => {
   const { classes } = useStyles();
   const [fetchAuthLink, { originalArgs, isFetching }] =
     useLazyFetchAuthLinkQuery();
+  const [authConnect, { isLoading: isLoadingConnect }] =
+    useLazyAuthConnectQuery();
 
   const redirectToUAuth = useCallback((url = '') => {
     // TODO: update react-router to v6 to use useNavigation
@@ -74,14 +75,6 @@ export const SignInForm = () => {
   const onGoogleButtonClick = useCallback(async () => {
     const { data: uAuthUrl } = await fetchAuthLink(
       AuthProviderEnum.AUTH_PROVIDER_GOOGLE,
-    );
-
-    redirectToUAuth(uAuthUrl);
-  }, [fetchAuthLink, redirectToUAuth]);
-
-  const onGithubButtonClick = useCallback(async () => {
-    const { data: uAuthUrl } = await fetchAuthLink(
-      AuthProviderEnum.AUTH_PROVIDER_GITHUB,
     );
 
     redirectToUAuth(uAuthUrl);
@@ -112,24 +105,19 @@ export const SignInForm = () => {
         Continue with Google
       </Button>
 
-      {IS_GITHUB_AUTH_ENABLED && (
-        <Button
-          className={classes.button}
-          size="large"
-          variant="outlined"
-          disabled={isFetching}
-          onClick={onGithubButtonClick}
-          startIcon={<GithubIcon className={classes.buttonIcon} />}
-          endIcon={
-            isFetching &&
-            originalArgs === AuthProviderEnum.AUTH_PROVIDER_GITHUB && (
-              <Spinner size={SPINNER_SIZE} centered={false} />
-            )
-          }
-        >
-          Continue with GitHub
-        </Button>
-      )}
+      <Button
+        className={classes.button}
+        size="large"
+        variant="outlined"
+        disabled={isLoadingConnect}
+        onClick={() => authConnect()}
+        startIcon={<MetamaskIcon className={classes.buttonIcon} />}
+        endIcon={
+          isLoadingConnect && <Spinner size={SPINNER_SIZE} centered={false} />
+        }
+      >
+        Continue with Metamtask
+      </Button>
 
       <Typography className={classes.note}>
         By continuing you agree to our <a href="href">terms of service</a>

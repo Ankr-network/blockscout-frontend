@@ -166,6 +166,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
 
   if (chainId === ChainID.ZKSYNC_ERA) {
     name = 'zkSync Era';
+  } else if (chainId === ChainID.OPTIMISM_TESTNET) {
+    name = 'Optimism Goerli';
   } else if (chainId.includes(ChainID.POLYGON_ZKEVM)) {
     name = renderZkevmName(chainId);
   } else if (chainId.includes(ChainID.IOTEX)) {

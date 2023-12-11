@@ -404,7 +404,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       symbol: 'ETH',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://blockscout.com/optimism/goerli/'],
+    blockExplorerUrls: ['https://goerli-explorer.optimism.io/'],
+  },
+  [ChainID.OPTIMISM_SEPOLIA]: {
+    chainId: 11155420,
+    chainName: 'OP Sepolia',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://optimism-sepolia.blockscout.com/'],
   },
 
   [ChainID.POLYGON]: {
@@ -586,6 +596,16 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://goerli.basescan.org/'],
+  },
+  [ChainID.BASE_SEPOLIA]: {
+    chainId: 84532,
+    chainName: 'Base Sepolia',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://sepolia-explorer.base.org/'],
   },
 
   [ChainID.SCROLL]: {

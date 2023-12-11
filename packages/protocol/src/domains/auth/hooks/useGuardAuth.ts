@@ -8,6 +8,7 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const useGuardAuth = () => {
   const { address, loading, hasPremium, isLoggedIn } = useAuth();
+
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();
 
