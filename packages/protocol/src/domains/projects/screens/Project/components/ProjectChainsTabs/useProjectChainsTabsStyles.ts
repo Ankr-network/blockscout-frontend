@@ -22,9 +22,16 @@ export const useProjectChainsTabsStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     width: '100%',
+    gap: theme.spacing(0.5),
 
     '& div': {
       width: '100%',
+      minWidth: theme.spacing(20),
+
+      '& span': {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
     },
   },
   btnArrow: {
@@ -32,6 +39,7 @@ export const useProjectChainsTabsStyles = makeStyles()(theme => ({
 
     '&&': {
       width: 40,
+      minWidth: 40,
     },
 
     '&:hover': {

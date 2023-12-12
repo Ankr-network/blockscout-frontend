@@ -29,7 +29,7 @@ export const NetworksButton = () => {
   return (
     <>
       <Button
-        className={classes.root}
+        className={classes.networksButton}
         onClick={handleSidebarOpen}
         size="small"
         startIcon={<Gear />}

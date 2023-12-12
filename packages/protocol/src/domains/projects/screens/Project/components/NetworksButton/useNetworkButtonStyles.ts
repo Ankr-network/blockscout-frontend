@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useNetworksButtonStyles = makeStyles()(() => ({
-  root: {
+  networksButton: {
     height: 30,
     minHeight: 'unset',
 
