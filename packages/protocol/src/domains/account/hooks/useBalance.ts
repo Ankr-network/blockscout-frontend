@@ -12,6 +12,7 @@ import {
   selectBalanceFetching,
   selectBalanceLevel,
   selectBalanceLoading,
+  selectIsBalanceUninitialized,
   selectTotalBalance,
   selectUSDBalance,
   selectVoucherBalance,
@@ -64,6 +65,7 @@ export const useBalance = ({
   const balanceLevel = useAppSelector(selectBalanceLevel);
   const creditBalance = useAppSelector(selectTotalBalance);
   const fetching = useAppSelector(selectBalanceFetching);
+  const isUninitialized = useAppSelector(selectIsBalanceUninitialized);
   const loading = useAppSelector(selectBalanceLoading);
   const usdBalance = useAppSelector(selectUSDBalance);
   const voucherBalance = useAppSelector(selectVoucherBalance);
@@ -77,5 +79,6 @@ export const useBalance = ({
     loading,
     usdBalance,
     voucherBalance,
+    isUninitialized,
   };
 };

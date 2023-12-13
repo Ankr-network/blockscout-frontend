@@ -31,7 +31,7 @@ export const CardPaymentSuccess = () => {
     },
   ]);
 
-  const { hasPremium, isPremiumStatusInitLoading, isPremiumStatusInitialized } =
+  const { hasPremium, isPremiumStatusInitLoading, isPremiumStatusValueExists } =
     useAuth();
 
   const onClick = useClickHandler();
@@ -43,7 +43,7 @@ export const CardPaymentSuccess = () => {
     [hasPremium],
   );
 
-  if (isPremiumStatusInitLoading || !isPremiumStatusInitialized) {
+  if (isPremiumStatusInitLoading || !isPremiumStatusValueExists) {
     return <OverlaySpinner />;
   }
 

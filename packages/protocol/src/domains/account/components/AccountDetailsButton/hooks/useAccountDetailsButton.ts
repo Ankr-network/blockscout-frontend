@@ -5,7 +5,11 @@ import { useBalance } from 'domains/account/hooks/useBalance';
 export const useAccountDetailsButton = () => {
   const { hasStatusTransition, loading: isConnecting } = useAuth();
 
-  const { creditBalance: balance, fetching: isBalanceLoading } = useBalance({
+  const {
+    creditBalance: balance,
+    fetching: isBalanceLoading,
+    isUninitialized,
+  } = useBalance({
     skipFetching: true,
   });
 
@@ -15,6 +19,7 @@ export const useAccountDetailsButton = () => {
     balance,
     hasStatusTransition,
     isLoading: isBalanceLoading || isConnecting,
+    isUninitialized,
     status,
   };
 };
