@@ -706,7 +706,7 @@
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",
     "req": "{value, number, ::compact-short} req",
-    "archive": "Archived",
+    "archive": "Archive",
     "beta": "BETA",
     "soon": "Soon",
     "coming-soon": "Coming Soon",
@@ -750,6 +750,7 @@
     "upgrade-premium": {
       "title": "Premium",
       "item-1": "<em>90,000</em> requests/min",
+      "item-1-multichain": "<em>1,000</em> requests/min",
       "item-2": "WebSockets",
       "item-3": "Archive calls and other features",
       "button": "Upgrade"
@@ -1086,7 +1087,7 @@
     "breadcrumbs": "Advanced API",
     "chain-overview": {
       "title": "Single entry point",
-      "description": "Access optimized, indexed, and cached data for nine EVM-compatible blockchains."
+      "description": "Access optimized, indexed, and cached data for 15 Mainnet and 4 Testnet blockchain networks."
     },
     "js-sdk": "JS SDK",
     "python-sdk": "Python SDK",
