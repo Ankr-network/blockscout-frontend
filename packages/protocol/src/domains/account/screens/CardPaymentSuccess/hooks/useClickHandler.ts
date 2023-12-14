@@ -2,11 +2,16 @@ import { useCallback } from 'react';
 import { useHistory } from 'react-router';
 
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { AccountRoutesConfig } from 'domains/account/Routes';
 
-const path = ProjectsRoutesConfig.projects.generatePath();
+const projectPath = ProjectsRoutesConfig.projects.generatePath();
+const accountPath = AccountRoutesConfig.accountDetails.generatePath();
 
-export const useClickHandler = () => {
+export const useClickHandler = (hasProjectAccess: boolean) => {
   const history = useHistory();
 
-  return useCallback(() => history.push(path), [history]);
+  return useCallback(
+    () => history.push(hasProjectAccess ? projectPath : accountPath),
+    [history, hasProjectAccess],
+  );
 };
