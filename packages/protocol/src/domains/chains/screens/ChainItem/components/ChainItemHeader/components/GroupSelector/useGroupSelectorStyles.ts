@@ -4,7 +4,7 @@ export const useGroupSelectorStyles = makeStyles()(theme => ({
   root: {
     '&&&': {
       width: 'fit-content',
-      height: theme.spacing(8),
+      height: 32,
 
       backgroundColor: theme.palette.background.default,
 

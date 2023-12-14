@@ -54,11 +54,17 @@ export function ProjectsRoutes() {
     isInitialized: isJwtManagerInitialized,
     loading: isJwtManagerLoading,
   } = useJwtManager();
-  const { isFreePremium, isLoggedIn } = useAuth();
+  const { isFreePremium, isLoggedIn, loading, isPremiumStatusUninitialized } =
+    useAuth();
 
   const { projectId } = useParams();
 
-  if (isJwtManagerLoading) {
+  const shouldShowSpinner =
+    isJwtManagerLoading ||
+    loading ||
+    (isPremiumStatusUninitialized && isLoggedIn);
+
+  if (shouldShowSpinner) {
     return <OverlaySpinner />;
   }
 

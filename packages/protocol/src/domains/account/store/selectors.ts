@@ -125,6 +125,11 @@ export const selectBalanceLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
+export const selectIsBalanceUninitialized = createSelector(
+  selectBalanceState,
+  ({ isUninitialized }) => isUninitialized,
+);
+
 export const selectBalanceFetching = createSelector(
   selectBalanceState,
   ({ data, isLoading }) => isLoading && typeof data === 'undefined',

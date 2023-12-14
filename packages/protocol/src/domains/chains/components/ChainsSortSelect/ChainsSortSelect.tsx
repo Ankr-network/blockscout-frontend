@@ -33,6 +33,7 @@ export const ChainsSortSelect = ({ sortType, onSelect }: IChainsSortSelect) => {
       onChange={onChange}
       options={options}
       fullWidth={false}
+      size="small"
     />
   );
 };

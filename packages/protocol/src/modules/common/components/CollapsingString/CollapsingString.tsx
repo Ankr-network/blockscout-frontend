@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
@@ -6,29 +6,31 @@ import { useCollapsingStringStyles } from './useCollapsingStringStyles';
 
 interface CollapsingStringProps {
   text: string;
-  maxWidth?: number;
+  maxLength?: number;
 }
+
+const DEFAULT_MAX_LENGTH = 60;
 
 export const CollapsingString = ({
   text,
-  maxWidth = 400,
+  maxLength = DEFAULT_MAX_LENGTH,
 }: CollapsingStringProps) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const stringRef = useRef<HTMLSpanElement>(null);
+  const { classes, cx } = useCollapsingStringStyles();
 
-  const isCollapsingEnabled = useMemo(() => {
-    const stringWidth = stringRef.current ? stringRef.current.offsetWidth : 0;
-
-    return stringWidth >= maxWidth;
-    // stringRef.current is necessary to be added to dependencies in order to calculate item width after render
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maxWidth, stringRef.current]);
-
-  const { classes, cx } = useCollapsingStringStyles({ maxWidth });
+  const isCollapsingEnabled = text.length >= maxLength;
 
   const showContent = useCallback(() => setIsCollapsed(false), []);
   const hideContent = useCallback(() => setIsCollapsed(true), []);
+
+  const visibleText = useMemo(() => {
+    if (isCollapsingEnabled && isCollapsed) {
+      return `${text.substring(0, maxLength)}...`;
+    }
+
+    return text;
+  }, [isCollapsed, isCollapsingEnabled, maxLength, text]);
 
   return (
     <div
@@ -46,9 +48,8 @@ export const CollapsingString = ({
           noWrap={isCollapsed}
           variant="caption"
           color="textSecondary"
-          ref={stringRef}
         >
-          {text}
+          {visibleText}
         </Typography>
       </div>
 

@@ -7,6 +7,7 @@ export const useAddChainsButtonStyles = makeStyles()(theme => ({
     borderTopRightRadius: 12,
 
     whiteSpace: 'nowrap',
+    marginLeft: theme.spacing(0.5),
   },
   text: {
     fontSize: 14,

@@ -75,6 +75,11 @@ export const selectPremiumStatusValue = createSelector(
   ({ data }) => data,
 );
 
+export const selectIsPremiumStatusUninitialized = createSelector(
+  fetchPremiumStatus.select(''),
+  ({ isUninitialized }) => isUninitialized,
+);
+
 export const selectIsOldPremium = createSelector(
   selectAuthData,
   selectIsTokenExpired,

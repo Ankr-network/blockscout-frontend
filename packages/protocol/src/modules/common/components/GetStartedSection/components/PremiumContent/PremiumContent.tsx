@@ -35,7 +35,9 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
           </Typography>
           <Typography className={classes.item}>
             <Check size="xs" />
-            {tHTML('chains.upgrade-premium.item-1')}
+            {isMultiChain
+              ? tHTML('chains.upgrade-premium.item-1-multichain')
+              : tHTML('chains.upgrade-premium.item-1')}
           </Typography>
           <Typography className={classes.item}>
             <Check size="xs" />

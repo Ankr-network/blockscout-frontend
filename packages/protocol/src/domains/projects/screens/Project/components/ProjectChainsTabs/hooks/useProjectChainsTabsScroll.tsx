@@ -35,7 +35,7 @@ export const useProjectChainsTabsScroll = (
       }
     },
     // checking if wrapper width changed or tabs changed
-    [refTabsInner.current?.offsetWidth, projectChainsTabs],
+    [refTabsInner.current?.scrollWidth],
   );
 
   const onScroll = useCallback(() => {

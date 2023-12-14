@@ -19,12 +19,14 @@ export const AccountDetailsButton = ({
   isMobileType = false,
   isSidebarType = false,
 }: AccountDetailsButtonProps) => {
-  const { balance, hasStatusTransition, isLoading, status } =
+  const { balance, hasStatusTransition, isLoading, status, isUninitialized } =
     useAccountDetailsButton();
 
   const { cx, classes } = useStyles({ hasStatusTransition });
 
   const hasEndIcon = !isLoading && hasStatusTransition;
+
+  if (isUninitialized) return null;
 
   return (
     <LoadableButton<'a', LinkProps>

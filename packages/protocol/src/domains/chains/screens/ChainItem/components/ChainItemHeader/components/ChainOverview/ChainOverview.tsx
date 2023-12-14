@@ -55,7 +55,7 @@ export const ChainOverview = ({
         <div className={classes.left}>
           <ChainLogo chain={chain} />
           <div className={classes.description}>
-            <div className={classes.top}>
+            <h1 className={classes.top}>
               <Typography variant="subtitle2" color="textPrimary">
                 {name}
               </Typography>
@@ -64,7 +64,7 @@ export const ChainOverview = ({
                 description={coinName}
                 descriptionColor="textSecondary"
               />
-            </div>
+            </h1>
 
             {isChainArchived && (
               <ChainLabel

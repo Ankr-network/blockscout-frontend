@@ -5,7 +5,6 @@ import { makeStyles } from 'tss-react/mui';
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     borderRadius: 18,
-    height: 34,
 
     [`& .${selectClasses.select}`]: {
       fontSize: 14,
