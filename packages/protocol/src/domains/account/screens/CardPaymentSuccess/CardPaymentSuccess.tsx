@@ -10,6 +10,8 @@ import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { LoadingButton } from 'uiKit/LoadingButton';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 import { getInfoCardParams } from './utils/getInfoCardParams';
 import { getOriginRoute } from './utils/getOriginRoute';
@@ -25,6 +27,10 @@ export const CardPaymentSuccess = () => {
 
   const route = getOriginRoute(topUpOrigin);
 
+  const hasProjectAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.JwtManagerRead,
+  });
+
   useSetBreadcrumbs([
     {
       title: t((route || AccountRoutesConfig.cardPaymentSuccess).breadcrumbs!),
@@ -34,16 +40,23 @@ export const CardPaymentSuccess = () => {
   const { hasPremium, isPremiumStatusInitLoading, isPremiumStatusValueExists } =
     useAuth();
 
-  const onClick = useClickHandler();
+  const onClick = useClickHandler(hasProjectAccess);
 
   const { classes } = useCardPaymentSuccessStyles();
 
   const { button, description, title } = useMemo(
-    () => getInfoCardParams({ hasPremium }),
-    [hasPremium],
+    () => getInfoCardParams({ hasPremium, hasProjectAccess }),
+    [hasPremium, hasProjectAccess],
   );
 
-  if (isPremiumStatusInitLoading || !isPremiumStatusValueExists) {
+  const hasAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.AccountStatus,
+  });
+
+  if (
+    hasAccess &&
+    (isPremiumStatusInitLoading || !isPremiumStatusValueExists)
+  ) {
     return <OverlaySpinner />;
   }
 

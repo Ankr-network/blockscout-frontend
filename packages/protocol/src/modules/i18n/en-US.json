@@ -1677,7 +1677,8 @@
         "title": "Operation succeeded.",
         "description": "The payment has been rendered successfully — enjoy your <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#feature-list\" target=\"_blank\">Premium features</a> and <a href=\"https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits\" target=\"_blank\">Rate limits</a>",
         "button": "Go to Projects"
-      }
+      },
+      "billing-button": "Go to Billing"
     },
     "card-payment-failure": {
       "breadcrumbs": "Billing",
