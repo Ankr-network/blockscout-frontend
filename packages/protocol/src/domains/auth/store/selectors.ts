@@ -61,8 +61,9 @@ export const selectHasPremium = createSelector(
 
 export const selectIsInactiveStatus = createSelector(
   fetchPremiumStatus.select(''),
-  ({ data: { status } = defaultPremiumStatusData }) =>
-    status === PremiumStatus.INACTIVE,
+  selectHasFreemium,
+  ({ data: { status } = defaultPremiumStatusData }, isFreePremium) =>
+    isFreePremium ? false : status === PremiumStatus.INACTIVE,
 );
 
 export const selectPremiumStatusLoading = createSelector(

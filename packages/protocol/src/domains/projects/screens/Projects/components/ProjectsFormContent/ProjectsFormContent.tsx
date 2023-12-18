@@ -4,6 +4,8 @@ import {
 } from 'modules/common/components/UpgradePlanDialog';
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { Project } from 'domains/projects/utils/getAllProjects';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectsTable } from '../ProjectsTable';
@@ -49,17 +51,22 @@ export const ProjectsFormContent = ({
   return (
     <>
       <ProjectHeader />
+
       <ProjectsTable
         data={allProjects}
         isLoading={!isLoaded}
         onProjectDialogOpen={onEditDialogOpen}
+        isFreePremium={isFreePremium}
       />
-      {hasProjectButton && (
-        <AddProjectButton
-          canEditProject={canEditProject}
-          isFreemiumUser={isFreePremium}
-          onOpenUpgradeAccountDialog={onUpgradeAccountDialogOpen}
-        />
+
+      {(hasProjectButton || isFreePremium) && (
+        <GuardUserGroup blockName={BlockWithPermission.JwtManagerWrite}>
+          <AddProjectButton
+            canEditProject={canEditProject}
+            isFreemiumUser={isFreePremium}
+            onOpenUpgradeAccountDialog={onUpgradeAccountDialogOpen}
+          />
+        </GuardUserGroup>
       )}
 
       <UpgdareAccountDialog

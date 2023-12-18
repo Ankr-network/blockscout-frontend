@@ -4,11 +4,15 @@ import { useHistory } from 'react-router';
 import { ProjectTable } from 'domains/projects/utils/getAllProjects';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
-export const useRedirectToProject = () => {
+export const useRedirectToProject = (isFreePremium: boolean) => {
   const { push } = useHistory();
 
   return useCallback(
     (rowData: ProjectTable) => {
+      if (isFreePremium) {
+        return () => {};
+      }
+
       const { userEndpointToken } = rowData;
 
       if (rowData.projectStatus.draft) {
@@ -17,6 +21,6 @@ export const useRedirectToProject = () => {
 
       return push(ProjectsRoutesConfig.project.generatePath(userEndpointToken));
     },
-    [push],
+    [push, isFreePremium],
   );
 };

@@ -26,6 +26,9 @@ export const useProjectsTableStyles = makeStyles()(theme => ({
     padding: theme.spacing(0, 8),
     cursor: 'pointer',
   },
+  disabledRow: {
+    cursor: 'not-allowed',
+  },
   preloader: {
     margin: theme.spacing(3, 0),
   },

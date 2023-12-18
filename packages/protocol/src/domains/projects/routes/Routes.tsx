@@ -54,6 +54,7 @@ export function ProjectsRoutes() {
     isInitialized: isJwtManagerInitialized,
     loading: isJwtManagerLoading,
   } = useJwtManager();
+
   const { isFreePremium, isLoggedIn, loading, isPremiumStatusUninitialized } =
     useAuth();
 
@@ -98,7 +99,7 @@ export function ProjectsRoutes() {
               );
             }
 
-            return hasJwtManagerReadAccess && !isFreePremium ? (
+            return hasJwtManagerReadAccess ? (
               <LoadableProjectsContainer />
             ) : (
               <LoadableProjectsPlaceholderContainer />
