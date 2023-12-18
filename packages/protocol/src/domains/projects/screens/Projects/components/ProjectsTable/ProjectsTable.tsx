@@ -12,21 +12,23 @@ interface ProjectTableProps {
   data: Project[];
   isLoading: boolean;
   onProjectDialogOpen: () => void;
+  isFreePremium: boolean;
 }
 
 export const ProjectsTable = ({
   data,
   isLoading,
   onProjectDialogOpen,
+  isFreePremium,
 }: ProjectTableProps) => {
-  const { classes } = useProjectsTableStyles();
+  const { cx, classes } = useProjectsTableStyles();
 
   const { columns, tableData } = useProjectsTable({
     projectsData: data,
     onProjectDialogOpen,
   });
 
-  const onRowClick = useRedirectToProject();
+  const onRowClick = useRedirectToProject(isFreePremium);
 
   return (
     <VirtualTable
@@ -34,7 +36,7 @@ export const ProjectsTable = ({
         container: classes.table,
         head: classes.head,
         rowContainer: classes.rowContainer,
-        row: classes.row,
+        row: cx(classes.row, { [classes.disabledRow]: isFreePremium }),
       }}
       initializing={isLoading}
       cols={columns}

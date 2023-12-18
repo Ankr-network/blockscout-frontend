@@ -3,7 +3,6 @@ import { FormRenderProps } from 'react-final-form';
 import { Button } from '@mui/material';
 import { useHistory } from 'react-router';
 import { t } from '@ankr.com/common';
-import { PremiumStatus } from 'multirpc-sdk';
 
 import { useProjects } from 'domains/projects/hooks/useProjects';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
@@ -15,6 +14,7 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { selectIsInactiveStatus } from 'domains/auth/store';
 
 import { EditProjectDialogType } from '../EditProjectDialog/EditProjectDialogUtils';
 import { useSubmit } from './useSubmit';
@@ -25,7 +25,7 @@ import { useProjectsStyles } from './useProjectsStyles';
 
 export const useProjectsForm = () => {
   const { classes } = useProjectsStyles();
-  const { isFreePremium, premiumStatus } = useAuth();
+  const { isFreePremium } = useAuth();
   const { push } = useHistory();
 
   const { canEditProject } = useProjectConfig();
@@ -69,13 +69,13 @@ export const useProjectsForm = () => {
     push(AccountRoutesConfig.accountDetails.generatePath());
   }, [push]);
 
-  const isSuspended = premiumStatus === PremiumStatus.INACTIVE;
+  const isInactive = useAppSelector(selectIsInactiveStatus);
 
   const renderForm = useCallback(
     ({ handleSubmit }: FormRenderProps<EditProjectDialogType>) => {
       return (
         <>
-          {isSuspended && (
+          {isInactive && (
             <ProjectBanner
               className={classes.banner}
               message={t('project.banner.suspended')}
@@ -92,6 +92,7 @@ export const useProjectsForm = () => {
               }
             />
           )}
+
           <ProjectsFormContent
             allProjects={allProjects}
             isLoaded={isLoaded}
@@ -125,7 +126,7 @@ export const useProjectsForm = () => {
       isUpgradeAccountDialogOpened,
       isPlansDialogOpened,
       isFreePremium,
-      isSuspended,
+      isInactive,
       classes,
       redirectToBalance,
       onEditDialogClose,

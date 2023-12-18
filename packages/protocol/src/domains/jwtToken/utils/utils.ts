@@ -3,7 +3,7 @@ import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
 export const jwtTokenIntlRoot = 'jwt-token';
 
 export const PRIMARY_TOKEN_INDEX = 0;
-export const MINIMAL_TOKENS_LIMIT = 2;
+export const MINIMAL_TOKENS_LIMIT = 1;
 
 export const renderToken = (token = '') => {
   const tokenLength = token.length;
