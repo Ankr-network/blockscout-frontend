@@ -30,10 +30,10 @@ export const {
                 email: res.data,
               }),
             );
-            const clearUrl = window.location.origin + window.location.pathname;
+            // const clearUrl = window.location.origin + window.location.pathname;
 
             // Clear query params
-            window.location.replace(clearUrl);
+            // window.location.replace(clearUrl);
           }
         });
       },
