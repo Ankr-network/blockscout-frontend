@@ -116,7 +116,7 @@ export const SignInForm = () => {
           isLoadingConnect && <Spinner size={SPINNER_SIZE} centered={false} />
         }
       >
-        Continue with Metamtask
+        Continue with Metamask
       </Button>
 
       <Typography className={classes.note}>
