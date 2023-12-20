@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Typography } from '@mui/material';
-import { t, tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
@@ -70,7 +70,6 @@ export const ChainOverview = ({
               <ChainLabel
                 label={t('chains.archive')}
                 labelClassName={classes.archiveLabel}
-                tooltip={tHTML('chains.archive-tooltip-text')}
               />
             )}
           </div>

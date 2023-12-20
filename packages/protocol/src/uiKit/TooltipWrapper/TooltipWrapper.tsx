@@ -29,7 +29,11 @@ export const TooltipWrapper = ({
 
   return (
     <TooltipElement classes={{ tooltip }} placement="top" title={tooltipText}>
-      <div className={cx(classes.tooltipItem, className)}>
+      <div
+        className={cx(classes.tooltipItem, className, {
+          [classes.emptyTooltip]: !tooltipText,
+        })}
+      >
         {children}
         {hasIcon &&
           (tipIcon || (
