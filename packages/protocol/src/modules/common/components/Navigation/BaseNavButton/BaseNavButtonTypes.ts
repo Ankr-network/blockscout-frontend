@@ -8,6 +8,7 @@ export interface NavigationItem {
   href?: string;
   isActive?: NavLinkProps['isActive'];
   isDisabled?: boolean;
+  isHidden?: boolean;
   label: string;
   onClick?: () => void;
   isComingSoon?: boolean;
@@ -18,5 +19,5 @@ export interface NavigationItem {
 
 export interface NavigationProps {
   items: NavigationItem[];
-  isMobileSiderBar?: boolean;
+  isMobileSideBar?: boolean;
 }
