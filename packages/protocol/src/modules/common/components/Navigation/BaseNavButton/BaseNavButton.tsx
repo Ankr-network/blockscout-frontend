@@ -17,18 +17,18 @@ import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
 
 interface IBaseNavButtonProps {
   item: NavigationItem;
-  isMobileSiderBar?: boolean;
+  isMobileSideBar?: boolean;
 }
 
 export const BaseNavButton = ({
   item,
-  isMobileSiderBar = false,
+  isMobileSideBar = false,
 }: IBaseNavButtonProps) => {
   const { isLightTheme } = useThemes();
 
   const { classes, cx } = useBaseNavButtonStyles({
     isLightTheme,
-    isMobileSiderBar,
+    isMobileSideBar,
   });
 
   const {

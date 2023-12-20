@@ -15,7 +15,7 @@ export interface SidebarProps {
   isEnterpriseClient: boolean;
   loading: boolean;
   hasLogo: boolean;
-  isMobileSiderBar?: boolean;
+  isMobileSideBar?: boolean;
 }
 
 export const SideBar = ({
@@ -25,9 +25,9 @@ export const SideBar = ({
   isEnterpriseClient,
   loading,
   hasLogo,
-  isMobileSiderBar = false,
+  isMobileSideBar = false,
 }: SidebarProps) => {
-  const { classes, cx } = useStyles(isMobileSiderBar);
+  const { classes, cx } = useStyles(isMobileSideBar);
 
   const { handleDisconnect } = useAuth();
 
@@ -42,7 +42,7 @@ export const SideBar = ({
       <MainNavigation
         chainsRoutes={chainsRoutes}
         isLoggedIn={isLoggedIn}
-        isMobileSiderBar={isMobileSiderBar}
+        isMobileSideBar={isMobileSideBar}
         isEnterpriseClient={isEnterpriseClient}
         loading={loading}
         onAAPIClick={onAAPIClick}

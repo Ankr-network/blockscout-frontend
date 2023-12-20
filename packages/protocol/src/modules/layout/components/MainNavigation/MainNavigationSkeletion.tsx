@@ -4,15 +4,15 @@ import { Divider, Skeleton, Typography } from '@mui/material';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
 
 interface MainNavigationSkeletionProps {
-  isMobileSiderBar: boolean;
+  isMobileSideBar: boolean;
   isLoggedIn: boolean;
 }
 
 export const MainNavigationSkeleton = ({
-  isMobileSiderBar,
+  isMobileSideBar,
   isLoggedIn,
 }: MainNavigationSkeletionProps) => {
-  const { classes } = useMainNavigationStyles(isMobileSiderBar);
+  const { classes } = useMainNavigationStyles(isMobileSideBar);
 
   return (
     <div className={classes.root}>
@@ -37,7 +37,7 @@ export const MainNavigationSkeleton = ({
           </nav>
         </div>
       </div>
-      {isLoggedIn && isMobileSiderBar && (
+      {isLoggedIn && isMobileSideBar && (
         <div className={classes.logout}>
           <Skeleton className={classes.skeleton} variant="rectangular" />
         </div>

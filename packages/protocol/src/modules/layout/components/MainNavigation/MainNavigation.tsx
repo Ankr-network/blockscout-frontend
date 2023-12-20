@@ -25,7 +25,7 @@ interface IMainNavigationProps {
   chainsRoutes: string[];
   isLoggedIn: boolean;
   isEnterpriseClient: boolean;
-  isMobileSiderBar: boolean;
+  isMobileSideBar: boolean;
   loading: boolean;
   onAAPIClick: () => void;
   onDashboardClick: () => void;
@@ -38,7 +38,7 @@ export const MainNavigation = ({
   chainsRoutes,
   isLoggedIn,
   isEnterpriseClient,
-  isMobileSiderBar,
+  isMobileSideBar,
   loading,
   onAAPIClick,
   onDashboardClick,
@@ -50,7 +50,7 @@ export const MainNavigation = ({
   const { isFreePremium } = useAuth();
 
   const { hasReadAccess } = useJwtManager();
-  const hasProjects = isMobileSiderBar
+  const hasProjects = isMobileSideBar
     ? false
     : !loading || !isLoggedIn || isFreePremium || hasReadAccess;
 
@@ -63,6 +63,7 @@ export const MainNavigation = ({
         onAAPIClick,
         onOpenUpgradePlanDialog: onOpen,
         isLoggedIn,
+        isMobileSideBar,
       }),
     [
       chainsRoutes,
@@ -71,6 +72,7 @@ export const MainNavigation = ({
       isLoggedIn,
       onAAPIClick,
       onOpen,
+      isMobileSideBar,
     ],
   );
 
@@ -94,12 +96,12 @@ export const MainNavigation = ({
     [onSignOutClick],
   );
 
-  const { classes } = useMainNavigationStyles(isMobileSiderBar);
+  const { classes } = useMainNavigationStyles(isMobileSideBar);
 
   if (loading) {
     return (
       <MainNavigationSkeleton
-        isMobileSiderBar={isMobileSiderBar}
+        isMobileSideBar={isMobileSideBar}
         isLoggedIn={isLoggedIn}
       />
     );
@@ -109,22 +111,19 @@ export const MainNavigation = ({
     <div className={classes.root}>
       <div className={classes.main}>
         <div>
-          {!isMobileSiderBar && <Navigation items={dashboardItem} />}
+          {!isMobileSideBar && <Navigation items={dashboardItem} />}
           <Typography className={classes.tip}>
             {t('main-navigation.endpoints')}
           </Typography>
           <Navigation
             items={endpointsItems}
-            isMobileSiderBar={isMobileSiderBar}
+            isMobileSideBar={isMobileSideBar}
           />
           <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
-          <Navigation items={menuItems} isMobileSiderBar={isMobileSiderBar} />
+          <Navigation items={menuItems} isMobileSideBar={isMobileSideBar} />
         </div>
         <div className={classes.setting}>
-          <Navigation
-            items={settingItems}
-            isMobileSiderBar={isMobileSiderBar}
-          />
+          <Navigation items={settingItems} isMobileSideBar={isMobileSideBar} />
         </div>
       </div>
 
@@ -133,9 +132,9 @@ export const MainNavigation = ({
         open={isOpened}
         type={UpgradePlanDialogType.Enterprise}
       />
-      {isLoggedIn && isMobileSiderBar && (
+      {isLoggedIn && isMobileSideBar && (
         <div className={classes.logout}>
-          <Navigation items={logoutItems} isMobileSiderBar={isMobileSiderBar} />
+          <Navigation items={logoutItems} isMobileSideBar={isMobileSideBar} />
         </div>
       )}
     </div>

@@ -62,10 +62,6 @@ export const {
                 provider,
               }),
             );
-            const clearUrl = window.location.origin + window.location.pathname;
-
-            // Clear query params
-            window.location.replace(clearUrl);
           }
         });
       },

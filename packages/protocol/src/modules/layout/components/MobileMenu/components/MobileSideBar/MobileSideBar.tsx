@@ -30,7 +30,7 @@ export const MobileSideBar = ({
       <div className={classes.header}>
         <HeaderContent type={Header.Sidebar} />
       </div>
-      <SideBar {...props} isMobileSiderBar />
+      <SideBar {...props} isMobileSideBar />
     </div>
   );
 };

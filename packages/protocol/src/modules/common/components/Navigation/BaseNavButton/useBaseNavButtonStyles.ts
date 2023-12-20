@@ -5,12 +5,12 @@ import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 interface IBaseNavButtonProps {
   isLightTheme: boolean;
-  isMobileSiderBar: boolean;
+  isMobileSideBar: boolean;
 }
 
 export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
   // eslint-disable-next-line max-lines-per-function
-  (theme, { isLightTheme, isMobileSiderBar }) => ({
+  (theme, { isLightTheme, isMobileSideBar }) => ({
     link: {
       width: '100%',
       height: 48,
@@ -62,7 +62,7 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
         color: theme.palette.text.secondary,
         '&:after': {
           content: '""',
-          display: isMobileSiderBar ? 'none' : 'flex',
+          display: isMobileSideBar ? 'none' : 'flex',
           position: 'absolute',
           background: theme.palette.background.default,
           height: 2,

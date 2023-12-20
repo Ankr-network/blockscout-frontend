@@ -39,6 +39,7 @@ interface EndpointListParams {
   isLoggedIn: boolean;
   onAAPIClick: () => void;
   onOpenUpgradePlanDialog: () => void;
+  isMobileSideBar: boolean;
 }
 
 export const DOC_URL = 'https://www.ankr.com/docs/build-blockchain/overview';
@@ -69,6 +70,8 @@ export const getDashboardMenuList = (
 ];
 
 export const getEndpointsList = ({
+  // TODO: hide Endpoints tab for logged in users on desktop but keep in mind the user roles restrictions and redirects (https://ankrnetwork.atlassian.net/browse/MRPC-4178)
+  // isMobileSideBar,
   chainsRoutes,
   hasProjects,
   isEnterpriseClient,
@@ -84,6 +87,8 @@ export const getEndpointsList = ({
       href: ChainsRoutesConfig.chains.generatePath({ isLoggedIn }),
       isActive: (match, location) =>
         checkIsChainsRoute(match, location, chainsRoutes),
+      // TODO: hide Endpoints tab for logged in users on desktop but keep in mind the user roles restrictions and redirects (https://ankrnetwork.atlassian.net/browse/MRPC-4178)
+      // isHidden: isLoggedIn && !isMobileSideBar,
       label: t('main-navigation.endpoints'),
     },
     {
@@ -121,7 +126,7 @@ export const getEndpointsList = ({
     });
   }
 
-  return items;
+  return items.filter(item => !item.isHidden);
 };
 
 export const getMenuList = (

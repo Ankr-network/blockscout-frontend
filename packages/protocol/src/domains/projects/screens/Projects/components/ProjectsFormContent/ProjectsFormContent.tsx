@@ -56,7 +56,6 @@ export const ProjectsFormContent = ({
         data={allProjects}
         isLoading={!isLoaded}
         onProjectDialogOpen={onEditDialogOpen}
-        isFreePremium={isFreePremium}
       />
 
       {(hasProjectButton || isFreePremium) && (

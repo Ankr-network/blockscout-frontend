@@ -4,14 +4,14 @@ import {
   NavigationProps,
 } from './BaseNavButton';
 
-export const Navigation = ({ items, isMobileSiderBar }: NavigationProps) => {
+export const Navigation = ({ items, isMobileSideBar }: NavigationProps) => {
   return (
     <nav>
       {items.map((item: NavigationItem) => (
         <BaseNavButton
           key={`button-${item.label}`}
           item={item}
-          isMobileSiderBar={isMobileSiderBar}
+          isMobileSideBar={isMobileSideBar}
         />
       ))}
     </nav>
