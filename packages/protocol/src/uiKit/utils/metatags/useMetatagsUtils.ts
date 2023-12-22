@@ -207,7 +207,9 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   } else if (chainId.includes(ChainID.BERACHAIN_GUARDED_TESTNET)) {
     name = 'Berachain Guarded Testnet';
   } else if (chainId === ChainID.KAVA_COSMOS_REST) {
-    name = 'HTTP Rest';
+    name = 'Kava HTTP REST';
+  } else if (chainId === ChainID.KAVA) {
+    name = 'Kava';
   } else if (chainId === ChainID.KAVA_EVM) {
     name = 'Kava EVM JSON-RPC';
   } else if (chainId === ChainID.KAVA_TENDERMINT_REST) {

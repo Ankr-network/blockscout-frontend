@@ -36,6 +36,7 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.TENET_EVM]: ChainID.TENET,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: ChainID.BERACHAIN_GUARDED_TESTNET,
 
+  [ChainID.KAVA]: ChainID.KAVA,
   [ChainID.KAVA_COSMOS_REST]: ChainID.KAVA,
   [ChainID.KAVA_EVM]: ChainID.KAVA,
   [ChainID.KAVA_TENDERMINT_REST]: ChainID.KAVA,
@@ -84,7 +85,7 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SEI_COSMOS_REST_TESTNET]: 'sei_cosmos_testnet' as ChainID,
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'sei_grpc_testnet' as ChainID,
 
-  [ChainID.KAVA]: '' as ChainID,
+  [ChainID.KAVA]: 'kava_evm' as ChainID,
   [ChainID.KAVA_COSMOS_REST]: 'kava_api' as ChainID,
   [ChainID.KAVA_EVM]: 'kava_evm' as ChainID,
   [ChainID.KAVA_TENDERMINT_REST]: 'kava_rpc' as ChainID,

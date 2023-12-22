@@ -312,14 +312,14 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.KAVA_EVM,
-    name: 'Kava EVM JSON-RPC',
-    pluralName: 'Kava EVM JSON-RPC',
+    name: 'EVM JSON-RPC',
+    pluralName: 'EVM JSON-RPC',
     chains: [ChainID.KAVA_EVM, ChainID.KAVA_EVM_TESTNET],
   },
   {
     id: ChainGroupID.KAVA_TENDERMINT_REST,
-    name: 'Kava Tendermint Rest',
-    pluralName: 'Kava Tendermint Rest',
+    name: 'Tendermint Rest',
+    pluralName: 'Tendermint Rest',
     chains: [
       ChainID.KAVA_TENDERMINT_REST,
       ChainID.KAVA_TENDERMINT_REST_TESTNET,
@@ -327,8 +327,8 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.KAVA_TENDERMINT_RPC,
-    name: 'Kava JSON-RPC',
-    pluralName: 'Kava JSON-RPC',
+    name: 'JSON-RPC',
+    pluralName: 'JSON-RPC',
     chains: [ChainID.KAVA_TENDERMINT_RPC, ChainID.KAVA_TENDERMINT_RPC_TESTNET],
   },
 ];
