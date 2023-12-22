@@ -11,6 +11,13 @@ export const ENABLED_ZETACHAIN_IDS = [
   'zetachain-cosmos-rest-athens-testnet',
 ];
 
+export const ENABLED_KAVA_IDS = [
+  'kava-tendermint-rest',
+  'kava-tendermint-rest-testnet',
+  'kava-cosmos-rest',
+  'kava-cosmos-rest-testnet',
+];
+
 // Sei ids which have different public and private endpoints
 export const SEI_IDS = [
   'sei-cosmos-grpc-web',

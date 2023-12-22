@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
