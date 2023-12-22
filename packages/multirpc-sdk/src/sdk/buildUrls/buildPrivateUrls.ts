@@ -123,31 +123,31 @@ export const buildPrivateUrls = ({
 
     const rpcURLs: string[] = hasRPC
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const wsURLs: string[] = hasWS
       ? getUrls({
-          paths,
-          privateUrl: privateWsUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateWsUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const hasREST = blockchain.features.includes(BlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const enterpriseURLs: string[] = getUrls({

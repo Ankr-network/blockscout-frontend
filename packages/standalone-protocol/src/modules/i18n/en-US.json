@@ -67,8 +67,8 @@
       "calls-count": "{value, number, ::compact-short}"
     },
     "nodes-table": {
-      "header": "Nodes In Operation",
-      "description": "The network is&nbsp;kept extremely stable using a&nbsp;backbone of&nbsp;globally distributed nodes. Additionally, the network is&nbsp;constantly monitored while traffic is&nbsp;automatically balanced and routed to&nbsp;reach the best-suited nodes.",
+      "header": "List of nodes",
+      "description": "The network is kept stable, using a backbone of multiple underlying nodes. The network is constantly monitored and traffic is automatically routed to the best suited nodes.",
       "head": {
         "node": "Node",
         "height": "Height",

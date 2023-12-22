@@ -67,9 +67,9 @@ export const useStyles = makeStyles<Theme>(theme => ({
     padding: theme.spacing(2, 0),
   },
   description: {
-    fontWeight: 600,
-    marginBottom: theme.spacing(4),
-    color: theme.palette.grey['500'],
+    fontWeight: 400,
+    marginBottom: theme.spacing(3),
+    color: theme.palette.text.primary,
   },
 
   thead: {
@@ -83,17 +83,25 @@ export const useStyles = makeStyles<Theme>(theme => ({
   cellThead: {
     background: 'inherit',
     color: theme.palette.text.primary,
-    fontWeight: 700,
+    fontWeight: 400,
     paddingTop: 5,
     paddingBottom: 5,
     width: '20%',
     padding: '16px 16px 16px 0',
+
+    [`&.${ChainId.Stellar}`]: {
+      color: theme.palette.grey[300],
+    },
   },
 
   cell: {
     padding: '16px 16px 16px 0',
     width: '20%',
     fontSize: 16,
+
+    [`&.${ChainId.Stellar}`]: {
+      borderBottom: `1px solid ${theme.palette.grey[100]}`,
+    },
   },
 
   nodeCell: {
@@ -110,6 +118,7 @@ export const useStyles = makeStyles<Theme>(theme => ({
 
   flag: {
     marginBottom: '3px',
+    marginRight: theme.spacing(1.5),
   },
   dot: {
     width: 10,

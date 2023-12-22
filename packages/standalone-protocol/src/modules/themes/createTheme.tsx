@@ -545,7 +545,6 @@ export const createTheme = (defaultTheme: Theme) =>
           fontWeight: 700,
           color: defaultTheme.palette.text.secondary,
           background: '#F3F3F3',
-          borderBottom: 'none',
 
           '&:first-child': {
             borderRadius: '8px 0 0 8px',
@@ -723,5 +722,6 @@ export const createTheme = (defaultTheme: Theme) =>
           transform: 'none',
         },
       },
+      ...defaultTheme.overrides,
     },
   } as ThemeOptions);
