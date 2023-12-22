@@ -294,6 +294,12 @@ const chainNameIcons: Record<string, string> = {
   stellar_horizon: stellarIcon,
   stellar_testnet_horizon: stellarIcon,
   stellar_testnet_soroban: stellarIcon,
+  kava_evm: kavaIcon,
+  kava_api: kavaIcon,
+  kava_rpc: kavaIcon,
+  kava_testnet_api: kavaIcon,
+  kava_testnet_evm: kavaIcon,
+  kava_testnet_rpc: kavaIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
