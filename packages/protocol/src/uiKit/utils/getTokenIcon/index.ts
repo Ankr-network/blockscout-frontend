@@ -47,6 +47,7 @@ import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
 import ethIconDark from './darkModeIcons/eth.svg';
+import kavaIcon from './icons/kava.svg';
 import kusamaIconDark from './darkModeIcons/kusama.svg';
 import moonbeamIconDark from './darkModeIcons/moonbeam.svg';
 import nearIconDark from './darkModeIcons/near.svg';
@@ -64,6 +65,8 @@ import xdcIcon from './icons/xdc.svg';
 import xdcIconDark from './darkModeIcons/xdc.svg';
 import lineaIcon from './icons/linea.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
+import stellarIcon from './icons/stellar.svg';
+import stellarIconDark from './darkModeIcons/stellar.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -130,6 +133,18 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.HECO_TESTNET]: hecoIcon,
   [ChainID.IOTEX]: iotexIcon,
   [ChainID.IOTEX_TESTNET]: iotexIcon,
+
+  [ChainID.KAVA]: kavaIcon,
+  [ChainID.KAVA_COSMOS_REST]: kavaIcon,
+  [ChainID.KAVA_EVM]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_REST]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_RPC]: kavaIcon,
+  [ChainID.KAVA_TESTNET]: kavaIcon,
+  [ChainID.KAVA_COSMOS_REST_TESTNET]: kavaIcon,
+  [ChainID.KAVA_EVM_TESTNET]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_REST_TESTNET]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: kavaIcon,
+
   [ChainID.KLAYTN]: klaytnIcon,
   [ChainID.KLAYTN_TESTNET]: klaytnIcon,
   [ChainID.KUSAMA]: kusamaIcon,
@@ -154,6 +169,12 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ROLLUX_OPNODE]: rolluxIcon,
   [ChainID.ROLLUX_OPNODE_TESTNET]: rolluxIcon,
   [ChainID.ROLLUX_TESTNET]: rolluxIcon,
+
+  [ChainID.STELLAR]: stellarIcon,
+  [ChainID.STELLAR_HORIZON]: stellarIcon,
+  [ChainID.STELLAR_TESTNET]: stellarIcon,
+  [ChainID.STELLAR_TESTNET_HORIZON]: stellarIcon,
+  [ChainID.STELLAR_TESTNET_SOROBAN]: stellarIcon,
 
   [ChainID.SCROLL]: scrollIcon,
   [ChainID.SCROLL_TESTNET]: scrollIcon,
@@ -243,6 +264,11 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.XDC]: xdcIconDark,
   [ChainID.XDC_TESTNET]: xdcIconDark,
   [ChainID.LINEA]: lineaIconDark,
+  [ChainID.STELLAR]: stellarIconDark,
+  [ChainID.STELLAR_HORIZON]: stellarIconDark,
+  [ChainID.STELLAR_TESTNET]: stellarIconDark,
+  [ChainID.STELLAR_TESTNET_HORIZON]: stellarIconDark,
+  [ChainID.STELLAR_TESTNET_SOROBAN]: stellarIconDark,
 };
 
 const chainNameIcons: Record<string, string> = {
@@ -265,12 +291,24 @@ const chainNameIcons: Record<string, string> = {
   sei_testnet: seiIcon,
   sei_cosmos_testnet: seiIcon,
   sei_grpc_testnet: seiIcon,
+  stellar_horizon: stellarIcon,
+  stellar_testnet_horizon: stellarIcon,
+  stellar_testnet_soroban: stellarIcon,
+  kava_evm: kavaIcon,
+  kava_api: kavaIcon,
+  kava_rpc: kavaIcon,
+  kava_testnet_api: kavaIcon,
+  kava_testnet_evm: kavaIcon,
+  kava_testnet_rpc: kavaIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
   ...chainNameIcons,
   tenet_evm: tenetIconDark,
   berachain_guarded_testnet_evm: berachainIconDark,
+  stellar_horizon: stellarIconDark,
+  stellar_testnet_horizon: stellarIconDark,
+  stellar_testnet_soroban: stellarIconDark,
 };
 
 export function getChainIcon(name: string, isLightTheme: boolean) {

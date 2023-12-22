@@ -137,6 +137,18 @@ export enum ChainID {
   IOTEX = 'iotex',
   IOTEX_TESTNET = 'iotex_testnet',
 
+  KAVA = 'kava',
+  KAVA_COSMOS_REST = 'kava-cosmos-rest',
+  KAVA_EVM = 'kava-evm',
+  KAVA_TENDERMINT_REST = 'kava-tendermint-rest',
+  KAVA_TENDERMINT_RPC = 'kava-tendermint-rpc',
+
+  KAVA_TESTNET = 'kava-testnet',
+  KAVA_COSMOS_REST_TESTNET = 'kava-cosmos-rest-testnet',
+  KAVA_EVM_TESTNET = 'kava-evm-testnet',
+  KAVA_TENDERMINT_REST_TESTNET = 'kava-tendermint-rest-testnet',
+  KAVA_TENDERMINT_RPC_TESTNET = 'kava-tendermint-rpc-testnet',
+
   KLAYTN = 'klaytn',
   KLAYTN_TESTNET = 'klaytn_testnet',
   KUSAMA = 'kusama',
@@ -189,12 +201,23 @@ export enum ChainID {
 
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',
+
+  STELLAR = 'stellar',
+  STELLAR_HORIZON = 'stellar-horizon',
+  STELLAR_TESTNET = 'stellar-testnet',
+  STELLAR_TESTNET_HORIZON = 'stellar-testnet-horizon',
+  STELLAR_TESTNET_SOROBAN = 'stellar-testnet-soroban',
+
   SYSCOIN = 'syscoin',
+
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
+
   TENET = 'tenet',
   TENET_EVM = 'tenet-evm',
+
   XDAI = 'xdai',
+
   SUI = 'sui',
   SUI_TESTNET = 'sui_testnet',
 

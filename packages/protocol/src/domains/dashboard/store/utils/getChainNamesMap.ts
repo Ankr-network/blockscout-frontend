@@ -36,6 +36,10 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
       result[checkedID] = 'Sei Tendermint';
     }
 
+    if (checkedID === ('kava_rpc' as ChainID)) {
+      result[checkedID] = 'Kava Tendermint';
+    }
+
     if (checkedID === ChainID.SECRET) {
       result[checkedID] = 'Secret Network Tendermint';
     }

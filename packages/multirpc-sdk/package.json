@@ -1,6 +1,6 @@
 {
   "name": "multirpc-sdk",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "SDK for Multi RPC",
   "main": "./dist/index.js",
   "types": "./src/index.ts",

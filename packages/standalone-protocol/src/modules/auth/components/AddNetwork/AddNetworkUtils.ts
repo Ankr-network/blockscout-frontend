@@ -250,6 +250,17 @@ const SCROLL_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://blockscout.scroll.io'],
 };
 
+const KAVA_NETWORK_PARAMS = {
+  chainId: 2222,
+  chainName: 'KAVA by Ankr Protocol',
+  nativeCurrency: {
+    name: 'KAVA',
+    symbol: 'KAVA',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://kavascan.com'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -321,6 +332,9 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
 
     case 'scroll':
       return mapParams(chain, SCROLL_NETWORK_PARAMS);
+
+    case ChainId.Kava:
+      return mapParams(chain, KAVA_NETWORK_PARAMS);
 
     default:
       return undefined;

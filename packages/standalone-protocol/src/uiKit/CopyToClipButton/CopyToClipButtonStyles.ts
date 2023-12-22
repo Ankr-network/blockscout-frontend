@@ -427,6 +427,14 @@ export const useStyles = makeStyles<Theme, CopyToClipProps>(theme => ({
         color: theme.palette.text.primary,
       },
     },
+
+    [`&.${ChainId.Kava}`]: {
+      '& $content': {
+        padding: 0,
+        backgroundColor: theme.palette.background.default,
+        borderRadius: 12,
+      },
+    },
   },
   contentBackground: ({ isCopied }) => ({
     backgroundColor: isCopied

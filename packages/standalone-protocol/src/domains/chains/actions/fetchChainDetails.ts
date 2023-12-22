@@ -32,6 +32,8 @@ export interface IApiChainDetails {
   countries: Country;
 }
 
+// data for mainnet and testnet is returned for Kava ChainId
+// probably we should split it in the future
 export const fetchChainDetails = createSmartAction<
   RequestAction<IFetchChainDetailsResponseData, IApiChainDetails>
 >(

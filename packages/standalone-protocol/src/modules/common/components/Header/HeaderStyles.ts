@@ -173,6 +173,18 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     [`&.${ChainId.Sei} span span span`]: {
       color: theme.palette.primary.main,
     },
+
+    [`&.${ChainId.Kava}`]: {
+      '& .chainId': {
+        color: theme.palette.primary.main,
+      },
+    },
+
+    [`&.${ChainId.Stellar}`]: {
+      '& .chainId': {
+        color: '#FDDA24',
+      },
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -212,6 +224,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
       color: theme.palette.grey[800],
     },
 
+    [`&.${ChainId.Kava} span`]: {
+      color: theme.palette.text.primary,
+    },
+
     '& span': {
       color: theme.palette.grey['500'],
 
@@ -223,6 +239,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
         display: 'inline',
         textTransform: 'capitalize',
       },
+    },
+
+    [`&.${ChainId.Stellar} span`]: {
+      color: theme.palette.text.primary,
     },
   },
 }));
