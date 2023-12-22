@@ -35,6 +35,9 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.TENET_EVM]: ChainID.TENET,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: ChainID.BERACHAIN_GUARDED_TESTNET,
+  [ChainID.STELLAR_HORIZON]: ChainID.STELLAR,
+  [ChainID.STELLAR_TESTNET_HORIZON]: ChainID.STELLAR_TESTNET,
+  [ChainID.STELLAR_TESTNET_SOROBAN]: ChainID.STELLAR_TESTNET,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -74,6 +77,11 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SEI_REST_TESTNET]: 'sei_testnet' as ChainID,
   [ChainID.SEI_COSMOS_REST_TESTNET]: 'sei_cosmos_testnet' as ChainID,
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'sei_grpc_testnet' as ChainID,
+
+  [ChainID.STELLAR]: 'stellar_horizon' as ChainID,
+  [ChainID.STELLAR_HORIZON]: 'stellar_horizon' as ChainID,
+  [ChainID.STELLAR_TESTNET_HORIZON]: 'stellar_testnet_horizon' as ChainID,
+  [ChainID.STELLAR_TESTNET_SOROBAN]: 'stellar_testnet_soroban' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (

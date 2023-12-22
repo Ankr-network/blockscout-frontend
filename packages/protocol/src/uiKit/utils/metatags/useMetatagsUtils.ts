@@ -204,6 +204,10 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Base';
   } else if (chainId === ChainID.XDC) {
     name = 'XDC Network';
+  } else if (chainId === ChainID.STELLAR_TESTNET_HORIZON) {
+    name = 'Stellar Horizon Testnet';
+  } else if (chainId === ChainID.STELLAR_TESTNET_SOROBAN) {
+    name = 'Stellar Soroban Testnet';
   } else if (chainId.includes(ChainID.BERACHAIN_GUARDED_TESTNET)) {
     name = 'Berachain Guarded Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {

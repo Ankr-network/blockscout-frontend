@@ -5,6 +5,7 @@ import {
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
   SEI_IDS,
+  STELLAR_IDS,
   blockchainNameTemplate,
   userNameTemplate,
 } from './constants';
@@ -20,6 +21,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(id);
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.includes(id);
   const isSei = SEI_IDS.includes(id);
+  const isStellar = STELLAR_IDS.includes(id);
 
   return (
     isTron ||
@@ -31,7 +33,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isEthGoerliBeacon ||
     isEthSepoliaBeacon ||
     isZetaChain ||
-    isSei
+    isSei ||
+    isStellar
   );
 };
 

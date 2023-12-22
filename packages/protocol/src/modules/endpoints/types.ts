@@ -35,6 +35,8 @@ export enum ChainGroupID {
   SUI = 'SUI',
   TENET = 'tenet',
   SCROLL_ALPHA = 'scroll_testnet',
+  STELLAR_HORIZON = 'stellar-horizon',
+  STELLAR_SOROBAN = 'stellar-soroban',
 
   FALLBACK = 'FALLBACK',
 }

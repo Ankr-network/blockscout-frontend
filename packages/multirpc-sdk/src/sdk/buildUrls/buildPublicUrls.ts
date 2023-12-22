@@ -5,6 +5,7 @@ import {
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
   SEI_IDS,
+  STELLAR_IDS,
   blockchainNameTemplate,
 } from './constants';
 
@@ -87,7 +88,7 @@ export const buildPublicUrls = ({
       blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
     }
 
-    if (SEI_IDS.includes(id)) {
+    if (SEI_IDS.includes(id) || STELLAR_IDS.includes(id)) {
       blockchain.paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
     }
 
