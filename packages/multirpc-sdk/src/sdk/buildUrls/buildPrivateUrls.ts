@@ -5,7 +5,6 @@ import {
   ENABLED_KAVA_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
-  KAVA_IDS,
   SEI_IDS,
   STELLAR_IDS,
   blockchainNameTemplate,
