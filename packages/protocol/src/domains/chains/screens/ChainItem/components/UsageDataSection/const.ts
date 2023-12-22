@@ -84,15 +84,15 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SEI_COSMOS_REST_TESTNET]: 'sei_cosmos_testnet' as ChainID,
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'sei_grpc_testnet' as ChainID,
 
-  // [ChainID.KAVA]: '' as ChainID,
-  // [ChainID.KAVA_COSMOS_REST]: '' as ChainID,
-  // [ChainID.KAVA_EVM]: '' as ChainID,
-  // [ChainID.KAVA_TENDERMINT_REST]: '' as ChainID,
-  // [ChainID.KAVA_TENDERMINT_RPC]: '' as ChainID,
-  // [ChainID.KAVA_COSMOS_REST_TESTNET]: '' as ChainID,
-  // [ChainID.KAVA_EVM_TESTNET]: '' as ChainID,
-  // [ChainID.KAVA_TENDERMINT_REST_TESTNET]: '' as ChainID,
-  // [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: '' as ChainID,
+  [ChainID.KAVA]: '' as ChainID,
+  [ChainID.KAVA_COSMOS_REST]: 'kava_api' as ChainID,
+  [ChainID.KAVA_EVM]: 'kava_evm' as ChainID,
+  [ChainID.KAVA_TENDERMINT_REST]: 'kava_rpc' as ChainID,
+  [ChainID.KAVA_TENDERMINT_RPC]: 'kava_rpc' as ChainID,
+  [ChainID.KAVA_COSMOS_REST_TESTNET]: 'kava_testnet_api' as ChainID,
+  [ChainID.KAVA_EVM_TESTNET]: 'kava_testnet_evm' as ChainID,
+  [ChainID.KAVA_TENDERMINT_REST_TESTNET]: 'kava_testnet_rpc' as ChainID,
+  [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: 'kava_testnet_rpc' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (

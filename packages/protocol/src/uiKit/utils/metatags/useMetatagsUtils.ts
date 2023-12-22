@@ -207,21 +207,21 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   } else if (chainId.includes(ChainID.BERACHAIN_GUARDED_TESTNET)) {
     name = 'Berachain Guarded Testnet';
   } else if (chainId === ChainID.KAVA_COSMOS_REST) {
-    name = 'Kava Cosmos Rest';
+    name = 'HTTP Rest';
   } else if (chainId === ChainID.KAVA_EVM) {
     name = 'Kava EVM JSON-RPC';
   } else if (chainId === ChainID.KAVA_TENDERMINT_REST) {
     name = 'Kava Tendermint Rest';
   } else if (chainId === ChainID.KAVA_TENDERMINT_RPC) {
-    name = 'Kava Tendermint RPC';
+    name = 'Kava JSON-RPC';
   } else if (chainId === ChainID.KAVA_COSMOS_REST_TESTNET) {
-    name = 'Kava Cosmos Rest Testnet';
+    name = 'HTTP Rest Testnet';
   } else if (chainId === ChainID.KAVA_EVM_TESTNET) {
     name = 'Kava EVM JSON-RPC Testnet';
   } else if (chainId === ChainID.KAVA_TENDERMINT_REST_TESTNET) {
     name = 'Kava Tendermint Rest Testnet';
   } else if (chainId === ChainID.KAVA_TENDERMINT_RPC_TESTNET) {
-    name = 'Kava Tendermint RPC Testnet';
+    name = 'Kava JSON-RPC Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {
