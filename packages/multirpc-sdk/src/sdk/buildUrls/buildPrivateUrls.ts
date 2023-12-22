@@ -6,6 +6,7 @@ import {
   ENABLED_ZETACHAIN_IDS,
   KAVA_IDS,
   SEI_IDS,
+  STELLAR_IDS,
   blockchainNameTemplate,
   userNameTemplate,
 } from './constants';
@@ -22,6 +23,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.includes(id);
   const isSei = SEI_IDS.includes(id);
   const isKava = KAVA_IDS.includes(id);
+  const isStellar = STELLAR_IDS.includes(id);
 
   return (
     isTron ||
@@ -34,7 +36,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isEthSepoliaBeacon ||
     isZetaChain ||
     isSei ||
-    isKava
+    isKava ||
+    isStellar
   );
 };
 

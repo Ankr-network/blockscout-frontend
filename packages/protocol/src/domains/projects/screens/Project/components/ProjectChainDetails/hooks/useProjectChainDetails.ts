@@ -15,6 +15,7 @@ const getIsHiddenMainnet = (projectChain: Chain) => {
     projectChain.id === ChainID.SECRET ||
     projectChain.id === ChainID.FLARE ||
     projectChain.id === ChainID.KAVA ||
+    projectChain.id === ChainID.STELLAR ||
     projectChain.beacons?.length ||
     projectChain.opnodes?.length
   ) {

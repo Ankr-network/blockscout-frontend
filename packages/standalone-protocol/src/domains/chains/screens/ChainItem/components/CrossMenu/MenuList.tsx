@@ -32,6 +32,8 @@ import { ReactComponent as TenetMobileLogo } from 'assets/img/logo/tenetMobile.s
 import { ReactComponent as ChilizLogo } from 'assets/img/logo/chiliz.svg';
 import { ReactComponent as ZksyncEraLogo } from 'assets/img/logo/zksync_era.svg';
 import { ReactComponent as ZksyncEraMobileLogo } from 'assets/img/logo/zksync_era_mobile.svg';
+import { ReactComponent as StellarLogo } from 'assets/img/logo/stellar.svg';
+import { ReactComponent as StellarLightLogo } from 'assets/img/logo/stellarLight.svg';
 import {
   ChainId,
   HORIZEN_NAME,
@@ -229,5 +231,11 @@ export const getMenuList = (
     name: 'Core',
     logo: <CoreLogo />,
     url: 'https://core.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Stellar,
+    name: 'Stellar',
+    logo: isLightTheme ? <StellarLogo /> : <StellarLightLogo />,
+    url: 'https://stellar.public-rpc.com/',
   },
 ];

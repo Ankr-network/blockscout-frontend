@@ -32,6 +32,7 @@ export enum ChainId {
   Klaytn = 'klaytn',
   POLYGON_ZKEVM = 'zkevm',
   XDC = 'xdc',
+  Stellar = 'stellar',
 }
 
 export const HORIZEN_NAME = 'Horizen EON';
@@ -74,6 +75,7 @@ type ChainIDLinkMap = Partial<Record<ChainId, ChainId>>;
 export const MAP_CHAIN_ID_TO_NODE_DETAILS_ID: ChainIDLinkMap = {
   [ChainId.HORIZEN_EON]: 'horizen-evm' as ChainId,
   [ChainId.Tenet]: 'tenet-evm' as ChainId,
+  [ChainId.Stellar]: 'stellar-horizon' as ChainId,
 };
 
 export const MAP_CHAIN_ID_TO_DETAILS_ID: ChainIDLinkMap = {

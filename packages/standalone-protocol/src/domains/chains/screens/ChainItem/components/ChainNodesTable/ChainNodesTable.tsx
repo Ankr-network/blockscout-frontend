@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import ReactCountryFlag from 'react-country-flag';
 import classNames from 'classnames';
+import { Variant } from '@material-ui/core/styles/createTypography';
 
 import { t, tHTML } from 'modules/i18n/utils/intl';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
@@ -59,10 +60,10 @@ export const ChainNodesTable = ({
             ].map(item => (
               <TableCell
                 padding="none"
-                className={classes.cellThead}
+                className={classNames(classes.cellThead, className)}
                 key={item}
               >
-                <Typography variant="body2">{item}</Typography>
+                <Typography variant={'body3' as Variant}>{item}</Typography>
               </TableCell>
             ))}
           </TableRow>
@@ -104,7 +105,7 @@ export const ChainNodesTable = ({
                       className={classes.flag}
                       countryCode={row.country}
                     />
-                    &nbsp; &nbsp; {t(`continents.${row.continent}`)}
+                    {t(`continents.${row.continent}`)}
                   </TableCell>
                 )}
 

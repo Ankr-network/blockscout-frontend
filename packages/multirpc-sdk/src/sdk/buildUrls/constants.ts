@@ -22,6 +22,9 @@ export const SEI_IDS = [
   'sei-cosmos-grpc-web-testnet',
 ];
 
+// Stellar ids which have different public and private endpoints
+export const STELLAR_IDS = ['stellar-horizon', 'stellar-testnet-horizon'];
+
 export const APTOS_IDS = ['aptos', 'aptos_testnet'];
 
 export const KAVA_IDS = [

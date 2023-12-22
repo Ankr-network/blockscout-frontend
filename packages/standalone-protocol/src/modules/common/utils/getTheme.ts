@@ -27,6 +27,7 @@ import { flareTheme } from 'modules/themes/flareTheme';
 import { XDCTheme } from 'modules/themes/XDCTheme';
 import { scrollTheme } from 'modules/themes/scrollTheme';
 import { coreTheme } from 'modules/themes/coreTheme';
+import { stellarTheme } from 'modules/themes/stellarTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -113,6 +114,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Core:
       return coreTheme;
+
+    case ChainId.Stellar:
+      return stellarTheme;
 
     default:
       return scrollTheme;

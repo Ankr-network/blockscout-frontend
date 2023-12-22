@@ -201,12 +201,23 @@ export enum ChainID {
 
   SOLANA = 'solana',
   SOLANA_DEVNET = 'solana_devnet',
+
+  STELLAR = 'stellar',
+  STELLAR_HORIZON = 'stellar-horizon',
+  STELLAR_TESTNET = 'stellar-testnet',
+  STELLAR_TESTNET_HORIZON = 'stellar-testnet-horizon',
+  STELLAR_TESTNET_SOROBAN = 'stellar-testnet-soroban',
+
   SYSCOIN = 'syscoin',
+
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
+
   TENET = 'tenet',
   TENET_EVM = 'tenet-evm',
+
   XDAI = 'xdai',
+
   SUI = 'sui',
   SUI_TESTNET = 'sui_testnet',
 

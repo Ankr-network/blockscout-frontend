@@ -45,6 +45,10 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.KAVA_EVM_TESTNET]: ChainID.KAVA_TESTNET,
   [ChainID.KAVA_TENDERMINT_REST_TESTNET]: ChainID.KAVA_TESTNET,
   [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: ChainID.KAVA_TESTNET,
+
+  [ChainID.STELLAR_HORIZON]: ChainID.STELLAR,
+  [ChainID.STELLAR_TESTNET_HORIZON]: ChainID.STELLAR_TESTNET,
+  [ChainID.STELLAR_TESTNET_SOROBAN]: ChainID.STELLAR_TESTNET,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -94,6 +98,11 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.KAVA_EVM_TESTNET]: 'kava_testnet_evm' as ChainID,
   [ChainID.KAVA_TENDERMINT_REST_TESTNET]: 'kava_testnet_rpc' as ChainID,
   [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: 'kava_testnet_rpc' as ChainID,
+
+  [ChainID.STELLAR]: 'stellar_horizon' as ChainID,
+  [ChainID.STELLAR_HORIZON]: 'stellar_horizon' as ChainID,
+  [ChainID.STELLAR_TESTNET_HORIZON]: 'stellar_testnet_horizon' as ChainID,
+  [ChainID.STELLAR_TESTNET_SOROBAN]: 'stellar_testnet_soroban' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (

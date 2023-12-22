@@ -331,4 +331,16 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'JSON-RPC',
     chains: [ChainID.KAVA_TENDERMINT_RPC, ChainID.KAVA_TENDERMINT_RPC_TESTNET],
   },
+  {
+    id: ChainGroupID.STELLAR_HORIZON,
+    name: 'Horizon',
+    pluralName: 'Horizon',
+    chains: [ChainID.STELLAR_HORIZON, ChainID.STELLAR_TESTNET_HORIZON],
+  },
+  {
+    id: ChainGroupID.STELLAR_SOROBAN,
+    name: 'Soroban',
+    pluralName: 'Soroban',
+    chains: [ChainID.STELLAR_TESTNET_SOROBAN],
+  },
 ];
