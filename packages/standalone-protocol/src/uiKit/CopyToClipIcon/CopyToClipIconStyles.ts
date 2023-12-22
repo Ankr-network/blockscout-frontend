@@ -108,6 +108,13 @@ export const useStyles = makeStyles<Theme, { size: 'm' | 'l' }>(theme => ({
         },
       },
     },
+
+    [`&.${ChainId.Kava}`]: {
+      '& $content': {
+        backgroundColor: theme.palette.background.default,
+        borderRadius: 12,
+      },
+    },
   },
 
   message: {

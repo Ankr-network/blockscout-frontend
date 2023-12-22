@@ -17,6 +17,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     [`&.${ChainId.Nervos}`]: {
       maxWidth: 'calc(100% - 72px - 16px)',
     },
+
+    [`&.${ChainId.Kava}`]: {
+      marginBottom: theme.spacing(5),
+    },
   },
   copyButton: {
     flexGrow: 1,
@@ -61,6 +65,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
   label: {
     color: theme.palette.grey['500'],
     marginTop: 6,
+
+    [`&.${ChainId.Kava}`]: {
+      fontSize: 19,
+    },
   },
   soon: {
     width: '100%',

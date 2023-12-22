@@ -43,8 +43,11 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Scroll:
       return '#62E2D1';
 
+    case ChainId.Kava:
+      return theme.palette.primary.main;
+
     case ChainId.Stellar:
-      return '#B4A9E1';
+      return theme.palette.success.main;
 
     default:
       return theme.palette.primary.main;
@@ -86,8 +89,11 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.XDC:
       return '#9F99D1';
 
+    case ChainId.Kava:
+      return theme.palette.common.white;
+
     case ChainId.Stellar:
-      return '#47A0AD';
+      return theme.palette.error.main;
 
     default:
       return theme.palette.primary.dark;

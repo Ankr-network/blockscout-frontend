@@ -10,6 +10,7 @@ import { useStyles } from './CopyButtonsStyles';
 import { formatChain, getLink } from './CopyButtonsUtils';
 import { NervosButtons } from './NervosButtons';
 import { ChainButtons } from './ChainButtons';
+import { KavaButtons } from './KavaButtons';
 
 interface ICopyButtonsProps {
   data?: IChainItemDetails;
@@ -33,6 +34,18 @@ export const CopyButtons = ({
   if (chainId === ChainId.Nervos) {
     return (
       <NervosButtons
+        chain={formattedChain}
+        chainId={chainId}
+        onCopy={onCopy}
+        isXSDown={isXSDown}
+        netLink={netLink}
+      />
+    );
+  }
+
+  if (chainId === ChainId.Kava) {
+    return (
+      <KavaButtons
         chain={formattedChain}
         chainId={chainId}
         onCopy={onCopy}
