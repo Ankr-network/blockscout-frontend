@@ -89,6 +89,10 @@ export const useStyles = makeStyles<Theme>(theme => ({
     width: '20%',
     padding: '16px 16px 16px 0',
 
+    [`&.${ChainId.Kava}`]: {
+      color: theme.palette.grey[300],
+    },
+
     [`&.${ChainId.Stellar}`]: {
       color: theme.palette.grey[300],
     },

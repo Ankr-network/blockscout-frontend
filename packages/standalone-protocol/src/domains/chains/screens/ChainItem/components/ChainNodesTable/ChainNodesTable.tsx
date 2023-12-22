@@ -16,7 +16,7 @@ import ReactCountryFlag from 'react-country-flag';
 import classNames from 'classnames';
 import { Variant } from '@material-ui/core/styles/createTypography';
 
-import { t, tHTML } from 'modules/i18n/utils/intl';
+import { t } from 'modules/i18n/utils/intl';
 import { getStatusByNodeScore } from 'modules/common/utils/node';
 import { StatusCircle } from 'uiKit/StatusCircle';
 import { getStatusColor } from 'uiKit/utils/styleUtils';
@@ -47,7 +47,7 @@ export const ChainNodesTable = ({
         {t('chain-item.nodes-table.header')}
       </Typography>
       <Typography variant="body2" className={classes.description}>
-        {tHTML('chain-item.nodes-table.description')}
+        {t('chain-item.nodes-table.description')}
       </Typography>
       <Box component={Table} minWidth={600}>
         <TableHead className={classes.thead}>

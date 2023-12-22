@@ -27,6 +27,7 @@ import { flareTheme } from 'modules/themes/flareTheme';
 import { XDCTheme } from 'modules/themes/XDCTheme';
 import { scrollTheme } from 'modules/themes/scrollTheme';
 import { coreTheme } from 'modules/themes/coreTheme';
+import { kavaTheme } from 'modules/themes/kavaTheme';
 import { stellarTheme } from 'modules/themes/stellarTheme';
 
 export const getTheme = (chainId?: ChainId) => {
@@ -114,6 +115,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Core:
       return coreTheme;
+
+    case ChainId.Kava:
+      return kavaTheme;
 
     case ChainId.Stellar:
       return stellarTheme;
