@@ -35,6 +35,10 @@ export enum ChainGroupID {
   SUI = 'SUI',
   TENET = 'tenet',
   SCROLL_ALPHA = 'scroll_testnet',
+  KAVA_COSMOS_REST = 'kava-cosmos-rest',
+  KAVA_EVM = 'kava-evm',
+  KAVA_TENDERMINT_REST = 'kava-tendermint-rest',
+  KAVA_TENDERMINT_RPC = 'kava-tendermint-rpc',
 
   FALLBACK = 'FALLBACK',
 }

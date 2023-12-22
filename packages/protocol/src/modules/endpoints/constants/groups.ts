@@ -304,4 +304,28 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('grpc', true),
     chains: [ChainID.SEI_COSMOS_GRPC_WEB, ChainID.SEI_COSMOS_GRPC_TESTNET],
   },
+  // {
+  //   id: ChainGroupID.KAVA_COSMOS_REST,
+  //   name: 'Kava Cosmos Rest',
+  //   pluralName: 'Kava Cosmos Rest',
+  //   chains: [ChainID.KAVA_COSMOS_REST, ChainID.KAVA_COSMOS_REST_TESTNET],
+  // },
+  // {
+  //   id: ChainGroupID.KAVA_EVM,
+  //   name: 'Kava EVM JSON-RPC',
+  //   pluralName: 'Kava EVM JSON-RPC',
+  //   chains: [ChainID.KAVA_EVM, ChainID.KAVA_EVM_TESTNET],
+  // },
+  // {
+  //   id: ChainGroupID.KAVA_TENDERMINT_REST,
+  //   name: 'Kava Tendermint Rest',
+  //   pluralName: 'Kava Tendermint Rest',
+  //   chains: [ChainID.KAVA_TENDERMINT_REST, ChainID.KAVA_TENDERMINT_REST_TESTNET],
+  // },
+  // {
+  //   id: ChainGroupID.KAVA_TENDERMINT_RPC,
+  //   name: 'Kava Tendermint RPC',
+  //   pluralName: 'Kava Tendermint RPC',
+  //   chains: [ChainID.KAVA_TENDERMINT_RPC, ChainID.KAVA_TENDERMINT_RPC_TESTNET],
+  // },
 ];

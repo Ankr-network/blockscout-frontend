@@ -35,6 +35,15 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.TENET_EVM]: ChainID.TENET,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: ChainID.BERACHAIN_GUARDED_TESTNET,
+
+  [ChainID.KAVA_COSMOS_REST]: ChainID.KAVA,
+  [ChainID.KAVA_EVM]: ChainID.KAVA,
+  [ChainID.KAVA_TENDERMINT_REST]: ChainID.KAVA,
+  [ChainID.KAVA_TENDERMINT_RPC]: ChainID.KAVA,
+  [ChainID.KAVA_COSMOS_REST_TESTNET]: ChainID.KAVA_TESTNET,
+  [ChainID.KAVA_EVM_TESTNET]: ChainID.KAVA_TESTNET,
+  [ChainID.KAVA_TENDERMINT_REST_TESTNET]: ChainID.KAVA_TESTNET,
+  [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: ChainID.KAVA_TESTNET,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -74,6 +83,16 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SEI_REST_TESTNET]: 'sei_testnet' as ChainID,
   [ChainID.SEI_COSMOS_REST_TESTNET]: 'sei_cosmos_testnet' as ChainID,
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'sei_grpc_testnet' as ChainID,
+
+  // [ChainID.KAVA]: '' as ChainID,
+  // [ChainID.KAVA_COSMOS_REST]: '' as ChainID,
+  // [ChainID.KAVA_EVM]: '' as ChainID,
+  // [ChainID.KAVA_TENDERMINT_REST]: '' as ChainID,
+  // [ChainID.KAVA_TENDERMINT_RPC]: '' as ChainID,
+  // [ChainID.KAVA_COSMOS_REST_TESTNET]: '' as ChainID,
+  // [ChainID.KAVA_EVM_TESTNET]: '' as ChainID,
+  // [ChainID.KAVA_TENDERMINT_REST_TESTNET]: '' as ChainID,
+  // [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: '' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (

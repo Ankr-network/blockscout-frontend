@@ -4,6 +4,7 @@ import {
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
+  KAVA_IDS,
   SEI_IDS,
   blockchainNameTemplate,
   userNameTemplate,
@@ -20,6 +21,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(id);
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.includes(id);
   const isSei = SEI_IDS.includes(id);
+  const isKava = KAVA_IDS.includes(id);
 
   return (
     isTron ||
@@ -31,7 +33,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isEthGoerliBeacon ||
     isEthSepoliaBeacon ||
     isZetaChain ||
-    isSei
+    isSei ||
+    isKava
   );
 };
 
@@ -123,31 +126,31 @@ export const buildPrivateUrls = ({
 
     const rpcURLs: string[] = hasRPC
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const wsURLs: string[] = hasWS
       ? getUrls({
-          paths,
-          privateUrl: privateWsUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateWsUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const hasREST = blockchain.features.includes(BlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const enterpriseURLs: string[] = getUrls({

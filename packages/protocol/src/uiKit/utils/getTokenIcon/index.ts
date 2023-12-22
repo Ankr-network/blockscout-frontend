@@ -47,6 +47,7 @@ import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
 import ethIconDark from './darkModeIcons/eth.svg';
+import kavaIcon from './icons/kava.svg';
 import kusamaIconDark from './darkModeIcons/kusama.svg';
 import moonbeamIconDark from './darkModeIcons/moonbeam.svg';
 import nearIconDark from './darkModeIcons/near.svg';
@@ -130,6 +131,18 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.HECO_TESTNET]: hecoIcon,
   [ChainID.IOTEX]: iotexIcon,
   [ChainID.IOTEX_TESTNET]: iotexIcon,
+
+  [ChainID.KAVA]: kavaIcon,
+  [ChainID.KAVA_COSMOS_REST]: kavaIcon,
+  [ChainID.KAVA_EVM]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_REST]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_RPC]: kavaIcon,
+  [ChainID.KAVA_TESTNET]: kavaIcon,
+  [ChainID.KAVA_COSMOS_REST_TESTNET]: kavaIcon,
+  [ChainID.KAVA_EVM_TESTNET]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_REST_TESTNET]: kavaIcon,
+  [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: kavaIcon,
+
   [ChainID.KLAYTN]: klaytnIcon,
   [ChainID.KLAYTN_TESTNET]: klaytnIcon,
   [ChainID.KUSAMA]: kusamaIcon,
