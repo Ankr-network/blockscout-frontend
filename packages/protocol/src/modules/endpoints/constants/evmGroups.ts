@@ -14,4 +14,5 @@ export const evmGroups: ChainGroupID[] = [
   ChainGroupID.TENET,
   ChainGroupID.SCROLL_ALPHA,
   ChainGroupID.STANDARD_EVM,
+  ChainGroupID.KAVA_EVM,
 ];

@@ -35,6 +35,17 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.TENET_EVM]: ChainID.TENET,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: ChainID.BERACHAIN_GUARDED_TESTNET,
+
+  [ChainID.KAVA]: ChainID.KAVA,
+  [ChainID.KAVA_COSMOS_REST]: ChainID.KAVA,
+  [ChainID.KAVA_EVM]: ChainID.KAVA,
+  [ChainID.KAVA_TENDERMINT_REST]: ChainID.KAVA,
+  [ChainID.KAVA_TENDERMINT_RPC]: ChainID.KAVA,
+  [ChainID.KAVA_COSMOS_REST_TESTNET]: ChainID.KAVA_TESTNET,
+  [ChainID.KAVA_EVM_TESTNET]: ChainID.KAVA_TESTNET,
+  [ChainID.KAVA_TENDERMINT_REST_TESTNET]: ChainID.KAVA_TESTNET,
+  [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: ChainID.KAVA_TESTNET,
+
   [ChainID.STELLAR_HORIZON]: ChainID.STELLAR,
   [ChainID.STELLAR_TESTNET_HORIZON]: ChainID.STELLAR_TESTNET,
   [ChainID.STELLAR_TESTNET_SOROBAN]: ChainID.STELLAR_TESTNET,
@@ -77,6 +88,16 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.SEI_REST_TESTNET]: 'sei_testnet' as ChainID,
   [ChainID.SEI_COSMOS_REST_TESTNET]: 'sei_cosmos_testnet' as ChainID,
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: 'sei_grpc_testnet' as ChainID,
+
+  [ChainID.KAVA]: 'kava_evm' as ChainID,
+  [ChainID.KAVA_COSMOS_REST]: 'kava_api' as ChainID,
+  [ChainID.KAVA_EVM]: 'kava_evm' as ChainID,
+  [ChainID.KAVA_TENDERMINT_REST]: 'kava_rpc' as ChainID,
+  [ChainID.KAVA_TENDERMINT_RPC]: 'kava_rpc' as ChainID,
+  [ChainID.KAVA_COSMOS_REST_TESTNET]: 'kava_testnet_api' as ChainID,
+  [ChainID.KAVA_EVM_TESTNET]: 'kava_testnet_evm' as ChainID,
+  [ChainID.KAVA_TENDERMINT_REST_TESTNET]: 'kava_testnet_rpc' as ChainID,
+  [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: 'kava_testnet_rpc' as ChainID,
 
   [ChainID.STELLAR]: 'stellar_horizon' as ChainID,
   [ChainID.STELLAR_HORIZON]: 'stellar_horizon' as ChainID,

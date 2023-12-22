@@ -2,6 +2,7 @@ import { ChainsConfig } from './types';
 import { BlockchainFeature, IBlockchainEntity } from '../../common';
 import {
   APTOS_IDS,
+  ENABLED_KAVA_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
   SEI_IDS,
@@ -21,6 +22,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(id);
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.includes(id);
   const isSei = SEI_IDS.includes(id);
+  const isKava = ENABLED_KAVA_IDS.includes(id);
   const isStellar = STELLAR_IDS.includes(id);
 
   return (
@@ -34,6 +36,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isEthSepoliaBeacon ||
     isZetaChain ||
     isSei ||
+    isKava ||
     isStellar
   );
 };

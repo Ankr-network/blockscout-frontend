@@ -25,6 +25,9 @@ const exceptions: Partial<Record<ChainID, Partial<DecomposedChainIds>>> = {
   [ChainID.HORIZEN]: {
     mainnets: [ChainID.HORIZEN_EVM],
   },
+  [ChainID.KAVA]: {
+    mainnets: [ChainID.KAVA_EVM, ChainID.KAVA_COSMOS_REST],
+  },
 };
 
 const getSubchainsIds = (subchains: Chain[] = []): ChainID[] =>

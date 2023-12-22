@@ -1,6 +1,11 @@
 import { ChainID } from 'modules/chains/types';
 
-const extensionOnlyChain = [ChainID.SECRET, ChainID.SEI, ChainID.STELLAR];
+const extensionOnlyChain: ChainID[] = [
+  ChainID.SECRET,
+  ChainID.SEI,
+  ChainID.STELLAR,
+  ChainID.KAVA,
+];
 
 export const isExtensionOnlyChain = (chainId: ChainID) =>
   extensionOnlyChain.includes(chainId);

@@ -305,6 +305,33 @@ export const chainGroups: ChainGroup[] = [
     chains: [ChainID.SEI_COSMOS_GRPC_WEB, ChainID.SEI_COSMOS_GRPC_TESTNET],
   },
   {
+    id: ChainGroupID.KAVA_COSMOS_REST,
+    name: 'HTTP Rest',
+    pluralName: 'HTTP Rest',
+    chains: [ChainID.KAVA_COSMOS_REST, ChainID.KAVA_COSMOS_REST_TESTNET],
+  },
+  {
+    id: ChainGroupID.KAVA_EVM,
+    name: 'EVM JSON-RPC',
+    pluralName: 'EVM JSON-RPC',
+    chains: [ChainID.KAVA_EVM, ChainID.KAVA_EVM_TESTNET],
+  },
+  {
+    id: ChainGroupID.KAVA_TENDERMINT_REST,
+    name: 'Tendermint Rest',
+    pluralName: 'Tendermint Rest',
+    chains: [
+      ChainID.KAVA_TENDERMINT_REST,
+      ChainID.KAVA_TENDERMINT_REST_TESTNET,
+    ],
+  },
+  {
+    id: ChainGroupID.KAVA_TENDERMINT_RPC,
+    name: 'JSON-RPC',
+    pluralName: 'JSON-RPC',
+    chains: [ChainID.KAVA_TENDERMINT_RPC, ChainID.KAVA_TENDERMINT_RPC_TESTNET],
+  },
+  {
     id: ChainGroupID.STELLAR_HORIZON,
     name: 'Horizon',
     pluralName: 'Horizon',

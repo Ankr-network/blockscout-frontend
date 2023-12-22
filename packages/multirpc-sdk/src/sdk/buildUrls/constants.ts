@@ -11,6 +11,13 @@ export const ENABLED_ZETACHAIN_IDS = [
   'zetachain-cosmos-rest-athens-testnet',
 ];
 
+export const ENABLED_KAVA_IDS = [
+  'kava-tendermint-rest',
+  'kava-tendermint-rest-testnet',
+  'kava-cosmos-rest',
+  'kava-cosmos-rest-testnet',
+];
+
 // Sei ids which have different public and private endpoints
 export const SEI_IDS = [
   'sei-cosmos-grpc-web',
@@ -26,6 +33,17 @@ export const SEI_IDS = [
 export const STELLAR_IDS = ['stellar-horizon', 'stellar-testnet-horizon'];
 
 export const APTOS_IDS = ['aptos', 'aptos_testnet'];
+
+export const KAVA_IDS = [
+  'kava-cosmos-rest',
+  'kava-cosmos-rest-testnet',
+  'kava-evm',
+  'kava-evm-testnet',
+  'kava-tendermint-rest',
+  'kava-tendermint-rest-testnet',
+  'kava-tendermint-rpc',
+  'kava-tendermint-rpc-testnet',
+];
 
 export const blockchainNameTemplate = '{blockchain}';
 

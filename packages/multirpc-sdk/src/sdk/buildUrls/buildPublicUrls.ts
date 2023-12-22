@@ -4,6 +4,7 @@ import {
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
+  KAVA_IDS,
   SEI_IDS,
   STELLAR_IDS,
   blockchainNameTemplate,
@@ -88,7 +89,7 @@ export const buildPublicUrls = ({
       blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
     }
 
-    if (SEI_IDS.includes(id) || STELLAR_IDS.includes(id)) {
+    if (SEI_IDS.includes(id) || STELLAR_IDS.includes(id) || KAVA_IDS.includes(id)) {
       blockchain.paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
     }
 
