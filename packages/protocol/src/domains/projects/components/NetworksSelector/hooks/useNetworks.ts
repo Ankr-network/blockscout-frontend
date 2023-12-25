@@ -16,11 +16,17 @@ export const useNetworks = (chain: Chain) => {
     return networks.map(network => {
       const filteredGroups = network.groups.filter(
         // we need to filter tendermint rpc as paths are similar for tendermint_rpc and tendermint_rest
-        group => group.id !== ChainGroupID.TENDERMINT_RPC,
+        group =>
+          group.id !== ChainGroupID.TENDERMINT_RPC &&
+          group.id !== ChainGroupID.KAVA_TENDERMINT_RPC,
       );
 
       const updatedGroupsWithTendermintNaming = filteredGroups.map(group => {
-        if (group.id === ChainGroupID.TENDERMINT_REST) {
+        const hasTendermintName =
+          group.id === ChainGroupID.TENDERMINT_REST ||
+          group.id === ChainGroupID.KAVA_TENDERMINT_REST;
+
+        if (hasTendermintName) {
           return {
             ...group,
             // replacing name from tendermint rest to tendermint

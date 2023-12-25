@@ -24,7 +24,9 @@ const mapEndpoints = (endpoints: EndpointGroup[]) => {
   // JSON-RPC and REST Tendermint subchains have the same path,
   // so should we ignore JSON-RPC endpoints and show REST
   const filteredEndpoints = endpoints.filter(
-    endpoint => endpoint.id !== ChainGroupID.TENDERMINT_RPC,
+    endpoint =>
+      endpoint.id !== ChainGroupID.TENDERMINT_RPC &&
+      endpoint.id !== ChainGroupID.KAVA_TENDERMINT_RPC,
   );
 
   return filteredEndpoints.map(endpoint => ({

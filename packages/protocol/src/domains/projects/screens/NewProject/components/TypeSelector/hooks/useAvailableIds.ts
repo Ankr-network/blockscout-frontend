@@ -1,8 +1,15 @@
-import { tendermintRpcChains } from 'modules/endpoints/constants/groups';
+import {
+  kavaTendermintRpcChains,
+  tendermintRpcChains,
+} from 'modules/endpoints/constants/groups';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { ChainID } from 'modules/chains/types';
+
+const isNotTendermintRpc = (chainId: ChainID) =>
+  !tendermintRpcChains.includes(chainId) &&
+  !kavaTendermintRpcChains.includes(chainId);
 
 export const useAvailableIds = (endpoints: GroupedEndpoints) => {
   const {
@@ -22,13 +29,13 @@ export const useAvailableIds = (endpoints: GroupedEndpoints) => {
     .filter(chainId => !isTestnetOnlyChain(chainId))
     // JSON-RPC and REST Tendermint subchains have the same path,
     // so should we ignore JSON-RPC endpoints and show REST
-    .filter(chainId => !tendermintRpcChains.includes(chainId));
+    .filter(isNotTendermintRpc);
 
   const allAvailableTestnetIds = endpoints.testnet
     .map(endpoint => endpoint.chains[0].id)
     // JSON-RPC and REST Tendermint subchains have the same path,
     // so should we ignore JSON-RPC endpoints and show REST
-    .filter(chainId => !tendermintRpcChains.includes(chainId));
+    .filter(isNotTendermintRpc);
 
   const allAvailableDevnetIds = endpoints.devnet.map(
     endpoint => endpoint.chains[0].id,

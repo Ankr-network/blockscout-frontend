@@ -40,6 +40,14 @@ export const getCustomLabelForChainsCornerCases = ({
     }
   }
 
+  if (chainId === ChainID.KAVA_TENDERMINT_REST) {
+    return 'Kava Tendermint';
+  }
+
+  if (chainId === ChainID.KAVA_TENDERMINT_REST_TESTNET) {
+    return 'Kava testnet Tendermint';
+  }
+
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {
     return renderNervosName(chainId);
   }
