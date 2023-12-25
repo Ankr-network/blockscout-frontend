@@ -63,8 +63,11 @@ export const decomposeChainIntoIds = (
 ): DecomposedChainIds => {
   const mainnets = flatChains(chain)
     .filter(({ urls }) => urls.length > 0)
-    .map(({ id }) => id)
-    .map(id => id.replace('-evm', '') as ChainID);
+    .map(
+      keepEVMChainID
+        ? ({ id }) => id
+        : ({ id }) => id.replace('-evm', '') as ChainID,
+    );
 
   const testnets = getTestnets(chain, keepEVMChainID);
 

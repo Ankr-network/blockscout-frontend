@@ -17,7 +17,7 @@ export const mergeTendermintsGroups = (groups: EndpointGroup[]) => {
 
   if (hasBoth) {
     return groups
-      .filter(group => group.id !== ChainGroupID.TENDERMINT_REST)
+      .filter(group => !isTendermintRest(group))
       .map(group => {
         const isTendermint = isTendermintRpc(group);
 

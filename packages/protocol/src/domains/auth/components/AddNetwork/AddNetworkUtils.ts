@@ -73,7 +73,8 @@ export const getFlattenChain = ({
     chainSubType,
     group,
     withExceptions: false,
-    keepEVMChainID: publicChain.id === ChainID.ZETACHAIN,
+    keepEVMChainID:
+      publicChain.id === ChainID.ZETACHAIN || publicChain.id === ChainID.KAVA,
   }) as ChainID;
 
   const flatChains = flattenAllChainTypes(publicChain);
