@@ -4,12 +4,14 @@ import { Chain, ChainID } from 'modules/chains/types';
 import {
   tendermintRpcChains,
   chainGroups,
+  kavaTendermintRpcChains,
 } from 'modules/endpoints/constants/groups';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 import { getGroupedEndpoints } from 'modules/endpoints/utils/getGroupedEndpoints';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/selectors';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { EndpointGroup } from 'modules/endpoints/types';
 
 export type ProjectChain = Chain & {
   mainnets?: Chain[];
@@ -18,6 +20,17 @@ export type ProjectChain = Chain & {
   opnodesMainnet?: Chain[];
   opnodesTestnet?: Chain[];
 };
+
+const isNotTendermintGroup = (group: EndpointGroup) => {
+  const firstChainId = group.chains[0].id;
+
+  const isKavaTendermint = kavaTendermintRpcChains.includes(firstChainId);
+  const isOtherTendermint = tendermintRpcChains.includes(firstChainId);
+
+  return !isOtherTendermint && !isKavaTendermint;
+};
+
+const getFirstChain = (group: EndpointGroup) => group.chains[0];
 
 const mapProjectChains = (chain: Chain) => {
   const {
@@ -65,15 +78,9 @@ const mapProjectChains = (chain: Chain) => {
 
   const chainParams = {
     ...chain,
-    mainnets: endpoints.mainnet
-      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
-      .map(x => x.chains[0]),
-    devnets: endpoints.devnet
-      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
-      .map(x => x.chains[0]),
-    testnets: endpoints.testnet
-      .filter(endpoint => !tendermintRpcChains.includes(endpoint.chains[0].id))
-      .map(x => x.chains[0]),
+    mainnets: endpoints.mainnet.filter(isNotTendermintGroup).map(getFirstChain),
+    devnets: endpoints.devnet.filter(isNotTendermintGroup).map(getFirstChain),
+    testnets: endpoints.testnet.filter(isNotTendermintGroup).map(getFirstChain),
     hasWSFeature: hasWsFeature(chain),
     beaconsMainnet,
     beaconsTestnet,
@@ -87,7 +94,9 @@ const mapProjectChains = (chain: Chain) => {
       // JSON-RPC and REST Tendermint subchains have the same path,
       // so should we ignore JSON-RPC endpoints and show REST
       extensions: chain.extensions?.filter(
-        extension => !tendermintRpcChains.includes(extension.id),
+        extension =>
+          !tendermintRpcChains.includes(extension.id) &&
+          !kavaTendermintRpcChains.includes(extension.id),
       ),
     };
   }

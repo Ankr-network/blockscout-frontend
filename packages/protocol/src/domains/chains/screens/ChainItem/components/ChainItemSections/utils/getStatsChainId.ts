@@ -36,9 +36,7 @@ export const getStatsChainId = ({
     publicChain.id === ChainID.KAVA;
 
   const withExceptions =
-    publicChain.id === ChainID.HORIZEN ||
-    publicChain.id === ChainID.TENET ||
-    publicChain.id === ChainID.KAVA;
+    publicChain.id === ChainID.HORIZEN || publicChain.id === ChainID.TENET;
 
   const chainId = getChainId({
     chainType,

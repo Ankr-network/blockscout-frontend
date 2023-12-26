@@ -662,4 +662,26 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://explorer.apothem.network/'],
   },
+
+  [ChainID.KAVA_EVM]: {
+    chainId: 2222,
+    chainName: 'Kava',
+    nativeCurrency: {
+      name: 'KAVA',
+      symbol: 'KAVA',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://kavascan.com/'],
+  },
+
+  [ChainID.KAVA_EVM_TESTNET]: {
+    chainId: 2221,
+    chainName: 'Kava Testnet',
+    nativeCurrency: {
+      name: 'KAVA',
+      symbol: 'KAVA',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://testnet.kavascan.com/'],
+  },
 };

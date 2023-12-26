@@ -35,6 +35,7 @@ export const getChainId = ({
     withExceptions,
     keepEVMChainID,
   );
+
   const chainIds = decomposed[chainTypesMap[chainType]];
 
   const filteredChainIds = filterChainsBySubType(chainIds, chainSubType);

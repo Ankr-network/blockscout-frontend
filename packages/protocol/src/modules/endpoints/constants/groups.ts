@@ -35,6 +35,16 @@ export const tendermintRpcChains = [
   ChainID.SEI_RPC_TESTNET,
 ];
 
+export const kavaTendermintRpcChains = [
+  ChainID.KAVA_TENDERMINT_RPC,
+  ChainID.KAVA_TENDERMINT_RPC_TESTNET,
+];
+
+export const kavaTendermintRestChains = [
+  ChainID.KAVA_TENDERMINT_REST,
+  ChainID.KAVA_TENDERMINT_REST_TESTNET,
+];
+
 export const tendermintRestChains = [
   ChainID.SECRET_REST,
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
@@ -320,16 +330,13 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.KAVA_TENDERMINT_REST,
     name: 'Tendermint Rest',
     pluralName: 'Tendermint Rest',
-    chains: [
-      ChainID.KAVA_TENDERMINT_REST,
-      ChainID.KAVA_TENDERMINT_REST_TESTNET,
-    ],
+    chains: kavaTendermintRestChains,
   },
   {
     id: ChainGroupID.KAVA_TENDERMINT_RPC,
     name: 'JSON-RPC',
     pluralName: 'JSON-RPC',
-    chains: [ChainID.KAVA_TENDERMINT_RPC, ChainID.KAVA_TENDERMINT_RPC_TESTNET],
+    chains: kavaTendermintRpcChains,
   },
   {
     id: ChainGroupID.STELLAR_HORIZON,
