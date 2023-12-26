@@ -23,5 +23,9 @@ export const getRPCUrl = (chainId: ChainId) => {
     return `${location}/${ChainId.POLYGON_ZKEVM}`;
   }
 
+  if (chainId === ChainId.Kava) {
+    return `${location}/kava_evm`;
+  }
+
   return location;
 };
