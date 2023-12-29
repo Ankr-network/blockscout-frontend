@@ -64,7 +64,9 @@ export const useMetatags = (
     bodyElement.style.backgroundColor = currentThemeColor;
 
     const pathname =
-      rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
+      rawPathname === INDEX_PATH
+        ? rawPathname
+        : `${rawPathname.replace(/\/$/, '')}/`;
 
     const descriptionTag = document.getElementById(
       'meta-description',
@@ -88,8 +90,13 @@ export const useMetatags = (
       'meta-twitter-url',
     ) as HTMLMetaElement;
 
+    const canonicalURL = document.getElementById(
+      'link-canonical',
+    ) as HTMLLinkElement;
+
     ogURL.content = PROTOCOL_URL + pathname;
     twitterURL.content = PROTOCOL_URL + pathname;
+    canonicalURL.href = PROTOCOL_URL + pathname;
 
     const location = getLocation(pathname, chainsRoutes);
 
