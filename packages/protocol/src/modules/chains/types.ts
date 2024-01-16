@@ -93,6 +93,9 @@ export enum ChainID {
   BERACHAIN_GUARDED_TESTNET = 'berachain-guarded-testnet',
   BERACHAIN_GUARDED_TESTNET_EVM = 'berachain-guarded-testnet-evm',
 
+  BLAST = 'blast',
+  BLAST_TESTNET_SEPOLIA = 'blast_testnet_sepolia',
+
   BTTC = 'bttc',
   CELO = 'celo',
   CHILIZ = 'chiliz',
