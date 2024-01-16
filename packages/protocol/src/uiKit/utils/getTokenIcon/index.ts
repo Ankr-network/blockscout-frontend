@@ -22,6 +22,7 @@ import iotexIcon from './icons/iotex.svg';
 import klaytnIcon from './icons/klaytn.svg';
 import kusamaIcon from './icons/kusama.svg';
 import metisIcon from './icons/metis.svg';
+import blastIcon from './icons/blast.svg';
 import moonbeamIcon from './icons/moonbeam.svg';
 import multichainIcon from './icons/multichain.svg';
 import nearIcon from './icons/near.svg';
@@ -59,6 +60,7 @@ import mantleIconDark from './darkModeIcons/mantle.svg';
 import tenetIconDark from './darkModeIcons/tenet.svg';
 import zksyncEraIconDark from './darkModeIcons/zksync_era.svg';
 import berachainIconDark from './darkModeIcons/berachain.svg';
+import blastIconDark from './darkModeIcons/blast.svg';
 import berachainIcon from './icons/berachain.svg';
 import seiIcon from './icons/sei.svg';
 import xdcIcon from './icons/xdc.svg';
@@ -100,6 +102,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BERACHAIN]: berachainIcon,
   [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIcon,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: berachainIcon,
+
+  [ChainID.BLAST]: blastIcon,
+  [ChainID.BLAST_TESTNET_SEPOLIA]: blastIcon,
 
   [ChainID.BTTC]: bttcIcon,
   [ChainID.CELO]: celoIcon,
@@ -229,6 +234,8 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIconDark,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: berachainIconDark,
   [ChainID.BTTC]: bttcIconDark,
+  [ChainID.BLAST]: blastIconDark,
+  [ChainID.BLAST_TESTNET_SEPOLIA]: blastIconDark,
   [ChainID.CELO]: celoIconDark,
   [ChainID.ETH]: ethIconDark,
   [ChainID.ETH_BEACON]: ethIconDark,
