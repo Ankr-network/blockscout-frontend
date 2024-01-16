@@ -1,6 +1,11 @@
 import { Discord, Doc, Globe } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
+import {
+  ANKR_DISCORD_LINK,
+  ANKR_DOCS_LINK,
+} from 'modules/common/constants/const';
+
 import { Card } from './types';
 
 export const intlRoot = 'chain-item.debug-menu.learn-more';
@@ -22,7 +27,7 @@ export const getCards = (): Card[] => [
       t(`${intlRoot}.docs.description-1`),
       t(`${intlRoot}.docs.description-2`),
     ],
-    link: 'https://www.ankr.com/docs/',
+    link: ANKR_DOCS_LINK,
     linkText: t(`${intlRoot}.docs.link`),
     title: t(`${intlRoot}.docs.title`),
   },
@@ -32,7 +37,7 @@ export const getCards = (): Card[] => [
       t(`${intlRoot}.discord.description-1`),
       t(`${intlRoot}.discord.description-2`),
     ],
-    link: 'https://discord.com/invite/ankr/',
+    link: ANKR_DISCORD_LINK,
     linkText: t(`${intlRoot}.discord.link`),
     title: t(`${intlRoot}.discord.title`),
   },
