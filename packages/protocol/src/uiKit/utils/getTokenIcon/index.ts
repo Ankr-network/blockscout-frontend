@@ -41,7 +41,7 @@ import rolluxIcon from './icons/rollux.svg';
 import mantleIcon from './icons/mantle.svg';
 import zetachainIcon from './icons/zetachain.svg';
 import baseIcon from './icons/base.png';
-import scrollIcon from './icons/scroll.png';
+import scrollIcon from './icons/scroll.svg';
 import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
