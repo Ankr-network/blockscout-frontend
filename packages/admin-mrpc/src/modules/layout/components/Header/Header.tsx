@@ -1,12 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { Button } from '@mui/material';
+import GlobalMenu, { LogoType } from '@ankr.com/global-menu';
 
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { CreateTestPremiumUser } from 'modules/clients/components/CreateTestPremiumUser';
 import { AdminRoutesConfig } from 'modules/admin/AdminRoutesConfig';
 import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
-
-import { Logo } from '../Logo';
 
 interface HeaderProps {
   userName?: string;
@@ -21,7 +20,7 @@ export const Header = ({
 }: HeaderProps) => {
   return (
     <>
-      <Logo />
+      <GlobalMenu logoType={LogoType.RPC} hasSecondaryFont />
       {userName && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
       {userName && (
         <Button

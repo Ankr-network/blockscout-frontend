@@ -1,8 +1,8 @@
 import { IconButton } from '@mui/material';
 import { Close } from '@ankr.com/ui';
+import GlobalMenu, { LogoType } from '@ankr.com/global-menu';
 
 import { HeaderContent } from 'modules/layout/components/Header/components/HeaderContent';
-import { Logo } from 'modules/layout/components/Logo';
 import { SidebarProps, SideBar } from 'modules/layout/components/SideBar';
 import { Header } from 'modules/layout/const';
 
@@ -22,7 +22,7 @@ export const MobileSideBar = ({
   return (
     <div className={classes.root}>
       <div className={classes.logo}>
-        <Logo />
+        <GlobalMenu logoType={LogoType.RPC} hasSecondaryFont />
         <IconButton onClick={onClose} className={classes.close}>
           <Close />
         </IconButton>

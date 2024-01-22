@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@ankr.com/common": "*",
-    "@ankr.com/global-menu": "*",
+    "@ankr.com/global-menu": "2.0.2",
     "@ankr.com/provider": "^1.10.2",
     "@ankr.com/staking-sdk": "^1.2.5",
     "@ankr.com/ui": "^0.7.1",

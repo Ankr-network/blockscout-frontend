@@ -37,6 +37,11 @@
   dependencies:
     aws-sdk "^2.1217.0"
 
+"@ankr.com/global-menu@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.2.tgz#be9c3d1821a3f3d02d7cf02488148e39ac8d0e92"
+  integrity sha512-ngMBAD6HVImyeCf4LnqmNZpRu58tZuuWkNtBWRObE1/Oj3iae1BTG2y1HyI0guB23xbJHr/f+fZ2aaSwr8/o+A==
+
 "@ankr.com/provider@1.10.0":
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-1.10.0.tgz#854c24a016cc951cdd6804c6208f4a321fa79620"
