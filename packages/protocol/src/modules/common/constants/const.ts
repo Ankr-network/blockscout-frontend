@@ -22,7 +22,7 @@ export const DISCORD_COLOR = '#5865F2';
 export const ANKR_DOCS_LINK = 'https://www.ankr.com/docs/';
 export const ANKR_DOCS_PROJECTS_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/projects/';
-export const ANKR_DISCORD_LINK = 'https://discord.com/invite/ankr/';
+export const ANKR_DISCORD_LINK = 'https://discord.ankr.com/';
 export const ANKR_TWITTER_LINK = 'https://twitter.com/ankr';
 export const ANKR_BLOG_LINK = 'https://medium.com/ankr-network';
 export const ANKR_GETTING_STARTED_PREMIUM_LINK =
