@@ -237,7 +237,7 @@ export const getMenuList = (
     chainId: ChainId.Kava,
     name: 'Kava',
     logo: <KavaLogo />,
-    url: 'https://kava.public-rpc.com/',
+    url: 'https://kava-rpc.com/',
   },
   {
     chainId: ChainId.Stellar,

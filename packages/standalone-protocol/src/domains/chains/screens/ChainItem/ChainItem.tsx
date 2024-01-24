@@ -1,6 +1,7 @@
 import { Container, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import classNames from 'classnames';
+import { useEffect } from 'react';
 
 import { tHTML } from 'modules/i18n/utils/intl';
 import { IChainItemDetails } from 'domains/chains/actions/fetchChain';
@@ -28,6 +29,17 @@ export const ChainItem = ({ data, chainId }: IChainItemUIProps) => {
   const classes = useStyles();
 
   const isStandalone = isStandaloneChain(chainId);
+
+  useEffect(() => {
+    if (chainId === ChainId.Kava) {
+      const canonicalTag = document.createElement('link');
+
+      canonicalTag.href = 'https://kava-rpc.com/';
+      canonicalTag.rel = 'canonical';
+
+      document.getElementsByTagName('head')[0].appendChild(canonicalTag);
+    }
+  }, [chainId]);
 
   const isComingSoon = Boolean(data?.chain?.isComingSoon);
   const isPolygon = chainId === ChainId.Polygon;

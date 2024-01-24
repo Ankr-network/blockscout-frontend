@@ -18,7 +18,6 @@ interface IKavaButtonsProps {
   chainId: ChainId;
   onCopy: () => void;
   isXSDown: boolean;
-  netLink: string;
   chain: Chain | null;
 }
 
@@ -26,21 +25,18 @@ export const KavaButtons = ({
   chainId,
   onCopy,
   isXSDown,
-  netLink,
   chain,
 }: IKavaButtonsProps) => {
   const classes = useStyles();
   const isMDDown = useIsMDDown();
 
   const shouldShowCopyIcon = isXSDown && !IS_REACT_SNAP;
-  const [kavaEvmText, kavaHttpText, kavaRpcText, kavaHttpRpcText] = netLink
-    ? [
-        `${netLink}/kava_evm`,
-        `${netLink}/http/kava_api`,
-        `${netLink}/kava_rpc`,
-        `${netLink}/http/kava_rpc`,
-      ]
-    : ['', '', '', ''];
+  const [kavaEvmText, kavaHttpText, kavaRpcText, kavaHttpRpcText] = [
+    'https://evm.kava-rpc.com',
+    'https://api.kava-rpc.com',
+    'https://rpc.kava-rpc.com',
+    'wss://wevm.kava-rpc.com',
+  ];
 
   return (
     <div data-test-id="copy-button">
@@ -169,7 +165,7 @@ export const KavaButtons = ({
           className={classNames(classes.label, chainId)}
           color="textPrimary"
         >
-          {t('chain-item.kava.tendermint')}
+          {t('chain-item.kava.ws')}
         </Typography>
         <div className={classes.link}>
           {shouldShowCopyIcon ? (
