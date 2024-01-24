@@ -100,6 +100,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BASE_SEPOLIA]: baseIcon,
 
   [ChainID.BERACHAIN]: berachainIcon,
+  [ChainID.BERACHAIN_TESTNET]: berachainIcon,
   [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIcon,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: berachainIcon,
 
@@ -231,6 +232,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   ...chainIcons,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
   [ChainID.BERACHAIN]: berachainIconDark,
+  [ChainID.BERACHAIN_TESTNET]: berachainIconDark,
   [ChainID.BERACHAIN_GUARDED_TESTNET]: berachainIconDark,
   [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: berachainIconDark,
   [ChainID.BTTC]: bttcIconDark,

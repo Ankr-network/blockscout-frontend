@@ -90,6 +90,7 @@ export enum ChainID {
   BASE_TESTNET = 'base_goerli',
 
   BERACHAIN = 'berachain',
+  BERACHAIN_TESTNET = 'berachain_testnet',
   BERACHAIN_GUARDED_TESTNET = 'berachain-guarded-testnet',
   BERACHAIN_GUARDED_TESTNET_EVM = 'berachain-guarded-testnet-evm',
 
