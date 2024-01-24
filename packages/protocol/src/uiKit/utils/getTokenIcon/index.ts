@@ -36,6 +36,7 @@ import solIcon from './icons/sol.svg';
 import stakeIcon from './icons/stake.svg';
 import suiIcon from './icons/sui.svg';
 import syscoinIcon from './icons/syscoin.svg';
+import taikoIcon from './icons/taiko.svg';
 import tronIcon from './icons/tron.svg';
 import rolluxIcon from './icons/rollux.svg';
 import mantleIcon from './icons/mantle.svg';
@@ -207,6 +208,10 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SOLANA]: solIcon,
   [ChainID.SOLANA_DEVNET]: solIcon,
   [ChainID.SYSCOIN]: syscoinIcon,
+
+  [ChainID.TAIKO]: taikoIcon,
+  [ChainID.TAIKO_KATLA]: taikoIcon,
+
   [ChainID.TRON]: tronIcon,
   [ChainID.TRON_JSON_RPC]: tronIcon,
   [ChainID.TENET]: tenetIcon,

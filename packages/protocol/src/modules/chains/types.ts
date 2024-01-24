@@ -214,6 +214,9 @@ export enum ChainID {
 
   SYSCOIN = 'syscoin',
 
+  TAIKO = 'taiko',
+  TAIKO_KATLA = 'taiko_katla',
+
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
 
