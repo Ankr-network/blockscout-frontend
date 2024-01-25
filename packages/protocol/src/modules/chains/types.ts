@@ -90,6 +90,7 @@ export enum ChainID {
   BASE_TESTNET = 'base_goerli',
 
   BERACHAIN = 'berachain',
+  BERACHAIN_TESTNET = 'berachain_testnet',
   BERACHAIN_GUARDED_TESTNET = 'berachain-guarded-testnet',
   BERACHAIN_GUARDED_TESTNET_EVM = 'berachain-guarded-testnet-evm',
 
@@ -212,6 +213,9 @@ export enum ChainID {
   STELLAR_TESTNET_SOROBAN = 'stellar-testnet-soroban',
 
   SYSCOIN = 'syscoin',
+
+  TAIKO = 'taiko',
+  TAIKO_KATLA = 'taiko_katla',
 
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',

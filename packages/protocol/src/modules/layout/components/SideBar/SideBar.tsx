@@ -3,10 +3,10 @@ import { useTrackDashboard } from 'modules/layout/hooks/useTrackDashboard';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 
-import { Logo } from '../Logo';
-import { MainNavigation } from '../MainNavigation';
 import { useStyles } from './SideBarStyles';
+import { MainNavigation } from '../MainNavigation';
 
 export interface SidebarProps {
   chainsRoutes: string[];
@@ -38,7 +38,7 @@ export const SideBar = ({
 
   return (
     <aside className={cx(classes.root, className)}>
-      {hasLogo && <Logo />}
+      {hasLogo && <GlobalMenuWrapper />}
       <MainNavigation
         chainsRoutes={chainsRoutes}
         isLoggedIn={isLoggedIn}

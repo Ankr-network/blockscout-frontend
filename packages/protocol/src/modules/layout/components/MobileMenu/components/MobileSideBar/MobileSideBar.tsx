@@ -2,9 +2,9 @@ import { IconButton } from '@mui/material';
 import { Close } from '@ankr.com/ui';
 
 import { HeaderContent } from 'modules/layout/components/Header/components/HeaderContent';
-import { Logo } from 'modules/layout/components/Logo';
 import { SidebarProps, SideBar } from 'modules/layout/components/SideBar';
 import { Header } from 'modules/layout/const';
+import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 
 import { useMobileSideBarStyles } from './useMobileSideBarStyles';
 
@@ -22,7 +22,7 @@ export const MobileSideBar = ({
   return (
     <div className={classes.root}>
       <div className={classes.logo}>
-        <Logo />
+        <GlobalMenuWrapper />
         <IconButton onClick={onClose} className={classes.close}>
           <Close />
         </IconButton>

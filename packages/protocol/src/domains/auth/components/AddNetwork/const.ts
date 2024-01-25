@@ -619,6 +619,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://sepolia-explorer.base.org/'],
   },
 
+  [ChainID.TAIKO_KATLA]: {
+    chainId: 167008,
+    chainName: 'Taiko Katla testnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.katla.taiko.xyz/'],
+  },
+
   [ChainID.SCROLL]: {
     chainId: 534352,
     chainName: 'Scroll Mainnet',

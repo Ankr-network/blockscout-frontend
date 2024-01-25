@@ -4,4 +4,4 @@
 
 e.g. `cd packages/protocol`
 
-`yarn start`
+`yarn start:stage:turbo`

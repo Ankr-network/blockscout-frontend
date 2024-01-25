@@ -126,6 +126,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.MANTLE,
       ChainID.MANTLE_TESTNET,
 
+      ChainID.TAIKO,
+      ChainID.TAIKO_KATLA,
+
       ChainID.XDC,
       ChainID.XDC_TESTNET,
 

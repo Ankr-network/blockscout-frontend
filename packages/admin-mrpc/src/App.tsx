@@ -8,7 +8,7 @@ import { store } from 'store';
 import { AppBase } from 'modules/layout/components/AppBase/AppBase';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
-
+import '@ankr.com/global-menu/dist/style.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes } from './Routes';
 

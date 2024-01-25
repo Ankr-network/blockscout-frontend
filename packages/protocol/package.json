@@ -1,6 +1,6 @@
 {
   "name": "ankr-protocol-web",
-  "version": "1.63.0a",
+  "version": "1.63.1",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -29,7 +29,7 @@
   "homepage": "/rpc",
   "dependencies": {
     "@ankr.com/common": "*",
-    "@ankr.com/global-menu": "*",
+    "@ankr.com/global-menu": "2.0.4",
     "@ankr.com/provider": "^1.10.2",
     "@ankr.com/telemetry": "*",
     "@ankr.com/ui": "^0.10.8",

@@ -7,6 +7,7 @@ const MOBILE_HEADER_HEIGHT = 130;
 export const useStyles = makeStyles<boolean>()((theme, isMobileSideBar) => ({
   root: {
     position: isMobileSideBar ? 'relative' : 'fixed',
+    zIndex: 3,
 
     display: 'flex',
     flexDirection: 'column',
