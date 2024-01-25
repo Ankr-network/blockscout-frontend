@@ -252,7 +252,7 @@ const SCROLL_NETWORK_PARAMS = {
 
 const KAVA_NETWORK_PARAMS = {
   chainId: 2222,
-  chainName: 'KAVA by Ankr Protocol',
+  chainName: 'KAVA',
   nativeCurrency: {
     name: 'KAVA',
     symbol: 'KAVA',

@@ -38,6 +38,13 @@ export const KavaButtons = ({
     'wss://wevm.kava-rpc.com',
   ];
 
+  const formattedChain = chain
+    ? {
+        ...chain,
+        rpcLinks: [kavaEvmText],
+      }
+    : null;
+
   return (
     <div data-test-id="copy-button">
       <div
@@ -73,9 +80,9 @@ export const KavaButtons = ({
               chainId={chainId}
             />
           )}
-          {chain && (
+          {formattedChain && (
             <AddNetworkButton
-              chain={chain}
+              chain={formattedChain}
               className={classNames(classes.addNetworkButton, chainId)}
             />
           )}
