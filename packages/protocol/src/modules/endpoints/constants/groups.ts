@@ -215,6 +215,22 @@ export const chainGroups: ChainGroup[] = [
     ],
   },
   {
+    id: ChainGroupID.MUMBAI,
+    name: 'Mumbai',
+    pluralName: 'Mumbai',
+    chains: [
+      ChainID.POLYGON_MUMBAI,
+    ],
+  },
+  {
+    id: ChainGroupID.AMOY,
+    name: 'Amoy',
+    pluralName: 'Amoy',
+    chains: [
+      ChainID.POLYGON_AMOY,
+    ],
+  },
+  {
     id: ChainGroupID.HOLESKY,
     name: 'Holesky',
     pluralName: 'Holesky',
