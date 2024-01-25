@@ -52,7 +52,7 @@
       "evm-json": "EVM JSON-RPC Endpoint:",
       "http": "HTTP Rest Endpoint",
       "json-rpc": "JSON-RPC Endpoint",
-      "tendermint": "Tendermint Rest Endpoint"
+      "ws": "EVM Websocket  Endpoint"
     },
     "polygon-zk-evm": {
       "description": "If you are looking for <b>zkevm</b> go to <a href=\"https://polygon-rpc.com/zkevm\" target=\"_blank\" rel=\"noopener noreferrer\">https://polygon-rpc.com/zkevm</a>"

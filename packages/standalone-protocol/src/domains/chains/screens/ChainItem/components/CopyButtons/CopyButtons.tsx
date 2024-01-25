@@ -51,7 +51,6 @@ export const CopyButtons = ({
         chainId={chainId}
         onCopy={onCopy}
         isXSDown={isXSDown}
-        netLink={netLink}
       />
     );
   }

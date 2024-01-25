@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
-import GlobalMenu, { LogoType } from '@ankr.com/global-menu';
 
 import { Header } from 'modules/layout/const';
+import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 
 import { HeaderContent } from '../Header/components/HeaderContent';
 import { MobileMenu } from '../MobileMenu';
@@ -27,7 +27,7 @@ export const MobileHeader = ({
   return (
     <header className={cx(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
-        <GlobalMenu logoType={LogoType.RPC} hasSecondaryFont />
+        <GlobalMenuWrapper />
         <div className={classes.buttons}>
           <HeaderContent type={Header.Mobile} />
           <MobileMenu
