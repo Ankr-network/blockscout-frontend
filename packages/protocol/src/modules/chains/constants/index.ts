@@ -7,4 +7,6 @@ export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.ZETACHAIN,
   ChainID.BLAST,
   ChainID.TAIKO,
+  ChainID.KAVA,
+  ChainID.STELLAR,
 ];

@@ -41,6 +41,8 @@ export enum ChainGroupID {
   KAVA_TENDERMINT_RPC = 'kava-tendermint-rpc',
   STELLAR_HORIZON = 'stellar-horizon',
   STELLAR_SOROBAN = 'stellar-soroban',
+  MUMBAI = 'mumbai',
+  AMOY = 'amoy',
 
   FALLBACK = 'FALLBACK',
 }

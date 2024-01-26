@@ -174,6 +174,7 @@ export enum ChainID {
   POLKADOT = 'polkadot',
   POLYGON = 'polygon',
   POLYGON_MUMBAI = 'polygon_mumbai',
+  POLYGON_AMOY = 'polygon_amoy',
   POLYGON_ZKEVM = 'polygon_zkevm',
   POLYGON_ZKEVM_TESTNET = 'polygon_zkevm_testnet',
   ROLLUX = 'rollux',

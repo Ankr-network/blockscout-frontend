@@ -15,4 +15,6 @@ export const evmGroups: ChainGroupID[] = [
   ChainGroupID.SCROLL_ALPHA,
   ChainGroupID.STANDARD_EVM,
   ChainGroupID.KAVA_EVM,
+  ChainGroupID.AMOY,
+  ChainGroupID.MUMBAI,
 ];

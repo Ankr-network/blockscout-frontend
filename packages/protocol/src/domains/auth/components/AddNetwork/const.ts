@@ -450,6 +450,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
   },
 
+  [ChainID.POLYGON_AMOY]: {
+    chainId: 80002,
+    chainName: 'Amoy Testnet',
+    nativeCurrency: {
+      name: 'MATIC',
+      symbol: 'MATIC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://www.oklink.com/amoy'],
+  },
+
   [ChainID.POLYGON_ZKEVM]: {
     chainId: 1101,
     chainName: 'Polygon zkEVM',
