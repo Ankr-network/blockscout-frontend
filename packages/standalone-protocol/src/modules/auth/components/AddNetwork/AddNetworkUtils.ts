@@ -8,7 +8,7 @@ const toHex = (num: number): string => {
 
 export const HARMONY_MAINNET_PARAMS = {
   chainId: 1666600000,
-  chainName: 'Harmony by Ankr Protocol',
+  chainName: 'Harmony by Ankr Web3 API',
   nativeCurrency: {
     name: 'Harmony',
     symbol: 'ONE',
@@ -19,7 +19,7 @@ export const HARMONY_MAINNET_PARAMS = {
 
 export const AVALANCHE_MAINNET_PARAMS = {
   chainId: 43114,
-  chainName: 'Avalanche by Ankr Protocol',
+  chainName: 'Avalanche by Ankr Web3 API',
   nativeCurrency: {
     name: 'Avalanche',
     symbol: 'AVAX',
@@ -30,7 +30,7 @@ export const AVALANCHE_MAINNET_PARAMS = {
 
 const FANTOM_NETWORK_PARAMS = {
   chainId: 250,
-  chainName: 'Fantom by Ankr Protocol',
+  chainName: 'Fantom by Ankr Web3 API',
   nativeCurrency: {
     name: 'Fantom',
     symbol: 'FTM',
@@ -41,7 +41,7 @@ const FANTOM_NETWORK_PARAMS = {
 
 const POLYGON_NETWORK_PARAMS = {
   chainId: 137,
-  chainName: 'Polygon by Ankr Protocol',
+  chainName: 'Polygon by Ankr Web3 API',
   nativeCurrency: {
     name: 'MATIC',
     symbol: 'MATIC',
@@ -63,7 +63,7 @@ const POLYGON_ZK_EVM_NETWORK_PARAMS = {
 
 const CELO_NETWORK_PARAMS = {
   chainId: 42220,
-  chainName: 'Celo by Ankr Protocol',
+  chainName: 'Celo by Ankr Web3 API',
   nativeCurrency: {
     name: 'Celo (Mainnet)',
     symbol: 'CELO',
@@ -74,7 +74,7 @@ const CELO_NETWORK_PARAMS = {
 
 const CORE_NETWORK_PARAMS = {
   chainId: 1116,
-  chainName: 'Core by Ankr Protocol',
+  chainName: 'Core by Ankr Web3 API',
   nativeCurrency: {
     name: 'Core (Mainnet)',
     symbol: 'CORE',
@@ -85,7 +85,7 @@ const CORE_NETWORK_PARAMS = {
 
 const ARBITRUM_NETWORK_PARAMS = {
   chainId: 42161,
-  chainName: 'Arbitrum by Ankr Protocol',
+  chainName: 'Arbitrum by Ankr Web3 API',
   nativeCurrency: {
     name: 'Arbitrum One',
     symbol: 'AETH',
@@ -96,7 +96,7 @@ const ARBITRUM_NETWORK_PARAMS = {
 
 const IOTEX_NETWORK_PARAMS = {
   chainId: 4689,
-  chainName: 'IoTeX by Ankr Protocol',
+  chainName: 'IoTeX by Ankr Web3 API',
   nativeCurrency: {
     name: 'IoTeX Mainnet',
     symbol: 'IOTX',
@@ -108,7 +108,7 @@ const IOTEX_NETWORK_PARAMS = {
 // nervos https://docs.godwoken.io/#godwoken-public-networks
 const GODWOKEN_POLYJUICE_NETWORK_PARAMS = {
   chainId: 71394,
-  chainName: 'Godwoken Polyjuice Mainnet by Ankr Protocol',
+  chainName: 'Godwoken Polyjuice Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'Godwoken Mainnet',
     symbol: 'CKB',
@@ -130,7 +130,7 @@ const KLAYTN_NETWORK_PARAMS = {
 
 const BSC_NETWORK_PARAMS = {
   chainId: 56,
-  chainName: 'BSC by Ankr Protocol',
+  chainName: 'BSC by Ankr Web3 API',
   nativeCurrency: {
     name: 'Smart Chain',
     symbol: 'BNB',
@@ -141,7 +141,7 @@ const BSC_NETWORK_PARAMS = {
 
 const GNOSIS_NETWORK_PARAMS = {
   chainId: 100,
-  chainName: 'Gnosis Chain by Ankr Protocol',
+  chainName: 'Gnosis Chain by Ankr Web3 API',
   nativeCurrency: {
     name: 'xDAI Chain',
     symbol: 'xDAI',
@@ -152,7 +152,7 @@ const GNOSIS_NETWORK_PARAMS = {
 
 const CHILIZ_NETWORK_PARAMS = {
   chainId: 88888,
-  chainName: 'Chiliz Chain Mainnet by Ankr Protocol',
+  chainName: 'Chiliz Chain Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'Chiliz (Mainnet)',
     symbol: 'CHZ',
@@ -164,7 +164,7 @@ const CHILIZ_NETWORK_PARAMS = {
 // https://docs.tenet.org/mainnet-beta/tenet-mainnet
 const TENET_NETWORK_PARAMS = {
   chainId: 1559,
-  chainName: 'Tenet Mainnet by Ankr Protocol',
+  chainName: 'Tenet Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'Tenet Mainnet',
     symbol: 'TENET',
@@ -175,7 +175,7 @@ const TENET_NETWORK_PARAMS = {
 
 const ZKSYNC_ERA_PARAMS = {
   chainId: 324,
-  chainName: 'zkSync Era Mainnet by Ankr Protocol',
+  chainName: 'zkSync Era Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
@@ -186,7 +186,7 @@ const ZKSYNC_ERA_PARAMS = {
 
 const ROLLUX_NETWORK_PARAMS = {
   chainId: 570,
-  chainName: 'Rollux Mainnet by Ankr Protocol',
+  chainName: 'Rollux Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'SYS',
     symbol: 'SYS',
@@ -197,7 +197,7 @@ const ROLLUX_NETWORK_PARAMS = {
 
 const HORIZEN_NETWORK_PARAMS = {
   chainId: 7332,
-  chainName: 'Horizen EON by Ankr Protocol',
+  chainName: 'Horizen EON by Ankr Web3 API',
   nativeCurrency: {
     name: 'Horizen',
     symbol: 'ZEN',
@@ -208,7 +208,7 @@ const HORIZEN_NETWORK_PARAMS = {
 
 const MANTLE_NETWORK_PARAMS = {
   chainId: 5000,
-  chainName: 'Mantle Mainnet by Ankr Protocol',
+  chainName: 'Mantle Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'MNT',
     symbol: 'MNT',
@@ -219,7 +219,7 @@ const MANTLE_NETWORK_PARAMS = {
 
 const FLARE_NETWORK_PARAMS = {
   chainId: 14,
-  chainName: 'Flare C-chain by Ankr Protocol',
+  chainName: 'Flare C-chain by Ankr Web3 API',
   nativeCurrency: {
     name: 'Flare',
     symbol: 'FLR',
@@ -230,7 +230,7 @@ const FLARE_NETWORK_PARAMS = {
 
 const XDC_NETWORK_PARAMS = {
   chainId: 50,
-  chainName: 'XDC Network by Ankr Protocol',
+  chainName: 'XDC Network by Ankr Web3 API',
   nativeCurrency: {
     name: 'XDC',
     symbol: 'XDC',
@@ -241,7 +241,7 @@ const XDC_NETWORK_PARAMS = {
 
 const SCROLL_NETWORK_PARAMS = {
   chainId: 534352,
-  chainName: 'Scroll Mainnet by Ankr Protocol',
+  chainName: 'Scroll Mainnet by Ankr Web3 API',
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
@@ -252,7 +252,7 @@ const SCROLL_NETWORK_PARAMS = {
 
 const KAVA_NETWORK_PARAMS = {
   chainId: 2222,
-  chainName: 'KAVA',
+  chainName: 'Kava',
   nativeCurrency: {
     name: 'KAVA',
     symbol: 'KAVA',

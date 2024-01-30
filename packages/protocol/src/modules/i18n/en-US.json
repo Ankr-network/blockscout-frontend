@@ -993,7 +993,7 @@
         "title": "HTTPS {urls, plural, =1 {Endpoint} other { Endpoints }}",
         "title-multichain": "Endpoint",
         "websocket-title": "WSS Endpoint",
-        "network-postfix": "{name} by ANKR Protocol",
+        "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
         "login-to-proceed": "Login to proceed"
       },
