@@ -76,8 +76,7 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.HORIZEN_EVM]: 'horizen_eon' as ChainID,
   [ChainID.HORIZEN_TESTNET_EVM]: 'horizen_gobi_testnet' as ChainID,
 
-  [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]:
-    'berachain_testnet' as ChainID,
+  [ChainID.BERACHAIN_GUARDED_TESTNET_EVM]: 'berachain_testnet' as ChainID,
 
   [ChainID.SEI_COSMOS_GRPC_WEB]: 'sei_grpc' as ChainID,
   [ChainID.SEI_COSMOS_REST]: 'sei_cosmos' as ChainID,

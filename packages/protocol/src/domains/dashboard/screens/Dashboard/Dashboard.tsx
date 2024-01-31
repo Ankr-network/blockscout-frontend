@@ -11,7 +11,7 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { AllChainsLayout } from './components/AllChainsLayout';
 import { ChainLayout } from './components/ChainLayout';

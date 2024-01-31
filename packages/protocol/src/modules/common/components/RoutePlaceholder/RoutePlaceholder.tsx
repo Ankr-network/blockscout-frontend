@@ -1,12 +1,12 @@
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import imgLock from './assets/lock.png';
 import {

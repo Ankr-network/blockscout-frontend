@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { NewProject } from './components/NewProject';
 import { GuardNewProject } from './components/GuardNewProject';

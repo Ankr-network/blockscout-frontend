@@ -42,6 +42,8 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectsRoutes } from 'domains/projects/routes/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { GuardTeamInvitationRoute } from 'domains/userSettings/components/GuardTeamInvitationRoute';
+import { TeamsRoutes, TeamsRoutesConfig } from 'domains/teams/Routes';
 
 import { INDEX_PATH } from './constants';
 import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
@@ -141,6 +143,10 @@ export const Routes = () => {
           </DefaultLayout>
         )}
       />
+      <GuardTeamInvitationRoute
+        exact
+        path={UserSettingsRoutesConfig.teamInvitation.path}
+      />
       <Route
         exact
         path={OauthRoutesConfig.oauth.path}
@@ -175,6 +181,22 @@ export const Routes = () => {
               )}
             />
           </GuardAuthEnterpriseRoute>
+        )}
+      />
+      <GuardAuthRoute
+        hasReactSnapCheck={isReactSnap}
+        exact
+        path={[TeamsRoutesConfig.newTeam.path]}
+        render={() => (
+          <Route
+            exact
+            path={TeamsRoutesConfig.newTeam.path}
+            render={() => (
+              <DefaultLayout>
+                <TeamsRoutes />
+              </DefaultLayout>
+            )}
+          />
         )}
       />
       <Route

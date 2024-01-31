@@ -4,7 +4,7 @@ import { t } from '@ankr.com/common';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 export const getScheme = (data: INodesDetailEntity[] = []): string => {
   if (!data) return '';

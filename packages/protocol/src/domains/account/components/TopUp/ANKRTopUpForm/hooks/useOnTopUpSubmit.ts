@@ -8,7 +8,7 @@ import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
-import { useConnectWaletDialog } from 'modules/layout/components/ConnectWalletDialog/hooks/useConnectWalletDialog';
+import { useConnectWalletDialog } from 'modules/layout/components/ConnectWalletDialog/hooks/useConnectWalletDialog';
 
 import { TopUpFormValues } from '../ANKRTopUpFormTypes';
 
@@ -26,7 +26,7 @@ export const useOnTopUpSubmit = (
     isOpened: isConnectWaletDialogOpened,
     handleOpenDialog: handleOpenConnectWaletDialog,
     handleCloseDialog: handleCloseConnectWaletDialog,
-  } = useConnectWaletDialog();
+  } = useConnectWalletDialog();
 
   const onSuccess = useCallback(() => {
     dispatch(resetTopUpOrigin());

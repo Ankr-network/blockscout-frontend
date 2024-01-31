@@ -6,9 +6,9 @@ import { resetEndpoint } from 'store/utils/resetEndpoint';
 import { resetUserGroupConfig } from 'domains/userGroup/store';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { getPermissions } from 'modules/groups/utils/getPermissions';
 
 import { BlockWithPermission } from '../constants/groups';
-import { getPermissions } from '../utils/getPermissions';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
 import { useUserGroupConfig } from './useUserGroupConfig';
 
@@ -37,7 +37,8 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   useEffect(() => {
     if (savedSelectedGroupAddress && !isLoading && groups.length > 0) {
       const group = groups.find(
-        ({ groupAddress }) => groupAddress === savedSelectedGroupAddress,
+        ({ address: groupAddress }) =>
+          groupAddress === savedSelectedGroupAddress,
       );
 
       /* we need to reset config in case if user was removed from group */

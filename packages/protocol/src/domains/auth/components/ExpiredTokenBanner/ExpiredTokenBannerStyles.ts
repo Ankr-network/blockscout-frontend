@@ -4,7 +4,7 @@ import { makeStyles } from 'tss-react/mui';
 export const useExpiredTokenBannerStyles = makeStyles()((theme: Theme) => ({
   root: {
     background: theme.palette.background.paper,
-    marginBottom: theme.spacing(2 * 3),
+    marginBottom: theme.spacing(6),
 
     '& a': {
       color: theme.palette.primary.main,

@@ -7,6 +7,7 @@ import { Dialog } from 'uiKit/Dialog';
 
 import { SuccessStep } from './components/SuccessStep';
 import { useChangeEmailDialog } from './useChangeEmailDialog';
+import { useChangeEmailDialogStyles } from './useChangeEmailDialogStyles';
 
 interface IChangeEmailDialogProps {
   open: boolean;
@@ -31,13 +32,16 @@ export const ChangeEmailDialog = ({
     [email, form],
   );
 
+  const { classes } = useChangeEmailDialogStyles();
+
   return (
     <Dialog
-      title={t('user-settings.change-email-dialog.title')}
-      open={open}
-      onClose={onClose}
-      maxPxWidth={618}
       fullWidth
+      maxPxWidth={618}
+      onClose={onClose}
+      open={open}
+      title={t('user-settings.change-email-dialog.title')}
+      titleClassName={classes.title}
     >
       {content[contentState]}
     </Dialog>

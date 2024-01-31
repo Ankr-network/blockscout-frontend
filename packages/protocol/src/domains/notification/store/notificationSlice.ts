@@ -1,9 +1,21 @@
 import { SnackbarProps } from '@mui/material/Snackbar';
 import { AlertColor } from '@mui/material';
+import { IAlertProps } from '@ankr.com/ui';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/types/types-external';
 
-export interface INotificationProps extends SnackbarProps {
+type UnnecessaryMuiAlertProps =
+  | 'children'
+  | 'color'
+  | 'classes'
+  | 'key'
+  | 'onClose'
+  | 'ref'
+  | 'role';
+
+export interface INotificationProps
+  extends SnackbarProps,
+    Omit<IAlertProps, UnnecessaryMuiAlertProps> {
   severity: AlertColor;
   isHTML?: boolean;
 }

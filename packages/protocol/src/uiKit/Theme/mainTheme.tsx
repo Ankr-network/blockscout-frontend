@@ -1,6 +1,8 @@
 import { getMainTheme as getBaseTheme, Themes } from '@ankr.com/ui';
 import { createTheme } from '@mui/material/styles';
 
+import { getGlobalStyles } from 'uiKit/utils/getGlobalStyles';
+
 import { BREAKPOINTS } from './const';
 import { ReactComponent as IndeterminateCheckboxIcon } from './assets/indeterminateCheckboxIcon.svg';
 import { TypographyTheme, getTypographTheme } from './themeUtils';
@@ -13,6 +15,9 @@ export const getMainTheme = (themes: Themes) => {
     breakpoints: BREAKPOINTS,
     components: {
       ...baseTheme.components,
+      MuiCssBaseline: {
+        styleOverrides: getGlobalStyles(baseTheme.palette),
+      },
       MuiContainer: {
         ...baseTheme.components?.MuiContainer,
         styleOverrides: {

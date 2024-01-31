@@ -17,7 +17,7 @@ export const Avatar = ({ name, icon, avatarColor, className }: AvatarProps) => {
     <Box className={cx(classes.root, className)}>
       {icon || (
         <Typography
-          variant="body1"
+          variant="body4"
           color="textPrimary"
           className={classes.avatarTitle}
         >

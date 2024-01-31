@@ -1,16 +1,19 @@
 import { web3Api } from 'store/queries';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
+import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
+import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
 
 import {
   resetUserGroupConfig,
   selectUserGroupConfigByAddress,
   resetUserGroupJwt,
+  setUserGroupConfig,
 } from '../store';
 import { userGroupFetchGroups } from './fetchGroups';
 
-// TODO change this action to hook. Resolve the problem, when store(localstorage) is faster then data in actions
+// TODO: move this logic to selectors: https://ankrnetwork.atlassian.net/browse/MRPC-4313
 export const {
   endpoints: { shouldShowUserGroupDialog },
   useShouldShowUserGroupDialogQuery,
@@ -22,6 +25,11 @@ export const {
         const state = getState() as RootState;
 
         const isWeb3UserWithEmailBound = selectIsWeb3UserWithEmailBound(state);
+        const { location } = state.router;
+
+        if (isTeamInvitationPath(location.pathname)) {
+          return { data: false };
+        }
 
         if (isWeb3UserWithEmailBound) {
           return { data: false };
@@ -33,6 +41,7 @@ export const {
           hasWeb3Connection,
           hasOauthLogin,
         } = selectAuthData(state);
+
         const { shouldRemind, selectedGroupAddress } =
           selectUserGroupConfigByAddress(state);
 
@@ -55,9 +64,7 @@ export const {
         const hasGroups = Boolean(userGroups && userGroups?.length > 1);
 
         const isUserStillGroupMember = Boolean(
-          userGroups?.find(
-            ({ groupAddress }) => groupAddress === selectedGroupAddress,
-          ),
+          userGroups?.find(({ address }) => address === selectedGroupAddress),
         );
 
         if (hasGroups && selectedGroupAddress && !isUserStillGroupMember) {
@@ -74,6 +81,30 @@ export const {
 
         const isUserHasGroupsAndNotSelectedGroupAddress =
           hasGroups && !selectedGroupAddress;
+
+        const canContinueTeamCreationFlow =
+          selectCanContinueTeamCreationFlow(state);
+
+        const shouldSelectPersonalAccount =
+          isUserHasGroupsAndNotSelectedGroupAddress &&
+          canContinueTeamCreationFlow &&
+          userAddress;
+
+        // in case if user is just logged in after team creation with data transfer
+        // we should select personal account in order to get actual account status
+        if (shouldSelectPersonalAccount) {
+          dispatch(
+            setUserGroupConfig({
+              address: userAddress,
+              selectedGroupAddress: userAddress,
+              shouldRemind: false,
+            }),
+          );
+
+          return {
+            data: false,
+          };
+        }
 
         const isAutoconnectButUserHasntSelectedGroup =
           hasWeb3Autoconnect && isUserHasGroupsAndNotSelectedGroupAddress;

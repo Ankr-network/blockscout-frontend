@@ -76,15 +76,9 @@ export const useDashboardStyles = makeStyles()(theme => ({
     },
   },
   menuItemWrapper: {
-    borderRadius: 14,
-    width: '93%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    width: '100%',
+    padding: theme.spacing(2),
 
-    '&+&': {
-      marginTop: theme.spacing(1),
-    },
+    borderRadius: 12,
   },
 }));

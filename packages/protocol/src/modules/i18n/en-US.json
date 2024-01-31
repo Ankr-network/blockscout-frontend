@@ -87,17 +87,13 @@
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts."
   },
   "main-navigation": {
-    "dashboard": "Dashboard",
     "projects": "Projects",
-    "advanced-api": "Advanced API",
-    "endpoints": "Endpoints",
+    "analytics": "Analytics",
     "enterprise": "Enterprise",
+    "endpoints": "Endpoints",
     "billing": "Billing",
     "pricing": "Pricing",
-    "docs": "Docs",
-    "settings": "Settings",
-    "tools": "Tools",
-    "logout": "Logout"
+    "docs": "Docs"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
@@ -107,6 +103,14 @@
     "plan": "Premium Plan",
     "protocol": "Node Providers",
     "more": "More"
+  },
+  "account-menu": {
+    "personal-account-settings": "Personal account settings",
+    "accounts": "Accounts",
+    "manage-teams-button": "Manage team accounts",
+    "create-team-button": "Create team account",
+    "limit-tooltip": "Ownership limit reached. Please contact support to resolve this issue.",
+    "sign-out": "Sign out"
   },
   "language": {
     "en-US": "English"
@@ -123,6 +127,7 @@
   },
   "signup-modal": {
     "title": "Sign in method",
+    "title-gauth": "Sign in with Google",
     "google": {
       "title": "Google Authentication",
       "description": "Connection Process"
@@ -569,7 +574,7 @@
     },
     "total-requests": {
       "title": "Total requests",
-      "dashboard-button": "Dashboard",
+      "analytics-button": "Analytics",
       "empty": "No data for statistics yet",
       "relative-change": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::percent .0}",
       "relative-change-zero": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::compact-short}%"
@@ -1308,6 +1313,7 @@
     "eth-address-error": "No ethUserAddress"
   },
   "common": {
+    "dot-divider": "•",
     "copy-message": "Copied!",
     "empty": "Empty...",
     "copy": "Copy",
@@ -1321,7 +1327,9 @@
     "no-search-result": "Nothing found for your request",
     "no-data": "No data available",
     "show-more": "more",
-    "show-less": "Show less"
+    "show-less": "Show less",
+    "success-title": "Success!",
+    "success-message": "Request has been sent"
   },
   "providers": {
     "endpoint": {
@@ -1388,25 +1396,226 @@
       }
     }
   },
+  "teams": {
+    "personal-account": "Personal",
+    "create-team-button": "Create team account",
+    "new": {
+      "breadcrumbs": "Create team account"
+    },
+    "teams-list": {
+      "invite-button": "Invite",
+      "team-info": "{role} • {membersCount}/{membersLimit} • {invitesCount} pending",
+      "menu": {
+        "rename": "Rename",
+        "delete": "Delete",
+        "delete-tip": "To delete a team, contact Support at <a target='_blank' href='mailto:support@ankr.com'>support@ankr.com</a>"
+      }
+    },
+    "team-table": {
+      "header": {
+        "users": "Users",
+        "access-role": "Access role"
+      },
+      "you": "(you)",
+      "owner-tooltip": "Owners cannot use Upgrade Role. Use Transfer Ownership instead.",
+      "pending-tooltip": "To update access, revoke and resend the invitation.",
+      "transfer-ownership": "Transfer ownership",
+      "tooltip": "To enable ownership transfer, invite a teammate first",
+      "leave-team": "Leave"
+    },
+    "create-team": {
+      "notifications": {
+        "success-title": "Team creation succeeded",
+        "success-description": "Your team “{name}” is created successfully"
+      }
+    },
+    "create-team-section": {
+      "title": "Create team",
+      "description": "Create a team to group members working on particular projects. Entitle team members with specific access roles — administration, development, finance — to delimit responsibilities."
+    },
+    "create-team-form": {
+      "title": "Create team account",
+      "description": "Team account helps you set and manage team members focused on particular tasks.",
+      "label": "Name",
+      "placeholder": "Add name",
+      "default-team-name": "My Company",
+      "create-team-button": "Create",
+      "helper-text": "The name can be changed later",
+      "data-transfer-title": "Enable assets transfer (personal <span class=\"arrow\">→</span> team)",
+      "data-transfer-switch-on": "On",
+      "data-transfer-switch-off": "Off",
+      "data-transfer-description": "Switch the toggle on for the team account to use your personal account's structure (service plan, account balance, projects). <a href=\"{href}\" target=\"_blank\">Learn more</a>",
+      "data-transfer-helper-text": "*this action requires further confirmation"
+    },
+    "create-team-confirm-data-dialog": {
+      "title": "Confirm assets transfer",
+      "description": "Confirm cutting your personal account's structure (service plan, account balance, projects) and pasting it into the team account you create. <a href=\"{href}\" target=\"_blank\">Learn more</a>",
+      "warning": "Warning! This action cannot be undone.",
+      "label": "Enter “{confirmationPhrase}” to confirm",
+      "placeholder": "transfer all assets",
+      "button-confirm": "Confirm and create",
+      "button-cancel": "Cancel",
+      "error-text": "Invalid confirmation phrase"
+    },
+    "create-team-success-dialog": {
+      "title": "Team account created",
+      "description": "Your team account has been created. You can invite teammates now or skip it until later.",
+      "button-teammates": "Invite teammates",
+      "button-skip": "Skip for now"
+    },
+    "title": "Teams",
+    "description": "Create a team and invite users to your team",
+    "button": "Create a team",
+    "roles": {
+      "admin": "Admin",
+      "owner": "Owner",
+      "dev": "Developer",
+      "finance": "Finance"
+    },
+    "invite-teammates-dialog": {
+      "title": "Invite teammates",
+      "description": "Add your teammates' gmails and assign the applicable access roles.",
+      "invite-button": "Invite",
+      "cancel-button": "Cancel",
+      "success-title": "Request successfully sent!",
+      "success-message": "Invited members will receive email notifications.",
+      "error-message-empty-emails-list": "Please add at least one email to proceed",
+      "error-message-full-emails-list": "Team member limit reached",
+      "invitee-role-selector": {
+        "title": "Access role",
+        "roles-description": {
+          "admin": "Manages service plans, team, and projects; views project metrics.",
+          "dev": "Edits project endpoints and whitelists; views stats and data (non-financial).",
+          "finance": "Manages account's service plan and all financial data."
+        },
+        "learn-more-link": "Learn more on access roles"
+      },
+      "emails-input": {
+        "title": "Emails",
+        "placeholder": "Press Enter to separate multiple emails:\n-Fill in email@gmail.com > press Enter\n-Repeat"
+      },
+      "invitee-role-permissions": {
+        "title": "{roleName} permissions:",
+        "permissions": {
+          "admin": "<ul><li>Manage account's service plan, team members, and\nprojects.</li><li>View project stats.</li></ul>",
+          "dev": "<ul><li>Edit endpoints and whitelists.</li><li>View dashboard and project's specific data (excluding\nfinance).</li></ul>",
+          "finance": "<ul><li>Manage account's service plan, top up account\nbalance, view financial data (payments history,\nexpense chart).</li></ul>"
+        }
+      }
+    },
+    "team-invitation-dialog": {
+      "title": "Welcome to {teamName}",
+      "description": "Joining the team, you'll be able to collaborate according to your access role.",
+      "join-button": "Join team",
+      "decline-button": "Decline invitation",
+      "sign-in-button": "Sign in with another email",
+      "successful-joining-message": "You joined {teamName}",
+      "successful-declining-message": "You declined the {teamName} team invitation."
+    },
+    "guest-team-invitation-dialog": {
+      "rpc-logo-label": "Power your web3 projects with blockchain interaction.",
+      "title": "You've been invited to the {teamName} in the {roleName} role",
+      "description": "To accept or decline the invitation, view invitation as",
+      "sign-in-button": "View invitation"
+    },
+    "decline-team-invitation-dialog": {
+      "title": "Decline invitation",
+      "description": "Are you sure you want to decline the invitation to the {teamName}? If you proceed, you won't receive any further invitations to join this team.",
+      "decline-button": "Decline",
+      "cancel-button": "Cancel"
+    },
+    "link-expired-dialog": {
+      "title": "Link is expired",
+      "description": "Unfortunately, this invitation link has expired. Please contact the person who invited you to resend it.",
+      "go-to-projects": "Go to Projects",
+      "sign-in": "Sign in"
+    },
+    "email-verification-issue": {
+      "title": "Email verification issue",
+      "description": "The email you're using to join the team does not match the email associated with this invitation link. Please use the email that was originally invited.",
+      "log-in": "Log in with another email"
+    },
+    "invite-users": {
+      "title": "Invite new users to Ankr Team",
+      "description": "Invite users to the team you already created",
+      "button": "Invite new users"
+    },
+    "remove-teammate": {
+      "title": "Remove teammate",
+      "description": "Want to remove the teammate? By doing so, your teammate<br/>will no longer have access to the data associated with the<br/>team.",
+      "remove": "Remove",
+      "cancel": "Cancel"
+    },
+    "revoke-invitation": {
+      "title": "Revoke invitation",
+      "description": "Want to revoke an invitation? By revoking the invitation, your teammate will no longer be able to join the team.",
+      "revoke": "Revoke",
+      "cancel": "Cancel"
+    },
+    "resend-invite": {
+      "resend-btn-title": "Resend invitation",
+      "success-message": "Invitation has been resent",
+      "error-message": "Try to resend invitation later"
+    },
+    "leave-team": {
+      "title": "Leave team",
+      "description": "Want to leave the team? Leaving the team, you won’t be able<br/>to access the data associated with it.",
+      "leave": "Leave",
+      "cancel": "Cancel"
+    },
+    "rename-team": {
+      "title": "Rename team",
+      "label": "Name",
+      "save": "Save",
+      "cancel": "Cancel",
+      "notifications": {
+        "success": "Your team renamed to “{name}”."
+      }
+    },
+    "transfer-ownership": {
+      "cancel": "Cancel",
+      "select-step": {
+        "title": "Transfer ownership",
+        "description": "You can transfer ownership to the teammates only. Select a new owner or <a href=\"{href}\" target=\"_blank\">invite them to the team account</a> first.",
+        "select-label": "New owner",
+        "placeholder": "Select new owner",
+        "notice-title": "Notice:",
+        "admin-role-notice": "Upon transfer completion, you'll assume the Admin role.",
+        "owner-role-notice": "The new owner doesn't receive email notifications.",
+        "transfer-notice": "Typically, the transfer takes several minutes to complete.",
+        "submit": "Submit transfer"
+      },
+      "confirm-step": {
+        "title": "Confirm transfer of ownership",
+        "description": "Confirm transferring the team account ownership to {email}",
+        "input-label": "Enter “transfer to {userName}” to confirm",
+        "input-placeholder": "Enter “transfer to {userName}”",
+        "check-text": "transfer to {userName}",
+        "submit": "Confirm and transfer",
+        "error-text": "Invalid confirmation text"
+      }
+    },
+    "update-role": {
+      "title": "Select access role",
+      "learn-more": "Learn more on <a href=\"{href}\" target=\"_blank\">access roles</a>",
+      "submit": "Update role",
+      "notifications": {
+        "success": "Teammate access role updated to {newRole}",
+        "owner-success": "Team account ownership transferred to {email}",
+        "error": "Update role of {email} fails. Try again later."
+      }
+    },
+    "notifications": {
+      "remove-teammate-success": "{user} removed from the team."
+    }
+  },
   "user-settings": {
     "common": {
       "email-value-fallback": "the email provided"
     },
     "settings-tab": {
-      "general": "General",
-      "my-company": "My Company",
-      "my-business": "My Business"
-    },
-    "remove-from-team": "Remove from team",
-    "business-settings": {
-      "title": "Create your business",
-      "description": "Create your own business and invite users to your team",
-      "button": "Create business account",
-      "invite-users": {
-        "title": "Invite new users to Ankr Team",
-        "description": "Invite users to the team you already created",
-        "button": "Invite new users"
-      }
+      "general": "Personal",
+      "teams": "Teams"
     },
     "email-banner": {
       "add-step": {
@@ -1475,6 +1684,11 @@
           "try-again": "Try again"
         }
       }
+    },
+    "theme-switcher": {
+      "title": "Theme",
+      "label": "Dark mode",
+      "description": "Toggle Dark Mode on for a darker interface, or off to return to Light Mode."
     },
     "confirmation-screen": {
       "breadcrumbs": "Confirm Email"
@@ -2226,7 +2440,7 @@
       "button": "Continue",
       "checkbox": "Remember my choice"
     },
-    "forbidden": "The page is beyond your user role. Ask the admin for the access you require."
+    "forbidden": "The page is beyond your user role. Ask the team owner or admin for the access you require."
   },
   "route-placeholder": {
     "premium": "Premium",

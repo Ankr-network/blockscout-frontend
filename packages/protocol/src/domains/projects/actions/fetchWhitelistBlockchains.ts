@@ -2,7 +2,7 @@ import { BlockchainID, IWhitelistBlockchainsParams } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export const {
   endpoints: { fetchWhitelistBlockchains },
@@ -13,7 +13,7 @@ export const {
       BlockchainID[],
       IWhitelistBlockchainsParams
     >({
-      providesTags: ['WhitelistBlockchains'],
+      providesTags: [RequestType.WhitelistBlockchains],
       queryFn: createNotifyingQueryFn(async params => {
         const api = MultiService.getService().getAccountingGateway();
 

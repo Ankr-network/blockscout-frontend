@@ -1,14 +1,16 @@
-import { useHistory } from 'react-router';
+import { GroupUserRole } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 import { useCallback, useEffect, ReactNode, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
-import { t } from '@ankr.com/common';
+import { useHistory } from 'react-router';
 
-import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { AccountRoutesConfig } from 'domains/account/Routes';
 import {
   GuardUserGroupParams,
   useGuardUserGroup,
 } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useSelectedUserGroup } from '../../hooks/useSelectedUserGroup';
@@ -35,7 +37,12 @@ export const GuardUserGroup = ({
   const { isLoggedIn } = useAuth();
   const hasAccess = useGuardUserGroup({ blockName });
 
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { selectedGroupAddress, selectedGroupRole } = useSelectedUserGroup();
+  // Note: it's impossible to use BlockWithPermission
+  // since we have different behaviours for different user roles
+  // for the same block
+  const isFinance = selectedGroupRole === GroupUserRole.finance;
+  const isDev = selectedGroupRole === GroupUserRole.dev;
 
   const showNotification = useCallback(() => {
     dispatch(
@@ -48,7 +55,15 @@ export const GuardUserGroup = ({
 
   useEffect(() => {
     if ((!hasAccess && shouldRedirect) || shouldForceRedirect) {
-      history.replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
+      if (isFinance) {
+        const billingPath = AccountRoutesConfig.accountDetails.generatePath();
+
+        history.replace(billingPath);
+      } else if (isDev) {
+        const projectsPath = ProjectsRoutesConfig.projects.generatePath();
+
+        history.replace(projectsPath);
+      }
 
       // show notification only if redirect hasn't been forced
       if (!hasAccess && shouldRedirect) {
@@ -58,6 +73,8 @@ export const GuardUserGroup = ({
   }, [
     hasAccess,
     history,
+    isDev,
+    isFinance,
     isLoggedIn,
     shouldForceRedirect,
     shouldRedirect,

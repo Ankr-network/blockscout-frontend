@@ -1,5 +1,4 @@
 import { TableHead, TableRow, Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 
 import { Cell } from '../Cell';
 import { WhitelistTableColumn } from '../../types';
@@ -20,11 +19,10 @@ export const WhitelistTableHead = ({ columns }: WhitelistTableHeadProps) => {
 
           const className = cx(classes.cell, cellProps.className);
           const key = JSON.stringify(column);
-          const variant = 'body3' as Variant;
 
           return (
             <Cell {...cellProps} className={className} key={key}>
-              <Typography className={classes.content} variant={variant}>
+              <Typography className={classes.content} variant="body3">
                 {headerCell}
               </Typography>
             </Cell>

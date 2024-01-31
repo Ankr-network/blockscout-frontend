@@ -2,28 +2,26 @@ import { EWalletId, getWalletName } from '@ankr.com/provider';
 import { push } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
-import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { RootState } from 'store';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { is2FAError } from 'store/utils/is2FAError';
+import { isEmptyEthAddressAuthError } from 'store/utils/isEmptyEthAddressAuthError';
+import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
 import { selectHasPremium } from 'domains/auth/store/selectors';
+import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
+import { setGithubLoginNameAndEmail } from 'domains/oauth/actions/setGithubLoginNameAndEmail';
 import { trackWeb3SignUpFailure } from 'modules/analytics/mixpanel/trackWeb3SignUpFailure';
 import { trackWeb3SignUpSuccess } from 'modules/analytics/mixpanel/trackWeb3SignUpSuccess';
 import { web3Api } from 'store/queries';
-import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { setGithubLoginNameAndEmail } from 'domains/oauth/actions/setGithubLoginNameAndEmail';
-import { isEmptyEthAddressAuthError } from 'store/utils/isEmptyEthAddressAuthError';
-import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
-import { getPermissions } from 'domains/userGroup/utils/getPermissions';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 
-import { authConnect } from './connect';
-import { makeAuthorization } from './makeAuthorization';
-import { disconnectService } from './connectUtils';
-import { IAuthSlice, resetAuthData, setAuthData } from '../../store/authSlice';
 import { AuthConnectParams } from './types';
+import { IAuthSlice, resetAuthData, setAuthData } from '../../store/authSlice';
+import { authConnect } from './connect';
+import { disconnectService } from './connectUtils';
+import { getLocationToRedirectAfterConnect } from '../utils/getLocationToRedirectAfterConnect';
+import { makeAuthorization } from './makeAuthorization';
 
 export const {
   endpoints: { authMakeAuthorization },
@@ -85,19 +83,17 @@ export const {
           await queryFulfilled;
 
           await dispatch(setGithubLoginNameAndEmail.initiate());
+          const state = getState() as RootState;
 
-          const { selectedGroupRole } = selectUserGroupConfigByAddress(
-            getState() as RootState,
-          );
-          const permissions = getPermissions(selectedGroupRole);
+          const { selectedGroupRole } = selectUserGroupConfigByAddress(state);
 
-          const hasAccessToProjects = permissions.includes(
-            BlockWithPermission.JwtManagerRead,
-          );
+          const canContinueTeamCreationFlow =
+            selectCanContinueTeamCreationFlow(state);
 
-          const redirectTo = hasAccessToProjects
-            ? ProjectsRoutesConfig.projects.generatePath()
-            : ChainsRoutesConfig.chains.generatePath({ isLoggedIn: true });
+          const redirectTo = getLocationToRedirectAfterConnect({
+            selectedGroupRole,
+            canContinueTeamCreationFlow,
+          });
 
           dispatch(push(redirectTo));
         } catch (errorData: any) {

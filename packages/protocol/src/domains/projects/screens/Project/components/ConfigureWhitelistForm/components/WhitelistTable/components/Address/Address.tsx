@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 import { useMemo } from 'react';
 
 import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
@@ -17,7 +16,7 @@ export const Address = ({ value }: AddressProps) => {
   const { classes } = useAddressStyles();
 
   const content = (
-    <Typography className={classes.root} variant={'body3' as Variant}>
+    <Typography className={classes.root} variant="body3">
       {address}
     </Typography>
   );

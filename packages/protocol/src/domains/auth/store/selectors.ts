@@ -3,12 +3,14 @@ import { EthAddressType, Tier, PremiumStatus } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { getPermissions } from 'domains/userGroup/utils/getPermissions';
+import { getPermissions } from 'modules/groups/utils/getPermissions';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import {
   selectMyCurrentBundle,
   selectTotalBalance,
 } from 'domains/account/store/selectors';
+import { selectFetchGroupJwtLoading } from 'domains/userGroup/actions/fetchGroupJwt';
+import { selectIsEnterpriseClientLoading } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 
 import {
   defaultPremiumStatusData,
@@ -71,14 +73,28 @@ export const selectPremiumStatusLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectPremiumStatusValue = createSelector(
-  fetchPremiumStatus.select(''),
-  ({ data }) => data,
-);
-
 export const selectIsPremiumStatusUninitialized = createSelector(
   fetchPremiumStatus.select(''),
   ({ isUninitialized }) => isUninitialized,
+);
+
+export const selectIsPremiumStatusLoaded = createSelector(
+  fetchPremiumStatus.select(''),
+  ({ data }) => Boolean(data),
+);
+
+export const selectPremiumStatusLoadingInitially = createSelector(
+  selectPremiumStatusLoading,
+  selectIsPremiumStatusUninitialized,
+  (isLoading, isUninitialized) => isLoading && isUninitialized,
+);
+
+export const selectPremiumStatusWithDepsLoading = createSelector(
+  selectPremiumStatusLoadingInitially,
+  selectIsEnterpriseClientLoading,
+  selectFetchGroupJwtLoading,
+  (premiumStatusLoading, enterpriseStatusLoading, groupJwtLoading) =>
+    premiumStatusLoading || enterpriseStatusLoading || groupJwtLoading,
 );
 
 export const selectIsOldPremium = createSelector(

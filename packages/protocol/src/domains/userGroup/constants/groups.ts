@@ -1,5 +1,3 @@
-import { GroupUserRole } from 'multirpc-sdk';
-
 export enum BlockWithPermission {
   ChainItem, // access to the chain item page
   UsageData, // access to the Telemetry,
@@ -13,9 +11,14 @@ export enum BlockWithPermission {
   ProjectsWelcomeDialog, // permissions to see welcome dialog (projects page)
   StatusTransition, // permissions to have status transition state
   EnterpriseStatus, // permissions to request group enterprise status
+
+  // Teams permissions
+  TeamManagement, // permissions to manage team (roles, invites, delete members)
+  TeamOwnershipTransfer, // permissions to transfer team ownership
+  TeamRenaming, // permission to rename existing team
 }
 
-export const OWNER_PERMISSIONS = [
+export const ADMIN_PERMISSIONS = [
   BlockWithPermission.ChainItem,
   BlockWithPermission.UsageData,
   BlockWithPermission.Billing,
@@ -28,6 +31,13 @@ export const OWNER_PERMISSIONS = [
   BlockWithPermission.ProjectsWelcomeDialog,
   BlockWithPermission.StatusTransition,
   BlockWithPermission.EnterpriseStatus,
+  BlockWithPermission.TeamManagement,
+];
+
+export const OWNER_PERMISSIONS = [
+  ...ADMIN_PERMISSIONS,
+  BlockWithPermission.TeamOwnershipTransfer,
+  BlockWithPermission.TeamRenaming,
 ];
 
 export const DEVELOPER_PERMISSIONS = [
@@ -44,15 +54,3 @@ export const FINANCE_PERMISSIONS = [
 ];
 
 export const PERSONAL_GROUP_NAME = 'Personal';
-
-enum GroupUser {
-  Developer = 'Developer',
-  Financial = 'Financial Manager',
-  Admin = 'Admin',
-}
-
-export const GroupUserRoleMap: Record<GroupUserRole, GroupUser> = {
-  [GroupUserRole.dev]: GroupUser.Developer,
-  [GroupUserRole.finance]: GroupUser.Financial,
-  [GroupUserRole.owner]: GroupUser.Admin,
-};

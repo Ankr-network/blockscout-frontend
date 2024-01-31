@@ -1,7 +1,7 @@
 import { BlockchainID, IApiUserGroupParams } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
@@ -24,7 +24,7 @@ export const {
       MappedWhitelistBlockchainsResponse[],
       FetchWhitelistsBlockchainsParams
     >({
-      providesTags: ['WhitelistBlockchains'],
+      providesTags: [RequestType.WhitelistBlockchains],
       queryFn: createNotifyingQueryFn(async ({ group, projects }) => {
         const service = MultiService.getService().getAccountingGateway();
 

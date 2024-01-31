@@ -1,44 +1,67 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { t } from '@ankr.com/common';
-import { GroupUserRole } from 'multirpc-sdk';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { SecondaryTab } from 'modules/common/components/SecondaryTab';
-import { selectUserGroups } from 'domains/userGroup/store';
-import { selectHasPremium } from 'domains/auth/store/selectors';
+import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { PERSONAL_GROUP_NAME } from 'domains/userGroup/constants/groups';
+import { ESettingsContentType } from 'domains/userSettings/types';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { AddEmailBannerCard } from 'domains/userSettings/components/AddEmailBanner';
+import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
+import { useIsMDDown } from 'uiKit/Theme/useTheme';
 
-import { BusinessSettings } from '../BusinessSettings';
-import { GroupSettings } from '../GroupSettings';
 import { GeneralSettings } from '../GeneralSettings';
+import { Teams } from '../Teams';
+import { useEmailData } from '../../hooks/useSettings';
+import { useEmailBannerProps, useSettingsBreadcrumbs } from './SettingsUtils';
 
-export enum SettingsTabID {
-  General = 'General',
-  Group = 'Group',
-  Business = 'Business',
-}
+const getInitialType = (
+  settingsType: ESettingsContentType,
+  shouldContinueTeamCreationFlow?: boolean,
+): ESettingsContentType => {
+  if (shouldContinueTeamCreationFlow) {
+    return ESettingsContentType.Teams;
+  }
 
-export interface SettingsTabsParams {
-  disabledClassName: string;
-}
+  return settingsType;
+};
 
-export const useSettingsTabs = ({ disabledClassName }: SettingsTabsParams) => {
-  const hasPremium = useAppSelector(selectHasPremium);
+export const useSettingsTabs = () => {
+  const emailData = useEmailData();
+  const isSmallScreen = useIsMDDown();
 
-  const groups = useAppSelector(selectUserGroups);
-  const hasGroups = useMemo(() => groups.length > 1, [groups]);
-  const isUserBusinessOwner = groups.some(
-    group =>
-      group.userRole === GroupUserRole.owner &&
-      group.groupName !== PERSONAL_GROUP_NAME,
-  );
+  useSettingsBreadcrumbs();
 
-  const rawTabs: Tab<SettingsTabID>[] = useMemo(() => {
-    return [
+  const bannerProps = useEmailBannerProps(emailData);
+  const { confirmedEmail, isLoading, pristine } = emailData;
+
+  const generalSettingsTabContent = useMemo(() => {
+    if (isLoading || pristine) {
+      return <OverlaySpinner />;
+    }
+
+    if (confirmedEmail) {
+      return <GeneralSettings />;
+    }
+
+    if (!bannerProps) {
+      return null;
+    }
+
+    return (
+      <CenterContainer>
+        <AddEmailBannerCard {...bannerProps} />
+      </CenterContainer>
+    );
+  }, [bannerProps, confirmedEmail, isLoading, pristine]);
+
+  const rawTabs: Tab<ESettingsContentType>[] = useMemo(() => {
+    const tabs = [
       {
-        id: SettingsTabID.General,
-        content: <GeneralSettings />,
+        id: ESettingsContentType.General,
+        content: generalSettingsTabContent,
         title: (isSelected: boolean) => (
           <SecondaryTab
             isSelected={isSelected}
@@ -46,39 +69,40 @@ export const useSettingsTabs = ({ disabledClassName }: SettingsTabsParams) => {
           />
         ),
       },
-      {
-        id: SettingsTabID.Group,
-        content: <GroupSettings />,
-        isDisabled: !hasGroups,
-        title: (isSelected: boolean) => (
-          <SecondaryTab
-            isSelected={isSelected}
-            label={t('user-settings.settings-tab.my-company')}
-            disabled={!hasGroups}
-            className={!hasGroups ? disabledClassName : ''}
-          />
-        ),
-      },
-      {
-        id: SettingsTabID.Business,
-        content: (
-          <BusinessSettings
-            isUserBusinessOwner={isUserBusinessOwner}
-            hasPremium={hasPremium}
-          />
-        ),
-        title: (isSelected: boolean) => (
-          <SecondaryTab
-            isSelected={isSelected}
-            label={t('user-settings.settings-tab.my-business')}
-          />
-        ),
-      },
     ];
-  }, [hasGroups, hasPremium, isUserBusinessOwner, disabledClassName]);
 
-  return useTabs({
-    initialTabID: SettingsTabID.General,
+    if (!isSmallScreen) {
+      tabs.push({
+        id: ESettingsContentType.Teams,
+        content: <Teams />,
+        title: (isSelected: boolean) => (
+          <SecondaryTab
+            isSelected={isSelected}
+            label={t('user-settings.settings-tab.teams')}
+          />
+        ),
+      });
+    }
+
+    return tabs;
+  }, [generalSettingsTabContent, isSmallScreen]);
+
+  const { type: settingsType = ESettingsContentType.General } =
+    UserSettingsRoutesConfig.settings.useQuery();
+
+  const shouldContinueTeamCreationFlow = useAppSelector(
+    selectCanContinueTeamCreationFlow,
+  );
+
+  const [processedTabs, selectedTab, selectTab] = useTabs({
+    initialTabID: getInitialType(settingsType, shouldContinueTeamCreationFlow),
     tabs: rawTabs,
   });
+
+  useEffect(() => {
+    // should change active tab on query params change
+    selectTab(settingsType);
+  }, [selectTab, settingsType]);
+
+  return { tabs: processedTabs, selectedTab };
 };

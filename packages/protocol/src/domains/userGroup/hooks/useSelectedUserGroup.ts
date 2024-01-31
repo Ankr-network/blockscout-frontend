@@ -10,7 +10,7 @@ import { selectAuthData } from 'domains/auth/store/authSlice';
 import { useUserGroupConfig } from './useUserGroupConfig';
 
 export const useSelectedUserGroup = () => {
-  const { selectedGroupAddress: savedSelectedGroupAddress } =
+  const { selectedGroupAddress: savedSelectedGroupAddress, selectedGroupRole } =
     useUserGroupConfig();
 
   const authData = useAppSelector(selectAuthData);
@@ -39,10 +39,11 @@ export const useSelectedUserGroup = () => {
   return {
     group,
     index,
+    isGroupSelected,
+    isLoadingGroups,
     isPersonal,
     selectedGroupAddress,
-    isGroupSelected,
     selectedGroupJwt,
-    isLoadingGroups,
+    selectedGroupRole,
   };
 };

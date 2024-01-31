@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import { t } from '@ankr.com/common';
 
-import { selectChainsOriginURL } from 'domains/chains/store/chainsSlice';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { selectChainsOriginURL } from 'domains/chains/store/chainsSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 export const useChainItemBreadcrumbs = (chainName: string) => {
   const { isLoggedIn } = useAuth();

@@ -6,7 +6,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     width: 370,
     display: 'flex',
     justifyContent: 'flex-end',
-    gap: theme.spacing(2 * 1),
+    gap: theme.spacing(2),
     backgroundColor: 'transparent',
 
     '& div': {
@@ -38,7 +38,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   selector: {
     '&&': {
-      padding: theme.spacing(0, 2 * 4, 0, 0),
+      padding: theme.spacing(0, 8, 0, 0),
     },
 
     borderRadius: 0,
@@ -47,7 +47,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
 
     fontWeight: 400,
     fontSize: 14,
-    lineHeight: theme.spacing(2 * 2.5),
+    lineHeight: theme.spacing(5),
 
     '&:hover': {
       borderRadius: 0,

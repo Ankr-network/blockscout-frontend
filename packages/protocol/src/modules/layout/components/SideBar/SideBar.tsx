@@ -1,8 +1,5 @@
-import { useTrackAAPI } from 'modules/layout/hooks/useTrackAAPI';
-import { useTrackDashboard } from 'modules/layout/hooks/useTrackDashboard';
+import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
-import { useTrackSettings } from 'modules/layout/hooks/useTrackSettings';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 
 import { useStyles } from './SideBarStyles';
@@ -11,45 +8,35 @@ import { MainNavigation } from '../MainNavigation';
 export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
-  isLoggedIn: boolean;
+  hasMenu: boolean;
   isEnterpriseClient: boolean;
-  loading: boolean;
-  hasLogo: boolean;
   isMobileSideBar?: boolean;
+  loading: boolean;
 }
 
 export const SideBar = ({
   chainsRoutes,
   className = '',
-  isLoggedIn,
+  hasMenu,
   isEnterpriseClient,
-  loading,
-  hasLogo,
   isMobileSideBar = false,
+  loading,
 }: SidebarProps) => {
   const { classes, cx } = useStyles(isMobileSideBar);
 
-  const { handleDisconnect } = useAuth();
-
-  const onAAPIClick = useTrackAAPI();
   const onDocsClick = useTrackDocs();
-  const onSettingsClick = useTrackSettings();
-  const onDashboardClick = useTrackDashboard();
+  const onAnalyticsClick = useTrackAnalytics();
 
   return (
     <aside className={cx(classes.root, className)}>
-      {hasLogo && <GlobalMenuWrapper />}
+      {hasMenu && <GlobalMenuWrapper />}
       <MainNavigation
         chainsRoutes={chainsRoutes}
-        isLoggedIn={isLoggedIn}
         isMobileSideBar={isMobileSideBar}
         isEnterpriseClient={isEnterpriseClient}
         loading={loading}
-        onAAPIClick={onAAPIClick}
-        onDashboardClick={onDashboardClick}
+        onAnalyticsClick={onAnalyticsClick}
         onDocsClick={onDocsClick}
-        onSettingsClick={onSettingsClick}
-        onSignOutClick={handleDisconnect}
       />
     </aside>
   );

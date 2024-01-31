@@ -1,11 +1,20 @@
 import loadable, { LoadableComponent } from '@loadable/component';
-import { Route } from 'react-router-dom';
+import { Route, generatePath } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+import { useQueryParams } from 'modules/common/hooks/useQueryParams';
+
+import {
+  ESettingsContentType,
+  SETTINGS_QUERY_KEY,
+  SettingsRouteQueryParams,
+  TeamInvitationQueryParams,
+} from './types';
 
 export const PATH_SETTINGS = '/settings/';
 export const PATH_CONFIRMATION = `${PATH_SETTINGS}confirmation/`;
+export const PATH_TEAM_INVITATION = `${PATH_SETTINGS}invitation/`;
 
 export const UserSettingsRoutesConfig = createRouteConfig(
   {
@@ -16,8 +25,29 @@ export const UserSettingsRoutesConfig = createRouteConfig(
     },
     settings: {
       path: PATH_SETTINGS,
-      generatePath: () => PATH_SETTINGS,
+      generatePath: (params?: ESettingsContentType) => {
+        return params
+          ? `${PATH_SETTINGS}?${SETTINGS_QUERY_KEY}=${params}`
+          : PATH_SETTINGS;
+      },
+      useQuery: () => {
+        const search = useQueryParams();
+        const entries = search.entries();
+
+        return Object.fromEntries(entries) as SettingsRouteQueryParams;
+      },
       breadcrumbs: 'user-settings.settings-screen.breadcrumbs',
+    },
+    teamInvitation: {
+      path: PATH_TEAM_INVITATION,
+      generatePath: (params: TeamInvitationQueryParams) =>
+        generatePath(PATH_TEAM_INVITATION, params),
+      useQuery: () => {
+        const search = useQueryParams();
+        const entries = search.entries();
+
+        return Object.fromEntries(entries) as TeamInvitationQueryParams;
+      },
     },
   },
   PATH_SETTINGS,
@@ -38,6 +68,14 @@ const LoadableSettingsContainer: LoadableComponent<any> = loadable(
   },
 );
 
+const LoadableTeamInvitationContainer = loadable(
+  async () =>
+    import('./screens/TeamInvitation').then(module => module.TeamInvitation),
+  {
+    fallback: <OverlaySpinner />,
+  },
+);
+
 export function UserSettingsRoutes() {
   return (
     <>
@@ -46,11 +84,15 @@ export function UserSettingsRoutes() {
         path={UserSettingsRoutesConfig.confirmation.path}
         component={LoadableConfirmationContainer}
       />
-
       <Route
         exact
         path={UserSettingsRoutesConfig.settings.path}
         component={LoadableSettingsContainer}
+      />
+      <Route
+        exact
+        path={UserSettingsRoutesConfig.teamInvitation.path}
+        component={LoadableTeamInvitationContainer}
       />
     </>
   );

@@ -11,6 +11,7 @@ interface SignupDialogProps {
   onClose: () => void;
   onSuccess?: () => void;
   hasOauthLogin?: boolean;
+  hasOnlyGoogleAuth?: boolean;
 }
 
 export const SignupDialog = ({
@@ -18,6 +19,7 @@ export const SignupDialog = ({
   onClose,
   onSuccess,
   hasOauthLogin,
+  hasOnlyGoogleAuth = false,
 }: SignupDialogProps) => {
   const { classes } = useSignupDialogStyles();
   const {
@@ -30,7 +32,7 @@ export const SignupDialog = ({
     onGithubButtonClick,
     setWeb3State,
     oauthLoginType,
-  } = useSignupDialog({ onClose, hasOauthLogin });
+  } = useSignupDialog({ onClose, hasOauthLogin, hasOnlyGoogleAuth });
 
   return (
     <Dialog
@@ -51,6 +53,7 @@ export const SignupDialog = ({
         setWeb3State={setWeb3State}
         isLoading={isLoading}
         oauthLoginType={oauthLoginType}
+        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
       />
     </Dialog>
   );

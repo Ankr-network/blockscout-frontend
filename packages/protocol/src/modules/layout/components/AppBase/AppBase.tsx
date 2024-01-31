@@ -12,7 +12,6 @@ import { historyInstance } from 'modules/common/utils/historyInstance';
 import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { useMetatags } from 'uiKit/utils/metatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
-import './MuiClassNameSetup';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 interface IAppBaseProps {

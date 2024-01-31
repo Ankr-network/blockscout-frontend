@@ -1,1 +1,1 @@
-export * from './SettingsTabs';
+export * from './SettingsTabsManager';

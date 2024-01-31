@@ -1,4 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
+import { svgIconClasses } from '@mui/material';
 
 import { premiumTextStyles } from 'uiKit/Theme/themeUtils';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
@@ -20,42 +21,16 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
       fontWeight: 400,
       cursor: 'pointer',
       position: 'relative',
-      '&&': {
-        paddingLeft: theme.spacing(12),
+      gap: theme.spacing(3),
+
+      [`&& .${svgIconClasses.root}`]: {
+        strokeWidth: 1.5,
       },
-      '&& span:nth-of-type(1)': {
-        position: 'absolute',
-        left: 0,
-        display: 'flex',
-        marginRight: theme.spacing(1),
-        marginLeft: theme.spacing(2),
-      },
-      '&& span:nth-of-type(2)': {
-        position: 'absolute',
-        left: 0,
-        display: 'none',
-      },
-      '&& svg': {
-        fontSize: 24,
-        strokeWidth: 1.2,
-        [theme.breakpoints.down('sm')]: {
-          marginRight: theme.spacing(2),
-        },
-      },
+
       '&:hover': {
         color: theme.palette.primary.main,
         backgroundColor: theme.palette.background.default,
         boxShadow: 'none',
-        '& svg': {
-          strokeWidth: 2,
-          color: theme.palette.primary.main,
-        },
-        '&& span:nth-of-type(1)': {
-          display: 'none',
-        },
-        '&& span:nth-of-type(2)': {
-          display: 'flex',
-        },
       },
       [theme.breakpoints.down('sm')]: {
         position: 'relative',
@@ -120,12 +95,6 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
         background: theme.palette.background.default,
         '&& svg': {
           strokeWidth: 2,
-        },
-        '&& span:nth-of-type(1)': {
-          display: 'none',
-        },
-        '&& span:nth-of-type(2)': {
-          display: 'flex',
         },
       },
       '& > div': {

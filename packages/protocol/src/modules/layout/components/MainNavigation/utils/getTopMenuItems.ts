@@ -1,0 +1,81 @@
+import { Block, Briefcase, Dashboard, FolderClosed } from '@ankr.com/ui';
+import { History } from 'history';
+import { match as Match } from 'react-router-dom';
+import { t } from '@ankr.com/common';
+
+import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { DashboardRoutesConfig } from 'domains/dashboard/routes';
+import {
+  ENTERPRISE_ROUTE_NAME,
+  EnterpriseRoutesConfig,
+} from 'domains/enterprise/routes';
+import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
+import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { track } from 'modules/analytics/mixpanel/utils/track';
+
+import { MenuItemsParams } from '../types';
+
+const checkIsChainsRoute = (
+  match: Match | null,
+  { pathname }: History['location'],
+  chainsRoutes: string[],
+) => {
+  if (pathname.includes(ENTERPRISE_ROUTE_NAME)) {
+    return false;
+  }
+
+  return match?.isExact || chainsRoutes.some(route => pathname.includes(route));
+};
+
+export const getTopMenuItems = ({
+  chainsRoutes,
+  hasProjects,
+  isEnterpriseClient,
+  isLoggedIn,
+  isMobileSideBar,
+  onDashboardClick,
+  onOpenUpgradePlanDialog,
+}: MenuItemsParams): NavigationItem[] => {
+  const items: NavigationItem[] = [
+    {
+      StartIcon: Block,
+      href: ChainsRoutesConfig.chains.generatePath({ isLoggedIn }),
+      isActive: (match, location) =>
+        checkIsChainsRoute(match, location, chainsRoutes),
+      isHidden: isLoggedIn && !isMobileSideBar,
+      label: t('main-navigation.endpoints'),
+    },
+    {
+      StartIcon: FolderClosed,
+      href: ProjectsRoutesConfig.projects.generatePath(),
+      isDisabled: isEnterpriseClient,
+      isHidden: !hasProjects,
+      label: t('main-navigation.projects'),
+    },
+    {
+      StartIcon: Dashboard,
+      href: DashboardRoutesConfig.dashboard.generatePath(),
+      isDisabled: false,
+      isHidden: isMobileSideBar,
+      label: t('main-navigation.analytics'),
+      onClick: onDashboardClick,
+    },
+    {
+      StartIcon: Briefcase,
+      href: EnterpriseRoutesConfig.chains.generatePath(),
+      isHidden: isMobileSideBar,
+      isNotLinkItem: !isEnterpriseClient,
+      label: t('main-navigation.enterprise'),
+      onClick: () => {
+        track({ event: MixpanelEvent.SOON_ENTERPRISE });
+
+        if (!isEnterpriseClient) {
+          onOpenUpgradePlanDialog();
+        }
+      },
+    },
+  ];
+
+  return items.filter(item => !item.isHidden);
+};

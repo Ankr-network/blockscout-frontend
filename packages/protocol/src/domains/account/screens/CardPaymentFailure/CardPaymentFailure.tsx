@@ -4,7 +4,7 @@ import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { useCardPaymentFailureStyles } from './useCardPaymentFailureStyles';
 import { useClickHandler } from './hooks/useClickHandler';

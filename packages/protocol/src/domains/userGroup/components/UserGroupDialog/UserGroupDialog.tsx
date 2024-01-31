@@ -1,17 +1,18 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
-import { userGroupFetchGroups } from 'domains/userGroup/actions/fetchGroups';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useAppSelector } from 'store/useAppSelector';
 
+import { selectUserGroupLoading, selectUserGroups } from '../../store';
 import { useUserGroupDialogStyles } from './useUserGroupDialogStyles';
 import { UserGroupDialogContent } from './components/UserGroupDialogContent';
 
 const DIALOG_WIDTH = 620;
 
 export const UserGroupDialog = () => {
-  const [, { data: groups = [], isLoading }] =
-    useQueryEndpoint(userGroupFetchGroups);
+  const groups = useAppSelector(selectUserGroups);
+
+  const isLoading = useAppSelector(selectUserGroupLoading);
 
   const { classes } = useUserGroupDialogStyles();
 

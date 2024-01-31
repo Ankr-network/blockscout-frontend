@@ -10,7 +10,6 @@ import { useStyles } from './useStyles';
 interface MobileHeaderProps {
   className?: string;
   chainsRoutes: string[];
-  isLoggedIn: boolean;
   isEnterpriseClient: boolean;
   loading: boolean;
 }
@@ -18,7 +17,6 @@ interface MobileHeaderProps {
 export const MobileHeader = ({
   className = '',
   chainsRoutes,
-  isLoggedIn,
   isEnterpriseClient,
   loading,
 }: MobileHeaderProps) => {
@@ -32,10 +30,9 @@ export const MobileHeader = ({
           <HeaderContent type={Header.Mobile} />
           <MobileMenu
             chainsRoutes={chainsRoutes}
-            isLoggedIn={isLoggedIn}
+            hasMenu={false}
             isEnterpriseClient={isEnterpriseClient}
             loading={loading}
-            hasLogo={false}
           />
         </div>
       </Container>

@@ -10,6 +10,8 @@ import { useHasUserGroupDialog } from 'modules/common/components/UpgradePlanDial
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectJwtTokensLoadingState } from 'domains/jwtToken/store/selectors';
 
 export const useNegativeBalanceTermsOfServices = () => {
   const { selectedGroupAddress: group, isLoadingGroups } =
@@ -41,6 +43,8 @@ export const useNegativeBalanceTermsOfServices = () => {
     acceptNegativeBalanceTermsOfServicesAction,
     { isLoading: isAcceptLoading },
   ] = useQueryEndpoint(acceptNegativeBalanceTermsOfServices);
+
+  const isLoadingJwtTokens = useAppSelector(selectJwtTokensLoadingState);
 
   useEffect(() => {
     const shouldFetchTos =
@@ -81,6 +85,7 @@ export const useNegativeBalanceTermsOfServices = () => {
         isEnterpriseClient,
         isEnterpriseStatusLoading,
         isLoadingGroups,
+        isLoadingJwtTokens,
       }),
     [
       isLoggedIn,
@@ -96,6 +101,7 @@ export const useNegativeBalanceTermsOfServices = () => {
       isEnterpriseClient,
       isEnterpriseStatusLoading,
       isLoadingGroups,
+      isLoadingJwtTokens,
     ],
   );
 

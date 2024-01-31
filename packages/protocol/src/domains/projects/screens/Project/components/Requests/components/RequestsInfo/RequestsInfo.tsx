@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 import { Chart, IChartData, IChartProps } from '@ankr.com/telemetry';
@@ -69,7 +68,7 @@ export const RequestsInfo = ({
               className={cx(classes.percent, {
                 [classes.disabled]: isDisabled,
               })}
-              variant={'body4' as Variant}
+              variant="body4"
             >
               {t(intlKey, { relativeChange, relativeChangeSign })}
             </Typography>

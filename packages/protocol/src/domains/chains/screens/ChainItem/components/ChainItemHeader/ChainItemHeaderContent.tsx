@@ -1,6 +1,5 @@
 import { ReactNode, useMemo } from 'react';
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -125,7 +124,7 @@ export const ChainItemHeaderContent = ({
       {requestsString && (
         <Typography
           sx={{ mt: 3 }}
-          variant={'body3' as Variant}
+          variant="body3"
           color="textSecondary"
           component="p"
         >

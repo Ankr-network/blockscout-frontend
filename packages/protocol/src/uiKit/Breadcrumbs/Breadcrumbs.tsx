@@ -9,13 +9,12 @@ import { ArrowRight } from '@ankr.com/ui';
 
 import { useHasBreakdown, useIsMDDown } from 'uiKit/Theme/useTheme';
 
-import { useStyles } from './BreadcrumbsStyles';
-import { BreadcrumbsProps } from './BreadcrumbsTypes';
+import { BreadcrumbsProps } from './types';
+import { useBreadcrumbsStyles } from './useBreadcrumbsStyles';
 
 export const Breadcrumbs = ({
   customBreakpoint = 0,
   items,
-  userLabel,
 }: BreadcrumbsProps) => {
   const isMDDown = useIsMDDown();
   const hasCustomBreakpoint = useHasBreakdown(customBreakpoint);
@@ -26,7 +25,7 @@ export const Breadcrumbs = ({
   const shouldShowMobileBreadcrumbs =
     isMobile || (isLessThanMaxWidth && items.length > 2);
 
-  const { classes, cx } = useStyles(shouldShowMobileBreadcrumbs);
+  const { classes, cx } = useBreadcrumbsStyles(shouldShowMobileBreadcrumbs);
 
   return (
     <BreadcrumbsBase
@@ -51,6 +50,7 @@ export const Breadcrumbs = ({
             <Typography
               component={link ? Link : Typography}
               color="inherit"
+              variant="subtitle2"
               to={link || ''}
               onClick={onClick}
               className={cx(classes.link, 'custom-link')}
@@ -69,14 +69,13 @@ export const Breadcrumbs = ({
           <Typography
             className={classes.item}
             color="textPrimary"
-            variant="h3"
+            variant="subtitle2"
             key={title}
             component="div"
           >
             <span className={classes.breadcrumbsTitle}>
               {capitalize(title)}
             </span>
-            {userLabel}
           </Typography>
         );
       })}

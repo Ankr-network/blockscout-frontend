@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
 import { Skeleton, Tooltip, Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 import { Info } from '@ankr.com/ui';
 
 import { useAppSelector } from 'store/useAppSelector';
@@ -22,7 +21,7 @@ export const AvailableProjectsCount = () => {
 
   return (
     <div className={classes.root}>
-      <Typography color="textSecondary" variant={'body3' as Variant}>
+      <Typography color="textSecondary" variant="body3">
         {isLoading ? (
           <Skeleton variant="text" width={145} />
         ) : (

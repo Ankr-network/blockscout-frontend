@@ -1,6 +1,5 @@
 import { Check } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 
 import { useDescriptionCaseStyles } from './useDescriptionCaseStyles';
 
@@ -15,7 +14,7 @@ export const DescriptionCase = ({ text }: IDescriptionCaseProps) => {
     <div className={classes.root}>
       <Check color="success" />
 
-      <Typography variant={'body3' as Variant}>{text}</Typography>
+      <Typography variant="body3">{text}</Typography>
     </div>
   );
 };

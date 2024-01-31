@@ -60,4 +60,7 @@ export const useUpgdareAccountDialogStyles = makeStyles()(theme => ({
       color: theme.palette.primary.main,
     },
   },
+  dialogPaper: {
+    borderRadius: 40,
+  },
 }));

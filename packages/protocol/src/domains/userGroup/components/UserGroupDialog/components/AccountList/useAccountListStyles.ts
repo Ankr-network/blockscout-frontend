@@ -18,5 +18,9 @@ export const useAccountsListStyles = makeStyles()((theme: Theme) => ({
   avatar: {
     width: 48,
     height: 48,
+
+    span: {
+      fontSize: 20,
+    },
   },
 }));

@@ -1,5 +1,5 @@
+import { selectEnterpriseStatus } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectEnterpriseStatus } from 'domains/enterprise/store/selectors';
 
 export const useEnterpriseClientStatus = () => {
   const {

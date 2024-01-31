@@ -4,14 +4,14 @@ import { useMemo } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
+import { LoadingButton } from 'uiKit/LoadingButton';
 import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { LoadingButton } from 'uiKit/LoadingButton';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { getInfoCardParams } from './utils/getInfoCardParams';
 import { getOriginRoute } from './utils/getOriginRoute';
@@ -37,8 +37,7 @@ export const CardPaymentSuccess = () => {
     },
   ]);
 
-  const { hasPremium, isPremiumStatusInitLoading, isPremiumStatusValueExists } =
-    useAuth();
+  const { hasPremium, loading } = useAuth();
 
   const onClick = useClickHandler(hasProjectAccess);
 
@@ -53,10 +52,7 @@ export const CardPaymentSuccess = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
-  if (
-    hasAccess &&
-    (isPremiumStatusInitLoading || !isPremiumStatusValueExists)
-  ) {
+  if (hasAccess && loading) {
     return <OverlaySpinner />;
   }
 

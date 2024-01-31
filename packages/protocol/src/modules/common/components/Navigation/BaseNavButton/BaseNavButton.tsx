@@ -3,16 +3,14 @@ import { NavLink } from 'react-router-dom';
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import {
-  getCommonButtonProps,
-  getExternalButtonProps,
-  getNotLinkButtonProps,
-} from 'modules/layout/components/MainNavigation/utils/navigationUtils';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-import { NavigationItem } from './BaseNavButtonTypes';
+import { NavigationItem } from './types';
 import { SoonLabel } from '../../SoonLabel';
+import { getCommonButtonProps } from './utils/getCommonButtonProps';
+import { getExternalButtonProps } from './utils/getExternalButtonProps';
+import { getNotLinkButtonProps } from './utils/getNotLinkButtonProps';
 import { useBaseNavButtonStyles } from './useBaseNavButtonStyles';
 
 interface IBaseNavButtonProps {
@@ -37,7 +35,6 @@ export const BaseNavButton = ({
     isComingSoon,
     isNew,
     StartIcon,
-    ActiveIcon,
     isDisabled,
     isNotLinkItem,
   } = item;
@@ -54,7 +51,6 @@ export const BaseNavButton = ({
           isDisabled && classes.disabled,
           isNew && classes.newLinkWrapper,
         )}
-        endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
         startIcon={<StartIcon />}
       >
         {label}
@@ -77,7 +73,6 @@ export const BaseNavButton = ({
           isComingSoon && classes.comingSoon,
           isDisabled && classes.disabled,
         )}
-        endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
         startIcon={<StartIcon />}
       >
         {label}
@@ -96,7 +91,6 @@ export const BaseNavButton = ({
         isNew && classes.newLinkWrapper,
       )}
       component={NavLink}
-      endIcon={ActiveIcon ? <ActiveIcon /> : <StartIcon />}
       startIcon={<StartIcon />}
     >
       {label}

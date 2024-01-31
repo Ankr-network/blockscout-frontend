@@ -16,9 +16,9 @@ export const useTopUpButtonStyles = makeStyles()(theme => ({
     [theme.breakpoints.down(BREAKING_WIDGET_BUTTON_WIDTH)]: {
       display: 'inherit',
 
-      margin: 0,
-
       '&&': {
+        margin: 0,
+
         svg: {
           fontSize: 24,
         },

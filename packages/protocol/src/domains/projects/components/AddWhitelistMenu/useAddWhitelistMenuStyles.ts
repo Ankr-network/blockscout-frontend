@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { DEFAULT_MENU_PAPER_SHADOW } from 'modules/common/styles/const';
+
 export const useAddWhitelistMenuStyles = makeStyles<boolean>()(
   (theme, hasBottomLocation) => ({
     paper: {
@@ -9,8 +11,7 @@ export const useAddWhitelistMenuStyles = makeStyles<boolean>()(
 
       borderRadius: 17,
 
-      boxShadow:
-        '0px 3px 15px 0px rgba(31, 34, 38, 0.10), 0px 2px 5px 0px rgba(31, 34, 38, 0.10)',
+      boxShadow: DEFAULT_MENU_PAPER_SHADOW,
 
       transform: 'translateY(12px)',
     },

@@ -12,7 +12,7 @@ export interface IGoogleSecretCodeParams {
 }
 
 export interface ILoginUserByGoogleSecretCodeParams
-  extends IGoogleSecretCodeParams {}
+  extends IGoogleSecretCodeParams { }
 
 export interface IOauthLoginResponse {
   access_token: string;

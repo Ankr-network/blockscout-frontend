@@ -2,7 +2,7 @@ import { Web3Address } from 'multirpc-sdk';
 
 import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { getSelectedGroupAddress } from 'domains/userGroup/utils/getSelectedGroupAddress';
+import { getSelectedGroupAddress } from 'modules/groups/utils/getSelectedGroupAddress';
 
 export const getCurrentTransactionAddress = async (
   getState: GetState,

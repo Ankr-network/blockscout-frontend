@@ -1,5 +1,4 @@
 import { alpha } from '@mui/material';
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { mainTheme } from 'uiKit/Theme/mainTheme';
@@ -13,19 +12,16 @@ const colorsMap: Record<DialogTitleColor, string> = {
 
 interface IUseStylesProps {
   dialogTitleColor: DialogTitleColor;
-  maxPxWidth?: number;
+  isHidden?: boolean;
   isLightTheme: boolean;
+  maxPxWidth?: number;
 }
 
 export const useStyles = makeStyles<IUseStylesProps>()(
-  (
-    theme: Theme,
-    { dialogTitleColor, maxPxWidth, isLightTheme }: IUseStylesProps,
-  ) => ({
+  (theme, { dialogTitleColor, isHidden, maxPxWidth, isLightTheme }) => ({
     root: {
-      display: 'fixed',
+      display: isHidden ? 'none' : undefined,
     },
-
     backdrop: {
       backgroundColor: alpha(theme.palette.background.default, 0.8),
     },
@@ -46,8 +42,8 @@ export const useStyles = makeStyles<IUseStylesProps>()(
       },
       background: theme.palette.background.paper,
       boxShadow:
-        '0px 0px 25px rgba(31, 34, 38, 0.1), 0px 0px 50px rgba(31, 34, 38, 0.1)',
-      borderRadius: 40,
+        '0px 10px 50px 0px rgba(31, 34, 38, 0.10), 0px 5px 25px 0px rgba(31, 34, 38, 0.10)',
+      borderRadius: 20,
       padding: theme.spacing(10),
 
       [theme.breakpoints.down('xs')]: {
@@ -60,7 +56,7 @@ export const useStyles = makeStyles<IUseStylesProps>()(
       display: 'flex',
       alignItems: 'center',
       padding: 0,
-      marginBottom: theme.spacing(2 * 3),
+      marginBottom: theme.spacing(3),
 
       minHeight: 40,
       position: 'relative',

@@ -3,11 +3,11 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { useMemo } from 'react';
 
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { UserSettingsRoutes } from 'domains/userSettings/Routes';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 import { isInvitation } from './utils/isInvitation';
 

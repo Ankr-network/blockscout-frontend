@@ -1,5 +1,6 @@
 import { EventProvider, ProviderEvents } from '@ankr.com/provider';
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
+import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 
 import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
@@ -30,8 +31,9 @@ import { resetConfig, selectNewProjectConfig } from 'domains/projects/store';
 import { NewProjectStep } from 'domains/projects/types';
 import { selectCurrentAddress } from 'domains/auth/store';
 import { resetOriginChainURL } from 'domains/chains/store/chainsSlice';
+import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
 
-export const listenerMiddleware = createListenerMiddleware();
+export const listenerMiddleware = createListenerMiddleware<RootState>();
 
 const isProvider = (provider: unknown): provider is EventProvider =>
   !!provider && typeof provider === 'object' && 'on' in provider;
@@ -126,6 +128,31 @@ listenerMiddleware.startListening({
     oauthLoginJwt.matchFulfilled,
     oauthAutoLogin.matchFulfilled,
   ),
+  effect: async (_action, { dispatch }) => {
+    dispatch(shouldShowUserGroupDialog.initiate());
+  },
+});
+
+listenerMiddleware.startListening({
+  predicate: (
+    action,
+    currentState,
+    originalState,
+  ): action is LocationChangeAction => {
+    const isLocationChanged = action.type === LOCATION_CHANGE;
+
+    const { pathname: redirectedFrom } = originalState.router.location;
+    const { pathname: redirectedTo } = currentState.router.location;
+
+    const isRedirectedFromTeamInvitation = isTeamInvitationPath(redirectedFrom);
+    const isNotRedirectedToTeamInvitation = !isTeamInvitationPath(redirectedTo);
+
+    return (
+      isLocationChanged &&
+      isRedirectedFromTeamInvitation &&
+      isNotRedirectedToTeamInvitation
+    );
+  },
   effect: async (_action, { dispatch }) => {
     dispatch(shouldShowUserGroupDialog.initiate());
   },
