@@ -6,8 +6,10 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { GuardAuthRoute } from 'domains/auth/components/GuardAuthRoute';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
+import { useRedirectToInviteLink } from 'hooks/useRedirectToInviteLink';
 
 import { GuardProjectRoute } from '../components/GuardProjectRoute';
 import { ProjectsRoutesConfig } from './routesConfig';
@@ -48,6 +50,7 @@ const { useParams } = ProjectsRoutesConfig.project;
 
 export function ProjectsRoutes() {
   useRedirectForSmallDevices();
+  useRedirectToInviteLink();
 
   const {
     hasReadAccess: hasJwtManagerReadAccess,
@@ -58,12 +61,16 @@ export function ProjectsRoutes() {
   const { isFreePremium, isLoggedIn, loading, isPremiumStatusUninitialized } =
     useAuth();
 
+  const hasAccessToPremiumStatus = useGuardUserGroup({
+    blockName: BlockWithPermission.AccountStatus,
+  });
+
   const { projectId } = useParams();
 
   const shouldShowSpinner =
     isJwtManagerLoading ||
     loading ||
-    (isPremiumStatusUninitialized && isLoggedIn);
+    (hasAccessToPremiumStatus && isPremiumStatusUninitialized && isLoggedIn);
 
   if (shouldShowSpinner) {
     return <OverlaySpinner />;

@@ -1,4 +1,5 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
+import { createSelector } from '@reduxjs/toolkit';
 
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
@@ -54,3 +55,16 @@ export const {
   }),
   overrideExisting: true,
 });
+
+// Placed here to avoid circular dependency error
+const selectorParams = undefined as unknown as never;
+
+export const selectEnterpriseStatus = createSelector(
+  fetchIsEnterpriseClient.select(selectorParams),
+  status => status,
+);
+
+export const selectIsEnterpriseClientLoading = createSelector(
+  fetchIsEnterpriseClient.select(selectorParams),
+  ({ isLoading }) => isLoading,
+);

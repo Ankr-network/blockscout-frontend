@@ -1,7 +1,6 @@
 import { Info } from '@ankr.com/ui';
 import { Button, Skeleton, Tooltip, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { Variant } from '@mui/material/styles/createTypography';
 
 import { ProjectTable } from 'domains/projects/utils/getAllProjects';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -149,7 +148,7 @@ export const useProjectsTableColumns = ({
 
           if (projectActivity?.isEmpty) {
             return (
-              <Typography variant={'body3' as Variant}>
+              <Typography variant="body3">
                 {t('projects.list-project.no-requests-yet')}
               </Typography>
             );

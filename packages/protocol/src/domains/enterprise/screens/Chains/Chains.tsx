@@ -1,16 +1,16 @@
 import { t } from '@ankr.com/common';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
+import { Error } from 'modules/common/components/SentryErrorBoundary/Error';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { selectEnterpriseEndpointsError } from 'domains/enterprise/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';
 import { useRedirectToMrpcEndpointsOnGroupChange } from 'domains/enterprise/hooks/useRedirectToMrpcEndpointsOnGroupChange';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';
-import { selectEnterpriseEndpointsError } from 'domains/enterprise/store/selectors';
-import { Error } from 'modules/common/components/SentryErrorBoundary/Error';
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
-import { useAppSelector } from 'store/useAppSelector';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { UserEndpointsWrapper } from './UserEndpointsWrapper';
 import { EnterpriseChainsList } from './EnterpriseChainsList';

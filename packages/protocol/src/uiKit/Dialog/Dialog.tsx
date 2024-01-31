@@ -37,6 +37,7 @@ export type IDialogProps = Omit<
   closeButtonClassName?: string;
   canCloseDialogByClickOutside?: boolean;
   hasTitleWrapper?: boolean;
+  isHidden?: boolean;
 };
 
 export const Dialog = ({
@@ -51,6 +52,7 @@ export const Dialog = ({
   titleClassName,
   closeButtonClassName,
   hasTitleWrapper = true,
+  isHidden = false,
   ...props
 }: IDialogProps) => {
   const { isLightTheme } = useThemes();
@@ -80,8 +82,9 @@ export const Dialog = ({
 
   const { classes, cx } = useStyles({
     dialogTitleColor: dialogTitle.color || DialogTitleColor.Regular,
-    maxPxWidth,
+    isHidden,
     isLightTheme,
+    maxPxWidth,
   });
 
   return (
@@ -98,6 +101,10 @@ export const Dialog = ({
           },
         }}
         {...props}
+        classes={{
+          ...props.classes,
+          root: cx(classes.root, props.classes?.root),
+        }}
         onClose={
           canCloseDialogByClickOutside
             ? (handleClose as DialogProps['onClose'])

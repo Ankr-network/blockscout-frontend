@@ -2,7 +2,7 @@ import { ISubscriptionsItem, Web3Address } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export const {
   endpoints: { fetchMyBundles },
@@ -10,7 +10,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchMyBundles: build.query<ISubscriptionsItem[], Web3Address | undefined>({
-      providesTags: ['MyBundles'],
+      providesTags: [RequestType.MyBundles],
       queryFn: createNotifyingQueryFn(async group => {
         const api = MultiService.getService().getAccountingGateway();
 

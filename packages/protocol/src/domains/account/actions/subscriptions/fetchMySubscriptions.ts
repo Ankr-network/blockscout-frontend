@@ -2,7 +2,7 @@ import { IApiUserGroupParams, ISubscriptionsResponse } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export const {
   endpoints: { fetchMySubscriptions },
@@ -14,7 +14,7 @@ export const {
       ISubscriptionsResponse,
       IApiUserGroupParams
     >({
-      providesTags: ['MySubscriptions'],
+      providesTags: [RequestType.MySubscriptions],
       queryFn: createNotifyingQueryFn(async ({ group }) => {
         const api = MultiService.getService().getAccountingGateway();
 

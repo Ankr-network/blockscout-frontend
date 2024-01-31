@@ -3,13 +3,13 @@ import { Container } from '@mui/material';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
@@ -18,7 +18,7 @@ import { useStyles } from './DefaultLayoutStyles';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
-import { useConnectWaletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
+import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -56,17 +56,16 @@ export const DefaultLayout = ({
   const { isLoggedIn, loading } = useAuth();
   const { isEnterpriseClient } = useEnterpriseClientStatus();
   const chainsRoutes = usePublicChainsRoutes();
-  const { isWeb3UserWithEmailBound } = useConnectWaletDialog();
+  const { isWeb3UserWithEmailBound } = useConnectWalletDialog();
 
   return (
     <div className={classes.root}>
       <SideBar
         chainsRoutes={chainsRoutes}
         className={classes.sidebar}
-        isLoggedIn={isLoggedIn}
+        hasMenu
         isEnterpriseClient={isEnterpriseClient}
         loading={loading}
-        hasLogo
       />
       <div className={classes.body}>
         {!hasError && (
@@ -80,7 +79,6 @@ export const DefaultLayout = ({
         <MobileHeader
           className={classes.mobileHeader}
           chainsRoutes={chainsRoutes}
-          isLoggedIn={isLoggedIn}
           isEnterpriseClient={isEnterpriseClient}
           loading={loading}
         />

@@ -22,6 +22,7 @@ export const UpgdareAccountDialog = ({
 
   return (
     <Dialog
+      classes={{ paper: classes.dialogPaper }}
       open={isOpened}
       onClose={handleClose}
       maxPxWidth={600}

@@ -1,7 +1,8 @@
 import { GroupUserRole } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { getPermissions } from '../utils/getPermissions';
+import { getPermissions } from 'modules/groups/utils/getPermissions';
+
 import { useUserGroupConfig } from './useUserGroupConfig';
 
 export const usePermissionsAndRole = () => {

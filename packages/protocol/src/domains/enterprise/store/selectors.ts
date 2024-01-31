@@ -13,7 +13,6 @@ import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import { chainsFetchEnterpriseStatsByApiKey } from '../actions/fetchEnterpriseStatsByApiKey';
 import { chainsFetchEnterpriseStatsTotal } from '../actions/fetchEnterpriseStatsTotal';
 import { fetchEnterpriseEndpoints } from '../actions/fetchEnterpriseEndpoints';
-import { fetchIsEnterpriseClient } from '../actions/fetchIsEnterpriseClient';
 import { filterBlockchains } from './utils/filterBlockchains';
 import { getEnterpriseStats } from '../actions/utils';
 
@@ -42,13 +41,8 @@ const mapEnterpriseChainIds = ({
   );
 };
 
-export const selectEnterpriseStatus = createSelector(
-  fetchIsEnterpriseClient.select({}),
-  status => status,
-);
-
 const selectEnterpriseEndpoints = createSelector(
-  fetchEnterpriseEndpoints.select({ params: {} }),
+  fetchEnterpriseEndpoints.select(undefined as unknown as never),
   data => data,
 );
 

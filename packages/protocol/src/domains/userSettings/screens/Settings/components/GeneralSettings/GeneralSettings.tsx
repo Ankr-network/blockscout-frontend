@@ -1,5 +1,6 @@
 import { EmailBlock } from '../EmailBlock';
 import { NotificationsBlock } from '../NotificationsBlock';
+import { ThemeBlock } from '../ThemeBlock';
 import { TwoFABlock } from '../TwoFABlock';
 
 export const GeneralSettings = () => {
@@ -7,6 +8,7 @@ export const GeneralSettings = () => {
     <>
       <EmailBlock />
       <TwoFABlock />
+      <ThemeBlock />
       <NotificationsBlock />
     </>
   );

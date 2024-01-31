@@ -1,6 +1,5 @@
 import { Dashboard } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 import { t } from '@ankr.com/common';
 
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';
@@ -34,10 +33,7 @@ export const Requests = ({ className, isDisabled }: RequestsProps) => {
     <PaperBlock className={className}>
       <div className={classes.top}>
         <div className={classes.left}>
-          <Typography
-            variant={'subtitle3' as Variant}
-            className={classes.title}
-          >
+          <Typography variant="subtitle3" className={classes.title}>
             {t('project.total-requests.title')}
           </Typography>
           <TimeframeTabs
@@ -56,7 +52,7 @@ export const Requests = ({ className, isDisabled }: RequestsProps) => {
           size="small"
           href={DashboardRoutesConfig.dashboard.generatePath()}
         >
-          {t('project.total-requests.dashboard-button')}
+          {t('project.total-requests.analytics-button')}
         </NavLink>
       </div>
       <RequestsInfo

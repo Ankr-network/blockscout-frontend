@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
-export const useConnectWaletDialog = () => {
+export const useConnectWalletDialog = () => {
   const isWeb3UserWithEmailBound = useAppSelector(
     selectIsWeb3UserWithEmailBound,
   );

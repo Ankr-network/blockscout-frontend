@@ -7,7 +7,7 @@ import {
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export interface ReplaceWhitelistParams extends ReplaceWhitelistQuery {
   whitelist: ReplaceWhitelistBody;
@@ -22,7 +22,7 @@ export const {
       ReplaceWhitelistResponse,
       TwoFAQueryFnParams<ReplaceWhitelistParams>
     >({
-      invalidatesTags: ['ProjectWhitelist'],
+      invalidatesTags: [RequestType.ProjectWhitelist],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
           params: { group, mode, token, whitelist },

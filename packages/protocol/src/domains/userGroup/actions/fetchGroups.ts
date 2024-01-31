@@ -1,7 +1,7 @@
-import { UserGroup, GroupUserRole } from 'multirpc-sdk';
+import { UserGroup, GroupUserRole, IApiUserGroup } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 
@@ -9,9 +9,10 @@ import { PERSONAL_GROUP_NAME } from '../constants/groups';
 
 const getPersonalUserGroup = (groupAddress: string): UserGroup => {
   return {
-    groupAddress,
-    userRole: GroupUserRole.owner,
-    groupName: PERSONAL_GROUP_NAME,
+    address: groupAddress,
+    role: GroupUserRole.owner,
+    name: PERSONAL_GROUP_NAME,
+    index: 0,
   };
 };
 
@@ -23,6 +24,37 @@ const getAddress = (state: RootState) => {
   return address as string;
 };
 
+const mapUserGroup = (userGroup: IApiUserGroup, index: number): UserGroup => {
+  const {
+    address,
+    name,
+    user_role: role,
+    comment,
+    company_type: companyType,
+    is_enterprise: isEnterprise,
+    is_freemium: isFreemium,
+    is_suspended: isSuspended,
+    members_limit: membersLimit,
+    member_cnt: membersCount,
+    invite_cnt: invitesCount,
+  } = userGroup;
+
+  return {
+    address,
+    name,
+    role,
+    comment,
+    companyType,
+    isEnterprise,
+    isFreemium,
+    isSuspended,
+    membersLimit,
+    index: index + 1, // +1 because of personal group has index 0
+    membersCount,
+    invitesCount,
+  };
+};
+
 export const {
   endpoints: { userGroupFetchGroups },
   useLazyUserGroupFetchGroupsQuery,
@@ -30,19 +62,22 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userGroupFetchGroups: build.query<UserGroup[], void>({
+      providesTags: [RequestType.UserGroupsList],
       queryFn: async (_arg, { getState }) => {
         const service = MultiService.getService();
 
         const { groups } = await service.getAccountingGateway().getUserGroups();
 
-        if (groups.length === 0) {
-          return { data: groups };
-        }
-
         const personalUserAddress = getAddress(getState() as RootState);
         const personalUserGroup = getPersonalUserGroup(personalUserAddress);
 
-        return { data: [personalUserGroup, ...groups] };
+        if (groups.length === 0) {
+          return { data: [personalUserGroup] };
+        }
+
+        const mappedGroups = groups.map(mapUserGroup);
+
+        return { data: [personalUserGroup, ...mappedGroups] };
       },
     }),
   }),

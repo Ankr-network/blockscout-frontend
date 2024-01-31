@@ -46,6 +46,9 @@ export const plansPremiumColor = `linear-gradient(269.98deg, #2F62F1 -188.21%, #
 export const commonShadow =
   '0px 5px 25px rgba(31, 34, 38, 0.1), 0px 10px 50px rgba(31, 34, 38, 0.1)';
 
+export const tooltipBoxShadow =
+  '0 3px 15px 0 rgba(31, 34, 38, 0.10), 0 2px 5px 0 rgba(31, 34, 38, 0.10)';
+
 export const isLightTheme = (theme: Theme) => {
   return theme.palette.mode === Themes.light;
 };

@@ -3,7 +3,6 @@ import {
   TriangleWarning as WarningIcon,
   Close as CloseIcon,
 } from '@ankr.com/ui';
-import { Variant } from '@mui/material/styles/createTypography';
 import { ReactElement, useState } from 'react';
 
 import { useProjectBannerStyles } from './useProjectBannerStyles';
@@ -36,7 +35,7 @@ export const ProjectBanner = ({
   return (
     <Paper className={cx(classes.root, className)}>
       <WarningIcon className={classes.iconWarning} />
-      <Typography className={classes.message} variant={'body3' as Variant}>
+      <Typography className={classes.message} variant="body3">
         {message}
       </Typography>
       {button && button}

@@ -322,7 +322,8 @@ export type GetUsersRegistrationsResponse = {
 export type UserGroupRole =
   | 'GROUP_ROLE_OWNER'
   | 'GROUP_ROLE_DEV'
-  | 'GROUP_ROLE_FINANCE';
+  | 'GROUP_ROLE_FINANCE'
+  | 'GROUP_ROLE_ADMIN';
 
 export type SetUserGroupRequest = {
   groupAddress: Web3Address;

@@ -1,7 +1,7 @@
 import { BlockchainID, IApiUserGroupParams } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 
@@ -21,7 +21,7 @@ export const {
       null,
       TwoFAQueryFnParams<AddBlockchainsToWhitelistParams>
     >({
-      invalidatesTags: ['WhitelistBlockchains'],
+      invalidatesTags: [RequestType.WhitelistBlockchains],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
           params: { userEndpointToken, group, blockchains },

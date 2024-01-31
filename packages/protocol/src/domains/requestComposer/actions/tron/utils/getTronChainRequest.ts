@@ -1,9 +1,9 @@
 import { TronChainMethodResponse } from 'domains/requestComposer/types/tron';
 import { safeStringifyJSON } from 'modules/common/utils/safeStringifyJSON';
+import { withErrorMessage } from 'modules/api/utils/withErrorMessage';
 
 import { FetchTronChainRequestResult } from '../types';
 import { errorToObject } from '../../utils/errorToObject';
-import { withErrorMessage } from '../../utils/withErrorMessage';
 import { withStringError } from '../../utils/withStringError';
 
 export const getTronChainRequest = (

@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 
 import { useProjectChainTabStyles } from './useProjectChainTabStyles';
 
@@ -38,7 +37,7 @@ export const ProjectChainTab = ({
           src={iconUrl}
         />
       )}
-      <Typography className={classes.title} variant={'body4' as Variant}>
+      <Typography className={classes.title} variant="body4">
         {name}
       </Typography>
     </div>

@@ -13,5 +13,6 @@ export const useAvatarStyles = makeStyles<string>()((_theme, avatarColor) => ({
   },
   avatarTitle: {
     textTransform: 'uppercase',
+    fontWeight: 500,
   },
 }));

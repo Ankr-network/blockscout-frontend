@@ -10,6 +10,7 @@ import { isAxiosAccountEmailError } from './isAxiosAccountingEmailError';
 import { isAxiosAccountingError } from './isAxiosAccountingError';
 import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
+import { getParsedErrorMessage } from './getParsedErrorMessage';
 
 export const makeNotification = (
   error: unknown,
@@ -28,6 +29,10 @@ export const makeNotification = (
 
   if (isAxiosAccountingError(error)) {
     message = getAxiosAccountingErrorMessage(error);
+  }
+
+  if (getParsedErrorMessage(error)) {
+    message = getParsedErrorMessage(error);
   }
 
   dispatch(

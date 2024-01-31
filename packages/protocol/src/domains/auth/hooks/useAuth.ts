@@ -17,13 +17,13 @@ import {
   selectHasWeb3Connection,
   selectIsLoggedIn,
   selectIsOldPremium,
-  selectPremiumStatusValue,
   selectIsTokenExpired,
   selectIsUserEthAddressType,
   selectPremiumStatus,
-  selectPremiumStatusLoading,
   selectPremiumUntilDate,
   selectIsPremiumStatusUninitialized,
+  selectPremiumStatusWithDepsLoading,
+  selectIsPremiumStatusLoaded,
 } from '../store';
 import { useWeb3Connection } from './useWeb3Connection';
 
@@ -36,11 +36,13 @@ export const useAuth = () => {
   );
   const hasInfrastructureAccess = useAppSelector(selectHasInfrastructureAccess);
   const hasPremium = useAppSelector(selectHasPremium);
-  const isPremiumStatusLoading = useAppSelector(selectPremiumStatusLoading);
-  const premiumStatusValue = useAppSelector(selectPremiumStatusValue);
+  const isPremiumStatusLoading = useAppSelector(
+    selectPremiumStatusWithDepsLoading,
+  );
   const isPremiumStatusUninitialized = useAppSelector(
     selectIsPremiumStatusUninitialized,
   );
+  const isPremiumStatusLoaded = useAppSelector(selectIsPremiumStatusLoaded);
   const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
   const hasStatusTransition = useAppSelector(selectHasStatusTransition);
   const hasUserEndpointToken = useAppSelector(selectHasUserEndpointToken);
@@ -58,16 +60,10 @@ export const useAuth = () => {
 
   const { loading: autologinLoading, ...oauthRest } = useOauth();
 
-  const isPremiumStatusValueExists = premiumStatusValue !== undefined;
-
-  const isPremiumStatusInitLoading =
-    isPremiumStatusLoading && !isPremiumStatusValueExists;
-
   return {
     loading:
-      web3ConnectionLoading || autologinLoading || isPremiumStatusInitLoading,
-    isPremiumStatusInitLoading,
-    isPremiumStatusValueExists,
+      web3ConnectionLoading || autologinLoading || isPremiumStatusLoading,
+    isPremiumStatusLoaded,
     isPremiumStatusUninitialized,
     ...rest,
     ...authData,

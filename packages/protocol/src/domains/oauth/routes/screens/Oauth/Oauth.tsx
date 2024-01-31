@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { OauthQuery } from './OauthQuery';
 

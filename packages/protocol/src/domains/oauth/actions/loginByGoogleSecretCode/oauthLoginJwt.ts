@@ -9,6 +9,9 @@ import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
+import { ESettingsContentType } from 'domains/userSettings/types';
 
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
 import { loginUserJwt } from './loginUserJwt';
@@ -99,12 +102,26 @@ export const {
           };
         },
       }),
-      onQueryStarted: async (_arg, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (_arg, { getState, dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
         await dispatch(setGithubLoginNameAndEmail.initiate());
 
-        dispatch(push(ProjectsRoutesConfig.projects.generatePath()));
+        const canContinueTeamCreationFlow = selectCanContinueTeamCreationFlow(
+          getState() as RootState,
+        );
+
+        if (canContinueTeamCreationFlow) {
+          dispatch(
+            push(
+              UserSettingsRoutesConfig.settings.generatePath(
+                ESettingsContentType.Teams,
+              ),
+            ),
+          );
+        } else {
+          dispatch(push(ProjectsRoutesConfig.projects.generatePath()));
+        }
       },
     }),
   }),

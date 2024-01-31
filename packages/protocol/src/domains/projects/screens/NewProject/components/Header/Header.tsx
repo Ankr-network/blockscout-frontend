@@ -8,7 +8,7 @@ import { NewProjectStep } from 'domains/projects/types';
 
 import { useHeaderStyles } from './useHeaderStyles';
 import { Stepper } from '../Stepper';
-import { PROJECT_GETTING_STARTED } from '../../conts';
+import { LINK_PROJECT_GETTING_STARTED } from '../../const';
 
 interface HeaderProps {
   step: NewProjectStep;
@@ -24,7 +24,7 @@ export const Header = ({ step }: HeaderProps) => {
           <Typography className={classes.title} variant="h5">
             {t(`${newProjectIntlRoot}.title`)}
           </Typography>
-          <NavLink className={classes.link} href={PROJECT_GETTING_STARTED}>
+          <NavLink className={classes.link} href={LINK_PROJECT_GETTING_STARTED}>
             {t(`${newProjectIntlRoot}.how-to-get-started`)}
             <ExternalLink color="primary" />
           </NavLink>

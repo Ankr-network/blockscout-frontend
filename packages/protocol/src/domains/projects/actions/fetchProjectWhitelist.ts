@@ -5,7 +5,7 @@ import {
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 export interface FetchProjectWhitelistParams extends IApiUserGroupParams {
@@ -21,7 +21,7 @@ export const {
       IGetWhitelistParamsResponse,
       FetchProjectWhitelistParams
     >({
-      providesTags: ['ProjectWhitelist'],
+      providesTags: [RequestType.ProjectWhitelist],
       queryFn: createNotifyingQueryFn(async ({ userEndpointToken, group }) => {
         const service = MultiService.getService().getAccountingGateway();
 

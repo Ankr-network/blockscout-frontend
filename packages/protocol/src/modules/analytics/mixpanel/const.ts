@@ -8,7 +8,7 @@ export enum MixpanelEvent {
   ADD_EMAIL = 'add-email',
   ADD_NETWORK_IN_MM = 'add_network_in_mm',
   CLICK_AAPI = 'click_aapi',
-  DASHBOARD_CLICK = 'dashboard_click',
+  ANALYTICS_CLICK = 'analytics_click',
   ENTER_BILLING_FLOW = 'enter_billing_flow',
   ENTER_ENDPOINTS_FLOW = 'enter_endpoints_flow',
   ENTER_SETTINGS = 'enter_settings',

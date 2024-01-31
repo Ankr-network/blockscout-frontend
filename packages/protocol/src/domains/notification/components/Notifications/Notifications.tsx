@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { Alert, Snackbar } from '@mui/material';
+import { Snackbar } from '@mui/material';
 import { uid } from 'react-uid';
 import { tHTML } from '@ankr.com/common';
+import { Alert } from '@ankr.com/ui';
 
 import { useAppSelector } from 'store/useAppSelector';
 
@@ -10,7 +11,6 @@ import {
   INotificationProps,
   notificationSlice,
 } from '../../store/notificationSlice';
-import { useNotificationStyles } from './NotificationStyles';
 
 interface IItemProps {
   data: INotificationProps;
@@ -18,9 +18,18 @@ interface IItemProps {
 }
 
 function Item({ data, onClose }: IItemProps) {
-  const { key, severity, message, isHTML } = data;
-
-  const { classes } = useNotificationStyles();
+  const {
+    key,
+    type,
+    primaryButtonText,
+    secondaryButtonText,
+    severity,
+    message,
+    title,
+    isHTML,
+    onPrimaryButtonClick,
+    onSecondaryButtonClick,
+  } = data;
 
   const handleClose = useCallback(() => {
     onClose(key);
@@ -28,11 +37,20 @@ function Item({ data, onClose }: IItemProps) {
 
   return (
     <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       open
       {...data}
     >
-      <Alert severity={severity} onClose={handleClose} className={classes.root}>
+      <Alert
+        title={title}
+        severity={severity}
+        type={type}
+        onClose={handleClose}
+        primaryButtonText={primaryButtonText}
+        secondaryButtonText={secondaryButtonText}
+        onPrimaryButtonClick={onPrimaryButtonClick}
+        onSecondaryButtonClick={onSecondaryButtonClick}
+      >
         {isHTML ? tHTML(message as string) : message}
       </Alert>
     </Snackbar>

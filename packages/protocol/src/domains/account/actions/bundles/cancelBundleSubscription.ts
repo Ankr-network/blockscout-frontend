@@ -1,7 +1,7 @@
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export interface CancelBundleSubscriptionParams {
   subscriptionId: string;
@@ -17,7 +17,7 @@ export const {
       null,
       TwoFAQueryFnParams<CancelBundleSubscriptionParams>
     >({
-      invalidatesTags: ['MyBundles'],
+      invalidatesTags: [RequestType.MyBundles],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ params: { subscriptionId, group }, totp }) => {
           const api = MultiService.getService().getAccountingGateway();

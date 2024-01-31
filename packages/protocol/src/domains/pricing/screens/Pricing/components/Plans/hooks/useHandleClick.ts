@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { INDEX_PATH } from 'routes/constants';
 
-import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { TopUpOrigin } from 'domains/account/types';
 import { PATH_ACCOUNT } from 'domains/account/Routes';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { ChainsRoutesConfig } from 'domains/chains/routes';
 
 import { PLAN_LIST } from '../PlansUtils';
 
@@ -43,7 +44,11 @@ export const useHandleClick = ({
       }
 
       if (isFreePlanName) {
-        history.replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
+        const localtion = isLoggedIn
+          ? ProjectsRoutesConfig.projects.generatePath()
+          : ChainsRoutesConfig.chains.generatePath({ isLoggedIn });
+
+        history.replace(localtion);
 
         return;
       }

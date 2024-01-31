@@ -31,3 +31,11 @@ export const ANKR_PRICING_LINK =
   'https://www.ankr.com/docs/rpc-service/pricing/';
 export const ANKR_CHAINS_LINK =
   'https://www.ankr.com/docs/rpc-service/chains/chains-list/#chains-supported';
+export const ANKR_DOCS_TEAM_ACCOUNTS_LINK =
+  'https://www.ankr.com/docs/rpc-service/getting-started/team-accounts';
+export const ANKR_DOCS_INVITE_TEAMMATE_LINK =
+  'https://www.ankr.com/docs/rpc-service/getting-started/team-accounts/#invite-teammates';
+export const ANKR_DOCS_TEAM_ACCESS_ROLES_LINK =
+  'https://www.ankr.com/docs/rpc-service/getting-started/team-accounts/#edit-access-roles';
+
+export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';

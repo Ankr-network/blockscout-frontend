@@ -3,7 +3,7 @@ import { IApiUserGroupParams, UserEndpointTokenMode } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export interface AddItemToWhitelistsParams extends IApiUserGroupParams {
   blockchains: string[];
@@ -21,7 +21,7 @@ export const {
       null,
       TwoFAQueryFnParams<AddItemToWhitelistsParams>
     >({
-      invalidatesTags: ['ProjectWhitelist'],
+      invalidatesTags: [RequestType.ProjectWhitelist],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
           params: { blockchains, group, item, type, userEndpointToken: token },

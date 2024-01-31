@@ -9,6 +9,8 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useEnterpriseStatusFetch } from 'domains/auth/hooks/useEnterpriseStatus';
 import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
+import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actions/fetchGroupCreationAllowance';
+import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTeamsSettings';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   const hasBillingRoleAccess = useGuardUserGroup({
@@ -45,4 +47,10 @@ export const useInitialization = (isLoggedIn: boolean) => {
   usePremiumStatusSubscription();
 
   useBlockchainsLoader();
+
+  useUserGroupFetchCreationAllowanceQuery(undefined, {
+    skip: !shouldInitialize,
+  });
+
+  useRedirectToTeamsSettings();
 };

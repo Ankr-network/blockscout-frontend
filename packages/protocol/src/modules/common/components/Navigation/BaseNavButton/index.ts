@@ -1,2 +1,2 @@
 export * from './BaseNavButton';
-export * from './BaseNavButtonTypes';
+export * from './types';

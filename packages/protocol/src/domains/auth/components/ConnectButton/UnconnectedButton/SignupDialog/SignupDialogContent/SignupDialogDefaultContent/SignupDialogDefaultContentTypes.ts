@@ -30,6 +30,7 @@ export interface SignupFormErrors {
 }
 
 export interface SignupDialogDefaultContentProps {
+  hasOnlyGoogleAuth?: boolean;
   onGoogleButtonClick: () => void;
   onGithubButtonClick: () => void;
   setWeb3State: () => void;

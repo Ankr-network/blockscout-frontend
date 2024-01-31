@@ -12,6 +12,7 @@ interface ShouldShowNegativeBalanceOfServiceDialogArguments {
   isEnterpriseClient: boolean;
   isEnterpriseStatusLoading: boolean;
   isLoadingGroups: boolean;
+  isLoadingJwtTokens: boolean;
 }
 
 export const shouldShowNegativeBalanceOfServiceDialog = ({
@@ -28,6 +29,7 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
   isEnterpriseClient,
   isEnterpriseStatusLoading,
   isLoadingGroups,
+  isLoadingJwtTokens,
 }: ShouldShowNegativeBalanceOfServiceDialogArguments) => {
   if (!isLoggedIn) return false;
 
@@ -37,7 +39,8 @@ export const shouldShowNegativeBalanceOfServiceDialog = ({
     isFetchingTosAcceptStatus ||
     isUninitializedTosAcceptStatus ||
     isEnterpriseStatusLoading ||
-    isLoadingGroups
+    isLoadingGroups ||
+    isLoadingJwtTokens
   )
     return false;
 

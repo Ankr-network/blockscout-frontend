@@ -1,5 +1,9 @@
 import { Form } from 'react-final-form';
 import { useCallback } from 'react';
+import { useLocation } from 'react-router';
+
+import { isTeamInvitationQuery } from 'domains/userSettings/utils/isTeamInvitationQuery';
+import { TEAM_INVITE_LINK_KEY } from 'modules/common/constants/const';
 
 import {
   useSetSignupSettings,
@@ -17,14 +21,25 @@ export const SignupDialogDefaultContent = ({
   onGoogleButtonClick,
   onGithubButtonClick,
   setWeb3State,
+  hasOnlyGoogleAuth = false,
 }: SignupDialogDefaultContentProps) => {
   const handleSetSignupSettings = useSetSignupSettings();
+  const location = useLocation();
 
   const onSubmit = useCallback(
     ({ loginType, hasMarketing }: SignupFormValues) => {
       handleSetSignupSettings(Boolean(hasMarketing));
 
       if (loginType === OauthLoginType.Google) {
+        const isTeamInvitation = isTeamInvitationQuery(location?.search ?? '');
+
+        if (isTeamInvitation) {
+          window.localStorage.setItem(
+            TEAM_INVITE_LINK_KEY,
+            window.location.href,
+          );
+        }
+
         onGoogleButtonClick();
       } else if (loginType === OauthLoginType.Github) {
         onGithubButtonClick();
@@ -33,18 +48,24 @@ export const SignupDialogDefaultContent = ({
       }
     },
     [
+      handleSetSignupSettings,
+      location,
       onGoogleButtonClick,
       onGithubButtonClick,
       setWeb3State,
-      handleSetSignupSettings,
     ],
   );
 
   const initialValues = useInitialValues();
 
   const renderForm = useCallback(
-    ({ handleSubmit }) => <DefaultContentForm handleSubmit={handleSubmit} />,
-    [],
+    ({ handleSubmit }) => (
+      <DefaultContentForm
+        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+        handleSubmit={handleSubmit}
+      />
+    ),
+    [hasOnlyGoogleAuth],
   );
 
   return (

@@ -1,14 +1,11 @@
 import { DownTriangle, UpperTriangle } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
-import { Variant } from '@mui/material/styles/createTypography';
 import { t } from '@ankr.com/common';
 
 import { ProjectActivity } from 'domains/projects/store';
 import { Sign } from 'modules/common/types/types';
 
 import { useProjectRequestsActivityStyles } from './useProjectRequestsActivityStyles';
-
-const variant = 'subtitle3' as Variant;
 
 export interface ProjectRequestsActivityProps extends ProjectActivity {}
 
@@ -33,11 +30,11 @@ export const ProjectRequestsActivity = ({
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.count} variant={variant}>
+      <Typography className={classes.count} variant="subtitle3">
         {t('projects.list-project.count', { value: lastDayTotalRequestsCount })}
       </Typography>
       {typeof relativeChange !== 'undefined' && (
-        <Typography className={classes.percent} variant={variant}>
+        <Typography className={classes.percent} variant="subtitle3">
           {t(intlKey, { relativeChange, relativeChangeSign })}
           {iconMap[relativeChangeSign]}
         </Typography>

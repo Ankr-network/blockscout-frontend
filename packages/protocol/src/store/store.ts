@@ -26,13 +26,15 @@ import { userGroupSlice } from 'domains/userGroup/store';
 import { newProjectPersistConfig } from 'domains/projects/storage/newProjectPersistConfig';
 import { newProjectSlice, projectsSlice } from 'domains/projects/store';
 import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistConfig';
+import { enterpriseChainsSlice } from 'domains/enterprise/store/enterpriseSlice';
+import { newUserGroupPersistConfig } from 'modules/groups/storage/newUserGroupPersistConfig';
+import { newUserGroupSlice } from 'modules/groups/store/newUserGroupSlice';
 
 import { listenerMiddleware } from './middlewares/listenerMiddleware';
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
 import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
 import { rootSaga } from './rootSaga';
 import { web3Api, projectApi } from './queries';
-import { enterpriseChainsSlice } from '../domains/enterprise/store/enterpriseSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -62,6 +64,10 @@ const rootReducer = combineReducers({
   ),
   projects: persistReducer(projectsPersistConfig, projectsSlice.reducer),
   newProject: persistReducer(newProjectPersistConfig, newProjectSlice.reducer),
+  newUserGroup: persistReducer(
+    newUserGroupPersistConfig,
+    newUserGroupSlice.reducer,
+  ),
 });
 
 export const store = configureStore({
@@ -88,4 +94,4 @@ export type Store = typeof store;
 export type APIState = RTKQRootState<EndpointDefinitions, string, 'api'>;
 export type AppDispatch = typeof store.dispatch;
 export type GetState = typeof store.getState;
-export type RootState = ReturnType<GetState>;
+export type RootState = ReturnType<typeof rootReducer>;

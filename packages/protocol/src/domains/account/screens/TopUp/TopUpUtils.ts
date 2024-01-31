@@ -6,13 +6,13 @@ import { t } from '@ankr.com/common';
 import { DEPOSIT_ERROR } from 'multirpc-sdk';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { BaseRoute } from 'modules/router/utils/createRouteConfig';
 import { TopUpOrigin } from 'domains/account/types';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
-import { useSetBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
+import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { BaseRoute } from 'modules/router/utils/createRouteConfig';
 
 import { topUpOriginRoutesMap } from '../CardPaymentSuccess/utils/getOriginRoute';
 

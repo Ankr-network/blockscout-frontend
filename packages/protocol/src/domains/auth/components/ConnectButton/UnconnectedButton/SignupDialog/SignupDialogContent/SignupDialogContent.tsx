@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
 import {
   OauthLoginType,
@@ -15,6 +17,7 @@ interface SignupDialogProps {
   setWeb3State: () => void;
   isLoading: boolean;
   oauthLoginType?: OauthLoginType;
+  hasOnlyGoogleAuth?: boolean;
 }
 
 export const SignupDialogContent = ({
@@ -26,8 +29,29 @@ export const SignupDialogContent = ({
   setWeb3State,
   isLoading,
   oauthLoginType,
+  hasOnlyGoogleAuth = false,
 }: SignupDialogProps) => {
+  const defaultStateComponent = useMemo(() => {
+    return (
+      <SignupDialogDefaultContent
+        onGoogleButtonClick={onGoogleButtonClick}
+        onGithubButtonClick={onGithubButtonClick}
+        setWeb3State={setWeb3State}
+        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+      />
+    );
+  }, [
+    hasOnlyGoogleAuth,
+    onGithubButtonClick,
+    onGoogleButtonClick,
+    setWeb3State,
+  ]);
+
   if (isLoading) return <OauthLoadingState loginType={oauthLoginType} />;
+
+  if (hasOnlyGoogleAuth) {
+    return defaultStateComponent;
+  }
 
   switch (currentState) {
     case SignupDialogState.WEB3:
@@ -40,12 +64,6 @@ export const SignupDialogContent = ({
 
     case SignupDialogState.DEFAULT:
     default:
-      return (
-        <SignupDialogDefaultContent
-          onGoogleButtonClick={onGoogleButtonClick}
-          onGithubButtonClick={onGithubButtonClick}
-          setWeb3State={setWeb3State}
-        />
-      );
+      return defaultStateComponent;
   }
 };

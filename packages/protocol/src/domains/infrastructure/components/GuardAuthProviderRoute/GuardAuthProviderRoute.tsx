@@ -3,11 +3,11 @@ import { Route, RouteProps } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useProvider } from 'domains/infrastructure/hooks/useProvider';
-import { useBreadcrumbs } from 'modules/layout/components/Breadcrumbs';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 
 export interface GuardAuthRouteParams extends RouteProps {}
 

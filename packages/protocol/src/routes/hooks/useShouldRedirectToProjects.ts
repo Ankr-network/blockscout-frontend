@@ -8,6 +8,8 @@ import { useHistory } from 'react-router';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
 
 export const useShouldRedirectToProjects = () => {
   const { isLoggedIn } = useAuth();
@@ -30,8 +32,16 @@ export const useShouldRedirectToProjects = () => {
     IndexContent.Endpoints,
   );
 
+  const shouldRedirectToSettings = useAppSelector(
+    selectCanContinueTeamCreationFlow,
+  );
+
   const shouldRedirectToProjects =
-    isLoggedIn && hasAccessToProjects && !hasEndpointsContent && isIndexPath;
+    isLoggedIn &&
+    hasAccessToProjects &&
+    !hasEndpointsContent &&
+    isIndexPath &&
+    !shouldRedirectToSettings;
 
   return shouldRedirectToProjects;
 };

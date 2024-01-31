@@ -9,7 +9,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
     zIndex: 2,
-    padding: theme.spacing(2 * 1.25, 0),
+    padding: theme.spacing(2.5, 0),
   },
 
   container: {
@@ -17,12 +17,17 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: theme.spacing(2 * 0, 2 * 2),
+      padding: theme.spacing(0, 4),
+    },
+
+    /* globalMenu width fix */
+    '&>div:first-of-type': {
+      width: 'auto',
     },
   },
   switcher: {
-    marginRight: theme.spacing(2 * 4.5),
-    marginLeft: theme.spacing(2 * 1),
+    marginRight: theme.spacing(9),
+    marginLeft: theme.spacing(2),
   },
   right: {
     display: 'inline-flex',
@@ -31,6 +36,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   buttons: {
     display: 'flex',
-    gap: theme.spacing(2 * 1),
+    gap: theme.spacing(2),
   },
 }));

@@ -24,8 +24,12 @@ import {
 import {
   IApiUserGroupParams,
   IUserGroupsResponse,
+  IApiUserGroupDetails,
   IGetGroupJwtRequestParams,
   IGetGroupJwtResponse,
+  ICreateUserGroupParams,
+  ICreateUserGroupResponse,
+  IGetIsGroupCreationAvailableResponse,
 } from './userGroup';
 import {
   IUpdateWhitelistModeParams,
@@ -111,6 +115,21 @@ import {
   IOauthSecretCodeParams,
   AssociatedAccount,
 } from './oauth';
+import {
+  AcceptGroupInvitationParams,
+  ICancelGroupInvitationParams,
+  IManageGroupInvitationResponse,
+  IDeleteGroupMemberParams,
+  ILeaveGroupResponse,
+  IRenameGroupParams,
+  IRenameGroupResponse,
+  IUpdateGroupMemberRoleParams,
+  IUpdateGroupMemberRoleResponse,
+  InivteGroupMemberResponse,
+  InviteGroupMemeberParams,
+  InviteGroupMemeberResult,
+  RejectGroupInvitationParams,
+} from './groups';
 
 export class AccountingGateway {
   public api: AxiosInstance;
@@ -567,6 +586,51 @@ export class AccountingGateway {
     return response;
   }
 
+  async getUserGroupDetails(params: IApiUserGroupParams) {
+    const { data: response } = await this.api.get<IApiUserGroupDetails>(
+      '/api/v1/auth/groups/details',
+      { params },
+    );
+
+    return response;
+  }
+
+  /**
+  request fields description:
+
+  name (optional): human readable name of the group
+
+  company_type (optional): human readable information about group type (or company)
+
+  comment (optional): any comment owner is willing to provide, ASCII only, up to 254 symbols
+
+  transfer_assets (optional): should be set to trueif user is willing to transfer ALL his own assets to the group
+
+  IMPORTANT:
+
+  transfer_assets is NOT applicable to Metamask users
+
+  Please logout user (delete access token) and ask user to log in again if transfer_assets is set to true and asset_transfer_done is true in response
+  */
+
+  async createUserGroup(body: ICreateUserGroupParams) {
+    const { data: response } = await this.api.post<ICreateUserGroupResponse>(
+      '/api/v1/auth/groups/new',
+      body,
+    );
+
+    return response;
+  }
+
+  async getIsGroupCreationAvailable() {
+    const { data: response } =
+      await this.api.get<IGetIsGroupCreationAvailableResponse>(
+        '/api/v1/auth/groups/new/isAllowed',
+      );
+
+    return response;
+  }
+
   async initTwoFA() {
     const { data: response } = await this.api.post<InitTwoFAResponse>(
       '/api/v1/auth/2fa/init',
@@ -889,5 +953,129 @@ export class AccountingGateway {
     );
 
     return data;
+  }
+
+  async updateGroupMemberRole({
+    group,
+    userAddress,
+    role,
+  }: IUpdateGroupMemberRoleParams): Promise<IUpdateGroupMemberRoleResponse> {
+    const { data } = await this.api.patch<IUpdateGroupMemberRoleResponse>(
+      '/api/v1/auth/groups/members',
+      {
+        user_address: userAddress,
+        role,
+      },
+      {
+        params: { group },
+      },
+    );
+
+    return data;
+  }
+
+  async removeGroupTeammate({
+    group,
+    address,
+  }: IDeleteGroupMemberParams): Promise<IUpdateGroupMemberRoleResponse> {
+    const { data } = await this.api.delete<IUpdateGroupMemberRoleResponse>(
+      '/api/v1/auth/groups/members',
+      {
+        params: { address, group },
+      },
+    );
+
+    return data;
+  }
+
+  async cancelGroupInvitation({
+    group,
+    email,
+  }: ICancelGroupInvitationParams): Promise<IManageGroupInvitationResponse> {
+    const { data } = await this.api.post<IManageGroupInvitationResponse>(
+      '/api/v1/auth/groups/invite/cancel',
+      {
+        email,
+      },
+      {
+        params: { group },
+      },
+    );
+
+    return data;
+  }
+
+  async resendGroupInvitation({
+    group,
+    email,
+  }: ICancelGroupInvitationParams): Promise<IManageGroupInvitationResponse> {
+    const { data } = await this.api.post<IManageGroupInvitationResponse>(
+      '/api/v1/auth/groups/invite/resend',
+      {
+        email,
+      },
+      {
+        params: { group },
+      },
+    );
+
+    return data;
+  }
+
+  async leaveTeam({
+    group,
+  }: IApiUserGroupParams): Promise<ILeaveGroupResponse> {
+    const { data } = await this.api.delete<ILeaveGroupResponse>(
+      '/api/v1/auth/groups/leave',
+      {
+        params: { group },
+      },
+    );
+
+    return data;
+  }
+
+  async inviteGroupMember({
+    group,
+    invitations,
+  }: InviteGroupMemeberParams): Promise<InviteGroupMemeberResult> {
+    const {
+      data: { result },
+    } = await this.api.post<InivteGroupMemberResponse>(
+      '/api/v1/auth/groups/invite',
+      invitations,
+      { params: { group } },
+    );
+
+    return result;
+  }
+
+  async renameTeam({
+    group,
+    name,
+    comment,
+    company_type,
+  }: IRenameGroupParams): Promise<IRenameGroupResponse> {
+    const { data } = await this.api.patch<IRenameGroupResponse>(
+      '/api/v1/auth/groups/detail',
+      {
+        name,
+        comment,
+        company_type,
+      },
+      {
+        params: { group },
+      },
+    );
+
+    return data;
+  }
+
+  async acceptGroupInvitation(body: AcceptGroupInvitationParams) {
+    await this.api.post('/api/v1/auth/groups/invite/accept', body);
+  }
+
+  async rejectGroupInvitation(body: RejectGroupInvitationParams) {
+    await this.api.post('/api/v1/auth/groups/invite/reject', body);
   }
 }
