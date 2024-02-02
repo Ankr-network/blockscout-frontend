@@ -13,9 +13,11 @@ export const useSelectUserStepStyles = makeStyles()(theme => {
     noticeRoot: {
       width: '100%',
       padding: theme.spacing(4),
-      backgroundColor: isLight
-        ? theme.palette.primary.light
-        : theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.light,
+
+      color: isLight
+        ? theme.palette.grey[900]
+        : theme.palette.background.default,
       borderRadius: 16,
     },
     selectRoot: {
