@@ -9,8 +9,6 @@ import {
   selectMyCurrentBundle,
   selectTotalBalance,
 } from 'domains/account/store/selectors';
-import { selectFetchGroupJwtLoading } from 'domains/userGroup/actions/fetchGroupJwt';
-import { selectIsEnterpriseClientLoading } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 
 import {
   defaultPremiumStatusData,
@@ -87,14 +85,6 @@ export const selectPremiumStatusLoadingInitially = createSelector(
   selectPremiumStatusLoading,
   selectIsPremiumStatusUninitialized,
   (isLoading, isUninitialized) => isLoading && isUninitialized,
-);
-
-export const selectPremiumStatusWithDepsLoading = createSelector(
-  selectPremiumStatusLoadingInitially,
-  selectIsEnterpriseClientLoading,
-  selectFetchGroupJwtLoading,
-  (premiumStatusLoading, enterpriseStatusLoading, groupJwtLoading) =>
-    premiumStatusLoading || enterpriseStatusLoading || groupJwtLoading,
 );
 
 export const selectIsOldPremium = createSelector(
