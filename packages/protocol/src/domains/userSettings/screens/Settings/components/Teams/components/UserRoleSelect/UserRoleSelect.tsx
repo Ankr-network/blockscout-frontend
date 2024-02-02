@@ -1,11 +1,10 @@
 import { GroupUserRole } from 'multirpc-sdk';
 
-import { useMenu } from 'modules/common/hooks/useMenu';
 import { IUpdateRoleMutationArgs } from 'domains/userSettings/actions/teams/updateRole';
 
 import { UserRoleMenuButton } from '../UserRoleMenuButton';
 import { UserRoleMenu } from '../UserRoleMenu';
-import { useUserRoleMenu } from '../UserRoleMenu/useUserRoleMenu';
+import { useUserRoleMenu } from '../UserRoleMenu/hooks/useUserRoleMenu';
 
 interface IUserRoleSelectProps extends Omit<IUpdateRoleMutationArgs, 'role'> {
   currentRole: GroupUserRole;
@@ -19,41 +18,42 @@ export const UserRoleSelect = ({
   group,
   isDisabled,
 }: IUserRoleSelectProps) => {
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
-
   const {
-    isLoading,
+    anchorEl,
+    handleUserRoleChange,
+    handleUserRoleMenuClose,
+    handleUserRoleMenuOpen,
+    handleUserRoleUpdate,
     isButtonDisabled,
-    selectedRole,
-    handleUpdateRole,
-    handleRoleChange,
+    isLoading,
+    isUserRoleMenuOpened,
+    selectedUserRole,
     userRole,
   } = useUserRoleMenu({
-    currentRole,
-    userAddress,
     email,
     group,
-    onClose: handleClose,
+    initialUserRole: currentRole,
+    userAddress,
   });
 
   return (
     <>
       <UserRoleMenuButton
         currentRole={userRole}
-        isMenuOpen={open}
-        onClick={handleOpen}
         isDisabled={isDisabled || userRole === GroupUserRole.owner}
+        isMenuOpen={isUserRoleMenuOpened}
+        onClick={handleUserRoleMenuOpen}
       />
 
       <UserRoleMenu
-        open={open}
         anchorEl={anchorEl}
-        onClose={handleClose}
-        isLoading={isLoading}
+        handleRoleChange={handleUserRoleChange}
+        handleUpdateRole={handleUserRoleUpdate}
         isButtonDisabled={isButtonDisabled}
-        selectedRole={selectedRole}
-        handleUpdateRole={handleUpdateRole}
-        handleRoleChange={handleRoleChange}
+        isLoading={isLoading}
+        onClose={handleUserRoleMenuClose}
+        open={isUserRoleMenuOpened}
+        selectedRole={selectedUserRole}
       />
     </>
   );
