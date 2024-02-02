@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { SelectChangeEvent } from '@mui/material';
 import { GroupUserRole, IGroupMember } from 'multirpc-sdk';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
 import { useUpdateRoleMutation } from 'domains/userSettings/actions/teams/updateRole';
 
@@ -29,6 +29,7 @@ export interface IUseTransferOwnershipDialogResult {
   onChangeConfirmInputValue: (event: ChangeEvent<HTMLInputElement>) => void;
   handleSelectUser: (event: SelectChangeEvent<string>) => void;
   handleSubmit: () => void;
+  handleCloseTransferOwnershipDialog: () => void;
 }
 
 export const useTransferOwnershipDialog = ({
@@ -36,7 +37,8 @@ export const useTransferOwnershipDialog = ({
   members,
   onClose,
 }: IUseTransferOwnershipDialogParams): IUseTransferOwnershipDialogResult => {
-  const [step, setStep] = useState(TransferOwnershipStep.Select);
+  const defaultStep = TransferOwnershipStep.Select;
+  const [step, setStep] = useState(defaultStep);
   const [user, setUser] = useState<IGroupMember | undefined>();
   const [confirmInputValue, setConfirmInputValue] = useState('');
   const [error, setError] = useState<string | undefined>(undefined);
@@ -49,6 +51,18 @@ export const useTransferOwnershipDialog = ({
   const [updateRole, { isLoading }] = useUpdateRoleMutation();
 
   const isSelectStep = step === TransferOwnershipStep.Select;
+
+  const clearTransferOwnershipDialogState = useCallback(() => {
+    setConfirmInputValue('');
+    setUser(undefined);
+    setError(undefined);
+    setStep(defaultStep);
+  }, [defaultStep]);
+
+  const handleCloseTransferOwnershipDialog = useCallback(() => {
+    onClose();
+    clearTransferOwnershipDialogState();
+  }, [onClose, clearTransferOwnershipDialogState]);
 
   const handleSubmit = useCallback(async () => {
     if (isSelectStep) {
@@ -63,7 +77,7 @@ export const useTransferOwnershipDialog = ({
           email: user?.email,
           group,
         });
-        onClose();
+        handleCloseTransferOwnershipDialog();
       } else {
         setError(t('teams.transfer-ownership.confirm-step.error-text'));
       }
@@ -71,7 +85,7 @@ export const useTransferOwnershipDialog = ({
   }, [
     group,
     isSelectStep,
-    onClose,
+    handleCloseTransferOwnershipDialog,
     confirmInputValue,
     checkText,
     updateRole,
@@ -99,14 +113,6 @@ export const useTransferOwnershipDialog = ({
     [members],
   );
 
-  useEffect(() => {
-    return () => {
-      setStep(TransferOwnershipStep.Select);
-      setError(undefined);
-      setUser(undefined);
-    };
-  }, []);
-
   return {
     isSelectStep,
     title: isSelectStep
@@ -124,5 +130,6 @@ export const useTransferOwnershipDialog = ({
     handleSelectUser,
     handleSubmit,
     onChangeConfirmInputValue,
+    handleCloseTransferOwnershipDialog,
   };
 };
