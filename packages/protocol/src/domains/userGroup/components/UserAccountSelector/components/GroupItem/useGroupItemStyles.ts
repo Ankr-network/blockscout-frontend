@@ -1,12 +1,17 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useGroupItemStyles = makeStyles<boolean>()(theme => ({
+export const useGroupItemStyles = makeStyles()(theme => ({
   menuItem: {
+    width: '100%',
     padding: theme.spacing(2),
     paddingRight: theme.spacing(3),
+
     borderRadius: 14,
+
     letterSpacing: '-0.01em',
+
     color: theme.palette.grey[900],
+
     fontWeight: 400,
     fontSize: 16,
     lineHeight: '24px',

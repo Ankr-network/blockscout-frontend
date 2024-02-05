@@ -15,7 +15,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { GroupItemProps } from './types';
 import { useGroupItem } from './hooks/useGroupItem';
-import { useGroupItemStyles } from './GroupItemStyles';
+import { useGroupItemStyles } from './useGroupItemStyles';
 import { Avatar } from '../../../Avatar';
 
 export const GroupItem = (props: GroupItemProps) => {
@@ -24,7 +24,7 @@ export const GroupItem = (props: GroupItemProps) => {
     group: { name, index, isFreemium, isEnterprise, role },
   } = props;
 
-  const { classes } = useGroupItemStyles(isSelected);
+  const { classes } = useGroupItemStyles();
 
   const isPersonal = name === PERSONAL_GROUP_NAME;
 

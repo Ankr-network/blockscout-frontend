@@ -2,9 +2,10 @@ import { Check } from '@ankr.com/ui';
 import { Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
+import { ScrollableContainer } from 'modules/common/components/ScrollableContainer';
+
 import { LocationsWidgetProps } from './types';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
-import { ScrollableContainer } from '../ScrollableContainer';
 import { Title } from '../Title';
 import { useLocationsWidgetStyles } from './LocationsWidgetStyles';
 

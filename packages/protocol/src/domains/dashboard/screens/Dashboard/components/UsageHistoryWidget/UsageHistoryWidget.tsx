@@ -1,9 +1,9 @@
 import { Paper } from '@mui/material';
 
+import { ScrollableContainer } from 'modules/common/components/ScrollableContainer';
 import { UsageHistoryData } from 'domains/dashboard/store/types';
 
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
-import { ScrollableContainer } from '../ScrollableContainer';
 import { Table } from './components/Table';
 import { Title } from '../Title';
 import { getText } from './utils/text';

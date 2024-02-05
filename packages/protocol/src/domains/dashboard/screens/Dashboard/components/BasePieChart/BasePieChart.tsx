@@ -1,10 +1,11 @@
 import { Paper } from '@mui/material';
 
+import { ScrollableContainer } from 'modules/common/components/ScrollableContainer';
+
 import { Chart } from './components/Chart';
 import { Legend } from './components/Legend';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
 import { PieChartData } from './types';
-import { ScrollableContainer } from '../ScrollableContainer';
 import { Title } from '../Title';
 import { useBasePieChartStyles } from './BasePieChartStyles';
 
