@@ -28,8 +28,11 @@ export const TeamTablePendingMembers = ({
     handleRevokeInvitation,
   } = useRevokeInvitation();
 
-  const { isLoadingResendTeamInvite, handleResendInvitation } =
-    useResendInvitation(groupAddress);
+  const {
+    isLoadingResendTeamInvite,
+    handleResendInvitation,
+    originalArgs: currentInvitationParams,
+  } = useResendInvitation(groupAddress);
 
   const { classes, cx } = useTeamTableStyles();
 
@@ -38,6 +41,10 @@ export const TeamTablePendingMembers = ({
       {pendingMembers?.map(({ status, email: name, role, url, address }) => {
         const statusString =
           status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+
+        const isCurrentMemeberHasLoadingStatus =
+          name.toLowerCase() === currentInvitationParams?.email.toLowerCase() &&
+          isLoadingResendTeamInvite;
 
         return (
           <TableRow className={classes.row} key={name}>
@@ -85,7 +92,7 @@ export const TeamTablePendingMembers = ({
                 inviteUrl={url}
                 handleRevokeInvitation={() => handleRevokeInvitation(name)}
                 handleResendInvite={() => handleResendInvitation(name)}
-                isLoadingResendTeamInvite={isLoadingResendTeamInvite}
+                isLoadingResendTeamInvite={isCurrentMemeberHasLoadingStatus}
               />
             </TableCell>
           </TableRow>
