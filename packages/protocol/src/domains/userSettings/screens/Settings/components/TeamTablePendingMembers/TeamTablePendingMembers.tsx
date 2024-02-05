@@ -77,7 +77,10 @@ export const TeamTablePendingMembers = ({
                 <Question className={classes.questionIcon} />
               </Tooltip>
             </TableCell>
-            <TableCell align="right" className={cx(classes.cell, classes.td)}>
+            <TableCell
+              align="right"
+              className={cx(classes.cell, classes.td, classes.actionsCell)}
+            >
               <PendingTeamMemberActions
                 inviteUrl={url}
                 handleRevokeInvitation={() => handleRevokeInvitation(name)}
