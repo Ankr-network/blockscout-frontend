@@ -29,6 +29,7 @@ import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistC
 import { enterpriseChainsSlice } from 'domains/enterprise/store/enterpriseSlice';
 import { newUserGroupPersistConfig } from 'modules/groups/storage/newUserGroupPersistConfig';
 import { newUserGroupSlice } from 'modules/groups/store/newUserGroupSlice';
+import { guardDialogSlice } from 'modules/guardDialog/store/dialogSlice';
 
 import { listenerMiddleware } from './middlewares/listenerMiddleware';
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
@@ -57,6 +58,7 @@ const rootReducer = combineReducers({
   requestComposer: requestComposerSlice.reducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,
+  guardDialog: guardDialogSlice.reducer,
   userGroup: persistReducer(userGroupPersistConfig, userGroupSlice.reducer),
   userSettings: persistReducer(
     userSettingsPersistConfig,

@@ -12,7 +12,7 @@ import { useGuestTeamInvitationDialogStyles } from './useGuestTeamInvitationDial
 
 export interface GuestTeamInvitationDialogProps
   extends IDialogProps,
-    InvitationInfoProps {
+  InvitationInfoProps {
   onSignIn: () => void;
 }
 

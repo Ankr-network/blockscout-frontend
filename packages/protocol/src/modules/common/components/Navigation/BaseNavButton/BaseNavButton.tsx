@@ -5,6 +5,7 @@ import { t } from '@ankr.com/common';
 
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
 import { NavigationItem } from './types';
 import { SoonLabel } from '../../SoonLabel';
@@ -24,11 +25,6 @@ export const BaseNavButton = ({
 }: IBaseNavButtonProps) => {
   const { isLightTheme } = useThemes();
 
-  const { classes, cx } = useBaseNavButtonStyles({
-    isLightTheme,
-    isMobileSideBar,
-  });
-
   const {
     label,
     href,
@@ -37,7 +33,17 @@ export const BaseNavButton = ({
     StartIcon,
     isDisabled,
     isNotLinkItem,
+    blockName,
   } = item;
+
+  const hasAccess = useGuardUserGroup({
+    blockName,
+  });
+
+  const { classes, cx } = useBaseNavButtonStyles({
+    isLightTheme,
+    isMobileSideBar,
+  });
 
   const isExternalHref = useMemo(() => href && isExternalPath(href), [href]);
 
@@ -64,10 +70,10 @@ export const BaseNavButton = ({
     );
   }
 
-  if (isNotLinkItem) {
+  if (isNotLinkItem || !hasAccess) {
     return (
       <Button
-        {...getNotLinkButtonProps(item)}
+        {...getNotLinkButtonProps(item, hasAccess)}
         className={cx(
           classes.link,
           isComingSoon && classes.comingSoon,

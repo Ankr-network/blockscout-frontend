@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { IDialogProps } from 'uiKit/Dialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-export interface UseGuestTeamInvitationDialogParams extends IDialogProps {}
+export interface UseGuestTeamInvitationDialogParams extends IDialogProps { }
 
 export const useGuestTeamInvitationDialog = ({
   open: isInitiallyOpen = false,

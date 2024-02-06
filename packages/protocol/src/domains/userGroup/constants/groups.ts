@@ -13,9 +13,15 @@ export enum BlockWithPermission {
   EnterpriseStatus, // permissions to request group enterprise status
 
   // Teams permissions
-  TeamManagement, // permissions to manage team (roles, invites, delete members)
+  TeamManagement, // permissions to manage team
   TeamOwnershipTransfer, // permissions to transfer team ownership
   TeamRenaming, // permission to rename existing team
+
+  // Menu buttons
+  AdvancedApiMenuItem,
+  ProjectsMenuItem,
+  AnalyticsMenuItem,
+  CommonMenuItem,
 }
 
 export const ADMIN_PERMISSIONS = [
@@ -32,6 +38,10 @@ export const ADMIN_PERMISSIONS = [
   BlockWithPermission.StatusTransition,
   BlockWithPermission.EnterpriseStatus,
   BlockWithPermission.TeamManagement,
+  BlockWithPermission.AdvancedApiMenuItem,
+  BlockWithPermission.ProjectsMenuItem,
+  BlockWithPermission.AnalyticsMenuItem,
+  BlockWithPermission.CommonMenuItem,
 ];
 
 export const OWNER_PERMISSIONS = [
@@ -45,12 +55,17 @@ export const DEVELOPER_PERMISSIONS = [
   BlockWithPermission.UsageData,
   BlockWithPermission.JwtManagerRead,
   BlockWithPermission.AccountStatus,
+  BlockWithPermission.AdvancedApiMenuItem,
+  BlockWithPermission.ProjectsMenuItem,
+  BlockWithPermission.AnalyticsMenuItem,
+  BlockWithPermission.CommonMenuItem,
 ];
 
 export const FINANCE_PERMISSIONS = [
   BlockWithPermission.Billing,
   BlockWithPermission.Payment,
   BlockWithPermission.TosStatus,
+  BlockWithPermission.CommonMenuItem,
 ];
 
 export const PERSONAL_GROUP_NAME = 'Personal';

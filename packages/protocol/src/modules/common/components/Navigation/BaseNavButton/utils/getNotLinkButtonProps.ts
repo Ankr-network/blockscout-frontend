@@ -11,12 +11,16 @@ export const getNotLinkButtonProps = ({
   isHidden,
   isNew,
   isNotLinkItem,
+  onClick,
+  onAccessDeniedClick,
   ...props
-}: NavigationItem): ButtonProps => ({
+}: NavigationItem,
+  hasAccess: boolean
+): ButtonProps => ({
   ...props,
   disabled: !isEnabled && !isComingSoon && (!props.href || isDisabled),
   href: undefined,
   key: props.label,
-  onClick: props.onClick,
+  onClick: hasAccess ? onClick : onAccessDeniedClick,
   variant: 'text',
 });

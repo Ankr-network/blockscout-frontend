@@ -10,7 +10,7 @@ import { IUseMenuItemsProps, useMenuItems } from './hooks/useMenuItems';
 import { MainNavigationSkeleton } from './MainNavigationSkeletion';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
 
-export interface IMainNavigationProps extends IUseMenuItemsProps {}
+export interface IMainNavigationProps extends IUseMenuItemsProps { }
 
 export const MainNavigation = (props: IMainNavigationProps) => {
   const { isMobileSideBar, loading } = props;
