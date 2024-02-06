@@ -5,12 +5,13 @@ import { extractMessage } from 'modules/common/utils/extractError';
 import { INotificationProps } from 'domains/notification/store/notificationSlice';
 
 import { getAxiosAccountingErrorMessage } from './getAxiosAccountingErrorMessage';
+import { getParsedErrorMessage } from './getParsedErrorMessage';
 import { is2FAError } from './is2FAError';
 import { isAxiosAccountEmailError } from './isAxiosAccountingEmailError';
 import { isAxiosAccountingError } from './isAxiosAccountingError';
 import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
-import { getParsedErrorMessage } from './getParsedErrorMessage';
+import { isCustomError } from './isCustomError';
 
 export const makeNotification = (
   error: unknown,
@@ -45,7 +46,10 @@ export const makeNotification = (
 };
 
 export const shouldNotify = (error: unknown) => {
-  return !isAxiosAccountEmailError(error) || is2FAError(error);
+  return (
+    (!isAxiosAccountEmailError(error) || is2FAError(error)) &&
+    !isCustomError(error)
+  );
 };
 
 export const createNotifyingQueryFn = queryFnWrapper({

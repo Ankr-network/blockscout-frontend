@@ -2,12 +2,12 @@ import {
   InviteGroupMemeberParams,
   InviteGroupMemeberResult,
 } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { RequestType, web3Api } from 'store/queries';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+
+import { getInviteTeamMemberError } from './utils/getInviteTeamMemberError';
 
 export const {
   endpoints: { inviteTeamMember },
@@ -23,19 +23,14 @@ export const {
         const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.inviteGroupMember(params);
+        const error = getInviteTeamMemberError(data);
+
+        if (error) {
+          return { error };
+        }
 
         return { data };
       }),
-      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-
-        dispatch(
-          NotificationActions.showNotification({
-            message: t('common.success-message'),
-            severity: 'success',
-          }),
-        );
-      },
     }),
   }),
   overrideExisting: true,

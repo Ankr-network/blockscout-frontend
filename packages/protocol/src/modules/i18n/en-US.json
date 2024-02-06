@@ -1487,6 +1487,7 @@
       "success-message": "Invited members will receive email notifications.",
       "error-message-empty-emails-list": "Please add at least one email to proceed",
       "error-message-full-emails-list": "Team member limit reached",
+      "error-message-already-declined-invitation": "{emails} already declined the team invite.",
       "invitee-role-selector": {
         "title": "Access role",
         "roles-description": {

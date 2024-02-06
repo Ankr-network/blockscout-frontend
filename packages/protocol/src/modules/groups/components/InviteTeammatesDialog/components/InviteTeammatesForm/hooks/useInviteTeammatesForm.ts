@@ -6,6 +6,7 @@ import { useInviteCallback } from './useInviteCallback';
 import { useInviteeRoleSelector } from '../../InviteeRoleSelector';
 import { useSuccessCallback } from './useSuccessCallback';
 import { useChangeEmailsInputCallback } from './useChangeEmailsInputCallback';
+import { useErrorCallback } from './useErrorCallback';
 
 export interface UseInviteTeammatesFormParams {
   group: Web3Address;
@@ -41,12 +42,14 @@ export const useInviteTeammatesForm = ({
   const { value: inviteeRole, onChange: onInviteeRoleChange } =
     useInviteeRoleSelector();
 
-  const onSuccess = useSuccessCallback({ handleCloseDialog });
+  const { onSuccess } = useSuccessCallback({ handleCloseDialog });
+  const { onError } = useErrorCallback({ handleCloseDialog });
 
   const { handleInvite, isInviting } = useInviteCallback({
     emails,
     group,
     inviteeRole,
+    onError,
     onSuccess,
     setErrorMessage,
   });
