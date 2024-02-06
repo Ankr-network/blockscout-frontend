@@ -21,7 +21,7 @@ export const PersonalAccountInfoCopyButton = ({
 
   return (
     <TextTooltip {...tooltipProps} title={t('common.copy-message')}>
-      <Button className={classes.root} variant="text">
+      <Button className={classes.root} variant="text" onClick={onCopy}>
         <CopyToClipboard text={address} onCopy={onCopy}>
           <Copy />
         </CopyToClipboard>

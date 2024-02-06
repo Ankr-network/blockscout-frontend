@@ -79,6 +79,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
       {...props}
     >
       <PersonalAccountInfo onAccountButtonClick={handleGoToSettings} />
+      <hr className={classes.divider} />
       <div className={classes.accountsList}>
         <Typography variant="subtitle3" pl={3}>
           {t('account-menu.accounts')}

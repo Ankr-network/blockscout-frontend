@@ -2,6 +2,7 @@ import { Container } from '@mui/material';
 
 import { Header } from 'modules/layout/const';
 import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
+import { AccountStatus } from 'modules/common/components/AccountStatus';
 
 import { HeaderContent } from '../Header/components/HeaderContent';
 import { MobileMenu } from '../MobileMenu';
@@ -26,6 +27,7 @@ export const MobileHeader = ({
     <header className={cx(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
         <GlobalMenuWrapper />
+        <AccountStatus className={classes.accountStatus} />
         <div className={classes.buttons}>
           <HeaderContent type={Header.Mobile} />
           <MobileMenu

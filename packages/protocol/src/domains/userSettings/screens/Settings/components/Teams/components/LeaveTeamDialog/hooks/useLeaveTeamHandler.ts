@@ -1,13 +1,8 @@
-import { GroupUserRole, Web3Address } from 'multirpc-sdk';
+import { Web3Address } from 'multirpc-sdk';
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 
-import {
-  UserGroupConfigWithAddress,
-  setUserGroupConfig,
-} from 'domains/userGroup/store';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLeaveTeamMutation } from 'domains/userSettings/actions/teams/leaveTeam';
+import { useSelectPersonalGroup } from 'modules/groups/hooks/useSelectPersonalGroup';
 
 export interface IUseLeaveTeamHandler {
   group?: Web3Address;
@@ -20,18 +15,7 @@ export const useLeaveTeamHandler = ({
 }: IUseLeaveTeamHandler) => {
   const [leaveTeam, { isLoading: isLeaving }] = useLeaveTeamMutation();
 
-  const { address } = useAuth();
-  const dispatch = useDispatch();
-
-  const selectPersonalGroup = useCallback(() => {
-    const personalGroupConfig: UserGroupConfigWithAddress = {
-      address,
-      selectedGroupAddress: address,
-      selectedGroupRole: GroupUserRole.owner,
-    };
-
-    dispatch(setUserGroupConfig(personalGroupConfig));
-  }, [address, dispatch]);
+  const { selectPersonalGroup } = useSelectPersonalGroup();
 
   const handleLeaveTeam = useCallback(async () => {
     await leaveTeam({ group });

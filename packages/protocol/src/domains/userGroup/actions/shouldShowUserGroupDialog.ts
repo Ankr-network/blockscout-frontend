@@ -85,9 +85,19 @@ export const {
         const canContinueTeamCreationFlow =
           selectCanContinueTeamCreationFlow(state);
 
-        const shouldSelectPersonalAccount =
-          isUserHasGroupsAndNotSelectedGroupAddress &&
+        const shouldContinueTeamCreationFlow =
           canContinueTeamCreationFlow &&
+          isUserHasGroupsAndNotSelectedGroupAddress;
+
+        const isUserHasOnlyPersonalAccount =
+          userGroups && userGroups?.length === 1;
+
+        const shouldSelectPersonalAccountIfNoGroups =
+          isUserHasOnlyPersonalAccount && !selectedGroupAddress;
+
+        const shouldSelectPersonalAccount =
+          (shouldContinueTeamCreationFlow ||
+            shouldSelectPersonalAccountIfNoGroups) &&
           userAddress;
 
         // in case if user is just logged in after team creation with data transfer

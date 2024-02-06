@@ -39,16 +39,23 @@ export const useGroupItemStyles = makeStyles()(theme => ({
     width: 32,
     height: 32,
     marginRight: theme.spacing(3),
+    flexShrink: 0,
   },
   groupInfoWrapper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
+    overflow: 'hidden',
   },
   labelWrapper: {
     display: 'flex',
     alignItems: 'center',
     marginBottom: theme.spacing(1),
+  },
+  userName: {
+    overflow: 'hidden',
+    maxWidth: '100%',
+    textOverflow: 'ellipsis',
   },
   label: {
     marginLeft: 0,

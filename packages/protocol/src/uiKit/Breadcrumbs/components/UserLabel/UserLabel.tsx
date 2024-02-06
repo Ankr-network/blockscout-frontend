@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Briefcase } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { Skeleton } from '@mui/material';
 
 import { getLabel } from './UserLabelUtils';
 import { useUserLabelStyles } from './useUserLabelStyles';
@@ -10,6 +11,7 @@ export interface IUserLabelProps {
   hasStatusTransition?: boolean;
   className?: string;
   hasEnterpriseStatus?: boolean;
+  isLoading?: boolean;
 }
 
 export const UserLabel = ({
@@ -17,6 +19,7 @@ export const UserLabel = ({
   hasStatusTransition = false,
   className: nestedClassName,
   hasEnterpriseStatus = false,
+  isLoading,
 }: IUserLabelProps) => {
   const { classes, cx } = useUserLabelStyles();
 
@@ -34,6 +37,17 @@ export const UserLabel = ({
   );
 
   const label = useMemo(() => getLabel(hasPremiumLabel), [hasPremiumLabel]);
+
+  if (isLoading) {
+    return (
+      <Skeleton
+        className={cx(classes.root, classes.skeleton, nestedClassName)}
+        variant="rectangular"
+        width={70}
+        height={24}
+      />
+    );
+  }
 
   return (
     <div className={className}>

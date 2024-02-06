@@ -5,5 +5,7 @@ export const usePersonalAccountInfoStyles = makeStyles()(theme => ({
     display: 'flex',
 
     gap: theme.spacing(1),
+    width: '100%',
+    justifyContent: 'space-between',
   },
 }));
