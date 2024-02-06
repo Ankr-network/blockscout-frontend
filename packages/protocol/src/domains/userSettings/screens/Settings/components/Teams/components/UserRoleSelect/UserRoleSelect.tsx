@@ -3,8 +3,7 @@ import { GroupUserRole } from 'multirpc-sdk';
 import { IUpdateRoleMutationArgs } from 'domains/userSettings/actions/teams/updateRole';
 
 import { UserRoleMenuButton } from '../UserRoleMenuButton';
-import { UserRoleMenu } from '../UserRoleMenu';
-import { useUserRoleMenu } from '../UserRoleMenu/hooks/useUserRoleMenu';
+import { UserRoleMenu, useUserRoleMenu } from '../UserRoleMenu';
 
 interface IUserRoleSelectProps extends Omit<IUpdateRoleMutationArgs, 'role'> {
   currentRole: GroupUserRole;

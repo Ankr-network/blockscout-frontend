@@ -9,6 +9,7 @@ import {
 export interface IUseTeamItemAsyncAccordionParams {
   isExpanded?: boolean;
   isExpanding?: boolean;
+  groupDetailsError?: unknown;
   onExpand: () => Promise<void>;
   groupAddress: string;
 }
@@ -16,6 +17,7 @@ export interface IUseTeamItemAsyncAccordionParams {
 export const useTeamItemAsyncAccordion = ({
   isExpanded: isInitiallyExpanded = false,
   isExpanding: isInitiallyExpanding = false,
+  groupDetailsError,
   onExpand,
   groupAddress,
 }: IUseTeamItemAsyncAccordionParams) => {
@@ -27,16 +29,20 @@ export const useTeamItemAsyncAccordion = ({
   const currentRequestGroupAddress = groupDetailsRequestArgs?.group;
   const isCurrentGroupDetailsRequest =
     currentRequestGroupAddress === groupAddress;
+  const canExpandItem =
+    isCurrentGroupDetailsRequest &&
+    !isGroupDetailsLoading &&
+    !groupDetailsError;
 
   useEffect(() => {
     if (isGroupDetailsLoading) {
       setIsExpanded(false);
     }
 
-    if (isCurrentGroupDetailsRequest && !isGroupDetailsLoading) {
+    if (canExpandItem) {
       setIsExpanded(true);
     }
-  }, [isCurrentGroupDetailsRequest, isGroupDetailsLoading]);
+  }, [isGroupDetailsLoading, canExpandItem]);
 
   useEffect(() => {
     if (isCurrentGroupDetailsRequest && isGroupDetailsLoading) {

@@ -65,6 +65,9 @@ export const TeamTableMembers = ({
         const isCurrentUser =
           member.address.toLowerCase() === userAddress.toLowerCase();
 
+        const isRoleSelectorDisabled =
+          isCurrentUser && member.role !== GroupUserRole.admin;
+
         const isUserOwner = member.role === GroupUserRole.owner;
 
         const name = member.email || shrinkAddress(member.address);
@@ -88,7 +91,7 @@ export const TeamTableMembers = ({
               className={cx(classes.cell, classes.td, classes.roleCell)}
             >
               <UserRoleSelect
-                isDisabled={isCurrentUser}
+                isDisabled={isRoleSelectorDisabled}
                 currentRole={member.role}
                 email={member.email}
                 userAddress={member.address}
@@ -109,7 +112,9 @@ export const TeamTableMembers = ({
                 membersCount={members.length}
                 handleTransferOwnership={handleTransferOwnership}
                 handleLeaveTeam={handleLeaveTeam}
-                handleRemoveUser={() => handleRemoveUser(member.address, member.email)}
+                handleRemoveUser={() =>
+                  handleRemoveUser(member.address, member.email)
+                }
               />
             </TableCell>
           </TableRow>
