@@ -1,6 +1,8 @@
 import { GroupUserRole } from 'multirpc-sdk';
+import { Typography } from '@mui/material';
 
 import { IUpdateRoleMutationArgs } from 'domains/userSettings/actions/teams/updateRole';
+import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 
 import { UserRoleMenuButton } from '../UserRoleMenuButton';
 import { UserRoleMenu, useUserRoleMenu } from '../UserRoleMenu';
@@ -8,6 +10,7 @@ import { UserRoleMenu, useUserRoleMenu } from '../UserRoleMenu';
 interface IUserRoleSelectProps extends Omit<IUpdateRoleMutationArgs, 'role'> {
   currentRole: GroupUserRole;
   isDisabled?: boolean;
+  isPlainTextView: boolean;
 }
 
 export const UserRoleSelect = ({
@@ -16,6 +19,7 @@ export const UserRoleSelect = ({
   email,
   group,
   isDisabled,
+  isPlainTextView,
 }: IUserRoleSelectProps) => {
   const {
     anchorEl,
@@ -34,6 +38,10 @@ export const UserRoleSelect = ({
     initialUserRole: currentRole,
     userAddress,
   });
+
+  if (!isPlainTextView) {
+    return <Typography variant="body3">{getUserRoleName(userRole)}</Typography>;
+  }
 
   return (
     <>

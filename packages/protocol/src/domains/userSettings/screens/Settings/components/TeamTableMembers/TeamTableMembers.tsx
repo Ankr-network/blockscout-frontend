@@ -21,11 +21,13 @@ import { LeaveTeamDialog } from '../Teams/components/LeaveTeamDialog';
 interface TeamTableMembersProps {
   members: IUserGroupMember[];
   groupAddress: Web3Address;
+  isGroupAvailableForManagement: boolean;
 }
 
 export const TeamTableMembers = ({
   members,
   groupAddress,
+  isGroupAvailableForManagement,
 }: TeamTableMembersProps) => {
   const { address: userAddress } = useAuth();
 
@@ -91,6 +93,7 @@ export const TeamTableMembers = ({
               className={cx(classes.cell, classes.td, classes.roleCell)}
             >
               <UserRoleSelect
+                isPlainTextView={isGroupAvailableForManagement}
                 isDisabled={isRoleSelectorDisabled}
                 currentRole={member.role}
                 email={member.email}

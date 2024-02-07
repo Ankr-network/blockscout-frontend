@@ -15,11 +15,13 @@ import { useResendInvitation } from '../../hooks/useResendInvitationDialog';
 interface TeamTablePendingMembersProps {
   pendingMembers: IPendingUserGroupMember[];
   groupAddress: string;
+  isGroupAvailableForManagement: boolean;
 }
 
 export const TeamTablePendingMembers = ({
   pendingMembers,
   groupAddress,
+  isGroupAvailableForManagement,
 }: TeamTablePendingMembersProps) => {
   const {
     isOpened: isOpenedRevokeInvitationDialog,
@@ -71,6 +73,7 @@ export const TeamTablePendingMembers = ({
               className={cx(classes.cell, classes.td, classes.roleCell)}
             >
               <UserRoleSelect
+                isPlainTextView={isGroupAvailableForManagement}
                 currentRole={role}
                 userAddress={address}
                 email={name}
