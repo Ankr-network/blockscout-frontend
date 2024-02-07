@@ -1557,7 +1557,8 @@
       "title": "Revoke invitation",
       "description": "Want to revoke an invitation? By revoking the invitation, your teammate will no longer be able to join the team.",
       "revoke": "Revoke",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "success-message": "Invitation for {user} has been revoked"
     },
     "resend-invite": {
       "resend-btn-title": "Resend invitation",
@@ -1568,7 +1569,8 @@
       "title": "Leave team",
       "description": "Want to leave the team? Leaving the team, you won’t be able<br/>to access the data associated with it.",
       "leave": "Leave",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "success-message": "You left the team {teamName}"
     },
     "rename-team": {
       "title": "Rename team",
