@@ -18,7 +18,10 @@ export const {
       InviteGroupMemeberResult,
       InviteGroupMemeberParams
     >({
-      invalidatesTags: [RequestType.UserGroupDetails],
+      invalidatesTags: [
+        RequestType.UserGroupDetails,
+        RequestType.UserGroupsList,
+      ],
       queryFn: createNotifyingQueryFn(async params => {
         const api = MultiService.getService().getAccountingGateway();
 
