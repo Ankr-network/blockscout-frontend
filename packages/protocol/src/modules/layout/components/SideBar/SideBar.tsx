@@ -1,6 +1,8 @@
 import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
+import { AccountStatus } from 'modules/common/components/AccountStatus';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { useStyles } from './SideBarStyles';
 import { MainNavigation } from '../MainNavigation';
@@ -26,10 +28,12 @@ export const SideBar = ({
 
   const onDocsClick = useTrackDocs();
   const onAnalyticsClick = useTrackAnalytics();
+  const isXsDown = useIsXSDown();
 
   return (
     <aside className={cx(classes.root, className)}>
       {hasMenu && <GlobalMenuWrapper />}
+      {isXsDown && <AccountStatus className={classes.accountStatus} />}
       <MainNavigation
         chainsRoutes={chainsRoutes}
         isMobileSideBar={isMobileSideBar}

@@ -11,6 +11,7 @@ export const useStyles = makeStyles<boolean>()((theme, isMobileSideBar) => ({
 
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'flex-start',
     gap: theme.spacing(10),
 
     width: isMobileSideBar ? '100%' : SIDEBAR_WIDTH,
@@ -21,5 +22,8 @@ export const useStyles = makeStyles<boolean>()((theme, isMobileSideBar) => ({
 
     backgroundColor: theme.palette.background.paper,
     overflow: 'auto',
+  },
+  accountStatus: {
+    width: 'auto',
   },
 }));

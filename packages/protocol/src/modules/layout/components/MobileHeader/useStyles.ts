@@ -42,6 +42,5 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   accountStatus: {
     marginLeft: theme.spacing(3),
     marginRight: 'auto',
-    backgroundColor: theme.palette.background.default,
   },
 }));

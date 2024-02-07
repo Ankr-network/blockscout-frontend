@@ -17,6 +17,10 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(0.5, 2),
     borderRadius: 8,
+
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: theme.palette.background.default,
+    },
   },
   premium: {
     color: theme.palette.common.white,
