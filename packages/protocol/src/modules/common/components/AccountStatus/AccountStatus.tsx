@@ -1,6 +1,6 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { UserLabel } from 'uiKit/Breadcrumbs/components/UserLabel';
+import { UserLabel } from 'uiKit/UserLabel';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
