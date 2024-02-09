@@ -38,8 +38,7 @@ export const useStyles = makeStyles<UseStylesParams>()(
 
     label: {
       fontWeight: 500,
-      fontSize: theme.spacing(4),
-      lineHeight: theme.spacing(6),
+      fontSize: theme.spacing(3.5),
     },
     mobileTypeLabel: {
       fontWeight: 600,
