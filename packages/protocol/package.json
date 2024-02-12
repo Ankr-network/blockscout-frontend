@@ -32,7 +32,7 @@
     "@ankr.com/global-menu": "2.0.4",
     "@ankr.com/provider": "^1.10.2",
     "@ankr.com/telemetry": "*",
-    "@ankr.com/ui": "^0.13.17",
+    "@ankr.com/ui": "^0.13.18",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
