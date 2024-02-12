@@ -95,7 +95,7 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
         background: theme.palette.background.default,
         '&& svg': {
           strokeWidth: 2,
-          strokeLinejoin: "round",
+          strokeLinejoin: 'round',
         },
       },
       '& > div': {

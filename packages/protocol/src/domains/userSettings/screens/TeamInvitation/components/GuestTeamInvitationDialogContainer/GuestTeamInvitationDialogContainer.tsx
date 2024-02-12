@@ -1,10 +1,10 @@
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 
 import { GuestTeamInvitationDialog } from '../GuestTeamInvitationDialog/GuestTeamInvitationDialog';
 import { TeamInvitationDialogContainerProps } from '../TeamInvitationDialogContainer';
 import { useGuestTeamInvitationDialog } from '../GuestTeamInvitationDialog/hooks/useGuestTeamInvitationDialog';
-import { useSignUpDialog } from './hooks/useSignUpDialog';
+import { useTeamInvitationSignInDialog } from '../../hooks/useSignUpDialog';
 
 export const GuestTeamInvitationDialogContainer = ({
   isOpened: open,
@@ -16,12 +16,14 @@ export const GuestTeamInvitationDialogContainer = ({
   } = useGuestTeamInvitationDialog({ open });
 
   const {
-    handleSignUpDialogClose,
-    handleSignUpDialogOpen,
-    isSignupDialogOpened,
-  } = useSignUpDialog({
-    handleGuestTeamInvitationDialogClose,
-    handleGuestTeamInvitationDialogOpen,
+    description,
+    handleSignInDialogClose,
+    handleSignInDialogOpen,
+    isSignInDialogOpened,
+    title,
+  } = useTeamInvitationSignInDialog({
+    onClose: handleGuestTeamInvitationDialogOpen,
+    onOpen: handleGuestTeamInvitationDialogClose,
   });
 
   const {
@@ -35,14 +37,17 @@ export const GuestTeamInvitationDialogContainer = ({
       <GuestTeamInvitationDialog
         {...guestTeamInvitationDialogProps}
         email={email}
-        onSignIn={handleSignUpDialogOpen}
-        roleName={role}
+        handleSignIn={handleSignInDialogOpen}
+        role={role}
         teamName={teamName}
       />
       <SignupDialog
+        description={description}
+        hasAutoAgreement
         hasOnlyGoogleAuth
-        isOpen={isSignupDialogOpened}
-        onClose={handleSignUpDialogClose}
+        isOpen={isSignInDialogOpened}
+        onClose={handleSignInDialogClose}
+        title={title}
       />
     </>
   );

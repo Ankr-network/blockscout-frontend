@@ -1,4 +1,3 @@
-import { GroupUserRole } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
@@ -37,7 +36,7 @@ export const useAcceptTeamInvitationSuccessHandler = ({
     const acceptedGroupConfig: UserGroupConfigWithAddress = {
       address,
       selectedGroupAddress: groupAddress,
-      selectedGroupRole: role as GroupUserRole,
+      selectedGroupRole: role,
     };
 
     dispatch(setUserGroupConfig(acceptedGroupConfig));

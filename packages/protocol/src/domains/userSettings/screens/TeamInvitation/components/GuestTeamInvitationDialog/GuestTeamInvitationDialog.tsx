@@ -11,16 +11,16 @@ import {
 import { useGuestTeamInvitationDialogStyles } from './useGuestTeamInvitationDialogStyles';
 
 export interface GuestTeamInvitationDialogProps
-  extends IDialogProps,
-  InvitationInfoProps {
-  onSignIn: () => void;
+  extends Omit<IDialogProps, 'role'>,
+    InvitationInfoProps {
+  handleSignIn: () => void;
 }
 
 export const GuestTeamInvitationDialog = ({
   email,
   onClose: handleCloseDialog,
-  onSignIn,
-  roleName,
+  handleSignIn,
+  role,
   teamName,
   ...dialogProps
 }: GuestTeamInvitationDialogProps) => {
@@ -35,9 +35,9 @@ export const GuestTeamInvitationDialog = ({
       shouldHideCloseButton
     >
       <Header />
-      <InvitationInfo email={email} roleName={roleName} teamName={teamName} />
-      <Button fullWidth onClick={onSignIn} size="large" variant="contained">
-        {t('teams.guest-team-invitation-dialog.sign-in-button')}
+      <InvitationInfo email={email} role={role} teamName={teamName} />
+      <Button fullWidth onClick={handleSignIn} size="large" variant="contained">
+        {t('teams.guest-team-invitation-dialog.view-invitation-button')}
       </Button>
     </Dialog>
   );

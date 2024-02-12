@@ -1,4 +1,10 @@
-import { NavBarEndpoints, NavBarAdvancedApi, NavBarDashboard, NavBarEnterprise, NavBarProjects } from '@ankr.com/ui';
+import {
+  NavBarEndpoints,
+  NavBarAdvancedApi,
+  NavBarDashboard,
+  NavBarEnterprise,
+  NavBarProjects,
+} from '@ankr.com/ui';
 import { History } from 'history';
 import { match as Match } from 'react-router-dom';
 import { t } from '@ankr.com/common';

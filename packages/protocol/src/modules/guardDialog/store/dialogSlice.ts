@@ -15,7 +15,7 @@ export const guardDialogSlice = createSlice({
     showDialog: () => {
       return {
         shouldShowDialog: 'true',
-      }
+      };
     },
     hideDialog: () => initialState,
   },

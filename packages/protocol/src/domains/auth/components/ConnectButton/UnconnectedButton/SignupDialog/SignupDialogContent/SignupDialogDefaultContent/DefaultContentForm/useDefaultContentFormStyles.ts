@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useDefaultContentFormStyles = makeStyles()(theme => ({
   form: {
-    marginTop: theme.spacing(7),
+    marginTop: theme.spacing(6),
   },
   button: {
     color: theme.palette.text.primary,
@@ -62,5 +62,13 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
       fontSize: 24,
       color: theme.palette.text.primary,
     },
+  },
+  description: {
+    color: theme.palette.text.secondary,
+  },
+  agreementMessage: {
+    marginTop: theme.spacing(3),
+
+    color: theme.palette.text.primary,
   },
 }));

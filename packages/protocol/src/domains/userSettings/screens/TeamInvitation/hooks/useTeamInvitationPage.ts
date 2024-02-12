@@ -27,8 +27,8 @@ export const useTeamInvitationPage = () => {
 
   const expiredLinkDialogProps = useMemo<ILinkExpiredDialogProps>(
     () => ({
-      handleParentDialogOpen: expiredLinkDialog.onOpen,
       onClose: expiredLinkDialog.onClose,
+      onOpen: expiredLinkDialog.onOpen,
       open: expiredLinkDialog.isOpened,
     }),
     [expiredLinkDialog],
@@ -37,8 +37,8 @@ export const useTeamInvitationPage = () => {
   const emailVerificationDialogProps =
     useMemo<IEmailVerificationIssueDialogProps>(
       () => ({
-        handleParentDialogOpen: emailVerificationDialog.onOpen,
         onClose: emailVerificationDialog.onClose,
+        onOpen: emailVerificationDialog.onOpen,
         open: emailVerificationDialog.isOpened,
       }),
       [emailVerificationDialog],

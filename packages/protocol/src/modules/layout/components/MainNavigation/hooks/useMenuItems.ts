@@ -36,7 +36,7 @@ export const useMenuItems = ({
   } = useUpgradePlanDialog();
 
   const onOpenAccessDeniedDialog = useCallback(() => {
-    dispatch(guardDialogSlice.actions.showDialog())
+    dispatch(guardDialogSlice.actions.showDialog());
   }, [dispatch]);
 
   const { hasReadAccess } = useJwtManager();
@@ -69,12 +69,13 @@ export const useMenuItems = ({
   );
 
   const bottomMenuItems = useMemo(
-    () => getBottomMenuItems({
-      isLoggedIn,
-      isEnterpriseClient,
-      onDocsClick,
-      onOpenAccessDeniedDialog,
-    }),
+    () =>
+      getBottomMenuItems({
+        isLoggedIn,
+        isEnterpriseClient,
+        onDocsClick,
+        onOpenAccessDeniedDialog,
+      }),
     [isLoggedIn, isEnterpriseClient, onDocsClick, onOpenAccessDeniedDialog],
   );
 

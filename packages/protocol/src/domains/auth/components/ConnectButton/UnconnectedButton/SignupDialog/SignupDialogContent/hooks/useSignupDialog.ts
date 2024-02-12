@@ -12,16 +12,18 @@ import { useDialogTitle } from './useDialogTitle';
 
 interface SignupDialogHookProps {
   hasOauthLogin?: boolean;
+  hasOnlyGoogleAuth?: boolean;
   onClose: () => void;
   onOauthSignUp?: () => void;
-  hasOnlyGoogleAuth?: boolean;
+  title?: string;
 }
 
 export const useSignupDialog = ({
-  onClose,
   hasOauthLogin,
   hasOnlyGoogleAuth,
+  onClose,
   onOauthSignUp = () => {},
+  title,
 }: SignupDialogHookProps) => {
   const {
     handleFetchLoginParams: handleFetchGoogleLoginParams,
@@ -45,10 +47,11 @@ export const useSignupDialog = ({
   }, [hasOauthLogin]);
 
   const dialogTitle = useDialogTitle({
-    loading: isFetchGoogleLoginParamsLoading || isFetchOauthLoginParamsLoading,
     currentState,
+    externalTitle: title,
     hasOauthLogin,
     hasOnlyGoogleAuth,
+    loading: isFetchGoogleLoginParamsLoading || isFetchOauthLoginParamsLoading,
   });
 
   const handleClose = useCallback(() => {

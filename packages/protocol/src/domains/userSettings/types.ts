@@ -1,4 +1,4 @@
-import { AccountingErrorResponse } from 'multirpc-sdk';
+import { AccountingErrorResponse, GroupUserRole } from 'multirpc-sdk';
 import { AxiosError } from 'axios';
 
 export type ErrorMessageGetter = (
@@ -19,10 +19,14 @@ export enum TeamInvitationQueryParamsName {
   ExpiresAt = 'expires_at',
 }
 
-export type TeamInvitationQueryParams = Record<
-  TeamInvitationQueryParamsName,
-  string
->;
+export interface TeamInvitationQueryParams {
+  [TeamInvitationQueryParamsName.Email]: string;
+  [TeamInvitationQueryParamsName.ExpiresAt]: string;
+  [TeamInvitationQueryParamsName.Gname]: string;
+  [TeamInvitationQueryParamsName.Group]: string;
+  [TeamInvitationQueryParamsName.Role]: GroupUserRole;
+  [TeamInvitationQueryParamsName.Token]: string;
+}
 
 export enum ESettingsContentType {
   General = 'general',

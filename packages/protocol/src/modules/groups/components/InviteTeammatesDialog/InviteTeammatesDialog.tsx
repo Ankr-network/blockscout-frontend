@@ -11,7 +11,7 @@ import { useInviteTeammatesDialogStyles } from './useInviteTeammatesDialogStyles
 
 export interface InviteTeammatesDialogProps
   extends IDialogProps,
-  InviteTeammatesFormProps { }
+    InviteTeammatesFormProps {}
 
 export const InviteTeammatesDialog = ({
   group,

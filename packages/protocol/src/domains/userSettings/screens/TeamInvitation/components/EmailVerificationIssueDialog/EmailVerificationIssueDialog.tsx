@@ -6,26 +6,28 @@ import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedB
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useEmailVerificationIssueDialogStyles } from './useEmailVerificationIssueDialogStyles';
-import { useSignUpDialog } from './hooks/useSignUpDialog';
+import { useTeamInvitationSignInDialog } from '../../hooks/useSignUpDialog';
 
 export interface IEmailVerificationIssueDialogProps extends IDialogProps {
-  handleParentDialogOpen: () => void;
   onClose: () => void;
+  onOpen: () => void;
 }
 
 export const EmailVerificationIssueDialog = ({
-  onClose: handleParentDialogClose,
-  handleParentDialogOpen,
+  onClose: handleClose,
+  onOpen: handleOpen,
   ...dialogProps
 }: IEmailVerificationIssueDialogProps) => {
   const { hasOauthLogin } = useAuth();
   const {
-    handleSignUpDialogClose,
-    handleSignUpDialogOpen,
-    isSignUpDialogOpened,
-  } = useSignUpDialog({
-    handleParentDialogClose,
-    handleParentDialogOpen,
+    description,
+    handleSignInDialogClose,
+    handleSignInDialogOpen,
+    isSignInDialogOpened,
+    title,
+  } = useTeamInvitationSignInDialog({
+    onClose: handleOpen,
+    onOpen: handleClose,
   });
 
   const { classes } = useEmailVerificationIssueDialogStyles();
@@ -48,17 +50,19 @@ export const EmailVerificationIssueDialog = ({
           >
             {t('teams.email-verification-issue.description')}
           </Typography>
-          <Button fullWidth size="large" onClick={handleSignUpDialogOpen}>
+          <Button fullWidth size="large" onClick={handleSignInDialogOpen}>
             {t('teams.email-verification-issue.log-in')}
           </Button>
         </div>
       </Dialog>
-
       <SignupDialog
+        description={description}
+        hasAutoAgreement
         hasOauthLogin={hasOauthLogin}
         hasOnlyGoogleAuth
-        isOpen={isSignUpDialogOpened}
-        onClose={handleSignUpDialogClose}
+        isOpen={isSignInDialogOpened}
+        onClose={handleSignInDialogClose}
+        title={title}
       />
     </>
   );

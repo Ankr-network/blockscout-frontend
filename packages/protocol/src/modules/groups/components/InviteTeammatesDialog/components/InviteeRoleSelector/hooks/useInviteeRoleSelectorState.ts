@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
 import { InviteeRole } from 'modules/groups/components/InviteTeammatesDialog/types';
-import { userRoleNamesMap } from 'domains/userSettings/screens/Settings/constants';
+import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 
 import { inviteeRoles, inviteeRolesDescriptionMap } from '../constants';
 
@@ -14,7 +14,7 @@ export interface InviteeRoleOption {
 
 export const useInviteeRoleSelectorState = () => {
   const renderValue = useCallback(
-    (value: InviteeRole): ReactNode => t(userRoleNamesMap[value]),
+    (role: InviteeRole): ReactNode => getUserRoleName(role),
     [],
   );
 
@@ -22,7 +22,7 @@ export const useInviteeRoleSelectorState = () => {
     () =>
       inviteeRoles.map<InviteeRoleOption>(inviteeRole => ({
         description: t(inviteeRolesDescriptionMap[inviteeRole]),
-        label: t(userRoleNamesMap[inviteeRole]),
+        label: t(getUserRoleName(inviteeRole)),
         value: inviteeRole,
       })),
     [],

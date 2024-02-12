@@ -6,7 +6,9 @@ import { AccessDeniedDialog } from 'modules/layout/components/AccessDeniedDialog
 import { guardDialogSlice } from './store/dialogSlice';
 
 export const Dialogs = () => {
-  const dialogState = useAppSelector(state => state.guardDialog.shouldShowDialog);
+  const dialogState = useAppSelector(
+    state => state.guardDialog.shouldShowDialog,
+  );
 
   const dispatch = useDispatch();
 
@@ -17,10 +19,7 @@ export const Dialogs = () => {
   return (
     <>
       {dialogState && (
-        <AccessDeniedDialog
-          open={Boolean(dialogState)}
-          onClose={handleClose}
-        />
+        <AccessDeniedDialog open={Boolean(dialogState)} onClose={handleClose} />
       )}
     </>
   );

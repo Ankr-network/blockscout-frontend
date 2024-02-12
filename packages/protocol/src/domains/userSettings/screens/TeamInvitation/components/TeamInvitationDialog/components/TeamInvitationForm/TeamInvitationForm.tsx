@@ -2,21 +2,26 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { DeclineButton } from 'domains/userSettings/screens/TeamInvitation/components/DeclineButton';
+import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 
 import { JoinButton } from '../JoinButton';
 import { SignInButton } from '../SignInButton';
 import { TeamInvitationFormProps } from './types';
 import { Title } from '../Title';
-import { hasDeclineButton } from './utils/hasDeclineButton';
-import { hasSignInButton } from './utils/hasSignInButton';
 import { useTeamInvitationFormStyles } from './useTeamInvitationFormStyles';
 
-// This rule enforces using destructuring but it's extremely inconvinient
-// to do here because of props type narrowing
-/* eslint-disable react/destructuring-assignment */
-
-export const TeamInvitationForm = (props: TeamInvitationFormProps) => {
-  const { isJoining, onJoin, teamName } = props;
+export const TeamInvitationForm = ({
+  isDeclining,
+  isJoining,
+  onDecline,
+  onDeclineDialogClose,
+  onDeclineDialogOpen,
+  onJoin,
+  onSignInWithAnotherEmail,
+  role,
+  teamName,
+}: TeamInvitationFormProps) => {
+  const roleName = getUserRoleName(role);
 
   const { classes } = useTeamInvitationFormStyles();
 
@@ -24,29 +29,24 @@ export const TeamInvitationForm = (props: TeamInvitationFormProps) => {
     <div className={classes.root}>
       <Title className={classes.title} teamName={teamName} />
       <Typography className={classes.description} component="p" variant="body2">
-        {t('teams.team-invitation-dialog.description')}
+        {t('teams.team-invitation-dialog.description', { roleName })}
       </Typography>
-      <JoinButton
-        className={classes.joinButton}
-        isJoining={isJoining}
-        onClick={onJoin}
-      />
-      {hasDeclineButton(props) && (
+      <div className={classes.buttons}>
+        <JoinButton isJoining={isJoining} onClick={onJoin} />
         <DeclineButton
-          isDeclining={props.isDeclining}
+          isDeclining={isDeclining}
           isDisabled={isJoining}
-          onDecline={props.onDecline}
-          onDeclineDialogClose={props.onDeclineDialogClose}
-          onDeclineDialogOpen={props.onDeclineDialogOpen}
+          onDecline={onDecline}
+          onDeclineDialogClose={onDeclineDialogClose}
+          onDeclineDialogOpen={onDeclineDialogOpen}
           teamName={teamName}
         />
-      )}
-      {hasSignInButton(props) && (
         <SignInButton
+          className={classes.signInButton}
           isDisabled={isJoining}
-          onClick={props.onSignInWithAnotherEmail}
+          onClick={onSignInWithAnotherEmail}
         />
-      )}
+      </div>
     </div>
   );
 };

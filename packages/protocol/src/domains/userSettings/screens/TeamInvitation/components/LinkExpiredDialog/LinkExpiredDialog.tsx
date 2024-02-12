@@ -6,28 +6,31 @@ import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedB
 
 import { useLinkExpiredDialog } from './hooks/useLinkExpiredDialog';
 import { useLinkExpiredDialogStyles } from './useLinkExpiredDialogStyles';
+import { useTeamInvitationSignInDialog } from '../../hooks/useSignUpDialog';
 
 export interface ILinkExpiredDialogProps extends IDialogProps {
-  handleParentDialogOpen: () => void;
+  onOpen: () => void;
   onClose: () => void;
 }
 
 export const LinkExpiredDialog = ({
-  handleParentDialogOpen,
   onClose: handleClose,
+  onOpen: handleOpen,
   ...dialogProps
 }: ILinkExpiredDialogProps) => {
   const {
-    buttonText,
-    handleButtonClick,
-    handleDialogClose,
-    handleSingUpDialogClose,
-    hasOauthLogin,
-    isSignUpDialogOpened,
-  } = useLinkExpiredDialog({
-    handleParentDialogOpen,
-    handleParentDialogClose: handleClose,
+    description,
+    handleSignInDialogClose,
+    handleSignInDialogOpen,
+    isSignInDialogOpened,
+    title,
+  } = useTeamInvitationSignInDialog({
+    onClose: handleOpen,
+    onOpen: handleClose,
   });
+
+  const { buttonText, handleButtonClick, handleDialogClose, hasOauthLogin } =
+    useLinkExpiredDialog({ handleSignInDialogOpen });
 
   const { classes } = useLinkExpiredDialogStyles();
 
@@ -53,12 +56,14 @@ export const LinkExpiredDialog = ({
           {buttonText}
         </Button>
       </Dialog>
-
       <SignupDialog
+        description={description}
+        hasAutoAgreement
         hasOauthLogin={hasOauthLogin}
         hasOnlyGoogleAuth
-        isOpen={isSignUpDialogOpened}
-        onClose={handleSingUpDialogClose}
+        isOpen={isSignInDialogOpened}
+        onClose={handleSignInDialogClose}
+        title={title}
       />
     </>
   );

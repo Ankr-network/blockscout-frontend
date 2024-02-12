@@ -20,13 +20,17 @@ import {
 } from '../SignupDialogDefaultContentTypes';
 
 interface DefaultContentFormProps {
-  hasOnlyGoogleAuth?: boolean;
+  description?: string;
   handleSubmit: () => void;
+  hasAutoAgreement?: boolean;
+  hasOnlyGoogleAuth?: boolean;
 }
 
 export const DefaultContentForm = ({
-  hasOnlyGoogleAuth = false,
+  description,
   handleSubmit,
+  hasAutoAgreement = false,
+  hasOnlyGoogleAuth = false,
 }: DefaultContentFormProps) => {
   const { classes } = useDefaultContentFormStyles();
 
@@ -46,85 +50,106 @@ export const DefaultContentForm = ({
     change(SignupFormField.loginType, SignupDialogState.WEB3);
   }, [change]);
 
-  return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      <Button
-        fullWidth
-        className={classes.button}
-        variant="outlined"
-        type="submit"
-        onClick={setGoogleLoginType}
-        startIcon={<GoogleIcon className={classes.loginIcon} />}
-        disabled={Boolean(termsError)}
-      >
-        {t('signup-modal.web2.google')}
-      </Button>
-      {!hasOnlyGoogleAuth && (
-        <>
-          <Button
-            fullWidth
-            className={classes.button}
-            variant="outlined"
-            type="submit"
-            onClick={setGithubLoginType}
-            startIcon={<Github className={classes.loginIcon} />}
-            disabled={Boolean(termsError)}
-          >
-            {t('signup-modal.web2.github')}
-          </Button>
-
-          <Typography
-            variant="subtitle3"
-            className={classes.or}
-            component="div"
-          >
-            {t('signup-modal.web2.or')}
+  const agreementCheckboxes = (
+    <div className={classes.checkboxes}>
+      <Field
+        component={CheckboxField}
+        name={SignupFormField.hasTerms}
+        type="checkbox"
+        shouldHideError
+        className={classes.formLabel}
+        subscription={{ value: true }}
+        label={
+          <Typography variant="subtitle3" className={classes.label}>
+            {tHTML('signup-modal.form.terms-of-service')}
           </Typography>
+        }
+      />
+      <Field
+        component={CheckboxField}
+        name={SignupFormField.hasMarketing}
+        type="checkbox"
+        className={classes.formLabel}
+        label={
+          <Typography variant="subtitle3" className={classes.label}>
+            {tHTML('signup-modal.form.marketing-emails')}
+          </Typography>
+        }
+      />
+    </div>
+  );
 
-          <Button
-            fullWidth
-            className={classes.button}
-            variant="outlined"
-            type="submit"
-            onClick={setWeb3LoginType}
-            startIcon={<EthereumIcon />}
-            disabled={Boolean(termsError)}
-          >
-            {t('signup-modal.web3.button')}
-          </Button>
-        </>
+  const autoAgreementMessage = (
+    <Typography
+      className={classes.agreementMessage}
+      component="p"
+      variant="body3"
+    >
+      {tHTML('signup-modal.form.auto-agreement-message')}
+    </Typography>
+  );
+
+  return (
+    <>
+      {description && (
+        <Typography className={classes.description} variant="body2">
+          {description}
+        </Typography>
       )}
-      {termsError && (
-        <Box className={classes.error}>
-          <WarningIcon color="error" className={classes.icon} /> {termsError}
-        </Box>
-      )}
-      <div className={classes.checkboxes}>
-        <Field
-          component={CheckboxField}
-          name={SignupFormField.hasTerms}
-          type="checkbox"
-          shouldHideError
-          className={classes.formLabel}
-          subscription={{ value: true }}
-          label={
-            <Typography variant="subtitle3" className={classes.label}>
-              {tHTML('signup-modal.form.terms-of-service')}
+      <form onSubmit={handleSubmit} className={classes.form}>
+        <Button
+          fullWidth
+          className={classes.button}
+          variant="outlined"
+          type="submit"
+          onClick={setGoogleLoginType}
+          startIcon={<GoogleIcon className={classes.loginIcon} />}
+          disabled={Boolean(termsError)}
+        >
+          {t('signup-modal.web2.google')}
+        </Button>
+        {!hasOnlyGoogleAuth && (
+          <>
+            <Button
+              fullWidth
+              className={classes.button}
+              variant="outlined"
+              type="submit"
+              onClick={setGithubLoginType}
+              startIcon={<Github className={classes.loginIcon} />}
+              disabled={Boolean(termsError)}
+            >
+              {t('signup-modal.web2.github')}
+            </Button>
+
+            <Typography
+              variant="subtitle3"
+              className={classes.or}
+              component="div"
+            >
+              {t('signup-modal.web2.or')}
             </Typography>
-          }
-        />
-        <Field
-          component={CheckboxField}
-          name={SignupFormField.hasMarketing}
-          type="checkbox"
-          className={classes.formLabel}
-          label={
-            <Typography variant="subtitle3" className={classes.label}>
-              {tHTML('signup-modal.form.marketing-emails')}
-            </Typography>
-          }
-        />
-      </div>
-    </form>
+
+            <Button
+              fullWidth
+              className={classes.button}
+              variant="outlined"
+              type="submit"
+              onClick={setWeb3LoginType}
+              startIcon={<EthereumIcon />}
+              disabled={Boolean(termsError)}
+            >
+              {t('signup-modal.web3.button')}
+            </Button>
+          </>
+        )}
+        {termsError && (
+          <Box className={classes.error}>
+            <WarningIcon color="error" className={classes.icon} /> {termsError}
+          </Box>
+        )}
+        {hasAutoAgreement ? autoAgreementMessage : agreementCheckboxes}
+      </form>
+    </>
   );
 };
