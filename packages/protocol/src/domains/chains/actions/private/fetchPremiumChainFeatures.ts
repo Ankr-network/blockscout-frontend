@@ -4,6 +4,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { Chain } from 'modules/chains/types';
+import { selectBlockchains } from 'modules/chains/store/selectors';
 
 import { chainsFetchPublicChains } from '../public/fetchPublicChains';
 
@@ -34,13 +35,13 @@ export const {
           let { data: { chains: publicChains = [] } = {} } =
             chainsFetchPublicChains.select()(getState() as RootState);
 
-          const blockchains = await publicService
-            .getPublicGateway()
-            .getBlockchains();
+          const { data: blockchains = [] } = selectBlockchains(
+            getState() as RootState,
+          );
 
           if (!publicChains) {
             const formattedPublicChains =
-              await publicService.formatPublicEndpoints(blockchains);
+              publicService.formatPublicEndpoints(blockchains);
 
             publicChains = formatChainsConfigToChains(
               formattedPublicChains,

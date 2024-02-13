@@ -10,8 +10,7 @@ import { useTimeframe } from '../../../hooks/useTimeframe';
 export const usePublicChainsData = () => {
   const { loading: isConnecting, isLoggedIn } = useAuth();
 
-  const [publicChains, publicAllChains, publicChainsLoading] =
-    usePublicChainsInfo();
+  const [publicChains, publicChainsLoading] = usePublicChainsInfo();
 
   const [timeframe, switchStatsTimeframe] = useTimeframe();
 
@@ -24,7 +23,7 @@ export const usePublicChainsData = () => {
   return {
     isLoggedIn,
     chains: publicChains,
-    allChains: publicAllChains,
+    allChains: publicChains,
     loading: isConnecting || publicChainsLoading,
     searchContent,
     setSearchContent,
