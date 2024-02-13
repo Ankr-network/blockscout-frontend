@@ -55,5 +55,8 @@ export const useSelectUserStepStyles = makeStyles()(theme => {
     noticeTitle: {
       marginBottom: theme.spacing(1),
     },
+    errorMessage: {
+      color: theme.palette.error.main,
+    },
   };
 });

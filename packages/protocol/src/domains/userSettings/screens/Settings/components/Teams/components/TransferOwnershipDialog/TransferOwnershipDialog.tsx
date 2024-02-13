@@ -33,6 +33,7 @@ export const TransferOwnershipDialog = ({
     selectedUser,
     userOptions,
     userName,
+    ownerInputError,
     confirmInputValue,
     confirmInputError,
     handleSubmit,
@@ -58,6 +59,7 @@ export const TransferOwnershipDialog = ({
             selectedUser={selectedUser}
             userOptions={userOptions}
             handleSelectUser={handleSelectUser}
+            ownerInputError={ownerInputError}
           />
         ) : (
           <ConfirmStep

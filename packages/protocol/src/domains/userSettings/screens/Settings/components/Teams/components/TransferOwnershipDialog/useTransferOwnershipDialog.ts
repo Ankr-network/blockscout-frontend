@@ -27,6 +27,7 @@ export interface IUseTransferOwnershipDialogResult {
   isLoading: boolean;
   userOptions: IGroupMember[];
   userName?: string;
+  ownerInputError?: string;
   confirmInputValue: string;
   confirmInputError?: string;
   onChangeConfirmInputValue: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -44,7 +45,12 @@ export const useTransferOwnershipDialog = ({
   const [step, setStep] = useState(defaultStep);
   const [user, setUser] = useState<IGroupMember | undefined>();
   const [confirmInputValue, setConfirmInputValue] = useState('');
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [confirmInputError, setConfirmInputError] = useState<
+    string | undefined
+  >(undefined);
+  const [ownerInputError, setOwnerInputError] = useState<string | undefined>(
+    undefined,
+  );
 
   const userName = user?.email?.split('@')[0] || user?.address.slice(0, 6);
   const checkText = t('teams.transfer-ownership.confirm-step.check-text', {
@@ -60,7 +66,8 @@ export const useTransferOwnershipDialog = ({
   const clearTransferOwnershipDialogState = useCallback(() => {
     setConfirmInputValue('');
     setUser(undefined);
-    setError(undefined);
+    setConfirmInputError(undefined);
+    setOwnerInputError(undefined);
     setStep(defaultStep);
   }, [defaultStep]);
 
@@ -71,6 +78,15 @@ export const useTransferOwnershipDialog = ({
 
   const handleSubmit = useCallback(async () => {
     if (isSelectStep) {
+      if (!user) {
+        setOwnerInputError(
+          t('teams.transfer-ownership.confirm-step.required-error'),
+        );
+
+        return () => {};
+      }
+
+      setConfirmInputError(undefined);
       setStep(TransferOwnershipStep.Confirm);
     } else if (user?.address) {
       const isValid = confirmInputValue === checkText;
@@ -84,9 +100,13 @@ export const useTransferOwnershipDialog = ({
         });
         handleCloseTransferOwnershipDialog();
       } else {
-        setError(t('teams.transfer-ownership.confirm-step.error-text'));
+        setConfirmInputError(
+          t('teams.transfer-ownership.confirm-step.error-text'),
+        );
       }
     }
+
+    return () => {};
   }, [
     group,
     isSelectStep,
@@ -94,14 +114,13 @@ export const useTransferOwnershipDialog = ({
     confirmInputValue,
     checkText,
     updateRole,
-    user?.address,
-    user?.email,
+    user,
   ]);
 
   const onChangeConfirmInputValue = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setConfirmInputValue(event.target.value);
-      setError(undefined);
+      setConfirmInputError(undefined);
     },
     [],
   );
@@ -113,6 +132,7 @@ export const useTransferOwnershipDialog = ({
         x => x.email === value || x.address.startsWith(value),
       );
 
+      setOwnerInputError(undefined);
       setUser(foundUser);
     },
     [members],
@@ -131,7 +151,8 @@ export const useTransferOwnershipDialog = ({
     userOptions: members.filter(member => member.role !== GroupUserRole.owner),
     userName,
     confirmInputValue,
-    confirmInputError: error,
+    confirmInputError,
+    ownerInputError,
     handleSelectUser,
     handleSubmit,
     onChangeConfirmInputValue,

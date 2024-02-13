@@ -1606,7 +1606,8 @@
         "input-placeholder": "Enter “transfer to {userName}”",
         "check-text": "transfer to {userName}",
         "submit": "Confirm and transfer",
-        "error-text": "Invalid confirmation text"
+        "error-text": "Invalid confirmation text",
+        "required-error": "Required parameter"
       }
     },
     "update-role": {
