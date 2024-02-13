@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { getAvatarColor } from 'modules/groups/utils/getAvatarColor';
 import { Avatar } from 'domains/userGroup/components/Avatar';
 import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useUserGroupItemStyles } from '../../../UserGroupItem/useUserGroupItemStyles';
 
@@ -21,6 +22,7 @@ interface TeamHeaderProps {
   hasRenamePermissions: boolean;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const TeamHeader = ({
   group: {
     index,
@@ -42,6 +44,7 @@ export const TeamHeader = ({
   const { classes } = useUserGroupItemStyles();
 
   const isCurrentGroupDetails = address === groupDetails?.address;
+  const { address: currentUserAddress = '' } = useAuth();
 
   const groupSummary = useMemo(() => {
     const userRole = getUserRoleName(role);
@@ -51,8 +54,13 @@ export const TeamHeader = ({
     }
 
     if (isCurrentGroupDetails) {
+      const currentUser = groupDetails.members.find(
+        member =>
+          member.address.toLowerCase() === currentUserAddress.toLowerCase(),
+      );
+
       return t('teams.teams-list.team-info', {
-        role: userRole,
+        role: getUserRoleName(currentUser?.role || role) || userRole,
         membersCount: groupDetails?.members?.length || membersCount,
         membersLimit: groupDetails?.members_limit || membersLimit,
         invitesCount: groupDetails?.invitations?.length || invitesCount,
@@ -66,8 +74,9 @@ export const TeamHeader = ({
       invitesCount,
     });
   }, [
+    currentUserAddress,
     groupDetails?.invitations?.length,
-    groupDetails?.members?.length,
+    groupDetails?.members,
     groupDetails?.members_limit,
     invitesCount,
     isCurrentGroupDetails,

@@ -3,7 +3,10 @@ import { SelectChangeEvent } from '@mui/material';
 import { GroupUserRole, IGroupMember } from 'multirpc-sdk';
 import { ChangeEvent, useCallback, useState } from 'react';
 
-import { useUpdateRoleMutation } from 'domains/userSettings/actions/teams/updateRole';
+import {
+  buildTransferOwnershipRequestKey,
+  useUpdateRoleMutation,
+} from 'domains/userSettings/actions/teams/updateRole';
 
 enum TransferOwnershipStep {
   Select,
@@ -48,7 +51,9 @@ export const useTransferOwnershipDialog = ({
     userName,
   });
 
-  const [updateRole, { isLoading }] = useUpdateRoleMutation();
+  const [updateRole, { isLoading }] = useUpdateRoleMutation({
+    fixedCacheKey: buildTransferOwnershipRequestKey(group),
+  });
 
   const isSelectStep = step === TransferOwnershipStep.Select;
 
