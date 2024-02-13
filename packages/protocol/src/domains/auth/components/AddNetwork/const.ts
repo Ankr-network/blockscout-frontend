@@ -45,13 +45,24 @@ const MANTLE: NetworkInfo = {
 
 const MANTLE_TESTNET: NetworkInfo = {
   chainId: 5001,
-  chainName: 'Mantle Testnet',
+  chainName: 'Mantle Goerli Testnet',
   nativeCurrency: {
     name: 'MNT',
     symbol: 'MNT',
     decimals: 18,
   },
   blockExplorerUrls: ['https://explorer.testnet.mantle.xyz/'],
+};
+
+const MANTLE_SEPOLIA: NetworkInfo = {
+  chainId: 5003,
+  chainName: 'Mantle Sepolia Testnet',
+  nativeCurrency: {
+    name: 'MNT',
+    symbol: 'MNT',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.sepolia.mantle.xyz/'],
 };
 
 const ROLLUX: NetworkInfo = {
@@ -133,6 +144,27 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     ],
   },
 
+  [ChainID.ARBITRUM_SEPOLIA]: {
+    chainId: 421614,
+    chainName: 'Arbitrum Sepolia Testnet',
+    nativeCurrency: {
+      name: 'Arbitrum One',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://sepolia-explorer.arbitrum.io'],
+  },
+
+  [ChainID.ARBITRUM_TESTNET]: {
+    chainId: 421613,
+    chainName: 'Arbitrum Goerli Testnet',
+    nativeCurrency: {
+      name: 'Arbitrum One',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://goerli.arbiscan.io'],
+  },
   [ChainID.ARBITRUM_NOVA]: ARBITRUM_NOVA,
 
   [ChainID.BSC]: {
@@ -563,7 +595,18 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.ZKSYNC_ERA_TESTNET]: {
     chainId: 280,
-    chainName: 'zkSync Era Testnet',
+    chainName: 'zkSync Era Goerli Testnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://sepolia.explorer.zksync.io/'],
+  },
+
+  [ChainID.ZKSYNC_ERA_SEPOLIA]: {
+    chainId: 300,
+    chainName: 'zkSync Era Sepolia Testnet',
     nativeCurrency: {
       name: 'ETH',
       symbol: 'ETH',
@@ -584,8 +627,8 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   },
 
   [ChainID.MANTLE]: MANTLE,
-
   [ChainID.MANTLE_TESTNET]: MANTLE_TESTNET,
+  [ChainID.MANTLE_SEPOLIA]: MANTLE_SEPOLIA,
 
   [ChainID.ROLLUX]: ROLLUX,
 
