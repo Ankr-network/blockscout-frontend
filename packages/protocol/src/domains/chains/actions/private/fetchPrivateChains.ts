@@ -3,8 +3,6 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { Chain } from 'modules/chains/types';
-import { selectBlockchains } from 'modules/chains/store/selectors';
-import { RootState } from 'store';
 
 export interface FetchPrivateChainsResult {
   allChains: Chain[];
@@ -20,33 +18,26 @@ export const {
       FetchPrivateChainsResult,
       string | undefined
     >({
-      queryFn: createNotifyingQueryFn(
-        async (userEndpointToken, { getState }) => {
-          const publicService = MultiService.getService();
+      queryFn: createNotifyingQueryFn(async userEndpointToken => {
+        const publicService = MultiService.getService();
 
-          const { data: chains = [] } = selectBlockchains(
-            getState() as RootState,
-          );
+        const chains = await publicService.getPublicGateway().getBlockchains();
 
-          const formattedPrivateChains = userEndpointToken
-            ? publicService.formatPrivateEndpoints(
-                [...chains],
-                userEndpointToken,
-              )
-            : publicService.formatPublicEndpoints([...chains]);
+        const formattedPrivateChains = userEndpointToken
+          ? publicService.formatPrivateEndpoints([...chains], userEndpointToken)
+          : publicService.formatPublicEndpoints([...chains]);
 
-          const formattedPublicChains = publicService.formatPublicEndpoints([
-            ...chains,
-          ]);
+        const formattedPublicChains = publicService.formatPublicEndpoints([
+          ...chains,
+        ]);
 
-          return {
-            data: {
-              chains: formatChainsConfigToChains(formattedPrivateChains),
-              allChains: formatChainsConfigToChains(formattedPublicChains),
-            },
-          };
-        },
-      ),
+        return {
+          data: {
+            chains: formatChainsConfigToChains(formattedPrivateChains),
+            allChains: formatChainsConfigToChains(formattedPublicChains),
+          },
+        };
+      }),
     }),
   }),
 });

@@ -3,8 +3,6 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { Chain } from 'modules/chains/types';
-import { selectBlockchains } from 'modules/chains/store/selectors';
-import { RootState } from 'store';
 
 export interface FetchPublicChainsResult {
   chains: Chain[];
@@ -12,18 +10,15 @@ export interface FetchPublicChainsResult {
 }
 
 export const {
-  useChainsFetchPublicChainsQuery,
   useLazyChainsFetchPublicChainsQuery,
   endpoints: { chainsFetchPublicChains },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPublicChains: build.query<FetchPublicChainsResult, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+      queryFn: createNotifyingQueryFn(async () => {
         const service = MultiService.getService();
 
-        const { data: chains = [] } = selectBlockchains(
-          getState() as RootState,
-        );
+        const chains = await service.getPublicGateway().getBlockchains();
 
         const formattedPublicChains = service.formatPublicEndpoints(chains);
 

@@ -6,6 +6,7 @@ import { web3Api } from 'store/queries';
 
 export const {
   useChainsFetchBlockchainsQuery,
+  useLazyChainsFetchBlockchainsQuery,
   endpoints: { chainsFetchBlockchains },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
