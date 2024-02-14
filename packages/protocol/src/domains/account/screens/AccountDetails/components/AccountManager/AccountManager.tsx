@@ -19,9 +19,16 @@ export const AccountManager = () => {
     [classes.withCurrentPlan]: hasBundleSubscription,
   });
 
+  const switchCurrentChargingModel = () => {
+    // TODO: add handler
+  };
+
   return (
     <div className={className}>
-      <BalanceWidget className={classes.balance} />
+      <BalanceWidget
+        className={classes.balance}
+        onSwitchChargingModel={switchCurrentChargingModel}
+      />
       {hasBundleSubscription ? (
         <PlanWidget className={classes.currentPlan} />
       ) : (

@@ -19,8 +19,8 @@ export const useWidgetStyles = makeStyles()(theme => ({
   },
   actions: {
     position: 'absolute',
-    top: 32,
-    right: 32,
+    top: 29,
+    right: 194,
 
     display: 'flex',
     gap: theme.spacing(3),

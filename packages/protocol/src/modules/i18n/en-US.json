@@ -1782,6 +1782,24 @@
     }
   },
   "account": {
+    "charging-model": {
+      "free": {
+        "title": "Free"
+      },
+      "payg": {
+        "title": "Pay-as-you-go"
+      },
+      "package": {
+        "title": "Package",
+        "package-notice": "This is your last Package. It discontinues in the end of the current validity period. Try Deal as replacement.",
+        "expired-notice": "You've used your last Package. We no longer support this option. Switch to Deal as replacement.",
+        "switch-btn": "Switch",
+        "learn-more": "Learn more"
+      },
+      "deal": {
+        "title": "Deal"
+      }
+    },
     "currencies": {
       "ankr": "ANKR",
       "credit": "Credits",
@@ -1840,11 +1858,16 @@
         "more-button": "+{subscriptionsCount} more"
       },
       "balance-widget": {
-        "title": "Current balance",
+        "title": "Charging model",
         "payg-label": "Pay as you go",
         "credit-balance": "{balance, number, ::compact-short} Credits",
         "usd-balance": "≈{balance, number, USD}",
-        "plural": "s"
+        "plural": "s",
+        "assets-balance-button": "Assets balance",
+        "assets-balance-dialog": {
+          "title": "Assets balance",
+          "description":"The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make. <a href={href} target='_blank'>Learn more</a>"
+        }
       },
       "plan-widget": {
         "title": "Current plan",
