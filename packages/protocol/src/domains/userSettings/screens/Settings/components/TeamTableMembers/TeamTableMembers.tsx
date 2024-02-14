@@ -1,7 +1,7 @@
 import { TableCell, TableRow, Tooltip, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { GroupUserRole, IUserGroupMember, Web3Address } from 'multirpc-sdk';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Question } from '@ankr.com/ui';
 
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
@@ -9,6 +9,10 @@ import { getAvatarColor } from 'modules/groups/utils/getAvatarColor';
 import { Avatar } from 'domains/userGroup/components/Avatar';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import {
+  useUpdateRoleMutation,
+  buildTransferOwnershipRequestKey,
+} from 'domains/userSettings/actions/teams/updateRole';
 
 import { useRemoveTeamMember } from '../../hooks/useRemoveTeamMember';
 import { UserRoleSelect } from '../Teams/components/UserRoleSelect';
@@ -21,11 +25,13 @@ import { LeaveTeamDialog } from '../Teams/components/LeaveTeamDialog';
 interface TeamTableMembersProps {
   members: IUserGroupMember[];
   groupAddress: Web3Address;
+  isGroupAvailableForManagement: boolean;
 }
 
 export const TeamTableMembers = ({
   members,
   groupAddress,
+  isGroupAvailableForManagement,
 }: TeamTableMembersProps) => {
   const { address: userAddress } = useAuth();
 
@@ -57,13 +63,24 @@ export const TeamTableMembers = ({
     onOpenLeaveTeamDialog();
   }, [onOpenLeaveTeamDialog]);
 
+  const [, { data: updateRoleData }] = useUpdateRoleMutation({
+    fixedCacheKey: buildTransferOwnershipRequestKey(groupAddress),
+  });
+
+  const membersToRender = useMemo(() => {
+    return updateRoleData?.members || members;
+  }, [members, updateRoleData?.members]);
+
   const { classes, cx } = useTeamTableStyles();
 
   return (
     <>
-      {members.map((member, index) => {
+      {membersToRender.map((member, index) => {
         const isCurrentUser =
           member.address.toLowerCase() === userAddress.toLowerCase();
+
+        const isRoleSelectorDisabled =
+          isCurrentUser && member.role !== GroupUserRole.admin;
 
         const isUserOwner = member.role === GroupUserRole.owner;
 
@@ -88,7 +105,8 @@ export const TeamTableMembers = ({
               className={cx(classes.cell, classes.td, classes.roleCell)}
             >
               <UserRoleSelect
-                isDisabled={isCurrentUser}
+                isPlainTextView={isGroupAvailableForManagement}
+                isDisabled={isRoleSelectorDisabled}
                 currentRole={member.role}
                 email={member.email}
                 userAddress={member.address}
@@ -109,7 +127,9 @@ export const TeamTableMembers = ({
                 membersCount={members.length}
                 handleTransferOwnership={handleTransferOwnership}
                 handleLeaveTeam={handleLeaveTeam}
-                handleRemoveUser={() => handleRemoveUser(member.address, member.email)}
+                handleRemoveUser={() =>
+                  handleRemoveUser(member.address, member.email)
+                }
               />
             </TableCell>
           </TableRow>

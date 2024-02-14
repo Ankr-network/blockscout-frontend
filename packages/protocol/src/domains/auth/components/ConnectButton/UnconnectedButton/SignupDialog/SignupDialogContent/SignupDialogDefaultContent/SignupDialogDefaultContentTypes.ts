@@ -30,8 +30,11 @@ export interface SignupFormErrors {
 }
 
 export interface SignupDialogDefaultContentProps {
+  description?: string;
+  hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
-  onGoogleButtonClick: () => void;
   onGithubButtonClick: () => void;
+  onGoogleButtonClick: () => void;
   setWeb3State: () => void;
+  shouldSaveTeamInvitationLink?: boolean;
 }

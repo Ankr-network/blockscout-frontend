@@ -1,7 +1,7 @@
 import { t, tHTML } from '@ankr.com/common';
 import { MenuItem, Typography } from '@mui/material';
 import { Select } from '@ankr.com/ui';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 import { ANKR_DOCS_TEAM_ACCOUNTS_LINK } from 'modules/common/constants/const';
@@ -13,13 +13,14 @@ import { UserIcon } from '../UserIcon';
 interface ISelectUserStepProps
   extends Pick<
     IUseTransferOwnershipDialogResult,
-    'selectedUser' | 'handleSelectUser' | 'userOptions'
+    'selectedUser' | 'handleSelectUser' | 'userOptions' | 'ownerInputError'
   > {}
 
 export const SelectUserStep = ({
   selectedUser,
   userOptions,
   handleSelectUser,
+  ownerInputError,
 }: ISelectUserStepProps) => {
   const { classes } = useSelectUserStepStyles();
 
@@ -34,7 +35,7 @@ export const SelectUserStep = ({
         </div>
       ) : (
         <Typography
-          color="textSecondary"
+          color={ownerInputError ? 'error' : 'textSecondary'}
           variant="body2"
           className={classes.valueRoot}
         >
@@ -42,8 +43,20 @@ export const SelectUserStep = ({
         </Typography>
       );
     },
-    [classes.valueIcon, classes.valueRoot],
+    [classes.valueIcon, classes.valueRoot, ownerInputError],
   );
+
+  const renderHelperText = useMemo(() => {
+    if (ownerInputError) {
+      return (
+        <Typography variant="body3" color="error">
+          {ownerInputError}
+        </Typography>
+      );
+    }
+
+    return null;
+  }, [ownerInputError]);
 
   return (
     <>
@@ -65,6 +78,9 @@ export const SelectUserStep = ({
         value={selectedUser?.email || selectedUser?.address || ''}
         renderValue={renderValue}
         onChange={handleSelectUser}
+        error={Boolean(ownerInputError)}
+        helperText={renderHelperText}
+        required
       >
         {userOptions.map(({ email, address, role }) => {
           const name = email || address;

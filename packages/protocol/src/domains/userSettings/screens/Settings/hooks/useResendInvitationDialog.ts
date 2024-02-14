@@ -8,8 +8,10 @@ import { useResendTeamInvitationMutation } from 'domains/userSettings/actions/te
 import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
 
 export const useResendInvitation = (groupAddress: Web3Address) => {
-  const [resendTeamInvitation, { isLoading: isLoadingResendTeamInvite }] =
-    useResendTeamInvitationMutation();
+  const [
+    resendTeamInvitation,
+    { isLoading: isLoadingResendTeamInvite, originalArgs },
+  ] = useResendTeamInvitationMutation();
 
   const dispatch = useDispatch();
 
@@ -36,5 +38,6 @@ export const useResendInvitation = (groupAddress: Web3Address) => {
   return {
     isLoadingResendTeamInvite,
     handleResendInvitation,
+    originalArgs,
   };
 };

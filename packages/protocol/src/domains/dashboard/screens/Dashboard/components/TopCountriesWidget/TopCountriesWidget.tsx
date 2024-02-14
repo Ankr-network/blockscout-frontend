@@ -1,7 +1,8 @@
 import { Paper, Typography } from '@mui/material';
 
+import { ScrollableContainer } from 'modules/common/components/ScrollableContainer';
+
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
-import { ScrollableContainer } from '../ScrollableContainer';
 import { Title } from '../Title';
 import { text } from './utils/text';
 import { useTableWidgetStyles } from '../TableWidget/TableWidgetStyles';

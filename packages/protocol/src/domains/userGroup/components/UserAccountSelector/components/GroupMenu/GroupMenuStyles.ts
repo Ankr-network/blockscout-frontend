@@ -7,6 +7,14 @@ export const useGroupMenuStyles = makeStyles()(theme => ({
     borderRadius: 17,
     padding: theme.spacing(3),
     boxShadow: commonShadow,
+    maxWidth: 288,
+  },
+  divider: {
+    margin: theme.spacing(3, 'auto', 0, 'auto'),
+    height: 1,
+    border: 'none',
+    backgroundColor: theme.palette.grey[100],
+    width: '100%',
   },
   accountsList: {
     paddingTop: theme.spacing(2),

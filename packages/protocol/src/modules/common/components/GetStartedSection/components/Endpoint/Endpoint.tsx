@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
+import { ENTERPRISE_API_KEY_QUERY_PARAM } from 'multirpc-sdk';
 
 import { CopyToClipIcon, ICopyToClipIconProps } from 'uiKit/CopyToClipIcon';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
@@ -17,6 +18,7 @@ export interface EndpointProps {
 }
 
 const URL_DIVIDER_SYMBOL = '/';
+const ENTERPRISE_URL_DIVIDER_SYMBOL = `${ENTERPRISE_API_KEY_QUERY_PARAM}=`;
 
 export const Endpoint = ({
   hasConnectWalletMessage,
@@ -38,17 +40,24 @@ export const Endpoint = ({
       return url;
     }
 
-    const splittedUrl = url.split(URL_DIVIDER_SYMBOL);
+    const isEnterpriseEndpoint = url.includes(ENTERPRISE_URL_DIVIDER_SYMBOL);
+    const divider = isEnterpriseEndpoint
+      ? ENTERPRISE_URL_DIVIDER_SYMBOL
+      : URL_DIVIDER_SYMBOL;
+
+    const splittedUrl = url.split(divider);
 
     return splittedUrl
       .map((value, index) => {
-        if (index === splittedUrl.length - 1) {
+        const lastItemIndex = splittedUrl.length - 1;
+
+        if (index === lastItemIndex) {
           return shrinkAddress(value);
         }
 
         return value;
       })
-      .join(URL_DIVIDER_SYMBOL);
+      .join(divider);
   }, [hasConnectWalletMessage, hasPrivateAccess, url]);
 
   return (

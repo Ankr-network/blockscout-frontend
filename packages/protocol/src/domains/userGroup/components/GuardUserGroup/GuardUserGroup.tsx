@@ -1,5 +1,4 @@
 import { GroupUserRole } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
 import { useCallback, useEffect, ReactNode, ReactElement } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -9,9 +8,10 @@ import {
   GuardUserGroupParams,
   useGuardUserGroup,
 } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { guardDialogSlice } from 'modules/guardDialog';
+import { HIDE_ACCESS_DENIED_DIALOG_FLAG } from 'domains/userGroup/constants/common';
 
 import { useSelectedUserGroup } from '../../hooks/useSelectedUserGroup';
 
@@ -45,12 +45,7 @@ export const GuardUserGroup = ({
   const isDev = selectedGroupRole === GroupUserRole.dev;
 
   const showNotification = useCallback(() => {
-    dispatch(
-      NotificationActions.showNotification({
-        message: t('user-group.forbidden'),
-        severity: 'error',
-      }),
-    );
+    dispatch(guardDialogSlice.actions.showDialog());
   }, [dispatch]);
 
   useEffect(() => {
@@ -65,12 +60,17 @@ export const GuardUserGroup = ({
         history.replace(projectsPath);
       }
 
+      const shouldHideAlert = localStorage.getItem(
+        HIDE_ACCESS_DENIED_DIALOG_FLAG,
+      );
+
       // show notification only if redirect hasn't been forced
-      if (!hasAccess && shouldRedirect) {
+      if (!hasAccess && shouldRedirect && !shouldHideAlert) {
         showNotification();
       }
     }
   }, [
+    blockName,
     hasAccess,
     history,
     isDev,
@@ -85,5 +85,5 @@ export const GuardUserGroup = ({
     return placeholder;
   }
 
-  return hasAccess ? <>{children}</> : placeholder;
+  return <>{hasAccess ? <>{children}</> : placeholder}</>;
 };

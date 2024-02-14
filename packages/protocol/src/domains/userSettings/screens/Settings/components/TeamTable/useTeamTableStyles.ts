@@ -2,9 +2,10 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useTeamTableStyles = makeStyles()(theme => ({
   groupTable: {
-    borderSpacing: theme.spacing(2),
+    borderSpacing: theme.spacing(0.25),
   },
   row: {
+    verticalAlign: 'baseline',
     boxShadow: `0 1px 0px 0px ${theme.palette.grey[200]}`,
   },
   cell: {
@@ -19,8 +20,11 @@ export const useTeamTableStyles = makeStyles()(theme => ({
   },
   td: {
     '&&': {
-      padding: theme.spacing(2, 0, 4, 0),
+      padding: theme.spacing(4, 1, 4, 0),
     },
+  },
+  actionsCell: {
+    verticalAlign: 'middle',
   },
   roleCell: {
     display: 'flex',

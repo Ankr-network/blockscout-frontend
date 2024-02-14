@@ -38,4 +38,9 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     gap: theme.spacing(2),
   },
+
+  accountStatus: {
+    marginLeft: theme.spacing(3),
+    marginRight: 'auto',
+  },
 }));

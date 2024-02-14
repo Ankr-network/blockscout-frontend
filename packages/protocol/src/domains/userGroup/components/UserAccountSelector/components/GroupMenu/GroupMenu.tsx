@@ -6,21 +6,24 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Gear, Info, Logout, Plus } from '@ankr.com/ui';
+import { Gear, Info, Logout, OverlaySpinner, Plus } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
+import { ESettingsContentType } from 'domains/userSettings/types';
+import { Placeholder } from 'modules/common/components/Placeholder';
+import { ScrollableContainer } from 'modules/common/components/ScrollableContainer';
+import { TeamsRoutesConfig } from 'domains/teams/Routes';
+import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import {
   selectIsGroupCreationAllowed,
+  selectUserGroupLoading,
   selectUserGroups,
 } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { ESettingsContentType } from 'domains/userSettings/types';
-import { TeamsRoutesConfig } from 'domains/teams/Routes';
 import { useIsMDDown } from 'uiKit/Theme/useTheme';
 
 import { useGroupMenuStyles } from './GroupMenuStyles';
@@ -33,6 +36,8 @@ export type GroupMenuProps = Pick<MenuProps, 'anchorEl' | 'open'> & {
 
 export const GroupMenu = (props: GroupMenuProps) => {
   const groups = useAppSelector(selectUserGroups);
+  const groupsLoading = useAppSelector(selectUserGroupLoading);
+
   const { onClose } = props;
   const { push } = useHistory();
 
@@ -74,13 +79,21 @@ export const GroupMenu = (props: GroupMenuProps) => {
       {...props}
     >
       <PersonalAccountInfo onAccountButtonClick={handleGoToSettings} />
+      <hr className={classes.divider} />
       <div className={classes.accountsList}>
         <Typography variant="subtitle3" pl={3}>
           {t('account-menu.accounts')}
         </Typography>
-        {groups.map(group => (
-          <GroupItem group={group} onSelect={onClose} key={group.address} />
-        ))}
+        <Placeholder
+          hasPlaceholder={groupsLoading}
+          placeholder={<OverlaySpinner size={30} />}
+        >
+          <ScrollableContainer autoHeight autoHide>
+            {groups.map(group => (
+              <GroupItem group={group} onSelect={onClose} key={group.address} />
+            ))}
+          </ScrollableContainer>
+        </Placeholder>
       </div>
       {!isSmallScreen && (
         <div className={classes.accountActions}>

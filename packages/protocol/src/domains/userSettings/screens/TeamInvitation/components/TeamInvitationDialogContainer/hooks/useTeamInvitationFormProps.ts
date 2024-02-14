@@ -8,12 +8,14 @@ import { useAcceptTeamInvitationCallback } from './useAcceptTeamInvitationCallba
 import { useRejectTeamInvitationSuccessHandler } from './useRejectTeamInvitationSuccessHandler';
 
 export interface UseTeamInvitationFormPropsParams {
+  handleSignInDialogOpen: () => void;
   handleTeamInvitationDialogClose: () => void;
   handleTeamInvitationDialogHide: () => void;
   handleTeamInvitationDialogShow: () => void;
 }
 
 export const useTeamInvitationFormProps = ({
+  handleSignInDialogOpen,
   handleTeamInvitationDialogClose,
   handleTeamInvitationDialogHide,
   handleTeamInvitationDialogShow,
@@ -31,26 +33,30 @@ export const useTeamInvitationFormProps = ({
       onSuccess: onRejectTeamInvitationSuccess,
     });
 
-  const { gname } = UserSettingsRoutesConfig.teamInvitation.useQuery();
+  const { gname, role } = UserSettingsRoutesConfig.teamInvitation.useQuery();
 
   const teamInvitationFormProps = useMemo<TeamInvitationFormProps>(
     () => ({
       isDeclining: isRejecting,
       isJoining: isTeamInvitationAccepting,
       onDecline: handleRejectTeamInvitation,
-      onJoin: handleAcceptTeamInvitation,
-      onDeclineDialogOpen: handleTeamInvitationDialogHide,
       onDeclineDialogClose: handleTeamInvitationDialogShow,
+      onDeclineDialogOpen: handleTeamInvitationDialogHide,
+      onJoin: handleAcceptTeamInvitation,
+      onSignInWithAnotherEmail: handleSignInDialogOpen,
+      role,
       teamName: gname,
     }),
     [
       gname,
       handleAcceptTeamInvitation,
       handleRejectTeamInvitation,
+      handleSignInDialogOpen,
       handleTeamInvitationDialogHide,
       handleTeamInvitationDialogShow,
       isRejecting,
       isTeamInvitationAccepting,
+      role,
     ],
   );
 

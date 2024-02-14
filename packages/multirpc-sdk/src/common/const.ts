@@ -11,14 +11,15 @@ export const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
 
 export const CONFIRMATION_BLOCKS = 12;
 
+export const ENTERPRISE_API_KEY_QUERY_PARAM = 'apikey';
+
 export const STAGING_CONFIG: IConfig = {
   ankrTokenContractAddress: '0x65BF0bD516aD41622e45bFD22dAD57ffF828333a',
   premiumPlanContractAddress: '0xD099e6Be8B30ACc74E3b4e6E80D5e0dB58291e93',
   confirmationBlocks: CONFIRMATION_BLOCKS,
   publicEnterpriseRpcUrl: 'https://enterprise-staging.onerpc.com/{blockchain}',
-  enterpriseRpcUrl:
-    'https://enterprise-staging.onerpc.com/{blockchain}?apikey={user}',
-  enterpriseWsUrl: 'wss://enterprise-staging.onerpc.com/{blockchain}?apikey={user}',
+  enterpriseRpcUrl: `https://enterprise-staging.onerpc.com/{blockchain}?${ENTERPRISE_API_KEY_QUERY_PARAM}={user}`,
+  enterpriseWsUrl: `wss://enterprise-staging.onerpc.com/{blockchain}?${ENTERPRISE_API_KEY_QUERY_PARAM}={user}`,
   privateRpcUrl: 'https://staging.multi-rpc.com/{blockchain}/{user}',
   privateWsUrl: 'wss://staging.multi-rpc.com/{blockchain}/ws/{user}',
   publicRpcUrl: 'https://staging.multi-rpc.com/{blockchain}',
@@ -42,8 +43,8 @@ export const PROD_CONFIG: IConfig = {
   premiumPlanContractAddress: '0x4432faEe427AE2CA961D5bfEEFC2EeD4e1f1D784',
   confirmationBlocks: CONFIRMATION_BLOCKS,
   publicEnterpriseRpcUrl: 'https://enterprise.onerpc.com/{blockchain}',
-  enterpriseRpcUrl: 'https://enterprise.onerpc.com/{blockchain}?apikey={user}',
-  enterpriseWsUrl: 'wss://enterprise.onerpc.com/{blockchain}?apikey={user}',
+  enterpriseRpcUrl: `https://enterprise.onerpc.com/{blockchain}?${ENTERPRISE_API_KEY_QUERY_PARAM}={user}`,
+  enterpriseWsUrl: `wss://enterprise.onerpc.com/{blockchain}?${ENTERPRISE_API_KEY_QUERY_PARAM}={user}`,
   privateRpcUrl: 'https://rpc.ankr.com/{blockchain}/{user}',
   privateWsUrl: 'wss://rpc.ankr.com/{blockchain}/ws/{user}',
   publicRpcUrl: 'https://rpc.ankr.com/{blockchain}',

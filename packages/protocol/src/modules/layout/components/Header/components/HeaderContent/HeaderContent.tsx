@@ -3,6 +3,8 @@ import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 import { UserAccountSelector } from 'domains/userGroup/components/UserAccountSelector';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { Header } from 'modules/layout/const';
+import { AccountDetailsButton } from 'domains/account/components/AccountDetailsButton';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 interface HeaderContentProps {
   type?: Header;
@@ -17,9 +19,18 @@ export const HeaderContent = ({
 
   const { isLoggedIn } = useAuth();
 
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
   return (
     <>
       {(isDefaultType || isSidebarType) && <UserGroupDialog />}
+
+      {isLoggedIn && !isEnterpriseClient && (
+        <AccountDetailsButton
+          isSidebarType={isSidebarType}
+          isMobileType={isMobileType}
+        />
+      )}
 
       {isLoggedIn ? (
         <UserAccountSelector />

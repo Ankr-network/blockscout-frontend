@@ -39,3 +39,5 @@ export const ANKR_DOCS_TEAM_ACCESS_ROLES_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/team-accounts/#edit-access-roles';
 
 export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';
+
+export const ACTION_TEN_MINUTES_CACHE = 6000;

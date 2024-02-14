@@ -14,9 +14,13 @@ export const useUserLabelStyles = makeStyles()(theme => ({
   },
   free: {
     color: theme.palette.primary.main,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(0.5, 2),
     borderRadius: 8,
+
+    [theme.breakpoints.down('md')]: {
+      backgroundColor: theme.palette.background.default,
+    },
   },
   premium: {
     color: theme.palette.common.white,
@@ -45,7 +49,8 @@ export const useUserLabelStyles = makeStyles()(theme => ({
   },
   enterpriseIcon: {
     color: 'inherit',
-    width: 12,
-    height: 12,
+  },
+  skeleton: {
+    borderRadius: 8,
   },
 }));

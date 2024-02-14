@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { userRoleNamesMap } from 'domains/userSettings/screens/Settings/constants';
+import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 
 import { INTL_ROOT } from './constants';
 import { InviteeRole } from '../../types';
@@ -19,7 +19,7 @@ export const InviteeRolePermissions = ({
 }: InviteeRolePermissionsProps) => {
   const { classes, cx } = useInviteeRolePermissionsStyles();
 
-  const roleName = t(userRoleNamesMap[role]);
+  const roleName = getUserRoleName(role);
 
   return (
     <Box className={cx(classes.root, className)}>

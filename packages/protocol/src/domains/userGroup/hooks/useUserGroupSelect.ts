@@ -11,10 +11,12 @@ import { getPermissions } from 'modules/groups/utils/getPermissions';
 import { BlockWithPermission } from '../constants/groups';
 import { shouldShowUserGroupDialog } from '../actions/shouldShowUserGroupDialog';
 import { useUserGroupConfig } from './useUserGroupConfig';
+import { useAvoidAccessDeniedAlert } from './useAvoidAccessDeniedAlert';
 
 export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   const { address } = useAuth();
   const dispatch = useAppDispatch();
+  const avoidAccessDeniedAlert = useAvoidAccessDeniedAlert();
 
   const {
     shouldRemind: savedShouldRemind,
@@ -69,12 +71,15 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
       newUserGroupConfig,
     };
 
+    avoidAccessDeniedAlert();
+
     await dispatch(
       fetchIsEnterpriseClient.initiate(fetchEnterpriseStatusParams),
     );
 
     dispatch(shouldShowUserGroupDialog.initiate());
   }, [
+    avoidAccessDeniedAlert,
     dispatch,
     address,
     selectedGroupAddress,

@@ -1,23 +1,18 @@
+import { GroupUserRole } from 'multirpc-sdk';
+
 import { UseDeclineTeamInvitationDialogParams } from 'domains/userSettings/screens/TeamInvitation/components/DeclineTeamInvitationDialog';
 
-interface CommonTeamInvitationFormProps {
+type DeclineDialogProps = Omit<
+  UseDeclineTeamInvitationDialogParams,
+  'open' | 'onOpen' | 'role'
+>;
+
+export interface TeamInvitationFormProps extends DeclineDialogProps {
   isJoining: boolean;
   onJoin: () => void;
+  role: GroupUserRole;
   teamName: string;
-}
-
-export interface TeamInvitationFormWithDeclineButtonProps
-  extends CommonTeamInvitationFormProps,
-    Omit<UseDeclineTeamInvitationDialogParams, 'open' | 'onOpen'> {
   onDeclineDialogClose: () => void;
   onDeclineDialogOpen: () => void;
-}
-
-export interface TeamInvitationFormWithSignInButtonProps
-  extends CommonTeamInvitationFormProps {
   onSignInWithAnotherEmail: () => void;
 }
-
-export type TeamInvitationFormProps =
-  | TeamInvitationFormWithDeclineButtonProps
-  | TeamInvitationFormWithSignInButtonProps;

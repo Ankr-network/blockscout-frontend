@@ -33,11 +33,13 @@ export const TransferOwnershipDialog = ({
     selectedUser,
     userOptions,
     userName,
+    ownerInputError,
     confirmInputValue,
     confirmInputError,
     handleSubmit,
     handleSelectUser,
     onChangeConfirmInputValue,
+    handleCloseTransferOwnershipDialog,
   } = useTransferOwnershipDialog({
     members,
     group,
@@ -45,13 +47,19 @@ export const TransferOwnershipDialog = ({
   });
 
   return (
-    <Dialog maxPxWidth={600} onClose={onClose} open={open} title={title}>
+    <Dialog
+      maxPxWidth={600}
+      onClose={handleCloseTransferOwnershipDialog}
+      open={open}
+      title={title}
+    >
       <div className={classes.content}>
         {isSelectStep ? (
           <SelectUserStep
             selectedUser={selectedUser}
             userOptions={userOptions}
             handleSelectUser={handleSelectUser}
+            ownerInputError={ownerInputError}
           />
         ) : (
           <ConfirmStep
@@ -72,7 +80,11 @@ export const TransferOwnershipDialog = ({
       >
         {submitButtonTitle}
       </LoadingButton>
-      <Button fullWidth variant="outlined" onClick={onClose}>
+      <Button
+        fullWidth
+        variant="outlined"
+        onClick={handleCloseTransferOwnershipDialog}
+      >
         {t('teams.transfer-ownership.cancel')}
       </Button>
     </Dialog>

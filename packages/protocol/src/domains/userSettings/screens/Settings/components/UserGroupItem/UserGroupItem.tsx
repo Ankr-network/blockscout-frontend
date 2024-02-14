@@ -117,6 +117,7 @@ export const UserGroupItem = ({ group }: UserGroupItemProps) => {
             members={members}
             pendingMembers={pendingMembers}
             groupAddress={group.address}
+            isGroupAvailableForManagement={isGroupAvailableForManagement}
           />
         </AccordionDetails>
       </Accordion>

@@ -12,7 +12,13 @@ export const useTeamInvitationFormStyles = makeStyles()(theme => ({
 
     color: theme.palette.text.primary,
   },
-  joinButton: {
-    marginBottom: theme.spacing(3),
+  buttons: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridTemplateRows: '1fr 1fr',
+    gridGap: theme.spacing(3),
+  },
+  signInButton: {
+    gridColumn: '1 / 3',
   },
 }));

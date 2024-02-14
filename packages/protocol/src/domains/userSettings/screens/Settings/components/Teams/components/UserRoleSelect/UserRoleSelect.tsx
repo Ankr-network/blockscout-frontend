@@ -1,15 +1,16 @@
 import { GroupUserRole } from 'multirpc-sdk';
+import { Typography } from '@mui/material';
 
-import { useMenu } from 'modules/common/hooks/useMenu';
 import { IUpdateRoleMutationArgs } from 'domains/userSettings/actions/teams/updateRole';
+import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 
 import { UserRoleMenuButton } from '../UserRoleMenuButton';
-import { UserRoleMenu } from '../UserRoleMenu';
-import { useUserRoleMenu } from '../UserRoleMenu/useUserRoleMenu';
+import { UserRoleMenu, useUserRoleMenu } from '../UserRoleMenu';
 
 interface IUserRoleSelectProps extends Omit<IUpdateRoleMutationArgs, 'role'> {
   currentRole: GroupUserRole;
   isDisabled?: boolean;
+  isPlainTextView: boolean;
 }
 
 export const UserRoleSelect = ({
@@ -18,42 +19,48 @@ export const UserRoleSelect = ({
   email,
   group,
   isDisabled,
+  isPlainTextView,
 }: IUserRoleSelectProps) => {
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
-
   const {
-    isLoading,
+    anchorEl,
+    handleUserRoleChange,
+    handleUserRoleMenuClose,
+    handleUserRoleMenuOpen,
+    handleUserRoleUpdate,
     isButtonDisabled,
-    selectedRole,
-    handleUpdateRole,
-    handleRoleChange,
+    isLoading,
+    isUserRoleMenuOpened,
+    selectedUserRole,
     userRole,
   } = useUserRoleMenu({
-    currentRole,
-    userAddress,
     email,
     group,
-    onClose: handleClose,
+    initialUserRole: currentRole,
+    userAddress,
   });
+
+  if (!isPlainTextView) {
+    return <Typography variant="body3">{getUserRoleName(userRole)}</Typography>;
+  }
 
   return (
     <>
       <UserRoleMenuButton
         currentRole={userRole}
-        isMenuOpen={open}
-        onClick={handleOpen}
         isDisabled={isDisabled || userRole === GroupUserRole.owner}
+        isMenuOpen={isUserRoleMenuOpened}
+        onClick={handleUserRoleMenuOpen}
       />
 
       <UserRoleMenu
-        open={open}
         anchorEl={anchorEl}
-        onClose={handleClose}
-        isLoading={isLoading}
+        handleRoleChange={handleUserRoleChange}
+        handleUpdateRole={handleUserRoleUpdate}
         isButtonDisabled={isButtonDisabled}
-        selectedRole={selectedRole}
-        handleUpdateRole={handleUpdateRole}
-        handleRoleChange={handleRoleChange}
+        isLoading={isLoading}
+        onClose={handleUserRoleMenuClose}
+        open={isUserRoleMenuOpened}
+        selectedRole={selectedUserRole}
       />
     </>
   );

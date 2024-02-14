@@ -6,8 +6,8 @@ import {
 } from 'domains/account/types';
 import { Select } from 'uiKit/Select';
 
-import { useStyles } from './FiltersStyles';
 import { useFilters } from './hooks/useFilters';
+import { useFiltersStyles } from './useFiltersStyles';
 
 export interface FiltersProps {
   paymentType: PaymentType;
@@ -30,42 +30,24 @@ export const Filters = ({
     timeframeOptions,
   } = useFilters({ setPaymentType, setTimeframe });
 
-  const { classes } = useStyles();
+  const { classes } = useFiltersStyles();
 
   return (
     <Box className={classes.root}>
       <Select
-        MenuProps={{
-          classes: {
-            paper: classes.menuPaper,
-          },
-        }}
-        className={classes.select}
-        classes={{
-          select: classes.selector,
-        }}
         fullWidth={false}
-        iconClassName={classes.selectIcon}
         onChange={changeTimeframe}
         options={timeframeOptions}
+        size="small"
         value={timeframe}
       />
       <Select
-        MenuProps={{
-          classes: {
-            paper: classes.menuPaper,
-          },
-        }}
-        className={classes.select}
-        classes={{
-          select: classes.selector,
-        }}
         displayEmpty
         fullWidth={false}
-        iconClassName={classes.selectIcon}
         onChange={changePaymentType}
         options={paymentTypeOptions}
         renderValue={renderPaymentTypeValue}
+        size="small"
         value={paymentType}
       />
     </Box>

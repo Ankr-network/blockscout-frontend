@@ -9,6 +9,7 @@ import { Dialog } from 'uiKit/Dialog';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { MAX_TEAM_NAME_LENGTH } from 'domains/userSettings/screens/Settings/constants';
 
 import { useRenameTeamDialogStyles } from './useRenameTeamDialogStyles';
 
@@ -85,6 +86,7 @@ export const RenameTeamDialog = ({
         value={inputValue}
         label={t('teams.rename-team.label')}
         onChange={onChangeInputValue}
+        maxLength={MAX_TEAM_NAME_LENGTH}
       />
 
       <LoadingButton

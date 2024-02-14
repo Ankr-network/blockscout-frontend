@@ -6,4 +6,12 @@ export interface MenuItemsParams {
   isMobileSideBar: boolean;
   onDashboardClick: () => void;
   onOpenUpgradePlanDialog: () => void;
+  onOpenAccessDeniedDialog: () => void;
+}
+
+export interface BottomMenuItemsParams {
+  isLoggedIn: boolean;
+  isEnterpriseClient: boolean;
+  onDocsClick: () => void;
+  onOpenAccessDeniedDialog: () => void;
 }

@@ -6,6 +6,7 @@ import { resetEndpoint } from 'store/utils/resetEndpoint';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useAvoidAccessDeniedAlert } from 'domains/userGroup/hooks/useAvoidAccessDeniedAlert';
 
 import { GroupItemProps } from '../types';
 
@@ -14,6 +15,8 @@ export const useGroupItem = ({
   onSelect,
 }: GroupItemProps) => {
   const { group: selectedGroup } = useSelectedUserGroup();
+
+  const avoidAccessDeniedAlert = useAvoidAccessDeniedAlert();
 
   const { address } = useAuth();
 
@@ -40,12 +43,14 @@ export const useGroupItem = ({
       newUserGroupConfig,
     };
 
+    avoidAccessDeniedAlert();
+
     await dispatch(fetchIsEnterpriseClient.initiate(isClientFetchParams));
 
     resetEndpoint('fetchPremiumStatus', dispatch);
 
     onSelect();
-  }, [address, dispatch, groupAddress, onSelect, role]);
+  }, [address, dispatch, groupAddress, onSelect, role, avoidAccessDeniedAlert]);
 
   return { isSelected, onClick };
 };

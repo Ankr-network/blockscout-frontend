@@ -90,10 +90,16 @@
     "projects": "Projects",
     "analytics": "Analytics",
     "enterprise": "Enterprise",
+    "advanced-api": "Advanced API",
     "endpoints": "Endpoints",
     "billing": "Billing",
     "pricing": "Pricing",
     "docs": "Docs"
+  },
+  "access-denied-dialog": {
+    "title": "Access denied",
+    "description": "Your access role grants you no access to the requested platform section. Contact the team Owner or Admin for the corresponding role. Learn more on <a href=\"{href}\" target=\"_blank\">access roles.</a>",
+    "done": "Done"
   },
   "mobile-navigation": {
     "dashboard": "Dashboard",
@@ -152,7 +158,8 @@
     "form": {
       "terms-of-service": "I agree to <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">Ankr's terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>",
       "marketing-emails": "I agree to receive marketing communications from Ankr",
-      "no-terms-error": "To continue, you must agree with our Terms of Service and Privacy Policy"
+      "no-terms-error": "To continue, you must agree with our Terms of Service and Privacy Policy",
+      "auto-agreement-message": "By continuing you agree to our <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>."
     }
   },
   "projects": {
@@ -1481,6 +1488,7 @@
       "success-message": "Invited members will receive email notifications.",
       "error-message-empty-emails-list": "Please add at least one email to proceed",
       "error-message-full-emails-list": "Team member limit reached",
+      "error-message-already-declined-invitation": "{emails} already declined the team invite.",
       "invitee-role-selector": {
         "title": "Access role",
         "roles-description": {
@@ -1505,7 +1513,7 @@
     },
     "team-invitation-dialog": {
       "title": "Welcome to {teamName}",
-      "description": "Joining the team, you'll be able to collaborate according to your access role.",
+      "description": "Joining the team, you'll be able to collaborate according to the {roleName} role.",
       "join-button": "Join team",
       "decline-button": "Decline invitation",
       "sign-in-button": "Sign in with another email",
@@ -1516,7 +1524,11 @@
       "rpc-logo-label": "Power your web3 projects with blockchain interaction.",
       "title": "You've been invited to the {teamName} in the {roleName} role",
       "description": "To accept or decline the invitation, view invitation as",
-      "sign-in-button": "View invitation"
+      "view-invitation-button": "View invitation"
+    },
+    "team-invitation-sign-in-dialog": {
+      "title": "Sign in",
+      "description": "To view the invitation, sign in as {email}"
     },
     "decline-team-invitation-dialog": {
       "title": "Decline invitation",
@@ -1550,7 +1562,8 @@
       "title": "Revoke invitation",
       "description": "Want to revoke an invitation? By revoking the invitation, your teammate will no longer be able to join the team.",
       "revoke": "Revoke",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "success-message": "Invitation for {user} has been revoked"
     },
     "resend-invite": {
       "resend-btn-title": "Resend invitation",
@@ -1561,7 +1574,8 @@
       "title": "Leave team",
       "description": "Want to leave the team? Leaving the team, you won’t be able<br/>to access the data associated with it.",
       "leave": "Leave",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "success-message": "You left the team {teamName}"
     },
     "rename-team": {
       "title": "Rename team",
@@ -1592,7 +1606,8 @@
         "input-placeholder": "Enter “transfer to {userName}”",
         "check-text": "transfer to {userName}",
         "submit": "Confirm and transfer",
-        "error-text": "Invalid confirmation text"
+        "error-text": "Invalid confirmation text",
+        "required-error": "Required parameter"
       }
     },
     "update-role": {

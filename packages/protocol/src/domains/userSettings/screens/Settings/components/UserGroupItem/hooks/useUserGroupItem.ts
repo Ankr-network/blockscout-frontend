@@ -23,12 +23,15 @@ export const useUserGroupItem = ({ group }: UseUserGroupItemProps) => {
     data: groupDetails,
     isLoading: isGroupDetailsLoading,
     originalArgs: fetchGroupDetailsArgs,
+    error: groupDetailsError,
   } = useAppSelector(selectGroupDetailsRequestState);
+
+  const isCurrentGroupRequest = fetchGroupDetailsArgs?.group === groupAddress;
 
   // We have to check that group details are fetching for the current group
   // address to prevent loading state on all the Invite buttons in the team list
   const isGroupDetailsFetchingForCurrentGroup =
-    isGroupDetailsLoading && fetchGroupDetailsArgs?.group === groupAddress;
+    isGroupDetailsLoading && isCurrentGroupRequest;
 
   const groupPermissions = useMemo(() => {
     const permissions = getPermissions(groupRole);
@@ -62,6 +65,7 @@ export const useUserGroupItem = ({ group }: UseUserGroupItemProps) => {
   } = useTeamItemAsyncAccordion({
     onExpand: handleFetchGroupDetails,
     groupAddress,
+    groupDetailsError,
   });
 
   const {

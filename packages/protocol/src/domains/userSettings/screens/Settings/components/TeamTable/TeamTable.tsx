@@ -21,12 +21,14 @@ interface TeamTableProps {
   members: IUserGroupMember[];
   pendingMembers: IPendingUserGroupMember[];
   groupAddress: Web3Address;
+  isGroupAvailableForManagement: boolean;
 }
 
 export const TeamTable = ({
   members,
   pendingMembers,
   groupAddress,
+  isGroupAvailableForManagement,
 }: TeamTableProps) => {
   const { classes, cx } = useTeamTableStyles();
 
@@ -45,8 +47,13 @@ export const TeamTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          <TeamTableMembers members={members} groupAddress={groupAddress} />
+          <TeamTableMembers
+            isGroupAvailableForManagement={isGroupAvailableForManagement}
+            members={members}
+            groupAddress={groupAddress}
+          />
           <TeamTablePendingMembers
+            isGroupAvailableForManagement={isGroupAvailableForManagement}
             pendingMembers={pendingMembers}
             groupAddress={groupAddress}
           />

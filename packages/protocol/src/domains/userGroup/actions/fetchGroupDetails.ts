@@ -3,6 +3,8 @@ import { IApiUserGroupParams, IApiUserGroupDetails } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { RequestType, web3Api } from 'store/queries';
 
+import { userGroupFetchGroups } from './fetchGroups';
+
 export const {
   endpoints: { userGroupFetchGroupDetails },
   useLazyUserGroupFetchGroupDetailsQuery,
@@ -22,6 +24,16 @@ export const {
 
         return { data };
       },
+      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          // we should refetch all groups in case of details fetching error
+          // to prevent showing outdated data
+          dispatch(userGroupFetchGroups.initiate());
+        }
+      },
     }),
   }),
+  overrideExisting: true,
 });

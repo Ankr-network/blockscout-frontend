@@ -7,19 +7,27 @@ import { useSignupDialog } from './SignupDialogContent/hooks/useSignupDialog';
 export const SIGNUP_DIALOG_WIDTH = 620;
 
 interface SignupDialogProps {
+  description?: string;
+  hasAutoAgreement?: boolean;
+  hasOauthLogin?: boolean;
+  hasOnlyGoogleAuth?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
-  hasOauthLogin?: boolean;
-  hasOnlyGoogleAuth?: boolean;
+  shouldSaveTeamInvitationLink?: boolean;
+  title?: string;
 }
 
 export const SignupDialog = ({
+  description,
+  hasAutoAgreement,
+  hasOauthLogin,
+  hasOnlyGoogleAuth = false,
   isOpen = false,
   onClose,
   onSuccess,
-  hasOauthLogin,
-  hasOnlyGoogleAuth = false,
+  shouldSaveTeamInvitationLink,
+  title,
 }: SignupDialogProps) => {
   const { classes } = useSignupDialogStyles();
   const {
@@ -32,28 +40,31 @@ export const SignupDialog = ({
     onGithubButtonClick,
     setWeb3State,
     oauthLoginType,
-  } = useSignupDialog({ onClose, hasOauthLogin, hasOnlyGoogleAuth });
+  } = useSignupDialog({ onClose, hasOauthLogin, hasOnlyGoogleAuth, title });
 
   return (
     <Dialog
+      closeButtonClassName={classes.closeButton}
       maxPxWidth={SIGNUP_DIALOG_WIDTH}
       onClose={onDialogCloseClick}
       open={isOpen}
+      paperClassName={classes.paperRoot}
       title={dialogTitle}
       titleClassName={classes.dialogTitle}
-      closeButtonClassName={classes.closeButton}
-      paperClassName={classes.paperRoot}
     >
       <SignupDialogContent
         currentState={currentState}
-        onDialogClose={handleClose}
-        onGoogleButtonClick={onGoogleButtonClick}
-        onGithubButtonClick={onGithubButtonClick}
-        onSuccess={onSuccess}
-        setWeb3State={setWeb3State}
+        description={description}
+        hasAutoAgreement={hasAutoAgreement}
+        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
         isLoading={isLoading}
         oauthLoginType={oauthLoginType}
-        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+        onDialogClose={handleClose}
+        onGithubButtonClick={onGithubButtonClick}
+        onGoogleButtonClick={onGoogleButtonClick}
+        onSuccess={onSuccess}
+        setWeb3State={setWeb3State}
+        shouldSaveTeamInvitationLink={shouldSaveTeamInvitationLink}
       />
     </Dialog>
   );

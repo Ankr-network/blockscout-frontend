@@ -60,7 +60,6 @@ export const chainGroups: ChainGroup[] = [
     chains: [
       ChainID.ARBITRUM,
       ChainID.ARBITRUM_NOVA,
-      ChainID.ARBITRUM_TESTNET,
 
       ChainID.AVALANCHE,
       ChainID.AVALANCHE_EVM,
@@ -124,7 +123,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ROLLUX_TESTNET,
 
       ChainID.MANTLE,
-      ChainID.MANTLE_TESTNET,
 
       ChainID.TAIKO,
       ChainID.TAIKO_KATLA,
@@ -135,7 +133,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
       ChainID.ZKSYNC_ERA,
-      ChainID.ZKSYNC_ERA_TESTNET,
 
       ChainID.LINEA,
 
@@ -200,6 +197,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
       ChainID.OPTIMISM_TESTNET,
+      ChainID.ZKSYNC_ERA_TESTNET,
+      ChainID.ARBITRUM_TESTNET,
+      ChainID.MANTLE_TESTNET,
     ],
   },
   {
@@ -212,6 +212,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.SCROLL_SEPOLIA_TESTNET,
       ChainID.OPTIMISM_SEPOLIA,
       ChainID.BASE_SEPOLIA,
+      ChainID.ZKSYNC_ERA_SEPOLIA,
+      ChainID.ARBITRUM_SEPOLIA,
+      ChainID.MANTLE_SEPOLIA,
     ],
   },
   {

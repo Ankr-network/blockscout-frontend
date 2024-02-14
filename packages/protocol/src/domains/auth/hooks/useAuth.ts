@@ -22,8 +22,8 @@ import {
   selectPremiumStatus,
   selectPremiumUntilDate,
   selectIsPremiumStatusUninitialized,
-  selectPremiumStatusWithDepsLoading,
   selectIsPremiumStatusLoaded,
+  selectPremiumStatusLoadingInitially,
 } from '../store';
 import { useWeb3Connection } from './useWeb3Connection';
 
@@ -37,7 +37,7 @@ export const useAuth = () => {
   const hasInfrastructureAccess = useAppSelector(selectHasInfrastructureAccess);
   const hasPremium = useAppSelector(selectHasPremium);
   const isPremiumStatusLoading = useAppSelector(
-    selectPremiumStatusWithDepsLoading,
+    selectPremiumStatusLoadingInitially,
   );
   const isPremiumStatusUninitialized = useAppSelector(
     selectIsPremiumStatusUninitialized,

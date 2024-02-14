@@ -1,9 +1,12 @@
 import { t } from '@ankr.com/common';
 import { SelectChangeEvent } from '@mui/material';
 import { GroupUserRole, IGroupMember } from 'multirpc-sdk';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 
-import { useUpdateRoleMutation } from 'domains/userSettings/actions/teams/updateRole';
+import {
+  buildTransferOwnershipRequestKey,
+  useUpdateRoleMutation,
+} from 'domains/userSettings/actions/teams/updateRole';
 
 enum TransferOwnershipStep {
   Select,
@@ -24,11 +27,13 @@ export interface IUseTransferOwnershipDialogResult {
   isLoading: boolean;
   userOptions: IGroupMember[];
   userName?: string;
+  ownerInputError?: string;
   confirmInputValue: string;
   confirmInputError?: string;
   onChangeConfirmInputValue: (event: ChangeEvent<HTMLInputElement>) => void;
   handleSelectUser: (event: SelectChangeEvent<string>) => void;
   handleSubmit: () => void;
+  handleCloseTransferOwnershipDialog: () => void;
 }
 
 export const useTransferOwnershipDialog = ({
@@ -36,22 +41,52 @@ export const useTransferOwnershipDialog = ({
   members,
   onClose,
 }: IUseTransferOwnershipDialogParams): IUseTransferOwnershipDialogResult => {
-  const [step, setStep] = useState(TransferOwnershipStep.Select);
+  const defaultStep = TransferOwnershipStep.Select;
+  const [step, setStep] = useState(defaultStep);
   const [user, setUser] = useState<IGroupMember | undefined>();
   const [confirmInputValue, setConfirmInputValue] = useState('');
-  const [error, setError] = useState<string | undefined>(undefined);
+  const [confirmInputError, setConfirmInputError] = useState<
+    string | undefined
+  >(undefined);
+  const [ownerInputError, setOwnerInputError] = useState<string | undefined>(
+    undefined,
+  );
 
   const userName = user?.email?.split('@')[0] || user?.address.slice(0, 6);
   const checkText = t('teams.transfer-ownership.confirm-step.check-text', {
     userName,
   });
 
-  const [updateRole, { isLoading }] = useUpdateRoleMutation();
+  const [updateRole, { isLoading }] = useUpdateRoleMutation({
+    fixedCacheKey: buildTransferOwnershipRequestKey(group),
+  });
 
   const isSelectStep = step === TransferOwnershipStep.Select;
 
+  const clearTransferOwnershipDialogState = useCallback(() => {
+    setConfirmInputValue('');
+    setUser(undefined);
+    setConfirmInputError(undefined);
+    setOwnerInputError(undefined);
+    setStep(defaultStep);
+  }, [defaultStep]);
+
+  const handleCloseTransferOwnershipDialog = useCallback(() => {
+    onClose();
+    clearTransferOwnershipDialogState();
+  }, [onClose, clearTransferOwnershipDialogState]);
+
   const handleSubmit = useCallback(async () => {
     if (isSelectStep) {
+      if (!user) {
+        setOwnerInputError(
+          t('teams.transfer-ownership.confirm-step.required-error'),
+        );
+
+        return () => {};
+      }
+
+      setConfirmInputError(undefined);
       setStep(TransferOwnershipStep.Confirm);
     } else if (user?.address) {
       const isValid = confirmInputValue === checkText;
@@ -63,26 +98,29 @@ export const useTransferOwnershipDialog = ({
           email: user?.email,
           group,
         });
-        onClose();
+        handleCloseTransferOwnershipDialog();
       } else {
-        setError(t('teams.transfer-ownership.confirm-step.error-text'));
+        setConfirmInputError(
+          t('teams.transfer-ownership.confirm-step.error-text'),
+        );
       }
     }
+
+    return () => {};
   }, [
     group,
     isSelectStep,
-    onClose,
+    handleCloseTransferOwnershipDialog,
     confirmInputValue,
     checkText,
     updateRole,
-    user?.address,
-    user?.email,
+    user,
   ]);
 
   const onChangeConfirmInputValue = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       setConfirmInputValue(event.target.value);
-      setError(undefined);
+      setConfirmInputError(undefined);
     },
     [],
   );
@@ -94,18 +132,11 @@ export const useTransferOwnershipDialog = ({
         x => x.email === value || x.address.startsWith(value),
       );
 
+      setOwnerInputError(undefined);
       setUser(foundUser);
     },
     [members],
   );
-
-  useEffect(() => {
-    return () => {
-      setStep(TransferOwnershipStep.Select);
-      setError(undefined);
-      setUser(undefined);
-    };
-  }, []);
 
   return {
     isSelectStep,
@@ -120,9 +151,11 @@ export const useTransferOwnershipDialog = ({
     userOptions: members.filter(member => member.role !== GroupUserRole.owner),
     userName,
     confirmInputValue,
-    confirmInputError: error,
+    confirmInputError,
+    ownerInputError,
     handleSelectUser,
     handleSubmit,
     onChangeConfirmInputValue,
+    handleCloseTransferOwnershipDialog,
   };
 };

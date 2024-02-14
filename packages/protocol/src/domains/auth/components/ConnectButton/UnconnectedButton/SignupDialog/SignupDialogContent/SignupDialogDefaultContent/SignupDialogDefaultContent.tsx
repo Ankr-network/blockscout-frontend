@@ -18,10 +18,13 @@ import {
 } from './SignupDialogDefaultContentTypes';
 
 export const SignupDialogDefaultContent = ({
-  onGoogleButtonClick,
-  onGithubButtonClick,
-  setWeb3State,
+  description,
+  hasAutoAgreement,
   hasOnlyGoogleAuth = false,
+  onGithubButtonClick,
+  onGoogleButtonClick,
+  setWeb3State,
+  shouldSaveTeamInvitationLink = true,
 }: SignupDialogDefaultContentProps) => {
   const handleSetSignupSettings = useSetSignupSettings();
   const location = useLocation();
@@ -33,7 +36,7 @@ export const SignupDialogDefaultContent = ({
       if (loginType === OauthLoginType.Google) {
         const isTeamInvitation = isTeamInvitationQuery(location?.search ?? '');
 
-        if (isTeamInvitation) {
+        if (isTeamInvitation && shouldSaveTeamInvitationLink) {
           window.localStorage.setItem(
             TEAM_INVITE_LINK_KEY,
             window.location.href,
@@ -53,6 +56,7 @@ export const SignupDialogDefaultContent = ({
       onGoogleButtonClick,
       onGithubButtonClick,
       setWeb3State,
+      shouldSaveTeamInvitationLink,
     ],
   );
 
@@ -61,11 +65,13 @@ export const SignupDialogDefaultContent = ({
   const renderForm = useCallback(
     ({ handleSubmit }) => (
       <DefaultContentForm
-        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+        description={description}
         handleSubmit={handleSubmit}
+        hasAutoAgreement={hasAutoAgreement}
+        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
       />
     ),
-    [hasOnlyGoogleAuth],
+    [description, hasAutoAgreement, hasOnlyGoogleAuth],
   );
 
   return (

@@ -1,16 +1,17 @@
-import React, { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import {
   FormControl,
   FormHelperText,
   InputLabel,
+  MenuItem,
   Select as SelectComponent,
   SelectProps,
+  Typography,
 } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
 import { uid } from 'react-uid';
 import { ArrowDown } from '@ankr.com/ui';
 
-import { useStyles } from './SelectStyles';
+import { useSelectStyles } from './useSelectStyles';
 
 export interface ISelectOption {
   label: string;
@@ -27,6 +28,9 @@ export interface ISelectProps extends Omit<SelectProps, 'variant'> {
   rootClassName?: string;
 }
 
+// TODO: the component should be removed and substituted by the Select component
+// from @ankr.com/ui library
+// https://ankrnetwork.atlassian.net/browse/MRPC-4414
 export const Select = ({
   MenuProps: { classes: menuClasses = {} } = {},
   children,
@@ -38,16 +42,16 @@ export const Select = ({
   rootClassName,
   ...restProps
 }: ISelectProps) => {
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useSelectStyles();
 
   const items = useMemo(() => {
     return options?.map(option => (
       <MenuItem
+        disabled={option.disabled}
         key={uid(option)}
         value={option.value}
-        disabled={option.disabled}
       >
-        {option.label}
+        <Typography variant="body2">{option.label}</Typography>
       </MenuItem>
     ));
   }, [options]);

@@ -29,6 +29,18 @@ export const useGroupMenuButtonStyles = makeStyles<boolean>()(
     groupName: {
       fontWeight: 500,
       marginLeft: theme.spacing(2),
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      maxWidth: '150px',
+      overflow: 'hidden',
+
+      [theme.breakpoints.down('sm')]: {
+        maxWidth: '100px',
+      },
+
+      [theme.breakpoints.down('xs')]: {
+        maxWidth: '50px',
+      },
     },
   }),
 );

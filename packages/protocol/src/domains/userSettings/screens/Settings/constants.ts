@@ -8,3 +8,5 @@ export const userRoleNamesMap: Record<GroupUserRole, string> = {
 };
 
 export const DEFAULT_GROUP_MEMBERS_LIMIT = 20;
+
+export const MAX_TEAM_NAME_LENGTH = 50;

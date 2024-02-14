@@ -2,13 +2,19 @@ import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 export interface SignInButtonProps {
+  className?: string;
   isDisabled?: boolean;
   onClick: () => void;
 }
 
-export const SignInButton = ({ isDisabled, onClick }: SignInButtonProps) => {
+export const SignInButton = ({
+  className,
+  isDisabled,
+  onClick,
+}: SignInButtonProps) => {
   return (
     <Button
+      className={className}
       disabled={isDisabled}
       fullWidth
       onClick={onClick}

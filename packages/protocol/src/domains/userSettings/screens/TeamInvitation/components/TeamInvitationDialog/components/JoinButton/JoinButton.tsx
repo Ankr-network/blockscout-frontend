@@ -2,19 +2,13 @@ import { LoadingButton } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 export interface JoinButtonProps {
-  className?: string;
   isJoining: boolean;
   onClick: () => void;
 }
 
-export const JoinButton = ({
-  className,
-  isJoining,
-  onClick,
-}: JoinButtonProps) => {
+export const JoinButton = ({ isJoining, onClick }: JoinButtonProps) => {
   return (
     <LoadingButton
-      className={className}
       fullWidth
       loading={isJoining}
       onClick={onClick}

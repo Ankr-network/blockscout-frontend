@@ -26,12 +26,14 @@ export const {
 
         return { data };
       }),
-      onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async ({ email }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
         dispatch(
           NotificationActions.showNotification({
-            message: t('common.success-message'),
+            message: t('teams.revoke-invitation.success-message', {
+              user: email,
+            }),
             severity: 'success',
           }),
         );

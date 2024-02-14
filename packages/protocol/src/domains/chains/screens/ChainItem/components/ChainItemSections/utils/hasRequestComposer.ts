@@ -21,7 +21,7 @@ const isTronRestApi = (chainID: ChainID, groupID: ChainGroupID) =>
   chainID === ChainID.TRON && groupID === ChainGroupID.REST_API;
 
 const isArbitrumTestnet = (chainId: ChainID) =>
-  chainId === ChainID.ARBITRUM_TESTNET;
+  chainId === ChainID.ARBITRUM_TESTNET || chainId === ChainID.ARBITRUM_SEPOLIA;
 
 export const hasRequestComposer = ({
   chainId,

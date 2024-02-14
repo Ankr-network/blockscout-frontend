@@ -23,5 +23,5 @@ export const useSuccessCallback = ({
     handleCloseDialog?.();
   }, [dispatch, handleCloseDialog]);
 
-  return onSuccess;
+  return { onSuccess };
 };

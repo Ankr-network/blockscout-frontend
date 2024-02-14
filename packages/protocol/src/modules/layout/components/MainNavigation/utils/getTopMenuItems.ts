@@ -1,4 +1,10 @@
-import { Block, Briefcase, Dashboard, FolderClosed } from '@ankr.com/ui';
+import {
+  NavBarEndpoints,
+  NavBarAdvancedApi,
+  NavBarDashboard,
+  NavBarEnterprise,
+  NavBarProjects,
+} from '@ankr.com/ui';
 import { History } from 'history';
 import { match as Match } from 'react-router-dom';
 import { t } from '@ankr.com/common';
@@ -13,6 +19,8 @@ import { MixpanelEvent } from 'modules/analytics/mixpanel/const';
 import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { track } from 'modules/analytics/mixpanel/utils/track';
+import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 import { MenuItemsParams } from '../types';
 
@@ -36,37 +44,52 @@ export const getTopMenuItems = ({
   isMobileSideBar,
   onDashboardClick,
   onOpenUpgradePlanDialog,
+  onOpenAccessDeniedDialog,
 }: MenuItemsParams): NavigationItem[] => {
   const items: NavigationItem[] = [
     {
-      StartIcon: Block,
+      StartIcon: NavBarEndpoints,
       href: ChainsRoutesConfig.chains.generatePath({ isLoggedIn }),
       isActive: (match, location) =>
         checkIsChainsRoute(match, location, chainsRoutes),
       isHidden: isLoggedIn && !isMobileSideBar,
       label: t('main-navigation.endpoints'),
+      blockName: BlockWithPermission.CommonMenuItem,
     },
     {
-      StartIcon: FolderClosed,
+      isDisabled: isEnterpriseClient,
+      StartIcon: NavBarAdvancedApi,
+      href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+      label: t('main-navigation.advanced-api'),
+      blockName: BlockWithPermission.AdvancedApiMenuItem,
+      onAccessDeniedClick: onOpenAccessDeniedDialog,
+    },
+    {
+      StartIcon: NavBarProjects,
       href: ProjectsRoutesConfig.projects.generatePath(),
       isDisabled: isEnterpriseClient,
       isHidden: !hasProjects,
       label: t('main-navigation.projects'),
+      blockName: BlockWithPermission.ProjectsMenuItem,
+      onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {
-      StartIcon: Dashboard,
+      StartIcon: NavBarDashboard,
       href: DashboardRoutesConfig.dashboard.generatePath(),
       isDisabled: false,
       isHidden: isMobileSideBar,
       label: t('main-navigation.analytics'),
+      blockName: BlockWithPermission.AnalyticsMenuItem,
       onClick: onDashboardClick,
+      onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {
-      StartIcon: Briefcase,
+      StartIcon: NavBarEnterprise,
       href: EnterpriseRoutesConfig.chains.generatePath(),
       isHidden: isMobileSideBar,
       isNotLinkItem: !isEnterpriseClient,
       label: t('main-navigation.enterprise'),
+      blockName: BlockWithPermission.CommonMenuItem,
       onClick: () => {
         track({ event: MixpanelEvent.SOON_ENTERPRISE });
 

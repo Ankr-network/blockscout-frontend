@@ -10,41 +10,53 @@ import { OauthLoadingState } from '../OauthLoadingState';
 
 interface SignupDialogProps {
   currentState: SignupDialogState;
-  onDialogClose: () => void;
-  onGoogleButtonClick: () => void;
-  onGithubButtonClick: () => void;
-  onSuccess?: () => void;
-  setWeb3State: () => void;
+  description?: string;
+  hasAutoAgreement?: boolean;
+  hasOnlyGoogleAuth?: boolean;
   isLoading: boolean;
   oauthLoginType?: OauthLoginType;
-  hasOnlyGoogleAuth?: boolean;
+  onDialogClose: () => void;
+  onGithubButtonClick: () => void;
+  onGoogleButtonClick: () => void;
+  onSuccess?: () => void;
+  setWeb3State: () => void;
+  shouldSaveTeamInvitationLink?: boolean;
 }
 
 export const SignupDialogContent = ({
   currentState,
-  onDialogClose,
-  onGoogleButtonClick,
-  onGithubButtonClick,
-  onSuccess,
-  setWeb3State,
+  description,
+  hasAutoAgreement,
+  hasOnlyGoogleAuth = false,
   isLoading,
   oauthLoginType,
-  hasOnlyGoogleAuth = false,
+  onDialogClose,
+  onGithubButtonClick,
+  onGoogleButtonClick,
+  onSuccess,
+  setWeb3State,
+  shouldSaveTeamInvitationLink,
 }: SignupDialogProps) => {
   const defaultStateComponent = useMemo(() => {
     return (
       <SignupDialogDefaultContent
-        onGoogleButtonClick={onGoogleButtonClick}
-        onGithubButtonClick={onGithubButtonClick}
-        setWeb3State={setWeb3State}
+        description={description}
+        hasAutoAgreement={hasAutoAgreement}
         hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+        onGithubButtonClick={onGithubButtonClick}
+        onGoogleButtonClick={onGoogleButtonClick}
+        setWeb3State={setWeb3State}
+        shouldSaveTeamInvitationLink={shouldSaveTeamInvitationLink}
       />
     );
   }, [
+    description,
+    hasAutoAgreement,
     hasOnlyGoogleAuth,
     onGithubButtonClick,
     onGoogleButtonClick,
     setWeb3State,
+    shouldSaveTeamInvitationLink,
   ]);
 
   if (isLoading) return <OauthLoadingState loginType={oauthLoginType} />;

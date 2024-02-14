@@ -13,6 +13,7 @@ import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBounda
 import { useMetatags } from 'uiKit/utils/metatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { Dialogs } from 'modules/guardDialog';
 
 interface IAppBaseProps {
   children: ReactNode;
@@ -37,6 +38,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
           >
             {children}
           </ConnectedRouter>
+          <Dialogs />
         </SentryErrorBoundary>
       </ThemeProvider>
     </StyledEngineProvider>

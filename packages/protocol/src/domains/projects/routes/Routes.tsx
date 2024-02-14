@@ -10,9 +10,12 @@ import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
 import { useRedirectToInviteLink } from 'hooks/useRedirectToInviteLink';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectFetchGroupJwtLoading } from 'domains/userGroup/actions/fetchGroupJwt';
+import { selectIsEnterpriseClientLoading } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
 
-import { GuardProjectRoute } from '../components/GuardProjectRoute';
 import { ProjectsRoutesConfig } from './routesConfig';
+import { GuardProjectRoute } from '../components/GuardProjectRoute';
 
 const LoadableProjectsContainer: LoadableComponent<any> = loadable(
   async () => import('../screens/Projects').then(module => module.ProjectsPage),
@@ -61,6 +64,16 @@ export function ProjectsRoutes() {
   const { isFreePremium, isLoggedIn, loading, isPremiumStatusUninitialized } =
     useAuth();
 
+  const isLoadingIsEnterpriseClient = useAppSelector(
+    selectIsEnterpriseClientLoading,
+  );
+  const isLoadingFetchGroupJwt = useAppSelector(selectFetchGroupJwtLoading);
+
+  const isProjectsContainer =
+    hasJwtManagerReadAccess ||
+    isLoadingIsEnterpriseClient ||
+    isLoadingFetchGroupJwt;
+
   const hasAccessToPremiumStatus = useGuardUserGroup({
     blockName: BlockWithPermission.AccountStatus,
   });
@@ -106,7 +119,7 @@ export function ProjectsRoutes() {
               );
             }
 
-            return hasJwtManagerReadAccess ? (
+            return isProjectsContainer ? (
               <LoadableProjectsContainer />
             ) : (
               <LoadableProjectsPlaceholderContainer />

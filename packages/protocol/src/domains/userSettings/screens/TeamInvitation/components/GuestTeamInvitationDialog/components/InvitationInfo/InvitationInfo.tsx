@@ -1,23 +1,25 @@
 import { Divider, Typography } from '@mui/material';
+import { GroupUserRole } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { TeamAvatar } from 'domains/userSettings/components/TeamAvatar';
+import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 
 import { useInvitationInfoStyles } from './useInvitationInfoStyles';
 
 export interface InvitationInfoProps {
   email: string;
-  roleName: string;
+  role: GroupUserRole;
   teamName: string;
 }
 
 export const InvitationInfo = ({
   email,
-  roleName,
+  role,
   teamName,
 }: InvitationInfoProps) => {
   const title = t('teams.guest-team-invitation-dialog.title', {
-    roleName,
+    roleName: getUserRoleName(role),
     teamName,
   });
 

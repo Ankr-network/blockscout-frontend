@@ -70,8 +70,9 @@ export enum ChainID {
 
   APTOS = 'aptos',
   ARBITRUM = 'arbitrum',
-  ARBITRUM_NOVA = 'arbitrumnova',
   ARBITRUM_TESTNET = 'arbitrum_testnet',
+  ARBITRUM_SEPOLIA = 'arbitrum_sepolia',
+  ARBITRUM_NOVA = 'arbitrumnova',
   AVALANCHE = 'avalanche',
   AVALANCHE_C = 'avalanche-c',
   AVALANCHE_EVM = 'avalanche-evm',
@@ -161,6 +162,7 @@ export enum ChainID {
 
   MANTLE = 'mantle',
   MANTLE_TESTNET = 'mantle_testnet',
+  MANTLE_SEPOLIA = 'mantle_sepolia',
   METIS = 'metis',
   MOONBEAM = 'moonbeam',
   MULTICHAIN = 'multichain',
@@ -243,6 +245,7 @@ export enum ChainID {
 
   ZKSYNC_ERA = 'zksync_era',
   ZKSYNC_ERA_TESTNET = 'zksync_era_testnet',
+  ZKSYNC_ERA_SEPOLIA = 'zksync_era_sepolia',
 
   UNDEFINED = '',
 }

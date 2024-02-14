@@ -2,6 +2,7 @@ import {
   GroupUserRole,
   IUpdateGroupMemberRoleParams,
   IUpdateGroupMemberRoleResponse,
+  Web3Address,
 } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
@@ -11,6 +12,12 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
+
+export const TRANSFER_OWNERSHIP_MUTATION_KEY = 'transferOwnership';
+
+export const buildTransferOwnershipRequestKey = (groupAddress: Web3Address) => {
+  return `${TRANSFER_OWNERSHIP_MUTATION_KEY}_${groupAddress}`;
+};
 
 export interface IUpdateRoleMutationArgs extends IUpdateGroupMemberRoleParams {
   email?: string;
@@ -61,7 +68,9 @@ export const {
 
         dispatch(
           NotificationActions.showNotification({
-            message: isOwnershipChanged ? ownershipTransferMessage : commonTransferMessage,
+            message: isOwnershipChanged
+              ? ownershipTransferMessage
+              : commonTransferMessage,
             severity: 'success',
           }),
         );
