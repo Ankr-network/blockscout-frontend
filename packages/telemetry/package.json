@@ -46,7 +46,7 @@
     "rimraf": "3.0.2"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,json}": [
       "prettier --write"
     ]
   }

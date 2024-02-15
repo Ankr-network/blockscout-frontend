@@ -1,4 +1,3 @@
-import createSagaMiddleware from 'redux-saga';
 import { EndpointDefinitions } from '@reduxjs/toolkit/dist/query';
 import { RootState as RTKQRootState } from '@reduxjs/toolkit/dist/query/core/apiState';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
@@ -34,10 +33,8 @@ import { guardDialogSlice } from 'modules/guardDialog/store/dialogSlice';
 import { listenerMiddleware } from './middlewares/listenerMiddleware';
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
 import { oauthLoginInitiatorListenerMiddleware } from './middlewares/oauthLoginInitiatorListenerMiddleware';
-import { rootSaga } from './rootSaga';
 import { web3Api, projectApi } from './queries';
-
-const sagaMiddleware = createSagaMiddleware();
+import { notificationListenerMiddleware } from './middlewares/notificationListenerMiddleware';
 
 const rootReducer = combineReducers({
   [web3Api.reducerPath]: web3Api.reducer,
@@ -83,14 +80,12 @@ export const store = configureStore({
       .prepend(listenerMiddleware.middleware)
       .prepend(authConnectInitiatorListenerMiddleware.middleware)
       .prepend(oauthLoginInitiatorListenerMiddleware.middleware)
+      .prepend(notificationListenerMiddleware.middleware)
 
-      .concat(sagaMiddleware)
       .concat(routerMiddleware(historyInstance)),
 });
 
 export const persistor = persistStore(store);
-
-sagaMiddleware.run(rootSaga);
 
 export type Store = typeof store;
 export type APIState = RTKQRootState<EndpointDefinitions, string, 'api'>;
