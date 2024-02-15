@@ -30,6 +30,7 @@
   },
   "homepage": "/",
   "dependencies": {
+    "@ankr.com/assets": "^0.0.6",
     "@ankr.com/provider": "^1.10.2",
     "multirpc-sdk": "*",
     "@loadable/component": "^5.14.1",

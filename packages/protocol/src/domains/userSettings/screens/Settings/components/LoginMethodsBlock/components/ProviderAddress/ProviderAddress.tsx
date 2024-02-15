@@ -30,7 +30,8 @@ export const ProviderAddress = ({
   const secondaryName = nickName;
   const primaryName = addressValue ?? nickName;
 
-  const shouldShowSecondaryName = Boolean(secondaryName) && secondaryName !== primaryName;
+  const shouldShowSecondaryName =
+    Boolean(secondaryName) && secondaryName !== primaryName;
 
   return (
     <div className={classes.root}>
@@ -47,7 +48,7 @@ export const ProviderAddress = ({
           </div>
           {shouldShowCopyButton && (
             <CopyButton
-              size='extraSmall'
+              size="extraSmall"
               text={address}
               className={classes.copyButton}
             />

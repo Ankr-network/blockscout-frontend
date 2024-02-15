@@ -12,8 +12,8 @@ export const useBaseSettingsBlockStyles = makeStyles()(theme => ({
   },
   title: {
     marginBottom: theme.spacing(8),
-    color: isLightTheme(theme) ?
-      theme.palette.text.primary
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
       : theme.palette.common.white,
   },
   content: {

@@ -1,5 +1,5 @@
 import { Themes } from '@ankr.com/ui';
-import GlobalMenu, { LogoType } from '@ankr.com/global-menu';
+import { CrossNavigation, LogoType } from '@ankr.com/cross-navigation';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { useGlobalMenuStyles } from 'modules/globalMenu/components/useGlobalMenuStyles';
@@ -9,15 +9,13 @@ export const GlobalMenuWrapper = () => {
   const { isLightTheme } = useThemes();
 
   return (
-    <GlobalMenu
+    <CrossNavigation
       theme={isLightTheme ? Themes.light : Themes.dark}
       classes={{
         root: globalMenuClasses.globalMenuRoot,
         logo: globalMenuClasses.globalMenuLogo,
       }}
-      logoType={LogoType.RPC}
-      hasSecondaryFont
-      hasCloseButtonForMobile
+      logoType={LogoType.Web3API}
     />
   );
 };

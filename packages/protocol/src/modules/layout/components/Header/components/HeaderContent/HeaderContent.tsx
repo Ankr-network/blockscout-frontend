@@ -32,11 +32,7 @@ export const HeaderContent = ({
         />
       )}
 
-      {isLoggedIn ? (
-        <UserAccountSelector />
-      ) : (
-        <SignupButton />
-      )}
+      {isLoggedIn ? <UserAccountSelector /> : <SignupButton />}
     </>
   );
 };

@@ -1,5 +1,5 @@
-import { t } from "@ankr.com/common";
-import { OauthLoginProvider } from "multirpc-sdk";
+import { t } from '@ankr.com/common';
+import { OauthLoginProvider } from 'multirpc-sdk';
 
 export const getLoginMethodName = (provider: OauthLoginProvider) => {
   switch (provider) {
@@ -11,4 +11,4 @@ export const getLoginMethodName = (provider: OauthLoginProvider) => {
     default:
       return t('user-settings.login-methods.gmail');
   }
-}
+};

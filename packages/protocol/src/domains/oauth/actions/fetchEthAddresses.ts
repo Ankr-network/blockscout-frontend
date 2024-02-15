@@ -17,7 +17,7 @@ export const {
 
         const { authorizationToken } = selectAuthData(getState() as RootState);
 
-        if (!authorizationToken) return { data: null }
+        if (!authorizationToken) return { data: null };
 
         const data = await service
           .getAccountingGateway()

@@ -20,7 +20,7 @@ export const PersonalAccountInfo = ({
   return (
     <div className={classes.root}>
       <PersonalAccountButton onClick={onAccountButtonClick} />
-      {!hasOauthWithoutWeb3 && <CopyButton size='medium' text={address} />}
+      {!hasOauthWithoutWeb3 && <CopyButton size="medium" text={address} />}
     </div>
   );
 };

@@ -51,7 +51,6 @@ const { requestsReducer, requestsMiddleware } = handleRequests({
   },
 });
 
-
 const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   requests: requestsReducer,
@@ -61,14 +60,10 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [
-    ...requestsMiddleware,
-    routerMiddleware(historyInstance),
-  ],
+  middleware: [...requestsMiddleware, routerMiddleware(historyInstance)],
 });
 
 export const persistor = persistStore(store);
-
 
 export type Store = typeof store;
 export type AppDispatch = typeof store.dispatch;

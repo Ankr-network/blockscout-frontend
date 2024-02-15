@@ -70,12 +70,11 @@ export const LoginProvider = ({
         )}
         {shouldRenderConnectButton && shouldDisableConnectButton && (
           <Tooltip
-            placement='top'
+            placement="top"
             title={t('user-settings.login-methods.disable-tooltip')}
           >
             <span>
-
-              <Button disabled size='small'>
+              <Button disabled size="small">
                 {t('user-settings.login-methods.connect')}
               </Button>
             </span>

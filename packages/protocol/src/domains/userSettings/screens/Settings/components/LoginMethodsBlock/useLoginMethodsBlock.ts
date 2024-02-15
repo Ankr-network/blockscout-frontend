@@ -15,10 +15,15 @@ export const useLoginMethodsBlock = () => {
   }, [data]);
 
   const isEthAddressTypeUser = useMemo(() => {
-    return Boolean(ethAddresses?.addresses.find(address => address.type === EthAddressType.User))
+    return Boolean(
+      ethAddresses?.addresses.find(
+        address => address.type === EthAddressType.User,
+      ),
+    );
   }, [ethAddresses]);
   //  prevent WEB3 user from adding providers in case of Oauth
-  const shouldPreventAddProviderForWeb3Users = isEthAddressTypeUser && !web3Provider;
+  const shouldPreventAddProviderForWeb3Users =
+    isEthAddressTypeUser && !web3Provider;
 
   const walletAddress = useMemo(() => web3Provider?.address, [web3Provider]);
 

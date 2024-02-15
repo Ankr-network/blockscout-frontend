@@ -1,4 +1,0 @@
-{
- "extends": "../../.common-eslintrc",
- "ignorePatterns": ["*.js"]
-}

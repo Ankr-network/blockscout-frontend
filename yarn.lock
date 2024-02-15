@@ -30,6 +30,11 @@
     web3-eth-contract "1.7.0"
     web3-utils "1.7.0"
 
+"@ankr.com/assets@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@ankr.com/assets/-/assets-0.0.6.tgz#b6626bc422881e92b87d5d45a0bc647b52176d2e"
+  integrity sha512-yELJYlItLsIst+fC39BIel+iWl9HGKtQ6o6vm/BXH2KQywQJlC1bbZxtAR4R0SxbBO5sBnFk23I9Ncu36s0J6A==
+
 "@ankr.com/ci@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@ankr.com/ci/-/ci-1.1.4.tgz#25524363b32b5dbf6275f0714646f620ef6f5b82"
@@ -37,15 +42,15 @@
   dependencies:
     aws-sdk "^2.1217.0"
 
-"@ankr.com/global-menu@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.2.tgz#be9c3d1821a3f3d02d7cf02488148e39ac8d0e92"
-  integrity sha512-ngMBAD6HVImyeCf4LnqmNZpRu58tZuuWkNtBWRObE1/Oj3iae1BTG2y1HyI0guB23xbJHr/f+fZ2aaSwr8/o+A==
+"@ankr.com/cross-navigation@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.10.tgz#852409ef50fd41080f25b0524297e28f30c36187"
+  integrity sha512-SeYi74hfQTn9ny9uBsGo+kTORtHrfqCQm4iTzSavtY5VQeXX4bk13q226LrTnp/yK4EDwXUK4BaYE93IeT75RA==
 
-"@ankr.com/global-menu@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.4.tgz#3a77b4efb67e175d1c09939fbd7e06382c781ab6"
-  integrity sha512-ImPqUlqBGCCInTFv3AM0oezONUgXdNkPpIYVE/u/Ii7r5a1DCCEwKwMELJLUHvy+e3L1Ed5ermGwQc7/7/pG7A==
+"@ankr.com/cross-navigation@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.13.tgz#57d195c87a18f07203d38dcf3f1fb63430d8b501"
+  integrity sha512-XLWE8b5Utb46lFeYrZ9Ie1D1ONmXbvIYniThLBjpXgmIIigeEVyCNFev7bg8s9mU0xuRbXiqg/qUTxrKG4dekw==
 
 "@ankr.com/provider@1.10.0":
   version "1.10.0"
@@ -4174,11 +4179,6 @@
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.1.6.tgz#22958c042e10b67463997bd6ea7115fe28cbcaf9"
   integrity sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==
-
-"@fontsource/inter@^4.5.13":
-  version "4.5.14"
-  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.5.14.tgz#3944b809aa7bf27dacd20bdc04a49fb738959724"
-  integrity sha512-JDC9AocdPLuGsASkvWw9hS5gtHE7K9dOwL98XLrk5yjYqxy4uVnScG58NUvFMJDVJRl/7c8Wnap6PEs+7Zvj1Q==
 
 "@formatjs/intl-unified-numberformat@^3.2.0":
   version "3.3.7"
