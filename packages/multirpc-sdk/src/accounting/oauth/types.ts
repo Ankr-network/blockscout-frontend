@@ -1,3 +1,4 @@
+import { Web3Address } from '../../common';
 import { IGoogleSecretCodeParams } from '../googleOauth';
 
 export enum OauthLoginProvider {
@@ -15,12 +16,13 @@ export interface AssociatedAccount {
   login: string;
   provider: OauthLoginProvider;
   email?: string;
+  address?: Web3Address;
 }
 
 export interface IOauthSecretCodeParams extends IGoogleSecretCodeParams {
   provider?: OauthLoginProvider;
 }
 
-export interface ISecreteCodeLoginQueryParams {
+export interface ISecretCodeLoginQueryParams {
   provider: OauthLoginProvider;
 }

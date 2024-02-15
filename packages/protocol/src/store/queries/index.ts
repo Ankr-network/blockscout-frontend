@@ -8,6 +8,7 @@ export enum RequestType {
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
   'GroupCreationAllowance' = 'GroupCreationAllowance',
+  'BindingAccounts' = 'BindingAccounts',
 }
 
 export const web3Api = createApi({
@@ -24,6 +25,7 @@ export const web3Api = createApi({
     RequestType.UserGroupDetails,
     RequestType.UserGroupsList,
     RequestType.GroupCreationAllowance,
+    RequestType.BindingAccounts,
   ],
 });
 

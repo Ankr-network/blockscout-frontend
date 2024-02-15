@@ -1,27 +1,14 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useTwoFABlockStyles = makeStyles()(theme => ({
-  root: {
-    marginTop: theme.spacing(8),
-    padding: theme.spacing(7.5),
-    borderRadius: 30,
-  },
   top: {
     display: 'flex',
     alignItems: 'center',
-    borderBottom: `1px solid ${theme.palette.grey[100]}`,
     paddingBottom: theme.spacing(8),
   },
   bottom: {
     display: 'flex',
     alignItems: 'center',
-  },
-  title: {
-    color: theme.palette.text.primary,
-    fontSize: 20,
-    lineHeight: '28px',
-    fontWeight: 700,
-    marginRight: theme.spacing(3),
   },
   status: {
     display: 'flex',
@@ -52,7 +39,6 @@ export const useTwoFABlockStyles = makeStyles()(theme => ({
   },
   description: {
     marginTop: theme.spacing(0.5),
-    marginLeft: theme.spacing(12),
 
     '& span': {
       letterSpacing: 'normal',

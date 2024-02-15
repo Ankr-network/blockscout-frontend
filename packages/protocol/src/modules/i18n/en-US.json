@@ -1654,13 +1654,22 @@
       "change-email-button": "Change Email",
       "connect-wallet": "Connect Wallet"
     },
+    "login-methods": {
+      "title": "Login methods",
+      "metamask": "Metamask",
+      "gmail": "Gmail",
+      "github": "GitHub",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "disable-tooltip": "To connect the method, log in with your ETH wallet"
+    },
     "2fa": {
-      "title": "Two-Factor Verification",
+      "title": "Account security",
       "button": "Set up 2FA",
       "on": "On",
       "off": "Off",
-      "label": "Authenticator App",
-      "info": "Use an&nbsp;Authenticator App as&nbsp;your Two-Factor Verification (2FA). When you sign in&nbsp;you&rsquo;ll be&nbsp;required to&nbsp;use the security code provided by&nbsp;your Authenticator App. We&nbsp;recommend to&nbsp;use <a href=\"https://support.google.com/accounts/answer/1066447\" target=\"_blank\">Google Authenticator</a>.",
+      "label": "Two-factor authentication",
+      "info": "Enable two-factor authentication (2FA) to secure your account. Sign in with your authentication app's security code. Google Authenticator or alike might be a good option.",
       "setup-dialog": {
         "title": "Scan this QR-Code",
         "button": "Next",
@@ -1735,17 +1744,17 @@
       "invalid-email": "The email address `{email}` is invalid"
     },
     "notifications": {
-      "title": "Notifications",
+      "title": "Email notifications",
       "form": {
-        "balance-updates": {
-          "title": "Balance updates",
-          "description": "Top ups, withdrawals, voucher credits added, and other updates."
-        },
-        "marketing": "Ankr RPC updates and marketing materials",
+        "email": "Email",
+        "budget-alerts": "Budget alerts",
         "low-balance": "Running out of funds",
         "low-credits-info": "Less than 100M credits left",
         "low-credits-warn": "Less than 50M credits left",
-        "low-credits-alarm": "Less than 10M credits left"
+        "low-credits-alarm": "Less than 10M credits left",
+        "balance-update": "Balance update",
+        "newsletter": "Newsletter",
+        "marketing": "Ankr RPC updates and marketing materials"
       },
       "success": "Settings Saved"
     },

@@ -35,11 +35,7 @@ export const HeaderContent = ({
       {isLoggedIn ? (
         <UserAccountSelector />
       ) : (
-        <SignupButton
-          isDefaultType={isDefaultType}
-          isSidebarType={isSidebarType}
-          isMobileType={isMobileType}
-        />
+        <SignupButton />
       )}
     </>
   );
