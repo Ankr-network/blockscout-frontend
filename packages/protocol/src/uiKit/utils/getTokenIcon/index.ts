@@ -43,6 +43,8 @@ import mantleIcon from './icons/mantle.svg';
 import zetachainIcon from './icons/zetachain.svg';
 import baseIcon from './icons/base.png';
 import scrollIcon from './icons/scroll.svg';
+import okxX1Icon from './icons/okx.svg';
+import okxX1IconDark from './darkModeIcons/okx.svg';
 import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
@@ -166,6 +168,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.NERVOS]: nervosIcon,
   [ChainID.NERVOS_CKB]: nervosIcon,
   [ChainID.NERVOS_GW]: nervosIcon,
+  [ChainID.OKX_X1]: okxX1Icon,
+  [ChainID.OKX_X1_TESTNET]: okxX1Icon,
   [ChainID.OPTIMISM]: optimisimIcon,
   [ChainID.OPTIMISM_TESTNET]: optimisimIcon,
   [ChainID.OPTIMISM_SEPOLIA]: optimisimIcon,
@@ -269,6 +273,8 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.NERVOS]: nervosIconDark,
   [ChainID.NERVOS_CKB]: nervosIconDark,
   [ChainID.NERVOS_GW]: nervosIconDark,
+  [ChainID.OKX_X1]: okxX1IconDark,
+  [ChainID.OKX_X1_TESTNET]: okxX1IconDark,
   [ChainID.TENET]: tenetIconDark,
   [ChainID.SECRET]: secretIconDark,
   [ChainID.SECRET_COSMOS]: secretIconDark,

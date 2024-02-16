@@ -428,6 +428,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://gwscan.com/'],
   },
 
+  [ChainID.OKX_X1_TESTNET]: {
+    chainId: 195,
+    chainName: 'X1 Testnet',
+    nativeCurrency: {
+      name: 'OKB',
+      symbol: 'OKB',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://www.okx.com/explorer/x1-test'],
+  },
+
   [ChainID.OPTIMISM]: {
     chainId: 10,
     chainName: 'Optimism',
