@@ -14,14 +14,14 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { TeamsOnboardingDialog } from 'domains/userSettings/screens/Settings/components/TeamsOnboardingDialog';
 import { selectIsInactiveStatus } from 'domains/auth/store';
 
 import { EditProjectDialogType } from '../EditProjectDialog/EditProjectDialogUtils';
 import { useSubmit } from './useSubmit';
 import { ProjectsFormContent } from '../ProjectsFormContent/ProjectsFormContent';
-import { useOnboarding } from '../../hooks/useOnboarding';
-import { ProjectsOnboardingDialog } from '../ProjectsOnboarding/ProjectsOnboardingDialog';
 import { useProjectsStyles } from './useProjectsStyles';
+import { useTeamsOnboarding } from './useTeamsOnboarding';
 
 export const useProjectsForm = () => {
   const { classes } = useProjectsStyles();
@@ -61,9 +61,9 @@ export const useProjectsForm = () => {
   const hasProjectButton = (isLoaded && canAddProject) || canEditProject;
 
   const {
-    isOpened: isOpenedOnboardingDialog,
-    onClose: onCloseOnboardingDialog,
-  } = useOnboarding();
+    isTeamOnboardingDialogOpened,
+    handleTeamOnboardingDialogClose,
+  } = useTeamsOnboarding();
 
   const redirectToBalance = useCallback(() => {
     push(AccountRoutesConfig.accountDetails.generatePath());
@@ -111,10 +111,12 @@ export const useProjectsForm = () => {
             hasProjectButton={hasProjectButton}
           />
 
-          <ProjectsOnboardingDialog
-            isOpened={isOpenedOnboardingDialog}
-            onClose={onCloseOnboardingDialog}
-          />
+          {isTeamOnboardingDialogOpened && (
+            <TeamsOnboardingDialog
+              isOpened={isTeamOnboardingDialogOpened}
+              onClose={handleTeamOnboardingDialogClose}
+            />
+          )}
         </>
       );
     },
@@ -136,8 +138,8 @@ export const useProjectsForm = () => {
       handleClickSeePlans,
       onPlansDialogClose,
       onUpgradeAccountDialogClose,
-      isOpenedOnboardingDialog,
-      onCloseOnboardingDialog,
+      isTeamOnboardingDialogOpened,
+      handleTeamOnboardingDialogClose,
     ],
   );
 

@@ -2,11 +2,11 @@ import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { TeamsOnboardingDialog } from 'domains/userSettings/screens/Settings/components/TeamsOnboardingDialog';
 
 import { useProjectHeaderStyles } from '../ProjectHeader/useProjectHeaderStyles';
-import { ProjectsOnboardingDialog } from './ProjectsOnboardingDialog';
 
-export const ProjectsOnboarding = () => {
+export const TeamsOnboarding = () => {
   const { classes, cx } = useProjectHeaderStyles();
 
   const { isOpened, onClose, onOpen } = useDialog();
@@ -21,7 +21,7 @@ export const ProjectsOnboarding = () => {
         {t('projects.list-project.learn-more')}
       </Button>
 
-      <ProjectsOnboardingDialog isOpened={isOpened} onClose={onClose} />
+      <TeamsOnboardingDialog isOpened={isOpened} onClose={onClose} />
     </>
   );
 };

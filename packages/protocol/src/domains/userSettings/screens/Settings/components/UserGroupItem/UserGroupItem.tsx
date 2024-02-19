@@ -22,7 +22,7 @@ import { TeamMenu } from '../Teams/components/TeamMenu';
 import { TeamHeader } from '../Teams/components/TeamHeader';
 import { useTeamMenu } from '../Teams/components/TeamMenu/useTeamMenu';
 
-interface UserGroupItemProps extends UseUserGroupItemProps {}
+interface UserGroupItemProps extends UseUserGroupItemProps { }
 
 export const UserGroupItem = ({ group }: UserGroupItemProps) => {
   const { classes } = useUserGroupItemStyles();

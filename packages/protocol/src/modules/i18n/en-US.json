@@ -1620,6 +1620,11 @@
         "error": "Update role of {email} fails. Try again later."
       }
     },
+    "onboarding": {
+      "title": "What's new: Team accounts",
+      "description": "The Team accounts feature enables you to establish and manage the teams collaborating on particular tasks. For each team, set the projects to work on and provide team members with specific access rights — administration, finance, development — to delimit their responsibilities.",
+      "link": "See how to get started with Team accounts"
+    },
     "notifications": {
       "remove-teammate-success": "{user} removed from the team."
     }
