@@ -2,7 +2,7 @@ import { ChipsTextField, TextFieldProps } from '@ankr.com/ui';
 import { useMemo } from 'react';
 
 import { OnEmailsInputChange } from './types';
-import { chipProps } from './constants';
+import { chipProps, forbiddenSymbols, separators } from './constants';
 import { getTextFieldProps } from './utils/getTextFieldProps';
 import { useEmailsCount } from './hooks/useEmailsCount';
 import { useGetChipsProps } from './hooks/useGetChipsProps';
@@ -46,9 +46,11 @@ export const EmailsInput = ({
       allowIdenticalChips
       chipProps={chipProps}
       className={className}
+      forbiddenSymbols={forbiddenSymbols}
       getChipProps={getChipsProps}
       maxLength={maxLength}
       onChange={onChange}
+      separators={separators}
       textFieldProps={textfieldProps}
       value={value}
     />

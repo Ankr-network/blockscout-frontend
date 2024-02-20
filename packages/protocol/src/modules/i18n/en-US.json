@@ -1500,7 +1500,7 @@
       },
       "emails-input": {
         "title": "Emails",
-        "placeholder": "Press Enter to separate multiple emails:\n-Fill in email@gmail.com > press Enter\n-Repeat"
+        "placeholder": "email@example.com, email2@example.com, ..."
       },
       "invitee-role-permissions": {
         "title": "{roleName} permissions:",

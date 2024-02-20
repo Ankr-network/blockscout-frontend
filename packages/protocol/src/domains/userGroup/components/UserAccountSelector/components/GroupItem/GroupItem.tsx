@@ -23,7 +23,7 @@ export const GroupItem = (props: GroupItemProps) => {
 
   const handleMenuClick = useCallback(() => {
     if (isSelected) {
-      return () => { };
+      return () => {};
     }
 
     return onClick();

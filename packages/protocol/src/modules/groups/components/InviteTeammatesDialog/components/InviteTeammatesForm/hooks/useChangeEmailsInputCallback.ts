@@ -24,7 +24,7 @@ export const useChangeEmailsInputCallback = ({
   const currentLimit = teamMembersLimit - teamMembersCount;
 
   const onChange = useCallback<OnEmailsInputChange>(
-    (_event, emails) => {
+    emails => {
       const validEmails = emails.filter(isValidEmail);
       const hasLimitReached = currentLimit - validEmails.length <= 0;
 

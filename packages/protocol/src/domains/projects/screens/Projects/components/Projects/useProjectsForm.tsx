@@ -60,10 +60,8 @@ export const useProjectsForm = () => {
 
   const hasProjectButton = (isLoaded && canAddProject) || canEditProject;
 
-  const {
-    isTeamOnboardingDialogOpened,
-    handleTeamOnboardingDialogClose,
-  } = useTeamsOnboarding();
+  const { isTeamOnboardingDialogOpened, handleTeamOnboardingDialogClose } =
+    useTeamsOnboarding();
 
   const redirectToBalance = useCallback(() => {
     push(AccountRoutesConfig.accountDetails.generatePath());

@@ -1,11 +1,11 @@
-import { Typography } from "@mui/material";
-import { t } from "@ankr.com/common";
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { Dialog } from "uiKit/Dialog";
-import { ANKR_DOCS_TEAM_ACCOUNTS_LINK } from "modules/common/constants/const";
+import { Dialog } from 'uiKit/Dialog';
+import { ANKR_DOCS_TEAM_ACCOUNTS_LINK } from 'modules/common/constants/const';
 
 import image from './assets/image.png';
-import { useTeamsOnboardingDialogStyles } from "./useTeamsOnboardingDialogStyles";
+import { useTeamsOnboardingDialogStyles } from './useTeamsOnboardingDialogStyles';
 
 interface ITeamsOnboardingDialogProps {
   isOpened: boolean;
@@ -27,7 +27,7 @@ export const TeamsOnboardingDialog = ({
     >
       <div className={classes.bg} />
       <div className={classes.content}>
-        <img alt='team logo' src={image} className={classes.image} />
+        <img alt="team logo" src={image} className={classes.image} />
 
         <Typography variant="h6" className={classes.title}>
           {t('teams.onboarding.title')}
@@ -35,7 +35,7 @@ export const TeamsOnboardingDialog = ({
 
         <Typography
           variant="body2"
-          component='p'
+          component="p"
           className={classes.description}
         >
           {t('teams.onboarding.description')}
@@ -51,5 +51,5 @@ export const TeamsOnboardingDialog = ({
         </a>
       </div>
     </Dialog>
-  )
-}
+  );
+};
