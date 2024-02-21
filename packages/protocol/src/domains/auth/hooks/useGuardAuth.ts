@@ -5,6 +5,7 @@ import { PRICING_PATH } from 'domains/pricing/Routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { removeCanonicalTag } from 'uiKit/utils/metatags/removeCanonicalTag';
 
 export const useGuardAuth = () => {
   const { address, loading, hasPremium, isLoggedIn } = useAuth();
@@ -14,6 +15,7 @@ export const useGuardAuth = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
+      removeCanonicalTag();
       history.replace(PRICING_PATH);
     }
   }, [history, isLoggedIn]);

@@ -7,6 +7,7 @@ import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
+import { removeCanonicalTag } from 'uiKit/utils/metatags/removeCanonicalTag';
 
 import { getChainName } from './useMetatagsUtils';
 import packageJson from '../../../../package.json';
@@ -53,8 +54,9 @@ export const useMetatags = (
 
   const beacons = useAppSelector(selectBeacons);
 
-  const pathname =
-    rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
+  const isIndexPath = rawPathname === INDEX_PATH;
+
+  const pathname = isIndexPath ? rawPathname : rawPathname.replace(/\/$/, '');
 
   useEffect(() => {
     const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
@@ -143,23 +145,19 @@ export const useMetatags = (
 
   /* setting link canonical by default */
   useEffect(() => {
-    const canonicalTag: HTMLLinkElement | null = document.querySelector(
-      LINK_CANONICAL_SELECTOR,
-    );
-
-    if (canonicalTag) {
-      canonicalTag.remove();
-    }
+    removeCanonicalTag();
 
     const newCanonicalTag: HTMLLinkElement | null =
       document.createElement('link');
 
     newCanonicalTag.rel = LINK_CANONICAL_PARAM;
 
-    newCanonicalTag.href = `${PROTOCOL_URL + pathname}/`;
+    const canonicalPath = `${PROTOCOL_URL + pathname}${isIndexPath ? '' : '/'}`;
+
+    newCanonicalTag.href = canonicalPath;
 
     document.head.appendChild(newCanonicalTag);
-  }, [chainsRoutes, rawPathname, pathname]);
+  }, [chainsRoutes, rawPathname, pathname, isIndexPath]);
 
   /* setting meta robots by default */
   useEffect(() => {
