@@ -11,7 +11,13 @@ import { ChainID } from 'modules/chains/types';
 import { getChainName } from './useMetatagsUtils';
 import packageJson from '../../../../package.json';
 
-const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
+export const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
+
+export const LINK_CANONICAL_PARAM = 'canonical';
+export const LINK_CANONICAL_SELECTOR = `link[rel="${LINK_CANONICAL_PARAM}"]`;
+export const META_ROBOTS_CONTENT_PARAM = 'content';
+export const META_ROBOTS_NAME_PARAM = 'robots';
+export const META_ROBOTS_SELECTOR = `meta[name="${META_ROBOTS_NAME_PARAM}"]`;
 
 const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   let location = '';
@@ -47,6 +53,9 @@ export const useMetatags = (
 
   const beacons = useAppSelector(selectBeacons);
 
+  const pathname =
+    rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
+
   useEffect(() => {
     const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
 
@@ -62,9 +71,6 @@ export const useMetatags = (
 
     htmlElement.style.backdropFilter = currentThemeColor;
     bodyElement.style.backgroundColor = currentThemeColor;
-
-    const pathname =
-      rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
 
     const descriptionTag = document.getElementById(
       'meta-description',
@@ -133,5 +139,42 @@ export const useMetatags = (
     }
 
     return () => {};
-  }, [rawPathname, chainsRoutes, currentThemeColor, beacons]);
+  }, [chainsRoutes, currentThemeColor, beacons, pathname]);
+
+  /* setting link canonical by default */
+  useEffect(() => {
+    const canonicalTag: HTMLLinkElement | null = document.querySelector(
+      LINK_CANONICAL_SELECTOR,
+    );
+
+    if (canonicalTag) {
+      canonicalTag.remove();
+    }
+
+    const newCanonicalTag: HTMLLinkElement | null =
+      document.createElement('link');
+
+    newCanonicalTag.rel = LINK_CANONICAL_PARAM;
+
+    newCanonicalTag.href = `${PROTOCOL_URL + pathname}/`;
+
+    document.head.appendChild(newCanonicalTag);
+  }, [chainsRoutes, rawPathname, pathname]);
+
+  /* setting meta robots by default */
+  useEffect(() => {
+    const metaRobotsElement = document.querySelector(META_ROBOTS_SELECTOR);
+
+    if (metaRobotsElement) {
+      metaRobotsElement.remove();
+    }
+
+    const metaRobotsTag = document.createElement('meta');
+
+    metaRobotsTag.name = META_ROBOTS_NAME_PARAM;
+
+    metaRobotsTag.setAttribute(META_ROBOTS_CONTENT_PARAM, 'index,follow');
+
+    document.head.appendChild(metaRobotsTag);
+  }, [pathname]);
 };
