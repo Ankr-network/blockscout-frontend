@@ -68,10 +68,10 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.13.tgz#57d195c87a18f07203d38dcf3f1fb63430d8b501"
   integrity sha512-XLWE8b5Utb46lFeYrZ9Ie1D1ONmXbvIYniThLBjpXgmIIigeEVyCNFev7bg8s9mU0xuRbXiqg/qUTxrKG4dekw==
 
-"@ankr.com/global-menu@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.4.tgz#3a77b4efb67e175d1c09939fbd7e06382c781ab6"
-  integrity sha512-ImPqUlqBGCCInTFv3AM0oezONUgXdNkPpIYVE/u/Ii7r5a1DCCEwKwMELJLUHvy+e3L1Ed5ermGwQc7/7/pG7A==
+"@ankr.com/cross-navigation@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.13.tgz#57d195c87a18f07203d38dcf3f1fb63430d8b501"
+  integrity sha512-XLWE8b5Utb46lFeYrZ9Ie1D1ONmXbvIYniThLBjpXgmIIigeEVyCNFev7bg8s9mU0xuRbXiqg/qUTxrKG4dekw==
 
 "@ankr.com/provider@1.10.0":
   version "1.10.0"
