@@ -4,3 +4,14 @@ export enum EChargingModel {
   Package = 'PACKAGE',
   Deal = 'DEAL',
 }
+
+export enum ECurrency {
+  ANKR = 'ANKR',
+  USD = 'USD',
+}
+
+export enum EPaymentType {
+  OneTime = 'one-time',
+  Recurring = 'recurring',
+  Deal = 'deal',
+}

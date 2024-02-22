@@ -1805,6 +1805,38 @@
       "credit": "Credits",
       "usd": "USD"
     },
+    "payment-types": {
+      "one-time": {
+        "title": "one-time",
+        "payment-summary-title": "One-time payment",
+        "payment-summary-description": "One-time Pay-as-you-go balance payment"
+      },
+      "recurring": {
+        "title": "recurring",
+        "payment-summary-title": "Recurring payment",
+        "payment-summary-description": "Monthly-repeating Pay-as-you-go balance payment"
+      },
+      "deal": {
+        "title": "deal",
+        "payment-summary-title": "Deal",
+        "payment-summary-description": "Monthly-repeating purchase of 6B API Credits with 30-days validity period"
+      }
+    },
+    "stripe-wordmark": {
+      "label": "Powered by"
+    },
+    "payment-summary-dialog": {
+      "title": "Payment summary",
+      "total-label": "Total",
+      "cancel-button": "Cancel",
+      "usd": {
+        "amount": "{amount, number, USD}",
+        "proceed-button": "Proceed to checkout"
+      },
+      "crypto": {
+        "amount": "{amount, number} {currency}"
+      }
+    },
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
     "premium-success": "You’ve now gone Premium! Enjoy <a href='https://www.ankr.com/docs/rpc-service/service-plans/#feature-list' target='_blank'>the features</a> and <a href='https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits' target='_blank'>rate limits</a> available to&nbsp;you.",
