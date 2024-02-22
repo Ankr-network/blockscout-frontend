@@ -3,20 +3,15 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import './assets/fonts/styles.css';
 import { store } from 'store';
 import { AppBase } from 'modules/layout/components/AppBase/AppBase';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
 import { BreadcrumbsProvider } from 'modules/layout/components/Breadcrumbs';
-import '@ankr.com/global-menu/dist/style.css';
+
+import '@ankr.com/cross-navigation/dist/style.css';
+import '@ankr.com/assets/public/fonts/index.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes } from './Routes';
-
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
-import '@fontsource/inter/700.css';
-import '@fontsource/inter/800.css';
 
 function App() {
   return (

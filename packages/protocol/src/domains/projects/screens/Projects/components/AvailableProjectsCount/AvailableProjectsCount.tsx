@@ -10,7 +10,7 @@ import {
 } from 'domains/jwtToken/store/selectors';
 
 import { useAvailableProjectsCountStyles } from './useAvailableProjectsCountStyles';
-import { ProjectsOnboarding } from '../ProjectsOnboarding';
+import { TeamsOnboarding } from '../TeamsOnboarding';
 
 export const AvailableProjectsCount = () => {
   const totalProjectsCount = useAppSelector(selectAllowedJwtsCount);
@@ -40,7 +40,7 @@ export const AvailableProjectsCount = () => {
         <Info className={classes.infoIcon} />
       </Tooltip>
 
-      <ProjectsOnboarding />
+      <TeamsOnboarding />
     </div>
   );
 };

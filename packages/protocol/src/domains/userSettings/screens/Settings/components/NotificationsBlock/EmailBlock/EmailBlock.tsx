@@ -1,0 +1,49 @@
+import { IconButton, Typography } from '@mui/material';
+import { IGetActiveEmailBindingResponse } from 'multirpc-sdk';
+import { Edit } from '@ankr.com/ui';
+
+import { Queries } from 'modules/common/components/Queries/Queries';
+import { useUserSettingsGetActiveEmailBindingQuery } from 'domains/userSettings/actions/email/getActiveEmailBinding';
+
+import { useEmailBlock } from './useEmailBlock';
+import { useEmailBlockStyles } from './useEmailBlockStyles';
+import { ChangeEmailDialog } from '../ChangeEmailDialog';
+
+export const EmailBlock = () => {
+  const { classes } = useEmailBlockStyles();
+
+  const activeEmailBindingState = useUserSettingsGetActiveEmailBindingQuery();
+
+  const {
+    closeChangeEmailDialog,
+    isChangeEmailDialogOpen,
+    openChangeEmailDialog,
+  } = useEmailBlock();
+
+  return (
+    <div className={classes.root}>
+      <Typography variant="body2">
+        <Queries<IGetActiveEmailBindingResponse>
+          queryStates={[activeEmailBindingState]}
+        >
+          {({ data: { email } = {} }) => (
+            <Typography variant="body2">{email}</Typography>
+          )}
+        </Queries>
+      </Typography>
+
+      <IconButton
+        size="extraSmall"
+        className={classes.iconButton}
+        onClick={openChangeEmailDialog}
+      >
+        <Edit className={classes.icon} />
+      </IconButton>
+
+      <ChangeEmailDialog
+        open={isChangeEmailDialogOpen}
+        onClose={closeChangeEmailDialog}
+      />
+    </div>
+  );
+};

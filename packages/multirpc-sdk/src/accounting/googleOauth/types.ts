@@ -53,3 +53,7 @@ export interface IDecodeJwtTokenResponse {
 export interface ISyntheticJwtTokenResponse {
   jwt_data: string;
 }
+
+export interface IUnbindOauthAccountResponse {
+  result: string;
+}

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Button } from '@mui/material';
-import GlobalMenu, { LogoType } from '@ankr.com/global-menu';
+import { CrossNavigation, LogoType } from '@ankr.com/cross-navigation';
 
 import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { CreateTestPremiumUser } from 'modules/clients/components/CreateTestPremiumUser';
@@ -20,7 +20,7 @@ export const Header = ({
 }: HeaderProps) => {
   return (
     <>
-      <GlobalMenu logoType={LogoType.RPC} hasSecondaryFont />
+      <CrossNavigation logoType={LogoType.Web3API} />
       {userName && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
       {userName && (
         <Button

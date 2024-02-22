@@ -44,7 +44,7 @@ export const GuardUserGroup = ({
   const isFinance = selectedGroupRole === GroupUserRole.finance;
   const isDev = selectedGroupRole === GroupUserRole.dev;
 
-  const showNotification = useCallback(() => {
+  const showAlert = useCallback(() => {
     dispatch(guardDialogSlice.actions.showDialog());
   }, [dispatch]);
 
@@ -66,7 +66,7 @@ export const GuardUserGroup = ({
 
       // show notification only if redirect hasn't been forced
       if (!hasAccess && shouldRedirect && !shouldHideAlert) {
-        showNotification();
+        showAlert();
       }
     }
   }, [
@@ -78,7 +78,7 @@ export const GuardUserGroup = ({
     isLoggedIn,
     shouldForceRedirect,
     shouldRedirect,
-    showNotification,
+    showAlert,
   ]);
 
   if (isDisabled && selectedGroupAddress) {

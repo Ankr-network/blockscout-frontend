@@ -24,7 +24,7 @@ export const useGetChipsProps = ({
       const isAlredyExist = isEmailAlreadyExist({ email, invitedEmails });
 
       if (!isValid || isDuplicate || isAlredyExist) {
-        return { color: 'error' };
+        return { color: 'error', variant: 'outlined' };
       }
 
       return undefined;

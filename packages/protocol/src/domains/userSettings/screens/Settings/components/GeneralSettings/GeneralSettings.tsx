@@ -1,4 +1,4 @@
-import { EmailBlock } from '../EmailBlock';
+import { LoginMethodsBlock } from '../LoginMethodsBlock';
 import { NotificationsBlock } from '../NotificationsBlock';
 import { ThemeBlock } from '../ThemeBlock';
 import { TwoFABlock } from '../TwoFABlock';
@@ -6,7 +6,7 @@ import { TwoFABlock } from '../TwoFABlock';
 export const GeneralSettings = () => {
   return (
     <>
-      <EmailBlock />
+      <LoginMethodsBlock />
       <TwoFABlock />
       <ThemeBlock />
       <NotificationsBlock />

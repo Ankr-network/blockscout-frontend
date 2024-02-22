@@ -33,17 +33,13 @@ function downloadJSON(url) {
 function generateSitemap(blockchainResponse, homepage) {
   const lastModDate = new Date().toISOString();
   const changefreq = 'daily';
-  const priority = '0.7'
+  const priority = '0.7';
 
-  const urls = blockchainResponse.map(blockchain => {
-    const isSubchain = blockchain.extends;
-
-    if (!isSubchain) {
+  const urls = blockchainResponse
+    .map(blockchain => {
       return `<url><loc>${homepage}/${blockchain.id}/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
-    }
-
-    return undefined;
-  }).filter((item) => !!item).join('\n');
+    })
+    .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
@@ -59,7 +55,10 @@ const HOMEPAGE = `https://www.ankr.com${packageJson.homepage}`;
 
 downloadJSON(getBlockchainsListUrl(process.env.DOMAIN))
   .then(blockchainResponse => {
-    fs.writeFileSync('./public/sitemap.xml', generateSitemap(blockchainResponse, HOMEPAGE));
+    fs.writeFileSync(
+      './public/sitemap.xml',
+      generateSitemap(blockchainResponse, HOMEPAGE),
+    );
   })
   .catch(error => {
     // eslint-disable-next-line no-console

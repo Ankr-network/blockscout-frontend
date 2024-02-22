@@ -1,6 +1,5 @@
-import { Paper, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
-import { Dot } from '@ankr.com/ui';
 import { TwoFAStatus } from 'multirpc-sdk';
 
 import { Queries } from 'modules/common/components/Queries/Queries';
@@ -11,13 +10,14 @@ import { TwoFASwitch } from './components/TwoFASwitch';
 import { USER_SETTINGS_INTL_ROOT } from './constants';
 import { useTwoFAStatusQuery } from './TwoFABlockUtils';
 import { TwoFABlockSkeleton } from './components/TwoFABlockSkeleton';
+import { BaseSettingsBlock } from '../BaseSettingsBlock';
 
 export const TwoFABlock = () => {
   const { classes } = useTwoFABlockStyles();
   const fetchTwoFAStatusState = useTwoFAStatusQuery();
 
   return (
-    <Paper className={classes.root}>
+    <BaseSettingsBlock title={t(`${USER_SETTINGS_INTL_ROOT}.title`)}>
       <Queries<UserSettingsTwoFAStatusResult>
         queryStates={[fetchTwoFAStatusState]}
         spinner={<TwoFABlockSkeleton />}
@@ -26,32 +26,19 @@ export const TwoFABlock = () => {
           const isEnabled = data?.status === TwoFAStatus.Enabled;
 
           return (
-            <>
-              <div className={classes.top}>
-                <Typography className={classes.title}>
-                  {t(`${USER_SETTINGS_INTL_ROOT}.title`)}
+            <div>
+              <div className={classes.bottom}>
+                <TwoFASwitch isEnabled={isEnabled} />
+              </div>
+              <div className={classes.description}>
+                <Typography variant="body3" color="textSecondary">
+                  {tHTML(`${USER_SETTINGS_INTL_ROOT}.info`)}
                 </Typography>
-
-                <div className={classes.status}>
-                  <Dot className={isEnabled ? classes.on : classes.off} />
-                  {t(`${USER_SETTINGS_INTL_ROOT}.${isEnabled ? 'on' : 'off'}`)}
-                </div>
               </div>
-
-              <div className={classes.info}>
-                <div className={classes.bottom}>
-                  <TwoFASwitch isEnabled={isEnabled} />
-                </div>
-                <div className={classes.description}>
-                  <Typography variant="body3" color="textSecondary">
-                    {tHTML(`${USER_SETTINGS_INTL_ROOT}.info`)}
-                  </Typography>
-                </div>
-              </div>
-            </>
+            </div>
           );
         }}
       </Queries>
-    </Paper>
+    </BaseSettingsBlock>
   );
 };
