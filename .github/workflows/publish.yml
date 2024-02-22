@@ -1,4 +1,5 @@
 name: Publish
+run-name: Publish ${{github.event.inputs.package}} from ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
@@ -8,7 +9,6 @@ on:
         description: Target
         required: true
         options:
-          - ankr-global-menu
           - common
           - telemetry
 

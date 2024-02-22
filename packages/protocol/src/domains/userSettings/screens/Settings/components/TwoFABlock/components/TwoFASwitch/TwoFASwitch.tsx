@@ -65,6 +65,7 @@ export const TwoFASwitch = ({ isEnabled }: TwoFASwitchProps) => {
           />
         }
         label={t(`${USER_SETTINGS_INTL_ROOT}.label`)}
+        labelPlacement="start"
       />
       {!isEnabled && (
         <TwoFASetupDialog

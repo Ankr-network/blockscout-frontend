@@ -1,7 +1,8 @@
 import 'core-js/es/object/from-entries';
+import '@ankr.com/assets/public/fonts/index.css';
+import '@ankr.com/cross-navigation/dist/style.css';
 import { hydrate, render } from 'react-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import '@ankr.com/global-menu/dist/style.css';
 import { initGoogleGtm } from '@ankr.com/common';
 
 import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';

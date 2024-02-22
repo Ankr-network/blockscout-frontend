@@ -1,6 +1,6 @@
 {
   "name": "standalone-protocol",
-  "version": "1.62.3",
+  "version": "1.65.0",
   "private": true,
   "scripts": {
     "types": "tsc --noEmit -p tsconfig.json",
@@ -30,6 +30,7 @@
   },
   "homepage": "/",
   "dependencies": {
+    "@ankr.com/assets": "^0.0.6",
     "@ankr.com/provider": "^1.10.2",
     "multirpc-sdk": "*",
     "@loadable/component": "^5.14.1",
@@ -73,7 +74,6 @@
     "react-scripts": "4.0.3",
     "react-uid": "^2.3.1",
     "redux-persist": "^6.0.0",
-    "redux-saga": "^1.1.3",
     "redux-smart-actions": "^1.0.0",
     "web-vitals": "^1.0.1",
     "web3": "1.7.0",
@@ -124,8 +124,11 @@
     "vite-plugin-svgr": "^2.2.1"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,json}": [
       "prettier --write"
+    ],
+    "*.{ts,tsx}": [
+      "eslint"
     ]
   },
   "browserslist": {

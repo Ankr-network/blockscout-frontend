@@ -10,13 +10,15 @@ export const TeamInvitation = () => {
     expiredLinkDialogProps,
     isLoggedIn,
     teamInvitationDialogProps,
+    shouldAvoidGuestTeamInvitationDialog,
   } = useTeamInvitationPage();
 
-  const acceptInvitationDialog = isLoggedIn ? (
-    <TeamInvititationDialogContainer {...teamInvitationDialogProps} />
-  ) : (
-    <GuestTeamInvitationDialogContainer {...teamInvitationDialogProps} />
-  );
+  const acceptInvitationDialog =
+    isLoggedIn || shouldAvoidGuestTeamInvitationDialog ? (
+      <TeamInvititationDialogContainer {...teamInvitationDialogProps} />
+    ) : (
+      <GuestTeamInvitationDialogContainer {...teamInvitationDialogProps} />
+    );
 
   return (
     <>

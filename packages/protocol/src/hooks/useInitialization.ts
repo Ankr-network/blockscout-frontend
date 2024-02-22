@@ -11,6 +11,8 @@ import { useEnterpriseStatusFetch } from 'domains/auth/hooks/useEnterpriseStatus
 import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
 import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actions/fetchGroupCreationAllowance';
 import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTeamsSettings';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { removeAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   const hasBillingRoleAccess = useGuardUserGroup({
@@ -53,4 +55,8 @@ export const useInitialization = (isLoggedIn: boolean) => {
   });
 
   useRedirectToTeamsSettings();
+
+  useOnMount(() => {
+    removeAvoidGuestTeamInvitationDialog();
+  });
 };

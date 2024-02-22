@@ -6,3 +6,6 @@ export const chipProps: ChipProps = {
   color: 'secondary',
   icon: <Mail />,
 };
+
+export const forbiddenSymbols = ['\n'];
+export const separators = [',', ';', ' '];

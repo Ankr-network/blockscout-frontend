@@ -30,6 +30,11 @@
     web3-eth-contract "1.7.0"
     web3-utils "1.7.0"
 
+"@ankr.com/assets@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@ankr.com/assets/-/assets-0.0.6.tgz#b6626bc422881e92b87d5d45a0bc647b52176d2e"
+  integrity sha512-yELJYlItLsIst+fC39BIel+iWl9HGKtQ6o6vm/BXH2KQywQJlC1bbZxtAR4R0SxbBO5sBnFk23I9Ncu36s0J6A==
+
 "@ankr.com/ci@^1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@ankr.com/ci/-/ci-1.1.4.tgz#25524363b32b5dbf6275f0714646f620ef6f5b82"
@@ -37,15 +42,15 @@
   dependencies:
     aws-sdk "^2.1217.0"
 
-"@ankr.com/global-menu@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.2.tgz#be9c3d1821a3f3d02d7cf02488148e39ac8d0e92"
-  integrity sha512-ngMBAD6HVImyeCf4LnqmNZpRu58tZuuWkNtBWRObE1/Oj3iae1BTG2y1HyI0guB23xbJHr/f+fZ2aaSwr8/o+A==
+"@ankr.com/cross-navigation@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.10.tgz#852409ef50fd41080f25b0524297e28f30c36187"
+  integrity sha512-SeYi74hfQTn9ny9uBsGo+kTORtHrfqCQm4iTzSavtY5VQeXX4bk13q226LrTnp/yK4EDwXUK4BaYE93IeT75RA==
 
-"@ankr.com/global-menu@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.4.tgz#3a77b4efb67e175d1c09939fbd7e06382c781ab6"
-  integrity sha512-ImPqUlqBGCCInTFv3AM0oezONUgXdNkPpIYVE/u/Ii7r5a1DCCEwKwMELJLUHvy+e3L1Ed5ermGwQc7/7/pG7A==
+"@ankr.com/cross-navigation@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.13.tgz#57d195c87a18f07203d38dcf3f1fb63430d8b501"
+  integrity sha512-XLWE8b5Utb46lFeYrZ9Ie1D1ONmXbvIYniThLBjpXgmIIigeEVyCNFev7bg8s9mU0xuRbXiqg/qUTxrKG4dekw==
 
 "@ankr.com/provider@1.10.0":
   version "1.10.0"
@@ -123,10 +128,10 @@
   dependencies:
     tss-react "^4.9.2"
 
-"@ankr.com/ui@^0.13.18":
-  version "0.13.18"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.13.18.tgz#a7532b4b507c094bb61b40198e4c9f581d233911"
-  integrity sha512-QmsbL+E/tDIfcF3eJkuu+lgG2n/AvJuuhm3Pmq0RMxNF20huJjoUIs8aQDBzp+cvljvddf6v89RFPDF6pbEgIA==
+"@ankr.com/ui@^0.13.25":
+  version "0.13.25"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.13.25.tgz#c070382786701da721dd71e19fb4407326d037ac"
+  integrity sha512-fB3o0KiIPHjORyUwSOVufeg/H6iJaPwshCJGYeszYtC3/jAsKV0vh0QWrQb44Lj0PxVSalGHiODYFIUuxmhIww==
   dependencies:
     tss-react "^4.9.2"
 
@@ -4175,11 +4180,6 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.1.6.tgz#22958c042e10b67463997bd6ea7115fe28cbcaf9"
   integrity sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==
 
-"@fontsource/inter@^4.5.13":
-  version "4.5.14"
-  resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.5.14.tgz#3944b809aa7bf27dacd20bdc04a49fb738959724"
-  integrity sha512-JDC9AocdPLuGsASkvWw9hS5gtHE7K9dOwL98XLrk5yjYqxy4uVnScG58NUvFMJDVJRl/7c8Wnap6PEs+7Zvj1Q==
-
 "@formatjs/intl-unified-numberformat@^3.2.0":
   version "3.3.7"
   resolved "https://registry.npmjs.org/@formatjs/intl-unified-numberformat/-/intl-unified-numberformat-3.3.7.tgz"
@@ -5144,29 +5144,10 @@
     redux "^4.0.4"
     typescript-tuple "^2.2.1"
 
-"@redux-saga/core@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@redux-saga/core/-/core-1.2.1.tgz"
-  integrity sha512-ABCxsZy9DwmNoYNo54ZlfuTvh77RXx8ODKpxOHeWam2dOaLGQ7vAktpfOtqSeTdYrKEORtTeWnxkGJMmPOoukg==
-  dependencies:
-    "@babel/runtime" "^7.6.3"
-    "@redux-saga/deferred" "^1.2.1"
-    "@redux-saga/delay-p" "^1.2.1"
-    "@redux-saga/is" "^1.1.3"
-    "@redux-saga/symbols" "^1.1.3"
-    "@redux-saga/types" "^1.2.1"
-    redux "^4.0.4"
-    typescript-tuple "^2.2.1"
-
 "@redux-saga/deferred@^1.1.2":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@redux-saga/deferred/-/deferred-1.1.2.tgz"
   integrity sha512-908rDLHFN2UUzt2jb4uOzj6afpjgJe3MjICaUNO3bvkV/kN/cNeI9PMr8BsFXB/MR8WTAZQq/PlTq8Kww3TBSQ==
-
-"@redux-saga/deferred@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@redux-saga/deferred/-/deferred-1.2.1.tgz"
-  integrity sha512-cmin3IuuzMdfQjA0lG4B+jX+9HdTgHZZ+6u3jRAOwGUxy77GSlTi4Qp2d6PM1PUoTmQUR5aijlA39scWWPF31g==
 
 "@redux-saga/delay-p@^1.1.2":
   version "1.1.2"
@@ -5174,13 +5155,6 @@
   integrity sha512-ojc+1IoC6OP65Ts5+ZHbEYdrohmIw1j9P7HS9MOJezqMYtCDgpkoqB5enAAZrNtnbSL6gVCWPHaoaTY5KeO0/g==
   dependencies:
     "@redux-saga/symbols" "^1.1.2"
-
-"@redux-saga/delay-p@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@redux-saga/delay-p/-/delay-p-1.2.1.tgz"
-  integrity sha512-MdiDxZdvb1m+Y0s4/hgdcAXntpUytr9g0hpcOO1XFVyyzkrDu3SKPgBFOtHn7lhu7n24ZKIAT1qtKyQjHqRd+w==
-  dependencies:
-    "@redux-saga/symbols" "^1.1.3"
 
 "@redux-saga/is@^1.1.2":
   version "1.1.2"
@@ -5190,33 +5164,15 @@
     "@redux-saga/symbols" "^1.1.2"
     "@redux-saga/types" "^1.1.0"
 
-"@redux-saga/is@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/@redux-saga/is/-/is-1.1.3.tgz"
-  integrity sha512-naXrkETG1jLRfVfhOx/ZdLj0EyAzHYbgJWkXbB3qFliPcHKiWbv/ULQryOAEKyjrhiclmr6AMdgsXFyx7/yE6Q==
-  dependencies:
-    "@redux-saga/symbols" "^1.1.3"
-    "@redux-saga/types" "^1.2.1"
-
 "@redux-saga/symbols@^1.1.2":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@redux-saga/symbols/-/symbols-1.1.2.tgz"
   integrity sha512-EfdGnF423glv3uMwLsGAtE6bg+R9MdqlHEzExnfagXPrIiuxwr3bdiAwz3gi+PsrQ3yBlaBpfGLtDG8rf3LgQQ==
 
-"@redux-saga/symbols@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/@redux-saga/symbols/-/symbols-1.1.3.tgz"
-  integrity sha512-hCx6ZvU4QAEUojETnX8EVg4ubNLBFl1Lps4j2tX7o45x/2qg37m3c6v+kSp8xjDJY+2tJw4QB3j8o8dsl1FDXg==
-
 "@redux-saga/types@^1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@redux-saga/types/-/types-1.1.0.tgz"
   integrity sha512-afmTuJrylUU/0OtqzaRkbyYFFNgCF73Bvel/sw90pvGrWIZ+vyoIJqA6eMSoA6+nb443kTmulmBtC9NerXboNg==
-
-"@redux-saga/types@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/@redux-saga/types/-/types-1.2.1.tgz"
-  integrity sha512-1dgmkh+3so0+LlBWRhGA33ua4MYr7tUOj+a9Si28vUi0IUFNbff1T3sgpeDJI/LaC75bBYnQ0A3wXjn0OrRNBA==
 
 "@reduxjs/toolkit@^1.8.1", "@reduxjs/toolkit@^1.8.6":
   version "1.8.6"
@@ -22460,13 +22416,6 @@ redux-saga@^1.1.3:
   integrity sha512-RkSn/z0mwaSa5/xH/hQLo8gNf4tlvT18qXDNvedihLcfzh+jMchDgaariQoehCpgRltEm4zHKJyINEz6aqswTw==
   dependencies:
     "@redux-saga/core" "^1.1.3"
-
-redux-saga@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/redux-saga/-/redux-saga-1.2.1.tgz"
-  integrity sha512-fVCicLlf4hLP+KB6H7RHfZlZ8LdYckhaemXBB3wh//a2ESyz/z/l8ygxlm0OqPjS/PARdsQ2hIdAltxEB+NgvA==
-  dependencies:
-    "@redux-saga/core" "^1.2.1"
 
 redux-smart-actions@^1.0.0:
   version "1.0.0"

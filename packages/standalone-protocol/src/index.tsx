@@ -3,6 +3,7 @@ import { hydrate, render } from 'react-dom';
 
 import { initializeMixpanel } from 'modules/analytics/initializeMixpanel';
 import { initializeSentry } from 'modules/sentry';
+import '@ankr.com/assets/public/fonts/index.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';

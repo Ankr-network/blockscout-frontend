@@ -56,10 +56,11 @@ export const EmailVerificationIssueDialog = ({
         </div>
       </Dialog>
       <SignupDialog
-        description={description}
         hasAutoAgreement
-        hasOauthLogin={hasOauthLogin}
         hasOnlyGoogleAuth
+        shouldResetAuthDataForGoogleAuth
+        description={description}
+        hasOauthLogin={hasOauthLogin}
         isOpen={isSignInDialogOpened}
         onClose={handleSignInDialogClose}
         title={title}

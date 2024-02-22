@@ -1,4 +1,3 @@
-import { Paper, Typography } from '@mui/material';
 import { INotificationsSettings } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { OverlaySpinner } from '@ankr.com/ui';
@@ -9,11 +8,10 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { checkChangedSignupUserSettingsAndUpdate } from 'domains/userSettings/actions/checkChangedSignupUserSettingsAndUpdate';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
-import { useStyles } from './NotificationsBlockStyles';
 import { NotificationsForm } from './NotificationsForm';
+import { BaseSettingsBlock } from '../BaseSettingsBlock';
 
 export const NotificationsBlock = () => {
-  const { classes } = useStyles();
   const [fetchNotificationSettings, notificationSettingsState] =
     useLazyUserSettingsFetchNotificationSettingsQuery();
   const [, checkSignupUserSettingsAndUpdateState] = useQueryEndpoint(
@@ -25,11 +23,7 @@ export const NotificationsBlock = () => {
   });
 
   return (
-    <Paper className={classes.root}>
-      <Typography className={classes.title} variant="h4">
-        {t('user-settings.notifications.title')}
-      </Typography>
-
+    <BaseSettingsBlock title={t('user-settings.notifications.title')}>
       <Queries<INotificationsSettings, INotificationsSettings>
         queryStates={[
           notificationSettingsState,
@@ -52,6 +46,6 @@ export const NotificationsBlock = () => {
           );
         }}
       </Queries>
-    </Paper>
+    </BaseSettingsBlock>
   );
 };

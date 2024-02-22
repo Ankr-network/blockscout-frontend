@@ -108,10 +108,11 @@ import {
   IDecodeJwtTokenResponse,
   IGoogleSecretCodeParams,
   ISyntheticJwtTokenResponse,
+  IUnbindOauthAccountResponse,
 } from './googleOauth';
 import {
   IOauthLoginParams,
-  ISecreteCodeLoginQueryParams,
+  ISecretCodeLoginQueryParams,
   IOauthSecretCodeParams,
   AssociatedAccount,
 } from './oauth';
@@ -886,6 +887,19 @@ export class AccountingGateway {
     return data;
   }
 
+  async unbindOauthAccount(params: ISecretCodeLoginQueryParams, totp?: string) {
+    const { data } = await this.api.post<IUnbindOauthAccountResponse>(
+      '/api/v1/auth/abstractBindings/unbind',
+      undefined,
+      {
+        params,
+        headers: createTOTPHeaders(totp),
+      },
+    );
+
+    return data;
+  }
+
   async getETHAddresses(accessToken: string): Promise<IETHAddressesResponse> {
     const { data } = await this.api.get<IETHAddressesResponse>(
       '/api/v1/auth/googleOauth/getAllMyEthAddresses',
@@ -931,7 +945,7 @@ export class AccountingGateway {
 
   async loginBySecretCode(
     body: IOauthSecretCodeParams,
-    params: ISecreteCodeLoginQueryParams,
+    params: ISecretCodeLoginQueryParams,
     totp?: string,
   ) {
     const { data } = await this.api.post<IOauthLoginResponse>(

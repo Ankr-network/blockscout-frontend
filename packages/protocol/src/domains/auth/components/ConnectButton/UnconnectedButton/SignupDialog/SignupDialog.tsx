@@ -11,6 +11,7 @@ interface SignupDialogProps {
   hasAutoAgreement?: boolean;
   hasOauthLogin?: boolean;
   hasOnlyGoogleAuth?: boolean;
+  shouldResetAuthDataForGoogleAuth?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
@@ -23,6 +24,7 @@ export const SignupDialog = ({
   hasAutoAgreement,
   hasOauthLogin,
   hasOnlyGoogleAuth = false,
+  shouldResetAuthDataForGoogleAuth = false,
   isOpen = false,
   onClose,
   onSuccess,
@@ -40,7 +42,13 @@ export const SignupDialog = ({
     onGithubButtonClick,
     setWeb3State,
     oauthLoginType,
-  } = useSignupDialog({ onClose, hasOauthLogin, hasOnlyGoogleAuth, title });
+  } = useSignupDialog({
+    onClose,
+    hasOauthLogin,
+    hasOnlyGoogleAuth,
+    shouldResetAuthDataForGoogleAuth,
+    title,
+  });
 
   return (
     <Dialog

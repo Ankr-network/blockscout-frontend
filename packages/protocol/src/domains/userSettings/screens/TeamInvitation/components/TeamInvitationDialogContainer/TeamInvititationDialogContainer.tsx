@@ -48,6 +48,7 @@ export const TeamInvititationDialogContainer = ({
       <SignupDialog
         hasAutoAgreement
         hasOnlyGoogleAuth
+        shouldResetAuthDataForGoogleAuth
         isOpen={isSignInDialogOpened}
         onClose={handleSignInDialogClose}
         shouldSaveTeamInvitationLink={false}

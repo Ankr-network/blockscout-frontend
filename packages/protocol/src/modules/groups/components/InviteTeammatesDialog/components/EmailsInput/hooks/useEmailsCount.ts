@@ -21,7 +21,7 @@ export const useEmailsCount = ({
   const [invalidEmailsCount, setInvalidEmailsCount] = useState(0);
 
   const onChange = useCallback<OnEmailsInputChange>(
-    (event, emails, ...args) => {
+    emails => {
       const validEmails = emails.filter(
         (email, index) =>
           isValidEmail(email) &&
@@ -32,7 +32,7 @@ export const useEmailsCount = ({
       setInvalidEmailsCount(emails.length - validEmails.length);
       setEmailsCount(teamMembersCount + validEmails.length);
 
-      handleChange?.(event, emails, ...args);
+      handleChange?.(emails);
     },
     [handleChange, invitedEmails, teamMembersCount],
   );

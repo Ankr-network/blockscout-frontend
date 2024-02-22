@@ -1,4 +1,4 @@
-import { FormGroup, Typography, Divider } from '@mui/material';
+import { FormGroup, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
 import { t } from '@ankr.com/common';
 
@@ -6,16 +6,28 @@ import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxFie
 
 import { useStyles } from './NotificationsFormStyles';
 import { NotificationsFormFields } from './NotificationsFormTypes';
+import { EmailBlock } from '../EmailBlock';
 
 export const NotificationsForm = () => {
   const { classes } = useStyles();
 
   return (
     <FormGroup>
+      <Typography variant="subtitle2" className={classes.subtitle}>
+        {t('user-settings.notifications.form.email')}
+      </Typography>
+
+      <EmailBlock />
+
+      <Typography variant="subtitle2" className={classes.subtitle}>
+        {t('user-settings.notifications.form.budget-alerts')}
+      </Typography>
+
       <Field
         component={CheckboxField}
         name={NotificationsFormFields.lowBalance}
         type="checkbox"
+        className={classes.row}
         label={
           <Typography variant="body2" className={classes.label}>
             {t('user-settings.notifications.form.low-balance')}
@@ -26,6 +38,7 @@ export const NotificationsForm = () => {
         component={CheckboxField}
         name={NotificationsFormFields.lowCreditsInfo}
         type="checkbox"
+        className={classes.row}
         label={
           <Typography variant="body2" className={classes.label}>
             {t('user-settings.notifications.form.low-credits-info')}
@@ -36,6 +49,7 @@ export const NotificationsForm = () => {
         component={CheckboxField}
         name={NotificationsFormFields.lowCreditsWarn}
         type="checkbox"
+        className={classes.row}
         label={
           <Typography variant="body2" className={classes.label}>
             {t('user-settings.notifications.form.low-credits-warn')}
@@ -46,6 +60,7 @@ export const NotificationsForm = () => {
         component={CheckboxField}
         name={NotificationsFormFields.lowCreditsAlarm}
         type="checkbox"
+        className={classes.row}
         label={
           <Typography variant="body2" className={classes.label}>
             {t('user-settings.notifications.form.low-credits-alarm')}
@@ -58,18 +73,14 @@ export const NotificationsForm = () => {
         type="checkbox"
         label={
           <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.balance-updates.title')}
+            {t('user-settings.notifications.form.balance-update')}
           </Typography>
         }
       />
-      <Typography
-        variant="subtitle1"
-        color="textSecondary"
-        className={classes.description}
-      >
-        {t('user-settings.notifications.form.balance-updates.description')}
+
+      <Typography variant="subtitle2" className={classes.subtitle}>
+        {t('user-settings.notifications.form.newsletter')}
       </Typography>
-      <Divider className={classes.divider} />
       <Field
         component={CheckboxField}
         name={NotificationsFormFields.marketing}

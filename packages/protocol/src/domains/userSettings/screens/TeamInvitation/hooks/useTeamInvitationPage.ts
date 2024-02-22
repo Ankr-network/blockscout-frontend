@@ -8,6 +8,7 @@ import { ILinkExpiredDialogProps } from '../components/LinkExpiredDialog';
 import { TeamInvitationContentType } from '../constants';
 import { TeamInvitationDialogContainerProps } from '../components/TeamInvitationDialogContainer';
 import { useTeamInvitationContentType } from './useTeamInvitationContentType';
+import { shouldAvoidGuestTeamInvitationDialog as baseShouldAvoidGuestTeamInvitationDialog } from '../utils/teamInvitationUtils';
 
 export const useTeamInvitationPage = () => {
   const { isLoggedIn } = useAuth();
@@ -49,10 +50,14 @@ export const useTeamInvitationPage = () => {
     [isTeamInvitationDialogOpened],
   );
 
+  const shouldAvoidGuestTeamInvitationDialog =
+    baseShouldAvoidGuestTeamInvitationDialog();
+
   return {
     emailVerificationDialogProps,
     expiredLinkDialogProps,
     isLoggedIn,
     teamInvitationDialogProps,
+    shouldAvoidGuestTeamInvitationDialog,
   };
 };

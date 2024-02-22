@@ -14,8 +14,7 @@
     "import/core-modules": [
       "ui",
       "multirpc-sdk",
-      "common",
-      "@ankr.com/global-menu"
+      "common"
     ]
   },
   "extends": [

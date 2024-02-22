@@ -3,7 +3,10 @@ import { makeStyles } from 'tss-react/mui';
 export const useTwoFASwitchStyles = makeStyles<void, 'switchTrack'>()(
   (theme, _params, classes) => ({
     root: {
-      gap: theme.spacing(2),
+      display: 'flex',
+      width: '100%',
+      justifyContent: 'space-between',
+      marginBottom: theme.spacing(3),
     },
     switchChecked: {
       [`+ .${classes.switchTrack}`]: {
