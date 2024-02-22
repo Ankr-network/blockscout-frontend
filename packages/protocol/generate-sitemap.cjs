@@ -35,10 +35,16 @@ function generateSitemap(blockchainResponse, homepage) {
   const changefreq = 'daily';
   const priority = '0.7';
 
+
   const urls = blockchainResponse
     .map(blockchain => {
+      if (blockchain.extends) {
+        return undefined;
+      }
+
       return `<url><loc>${homepage}/${blockchain.id}/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
     })
+    .filter((item) => !!item)
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
