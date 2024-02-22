@@ -7,18 +7,9 @@ import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
-import { removeCanonicalTag } from 'uiKit/utils/metatags/removeCanonicalTag';
 
 import { getChainName } from './useMetatagsUtils';
-import packageJson from '../../../../package.json';
-
-export const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
-
-export const LINK_CANONICAL_PARAM = 'canonical';
-export const LINK_CANONICAL_SELECTOR = `link[rel="${LINK_CANONICAL_PARAM}"]`;
-export const META_ROBOTS_CONTENT_PARAM = 'content';
-export const META_ROBOTS_NAME_PARAM = 'robots';
-export const META_ROBOTS_SELECTOR = `meta[name="${META_ROBOTS_NAME_PARAM}"]`;
+import { PROTOCOL_URL } from './const';
 
 const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   let location = '';
@@ -142,37 +133,4 @@ export const useMetatags = (
 
     return () => {};
   }, [chainsRoutes, currentThemeColor, beacons, pathname]);
-
-  /* setting link canonical by default */
-  useEffect(() => {
-    removeCanonicalTag();
-
-    const newCanonicalTag: HTMLLinkElement | null =
-      document.createElement('link');
-
-    newCanonicalTag.rel = LINK_CANONICAL_PARAM;
-
-    const canonicalPath = `${PROTOCOL_URL + pathname}${isIndexPath ? '' : '/'}`;
-
-    newCanonicalTag.href = canonicalPath;
-
-    document.head.appendChild(newCanonicalTag);
-  }, [chainsRoutes, rawPathname, pathname, isIndexPath]);
-
-  /* setting meta robots by default */
-  useEffect(() => {
-    const metaRobotsElement = document.querySelector(META_ROBOTS_SELECTOR);
-
-    if (metaRobotsElement) {
-      metaRobotsElement.remove();
-    }
-
-    const metaRobotsTag = document.createElement('meta');
-
-    metaRobotsTag.name = META_ROBOTS_NAME_PARAM;
-
-    metaRobotsTag.setAttribute(META_ROBOTS_CONTENT_PARAM, 'index,follow');
-
-    document.head.appendChild(metaRobotsTag);
-  }, [pathname]);
 };
