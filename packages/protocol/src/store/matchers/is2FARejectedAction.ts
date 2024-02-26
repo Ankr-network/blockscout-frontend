@@ -13,6 +13,7 @@ import { is2FAError } from 'store/utils/is2FAError';
 import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { updateWhitelistMode } from 'domains/projects/actions/updateWhitelistMode';
 import { userSettingsAddNewEmailBinding } from 'domains/userSettings/actions/email/addNewEmailBinding';
+import { unbindLoginProvider } from 'domains/userSettings/actions/email/unbindLoginProvider';
 
 // Top level endpoints that should be re-initiated if
 // a 2FA error has been caught somewhere inside or in child endpoints.
@@ -29,6 +30,7 @@ const matcher = isAnyOf(
   oauthLoginJwt.matchRejected,
   updateWhitelistMode.matchRejected,
   userSettingsAddNewEmailBinding.matchRejected,
+  unbindLoginProvider.matchRejected,
 );
 
 export const is2FARejectedAction = ((action: AnyAction) => {

@@ -9,7 +9,12 @@ export const useLoginProvider = () => {
 
   const handleUnbindProvider = useCallback(
     async (provider: OauthLoginProvider) => {
-      unbindLoginProvider({ provider });
+      unbindLoginProvider({
+        params: {
+          params: { provider },
+        },
+        shouldNotify: false,
+      });
     },
     [unbindLoginProvider],
   );
