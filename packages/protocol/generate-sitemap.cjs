@@ -1,6 +1,31 @@
-const fs = require('fs');
+const { readdirSync, statSync, writeFileSync } = require('fs');
 const https = require('https');
+const path = require('path');
 const packageJson = require('./package.json');
+
+const ASSETS_FOLDER = 'build';
+const PRIVATE_ROUTES = [
+  /^enterprise/,
+  /add$/,
+  /^account/,
+  /^projects/,
+  /^settings/,
+];
+
+function getAllFiles(directoryPath, fileList = []) {
+  const files = readdirSync(directoryPath);
+
+  files.forEach(file => {
+    const filePath = path.join(directoryPath, file);
+    if (statSync(filePath).isDirectory()) {
+      getAllFiles(filePath, fileList); // Recursively call for subdirectories
+    } else {
+      fileList.push(filePath); // Add file path to the list
+    }
+  });
+
+  return fileList.flatMap(item => item);
+}
 
 function getBlockchainsListUrl(env) {
   if (env === 'staging') {
@@ -10,41 +35,33 @@ function getBlockchainsListUrl(env) {
   return 'https://next.multi-rpc.com/api/v1/blockchain';
 }
 
-function downloadJSON(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, response => {
-        let data = '';
-
-        response.on('data', chunk => {
-          data += chunk;
-        });
-
-        response.on('end', () => {
-          resolve(JSON.parse(data));
-        });
-      })
-      .on('error', err => {
-        reject(new Error(`Error downloading file: ${err.message}`));
-      });
-  });
-}
-
-function generateSitemap(blockchainResponse, homepage) {
+function generateSitemap(homepage) {
   const lastModDate = new Date().toISOString();
   const changefreq = 'daily';
   const priority = '0.7';
 
+  function getUrl(path) {
+    return `<url><loc>${homepage}/${path}/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
+  }
 
-  const urls = blockchainResponse
-    .map(blockchain => {
-      if (blockchain.extends) {
-        return undefined;
+  const files = getAllFiles(ASSETS_FOLDER);
+  const urls = files
+    .filter(item => {
+      if (/.+\/index.html$/.test(item)) {
+        return true;
       }
-
-      return `<url><loc>${homepage}/${blockchain.id}/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
     })
-    .filter((item) => !!item)
+    .map(item => {
+      return item
+        .replace(new RegExp(`^build/`), '')
+        .replace(new RegExp('/index.html$'), '');
+    })
+    .filter(item => {
+      console.log('item', item);
+
+      return !PRIVATE_ROUTES.find(route => route.test(item));
+    })
+    .map(item => getUrl(item))
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -59,14 +76,4 @@ ${urls}
 
 const HOMEPAGE = `https://www.ankr.com${packageJson.homepage}`;
 
-downloadJSON(getBlockchainsListUrl(process.env.DOMAIN))
-  .then(blockchainResponse => {
-    fs.writeFileSync(
-      './public/sitemap.xml',
-      generateSitemap(blockchainResponse, HOMEPAGE),
-    );
-  })
-  .catch(error => {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  });
+writeFileSync('./build/sitemap.xml', generateSitemap(HOMEPAGE));

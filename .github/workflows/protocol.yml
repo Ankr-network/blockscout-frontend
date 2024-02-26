@@ -90,6 +90,10 @@ jobs:
           yarn build:prod:turbo
           yarn postbuild
 
+      - name: Generate sitemap
+        working-directory: ./packages/protocol
+        run: node generate-sitemap.cjs
+
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
