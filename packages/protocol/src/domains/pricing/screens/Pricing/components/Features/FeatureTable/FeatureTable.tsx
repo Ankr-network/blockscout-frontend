@@ -33,10 +33,7 @@ export const FeatureTable = () => {
             <TableCell className={classes.name}>
               <Typography
                 variant="subtitle2"
-                className={cx(
-                  classes.subtitle,
-                  isRowSubtitle && classes.rowSubtitle,
-                )}
+                className={cx(isRowSubtitle && classes.rowSubtitle)}
               >
                 {t(`${INTL_PLAN_COMPARISON_ROOT}.name-${rowIndex}`)}
               </Typography>
