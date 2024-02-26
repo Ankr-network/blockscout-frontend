@@ -4,7 +4,7 @@ import { Theme } from '@mui/material';
 export const TypographyTheme =
   baseTheme.components?.MuiTypography?.styleOverrides;
 
-export const getTypographTheme = (theme: any) => {
+export const getTypographyTheme = (theme: any) => {
   const result: Record<string, string> = {};
   const keys = Object.keys(theme);
 
@@ -42,7 +42,7 @@ export const enterpriseLabel =
 export const stepLineColor = `linear-gradient(270deg, #EEA941 0%, #356DF3 100%)`;
 
 export const plansPremiumColor = `linear-gradient(269.98deg, #2F62F1 -188.21%, #8D30FF -44.43%, #FF7710 99.98%)`;
-
+export const premiumGradient = `linear-gradient(270deg, #2F62F1 0.02%, #8D30FF 49.89%, #FF7710 99.98%)`;
 export const commonShadow =
   '0px 5px 25px rgba(31, 34, 38, 0.1), 0px 10px 50px rgba(31, 34, 38, 0.1)';
 

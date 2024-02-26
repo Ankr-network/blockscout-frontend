@@ -6,7 +6,7 @@ import { useBlockStyles } from './useBlockStyles';
 
 const intl = `${INTL_ROOT}.scale-plan`;
 
-const ROW_COUNTS = 4;
+const ROW_COUNTS = 3;
 const COLUMN_COUNTS = 3;
 
 export const Block = () => {
@@ -18,7 +18,7 @@ export const Block = () => {
         {new Array(COLUMN_COUNTS).fill('').map((_, index) => (
           <Typography
             key={`header-${index + 1}`}
-            variant="subtitle1"
+            variant="subtitle2"
             className={classes.headerItem}
           >
             {t(`${intl}.header-${index + 1}`)}
@@ -29,6 +29,7 @@ export const Block = () => {
         <div key={`row-${rowIndex + 1}`} className={classes.cellRow}>
           {new Array(COLUMN_COUNTS).fill('').map((_column, columnIndex) => (
             <Typography
+              variant="body2"
               key={`column-${columnIndex + 1}`}
               className={classes.cell}
             >

@@ -1,7 +1,10 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { plansPremiumColor, premiumColor } from 'uiKit/Theme/themeUtils';
+import { premiumGradient } from 'uiKit/Theme/themeUtils';
 
+const INFO_ICON_HEIGHT = 24;
+
+/* eslint-disable max-lines-per-function */
 export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
   (theme, _params, classes) => ({
     container: {
@@ -12,41 +15,37 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
     root: {
       background: theme.palette.background.paper,
       padding: theme.spacing(7.5),
-      borderRadius: 42,
+      borderRadius: 16,
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-
-      [theme.breakpoints.down('xs')]: {
-        borderRadius: 28,
-      },
+    },
+    header: {
+      height: 130,
     },
     tip: {
       textTransform: 'uppercase',
       color: theme.palette.common.white,
-      fontSize: 14,
-      lineHeight: '24px',
+      fontSize: 10,
+      lineHeight: '135%',
       fontWeight: 500,
-      position: 'absolute',
-      top: theme.spacing(-3),
-      left: theme.spacing(7.5),
-      height: theme.spacing(6),
-      borderRadius: 9,
-      padding: theme.spacing(0, 2.25),
+      marginBottom: theme.spacing(2.5),
+      borderRadius: 5,
+      padding: theme.spacing(0.5, 1, 0.5, 1.25),
+      width: 'fit-content',
     },
 
     premium: {
       color: theme.palette.text.primary,
-      background: premiumColor,
 
       [`& .${classes.root}`]: {
         height: '100%',
-        borderRadius: 40,
+        borderRadius: 18,
       },
 
       [`& .${classes.tip}`]: {
-        background: plansPremiumColor,
+        background: premiumGradient,
       },
     },
 
@@ -72,26 +71,32 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
     },
     title: {
       color: theme.palette.text.primary,
-      marginBottom: theme.spacing(8),
-
-      [theme.breakpoints.down('md')]: {
-        fontSize: 35,
-        marginBottom: theme.spacing(6),
-      },
+      marginBottom: theme.spacing(2),
+    },
+    premiumTitle: {
+      background: premiumGradient,
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    },
+    freeTitle: {
+      paddingTop: theme.spacing(7),
+      color: theme.palette.text.secondary,
     },
     price: {
       display: 'block',
       color: theme.palette.text.secondary,
-      marginBottom: theme.spacing(8),
+      marginBottom: theme.spacing(3),
 
       '& em': {
         color: theme.palette.text.primary,
         fontStyle: 'normal',
-        fontSize: 28,
-        lineHeight: '32.2px',
-        fontWeight: 700,
         marginRight: theme.spacing(2),
       },
+    },
+    divider: {
+      color: theme.palette.background.default,
+      height: 2,
+      marginBottom: theme.spacing(6),
     },
     list: {
       [theme.breakpoints.down('md')]: {
@@ -101,11 +106,11 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
     },
     info: {
       color: theme.palette.text.primary,
-      display: 'block',
+      display: 'flex',
+      alignItems: 'flex-start',
       marginBottom: theme.spacing(2),
       fontSize: 18,
-      lineHeight: '27px',
-      fontWeight: 600,
+      lineHeight: `${INFO_ICON_HEIGHT}px`,
 
       [theme.breakpoints.down('md')]: {
         width: '50%',
@@ -117,8 +122,21 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
 
       '& em': {
         fontStyle: 'normal',
-        fontWeight: 800,
+        fontWeight: 700,
       },
+    },
+    infoIcon: {
+      height: INFO_ICON_HEIGHT,
+      marginRight: theme.spacing(1.5),
+    },
+    freeIcon: {
+      color: theme.palette.text.secondary,
+    },
+    premiumIcon: {
+      color: theme.palette.purple.main,
+    },
+    enterpriseIcon: {
+      color: '#F5841F', // there is no such color in current uikit
     },
     button: {
       fontSize: 20,
@@ -130,6 +148,9 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
       [theme.breakpoints.down('md')]: {
         marginTop: theme.spacing(6),
       },
+    },
+    freeButton: {
+      color: theme.palette.text.secondary,
     },
   }),
 );

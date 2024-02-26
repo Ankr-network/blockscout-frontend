@@ -7,7 +7,7 @@ export const usePlansStyles = makeStyles<void>()(theme => ({
     gap: theme.spacing(5),
     marginBottom: theme.spacing(30),
 
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: '1fr',
       marginBottom: theme.spacing(20),
     },

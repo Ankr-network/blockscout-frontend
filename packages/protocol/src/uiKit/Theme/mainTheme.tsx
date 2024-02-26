@@ -5,7 +5,7 @@ import { getGlobalStyles } from 'uiKit/utils/getGlobalStyles';
 
 import { BREAKPOINTS } from './const';
 import { ReactComponent as IndeterminateCheckboxIcon } from './assets/indeterminateCheckboxIcon.svg';
-import { TypographyTheme, getTypographTheme } from './themeUtils';
+import { TypographyTheme, getTypographyTheme } from './themeUtils';
 
 export const getMainTheme = (themes: Themes) => {
   const baseTheme = getBaseTheme(themes);
@@ -41,12 +41,12 @@ export const getMainTheme = (themes: Themes) => {
         ...baseTheme.components?.MuiTypography,
         styleOverrides: {
           ...TypographyTheme,
-          h1: getTypographTheme(TypographyTheme?.h1),
-          h2: getTypographTheme(TypographyTheme?.h2),
-          h3: getTypographTheme(TypographyTheme?.h3),
-          h4: getTypographTheme(TypographyTheme?.h4),
-          h5: getTypographTheme(TypographyTheme?.h5),
-          h6: getTypographTheme(TypographyTheme?.h6),
+          h1: getTypographyTheme(TypographyTheme?.h1),
+          h2: getTypographyTheme(TypographyTheme?.h2),
+          h3: getTypographyTheme(TypographyTheme?.h3),
+          h4: getTypographyTheme(TypographyTheme?.h4),
+          h5: getTypographyTheme(TypographyTheme?.h5),
+          h6: getTypographyTheme(TypographyTheme?.h6),
         },
       },
       MuiCheckbox: {

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { Check } from '@ankr.com/ui';
+import { Success } from '@ankr.com/ui';
 
 import { INTL_ROOT } from '../../const';
 import { useScalePlansStyles } from './useScalePlansStyles';
@@ -15,14 +15,14 @@ export const ScalePlans = () => {
 
   return (
     <div className={classes.root}>
+      <Typography variant="subtitle3" component="p" className={classes.pay}>
+        {t(`${intl}.pay-as-you-go`)}
+      </Typography>
       <Typography variant="h4" className={classes.title}>
         {t(`${intl}.title`)}
       </Typography>
-      <Typography variant="h6" className={classes.intro}>
-        <Typography noWrap className={classes.pay}>
-          {t(`${intl}.pay-as-you-go`)}
-        </Typography>
-        {t(`${intl}.intro`)}
+      <Typography variant="body2" component="p" className={classes.description}>
+        {t(`${intl}.description`)}
       </Typography>
       <div className={classes.content}>
         <div className={classes.list}>
@@ -33,7 +33,7 @@ export const ScalePlans = () => {
               key={`column-${index + 1}`}
             >
               <div className={classes.check}>
-                <Check />
+                <Success />
               </div>
               {t(`${intl}.item-${index + 1}`)}
             </Typography>

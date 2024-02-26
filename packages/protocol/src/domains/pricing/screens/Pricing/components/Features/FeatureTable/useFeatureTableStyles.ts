@@ -19,17 +19,29 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
   },
   title: {
     textAlign: 'center',
-    marginBottom: theme.spacing(10),
+    marginBottom: theme.spacing(8),
     color: theme.palette.text.primary,
 
     [theme.breakpoints.down('md')]: {
       fontSize: 42,
-      marginBottom: theme.spacing(8),
     },
   },
-  header: {
+  subtitleRow: {
     borderBottom: `1px solid ${theme.palette.grey[100]}`,
-
+  },
+  rowWithoutBorder: {
+    borderBottom: 'none',
+  },
+  subtitle: {
+    color: theme.palette.primary.main,
+    margin: theme.spacing(8, 0),
+    width: '100%',
+  },
+  rowSubtitle: {
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing(3.5),
+  },
+  header: {
     [`& th`]: {
       borderBottom: 'none',
     },
@@ -52,7 +64,6 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
 
     [`& tr:last-of-type th`]: {
       color: theme.palette.text.secondary,
-      paddingBottom: theme.spacing(7.5),
     },
   },
   row: {

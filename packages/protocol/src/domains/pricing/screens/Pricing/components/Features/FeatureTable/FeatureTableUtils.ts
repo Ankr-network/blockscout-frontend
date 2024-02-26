@@ -9,7 +9,17 @@ export const PLAN_COMPARISON = [
   'enterprise',
 ];
 
-export const COLUMNS_COUNT = 21;
+export const COLUMNS_COUNT = 20;
+export const FIRST_COLUMNS_COUNT = 12;
+export const FIRST_ROWS_INDEXES = Array.from(
+  { length: FIRST_COLUMNS_COUNT },
+  (a, b) => b + 1,
+);
+export const SECOND_COLUMNS_COUNT = COLUMNS_COUNT - FIRST_COLUMNS_COUNT;
+export const SECOND_ROWS_INDEXES = Array.from(
+  { length: SECOND_COLUMNS_COUNT },
+  (a, b) => b + 1 + FIRST_COLUMNS_COUNT,
+);
 export const ROWS_COUNT = 4;
 
 type RowNumber = number;
@@ -17,8 +27,7 @@ type RowNumber = number;
 export interface IColumnHelper {
   text: RowNumber[];
   supported?: RowNumber[];
-  unsupported?: RowNumber[];
-  comingSoon?: RowNumber[];
+  emptyCell?: RowNumber[];
 }
 
 export const FEATURE_TABLE_ROW = new Array(ROWS_COUNT)
@@ -30,25 +39,28 @@ export const mapTableItem = (item: number[], columnIndex: number) =>
 
 type Columns = [IColumnHelper, IColumnHelper, IColumnHelper, IColumnHelper];
 
+export const ROW_WITHOUT_BORDER_NUMBERS: RowNumber[] = [2, 13, 17];
+export const SUB_ROW_NUMBERS: RowNumber[] = [3, 4, 14, 15, 16, 18, 19, 20];
+
 export const COLUMNS_HELPER: Columns = [
   {
-    text: [4, 5, 6, 9, 10],
-    unsupported: [1, 2, 3, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
-    supported: [7, 8],
+    text: [1, 3, 7, 12],
+    emptyCell: [2, 4, 5, 6, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20],
+    supported: [14],
   },
   {
-    supported: [1, 2, 7, 8],
-    unsupported: [3, 11, 12, 13, 13, 14, 15, 16, 17, 18, 19, 20, 21],
-    text: [4, 5, 6, 9, 10],
+    text: [1, 3, 4, 5, 7, 12],
+    emptyCell: [2, 6, 8, 9, 10, 11, 13, 14, 15, 16, 17],
+    supported: [14, 18, 19, 20],
   },
   {
-    supported: [1, 2, 7, 8, 11, 12, 14, 16],
-    comingSoon: [3, 13, 15],
-    text: [4, 5, 6, 9, 10],
-    unsupported: [17, 18, 19, 20, 21],
+    text: [1, 3, 4, 5, 7, 12],
+    emptyCell: [2, 8, 9, 10, 11, 13, 14, 17],
+    supported: [6, 8, 14, 15, 16, 18, 19, 20],
   },
   {
-    supported: [1, 2, 3, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
-    text: [4, 5, 6, 9, 10],
+    text: [1, 3, 4, 5, 6, 7, 12],
+    emptyCell: [2, 13, 17],
+    supported: [8, 9, 10, 11, 14, 15, 16, 18, 19, 20],
   },
 ];
