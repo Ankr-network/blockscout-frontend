@@ -9,9 +9,7 @@ import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
 
 import { getChainName } from './useMetatagsUtils';
-import packageJson from '../../../../package.json';
-
-const PROTOCOL_URL = `https://www.ankr.com${packageJson.homepage}`;
+import { PROTOCOL_URL } from './const';
 
 const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   let location = '';
@@ -47,6 +45,10 @@ export const useMetatags = (
 
   const beacons = useAppSelector(selectBeacons);
 
+  const isIndexPath = rawPathname === INDEX_PATH;
+
+  const pathname = isIndexPath ? rawPathname : rawPathname.replace(/\/$/, '');
+
   useEffect(() => {
     const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
 
@@ -62,9 +64,6 @@ export const useMetatags = (
 
     htmlElement.style.backdropFilter = currentThemeColor;
     bodyElement.style.backgroundColor = currentThemeColor;
-
-    const pathname =
-      rawPathname === INDEX_PATH ? rawPathname : rawPathname.replace(/\/$/, '');
 
     const descriptionTag = document.getElementById(
       'meta-description',
@@ -133,5 +132,5 @@ export const useMetatags = (
     }
 
     return () => {};
-  }, [rawPathname, chainsRoutes, currentThemeColor, beacons]);
+  }, [chainsRoutes, currentThemeColor, beacons, pathname]);
 };

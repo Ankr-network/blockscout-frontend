@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { resetAuthData } from 'domains/auth/store/authSlice';
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 import { useGoogleLoginParams } from 'domains/oauth/hooks/useGoogleLoginParams';
 import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
+import { setAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
 
 import {
   SignupDialogState,
@@ -13,6 +16,7 @@ import { useDialogTitle } from './useDialogTitle';
 interface SignupDialogHookProps {
   hasOauthLogin?: boolean;
   hasOnlyGoogleAuth?: boolean;
+  shouldResetAuthDataForGoogleAuth?: boolean;
   onClose: () => void;
   onOauthSignUp?: () => void;
   title?: string;
@@ -21,10 +25,12 @@ interface SignupDialogHookProps {
 export const useSignupDialog = ({
   hasOauthLogin,
   hasOnlyGoogleAuth,
+  shouldResetAuthDataForGoogleAuth,
   onClose,
   onOauthSignUp = () => {},
   title,
 }: SignupDialogHookProps) => {
+  const dispatch = useDispatch();
   const {
     handleFetchLoginParams: handleFetchGoogleLoginParams,
     loading: isFetchGoogleLoginParamsLoading,
@@ -75,12 +81,25 @@ export const useSignupDialog = ({
   const onGoogleButtonClick = useCallback(async () => {
     setOauthLoginType(OauthLoginType.Google);
 
+    if (shouldResetAuthDataForGoogleAuth) {
+      dispatch(resetAuthData());
+      // hack with localStorage to avoid blinking dialog
+      // case 2 from https://ankrnetwork.atlassian.net/browse/MRPC-4529
+      setAvoidGuestTeamInvitationDialog();
+    }
+
     const { data: googleAuthUrl } = await handleFetchGoogleLoginParams();
 
     redirectToOauth(googleAuthUrl);
 
     onOauthSignUp();
-  }, [handleFetchGoogleLoginParams, onOauthSignUp, redirectToOauth]);
+  }, [
+    dispatch,
+    shouldResetAuthDataForGoogleAuth,
+    handleFetchGoogleLoginParams,
+    onOauthSignUp,
+    redirectToOauth,
+  ]);
 
   const onGithubButtonClick = useCallback(async () => {
     setOauthLoginType(OauthLoginType.Github);

@@ -9,6 +9,7 @@ import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';
 import { initializeSentry } from 'modules/sentry';
 import { initializeLocale } from 'modules/i18n/utils/initialize';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { setCanonicalTags, setRobotsTags } from 'uiKit/utils/metatags';
 
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -20,6 +21,9 @@ if (!isReactSnap) {
 }
 
 initializeLocale();
+
+setCanonicalTags();
+setRobotsTags();
 
 const rootElement = document.getElementById('root');
 
