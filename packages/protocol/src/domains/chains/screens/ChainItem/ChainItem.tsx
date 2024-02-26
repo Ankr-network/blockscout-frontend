@@ -9,14 +9,11 @@ import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpr
 import { PrivateChainItemQuery } from './PrivateChainItemQuery';
 import { PublicChainItemQuery } from './PublicChainItemQuery';
 import { ChainItemBanner } from './components/ChainItemBanner';
-import { useSeoTagsForChainItemPage } from '../../hooks/useSeoTagsForChainItemPage';
 
 export const ChainItem = () => {
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
 
   const { hasPrivateAccess, loading } = useAuth();
-
-  useSeoTagsForChainItemPage();
 
   useRedirectToEnterpriseOnGroupChange();
 
