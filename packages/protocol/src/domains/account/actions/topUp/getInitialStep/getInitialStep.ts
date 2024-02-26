@@ -77,7 +77,7 @@ export const {
             dispatch(setAllowanceTransaction({ address }));
           }
 
-          const service = await MultiService.getWeb3Service();
+          const service = MultiService.getWeb3Service();
 
           const depositValue = transaction?.amount;
           const hasDepositValue = depositValue && !depositValue.isZero();

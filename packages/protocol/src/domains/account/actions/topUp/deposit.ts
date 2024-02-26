@@ -19,7 +19,7 @@ export const {
     topUpDeposit: build.query<IWeb3SendResult, BigNumber>({
       queryFn: createNotifyingQueryFn(
         async (amount, { getState, dispatch }) => {
-          const service = await MultiService.getWeb3Service();
+          const service = MultiService.getWeb3Service();
 
           const address = await getCurrentTransactionAddress(
             getState as GetState,

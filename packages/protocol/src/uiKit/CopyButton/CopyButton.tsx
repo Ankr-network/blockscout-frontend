@@ -10,7 +10,7 @@ import { useCopyButtonStyles } from './useCopyButtonStyles';
 
 export interface CopyButtonProps {
   text: string;
-  size: IconButtonOwnProps['size'];
+  size?: IconButtonOwnProps['size'];
   className?: string;
 }
 

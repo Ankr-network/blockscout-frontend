@@ -10,7 +10,7 @@ export const {
   endpoints: build => ({
     accountFetchAccountBalance: build.query<BigNumber, void>({
       queryFn: async () => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         const data = await service
           .getContractService()

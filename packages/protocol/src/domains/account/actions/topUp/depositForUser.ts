@@ -25,7 +25,7 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(
         async ({ amount, targetAddress }, { dispatch }) => {
-          const service = await MultiService.getWeb3Service();
+          const service = MultiService.getWeb3Service();
 
           const publicKey = await dispatch(
             accountFetchPublicKey.initiate(),

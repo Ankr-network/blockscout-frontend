@@ -21,7 +21,7 @@ export const checkFirstTopUpStep = async ({
   dispatch,
   group,
 }: CheckFirstTopUpStepArguments) => {
-  const service = await MultiService.getWeb3Service();
+  const service = MultiService.getWeb3Service();
   const keyProvider = service.getKeyReadProvider();
 
   const lastTopUpEvent = await service

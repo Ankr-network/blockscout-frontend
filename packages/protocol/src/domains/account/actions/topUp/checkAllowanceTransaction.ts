@@ -21,7 +21,7 @@ export const {
       queryFn: createNotifyingQueryFn(
         async (initialTransactionHash, { getState }) => {
           // step 1: trying to take a receipt
-          const service = await MultiService.getWeb3Service();
+          const service = MultiService.getWeb3Service();
           const provider = service.getKeyReadProvider();
 
           const address = await getCurrentTransactionAddress(

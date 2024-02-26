@@ -19,7 +19,7 @@ export const {
     topUpSendAllowance: build.query<boolean, BigNumber>({
       queryFn: createNotifyingQueryFn(
         async (amount, { dispatch, getState }) => {
-          const service = await MultiService.getWeb3Service();
+          const service = MultiService.getWeb3Service();
 
           const address = await getCurrentTransactionAddress(
             getState as GetState,

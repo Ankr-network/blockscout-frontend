@@ -7,7 +7,7 @@ import { getSelectedGroupAddress } from 'modules/groups/utils/getSelectedGroupAd
 export const getCurrentTransactionAddress = async (
   getState: GetState,
 ): Promise<Web3Address> => {
-  const service = await MultiService.getWeb3Service();
+  const service = MultiService.getWeb3Service();
   const provider = service.getKeyWriteProvider();
   const { selectedGroupAddress: groupAddress } = getSelectedGroupAddress(
     getState() as RootState,

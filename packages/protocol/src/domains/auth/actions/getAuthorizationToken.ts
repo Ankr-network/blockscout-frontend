@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     authAuthorizeProvider: build.query<string, void>({
       queryFn: createNotifyingQueryFn(async () => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         const accessToken = await service.getAuthorizationToken(LIFETIME);
 

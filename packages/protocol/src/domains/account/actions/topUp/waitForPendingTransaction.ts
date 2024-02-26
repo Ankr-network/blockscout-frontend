@@ -5,7 +5,7 @@ import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { ETH_BLOCK_TIME } from './const';
 
 const hasPendingTransaction = async (address: string): Promise<boolean> => {
-  const service = await MultiService.getWeb3Service();
+  const service = MultiService.getWeb3Service();
 
   const provider = service.getKeyReadProvider();
 

@@ -1847,6 +1847,11 @@
       "critical": "Top up your account balance to continue using our service.\nYour account has been suspended.",
       "grey": "Updating"
     },
+    "switch-account-dialog": {
+      "title": "Switch account back",
+      "description": "To avoid creating a new account, switch back to the original MetaMask account address you've signed in to the Ankr platform with.",
+      "switch-button": "Switch"
+    },
     "account-details": {
       "breadcrumbs": "Billing",
       "title": "Account Details",
@@ -1898,7 +1903,7 @@
         "assets-balance-button": "Assets balance",
         "assets-balance-dialog": {
           "title": "Assets balance",
-          "description":"The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make. <a href={href} target='_blank'>Learn more</a>"
+          "description": "The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make. <a href={href} target='_blank'>Learn more</a>"
         }
       },
       "plan-widget": {

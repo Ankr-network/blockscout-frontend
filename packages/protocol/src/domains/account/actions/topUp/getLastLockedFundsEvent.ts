@@ -14,7 +14,7 @@ export const {
   endpoints: build => ({
     topUpGetLastLockedFundsEvent: build.query<EventData | false, void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         const address = await getCurrentTransactionAddress(
           getState as GetState,

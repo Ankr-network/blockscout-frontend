@@ -21,7 +21,7 @@ export const {
   endpoints: build => ({
     topUpLogin: build.query<Deposit, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         const address = await getCurrentTransactionAddress(
           getState as GetState,

@@ -18,7 +18,7 @@ export const {
   endpoints: build => ({
     authFetchEncryptionKey: build.query<FetchEncryptionKeyResult, void>({
       queryFn: createNotifyingQueryFn(async () => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         let key = '';
 

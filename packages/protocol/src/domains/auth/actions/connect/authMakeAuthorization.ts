@@ -34,7 +34,7 @@ export const {
           { params: { walletId }, totp },
           { dispatch, getState },
         ) => {
-          const web3Service = await MultiService.getWeb3Service();
+          const web3Service = MultiService.getWeb3Service();
 
           const service = MultiService.getService();
 

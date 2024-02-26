@@ -18,7 +18,7 @@ export const {
   endpoints: build => ({
     topUpRejectAllowance: build.query<boolean, IApiUserGroupParams>({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         const address = await getCurrentTransactionAddress(
           getState as GetState,

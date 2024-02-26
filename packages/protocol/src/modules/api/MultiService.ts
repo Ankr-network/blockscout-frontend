@@ -2,13 +2,13 @@ import {
   AvailableWriteProviders,
   EEthereumNetworkId,
 } from '@ankr.com/provider';
-import { t } from '@ankr.com/common';
 import {
   MultiRpcWeb3Sdk,
   MultiRpcSdk,
   configFromEnv,
   MultiRpcWeb3ReadSdk,
 } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { API_ENV, getReadProviderId } from '../common/utils/environment';
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
@@ -57,8 +57,8 @@ export class MultiService {
   }
 
   // use getWeb3Service after createInstance in the app for methods with web3 connect
-  public static async getWeb3Service(): Promise<MultiRpcWeb3Sdk> {
-    return MultiService.web3Service as MultiRpcWeb3Sdk;
+  public static getWeb3Service(): MultiRpcWeb3Sdk {
+    return MultiService.web3Service!;
   }
 
   public static removeServices() {

@@ -14,7 +14,7 @@ export const {
       string
     >({
       queryFn: createNotifyingQueryFn(async transactionHash => {
-        const service = await MultiService.getWeb3Service();
+        const service = MultiService.getWeb3Service();
 
         const data = await service
           .getContractService()
