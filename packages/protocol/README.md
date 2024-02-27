@@ -16,6 +16,7 @@
 
 ### chain without mainnet (testnet, devnet, etc)
 - add mainnet chain id to packages/protocol/src/domains/chains/utils/isTestnetOnlyChain.ts
+- add mainnet chain id to packages/protocol/src/modules/chains/constants/index.ts
 
 ### beacon or opnode
 - add chainId to config: packages/protocol/src/modules/chains/utils/isBeacon.ts

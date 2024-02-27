@@ -228,6 +228,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Kava Tendermint Rest Testnet';
   } else if (chainId === ChainID.KAVA_TENDERMINT_RPC_TESTNET) {
     name = 'Kava JSON-RPC Testnet';
+  } else if (chainId === ChainID.BTC) {
+    name = 'Bitcoin';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {

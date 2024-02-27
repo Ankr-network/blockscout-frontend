@@ -99,6 +99,7 @@ export enum ChainID {
   BLAST_TESTNET_SEPOLIA = 'blast_testnet_sepolia',
 
   BTTC = 'bttc',
+  BTC = 'btc',
   CELO = 'celo',
   CHILIZ = 'chiliz',
   CHILIZ_TESTNET = 'chiliz_testnet',
