@@ -1805,6 +1805,14 @@
       "credit": "Credits",
       "usd": "USD"
     },
+    "amounts": {
+      "crypto": "{amount, number} {currency}",
+      "usd": "{amount, number, USD}",
+      "fee": {
+        "crypto": "{fee} {network}",
+        "usd": "${fee}"
+      }
+    },
     "payment-types": {
       "one-time": {
         "title": "one-time",
@@ -1830,11 +1838,7 @@
       "total-label": "Total",
       "cancel-button": "Cancel",
       "usd": {
-        "amount": "{amount, number, USD}",
         "proceed-button": "Proceed to checkout"
-      },
-      "crypto": {
-        "amount": "{amount, number} {currency}"
       }
     },
     "balance": "{balance, number, ::compact-short}",
@@ -1851,6 +1855,17 @@
       "title": "Switch account back",
       "description": "To avoid creating a new account, switch back to the original MetaMask account address you've signed in to the Ankr platform with.",
       "switch-button": "Switch"
+    },
+    "success-crypto-payment-dialog": {
+      "amount-label": "{paymentType} balance top-up",
+      "approval-label": "Approval",
+      "deposit-label": "Deposit",
+      "from-title": "From",
+      "subtitle": "{date} UTC",
+      "title": "Success",
+      "to-title": "To",
+      "total-label": "Total",
+      "transaction-title": "Transaction"
     },
     "account-details": {
       "breadcrumbs": "Billing",

@@ -18,7 +18,6 @@ import { getOriginRoute } from './utils/getOriginRoute';
 import { useCardPaymentSuccessStyles } from './useCardPaymentSuccessStyles';
 import { useClickHandler } from './hooks/useClickHandler';
 import { useTrackSuccessfulTopUp } from './hooks/useTrackSuccessfulTopUp';
-import success from './assets/success.png';
 
 export const CardPaymentSuccess = () => {
   useTrackSuccessfulTopUp();
@@ -62,9 +61,9 @@ export const CardPaymentSuccess = () => {
         align="center"
         description={description}
         descriptionClassName={classes.description}
+        hasImage
         title={title}
         titleClassName={classes.title}
-        imgUrl={success}
       >
         <LoadingButton fullWidth onClick={onClick} size="large">
           {button}

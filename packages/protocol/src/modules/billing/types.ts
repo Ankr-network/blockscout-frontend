@@ -10,6 +10,10 @@ export enum ECurrency {
   USD = 'USD',
 }
 
+export enum ENetwork {
+  ETH = 'ETH',
+}
+
 export enum EPaymentType {
   OneTime = 'one-time',
   Recurring = 'recurring',

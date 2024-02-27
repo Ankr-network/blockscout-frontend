@@ -1,35 +1,37 @@
 import { ReactNode } from 'react';
 import { Paper, Typography } from '@mui/material';
 
-import { useStyles } from './InfoCardStyles';
+import { CheckMarkImage } from 'modules/common/components/CheckMarkImage';
+
 import { Align } from './types';
+import { useStyles } from './InfoCardStyles';
 
 interface IInfoCardProps {
-  title: string;
-  description: ReactNode;
-  children?: ReactNode;
   align: Align;
-  titleClassName?: string;
-  descriptionClassName?: string;
-  imgUrl?: string;
+  children?: ReactNode;
   className?: string;
+  description: ReactNode;
+  descriptionClassName?: string;
+  hasImage?: boolean;
+  title: string;
+  titleClassName?: string;
 }
 
 export const InfoCard = ({
-  title,
-  description,
-  children,
   align,
-  titleClassName,
-  descriptionClassName,
-  imgUrl,
+  children,
   className,
+  description,
+  descriptionClassName,
+  hasImage = false,
+  title,
+  titleClassName,
 }: IInfoCardProps) => {
   const { classes, cx } = useStyles(align);
 
   return (
     <Paper className={cx(classes.paper, className)}>
-      {imgUrl && <img alt="" className={classes.image} src={imgUrl} />}
+      {hasImage && <CheckMarkImage className={classes.image} />}
       <Typography variant="h4" className={cx(classes.title, titleClassName)}>
         {title}
       </Typography>
