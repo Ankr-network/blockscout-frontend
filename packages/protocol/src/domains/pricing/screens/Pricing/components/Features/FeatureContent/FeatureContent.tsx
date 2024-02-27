@@ -1,16 +1,18 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { ArrowDown, Check, Cross } from '@ankr.com/ui';
+import { ArrowDown, Check } from '@ankr.com/ui';
+import { useCallback } from 'react';
 
 import { Collapse } from 'uiKit/Collapse';
-import { SoonLabel } from 'modules/common/components/SoonLabel';
 
 import { useFeatureContentStyles } from './useFeatureContentStyles';
 import {
   INTL_PLAN_COMPARISON_ROOT,
   COLUMNS_HELPER,
   PLAN_COMPARISON,
-  COLUMNS_COUNT,
+  SUB_ROW_NUMBERS,
+  FIRST_ROWS_INDEXES,
+  SECOND_ROWS_INDEXES,
 } from '../FeatureTable/FeatureTableUtils';
 
 interface IFeatureContentProps {
@@ -21,14 +23,9 @@ interface IFeatureContentProps {
 interface IFeatureItemProps {
   index: number;
   rowIndex: number;
-  isMobile?: boolean;
 }
 
-export const FeatureItem = ({
-  index,
-  rowIndex,
-  isMobile,
-}: IFeatureItemProps) => {
+export const FeatureItem = ({ index, rowIndex }: IFeatureItemProps) => {
   const { classes } = useFeatureContentStyles();
 
   const item = COLUMNS_HELPER[index];
@@ -38,14 +35,8 @@ export const FeatureItem = ({
     return <Check className={classes.check} />;
   }
 
-  if (item?.unsupported?.includes(rowIndex)) {
-    return <Cross className={classes.cross} />;
-  }
-
-  if (item?.comingSoon?.includes(rowIndex)) {
-    return (
-      <SoonLabel className={isMobile ? classes.mobileSoon : classes.soon} />
-    );
+  if (item?.emptyCell?.includes(rowIndex)) {
+    return null;
   }
 
   return (
@@ -57,6 +48,33 @@ export const FeatureItem = ({
 
 export const FeatureContent = ({ name, itemIndex }: IFeatureContentProps) => {
   const { classes, cx } = useFeatureContentStyles();
+
+  const renderRows = useCallback(
+    (rows: number[]) => {
+      return rows.map(rowIndex => {
+        const isRowSubtitle = SUB_ROW_NUMBERS.includes(rowIndex);
+
+        return (
+          <div key={`column-${rowIndex}`} className={classes.row}>
+            <Typography
+              variant={isRowSubtitle ? 'subtitle3' : 'subtitle2'}
+              className={cx(
+                classes.subtitle,
+                isRowSubtitle && classes.rowSubtitle,
+              )}
+            >
+              {t(`${INTL_PLAN_COMPARISON_ROOT}.name-${rowIndex}`)}
+            </Typography>
+            {FeatureItem({
+              index: itemIndex,
+              rowIndex,
+            })}
+          </div>
+        );
+      });
+    },
+    [classes, itemIndex, cx],
+  );
 
   return (
     <div className={classes.root}>
@@ -74,18 +92,26 @@ export const FeatureContent = ({ name, itemIndex }: IFeatureContentProps) => {
         uncollapsedIcon={
           <ArrowDown className={cx(classes.icon, classes.unCollapseIcon)} />
         }
-        content={new Array(COLUMNS_COUNT).fill('').map((_, index) => (
-          <div key={`column-${index + 1}`} className={classes.row}>
-            <Typography variant="subtitle1" className={classes.subtitle}>
-              {t(`${INTL_PLAN_COMPARISON_ROOT}.name-${index + 1}`)}
+        content={
+          <>
+            <Typography
+              variant="subtitle1"
+              component="p"
+              className={classes.sectionTitle}
+            >
+              {t(`${INTL_PLAN_COMPARISON_ROOT}.features`)}
             </Typography>
-            {FeatureItem({
-              index: itemIndex,
-              rowIndex: index + 1,
-              isMobile: true,
-            })}
-          </div>
-        ))}
+            {renderRows(FIRST_ROWS_INDEXES)}
+            <Typography
+              variant="subtitle1"
+              component="p"
+              className={classes.sectionTitle}
+            >
+              {t(`${INTL_PLAN_COMPARISON_ROOT}.products`)}
+            </Typography>
+            {renderRows(SECOND_ROWS_INDEXES)}
+          </>
+        }
       />
     </div>
   );

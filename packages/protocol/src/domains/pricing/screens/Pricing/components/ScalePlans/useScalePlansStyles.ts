@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient, isLightTheme } from 'uiKit/Theme/themeUtils';
 
 export const MAX_WIDTH = 1348;
 export const MIDDLE_WIDTH = 700;
@@ -9,7 +9,7 @@ export const useScalePlansStyles = makeStyles()(theme => ({
   root: {
     marginTop: theme.spacing(30),
     backgroundColor: theme.palette.grey[100],
-    borderRadius: 60,
+    borderRadius: 20,
     padding: theme.spacing(10),
     marginBottom: theme.spacing(30),
 
@@ -20,47 +20,28 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     [theme.breakpoints.down(MIDDLE_WIDTH)]: {
       padding: theme.spacing(6),
       marginTop: theme.spacing(10),
-      borderRadius: 30,
+      borderRadius: 20,
     },
   },
   title: {
     color: theme.palette.text.primary,
-    marginBottom: theme.spacing(5),
-
-    [theme.breakpoints.down(MAX_WIDTH)]: {
-      fontSize: 35,
-    },
-
-    [theme.breakpoints.down(MIDDLE_WIDTH)]: {
-      fontSize: 31,
-    },
-  },
-  intro: {
-    color: theme.palette.text.primary,
-    diaply: 'inline-block',
-    lineHeight: '34px',
-
-    [theme.breakpoints.down(MAX_WIDTH)]: {
-      fontsize: 28,
-    },
-
-    [theme.breakpoints.down(MIDDLE_WIDTH)]: {
-      fontSize: 24,
-    },
+    marginBottom: theme.spacing(4),
   },
   pay: {
-    float: 'left',
+    width: 131,
     color: theme.palette.common.white,
-    fontWeight: 500,
-    fontSize: 21,
-    lineHeight: '34px',
     background: getPremiumColorGradient(theme),
-    marginRight: theme.spacing(3),
-    borderRadius: 13.5,
-    padding: theme.spacing(0, 3),
+    borderRadius: 5,
+    padding: theme.spacing(0.5, 1.25, 0.5, 1.5),
+    marginBottom: theme.spacing(4),
+  },
+  description: {
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
+      : theme.palette.common.white,
+    marginBottom: theme.spacing(4),
   },
   content: {
-    marginTop: theme.spacing(12),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -100,7 +81,6 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     },
   },
   check: {
-    backgroundColor: theme.palette.primary.light,
     width: theme.spacing(6),
     height: theme.spacing(6),
     borderRadius: '50%',

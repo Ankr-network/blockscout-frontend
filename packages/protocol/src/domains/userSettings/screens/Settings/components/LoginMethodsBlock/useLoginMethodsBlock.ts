@@ -3,8 +3,11 @@ import { useMemo } from 'react';
 
 import { useFetchAssociatedAccountsQuery } from 'domains/oauth/actions/fetchAssociatedAccounts';
 import { useFetchEthAddressesQuery } from 'domains/oauth/actions/fetchEthAddresses';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useLoginMethodsBlock = () => {
+  const { oauthProviders: [oauthProvider] = [undefined] } = useAuth();
+
   const { data } = useFetchAssociatedAccountsQuery();
   const { data: ethAddresses } = useFetchEthAddressesQuery();
 
@@ -48,11 +51,17 @@ export const useLoginMethodsBlock = () => {
     shouldPreventAddProviderForWeb3Users ||
     [web3Provider, googleProvider, githubProvider].filter(Boolean).length <= 1;
 
+  const shouldHideGoogleDisconnectButton =
+    shouldHideDisconnectButton || oauthProvider === OauthLoginProvider.Google;
+  const shouldHideGithubDisconnectButton =
+    shouldHideDisconnectButton || oauthProvider === OauthLoginProvider.Github;
+
   return {
     googleProvider,
     githubProvider,
     walletAddress,
-    shouldHideDisconnectButton,
+    shouldHideGoogleDisconnectButton,
+    shouldHideGithubDisconnectButton,
     shouldDisableConnectButton: shouldPreventAddProviderForWeb3Users,
   };
 };

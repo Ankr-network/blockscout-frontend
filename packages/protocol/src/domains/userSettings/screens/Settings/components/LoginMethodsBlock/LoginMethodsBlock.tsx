@@ -11,7 +11,8 @@ export const LoginMethodsBlock = () => {
     googleProvider,
     githubProvider,
     walletAddress,
-    shouldHideDisconnectButton,
+    shouldHideGoogleDisconnectButton,
+    shouldHideGithubDisconnectButton,
     shouldDisableConnectButton,
   } = useLoginMethodsBlock();
 
@@ -24,14 +25,14 @@ export const LoginMethodsBlock = () => {
       <GoogleProvider
         address={googleProvider?.email}
         isConnected={Boolean(googleProvider)}
-        shouldHideDisconnectButton={shouldHideDisconnectButton}
+        shouldHideDisconnectButton={shouldHideGoogleDisconnectButton}
         shouldDisableConnectButton={shouldDisableConnectButton}
       />
       <GithubProvider
         address={githubProvider?.email}
         nickName={githubProvider?.login}
         isConnected={Boolean(githubProvider)}
-        shouldHideDisconnectButton={shouldHideDisconnectButton}
+        shouldHideDisconnectButton={shouldHideGithubDisconnectButton}
         shouldDisableConnectButton={shouldDisableConnectButton}
       />
     </BaseSettingsBlock>

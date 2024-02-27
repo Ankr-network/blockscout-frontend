@@ -6,7 +6,7 @@ export const useBlockStyles = makeStyles()(theme => ({
   block: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(7),
-    borderRadius: 36,
+    borderRadius: 9,
 
     [theme.breakpoints.down(MAX_WIDTH)]: {
       width: '100%',

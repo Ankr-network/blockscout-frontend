@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient, isLightTheme } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureContentStyles = makeStyles()(theme => ({
   root: {
@@ -47,6 +47,10 @@ export const useFeatureContentStyles = makeStyles()(theme => ({
     borderBottom: `1px solid ${theme.palette.grey[100]}`,
     padding: theme.spacing(4, 0),
   },
+  rowSubtitle: {
+    color: theme.palette.text.secondary,
+    marginLeft: theme.spacing(3.5),
+  },
   check: {
     color: theme.palette.primary.main,
   },
@@ -61,7 +65,13 @@ export const useFeatureContentStyles = makeStyles()(theme => ({
     width: theme.spacing(12),
   },
   subtitle: {
-    fontSize: 16,
-    lineHeight: '24px',
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
+      : theme.palette.common.white,
+  },
+  sectionTitle: {
+    color: theme.palette.primary.main,
+    margin: theme.spacing(8, 0),
+    width: '100%',
   },
 }));

@@ -10,11 +10,12 @@ import {
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 
-import { PLAN_LIST } from './PlansUtils';
+import { EPlanList } from './PlansUtils';
 import { usePlansStyles } from './PlansStyles';
 import { useHandleClick } from './hooks/useHandleClick';
-import { useIsButtonDisabled } from './hooks/useIsButtonDisabled';
 import { Plan } from './components/Plan';
+import { isCurrentPlanButton } from './utils/isCurrentPlanButton';
+import { isButtonDisabled } from './utils/isButtonDisabled';
 
 export const Plans = () => {
   const { classes } = usePlansStyles();
@@ -47,19 +48,24 @@ export const Plans = () => {
     onOpenTopupDialog,
   });
 
-  const isButtonDisabled = useIsButtonDisabled({
-    hasPremium,
-    isFinanceRole: deprecatedIsFinanceRole,
-  });
-
   return (
     <Box className={classes.root}>
-      {PLAN_LIST.map(planName => (
+      {Object.values(EPlanList).map(planName => (
         <Plan
           key={`item-${planName}`}
           planName={planName}
           onClick={() => handleClick(planName)}
-          isButtonDisabled={isButtonDisabled(planName)}
+          isButtonDisabled={isButtonDisabled({
+            hasPremium,
+            isFinanceRole: deprecatedIsFinanceRole,
+            planName,
+          })}
+          isCurrentPlan={isCurrentPlanButton({
+            isFinanceRole: deprecatedIsFinanceRole,
+            isLoggedIn,
+            hasPremium,
+            planName,
+          })}
         />
       ))}
       {isLoggedIn && (

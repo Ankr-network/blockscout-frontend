@@ -9,7 +9,7 @@ import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 
-import { PLAN_LIST } from '../PlansUtils';
+import { EPlanList } from '../PlansUtils';
 
 interface UseHandleClickArguments {
   isLoggedIn: boolean;
@@ -33,9 +33,9 @@ export const useHandleClick = ({
 
   return useCallback(
     (planName: string) => {
-      const isFreePlanName = planName === PLAN_LIST[0];
-      const isPremiumPlanName = planName === PLAN_LIST[1];
-      const isEnterprisePlanName = planName === PLAN_LIST[2];
+      const isFreePlanName = planName === EPlanList.Free;
+      const isPremiumPlanName = planName === EPlanList.Premium;
+      const isEnterprisePlanName = planName === EPlanList.Enterprise;
 
       if (!isLoggedIn && isPremiumPlanName) {
         onOpenSignupDialog();
