@@ -1,57 +1,76 @@
-const fs = require('fs');
-const https = require('https');
+const { readdirSync, statSync, writeFileSync } = require('fs');
+const path = require('path');
 const packageJson = require('./package.json');
 
-function getBlockchainsListUrl(env) {
-  if (env === 'staging') {
-    return 'https://staging.multi-rpc.com/api/v1/blockchain';
-  }
+const ASSETS_FOLDER = 'build';
+const PRIVATE_ROUTES = [
+  /^\/enterprise/,
+  /add\/$/,
+  /^\/account/,
+  /^\/projects/,
+  /^\/settings/,
+  /^\/mm/,
+  /^\/multichain/,
+  /^\/oauth/,
+];
 
-  return 'https://next.multi-rpc.com/api/v1/blockchain';
-}
+function getAllFiles(directoryPath, fileList = []) {
+  const files = readdirSync(directoryPath);
 
-function downloadJSON(url) {
-  return new Promise((resolve, reject) => {
-    https
-      .get(url, response => {
-        let data = '';
-
-        response.on('data', chunk => {
-          data += chunk;
-        });
-
-        response.on('end', () => {
-          resolve(JSON.parse(data));
-        });
-      })
-      .on('error', err => {
-        reject(new Error(`Error downloading file: ${err.message}`));
-      });
+  files.forEach(file => {
+    const filePath = path.join(directoryPath, file);
+    if (statSync(filePath).isDirectory()) {
+      getAllFiles(filePath, fileList); // Recursively call for subdirectories
+    } else {
+      fileList.push(filePath); // Add file path to the list
+    }
   });
+
+  return fileList.flatMap(item => item);
 }
 
-function generateSitemap(blockchainResponse, homepage) {
+function generateSitemap(homepage) {
   const lastModDate = new Date().toISOString();
   const changefreq = 'daily';
   const priority = '0.7';
 
+  function getUrl(path) {
+    return `<url><loc>${homepage}${path}</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
+  }
 
-  const urls = blockchainResponse
-    .map(blockchain => {
-      if (blockchain.extends) {
-        return undefined;
+  const files = getAllFiles(ASSETS_FOLDER);
+  const urls = files
+    .filter(item => {
+      if (/.+\/index.html$/.test(item)) {
+        return true;
       }
-
-      return `<url><loc>${homepage}/${blockchain.id}/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
     })
-    .filter((item) => !!item)
+    .map(item => {
+      console.log(
+        'item',
+        item,
+        item
+          .replace(new RegExp(`^build`), '')
+          .replace(new RegExp('index.html$'), ''),
+        !PRIVATE_ROUTES.find(route => route.test(item)),
+        getUrl(
+          item
+            .replace(new RegExp(`^build`), '')
+            .replace(new RegExp('index.html$'), ''),
+        ),
+      );
+      return item
+        .replace(new RegExp(`^build`), '')
+        .replace(new RegExp('index.html$'), '');
+    })
+    .filter(item => {
+      return !PRIVATE_ROUTES.find(route => route.test(item));
+    })
+    .map(item => getUrl(item))
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>${homepage}/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>
-<url><loc>${homepage}/advanced-api/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>
-<url><loc>${homepage}/pricing/</loc><lastmod>${lastModDate}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>
 ${urls}
 </urlset>
 `;
@@ -59,14 +78,4 @@ ${urls}
 
 const HOMEPAGE = `https://www.ankr.com${packageJson.homepage}`;
 
-downloadJSON(getBlockchainsListUrl(process.env.DOMAIN))
-  .then(blockchainResponse => {
-    fs.writeFileSync(
-      './public/sitemap.xml',
-      generateSitemap(blockchainResponse, HOMEPAGE),
-    );
-  })
-  .catch(error => {
-    // eslint-disable-next-line no-console
-    console.error(error);
-  });
+writeFileSync('./build/sitemap.xml', generateSitemap(HOMEPAGE));
