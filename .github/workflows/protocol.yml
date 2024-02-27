@@ -62,10 +62,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Generate sitemap
-        working-directory: ./packages/protocol
-        run: node generate-sitemap.cjs
-
       - name: Build stage
         working-directory: ./packages/protocol
         if: ${{ github.event.inputs.api == 'STAGE' }}
