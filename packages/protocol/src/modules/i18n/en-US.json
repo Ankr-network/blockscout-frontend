@@ -1236,8 +1236,8 @@
         "text-4": " ",
         "text-5": " ",
         "text-6": "Low",
-        "text-7": "HTTPS",
-        "text-12": "Community support"
+        "text-8": "HTTPS",
+        "text-13": "Community support"
       },
       "personal-free": {
         "title": "Freemium",
@@ -1247,8 +1247,8 @@
         "text-4": "30 requests/min",
         "text-5": "1",
         "text-6": "Low",
-        "text-7": "HTTPS",
-        "text-12": "Community support"
+        "text-8": "HTTPS",
+        "text-13": "Community support"
       },
       "premium": {
         "title": "Premium",
@@ -1258,8 +1258,8 @@
         "text-4": "1000 requests/min",
         "text-5": "3",
         "text-6": "Low",
-        "text-7": "HTTPS/WSS",
-        "text-12": "Priority portal support"
+        "text-8": "HTTPS/WSS",
+        "text-13": "Priority portal support"
       },
       "enterprise": {
         "title": "Enterprise",
@@ -1269,8 +1269,9 @@
         "text-4": "Custom",
         "text-5": "Custom",
         "text-6": "Custom",
-        "text-7": "HTTPS/WSS",
-        "text-12": "Custom"
+        "text-7": "Custom",
+        "text-8": "HTTPS/WSS",
+        "text-13": "Custom"
       },
       "features": "Features",
       "name-1": "Chains",
@@ -1279,21 +1280,22 @@
       "name-4": "Advanced API",
       "name-5": "Projects (personal API tokens)",
       "name-6": "Multi-project statistics",
-      "name-7": "Connection",
-      "name-8": "Whitelists (IP, domain, smart contract)",
-      "name-9": "Personal account manager",
-      "name-10": "Engineering team support",
-      "name-11": "Dedicated infrastructure",
-      "name-12": "Support",
+      "name-7": "Team accounts",
+      "name-8": "Connection",
+      "name-9": "Whitelists (IP, domain, smart contract)",
+      "name-10": "Personal account manager",
+      "name-11": "Engineering team support",
+      "name-12": "Dedicated infrastructure",
+      "name-13": "Support",
       "products": "Products",
-      "name-13": "Node API",
-      "name-14": "Standard",
-      "name-15": "Trace",
-      "name-16": "Debug",
-      "name-17": "Advanced API",
-      "name-18": "Query",
-      "name-19": "Token",
-      "name-20": "NFT"
+      "name-14": "Node API",
+      "name-15": "Standard",
+      "name-16": "Trace",
+      "name-17": "Debug",
+      "name-18": "Advanced API",
+      "name-19": "Query",
+      "name-20": "Token",
+      "name-21": "NFT"
     },
     "scale-plan": {
       "title": "Pay just for the requests you make.",
@@ -1306,7 +1308,7 @@
       "header-1": "API Type",
       "header-2": "Credits for 1000 req",
       "header-3": "USD for 1000 req",
-      "row-1-column-1": "ETH & EVM compartible",
+      "row-1-column-1": "ETH & EVM compatible",
       "row-1-column-2": "200,000",
       "row-1-column-3": "$0.02",
       "row-2-column-1": "Solana",

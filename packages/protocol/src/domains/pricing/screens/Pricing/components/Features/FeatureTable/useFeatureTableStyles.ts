@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+import { getPremiumColorGradient, isLightTheme } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableStyles = makeStyles()(theme => ({
   root: {
@@ -26,13 +26,18 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
       fontSize: 42,
     },
   },
+  subtitle: {
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
+      : theme.palette.common.white,
+  },
   subtitleRow: {
     borderBottom: `1px solid ${theme.palette.grey[100]}`,
   },
   rowWithoutBorder: {
     borderBottom: 'none',
   },
-  subtitle: {
+  sectionTitle: {
     color: theme.palette.primary.main,
     margin: theme.spacing(8, 0),
     width: '100%',

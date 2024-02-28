@@ -9,8 +9,8 @@ export const PLAN_COMPARISON = [
   'enterprise',
 ];
 
-export const COLUMNS_COUNT = 20;
-export const FIRST_COLUMNS_COUNT = 12;
+export const COLUMNS_COUNT = 21;
+export const FIRST_COLUMNS_COUNT = 13;
 export const FIRST_ROWS_INDEXES = Array.from(
   { length: FIRST_COLUMNS_COUNT },
   (a, b) => b + 1,
@@ -39,28 +39,28 @@ export const mapTableItem = (item: number[], columnIndex: number) =>
 
 type Columns = [IColumnHelper, IColumnHelper, IColumnHelper, IColumnHelper];
 
-export const ROW_WITHOUT_BORDER_NUMBERS: RowNumber[] = [2, 13, 17];
-export const SUB_ROW_NUMBERS: RowNumber[] = [3, 4, 14, 15, 16, 18, 19, 20];
+export const ROW_WITHOUT_BORDER_NUMBERS: RowNumber[] = [2, 14, 18];
+export const SUB_ROW_NUMBERS: RowNumber[] = [3, 4, 15, 16, 17, 19, 20, 21];
 
 export const COLUMNS_HELPER: Columns = [
   {
-    text: [1, 3, 7, 12],
-    emptyCell: [2, 4, 5, 6, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20],
-    supported: [14],
+    text: [1, 3, 8, 13],
+    emptyCell: [2, 4, 5, 6, 7, 9, 10, 11, 12, 14, 16, 17, 18, 19, 20, 21],
+    supported: [15],
   },
   {
-    text: [1, 3, 4, 5, 7, 12],
-    emptyCell: [2, 6, 8, 9, 10, 11, 13, 14, 15, 16, 17],
-    supported: [14, 18, 19, 20],
+    text: [1, 3, 4, 5, 8, 13],
+    emptyCell: [2, 6, 9, 10, 11, 12, 14, 16, 17, 18],
+    supported: [7, 15, 19, 20, 21],
   },
   {
-    text: [1, 3, 4, 5, 7, 12],
-    emptyCell: [2, 8, 9, 10, 11, 13, 14, 17],
-    supported: [6, 8, 14, 15, 16, 18, 19, 20],
+    text: [1, 3, 4, 5, 8, 13],
+    emptyCell: [2, 10, 11, 12, 14, 18],
+    supported: [6, 7, 9, 15, 16, 17, 19, 20, 21],
   },
   {
-    text: [1, 3, 4, 5, 6, 7, 12],
-    emptyCell: [2, 13, 17],
-    supported: [8, 9, 10, 11, 14, 15, 16, 18, 19, 20],
+    text: [1, 3, 4, 5, 6, 7, 8, 13],
+    emptyCell: [2, 14, 18],
+    supported: [9, 10, 11, 12, 15, 16, 17, 19, 20, 21],
   },
 ];
