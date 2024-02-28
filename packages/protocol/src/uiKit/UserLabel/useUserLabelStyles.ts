@@ -55,4 +55,12 @@ export const useUserLabelStyles = makeStyles()(theme => ({
   skeleton: {
     borderRadius: 8,
   },
+  package: {
+    color: '#AF52DE',
+    backgroundColor: '#F3E5FA',
+  },
+  deal: {
+    color: '#5856D6',
+    backgroundColor: '#E6E6F9',
+  },
 }));

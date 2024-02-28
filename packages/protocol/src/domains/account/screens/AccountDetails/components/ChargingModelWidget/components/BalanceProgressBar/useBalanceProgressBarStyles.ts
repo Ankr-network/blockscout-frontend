@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useChargingModelWidgetWrapperStyles = makeStyles()(theme => ({
+export const useBalanceProgressBarStyles = makeStyles()(theme => ({
   progressBar: {
     marginTop: theme.spacing(3),
   },

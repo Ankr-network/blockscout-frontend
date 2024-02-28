@@ -4,6 +4,8 @@ import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { RequestType, web3Api } from 'store/queries';
 
+// import { fetchMyBundlesStatusMockData } from './fetchMyBundlesStatusMockData'; // use for debugging
+
 export const {
   endpoints: { fetchMyBundlesStatus },
   useFetchMyBundlesStatusQuery,
@@ -20,6 +22,7 @@ export const {
 
         const data = await api.getMyBundlesStatus(group);
 
+        // return { data: fetchMyBundlesStatusMockData }; // use for debugging
         return { data };
       }),
     }),

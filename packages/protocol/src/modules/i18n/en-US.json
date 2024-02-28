@@ -1916,9 +1916,13 @@
       },
       "balance-widget": {
         "title": "Charging model",
-        "payg-label": "Pay as you go",
+        "payg-label": "Pay-as-you-go",
         "credit-balance": "{balance, number, ::compact-short} Credits",
+        "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
         "usd-balance": "≈{balance, number, USD}",
+        "requests-balance": "{balance, number, ::compact-short} Requests",
+        "req-balance": "/ ≈{balance, number, ::compact-short} reqs",
+        "expires": "Expires: {date, date, long}",
         "plural": "s",
         "assets-balance-button": "Assets balance",
         "assets-balance-dialog": {

@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
 import {
+  BalanceLevel,
+  BundleCounter,
   BundlePaymentPlan,
   ISubscriptionsItem,
   MyBundleStatusCounter,
@@ -8,10 +10,17 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 import { ZERO } from 'modules/common/constants/const';
+import {
+  EChargingModel,
+  IChargingModelData,
+  IFreeChargingModelData,
+  IPAYGChargingModelData,
+} from 'modules/billing/types';
 
 import {
   ALL_BLOCKCHAINS_PATH,
   ANKR_TO_CREDITS_RATE,
+  CREDITS_TO_REQUESTS_RATE,
   DEFAULT_BALANCE,
 } from './const';
 import { fetchBalance } from '../actions/balance/fetchBalance';
@@ -19,6 +28,8 @@ import { fetchBundlePaymentPlans } from '../actions/bundles/fetchBundlePaymentPl
 import { fetchMyBundles } from '../actions/bundles/fetchMyBundles';
 import { fetchMyBundlesStatus } from '../actions/bundles/fetchMyBundlesStatus';
 import { fetchMySubscriptions } from '../actions/subscriptions/fetchMySubscriptions';
+import { getDealChargingModelData } from '../utils/getDealChargingModelData';
+import { getPackageChargingModelData } from '../utils/getPackageChargingModelData';
 
 export const selectBundlePaymentPlansState = createSelector(
   fetchBundlePaymentPlans.select(),
@@ -281,4 +292,170 @@ export const selectMyCurrentBundleRequestsUsed = createSelector(
 
     return requestsLimit ? (requestsLimit - requestsLeft) / requestsLimit : 0;
   },
+);
+
+export const selectFullPAYGBalance = createSelector(
+  selectBalanceLevel,
+  selectAnkrBalance,
+  selectTotalBalance,
+  selectUSDBalance,
+  selectVoucherBalance,
+  selectAnkrBalanceWithoutVouchers,
+  (
+    balancePaygLevel,
+    balancePaygAnkr,
+    balancePaygTotal,
+    balancePaygUsd,
+    balancePaygVoucher,
+    balancePaygWithoutVouchers,
+    // eslint-disable-next-line max-params
+  ) => {
+    const balanceInRequests =
+      Number(balancePaygTotal) / CREDITS_TO_REQUESTS_RATE;
+
+    return {
+      balanceLevel: balancePaygLevel,
+      balanceAnkr: balancePaygAnkr,
+      balanceTotal: balancePaygTotal,
+      balanceApiCredits: balancePaygTotal,
+      balanceUsd: balancePaygUsd,
+      balanceVoucher: balancePaygVoucher,
+      balanceWithoutVouchers: balancePaygWithoutVouchers,
+      balanceInRequests: balanceInRequests.toString(),
+    };
+  },
+);
+
+export const selectIsFreeChargingModel = createSelector(
+  selectBalanceLevel,
+  balanceLevel =>
+    balanceLevel === BalanceLevel.UNKNOWN ||
+    balanceLevel === BalanceLevel.ZERO ||
+    balanceLevel === BalanceLevel.CRITICAL ||
+    balanceLevel === BalanceLevel.TOO_LOW ||
+    balanceLevel === BalanceLevel.RED,
+);
+
+export const selectPAYGChargingModelData = createSelector(
+  selectFullPAYGBalance,
+  selectIsFreeChargingModel,
+  (fullPAYGBalance, hasFreeChargingModel) => {
+    /* PAYG/Free charging model data */
+    if (hasFreeChargingModel) {
+      const chargingModelFree: IFreeChargingModelData = {
+        type: EChargingModel.Free,
+        balance: fullPAYGBalance,
+      };
+
+      return chargingModelFree;
+    }
+
+    const chargingModelPayg: IPAYGChargingModelData = {
+      type: EChargingModel.PAYG,
+      balance: fullPAYGBalance,
+    };
+
+    return chargingModelPayg;
+  },
+);
+
+const selectDealChargingModelData = createSelector(
+  selectMyBundlesStatusState,
+  selectBundlePaymentPlans,
+  (myByndlesStatus, bundlePaymentPlans) => {
+    /* Deal charging model data */
+    if (myByndlesStatus.data) {
+      const dealChargingModel = myByndlesStatus.data.find(bundle => {
+        const isExpired = new Date() > new Date(Number(bundle.expires));
+
+        return (
+          !isExpired &&
+          bundle.counters.find(
+            counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+          )
+        );
+      });
+
+      if (dealChargingModel?.counters) {
+        return getDealChargingModelData({
+          dealChargingModel,
+          bundlePaymentPlans,
+        });
+      }
+    }
+
+    return undefined;
+  },
+);
+
+export const selectPackageChargingModelData = createSelector(
+  selectMyBundlesStatusState,
+  selectBundlePaymentPlans,
+  (myByndlesStatus, bundlePaymentPlans) => {
+    /* Package charging model data (will be deprecated soon) */
+    const packageChargingModel = myByndlesStatus?.data?.find(bundle => {
+      const now = new Date();
+      const expires = new Date(Number(bundle.expires));
+      const isExpired = now > expires;
+
+      const hasQtyCounter = bundle.counters.find(
+        counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_QTY,
+      );
+
+      const hasCostCounter = bundle.counters.find(
+        counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+      );
+
+      return !isExpired && hasQtyCounter && !hasCostCounter;
+    });
+
+    if (packageChargingModel) {
+      return getPackageChargingModelData({
+        packageChargingModel,
+        bundlePaymentPlans,
+      });
+    }
+
+    return undefined;
+  },
+);
+
+export const selectAccountChargingModels = createSelector(
+  selectPAYGChargingModelData,
+  selectDealChargingModelData,
+  selectPackageChargingModelData,
+  (
+    paygChargingModelData,
+    dealChargingModelData,
+    packageChargingModelData,
+  ): IChargingModelData[] => {
+    const chargingModels: IChargingModelData[] = [paygChargingModelData];
+
+    if (packageChargingModelData) {
+      if (packageChargingModelData.isExpired) {
+        chargingModels.push(packageChargingModelData);
+      } else {
+        // if user has actual package model, it should be shown first
+        chargingModels.unshift(packageChargingModelData);
+      }
+    }
+
+    if (dealChargingModelData) {
+      const isExpired = new Date() > new Date(dealChargingModelData.expires);
+
+      if (isExpired) {
+        chargingModels.push(dealChargingModelData);
+      } else {
+        // if user has actual deal model, it should be shown first
+        chargingModels.unshift(dealChargingModelData);
+      }
+    }
+
+    return chargingModels;
+  },
+);
+
+export const selectActiveChargingModel = createSelector(
+  selectAccountChargingModels,
+  chargingModels => chargingModels[0],
 );

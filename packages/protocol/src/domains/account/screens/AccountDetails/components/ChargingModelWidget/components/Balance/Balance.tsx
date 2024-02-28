@@ -10,32 +10,43 @@ import { useBalanceStyles } from './BalanceStyles';
 
 export interface BalanceProps {
   className?: string;
-  creditBalance: string;
+  creditBalance?: string;
   status: AccountStatus;
   usdBalance: string;
+  balanceInRequests: string;
 }
 
 const creditIntlKey = `${intlRoot}.credit-balance`;
+const requestsIntlKey = `${intlRoot}.requests-balance`;
 const usdIntlKey = `${intlRoot}.usd-balance`;
+const reqIntlKey = `${intlRoot}.req-balance`;
 
 export const Balance = ({
   className,
   creditBalance,
   status,
   usdBalance,
+  balanceInRequests,
 }: BalanceProps) => {
   const { classes, cx } = useBalanceStyles();
 
   return (
-    <BalanceTooltip balance={creditBalance}>
+    <BalanceTooltip balance={creditBalance || balanceInRequests}>
       <div className={cx(classes.root, className)}>
         <AccountMarker className={classes.marker} status={status} />
         <Typography className={classes.creditBalance} variant="h4">
-          {t(creditIntlKey, { balance: creditBalance })}
+          {creditBalance
+            ? t(creditIntlKey, { balance: creditBalance })
+            : t(requestsIntlKey, { balance: balanceInRequests })}
         </Typography>
         <Typography className={classes.usdBalance} variant="body2">
           {t(usdIntlKey, { balance: usdBalance })}
         </Typography>
+        {creditBalance && (
+          <Typography className={classes.usdBalance} variant="body2">
+            {t(reqIntlKey, { balance: balanceInRequests })}
+          </Typography>
+        )}
       </div>
     </BalanceTooltip>
   );

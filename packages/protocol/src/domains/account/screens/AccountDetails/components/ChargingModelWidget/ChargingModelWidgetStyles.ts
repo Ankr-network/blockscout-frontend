@@ -6,7 +6,7 @@ type NestedSelectors =
   | 'description'
   | 'withSubscription';
 
-export const useBalanceWidgetStyles = makeStyles<void, NestedSelectors>()(
+export const useChargingModelWidgetStyles = makeStyles<void, NestedSelectors>()(
   (theme, _params, classes) => ({
     root: {
       padding: theme.spacing(7, 8, 8),

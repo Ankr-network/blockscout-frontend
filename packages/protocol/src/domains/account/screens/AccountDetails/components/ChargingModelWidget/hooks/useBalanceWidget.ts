@@ -1,13 +1,10 @@
 import { useAccountState } from 'domains/account/hooks/useAccountState';
-import { useBalance } from 'domains/account/hooks/useBalance';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { useMySubscriptions } from 'domains/account/hooks/useMySubscriptions';
 
 export const useBalanceWidget = () => {
-  const { creditBalance, usdBalance } = useBalance({ skipFetching: true });
-
   const { isSubscribed: hasBundleSubscriptions } = useMyBundles({
     skipFetching: true,
   });
@@ -33,7 +30,6 @@ export const useBalanceWidget = () => {
   const hasDescription = Boolean(descriptionKey);
 
   return {
-    creditBalance,
     hasBundleSubscriptions,
     hasDescription,
     hasPAYGLabel,
@@ -45,6 +41,5 @@ export const useBalanceWidget = () => {
     onTopUp,
     onUpgradeDialogClose,
     status,
-    usdBalance,
   };
 };

@@ -3,7 +3,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 
 import { AccountDetailsTopUp } from '../AccountDetailsTopUp';
-import { BalanceWidget } from '../BalanceWidget';
+import { ChargingModelWidget } from '../ChargingModelWidget';
 import { PlanWidget } from '../PlanWidget';
 import { SubscriptionsWidget } from '../SubscriptionsWidget';
 import { useAccountManagerStyles } from './AccountManagerStyles';
@@ -25,7 +25,7 @@ export const AccountManager = () => {
 
   return (
     <div className={className}>
-      <BalanceWidget
+      <ChargingModelWidget
         className={classes.balance}
         onSwitchChargingModel={switchCurrentChargingModel}
       />

@@ -1,7 +1,7 @@
 import { EChargingModel, EPaymentType } from './types';
 
 export const chargigModelTitlesMap: Record<EChargingModel, string> = {
-  [EChargingModel.Deal]: 'account.charging-model.payg.title',
+  [EChargingModel.Deal]: 'account.charging-model.deal.title',
   [EChargingModel.Free]: 'account.charging-model.free.title',
   [EChargingModel.PAYG]: 'account.charging-model.payg.title',
   [EChargingModel.Package]: 'account.charging-model.package.title',

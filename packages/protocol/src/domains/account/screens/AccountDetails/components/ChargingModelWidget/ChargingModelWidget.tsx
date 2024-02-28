@@ -1,12 +1,17 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
 import { TopUpCurrency } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/types';
-import { EChargingModel } from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  selectAccountChargingModels,
+  selectActiveChargingModel,
+} from 'domains/account/store/selectors';
+import { IChargingModelData } from 'modules/billing/types';
 
 import { Balance } from './components/Balance';
 import { Description } from './components/Description';
@@ -15,21 +20,21 @@ import { Header } from './components/Header';
 import { ScheduledPayments } from '../ScheduledPayments';
 import { Widget } from '../Widget';
 import { useBalanceWidget } from './hooks/useBalanceWidget';
-import { useBalanceWidgetStyles } from './BalanceWidgetStyles';
+import { useChargingModelWidgetStyles } from './ChargingModelWidgetStyles';
 import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
 import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
+import { BalanceProgressBar } from './components/BalanceProgressBar';
 
-export interface BalanceWidgetProps {
+export interface ChargingModelWidgetProps {
   className: string;
   onSwitchChargingModel: () => void;
 }
 
-export const BalanceWidget = ({
+export const ChargingModelWidget = ({
   className: outerClassName,
   onSwitchChargingModel,
-}: BalanceWidgetProps) => {
+}: ChargingModelWidgetProps) => {
   const {
-    creditBalance,
     hasBundleSubscriptions,
     hasDescription,
     hasPAYGLabel,
@@ -41,12 +46,11 @@ export const BalanceWidget = ({
     onTopUp,
     onUpgradeDialogClose,
     status,
-    usdBalance,
   } = useBalanceWidget();
 
   const { isOpened, onClose, onOpen: onOpenBalanceDialog } = useDialog();
 
-  const { classes, cx } = useBalanceWidgetStyles();
+  const { classes, cx } = useChargingModelWidgetStyles();
 
   const className = cx(classes.root, outerClassName);
 
@@ -56,17 +60,45 @@ export const BalanceWidget = ({
     [classes.withPAYGLabel]: hasPAYGLabel,
   });
 
-  const currentBalance = useMemo(
-    () => (
-      <Balance
-        className={classes.balance}
-        creditBalance={creditBalance}
-        status={status}
-        usdBalance={usdBalance}
-      />
-    ),
-    [classes.balance, creditBalance, status, usdBalance],
+  const chargingModels = useAppSelector(selectAccountChargingModels);
+
+  const currentChargingModel = useAppSelector(selectActiveChargingModel);
+
+  const renderBalance = useCallback(
+    (chargingModel: IChargingModelData) => {
+      const { balance: balancesData } = chargingModel;
+
+      return (
+        <Balance
+          className={classes.balance}
+          creditBalance={
+            'balanceApiCredits' in balancesData
+              ? balancesData.balanceApiCredits
+              : undefined
+          }
+          status={status}
+          usdBalance={balancesData.balanceUsd}
+          balanceInRequests={balancesData.balanceInRequests}
+        />
+      );
+    },
+    [classes.balance, status],
   );
+
+  const currentPlanBalance = useMemo(() => {
+    const { type } = currentChargingModel;
+
+    return (
+      <>
+        {renderBalance(currentChargingModel)}
+        <BalanceProgressBar
+          onSwitchChargingModel={onSwitchChargingModel}
+          chargingModel={type}
+          {...currentChargingModel}
+        />
+      </>
+    );
+  }, [classes.balance, currentChargingModel, onSwitchChargingModel, status]);
 
   return (
     <>
@@ -80,11 +112,10 @@ export const BalanceWidget = ({
       >
         <Header
           className={classes.header}
-          hasPAYGLabel={hasPAYGLabel}
-          isFree={!hasPAYGLabel}
+          currentChargingModelType={currentChargingModel.type}
           onOpenBalanceDialog={onOpenBalanceDialog}
         />
-        {currentBalance}
+        {currentPlanBalance}
         {hasDescription && <Description className={classes.description} />}
         {hasBundleSubscriptions && <ScheduledPayments />}
         <EditSubscriptionsDialog
@@ -100,26 +131,22 @@ export const BalanceWidget = ({
       </Widget>
 
       <AssetsBalanceDialog isOpened={isOpened} onClose={onClose}>
-        <ChargingModelWidgetWrapper
-          isCurrentModel
-          chargingModel={EChargingModel.PAYG}
-          balance={currentBalance}
-        />
-        <ChargingModelWidgetWrapper
-          chargingModel={EChargingModel.Package}
-          balance={currentBalance} // TODO: balance according to package
-          progressLabel="15M from 15M used (100%)" // TODO: get data from API
-          progressValue={100} // TODO: get data from API
-          onSwitchChargingModel={onSwitchChargingModel} // TODO: add handler
-          isExpired
-        />
-        <ChargingModelWidgetWrapper
-          chargingModel={EChargingModel.Deal}
-          balance={currentBalance} // TODO: balance according to package
-          progressLabel="6B from 6B used (100%)" // TODO: get data from API
-          maxLabel="Expires: Dec 30, 2023" // TODO: get data from API
-          progressValue={40} // TODO: get data from API
-        />
+        {chargingModels.map((chargingModel, index) => {
+          const { type } = chargingModel;
+
+          const balance = renderBalance(chargingModel);
+
+          return (
+            <ChargingModelWidgetWrapper
+              key={index}
+              chargingModel={type}
+              isCurrentModel={index === 0}
+              {...chargingModel}
+              balance={balance}
+              onSwitchChargingModel={onSwitchChargingModel}
+            />
+          );
+        })}
       </AssetsBalanceDialog>
     </>
   );
