@@ -2,7 +2,7 @@ import { useAccountState } from 'domains/account/hooks/useAccountState';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useBalance } from 'domains/account/hooks/useBalance';
 
-export const useAccountDetailsButton = () => {
+export const useBalanceButton = () => {
   const { hasStatusTransition, loading: isConnecting } = useAuth();
 
   const {
@@ -20,6 +20,6 @@ export const useAccountDetailsButton = () => {
     hasStatusTransition,
     isLoading: isBalanceLoading || isConnecting,
     isUninitialized,
-    status,
+    status, // TODO: remove?
   };
 };

@@ -12,7 +12,7 @@ const formatBalance = (balance: BigNumber) => {
   const balanceLength = balance.integerValue().toString().length;
 
   return balanceLength > MAX_BALANCE_LENGTH
-    ? t('account.balance', { balance: balance.toString() })
+    ? t('header.balance-button.value', { balance: balance.toString() })
     : balance.toFormat(decimals);
 };
 

@@ -129,7 +129,12 @@
     "connect-wallet": "Connect Wallet",
     "add-google": "Add Google account",
     "add-github": "Add Github account",
-    "sign-out": "Sign out"
+    "sign-out": "Sign out",
+    "balance-button": {
+      "value": "{balance, number, ::compact-short}",
+      "requests-value": "<span>{value}</span> Requests",
+      "credits-value": "<span>{value}</span> API Credits"
+    }
   },
   "signup-modal": {
     "title": "Sign in method",

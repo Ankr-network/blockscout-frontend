@@ -1,15 +1,21 @@
 import { makeStyles } from 'tss-react/mui';
 
 export interface UseStylesParams {
-  hasStatusTransition: boolean;
+  isMenuOpen: boolean;
 }
 
-export const useStyles = makeStyles<UseStylesParams>()(
-  (theme, { hasStatusTransition }) => ({
+export const useBalanceButtonStyles = makeStyles<UseStylesParams>()(
+  (theme, { isMenuOpen }) => ({
     buttonRoot: {
       flexShrink: 0,
       border: 'none',
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: isMenuOpen
+        ? theme.palette.grey[200]
+        : theme.palette.background.paper,
+
+      '&:hover': {
+        backgroundColor: theme.palette.grey[200],
+      },
     },
     sidebarTypeButtonRoot: {
       border: `2px solid ${theme.palette.grey[100]}`,
@@ -50,15 +56,25 @@ export const useStyles = makeStyles<UseStylesParams>()(
       },
     },
     balance: {
-      display: 'inline-block',
+      marginRight: theme.spacing(1),
 
-      color: hasStatusTransition ? theme.palette.grey[600] : undefined,
+      '& > span': {
+        color: theme.palette.text.secondary,
+      },
+
+      '& > span > span': {
+        color: theme.palette.text.primary,
+      },
     },
-    currency: {
-      color: theme.palette.grey[600],
-    },
-    mobileTypeCurrency: {
-      display: 'none',
+    selectIcon: {
+      '&&': {
+        color: theme.palette.text.secondary,
+      },
+
+      transition: 'transform 100ms',
+
+      transform: isMenuOpen ? 'rotate(180deg)' : 'none',
+      transformOrigin: '50% 50%',
     },
   }),
 );
