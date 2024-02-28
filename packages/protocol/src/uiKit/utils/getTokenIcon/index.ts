@@ -6,6 +6,7 @@ import arbitrumNovaIcon from './icons/arbitrum-nova.svg';
 import avaxIcon from './icons/avax.svg';
 import bscIcon from './icons/bsc.svg';
 import bttcIcon from './icons/bttc.svg';
+import btcIcon from './icons/btc.svg';
 import celoIcon from './icons/celo.svg';
 import chilizIcon from './icons/chiliz.svg';
 import coreIcon from './icons/core.svg';
@@ -111,6 +112,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BLAST]: blastIcon,
   [ChainID.BLAST_TESTNET_SEPOLIA]: blastIcon,
 
+  [ChainID.BTC]: btcIcon,
   [ChainID.BTTC]: bttcIcon,
   [ChainID.CELO]: celoIcon,
   [ChainID.CHILIZ]: chilizIcon,

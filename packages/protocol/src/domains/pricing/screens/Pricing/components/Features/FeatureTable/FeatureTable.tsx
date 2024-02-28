@@ -33,7 +33,10 @@ export const FeatureTable = () => {
             <TableCell className={classes.name}>
               <Typography
                 variant="subtitle2"
-                className={cx(isRowSubtitle && classes.rowSubtitle)}
+                className={cx(
+                  classes.subtitle,
+                  isRowSubtitle && classes.rowSubtitle,
+                )}
               >
                 {t(`${INTL_PLAN_COMPARISON_ROOT}.name-${rowIndex}`)}
               </Typography>
@@ -81,7 +84,7 @@ export const FeatureTable = () => {
           </TableHead>
           <TableBody>
             <TableRow className={classes.subtitleRow}>
-              <Typography variant="h6" className={classes.subtitle}>
+              <Typography variant="h6" className={classes.sectionTitle}>
                 {t(`${INTL_PLAN_COMPARISON_ROOT}.features`)}
               </Typography>
             </TableRow>
@@ -89,7 +92,7 @@ export const FeatureTable = () => {
             <TableRow
               className={cx(classes.subtitleRow, classes.rowWithoutBorder)}
             >
-              <Typography variant="h6" className={classes.subtitle}>
+              <Typography variant="h6" className={classes.sectionTitle}>
                 {t(`${INTL_PLAN_COMPARISON_ROOT}.products`)}
               </Typography>
             </TableRow>
