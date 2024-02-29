@@ -1805,6 +1805,13 @@
         "title": "Deal"
       }
     },
+    "deal-renewal": {
+      "cancel-dialog": {
+        "title": "Deal renewal cancelled",
+        "description": "Deal's remaining API credits are still available for you until spent before or expired on {date, date, long}.",
+        "done-btn": "Done"
+      }
+    },
     "currencies": {
       "ankr": "ANKR",
       "credit": "Credits",
