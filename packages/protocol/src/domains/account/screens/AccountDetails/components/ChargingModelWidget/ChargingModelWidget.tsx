@@ -24,6 +24,7 @@ import { useChargingModelWidgetStyles } from './ChargingModelWidgetStyles';
 import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
 import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
 import { BalanceProgressBar } from './components/BalanceProgressBar';
+import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
 
 export interface ChargingModelWidgetProps {
   className: string;
@@ -72,7 +73,7 @@ export const ChargingModelWidget = ({
         <Balance
           className={classes.balance}
           creditBalance={
-            'balanceApiCredits' in balancesData
+            API_CREDITS_BALANCE_FIELD_NAME in balancesData
               ? balancesData.balanceApiCredits
               : undefined
           }
@@ -98,7 +99,13 @@ export const ChargingModelWidget = ({
         />
       </>
     );
-  }, [classes.balance, currentChargingModel, onSwitchChargingModel, status]);
+  }, [
+    classes.balance,
+    currentChargingModel,
+    onSwitchChargingModel,
+    renderBalance,
+    status,
+  ]);
 
   return (
     <>

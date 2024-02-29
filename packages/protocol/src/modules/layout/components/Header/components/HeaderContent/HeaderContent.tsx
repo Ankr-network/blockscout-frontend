@@ -26,10 +26,7 @@ export const HeaderContent = ({
       {(isDefaultType || isSidebarType) && <UserGroupDialog />}
 
       {isLoggedIn && !isEnterpriseClient && (
-        <BalanceButton
-          isSidebarType={isSidebarType}
-          isMobileType={isMobileType}
-        />
+        <BalanceButton isMobileType={isMobileType} />
       )}
 
       {isLoggedIn ? <UserAccountSelector /> : <SignupButton />}

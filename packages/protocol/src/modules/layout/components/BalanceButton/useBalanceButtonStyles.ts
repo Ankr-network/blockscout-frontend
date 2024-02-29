@@ -17,14 +17,8 @@ export const useBalanceButtonStyles = makeStyles<UseStylesParams>()(
         backgroundColor: theme.palette.grey[200],
       },
     },
-    sidebarTypeButtonRoot: {
-      border: `2px solid ${theme.palette.grey[100]}`,
-    },
-
     mobileTypeButtonRoot: {
       padding: theme.spacing(2.5, 3),
-      border: `2px solid ${theme.palette.divider}`,
-      borderRadius: theme.spacing(3),
       backgroundColor: theme.palette.background.paper,
 
       [theme.breakpoints.down('xs')]: {
@@ -57,14 +51,10 @@ export const useBalanceButtonStyles = makeStyles<UseStylesParams>()(
     },
     balance: {
       marginRight: theme.spacing(1),
-
-      '& > span': {
-        color: theme.palette.text.secondary,
-      },
-
-      '& > span > span': {
-        color: theme.palette.text.primary,
-      },
+      color: theme.palette.text.secondary,
+    },
+    balanceValue: {
+      color: theme.palette.text.primary,
     },
     selectIcon: {
       '&&': {

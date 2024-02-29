@@ -132,8 +132,8 @@
     "sign-out": "Sign out",
     "balance-button": {
       "value": "{balance, number, ::compact-short}",
-      "requests-value": "<span>{value}</span> Requests",
-      "credits-value": "<span>{value}</span> API Credits"
+      "requests": " Requests",
+      "credits": " API Credits"
     }
   },
   "signup-modal": {

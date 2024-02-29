@@ -1,5 +1,5 @@
 import { CircularProgress, Typography } from '@mui/material';
-import { tHTML } from '@ankr.com/common';
+import { t } from '@ankr.com/common';
 import { ArrowDown } from '@ankr.com/ui';
 
 import { LoadableButton } from 'uiKit/LoadableButton';
@@ -9,17 +9,23 @@ import { useBalanceButtonStyles } from './useBalanceButtonStyles';
 import { renderBalance } from './utils/formatBalance';
 import { PlusLink } from './components/PlusLink';
 
-export interface BalanceButtonProps {
+export interface IBalanceButtonProps {
   isMobileType?: boolean;
-  isSidebarType?: boolean;
 }
+
+const creditBalanceKey = 'header.balance-button.credits';
+const requestBalanceKey = 'header.balance-button.requests';
 
 export const BalanceButton = ({
   isMobileType = false,
-  isSidebarType = false,
-}: BalanceButtonProps) => {
-  const { balance, hasStatusTransition, isLoading, isUninitialized } =
-    useBalanceButton();
+}: IBalanceButtonProps) => {
+  const {
+    balance,
+    hasStatusTransition,
+    isApiCreditsBalance,
+    isLoading,
+    isLoggedIn,
+  } = useBalanceButton();
 
   const { cx, classes } = useBalanceButtonStyles({
     isMenuOpen: false,
@@ -27,14 +33,15 @@ export const BalanceButton = ({
 
   const hasEndIcon = !isLoading && hasStatusTransition;
 
-  if (isUninitialized) return null;
+  if (!isLoggedIn) return null;
+
+  const balanceKey = isApiCreditsBalance ? creditBalanceKey : requestBalanceKey;
 
   return (
     <LoadableButton
       className={cx({
         [classes.buttonRoot]: !isMobileType,
         [classes.mobileTypeButtonRoot]: isMobileType,
-        [classes.sidebarTypeButtonRoot]: isSidebarType,
       })}
       loading={isLoading}
       variant="text"
@@ -52,9 +59,9 @@ export const BalanceButton = ({
             [classes.mobileTypeLabel]: isMobileType,
           })}
         >
-          {tHTML('header.balance-button.credits-value', {
-            value: renderBalance(balance),
-          })}
+          <span className={classes.balanceValue}>{renderBalance(balance)}</span>
+
+          {t(balanceKey)}
         </Typography>
 
         <ArrowDown className={classes.selectIcon} />
