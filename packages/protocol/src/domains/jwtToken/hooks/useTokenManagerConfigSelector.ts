@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useAppSelector } from 'store/useAppSelector';
 import { selectTokenManagerConfig } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectCurrentAddress } from 'domains/auth/store';

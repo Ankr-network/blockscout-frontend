@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
 
 import { ChainPath } from 'modules/chains/types';

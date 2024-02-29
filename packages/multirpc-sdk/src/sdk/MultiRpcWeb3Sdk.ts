@@ -1,4 +1,4 @@
-import { Web3KeyWriteProvider } from '@ankr.com/provider';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import {
   IConfig,
@@ -26,12 +26,17 @@ export class MultiRpcWeb3Sdk {
   private contractService?: ContractService;
 
   public constructor(
-    private readonly keyProvider: Web3KeyWriteProvider,
+    private readonly keyWriteProvider: Web3KeyWriteProvider,
+    private readonly keyReadProvider: Web3KeyReadProvider,
     private readonly config: IConfig,
-  ) {}
+  ) { }
 
-  public getKeyProvider() {
-    return this.keyProvider;
+  public getKeyWriteProvider() {
+    return this.keyWriteProvider;
+  }
+
+  public getKeyReadProvider() {
+    return this.keyReadProvider;
   }
 
   public async isOldPremiumAndActiveToken(user: Web3Address) {
@@ -78,9 +83,9 @@ export class MultiRpcWeb3Sdk {
 
     const hasPAYGTransactionAndTokenIsNotIssued = Boolean(
       allTokens &&
-        allTokens?.length === 1 &&
-        transactionHashes &&
-        !transactionHashes?.includes(allTokens?.[0]?.id as string),
+      allTokens?.length === 1 &&
+      transactionHashes &&
+      !transactionHashes?.includes(allTokens?.[0]?.id as string),
     );
 
     const premiumToken = allTokens?.[0];
@@ -117,11 +122,11 @@ export class MultiRpcWeb3Sdk {
   }
 
   public async getAuthorizationToken(lifeTime: number): Promise<string> {
-    if (!this.keyProvider) {
+    if (!this.keyWriteProvider) {
       throw new Error('Key provider must be connected');
     }
 
-    const loginSignService = new LoginSignService(this.keyProvider);
+    const loginSignService = new LoginSignService(this.keyWriteProvider);
 
     const authorizationToken = await loginSignService.signLoginData(
       lifeTime,
@@ -134,7 +139,7 @@ export class MultiRpcWeb3Sdk {
   private getPAYGContractManager(): PAYGContractManager {
     this.PAYGContractManager =
       this.PAYGContractManager ||
-      new PAYGContractManager(this.keyProvider, this.config);
+      new PAYGContractManager(this.keyWriteProvider, this.keyReadProvider, this.config);
 
     return this.PAYGContractManager;
   }
@@ -142,7 +147,7 @@ export class MultiRpcWeb3Sdk {
   public getTokenDecryptionService(): TokenDecryptionService {
     this.tokenDecryptionService =
       this.tokenDecryptionService ||
-      new TokenDecryptionService(this.keyProvider);
+      new TokenDecryptionService(this.keyWriteProvider);
 
     return this.tokenDecryptionService;
   }
@@ -163,7 +168,7 @@ export class MultiRpcWeb3Sdk {
     this.contractService =
       this.contractService ||
       new ContractService(
-        this.keyProvider,
+        this.keyWriteProvider,
         this.getPAYGContractManager(),
         this.config,
       );

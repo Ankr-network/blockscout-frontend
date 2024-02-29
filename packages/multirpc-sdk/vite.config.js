@@ -2,19 +2,27 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
+import packageJson from './package.json';
+
 export default defineConfig({
   plugins: [],
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+    },
+  },
   build: {
     sourcemap: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
-      formats: ['cjs'],
-      // the proper extensions will be added
+      formats: ['es'],
       fileName: 'index',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react-router'],
+      external: [...Object.keys(packageJson.peerDependencies)],
       output: {
         globals: {
           react: 'React',

@@ -1,7 +1,5 @@
-import { isMobile } from 'web3modal';
 import { EWalletId, Web3KeyReadProvider } from '@ankr.com/provider';
 import {
-  HuobiWallet,
   ImtokenWallet,
   MathWallet,
   MetaMaskWallet,
@@ -14,12 +12,12 @@ import { IWalletItem } from './SignupDialogWeb3ContentTypes';
 
 const getTooltipMessage = () => t('signup-modal.web3.tooltip-message');
 
-export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
+export const getEthCompatibleWallets = (isMobile: boolean): IWalletItem[][] => [
   [
     {
       href: 'https://metamask.io/download/',
       icon: <MetaMaskWallet />,
-      isHidden: isMobile(),
+      isHidden: isMobile,
       get isInjected() {
         return Web3KeyReadProvider.isInjected();
       },
@@ -66,16 +64,6 @@ export const ETH_COMPATIBLE_WALLETS: IWalletItem[][] = [
       isInjected: true,
       title: 'Trust Wallet',
       walletId: EWalletId.trustViaWalletConnect,
-      isDisabled: true,
-      getTooltipMessage,
-    },
-    {
-      href: '',
-      icon: <HuobiWallet />,
-      isHidden: false,
-      isInjected: true,
-      title: 'Huobi Wallet',
-      walletId: EWalletId.huobi,
       isDisabled: true,
       getTooltipMessage,
     },

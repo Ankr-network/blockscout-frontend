@@ -9,7 +9,7 @@ import { MetamaskDecryptionService } from './MetamaskDecryptionService';
 import { DecryptionService } from './DecryptionService';
 
 export class TokenDecryptionService {
-  public constructor(private readonly keyProvider: Web3KeyWriteProvider) {}
+  public constructor(private readonly keyProvider: Web3KeyWriteProvider) { }
 
   public privateKey = '';
 
@@ -89,10 +89,18 @@ export class TokenDecryptionService {
         }
 
         // try to decrypt token with metamask
-        decryptedToken =
-          await this.getMetamaskDecryptionService().getDecryptedTokenByMetamask(
-            signedToken,
-          );
+        try {
+          decryptedToken =
+            await this.getMetamaskDecryptionService().getDecryptedTokenByMetamask(
+              signedToken,
+            );
+        } catch (error: any) {
+          if (error?.code === USER_DENIED_MESSAGE_SIGNATURE_CODE) {
+            throw error;
+          } else {
+            throw new Error('An error occurred while receiving the jwt token. Please contact our support team to solve the problem');
+          }
+        }
       }
     }
 

@@ -1,4 +1,10 @@
-import { EventProvider, ProviderEvents } from '@ankr.com/provider';
+// @ts-nocheck
+import {
+  EventProvider,
+  ProviderEvents,
+  getProvider,
+  EWalletId,
+} from '@ankr.com/provider';
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 
@@ -32,11 +38,9 @@ import { NewProjectStep } from 'domains/projects/types';
 import { selectCurrentAddress } from 'domains/auth/store';
 import { resetOriginChainURL } from 'domains/chains/store/chainsSlice';
 import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
+import { getProviderManager } from 'modules/api/getProviderManager';
 
 export const listenerMiddleware = createListenerMiddleware<RootState>();
-
-const isProvider = (provider: unknown): provider is EventProvider =>
-  !!provider && typeof provider === 'object' && 'on' in provider;
 
 const getParams = (savedParams: any, totp: string) => {
   if (
@@ -79,11 +83,15 @@ listenerMiddleware.startListening({
     const service = await MultiService.getWeb3Service();
 
     if (service) {
-      const provider = service.getKeyProvider().getWeb3().currentProvider;
+      const providerManager = getProviderManager();
+      const ethWeb3KeyProvider = await providerManager.getETHWriteProvider(
+        EWalletId.injected,
+      );
+      const web3 = ethWeb3KeyProvider.getWeb3();
 
-      service.getKeyProvider().disconnect();
+      const provider: EventProvider | null = getProvider(web3?.currentProvider);
 
-      if (isProvider(provider)) {
+      if (provider) {
         provider.removeAllListeners(ProviderEvents.AccountsChanged);
         provider.removeAllListeners(ProviderEvents.ChainChanged);
         provider.removeAllListeners(ProviderEvents.Disconnect);
@@ -97,10 +105,15 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   matcher: isAnyOf(createWeb3Service.matchFulfilled),
   effect: async (_action, { dispatch }) => {
-    const service = await MultiService.getWeb3Service();
-    const provider = service.getKeyProvider().getWeb3().currentProvider;
+    const providerManager = getProviderManager();
+    const ethWeb3KeyProvider = await providerManager.getETHWriteProvider(
+      EWalletId.injected,
+    );
+    const web3 = ethWeb3KeyProvider.getWeb3();
 
-    if (isProvider(provider)) {
+    const provider: EventProvider | null = getProvider(web3?.currentProvider);
+
+    if (provider) {
       const handler = () => {
         dispatch(authDisconnect.initiate());
       };

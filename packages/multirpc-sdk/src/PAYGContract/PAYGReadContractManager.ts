@@ -1,5 +1,5 @@
 import { Contract, EventData } from 'web3-eth-contract';
-import { Web3KeyWriteProvider, Web3KeyReadProvider } from '@ankr.com/provider';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import { PrefixedHex, Web3Address } from '../common';
 import { IPAYGContractManagerConfig } from './types';
@@ -9,20 +9,20 @@ import { IPayAsYouGoEvents } from './abi/IPayAsYouGo';
 import { getPastEventsBlockchain } from './utils/getPastEventsBlockchain';
 
 export class PAYGReadContractManager {
-  protected readonly ankrTokenContract: Contract;
+  protected readonly ankrTokenReadContract: Contract;
 
-  protected readonly payAsYouGoContract: Contract;
+  protected readonly payAsYouGoReadContract: Contract;
 
   constructor(
-    protected readonly keyProvider: Web3KeyWriteProvider | Web3KeyReadProvider,
+    protected readonly keyReadProvider: Web3KeyReadProvider,
     protected readonly config: IPAYGContractManagerConfig,
   ) {
-    this.ankrTokenContract = keyProvider.createContract(
+    this.ankrTokenReadContract = keyReadProvider.createContract(
       ABI_ANKR_TOKEN,
       config.payAsYouGoAnkrTokenContractAddress,
     );
 
-    this.payAsYouGoContract = keyProvider.createContract(
+    this.payAsYouGoReadContract = keyReadProvider.createContract(
       ABI_PAY_AS_YOU_GO,
       config.payAsYouGoContractAddress,
     );
@@ -32,15 +32,15 @@ export class PAYGReadContractManager {
     event: IPayAsYouGoEvents,
     user: Web3Address,
   ) {
-    const contract = this.payAsYouGoContract;
+    const contract = this.payAsYouGoReadContract;
     const startBlock = this.config.payAsYouGoContractCreationBlockNumber;
 
-    const latestBlockNumber = await this.keyProvider
+    const latestBlockNumber = await this.keyReadProvider
       .getWeb3()
       .eth.getBlockNumber();
 
     return getPastEventsBlockchain({
-      web3: this.keyProvider.getWeb3(),
+      web3: this.keyReadProvider.getWeb3(),
       contract,
       eventName: event,
       filter: {
@@ -87,7 +87,7 @@ export class PAYGReadContractManager {
   public async getLatestAllowanceEvents(
     user: Web3Address,
   ): Promise<EventData[]> {
-    const events = await this.ankrTokenContract.getPastEvents('Approval', {
+    const events = await this.ankrTokenReadContract.getPastEvents('Approval', {
       filter: {
         owner: user,
       },

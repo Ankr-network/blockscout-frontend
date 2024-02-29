@@ -1,9 +1,10 @@
 {
   "name": "multirpc-sdk",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "SDK for Multi RPC",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
+  "type": "module",
   "files": [
     "dist"
   ],
@@ -41,26 +42,24 @@
   },
   "dependencies": {
     "@ankr.com/advanced-api": "^1.1.0",
-    "@ankr.com/provider": "^1.10.2",
-    "@ankr.com/common": "*",
-    "@ankr.com/utils": "*",
-    "axios": "^0.21.1",
-    "bignumber.js": "^9.0.1",
-    "bn.js": "5.2.0",
-    "ethereum-abi-types-generator": "1.3.2",
     "ethereumjs-util": "^7.0.7",
     "eth-sig-util": "^3.0.1",
-    "lodash.flatten": "4.4.0",
-    "lodash.orderby": "4.6.0",
     "qs": "^6.10.3",
-    "typescript": "^4.1.2",
-    "uuid": "8.3.2",
+    "uuid": "8.3.2"
+  },
+  "peerDependencies": {
+    "@ankr.com/provider": "^4.8.0",
+    "axios": "^0.21.1",
+    "@ankr.com/utils": "^1.1.1",
+    "bignumber.js": "^9.0.1",
+    "bn.js": "5.2.0",
     "web3": "1.7.0",
     "web3-core": "1.7.0",
-    "web3-eth-contract": "1.7.0",
     "web3-utils": "1.7.0"
   },
   "devDependencies": {
+    "typescript": "^4.1.2",
+    "ethereum-abi-types-generator": "1.3.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@types/lodash.flatten": "4.4.7",
     "@types/lodash.orderby": "4.6.6",
@@ -70,7 +69,10 @@
     "prettier": "^2.2.1",
     "ts-node": "^7.0.1",
     "rimraf": "3.0.2",
-    "source-map-explorer": "^2.5.2"
+    "source-map-explorer": "^2.5.2",
+    "@rollup/plugin-inject": "^5.0.5",
+    "buffer": "^6.0.3",
+    "esbuild-plugin-polyfill-node": "^0.3.0"
   },
   "directories": {
     "test": "test"

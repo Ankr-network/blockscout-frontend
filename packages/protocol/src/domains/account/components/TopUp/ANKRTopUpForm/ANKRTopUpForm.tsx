@@ -10,7 +10,7 @@ import { useRenderDisabledForm } from './hooks/useRenderDisabledForm';
 export const ANKRTopUpForm = ({
   hasLoginStep,
   initialValues: defaultInitialValues,
-  isWalletConnected,
+  isLoggedIn,
   onSubmit,
   trackSubmit,
   validateAmount,
@@ -25,7 +25,7 @@ export const ANKRTopUpForm = ({
   const renderForm = useRenderForm({
     classes,
     validateAmount,
-    isWalletConnected,
+    isLoggedIn,
     trackSubmit,
   });
   const renderDisabledForm = useRenderDisabledForm(classes);

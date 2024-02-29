@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "clean": "rimraf build dist"
+    "clean": "rm -rf build && rm -rf dist"
   },
   "dependencies": {
     "@babel/cli": "7.17.3",
@@ -31,6 +31,5 @@
     "rollup-plugin-terser": "7.0.2"
   },
   "devDependencies": {
-    "rimraf": "3.0.2"
   }
 }

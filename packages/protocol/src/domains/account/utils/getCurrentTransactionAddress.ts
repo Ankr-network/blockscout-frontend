@@ -8,7 +8,7 @@ export const getCurrentTransactionAddress = async (
   getState: GetState,
 ): Promise<Web3Address> => {
   const service = await MultiService.getWeb3Service();
-  const provider = service.getKeyProvider();
+  const provider = service.getKeyWriteProvider();
   const { selectedGroupAddress: groupAddress } = getSelectedGroupAddress(
     getState() as RootState,
   );

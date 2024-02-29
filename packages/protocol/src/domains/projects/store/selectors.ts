@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 

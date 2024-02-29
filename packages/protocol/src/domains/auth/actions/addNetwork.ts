@@ -1,4 +1,4 @@
-import { EthereumWeb3KeyProvider } from '@ankr.com/provider';
+import { EWalletId } from '@ankr.com/provider';
 import { PrefixedHex } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
@@ -7,8 +7,8 @@ import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
 import { web3Api } from 'store/queries';
-import { web3ModalTheme } from 'modules/api/Web3ModalKeyProvider';
 import { trackAddNetworkInMM } from 'modules/analytics/mixpanel/trackAddNetworkInMM';
+import { getProviderManager } from 'modules/api/getProviderManager';
 
 import { selectAuthData } from '../store/authSlice';
 import {
@@ -47,15 +47,13 @@ export const {
             throw new Error(t('error.no-metamask'));
           }
 
-          // create mm provider instance to add network
-          const keyProvider = new EthereumWeb3KeyProvider({
-            web3ModalTheme,
-          });
+          const providerManager = getProviderManager();
 
-          await keyProvider.inject(undefined, {});
-          await keyProvider.connect();
+          const writeProvider = await providerManager.getETHWriteProvider(
+            EWalletId.injected,
+          );
 
-          const { givenProvider } = keyProvider.getWeb3();
+          const { givenProvider } = writeProvider.getWeb3();
 
           await givenProvider.request({
             method: 'wallet_addEthereumChain',

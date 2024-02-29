@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
-    "rootDirs": ["."],
+    "rootDirs": [
+      "."
+    ],
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "downlevelIteration": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -17,7 +23,19 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
-  "include": ["src", "typings/**/*.d.ts"]
+  "include": [
+    "src",
+    "src/typings/**/*.d.ts"
+  ],
+  "files": [
+    "src/index.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

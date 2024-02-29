@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useMemo } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';

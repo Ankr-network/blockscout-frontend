@@ -4,14 +4,17 @@ import {
 } from '@ankr.com/provider';
 
 import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
-import { ProviderManagerSingleton } from 'modules/api/ProviderManagerSingleton';
+import { getProviderManager } from 'modules/api/getProviderManager';
 
 export const switchEthereumChain = async () => {
-  const provider = await ProviderManagerSingleton.getInstance().getProvider(
-    AvailableWriteProviders.ethCompatible,
-  );
+  const provider =
+    await getProviderManager().getProvider<EthereumWeb3KeyProvider>(
+      AvailableWriteProviders.ethCompatible,
+    );
 
-  await (provider as EthereumWeb3KeyProvider).switchNetwork(
-    getExpectedChainId(API_ENV),
-  );
+  const chainId = getExpectedChainId(API_ENV);
+
+  await provider.switchNetwork(chainId);
+
+  provider.currentChain = chainId;
 };

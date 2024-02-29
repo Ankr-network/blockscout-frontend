@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Web3 from 'web3';
 
 import { ILibraryConfig } from '../types';

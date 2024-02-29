@@ -1,6 +1,8 @@
 import { MultiRpcWeb3Sdk, MultiRpcSdk } from 'multirpc-sdk';
 import { Mutex } from 'async-mutex';
 
+import { API_ENV, getReadProviderId } from 'modules/common/utils/environment';
+
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 import { getConfig } from './utils/getConfig';
 
@@ -15,9 +17,16 @@ export class MultiService {
     await mutex.runExclusive(async () => {
       if (!MultiService.instance) {
         const providerManager = ProviderManagerSingleton.getInstance();
-        const provider = await providerManager.getETHWriteProvider();
+        const writeProvider = await providerManager.getETHWriteProvider();
+        const readProvider = await providerManager.getETHReadProvider(
+          getReadProviderId(API_ENV),
+        );
 
-        MultiService.instance = new MultiRpcWeb3Sdk(provider, getConfig());
+        MultiService.instance = new MultiRpcWeb3Sdk(
+          writeProvider,
+          readProvider,
+          getConfig(),
+        );
       }
     });
 

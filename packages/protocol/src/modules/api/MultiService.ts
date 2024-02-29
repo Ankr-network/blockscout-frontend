@@ -12,6 +12,7 @@ import {
 
 import { API_ENV, getReadProviderId } from '../common/utils/environment';
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
+import { getProviderManager } from './getProviderManager';
 
 export const INJECTED_WALLET_ID = 'injected';
 
@@ -28,13 +29,17 @@ export class MultiService {
   public static async createWeb3Service(
     walletId: string,
   ): Promise<MultiRpcWeb3Sdk> {
-    const providerManager = ProviderManagerSingleton.getInstance();
+    const providerManager = getProviderManager();
 
-    const provider = await providerManager.getETHWriteProvider(walletId);
+    const writeProvider = await providerManager.getETHWriteProvider(walletId);
+
+    const readProvider = await providerManager.getETHReadProvider(
+      getReadProviderId(API_ENV),
+    );
 
     const isEthereumNetwork =
-      provider.currentChain === EEthereumNetworkId.mainnet ||
-      provider.currentChain === EEthereumNetworkId.goerli;
+      writeProvider.currentChain === EEthereumNetworkId.mainnet ||
+      writeProvider.currentChain === EEthereumNetworkId.goerli;
 
     if (!isEthereumNetwork && walletId !== INJECTED_WALLET_ID) {
       MultiService.removeServices();
@@ -42,7 +47,11 @@ export class MultiService {
       throw new Error(t('error.not-supported-chain'));
     }
 
-    MultiService.web3Service = new MultiRpcWeb3Sdk(provider, CONFIG);
+    MultiService.web3Service = new MultiRpcWeb3Sdk(
+      writeProvider,
+      readProvider,
+      CONFIG,
+    );
 
     return MultiService.web3Service;
   }

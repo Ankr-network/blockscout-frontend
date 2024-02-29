@@ -10,7 +10,7 @@ export const useAddress = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
   const [address, setAddress] = useState('');
 
-  const { isWalletConnected, isUserEthAddressType } = useAuth();
+  const { isLoggedIn, isUserEthAddressType } = useAuth();
   const [redirectIfWalletConnectFailed] =
     useLazyAccountRedirectIfWalletConnectFailedQuery();
 
@@ -22,7 +22,7 @@ export const useAddress = () => {
         try {
           const service = await MultiService.getWeb3Service();
 
-          const provider = service.getKeyProvider();
+          const provider = service.getKeyWriteProvider();
           const { currentAccount } = provider;
 
           setAddress(currentAccount);
@@ -33,13 +33,13 @@ export const useAddress = () => {
       }
     };
 
-    if (isWalletConnected && isUserEthAddressType) {
+    if (isLoggedIn && isUserEthAddressType) {
       getWeb3Address();
     }
 
     return () => setAddress('');
   }, [
-    isWalletConnected,
+    isLoggedIn,
     isUserEthAddressType,
     redirectIfWalletConnectFailed,
     selectedGroupAddress,

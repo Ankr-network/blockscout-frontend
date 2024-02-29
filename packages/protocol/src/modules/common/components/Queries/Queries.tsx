@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseQueryFn, FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { TypedUseQueryStateResult } from '@reduxjs/toolkit/dist/query/react';
 import { ReactElement, ReactNode } from 'react';

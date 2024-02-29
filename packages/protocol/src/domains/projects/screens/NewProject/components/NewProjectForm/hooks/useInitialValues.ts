@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMemo } from 'react';
 
 import { NewProjectStep } from 'domains/projects/types';

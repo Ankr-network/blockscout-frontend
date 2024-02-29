@@ -1,22 +1,18 @@
 // vite.config.js
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { resolve } from 'path';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [
-    svgr(),
-    react()
-  ],
+  plugins: [svgr(), react()],
   build: {
     sourcemap: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['cjs'],
-      // the proper extensions will be added
-      fileName: 'index'
+      fileName: 'index',
     },
     rollupOptions: {
       external: [
@@ -26,6 +22,6 @@ export default defineConfig({
         '@material-ui/core',
         '@material-ui/styles',
       ],
-    }
-  }
-})
+    },
+  },
+});

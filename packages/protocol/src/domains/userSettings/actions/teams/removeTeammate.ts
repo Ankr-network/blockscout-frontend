@@ -39,7 +39,7 @@ export const {
         dispatch(
           NotificationActions.showNotification({
             message: t('teams.notifications.remove-teammate-success', {
-              user: shrinkAddress(email || address)
+              user: shrinkAddress(email || address),
             }),
             severity: 'success',
           }),

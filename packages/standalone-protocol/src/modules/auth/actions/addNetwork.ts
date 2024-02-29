@@ -23,7 +23,7 @@ export const addNetwork = createSmartAction<
   request: {
     promise: (async () => {
       const service = await MultiService.getWeb3Service();
-      const { givenProvider } = service.getKeyProvider().getWeb3();
+      const { givenProvider } = service.getKeyWriteProvider().getWeb3();
 
       givenProvider.request({
         method: 'wallet_addEthereumChain',
