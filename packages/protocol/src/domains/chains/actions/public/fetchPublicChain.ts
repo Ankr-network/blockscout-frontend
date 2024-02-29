@@ -1,4 +1,3 @@
-import { replace } from 'connected-react-router';
 import { t } from '@ankr.com/common';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -7,7 +6,6 @@ import { isChainArchived } from 'domains/chains/screens/ChainItem/utils/isChainA
 import { Chain } from 'modules/chains/types';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
 
-import { ChainsRoutesConfig } from '../../routes';
 import { chainsFetchPublicChains } from './fetchPublicChains';
 
 export interface IPublicChainItemDetails {
@@ -34,14 +32,6 @@ export const {
         const unfilteredChain = allChains.find(item => item.id === chainId);
 
         if (!chain || !unfilteredChain) {
-          dispatch(
-            replace(
-              ChainsRoutesConfig.chains.generatePath({
-                isLoggedIn: false,
-              }),
-            ),
-          );
-
           throw new Error(t('chain-item.not-found'));
         }
 
