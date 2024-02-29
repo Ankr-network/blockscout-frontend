@@ -94,6 +94,7 @@
     "web3-eth-contract": "1.7.0"
   },
   "devDependencies": {
+    "react-scripts": "4.0.3",
     "@ankr.com/ci": "^1.1.4",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",

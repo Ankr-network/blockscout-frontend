@@ -31,7 +31,6 @@
   "include": [
     "src",
     "src/typings/**/*.d.ts"
-
   ],
   "files": [
     "src/index.tsx"

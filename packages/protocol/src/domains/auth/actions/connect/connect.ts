@@ -35,8 +35,6 @@ export const {
           throw error;
         }
 
-        const web3Service = MultiService.getWeb3Service();
-
         const cachedData = getCachedData(service, getState as GetState);
 
         const { hasWeb3Connection, address: cachedAddress } = cachedData;
