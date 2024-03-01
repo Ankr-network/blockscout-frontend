@@ -200,6 +200,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://scan.bt.io/'],
   },
 
+  [ChainID.BLAST]: {
+    chainId: 81457,
+    chainName: 'Blast Mainnet',
+    nativeCurrency: {
+      name: 'BLAST',
+      symbol: 'BLAST',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blastscan.io'],
+  },
+
   [ChainID.BLAST_TESTNET_SEPOLIA]: {
     chainId: 168587773,
     chainName: 'Blast s2 Testnet',
