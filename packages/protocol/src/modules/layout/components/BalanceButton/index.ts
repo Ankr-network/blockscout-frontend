@@ -1,1 +1,1 @@
-export { BalanceButtonWithGuardUserGroup as BalanceButton } from './BalanceButtonWithGuardUserGroup';
+export * from './BalanceButton';

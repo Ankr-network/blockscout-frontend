@@ -134,6 +134,10 @@
       "value": "{balance, number, ::compact-short}",
       "requests": " Requests",
       "credits": " API Credits"
+    },
+    "balance-menu": {
+      "title": "Charging model",
+      "billing-page-button": "Go to Billing page"
     }
   },
   "signup-modal": {
@@ -1932,11 +1936,11 @@
       "balance-widget": {
         "title": "Charging model",
         "payg-label": "Pay-as-you-go",
-        "credit-balance": "{balance, number, ::compact-short} Credits",
+        "credit-balance": "{balance, number, ::compact-short} API Credits",
         "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
         "usd-balance": "≈{balance, number, USD}",
         "requests-balance": "{balance, number, ::compact-short} Requests",
-        "req-balance": "/ ≈{balance, number, ::compact-short} reqs",
+        "req-balance": " / ≈{balance, number, ::compact-short} reqs",
         "expires": "Expires: {date, date, long}",
         "plural": "s",
         "assets-balance-button": "Assets balance",

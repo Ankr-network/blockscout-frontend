@@ -4,15 +4,24 @@ import { GradientedText } from 'modules/common/components/GradientedText';
 
 import { intlRoot } from '../../const';
 import { usePAYGLabelStyles } from './PAYGLabelStyles';
+import { Typography } from '@mui/material';
 
 const intlKey = `${intlRoot}.payg-label`;
 
-export const PAYGLabel = () => {
-  const { classes } = usePAYGLabelStyles();
+interface IPAYGLabelProps {
+  isSmall?: boolean;
+  className?: string;
+}
+
+export const PAYGLabel = ({ isSmall = false, className }: IPAYGLabelProps) => {
+  const { classes, cx } = usePAYGLabelStyles();
 
   return (
-    <div className={classes.root}>
+    <Typography
+      variant={isSmall ? 'body4' : 'body2'}
+      className={cx(classes.root, isSmall && classes.smallRoot, className)}
+    >
       <GradientedText>{t(intlKey)}</GradientedText>
-    </div>
+    </Typography>
   );
 };

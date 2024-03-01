@@ -17,41 +17,16 @@ export const useBalanceButtonStyles = makeStyles<UseStylesParams>()(
         backgroundColor: theme.palette.grey[200],
       },
     },
-    mobileTypeButtonRoot: {
-      padding: theme.spacing(2.5, 3),
-      backgroundColor: theme.palette.background.paper,
-
-      [theme.breakpoints.down('xs')]: {
-        display: 'inline-flex',
-        minWidth: 40,
-      },
-    },
     content: {
       display: 'flex',
       alignItems: 'center',
       gap: theme.spacing(2),
     },
-
-    mobileTypeContent: {
-      gap: theme.spacing(1.5),
-    },
-
-    label: {
-      fontWeight: 500,
-      fontSize: theme.spacing(3.5),
-    },
-    mobileTypeLabel: {
-      fontWeight: 600,
-      fontSize: 11,
-      lineHeight: theme.spacing(4),
-
-      [theme.breakpoints.down('xs')]: {
-        display: 'none',
-      },
-    },
     balance: {
       marginRight: theme.spacing(1),
       color: theme.palette.text.secondary,
+      fontWeight: 500,
+      fontSize: theme.spacing(3.5),
     },
     balanceValue: {
       color: theme.palette.text.primary,

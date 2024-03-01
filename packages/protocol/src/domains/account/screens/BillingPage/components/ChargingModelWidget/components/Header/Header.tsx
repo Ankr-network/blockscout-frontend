@@ -1,12 +1,11 @@
 import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 
 import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
-import { UserLabel } from 'uiKit/UserLabel';
 import { EChargingModel } from 'modules/billing/types';
+import { renderLabel } from 'domains/account/screens/BillingPage/utils/renderLabel';
 
-import { PAYGLabel } from '../PAYGLabel';
 import { intlRoot } from '../../const';
 import { useHeaderStyles } from './HeaderStyles';
 
@@ -23,36 +22,17 @@ export const Header = ({
 }: HeaderProps) => {
   const { classes, cx } = useHeaderStyles();
 
-  const renderLabel = useCallback(() => {
-    switch (currentChargingModelType) {
-      case EChargingModel.PAYG:
-        return <PAYGLabel />;
-      case EChargingModel.Free:
-        return (
-          <UserLabel
-            hasPremium={false}
-            hasEnterpriseStatus={false}
-            hasStatusTransition={false}
-            isLoading={false}
-          />
-        );
-      default:
-        return (
-          <UserLabel
-            hasPremium={false}
-            chargingModel={currentChargingModelType}
-            hasEnterpriseStatus={false}
-            hasStatusTransition={false}
-            isLoading={false}
-          />
-        );
-    }
+  const label = useMemo(() => {
+    return renderLabel({
+      currentChargingModelType,
+      isSmall: false,
+    });
   }, [currentChargingModelType]);
 
   return (
     <div className={cx(classes.root, className)}>
       <WidgetTitle>{t(`${intlRoot}.title`)}</WidgetTitle>
-      {renderLabel()}
+      {label}
       <Button
         className={classes.assetsBtn}
         variant="outlined"

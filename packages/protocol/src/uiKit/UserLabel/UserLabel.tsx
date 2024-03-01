@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Briefcase } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { Skeleton } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 
 import { EChargingModel } from 'modules/billing/types';
 
@@ -15,6 +15,7 @@ export interface IUserLabelProps {
   className?: string;
   hasEnterpriseStatus?: boolean;
   isLoading?: boolean;
+  isSmall?: boolean;
 }
 
 export const UserLabel = ({
@@ -24,6 +25,7 @@ export const UserLabel = ({
   className: nestedClassName,
   hasEnterpriseStatus = false,
   isLoading,
+  isSmall = false,
 }: IUserLabelProps) => {
   const { classes, cx } = useUserLabelStyles();
 
@@ -59,7 +61,7 @@ export const UserLabel = ({
   }
 
   return (
-    <div className={className}>
+    <Typography className={className} variant={isSmall ? 'body4' : 'body2'}>
       {hasEnterpriseStatus ? (
         <>
           <Briefcase fontSize="small" className={classes.enterpriseIcon} />
@@ -68,6 +70,6 @@ export const UserLabel = ({
       ) : (
         label
       )}
-    </div>
+    </Typography>
   );
 };

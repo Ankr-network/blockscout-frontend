@@ -99,7 +99,13 @@ export const ChargingModelWidget = ({
         />
       </>
     );
-  }, [currentChargingModel, onSwitchChargingModel, renderBalance]);
+  }, [
+    classes.balance,
+    currentChargingModel,
+    onSwitchChargingModel,
+    renderBalance,
+    status,
+  ]);
 
   return (
     <>

@@ -5,9 +5,6 @@ import { isLightTheme, getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
     marginLeft: theme.spacing(4),
-    fontSize: 14,
-    fontWeight: 500,
-    lineHeight: '20.02px',
     height: 24,
     display: 'flex',
     alignItems: 'center',

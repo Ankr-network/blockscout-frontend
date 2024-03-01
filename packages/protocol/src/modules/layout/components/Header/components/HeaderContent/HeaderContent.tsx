@@ -3,8 +3,8 @@ import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 import { UserAccountSelector } from 'domains/userGroup/components/UserAccountSelector';
 import { SignupButton } from 'domains/auth/components/SignupButton';
 import { Header } from 'modules/layout/const';
-import { BalanceButton } from 'modules/layout/components/BalanceButton';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { BalanceMenuButton } from 'modules/layout/components/BalanceMenuButton';
 
 interface HeaderContentProps {
   type?: Header;
@@ -25,8 +25,8 @@ export const HeaderContent = ({
     <>
       {(isDefaultType || isSidebarType) && <UserGroupDialog />}
 
-      {isLoggedIn && !isEnterpriseClient && (
-        <BalanceButton isMobileType={isMobileType} />
+      {!isMobileType && isLoggedIn && !isEnterpriseClient && (
+        <BalanceMenuButton />
       )}
 
       {isLoggedIn ? <UserAccountSelector /> : <SignupButton />}

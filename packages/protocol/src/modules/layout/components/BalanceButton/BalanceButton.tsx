@@ -4,31 +4,35 @@ import { ArrowDown } from '@ankr.com/ui';
 
 import { LoadableButton } from 'uiKit/LoadableButton';
 
-import { useBalanceButton } from './hooks/useBalanceButton';
 import { useBalanceButtonStyles } from './useBalanceButtonStyles';
-import { renderBalance } from './utils/formatBalance';
-import { PlusLink } from './components/PlusLink';
 
 export interface IBalanceButtonProps {
-  isMobileType?: boolean;
+  isMenuOpen: boolean;
+  balance: string;
+  hasStatusTransition: boolean;
+  isApiCreditsBalance: boolean;
+  isLoading: boolean;
+  isLoggedIn: boolean;
+  handleClose: () => void;
+  handleOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+const valueBalanceKey = 'header.balance-button.value';
 const creditBalanceKey = 'header.balance-button.credits';
 const requestBalanceKey = 'header.balance-button.requests';
 
 export const BalanceButton = ({
-  isMobileType = false,
+  isMenuOpen,
+  balance,
+  hasStatusTransition,
+  isApiCreditsBalance,
+  isLoading,
+  isLoggedIn,
+  handleClose,
+  handleOpen,
 }: IBalanceButtonProps) => {
-  const {
-    balance,
-    hasStatusTransition,
-    isApiCreditsBalance,
-    isLoading,
-    isLoggedIn,
-  } = useBalanceButton();
-
-  const { cx, classes } = useBalanceButtonStyles({
-    isMenuOpen: false,
+  const { classes } = useBalanceButtonStyles({
+    isMenuOpen,
   });
 
   const hasEndIcon = !isLoading && hasStatusTransition;
@@ -39,34 +43,24 @@ export const BalanceButton = ({
 
   return (
     <LoadableButton
-      className={cx({
-        [classes.buttonRoot]: !isMobileType,
-        [classes.mobileTypeButtonRoot]: isMobileType,
-      })}
+      className={classes.buttonRoot}
       loading={isLoading}
       variant="text"
+      onClick={isMenuOpen ? handleClose : handleOpen}
       endIcon={hasEndIcon && <CircularProgress size={20} />}
     >
-      <div
-        className={cx(classes.content, {
-          [classes.mobileTypeContent]: isMobileType,
-        })}
-      >
-        <Typography
-          variant="button3"
-          className={cx(classes.balance, {
-            [classes.label]: !isMobileType,
-            [classes.mobileTypeLabel]: isMobileType,
-          })}
-        >
-          <span className={classes.balanceValue}>{renderBalance(balance)}</span>
+      <div className={classes.content}>
+        <Typography variant="button3" className={classes.balance}>
+          <span className={classes.balanceValue}>
+            {t(valueBalanceKey, {
+              balance,
+            })}
+          </span>
 
           {t(balanceKey)}
         </Typography>
 
         <ArrowDown className={classes.selectIcon} />
-
-        <PlusLink />
       </div>
     </LoadableButton>
   );
