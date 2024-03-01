@@ -11,9 +11,9 @@ import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable';
 import { useAccountDetails } from './hooks/useAccountDetails';
-import { useStyles } from './AccountDetailsStyles';
+import { useStyles } from './useBillingPageStyles';
 
-export const AccountDetails = () => {
+export const BillingPage = () => {
   const { hasExpenseChart, loading } = useAccountDetails();
 
   useSetBreadcrumbs([

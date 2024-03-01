@@ -38,6 +38,7 @@ export type IDialogProps = Omit<
   canCloseDialogByClickOutside?: boolean;
   hasTitleWrapper?: boolean;
   isHidden?: boolean;
+  dialogContentClassName?: string;
 };
 
 export const Dialog = ({
@@ -53,6 +54,7 @@ export const Dialog = ({
   closeButtonClassName,
   hasTitleWrapper = true,
   isHidden = false,
+  dialogContentClassName,
   ...props
 }: IDialogProps) => {
   const { isLightTheme } = useThemes();
@@ -133,7 +135,9 @@ export const Dialog = ({
           </MuiDialogTitle>
         )}
 
-        <MuiDialogContent className={classes.dialogContent}>
+        <MuiDialogContent
+          className={cx(classes.dialogContent, dialogContentClassName)}
+        >
           {children}
         </MuiDialogContent>
       </MuiDialog>

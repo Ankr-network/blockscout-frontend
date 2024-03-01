@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { EditSubscriptionsDialog } from 'domains/account/screens/AccountDetails/components/EditSubscriptionsDialog';
+import { EditSubscriptionsDialog } from 'domains/account/screens/BillingPage/components/EditSubscriptionsDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { Chip } from '../Chip';

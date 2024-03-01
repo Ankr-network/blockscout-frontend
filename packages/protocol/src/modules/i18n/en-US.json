@@ -1352,7 +1352,9 @@
     "show-more": "more",
     "show-less": "Show less",
     "success-title": "Success!",
-    "success-message": "Request has been sent"
+    "success-message": "Request has been sent",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "providers": {
     "endpoint": {
@@ -1810,6 +1812,12 @@
         "title": "Deal renewal cancelled",
         "description": "Deal's remaining API credits are still available for you until spent before or expired on {date, date, long}.",
         "done-btn": "Done"
+      }
+    },
+    "periodic-payments": {
+      "cancel": {
+        "deal-title": "Cancel Deal",
+        "deal-description": "Cancel your Deal payment scheduled for {date, date, long}?"
       }
     },
     "currencies": {

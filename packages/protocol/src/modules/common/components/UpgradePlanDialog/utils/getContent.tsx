@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { AccountDetailsTopUp } from 'domains/account/screens/AccountDetails/components/AccountDetailsTopUp';
+import { AccountDetailsTopUp } from 'domains/account/screens/BillingPage/components/AccountDetailsTopUp';
 
 import { ContactSalesForm } from '../components/ContactSalesForm';
 import { ContentType, Plan } from '../types';

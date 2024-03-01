@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
 import { useCallback } from 'react';
 
-import { WidgetTitle } from 'domains/account/screens/AccountDetails/components/WidgetTitle';
+import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
 import { UserLabel } from 'uiKit/UserLabel';
 import { EChargingModel } from 'modules/billing/types';
 

@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/AccountDetails/AccountDetailsStyles';
+import { ACCOUNT_MAX_WIDTH } from 'domains/account/screens/BillingPage/useBillingPageStyles';
 
 export const usePriceTabsStyles = makeStyles<boolean>()((theme, hasTabs) => ({
   root: {

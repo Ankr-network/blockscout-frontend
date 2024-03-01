@@ -1,7 +1,7 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectActiveChargingModel } from 'domains/account/store/selectors';
-import { API_CREDITS_BALANCE_FIELD_NAME } from 'domains/account/screens/AccountDetails/const';
+import { API_CREDITS_BALANCE_FIELD_NAME } from 'domains/account/screens/BillingPage/const';
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';

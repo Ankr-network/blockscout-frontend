@@ -1,6 +1,8 @@
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
+import { ConfirmCancellationDialog } from 'modules/billing/components/PeriodicPayments/components/ConfirmCancellationDialog/ConfirmCancellationDialog';
+import { useConfirmCancelDialog } from 'modules/billing/components/PeriodicPayments/components/ConfirmCancellationDialog/hooks/useConfirmCancelDialog';
 
 import { AccountDetailsTopUp } from '../AccountDetailsTopUp';
 import { ChargingModelWidget } from '../ChargingModelWidget';
@@ -23,6 +25,15 @@ export const AccountManager = () => {
     // TODO: add handler
   };
 
+  const {
+    isOpened,
+    onClose,
+    dialogTitle,
+    dialogDescription,
+    handleConfirm,
+    isLoading,
+  } = useConfirmCancelDialog(true);
+
   return (
     <div className={className}>
       <ChargingModelWidget
@@ -39,6 +50,15 @@ export const AccountManager = () => {
           <SubscriptionsWidget className={classes.subscriptions} />
         </>
       )}
+
+      <ConfirmCancellationDialog
+        title={dialogTitle}
+        description={dialogDescription}
+        isOpened={isOpened}
+        onClose={onClose}
+        onConfirm={handleConfirm}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

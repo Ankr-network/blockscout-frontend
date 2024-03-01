@@ -1,6 +1,6 @@
 import { ISubscriptionsItem } from 'multirpc-sdk';
 
-import { SubscriptionEditor } from 'domains/account/screens/AccountDetails/components/SubscriptionEditor';
+import { SubscriptionEditor } from 'domains/account/screens/BillingPage/components/SubscriptionEditor';
 
 import { useSubscription } from './hooks/useSubscription';
 
