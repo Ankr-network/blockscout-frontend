@@ -1,18 +1,22 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectActiveChargingModel } from 'domains/account/store/selectors';
+import {
+  selectActiveChargingModel,
+  selectBundlePaymentPlansLoading,
+  selectMyBundlesLoading,
+  selectMyBundlesStatusLoading,
+} from 'domains/account/store/selectors';
 import { API_CREDITS_BALANCE_FIELD_NAME } from 'domains/account/screens/BillingPage/const';
-import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
-import { useMyBundles } from 'domains/account/hooks/useMyBundles';
-import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
 import { useMenu } from 'modules/common/hooks/useMenu';
 
 export const useBalanceMenuButton = () => {
   const { hasStatusTransition, loading: isConnecting, isLoggedIn } = useAuth();
 
-  const { fetching: bundlePlansFetching } = useBundlePaymentPlans();
-  const { fetching: myBundlesFetching } = useMyBundles();
-  const { fetching: myBundlesStatusFetching } = useMyBundlesStatus();
+  const isMyBundlesStatusLoading = useAppSelector(selectMyBundlesStatusLoading);
+  const isBundlePaymentPlansLoading = useAppSelector(
+    selectBundlePaymentPlansLoading,
+  );
+  const isMyBundlesLoading = useAppSelector(selectMyBundlesLoading);
 
   const currentChargingModel = useAppSelector(selectActiveChargingModel);
 
@@ -41,9 +45,9 @@ export const useBalanceMenuButton = () => {
     hasStatusTransition,
     isApiCreditsBalance: shouldShowApiCreditsBalance,
     isLoading:
-      bundlePlansFetching ||
-      myBundlesFetching ||
-      myBundlesStatusFetching ||
+      isMyBundlesStatusLoading ||
+      isBundlePaymentPlansLoading ||
+      isMyBundlesLoading ||
       isConnecting,
     isLoggedIn,
     anchorEl,
