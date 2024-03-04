@@ -1,4 +1,4 @@
-import { Close } from '@ankr.com/ui';
+import { Close, Minimize } from '@ankr.com/ui';
 import {
   Dialog as MuiDialog,
   DialogContent as MuiDialogContent,
@@ -27,34 +27,36 @@ export type IDialogProps = Omit<
   MuiDialogProps,
   'BackdropProps' | 'PaperProps' | 'title' | 'onClose'
 > & {
-  onClose?: (event?: MouseEvent<HTMLButtonElement>) => void;
-  shouldHideCloseButton?: boolean;
-  initialTitle?: string;
-  title?: ReactNode;
-  maxPxWidth?: number;
-  paperClassName?: string;
-  titleClassName?: string;
-  closeButtonClassName?: string;
   canCloseDialogByClickOutside?: boolean;
-  hasTitleWrapper?: boolean;
-  isHidden?: boolean;
+  closeButtonClassName?: string;
   dialogContentClassName?: string;
+  hasMinimizeIcon?: boolean;
+  hasTitleWrapper?: boolean;
+  initialTitle?: string;
+  isHidden?: boolean;
+  maxPxWidth?: number;
+  onClose?: (event?: MouseEvent<HTMLButtonElement>) => void;
+  paperClassName?: string;
+  shouldHideCloseButton?: boolean;
+  title?: ReactNode;
+  titleClassName?: string;
 };
 
 export const Dialog = ({
-  children,
-  onClose,
-  shouldHideCloseButton = false,
   canCloseDialogByClickOutside = true,
-  initialTitle = '',
-  title,
-  maxPxWidth,
-  paperClassName,
-  titleClassName,
+  children,
   closeButtonClassName,
-  hasTitleWrapper = true,
-  isHidden = false,
   dialogContentClassName,
+  hasMinimizeIcon,
+  hasTitleWrapper = true,
+  initialTitle = '',
+  isHidden = false,
+  maxPxWidth,
+  onClose,
+  paperClassName,
+  shouldHideCloseButton = false,
+  title,
+  titleClassName,
   ...props
 }: IDialogProps) => {
   const { isLightTheme } = useThemes();
@@ -129,7 +131,7 @@ export const Dialog = ({
                 className={cx(classes.closeButton, closeButtonClassName)}
                 onClick={handleClose}
               >
-                <Close />
+                {hasMinimizeIcon ? <Minimize /> : <Close />}
               </IconButton>
             )}
           </MuiDialogTitle>

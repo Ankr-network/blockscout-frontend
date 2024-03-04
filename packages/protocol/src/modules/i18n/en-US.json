@@ -1831,10 +1831,10 @@
     },
     "amounts": {
       "crypto": "{amount, number} {currency}",
-      "usd": "{amount, number, USD}",
+      "usd": "{isApproximate, select, true {≈} other {}}{amount, number, USD}",
       "fee": {
-        "crypto": "{fee} {network}",
-        "usd": "${fee}"
+        "crypto": "{isApproximate, select, true {≈} other {}}{fee} {network}",
+        "usd": "{isApproximate, select, true {≈} other {}}${fee}"
       }
     },
     "payment-types": {
@@ -1890,6 +1890,28 @@
       "to-title": "To",
       "total-label": "Total",
       "transaction-title": "Transaction"
+    },
+    "crypto-payment-deposit-dialog": {
+      "title": "One-time payment",
+      "total-fees-label": "Total fees",
+      "confirm-button": {
+        "approval": "Confirm approval",
+        "deposit": "Confirm deposit",
+        "error": "Try again",
+        "pending": "Pending",
+        "tooltip": "Transaction is in progress"
+      },
+      "discard-button": "Discard"
+    },
+    "payment-flow": {
+      "steps": {
+        "approval": {
+          "title": "Approval"
+        },
+        "deposit": {
+          "title": "Deposit"
+        }
+      }
     },
     "account-details": {
       "breadcrumbs": "Billing",

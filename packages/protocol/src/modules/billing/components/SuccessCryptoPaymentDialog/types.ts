@@ -1,17 +1,16 @@
 import { Web3Address } from 'multirpc-sdk';
 
-import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
-
-export interface IApprovalDetails {
-  fee: number;
-  feeUSD: number;
-  txURL: string;
-}
+import {
+  ECurrency,
+  ENetwork,
+  EPaymentType,
+  IFeeDetails,
+} from 'modules/billing/types';
 
 export interface IUseSuccessCryptoPaymentDialogProps {
   amount: number;
   amountUSD: number;
-  approval?: IApprovalDetails;
+  approval?: IFeeDetails;
   currency: ECurrency;
   depositFee: number;
   depositFeeUSD: number;

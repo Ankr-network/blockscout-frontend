@@ -1,18 +1,17 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { EPaymentType } from 'modules/billing/types';
+import { EPaymentType, IFeeDetails } from 'modules/billing/types';
+import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { SeparatedList } from 'modules/billing/components/SeparatedList';
+import { TxAttribute } from 'modules/billing/components/TxAttribute';
 import { renderCryptoAmount } from 'modules/billing/utils/renderCryptoAmount';
 
 import { ApprovalAtrribute } from './components/ApprovalAttribute';
-import { FeeAmount } from './components/FeeAmount';
-import { IApprovalDetails } from '../../types';
 import {
   ITotalAmountAttributeProps,
   TotalAmountAttribute,
 } from './components/TotalAmountAttribute';
-import { TxAttribute } from './components/TxAttribute';
 import { renderAmountLabel } from './utils/renderAmountLabel';
 import { useTxDetailsStyles } from './useTxDetailsStyles';
 
@@ -20,7 +19,7 @@ type TApprovalFields = 'approvalFee' | 'approvalFeeUSD' | 'approvalTxURL';
 
 export interface ITxDetailsProps
   extends Omit<ITotalAmountAttributeProps, TApprovalFields> {
-  approval?: IApprovalDetails;
+  approval?: IFeeDetails;
   depositTxURL: string;
   paymentType: EPaymentType;
 }
@@ -54,7 +53,7 @@ export const TxDetails = ({
           label={t('account.success-crypto-payment-dialog.deposit-label')}
         >
           <FeeAmount
-            fee={depositFee}
+            feeCrypto={depositFee}
             feeUSD={depositFeeUSD}
             network={network}
             txURL={depositTxURL}
@@ -63,7 +62,7 @@ export const TxDetails = ({
         <TotalAmountAttribute
           amount={amount}
           amountUSD={amountUSD}
-          approvalFee={approval?.fee}
+          approvalFee={approval?.feeCrypto}
           approvalFeeUSD={approval?.feeUSD}
           currency={currency}
           depositFee={depositFee}

@@ -7,6 +7,18 @@ export enum EChargingModel {
   Deal = 'DEAL',
 }
 
+export enum ECryptoDepositStep {
+  Approval = 1,
+  Deposit,
+}
+
+export enum ECryptoDepositStepStatus {
+  Complete = 1,
+  Confirmation,
+  Error,
+  Pending,
+}
+
 export enum ECurrency {
   ANKR = 'ANKR',
   USD = 'USD',
@@ -20,6 +32,12 @@ export enum EPaymentType {
   OneTime = 'one-time',
   Recurring = 'recurring',
   Deal = 'deal',
+}
+
+export interface IFeeDetails {
+  feeCrypto: number;
+  feeUSD: number;
+  txURL?: string;
 }
 
 export interface IPackageBalance {

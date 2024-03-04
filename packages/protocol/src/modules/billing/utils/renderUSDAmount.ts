@@ -1,4 +1,12 @@
 import { t } from '@ankr.com/common';
 
-export const renderUSDAmount = (amount: number) =>
-  t('account.amounts.usd', { amount });
+export interface IRenderUSDAmountParams {
+  amount: number;
+  isApproximate?: boolean;
+}
+
+export const renderUSDAmount = ({
+  amount,
+  isApproximate,
+}: IRenderUSDAmountParams) =>
+  t('account.amounts.usd', { amount, isApproximate });

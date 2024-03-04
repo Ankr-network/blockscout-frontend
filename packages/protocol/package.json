@@ -31,7 +31,7 @@
     "@ankr.com/global-menu": "2.0.4",
     "@ankr.com/provider": "^4.8.0",
     "@ankr.com/telemetry": "*",
-    "@ankr.com/ui": "^0.13.29",
+    "@ankr.com/ui": "^0.13.32",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -94,7 +94,6 @@
     "web3-eth-contract": "1.7.0"
   },
   "devDependencies": {
-    "react-scripts": "4.0.3",
     "@ankr.com/ci": "^1.1.4",
     "@storybook/addon-actions": "^6.3.8",
     "@storybook/addon-essentials": "^6.3.8",

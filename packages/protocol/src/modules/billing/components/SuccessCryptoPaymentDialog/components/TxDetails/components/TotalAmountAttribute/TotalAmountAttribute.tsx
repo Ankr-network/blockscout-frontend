@@ -33,9 +33,13 @@ export const TotalAmountAttribute = ({
       </Typography>
       <div className={classes.value}>
         <Typography className={classes.totalAmount} variant="subtitle2">
-          {renderUSDAmount(
-            getTotalAmount({ amountUSD, approvalFeeUSD, depositFeeUSD }),
-          )}
+          {renderUSDAmount({
+            amount: getTotalAmount({
+              amountUSD,
+              approvalFeeUSD,
+              depositFeeUSD,
+            }),
+          })}
         </Typography>
         <Typography className={classes.totalAmountDescription} variant="body3">
           {renderTotalAmountDescription({

@@ -68,10 +68,10 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.13.tgz#57d195c87a18f07203d38dcf3f1fb63430d8b501"
   integrity sha512-XLWE8b5Utb46lFeYrZ9Ie1D1ONmXbvIYniThLBjpXgmIIigeEVyCNFev7bg8s9mU0xuRbXiqg/qUTxrKG4dekw==
 
-"@ankr.com/cross-navigation@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.13.tgz#57d195c87a18f07203d38dcf3f1fb63430d8b501"
-  integrity sha512-XLWE8b5Utb46lFeYrZ9Ie1D1ONmXbvIYniThLBjpXgmIIigeEVyCNFev7bg8s9mU0xuRbXiqg/qUTxrKG4dekw==
+"@ankr.com/global-menu@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@ankr.com/global-menu/-/global-menu-2.0.4.tgz#3a77b4efb67e175d1c09939fbd7e06382c781ab6"
+  integrity sha512-ImPqUlqBGCCInTFv3AM0oezONUgXdNkPpIYVE/u/Ii7r5a1DCCEwKwMELJLUHvy+e3L1Ed5ermGwQc7/7/pG7A==
 
 "@ankr.com/provider@1.10.0":
   version "1.10.0"
@@ -130,10 +130,10 @@
   dependencies:
     tss-react "^4.9.2"
 
-"@ankr.com/ui@^0.13.29":
-  version "0.13.29"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.13.29.tgz#912ddff6de6b44d18b00a6270643c942201e9717"
-  integrity sha512-yP2WQLYvwtTrqlWvxQsPs/aJlK0PuQARix+kI6ie7/LpwGy+8awo9tzdzSAHZT/lGxrRJ0RI8wiolYJLg6V5xQ==
+"@ankr.com/ui@^0.13.32":
+  version "0.13.32"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.13.32.tgz#b48b9ed2ae6e6cf56ff6cd800703a0a1f611667c"
+  integrity sha512-PowwLlOPvConVr7/pUozjAS7ASAGbTcB87bblk8QY2Red9b/AFNM5EmqNrmOgeOITl+m0dTlJoeXXd9/x0DjNg==
   dependencies:
     tss-react "^4.9.2"
 
@@ -7484,10 +7484,17 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^17.0.0", "@types/react-dom@^18.0.0":
+"@types/react-dom@^17.0.0":
   version "17.0.11"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.11.tgz"
   integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^18.0.0":
+  version "18.2.19"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.19.tgz#b84b7c30c635a6c26c6a6dfbb599b2da9788be58"
+  integrity sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA==
   dependencies:
     "@types/react" "*"
 
@@ -22352,7 +22359,7 @@ react-element-to-jsx-string@^14.3.4:
     is-plain-object "5.0.0"
     react-is "17.0.2"
 
-react-error-overlay@6.0.9, react-error-overlay@^6.0.9:
+react-error-overlay@^6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
