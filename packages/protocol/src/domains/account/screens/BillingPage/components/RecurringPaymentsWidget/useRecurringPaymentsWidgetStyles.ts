@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useSubscriptionsWidgetStyles = makeStyles()(theme => ({
+export const useRecurringPaymentsWidgetStyles = makeStyles()(theme => ({
   root: {
     position: 'relative',
 

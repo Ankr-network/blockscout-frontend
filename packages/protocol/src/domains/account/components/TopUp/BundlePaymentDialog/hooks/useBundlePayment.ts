@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TrackTopUpSubmit } from 'domains/account/types';
 import { resetTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
-import { selectFirstBundlePaymentPlan } from 'domains/account/store/selectors';
+import { selectBundlePaymentPlanByPriceId } from 'domains/account/store/selectors';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -11,8 +11,18 @@ import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSet
 import { useLazyFetchLinkForBundlePaymentQuery } from 'domains/account/actions/bundles/fetchLinkForBundlePayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-export const useBundlePayment = (trackSubmit?: TrackTopUpSubmit) => {
-  const { bundle, price } = useAppSelector(selectFirstBundlePaymentPlan) ?? {};
+interface IUsdBundlePaymentProps {
+  priceId?: string;
+  trackSubmit?: TrackTopUpSubmit;
+}
+
+export const useBundlePayment = ({
+  priceId,
+  trackSubmit,
+}: IUsdBundlePaymentProps) => {
+  const { bundle, price } =
+    useAppSelector(state => selectBundlePaymentPlanByPriceId(state, priceId)) ??
+    {};
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const [fetchLink, { isLoading }] = useLazyFetchLinkForBundlePaymentQuery();
@@ -20,7 +30,6 @@ export const useBundlePayment = (trackSubmit?: TrackTopUpSubmit) => {
   const { onOpen: openEmailDialog, ...emailDialogProps } = useDialog();
 
   const amount = price?.amount;
-  const priceId = bundle?.price_id;
   const productId = bundle?.product_id;
   const { confirmedEmail, pendingEmail } = emailData;
 

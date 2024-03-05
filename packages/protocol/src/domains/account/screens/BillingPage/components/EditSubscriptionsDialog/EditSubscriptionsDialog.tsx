@@ -1,14 +1,7 @@
 import { t } from '@ankr.com/common';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {
-  ContentType,
-  UpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
-import { TopUpCurrency } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/types';
-
 import { EditDialog } from '../EditDialog';
-import { PlansButton } from '../PlansButton';
 import { Subscription } from './components/Subscription';
 import { useEditSubscriptionsDialogStyles } from './EditSubscriptionsDialogStyles';
 import { useEditSubscriptionsDialog } from './hooks/useEditSubscriptionsDialog';
@@ -16,6 +9,7 @@ import { useEditSubscriptionsDialog } from './hooks/useEditSubscriptionsDialog';
 export interface EditSubscriptionsDialogProps {
   isOpened?: boolean;
   onClose: () => void;
+  onOpenSuccessDialog: () => void;
 }
 
 const DIALOG_MARGIN = 32;
@@ -28,14 +22,10 @@ const authoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 export const EditSubscriptionsDialog = ({
   isOpened,
   onClose,
+  onOpenSuccessDialog,
 }: EditSubscriptionsDialogProps) => {
-  const {
-    isUpgradeDialogOpened,
-    onCancelSubscription,
-    onUpgradeDialogClose,
-    onUpgradeSubscription,
-    subscriptions,
-  } = useEditSubscriptionsDialog(onClose);
+  const { onCancelSubscription, recurringPayments } =
+    useEditSubscriptionsDialog(onClose);
 
   const { classes } = useEditSubscriptionsDialogStyles();
 
@@ -48,24 +38,17 @@ export const EditSubscriptionsDialog = ({
       <Scrollbars autoHeight autoHeightMax={authoHeightMax}>
         <div className={classes.root}>
           <div className={classes.subscriptions}>
-            {subscriptions.map(subscription => (
+            {recurringPayments.map(payment => (
               <Subscription
-                key={subscription.id}
+                key={payment.id}
                 onCancel={onCancelSubscription}
-                onUpgrade={onUpgradeSubscription}
-                subscription={subscription}
+                subscription={payment}
+                onOpenSuccessDialog={onOpenSuccessDialog}
               />
             ))}
           </div>
-          <PlansButton />
         </div>
       </Scrollbars>
-      <UpgradePlanDialog
-        currency={TopUpCurrency.USD}
-        defaultState={ContentType.TOP_UP}
-        onClose={onUpgradeDialogClose}
-        open={isUpgradeDialogOpened}
-      />
     </EditDialog>
   );
 };

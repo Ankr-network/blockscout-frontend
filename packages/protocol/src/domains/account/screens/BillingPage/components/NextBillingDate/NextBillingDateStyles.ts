@@ -7,10 +7,7 @@ export const useNextBillingDateStyles = makeStyles()(theme => ({
     gap: theme.spacing(2),
 
     color: theme.palette.text.secondary,
-
-    fontSize: 12,
-    fontWeight: 500,
-    lineHeight: '16.2px',
+    fontSize: 14,
   },
   icon: {
     color: theme.palette.primary.main,

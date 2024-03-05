@@ -1,10 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-type NestedSelectors =
-  | 'header'
-  | 'balance'
-  | 'description'
-  | 'withSubscription';
+type NestedSelectors = 'header' | 'balance' | 'description';
 
 export const useChargingModelWidgetStyles = makeStyles<void, NestedSelectors>()(
   (theme, _params, classes) => ({
@@ -29,42 +25,17 @@ export const useChargingModelWidgetStyles = makeStyles<void, NestedSelectors>()(
       },
     },
     description: {},
-    withDescription: {
-      [`& .${classes.balance}`]: {
-        marginBottom: theme.spacing(5.5),
-      },
-
-      [`&.${classes.withSubscription}`]: {
-        [`& .${classes.balance}`]: {
-          marginBottom: theme.spacing(3),
-        },
-
-        [`& .${classes.description}`]: {
-          marginBottom: theme.spacing(4.5),
-        },
-      },
-
-      [theme.breakpoints.down('xs')]: {
-        [`&.${classes.withSubscription}`]: {
-          [`& .${classes.balance}`]: {
-            marginBottom: theme.spacing(4),
-          },
-
-          [`& .${classes.description}`]: {
-            marginBottom: theme.spacing(8),
-          },
-        },
-      },
-    },
-    withSubscription: {
-      [`& .${classes.balance}`]: {
-        marginBottom: theme.spacing(10.5),
-      },
-    },
+    withDescription: {},
     withPAYGLabel: {
       [`& .${classes.header}`]: {
         marginBottom: theme.spacing(9),
       },
+    },
+    widgetActions: {
+      right: 194,
+    },
+    balanceProgressBar: {
+      marginTop: theme.spacing(3),
     },
   }),
 );

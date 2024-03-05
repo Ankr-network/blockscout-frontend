@@ -1,5 +1,7 @@
 import { t } from '@ankr.com/common';
-import { Button, Dialog, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+
+import { Dialog } from 'uiKit/Dialog';
 
 interface IDealRenewalCancelDialogProps {
   isOpened?: boolean;
@@ -12,18 +14,27 @@ export const DealRenewalCancelDialog = ({
   onClose,
   expiresAt,
 }: IDealRenewalCancelDialogProps) => {
-  <Dialog onClose={onClose} open={isOpened}>
-    <Typography variant="h6">
-      {t('account.deal-renewal.cancel-dialog.title')}
-    </Typography>
+  return (
+    <Dialog onClose={onClose} open={isOpened} maxPxWidth={520}>
+      <Typography variant="h6" align="center" mb={3}>
+        {t('account.deal-renewal.cancel-dialog.title')}
+      </Typography>
 
-    <Typography variant="body2">
-      {t('account.deal-renewal.cancel-dialog.description', {
-        date: expiresAt,
-      })}
-    </Typography>
-    <Button onClick={onClose}>
-      {t('account.deal-renewal.cancel-dialog.done-btn')}
-    </Button>
-  </Dialog>;
+      <Typography
+        variant="body2"
+        align="center"
+        component="p"
+        mb={8}
+        color="textSecondary"
+      >
+        {t('account.deal-renewal.cancel-dialog.description', {
+          date: expiresAt,
+        })}
+      </Typography>
+
+      <Button onClick={onClose} fullWidth>
+        {t('account.deal-renewal.cancel-dialog.done-btn')}
+      </Button>
+    </Dialog>
+  );
 };

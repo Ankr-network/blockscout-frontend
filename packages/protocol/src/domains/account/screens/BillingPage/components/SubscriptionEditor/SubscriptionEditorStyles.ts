@@ -4,18 +4,19 @@ export const useSubscriptionEditorStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    gap: theme.spacing(4),
-
+    gap: theme.spacing(3),
     padding: theme.spacing(5, 8),
 
     borderRadius: 20,
-
-    backgroundColor: theme.palette.background.default,
+    border: `2px solid ${theme.palette.grey[100]}`,
   },
   price: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     span: {
       span: {
-        fontSize: 16,
+        fontSize: 14,
       },
     },
   },
@@ -31,8 +32,10 @@ export const useSubscriptionEditorStyles = makeStyles()(theme => ({
   },
   cancelButton: {
     '&&': {
-      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      boxShadow: `0 0 0 2px ${theme.palette.grey[100]}`,
     },
+
+    transition: 'color 0.3s, background-color 0.3s',
 
     color: theme.palette.error.main,
 
@@ -41,7 +44,6 @@ export const useSubscriptionEditorStyles = makeStyles()(theme => ({
     borderRadius: 17,
 
     '&:hover': {
-      boxShadow: 'none',
       color: theme.palette.error.main,
     },
   },

@@ -1,9 +1,4 @@
-import {
-  BundleCounter,
-  BundleLimitType,
-  BundlePaymentPlan,
-  MyBundleStatus,
-} from 'multirpc-sdk';
+import { BundleType, BundlePaymentPlan, MyBundleStatus } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { EChargingModel, IDealChargingModelData } from 'modules/billing/types';
@@ -21,7 +16,7 @@ export const getDealChargingModelData = ({
 }: IGetDealDataProps) => {
   const balanceApiCredits =
     dealChargingModel.counters?.find(
-      counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+      counter => counter.type === BundleType.COST,
     )?.count || 0;
 
   const balanceUsd = Number(balanceApiCredits) / CREDITS_TO_USD_RATE;
@@ -33,7 +28,7 @@ export const getDealChargingModelData = ({
   );
 
   const wholeAmountOfCredits = relatedBundle?.bundle.limits.find(
-    ({ type }) => type === BundleLimitType.COST,
+    ({ type }) => type === BundleType.COST,
   )?.limit;
 
   const usedRequestsCount = wholeAmountOfCredits

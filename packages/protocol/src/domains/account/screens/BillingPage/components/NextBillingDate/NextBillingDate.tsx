@@ -7,11 +7,13 @@ import { useNextBillingDateStyles } from './NextBillingDateStyles';
 export interface NextBillingDateProps {
   className?: string;
   date: string;
+  isDeprecatedModel?: boolean;
 }
 
 export const NextBillingDate = ({
   className,
   date: outerDate,
+  isDeprecatedModel = false,
 }: NextBillingDateProps) => {
   const { classes, cx } = useNextBillingDateStyles();
 
@@ -20,7 +22,9 @@ export const NextBillingDate = ({
   return (
     <div className={cx(classes.root, className)}>
       <Calendar className={classes.icon} />
-      {t(`account.account-details.next-billing-date`, { date })}
+      {isDeprecatedModel
+        ? t('account.account-details.deprecated-model')
+        : t(`account.account-details.next-billing-date`, { date })}
     </div>
   );
 };

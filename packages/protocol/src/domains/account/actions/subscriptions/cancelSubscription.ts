@@ -17,7 +17,7 @@ export const {
       void,
       TwoFAQueryFnParams<CancelSubscriptionParams>
     >({
-      invalidatesTags: [RequestType.MySubscriptions],
+      invalidatesTags: [RequestType.MySubscriptions, RequestType.MyBundles],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ params: { subscriptionId, group }, totp }) => {
           const api = MultiService.getService().getAccountingGateway();

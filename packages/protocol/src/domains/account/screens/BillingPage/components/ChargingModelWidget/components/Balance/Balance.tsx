@@ -34,7 +34,7 @@ export const Balance = ({
     <BalanceTooltip balance={creditBalance || balanceInRequests}>
       <div className={cx(classes.root, className)}>
         <AccountMarker className={classes.marker} status={status} />
-        <Typography className={classes.creditBalance} variant="h4">
+        <Typography className={classes.creditBalance} variant="h6">
           {creditBalance
             ? t(creditIntlKey, { balance: creditBalance })
             : t(requestsIntlKey, { balance: balanceInRequests })}

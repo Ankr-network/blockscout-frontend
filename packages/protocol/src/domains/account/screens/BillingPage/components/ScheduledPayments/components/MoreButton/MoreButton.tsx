@@ -17,7 +17,11 @@ export const MoreButton = ({ subscriptionsCount }: MoreButtonProps) => {
   return (
     <>
       <Chip label={t(intlKey, { subscriptionsCount })} onClick={onOpen} />
-      <EditSubscriptionsDialog isOpened={isOpened} onClose={onClose} />
+      <EditSubscriptionsDialog
+        isOpened={isOpened}
+        onClose={onClose}
+        onOpenSuccessDialog={() => {}}
+      />
     </>
   );
 };

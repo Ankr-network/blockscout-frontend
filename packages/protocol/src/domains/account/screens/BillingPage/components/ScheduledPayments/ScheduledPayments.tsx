@@ -1,4 +1,5 @@
-import { useMySubscriptions } from 'domains/account/hooks/useMySubscriptions';
+import { selectMyRecurringPayments } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { Chip } from './components/Chip';
 import { MoreButton } from './components/MoreButton';
@@ -7,10 +8,7 @@ import { getSubscriptionLabel } from './utils/formatSubscriptionDate';
 import { useScheduledPaymentsStyles } from './ScheduledPaymentsStyles';
 
 export const ScheduledPayments = () => {
-  const { subscriptions } = useMySubscriptions({
-    skipFetching: true,
-  });
-
+  const subscriptions = useAppSelector(selectMyRecurringPayments);
   const [subscription, ...others] = subscriptions;
 
   const { classes } = useScheduledPaymentsStyles();

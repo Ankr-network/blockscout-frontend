@@ -15,9 +15,7 @@ import { IChargingModelData } from 'modules/billing/types';
 
 import { Balance } from './components/Balance';
 import { Description } from './components/Description';
-import { EditSubscriptionsDialog } from '../EditSubscriptionsDialog';
 import { Header } from './components/Header';
-import { ScheduledPayments } from '../ScheduledPayments';
 import { Widget } from '../Widget';
 import { useBalanceWidget } from './hooks/useBalanceWidget';
 import { useChargingModelWidgetStyles } from './ChargingModelWidgetStyles';
@@ -28,23 +26,15 @@ import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
 
 export interface ChargingModelWidgetProps {
   className: string;
-  onSwitchChargingModel: () => void;
 }
 
 export const ChargingModelWidget = ({
   className: outerClassName,
-  onSwitchChargingModel,
 }: ChargingModelWidgetProps) => {
   const {
-    hasBundleSubscriptions,
     hasDescription,
     hasPAYGLabel,
-    hasSubcriptions,
-    isEditDialogOpened,
     isUpgradeDialogOpened,
-    onEdit,
-    onEditDialogClose,
-    onTopUp,
     onUpgradeDialogClose,
     status,
   } = useBalanceWidget();
@@ -56,7 +46,6 @@ export const ChargingModelWidget = ({
   const className = cx(classes.root, outerClassName);
 
   const contentClassName = cx(classes.content, {
-    [classes.withSubscription]: hasBundleSubscriptions,
     [classes.withDescription]: hasDescription,
     [classes.withPAYGLabel]: hasPAYGLabel,
   });
@@ -92,30 +81,23 @@ export const ChargingModelWidget = ({
     return (
       <>
         {renderBalance(currentChargingModel)}
-        <BalanceProgressBar
-          onSwitchChargingModel={onSwitchChargingModel}
-          chargingModel={type}
-          {...currentChargingModel}
-        />
+        <div className={classes.balanceProgressBar}>
+          <BalanceProgressBar
+            isNoticeHidden
+            chargingModel={type}
+            {...currentChargingModel}
+          />
+        </div>
       </>
     );
-  }, [
-    classes.balance,
-    currentChargingModel,
-    onSwitchChargingModel,
-    renderBalance,
-    status,
-  ]);
+  }, [classes.balanceProgressBar, currentChargingModel, renderBalance]);
 
   return (
     <>
       <Widget
         className={className}
         contentClassName={contentClassName}
-        hasEditButton={hasBundleSubscriptions && hasSubcriptions}
-        hasTopUpButton={hasBundleSubscriptions}
-        onEdit={onEdit}
-        onTopUp={onTopUp}
+        actionsClassName={classes.widgetActions}
       >
         <Header
           className={classes.header}
@@ -124,11 +106,6 @@ export const ChargingModelWidget = ({
         />
         {currentPlanBalance}
         {hasDescription && <Description className={classes.description} />}
-        {hasBundleSubscriptions && <ScheduledPayments />}
-        <EditSubscriptionsDialog
-          isOpened={isEditDialogOpened}
-          onClose={onEditDialogClose}
-        />
         <UpgradePlanDialog
           currency={TopUpCurrency.USD}
           defaultState={ContentType.TOP_UP}
@@ -150,7 +127,6 @@ export const ChargingModelWidget = ({
               isCurrentModel={index === 0}
               {...chargingModel}
               balance={balance}
-              onSwitchChargingModel={onSwitchChargingModel}
             />
           );
         })}

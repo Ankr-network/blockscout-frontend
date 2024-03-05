@@ -12,31 +12,24 @@ import {
   ANKR_MAX_DECIMALS,
   ANKR_MAX_DIGITS,
 } from 'domains/account/actions/topUp/const';
-import { TrackTopUpSubmit } from 'domains/account/types';
 import { useConnectButton } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/hooks/useConnectButton';
 import { MILLION_ANKR_TOKENS } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/components/AmountField';
-import { useDialog } from 'modules/common/hooks/useDialog';
 
-import { BundlePaymentBanner } from '../../BundlePaymentBanner';
-import { BundlePaymentDialog } from '../../BundlePaymentDialog';
 import { AmountInputField, TopUpFormValues } from '../ANKRTopUpFormTypes';
 import { AmountField } from '../AmountField';
 
 interface RenderFormParams {
   classes: ClassNameMap;
   isLoggedIn: boolean;
-  trackSubmit?: TrackTopUpSubmit;
   validateAmount?: any;
 }
 
 export const useRenderForm = ({
   classes,
   isLoggedIn,
-  trackSubmit,
   validateAmount,
 }: RenderFormParams) => {
   const { buttonText, hasConnectButton } = useConnectButton();
-  const { isOpened, onClose, onOpen } = useDialog();
 
   return useCallback(
     ({
@@ -109,27 +102,11 @@ export const useRenderForm = ({
                 {t('account.account-details.top-up.info')}
               </Typography>
             )}
-            <BundlePaymentBanner onClick={onOpen} />
           </div>
           {connectWalletButton || button}
-          <BundlePaymentDialog
-            isOpened={isOpened}
-            onClose={onClose}
-            trackSubmit={trackSubmit}
-          />
         </form>
       );
     },
-    [
-      buttonText,
-      classes,
-      hasConnectButton,
-      isOpened,
-      isLoggedIn,
-      onClose,
-      onOpen,
-      trackSubmit,
-      validateAmount,
-    ],
+    [buttonText, classes, hasConnectButton, isLoggedIn, validateAmount],
   );
 };

@@ -8,6 +8,9 @@ export interface CancelBundleSubscriptionParams {
   group?: string;
 }
 
+export const FIXED_CACHE_KEY_CANCEL_BUNDLE_SUBSCRIPTION =
+  'cancelBundleSubscription';
+
 export const {
   endpoints: { cancelBundleSubscription },
   useCancelBundleSubscriptionMutation,

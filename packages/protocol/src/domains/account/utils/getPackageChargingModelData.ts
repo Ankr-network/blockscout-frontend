@@ -1,8 +1,4 @@
-import {
-  BundleLimitType,
-  BundlePaymentPlan,
-  MyBundleStatus,
-} from 'multirpc-sdk';
+import { BundleType, BundlePaymentPlan, MyBundleStatus } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import {
@@ -34,7 +30,7 @@ export const getPackageChargingModelData = ({
   );
 
   const wholeAmountOfRequests = relatedBundle?.bundle.limits.find(
-    ({ type }) => type === BundleLimitType.QTY,
+    ({ type }) => type === BundleType.QTY,
   )?.limit;
 
   const usedRequestsCount = wholeAmountOfRequests

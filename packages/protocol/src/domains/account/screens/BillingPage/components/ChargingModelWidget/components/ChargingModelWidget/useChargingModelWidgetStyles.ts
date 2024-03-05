@@ -8,6 +8,9 @@ export const useChargingModelWidgetStyles = makeStyles()(theme => ({
     marginTop: theme.spacing(2),
     borderRadius: theme.spacing(5),
     padding: theme.spacing(6, 8),
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(3),
 
     '&:first-of-type': {
       marginTop: theme.spacing(8),
@@ -34,6 +37,6 @@ export const useChargingModelWidgetStyles = makeStyles()(theme => ({
     },
   },
   title: {
-    marginBottom: theme.spacing(3),
+    // marginBottom: theme.spacing(3),
   },
 }));

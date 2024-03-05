@@ -7,22 +7,18 @@ interface IChargingModelWidgetWrapperProps {
   isCurrentModel?: boolean;
   balance: React.ReactNode;
   chargingModel: EChargingModel;
-  isExpired?: boolean;
   progressValue?: number;
   progressLabel?: string;
   maxLabel?: string;
-  onSwitchChargingModel?: () => void;
 }
 
 export const ChargingModelWidgetWrapper = ({
   isCurrentModel = false,
   balance,
   chargingModel,
-  isExpired,
   progressValue,
   progressLabel,
   maxLabel,
-  onSwitchChargingModel,
 }: IChargingModelWidgetWrapperProps) => {
   return (
     <ChargingModelWidget
@@ -35,8 +31,6 @@ export const ChargingModelWidgetWrapper = ({
         progressValue={progressValue}
         progressLabel={progressLabel}
         maxLabel={maxLabel}
-        isExpired={isExpired}
-        onSwitchChargingModel={onSwitchChargingModel}
       />
     </ChargingModelWidget>
   );

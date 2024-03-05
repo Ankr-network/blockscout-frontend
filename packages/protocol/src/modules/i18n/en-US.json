@@ -1802,9 +1802,8 @@
       },
       "package": {
         "title": "Package",
-        "package-notice": "This is your last Package. It discontinues in the end of the current validity period. Try Deal as replacement.",
+        "package-notice": "This is your last Package. It will be automatically replaced by Deal upon the next subscription renewal.",
         "expired-notice": "You've used your last Package. We no longer support this option. Switch to Deal as replacement.",
-        "switch-btn": "Switch",
         "learn-more": "Learn more"
       },
       "deal": {
@@ -1820,8 +1819,10 @@
     },
     "periodic-payments": {
       "cancel": {
-        "deal-title": "Cancel Deal",
-        "deal-description": "Cancel your Deal payment scheduled for {date, date, long}?"
+        "custom-title": "Cancel {customChargingModelName}",
+        "custom-description": "Cancel your {customChargingModelName} payment scheduled for {date, date, long}?",
+        "recurring-title": "Cancel recurring payment",
+        "recurring-description": "Cancel your ${amount, number, ::compact-short} recurring payment scheduled for {date, date, long}?"
       }
     },
     "currencies": {
@@ -1931,11 +1932,6 @@
         "ankr-amount-label": "Amount",
         "credits": "({credits, number, ::compact-short} Credits)",
         "cancel-label": "You can cancel anytime",
-        "bundle-banner": {
-          "top": "Save&nbsp;20% on&nbsp;each request with our",
-          "bottom": "special offer",
-          "button": "Learn more"
-        },
         "bundle-dialog": {
           "title": "Unlock new possibilities for your project",
           "description": "Subscribe to Ankr's Premium RPC plan for $500 per month and unleash a variety of benefits.",
@@ -1947,9 +1943,9 @@
       },
       "edit-button": "Edit",
       "top-up-button": "Top Up",
-      "all-plans-button": "See all plans",
-      "price": "${amount, number} <span>per {period, select, day {day} week {week} month {month} year {year}}</span>",
-      "next-billing-date": "Next billing date: {date, date, long}",
+      "price": "${amount, number} <span> / {period, select, day {day} week {week} month {mo} year {year}}</span>",
+      "next-billing-date": "Next payment: {date, date, long}",
+      "deprecated-model": "No longer available for renewal",
       "scheduled-payments": {
         "title": "{paymentsCount, plural, =0 {No scheduled payments} =1 {Scheduled payment ({paymentsCount}):} other {Scheduled payments ({paymentsCount}):}}",
         "subscription": "${amount, number, ::compact-short} on {date}",
@@ -1977,15 +1973,17 @@
         "progress-title-less-one": "<1% used"
       },
       "subscription-editor": {
-        "upgrade-button": "Upgrade",
-        "cancel-button": "Cancel subscription",
+        "cancel-button": "Cancel",
         "warning": "If you cancel now, you will no longer be charged"
       },
       "edit-plan-dialog": {
         "title": "Edit current plan"
       },
       "edit-subscriptions-dialog": {
-        "title": "Edit your payments"
+        "title": "Edit periodic payments",
+        "recurring-payment": "Recurring payment",
+        "deal": "Deal",
+        "package": "Package"
       },
       "expense-chart": {
         "title": "Expense Chart",
@@ -2001,14 +1999,10 @@
         }
       },
       "subscriptions": {
-        "title": "Auto Payment",
+        "title": "Periodic payments",
         "edit": "Edit",
         "top-up-subscriptions": "{value, plural, =1 {Top Up Subscription} other { Top Up Subscriptions }}",
-        "text": "${amount}/{recurringInterval}",
-        "are-you-sure": "Are you sure?",
-        "if-you-continue": "If you continue, your subscription will be canceled",
-        "cancel-subscription": "Cancel subscription",
-        "keep-subscription": "Keep subscription"
+        "text": "${amount}/{recurringInterval}"
       }
     },
     "payment-table": {

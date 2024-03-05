@@ -15,15 +15,17 @@ export interface BundlePaymentDialogProps {
   isOpened?: boolean;
   onClose: () => void;
   trackSubmit?: TrackTopUpSubmit;
+  priceId?: string;
 }
 
 export const BundlePaymentDialog = ({
   isOpened = false,
   onClose,
   trackSubmit,
+  priceId,
 }: BundlePaymentDialogProps) => {
   const { emailData, emailDialogProps, isLoading, subscribe } =
-    useBundlePayment(trackSubmit);
+    useBundlePayment({ priceId, trackSubmit });
 
   const { classes } = useBundlePaymentDialogStyles();
 

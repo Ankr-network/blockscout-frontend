@@ -6,7 +6,7 @@ export const usePriceStyles = makeStyles()(theme => ({
 
     letterSpacing: '-0.04em',
 
-    fontSize: 42,
+    fontSize: 28,
     fontWeight: 700,
     lineHeight: '44.1px',
 

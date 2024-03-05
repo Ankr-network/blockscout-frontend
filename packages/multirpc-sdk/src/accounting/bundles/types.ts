@@ -20,10 +20,10 @@ export interface BundlePlan {
 export interface BundleLimit {
   blockchain_paths: string;
   limit?: number;
-  type: BundleLimitType;
+  type: BundleType;
 }
 
-export enum BundleLimitType {
+export enum BundleType {
   UNKNOWN = 'UNKNOWN',
   QTY = 'QTY',
   COST = 'COST',
@@ -43,15 +43,7 @@ export interface MyBundleStatus {
 export interface MyBundleStatusCounter {
   blockchainPaths: string;
   count: string;
-  type: BundleCounter;
-}
-
-export enum BundleCounter {
-  // total number of requests a user can send, no matter which method
-  BUNDLE_COUNTER_TYPE_QTY = 'BUNDLE_COUNTER_TYPE_QTY',
-  // a user can send requests for different methods, but each one has its own cost
-  BUNDLE_COUNTER_TYPE_COST = 'BUNDLE_COUNTER_TYPE_COST',
-  BUNDLE_COUNTER_TYPE_UNKNOWN = 'BUNDLE_COUNTER_TYPE_UNKNOWN',
+  type: BundleType;
 }
 
 export interface GetLinkForBundlePaymentRequest {

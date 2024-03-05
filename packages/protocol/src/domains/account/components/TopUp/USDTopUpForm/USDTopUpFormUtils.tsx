@@ -24,7 +24,6 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { checkBundleByPriceId } from './utils/checkBundleByPriceId';
 import { USDSubscriptionPricesTabs } from './USDSubscriptionPricesTabs';
 import { BundlePaymentDialog } from '../BundlePaymentDialog';
-import { BundlePaymentBanner } from '../BundlePaymentBanner';
 import { AmountInputField, TopUpFormValues } from './USDTopUpFormTypes';
 import { AmountField } from '../ANKRTopUpForm/AmountField';
 import { useStyles } from './USDTopUpFormStyles';
@@ -119,7 +118,6 @@ export const useRenderForm = ({
               name={AmountInputField.amount}
               validate={validateAmount}
             />
-            <BundlePaymentBanner onClick={onOpen} />
           </div>
           <div className={classes.bottom}>
             <LoadingButton
@@ -145,6 +143,7 @@ export const useRenderForm = ({
             isOpened={isOpened}
             onClose={onClose}
             trackSubmit={trackSubmit}
+            priceId={usdPriceId}
           />
         </form>
       );

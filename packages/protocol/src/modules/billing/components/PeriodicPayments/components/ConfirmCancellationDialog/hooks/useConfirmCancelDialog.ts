@@ -1,23 +1,35 @@
-import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-// TODO: add logic in scope of MRPC-4445
-export const useConfirmCancelDialog = (defaultState = false) => {
-  const { isOpened, onOpen, onClose } = useDialog(defaultState);
-  const nextPaymentDate = '1709999931231'; // TODO: get date from state
-  const dialogTitle = t('account.periodic-payments.cancel.deal-title');
-  const dialogDescription = t(
-    'account.periodic-payments.cancel.deal-description',
-    {
-      date: nextPaymentDate,
-    },
-  );
+interface IUseConfirmCancelDialogProps {
+  nextPaymentDate: string;
+  recurringAmount?: string;
+  customChargingModelName?: string;
+}
 
-  const handleConfirm = useCallback(async () => {
-    // TODO: https://ankrnetwork.atlassian.net/browse/MRPC-4445
-  }, []);
+export const useConfirmCancelDialog = ({
+  nextPaymentDate,
+  recurringAmount,
+  customChargingModelName,
+}: IUseConfirmCancelDialogProps) => {
+  const { isOpened, onOpen, onClose } = useDialog();
+
+  const dialogTitle = customChargingModelName
+    ? t('account.periodic-payments.cancel.custom-title', {
+        customChargingModelName,
+      })
+    : t('account.periodic-payments.cancel.recurring-title');
+
+  const dialogDescription = customChargingModelName
+    ? t('account.periodic-payments.cancel.custom-description', {
+        customChargingModelName,
+        date: nextPaymentDate,
+      })
+    : t('account.periodic-payments.cancel.recurring-description', {
+        date: nextPaymentDate,
+        amount: recurringAmount,
+      });
 
   return {
     isOpened,
@@ -25,7 +37,5 @@ export const useConfirmCancelDialog = (defaultState = false) => {
     onClose,
     dialogTitle,
     dialogDescription,
-    handleConfirm,
-    isLoading: false, // TODO: https://ankrnetwork.atlassian.net/browse/MRPC-4445
   };
 };

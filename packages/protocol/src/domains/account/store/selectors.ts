@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import {
   BalanceLevel,
-  BundleCounter,
+  BundleType,
   BundlePaymentPlan,
   ISubscriptionsItem,
   MyBundleStatusCounter,
@@ -294,6 +294,25 @@ export const selectMyCurrentBundleRequestsUsed = createSelector(
   },
 );
 
+export const selectMyRecurringPayments = createSelector(
+  selectMyBundles,
+  selectMySubscriptions,
+  (bundles, subscriptions) => [...bundles, ...subscriptions],
+);
+
+export const selectAllRecurringPaymentsAmount = createSelector(
+  selectMyRecurringPayments,
+  payments =>
+    payments
+      .reduce((amount, payment) => amount.plus(payment.amount), ZERO)
+      .toString(),
+);
+
+export const selectHasRecurringPayments = createSelector(
+  selectMyRecurringPayments,
+  payments => payments.length > 0,
+);
+
 export const selectFullPAYGBalance = createSelector(
   selectBalanceLevel,
   selectAnkrBalance,
@@ -366,13 +385,8 @@ const selectDealChargingModelData = createSelector(
     /* Deal charging model data */
     if (myByndlesStatus.data) {
       const dealChargingModel = myByndlesStatus.data.find(bundle => {
-        const isExpired = new Date() > new Date(Number(bundle.expires));
-
-        return (
-          !isExpired &&
-          bundle.counters.find(
-            counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_COST,
-          )
+        return bundle.counters.find(
+          counter => counter.type === BundleType.COST,
         );
       });
 
@@ -394,19 +408,15 @@ export const selectPackageChargingModelData = createSelector(
   (myByndlesStatus, bundlePaymentPlans) => {
     /* Package charging model data (will be deprecated soon) */
     const packageChargingModel = myByndlesStatus?.data?.find(bundle => {
-      const now = new Date();
-      const expires = new Date(Number(bundle.expires));
-      const isExpired = now > expires;
-
       const hasQtyCounter = bundle.counters.find(
-        counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_QTY,
+        counter => counter.type === BundleType.QTY,
       );
 
       const hasCostCounter = bundle.counters.find(
-        counter => counter.type === BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+        counter => counter.type === BundleType.COST,
       );
 
-      return !isExpired && hasQtyCounter && !hasCostCounter;
+      return hasQtyCounter && !hasCostCounter;
     });
 
     if (packageChargingModel) {

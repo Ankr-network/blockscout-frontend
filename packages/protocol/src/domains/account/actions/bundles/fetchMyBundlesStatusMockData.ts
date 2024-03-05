@@ -1,4 +1,4 @@
-import { BundleCounter, MyBundleStatus } from 'multirpc-sdk';
+import { BundleType, MyBundleStatus } from 'multirpc-sdk';
 
 export const fetchMyBundlesStatusMockData: MyBundleStatus[] = [
   {
@@ -9,17 +9,17 @@ export const fetchMyBundlesStatusMockData: MyBundleStatus[] = [
       {
         blockchainPaths: '*',
         count: '19999980',
-        type: BundleCounter.BUNDLE_COUNTER_TYPE_QTY,
+        type: BundleType.QTY,
       },
       {
         blockchainPaths: 'solana:solana_devnet',
         count: '0',
-        type: BundleCounter.BUNDLE_COUNTER_TYPE_QTY,
+        type: BundleType.QTY,
       },
       {
         blockchainPaths: 'multichain',
         count: '0',
-        type: BundleCounter.BUNDLE_COUNTER_TYPE_QTY,
+        type: BundleType.QTY,
       },
     ],
   },
@@ -31,17 +31,17 @@ export const fetchMyBundlesStatusMockData: MyBundleStatus[] = [
       {
         blockchainPaths: '*',
         count: '3000000000',
-        type: BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+        type: BundleType.COST,
       },
       {
         blockchainPaths: 'solana:solana_devnet',
         count: '0',
-        type: BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+        type: BundleType.COST,
       },
       {
         blockchainPaths: 'multichain',
         count: '0',
-        type: BundleCounter.BUNDLE_COUNTER_TYPE_COST,
+        type: BundleType.COST,
       },
     ],
   },

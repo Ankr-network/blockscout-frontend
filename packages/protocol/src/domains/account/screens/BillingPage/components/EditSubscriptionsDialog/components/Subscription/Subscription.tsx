@@ -6,16 +6,21 @@ import { useSubscription } from './hooks/useSubscription';
 
 export interface SubscriptionProps {
   onCancel?: () => void;
-  onUpgrade: () => void;
   subscription: ISubscriptionsItem;
+  onOpenSuccessDialog?: () => void;
 }
 
 export const Subscription = ({
   onCancel,
-  onUpgrade,
   subscription,
+  onOpenSuccessDialog = () => {},
 }: SubscriptionProps) => {
   const editorProps = useSubscription({ onCancel, subscription });
 
-  return <SubscriptionEditor {...editorProps} onUpgrade={onUpgrade} />;
+  return (
+    <SubscriptionEditor
+      {...editorProps}
+      onOpenSuccessDialog={onOpenSuccessDialog}
+    />
+  );
 };
