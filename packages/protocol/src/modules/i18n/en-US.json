@@ -1864,6 +1864,13 @@
       "cancel-button": "Cancel",
       "usd": {
         "proceed-button": "Proceed to checkout"
+      },
+      "crypto": {
+        "tx-fees-label": "Transaction fees <span>(estimated)</span>",
+        "connected-address-label": "Connected account address",
+        "confirm-button": "Confirm",
+        "another-address-button": "Use another address",
+        "connect-button": "Connect Wallet"
       }
     },
     "balance": "{balance, number, ::compact-short}",

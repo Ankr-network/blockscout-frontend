@@ -10,12 +10,14 @@ import { useFeeAmountStyles } from './useFeeAmountStyles';
 
 export interface IFeeAmountProps extends IFeeDetails {
   amountVariant?: TypographyOwnProps['variant'];
+  classes?: Partial<ReturnType<typeof useFeeAmountStyles>['classes']>;
   isApproximate?: boolean;
   network: ENetwork;
 }
 
 export const FeeAmount = ({
   amountVariant = 'body2',
+  classes: classesOverrides,
   feeCrypto,
   feeUSD,
   isApproximate,
@@ -27,7 +29,9 @@ export const FeeAmount = ({
 
   const amount = `${cryptoFee} / ${usdFee}`;
 
-  const { classes } = useFeeAmountStyles();
+  const { classes } = useFeeAmountStyles(undefined, {
+    props: { classes: classesOverrides },
+  });
 
   return (
     <div className={classes.root}>

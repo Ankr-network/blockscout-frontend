@@ -1,10 +1,10 @@
 import { useEffect, useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { ISwitchAccountDialogProps } from '../SwitchAccountDialog';
-import { useConnectedAddress } from './useConnectedAccount';
 import { useSwitchButtonClickHandler } from './useSwitchButtonClickHandler';
 
 export const useSwitchAccountDialog = () => {
@@ -42,7 +42,7 @@ export const useSwitchAccountDialog = () => {
   );
 
   useEffect(() => {
-    if (connectedAddress.toLowerCase() !== authAddress.toLowerCase()) {
+    if (connectedAddress?.toLowerCase() !== authAddress.toLowerCase()) {
       handleOpenSwitchAccountDialog();
     } else {
       handleCloseSwitchAccountDialog();

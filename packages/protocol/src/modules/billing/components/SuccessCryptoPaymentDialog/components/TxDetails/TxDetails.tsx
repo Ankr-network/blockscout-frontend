@@ -3,15 +3,15 @@ import { t } from '@ankr.com/common';
 
 import { EPaymentType, IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
+import {
+  ITotalAmountAttributeProps,
+  TotalAmountAttribute,
+} from 'modules/billing/components/TotalAmountAttribute';
 import { SeparatedList } from 'modules/billing/components/SeparatedList';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
 import { renderCryptoAmount } from 'modules/billing/utils/renderCryptoAmount';
 
 import { ApprovalAtrribute } from './components/ApprovalAttribute';
-import {
-  ITotalAmountAttributeProps,
-  TotalAmountAttribute,
-} from './components/TotalAmountAttribute';
 import { renderAmountLabel } from './utils/renderAmountLabel';
 import { useTxDetailsStyles } from './useTxDetailsStyles';
 

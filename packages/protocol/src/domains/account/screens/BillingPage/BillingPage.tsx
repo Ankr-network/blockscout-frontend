@@ -6,11 +6,6 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
-import {
-  CryptoPaymentDepositDialog,
-  useCryptoPaymentDepositDialog,
-} from 'modules/billing/components/CryptoPaymentDepositDialog';
-import { ECryptoDepositStep, ECurrency, ENetwork } from 'modules/billing/types';
 
 import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
@@ -21,16 +16,6 @@ import { useStyles } from './useBillingPageStyles';
 
 export const BillingPage = () => {
   const { hasExpenseChart, loading } = useAccountDetails();
-  const {
-    cryptoPaymentDepositDialogProps,
-    handleCryptoPaymentDepositDialogOpen,
-  } = useCryptoPaymentDepositDialog({
-    amount: 1000,
-    amountUSD: 323423,
-    currency: ECurrency.ANKR,
-    network: ENetwork.ETH,
-    step: ECryptoDepositStep.Approval,
-  });
 
   useSetBreadcrumbs([
     {
@@ -63,7 +48,6 @@ export const BillingPage = () => {
           <ExpenseChart />
         </Box>
       )}
-      <CryptoPaymentDepositDialog {...cryptoPaymentDepositDialogProps} />
     </Box>
   );
 };
