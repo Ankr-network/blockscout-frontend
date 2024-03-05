@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
@@ -16,6 +16,7 @@ import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable';
 import { useAccountDetails } from './hooks/useAccountDetails';
+import { OngoingPayments } from './components/OngoingPayments';
 import { useStyles } from './useBillingPageStyles';
 
 export const BillingPage = () => {
@@ -47,9 +48,13 @@ export const BillingPage = () => {
 
   return (
     <Box className={classes.root}>
-      <Button onClick={handleCryptoPaymentDepositDialogOpen}>Dialog</Button>
       <ExpiredTokenBanner />
       <AccountManager />
+      <OngoingPayments
+        className={classes.ongoingPayments}
+        onViewDetailsButtonClick={handleCryptoPaymentDepositDialogOpen} // TODO: add handler
+        status="pending" // TODO: pass status or execute with hook inside component
+      />
       <Box className={classes.payments}>
         <PaymentsHistoryTable />
       </Box>

@@ -1976,14 +1976,21 @@
         "cancel-button": "Cancel",
         "warning": "If you cancel now, you will no longer be charged"
       },
-      "edit-plan-dialog": {
-        "title": "Edit current plan"
-      },
       "edit-subscriptions-dialog": {
         "title": "Edit periodic payments",
         "recurring-payment": "Recurring payment",
         "deal": "Deal",
         "package": "Package"
+      },
+      "ongoing-payments": {
+        "title": "Ongoing Payments",
+        "one-time-payment": "One-time payment",
+        "status": {
+          "pending": "Pending",
+          "success": "Success",
+          "error": "Error"
+        },
+        "details-btn": "View details"
       },
       "expense-chart": {
         "title": "Expense Chart",

@@ -8,15 +8,6 @@ export const useTopUpBlockHeaderStyles = makeStyles()((theme: Theme) => ({
     alignItems: 'center',
     marginBottom: theme.spacing(5),
   },
-  title: {
-    color: theme.palette.text.secondary,
-
-    letterSpacing: '-0.01em',
-
-    fontSize: 16,
-    fontWeight: 700,
-    lineHeight: '135%',
-  },
   link: {
     height: 'auto',
     minWidth: 'auto',

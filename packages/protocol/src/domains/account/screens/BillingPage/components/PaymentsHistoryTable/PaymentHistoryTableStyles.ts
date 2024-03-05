@@ -12,14 +12,11 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: theme.spacing(2 * 1.5),
+      gap: theme.spacing(3),
     },
   },
-  title: {
-    fontSize: 16,
+  paymentsHistoryTitle: {
     flexShrink: 0,
-
-    color: theme.palette.text.primary,
   },
   preloader: {
     height: theme.spacing(14),

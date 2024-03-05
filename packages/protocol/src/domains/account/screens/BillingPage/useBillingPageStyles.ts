@@ -14,6 +14,9 @@ export const useStyles = makeStyles()(theme => ({
       paddingBottom: theme.spacing(7),
     },
   },
+  ongoingPayments: {
+    marginTop: theme.spacing(10),
+  },
   payments: {
     marginTop: theme.spacing(10),
 

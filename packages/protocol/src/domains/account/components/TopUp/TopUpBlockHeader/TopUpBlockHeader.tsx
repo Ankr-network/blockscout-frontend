@@ -1,8 +1,9 @@
-import { Button, Typography, Box } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { ExternalLink } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { PRICING_PLANS_LINK } from 'domains/account/actions/topUp/const';
+import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
 
 import { useTopUpBlockHeaderStyles } from './TopUpBlockHeaderStyles';
 
@@ -18,9 +19,7 @@ export const TopUpBlockHeader = ({
   return (
     <Box className={classes.top}>
       {hasHeader && (
-        <Typography variant="subtitle1" className={classes.title}>
-          {t('account.account-details.top-up.title')}
-        </Typography>
+        <WidgetTitle>{t('account.account-details.top-up.title')}</WidgetTitle>
       )}
       <Button
         className={classes.link}
