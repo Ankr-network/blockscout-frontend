@@ -1,10 +1,10 @@
+import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { GradientedText } from 'modules/common/components/GradientedText';
 
 import { intlRoot } from '../../const';
 import { usePAYGLabelStyles } from './PAYGLabelStyles';
-import { Typography } from '@mui/material';
 
 const intlKey = `${intlRoot}.payg-label`;
 

@@ -1,10 +1,12 @@
+import { useMemo } from 'react';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+
 import { renderLabel } from 'domains/account/screens/BillingPage/utils/renderLabel';
 import { EChargingModel, IChargingModelData } from 'modules/billing/types';
 import { ProgressBar } from 'modules/common/components/ProgressBar';
-import { useMemo } from 'react';
+
 import { useBalanceMenuStyles } from './useBalanceMenuStyles';
-import { Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
 
 export interface IBalanceMenuContentProps {
   currentChargingModel: IChargingModelData;
@@ -41,7 +43,7 @@ export const BalanceMenuContent = ({
       isSmall: true,
       className: classes.label,
     });
-  }, [type]);
+  }, [classes.label, type]);
 
   const balanceKey = isApiCreditsBalance ? creditBalanceKey : requestBalanceKey;
 
