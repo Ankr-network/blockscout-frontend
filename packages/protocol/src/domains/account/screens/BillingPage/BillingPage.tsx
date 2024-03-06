@@ -37,7 +37,7 @@ export const BillingPage = () => {
       <AccountManager />
       <OngoingPayments
         className={classes.ongoingPayments}
-        onViewDetailsButtonClick={handleCryptoPaymentDepositDialogOpen} // TODO: add handler
+        onViewDetailsButtonClick={() => {}} // TODO: add handler
         status="pending" // TODO: pass status or execute with hook inside component
       />
       <Box className={classes.payments}>
