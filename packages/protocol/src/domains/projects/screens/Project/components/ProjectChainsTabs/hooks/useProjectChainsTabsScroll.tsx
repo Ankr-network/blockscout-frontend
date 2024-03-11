@@ -2,7 +2,6 @@ import { ArrowLeftSmall, ArrowRightSmall } from '@ankr.com/ui';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ChainID } from 'modules/chains/types';
-import { Tab } from 'modules/common/hooks/useTabs';
 
 import { ScrollButton } from '../components/ScrollButton';
 import { useProjectChainsTabsStyles } from '../useProjectChainsTabsStyles';
@@ -10,10 +9,7 @@ import { useScrollingToSelectedTab } from './useScrollingToSelectedTab';
 
 const BUTTON_WIDTH = 40;
 
-export const useProjectChainsTabsScroll = (
-  projectChainsTabs: Tab<ChainID>[],
-  selectedTabId?: ChainID,
-) => {
+export const useProjectChainsTabsScroll = (selectedTabId?: ChainID) => {
   const { classes, cx } = useProjectChainsTabsStyles();
 
   const refTabsInner = useRef<HTMLDivElement>(null);
@@ -62,12 +58,34 @@ export const useProjectChainsTabsScroll = (
     }
   }, []);
 
-  const onClickScrollToEnd = useCallback(() => {
+  const onClickScrollForward = useCallback(() => {
     const wrapperElement = refTabsScrollWrapper.current;
+    const innerElement = refTabsInner.current;
 
-    if (wrapperElement) {
+    if (wrapperElement && innerElement) {
+      const visibleWidth = wrapperElement.offsetWidth;
+      const totalWidth = innerElement.scrollWidth;
+
+      const childNodes = innerElement.children;
+      let itemsWidth = 0;
+      let itemCount = 0;
+      const offset = BUTTON_WIDTH * 2;
+
+      // Calculate the cumulative width of the next items
+      while (itemsWidth < visibleWidth && itemCount < childNodes.length) {
+        const childNode = childNodes[itemCount] as HTMLElement;
+
+        itemsWidth += childNode.offsetWidth;
+        itemCount++;
+      }
+
+      const scrollPage = wrapperElement.scrollLeft + itemsWidth - offset;
+      const scrollEnd = totalWidth - visibleWidth;
+
+      const scrollWidth = Math.min(scrollPage, scrollEnd);
+
       wrapperElement.scrollTo({
-        left: wrapperElement.scrollWidth + BUTTON_WIDTH,
+        left: scrollWidth,
         behavior: 'smooth',
       });
     }
@@ -97,7 +115,7 @@ export const useProjectChainsTabsScroll = (
 
   const scrollForwardBtn = (
     <ScrollButton
-      onClick={onClickScrollToEnd}
+      onClick={onClickScrollForward}
       className={cx(classes.btnArrow, classes.btnForward)}
       name={<ArrowRightSmall />}
       isButtonVisible={isForwardButtonVisible}
