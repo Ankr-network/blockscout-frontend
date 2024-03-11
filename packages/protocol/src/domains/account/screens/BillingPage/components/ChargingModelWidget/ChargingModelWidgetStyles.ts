@@ -4,9 +4,7 @@ type NestedSelectors = 'header' | 'balance' | 'description';
 
 export const useChargingModelWidgetStyles = makeStyles<void, NestedSelectors>()(
   (theme, _params, classes) => ({
-    root: {
-      padding: theme.spacing(7, 8, 8),
-    },
+    root: {},
     content: {},
     header: {
       marginBottom: theme.spacing(10),
@@ -17,13 +15,7 @@ export const useChargingModelWidgetStyles = makeStyles<void, NestedSelectors>()(
         },
       },
     },
-    balance: {
-      [theme.breakpoints.down('xs')]: {
-        '&&&': {
-          marginBottom: theme.spacing(8),
-        },
-      },
-    },
+    balance: {},
     description: {},
     withDescription: {},
     withPAYGLabel: {
@@ -36,6 +28,16 @@ export const useChargingModelWidgetStyles = makeStyles<void, NestedSelectors>()(
     },
     balanceProgressBar: {
       marginTop: theme.spacing(3),
+    },
+
+    assetsBtn: {
+      marginLeft: 'auto',
+      whiteSpace: 'nowrap',
+
+      [theme.breakpoints.down('xs')]: {
+        marginTop: theme.spacing(4),
+        width: '100%',
+      },
     },
   }),
 );

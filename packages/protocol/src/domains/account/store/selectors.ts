@@ -13,7 +13,6 @@ import { ZERO } from 'modules/common/constants/const';
 import {
   EChargingModel,
   IChargingModelData,
-  IFreeChargingModelData,
   IPAYGChargingModelData,
 } from 'modules/billing/types';
 
@@ -357,18 +356,7 @@ export const selectIsFreeChargingModel = createSelector(
 
 export const selectPAYGChargingModelData = createSelector(
   selectFullPAYGBalance,
-  selectIsFreeChargingModel,
-  (fullPAYGBalance, hasFreeChargingModel) => {
-    /* PAYG/Free charging model data */
-    if (hasFreeChargingModel) {
-      const chargingModelFree: IFreeChargingModelData = {
-        type: EChargingModel.Free,
-        balance: fullPAYGBalance,
-      };
-
-      return chargingModelFree;
-    }
-
+  fullPAYGBalance => {
     const chargingModelPayg: IPAYGChargingModelData = {
       type: EChargingModel.PAYG,
       balance: fullPAYGBalance,

@@ -13,7 +13,7 @@ export const useBalanceWidget = () => {
     onOpen: onTopUp,
   } = useUpgradePlanDialog();
 
-  const { descriptionKey, isPAYG: hasPAYGLabel, status } = useAccountState();
+  const { descriptionKey, isPAYG: hasPAYGLabel } = useAccountState();
 
   const hasDescription = Boolean(descriptionKey);
 
@@ -24,6 +24,5 @@ export const useBalanceWidget = () => {
     isUpgradeDialogOpened,
     onTopUp,
     onUpgradeDialogClose,
-    status,
   };
 };

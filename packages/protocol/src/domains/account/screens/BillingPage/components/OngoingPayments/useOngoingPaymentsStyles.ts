@@ -10,6 +10,11 @@ export const useOngoingPaymentsStyles = makeStyles()(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: theme.spacing(6, 8),
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      gap: theme.spacing(4),
+    },
   },
   paymentValue: {
     display: 'flex',

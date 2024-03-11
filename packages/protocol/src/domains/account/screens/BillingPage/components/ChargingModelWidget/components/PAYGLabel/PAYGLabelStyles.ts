@@ -5,6 +5,7 @@ export const usePAYGLabelStyles = makeStyles()(theme => ({
     padding: theme.spacing(1, 2.5),
     borderRadius: 12,
     backgroundColor: theme.palette.background.default,
+    whiteSpace: 'nowrap',
   },
   smallRoot: {
     padding: theme.spacing(0.5, 1),

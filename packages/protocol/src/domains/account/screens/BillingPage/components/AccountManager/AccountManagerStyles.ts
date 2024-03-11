@@ -1,12 +1,12 @@
 import { makeStyles } from 'tss-react/mui';
 
-const MAX_WIDTH = 1428;
+export const ACCOUNT_GRID_MAX_WIDTH = 1400;
 
 export const useAccountManagerStyles = makeStyles()(theme => ({
   root: {
     display: 'grid',
-    gridTemplateColumns: 'minmax(0,1fr) 600px',
-    gridTemplateRows: 'repeat(2, 230px)',
+    gridTemplateColumns: 'repeat(2, minmax(0,1fr))',
+    gridTemplateRows: 'repeat(2, minmax(214px, auto))',
     gridTemplateAreas: `
       "balance       top-up"
       "subscriptions top-up"
@@ -15,9 +15,9 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
     columnGap: theme.spacing(7.5),
     rowGap: theme.spacing(5),
 
-    [theme.breakpoints.down(MAX_WIDTH)]: {
+    [theme.breakpoints.down(ACCOUNT_GRID_MAX_WIDTH)]: {
       gridTemplateColumns: '1fr',
-      gridTemplateRows: 'repeat(2, minmax(230px, auto)) minmax(490px, auto)',
+      gridTemplateRows: 'repeat(2, minmax(214px, auto)) minmax(490px, auto)',
       gridTemplateAreas: `
         "balance"
         "subscriptions"
@@ -35,11 +35,7 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
     gridArea: 'top-up',
 
     background: theme.palette.background.paper,
-    padding: theme.spacing(7.5),
-
-    [theme.breakpoints.down('md')]: {
-      padding: theme.spacing(6),
-    },
+    padding: theme.spacing(6, 8),
   },
   currentPlan: {
     gridArea: 'current-plan',

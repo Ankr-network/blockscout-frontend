@@ -4,7 +4,7 @@ export const useWidgetStyles = makeStyles()(theme => ({
   root: {
     position: 'relative',
 
-    padding: theme.spacing(8),
+    padding: theme.spacing(6, 8),
 
     borderRadius: 30,
 

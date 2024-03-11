@@ -1877,7 +1877,7 @@
     "operation-loader": "Checking transactions",
     "premium-success": "You’ve now gone Premium! Enjoy <a href='https://www.ankr.com/docs/rpc-service/service-plans/#feature-list' target='_blank'>the features</a> and <a href='https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits' target='_blank'>rate limits</a> available to&nbsp;you.",
     "descriptions": {
-      "blue": "To begin utilizing Ankr mRPC, replenish your balance via the form on the right.",
+      "blue": "To begin utilizing Ankr mRPC, replenish your balance via the form on this page.",
       "yellow": "Low balance range. Topping up is required to prevent account suspension.",
       "red": "Top up your account balance to continue using our service.",
       "critical": "Top up your account balance to continue using our service.\nYour account has been suspended.",
@@ -1950,12 +1950,12 @@
       },
       "edit-button": "Edit",
       "top-up-button": "Top Up",
-      "price": "${amount, number} <span> / {period, select, day {day} week {week} month {mo} year {year}}</span>",
+      "price": "${amount, number} <span>/{period, select, day {day} week {week} month {mo} year {year}}</span>",
       "next-billing-date": "Next payment: {date, date, long}",
       "deprecated-model": "No longer available for renewal",
       "scheduled-payments": {
         "title": "{paymentsCount, plural, =0 {No scheduled payments} =1 {Scheduled payment ({paymentsCount}):} other {Scheduled payments ({paymentsCount}):}}",
-        "subscription": "${amount, number, ::compact-short} on {date}",
+        "subscription": "${amount, number, ::compact-short}",
         "more-button": "+{subscriptionsCount} more"
       },
       "balance-widget": {

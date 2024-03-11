@@ -5,19 +5,17 @@ import { t } from '@ankr.com/common';
 import { useTitleStyles } from './TitleStyles';
 
 export interface TitleProps {
-  paymentsCount: number;
+  nextPaymentDate: string;
 }
 
-const intlKey = 'account.account-details.scheduled-payments.title';
-
-export const Title = ({ paymentsCount }: TitleProps) => {
+export const Title = ({ nextPaymentDate }: TitleProps) => {
   const { classes } = useTitleStyles();
 
   return (
     <div className={classes.root}>
       <CreditCard className={classes.icon} />
       <Typography className={classes.label}>
-        {t(intlKey, { paymentsCount })}
+        {t('account.account-details.scheduled-payments.title', nextPaymentDate)}
       </Typography>
     </div>
   );

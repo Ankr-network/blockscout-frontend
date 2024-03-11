@@ -1,4 +1,6 @@
 import { useCallback, useMemo } from 'react';
+import { t } from '@ankr.com/common';
+import { Button } from '@mui/material';
 
 import {
   ContentType,
@@ -11,7 +13,8 @@ import {
   selectAccountChargingModels,
   selectActiveChargingModel,
 } from 'domains/account/store/selectors';
-import { IChargingModelData } from 'modules/billing/types';
+import { EChargingModel, IChargingModelData } from 'modules/billing/types';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { Balance } from './components/Balance';
 import { Description } from './components/Description';
@@ -23,6 +26,7 @@ import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
 import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
 import { BalanceProgressBar } from './components/BalanceProgressBar';
 import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
+import { intlRoot } from './const';
 
 export interface ChargingModelWidgetProps {
   className: string;
@@ -36,7 +40,6 @@ export const ChargingModelWidget = ({
     hasPAYGLabel,
     isUpgradeDialogOpened,
     onUpgradeDialogClose,
-    status,
   } = useBalanceWidget();
 
   const { isOpened, onClose, onOpen: onOpenBalanceDialog } = useDialog();
@@ -54,6 +57,8 @@ export const ChargingModelWidget = ({
 
   const currentChargingModel = useAppSelector(selectActiveChargingModel);
 
+  const isMobile = useIsXSDown();
+
   const renderBalance = useCallback(
     (chargingModel: IChargingModelData) => {
       const { balance: balancesData } = chargingModel;
@@ -66,13 +71,12 @@ export const ChargingModelWidget = ({
               ? balancesData.balanceApiCredits
               : undefined
           }
-          status={status}
           usdBalance={balancesData.balanceUsd}
           balanceInRequests={balancesData.balanceInRequests}
         />
       );
     },
-    [classes.balance, status],
+    [classes.balance],
   );
 
   const currentPlanBalance = useMemo(() => {
@@ -92,6 +96,19 @@ export const ChargingModelWidget = ({
     );
   }, [classes.balanceProgressBar, currentChargingModel, renderBalance]);
 
+  const assetsBtn = useMemo(() => {
+    return (
+      <Button
+        className={classes.assetsBtn}
+        variant="outlined"
+        onClick={onOpenBalanceDialog}
+        disabled={currentChargingModel.type === EChargingModel.Free}
+      >
+        {t(`${intlRoot}.assets-balance-button`)}
+      </Button>
+    );
+  }, [classes.assetsBtn, currentChargingModel.type, onOpenBalanceDialog]);
+
   return (
     <>
       <Widget
@@ -102,10 +119,12 @@ export const ChargingModelWidget = ({
         <Header
           className={classes.header}
           currentChargingModelType={currentChargingModel.type}
-          onOpenBalanceDialog={onOpenBalanceDialog}
-        />
+        >
+          {!isMobile && assetsBtn}
+        </Header>
         {currentPlanBalance}
         {hasDescription && <Description className={classes.description} />}
+        {isMobile && assetsBtn}
         <UpgradePlanDialog
           currency={TopUpCurrency.USD}
           defaultState={ContentType.TOP_UP}

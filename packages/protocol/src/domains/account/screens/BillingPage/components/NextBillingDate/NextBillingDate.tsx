@@ -1,4 +1,4 @@
-import { Calendar } from '@ankr.com/ui';
+import { CreditCard } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
@@ -21,7 +21,7 @@ export const NextBillingDate = ({
 
   return (
     <div className={cx(classes.root, className)}>
-      <Calendar className={classes.icon} />
+      <CreditCard className={classes.icon} />
       {isDeprecatedModel
         ? t('account.account-details.deprecated-model')
         : t(`account.account-details.next-billing-date`, { date })}

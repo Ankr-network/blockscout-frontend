@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { renderLabel } from 'domains/account/screens/BillingPage/utils/renderLabel';
+import { ChargingModelLabel } from 'domains/account/screens/BillingPage/components/ChargingModelLabel/ChargingModelLabel';
 import { EChargingModel, IChargingModelData } from 'modules/billing/types';
 import { ProgressBar } from 'modules/common/components/ProgressBar';
 
@@ -37,14 +37,6 @@ export const BalanceMenuContent = ({
 
   const { type } = currentChargingModel;
 
-  const label = useMemo(() => {
-    return renderLabel({
-      currentChargingModelType: type,
-      isSmall: true,
-      className: classes.label,
-    });
-  }, [classes.label, type]);
-
   const balanceKey = isApiCreditsBalance ? creditBalanceKey : requestBalanceKey;
 
   const progressBar = useMemo(() => {
@@ -71,7 +63,11 @@ export const BalanceMenuContent = ({
         <Typography variant="subtitle3">
           {t('header.balance-menu.title')}
         </Typography>
-        {label}
+        <ChargingModelLabel
+          currentChargingModelType={type}
+          isSmall
+          className={classes.label}
+        />
       </div>
       <Typography component="p" variant="subtitle1" className={classes.balance}>
         {t(balanceKey, {

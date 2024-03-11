@@ -6,7 +6,4 @@ export const useHeaderStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gap: theme.spacing(2.5),
   },
-  assetsBtn: {
-    marginLeft: 'auto',
-  },
 }));
