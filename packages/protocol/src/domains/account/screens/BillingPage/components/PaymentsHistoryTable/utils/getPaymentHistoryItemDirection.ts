@@ -1,4 +1,4 @@
-import { IPaymentHistoryEntityType } from 'multirpc-sdk';
+import { PaymentType } from 'domains/account/types';
 
 export const CREDIT_TYPE = [
   'TRANSACTION_TYPE_UNKNOWN',
@@ -8,7 +8,7 @@ export const CREDIT_TYPE = [
 ];
 
 export const getPaymentHistoryItemDirection = (
-  type: IPaymentHistoryEntityType,
+  type: PaymentType,
 ): boolean | undefined => {
   if (['TRANSACTION_TYPE_UNKNOWN'].includes(type)) {
     return undefined;
@@ -16,6 +16,7 @@ export const getPaymentHistoryItemDirection = (
 
   return [
     'TRANSACTION_TYPE_DEPOSIT',
+    'TRANSACTION_TYPE_DEAL_DEPOSIT',
     'TRANSACTION_TYPE_BONUS',
     'TRANSACTION_TYPE_COMPENSATION',
     'TRANSACTION_TYPE_VOUCHER_TOPUP',

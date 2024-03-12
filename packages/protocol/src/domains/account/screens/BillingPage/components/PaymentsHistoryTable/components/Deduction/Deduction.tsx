@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { ArrowToRight } from '@ankr.com/ui';
+import { Typography } from '@mui/material';
 
 import { MS_IN_PERIOD } from './const';
 import { TransactionsDownloader } from '../../types';
@@ -23,13 +24,14 @@ export const Deduction = ({ downloader, timestamp, type }: DeductionProps) => {
   }, [canDownload, downloader, timestamp]);
 
   return (
-    <span
+    <Typography
       className={classes.transaction}
       onClick={onClick}
       role="button"
+      variant="body3"
       tabIndex={0}
     >
       {type} {canDownload && <ArrowToRight className={classes.arrowIcon} />}
-    </span>
+    </Typography>
   );
 };

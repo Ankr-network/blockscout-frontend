@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, MenuItem } from '@mui/material';
+import { Select } from '@ankr.com/ui';
 
 import {
   PaymentHistoryTableTimeframe,
   PaymentType,
 } from 'domains/account/types';
-import { Select } from 'uiKit/Select';
 
 import { useFilters } from './hooks/useFilters';
 import { useFiltersStyles } from './useFiltersStyles';
@@ -37,19 +37,37 @@ export const Filters = ({
       <Select
         fullWidth={false}
         onChange={changeTimeframe}
-        options={timeframeOptions}
         size="small"
         value={timeframe}
-      />
+      >
+        {timeframeOptions.map(timeframeOption => (
+          <MenuItem
+            key={timeframeOption.value}
+            value={timeframeOption.value}
+            disabled={timeframeOption.disabled}
+          >
+            {timeframeOption.label}
+          </MenuItem>
+        ))}
+      </Select>
       <Select
         displayEmpty
         fullWidth={false}
         onChange={changePaymentType}
-        options={paymentTypeOptions}
         renderValue={renderPaymentTypeValue}
         size="small"
         value={paymentType}
-      />
+      >
+        {paymentTypeOptions.map(paymentOption => (
+          <MenuItem
+            key={paymentOption.value}
+            value={paymentOption.value}
+            disabled={paymentOption.disabled}
+          >
+            {paymentOption.label}
+          </MenuItem>
+        ))}
+      </Select>
     </Box>
   );
 };

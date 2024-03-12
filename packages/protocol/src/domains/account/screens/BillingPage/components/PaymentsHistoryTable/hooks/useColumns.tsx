@@ -1,8 +1,10 @@
-import { IPaymentHistoryEntity, IPaymentHistoryEntityType } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
+import { Typography } from '@mui/material';
+import { Token } from 'multirpc-sdk';
 
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
+import { IPaymentHistoryTableEntity, PaymentType } from 'domains/account/types';
 
 import { Amount, CurrencySymbol } from '../components/Amount';
 import { Deduction } from '../components/Deduction';
@@ -16,9 +18,10 @@ import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDi
 import { useTransactionsDownloader } from './useTransactionsDownloader';
 import { getAmount, isCreditAmount } from '../utils/amountUtils';
 import { getCreditsValue } from '../utils/getCreditsValue';
+import { DetailsButtonContainer } from '../components/DetailsButton';
 
 const getCurrencySymbol = (
-  type: IPaymentHistoryEntityType,
+  type: PaymentType,
   creditAnkrAmount: string,
   creditUsdAmount: string,
 ) => {
@@ -37,19 +40,23 @@ const getCurrencySymbol = (
   return CurrencySymbol.ankr;
 };
 
+/* eslint-disable max-lines-per-function */
 export const useColumns = () => {
   const downloadTransactions = useTransactionsDownloader();
 
   return useLocaleMemo(
-    (): VirtualTableColumn<IPaymentHistoryEntity>[] => [
+    (): VirtualTableColumn<IPaymentHistoryTableEntity>[] => [
       {
         align: 'left',
         field: 'time',
         headerName: t('account.payment-table.head.col-1'),
-        render: ({ timestamp }) =>
-          t('account.payment-table.date-time', {
-            value: new Date(Number(timestamp)),
-          }),
+        render: ({ timestamp }) => (
+          <Typography variant="body3">
+            {t('account.payment-table.date-time', {
+              value: new Date(Number(timestamp)),
+            })}
+          </Typography>
+        ),
         width: 200,
         sortable: false,
       },
@@ -67,7 +74,7 @@ export const useColumns = () => {
               type={typeString}
             />
           ) : (
-            typeString
+            <Typography variant="body3">{typeString}</Typography>
           );
         },
         sortable: false,
@@ -125,6 +132,40 @@ export const useColumns = () => {
             })}
           />
         ),
+        sortable: false,
+      },
+      {
+        align: 'right',
+        field: 'button',
+        headerName: t('account.payment-table.head.col-5'),
+        render: ({
+          creditUsdAmount,
+          creditAnkrAmount,
+          amountUsd,
+          amountAnkr,
+          type,
+          txHash,
+          timestamp,
+        }) => {
+          return (
+            txHash && (
+              <DetailsButtonContainer
+                amount={getAmount({
+                  type,
+                  creditAnkrAmount,
+                  creditUsdAmount,
+                  amountAnkr,
+                  amountUsd,
+                })}
+                // temporary const, will be changed in Billing page version 2.0
+                token={Token.ANKR}
+                txHash={txHash}
+                date={new Date(Number(timestamp))}
+              />
+            )
+          );
+        },
+        width: 110,
         sortable: false,
       },
     ],

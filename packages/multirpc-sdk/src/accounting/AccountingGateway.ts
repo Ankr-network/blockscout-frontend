@@ -96,6 +96,8 @@ import {
 import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
+  IMyBundlesPaymentsRequest,
+  IMyBundlesPaymentsResponse,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
 } from './transactionsHistory';
@@ -186,6 +188,22 @@ export class AccountingGateway {
         {
           params,
           paramsSerializer: (request: IAggregatedPaymentHistoryRequest) =>
+            stringify(request, { indices: false }),
+        },
+      );
+
+    return response;
+  }
+
+  public async getMyBundlesPaymentsHistory(
+    params: IMyBundlesPaymentsRequest,
+  ): Promise<IMyBundlesPaymentsResponse> {
+    const { data: response } =
+      await this.api.get<IMyBundlesPaymentsResponse>(
+        '/api/v1/auth/myBundles/payments',
+        {
+          params,
+          paramsSerializer: (request: IMyBundlesPaymentsRequest) =>
             stringify(request, { indices: false }),
         },
       );

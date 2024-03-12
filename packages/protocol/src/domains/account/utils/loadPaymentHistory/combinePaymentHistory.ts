@@ -1,39 +1,53 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
+import { IPaymentHistoryTableEntity } from 'domains/account/types';
 
 import { filterTransactions } from './filterTransactions';
 
 export interface CombinePaymentHistoryParams {
   limit: number;
-  loadedDeductions: IPaymentHistoryEntity[];
-  loadedTransactions: IPaymentHistoryEntity[];
-  loadingDeductions: IPaymentHistoryEntity[];
+  loadedDeductions: IPaymentHistoryTableEntity[];
+  loadedTransactions: IPaymentHistoryTableEntity[];
+  loadedMyBundlesPayments: IPaymentHistoryTableEntity[];
+  loadingDeductions: IPaymentHistoryTableEntity[];
   loadingDeductionsCursor: number;
-  loadingTransactions: IPaymentHistoryEntity[];
+  loadingTransactions: IPaymentHistoryTableEntity[];
   loadingTransactionsCursor: number;
+  loadingMyBundlesPayments: IPaymentHistoryTableEntity[];
+  loadingMyBundlesPaymentsCursor: number;
 }
 
 export interface CombinedPaymentHistory {
-  deductions: IPaymentHistoryEntity[];
+  deductions: IPaymentHistoryTableEntity[];
   loadMore: boolean;
-  paymentHistory: IPaymentHistoryEntity[];
-  transactions: IPaymentHistoryEntity[];
+  paymentHistory: IPaymentHistoryTableEntity[];
+  transactions: IPaymentHistoryTableEntity[];
+  myBundlesPayments: IPaymentHistoryTableEntity[];
 }
 
 export const combinePaymentHistory = ({
   limit,
   loadedDeductions,
   loadedTransactions,
+  loadedMyBundlesPayments,
   loadingDeductions,
   loadingDeductionsCursor,
   loadingTransactions,
   loadingTransactionsCursor,
+  loadingMyBundlesPayments,
 }: CombinePaymentHistoryParams): CombinedPaymentHistory => {
   const transactions = [...loadedTransactions, ...loadingTransactions];
   const deductions = [...loadedDeductions, ...loadingDeductions];
+  const myBundlesPayments = [
+    ...loadedMyBundlesPayments,
+    ...loadingMyBundlesPayments,
+  ];
 
   const filteredTransactions = filterTransactions(transactions);
 
-  const paymentHistory = [...filteredTransactions, ...deductions];
+  const paymentHistory = [
+    ...filteredTransactions,
+    ...deductions,
+    ...myBundlesPayments,
+  ];
   const loadMore =
     paymentHistory.length <= 2 * limit &&
     (loadingDeductionsCursor !== -1 || loadingTransactionsCursor !== -1);
@@ -43,5 +57,6 @@ export const combinePaymentHistory = ({
     loadMore,
     paymentHistory,
     transactions,
+    myBundlesPayments,
   };
 };

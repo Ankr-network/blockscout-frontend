@@ -1,7 +1,4 @@
-import React, { StyleHTMLAttributes } from 'react';
-
-import { getMainTheme } from 'uiKit/Theme/mainTheme';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { Typography } from '@mui/material';
 
 import { getSign } from './utils/getSign';
 import { useStyles } from './AmountStyles';
@@ -20,19 +17,10 @@ export enum CurrencySymbol {
 export const Amount = ({ currencySymbol, direction, value }: AmountProps) => {
   const sign = getSign(direction);
 
-  const { classes } = useStyles();
-
-  const { themes } = useThemes();
-  const mainTheme = getMainTheme(themes);
-
-  // use styles doesn't update classes due the component is invoked from
-  // a render function
-  const style: StyleHTMLAttributes<'span'> = {
-    color: direction ? mainTheme.palette.success.main : undefined,
-  };
+  const { classes } = useStyles(direction);
 
   return (
-    <span className={classes.cell} style={style}>
+    <Typography className={classes.cell} variant="body3">
       {sign}
       {currencySymbol === CurrencySymbol.ankr ? (
         <>
@@ -44,6 +32,6 @@ export const Amount = ({ currencySymbol, direction, value }: AmountProps) => {
           {value}
         </>
       )}
-    </span>
+    </Typography>
   );
 };

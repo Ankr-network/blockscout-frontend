@@ -2025,28 +2025,27 @@
       "more": "Show 10 more",
       "empty": "No data for the selected filter parameters.",
       "head": {
-        "col-1": "Date & Time",
+        "col-1": "Date (UTC)",
         "col-2": "Payment type",
-        "col-3": "Amount",
-        "col-4": "Credits"
+        "col-3": "In USD/ANKR",
+        "col-4": "In API Credits",
+        "col-5": " "
       },
       "csv-title": "Payment charging for {month} {day}, {year}",
       "payment-type": {
         "placeholder": "Payment type",
-        "all": "All",
+        "all": "All types",
         "unknown": "Unknown",
-        "top-up": "Top up",
-        "deduction": "Payment charging",
-        "withdrawal": "Withdrawal",
-        "bonus": "Bonus",
-        "compensation": "Compensation",
-        "voucher": "Voucher operations"
+        "deal": "Deal payment",
+        "payg": "PAYG payment",
+        "deduction": "Payment charging"
       },
       "time-type": {
         "week": "Past week",
         "month": "Past month",
         "year": "Past year"
-      }
+      },
+      "details": "Details"
     },
     "top-up": {
       "breadcrumbs": "Top Up",

@@ -1,6 +1,5 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
-
 import {
+  IPaymentHistoryTableEntity,
   PaymentHistoryTableTimeframe,
   PaymentHistoryTableTimeframeBorders,
   PaymentType,
@@ -11,7 +10,7 @@ export interface PaymentHistory {
   initializing: boolean;
   isLoading: boolean;
   loadMore: () => void;
-  transactions: IPaymentHistoryEntity[];
+  transactions: IPaymentHistoryTableEntity[];
 }
 
 export interface PaymentHistoryParams {

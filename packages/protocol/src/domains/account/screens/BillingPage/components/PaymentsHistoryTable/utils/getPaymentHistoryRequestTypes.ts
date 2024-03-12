@@ -1,10 +1,8 @@
-import { IPaymentHistoryEntityType } from 'multirpc-sdk';
-
 import { PaymentType } from 'domains/account/types';
 
 export const getPaymentHistoryRequestTypes = (
   paymentType: PaymentType,
-): IPaymentHistoryEntityType[] | undefined => {
+): PaymentType[] | undefined => {
   if (paymentType === 'ALL') {
     return undefined;
   }

@@ -1,5 +1,5 @@
 import { t } from '@ankr.com/common';
-import { IPaymentHistoryEntityType } from 'multirpc-sdk';
+import { TPaymentHistoryEntityType } from 'multirpc-sdk';
 
 import { PAYMENT_HISTORY_TYPE } from '../../../const';
 
@@ -13,6 +13,6 @@ export const getPaymentTypeSelectValue = (value: unknown): string => {
   }
 
   return value
-    ? PAYMENT_HISTORY_TYPE[value as IPaymentHistoryEntityType]
+    ? PAYMENT_HISTORY_TYPE[value as TPaymentHistoryEntityType]
     : t('account.payment-table.payment-type.placeholder');
 };

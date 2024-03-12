@@ -1,3 +1,5 @@
+import { OverlaySpinner } from '@ankr.com/ui';
+
 import { CheckMarkImage } from 'modules/common/components/CheckMarkImage';
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
 
@@ -9,7 +11,9 @@ import { useSuccessCryptoPaymentDialogStyles } from './useSuccessCryptoPaymentDi
 
 export interface ISuccessCryptoPaymentDialigProps
   extends IDialogProps,
-    IUseSuccessCryptoPaymentDialogProps {}
+    IUseSuccessCryptoPaymentDialogProps {
+  isLoading?: boolean;
+}
 
 export const SuccessCryptoPaymentDialog = ({
   amount,
@@ -24,29 +28,40 @@ export const SuccessCryptoPaymentDialog = ({
   paymentType,
   toAddress,
   txDate,
+  isLoading = false,
   ...dialogProps
 }: ISuccessCryptoPaymentDialigProps) => {
   const { classes } = useSuccessCryptoPaymentDialogStyles();
 
   return (
-    <Dialog {...dialogProps} classes={classes} title={<CheckMarkImage />}>
-      <Header className={classes.header} txDate={txDate} />
-      <AddressDetails
-        className={classes.addressDetails}
-        from={fromAddress}
-        to={toAddress}
-      />
-      <TxDetails
-        amount={amount}
-        amountUSD={amountUSD}
-        approval={approval}
-        currency={currency}
-        depositFee={depositFee}
-        depositFeeUSD={depositFeeUSD}
-        depositTxURL={depositTxURL}
-        network={network}
-        paymentType={paymentType}
-      />
+    <Dialog
+      {...dialogProps}
+      classes={classes}
+      title={!isLoading && <CheckMarkImage />}
+    >
+      {isLoading ? (
+        <OverlaySpinner />
+      ) : (
+        <>
+          <Header className={classes.header} txDate={txDate} />
+          <AddressDetails
+            className={classes.addressDetails}
+            from={fromAddress}
+            to={toAddress}
+          />
+          <TxDetails
+            amount={amount}
+            amountUSD={amountUSD}
+            approval={approval}
+            currency={currency}
+            depositFee={depositFee}
+            depositFeeUSD={depositFeeUSD}
+            depositTxURL={depositTxURL}
+            network={network}
+            paymentType={paymentType}
+          />
+        </>
+      )}
     </Dialog>
   );
 };

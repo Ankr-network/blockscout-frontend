@@ -34,19 +34,15 @@ export const usePaymentTypeSelect = (
       },
       {
         value: 'TRANSACTION_TYPE_DEPOSIT',
-        label: t('account.payment-table.payment-type.top-up'),
+        label: t('account.payment-table.payment-type.payg'),
+      },
+      {
+        value: 'TRANSACTION_TYPE_DEAL_DEPOSIT',
+        label: t('account.payment-table.payment-type.deal'),
       },
       {
         value: 'TRANSACTION_TYPE_DEDUCTION',
         label: t('account.payment-table.payment-type.deduction'),
-      },
-      {
-        value: 'TRANSACTION_TYPE_WITHDRAW',
-        label: t('account.payment-table.payment-type.withdrawal'),
-      },
-      {
-        value: 'TRANSACTION_TYPE_VOUCHER_TOPUP',
-        label: t('account.payment-table.payment-type.voucher'),
       },
     ],
     [],

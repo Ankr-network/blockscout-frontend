@@ -9,6 +9,7 @@ import { getTransactionsRequest } from '../utils/getTransactionsRequest';
 const defaultData = {
   deductionsCursor: 0,
   transactionsCursor: 0,
+  myBundlesPaymentsCursor: 0,
   list: [],
 };
 
@@ -23,6 +24,7 @@ export const useTransactions = ({
         deductionsCursor,
         list: transactions,
         transactionsCursor,
+        myBundlesPaymentsCursor,
       } = defaultData,
       isLoading,
     },
@@ -34,7 +36,10 @@ export const useTransactions = ({
   const timeframeRef = useRef(timeframe);
   const paymentTypeRef = useRef(paymentType);
 
-  const hasMore = deductionsCursor > 0 || transactionsCursor > 0;
+  const hasMore =
+    deductionsCursor > 0 ||
+    transactionsCursor > 0 ||
+    myBundlesPaymentsCursor > 0;
 
   const loadMore = useCallback(() => {
     if (hasMore) {
@@ -44,6 +49,7 @@ export const useTransactions = ({
           paymentType,
           timeframe,
           transactionsCursor,
+          myBundlesPaymentsCursor,
         }),
         isPaginationRequest: true,
         group,
@@ -57,6 +63,7 @@ export const useTransactions = ({
     timeframe,
     transactionsCursor,
     group,
+    myBundlesPaymentsCursor,
   ]);
 
   useEffect(() => {

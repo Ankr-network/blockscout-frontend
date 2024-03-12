@@ -12,6 +12,7 @@ export interface TransactionsRequestParams {
   paymentType: PaymentType;
   timeframe: PaymentHistoryTableTimeframe;
   transactionsCursor?: number;
+  myBundlesPaymentsCursor?: number;
 }
 
 export const getTransactionsRequest = ({
@@ -19,10 +20,12 @@ export const getTransactionsRequest = ({
   paymentType,
   timeframe,
   transactionsCursor = 0,
+  myBundlesPaymentsCursor = 0,
 }: TransactionsRequestParams): PaymentHistoryParams => ({
   ...getTimeframeBorders(timeframe),
   deductionsCursor,
   limit: 15,
   transactionsCursor,
+  myBundlesPaymentsCursor,
   types: getPaymentHistoryRequestTypes(paymentType),
 });

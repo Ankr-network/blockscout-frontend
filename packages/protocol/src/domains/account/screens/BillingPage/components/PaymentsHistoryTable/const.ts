@@ -1,6 +1,7 @@
-import { IPaymentHistoryEntityType } from 'multirpc-sdk';
-
-import { PaymentHistoryTableTimeframe } from 'domains/account/types';
+import {
+  PaymentHistoryTableTimeframe,
+  PaymentType,
+} from 'domains/account/types';
 
 export const DEFAULT_TIMEFRAME = PaymentHistoryTableTimeframe.WEEK;
 
@@ -16,9 +17,11 @@ export const MAX_USD_DECIMAL_PLACES = 7;
 export const MIN_CREDIT_DECIMAL_PLACES = 0;
 export const MAX_CREDIT_DECIMAL_PLACES = 0;
 
-export const PAYMENT_HISTORY_TYPE: Record<IPaymentHistoryEntityType, string> = {
+export const PAYMENT_HISTORY_TYPE: Record<PaymentType, string> = {
+  ALL: 'All',
   TRANSACTION_TYPE_UNKNOWN: 'Unknown',
-  TRANSACTION_TYPE_DEPOSIT: 'Top Up',
+  TRANSACTION_TYPE_DEPOSIT: 'PAYG payment',
+  TRANSACTION_TYPE_DEAL_DEPOSIT: 'Deal payment',
   TRANSACTION_TYPE_DEDUCTION: 'Payment charging',
   TRANSACTION_TYPE_WITHDRAW: 'Withdrawal',
   TRANSACTION_TYPE_BONUS: 'Bonus',

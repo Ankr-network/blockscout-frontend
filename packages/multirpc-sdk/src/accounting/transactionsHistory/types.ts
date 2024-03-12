@@ -5,7 +5,7 @@ export interface IAggregatedPaymentHistoryResponse {
   cursor: string;
 }
 
-export type IPaymentHistoryEntityType =
+export type TPaymentHistoryEntityType =
   | 'TRANSACTION_TYPE_UNKNOWN'
   | 'TRANSACTION_TYPE_DEPOSIT'
   | 'TRANSACTION_TYPE_DEDUCTION'
@@ -24,7 +24,7 @@ export interface IAggregatedPaymentHistoryRequest extends IApiUserGroupParams {
   limit?: number;
   time_group: AggregatedPaymentHistoryTimeGroup;
   to?: number;
-  types?: IPaymentHistoryEntityType[];
+  types?: TPaymentHistoryEntityType[];
 }
 
 export enum AggregatedPaymentHistoryTimeGroup {
@@ -35,13 +35,14 @@ export enum AggregatedPaymentHistoryTimeGroup {
 
 export interface IPaymentHistoryEntity {
   timestamp: string;
-  type: IPaymentHistoryEntityType;
+  type: TPaymentHistoryEntityType;
   amountUsd: string;
   amountAnkr: string;
   amount: string;
   creditAnkrAmount: string;
   creditUsdAmount: string;
   creditVoucherAmount: string;
+  reason: string; // txHash or id
 }
 
 export interface IPaymentHistoryRequest extends IApiUserGroupParams {
@@ -51,10 +52,61 @@ export interface IPaymentHistoryRequest extends IApiUserGroupParams {
   order_by?: keyof IPaymentHistoryEntity;
   order?: 'asc' | 'desc';
   to?: number;
-  type?: IPaymentHistoryEntityType[];
+  type?: TPaymentHistoryEntityType[];
 }
 
 export interface IPaymentHistoryResponse {
   transactions?: IPaymentHistoryEntity[];
+  cursor: string;
+}
+
+export interface IMyBundlesPaymentsRequest extends IApiUserGroupParams {
+  bundle_id?: string;
+  cursor?: number;
+  from?: number;
+  to?: number;
+  limit?: number;
+  only_successful?: boolean;
+}
+
+export enum ELimitType {
+  QTY = 'QTY',
+  COST = 'COST',
+}
+
+interface ILimitEntity {
+  blockchain_paths: string;
+  limit?: number;
+  type: ELimitType;
+}
+
+interface IBundleDataEntity {
+  name: string;
+  acvite: boolean;
+  bundle_id: string;
+  product_id: string;
+  price_id: string;
+  limits: ILimitEntity[];
+  immutable_limits: [];
+  duration: number;
+  created_at: number;
+  updated_at: number;
+}
+
+export enum EBundleStatus {
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+}
+
+export interface IBundleEntity {
+  bundle: IBundleDataEntity;
+  purchased_at: number;
+  expires_at: number;
+  status: EBundleStatus;
+  payment_id: string;
+}
+
+export interface IMyBundlesPaymentsResponse {
+  bundles: IBundleEntity[];
   cursor: string;
 }

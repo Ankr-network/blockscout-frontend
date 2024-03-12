@@ -64,3 +64,25 @@ export const PROD_CONFIG: IConfig = {
 };
 
 export const DATE_MULTIPLIER = 1_000_000;
+
+export enum EBlockchain {
+  arbitrum = 'arbitrum',
+  avalanche = 'avalanche',
+  base = 'base',
+  bsc = 'bsc',
+  eth = 'eth',
+  fantom = 'fantom',
+  flare = 'flare',
+  gnosis = 'gnosis',
+  linea = 'linea',
+  optimism = 'optimism',
+  polygon = 'polygon',
+  polygon_zkevm = 'polygon_zkevm',
+  rollux = 'rollux',
+  scroll = 'scroll',
+  syscoin = 'syscoin',
+  avalanche_fuji = 'avalanche_fuji',
+  eth_goerli = 'eth_goerli',
+  optimism_testnet = 'optimism_testnet',
+  polygon_mumbai = 'polygon_mumbai',
+}

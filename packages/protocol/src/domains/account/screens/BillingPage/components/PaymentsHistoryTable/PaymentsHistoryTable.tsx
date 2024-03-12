@@ -30,7 +30,7 @@ export const PaymentsHistoryTable = () => {
   return (
     <Box display="flex" flexDirection="column">
       <Box mb={5} className={classes.top}>
-        <Typography variant="h6" className={classes.paymentsHistoryTitle}>
+        <Typography variant="h6" className={classes.title}>
           {t('account.payment-table.title')}
         </Typography>
         <Filters

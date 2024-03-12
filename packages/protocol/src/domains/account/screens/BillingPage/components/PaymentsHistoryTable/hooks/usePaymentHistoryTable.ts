@@ -1,7 +1,6 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
-
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import {
+  IPaymentHistoryTableEntity,
   PaymentHistoryTableTimeframe,
   PaymentType,
 } from 'domains/account/types';
@@ -12,13 +11,13 @@ import { useTimeframe } from './useTimeframe';
 import { useTransactions } from './useTransactions';
 
 export interface PaymentHistoryTable {
-  columns: VirtualTableColumn<IPaymentHistoryEntity>[];
+  columns: VirtualTableColumn<IPaymentHistoryTableEntity>[];
   hasMore: boolean;
   initializing: boolean;
   isLoading: boolean;
   loadMore: () => void;
   paymentType: PaymentType;
-  rows: IPaymentHistoryEntity[];
+  rows: IPaymentHistoryTableEntity[];
   setPaymentType: (type: PaymentType) => void;
   setTimeframe: (timeframe: PaymentHistoryTableTimeframe) => void;
   timeframe: PaymentHistoryTableTimeframe;
@@ -28,13 +27,8 @@ export const usePaymentHistoryTable = (): PaymentHistoryTable => {
   const [timeframe, setTimeframe] = useTimeframe();
   const [paymentType, setPaymentType] = usePaymentType();
 
-  const {
-    hasMore,
-    initializing,
-    isLoading,
-    loadMore,
-    transactions: rows,
-  } = useTransactions({ timeframe, paymentType });
+  const { hasMore, initializing, isLoading, loadMore, transactions } =
+    useTransactions({ timeframe, paymentType });
 
   const columns = useColumns();
 
@@ -45,7 +39,7 @@ export const usePaymentHistoryTable = (): PaymentHistoryTable => {
     isLoading,
     loadMore,
     paymentType,
-    rows,
+    rows: transactions,
     setPaymentType,
     setTimeframe,
     timeframe,
