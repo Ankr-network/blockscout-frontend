@@ -71,8 +71,15 @@ export const fetchPaymentHistory = async ({
   const { dealOnly, deductionsOnly, depositOnly, withDeductions } =
     parseTypes(types);
 
+  const shouldRequestPaymentHsitory =
+    transactionsCursor >= 0 && !deductionsOnly && !dealOnly;
+  const shouldRequestAggregatedPaymentHsitory =
+    deductionsCursor >= 0 && withDeductions && !dealOnly && !depositOnly;
+  const shouldRequestBundlesPaymentHsitory =
+    myBundlesPaymentsCursor >= 0 && !deductionsOnly && !depositOnly;
+
   const requests: Requests = [
-    transactionsCursor >= 0 && !deductionsOnly && !dealOnly
+    shouldRequestPaymentHsitory
       ? service.getAccountingGateway().getPaymentHistory({
           cursor: transactionsCursor,
           from,
@@ -84,7 +91,7 @@ export const fetchPaymentHistory = async ({
           group,
         })
       : defaultRequest,
-    deductionsCursor >= 0 && withDeductions && !dealOnly && !depositOnly
+    shouldRequestAggregatedPaymentHsitory
       ? service.getAccountingGateway().getAggregatedPaymentHistory({
           cursor: deductionsCursor,
           from,
@@ -95,7 +102,7 @@ export const fetchPaymentHistory = async ({
           group,
         })
       : defaultRequest,
-    myBundlesPaymentsCursor >= 0 && !deductionsOnly && !depositOnly
+    shouldRequestBundlesPaymentHsitory
       ? service.getAccountingGateway().getMyBundlesPaymentsHistory({
           cursor: myBundlesPaymentsCursor,
           from,

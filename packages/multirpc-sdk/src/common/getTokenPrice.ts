@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js';
+
 import { configFromEnv, getBlochainByChainId } from './utils';
+import { postRequestConfig } from './const';
 
 
 type MethodToTypes = {
@@ -34,11 +36,7 @@ export const getAdvancedApi = <T extends Method>(
   const body = buildRpcRequestData({ method, params });
 
   return fetch(config.advancedApiUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
+    ...postRequestConfig,
     body: JSON.stringify(body),
   })
     .then(res => res.json())

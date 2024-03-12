@@ -15,7 +15,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
       gap: theme.spacing(3),
     },
   },
-  title: {
+  paymentsHistoryTitle: {
     flexShrink: 0,
     color: theme.palette.text.primary,
   },

@@ -86,3 +86,11 @@ export enum EBlockchain {
   optimism_testnet = 'optimism_testnet',
   polygon_mumbai = 'polygon_mumbai',
 }
+
+export const postRequestConfig = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+}
