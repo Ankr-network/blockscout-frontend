@@ -49,6 +49,9 @@ export const getTotalRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Stellar:
       return theme.palette.success.main;
 
+    case ChainId.Kinto:
+      return theme.palette.success.main;
+
     default:
       return theme.palette.primary.main;
   }

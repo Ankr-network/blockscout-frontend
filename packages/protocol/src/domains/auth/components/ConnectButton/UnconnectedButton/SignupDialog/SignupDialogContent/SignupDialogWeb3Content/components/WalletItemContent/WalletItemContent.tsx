@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { isMobile } from 'web3modal';
+
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 import { useSignupDialogWeb3ContentStyles } from '../../useSignupDialogWeb3ContentStyles';
 
@@ -16,9 +17,9 @@ export const WalletItemContent = ({
   name,
   isInjected,
 }: WalletItemContentProps) => {
-  const isMobileView = isMobile();
+  const isMobile = useIsSMDown();
 
-  const { classes } = useSignupDialogWeb3ContentStyles(isMobileView);
+  const { classes } = useSignupDialogWeb3ContentStyles(isMobile);
 
   return (
     <>

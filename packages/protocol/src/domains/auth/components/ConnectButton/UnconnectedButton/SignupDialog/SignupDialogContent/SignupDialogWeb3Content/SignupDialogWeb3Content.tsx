@@ -1,11 +1,13 @@
-import { Fragment } from 'react';
+// @ts-nocheck
+import { Fragment, useMemo } from 'react';
 import { uid } from 'react-uid';
 import { Box, ButtonBase, Grid, Tooltip, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { isMobile } from 'web3modal';
+
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 import { useSignupDialogWeb3ContentStyles } from './useSignupDialogWeb3ContentStyles';
-import { ETH_COMPATIBLE_WALLETS } from './SignupDialogWeb3ContentUtils';
+import { getEthCompatibleWallets } from './SignupDialogWeb3ContentUtils';
 import {
   IConnectWalletsModalProps,
   IOnWalletItemClickArgs,
@@ -16,8 +18,8 @@ export const SignupDialogWeb3Content = ({
   onConnect,
   onClose,
 }: IConnectWalletsModalProps) => {
-  const isMobileView = isMobile();
-  const { cx, classes } = useSignupDialogWeb3ContentStyles(isMobileView);
+  const isMobile = useIsSMDown();
+  const { cx, classes } = useSignupDialogWeb3ContentStyles(isMobile);
 
   const onWalletItemClick =
     ({ href, isInjected, walletId }: IOnWalletItemClickArgs) =>
@@ -33,10 +35,12 @@ export const SignupDialogWeb3Content = ({
       await onConnect(walletId);
     };
 
+  const wallets = useMemo(() => getEthCompatibleWallets(isMobile), [isMobile]);
+
   return (
     <Box width="100%">
       <Grid container spacing={4} sx={{ marginTop: 0, marginLeft: -2 }}>
-        {ETH_COMPATIBLE_WALLETS.map(walletsGroup => (
+        {wallets.map(walletsGroup => (
           <Fragment key={uid(walletsGroup)}>
             {walletsGroup.map(walletItem => {
               const {

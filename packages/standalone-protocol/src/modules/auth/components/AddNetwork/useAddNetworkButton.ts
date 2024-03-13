@@ -2,7 +2,7 @@ import { useMemo, MouseEvent } from 'react';
 import { useDispatchRequest } from '@redux-requests/react';
 
 import { useAddNetwork } from 'modules/auth/hooks/useAddNetwork';
-import { connectWeb3 } from 'modules/auth/actions/connectWeb3';
+import { checkWeb3 } from 'modules/auth/actions/checkWeb3';
 import { Chain } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderTypes';
 
 import { getMappedNetwork } from './AddNetworkUtils';
@@ -19,7 +19,7 @@ export const useAddNetworkButton = ({ chain }: { chain: Chain }) => {
     /* stop propagation for click event to avoid parent element click */
     event.stopPropagation();
 
-    const { error } = await dispatch(connectWeb3());
+    const { error } = await dispatch(checkWeb3());
 
     if (error) return undefined;
 

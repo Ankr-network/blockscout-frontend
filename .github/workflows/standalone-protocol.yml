@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.13.0'
+          node-version: '20.11.0'
           cache: 'yarn'
 
       - name: Prevent wrong version releasing
@@ -65,7 +65,7 @@ jobs:
       - name: Build production
         working-directory: ./packages/standalone-protocol
         env:
-          NAMES: eth near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin scrt filecoin klaytn polygon bsc fantom zkevm chiliz tenet_evm rollux horizen_eon zksync_era mantle flare sei xdc scroll core stellar kava
+          NAMES: eth near arbitrum iotex avalanche nervos harmony moonbeam gnosis syscoin scrt filecoin klaytn polygon bsc fantom zkevm chiliz tenet_evm rollux horizen_eon zksync_era mantle flare sei xdc scroll core stellar kava kinto
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
           TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 

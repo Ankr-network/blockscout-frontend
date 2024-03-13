@@ -4,8 +4,6 @@ import {
   ProviderManager,
 } from '@ankr.com/provider';
 
-import { web3ModalTheme } from './Web3ModalKeyProvider';
-
 export class ProviderManagerSingleton {
   private static instance?: ProviderManager<any>;
 
@@ -16,10 +14,7 @@ export class ProviderManagerSingleton {
       return ProviderManagerSingleton.instance;
     }
 
-    ProviderManagerSingleton.instance = new ProviderManager<ProvidersMap>(
-      web3ModalTheme,
-      {},
-    );
+    ProviderManagerSingleton.instance = new ProviderManager<ProvidersMap>({});
 
     return ProviderManagerSingleton.instance;
   }

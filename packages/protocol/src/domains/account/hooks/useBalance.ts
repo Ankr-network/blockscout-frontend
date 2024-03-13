@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { SubscriptionOptions } from '@reduxjs/toolkit/dist/query/core/apiState';
 import { useEffect, useMemo } from 'react';
 

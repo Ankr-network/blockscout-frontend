@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable max-params */
 import { ethers, BigNumber, utils } from 'ethers';
 

@@ -155,6 +155,7 @@ export enum ChainID {
   KAVA_TENDERMINT_REST_TESTNET = 'kava-tendermint-rest-testnet',
   KAVA_TENDERMINT_RPC_TESTNET = 'kava-tendermint-rpc-testnet',
 
+  KINTO = 'kinto',
   KLAYTN = 'klaytn',
   KLAYTN_TESTNET = 'klaytn_testnet',
   KUSAMA = 'kusama',

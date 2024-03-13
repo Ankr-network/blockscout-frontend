@@ -2,6 +2,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { switchEthereumChain } from 'domains/auth/utils/switchEthereumChain';
 import { timeout } from 'modules/common/utils/timeout';
 
+// TODO: MRPC-4242 remove it as a vestige
 export const switchChain = async () => {
   await switchEthereumChain();
 

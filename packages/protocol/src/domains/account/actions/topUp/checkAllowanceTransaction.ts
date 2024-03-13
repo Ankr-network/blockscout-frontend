@@ -22,7 +22,7 @@ export const {
         async (initialTransactionHash, { getState }) => {
           // step 1: trying to take a receipt
           const service = await MultiService.getWeb3Service();
-          const provider = service.getKeyProvider();
+          const provider = service.getKeyReadProvider();
 
           const address = await getCurrentTransactionAddress(
             getState as GetState,

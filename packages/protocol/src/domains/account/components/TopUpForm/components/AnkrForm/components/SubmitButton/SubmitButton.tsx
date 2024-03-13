@@ -11,7 +11,7 @@ import { FormValues } from '../../types';
 import { useSubmitButtonStyles } from './SubmitButtonStyles';
 
 export const SubmitButton = () => {
-  const { isWalletConnected } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   const { submit } = useForm<FormValues>();
   const { validating } = useFormState<FormValues>();
@@ -30,7 +30,7 @@ export const SubmitButton = () => {
     );
   }
 
-  if (isWalletConnected) {
+  if (isLoggedIn) {
     return (
       <Button
         className={classes.root}

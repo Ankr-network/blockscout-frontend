@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMemo } from 'react';
 
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect } from 'react';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';

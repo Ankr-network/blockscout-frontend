@@ -1,10 +1,13 @@
 import BigNumber from 'bignumber.js';
-import { Web3KeyWriteProvider, IWeb3SendResult } from '@ankr.com/provider';
+import { Web3KeyWriteProvider, IWeb3SendResult, Web3KeyReadProvider } from '@ankr.com/provider';
+import { Contract } from 'web3-eth-contract';
 
 import { base64ToPrefixedHex } from '../common';
 import { DepositAnkrForUserParams, IPAYGContractManagerConfig, SendDepositTransactionForUserParams } from './types';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo } from './abi/IPayAsYouGo';
+import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
+import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { PAYGReadContractManager } from './PAYGReadContractManager';
 import { formatFromWei, roundDecimals } from '../utils/roundDecimals';
 
@@ -15,23 +18,38 @@ export const DEPOSIT_ERROR =
   'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
 
 export class PAYGContractManager extends PAYGReadContractManager {
+  protected readonly ankrTokenContract: Contract;
+
+  protected readonly payAsYouGoWriteContract: Contract;
+
   constructor(
-    protected readonly keyProvider: Web3KeyWriteProvider,
+    protected readonly keyWriteProvider: Web3KeyWriteProvider,
+    protected readonly keyReadProvider: Web3KeyReadProvider,
     protected readonly config: IPAYGContractManagerConfig,
   ) {
-    super(keyProvider, config);
+    super(keyReadProvider, config);
+
+    this.ankrTokenContract = keyWriteProvider.createContract(
+      ABI_ANKR_TOKEN,
+      config.payAsYouGoAnkrTokenContractAddress,
+    );
+
+    this.payAsYouGoWriteContract = keyWriteProvider.createContract(
+      ABI_PAY_AS_YOU_GO,
+      config.payAsYouGoContractAddress,
+    );
   }
 
   public async getCurrentAccountBalance() {
-    const { currentAccount } = this.keyProvider;
+    const { currentAccount } = this.keyWriteProvider;
 
-    return (this.ankrTokenContract.methods as IAnkrToken)
+    return (this.ankrTokenReadContract.methods as IAnkrToken)
       .balanceOf(currentAccount)
       .call();
   }
 
   private async sendAllowance(allowanceValue: BigNumber) {
-    const { currentAccount } = this.keyProvider;
+    const { currentAccount } = this.keyWriteProvider;
 
     const data = await (this.ankrTokenContract.methods as IAnkrToken)
       .approve(
@@ -40,7 +58,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
       )
       .encodeABI();
 
-    return this.keyProvider.sendTransactionAsync(
+    return this.keyWriteProvider.sendTransactionAsync(
       currentAccount,
       this.config.payAsYouGoAnkrTokenContractAddress,
       {
@@ -55,9 +73,9 @@ export class PAYGContractManager extends PAYGReadContractManager {
     publicKey: string,
     expiresAfter: string,
   ) {
-    const { currentAccount } = this.keyProvider;
+    const { currentAccount } = this.keyWriteProvider;
 
-    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
+    const data = (this.payAsYouGoWriteContract.methods as IPayAsYouGo)
       .deposit(
         depositValue.toString(10),
         expiresAfter,
@@ -65,7 +83,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
       )
       .encodeABI();
 
-    return this.keyProvider.sendTransactionAsync(
+    return this.keyWriteProvider.sendTransactionAsync(
       currentAccount,
       this.config.payAsYouGoContractAddress,
       {
@@ -81,9 +99,9 @@ export class PAYGContractManager extends PAYGReadContractManager {
     targetAddress,
     expiresAfter,
   }: SendDepositTransactionForUserParams) {
-    const { currentAccount } = this.keyProvider;
+    const { currentAccount } = this.keyWriteProvider;
 
-    const data = (this.payAsYouGoContract.methods as IPayAsYouGo)
+    const data = (this.payAsYouGoWriteContract.methods as IPayAsYouGo)
       .depositForUser(
         depositValue.toString(10),
         expiresAfter,
@@ -92,7 +110,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
       )
       .encodeABI();
 
-    return this.keyProvider.sendTransactionAsync(
+    return this.keyWriteProvider.sendTransactionAsync(
       currentAccount,
       this.config.payAsYouGoContractAddress,
       {
@@ -137,10 +155,10 @@ export class PAYGContractManager extends PAYGReadContractManager {
   }
 
   async getAllowanceValue() {
-    const provider = this.keyProvider;
+    const provider = this.keyWriteProvider;
     const { currentAccount } = provider;
 
-    const allowance = await (this.ankrTokenContract.methods as IAnkrToken)
+    const allowance = await (this.ankrTokenReadContract.methods as IAnkrToken)
       .allowance(currentAccount, this.config.payAsYouGoContractAddress)
       .call();
 

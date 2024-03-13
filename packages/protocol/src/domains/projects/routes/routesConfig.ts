@@ -8,9 +8,9 @@ import { useQueryParams } from 'modules/common/hooks/useQueryParams';
 const PROJECT_ID_QUERY = 'projectId';
 const CHAIN_ID_QUERY = 'chainId';
 
-export const PROJECTS_PATH = '/projects';
-export const NEW_PROJECT_PATH = `${PROJECTS_PATH}/new`;
-export const PROJECT_PATH = `${PROJECTS_PATH}/?${PROJECT_ID_QUERY}=:projectId`;
+export const PROJECTS_PATH = '/projects/';
+export const NEW_PROJECT_PATH = `${PROJECTS_PATH}new/`;
+export const PROJECT_PATH = `${PROJECTS_PATH}?${PROJECT_ID_QUERY}=:projectId`;
 
 export const ProjectsRoutesConfig = createRouteConfig(
   {

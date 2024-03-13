@@ -1,7 +1,10 @@
-import { GetState } from 'store';
+import { EWalletId } from '@ankr.com/provider';
+
 import { MultiService } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getProviderManager } from 'modules/api/getProviderManager';
+import { GetState } from 'store';
 import { web3Api } from 'store/queries';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 import {
   getCachedData,
@@ -32,14 +35,16 @@ export const {
           throw error;
         }
 
-        const web3Service = await MultiService.getWeb3Service();
-
         const cachedData = getCachedData(service, getState as GetState);
 
         const { hasWeb3Connection, address: cachedAddress } = cachedData;
         let { hasOauthLogin } = cachedData;
 
-        const provider = web3Service.getKeyProvider();
+        const providerManager = getProviderManager();
+        const provider = await providerManager.getETHWriteProvider(
+          EWalletId.injected,
+        );
+
         const { currentAccount: providerAddress } = provider;
 
         if (

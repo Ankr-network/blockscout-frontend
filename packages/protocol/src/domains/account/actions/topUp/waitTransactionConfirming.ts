@@ -82,7 +82,7 @@ export const {
       queryFn: async (_args, { getState, dispatch }) => {
         const state: any = getState();
         const service = await MultiService.getWeb3Service();
-        const provider = service.getKeyProvider();
+        const provider = service.getKeyReadProvider();
 
         const address = await getCurrentTransactionAddress(
           getState as GetState,

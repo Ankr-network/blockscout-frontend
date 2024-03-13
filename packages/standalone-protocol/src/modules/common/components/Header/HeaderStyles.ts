@@ -185,6 +185,12 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
         color: '#FDDA24',
       },
     },
+
+    [`&.${ChainId.Kinto}`]: {
+      '& .chainId': {
+        color: theme.palette.primary.main,
+      },
+    },
   },
   description: {
     [`&.${ChainId.Avalanche} span`]: {
@@ -242,6 +248,10 @@ export const useStyles = makeStyles<Theme, HeaderStylesProps>(theme => ({
     },
 
     [`&.${ChainId.Stellar} span`]: {
+      color: theme.palette.text.primary,
+    },
+
+    [`&.${ChainId.Kinto} span`]: {
       color: theme.palette.text.primary,
     },
   },

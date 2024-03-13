@@ -24,14 +24,14 @@ import { AmountField } from '../AmountField';
 
 interface RenderFormParams {
   classes: ClassNameMap;
-  isWalletConnected: boolean;
+  isLoggedIn: boolean;
   trackSubmit?: TrackTopUpSubmit;
   validateAmount?: any;
 }
 
 export const useRenderForm = ({
   classes,
-  isWalletConnected,
+  isLoggedIn,
   trackSubmit,
   validateAmount,
 }: RenderFormParams) => {
@@ -48,7 +48,7 @@ export const useRenderForm = ({
     }: FormRenderProps<TopUpFormValues>) => {
       const amountValue = new BigNumber(values?.amount || 0);
 
-      const button = isWalletConnected ? (
+      const button = isLoggedIn ? (
         <Button
           className={classes.button}
           color="primary"
@@ -125,7 +125,7 @@ export const useRenderForm = ({
       classes,
       hasConnectButton,
       isOpened,
-      isWalletConnected,
+      isLoggedIn,
       onClose,
       onOpen,
       trackSubmit,

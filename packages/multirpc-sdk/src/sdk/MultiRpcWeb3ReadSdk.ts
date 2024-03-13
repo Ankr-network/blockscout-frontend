@@ -15,14 +15,14 @@ export class MultiRpcWeb3ReadSdk {
   private accountingGateway?: AccountingGateway;
 
   public constructor(
-    private readonly keyProvider: Web3KeyReadProvider,
+    private readonly keyReadProvider: Web3KeyReadProvider,
     private readonly config: IConfig,
-  ) {}
+  ) { }
 
   private getPAYGReadContractManager(): PAYGReadContractManager {
     this.PAYGReadContractManager =
       this.PAYGReadContractManager ||
-      new PAYGReadContractManager(this.keyProvider, this.config);
+      new PAYGReadContractManager(this.keyReadProvider, this.config);
 
     return this.PAYGReadContractManager;
   }

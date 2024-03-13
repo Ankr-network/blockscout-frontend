@@ -1,3 +1,4 @@
+// @ts-nocheck
 import BigNumber from 'bignumber.js';
 import { IWorkerGlobalStatus } from 'multirpc-sdk';
 

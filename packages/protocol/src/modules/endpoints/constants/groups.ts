@@ -119,6 +119,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.HECO,
       ChainID.HECO_TESTNET,
 
+      ChainID.KINTO,
       ChainID.KLAYTN,
       ChainID.KLAYTN_TESTNET,
 

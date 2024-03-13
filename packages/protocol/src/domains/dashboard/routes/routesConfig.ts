@@ -1,6 +1,6 @@
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const DASHBOARD_PATH = '/dashboard';
+export const DASHBOARD_PATH = '/dashboard/';
 
 export const DashboardRoutesConfig = createRouteConfig(
   {

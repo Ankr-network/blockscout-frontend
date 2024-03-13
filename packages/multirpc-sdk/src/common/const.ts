@@ -14,7 +14,7 @@ export const CONFIRMATION_BLOCKS = 12;
 export const ENTERPRISE_API_KEY_QUERY_PARAM = 'apikey';
 
 export const STAGING_CONFIG: IConfig = {
-  ankrTokenContractAddress: '0x65BF0bD516aD41622e45bFD22dAD57ffF828333a',
+  ankrTokenContractAddress: '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
   premiumPlanContractAddress: '0xD099e6Be8B30ACc74E3b4e6E80D5e0dB58291e93',
   confirmationBlocks: CONFIRMATION_BLOCKS,
   publicEnterpriseRpcUrl: 'https://enterprise-staging.onerpc.com/{blockchain}',

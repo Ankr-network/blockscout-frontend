@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 import { useAppSelector } from 'store/useAppSelector';

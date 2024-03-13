@@ -41,20 +41,11 @@ export const TeamMemberActions = ({
   if (isCurrentUser) {
     if (hasTransferOwnershipPermission) {
       if (isOnlyOneMember) {
-
         return (
-          <Tooltip
-            placement='top'
-            title={t('teams.team-table.tooltip')}
-          >
-            <Button
-              size="small"
-              variant="outlined"
-              color="secondary"
-            >
+          <Tooltip placement="top" title={t('teams.team-table.tooltip')}>
+            <Button size="small" variant="outlined" color="secondary">
               {t('teams.team-table.transfer-ownership')}
             </Button>
-
           </Tooltip>
         );
       }

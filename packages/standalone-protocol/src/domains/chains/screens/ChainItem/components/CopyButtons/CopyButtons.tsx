@@ -12,6 +12,7 @@ import { NervosButtons } from './NervosButtons';
 import { ChainButtons } from './ChainButtons';
 import { KavaButtons } from './KavaButtons';
 import { StellarButton } from './StellarButton';
+import { KintoButtons } from './KintoButtons';
 
 interface ICopyButtonsProps {
   data?: IChainItemDetails;
@@ -47,6 +48,17 @@ export const CopyButtons = ({
   if (chainId === ChainId.Kava) {
     return (
       <KavaButtons
+        chain={formattedChain}
+        chainId={chainId}
+        onCopy={onCopy}
+        isXSDown={isXSDown}
+      />
+    );
+  }
+
+  if (chainId === ChainId.Kinto) {
+    return (
+      <KintoButtons
         chain={formattedChain}
         chainId={chainId}
         onCopy={onCopy}

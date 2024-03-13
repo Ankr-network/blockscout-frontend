@@ -1,5 +1,5 @@
 import { Address } from '@ankr.com/provider';
-import { Timestamp } from '@ankr.com/utils/dist';
+import { Timestamp } from '@ankr.com/utils';
 
 import { IApiUserGroupParams } from '../userGroup';
 import { BlockchainID, Timeframe } from '../../common';

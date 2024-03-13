@@ -16,7 +16,7 @@ export const {
           .getContractService()
           .getCurrentAccountBalance();
 
-        const keyProvider = service.getKeyProvider();
+        const keyProvider = service.getKeyWriteProvider();
 
         const value = keyProvider.getWeb3().utils.fromWei(data);
 

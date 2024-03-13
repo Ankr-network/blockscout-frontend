@@ -34,6 +34,7 @@ export enum ChainId {
   XDC = 'xdc',
   Kava = 'kava',
   Stellar = 'stellar',
+  Kinto = 'kinto',
 }
 
 export const HORIZEN_NAME = 'Horizen EON';

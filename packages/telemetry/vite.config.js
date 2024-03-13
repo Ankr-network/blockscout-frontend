@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import { externals } from 'rollup-plugin-node-externals';
 
-
 import packageJson from './package.json';
 
 export default defineConfig({
@@ -21,25 +20,11 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'index',
+      formats: ['es'],
+      fileName: 'index',
     },
     rollupOptions: {
-      output: [
-        {
-          format: 'es',
-          dir: 'dist/esm',
-          entryFileNames: `[name].js`,
-          chunkFileNames: `[name].js`,
-        },
-        {
-          format: 'cjs',
-          dir: 'dist/cjs',
-          entryFileNames: `[name].js`,
-          chunkFileNames: `[name].js`,
-        },
-      ],
-      external: [
-        ...Object.keys(packageJson.dependencies),
-      ],
+      external: [...Object.keys(packageJson.peerDependencies)],
     },
   },
 });

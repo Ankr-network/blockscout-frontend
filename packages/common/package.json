@@ -1,11 +1,11 @@
 {
   "name": "@ankr.com/common",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Common module",
   "private": false,
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.js",
   "types": "./src/index.ts",
+  "type": "module",
   "files": [
     "dist",
     "src"
@@ -52,17 +52,13 @@
     "ts-node": "^7.0.1",
     "typescript": "^4.1.2"
   },
-  "dependencies": {
-    "bignumber.js": "^9.0.1",
+  "dependencies": {},
+  "peerDependencies": {
     "react": "^17.0.2",
-    "react-gtm-module": "^2.0.11",
+    "bignumber.js": "^9.0.1",
     "react-intl-universal": "^2.4.8",
-    "react-router": "^5.2.1",
-    "web3": "1.7.0",
-    "web3-core": "1.7.0",
-    "web3-eth-contract": "1.7.0",
-    "web3-utils": "1.7.0",
-    "web3modal": "^1.9.4"
+    "react-gtm-module": "^2.0.11",
+    "react-router": "^5.2.1"
   },
   "directories": {
     "test": "test"

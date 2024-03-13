@@ -47,6 +47,7 @@ export const usePublicChainType = ({
       chain,
       netId,
       isMainnetPremiumOnly: chain?.isMainnetPremiumOnly,
+      isTestnetPremiumOnly: isBlockedTestnet,
     }),
     tabs,
   });

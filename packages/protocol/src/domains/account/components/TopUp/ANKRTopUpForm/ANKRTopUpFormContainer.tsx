@@ -14,7 +14,7 @@ export const ANKRTopUpFormContainer = ({
   validateAmount,
 }: AnkrTopUpFormContainerProps) => {
   useCheckBrokenTransaction();
-  const { isWalletConnected } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   const emailData = useEmailData();
 
@@ -30,7 +30,7 @@ export const ANKRTopUpFormContainer = ({
       <ANKRTopUpForm
         hasLoginStep={false}
         initialValues={initialValues}
-        isWalletConnected={isWalletConnected}
+        isLoggedIn={isLoggedIn}
         onSubmit={onSubmit}
         trackSubmit={trackSubmit}
         validateAmount={validateAmount}

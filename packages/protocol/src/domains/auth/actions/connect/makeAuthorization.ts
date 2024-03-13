@@ -7,6 +7,7 @@ import {
   selectAuthData,
   setAuthData,
 } from 'domains/auth/store/authSlice';
+import { getProviderManager } from 'modules/api/getProviderManager';
 
 import { authAuthorizeProvider } from '../getAuthorizationToken';
 import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
@@ -115,7 +116,12 @@ export const makeAuthorization = async ({
   hasOauthLogin,
   totp,
 }: MakeAuthorizationArguments): Promise<IAuthSlice> => {
-  const { currentAccount } = web3Service.getKeyProvider();
+  const providerManager = getProviderManager();
+  const provider = await providerManager.getETHWriteProvider(
+    EWalletId.injected,
+  );
+
+  const { currentAccount } = provider;
 
   const jwtTokenFullData = await getJwtTokenFullData({
     web3Service,
@@ -136,8 +142,7 @@ export const makeAuthorization = async ({
     service.getWorkerGateway().addJwtToken(workerTokenData.signedToken);
   }
 
-  const keyProvider = web3Service.getKeyProvider();
-  const walletMeta = keyProvider.getWalletMeta();
+  const walletMeta = provider.getWalletMeta();
 
   const authData: IAuthSlice = {
     address: currentAccount,

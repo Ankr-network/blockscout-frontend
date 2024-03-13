@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Theme } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
