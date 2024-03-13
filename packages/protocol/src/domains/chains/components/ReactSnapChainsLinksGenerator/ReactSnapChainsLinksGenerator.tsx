@@ -96,10 +96,6 @@ export const ReactSnapChainsLinksGenerator = ({
               isRouterLink
               href={EnterpriseRoutesConfig.chainDetails.generatePath(id)}
             />
-            <NavLink
-              isRouterLink
-              href={ChainsRoutesConfig.addEndpoint.generatePath(id)}
-            />
             <SubChainLinksGenerator
               rootChainID={id}
               chains={[

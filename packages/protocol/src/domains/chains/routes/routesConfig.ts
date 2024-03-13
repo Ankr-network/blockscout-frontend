@@ -3,12 +3,11 @@ import { INDEX_ENDPOINTS_PATH, INDEX_PATH } from 'routes/constants';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-const CHAIN_DETAILS_SUBPATH = ':chainId/:netId?';
-const ADD_ENDPOINT_SUBPATH = ':chainId/add';
+const CHAIN_SUBPATH = ':chainId';
+const CHAIN_DETAILS_SUBPATH = `${CHAIN_SUBPATH}/:netId?`;
 
-export const CHAINS_PATH = INDEX_PATH;
-export const PATH_CHAIN_DETAILS = `${CHAINS_PATH}${CHAIN_DETAILS_SUBPATH}`;
-export const PATH_ADD_ENDPOINT = `${CHAINS_PATH}${ADD_ENDPOINT_SUBPATH}`;
+const CHAINS_PATH = INDEX_PATH;
+const PATH_CHAIN_DETAILS = `${CHAINS_PATH}${CHAIN_DETAILS_SUBPATH}/`;
 
 export interface ChainDetailsPageParams {
   chainId: string;
@@ -37,19 +36,6 @@ export const ChainsRoutesConfig = createRouteConfig(
         return {
           chainId,
           netId,
-        };
-      },
-    },
-    addEndpoint: {
-      path: PATH_ADD_ENDPOINT,
-      breadcrumbs: 'chains.add-endpoint.breadcrumbs',
-      generatePath: (chainId: string) =>
-        generatePath(PATH_ADD_ENDPOINT, { chainId }),
-      useParams: () => {
-        const { chainId } = useParams<{ chainId: string }>();
-
-        return {
-          chainId,
         };
       },
     },

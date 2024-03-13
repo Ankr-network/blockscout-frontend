@@ -4,7 +4,7 @@ import { OverlaySpinner } from '@ankr.com/ui';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const PRICING_PATH = '/pricing';
+export const PRICING_PATH = '/pricing/';
 
 export const PricingRoutesConfig = createRouteConfig(
   {

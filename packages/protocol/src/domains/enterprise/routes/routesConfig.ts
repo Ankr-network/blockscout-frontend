@@ -3,9 +3,9 @@ import { generatePath, useParams } from 'react-router-dom';
 import { ChainDetailsPageParams } from 'domains/chains/routes';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const ENTERPRISE_ROUTE_NAME = 'enterprise';
+export const ENTERPRISE_ROUTE_NAME = 'enterprise/';
 
-const ENTERPRISE_ROOT_PATH = `/${ENTERPRISE_ROUTE_NAME}/`;
+const ENTERPRISE_ROOT_PATH = `/${ENTERPRISE_ROUTE_NAME}`;
 const ENTERPRISE_CHAIN_DETAILS_PATH = `${ENTERPRISE_ROOT_PATH}:chainId/:netId?`;
 
 export const EnterpriseRoutesConfig = createRouteConfig(

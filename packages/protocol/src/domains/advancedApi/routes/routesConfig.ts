@@ -1,6 +1,6 @@
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const ADVANCED_API_PATH = '/advanced-api';
+export const ADVANCED_API_PATH = '/advanced-api/';
 
 export const AdvancedApiRoutesConfig = createRouteConfig(
   {

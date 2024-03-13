@@ -723,9 +723,6 @@
     "soon": "Soon",
     "coming-soon": "Coming Soon",
     "connect-wallet": "Connect wallet to copy Endpoint",
-    "add-endpoint": {
-      "breadcrumbs": "Add Endpoint"
-    },
     "sort": {
       "usage": "Sort by usage",
       "name": "Sort by name"
@@ -1404,14 +1401,6 @@
     "chains": {
       "title": "Select Chain",
       "button": "RPC Endpoint"
-    },
-    "add-endpoint": {
-      "description": "You can import your personal endpoint, which will be used to process requests that are sent to your exclusive ANKR endpoint. In case of an error, the request will be processed by our nodes for premium users. Please enter a valid https endpoint address and the system will check it.",
-      "http-input": "Endpoint address",
-      "agreement": {
-        "text": "I&nbsp;understand",
-        "button": "Finish"
-      }
     }
   },
   "teams": {
