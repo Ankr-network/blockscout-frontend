@@ -261,6 +261,17 @@ const KAVA_NETWORK_PARAMS = {
   blockExplorerUrls: ['https://kavascan.com'],
 };
 
+const KINTO_NETWORK_PARAMS = {
+  chainId: 7887,
+  chainName: 'Kinto',
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://explorer.kinto.xyz/'],
+};
+
 const mapParams = (
   chain: Chain,
   networkData: typeof AVALANCHE_MAINNET_PARAMS,
@@ -335,6 +346,9 @@ export const getMappedNetwork = (chain: Chain): IChainParams | undefined => {
 
     case ChainId.Kava:
       return mapParams(chain, KAVA_NETWORK_PARAMS);
+
+    case ChainId.Kinto:
+      return mapParams(chain, KINTO_NETWORK_PARAMS);
 
     default:
       return undefined;

@@ -53,6 +53,8 @@ import { ReactComponent as XDCLogo } from 'assets/img/logo/XDC.svg';
 import { ReactComponent as XDCLightLogo } from 'assets/img/logo/XDCLight.svg';
 import { ReactComponent as CoreLogo } from 'assets/img/logo/core.svg';
 import scrollLogoSrc from 'assets/img/logo/scroll.svg';
+import { ReactComponent as KintoLogo } from 'assets/img/logo/kinto.svg';
+import { ReactComponent as KintoLightLogo } from 'assets/img/logo/kintoLight.svg';
 
 // eslint-disable-next-line max-lines-per-function
 export const getMenuList = (
@@ -244,5 +246,11 @@ export const getMenuList = (
     name: 'Stellar',
     logo: isLightTheme ? <StellarLogo /> : <StellarLightLogo />,
     url: 'https://stellar.public-rpc.com/',
+  },
+  {
+    chainId: ChainId.Kinto,
+    name: 'Kinto',
+    logo: isMobileSiderBar ? <KintoLogo /> : <KintoLightLogo />,
+    url: 'https://kinto-rpc.com',
   },
 ];

@@ -559,6 +559,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://scope.klaytn.com/'],
   },
 
+  [ChainID.KINTO]: {
+    chainId: 7887,
+    chainName: 'Kinto Mainnet',
+    nativeCurrency: {
+      name: 'ETH',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.kinto.xyz/'],
+  },
+
   [ChainID.KLAYTN_TESTNET]: {
     chainId: 1001,
     chainName: 'Klaytn Testnet Baobab',

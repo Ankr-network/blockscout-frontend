@@ -29,6 +29,7 @@ import { scrollTheme } from 'modules/themes/scrollTheme';
 import { coreTheme } from 'modules/themes/coreTheme';
 import { kavaTheme } from 'modules/themes/kavaTheme';
 import { stellarTheme } from 'modules/themes/stellarTheme';
+import { kintoTheme } from 'modules/themes/kintoTheme';
 
 export const getTheme = (chainId?: ChainId) => {
   switch (chainId) {
@@ -121,6 +122,9 @@ export const getTheme = (chainId?: ChainId) => {
 
     case ChainId.Stellar:
       return stellarTheme;
+
+    case ChainId.Kinto:
+      return kintoTheme;
 
     default:
       return scrollTheme;
