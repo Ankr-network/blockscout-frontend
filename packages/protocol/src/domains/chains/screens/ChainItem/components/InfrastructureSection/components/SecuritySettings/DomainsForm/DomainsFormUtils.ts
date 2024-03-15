@@ -1,5 +1,4 @@
-import isValidDomain from 'is-valid-domain';
-import { t } from '@ankr.com/common';
+import { isValidDomain, t } from '@ankr.com/common';
 
 import { DomainsFormData, DomainsFormProps } from './DomainsFormTypes';
 

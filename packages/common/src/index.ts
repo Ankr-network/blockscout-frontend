@@ -6,3 +6,5 @@ export * from './utils/intl';
 export * from './utils/sleep';
 export * from './utils/stringify';
 export * from './utils/throwIfError';
+export * from './utils/isHttpsUri';
+export * from './utils/isValidDomain';
