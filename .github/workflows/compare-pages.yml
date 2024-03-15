@@ -1,0 +1,105 @@
+name: Compare pages
+run-name: Comparing ${{github.event.inputs.baseUrl}} to ${{github.event.inputs.testingUrl}}
+
+on:
+  workflow_dispatch:
+    inputs:
+      baseUrl:
+        type: choice
+        description: Base url
+        required: true
+        options:
+          - PROD # https://www.ankr.com/rpc/
+          - BS1 # https://bs-1-stage.dccn.ankr.com/rpc/
+          - BS2 # https://bs-2-stage.dccn.ankr.com/rpc/
+          - BS3 # https://bs-3-stage.dccn.ankr.com/rpc/
+          - BS4 # https://bs-4-stage.dccn.ankr.com/rpc/
+          - STAGE # https://www-stage.ankr.com/rpc/
+      testingUrl:
+        type: choice
+        description: Testing url
+        required: true
+        options:
+          - STAGE # https://www-stage.ankr.com/rpc/
+          - BS1 # https://bs-1-stage.dccn.ankr.com/rpc/
+          - BS2 # https://bs-2-stage.dccn.ankr.com/rpc/
+          - BS3 # https://bs-3-stage.dccn.ankr.com/rpc/
+          - BS4 # https://bs-4-stage.dccn.ankr.com/rpc/
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        options: --shm-size=3gb
+        ports:
+          - 4444:4444
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.10.0'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run refs tests
+        if: always()
+        working-directory: .
+        env:
+          BASE_URL: ${{ vars[format('{0}{1}', github.event.inputs.baseUrl, '_DOMAIN')] }}
+        run: |
+          if [ "$BASE_URL" = "ankr.com.protocol" ]; then
+            BASE_URL="www.ankr.com"
+          fi
+
+          if [ "$BASE_URL" = "www-stage.ankr.com.protocol" ]; then
+            BASE_URL="www-stage.ankr.com"
+          fi
+          npx hermione --update-refs --base-url "https://${BASE_URL}"
+
+      - name: Run tests
+        if: always()
+        working-directory: .
+        env:
+          BASE_URL: ${{ vars[format('{0}{1}', github.event.inputs.testingUrl, '_DOMAIN')] }}
+        run: |
+          if [ "$BASE_URL" = "ankr.com.protocol" ]; then
+            BASE_URL="www.ankr.com"
+          fi
+
+          if [ "$BASE_URL" = "www-stage.ankr.com.protocol" ]; then
+            BASE_URL="www-stage.ankr.com"
+          fi
+          npx hermione --base-url "https://${BASE_URL}"
+
+      - name: Set AWS credentials
+        if: always()
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Copy files to the production website with the AWS CLI
+        if: always()
+        working-directory: .
+        env:
+          DOMAIN: ${{ vars[format('{0}{1}', github.event.inputs.testingUrl, '_DOMAIN')] }}
+          DISTRIBUTION_ID: ${{ vars[format('{0}{1}', github.event.inputs.testingUrl, '_DISTRIBUTION_ID')] }}
+        run: |
+          if [ "$DOMAIN" = "ankr.com.protocol" ]; then
+            DOMAIN="www.ankr.com"
+          fi
+
+          if [ "$DOMAIN" = "www-stage.ankr.com.protocol" ]; then
+            DOMAIN="www-stage.ankr.com"
+          fi
+
+          aws s3 sync --delete ./report s3://$DOMAIN/report/web3api --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
+          aws configure set preview.cloudfront true
+          echo "Invalidating CDN network"
+          INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
+          echo "Invalidation ID is $INVALIDATION_ID"
+          echo "CDN Invalidation request is sent."
