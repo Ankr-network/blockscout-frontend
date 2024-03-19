@@ -1,12 +1,10 @@
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useCallback } from 'react';
-import { Spinner } from 'ui';
 import { AuthProviderEnum } from 'multirpc-sdk';
+import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
 import { useLazyFetchAuthLinkQuery } from 'modules/signIn/actions/fetchAuthLink';
-import { ReactComponent as MetamaskIcon } from 'assets/img/metamask.svg';
-import { useLazyAuthConnectQuery } from 'modules/auth/actions/connect';
 
 import { ReactComponent as AnkrIcon } from '../../assets/ankr-logo.svg';
 import { ReactComponent as GoogleIcon } from '../../assets/google.svg';
@@ -63,8 +61,6 @@ export const SignInForm = () => {
   const { classes } = useStyles();
   const [fetchAuthLink, { originalArgs, isFetching }] =
     useLazyFetchAuthLinkQuery();
-  const [authConnect, { isLoading: isLoadingConnect }] =
-    useLazyAuthConnectQuery();
 
   const redirectToUAuth = useCallback((url = '') => {
     // TODO: update react-router to v6 to use useNavigation
@@ -98,25 +94,11 @@ export const SignInForm = () => {
         endIcon={
           isFetching &&
           originalArgs === AuthProviderEnum.AUTH_PROVIDER_GOOGLE && (
-            <Spinner size={SPINNER_SIZE} centered={false} />
+            <Spinner size={SPINNER_SIZE} />
           )
         }
       >
         Continue with Google
-      </Button>
-
-      <Button
-        className={classes.button}
-        size="large"
-        variant="outlined"
-        disabled={isLoadingConnect}
-        onClick={() => authConnect()}
-        startIcon={<MetamaskIcon className={classes.buttonIcon} />}
-        endIcon={
-          isLoadingConnect && <Spinner size={SPINNER_SIZE} centered={false} />
-        }
-      >
-        Continue with Metamask
       </Button>
 
       <Typography className={classes.note}>

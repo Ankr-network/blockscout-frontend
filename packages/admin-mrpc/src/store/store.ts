@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { persistReducer, persistStore } from 'redux-persist';
 
+import { themeSlice } from 'modules/layout/store/themeSlice';
 import { i18nPersistConfig } from 'modules/i18n/storage/i18nPersistConfig';
 import { i18nSlice } from 'modules/i18n/i18nSlice';
 import { authPersistConfig } from 'modules/auth/storage/authPersistConfig';
@@ -12,6 +13,7 @@ import { queryErrorLogger } from './errorMiddleware';
 import { web3Api } from './queries/web3Api';
 
 const rootReducer = combineReducers({
+  theme: themeSlice.reducer,
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   [web3Api.reducerPath]: web3Api.reducer,
   auth: persistReducer(authPersistConfig, authReducer),

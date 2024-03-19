@@ -1,8 +1,8 @@
 import React, { ReactChild } from 'react';
 import { Drawer, AppBar, Toolbar, List, Container } from '@mui/material';
-import { NavLink } from 'ui';
 import { useAppSelector } from 'modules/../store/useAppSelector';
 
+import { NavLink } from 'uiKit/NavLink';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from 'modules/layout/components/Breadcrumbs';
 import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
