@@ -65,9 +65,7 @@ const renderSeiName = (chainId: ChainID) => {
 const renderETHName = (chainId: ChainID) => {
   let name = 'Ethereum';
 
-  if (chainId === ChainID.ETH_GOERLI) {
-    name = 'Goerli Testnet';
-  } else if (chainId === ChainID.ETH_RINKEBY) {
+  if (chainId === ChainID.ETH_RINKEBY) {
     name = 'Rinkeby Testnet';
   } else if (chainId === ChainID.ETH_ROPSTEN) {
     name = 'Ropsten Testnet';

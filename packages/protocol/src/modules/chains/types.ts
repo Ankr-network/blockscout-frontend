@@ -108,8 +108,6 @@ export enum ChainID {
 
   ETH = 'eth',
   ETH_BEACON = 'eth_beacon',
-  ETH_GOERLI = 'eth_goerli',
-  ETH_GOERLI_BEACON = 'eth_goerli_beacon',
   ETH_KOVAN = 'eth_kovan',
   ETH_RINKEBY = 'eth_rinkeby',
   ETH_ROPSTEN = 'eth_ropsten',

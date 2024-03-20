@@ -1,4 +1,4 @@
-import { EventData , Contract, Filter } from 'web3-eth-contract';
+import { EventData, Contract, Filter } from 'web3-eth-contract';
 import { getPastEvents, isMainnet } from '@ankr.com/advanced-api';
 import { IWeb3SendResult } from '@ankr.com/provider';
 import Web3 from 'web3';

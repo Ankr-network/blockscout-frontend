@@ -269,7 +269,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://rpc-core.icecreamswap.com'],
   },
 
-  // * ChainID.ETH, ChainID.ETH_GOERLI, ChainID.ETH_RINKEBY, ChainID.ETH_ROPSTEN
+  // * ChainID.ETH, ChainID.ETH_RINKEBY, ChainID.ETH_ROPSTEN
   // * Can't be added as they are default Metamask chains
 
   [ChainID.ETH_SEPOLIA]: {
