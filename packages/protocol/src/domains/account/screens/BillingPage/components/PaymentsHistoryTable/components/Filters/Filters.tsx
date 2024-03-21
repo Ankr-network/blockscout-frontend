@@ -39,6 +39,9 @@ export const Filters = ({
         onChange={changeTimeframe}
         size="small"
         value={timeframe}
+        classes={{
+          select: classes.select,
+        }}
       >
         {timeframeOptions.map(timeframeOption => (
           <MenuItem
@@ -57,6 +60,9 @@ export const Filters = ({
         renderValue={renderPaymentTypeValue}
         size="small"
         value={paymentType}
+        classes={{
+          select: classes.select,
+        }}
       >
         {paymentTypeOptions.map(paymentOption => (
           <MenuItem

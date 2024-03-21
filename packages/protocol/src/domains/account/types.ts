@@ -68,10 +68,14 @@ export interface PaymentHistoryTableTimeframeBorders {
   to: number;
 }
 
+export type TBudlesPaymentsType =
+  | 'TRANSACTION_TYPE_DEAL_DEPOSIT'
+  | 'TRANSACTION_TYPE_PACKAGE_DEPOSIT';
+
 export type PaymentType =
   | TPaymentHistoryEntityType
-  | 'ALL'
-  | 'TRANSACTION_TYPE_DEAL_DEPOSIT';
+  | TBudlesPaymentsType
+  | 'ALL';
 
 export type TrackTopUpSubmit = (
   amount: string,

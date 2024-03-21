@@ -41,8 +41,16 @@ export const usePaymentTypeSelect = (
         label: t('account.payment-table.payment-type.deal'),
       },
       {
+        value: 'TRANSACTION_TYPE_PACKAGE_DEPOSIT',
+        label: t('account.payment-table.payment-type.package'),
+      },
+      {
         value: 'TRANSACTION_TYPE_DEDUCTION',
         label: t('account.payment-table.payment-type.deduction'),
+      },
+      {
+        value: 'TRANSACTION_TYPE_VOUCHER_TOPUP',
+        label: t('account.payment-table.payment-type.voucher'),
       },
     ],
     [],

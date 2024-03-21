@@ -14,4 +14,9 @@ export const useFiltersStyles = makeStyles()(theme => ({
       alignSelf: 'flex-end',
     },
   },
+  select: {
+    '&&': {
+      color: theme.palette.text.primary,
+    },
+  },
 }));

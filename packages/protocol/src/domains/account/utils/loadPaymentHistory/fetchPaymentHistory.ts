@@ -6,6 +6,7 @@ import {
   IMyBundlesPaymentsResponse,
   BundlePaymentPlan,
   IBundleEntity,
+  ELimitType,
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
@@ -68,15 +69,28 @@ export const fetchPaymentHistory = async ({
 }: FetchPaymentHistoryParams): Promise<FetchedPaymentHistory> => {
   const service = MultiService.getService();
 
-  const { dealOnly, deductionsOnly, depositOnly, withDeductions } =
-    parseTypes(types);
+  const {
+    dealOnly,
+    deductionsOnly,
+    depositOnly,
+    packageOnly,
+    vouchersOnly,
+    withDeductions,
+  } = parseTypes(types);
 
   const shouldRequestPaymentHsitory =
-    transactionsCursor >= 0 && !deductionsOnly && !dealOnly;
+    transactionsCursor >= 0 && !deductionsOnly && !dealOnly && !packageOnly;
   const shouldRequestAggregatedPaymentHsitory =
-    deductionsCursor >= 0 && withDeductions && !dealOnly && !depositOnly;
+    deductionsCursor >= 0 &&
+    withDeductions &&
+    !dealOnly &&
+    !packageOnly &&
+    !depositOnly;
   const shouldRequestBundlesPaymentHsitory =
-    myBundlesPaymentsCursor >= 0 && !deductionsOnly && !depositOnly;
+    myBundlesPaymentsCursor >= 0 &&
+    !deductionsOnly &&
+    !depositOnly &&
+    !vouchersOnly;
 
   const requests: Requests = [
     shouldRequestPaymentHsitory
@@ -126,10 +140,15 @@ export const fetchPaymentHistory = async ({
   ): IPaymentHistoryTableEntity => {
     const bundlePriceId = payment.bundle.price_id;
     const priceData = bundles.find(bundle => bundle.price.id === bundlePriceId);
+    const isTypeDeal = payment.bundle.limits.some(
+      limit => limit.type === ELimitType.COST,
+    );
 
     return {
-      timestamp: payment.expires_at.toString(),
-      type: 'TRANSACTION_TYPE_DEAL_DEPOSIT',
+      timestamp: payment.purchased_at.toString(),
+      type: isTypeDeal
+        ? 'TRANSACTION_TYPE_DEAL_DEPOSIT'
+        : 'TRANSACTION_TYPE_PACKAGE_DEPOSIT',
       amountUsd: priceData?.price.amount ?? '',
       amountAnkr: '',
       amount: '0',
@@ -143,12 +162,21 @@ export const fetchPaymentHistory = async ({
     };
   };
 
+  const isBundlesPaymentsType =
+    types.length === 1 &&
+    (types[0] === 'TRANSACTION_TYPE_DEAL_DEPOSIT' ||
+      types[0] === 'TRANSACTION_TYPE_PACKAGE_DEPOSIT');
+
   return {
     deductions: deductions.map(mapTableHistoryItems),
     deductionsCursor: Number(deductionsResponse.cursor),
     transactions: transactions.map(mapTableHistoryItems),
     transactionsCursor: Number(transactionsResponse.cursor),
-    myBundlesPayments: myBundlesPayments.map(mapMyBundlesPayments),
+    myBundlesPayments: myBundlesPayments
+      .map(mapMyBundlesPayments)
+      .filter(payment =>
+        isBundlesPaymentsType ? types.includes(payment.type) : true,
+      ),
     myBundlesPaymentsCursor: Number(cursor),
   };
 };

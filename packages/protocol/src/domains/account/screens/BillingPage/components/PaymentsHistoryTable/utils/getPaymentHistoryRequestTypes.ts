@@ -16,11 +16,7 @@ export const getPaymentHistoryRequestTypes = (
   }
 
   if (paymentType === 'TRANSACTION_TYPE_VOUCHER_TOPUP') {
-    return [
-      paymentType,
-      'TRANSACTION_TYPE_VOUCHER_TOPUP',
-      'TRANSACTION_TYPE_VOUCHER_ADJUST',
-    ];
+    return [paymentType, 'TRANSACTION_TYPE_VOUCHER_ADJUST'];
   }
 
   return [paymentType];

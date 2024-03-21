@@ -2031,14 +2031,16 @@
         "col-4": "In API Credits",
         "col-5": " "
       },
-      "csv-title": "Payment charging for {month} {day}, {year}",
+      "csv-title": "Daily charge for {month} {day}, {year}",
       "payment-type": {
         "placeholder": "Payment type",
         "all": "All types",
         "unknown": "Unknown",
         "deal": "Deal payment",
+        "package": "Package payment",
         "payg": "PAYG payment",
-        "deduction": "Payment charging"
+        "voucher": "Voucher operations",
+        "deduction": "Daily charge"
       },
       "time-type": {
         "week": "Past week",

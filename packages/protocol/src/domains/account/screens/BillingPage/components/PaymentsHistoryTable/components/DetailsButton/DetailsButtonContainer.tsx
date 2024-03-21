@@ -5,6 +5,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { IUseDetailsButtonProps } from './useDetailsButton';
 import { DetailsButtonContent } from './DetailsButtonContent';
+import { useDetailsButtonContainerStyles } from './useDetailsButtonContainerStyles';
 
 interface IDetailsButtonContainerProps
   extends Omit<IUseDetailsButtonProps, 'isOpened'> {}
@@ -15,11 +16,17 @@ export const DetailsButtonContainer = ({
   txHash,
   date,
 }: IDetailsButtonContainerProps) => {
+  const { classes } = useDetailsButtonContainerStyles();
   const { isOpened, onClose, onOpen } = useDialog();
 
   return (
     <>
-      <Button variant="outlined" size="extraSmall" onClick={onOpen}>
+      <Button
+        variant="outlined"
+        size="extraSmall"
+        className={classes.buttonRoot}
+        onClick={onOpen}
+      >
         {t('account.payment-table.details')}
       </Button>
 
