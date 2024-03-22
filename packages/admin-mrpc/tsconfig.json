@@ -20,5 +20,5 @@
     "baseUrl": "src",
     "experimentalDecorators": true
   },
-  "include": ["src", "src/typings/**/*.d.ts"],
+  "include": ["src", "src/typings/**/*.d.ts"]
 }
