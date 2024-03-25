@@ -189,6 +189,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
 
+  [ChainID.BITLAYER_TESTNET]: {
+    chainId: 200810,
+    chainName: 'Bitlayer Chain Testnet',
+    nativeCurrency: {
+      name: 'BTC',
+      symbol: 'BTC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://testnet-scan.bitlayer.org'],
+  },
+
   [ChainID.BTTC]: {
     chainId: 199,
     chainName: 'BitTorrent Chain Mainnet',

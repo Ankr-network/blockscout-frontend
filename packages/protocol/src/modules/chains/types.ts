@@ -100,6 +100,8 @@ export enum ChainID {
 
   BTTC = 'bttc',
   BTC = 'btc',
+  BITLAYER = 'bitlayer',
+  BITLAYER_TESTNET = 'bitlayer_testnet',
   CELO = 'celo',
   CHILIZ = 'chiliz',
   CHILIZ_TESTNET = 'chiliz_testnet',
