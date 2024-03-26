@@ -43,6 +43,8 @@ export enum ChainGroupID {
   STELLAR_SOROBAN = 'stellar-soroban',
   MUMBAI = 'mumbai',
   AMOY = 'amoy',
+  CARDONA = 'cardona',
+  POLYGON_TESTNET = 'testnet',
 
   FALLBACK = 'FALLBACK',
 }

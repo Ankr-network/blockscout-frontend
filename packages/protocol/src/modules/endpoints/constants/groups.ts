@@ -112,7 +112,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.POLYGON,
       ChainID.POLYGON_MUMBAI,
       ChainID.POLYGON_ZKEVM,
-      ChainID.POLYGON_ZKEVM_TESTNET,
 
       ChainID.SYSCOIN,
 
@@ -142,6 +141,18 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.SCROLL,
     ],
+  },
+  {
+    id: ChainGroupID.CARDONA,
+    name: 'Cardona',
+    pluralName: 'Cardona',
+    chains: [ChainID.POLYGON_ZKEVM_CARDONA],
+  },
+  {
+    id: ChainGroupID.POLYGON_TESTNET,
+    name: 'Testnet',
+    pluralName: 'Testnet',
+    chains: [ChainID.POLYGON_ZKEVM_TESTNET],
   },
   {
     id: ChainGroupID.SCROLL_ALPHA,
@@ -196,9 +207,6 @@ export const chainGroups: ChainGroup[] = [
     name: 'Goerli',
     pluralName: 'Goerli',
     chains: [
-      ChainID.ETH_GOERLI,
-      ChainID.ETH_GOERLI_BEACON,
-      ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
       ChainID.OPTIMISM_TESTNET,
       ChainID.ZKSYNC_ERA_TESTNET,

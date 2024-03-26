@@ -14,8 +14,7 @@ export const CONFIRMATION_BLOCKS = 12;
 export const ENTERPRISE_API_KEY_QUERY_PARAM = 'apikey';
 
 export const STAGING_CONFIG: IConfig = {
-  ankrTokenContractAddress: '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
-  premiumPlanContractAddress: '0xD099e6Be8B30ACc74E3b4e6E80D5e0dB58291e93',
+  ankrTokenContractAddress: '0xce3d800f567B7c2e23CE7FdaB8872DFC00B76C38',
   confirmationBlocks: CONFIRMATION_BLOCKS,
   publicEnterpriseRpcUrl: 'https://enterprise-staging.onerpc.com/{blockchain}',
   enterpriseRpcUrl: `https://enterprise-staging.onerpc.com/{blockchain}?${ENTERPRISE_API_KEY_QUERY_PARAM}={user}`,
@@ -30,8 +29,8 @@ export const STAGING_CONFIG: IConfig = {
     'https://backoffice-gateway.staging.multirpc.ankr.com/api/v1/auth',
   uAuthUrl: 'https://staging-uauth.ankr.com/api/v1',
   payAsYouGoAnkrTokenContractAddress:
-    '0xe602D8FC04B8D1AE717077f86FF06315405B70Dc',
-  payAsYouGoContractAddress: '0x43FC63725b9f9A74EE4eD420635e78231456b52f',
+    '0xce3d800f567B7c2e23CE7FdaB8872DFC00B76C38',
+  payAsYouGoContractAddress: '0xa3f4c3d305F0897C125e2eACcf35Cea69Ce4fDf9',
   premiumPlanContractCreationBlockNumber: 6_708_096,
   payAsYouGoContractCreationBlockNumber: 6_895_851,
   advancedApiUrl:
@@ -40,7 +39,6 @@ export const STAGING_CONFIG: IConfig = {
 
 export const PROD_CONFIG: IConfig = {
   ankrTokenContractAddress: '0x8290333cef9e6d528dd5618fb97a76f268f3edd4',
-  premiumPlanContractAddress: '0x4432faEe427AE2CA961D5bfEEFC2EeD4e1f1D784',
   confirmationBlocks: CONFIRMATION_BLOCKS,
   publicEnterpriseRpcUrl: 'https://enterprise.onerpc.com/{blockchain}',
   enterpriseRpcUrl: `https://enterprise.onerpc.com/{blockchain}?${ENTERPRISE_API_KEY_QUERY_PARAM}={user}`,

@@ -9,7 +9,7 @@ export const getExpectedChainId = (env: Environment) => {
     return EEthereumNetworkId.mainnet;
   }
 
-  return EEthereumNetworkId.goerli;
+  return EEthereumNetworkId.holesky;
 };
 
 export const getReadProviderId = (env: Environment) => {
@@ -17,5 +17,5 @@ export const getReadProviderId = (env: Environment) => {
     return AvailableReadProviders.ethMainnet;
   }
 
-  return AvailableReadProviders.ethGoerli;
+  return AvailableReadProviders.ethHolesky;
 };

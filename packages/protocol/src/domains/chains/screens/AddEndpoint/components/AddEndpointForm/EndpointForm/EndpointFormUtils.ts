@@ -1,6 +1,5 @@
-import { isHttpsUri } from 'valid-url';
 import { Network } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
+import { isHttpsUri, t } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
 import { debouncePromise } from 'modules/common/utils/debouncePromise';

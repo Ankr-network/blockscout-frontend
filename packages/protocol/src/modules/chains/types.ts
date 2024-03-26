@@ -100,6 +100,8 @@ export enum ChainID {
 
   BTTC = 'bttc',
   BTC = 'btc',
+  BITLAYER = 'bitlayer',
+  BITLAYER_TESTNET = 'bitlayer_testnet',
   CELO = 'celo',
   CHILIZ = 'chiliz',
   CHILIZ_TESTNET = 'chiliz_testnet',
@@ -108,8 +110,6 @@ export enum ChainID {
 
   ETH = 'eth',
   ETH_BEACON = 'eth_beacon',
-  ETH_GOERLI = 'eth_goerli',
-  ETH_GOERLI_BEACON = 'eth_goerli_beacon',
   ETH_KOVAN = 'eth_kovan',
   ETH_RINKEBY = 'eth_rinkeby',
   ETH_ROPSTEN = 'eth_ropsten',
@@ -186,6 +186,7 @@ export enum ChainID {
   POLYGON_AMOY = 'polygon_amoy',
   POLYGON_ZKEVM = 'polygon_zkevm',
   POLYGON_ZKEVM_TESTNET = 'polygon_zkevm_testnet',
+  POLYGON_ZKEVM_CARDONA = 'polygon_zkevm_cardona',
   ROLLUX = 'rollux',
   ROLLUX_OPNODE = 'rollux_opnode',
   ROLLUX_OPNODE_TESTNET = 'rollux_opnode_testnet',

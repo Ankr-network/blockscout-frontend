@@ -39,7 +39,7 @@ export class MultiService {
 
     const isEthereumNetwork =
       writeProvider.currentChain === EEthereumNetworkId.mainnet ||
-      writeProvider.currentChain === EEthereumNetworkId.goerli;
+      writeProvider.currentChain === EEthereumNetworkId.holesky;
 
     if (!isEthereumNetwork && walletId !== INJECTED_WALLET_ID) {
       MultiService.removeServices();

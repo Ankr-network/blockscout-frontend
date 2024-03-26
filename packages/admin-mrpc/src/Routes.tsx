@@ -100,6 +100,7 @@ export const Routes = () => {
         ]}
         render={() => (
           <Layout
+            hasNoReactSnap
             hasSecretRouteAccess={hasSecretRouteAccess}
             hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
           >
@@ -116,6 +117,7 @@ export const Routes = () => {
         ]}
         render={() => (
           <Layout
+            hasNoReactSnap
             hasSecretRouteAccess={hasSecretRouteAccess}
             hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
           >
@@ -131,6 +133,7 @@ export const Routes = () => {
         isLoading={isLoadingAdminRoles}
         render={() => (
           <Layout
+            hasNoReactSnap
             hasSecretRouteAccess={hasSecretRouteAccess}
             hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
           >
@@ -144,6 +147,7 @@ export const Routes = () => {
       <Route
         render={() => (
           <Layout
+            hasNoReactSnap
             hasSecretRouteAccess={hasSecretRouteAccess}
             hasTestDriveTokenCreationAccess={hasTestDriveTokenCreationAccess}
           >

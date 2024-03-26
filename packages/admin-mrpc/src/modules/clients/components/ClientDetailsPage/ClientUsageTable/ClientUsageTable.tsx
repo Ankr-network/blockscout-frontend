@@ -14,8 +14,8 @@ import {
   Typography,
 } from '@mui/material';
 import { CSVLink } from 'react-csv';
-import { Spinner } from 'ui';
 import { PrivateStatsInterval } from 'multirpc-sdk';
+import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
 import { formatNumber } from 'modules/common/utils/renderBalance';
 import {
@@ -153,7 +153,7 @@ export const ClientUsageTable = ({
       {isLoadingStats ? (
         <>
           <br />
-          <Spinner centered={false} size={42} />
+          <Spinner size={42} />
         </>
       ) : (
         <ClientUsageChainFilter

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Fade, Menu, MenuItem } from '@mui/material';
-import { LoadableButton } from 'ui';
 
+import { LoadableButton } from 'uiKit/LoadableButton';
 import { t } from 'modules/i18n/utils/intl';
 import { shrinkAddress } from 'modules/common/utils/shrinkAddress';
 import { useMenu } from 'modules/common/hooks/useMenu';

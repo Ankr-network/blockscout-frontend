@@ -9,5 +9,5 @@ export const getExplorerLink = (transactionId = '') => {
     return `https://etherscan.io/tx/${transactionId}`;
   }
 
-  return `https://goerli.etherscan.io/tx/${transactionId}`;
+  return `https://holesky.etherscan.io/tx/${transactionId}`;
 };

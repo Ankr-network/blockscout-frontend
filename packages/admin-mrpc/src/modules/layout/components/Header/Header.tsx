@@ -6,6 +6,7 @@ import { ConnectButton } from 'modules/auth/components/ConnectButton';
 import { CreateTestPremiumUser } from 'modules/clients/components/CreateTestPremiumUser';
 import { AdminRoutesConfig } from 'modules/admin/AdminRoutesConfig';
 import { GroupsRoutesConfig } from 'modules/groups/GroupsRoutesConfig';
+import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 
 interface HeaderProps {
   userName?: string;
@@ -17,31 +18,38 @@ export const Header = ({
   userName,
   hasSecretRouteAccess,
   hasTestDriveTokenCreationAccess,
-}: HeaderProps) => {
-  return (
-    <>
-      <CrossNavigation logoType={LogoType.Web3API} />
-      {userName && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
-      {userName && (
-        <Button
-          sx={{ mr: 4 }}
-          component={NavLink}
-          to={GroupsRoutesConfig.groups.generatePath()}
-        >
-          User Groups
-        </Button>
-      )}
+}: HeaderProps) => (
+  <>
+    <CrossNavigation logoType={LogoType.Web3API} />
+    {userName && hasTestDriveTokenCreationAccess && <CreateTestPremiumUser />}
+    {userName && (
+      <Button
+        sx={{ mr: 4 }}
+        component={NavLink}
+        to={ClientsRoutesConfig.clients.generatePath()}
+      >
+        Clients
+      </Button>
+    )}
+    {userName && (
+      <Button
+        sx={{ mr: 4 }}
+        component={NavLink}
+        to={GroupsRoutesConfig.groups.generatePath()}
+      >
+        User Groups
+      </Button>
+    )}
 
-      {hasSecretRouteAccess && (
-        <Button
-          sx={{ mr: 4 }}
-          component={NavLink}
-          to={AdminRoutesConfig.admin.generatePath()}
-        >
-          Admin requests
-        </Button>
-      )}
-      <ConnectButton />
-    </>
-  );
-};
+    {hasSecretRouteAccess && (
+      <Button
+        sx={{ mr: 4 }}
+        component={NavLink}
+        to={AdminRoutesConfig.admin.generatePath()}
+      >
+        Admin requests
+      </Button>
+    )}
+    <ConnectButton />
+  </>
+);

@@ -9,5 +9,5 @@ export const getExpectedChainId = (env: Environment) => {
     return EEthereumNetworkId.mainnet;
   }
 
-  return EEthereumNetworkId.goerli;
+  return EEthereumNetworkId.holesky;
 };

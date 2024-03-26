@@ -51,7 +51,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
   private async sendAllowance(allowanceValue: BigNumber) {
     const { currentAccount } = this.keyWriteProvider;
 
-    const data = await (this.ankrTokenContract.methods as IAnkrToken)
+    const data = (this.ankrTokenContract.methods as IAnkrToken)
       .approve(
         this.config.payAsYouGoContractAddress,
         allowanceValue.toString(10),

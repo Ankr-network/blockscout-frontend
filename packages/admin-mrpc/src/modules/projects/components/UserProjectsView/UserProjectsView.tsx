@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Typography } from '@mui/material';
 import { UserProject, Web3Address } from 'multirpc-sdk';
-import { Spinner } from 'ui';
+import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
 import { t } from 'modules/i18n/utils/intl';
 
@@ -50,7 +50,7 @@ export const UserProjectsView = ({
           </Button>
         </div>
         {isLoadingUserProjects ? (
-          <Spinner size={40} centered={false} />
+          <Spinner size={40} />
         ) : (
           <div className={classes.projectsList}>
             {userProjectsData?.map(project => (

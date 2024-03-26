@@ -8,13 +8,13 @@ import {
   Paper,
   Input,
 } from '@mui/material';
-import { Spinner } from 'ui';
 import {
   IEthUserAddressV2,
   IUserTokensResponseEntity,
   UserProject,
   Web3Address,
 } from 'multirpc-sdk';
+import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
@@ -159,7 +159,7 @@ export const ClientInfo = ({
         <>
           <br />
           <br />
-          <Spinner size={40} centered={false} />
+          <Spinner size={40} />
         </>
       );
     }
@@ -202,7 +202,7 @@ export const ClientInfo = ({
         <>
           <br />
           <br />
-          <Spinner size={40} centered={false} />
+          <Spinner size={40} />
         </>
       );
     }
