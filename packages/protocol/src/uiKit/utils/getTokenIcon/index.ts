@@ -186,6 +186,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.POLYGON_AMOY]: polygonIcon,
   [ChainID.POLYGON_ZKEVM]: polygonZkevmIcon,
   [ChainID.POLYGON_ZKEVM_TESTNET]: polygonZkevmIcon,
+  [ChainID.POLYGON_ZKEVM_CARDONA]: polygonZkevmIcon,
   [ChainID.ROLLUX]: rolluxIcon,
   [ChainID.ROLLUX_OPNODE]: rolluxIcon,
   [ChainID.ROLLUX_OPNODE_TESTNET]: rolluxIcon,

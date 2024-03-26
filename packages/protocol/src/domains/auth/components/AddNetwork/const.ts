@@ -548,6 +548,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet-zkevm.polygonscan.com/'],
   },
 
+  [ChainID.POLYGON_ZKEVM_CARDONA]: {
+    chainId: 2442,
+    chainName: 'Polygon zkEVM Cardona testnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://cardona-zkevm.polygonscan.com/'],
+  },
+
   [ChainID.SYSCOIN]: {
     chainId: 57,
     chainName: 'Syscoin Mainnet',
