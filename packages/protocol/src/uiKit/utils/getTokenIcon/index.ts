@@ -77,6 +77,12 @@ import lineaIconDark from './darkModeIcons/linea.svg';
 import stellarIcon from './icons/stellar.svg';
 import stellarIconDark from './darkModeIcons/stellar.svg';
 import bitlayerIconDark from './darkModeIcons/bitlayer.svg';
+import syscoinIconDark from './darkModeIcons/syscoin.svg';
+import taikoIconDark from './darkModeIcons/taiko.svg';
+import scrollIconDark from './darkModeIcons/scroll.svg';
+import coreIconDark from './darkModeIcons/core.svg';
+import seiIconDark from './darkModeIcons/sei.svg';
+import klaytnIconDark from './darkModeIcons/klaytn.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -194,6 +200,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.STELLAR]: stellarIcon,
   [ChainID.STELLAR_HORIZON]: stellarIcon,
+  [ChainID.STELLAR_SOROBAN]: stellarIcon,
   [ChainID.STELLAR_TESTNET]: stellarIcon,
   [ChainID.STELLAR_TESTNET_HORIZON]: stellarIcon,
   [ChainID.STELLAR_TESTNET_SOROBAN]: stellarIcon,
@@ -306,6 +313,25 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.STELLAR_TESTNET]: stellarIconDark,
   [ChainID.STELLAR_TESTNET_HORIZON]: stellarIconDark,
   [ChainID.STELLAR_TESTNET_SOROBAN]: stellarIconDark,
+  [ChainID.SYSCOIN]: syscoinIconDark,
+  [ChainID.TAIKO]: taikoIconDark,
+  [ChainID.TAIKO_KATLA]: taikoIconDark,
+  [ChainID.SCROLL]: scrollIconDark,
+  [ChainID.SCROLL_TESTNET]: scrollIconDark,
+  [ChainID.SCROLL_SEPOLIA_TESTNET]: scrollIconDark,
+  [ChainID.CORE]: coreIconDark,
+  [ChainID.SEI]: seiIconDark,
+  [ChainID.SEI_COSMOS_GRPC_WEB]: seiIconDark,
+  [ChainID.SEI_COSMOS_REST]: seiIconDark,
+  [ChainID.SEI_REST]: seiIconDark,
+  [ChainID.SEI_RPC]: seiIconDark,
+  [ChainID.SEI_TESTNET]: seiIconDark,
+  [ChainID.SEI_RPC_TESTNET]: seiIconDark,
+  [ChainID.SEI_REST_TESTNET]: seiIconDark,
+  [ChainID.SEI_COSMOS_REST_TESTNET]: seiIconDark,
+  [ChainID.SEI_COSMOS_GRPC_TESTNET]: seiIconDark,
+  [ChainID.KLAYTN]: klaytnIconDark,
+  [ChainID.KLAYTN_TESTNET]: klaytnIconDark,
 };
 
 const chainNameIcons: Record<string, string> = {
@@ -330,6 +356,7 @@ const chainNameIcons: Record<string, string> = {
   sei_cosmos_testnet: seiIcon,
   sei_grpc_testnet: seiIcon,
   stellar_horizon: stellarIcon,
+  stellar_soroban: stellarIcon,
   stellar_testnet_horizon: stellarIcon,
   stellar_testnet_soroban: stellarIcon,
   kava_evm: kavaIcon,
@@ -345,6 +372,7 @@ const darkChainNameIcons: Record<string, string> = {
   tenet_evm: tenetIconDark,
   berachain_guarded_testnet_evm: berachainIconDark,
   stellar_horizon: stellarIconDark,
+  stellar_soroban: stellarIconDark,
   stellar_testnet_horizon: stellarIconDark,
   stellar_testnet_soroban: stellarIconDark,
 };

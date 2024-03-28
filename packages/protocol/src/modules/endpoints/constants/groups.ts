@@ -381,6 +381,6 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.STELLAR_SOROBAN,
     name: 'Soroban',
     pluralName: 'Soroban',
-    chains: [ChainID.STELLAR_TESTNET_SOROBAN],
+    chains: [ChainID.STELLAR_SOROBAN, ChainID.STELLAR_TESTNET_SOROBAN],
   },
 ];
