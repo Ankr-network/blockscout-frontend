@@ -1657,7 +1657,13 @@
       "github": "GitHub",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "disable-tooltip": "To connect the method, log in with your ETH wallet"
+      "disable-tooltip": "To connect the method, log in with your ETH wallet",
+      "notifications": {
+        "google-connected": "Google login method has been successfully connected",
+        "google-disconnected": "Google login method has been successfully disconnected",
+        "github-connected": "Github login method has been successfully connected",
+        "github-disconnected": "Github login method has been successfully disconnected"
+      }
     },
     "2fa": {
       "title": "Account security",
