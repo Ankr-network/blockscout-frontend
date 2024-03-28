@@ -219,6 +219,7 @@ export enum ChainID {
 
   STELLAR = 'stellar',
   STELLAR_HORIZON = 'stellar-horizon',
+  STELLAR_SOROBAN = 'stellar-soroban',
   STELLAR_TESTNET = 'stellar-testnet',
   STELLAR_TESTNET_HORIZON = 'stellar-testnet-horizon',
   STELLAR_TESTNET_SOROBAN = 'stellar-testnet-soroban',
