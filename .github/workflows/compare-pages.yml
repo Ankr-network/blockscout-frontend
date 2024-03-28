@@ -50,6 +50,13 @@ jobs:
         env:
           BASE_URL: ${{ vars[format('{0}{1}', github.event.inputs.baseUrl, '_DOMAIN')] }}
         run: |
+          if [ "$BASE_URL" = "ankr.com.protocol" ]; then
+            BASE_URL="www.ankr.com"
+          fi
+
+          if [ "$BASE_URL" = "www-stage.ankr.com.protocol" ]; then
+            BASE_URL="www-stage.ankr.com"
+          fi
           npx hermione --update-refs --base-url "https://${BASE_URL}"
 
       - name: Run tests
@@ -58,6 +65,13 @@ jobs:
         env:
           BASE_URL: ${{ vars[format('{0}{1}', github.event.inputs.testingUrl, '_DOMAIN')] }}
         run: |
+          if [ "$BASE_URL" = "ankr.com.protocol" ]; then
+            BASE_URL="www.ankr.com"
+          fi
+
+          if [ "$BASE_URL" = "www-stage.ankr.com.protocol" ]; then
+            BASE_URL="www-stage.ankr.com"
+          fi
           npx hermione --base-url "https://${BASE_URL}"
 
       - name: Set AWS credentials
@@ -75,6 +89,14 @@ jobs:
           DOMAIN: ${{ vars[format('{0}{1}', github.event.inputs.testingUrl, '_DOMAIN')] }}
           DISTRIBUTION_ID: ${{ vars[format('{0}{1}', github.event.inputs.testingUrl, '_DISTRIBUTION_ID')] }}
         run: |
+          if [ "$DOMAIN" = "ankr.com.protocol" ]; then
+            DOMAIN="www.ankr.com"
+          fi
+
+          if [ "$DOMAIN" = "www-stage.ankr.com.protocol" ]; then
+            DOMAIN="www-stage.ankr.com"
+          fi
+
           aws s3 sync --delete ./report s3://$DOMAIN/report/web3api --acl public-read --cache-control "public,max-age=600,s-maxage=3600"
           aws configure set preview.cloudfront true
           echo "Invalidating CDN network"
