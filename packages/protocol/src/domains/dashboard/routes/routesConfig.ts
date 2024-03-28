@@ -7,7 +7,7 @@ export const DashboardRoutesConfig = createRouteConfig(
     dashboard: {
       path: DASHBOARD_PATH,
       generatePath: () => DASHBOARD_PATH,
-      breadcrumbs: 'main-dashboard.breadcrumbs',
+      breadcrumbs: 'main-analytics.breadcrumbs',
     },
   },
   DASHBOARD_PATH,

@@ -101,15 +101,6 @@
     "description": "Your access role grants you no access to the requested platform section. Contact the team Owner or Admin for the corresponding role. Learn more on <a href=\"{href}\" target=\"_blank\">access roles.</a>",
     "done": "Done"
   },
-  "mobile-navigation": {
-    "dashboard": "Dashboard",
-    "projects": "Projects",
-    "public-rpcs": "Public RPCs",
-    "account-details": "Account Details",
-    "plan": "Premium Plan",
-    "protocol": "Node Providers",
-    "more": "More"
-  },
   "account-menu": {
     "personal-account-settings": "Personal account settings",
     "accounts": "Accounts",
@@ -1088,8 +1079,8 @@
       }
     }
   },
-  "main-dashboard": {
-    "breadcrumbs": "Dashboard"
+  "main-analytics": {
+    "breadcrumbs": "Analytics"
   },
   "advanced-api": {
     "breadcrumbs": "Advanced API",
