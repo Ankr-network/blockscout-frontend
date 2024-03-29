@@ -40,7 +40,7 @@ export const {
 
           const {
             data: { cachedData, hasWeb3Connection, hasOauthLogin } = {},
-          } = authConnect.select(undefined as any)(getState() as RootState);
+          } = authConnect.select(undefined as never)(getState() as RootState);
 
           if (hasWeb3Connection) {
             dispatch(setAuthData({ hasWeb3Autoconnect: true }));
@@ -48,26 +48,30 @@ export const {
             return { data: cachedData };
           }
 
-          const authData = await makeAuthorization({
-            web3Service,
-            service,
-            dispatch,
-            walletId: walletId as EWalletId,
-            hasOauthLogin,
-            totp,
-          });
+          if (web3Service) {
+            const authData = await makeAuthorization({
+              web3Service,
+              service,
+              dispatch,
+              walletId: walletId as EWalletId,
+              hasOauthLogin,
+              totp,
+            });
 
-          const { address, trackingWalletName: walletName } = authData;
+            const { address, trackingWalletName: walletName } = authData;
 
-          const hasPremium = selectHasPremium(getState() as RootState);
+            const hasPremium = selectHasPremium(getState() as RootState);
 
-          trackWeb3SignUpSuccess({
-            address,
-            hasPremium,
-            walletName: walletName!,
-          });
+            trackWeb3SignUpSuccess({
+              address,
+              hasPremium,
+              walletName: walletName!,
+            });
 
-          return { data: authData };
+            return { data: authData };
+          }
+
+          return { data: cachedData };
         },
         errorHandler: error => {
           return {

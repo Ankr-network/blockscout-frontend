@@ -7,29 +7,33 @@ import { ETH_BLOCK_TIME } from './const';
 const hasPendingTransaction = async (address: string): Promise<boolean> => {
   const service = MultiService.getWeb3Service();
 
-  const provider = service.getKeyReadProvider();
+  if (service) {
+    const provider = service.getKeyReadProvider();
 
-  const web3 = getWeb3Instance();
+    const web3 = getWeb3Instance();
 
-  const infuraNodeBlockNumber: number = await provider
-    .getWeb3()
-    .eth.getBlockNumber();
-  const ankrNodeBlockNumber: number = await web3.eth.getBlockNumber();
+    const infuraNodeBlockNumber: number = await provider
+      .getWeb3()
+      .eth.getBlockNumber();
+    const ankrNodeBlockNumber: number = await web3.eth.getBlockNumber();
 
-  if (infuraNodeBlockNumber !== ankrNodeBlockNumber) return true;
+    if (infuraNodeBlockNumber !== ankrNodeBlockNumber) return true;
 
-  const latestTransactionCount = await web3.eth.getTransactionCount(
-    address,
-    'latest',
-  );
-  const pendingTransactionCount = await web3.eth.getTransactionCount(
-    address,
-    'pending',
-  );
+    const latestTransactionCount = await web3.eth.getTransactionCount(
+      address,
+      'latest',
+    );
+    const pendingTransactionCount = await web3.eth.getTransactionCount(
+      address,
+      'pending',
+    );
 
-  const result = latestTransactionCount !== pendingTransactionCount;
+    const result = latestTransactionCount !== pendingTransactionCount;
 
-  return result;
+    return result;
+  }
+
+  return false;
 };
 
 export const waitForPendingTransaction = async (address: string) => {

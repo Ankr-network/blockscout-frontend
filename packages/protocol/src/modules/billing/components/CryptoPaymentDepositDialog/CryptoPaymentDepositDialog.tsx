@@ -1,28 +1,40 @@
 import { t } from '@ankr.com/common';
 
-import { Dialog, IDialogProps } from 'uiKit/Dialog';
-import {
-  ECryptoDepositStep,
-  ECryptoDepositStepStatus,
-} from 'modules/billing/types';
+import { Dialog } from 'uiKit/Dialog';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';
-import { IUseCryptoPaymentDepositDialogProps } from './types';
+import { ICryptoPaymentDepositDialogProps } from './types';
 import { PaymentDetails } from './components/PaymentDetails';
 import { Stepper } from './components/Stepper';
 import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
 
-export interface ICryptoPaymentDepositDialogProps
-  extends IDialogProps,
-    IUseCryptoPaymentDepositDialogProps {}
-
 export const CryptoPaymentDepositDialog = ({
   amount,
-  amountUSD,
+  amountUsd,
   currency,
-  step,
   network,
+
+  /* IPaymentDetailsProps */
+  approvedAmount,
+  approvalFeeDetails,
+  approvalStatus,
+  approvalError,
+  depositFeeDetails,
+  depositStatus,
+  depositError,
+
+  /* IButtonsProps */
+  activeStep,
+  isPending,
+  onConfirmButtonClick,
+  onDiscardButtonClick,
+  status,
+
+  /* IStepperProps */
+  completedStep,
+  erroredStep,
+
   ...dialogProps
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();
@@ -35,26 +47,32 @@ export const CryptoPaymentDepositDialog = ({
       titleClassName={classes.title}
       hasMinimizeIcon
     >
-      <Header amount={amount} amountUSD={amountUSD} currency={currency} />
-      <Stepper className={classes.stepper} activeStep={step} />
+      <Header amount={amount} amountUsd={amountUsd} currency={currency} />
+      <Stepper
+        className={classes.stepper}
+        activeStep={activeStep}
+        completedStep={completedStep}
+        erroredStep={erroredStep}
+      />
       <PaymentDetails
-        // approvedAmount={10000}
+        approvedAmount={approvedAmount}
         amount={amount}
-        approvalFeeDetails={{ feeCrypto: 0.00489, feeUSD: 5.88 }}
-        approvalStatus={ECryptoDepositStepStatus.Error}
+        approvalFeeDetails={approvalFeeDetails}
+        approvalStatus={approvalStatus}
+        approvalError={approvalError}
         className={classes.paymentDetails}
         currency={currency}
-        depositError="errororor"
-        depositFeeDetails={{ feeCrypto: 0.00489, feeUSD: 5 }}
-        depositStatus={ECryptoDepositStepStatus.Confirmation}
+        depositError={depositError}
+        depositFeeDetails={depositFeeDetails}
+        depositStatus={depositStatus}
         network={network}
       />
       <Buttons
-        activeStep={ECryptoDepositStep.Deposit}
-        isPending={false}
-        onConfirmButtonClick={() => {}}
-        onDiscardButtonClick={() => {}}
-        status={ECryptoDepositStepStatus.Error}
+        activeStep={activeStep}
+        isPending={isPending}
+        onConfirmButtonClick={onConfirmButtonClick}
+        onDiscardButtonClick={onDiscardButtonClick}
+        status={status}
       />
     </Dialog>
   );

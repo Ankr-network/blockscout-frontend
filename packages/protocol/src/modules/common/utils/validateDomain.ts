@@ -1,5 +1,4 @@
-import { t } from '@ankr.com/common';
-import isValidDomain from 'is-valid-domain';
+import { isValidDomain, t } from '@ankr.com/common';
 
 export const validateDomain = (value?: string) => {
   if (typeof value !== 'string') {

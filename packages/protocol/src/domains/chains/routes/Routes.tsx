@@ -4,14 +4,6 @@ import { OverlaySpinner } from '@ankr.com/ui';
 
 import { ChainsRoutesConfig } from './routesConfig';
 
-const LoadableAddEndpointContainer: LoadableComponent<any> = loadable(
-  async () =>
-    import('../screens/AddEndpoint').then(module => module.AddEndpoint),
-  {
-    fallback: <OverlaySpinner />,
-  },
-);
-
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
   async () => import('../screens/Chains').then(module => module.Chains),
   {
@@ -42,16 +34,6 @@ export function ChainDetailsRoutes() {
       exact
       path={ChainsRoutesConfig.chainDetails.path}
       component={LoadableChainDetailsContainer}
-    />
-  );
-}
-
-export function ChainPrivateRoutes() {
-  return (
-    <Route
-      exact
-      path={ChainsRoutesConfig.addEndpoint.path}
-      component={LoadableAddEndpointContainer}
     />
   );
 }

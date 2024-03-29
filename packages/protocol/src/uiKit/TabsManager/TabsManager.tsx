@@ -2,6 +2,7 @@ import { ScrollContainer } from 'react-indiana-drag-scroll';
 
 import { useStyles } from './TabsManagerStyles';
 import { DefaultTabID, TabsManagerProps } from './TabsManagerTypes';
+import { Tab } from './components/Tab';
 
 // A named function is used here to allow using generic types
 // and avoid jsx-parcer collisions
@@ -39,19 +40,14 @@ export function TabsManager<TI = DefaultTabID>({
           >
             {scrollBackBtn && scrollBackBtn}
             {(allowSingleTab || tabs.length > 1) &&
-              tabs.map(({ id, isDisabled, onSelect, ...tab }, index) => (
-                <div
-                  className={cx(classes.tab, classNameTab)}
-                  key={id}
-                  id={id.toString()}
-                  onClick={isDisabled ? undefined : onSelect}
-                  role="tab"
-                  tabIndex={index}
-                >
-                  {typeof tab.title === 'function'
-                    ? tab.title(id === selectedTab?.id, isDisabled, id)
-                    : tab.title}
-                </div>
+              tabs.map((tab, index) => (
+                <Tab
+                  {...tab}
+                  className={classNameTab}
+                  index={index}
+                  key={tab.id}
+                  selectedTab={selectedTab}
+                />
               ))}
           </div>
         </ScrollContainer>

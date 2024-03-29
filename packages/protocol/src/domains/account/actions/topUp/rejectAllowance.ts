@@ -1,8 +1,8 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
@@ -17,36 +17,37 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     topUpRejectAllowance: build.query<boolean, IApiUserGroupParams>({
-      queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
-        const service = MultiService.getWeb3Service();
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: createNotifyingQueryFn(
+          async ({ web3Service }, { dispatch, getState }) => {
+            const address = getCurrentTransactionAddress(getState as GetState);
 
-        const address = await getCurrentTransactionAddress(
-          getState as GetState,
-        );
+            const rejectAllowanceResponse = await web3Service
+              .getContractService()
+              .rejectAllowanceForPAYG();
 
-        const rejectAllowanceResponse = await service
-          .getContractService()
-          .rejectAllowanceForPAYG();
+            const rejectAllowanceTransactionHash =
+              rejectAllowanceResponse?.transactionHash;
 
-        const rejectAllowanceTransactionHash =
-          rejectAllowanceResponse?.transactionHash;
+            dispatch(
+              setAllowanceTransaction({
+                address,
+                allowanceTransactionHash: rejectAllowanceTransactionHash,
+              }),
+            );
 
-        dispatch(
-          setAllowanceTransaction({
-            address,
-            allowanceTransactionHash: rejectAllowanceTransactionHash,
-          }),
-        );
+            await dispatch(
+              topUpCheckAllowanceTransaction.initiate(
+                rejectAllowanceTransactionHash,
+              ),
+            );
 
-        await dispatch(
-          topUpCheckAllowanceTransaction.initiate(
-            rejectAllowanceTransactionHash,
-          ),
-        );
+            dispatch(topUpResetTransactionSliceAndRedirect.initiate());
 
-        dispatch(topUpResetTransactionSliceAndRedirect.initiate());
-
-        return { data: true };
+            return { data: true };
+          },
+        ),
+        fallback: { data: false },
       }),
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;

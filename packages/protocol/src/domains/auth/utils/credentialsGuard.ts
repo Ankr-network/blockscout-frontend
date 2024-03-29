@@ -2,8 +2,7 @@ import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { GetState } from 'store';
-
-import { selectAuthData } from '../store/authSlice';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 export interface Credentials {
   credentials?: IJwtToken;

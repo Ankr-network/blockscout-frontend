@@ -1,15 +1,17 @@
 import { t } from '@ankr.com/common';
 import Scrollbars from 'react-custom-scrollbars';
+import { ISubscriptionsItem } from 'multirpc-sdk';
 
 import { EditDialog } from '../EditDialog';
 import { Subscription } from './components/Subscription';
 import { useEditSubscriptionsDialogStyles } from './EditSubscriptionsDialogStyles';
-import { useEditSubscriptionsDialog } from './hooks/useEditSubscriptionsDialog';
 
-export interface EditSubscriptionsDialogProps {
+interface IEditSubscriptionsDialogProps {
   isOpened?: boolean;
   onClose: () => void;
   onOpenSuccessDialog: () => void;
+  onCancelSubscription: (expiresAt: string, isDeal: boolean) => void;
+  recurringPayments: ISubscriptionsItem[];
 }
 
 const DIALOG_MARGIN = 32;
@@ -23,10 +25,9 @@ export const EditSubscriptionsDialog = ({
   isOpened,
   onClose,
   onOpenSuccessDialog,
-}: EditSubscriptionsDialogProps) => {
-  const { onCancelSubscription, recurringPayments } =
-    useEditSubscriptionsDialog(onClose);
-
+  onCancelSubscription,
+  recurringPayments,
+}: IEditSubscriptionsDialogProps) => {
   const { classes } = useEditSubscriptionsDialogStyles();
 
   return (
@@ -38,11 +39,11 @@ export const EditSubscriptionsDialog = ({
       <Scrollbars autoHeight autoHeightMax={authoHeightMax}>
         <div className={classes.root}>
           <div className={classes.subscriptions}>
-            {recurringPayments.map(payment => (
+            {recurringPayments.map(subscription => (
               <Subscription
-                key={payment.id}
+                key={subscription.id}
                 onCancel={onCancelSubscription}
-                subscription={payment}
+                subscription={subscription}
                 onOpenSuccessDialog={onOpenSuccessDialog}
               />
             ))}

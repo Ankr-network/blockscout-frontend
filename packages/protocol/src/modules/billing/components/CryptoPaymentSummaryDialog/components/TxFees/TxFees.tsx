@@ -1,3 +1,5 @@
+import { t } from '@ankr.com/common';
+
 import {
   FullTxFeeAttribute,
   IFullTxFeeAttributeProps,
@@ -10,6 +12,7 @@ export interface ITxFeesProps extends IFullTxFeeAttributeProps {}
 export const TxFees = ({
   approvalFeeDetails,
   depositFeeDetails,
+  isWalletConnected,
   network,
 }: ITxFeesProps) => {
   const { classes } = useTxFeesStyles();
@@ -19,13 +22,23 @@ export const TxFees = ({
       <FullTxFeeAttribute
         approvalFeeDetails={approvalFeeDetails}
         depositFeeDetails={depositFeeDetails}
+        isWalletConnected={isWalletConnected}
         network={network}
       />
-      <PartialTxFeeAttribute
-        feeDetails={approvalFeeDetails}
-        network={network}
-      />
-      <PartialTxFeeAttribute feeDetails={depositFeeDetails} network={network} />
+      {isWalletConnected && (
+        <>
+          <PartialTxFeeAttribute
+            feeDetails={approvalFeeDetails}
+            label={t('account.payment-flow.steps.approval.title')}
+            network={network}
+          />
+          <PartialTxFeeAttribute
+            feeDetails={depositFeeDetails}
+            label={t('account.payment-flow.steps.deposit.title')}
+            network={network}
+          />
+        </>
+      )}
     </div>
   );
 };

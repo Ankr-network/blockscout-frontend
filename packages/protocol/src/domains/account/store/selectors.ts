@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import {
-  BalanceLevel,
   BundleType,
   BundlePaymentPlan,
   ISubscriptionsItem,
@@ -12,23 +11,36 @@ import { RootState } from 'store';
 import { ZERO } from 'modules/common/constants/const';
 import {
   EChargingModel,
+  ECurrency,
+  IAmount,
   IChargingModelData,
   IPAYGChargingModelData,
 } from 'modules/billing/types';
+import { DEFAULT_SELECTED_RECURRING_USD_AMOUNT } from 'modules/billing/const';
+import { fetchANKRAllowanceFee } from 'domains/account/actions/fetchANKRAllowanceFee';
+import { fetchANKRDepositFee } from 'domains/account/actions/fetchANKRDepositFee';
+import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
+import { fetchBundlePaymentPlans } from 'domains/account/actions/bundles/fetchBundlePaymentPlans';
+import { fetchMyBundles } from 'domains/account/actions/bundles/fetchMyBundles';
+import { fetchMyBundlesStatus } from 'domains/account/actions/bundles/fetchMyBundlesStatus';
+import { fetchMySubscriptions } from 'domains/account/actions/subscriptions/fetchMySubscriptions';
+import { fetchNativeTokenPrice } from 'domains/account/actions/fetchNativeTokenPrice';
+import { fetchRates } from 'domains/account/actions/rate/fetchRates';
+import { fetchTokenPrice } from 'domains/account/actions/fetchTokenPrice';
+import { fetchUSDSubscriptionPrices } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
+import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
+import { getDealChargingModelData } from 'domains/account/utils/getDealChargingModelData';
+import { getPackageChargingModelData } from 'domains/account/utils/getPackageChargingModelData';
+import { isDealPlan } from 'domains/account/utils/isDealPlan';
+import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
 
 import {
   ALL_BLOCKCHAINS_PATH,
   ANKR_TO_CREDITS_RATE,
   CREDITS_TO_REQUESTS_RATE,
   DEFAULT_BALANCE,
+  ZERO_STRING,
 } from './const';
-import { fetchBalance } from '../actions/balance/fetchBalance';
-import { fetchBundlePaymentPlans } from '../actions/bundles/fetchBundlePaymentPlans';
-import { fetchMyBundles } from '../actions/bundles/fetchMyBundles';
-import { fetchMyBundlesStatus } from '../actions/bundles/fetchMyBundlesStatus';
-import { fetchMySubscriptions } from '../actions/subscriptions/fetchMySubscriptions';
-import { getDealChargingModelData } from '../utils/getDealChargingModelData';
-import { getPackageChargingModelData } from '../utils/getPackageChargingModelData';
 
 export const selectBundlePaymentPlansState = createSelector(
   fetchBundlePaymentPlans.select(),
@@ -47,9 +59,19 @@ export const selectBundlePaymentPlans = createSelector(
     })),
 );
 
+export const selectDealPaymentPlans = createSelector(
+  selectBundlePaymentPlans,
+  plans => plans.filter(isDealPlan),
+);
+
 export const selectFirstBundlePaymentPlan = createSelector(
   selectBundlePaymentPlans,
   ([bundle]): BundlePaymentPlan | undefined => bundle,
+);
+
+export const selectFirstDealPaymentPlan = createSelector(
+  selectDealPaymentPlans,
+  ([plan]): BundlePaymentPlan | undefined => plan,
 );
 
 export const selectBundlePaymentPlansLoading = createSelector(
@@ -59,7 +81,7 @@ export const selectBundlePaymentPlansLoading = createSelector(
 
 export const selectBundlePaymentPlansFetching = createSelector(
   selectBundlePaymentPlansState,
-  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectBundlePaymentPlanByBundleId = createSelector(
@@ -110,7 +132,7 @@ export const selectMyBundlesLoading = createSelector(
 
 export const selectMyBundlesFetching = createSelector(
   selectMyBundlesState,
-  ({ isLoading, data }) => isLoading && typeof data === 'undefined',
+  ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectMyBundlesLoaded = createSelector(
@@ -142,7 +164,7 @@ export const selectIsBalanceUninitialized = createSelector(
 
 export const selectBalanceFetching = createSelector(
   selectBalanceState,
-  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectBalanceData = createSelector(
@@ -202,7 +224,7 @@ export const selectMySubscriptionsLoading = createSelector(
 
 export const selectMySubscriptionsFetching = createSelector(
   selectMySubscriptionsState,
-  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectMySubscriptions = createSelector(
@@ -247,7 +269,7 @@ export const selectMyBundlesStatusLoading = createSelector(
 
 export const selectMyBundlesStatusFetching = createSelector(
   selectMyBundlesStatusState,
-  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectMyCurrentBundleStatuses = createSelector(
@@ -296,7 +318,35 @@ export const selectMyCurrentBundleRequestsUsed = createSelector(
 export const selectMyRecurringPayments = createSelector(
   selectMyBundles,
   selectMySubscriptions,
-  (bundles, subscriptions) => [...bundles, ...subscriptions],
+  selectBundlePaymentPlans,
+  (bundles, subscriptions, bundlePaymentPlans) =>
+    [...subscriptions, ...bundles].sort((a, b) => {
+      const currentPlan = bundlePaymentPlans.find(plan => {
+        return plan.bundle.price_id === a.productPriceId;
+      });
+
+      const isPackageBundlePlan = isPackagePlan(currentPlan);
+
+      if (isPackageBundlePlan) {
+        return 1;
+      }
+
+      return +a.currentPeriodEnd - +b.currentPeriodEnd;
+    }),
+);
+
+export const selectMyRecurringPaymentsWithoutPackage = createSelector(
+  selectMyRecurringPayments,
+  selectBundlePaymentPlans,
+  (payments, bundlePaymentPlans) => {
+    return payments.filter(payment => {
+      const currentPlan = bundlePaymentPlans.find(plan => {
+        return plan.bundle.price_id === payment.productPriceId;
+      });
+
+      return !isPackagePlan(currentPlan);
+    });
+  },
 );
 
 export const selectAllRecurringPaymentsAmount = createSelector(
@@ -344,16 +394,6 @@ export const selectFullPAYGBalance = createSelector(
   },
 );
 
-export const selectIsFreeChargingModel = createSelector(
-  selectBalanceLevel,
-  balanceLevel =>
-    balanceLevel === BalanceLevel.UNKNOWN ||
-    balanceLevel === BalanceLevel.ZERO ||
-    balanceLevel === BalanceLevel.CRITICAL ||
-    balanceLevel === BalanceLevel.TOO_LOW ||
-    balanceLevel === BalanceLevel.RED,
-);
-
 export const selectPAYGChargingModelData = createSelector(
   selectFullPAYGBalance,
   fullPAYGBalance => {
@@ -372,15 +412,23 @@ const selectDealChargingModelData = createSelector(
   (myByndlesStatus, bundlePaymentPlans) => {
     /* Deal charging model data */
     if (myByndlesStatus.data) {
-      const dealChargingModel = myByndlesStatus.data.find(bundle => {
+      const dealChargingModels = myByndlesStatus.data.filter(bundle => {
         return bundle.counters.find(
           counter => counter.type === BundleType.COST,
         );
       });
 
-      if (dealChargingModel?.counters) {
+      let lastExpirationDeal;
+
+      if (dealChargingModels?.length > 0) {
+        lastExpirationDeal = dealChargingModels.reduce((prev, current) => {
+          return prev.expires > current.expires ? prev : current;
+        });
+      }
+
+      if (lastExpirationDeal?.counters) {
         return getDealChargingModelData({
-          dealChargingModel,
+          dealChargingModel: lastExpirationDeal,
           bundlePaymentPlans,
         });
       }
@@ -429,23 +477,28 @@ export const selectAccountChargingModels = createSelector(
   ): IChargingModelData[] => {
     const chargingModels: IChargingModelData[] = [paygChargingModelData];
 
-    if (packageChargingModelData) {
-      if (packageChargingModelData.isExpired) {
-        chargingModels.push(packageChargingModelData);
-      } else {
-        // if user has actual package model, it should be shown first
-        chargingModels.unshift(packageChargingModelData);
-      }
-    }
-
     if (dealChargingModelData) {
-      const isExpired = new Date() > new Date(dealChargingModelData.expires);
+      const isExpired =
+        new Date() > getDateFromUnixSeconds(dealChargingModelData.expires);
 
-      if (isExpired) {
+      const isUsed = dealChargingModelData.progressValue >= 100;
+
+      if (isExpired || isUsed) {
         chargingModels.push(dealChargingModelData);
       } else {
         // if user has actual deal model, it should be shown first
         chargingModels.unshift(dealChargingModelData);
+      }
+    }
+
+    if (packageChargingModelData) {
+      const isUsed = packageChargingModelData.progressValue >= 100;
+
+      if (packageChargingModelData.isExpired || isUsed) {
+        chargingModels.push(packageChargingModelData);
+      } else {
+        // if user has actual package model, it should be shown first and have higher priority then deal model
+        chargingModels.unshift(packageChargingModelData);
       }
     }
 
@@ -456,4 +509,147 @@ export const selectAccountChargingModels = createSelector(
 export const selectActiveChargingModel = createSelector(
   selectAccountChargingModels,
   chargingModels => chargingModels[0],
+);
+
+export const selectUSDSubscriptionPricesState = createSelector(
+  fetchUSDSubscriptionPrices.select(undefined as unknown as never),
+  state => state,
+);
+
+export const selectUSDSubscriptionPricesFetching = createSelector(
+  selectUSDSubscriptionPricesState,
+  ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectUSDSubscruptionPricesLoading = createSelector(
+  selectUSDSubscriptionPricesState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectUSDSubscruptionPrices = createSelector(
+  selectUSDSubscriptionPricesState,
+  ({ data = [] }) =>
+    [...data].sort((a, b) => Number(a.amount) - Number(b.amount)),
+);
+
+export const selectUSDSubscriptionAmounts = createSelector(
+  selectUSDSubscruptionPrices,
+  prices =>
+    prices
+      // Filtering unnecessary price to fit the design.
+      // Presented on stage environment only.
+      .filter(price => price.amount !== '12.00')
+      .map<IAmount>(price => ({
+        id: price.id,
+        value: Number(price.amount),
+        currency: ECurrency.USD,
+      })),
+);
+
+export const selectDefaultUSDSubscriptionAmountID = createSelector(
+  selectUSDSubscriptionAmounts,
+  amounts =>
+    amounts.find(
+      amount => amount.value === DEFAULT_SELECTED_RECURRING_USD_AMOUNT,
+    )?.id,
+);
+
+export const selectRatesState = createSelector(
+  fetchRates.select(undefined as unknown as never),
+  state => state,
+);
+
+export const selectRatesFetching = createSelector(
+  selectRatesState,
+  ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectRatesLoading = createSelector(
+  selectRatesState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectRates = createSelector(
+  selectRatesState,
+  ({ data = [] }) => data,
+);
+
+export const selectANKRAllowanceFeeState = createSelector(
+  fetchANKRAllowanceFee.select(undefined as never),
+  state => state,
+);
+
+export const selectANKRAllowanceFee = createSelector(
+  selectANKRAllowanceFeeState,
+  ({ data = 0 }) => data,
+);
+
+export const selectANKRAllowanceFeeFetching = createSelector(
+  selectANKRAllowanceFeeState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectANKRAllowanceFeeLoading = createSelector(
+  selectANKRAllowanceFeeState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectTokenPriceState = createSelector(
+  fetchTokenPrice.select(undefined as never),
+  state => state,
+);
+
+export const selectTokenPrice = createSelector(
+  selectTokenPriceState,
+  ({ data = ZERO_STRING }) => data,
+);
+
+export const selectTokenPriceFetching = createSelector(
+  selectTokenPriceState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectTokenPriceLoading = createSelector(
+  selectTokenPriceState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectNativeTokenPriceState = createSelector(
+  fetchNativeTokenPrice.select(undefined as never),
+  state => state,
+);
+
+export const selectNativeTokenPrice = createSelector(
+  selectNativeTokenPriceState,
+  ({ data = ZERO_STRING }) => data,
+);
+
+export const selectNativeTokenPriceFetching = createSelector(
+  selectNativeTokenPriceState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectNativeTokenPriceLoading = createSelector(
+  selectNativeTokenPriceState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectANKRDepositFeeState = createSelector(
+  fetchANKRDepositFee.select(undefined as never),
+  state => state,
+);
+
+export const selectANKRDepositFee = createSelector(
+  selectANKRDepositFeeState,
+  ({ data = 0 }) => data,
+);
+
+export const selectANKRDepositFeeFetching = createSelector(
+  selectANKRDepositFeeState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectANKRDepositFeeLoading = createSelector(
+  selectANKRDepositFeeState,
+  ({ isLoading }) => isLoading,
 );

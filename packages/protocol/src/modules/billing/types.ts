@@ -1,4 +1,4 @@
-import { BalanceLevel } from 'multirpc-sdk';
+import { BalanceLevel, SubscriptionPrice } from 'multirpc-sdk';
 
 export enum EChargingModel {
   Free = 'FREE',
@@ -34,6 +34,12 @@ export enum EPaymentType {
   Deal = 'deal',
 }
 
+export interface IAmount {
+  currency: ECurrency;
+  id: SubscriptionPrice['id'];
+  value: number;
+}
+
 export interface IFeeDetails {
   feeCrypto: number;
   feeUSD: number;
@@ -51,6 +57,7 @@ export interface IPackageChargingModelData {
   isExpired: boolean;
   progressValue: number;
   progressLabel: string;
+  bundleId: string;
 }
 
 export interface IDealBalance extends IPackageBalance {
@@ -63,7 +70,7 @@ export interface IDealChargingModelData {
   progressValue: number;
   progressLabel: string;
   maxLabel: string;
-  expires: string;
+  expires: number; // format: unix seconds
 }
 
 export interface IPAYGBalance extends IDealBalance {

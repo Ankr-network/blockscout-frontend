@@ -17,7 +17,6 @@ import { EChargingModel, IChargingModelData } from 'modules/billing/types';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { Balance } from './components/Balance';
-import { Description } from './components/Description';
 import { Header } from './components/Header';
 import { Widget } from '../Widget';
 import { useBalanceWidget } from './hooks/useBalanceWidget';
@@ -26,6 +25,7 @@ import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
 import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
 import { BalanceProgressBar } from './components/BalanceProgressBar';
 import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
+import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
 import { intlRoot } from './const';
 
 export interface ChargingModelWidgetProps {
@@ -33,31 +33,21 @@ export interface ChargingModelWidgetProps {
 }
 
 export const ChargingModelWidget = ({
-  className: outerClassName,
+  className,
 }: ChargingModelWidgetProps) => {
-  const {
-    hasDescription,
-    hasPAYGLabel,
-    isUpgradeDialogOpened,
-    onUpgradeDialogClose,
-  } = useBalanceWidget();
+  const { isUpgradeDialogOpened, onUpgradeDialogClose } = useBalanceWidget();
 
   const { isOpened, onClose, onOpen: onOpenBalanceDialog } = useDialog();
 
   const { classes, cx } = useChargingModelWidgetStyles();
-
-  const className = cx(classes.root, outerClassName);
-
-  const contentClassName = cx(classes.content, {
-    [classes.withDescription]: hasDescription,
-    [classes.withPAYGLabel]: hasPAYGLabel,
-  });
 
   const chargingModels = useAppSelector(selectAccountChargingModels);
 
   const currentChargingModel = useAppSelector(selectActiveChargingModel);
 
   const isMobile = useIsXSDown();
+
+  const { shouldShowFreemium } = useFreemiumChargingModel();
 
   const renderBalance = useCallback(
     (chargingModel: IChargingModelData) => {
@@ -102,18 +92,26 @@ export const ChargingModelWidget = ({
         className={classes.assetsBtn}
         variant="outlined"
         onClick={onOpenBalanceDialog}
-        disabled={currentChargingModel.type === EChargingModel.Free}
+        disabled={
+          currentChargingModel.type === EChargingModel.Free ||
+          shouldShowFreemium
+        }
       >
         {t(`${intlRoot}.assets-balance-button`)}
       </Button>
     );
-  }, [classes.assetsBtn, currentChargingModel.type, onOpenBalanceDialog]);
+  }, [
+    classes.assetsBtn,
+    currentChargingModel.type,
+    onOpenBalanceDialog,
+    shouldShowFreemium,
+  ]);
 
   return (
     <>
       <Widget
-        className={className}
-        contentClassName={contentClassName}
+        className={cx(classes.root, className)}
+        contentClassName={classes.content}
         actionsClassName={classes.widgetActions}
       >
         <Header
@@ -123,28 +121,25 @@ export const ChargingModelWidget = ({
           {!isMobile && assetsBtn}
         </Header>
         {currentPlanBalance}
-        {hasDescription && <Description className={classes.description} />}
         {isMobile && assetsBtn}
-        <UpgradePlanDialog
-          currency={TopUpCurrency.USD}
-          defaultState={ContentType.TOP_UP}
-          onClose={onUpgradeDialogClose}
-          open={isUpgradeDialogOpened}
-        />
       </Widget>
+
+      <UpgradePlanDialog
+        currency={TopUpCurrency.USD}
+        defaultState={ContentType.TOP_UP}
+        onClose={onUpgradeDialogClose}
+        open={isUpgradeDialogOpened}
+      />
 
       <AssetsBalanceDialog isOpened={isOpened} onClose={onClose}>
         {chargingModels.map((chargingModel, index) => {
-          const { type } = chargingModel;
-
           const balance = renderBalance(chargingModel);
 
           return (
             <ChargingModelWidgetWrapper
-              key={index}
-              chargingModel={type}
-              isCurrentModel={index === 0}
               {...chargingModel}
+              key={index}
+              isCurrentModel={index === 0}
               balance={balance}
             />
           );

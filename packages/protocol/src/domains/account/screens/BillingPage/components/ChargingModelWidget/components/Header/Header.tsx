@@ -25,7 +25,7 @@ export const Header = ({
       <WidgetTitle>{t(`${intlRoot}.title`)}</WidgetTitle>
       <ChargingModelLabel
         currentChargingModelType={currentChargingModelType}
-        isSmall={false}
+        size="large"
       />
       {children}
     </div>

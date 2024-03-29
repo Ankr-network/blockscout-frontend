@@ -1,19 +1,26 @@
-import { useCallback } from 'react';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
-import { accountFetchCreditRates } from 'domains/account/actions/rate/fetchCreditRates';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  selectRates,
+  selectRatesFetching,
+  selectRatesLoading,
+} from 'domains/account/store/selectors';
 
-export const useRates = () => {
-  const [
-    fetchRates,
-    { data: rates, isLoading: isRateLoading, isUninitialized },
-  ] = useQueryEndpoint(accountFetchCreditRates);
+import { useFetchRatesQuery } from '../actions/rate/fetchRates';
 
-  const handleFetchRates = useCallback(() => {
-    if (isUninitialized) {
-      fetchRates();
-    }
-  }, [fetchRates, isUninitialized]);
+export interface IUseRatesProps {
+  skipFetching?: boolean;
+}
 
-  return { handleFetchRates, isRateLoading, rates };
+export const useRates = ({
+  skipFetching = false,
+}: IUseRatesProps | void = {}) => {
+  useFetchRatesQuery(skipFetching ? skipToken : undefined);
+
+  const rates = useAppSelector(selectRates);
+  const isLoading = useAppSelector(selectRatesLoading);
+  const isFetching = useAppSelector(selectRatesFetching);
+
+  return { isLoading, isFetching, rates };
 };

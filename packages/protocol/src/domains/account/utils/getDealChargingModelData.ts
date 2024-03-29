@@ -2,6 +2,7 @@ import { BundleType, BundlePaymentPlan, MyBundleStatus } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { EChargingModel, IDealChargingModelData } from 'modules/billing/types';
+import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 
 import { CREDITS_TO_REQUESTS_RATE, CREDITS_TO_USD_RATE } from '../store/const';
 
@@ -49,7 +50,7 @@ export const getDealChargingModelData = ({
   );
 
   const maxLabel = t('account.account-details.balance-widget.expires', {
-    date: new Date(Number(dealChargingModel.expires)),
+    date: getDateFromUnixSeconds(dealChargingModel.expires),
   });
 
   const chargingModelDeal: IDealChargingModelData = {

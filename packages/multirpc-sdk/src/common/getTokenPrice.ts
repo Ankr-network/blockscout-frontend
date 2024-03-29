@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js';
-
 import { configFromEnv, getBlochainByChainId } from './utils';
 import { postRequestConfig } from './const';
 
@@ -49,5 +47,5 @@ export const getTokenPriceByChainId = async (chainId: number, tokenAddress?: str
   return getAdvancedApi('ankr_getTokenPrice', {
     blockchain,
     contractAddress: tokenAddress,
-  }).then(res => (res?.usdPrice ? new BigNumber(res.usdPrice) : null));
+  }).then(res => res.usdPrice);
 };

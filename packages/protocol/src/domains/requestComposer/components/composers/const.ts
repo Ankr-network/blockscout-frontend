@@ -1,10 +1,9 @@
 import { createContext } from 'react';
 
+import { emptyFn } from 'modules/common/utils/emptyFn';
 import { useRequestCountdown } from 'domains/requestComposer/hooks/useRequestCountdown';
 
 import { UseLoggerResult } from '../Logger/hooks/useLogger';
-
-const emptyFn = () => {};
 
 type CountdownContextValue = ReturnType<typeof useRequestCountdown>;
 

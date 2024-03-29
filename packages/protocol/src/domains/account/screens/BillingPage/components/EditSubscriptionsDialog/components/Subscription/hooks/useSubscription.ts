@@ -1,23 +1,31 @@
-import { BundleType, ISubscriptionsItem } from 'multirpc-sdk';
+import { ISubscriptionsItem } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
 import { useCancelSubscriptionMutation } from 'domains/account/actions/subscriptions/cancelSubscription';
+import { useCancelBundleSubscriptionMutation } from 'domains/account/actions/bundles/cancelBundleSubscription';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectBundlePaymentPlanByPriceId } from 'domains/account/store/selectors';
+import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
+import { isDealPlan } from 'domains/account/utils/isDealPlan';
 
 export interface SubscriptionParams {
-  onCancel?: () => void;
+  onCancel: (expiresAt: string, isDeal: boolean) => void;
   subscription: ISubscriptionsItem;
 }
 
 export const useSubscription = ({
-  onCancel: onCancelSubscription = () => {},
+  onCancel: onCancelSubscription,
   subscription,
 }: SubscriptionParams) => {
-  const [cancelSubscription, { isLoading: isCanceling }] =
+  const [cancelSubscription, { isLoading: isCancelingSubscription }] =
     useCancelSubscriptionMutation();
+
+  const [
+    cancelBundleSubscription,
+    { isLoading: isCancelingBundleSubscription },
+  ] = useCancelBundleSubscriptionMutation();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
@@ -32,23 +40,29 @@ export const useSubscription = ({
     subscriptionId,
   } = subscription;
 
+  const isDealBundle = isDealPlan(currentBundleData);
+  const isPackageBundle = isPackagePlan(currentBundleData);
+
   const onCancel = useCallback(async () => {
-    await cancelSubscription({ params: { group, subscriptionId } });
+    const cancelSubscriptionParams = { params: { group, subscriptionId } };
 
-    onCancelSubscription();
-  }, [cancelSubscription, group, onCancelSubscription, subscriptionId]);
+    if (isDealBundle || isPackageBundle) {
+      await cancelBundleSubscription(cancelSubscriptionParams);
+    } else {
+      await cancelSubscription(cancelSubscriptionParams);
+    }
 
-  const isDealBundle =
-    currentBundleData &&
-    currentBundleData.bundle.limits.find(
-      limit => limit.type === BundleType.COST,
-    );
-
-  const isPackageBundle =
-    currentBundleData &&
-    currentBundleData.bundle.limits.find(
-      limit => limit.type === BundleType.QTY,
-    );
+    onCancelSubscription(nextBillingDate, Boolean(isDealBundle));
+  }, [
+    group,
+    subscriptionId,
+    isDealBundle,
+    isPackageBundle,
+    onCancelSubscription,
+    nextBillingDate,
+    cancelBundleSubscription,
+    cancelSubscription,
+  ]);
 
   const customChargingModelName = useMemo(() => {
     if (isDealBundle) {
@@ -64,7 +78,7 @@ export const useSubscription = ({
 
   return {
     amount,
-    isCanceling,
+    isCanceling: isCancelingSubscription || isCancelingBundleSubscription,
     nextBillingDate,
     onCancel,
     period,

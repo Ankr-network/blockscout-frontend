@@ -2,8 +2,8 @@ import { EWalletId, ProviderEvents } from '@ankr.com/provider';
 import { provider as Provider } from 'web3-core';
 import { useEffect, useState } from 'react';
 
-import { isEventProvider } from 'store/utils/isEventProvider';
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { isEventProvider } from 'store/utils/isEventProvider';
 
 export const useConnectedAddress = () => {
   const [connectedAddress, setConnectedAddress] = useState<string>();
@@ -11,6 +11,8 @@ export const useConnectedAddress = () => {
 
   useEffect(() => {
     let walletProvider: Provider;
+
+    let listener: (connectedAddresses: string[]) => void;
 
     (async () => {
       const providerManager = getProviderManager();
@@ -21,14 +23,15 @@ export const useConnectedAddress = () => {
       walletProvider = provider.getWeb3().currentProvider;
 
       if (isEventProvider(walletProvider)) {
-        walletProvider.on(
-          ProviderEvents.AccountsChanged,
-          (connectedAddresses: string[]) => {
-            const newConnectedAddress = connectedAddresses?.[0];
+        listener = (connectedAddresses: string[]) => {
+          const newConnectedAddress = connectedAddresses?.[0];
 
-            setConnectedAddress(newConnectedAddress);
-          },
-        );
+          provider.currentAccount = newConnectedAddress;
+
+          setConnectedAddress(newConnectedAddress);
+        };
+
+        walletProvider.on(ProviderEvents.AccountsChanged, listener);
       }
 
       setConnectedAddress(provider.currentAccount);
@@ -37,7 +40,10 @@ export const useConnectedAddress = () => {
 
     return () => {
       if (isEventProvider(walletProvider)) {
-        walletProvider.removeAllListeners(ProviderEvents.AccountsChanged);
+        walletProvider.removeListener(
+          ProviderEvents.AccountsChanged,
+          listener as () => void,
+        );
       }
     };
   }, []);

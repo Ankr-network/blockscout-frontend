@@ -22,8 +22,8 @@ export const useAddress = () => {
         try {
           const service = MultiService.getWeb3Service();
 
-          const provider = service.getKeyWriteProvider();
-          const { currentAccount } = provider;
+          const provider = service?.getKeyWriteProvider();
+          const { currentAccount = '' } = provider ?? {};
 
           setAddress(currentAccount);
         } catch (e) {

@@ -9,6 +9,7 @@ export interface ITransaction {
   allowanceTransactionHash?: string;
   topUpTransactionHash?: string;
   amount?: BigNumber;
+  approvedAmount?: BigNumber;
 }
 
 type Address = string;
@@ -55,6 +56,15 @@ export const accountTopUpSlice = createSlice({
         amount: action.payload.amount,
       };
     },
+    setApprovedAmount: (
+      state,
+      action: PayloadAction<ISetTransactionPayload>,
+    ) => {
+      state[action.payload.address] = {
+        ...state[action.payload.address],
+        approvedAmount: action.payload.approvedAmount,
+      };
+    },
     resetTopUpOrigin: state => {
       state.topUpOrigin = undefined;
     },
@@ -88,6 +98,7 @@ export const {
   resetTransaction,
   setAllowanceTransaction,
   setAmount,
+  setApprovedAmount,
   setTopUpOrigin,
   setTopUpTransaction,
 } = accountTopUpSlice.actions;

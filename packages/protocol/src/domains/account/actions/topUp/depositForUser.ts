@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { Web3Address, formatToWei } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
 
@@ -20,35 +20,39 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     topUpDepositForUser: build.query<
-      IWeb3SendResult,
+      IWeb3SendResult | null,
       IDepositForUserRequestParams
     >({
-      queryFn: createNotifyingQueryFn(
-        async ({ amount, targetAddress }, { dispatch }) => {
-          const service = MultiService.getWeb3Service();
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: createNotifyingQueryFn(
+          async (
+            { params: { amount, targetAddress }, web3Service },
+            { dispatch },
+          ) => {
+            const publicKey = await dispatch(
+              accountFetchPublicKey.initiate(),
+            ).unwrap();
 
-          const publicKey = await dispatch(
-            accountFetchPublicKey.initiate(),
-          ).unwrap();
+            const depositResponse = await web3Service
+              .getContractService()
+              .depositAnkrToPAYGForUser(
+                formatToWei(amount),
+                publicKey,
+                targetAddress,
+              );
 
-          const depositResponse = await service
-            .getContractService()
-            .depositAnkrToPAYGForUser(
-              formatToWei(amount),
-              publicKey,
-              targetAddress,
-            );
-
-          return { data: depositResponse };
-        },
-      ),
+            return { data: depositResponse };
+          },
+        ),
+        fallback: { data: null },
+      }),
       onQueryStarted: async (
         { targetAddress },
         { dispatch, queryFulfilled },
       ) => {
         const { data: depositResponse } = await queryFulfilled;
 
-        if (depositResponse.transactionHash) {
+        if (depositResponse?.transactionHash) {
           dispatch(
             setTopUpTransaction({
               address: targetAddress,

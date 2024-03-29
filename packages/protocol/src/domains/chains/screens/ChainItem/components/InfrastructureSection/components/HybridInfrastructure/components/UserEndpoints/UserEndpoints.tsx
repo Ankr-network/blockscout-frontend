@@ -6,38 +6,24 @@ import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { UserEndpoint } from 'domains/infrastructure/actions/fetchEndpoints';
 
-import { AddEndpointButton } from '../AddEndpointButton';
 import { UserEndpointsForm } from './UserEndpointsForm';
 import { getRpcLinks } from './UserEndpointsUtils';
 import { useStyles } from './UserEndpointsStyles';
 
 interface UserEndpointsProps {
-  chainName: string;
   data?: UserEndpoint[];
-  hasChain?: boolean;
-  isMoreThanLimit: boolean;
-  limit?: number;
   privateUrls: string[];
   publicUrls: string[];
 }
 
 export const UserEndpoints = ({
-  chainName,
   data = [],
-  hasChain,
-  isMoreThanLimit,
-  limit,
   privateUrls,
   publicUrls,
 }: UserEndpointsProps) => {
   const { classes } = useStyles();
 
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
-
-  const addEndpointLink = useMemo(
-    () => ChainsRoutesConfig.addEndpoint.generatePath(chainId),
-    [chainId],
-  );
 
   const rpcLinks = useMemo(() => getRpcLinks(data), [data]);
 
@@ -51,26 +37,6 @@ export const UserEndpoints = ({
             })}
           </Typography>
         </TooltipWrapper>
-
-        {isMoreThanLimit || !hasChain ? (
-          <TooltipWrapper
-            hasIcon={false}
-            tooltipText={
-              isMoreThanLimit
-                ? tHTML('providers.endpoint.tooltip-text', { limit })
-                : tHTML('providers.endpoint.chain-tooltip-text', {
-                    chainId: chainName,
-                  })
-            }
-          >
-            <AddEndpointButton
-              link={addEndpointLink}
-              isDisabled={!hasChain || isMoreThanLimit}
-            />
-          </TooltipWrapper>
-        ) : (
-          <AddEndpointButton link={addEndpointLink} isDisabled={!hasChain} />
-        )}
       </Box>
       {rpcLinks.length > 0 && (
         <UserEndpointsForm

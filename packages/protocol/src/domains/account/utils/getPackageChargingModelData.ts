@@ -52,6 +52,7 @@ export const getPackageChargingModelData = ({
 
   const chargingModelPackage: IPackageChargingModelData = {
     type: EChargingModel.Package,
+    bundleId: packageChargingModel.bundleId,
     balance: {
       balanceInRequests: balanceInRequests.toString(),
       balanceUsd: balanceUsd.toString(),

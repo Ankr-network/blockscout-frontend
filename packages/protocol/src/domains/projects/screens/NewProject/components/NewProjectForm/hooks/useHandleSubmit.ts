@@ -172,9 +172,7 @@ export const useHandleSubmit = (
           const { isSuccess } = await handleEnableWhitelist(false);
 
           if (isSuccess) {
-            if (!hasContracts) {
-              history.push(ProjectsRoutesConfig.projects.generatePath());
-            }
+            history.push(ProjectsRoutesConfig.projects.generatePath());
 
             handleResetConfig();
           }

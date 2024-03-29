@@ -9,12 +9,14 @@ import { usePAYGLabelStyles } from './PAYGLabelStyles';
 const intlKey = `${intlRoot}.payg-label`;
 
 interface IPAYGLabelProps {
-  isSmall?: boolean;
+  size: 'small' | 'medium' | 'large';
   className?: string;
 }
 
-export const PAYGLabel = ({ isSmall = false, className }: IPAYGLabelProps) => {
+export const PAYGLabel = ({ size = 'medium', className }: IPAYGLabelProps) => {
   const { classes, cx } = usePAYGLabelStyles();
+
+  const isSmall = size === 'small';
 
   return (
     <Typography

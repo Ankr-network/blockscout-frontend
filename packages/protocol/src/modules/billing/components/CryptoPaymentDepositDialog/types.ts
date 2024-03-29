@@ -1,18 +1,14 @@
-import { ECryptoDepositStep, ECurrency, ENetwork } from 'modules/billing/types';
+import { IDialogProps } from 'uiKit/Dialog';
 
-export interface IUseCryptoPaymentDepositDialogProps {
-  amount: number;
-  amountUSD: number;
-  // approval?: IApprovalDetails;
-  // approvalError?: string;
-  // approvedAmount?: number;
-  currency: ECurrency;
-  // depositError?: string;
-  // depositFee: number;
-  // depositFeeUSD: number;
-  // isApproved: boolean;
-  // isApprovind?: boolean;
-  // isDepositing?: boolean;
-  step: ECryptoDepositStep;
-  network: ENetwork;
+import { IPaymentDetailsProps } from './components/PaymentDetails';
+import { IStepperProps } from './components/Stepper';
+import { IButtonsProps } from './components/Buttons';
+
+export interface ICryptoPaymentDepositDialogProps
+  extends IPaymentDetailsProps,
+    IStepperProps,
+    IButtonsProps,
+    IDialogProps {
+  onOpen: (() => void) | undefined;
+  amountUsd: number;
 }

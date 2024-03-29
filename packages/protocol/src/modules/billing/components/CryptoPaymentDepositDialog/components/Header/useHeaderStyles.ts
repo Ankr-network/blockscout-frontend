@@ -14,7 +14,7 @@ export const useHeaderStyles = makeStyles()(theme => ({
 
     color: theme.palette.grey[900],
   },
-  amountUSD: {
+  amountUsd: {
     color: theme.palette.text.secondary,
   },
 }));

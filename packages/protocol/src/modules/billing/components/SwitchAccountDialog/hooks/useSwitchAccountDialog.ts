@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { ISwitchAccountDialogProps } from '../SwitchAccountDialog';
-import { useSwitchButtonClickHandler } from './useSwitchButtonClickHandler';
 
 export const useSwitchAccountDialog = () => {
   const { connectedAddress } = useConnectedAddress();
@@ -20,7 +20,10 @@ export const useSwitchAccountDialog = () => {
 
   const walletIcon = walletMeta?.icon;
 
-  const { isSwitching, onSwitchButtonClick } = useSwitchButtonClickHandler();
+  const {
+    handleConnectAccount: onSwitchButtonClick,
+    isConnecting: isSwitching,
+  } = useConnectAccountHandler();
 
   const switchAccountDialogProps = useMemo<ISwitchAccountDialogProps>(
     () => ({

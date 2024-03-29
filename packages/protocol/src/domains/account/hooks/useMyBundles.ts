@@ -3,7 +3,6 @@ import { useEffect, useMemo } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-
 import {
   selectHasMyBundles,
   selectMyBundles,
@@ -11,9 +10,9 @@ import {
   selectMyBundlesLoaded,
   selectMyBundlesLoading,
   selectMyCurrentBundle,
-} from '../store/selectors';
-import { useLazyFetchMyBundlesQuery } from '../actions/bundles/fetchMyBundles';
-import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientStatus';
+} from 'domains/account/store/selectors';
+import { useLazyFetchMyBundlesQuery } from 'domains/account/actions/bundles/fetchMyBundles';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export interface MyBundlesParams {
   skipFetching?: boolean;

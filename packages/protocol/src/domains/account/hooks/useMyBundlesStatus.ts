@@ -3,15 +3,15 @@ import { useEffect } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-
 import {
   selectMyBundlesStatus,
   selectMyBundlesStatusFetching,
   selectMyBundlesStatusLoading,
   selectMyCurrentBundleRequestsUsed,
-} from '../store/selectors';
+} from 'domains/account/store/selectors';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+
 import { useLazyFetchMyBundlesStatusQuery } from '../actions/bundles/fetchMyBundlesStatus';
-import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientStatus';
 
 export interface MyBundlesStatusParams {
   skipFetching?: boolean;

@@ -1,4 +1,5 @@
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { Alert } from 'modules/billing/components/CryptoPaymentDepositDialog/components/PaymentDetails/components/Alert';
 import {
@@ -16,7 +17,7 @@ import { usePartialApprovalAttributeStyles } from './usePartialApprovalAttribute
 
 export interface IPartialApprovalAttributeProps {
   amount: number;
-  approvedAmount: number;
+  approvedAmount?: number;
   currency: ECurrency;
   error?: string;
   feeCrypto: number;
@@ -29,7 +30,7 @@ const labelKey = 'account.payment-flow.steps.approval.title';
 
 export const PartialApprovalAttribute = ({
   amount,
-  approvedAmount: approvedAmountNumber,
+  approvedAmount = 0,
   currency,
   error,
   feeCrypto,
@@ -39,17 +40,21 @@ export const PartialApprovalAttribute = ({
 }: IPartialApprovalAttributeProps) => {
   const { classes } = usePartialApprovalAttributeStyles();
 
-  const approvedAmount = renderCryptoAmount({ amount, currency });
   const amountToApprove = renderCryptoAmount({
-    amount: amount - approvedAmountNumber,
+    amount: amount - approvedAmount,
     currency,
   });
-  const alertProps = getAlertProps({
-    amountToApprove,
-    approvedAmount,
-    error,
-    status,
-  });
+
+  const alertProps = useMemo(
+    () =>
+      getAlertProps({
+        amountToApprove,
+        approvedAmount: approvedAmount.toString(),
+        error,
+        status,
+      }),
+    [amountToApprove, approvedAmount, error, status],
+  );
 
   return (
     <TxAttribute

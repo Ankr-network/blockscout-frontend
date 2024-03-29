@@ -7,6 +7,7 @@ import {
 
 export interface ICommonApprovalAttributeProps {
   amount: number;
+  approvedAmount?: number;
   currency: ECurrency;
   error?: string;
   network: ENetwork;

@@ -2,9 +2,9 @@ import { Typography } from '@mui/material';
 
 import { ECurrency, EPaymentType } from 'modules/billing/types';
 import { renderPaymentSummaryAmount } from 'modules/billing/utils/renderPaymentSummaryAmount';
+import { renderPaymentTypeTitle } from 'modules/billing/utils/renderPaymentTypeTitle';
 
 import { renderPaymentTypeDescription } from './utils/renderPaymentTypeDescription';
-import { renderPaymentTypeTitle } from './utils/renderPaymentTypeTitle';
 import { usePaymentInfoStyles } from './usePaymentInfoStyles';
 
 export interface IPaymentInfoProps {
@@ -23,7 +23,11 @@ export const PaymentInfo = ({
   return (
     <div className={classes.root}>
       <Typography className={classes.header} component="div" variant="body2">
-        {renderPaymentTypeTitle(paymentType)}
+        {renderPaymentTypeTitle({
+          isCapitalized: true,
+          isHTML: true,
+          paymentType,
+        })}
         {renderPaymentSummaryAmount({ amount, currency })}
       </Typography>
       <Typography className={classes.description} variant="body4">

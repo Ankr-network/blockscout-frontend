@@ -1,4 +1,4 @@
-import { Theme } from '@mui/material/styles';
+import { buttonBaseClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 import { TabSize } from './types';
@@ -10,36 +10,36 @@ export interface SecondaryTabStylesParams {
 }
 
 export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
-  (theme: Theme, props: SecondaryTabStylesParams) => {
+  (theme, props) => {
     const sizesMap: Record<TabSize, Record<string, unknown>> = {
       [TabSize.Medium]: {
-        padding: theme.spacing(2 * 0.75, 2 * 2),
+        padding: theme.spacing(1.5, 4),
 
         fontWeight: 600,
-        fontSize: theme.spacing(2 * 2),
-        lineHeight: theme.spacing(2 * 3),
+        fontSize: theme.spacing(4),
+        lineHeight: theme.spacing(6),
         height: 44,
         borderRadius: theme.spacing(3),
 
         [theme.breakpoints.down('lg')]: {
-          padding: theme.spacing(2 * 0.5, 2 * 2),
+          padding: theme.spacing(1, 4),
 
           letterSpacing: '0.01em',
 
-          fontSize: theme.spacing(2 * 1.75),
-          lineHeight: theme.spacing(2 * 2.5),
+          fontSize: theme.spacing(3.5),
+          lineHeight: theme.spacing(5),
         },
       },
       [TabSize.Small]: {
-        padding: theme.spacing(2 * 0.5, 2 * 1.5),
+        padding: theme.spacing(1, 3),
 
         borderRadius: 9,
 
         letterSpacing: '0.01em',
 
         fontWeight: 500,
-        fontSize: theme.spacing(2 * 1.75),
-        lineHeight: theme.spacing(2 * 2.5),
+        fontSize: theme.spacing(3.5),
+        lineHeight: theme.spacing(5),
       },
       [TabSize.ExtraSmall]: {
         padding: theme.spacing(0.5, 2),
@@ -50,11 +50,28 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
         fontSize: 14,
         minWidth: 'auto',
       },
+      [TabSize.Smallest]: {
+        height: 36,
+        padding: theme.spacing(0.5, 2),
+        minWidth: 'auto',
+        minHeight: 'unset',
+
+        borderRadius: 12,
+
+        fontWeight: 500,
+        fontSize: 14,
+
+        [`&.${buttonBaseClasses.disabled}`]: {
+          color: theme.palette.text.disabled,
+
+          backgroundColor: 'transparent',
+        },
+      },
     };
 
     return {
       secondaryTab: {
-        marginRight: props.isLast ? 0 : theme.spacing(2 * 0.25),
+        marginRight: props.isLast ? 0 : theme.spacing(0.5),
 
         transition: 'color .3s, background-color .3s, box-shadow .3s',
 

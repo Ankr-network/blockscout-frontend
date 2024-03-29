@@ -8,8 +8,8 @@ import {
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useResetIfSelectedProjectWasDeleted } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
+import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
-import { EnterpriseClientJwtManagerItem } from '../../store/selectors';
 import { useEnterpriseSelectedToken } from '../../hooks/useEnterpriseSelectedToken';
 
 export const useEnterpriseApiKeySelect = (

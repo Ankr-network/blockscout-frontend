@@ -1,4 +1,5 @@
-import { tHTML } from '@ankr.com/common';
+import { Typography } from '@mui/material';
+import { t, tHTML } from '@ankr.com/common';
 
 import { ENetwork, IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
@@ -7,16 +8,20 @@ import { TxAttribute } from 'modules/billing/components/TxAttribute';
 import { useFullTxFeeAttributeStyles } from './useFullTxFeeAttributeStyles';
 
 const labelKey = 'account.payment-summary-dialog.crypto.tx-fees-label';
+const placeholderKey =
+  'account.payment-summary-dialog.crypto.tx-fees-placeholder';
 
 export interface IFullTxFeeAttributeProps {
   approvalFeeDetails: IFeeDetails;
   depositFeeDetails: IFeeDetails;
+  isWalletConnected: boolean;
   network: ENetwork;
 }
 
 export const FullTxFeeAttribute = ({
   approvalFeeDetails,
   depositFeeDetails,
+  isWalletConnected,
   network,
 }: IFullTxFeeAttributeProps) => {
   const feeCrypto = approvalFeeDetails.feeCrypto + depositFeeDetails.feeCrypto;
@@ -24,14 +29,24 @@ export const FullTxFeeAttribute = ({
 
   const { classes } = useFullTxFeeAttributeStyles();
 
+  const feeAmount = (
+    <FeeAmount
+      feeCrypto={feeCrypto}
+      feeUSD={feeUSD}
+      isApproximate
+      network={network}
+    />
+  );
+
+  const feePlaceholder = (
+    <Typography className={classes.placeholder} variant="body2">
+      {t(placeholderKey)}
+    </Typography>
+  );
+
   return (
     <TxAttribute classes={classes} label={tHTML(labelKey)}>
-      <FeeAmount
-        feeCrypto={feeCrypto}
-        feeUSD={feeUSD}
-        isApproximate
-        network={network}
-      />
+      {isWalletConnected ? feeAmount : feePlaceholder}
     </TxAttribute>
   );
 };

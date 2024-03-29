@@ -80,13 +80,11 @@ export const {
       IApiUserGroupParams
     >({
       queryFn: async (_args, { getState, dispatch }) => {
-        const state: any = getState();
+        const state = getState() as ReturnType<GetState>;
         const service = MultiService.getWeb3Service();
-        const provider = service.getKeyReadProvider();
+        const provider = service?.getKeyReadProvider();
 
-        const address = await getCurrentTransactionAddress(
-          getState as GetState,
-        );
+        const address = getCurrentTransactionAddress(getState as GetState);
 
         const transaction = selectTransaction(state, address);
 
@@ -140,12 +138,11 @@ export const {
         // step 4: we already haven't had pending transaction and
         // a receipt too -> check the latest top up transaction
         const lastTopUpEvent = await service
-          .getContractService()
+          ?.getContractService()
           .getLastLockedFundsEvent(address);
 
-        const currentBlockNumber = await provider
-          .getWeb3()
-          .eth.getBlockNumber();
+        const currentBlockNumber =
+          (await provider?.getWeb3().eth.getBlockNumber()) ?? 0;
 
         // step 5: check blocks difference. This is old top up transaction.
         // New top up transaction is failed or cancelled

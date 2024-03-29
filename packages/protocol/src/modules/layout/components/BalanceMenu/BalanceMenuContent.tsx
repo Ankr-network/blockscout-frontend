@@ -65,7 +65,7 @@ export const BalanceMenuContent = ({
         </Typography>
         <ChargingModelLabel
           currentChargingModelType={type}
-          isSmall
+          size="small"
           className={classes.label}
         />
       </div>

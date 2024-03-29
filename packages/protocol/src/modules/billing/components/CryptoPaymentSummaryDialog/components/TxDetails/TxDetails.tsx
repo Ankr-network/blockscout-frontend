@@ -13,7 +13,9 @@ export interface ITxDetailsProps extends IUseTotalFeeDetails {
   amount: number;
   className?: string;
   currency: ECurrency;
+  isWalletConnected: boolean;
   network: ENetwork;
+  totalAmount: number;
 }
 
 export const TxDetails = ({
@@ -22,7 +24,9 @@ export const TxDetails = ({
   className,
   currency,
   depositFeeDetails,
+  isWalletConnected,
   network,
+  totalAmount,
 }: ITxDetailsProps) => {
   const totalFeeDetails = useTotalFeeDetails({
     approvalFeeDetails,
@@ -39,14 +43,18 @@ export const TxDetails = ({
       <TxFees
         approvalFeeDetails={approvalFeeDetails}
         depositFeeDetails={depositFeeDetails}
+        isWalletConnected={isWalletConnected}
         network={network}
       />
-      <TotalPaymentInfo
-        amount={amount}
-        currency={currency}
-        feeDetails={totalFeeDetails}
-        network={network}
-      />
+      {isWalletConnected && (
+        <TotalPaymentInfo
+          amount={amount}
+          currency={currency}
+          feeDetails={totalFeeDetails}
+          network={network}
+          totalAmount={totalAmount}
+        />
+      )}
     </SeparatedList>
   );
 };

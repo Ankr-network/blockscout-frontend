@@ -8,8 +8,8 @@ import {
   INoConnectedWalletButtonProps,
   NoConnectedWalletButtons,
 } from '../NoConnectedWalletButtons';
-import { useButtonsGroupStyles } from './useButtonsGroupStyles';
 import { WalletDetails } from './components/WalletDetails';
+import { useButtonsGroupStyles } from './useButtonsGroupStyles';
 
 export interface IButtonsGroupProps
   extends IConnectedWalletButtonsProps,
@@ -20,6 +20,7 @@ export interface IButtonsGroupProps
 
 export const ButtonsGroup = ({
   connectedAddress,
+  isConnecting,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
   onConfirmButtonClick,
@@ -46,6 +47,7 @@ export const ButtonsGroup = ({
 
   return (
     <NoConnectedWalletButtons
+      isConnecting={isConnecting}
       onCancelButtonClick={onCancelButtonClick}
       onConnectButtonClick={onConnectButtonClick}
     />

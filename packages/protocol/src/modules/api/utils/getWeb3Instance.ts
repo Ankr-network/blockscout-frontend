@@ -5,7 +5,7 @@ import { API_ENV } from 'modules/common/utils/environment';
 export const getWeb3RpcUrl = () => {
   return API_ENV === 'prod'
     ? 'https://rpc.ankr.com/eth'
-    : 'https://rpc.ankr.com/eth_goerli';
+    : 'https://rpc.ankr.com/eth_holesky';
 };
 
 export const getWeb3Instance = () => {

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { ENetwork, IFeeDetails } from 'modules/billing/types';
+import { ECurrency, ENetwork, IFeeDetails } from 'modules/billing/types';
 import {
   IRenderPaymentSummaryAmountParams,
   renderPaymentSummaryAmount,
@@ -14,6 +14,7 @@ export interface ITotalPaymentInfoProps
   extends IRenderPaymentSummaryAmountParams {
   feeDetails?: IFeeDetails;
   network?: ENetwork;
+  totalAmount: number;
 }
 
 export const TotalPaymentInfo = ({
@@ -21,6 +22,7 @@ export const TotalPaymentInfo = ({
   currency,
   feeDetails,
   network,
+  totalAmount,
 }: ITotalPaymentInfoProps) => {
   const { classes } = useTotalPaymentInfoStyles();
 
@@ -28,7 +30,10 @@ export const TotalPaymentInfo = ({
     <Typography className={classes.root} component="div" variant="subtitle2">
       <div className={classes.amount}>
         {t('account.payment-summary-dialog.total-label')}
-        {renderPaymentSummaryAmount({ amount, currency })}
+        {renderPaymentSummaryAmount({
+          amount: totalAmount,
+          currency: ECurrency.USD,
+        })}
       </div>
       {feeDetails && network && (
         <DetailedAmount

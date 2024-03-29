@@ -12,13 +12,11 @@ import {
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import {
   ChainDetailsRoutes,
-  ChainPrivateRoutes,
   ChainsRoutes,
   ChainsRoutesConfig,
 } from 'domains/chains/routes';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import { GuardAuthProviderRoute } from 'domains/infrastructure/components/GuardAuthProviderRoute';
 import {
   GuardAuthRoute,
   GuardPremiumEndpointRoute,
@@ -229,16 +227,6 @@ export const Routes = () => {
         )}
       />
 
-      {/* We should keep routes with dynamic `:chainId` after static routes */}
-      <GuardAuthProviderRoute
-        exact
-        path={[ChainsRoutesConfig.addEndpoint.path]}
-        render={() => (
-          <DefaultLayout>
-            <ChainPrivateRoutes />
-          </DefaultLayout>
-        )}
-      />
       <GuardAuthRoute
         hasReactSnapCheck={isReactSnap}
         exact

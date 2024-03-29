@@ -1,22 +1,36 @@
 import { t } from '@ankr.com/common';
 import { Button, Paper, Typography } from '@mui/material';
 import { Ankr } from '@ankr.com/ui';
+import { Token } from 'multirpc-sdk';
 
+import { DetailsButtonContainer } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
+import { useOngoingPayments } from './useOngoingPayments';
 import { useOngoingPaymentsStyles } from './useOngoingPaymentsStyles';
 
 interface IOngoingPaymentsProps {
   className?: string;
-  onViewDetailsButtonClick: () => void;
-  status: 'pending' | 'success' | 'error';
+  onOpenPaymentDialog?: () => void;
 }
 
 export const OngoingPayments = ({
   className,
-  onViewDetailsButtonClick,
-  status,
+  onOpenPaymentDialog,
 }: IOngoingPaymentsProps) => {
   const { cx, classes } = useOngoingPaymentsStyles();
+
+  const {
+    txHash,
+    approvedAmountString,
+    approvedUsdAmount,
+    transactionStatus,
+    isLoading,
+    shouldShowOngoingPayment,
+  } = useOngoingPayments();
+
+  if (!shouldShowOngoingPayment || isLoading) {
+    return null;
+  }
 
   return (
     <section className={cx(classes.ongoingPaymentRoot, className)}>
@@ -28,23 +42,34 @@ export const OngoingPayments = ({
           {t('account.account-details.ongoing-payments.one-time-payment')}
         </Typography>
 
-        <Typography variant="body3" className={classes.paymentValue}>
-          {/* TODO: pass proper values */}
-          <Ankr className={classes.iconAnkr} /> 2000 ANKR{' '}
-          <Typography variant="body3" color="textSecondary">
-            / ≈$47.14
+        {approvedAmountString && (
+          <Typography variant="body3" className={classes.paymentValue}>
+            <Ankr className={classes.iconAnkr} /> {approvedAmountString} ANKR{' '}
+            <Typography variant="body3" color="textSecondary">
+              / ≈${approvedUsdAmount}
+            </Typography>
           </Typography>
-        </Typography>
+        )}
 
-        <OngoingPaymentStatus status={status} />
+        <OngoingPaymentStatus status={transactionStatus} />
 
-        <Button
-          onClick={onViewDetailsButtonClick}
-          variant="outlined"
-          size="small"
-        >
-          {t('account.account-details.ongoing-payments.details-btn')}
-        </Button>
+        {txHash && approvedAmountString && transactionStatus === 'success' ? (
+          <DetailsButtonContainer
+            amount={approvedAmountString}
+            // temporary const, will be changed in Billing page version 2.0
+            token={Token.ANKR}
+            txHash={txHash}
+            date={new Date()}
+          />
+        ) : (
+          <Button
+            variant="outlined"
+            size="extraSmall"
+            onClick={onOpenPaymentDialog}
+          >
+            {t('account.payment-table.details')}
+          </Button>
+        )}
       </Paper>
     </section>
   );

@@ -6,25 +6,38 @@ import { useNextBillingDateStyles } from './NextBillingDateStyles';
 
 export interface NextBillingDateProps {
   className?: string;
-  date: string;
+  date?: string;
   isDeprecatedModel?: boolean;
+  customText?: string;
 }
 
 export const NextBillingDate = ({
   className,
   date: outerDate,
   isDeprecatedModel = false,
+  customText,
 }: NextBillingDateProps) => {
   const { classes, cx } = useNextBillingDateStyles();
 
-  const date = useMemo(() => new Date(Number(outerDate)), [outerDate]);
+  const renderDate = useMemo(() => {
+    if (isDeprecatedModel) {
+      return t('account.account-details.deprecated-model');
+    }
+
+    if (!outerDate) {
+      return undefined;
+    }
+
+    const date = new Date(Number(outerDate));
+
+    return t('account.account-details.next-billing-date', { date });
+  }, [outerDate, isDeprecatedModel]);
 
   return (
     <div className={cx(classes.root, className)}>
       <CreditCard className={classes.icon} />
-      {isDeprecatedModel
-        ? t('account.account-details.deprecated-model')
-        : t(`account.account-details.next-billing-date`, { date })}
+      {customText}
+      {renderDate}
     </div>
   );
 };

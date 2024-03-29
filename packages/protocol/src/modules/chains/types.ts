@@ -108,8 +108,6 @@ export enum ChainID {
 
   ETH = 'eth',
   ETH_BEACON = 'eth_beacon',
-  ETH_GOERLI = 'eth_goerli',
-  ETH_GOERLI_BEACON = 'eth_goerli_beacon',
   ETH_KOVAN = 'eth_kovan',
   ETH_RINKEBY = 'eth_rinkeby',
   ETH_ROPSTEN = 'eth_ropsten',
@@ -155,6 +153,7 @@ export enum ChainID {
   KAVA_TENDERMINT_REST_TESTNET = 'kava-tendermint-rest-testnet',
   KAVA_TENDERMINT_RPC_TESTNET = 'kava-tendermint-rpc-testnet',
 
+  KINTO = 'kinto',
   KLAYTN = 'klaytn',
   KLAYTN_TESTNET = 'klaytn_testnet',
   KUSAMA = 'kusama',

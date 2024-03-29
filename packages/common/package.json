@@ -54,10 +54,10 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": "^17.0.2",
     "bignumber.js": "^9.0.1",
-    "react-intl-universal": "^2.4.8",
+    "react": "^17.0.2",
     "react-gtm-module": "^2.0.11",
+    "react-intl-universal": "^2.4.8",
     "react-router": "^5.2.1"
   },
   "directories": {

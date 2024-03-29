@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { MultiService } from 'modules/api/MultiService';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { web3Api } from 'store/queries';
 
 export const {
@@ -9,19 +9,20 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     accountFetchAccountBalance: build.query<BigNumber, void>({
-      queryFn: async () => {
-        const service = MultiService.getWeb3Service();
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: async ({ web3Service }) => {
+          const data = await web3Service
+            .getContractService()
+            .getCurrentAccountBalance();
 
-        const data = await service
-          .getContractService()
-          .getCurrentAccountBalance();
+          const keyProvider = web3Service.getKeyWriteProvider();
 
-        const keyProvider = service.getKeyWriteProvider();
+          const value = keyProvider.getWeb3().utils.fromWei(data);
 
-        const value = keyProvider.getWeb3().utils.fromWei(data);
-
-        return { data: new BigNumber(value) };
-      },
+          return { data: new BigNumber(value) };
+        },
+        fallback: { data: new BigNumber(0) },
+      }),
     }),
   }),
 });

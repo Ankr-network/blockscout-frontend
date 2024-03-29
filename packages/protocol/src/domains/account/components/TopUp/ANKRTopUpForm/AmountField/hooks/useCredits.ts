@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useRates } from 'domains/account/hooks/useRates';
 
 import { Currency } from '../../../types';
@@ -12,9 +11,7 @@ export interface CreditsParams {
 }
 
 export const useCredits = ({ amount, currency }: CreditsParams) => {
-  const { rates = [], handleFetchRates } = useRates();
-
-  useOnMount(handleFetchRates);
+  const { rates } = useRates();
 
   return useMemo(
     () => getCredits(currency, rates, amount),

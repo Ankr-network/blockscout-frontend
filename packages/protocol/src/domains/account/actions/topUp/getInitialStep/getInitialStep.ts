@@ -10,6 +10,7 @@ import {
 import {
   selectAccount,
   setAllowanceTransaction,
+  setApprovedAmount,
 } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
@@ -30,7 +31,7 @@ const ONE_ANKR_TOKEN = new BigNumber(1);
 // 3a allowance is less than 1 ankr from previous deposit - ignore this allowance, show 0 step
 // 3b allowance is less than depositValue  - redirect
 // 3c has deposit amount - deposit
-// 3d no deposit amount - redirect
+// 3d no deposit amount - start
 
 // 4 no allowance
 // 4a - has deposit amount - first step
@@ -44,9 +45,7 @@ export const {
     topUpGetInitialStep: build.query<TopUpStep | null, IApiUserGroupParams>({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ group }, { getState, dispatch }) => {
-          const address = await getCurrentTransactionAddress(
-            getState as GetState,
-          );
+          const address = getCurrentTransactionAddress(getState as GetState);
 
           const stepForTheFirstTopUp = await checkFirstTopUpStep({
             address,
@@ -79,12 +78,20 @@ export const {
 
           const service = MultiService.getWeb3Service();
 
-          const depositValue = transaction?.amount;
-          const hasDepositValue = depositValue && !depositValue.isZero();
+          const depositValue = transaction?.approvedAmount
+            ? new BigNumber(transaction?.approvedAmount)
+            : undefined;
+
+          const hasDepositValue = depositValue && !depositValue?.isZero();
+
+          if (!service) {
+            return { data: null };
+          }
 
           const allowanceValue = await service
             .getContractService()
             .getAllowanceValue();
+
           const hasAllowance = allowanceValue && !allowanceValue.isZero();
 
           if (hasAllowance) {
@@ -106,12 +113,17 @@ export const {
               return { data: TopUpStep.deposit };
             }
 
-            dispatch(topUpResetTransactionSliceAndRedirect.initiate());
+            dispatch(
+              setApprovedAmount({
+                address,
+                approvedAmount: new BigNumber(formatFromWei(allowanceValue)),
+              }),
+            );
 
-            throw new Error(t('top-up-steps.errors.enter-deposit-value'));
+            return { data: TopUpStep.deposit };
           }
 
-          if (hasDepositValue) {
+          if (!hasDepositValue) {
             return { data: TopUpStep.start };
           }
 

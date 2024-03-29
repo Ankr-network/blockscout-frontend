@@ -1,8 +1,8 @@
-import { ProductPrice } from '../subscriptions';
+import { SubscriptionPrice } from '../subscriptions';
 
 export interface BundlePaymentPlan {
   bundle: BundlePlan;
-  price: ProductPrice;
+  price: SubscriptionPrice;
 }
 
 export interface BundlePlan {
@@ -36,7 +36,7 @@ export interface GetMyBundlesStatusResponse {
 export interface MyBundleStatus {
   bundleId: string;
   counters: MyBundleStatusCounter[];
-  expires: string;
+  expires: number; // format: unix seconds
   paymentId: string;
 }
 

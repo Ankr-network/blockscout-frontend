@@ -1,6 +1,8 @@
 import { SuccessCryptoPaymentDialog } from 'modules/billing/components/SuccessCryptoPaymentDialog';
-
-import { IUseDetailsButtonProps, useDetailsButton } from './useDetailsButton';
+import {
+  IUseDetailsButtonProps,
+  useSuccessCryptoPaymentProps,
+} from 'domains/account/screens/BillingPage/hooks/useSuccessCryptoPaymentProps';
 
 interface IDetailsButtonContentProps
   extends Omit<IUseDetailsButtonProps, 'isOpened'> {
@@ -16,13 +18,14 @@ export const DetailsButtonContent = ({
   isOpened,
   onClose,
 }: IDetailsButtonContentProps) => {
-  const { isLoading, successCryptoPaymentDialogProps } = useDetailsButton({
-    amount,
-    token,
-    txHash,
-    date,
-    isOpened,
-  });
+  const { isLoading, successCryptoPaymentDialogProps } =
+    useSuccessCryptoPaymentProps({
+      amount,
+      token,
+      txHash,
+      date,
+      isOpened,
+    });
 
   return (
     <SuccessCryptoPaymentDialog

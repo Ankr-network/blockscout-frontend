@@ -44,6 +44,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
   const {
     amount,
+    approvedAmount,
     handleDeposit,
     handleGetAllowance,
     handleLogin,
@@ -58,6 +59,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     trackTopUp,
     handleResetTransactionSliceAndRedirect,
   } = useTopUp();
+
   const history = useHistory();
 
   useEffect(() => {
@@ -164,6 +166,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
   return {
     amount: amount?.toString(10),
+    approvedAmount: approvedAmount?.toString(10),
     hasError,
     isRejectAllowanceLoading,
     loading,

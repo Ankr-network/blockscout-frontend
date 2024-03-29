@@ -51,7 +51,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
   private async sendAllowance(allowanceValue: BigNumber) {
     const { currentAccount } = this.keyWriteProvider;
 
-    const data = await (this.ankrTokenContract.methods as IAnkrToken)
+    const data = (this.ankrTokenContract.methods as IAnkrToken)
       .approve(
         this.config.payAsYouGoContractAddress,
         allowanceValue.toString(10),
@@ -66,6 +66,23 @@ export class PAYGContractManager extends PAYGReadContractManager {
         gasLimit: GAS_LIMIT,
       },
     );
+  }
+
+  public async getAllowanceFee(allowanceValue: BigNumber) {
+    const { currentAccount } = this.keyWriteProvider;
+
+    const gasAmount = await (this.ankrTokenContract.methods as IAnkrToken)
+      .approve(
+        this.config.payAsYouGoContractAddress,
+        allowanceValue.toString(10),
+      )
+      .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+    
+    const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();
+
+    const feeWei = gasPrice.multipliedBy(gasAmount);
+
+    return this.keyReadProvider.getWeb3().utils.fromWei(feeWei.toString());
   }
 
   private async sendDepositTransaction(
@@ -184,6 +201,23 @@ export class PAYGContractManager extends PAYGReadContractManager {
       publicKey,
       expiresAfter,
     );
+  }
+
+  async getDepositAnkrFee(depositValue: BigNumber) {
+    const { currentAccount } = this.keyWriteProvider;
+
+    const gasAmount = await (this.ankrTokenContract.methods as IAnkrToken)
+      .transfer(
+        this.config.payAsYouGoContractAddress,
+        depositValue.toString(10),
+      )
+      .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+    
+    const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();
+
+    const feeWei = gasPrice.multipliedBy(gasAmount);
+
+    return this.keyReadProvider.getWeb3().utils.fromWei(feeWei.toString());
   }
 
   async depositAnkrForUser({

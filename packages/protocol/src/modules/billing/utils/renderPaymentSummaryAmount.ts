@@ -14,7 +14,7 @@ export const renderPaymentSummaryAmount = ({
   const isUSD = currency === ECurrency.USD;
 
   const formattedAmount = isUSD
-    ? tHTML('account.amounts.usd', { amount })
+    ? tHTML('account.amounts.usd', { amount, isApproximate: false })
     : tHTML('account.amounts.crypto', { amount, currency });
 
   return formattedAmount;

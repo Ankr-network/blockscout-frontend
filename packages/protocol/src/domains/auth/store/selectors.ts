@@ -9,12 +9,12 @@ import {
   selectMyCurrentBundle,
   selectTotalBalance,
 } from 'domains/account/store/selectors';
-
 import {
   defaultPremiumStatusData,
   fetchPremiumStatus,
-} from '../actions/fetchPremiumStatus';
-import { getPremiumActivationThreshold } from '../utils/getPremiumActivationThreshold';
+} from 'domains/auth/actions/fetchPremiumStatus';
+import { getPremiumActivationThreshold } from 'domains/auth/utils/getPremiumActivationThreshold';
+
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { selectAuthData } from './authSlice';
 

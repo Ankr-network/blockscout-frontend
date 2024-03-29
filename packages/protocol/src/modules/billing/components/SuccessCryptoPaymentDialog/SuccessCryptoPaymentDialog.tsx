@@ -1,7 +1,11 @@
 import { OverlaySpinner } from '@ankr.com/ui';
+import { Button } from '@mui/material';
+import { useCallback } from 'react';
+import { t } from '@ankr.com/common';
 
 import { CheckMarkImage } from 'modules/common/components/CheckMarkImage';
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { AddressDetails } from './components/AddressDetails';
 import { Header } from './components/Header';
@@ -9,7 +13,7 @@ import { IUseSuccessCryptoPaymentDialogProps } from './types';
 import { TxDetails } from './components/TxDetails';
 import { useSuccessCryptoPaymentDialogStyles } from './useSuccessCryptoPaymentDialogStyles';
 
-export interface ISuccessCryptoPaymentDialigProps
+export interface ISuccessCryptoPaymentDialogProps
   extends IDialogProps,
     IUseSuccessCryptoPaymentDialogProps {
   isLoading?: boolean;
@@ -17,7 +21,7 @@ export interface ISuccessCryptoPaymentDialigProps
 
 export const SuccessCryptoPaymentDialog = ({
   amount,
-  amountUSD,
+  amountUsd,
   approval,
   currency,
   depositFee,
@@ -29,13 +33,27 @@ export const SuccessCryptoPaymentDialog = ({
   toAddress,
   txDate,
   isLoading = false,
+  onClose,
   ...dialogProps
-}: ISuccessCryptoPaymentDialigProps) => {
+}: ISuccessCryptoPaymentDialogProps) => {
   const { classes } = useSuccessCryptoPaymentDialogStyles();
+
+  const hasDepositTxURL = Boolean(depositTxURL);
+
+  const { handleResetTopUpTransaction } = useTopUp();
+
+  const resetTransactionAndCloseDialog = useCallback(() => {
+    handleResetTopUpTransaction();
+
+    if (onClose) {
+      onClose();
+    }
+  }, [handleResetTopUpTransaction, onClose]);
 
   return (
     <Dialog
       {...dialogProps}
+      onClose={onClose}
       classes={classes}
       title={!isLoading && <CheckMarkImage />}
     >
@@ -51,7 +69,7 @@ export const SuccessCryptoPaymentDialog = ({
           />
           <TxDetails
             amount={amount}
-            amountUSD={amountUSD}
+            amountUsd={amountUsd}
             approval={approval}
             currency={currency}
             depositFee={depositFee}
@@ -60,6 +78,15 @@ export const SuccessCryptoPaymentDialog = ({
             network={network}
             paymentType={paymentType}
           />
+          {hasDepositTxURL && (
+            <Button
+              fullWidth
+              sx={{ mt: 5 }}
+              onClick={resetTransactionAndCloseDialog}
+            >
+              {t('common.done')}
+            </Button>
+          )}
         </>
       )}
     </Dialog>

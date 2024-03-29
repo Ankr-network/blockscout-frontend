@@ -2,8 +2,8 @@ import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { IUseDetailsButtonProps } from 'domains/account/screens/BillingPage/hooks/useSuccessCryptoPaymentProps';
 
-import { IUseDetailsButtonProps } from './useDetailsButton';
 import { DetailsButtonContent } from './DetailsButtonContent';
 import { useDetailsButtonContainerStyles } from './useDetailsButtonContainerStyles';
 

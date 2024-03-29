@@ -1,12 +1,12 @@
 import { IJwtToken, WorkerTokenData } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
+import { GetState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 import { setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
-import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
-import { GetState } from 'store';
 
 export interface Deposit {
   address: string;
@@ -19,30 +19,31 @@ export const {
   endpoints: { topUpLogin },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    topUpLogin: build.query<Deposit, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
-        const service = MultiService.getWeb3Service();
+    topUpLogin: build.query<Deposit | null, void>({
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: createNotifyingQueryFn(
+          async ({ web3Service }, { getState, dispatch }) => {
+            const address = getCurrentTransactionAddress(getState as GetState);
 
-        const address = await getCurrentTransactionAddress(
-          getState as GetState,
-        );
+            const { jwtToken: credentials, workerTokenData } =
+              await web3Service.issueJwtToken(address);
 
-        const { jwtToken: credentials, workerTokenData } =
-          await service.issueJwtToken(address);
+            if (credentials) {
+              dispatch(setAuthData({ credentials, workerTokenData }));
+            }
 
-        if (credentials) {
-          dispatch(setAuthData({ credentials, workerTokenData }));
-        }
+            dispatch(resetTransaction({ address }));
 
-        dispatch(resetTransaction({ address }));
-
-        return {
-          data: {
-            address,
-            credentials,
-            workerTokenData,
+            return {
+              data: {
+                address,
+                credentials,
+                workerTokenData,
+              },
+            };
           },
-        };
+        ),
+        fallback: { data: null },
       }),
       onQueryStarted: async (_args, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;

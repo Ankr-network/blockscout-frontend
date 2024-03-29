@@ -732,9 +732,6 @@
     "soon": "Soon",
     "coming-soon": "Coming Soon",
     "connect-wallet": "Connect wallet to copy Endpoint",
-    "add-endpoint": {
-      "breadcrumbs": "Add Endpoint"
-    },
     "sort": {
       "usage": "Sort by usage",
       "name": "Sort by name"
@@ -1358,7 +1355,8 @@
     "success-title": "Success!",
     "success-message": "Request has been sent",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "done": "Done"
   },
   "providers": {
     "endpoint": {
@@ -1415,14 +1413,6 @@
     "chains": {
       "title": "Select Chain",
       "button": "RPC Endpoint"
-    },
-    "add-endpoint": {
-      "description": "You can import your personal endpoint, which will be used to process requests that are sent to your exclusive ANKR endpoint. In case of an error, the request will be processed by our nodes for premium users. Please enter a valid https endpoint address and the system will check it.",
-      "http-input": "Endpoint address",
-      "agreement": {
-        "text": "I&nbsp;understand",
-        "button": "Finish"
-      }
     }
   },
   "teams": {
@@ -1813,7 +1803,8 @@
     "deal-renewal": {
       "cancel-dialog": {
         "title": "Deal renewal cancelled",
-        "description": "Deal's remaining API credits are still available for you until spent before or expired on {date, date, long}.",
+        "description-common": "Deal's remaining API credits are still available for you until spent before or expired",
+        "description-with-date": "Deal's remaining API credits are still available for you until spent before or expired on {date, date, long}.",
         "done-btn": "Done"
       }
     },
@@ -1823,6 +1814,11 @@
         "custom-description": "Cancel your {customChargingModelName} payment scheduled for {date, date, long}?",
         "recurring-title": "Cancel recurring payment",
         "recurring-description": "Cancel your ${amount, number, ::compact-short} recurring payment scheduled for {date, date, long}?"
+      },
+      "cancel-dialog": {
+        "title": "Payment cancelled",
+        "description": "Your payment has been successfully cancelled",
+        "done-btn": "Done"
       }
     },
     "currencies": {
@@ -1836,23 +1832,31 @@
       "fee": {
         "crypto": "{isApproximate, select, true {≈} other {}}{fee} {network}",
         "usd": "{isApproximate, select, true {≈} other {}}${fee}"
+      },
+      "requests": "{isApproximate, select, true {≈} other {}}{requests, number, ::compact-short} reqs",
+      "prices": {
+        "usd": "${amount, number}",
+        "crypto": "{amount, number, ::compact-short} {currency}"
       }
     },
     "payment-types": {
       "one-time": {
-        "title": "one-time",
+        "title": "{isCapitalized, select, true {O} other {o}}ne-time",
         "payment-summary-title": "One-time payment",
-        "payment-summary-description": "One-time Pay-as-you-go balance payment"
+        "payment-summary-description": "One-time Pay-as-you-go balance payment",
+        "tooltip": "Single Pay-as-you-go balance payment"
       },
       "recurring": {
-        "title": "recurring",
+        "title": "{isCapitalized, select, true {R} other {r}}ecurring",
         "payment-summary-title": "Recurring payment",
-        "payment-summary-description": "Monthly-repeating Pay-as-you-go balance payment"
+        "payment-summary-description": "Monthly-repeating Pay-as-you-go balance payment",
+        "tooltip": "Monthly-repeating Pay-as-you-go balance payment"
       },
       "deal": {
-        "title": "deal",
+        "title": "{isCapitalized, select, true {D} other {d}}eal",
         "payment-summary-title": "Deal",
-        "payment-summary-description": "Monthly-repeating purchase of 6B API Credits with 30-days validity period"
+        "payment-summary-description": "Monthly-repeating purchase of 6B API Credits with 30-days validity period",
+        "tooltip": "Subscription for 6B monthly API credits at 20% discount"
       }
     },
     "stripe-wordmark": {
@@ -1867,6 +1871,7 @@
       },
       "crypto": {
         "tx-fees-label": "Transaction fees <span>(estimated)</span>",
+        "tx-fees-placeholder": "connect wallet to estimate fees",
         "connected-address-label": "Connected account address",
         "confirm-button": "Confirm",
         "another-address-button": "Use another address",
@@ -1876,13 +1881,6 @@
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
     "premium-success": "You’ve now gone Premium! Enjoy <a href='https://www.ankr.com/docs/rpc-service/service-plans/#feature-list' target='_blank'>the features</a> and <a href='https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits' target='_blank'>rate limits</a> available to&nbsp;you.",
-    "descriptions": {
-      "blue": "To begin utilizing Ankr mRPC, replenish your balance via the form on this page.",
-      "yellow": "Low balance range. Topping up is required to prevent account suspension.",
-      "red": "Top up your account balance to continue using our service.",
-      "critical": "Top up your account balance to continue using our service.\nYour account has been suspended.",
-      "grey": "Updating"
-    },
     "switch-account-dialog": {
       "title": "Switch account back",
       "description": "To avoid creating a new account, switch back to the original MetaMask account address you've signed in to the Ankr platform with.",
@@ -1914,12 +1912,32 @@
     "payment-flow": {
       "steps": {
         "approval": {
-          "title": "Approval"
+          "title": "Approval",
+          "partial-approval-alert": "Approval is in progress",
+          "full-approval-alert": "You've already approved the transaction {approvedAmount}"
         },
         "deposit": {
           "title": "Deposit"
         }
       }
+    },
+    "payment-form": {
+      "title": "Payments",
+      "currency-tabs-title": "Currency",
+      "amount-title": "Amount",
+      "how-we-calculate-link": "How we calculate",
+      "deal-proposal": {
+        "title": "Deal",
+        "label": "Save 20%",
+        "amount": "${amount}<span>/mo</span>",
+        "list": {
+          "0": "6B API Credits at 20% discount",
+          "1": "All requests: Node API and Advanced API",
+          "2": "30-days' validity period (Credits can't be carried over to the next month)",
+          "3": "Periodic payment"
+        }
+      },
+      "pay-button": "Pay"
     },
     "account-details": {
       "breadcrumbs": "Billing",
@@ -1953,6 +1971,7 @@
       "price": "${amount, number} <span>/{period, select, day {day} week {week} month {mo} year {year}}</span>",
       "next-billing-date": "Next payment: {date, date, long}",
       "deprecated-model": "No longer available for renewal",
+      "no-payments-text": "No periodic payments yet",
       "scheduled-payments": {
         "title": "{paymentsCount, plural, =0 {No scheduled payments} =1 {Scheduled payment ({paymentsCount}):} other {Scheduled payments ({paymentsCount}):}}",
         "subscription": "${amount, number, ::compact-short}",
@@ -1964,7 +1983,7 @@
         "credit-balance": "{balance, number, ::compact-short} API Credits",
         "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
         "usd-balance": "≈{balance, number, USD}",
-        "requests-balance": "{balance, number, ::compact-short} Requests",
+        "requests-balance": "{balance, number, ::compact-short} requests",
         "req-balance": " / ≈{balance, number, ::compact-short} reqs",
         "expires": "Expires: {date, date, long}",
         "plural": "s",

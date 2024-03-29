@@ -5,11 +5,13 @@ import { SecondaryButton } from '../SecondaryButton';
 import { useNoConnectedWalletButtonsStyles } from './useNoConnectedWalletButtonsStyles';
 
 export interface INoConnectedWalletButtonProps {
+  isConnecting: boolean;
   onCancelButtonClick: () => void;
   onConnectButtonClick: () => void;
 }
 
 export const NoConnectedWalletButtons = ({
+  isConnecting,
   onCancelButtonClick,
   onConnectButtonClick,
 }: INoConnectedWalletButtonProps) => {
@@ -17,7 +19,7 @@ export const NoConnectedWalletButtons = ({
 
   return (
     <div className={classes.root}>
-      <PrimaryButton onClick={onConnectButtonClick}>
+      <PrimaryButton isLoading={isConnecting} onClick={onConnectButtonClick}>
         {t('account.payment-summary-dialog.crypto.connect-button')}
       </PrimaryButton>
       <SecondaryButton onClick={onCancelButtonClick}>

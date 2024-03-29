@@ -3,7 +3,7 @@ import { BundleType, MyBundleStatus } from 'multirpc-sdk';
 export const fetchMyBundlesStatusMockData: MyBundleStatus[] = [
   {
     bundleId: '0a5330a5-d420-417e-a99f-fd293ac65eeb',
-    expires: '1709978242361',
+    expires: 1711980095,
     paymentId: '0a5330a5-d420-417e-a99f-fd293ac65eeb',
     counters: [
       {
@@ -25,7 +25,7 @@ export const fetchMyBundlesStatusMockData: MyBundleStatus[] = [
   },
   {
     bundleId: '560fa71e-8052-402f-a698-fb1ad4f2ce4b',
-    expires: '1709978242361',
+    expires: 1711980095,
     paymentId: '560fa71e-8052-402f-a698-fb1ad4f2ce4b',
     counters: [
       {

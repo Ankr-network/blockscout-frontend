@@ -8,8 +8,8 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
     gridTemplateColumns: 'repeat(2, minmax(0,1fr))',
     gridTemplateRows: 'repeat(2, minmax(214px, auto))',
     gridTemplateAreas: `
-      "balance       top-up"
-      "subscriptions top-up"
+      "balance       payment-form"
+      "subscriptions payment-form"
     `,
 
     columnGap: theme.spacing(7.5),
@@ -21,7 +21,7 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
       gridTemplateAreas: `
         "balance"
         "subscriptions"
-        "top-up"
+        "payment-form"
       `,
     },
   },
@@ -31,8 +31,8 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
   subscriptions: {
     gridArea: 'subscriptions',
   },
-  topUp: {
-    gridArea: 'top-up',
+  paymentForm: {
+    gridArea: 'payment-form',
 
     background: theme.palette.background.paper,
     padding: theme.spacing(6, 8),

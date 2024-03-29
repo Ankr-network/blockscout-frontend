@@ -7,7 +7,7 @@ export const Header = () => {
   const { classes } = useHeaderStyles();
 
   return (
-    <WidgetTitle className={classes.title}>
+    <WidgetTitle className={classes.widgetTitle}>
       {t('account.account-details.subscriptions.title')}
     </WidgetTitle>
   );

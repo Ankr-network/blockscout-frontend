@@ -1,8 +1,9 @@
+import { useUSDSubscriptionPrices } from 'domains/account/hooks/useUSDSubscriptionPrices';
+
 import { TopUpCurrency } from '../types';
 import { USDPriceSelectorProps } from '../components/USDPiceSelector';
 import { isUSD as isUSDCurrency } from '../utils/isUSD';
 import { useUSDPriceSelector } from './useUSDPriceSelector';
-import { useUSDPrices } from './useUSDPrices';
 
 export interface USDPrice {
   fixedUSDAmount?: string;
@@ -13,9 +14,11 @@ export interface USDPrice {
 export const useUSDPrice = (currency: TopUpCurrency): USDPrice => {
   const isUSD = isUSDCurrency(currency);
 
-  const { loading, prices = [] } = useUSDPrices(isUSD);
+  const { isLoading, prices } = useUSDSubscriptionPrices({
+    skipFetching: !isUSD,
+  });
 
-  const renderProps = useUSDPriceSelector({ loading, prices });
+  const renderProps = useUSDPriceSelector({ loading: isLoading, prices });
 
   const { value: usdPrice } = renderProps;
 

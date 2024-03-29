@@ -1,9 +1,9 @@
 import { RadioGroupItem } from '@ankr.com/ui';
+import { SubscriptionPrice } from 'multirpc-sdk';
 import { SxProps, Theme } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
-import { SubscriptionPrice } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
 
 const getStyles =
   (isLightTheme: boolean): SxProps<Theme> =>

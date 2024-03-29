@@ -22,11 +22,13 @@ export const CryptoPaymentSummaryDialog = ({
   connectedAddress,
   currency,
   depositFeeDetails,
+  isConnecting,
   network,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
   onConfirmButtonClick,
   onConnectButtonClick,
+  totalAmount,
   walletIcon,
   ...dialogProps
 }: ICryptoPaymentSummaryDialogProps) => {
@@ -44,10 +46,13 @@ export const CryptoPaymentSummaryDialog = ({
         className={classes.txDetails}
         currency={currency}
         depositFeeDetails={depositFeeDetails}
+        isWalletConnected={Boolean(connectedAddress)}
         network={network}
+        totalAmount={totalAmount}
       />
       <ButtonsGroup
         connectedAddress={connectedAddress}
+        isConnecting={isConnecting}
         onAnotherAddressButtonClick={onAnotherAddressButtonClick}
         onCancelButtonClick={onCancelButtonClick}
         onConfirmButtonClick={onConfirmButtonClick}

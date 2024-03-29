@@ -11,10 +11,10 @@ import { useInitialSection } from 'domains/chains/screens/ChainItem/components/C
 import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
 import { SectionsBase } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useSectionsTabs';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
+import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { useGetStartedSection } from './useGetStartedSection';
 import { useUsageDataSection } from './useUsageDataSection';
-import { EnterpriseClientJwtManagerItem } from '../../store/selectors';
 
 interface EnterpriseUseSectionsParams extends UseSectionsParams {
   apiKeys: EnterpriseClientJwtManagerItem[];

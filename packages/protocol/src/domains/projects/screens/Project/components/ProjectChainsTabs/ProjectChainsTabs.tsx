@@ -15,10 +15,7 @@ export const ProjectChainsTabs = () => {
     scrollForwardBtn,
     scrollBackBtn,
     onScroll,
-  } = useProjectChainsTabsScroll(
-    projectChainsTabs,
-    selectedProjectChainsTab?.id,
-  );
+  } = useProjectChainsTabsScroll(selectedProjectChainsTab?.id);
 
   const { classes } = useProjectChainsTabsStyles();
 

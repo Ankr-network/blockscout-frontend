@@ -19,6 +19,7 @@ export const getAlertProps = ({
   status,
 }: IGetAlertPropsParams): IAlertProps => {
   const hasErrorStatus = status === ECryptoDepositStepStatus.Error;
+  const isCompleted = status === ECryptoDepositStepStatus.Complete;
 
   const text =
     error && hasErrorStatus
@@ -27,5 +28,5 @@ export const getAlertProps = ({
 
   const severity = hasErrorStatus ? 'error' : 'info';
 
-  return { hasIcon: hasErrorStatus, severity, text };
+  return { hasIcon: hasErrorStatus, severity, text: isCompleted ? '' : text };
 };

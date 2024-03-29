@@ -9,7 +9,6 @@ import {
 } from 'domains/chains/actions/private/fetchPremiumChainFeatures';
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
-import { useProvider } from 'domains/infrastructure/hooks/useProvider';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
 import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';
 
@@ -23,7 +22,6 @@ interface HybridInfrastructureProps {
 export const HybridInfrastructure = ({
   chainId,
 }: HybridInfrastructureProps) => {
-  const { providerData } = useProvider();
   const [fetchPremiumChainFeatures, premiumChainFeaturesState] =
     useLazyChainsFetchPremiumChainFeaturesQuery();
   const [fetchEndpoints, endpointsState] =
@@ -56,7 +54,6 @@ export const HybridInfrastructure = ({
             privateChain={privateChain}
             publicChain={publicChain}
             endpoints={endpoints}
-            providerData={providerData!}
             chainId={chainId}
           />
         );

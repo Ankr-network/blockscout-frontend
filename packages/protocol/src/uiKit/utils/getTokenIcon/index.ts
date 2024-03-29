@@ -20,6 +20,7 @@ import harmonyIcon from './icons/harmony.svg';
 import horizenIcon from './icons/horizen.svg';
 import hecoIcon from './icons/heco.svg';
 import iotexIcon from './icons/iotex.svg';
+import kintoIcon from './icons/kinto.svg';
 import klaytnIcon from './icons/klaytn.svg';
 import kusamaIcon from './icons/kusama.svg';
 import metisIcon from './icons/metis.svg';
@@ -59,6 +60,7 @@ import nearIconDark from './darkModeIcons/near.svg';
 import nervosIconDark from './darkModeIcons/nervos.svg';
 import secretIconDark from './darkModeIcons/secret.svg';
 import solIconDark from './darkModeIcons/sol.svg';
+import kintoIconDark from './darkModeIcons/kinto.svg';
 import suiIconDark from './darkModeIcons/sui.svg';
 import mantleIconDark from './darkModeIcons/mantle.svg';
 import tenetIconDark from './darkModeIcons/tenet.svg';
@@ -120,8 +122,6 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.CORE]: coreIcon,
   [ChainID.ETH]: ethIcon,
   [ChainID.ETH_BEACON]: ethIcon,
-  [ChainID.ETH_GOERLI]: ethIcon,
-  [ChainID.ETH_GOERLI_BEACON]: ethIcon,
   [ChainID.ETH_KOVAN]: ethIcon,
   [ChainID.ETH_RINKEBY]: ethIcon,
   [ChainID.ETH_ROPSTEN]: ethIcon,
@@ -157,6 +157,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.KAVA_TENDERMINT_REST_TESTNET]: kavaIcon,
   [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: kavaIcon,
 
+  [ChainID.KINTO]: kintoIcon,
   [ChainID.KLAYTN]: klaytnIcon,
   [ChainID.KLAYTN_TESTNET]: klaytnIcon,
   [ChainID.KUSAMA]: kusamaIcon,
@@ -257,8 +258,6 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.CELO]: celoIconDark,
   [ChainID.ETH]: ethIconDark,
   [ChainID.ETH_BEACON]: ethIconDark,
-  [ChainID.ETH_GOERLI]: ethIconDark,
-  [ChainID.ETH_GOERLI_BEACON]: ethIconDark,
   [ChainID.ETH_KOVAN]: ethIconDark,
   [ChainID.ETH_RINKEBY]: ethIconDark,
   [ChainID.ETH_ROPSTEN]: ethIconDark,
@@ -266,6 +265,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ETH_SEPOLIA_BEACON]: ethIconDark,
   [ChainID.ETH_HOLESKY]: ethIconDark,
   [ChainID.ETH_HOLESKY_BEACON]: ethIconDark,
+  [ChainID.KINTO]: kintoIconDark,
   [ChainID.KUSAMA]: kusamaIconDark,
   [ChainID.MANTLE]: mantleIconDark,
   [ChainID.MANTLE_TESTNET]: mantleIconDark,

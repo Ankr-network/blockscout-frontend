@@ -1,4 +1,3 @@
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useRates } from 'domains/account/hooks/useRates';
 
 import { RateProps } from '../../Rate';
@@ -14,11 +13,7 @@ export const useRate = ({
   amount: rawAmount,
   currency,
 }: RateParams): RateProps => {
-  const { handleFetchRates, isRateLoading, rates } = useRates();
-
-  useOnMount(() => {
-    handleFetchRates();
-  });
+  const { isLoading: isRateLoading, rates } = useRates();
 
   const amount = Number(rawAmount) ? rawAmount : '1';
 

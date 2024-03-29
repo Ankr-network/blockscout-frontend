@@ -26,7 +26,7 @@ export interface ITxDetailsProps
 
 export const TxDetails = ({
   amount,
-  amountUSD,
+  amountUsd,
   approval,
   currency,
   depositFee,
@@ -61,7 +61,7 @@ export const TxDetails = ({
         </TxAttribute>
         <TotalAmountAttribute
           amount={amount}
-          amountUSD={amountUSD}
+          amountUsd={amountUsd}
           approvalFee={approval?.feeCrypto}
           approvalFeeUSD={approval?.feeUSD}
           currency={currency}

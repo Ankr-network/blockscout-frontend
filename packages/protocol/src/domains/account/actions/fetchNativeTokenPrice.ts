@@ -2,18 +2,21 @@ import {
   AvailableWriteProviders,
   EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
 import { getTokenPriceByChainId } from 'multirpc-sdk';
 
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getProviderManager } from 'modules/api/getProviderManager';
 import { web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { ZERO } from 'modules/common/constants/const';
 
-export const { useGetNativeTokenPriceQuery } = web3Api.injectEndpoints({
+import { ZERO_STRING } from '../store/const';
+
+export const {
+  endpoints: { fetchNativeTokenPrice },
+  useFetchNativeTokenPriceQuery,
+} = web3Api.injectEndpoints({
   endpoints: build => ({
-    getNativeTokenPrice: build.query<BigNumber, void>({
-      queryFn: createNotifyingQueryFn<void, never, BigNumber>(async () => {
+    fetchNativeTokenPrice: build.query<string, void>({
+      queryFn: createNotifyingQueryFn(async () => {
         const provider =
           await getProviderManager().getProvider<EthereumWeb3KeyProvider>(
             AvailableWriteProviders.ethCompatible,
@@ -22,7 +25,7 @@ export const { useGetNativeTokenPriceQuery } = web3Api.injectEndpoints({
         const price = await getTokenPriceByChainId(provider.currentChain);
 
         return {
-          data: price ?? ZERO,
+          data: price ?? ZERO_STRING,
         };
       }),
     }),

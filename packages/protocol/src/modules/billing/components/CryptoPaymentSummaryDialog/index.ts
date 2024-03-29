@@ -1,2 +1,2 @@
 export * from './CryptoPaymentSummaryDialog';
-export * from './hooks/useCryptoPaymentSummaryDialig';
+export * from './hooks/useCryptoPaymentSummaryDialog';

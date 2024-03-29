@@ -11,9 +11,9 @@ export const useInitialAmount = ({
   fixedUSDAmount,
   isUSD,
 }: InitialAmountParams) => {
-  const ankrAmount = useAnkrInitialAmount();
+  const amountAnkr = useAnkrInitialAmount();
 
-  const usdAmount = fixedUSDAmount || DEFAULT_USD_VALUE_STRING;
+  const amountUsd = fixedUSDAmount || DEFAULT_USD_VALUE_STRING;
 
-  return isUSD ? usdAmount : ankrAmount;
+  return isUSD ? amountUsd : amountAnkr;
 };

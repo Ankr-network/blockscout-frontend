@@ -19,9 +19,7 @@ export const {
   endpoints: build => ({
     topUpResetTransactionSliceAndRedirect: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
-        const address = await getCurrentTransactionAddress(
-          getState as GetState,
-        );
+        const address = getCurrentTransactionAddress(getState as GetState);
 
         const topUpOrigin = selectTopUpOrigin(getState() as RootState);
         const bundles = selectMyBundles(getState() as RootState);

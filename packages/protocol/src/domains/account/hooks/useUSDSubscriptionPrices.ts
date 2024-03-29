@@ -1,26 +1,36 @@
-import { useCallback } from 'react';
+import { IApiUserGroupParams } from 'multirpc-sdk';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useMemo } from 'react';
 
+import { useAppSelector } from 'store/useAppSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import {
+  selectUSDSubscriptionPricesFetching,
+  selectUSDSubscruptionPrices,
+  selectUSDSubscruptionPricesLoading,
+} from 'domains/account/store/selectors';
 
-import { useLazyUsdTopUpFetchUSDSubscriptionPricesQuery } from '../actions/usdTopUp/fetchUSDSubscriptionPrices';
+import { useFetchUSDSubscriptionPricesQuery } from '../actions/usdTopUp/fetchUSDSubscriptionPrices';
 
-export const useUSDSubscriptionPrices = () => {
-  const [
-    fetchUSDSubscriptionPrices,
-    { data: prices, isLoading: loading, isUninitialized },
-  ] = useLazyUsdTopUpFetchUSDSubscriptionPricesQuery();
+export interface IUseUSDSubscriptionPricesProps {
+  skipFetching?: boolean;
+}
 
+export const useUSDSubscriptionPrices = ({
+  skipFetching = false,
+}: IUseUSDSubscriptionPricesProps | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const handleFetchSubscriptionPrices = useCallback(() => {
-    if (isUninitialized) {
-      fetchUSDSubscriptionPrices({ group });
-    }
-  }, [fetchUSDSubscriptionPrices, isUninitialized, group]);
+  const params = useMemo<IApiUserGroupParams | typeof skipToken>(
+    () => (skipFetching ? skipToken : { group }),
+    [group, skipFetching],
+  );
 
-  return {
-    handleFetchSubscriptionPrices,
-    loading,
-    prices,
-  };
+  useFetchUSDSubscriptionPricesQuery(params);
+
+  const prices = useAppSelector(selectUSDSubscruptionPrices);
+  const isLoading = useAppSelector(selectUSDSubscruptionPricesLoading);
+  const isFetching = useAppSelector(selectUSDSubscriptionPricesFetching);
+
+  return { isFetching, isLoading, prices };
 };

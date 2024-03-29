@@ -1,4 +1,6 @@
-import { MultiService } from 'modules/api/MultiService';
+import { EWalletId } from '@ankr.com/provider';
+
+import { getProviderManager } from 'modules/api/getProviderManager';
 
 import { isAbstractProvider } from './isAbstractProvider';
 
@@ -9,12 +11,15 @@ export interface IConnectAccountParams {
 export const connectAccount = async ({
   onError,
 }: IConnectAccountParams = {}) => {
-  const service = MultiService.getWeb3Service();
-  const provider = service.getKeyWriteProvider().getWeb3()?.currentProvider;
+  const providerManager = getProviderManager();
+  const provider = await providerManager.getETHWriteProvider(
+    EWalletId.injected,
+  );
+  const { currentProvider } = provider.getWeb3();
 
-  if (isAbstractProvider(provider) && provider.request) {
+  if (isAbstractProvider(currentProvider) && currentProvider.request) {
     try {
-      await provider.request({
+      await currentProvider.request({
         method: 'wallet_requestPermissions',
         params: [
           {
@@ -22,8 +27,6 @@ export const connectAccount = async ({
           },
         ],
       });
-
-      await service.getKeyWriteProvider().connect();
     } catch (error) {
       onError?.(error);
     }

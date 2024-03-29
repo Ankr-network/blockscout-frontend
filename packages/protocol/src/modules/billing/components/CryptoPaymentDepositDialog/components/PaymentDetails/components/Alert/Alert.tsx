@@ -6,11 +6,15 @@ import { useAlertStyles } from './useAlertStyles';
 export interface IAlertProps {
   hasIcon?: boolean;
   severity?: AlertColor;
-  text: string;
+  text?: string;
 }
 
 export const Alert = ({ hasIcon = false, severity, text }: IAlertProps) => {
   const { classes } = useAlertStyles();
+
+  if (!text) {
+    return null;
+  }
 
   return (
     <InlineAlert icon={hasIcon} severity={severity}>

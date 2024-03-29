@@ -16,7 +16,7 @@ export interface ITotalAmountAttributeProps
 
 export const TotalAmountAttribute = ({
   amount,
-  amountUSD,
+  amountUsd,
   approvalFee,
   approvalFeeUSD,
   currency,
@@ -35,7 +35,7 @@ export const TotalAmountAttribute = ({
         <Typography className={classes.totalAmount} variant="subtitle2">
           {renderUSDAmount({
             amount: getTotalAmount({
-              amountUSD,
+              amountUsd,
               approvalFeeUSD,
               depositFeeUSD,
             }),

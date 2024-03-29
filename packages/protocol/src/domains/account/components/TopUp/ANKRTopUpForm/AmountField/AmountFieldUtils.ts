@@ -1,8 +1,7 @@
 import BigNumber from 'bignumber.js';
-import { CurrencyRateSymbol } from 'multirpc-sdk';
+import { CurrencyRate, CurrencyRateSymbol } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { CreditsRate } from 'domains/account/actions/rate/fetchCreditRates';
 import { USD_CURRENCY } from 'domains/account/actions/usdTopUp/const';
 
 import { Currency } from '../../types';
@@ -20,7 +19,7 @@ export const validateAmount = (value: string) => {
     return t('validation.number-only');
   }
 
-  if (currentAmount.isLessThanOrEqualTo(MIN_AMOUNT)) {
+  if (currentAmount.isLessThan(MIN_AMOUNT)) {
     return t('validation.min-greater', {
       value: MIN_AMOUNT,
     });
@@ -41,11 +40,15 @@ const cutDecimals = (value: string, maxDecimals: number) => {
   return value;
 };
 
+export const cutLetters = (value: string) => {
+  return value.replace(/[a-zA-Z]/g, '');
+};
+
 export const normalizeAmount = (value: string, maxDecimals: number): string => {
   // only numbers and dot
-  const normilized = value.replace(',', '.').replace(/[^0-9.]/g, '');
+  const normalized = value.replace(',', '.').replace(/[^0-9.]/g, '');
 
-  return cutDecimals(normilized, maxDecimals);
+  return cutLetters(cutDecimals(normalized, maxDecimals));
 };
 
 export const MAX_LENGTH = 15;
@@ -54,19 +57,21 @@ const root = 'account.account-details.top-up';
 
 const BASE_NUMBER = 10;
 
-const getCreditsByRate = (rate?: BigNumber, value?: string, decimals = 0) => {
+const getCreditsByRate = (rate?: string, value?: string, decimals = 0) => {
   if (!rate) return '';
+
+  const rateNumber = new BigNumber(rate);
 
   const power = BASE_NUMBER * decimals || 1;
 
   const key = `${root}.credits`;
 
   if (!value || !Number(value)) {
-    return t(key, { credits: rate.dividedBy(power).toNumber() });
+    return t(key, { credits: rateNumber.dividedBy(power).toNumber() });
   }
 
   return t(key, {
-    credits: rate
+    credits: rateNumber
       .multipliedBy(new BigNumber(value))
       .dividedBy(power)
       .toNumber(),
@@ -74,7 +79,7 @@ const getCreditsByRate = (rate?: BigNumber, value?: string, decimals = 0) => {
 };
 
 const getCurrencyRate = (
-  rates: CreditsRate[],
+  rates: CurrencyRate[],
   currencyRate: CurrencyRateSymbol,
 ) => {
   return rates?.find(rate => rate.symbol === currencyRate);
@@ -82,7 +87,7 @@ const getCurrencyRate = (
 
 export const getCredits = (
   currency: Currency,
-  rates: CreditsRate[],
+  rates: CurrencyRate[],
   value?: string,
 ) => {
   const rate =

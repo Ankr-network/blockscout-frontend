@@ -10,7 +10,7 @@ const PROD_STANDALONE_CHAINS: Record<string, string> = {
 
 const STAGING_STANDALONE_CHAINS: Record<string, string> = {
   [ChainID.BSC]: 'https://staging.bscrpc.com/api/v1/stats/bsc/',
-  [ChainID.FANTOM]: 'https://staging.rpc.ftm.tools/api/v1/stats/fantom/',
+  [ChainID.FANTOM]: 'https://staging.ftm.tools/api/v1/stats/fantom/',
   [ChainID.POLYGON]: 'https://staging.polygon-rpc.com/api/v1/stats/polygon/',
   [ChainID.POLYGON_ZKEVM]:
     'https://staging.polygon-rpc.com/api/v1/stats/zkevm/',

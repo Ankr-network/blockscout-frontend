@@ -1,5 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { TriangleWarning } from '@ankr.com/ui';
 
 import { CHARGING_MODEL_DEAL_DOCS_LINK } from 'modules/common/constants/const';
 
@@ -10,6 +11,8 @@ export const LastPackageWarning = () => {
 
   return (
     <div className={classes.expiredNoticeWrapper}>
+      <TriangleWarning className={classes.warningIcon} />
+
       <Typography
         className={classes.expiredNotice}
         variant="body3"
@@ -19,6 +22,7 @@ export const LastPackageWarning = () => {
       </Typography>
 
       <Button
+        variant="text"
         className={classes.btn}
         size="medium"
         href={CHARGING_MODEL_DEAL_DOCS_LINK}

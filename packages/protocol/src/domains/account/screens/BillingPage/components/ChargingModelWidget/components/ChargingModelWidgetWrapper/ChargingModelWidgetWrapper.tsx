@@ -6,7 +6,7 @@ import { BalanceProgressBar } from '../BalanceProgressBar';
 interface IChargingModelWidgetWrapperProps {
   isCurrentModel?: boolean;
   balance: React.ReactNode;
-  chargingModel: EChargingModel;
+  type: EChargingModel;
   progressValue?: number;
   progressLabel?: string;
   maxLabel?: string;
@@ -15,19 +15,16 @@ interface IChargingModelWidgetWrapperProps {
 export const ChargingModelWidgetWrapper = ({
   isCurrentModel = false,
   balance,
-  chargingModel,
+  type,
   progressValue,
   progressLabel,
   maxLabel,
 }: IChargingModelWidgetWrapperProps) => {
   return (
-    <ChargingModelWidget
-      isCurrentModel={isCurrentModel}
-      chargingModel={chargingModel}
-    >
+    <ChargingModelWidget isCurrentModel={isCurrentModel} chargingModel={type}>
       {balance}
       <BalanceProgressBar
-        chargingModel={chargingModel}
+        chargingModel={type}
         progressValue={progressValue}
         progressLabel={progressLabel}
         maxLabel={maxLabel}

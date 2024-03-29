@@ -17,7 +17,6 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isAptosTestnet = id === 'aptos_testnet';
   const isGnosisBeacon = id === 'gnosis_beacon';
   const isEthBeacon = id === 'eth_beacon';
-  const isEthGoerliBeacon = id === 'eth_goerli_beacon';
   const isEthSepoliaBeacon = id === 'eth_sepolia_beacon';
   const isZetaChain = ENABLED_ZETACHAIN_IDS.includes(id);
   const isEnabledSecret = ENABLED_SECRET_NETWORK_IDS.includes(id);
@@ -32,7 +31,6 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isEnabledSecret ||
     isGnosisBeacon ||
     isEthBeacon ||
-    isEthGoerliBeacon ||
     isEthSepoliaBeacon ||
     isZetaChain ||
     isSei ||

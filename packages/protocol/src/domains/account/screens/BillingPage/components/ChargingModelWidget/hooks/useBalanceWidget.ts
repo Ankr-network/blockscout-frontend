@@ -1,4 +1,3 @@
-import { useAccountState } from 'domains/account/hooks/useAccountState';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 
@@ -13,14 +12,8 @@ export const useBalanceWidget = () => {
     onOpen: onTopUp,
   } = useUpgradePlanDialog();
 
-  const { descriptionKey, isPAYG: hasPAYGLabel } = useAccountState();
-
-  const hasDescription = Boolean(descriptionKey);
-
   return {
     hasBundleSubscriptions,
-    hasDescription,
-    hasPAYGLabel,
     isUpgradeDialogOpened,
     onTopUp,
     onUpgradeDialogClose,

@@ -148,7 +148,6 @@ export enum Token {
 
 export interface IConfig {
   ankrTokenContractAddress: PrefixedHex;
-  premiumPlanContractAddress: PrefixedHex;
   confirmationBlocks: number;
   publicEnterpriseRpcUrl: string;
   enterpriseRpcUrl: string;

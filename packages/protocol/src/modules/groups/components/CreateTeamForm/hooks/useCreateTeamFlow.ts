@@ -25,7 +25,7 @@ export const useCreateTeamFlow = ({
   teamNameValue,
   isDataTransferEnabled,
 }: UseCreateTeamFlowParams) => {
-  const { handleSignout } = useAuth();
+  const { handleSignOut } = useAuth();
   const { push } = useHistory();
 
   const [createTeam, { data, isLoading: isCreateTeamLoading }] =
@@ -56,7 +56,7 @@ export const useCreateTeamFlow = ({
       // if user successfully created a team with data transfer, we should propose him a reLogin path
       // because token is no longer valid after data transfer.
       if (isDataTransferEnabled || response.data.asset_transfer_done) {
-        handleSignout();
+        handleSignOut();
       } else {
         push(
           UserSettingsRoutesConfig.settings.generatePath(
@@ -70,7 +70,7 @@ export const useCreateTeamFlow = ({
     teamNameValue,
     isDataTransferEnabled,
     dispatch,
-    handleSignout,
+    handleSignOut,
     push,
   ]);
 

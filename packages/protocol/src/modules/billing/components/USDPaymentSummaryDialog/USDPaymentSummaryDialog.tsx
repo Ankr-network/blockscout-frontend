@@ -8,7 +8,7 @@ import { IPaymentInfoProps, PaymentInfo } from '../PaymentInfo';
 import { SeparatedList } from '../SeparatedList';
 import { StripeWordmark } from '../StripeWordMark';
 import { TotalPaymentInfo } from '../TotalPaymentInfo';
-import { useUSDPaymentSummaryDialog } from './useUSDPaymentSummaryDialogStyles';
+import { useUSDPaymentSummaryDialogStyles } from './useUSDPaymentSummaryDialogStyles';
 
 export interface IUSDPaymentSummaryDialogProps
   extends IDialogProps,
@@ -29,7 +29,7 @@ export const USDPaymentSummaryDialog = ({
   isProceeding,
   ...dialogProps
 }: IUSDPaymentSummaryDialogProps) => {
-  const { classes } = useUSDPaymentSummaryDialog();
+  const { classes } = useUSDPaymentSummaryDialogStyles();
 
   return (
     <Dialog
@@ -44,7 +44,11 @@ export const USDPaymentSummaryDialog = ({
           currency={currency}
           paymentType={paymentType}
         />
-        <TotalPaymentInfo amount={totalAmount} currency={totalCurrency} />
+        <TotalPaymentInfo
+          amount={totalAmount}
+          currency={totalCurrency}
+          totalAmount={totalAmount}
+        />
       </SeparatedList>
       <Buttons
         className={classes.buttons}

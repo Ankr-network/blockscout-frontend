@@ -5,11 +5,11 @@ import { CircleCheck, Mark, OverlaySpinner } from '@ankr.com/ui';
 import { useOngoingPaymentStatusStyles } from './useOngoingPaymentStatusStyles';
 
 interface IOngoingPaymentStatusProps {
-  status: 'pending' | 'success' | 'error';
+  status?: 'pending' | 'success' | 'error';
 }
 
 export const OngoingPaymentStatus = ({
-  status,
+  status = 'pending',
 }: IOngoingPaymentStatusProps) => {
   const { cx, classes } = useOngoingPaymentStatusStyles();
 

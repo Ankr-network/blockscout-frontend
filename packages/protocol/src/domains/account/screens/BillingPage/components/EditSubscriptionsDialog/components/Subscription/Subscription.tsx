@@ -5,7 +5,7 @@ import { SubscriptionEditor } from 'domains/account/screens/BillingPage/componen
 import { useSubscription } from './hooks/useSubscription';
 
 export interface SubscriptionProps {
-  onCancel?: () => void;
+  onCancel: (expiresAt: string, isDeal: boolean) => void;
   subscription: ISubscriptionsItem;
   onOpenSuccessDialog?: () => void;
 }

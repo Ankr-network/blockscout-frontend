@@ -1,6 +1,5 @@
 import { IProvider } from 'multirpc-sdk';
 
-import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
 import { Chain, ChainURL } from 'modules/chains/types';
 
 export const getChainById = (
@@ -14,27 +13,6 @@ export const getChainById = (
   });
 
   return chain;
-};
-
-export const hasLimit = (
-  providerData: IProvider | null,
-  endpoints: Endpoints,
-) => {
-  if (typeof providerData === 'string' || !providerData) return false;
-
-  let endpointsCount = 0;
-
-  Object.keys(endpoints).forEach(key => {
-    endpointsCount += endpoints[key].length;
-  });
-
-  return endpointsCount >= providerData.limit;
-};
-
-export const getLimit = (providerData: IProvider | null): number => {
-  if (typeof providerData === 'string' || !providerData) return 0;
-
-  return providerData.limit;
 };
 
 const hasChain = (providerData: IProvider, chainId: string) => {

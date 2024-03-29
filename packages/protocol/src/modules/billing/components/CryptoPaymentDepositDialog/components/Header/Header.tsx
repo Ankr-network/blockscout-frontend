@@ -9,11 +9,11 @@ import { useHeaderStyles } from './useHeaderStyles';
 
 export interface IHeaderProps {
   amount: number;
-  amountUSD: number;
+  amountUsd: number;
   currency: ECurrency;
 }
 
-export const Header = ({ amount, amountUSD, currency }: IHeaderProps) => {
+export const Header = ({ amount, amountUsd, currency }: IHeaderProps) => {
   const { classes } = useHeaderStyles();
 
   return (
@@ -22,8 +22,8 @@ export const Header = ({ amount, amountUSD, currency }: IHeaderProps) => {
       <Typography className={classes.amount} variant="h5">
         {renderCryptoAmount({ amount, currency })}
       </Typography>
-      <Typography className={classes.amountUSD} variant="subtitle2">
-        {renderUSDAmount({ amount: amountUSD, isApproximate: true })}
+      <Typography className={classes.amountUsd} variant="subtitle2">
+        {renderUSDAmount({ amount: amountUsd, isApproximate: true })}
       </Typography>
     </div>
   );

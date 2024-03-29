@@ -9,15 +9,15 @@ import { hasPartialApproval } from './utils/hasPartialApproval';
 export const ApprovalAttribute = (props: IApprovalAttributeProps) => {
   const { amount, currency, network } = props;
 
-  if (hasPartialApproval(props)) {
-    const { approvedAmount, error, feeDetails, status } = props;
-    const { feeCrypto, feeUSD } = feeDetails;
+  if (hasNoApproval(props)) {
+    const {
+      error,
+      feeDetails: { feeCrypto, feeUSD },
+      status,
+    } = props;
 
     return (
-      <PartialApprovalAttribute
-        amount={amount}
-        approvedAmount={approvedAmount}
-        currency={currency}
+      <NoApprovalAttribute
         error={error}
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}
@@ -38,15 +38,15 @@ export const ApprovalAttribute = (props: IApprovalAttributeProps) => {
     );
   }
 
-  if (hasNoApproval(props)) {
-    const {
-      error,
-      feeDetails: { feeCrypto, feeUSD },
-      status,
-    } = props;
+  if (hasPartialApproval(props)) {
+    const { approvedAmount, error, feeDetails, status } = props;
+    const { feeCrypto, feeUSD } = feeDetails;
 
     return (
-      <NoApprovalAttribute
+      <PartialApprovalAttribute
+        amount={amount}
+        approvedAmount={approvedAmount}
+        currency={currency}
         error={error}
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}

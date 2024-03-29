@@ -1,0 +1,84 @@
+import { useCallback, useMemo } from 'react';
+
+import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
+import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useDialog } from 'modules/common/hooks/useDialog';
+
+import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
+import { IUseCryptoPaymentSummaryDialogProps } from '../types';
+
+interface IUseCryptoPaymentSummaryDialog
+  extends IUseCryptoPaymentSummaryDialogProps {
+  onConfirm: () => Promise<void>;
+}
+
+export const useCryptoPaymentSummaryDialog = ({
+  amount,
+  approvalFeeDetails,
+  currency,
+  depositFeeDetails,
+  network,
+  totalAmount,
+  onConfirm,
+}: IUseCryptoPaymentSummaryDialog) => {
+  const {
+    isOpened,
+    onClose,
+    onOpen: handleCryptoPaymentSummaryDialogOpen,
+  } = useDialog();
+
+  const { connectedAddress, walletIcon } = useConnectedAddress();
+
+  const { isConnecting, handleConnectAccount } = useConnectAccountHandler();
+
+  const onAnotherAddressButtonClick = handleConnectAccount;
+
+  const onCancelButtonClick = onClose;
+
+  const onConfirmButtonClick = useCallback(async () => {
+    onClose();
+    await onConfirm();
+  }, [onClose, onConfirm]);
+
+  const cryptoPaymentSummaryDialogProps =
+    useMemo<ICryptoPaymentSummaryDialogProps>(() => {
+      return {
+        amount,
+        approvalFeeDetails,
+        connectedAddress,
+        currency,
+        depositFeeDetails,
+        isConnecting,
+        network,
+        onAnotherAddressButtonClick,
+        onCancelButtonClick,
+        onClose,
+        onConfirmButtonClick,
+        onConnectButtonClick: handleConnectAccount,
+        open: isOpened,
+        totalAmount,
+        walletIcon,
+      };
+    }, [
+      amount,
+      approvalFeeDetails,
+      connectedAddress,
+      currency,
+      depositFeeDetails,
+      handleConnectAccount,
+      isConnecting,
+      isOpened,
+      network,
+      onAnotherAddressButtonClick,
+      onCancelButtonClick,
+      onClose,
+      onConfirmButtonClick,
+      totalAmount,
+      walletIcon,
+    ]);
+
+  return {
+    cryptoPaymentSummaryDialogProps,
+    handleCryptoPaymentSummaryDialogOpen,
+  };
+};

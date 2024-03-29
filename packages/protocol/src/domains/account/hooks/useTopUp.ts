@@ -4,6 +4,7 @@ import { useCallback, useMemo } from 'react';
 import {
   setAmount,
   resetTransaction,
+  setApprovedAmount,
 } from 'domains/account/store/accountTopUpSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -23,6 +24,14 @@ import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
 import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
+const getErrorMessage = (error: any) => {
+  if (error && 'message' in error && typeof error.message === 'string') {
+    return error.message;
+  }
+
+  return undefined;
+};
+
 // eslint-disable-next-line max-lines-per-function
 export const useTopUp = () => {
   const { address: personalAddress } = useAuth();
@@ -32,20 +41,25 @@ export const useTopUp = () => {
 
   const dispatch = useAppDispatch();
 
-  const [deposit, { isLoading: loadingDeposit }, depositReset] =
-    useQueryEndpoint(topUpDeposit);
+  const [
+    deposit,
+    { isLoading: loadingDeposit, error: depositError },
+    depositReset,
+  ] = useQueryEndpoint(topUpDeposit);
 
   const [
     depositForUser,
-    { isLoading: loadingDepositForUser },
+    { isLoading: loadingDepositForUser, error: depositForUserError },
     depositForUserReset,
   ] = useQueryEndpoint(topUpDepositForUser);
 
   const [fetchPublicKey, { isLoading: loadingFetchPublicKey }] =
     useQueryEndpoint(accountFetchPublicKey);
 
-  const [sendAllowance, { isLoading: loadingGetAllowance }] =
-    useQueryEndpoint(topUpSendAllowance);
+  const [
+    sendAllowance,
+    { isLoading: loadingGetAllowance, error: sendAllowanceError },
+  ] = useQueryEndpoint(topUpSendAllowance);
 
   const [login, { isLoading: loadingLogin }] = useQueryEndpoint(topUpLogin);
 
@@ -78,6 +92,11 @@ export const useTopUp = () => {
     [transaction],
   );
 
+  const approvedAmount = useMemo(
+    () => new BigNumber(transaction?.approvedAmount || 0),
+    [transaction],
+  );
+
   const handleFetchPublicKey = useCallback(
     () => fetchPublicKey(),
     [fetchPublicKey],
@@ -89,12 +108,17 @@ export const useTopUp = () => {
   );
 
   const handleDeposit = useCallback(() => {
+    const amountToDeposit = approvedAmount || amount;
+
     if (selectedGroupAddress) {
-      return depositForUser({ amount, targetAddress: selectedGroupAddress });
+      return depositForUser({
+        amount: amountToDeposit,
+        targetAddress: selectedGroupAddress,
+      });
     }
 
-    return deposit(amount);
-  }, [selectedGroupAddress, depositForUser, amount, deposit]);
+    return deposit(amountToDeposit);
+  }, [selectedGroupAddress, depositForUser, amount, approvedAmount, deposit]);
 
   const handleResetDeposit = useCallback(() => {
     if (selectedGroupAddress) {
@@ -129,6 +153,13 @@ export const useTopUp = () => {
     [dispatch, address],
   );
 
+  const handleSetApprovedAmount = useCallback(
+    (value: BigNumber) => {
+      dispatch(setApprovedAmount({ address, amount: value }));
+    },
+    [dispatch, address],
+  );
+
   const trackTopUp = useTopUpTrackingHandler();
 
   const handleRejectAllowance = useCallback(() => {
@@ -156,8 +187,16 @@ export const useTopUp = () => {
     loadingLogin ||
     loadingCheckAllowanceTransaction;
 
+  const depositErrorMessage =
+    getErrorMessage(depositError) || getErrorMessage(depositForUserError);
+
+  const hasError = Boolean(
+    errorWaitTransactionConfirming || sendAllowanceError || depositErrorMessage,
+  );
+
   return {
     amount,
+    approvedAmount,
     handleDeposit,
     handleFetchPublicKey,
     handleGetAllowance,
@@ -167,12 +206,16 @@ export const useTopUp = () => {
     handleResetDeposit,
     handleResetTopUpTransaction,
     handleSetAmount,
+    handleSetApprovedAmount,
     handleWaitTransactionConfirming,
-    hasError: Boolean(errorWaitTransactionConfirming),
+    hasError,
     isRejectAllowanceLoading: loadingRejectAllowance,
     loading,
     loadingWaitTransactionConfirming,
     trackTopUp,
     handleResetTransactionSliceAndRedirect,
+
+    sendAllowanceErrorMessage: getErrorMessage(sendAllowanceError),
+    depositErrorMessage,
   };
 };

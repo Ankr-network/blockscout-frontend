@@ -8,4 +8,7 @@ export const useFullTxFeeAttributeStyles = makeStyles()(theme => ({
       },
     },
   },
+  placeholder: {
+    color: theme.palette.text.secondary,
+  },
 }));

@@ -56,9 +56,8 @@ export class MultiService {
     return MultiService.web3Service;
   }
 
-  // use getWeb3Service after createInstance in the app for methods with web3 connect
-  public static getWeb3Service(): MultiRpcWeb3Sdk {
-    return MultiService.web3Service!;
+  public static getWeb3Service() {
+    return MultiService.web3Service;
   }
 
   public static removeServices() {

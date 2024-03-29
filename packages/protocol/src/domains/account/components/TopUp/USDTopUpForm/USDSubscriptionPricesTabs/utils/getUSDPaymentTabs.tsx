@@ -1,4 +1,4 @@
-import { BundlePaymentPlan, ProductPrice } from 'multirpc-sdk';
+import { BundlePaymentPlan, SubscriptionPrice } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { ONE_TIME_PAYMENT_ID } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
@@ -13,7 +13,7 @@ type OnChange = USDSubscriptionPricesTabsProps['onChange'];
 export interface USDPaymentTabsParams {
   bundles: BundlePaymentPlan[];
   onChange: OnChange;
-  prices: ProductPrice[];
+  prices: SubscriptionPrice[];
   tabClassName: string;
 }
 
@@ -30,7 +30,7 @@ const getOneTimeTab = (onChange: OnChange, className: string): Tab<string> => ({
 });
 
 const getSubscriptionTabs = (
-  prices: ProductPrice[],
+  prices: SubscriptionPrice[],
   onChange: OnChange,
   className: string,
 ) =>

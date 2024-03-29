@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useUSDPaymentSummaryDialog = makeStyles()(theme => ({
+export const useUSDPaymentSummaryDialogStyles = makeStyles()(theme => ({
   paper: {
     width: 600,
 

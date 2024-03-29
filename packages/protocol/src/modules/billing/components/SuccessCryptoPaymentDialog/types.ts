@@ -9,7 +9,7 @@ import {
 
 export interface IUseSuccessCryptoPaymentDialogProps {
   amount: number;
-  amountUSD: number;
+  amountUsd: number;
   approval?: IFeeDetails;
   currency: ECurrency;
   depositFee: number;

@@ -15,7 +15,7 @@ export interface IUserLabelProps {
   className?: string;
   hasEnterpriseStatus?: boolean;
   isLoading?: boolean;
-  isSmall?: boolean;
+  size: 'small' | 'medium' | 'large';
 }
 
 export const UserLabel = ({
@@ -25,7 +25,7 @@ export const UserLabel = ({
   className: nestedClassName,
   hasEnterpriseStatus = false,
   isLoading,
-  isSmall = false,
+  size = 'medium',
 }: IUserLabelProps) => {
   const { classes, cx } = useUserLabelStyles();
 
@@ -40,6 +40,7 @@ export const UserLabel = ({
       [classes.enterprise]: hasEnterpriseStatus,
       [classes.package]: chargingModel === EChargingModel.Package,
       [classes.deal]: chargingModel === EChargingModel.Deal,
+      [classes.large]: size === 'large',
     },
     nestedClassName,
   );
@@ -59,6 +60,8 @@ export const UserLabel = ({
       />
     );
   }
+
+  const isSmall = size === 'small';
 
   return (
     <Typography className={className} variant={isSmall ? 'body4' : 'body2'}>

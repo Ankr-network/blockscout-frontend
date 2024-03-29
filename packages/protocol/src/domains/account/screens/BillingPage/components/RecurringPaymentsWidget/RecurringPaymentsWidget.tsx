@@ -10,6 +10,7 @@ import { ScheduledPayments } from '../ScheduledPayments';
 import { Widget } from '../Widget';
 import { useRecurringPaymentsWidget } from './hooks/useRecurringPaymentsWidget';
 import { useRecurringPaymentsWidgetStyles } from './useRecurringPaymentsWidgetStyles';
+import { useEditSubscriptionsDialog } from '../EditSubscriptionsDialog/hooks/useEditSubscriptionsDialog';
 
 export interface RecurringPaymentsWidgetProps {
   className?: string;
@@ -34,6 +35,13 @@ export const RecurringPaymentsWidget = ({
 
   const { classes, cx } = useRecurringPaymentsWidgetStyles();
 
+  const {
+    onCancelSubscription,
+    recurringPayments,
+    expirationDate,
+    isDealCancelled,
+  } = useEditSubscriptionsDialog(onEditDialogClose);
+
   return (
     <>
       <Widget
@@ -54,13 +62,15 @@ export const RecurringPaymentsWidget = ({
         isOpened={isEditDialogOpened}
         onClose={onEditDialogClose}
         onOpenSuccessDialog={onOpenSuccessDialog}
+        onCancelSubscription={onCancelSubscription}
+        recurringPayments={recurringPayments}
       />
 
       <DealRenewalCancelDialog
         isOpened={isOpenedSuccessDialog}
         onClose={onCloseSuccessDialog}
-        // expiresAt={editorProps.nextBillingDate}
-        expiresAt="123123123123123" // TODO
+        expiresAt={expirationDate}
+        isDeal={isDealCancelled}
       />
     </>
   );

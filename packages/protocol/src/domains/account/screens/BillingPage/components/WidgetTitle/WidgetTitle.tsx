@@ -6,7 +6,12 @@ export interface WidgetTitleProps {
 }
 
 export const WidgetTitle = ({ className, children }: WidgetTitleProps) => (
-  <Typography className={className} component="div" variant="subtitle1">
+  <Typography
+    className={className}
+    color="text"
+    component="div"
+    variant="subtitle1"
+  >
     {children}
   </Typography>
 );

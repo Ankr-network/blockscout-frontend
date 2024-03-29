@@ -119,6 +119,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.HECO,
       ChainID.HECO_TESTNET,
 
+      ChainID.KINTO,
       ChainID.KLAYTN,
       ChainID.KLAYTN_TESTNET,
 
@@ -195,9 +196,6 @@ export const chainGroups: ChainGroup[] = [
     name: 'Goerli',
     pluralName: 'Goerli',
     chains: [
-      ChainID.ETH_GOERLI,
-      ChainID.ETH_GOERLI_BEACON,
-      ChainID.ETH_GOERLI_BEACON,
       ChainID.BASE_TESTNET,
       ChainID.OPTIMISM_TESTNET,
       ChainID.ZKSYNC_ERA_TESTNET,

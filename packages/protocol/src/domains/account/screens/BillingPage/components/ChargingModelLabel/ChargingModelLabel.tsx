@@ -2,22 +2,22 @@ import { useMemo } from 'react';
 
 import { EChargingModel } from 'modules/billing/types';
 import { UserLabel } from 'uiKit/UserLabel';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { PAYGLabel } from '../ChargingModelWidget/components/PAYGLabel';
+import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
 
 interface IChargingModelLabelParams {
   currentChargingModelType: EChargingModel;
-  isSmall: boolean;
+  size: 'small' | 'medium' | 'large';
   className?: string;
 }
 
 export const ChargingModelLabel = ({
   currentChargingModelType,
-  isSmall,
+  size = 'medium',
   className,
 }: IChargingModelLabelParams) => {
-  const { isFreePremium } = useAuth();
+  const { shouldShowFreemium } = useFreemiumChargingModel();
 
   const freeLabel = useMemo(() => {
     return (
@@ -26,19 +26,19 @@ export const ChargingModelLabel = ({
         hasEnterpriseStatus={false}
         hasStatusTransition={false}
         isLoading={false}
-        isSmall={isSmall}
+        size={size}
         className={className}
       />
     );
-  }, [className, isSmall]);
+  }, [className, size]);
 
-  if (isFreePremium) {
+  if (shouldShowFreemium) {
     return freeLabel;
   }
 
   switch (currentChargingModelType) {
     case EChargingModel.PAYG:
-      return <PAYGLabel isSmall={isSmall} className={className} />;
+      return <PAYGLabel size={size} className={className} />;
     case EChargingModel.Free:
       return freeLabel;
     default:
@@ -49,7 +49,7 @@ export const ChargingModelLabel = ({
           hasEnterpriseStatus={false}
           hasStatusTransition={false}
           isLoading={false}
-          isSmall={isSmall}
+          size={size}
           className={className}
         />
       );

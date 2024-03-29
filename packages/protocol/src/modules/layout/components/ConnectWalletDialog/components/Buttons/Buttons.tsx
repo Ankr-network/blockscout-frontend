@@ -10,7 +10,7 @@ export interface ButtonsProps {
 }
 
 export const Buttons = ({ onConnectButtonClick }: ButtonsProps) => {
-  const { handleSignout, loading } = useAuth();
+  const { handleSignOut, loading } = useAuth();
 
   const { classes } = useButtonsStyles();
 
@@ -27,7 +27,7 @@ export const Buttons = ({ onConnectButtonClick }: ButtonsProps) => {
       </Button>
       <Button
         className={classes.logoutButton}
-        onClick={handleSignout}
+        onClick={handleSignOut}
         variant="outlined"
       >
         {text('logout-button')}
