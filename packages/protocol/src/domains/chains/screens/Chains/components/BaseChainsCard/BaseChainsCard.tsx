@@ -1,10 +1,10 @@
 import { t } from '@ankr.com/common';
-import { Button, Skeleton, Typography } from '@mui/material';
+import { Box, Button, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { useChainItemClickHandler } from 'modules/common/hooks/useChainItemClickHandler';
 import { Timeframe, Chain } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
+import { NavLink } from 'uiKit/NavLink';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 
 import { useChainCardStyles } from './useChainCardStyles';
@@ -41,17 +41,19 @@ export const BaseChainsCard = ({
 
   const icon = useChainIcon(id);
 
-  const onClickDefault = useChainItemClickHandler(
-    ChainsRoutesConfig.chainDetails.generatePath(id),
-  );
+  const isSimpleLinkCard = !onClick;
+
+  const props = isSimpleLinkCard
+    ? {
+        component: NavLink,
+        href: ChainsRoutesConfig.chainDetails.generatePath(id),
+      }
+    : {
+        onClick,
+      };
 
   return (
-    <div
-      className={cx(classes.root, className)}
-      onClick={onClick ?? onClickDefault}
-      role="button"
-      tabIndex={0}
-    >
+    <Box className={cx(classes.root, className)} {...props}>
       <div className={classes.mainInfo}>
         <div className={classes.info}>
           <Typography className={classes.title} component="p">
@@ -64,7 +66,7 @@ export const BaseChainsCard = ({
         {badge && <div className={classes.badge}>{badge}</div>}
         <img src={icon} className={classes.icon} alt={id} />
       </div>
-      <div>
+      <div className={classes.secondInfo}>
         {hasTotalRequestsLabel && (
           <Typography className={classes.information}>
             {loading ? (
@@ -87,6 +89,6 @@ export const BaseChainsCard = ({
           {buttonText || t('chains.endpoints-and-more')}
         </Button>
       </div>
-    </div>
+    </Box>
   );
 };
