@@ -4,15 +4,13 @@ import { t } from '@ankr.com/common';
 
 import { AppDispatch, GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { selectAuthData } from 'domains/auth/store/authSlice';
-import {
-  selectTransaction,
-  setTopUpTransaction,
-} from 'domains/account/store/accountTopUpSlice';
+import { selectTransaction } from 'domains/account/store/selectors';
+import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { web3Api } from 'store/queries';
-import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 
 import { fetchBalance } from '../balance/fetchBalance';
 import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';

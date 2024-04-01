@@ -1,7 +1,7 @@
 import { dialogTitleClasses } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-export const useSuccessCryptoPaymentDialogStyles = makeStyles()(theme => ({
+export const useCryptoPaymentSuccessDialogStyles = makeStyles()(theme => ({
   paper: {
     width: 600,
 

@@ -4,6 +4,7 @@ import {
   BundlePaymentPlan,
   ISubscriptionsItem,
   MyBundleStatusCounter,
+  Web3Address,
 } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
@@ -41,6 +42,15 @@ import {
   DEFAULT_BALANCE,
   ZERO_STRING,
 } from './const';
+import { ITransaction } from './types';
+
+export const selectTopUpOrigin = (state: RootState) =>
+  state.accountTopUp.topUpOrigin;
+
+export const selectTransaction = (
+  state: RootState,
+  currentAccount: string,
+): ITransaction | undefined => state.accountTopUp[currentAccount];
 
 export const selectBundlePaymentPlansState = createSelector(
   fetchBundlePaymentPlans.select(),
@@ -652,4 +662,10 @@ export const selectANKRDepositFeeFetching = createSelector(
 export const selectANKRDepositFeeLoading = createSelector(
   selectANKRDepositFeeState,
   ({ isLoading }) => isLoading,
+);
+
+export const selectHasDepositTransaction = createSelector(
+  (state: RootState, address?: Web3Address) =>
+    address ? selectTransaction(state, address) : undefined,
+  transaction => Boolean(transaction),
 );

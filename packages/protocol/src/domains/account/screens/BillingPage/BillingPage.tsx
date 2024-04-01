@@ -1,13 +1,17 @@
 import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { CryptoPaymentSuccessDialog } from 'modules/billing/components/CryptoPaymentSuccessDialog';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+import { TConnectAccountSuccessHandler } from 'modules/billing/hooks/useConnectAccountHandler';
+import { swapTransaction } from 'domains/account/store/accountTopUpSlice';
+import { usePaymentForm } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
-import { SuccessCryptoPaymentDialog } from 'modules/billing/components/SuccessCryptoPaymentDialog';
-import { usePaymentForm } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
 
 import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
@@ -29,8 +33,8 @@ export const BillingPage = () => {
   useRedirectToEnterpriseOnGroupChange();
 
   const {
+    cryptoPaymentSuccessDialogProps,
     isLoading,
-    successCryptoPaymentDialogProps,
     isOpened,
     onClose,
     onOpen,
@@ -38,8 +42,19 @@ export const BillingPage = () => {
 
   const { classes } = useStyles();
 
+  const dispatch = useDispatch();
+
+  const onConnectAnotherAddressSuccess =
+    useCallback<TConnectAccountSuccessHandler>(
+      (from, to) => {
+        dispatch(swapTransaction({ from, to }));
+      },
+      [dispatch],
+    );
+
   const paymentFormProps = usePaymentForm({
     onDepositSuccess: onOpen,
+    onConnectAnotherAddressSuccess,
   });
 
   if (loading) {
@@ -69,8 +84,8 @@ export const BillingPage = () => {
         </Box>
       )}
 
-      <SuccessCryptoPaymentDialog
-        {...successCryptoPaymentDialogProps}
+      <CryptoPaymentSuccessDialog
+        {...cryptoPaymentSuccessDialogProps}
         open={isOpened}
         onClose={onClose}
         isLoading={isLoading}

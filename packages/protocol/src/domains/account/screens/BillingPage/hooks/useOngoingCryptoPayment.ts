@@ -2,26 +2,26 @@ import { Token } from 'multirpc-sdk';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-import { useSuccessCryptoPaymentProps } from './useSuccessCryptoPaymentProps';
+import { useCryptoPaymentSuccessDialog } from './useCryptoPaymentSuccessDialog';
 import { useOngoingPayments } from '../components/OngoingPayments/useOngoingPayments';
 
 export const useOngoingCryptoPayment = () => {
   const { isOpened, onClose, onOpen } = useDialog();
 
-  const { txHash = '', approvedAmountString } = useOngoingPayments();
+  const { txHash = '', approvedAmountString = '0' } = useOngoingPayments();
 
-  const { isLoading, successCryptoPaymentDialogProps } =
-    useSuccessCryptoPaymentProps({
-      amount: approvedAmountString || '0',
-      token: Token.ANKR,
-      txHash,
+  const { isLoading, cryptoPaymentSuccessDialogProps } =
+    useCryptoPaymentSuccessDialog({
+      amount: approvedAmountString,
       date: new Date(),
       isOpened,
+      token: Token.ANKR,
+      txHash,
     });
 
   return {
+    cryptoPaymentSuccessDialogProps,
     isLoading,
-    successCryptoPaymentDialogProps,
     isOpened,
     onClose,
     onOpen,

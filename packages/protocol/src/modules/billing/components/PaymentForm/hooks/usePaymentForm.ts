@@ -1,3 +1,5 @@
+import { TConnectAccountSuccessHandler } from 'modules/billing/hooks/useConnectAccountHandler';
+
 import { useCryptoPaymentSummary } from './useCryptoPaymentSummary';
 import { useCurrency } from './useCurrency';
 import { useDealAmount } from '../components/DealAmount';
@@ -11,11 +13,15 @@ import { useRecurringAmount } from '../components/RecurringAmount';
 import { useRecurringPayment } from './useRecurringPayment';
 import { useUSDPaymentSummary } from './useUSDPaymentSummary';
 
-interface IUsePaymentFormProps {
+export interface IUsePaymentFormProps {
   onDepositSuccess: () => void;
+  onConnectAnotherAddressSuccess: TConnectAccountSuccessHandler;
 }
 
-export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
+export const usePaymentForm = ({
+  onDepositSuccess,
+  onConnectAnotherAddressSuccess,
+}: IUsePaymentFormProps) => {
   const { paymentType, paymentTabsProps } = usePaymentType();
 
   const { currency, currencyTabsProps } = useCurrency({ paymentType });
@@ -41,14 +47,14 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
   } = useOneTimeUSDPayment({ amount: oneTimeAmount });
 
   const {
+    cryptoPaymentDepositDialogProps,
     cryptoPaymentSummaryProps: oneTimeANKRPaymentSummaryProps,
     handlePayButtonClick: handleOneTimeANKRPaymentPayButtonClick,
     isLoading: isOneTimeCryptoPaymentLoading,
-
-    cryptoPaymentDepositDialogProps,
   } = useOneTimeCryptoPayment({
     amount: oneTimeAmount,
     currency,
+    onConnectAnotherAddressSuccess,
     onDepositSuccess,
   });
 
@@ -83,6 +89,8 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
   });
 
   return {
+    cryptoPaymentDepositDialogProps,
+    cryptoPaymentSummaryProps,
     currency,
     currencyTabsProps,
     dealAmountProps,
@@ -93,8 +101,5 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
     paymentType,
     recurringAmountProps,
     usdPaymentSummaryProps,
-    cryptoPaymentSummaryProps,
-
-    cryptoPaymentDepositDialogProps,
   };
 };

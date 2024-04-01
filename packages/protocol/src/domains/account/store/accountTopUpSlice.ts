@@ -1,28 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import BigNumber from 'bignumber.js';
 
-import { RootState } from 'store';
-
+import {
+  IAccountSlice,
+  ISetTransactionPayload,
+  ISwapTransactionPayload,
+} from './types';
 import { TopUpOrigin } from '../types';
 
-export interface ITransaction {
-  allowanceTransactionHash?: string;
-  topUpTransactionHash?: string;
-  amount?: BigNumber;
-  approvedAmount?: BigNumber;
-}
-
-type Address = string;
-
-interface ISetTransactionPayload extends ITransaction {
-  address: Address;
-}
-
 const initialState: IAccountSlice = {};
-
-export type IAccountSlice = Record<Address, ITransaction> & {
-  topUpOrigin?: TopUpOrigin;
-};
 
 // Need to save transaction states at local storage
 export const accountTopUpSlice = createSlice({
@@ -75,23 +60,16 @@ export const accountTopUpSlice = createSlice({
       state.topUpOrigin = undefined;
       state[action.payload.address] = {};
     },
+    swapTransaction: (
+      state,
+      { payload: { from, to } }: PayloadAction<ISwapTransactionPayload>,
+    ) => {
+      const fromTx = state[from];
+
+      state[to] = fromTx;
+    },
   },
 });
-
-export const selectAccount = (
-  state: RootState,
-  address: Address,
-): ITransaction | undefined => state.accountTopUp[address];
-
-export const selectTopUpOrigin = (state: RootState) =>
-  state.accountTopUp.topUpOrigin;
-
-export const selectTransaction = (
-  state: RootState,
-  currentAccount: string,
-): ITransaction | undefined => {
-  return state.accountTopUp[currentAccount];
-};
 
 export const {
   resetTopUpOrigin,
@@ -101,4 +79,5 @@ export const {
   setApprovedAmount,
   setTopUpOrigin,
   setTopUpTransaction,
+  swapTransaction,
 } = accountTopUpSlice.actions;

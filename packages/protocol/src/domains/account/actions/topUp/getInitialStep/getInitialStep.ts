@@ -7,8 +7,8 @@ import {
   makeNotification,
   shouldNotify,
 } from 'store/utils/createNotifyingQueryFn';
+import { selectTransaction } from 'domains/account/store/selectors';
 import {
-  selectAccount,
   setAllowanceTransaction,
   setApprovedAmount,
 } from 'domains/account/store/accountTopUpSlice';
@@ -57,7 +57,10 @@ export const {
           if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
 
           // deposit transaction
-          const transaction = selectAccount(getState() as RootState, address);
+          const transaction = selectTransaction(
+            getState() as RootState,
+            address,
+          );
 
           if (transaction?.topUpTransactionHash) {
             dispatch(topUpWaitTransactionConfirming.initiate({ group }));

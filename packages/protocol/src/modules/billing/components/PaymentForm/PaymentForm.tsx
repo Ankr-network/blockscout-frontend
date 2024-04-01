@@ -1,65 +1,58 @@
 import { LoadingButton } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
+import { EPaymentType } from 'modules/billing/types';
+// TODO: move to the billing module
 import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
-import { Tab } from 'uiKit/TabsManager';
 
 import { AmountField } from './components/AmountField';
+import {
+  CryptoPaymentDepositDialog,
+  ICryptoPaymentDepositDialogProps,
+} from '../CryptoPaymentDepositDialog';
 import {
   CryptoPaymentSummaryDialog,
   ICryptoPaymentSummaryDialogProps,
 } from '../CryptoPaymentSummaryDialog';
-import { CurrencyTabs } from './components/CurrencyTabs';
-import { PaymentTabs } from './components/PaymentTabs';
+import { CurrencyTabs, ICurrencyTabsProps } from './components/CurrencyTabs';
+import { IDealAmountProps } from './components/DealAmount';
+import { IOneTimeAmountProps } from './components/OneTimeAmount';
+import { IPaymentTabsProps, PaymentTabs } from './components/PaymentTabs';
 import {
   IUSDPaymentSummaryDialogProps,
   USDPaymentSummaryDialog,
 } from '../USDPaymentSummaryDialog';
-import { usePaymentFormStyles } from './usePaymentFormStyles';
-import { CryptoPaymentDepositDialog } from '../CryptoPaymentDepositDialog';
-import { IDealAmountProps } from './components/DealAmount';
-import { IOneTimeAmountProps } from './components/OneTimeAmount';
-import { ECurrency, EPaymentType } from '../../types';
 import { IUseRecurringAmountResult } from './components/RecurringAmount';
-import { ICryptoPaymentDepositDialogProps } from '../CryptoPaymentDepositDialog/types';
+import { usePaymentFormStyles } from './usePaymentFormStyles';
 
 export interface IPaymentFormProps {
   className?: string;
-
+  cryptoPaymentDepositDialogProps?: ICryptoPaymentDepositDialogProps;
   cryptoPaymentSummaryProps?: ICryptoPaymentSummaryDialogProps;
-  currencyTabsProps: {
-    tabs: Tab<ECurrency>[];
-    selectedTab?: Tab<ECurrency>;
-  };
+  currencyTabsProps: ICurrencyTabsProps;
   dealAmountProps: IDealAmountProps;
   handlePayButtonClick: () => void;
+  isPayButtonLoading: boolean;
   oneTimeAmountProps: IOneTimeAmountProps;
-  paymentTabsProps: {
-    tabs: Tab<EPaymentType>[];
-    selectedTab?: Tab<EPaymentType>;
-  };
+  paymentTabsProps: IPaymentTabsProps;
   paymentType: EPaymentType;
   recurringAmountProps: IUseRecurringAmountResult;
   usdPaymentSummaryProps?: IUSDPaymentSummaryDialogProps;
-  isPayButtonLoading: boolean;
-
-  cryptoPaymentDepositDialogProps?: ICryptoPaymentDepositDialogProps;
 }
 
 export const PaymentForm = ({
   className,
+  cryptoPaymentDepositDialogProps,
   cryptoPaymentSummaryProps,
   currencyTabsProps,
   dealAmountProps,
   handlePayButtonClick,
+  isPayButtonLoading,
   oneTimeAmountProps,
   paymentTabsProps,
   paymentType,
   recurringAmountProps,
   usdPaymentSummaryProps,
-  isPayButtonLoading,
-
-  cryptoPaymentDepositDialogProps,
 }: IPaymentFormProps) => {
   const { classes, cx } = usePaymentFormStyles();
 

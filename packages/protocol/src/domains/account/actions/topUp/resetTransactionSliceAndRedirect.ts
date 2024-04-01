@@ -3,15 +3,15 @@ import { push } from 'connected-react-router';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { GetState, RootState } from 'store';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
-import {
-  resetTransaction,
-  selectTopUpOrigin,
-} from 'domains/account/store/accountTopUpSlice';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
+import {
+  selectMyBundles,
+  selectTopUpOrigin,
+} from 'domains/account/store/selectors';
 import { topUpOriginRoutesMap } from 'domains/account/screens/CardPaymentSuccess/utils/getOriginRoute';
-import { selectMyBundles } from 'domains/account/store/selectors';
+import { web3Api } from 'store/queries';
 
 export const {
   endpoints: { topUpResetTransactionSliceAndRedirect },

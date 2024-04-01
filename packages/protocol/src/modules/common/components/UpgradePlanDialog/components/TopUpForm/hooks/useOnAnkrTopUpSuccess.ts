@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpOrigin, TrackTopUpSubmit } from 'domains/account/types';
-import {
-  selectTopUpOrigin,
-  setTopUpOrigin,
-} from 'domains/account/store/accountTopUpSlice';
+import { selectTopUpOrigin } from 'domains/account/store/selectors';
+import { setTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
 
 import { TopUpSuccessHandler } from '../types';
 

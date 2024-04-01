@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-import { ISuccessCryptoPaymentDialogProps } from '../SuccessCryptoPaymentDialog';
-import { IUseSuccessCryptoPaymentDialogProps } from '../types';
+import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
+import { IUseCryptoPaymentSuccessDialogProps } from '../types';
 
-export const useSuccessCryptoPaymentDialog = ({
+export const useCryptoPaymentSuccessDialog = ({
   amount,
   amountUsd,
   approval,
@@ -18,15 +18,15 @@ export const useSuccessCryptoPaymentDialog = ({
   paymentType,
   toAddress,
   txDate,
-}: IUseSuccessCryptoPaymentDialogProps) => {
+}: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
     onClose,
-    onOpen: handleSuccessCryptoPaymentDialogOpen,
+    onOpen: handleCryptoPaymentSuccessDialogOpen,
   } = useDialog();
 
-  const successCryptoPaymentDialogProps =
-    useMemo<ISuccessCryptoPaymentDialogProps>(
+  const cryptoPaymentSuccessDialogProps =
+    useMemo<ICryptoPaymentSuccessDialogProps>(
       () => ({
         amount,
         amountUsd,
@@ -62,7 +62,7 @@ export const useSuccessCryptoPaymentDialog = ({
     );
 
   return {
-    handleSuccessCryptoPaymentDialogOpen,
-    successCryptoPaymentDialogProps,
+    cryptoPaymentSuccessDialogProps,
+    handleCryptoPaymentSuccessDialogOpen,
   };
 };

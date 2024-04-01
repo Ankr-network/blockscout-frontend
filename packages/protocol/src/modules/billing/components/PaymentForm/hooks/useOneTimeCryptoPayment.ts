@@ -1,4 +1,5 @@
 import { ECurrency, ENetwork } from 'modules/billing/types';
+import { TConnectAccountSuccessHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
@@ -10,12 +11,14 @@ import { useCryptoDepositStep } from './useCryptoDepositStep';
 export interface IUseOneTimeCryptoPaymentProps {
   amount: number;
   currency: ECurrency;
+  onConnectAnotherAddressSuccess: TConnectAccountSuccessHandler;
   onDepositSuccess: () => void;
 }
 
 export const useOneTimeCryptoPayment = ({
   amount,
   currency,
+  onConnectAnotherAddressSuccess,
   onDepositSuccess,
 }: IUseOneTimeCryptoPaymentProps) => {
   const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice();
@@ -60,8 +63,9 @@ export const useOneTimeCryptoPayment = ({
     currency,
     depositFeeDetails,
     network: ENetwork.ETH,
-    totalAmount,
     onConfirm: onGetAllowance,
+    onConnectAnotherAddressSuccess,
+    totalAmount,
   });
 
   const handlePayButtonClick = handleCryptoPaymentSummaryDialogOpen;

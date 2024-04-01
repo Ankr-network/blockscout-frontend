@@ -8,7 +8,7 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import { InfoCard } from 'domains/userSettings/components/InfoCard';
 import { LoadingButton } from 'uiKit/LoadingButton';
-import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
+import { selectTopUpOrigin } from 'domains/account/store/selectors';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';

@@ -7,7 +7,7 @@ import {
   IFeeDetails,
 } from 'modules/billing/types';
 
-export interface IUseSuccessCryptoPaymentDialogProps {
+export interface IUseCryptoPaymentSuccessDialogProps {
   amount: number;
   amountUsd: number;
   approval?: IFeeDetails;

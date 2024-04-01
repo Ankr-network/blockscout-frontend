@@ -9,7 +9,7 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BaseRoute } from 'modules/router/utils/createRouteConfig';
 import { TopUpOrigin } from 'domains/account/types';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
+import { selectTopUpOrigin } from 'domains/account/store/selectors';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';

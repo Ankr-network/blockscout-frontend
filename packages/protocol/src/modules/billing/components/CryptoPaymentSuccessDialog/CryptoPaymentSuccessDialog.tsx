@@ -9,17 +9,17 @@ import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { AddressDetails } from './components/AddressDetails';
 import { Header } from './components/Header';
-import { IUseSuccessCryptoPaymentDialogProps } from './types';
+import { IUseCryptoPaymentSuccessDialogProps } from './types';
 import { TxDetails } from './components/TxDetails';
-import { useSuccessCryptoPaymentDialogStyles } from './useSuccessCryptoPaymentDialogStyles';
+import { useCryptoPaymentSuccessDialogStyles } from './useCryptoPaymentSuccessDialogStyles';
 
-export interface ISuccessCryptoPaymentDialogProps
+export interface ICryptoPaymentSuccessDialogProps
   extends IDialogProps,
-    IUseSuccessCryptoPaymentDialogProps {
+    IUseCryptoPaymentSuccessDialogProps {
   isLoading?: boolean;
 }
 
-export const SuccessCryptoPaymentDialog = ({
+export const CryptoPaymentSuccessDialog = ({
   amount,
   amountUsd,
   approval,
@@ -35,8 +35,8 @@ export const SuccessCryptoPaymentDialog = ({
   isLoading = false,
   onClose,
   ...dialogProps
-}: ISuccessCryptoPaymentDialogProps) => {
-  const { classes } = useSuccessCryptoPaymentDialogStyles();
+}: ICryptoPaymentSuccessDialogProps) => {
+  const { classes } = useCryptoPaymentSuccessDialogStyles();
 
   const hasDepositTxURL = Boolean(depositTxURL);
 
@@ -53,8 +53,8 @@ export const SuccessCryptoPaymentDialog = ({
   return (
     <Dialog
       {...dialogProps}
-      onClose={onClose}
       classes={classes}
+      onClose={onClose}
       title={!isLoading && <CheckMarkImage />}
     >
       {isLoading ? (

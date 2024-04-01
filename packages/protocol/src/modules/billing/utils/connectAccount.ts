@@ -31,4 +31,6 @@ export const connectAccount = async ({
       onError?.(error);
     }
   }
+
+  return provider.currentAccount;
 };

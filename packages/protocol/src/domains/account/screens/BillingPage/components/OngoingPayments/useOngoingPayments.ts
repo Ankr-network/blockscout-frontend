@@ -46,9 +46,7 @@ export const useOngoingPayments = () => {
       return 'pending';
     }, [hasError, transaction]);
 
-  const shouldShowOngoingPayment = useMemo(() => {
-    return Boolean(approvedAmountNumber > 0);
-  }, [approvedAmountNumber]);
+  const shouldShowOngoingPayment = approvedAmountNumber > 0;
 
   return {
     txHash,

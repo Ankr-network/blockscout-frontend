@@ -1,6 +1,9 @@
 import { useCallback, useMemo } from 'react';
 
-import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
+import {
+  TConnectAccountSuccessHandler,
+  useConnectAccountHandler,
+} from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
@@ -10,6 +13,7 @@ import { IUseCryptoPaymentSummaryDialogProps } from '../types';
 interface IUseCryptoPaymentSummaryDialog
   extends IUseCryptoPaymentSummaryDialogProps {
   onConfirm: () => Promise<void>;
+  onConnectAnotherAddressSuccess: TConnectAccountSuccessHandler;
 }
 
 export const useCryptoPaymentSummaryDialog = ({
@@ -20,23 +24,31 @@ export const useCryptoPaymentSummaryDialog = ({
   network,
   totalAmount,
   onConfirm,
+  onConnectAnotherAddressSuccess,
 }: IUseCryptoPaymentSummaryDialog) => {
   const {
     isOpened,
-    onClose,
+    onClose: handleClose,
     onOpen: handleCryptoPaymentSummaryDialogOpen,
   } = useDialog();
 
   const { connectedAddress, walletIcon } = useConnectedAddress();
 
-  const { isConnecting, handleConnectAccount } = useConnectAccountHandler();
+  const { isConnecting, handleConnectAccount } = useConnectAccountHandler({
+    onSuccess: onConnectAnotherAddressSuccess,
+  });
 
   const onAnotherAddressButtonClick = handleConnectAccount;
+
+  const onClose = useCallback(() => {
+    handleClose();
+  }, [handleClose]);
 
   const onCancelButtonClick = onClose;
 
   const onConfirmButtonClick = useCallback(async () => {
     onClose();
+
     await onConfirm();
   }, [onClose, onConfirm]);
 

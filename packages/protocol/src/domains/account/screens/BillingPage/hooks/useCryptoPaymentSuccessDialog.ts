@@ -2,14 +2,14 @@ import BigNumber from 'bignumber.js';
 import { Token, getTokenAddress } from 'multirpc-sdk';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 
+import { API_ENV } from 'modules/common/utils/environment';
+import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
+import { ZERO } from 'modules/common/constants/const';
+import { getExplorerLink } from 'domains/account/screens/TopUp/components/TopUpSteps/TransactionButton/TransactionButtonUtils';
+import { useCryptoPaymentSuccessDialog as useCryptoPaymentSuccessDialogBase } from 'modules/billing/components/CryptoPaymentSuccessDialog';
 import { useGetGasPriceQuery } from 'domains/account/actions/fetchGasPrice';
 import { useGetTxDataQuery } from 'domains/account/actions/fetchTxData';
 import { useGetTxReceiptQuery } from 'domains/account/actions/fetchTxReceipt';
-import { getExplorerLink } from 'domains/account/screens/TopUp/components/TopUpSteps/TransactionButton/TransactionButtonUtils';
-import { useSuccessCryptoPaymentDialog } from 'modules/billing/components/SuccessCryptoPaymentDialog';
-import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
-import { ZERO } from 'modules/common/constants/const';
-import { API_ENV } from 'modules/common/utils/environment';
 import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
@@ -21,7 +21,7 @@ export interface IUseDetailsButtonProps {
   isOpened: boolean;
 }
 
-export const useSuccessCryptoPaymentProps = ({
+export const useCryptoPaymentSuccessDialog = ({
   amount,
   token,
   txHash,
@@ -54,9 +54,9 @@ export const useSuccessCryptoPaymentProps = ({
   const depositFeeUsd = depositFee.multipliedBy(nativeTokenPrice);
 
   const {
-    successCryptoPaymentDialogProps,
-    handleSuccessCryptoPaymentDialogOpen,
-  } = useSuccessCryptoPaymentDialog({
+    cryptoPaymentSuccessDialogProps,
+    handleCryptoPaymentSuccessDialogOpen,
+  } = useCryptoPaymentSuccessDialogBase({
     amount: depositAmount,
     amountUsd: depositAmountUsd.toNumber(),
     currency: ECurrency.ANKR,
@@ -71,12 +71,12 @@ export const useSuccessCryptoPaymentProps = ({
   });
 
   return {
+    cryptoPaymentSuccessDialogProps,
+    handleCryptoPaymentSuccessDialogOpen,
     isLoading:
       isTxDataLoading ||
       isTxReceiptLoading ||
       isNativeTokenPriceLoading ||
       isTokenPriceLoading,
-    successCryptoPaymentDialogProps,
-    handleSuccessCryptoPaymentDialogOpen,
   };
 };

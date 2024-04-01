@@ -1,8 +1,8 @@
-import { SuccessCryptoPaymentDialog } from 'modules/billing/components/SuccessCryptoPaymentDialog';
+import { CryptoPaymentSuccessDialog } from 'modules/billing/components/CryptoPaymentSuccessDialog';
 import {
   IUseDetailsButtonProps,
-  useSuccessCryptoPaymentProps,
-} from 'domains/account/screens/BillingPage/hooks/useSuccessCryptoPaymentProps';
+  useCryptoPaymentSuccessDialog,
+} from 'domains/account/screens/BillingPage/hooks/useCryptoPaymentSuccessDialog';
 
 interface IDetailsButtonContentProps
   extends Omit<IUseDetailsButtonProps, 'isOpened'> {
@@ -18,8 +18,8 @@ export const DetailsButtonContent = ({
   isOpened,
   onClose,
 }: IDetailsButtonContentProps) => {
-  const { isLoading, successCryptoPaymentDialogProps } =
-    useSuccessCryptoPaymentProps({
+  const { isLoading, cryptoPaymentSuccessDialogProps } =
+    useCryptoPaymentSuccessDialog({
       amount,
       token,
       txHash,
@@ -28,11 +28,11 @@ export const DetailsButtonContent = ({
     });
 
   return (
-    <SuccessCryptoPaymentDialog
-      {...successCryptoPaymentDialogProps}
-      open={isOpened}
-      onClose={onClose}
+    <CryptoPaymentSuccessDialog
+      {...cryptoPaymentSuccessDialogProps}
       isLoading={isLoading}
+      onClose={onClose}
+      open={isOpened}
     />
   );
 };
