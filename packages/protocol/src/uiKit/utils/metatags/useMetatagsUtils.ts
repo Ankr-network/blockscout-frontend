@@ -134,6 +134,10 @@ const renderZkevmName = (chainId: ChainID) => {
     name = `${name} Testnet`;
   }
 
+  if (chainId === ChainID.POLYGON_ZKEVM_CARDONA) {
+    name = `${name} Cardona Testnet`;
+  }
+
   return name;
 };
 

@@ -1,9 +1,9 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Spinner } from 'ui';
+import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
-import { getTheme } from 'modules/common/utils/getTheme';
+import { mainTheme } from 'modules/themes/mainTheme';
 
 import { useInitialaizeLocale } from './AppBaseUtils';
 import { CssModulesPriority } from './CssModulesPriority';
@@ -14,11 +14,10 @@ interface IAppBase {
 
 export const AppBase = ({ children }: IAppBase): JSX.Element => {
   const isInitialized = useInitialaizeLocale();
-  const theme = useMemo(() => getTheme(), []);
 
   return (
     <CssModulesPriority>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={mainTheme}>
         {!isReactSnap() && <CssBaseline />}
         {isInitialized ? <>{children}</> : <Spinner />}
       </ThemeProvider>

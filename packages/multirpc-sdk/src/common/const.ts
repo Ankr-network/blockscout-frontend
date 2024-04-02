@@ -34,7 +34,7 @@ export const STAGING_CONFIG: IConfig = {
   premiumPlanContractCreationBlockNumber: 6_708_096,
   payAsYouGoContractCreationBlockNumber: 6_895_851,
   advancedApiUrl:
-    'https://rpc.ankr.com/multichain/22f47d3ba3a58db992435834a85b79b0ab4a36666acfc6da518fb793a90b3834',
+    'https://rpc.ankr.com/multichain/f8e4e17caa0ff53dbba438d87f25bb8d29734490c488292c062cf020be629a98',
 };
 
 export const PROD_CONFIG: IConfig = {
@@ -58,7 +58,7 @@ export const PROD_CONFIG: IConfig = {
   premiumPlanContractCreationBlockNumber: 13_468_996,
   payAsYouGoContractCreationBlockNumber: 14_787_826,
   advancedApiUrl:
-    'https://rpc.ankr.com/multichain/22f47d3ba3a58db992435834a85b79b0ab4a36666acfc6da518fb793a90b3834',
+    'https://rpc.ankr.com/multichain/f8e4e17caa0ff53dbba438d87f25bb8d29734490c488292c062cf020be629a98',
 };
 
 export const DATE_MULTIPLIER = 1_000_000;

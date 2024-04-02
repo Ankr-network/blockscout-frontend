@@ -10,14 +10,18 @@ export const useChainCardStyles = makeStyles<
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    '&&': {
+      padding: theme.spacing(5),
+    },
     backgroundColor: theme.palette.background.paper,
     borderRadius: 30,
-    padding: theme.spacing(5),
     minHeight: theme.spacing(52),
     cursor: 'pointer',
     position: 'relative',
     overflow: 'hidden',
     '&:hover': {
+      backgroundColor: theme.palette.background.paper,
+      textDecoration: 'none',
       [`& .${classes.button}`]: {
         opacity: 1,
       },
@@ -40,6 +44,7 @@ export const useChainCardStyles = makeStyles<
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     position: 'relative',
+    width: '100%',
   },
   info: {
     overflow: 'hidden',
@@ -69,6 +74,9 @@ export const useChainCardStyles = makeStyles<
   icon: {
     width: 80,
     height: 80,
+  },
+  secondInfo: {
+    width: '100%',
   },
   information: {
     color: theme.palette.grey[isLightTheme(theme) ? 800 : 500],

@@ -10,10 +10,10 @@ import { useBalanceMenuStyles } from './useBalanceMenuStyles';
 
 export interface IBalanceMenuContentProps {
   currentChargingModel: IChargingModelData;
-  balance: string;
-  creditBalance?: string;
-  usdBalance: string;
-  balanceInRequests?: string;
+  balance: number;
+  creditBalance?: number;
+  usdBalance: number;
+  balanceInRequests?: number;
   isApiCreditsBalance: boolean;
 }
 

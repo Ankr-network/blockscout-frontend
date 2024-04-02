@@ -29,9 +29,9 @@ export const getPackageChargingModelData = ({
     ({ bundle }) => bundle.bundle_id === packageChargingModel.bundleId,
   );
 
-  const wholeAmountOfRequests = relatedBundle?.bundle.limits.find(
-    ({ type }) => type === BundleType.QTY,
-  )?.limit;
+  const wholeAmountOfRequests =
+    relatedBundle?.bundle.limits.find(({ type }) => type === BundleType.QTY)
+      ?.limit || 0;
 
   const usedRequestsCount = wholeAmountOfRequests
     ? wholeAmountOfRequests - balanceInRequests
@@ -52,16 +52,90 @@ export const getPackageChargingModelData = ({
 
   const chargingModelPackage: IPackageChargingModelData = {
     type: EChargingModel.Package,
-    bundleId: packageChargingModel.bundleId,
     balance: {
-      balanceInRequests: balanceInRequests.toString(),
-      balanceUsd: balanceUsd.toString(),
+      balanceInRequests,
+      balanceUsd,
     },
     progressValue: usedRequestsPercent,
 
     isExpired: usedRequestsPercent >= 100,
     progressLabel,
+
+    progressLabelData: {
+      usedCount: usedRequestsCount,
+      wholeAmountCount: wholeAmountOfRequests,
+      usedPercent: usedRequestsPercent,
+    },
   };
 
   return chargingModelPackage;
+};
+
+interface IGetPackagesDataProps {
+  packageChargingModels: MyBundleStatus[];
+  bundlePaymentPlans: BundlePaymentPlan[];
+}
+
+const aggregatePackageModelsData = (
+  result: IPackageChargingModelData,
+  current: IPackageChargingModelData,
+): IPackageChargingModelData => {
+  const { progressLabelData: resultProgressLabelData, balance: resultBalance } =
+    result;
+
+  const {
+    progressLabelData: currentProgressLabelData,
+    balance: currentBalance,
+  } = current;
+
+  const progressLabelData = {
+    usedCount:
+      resultProgressLabelData.usedCount + currentProgressLabelData.usedCount,
+    wholeAmountCount:
+      resultProgressLabelData.wholeAmountCount +
+      currentProgressLabelData.wholeAmountCount,
+    usedPercent: 0, // we are not aggregating this value here because need to summarize all usedCount and wholeAmountCount first
+  };
+
+  return {
+    type: EChargingModel.Package,
+    balance: {
+      balanceInRequests:
+        resultBalance.balanceInRequests + currentBalance.balanceInRequests,
+      balanceUsd: resultBalance.balanceUsd + currentBalance.balanceUsd,
+    },
+    progressValue: result.progressValue + current.progressValue,
+    isExpired: result.isExpired && current.isExpired,
+    progressLabelData,
+    progressLabel: '', // progressLabel is not used in this context. added here just for types compatibility
+  };
+};
+
+export const getAggregatedPackageModelsData = ({
+  packageChargingModels,
+  bundlePaymentPlans,
+}: IGetPackagesDataProps) => {
+  const mappedData = packageChargingModels.map(packageChargingModel =>
+    getPackageChargingModelData({ packageChargingModel, bundlePaymentPlans }),
+  );
+
+  const summaryPackageData = mappedData.reduce(aggregatePackageModelsData);
+
+  const summaryUsedPercent =
+    (summaryPackageData.progressLabelData.usedCount * 100) /
+    summaryPackageData.progressLabelData.wholeAmountCount;
+
+  const progressLabelData = {
+    ...summaryPackageData.progressLabelData,
+    usedPercent: summaryUsedPercent,
+  };
+
+  return {
+    ...summaryPackageData,
+    progressLabelData,
+    progressLabel: t(
+      'account.account-details.balance-widget.used-credits-label',
+      progressLabelData,
+    ),
+  };
 };

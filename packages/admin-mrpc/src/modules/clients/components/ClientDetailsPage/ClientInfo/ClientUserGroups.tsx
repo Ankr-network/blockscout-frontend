@@ -1,5 +1,5 @@
-import { Spinner } from 'ui';
 import { Paper, Typography } from '@mui/material';
+import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
 import { UserGroupsList } from 'modules/groups/actions/getUserGroups';
 import { t } from 'modules/i18n/utils/intl';
@@ -22,7 +22,7 @@ export const ClientUserGroups = ({
       {isLoadingUserGroups && (
         <>
           <br />
-          <Spinner size={40} centered={false} />
+          <Spinner size={40} />
         </>
       )}
       {!isLoadingUserGroups && userGroups?.length <= 0 && (

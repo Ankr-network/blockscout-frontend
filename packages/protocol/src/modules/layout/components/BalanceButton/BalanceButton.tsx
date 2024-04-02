@@ -8,7 +8,7 @@ import { useBalanceButtonStyles } from './useBalanceButtonStyles';
 
 export interface IBalanceButtonProps {
   isMenuOpen: boolean;
-  balance: string;
+  balance: number;
   hasStatusTransition: boolean;
   isApiCreditsBalance: boolean;
   isLoading: boolean;

@@ -16,21 +16,22 @@ export const getDealChargingModelData = ({
   bundlePaymentPlans,
 }: IGetDealDataProps) => {
   const balanceApiCredits =
-    dealChargingModel.counters?.find(
-      counter => counter.type === BundleType.COST,
-    )?.count || 0;
+    Number(
+      dealChargingModel.counters?.find(
+        counter => counter.type === BundleType.COST,
+      )?.count,
+    ) ?? 0;
 
-  const balanceUsd = Number(balanceApiCredits) / CREDITS_TO_USD_RATE;
-  const balanceInRequests =
-    Number(balanceApiCredits) / CREDITS_TO_REQUESTS_RATE;
+  const balanceUsd = balanceApiCredits / CREDITS_TO_USD_RATE;
+  const balanceInRequests = balanceApiCredits / CREDITS_TO_REQUESTS_RATE;
 
   const relatedBundle = bundlePaymentPlans?.find(
     ({ bundle }) => bundle.bundle_id === dealChargingModel.bundleId,
   );
 
-  const wholeAmountOfCredits = relatedBundle?.bundle.limits.find(
-    ({ type }) => type === BundleType.COST,
-  )?.limit;
+  const wholeAmountOfCredits =
+    relatedBundle?.bundle.limits.find(({ type }) => type === BundleType.COST)
+      ?.limit || 0;
 
   const usedRequestsCount = wholeAmountOfCredits
     ? wholeAmountOfCredits - Number(balanceApiCredits)
@@ -40,13 +41,15 @@ export const getDealChargingModelData = ({
     ? (usedRequestsCount * 100) / wholeAmountOfCredits
     : 0;
 
+  const progressData = {
+    usedCount: usedRequestsCount,
+    wholeAmountCount: wholeAmountOfCredits,
+    usedPercent: usedRequestsPercent,
+  };
+
   const progressLabel = t(
     'account.account-details.balance-widget.used-credits-label',
-    {
-      usedCount: usedRequestsCount,
-      wholeAmountCount: wholeAmountOfCredits,
-      usedPercent: usedRequestsPercent,
-    },
+    progressData,
   );
 
   const maxLabel = t('account.account-details.balance-widget.expires', {
@@ -56,10 +59,11 @@ export const getDealChargingModelData = ({
   const chargingModelDeal: IDealChargingModelData = {
     type: EChargingModel.Deal,
     balance: {
-      balanceApiCredits: balanceApiCredits.toString(),
-      balanceUsd: balanceUsd.toString(),
-      balanceInRequests: balanceInRequests.toString(),
+      balanceApiCredits,
+      balanceUsd,
+      balanceInRequests,
     },
+    progressData,
     progressValue: usedRequestsPercent,
     progressLabel,
     maxLabel,
@@ -67,4 +71,86 @@ export const getDealChargingModelData = ({
   };
 
   return chargingModelDeal;
+};
+
+const emptyDealChargingModelData: IDealChargingModelData = {
+  type: EChargingModel.Deal,
+  balance: {
+    balanceApiCredits: 0,
+    balanceUsd: 0,
+    balanceInRequests: 0,
+  },
+  progressData: {
+    usedCount: 0,
+    wholeAmountCount: 0,
+    usedPercent: 0,
+  },
+  progressValue: 0,
+  progressLabel: '',
+  maxLabel: '',
+  expires: 0,
+};
+
+const aggregateDealData = (
+  acc: IDealChargingModelData,
+  dealData: IDealChargingModelData,
+): IDealChargingModelData => {
+  const { balance, expires, progressData } = dealData;
+  const { balanceApiCredits, balanceUsd, balanceInRequests } = balance;
+  const { usedCount, wholeAmountCount } = progressData;
+
+  acc.balance.balanceApiCredits += balanceApiCredits;
+  acc.balance.balanceUsd += balanceUsd;
+  acc.balance.balanceInRequests += balanceInRequests;
+  acc.expires = Math.max(acc.expires, expires);
+  acc.progressData = {
+    usedCount: acc.progressData.usedCount + usedCount,
+    wholeAmountCount: acc.progressData.wholeAmountCount + wholeAmountCount,
+    usedPercent: 0, // this value can be calculated after aggregation
+  };
+
+  return acc;
+};
+
+export const getAggregatedDealChargingModelData = ({
+  dealChargingModels,
+  bundlePaymentPlans,
+}: {
+  dealChargingModels: MyBundleStatus[];
+  bundlePaymentPlans: BundlePaymentPlan[];
+}): IDealChargingModelData => {
+  const mappedDealData = dealChargingModels.map(dealChargingModel =>
+    getDealChargingModelData({
+      dealChargingModel,
+      bundlePaymentPlans,
+    }),
+  );
+
+  const aggregatedDealData = mappedDealData.reduce(
+    aggregateDealData,
+    emptyDealChargingModelData,
+  );
+
+  const progressValue =
+    (aggregatedDealData.progressData.usedCount * 100) /
+    aggregatedDealData.progressData.wholeAmountCount;
+
+  const progressData = {
+    ...aggregatedDealData.progressData,
+    usedPercent: progressValue,
+  };
+
+  return {
+    ...aggregatedDealData,
+    type: EChargingModel.Deal,
+    progressValue,
+    progressData,
+    progressLabel: t(
+      'account.account-details.balance-widget.used-credits-label',
+      progressData,
+    ),
+    maxLabel: t('account.account-details.balance-widget.expires', {
+      date: getDateFromUnixSeconds(aggregatedDealData.expires),
+    }),
+  };
 };

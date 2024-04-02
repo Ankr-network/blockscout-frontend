@@ -6,6 +6,7 @@ import { web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 import {
   OauthRedirectionURLState,
@@ -55,7 +56,7 @@ export const {
   endpoints: build => ({
     oauthLoginByGoogleSecretCode: build.query<LoginBySecretCodeResult, void>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (_arg, { getState }) => {
+        queryFn: async (_arg, { getState, dispatch }) => {
           const service = MultiService.getService();
           const { code, state, provider, error } = getSecreteCodeAndState();
 
@@ -73,6 +74,17 @@ export const {
               state,
               provider,
             });
+
+            dispatch(
+              NotificationActions.showNotification({
+                message: t(
+                  `user-settings.login-methods.notifications.${
+                    provider ?? OauthLoginProvider.Google
+                  }-connected`,
+                ),
+                severity: 'success',
+              }),
+            );
           } else {
             const { access_token: accessToken } = await getLoginData({
               code,

@@ -4,6 +4,7 @@ import {
   BundlePaymentPlan,
   ISubscriptionsItem,
   MyBundleStatusCounter,
+  MyBundleStatus,
   Web3Address,
 } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
@@ -30,8 +31,8 @@ import { fetchRates } from 'domains/account/actions/rate/fetchRates';
 import { fetchTokenPrice } from 'domains/account/actions/fetchTokenPrice';
 import { fetchUSDSubscriptionPrices } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
-import { getDealChargingModelData } from 'domains/account/utils/getDealChargingModelData';
-import { getPackageChargingModelData } from 'domains/account/utils/getPackageChargingModelData';
+import { getAggregatedDealChargingModelData } from 'domains/account/utils/getDealChargingModelData';
+import { getAggregatedPackageModelsData } from 'domains/account/utils/getPackageChargingModelData';
 import { isDealPlan } from 'domains/account/utils/isDealPlan';
 import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
 
@@ -393,13 +394,13 @@ export const selectFullPAYGBalance = createSelector(
 
     return {
       balanceLevel: balancePaygLevel,
-      balanceAnkr: balancePaygAnkr,
-      balanceTotal: balancePaygTotal,
-      balanceApiCredits: balancePaygTotal,
-      balanceUsd: balancePaygUsd,
-      balanceVoucher: balancePaygVoucher,
-      balanceWithoutVouchers: balancePaygWithoutVouchers,
-      balanceInRequests: balanceInRequests.toString(),
+      balanceAnkr: Number(balancePaygAnkr),
+      balanceTotal: Number(balancePaygTotal),
+      balanceApiCredits: Number(balancePaygTotal),
+      balanceUsd: Number(balancePaygUsd),
+      balanceVoucher: Number(balancePaygVoucher),
+      balanceWithoutVouchers: Number(balancePaygWithoutVouchers),
+      balanceInRequests,
     };
   },
 );
@@ -428,17 +429,9 @@ const selectDealChargingModelData = createSelector(
         );
       });
 
-      let lastExpirationDeal;
-
       if (dealChargingModels?.length > 0) {
-        lastExpirationDeal = dealChargingModels.reduce((prev, current) => {
-          return prev.expires > current.expires ? prev : current;
-        });
-      }
-
-      if (lastExpirationDeal?.counters) {
-        return getDealChargingModelData({
-          dealChargingModel: lastExpirationDeal,
+        return getAggregatedDealChargingModelData({
+          dealChargingModels,
           bundlePaymentPlans,
         });
       }
@@ -453,26 +446,27 @@ export const selectPackageChargingModelData = createSelector(
   selectBundlePaymentPlans,
   (myByndlesStatus, bundlePaymentPlans) => {
     /* Package charging model data (will be deprecated soon) */
-    const packageChargingModel = myByndlesStatus?.data?.find(bundle => {
-      const hasQtyCounter = bundle.counters.find(
-        counter => counter.type === BundleType.QTY,
-      );
+    const packageChargingModels: MyBundleStatus[] | undefined =
+      myByndlesStatus?.data?.filter(bundle => {
+        const hasQtyCounter = bundle.counters.find(
+          counter => counter.type === BundleType.QTY,
+        );
 
-      const hasCostCounter = bundle.counters.find(
-        counter => counter.type === BundleType.COST,
-      );
+        const hasCostCounter = bundle.counters.find(
+          counter => counter.type === BundleType.COST,
+        );
 
-      return hasQtyCounter && !hasCostCounter;
-    });
-
-    if (packageChargingModel) {
-      return getPackageChargingModelData({
-        packageChargingModel,
-        bundlePaymentPlans,
+        return hasQtyCounter && !hasCostCounter;
       });
+
+    if (!packageChargingModels?.length) {
+      return undefined;
     }
 
-    return undefined;
+    return getAggregatedPackageModelsData({
+      packageChargingModels,
+      bundlePaymentPlans,
+    });
   },
 );
 

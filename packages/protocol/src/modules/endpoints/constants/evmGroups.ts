@@ -17,4 +17,6 @@ export const evmGroups: ChainGroupID[] = [
   ChainGroupID.KAVA_EVM,
   ChainGroupID.AMOY,
   ChainGroupID.MUMBAI,
+  ChainGroupID.CARDONA,
+  ChainGroupID.POLYGON_TESTNET,
 ];

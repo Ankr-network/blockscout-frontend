@@ -8,9 +8,9 @@ import { useBalanceStyles } from './BalanceStyles';
 
 export interface BalanceProps {
   className?: string;
-  creditBalance?: string;
-  usdBalance: string;
-  balanceInRequests: string;
+  creditBalance?: number;
+  usdBalance: number;
+  balanceInRequests: number;
 }
 
 const creditIntlKey = `${intlRoot}.credit-balance`;
@@ -37,7 +37,7 @@ export const Balance = ({
         <Typography className={classes.usdBalance} variant="body2">
           {t(usdIntlKey, { balance: usdBalance })}
         </Typography>
-        {creditBalance && (
+        {Boolean(creditBalance) && (
           <Typography className={classes.usdBalance} variant="body2">
             {t(reqIntlKey, { balance: balanceInRequests })}
           </Typography>

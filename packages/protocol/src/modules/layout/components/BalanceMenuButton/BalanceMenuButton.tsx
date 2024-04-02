@@ -2,7 +2,7 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 
 import { BalanceButton } from '../BalanceButton';
-import { BalanceMenu } from '../BalanceMenu/BalanceMenu';
+import { BalanceMenu } from '../BalanceMenu';
 import { useBalanceMenuButton } from './useBalanceMenuButton';
 
 export const BalanceMenuButton = () => {

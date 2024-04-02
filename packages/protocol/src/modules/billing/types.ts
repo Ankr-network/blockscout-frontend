@@ -47,8 +47,8 @@ export interface IFeeDetails {
 }
 
 export interface IPackageBalance {
-  balanceUsd: string;
-  balanceInRequests: string;
+  balanceUsd: number;
+  balanceInRequests: number;
 }
 
 export interface IPackageChargingModelData {
@@ -57,16 +57,25 @@ export interface IPackageChargingModelData {
   isExpired: boolean;
   progressValue: number;
   progressLabel: string;
-  bundleId: string;
+  progressLabelData: {
+    usedCount: number;
+    wholeAmountCount: number;
+    usedPercent: number;
+  };
 }
 
 export interface IDealBalance extends IPackageBalance {
-  balanceApiCredits: string;
+  balanceApiCredits: number;
 }
 
 export interface IDealChargingModelData {
   type: EChargingModel.Deal;
   balance: IDealBalance;
+  progressData: {
+    usedCount: number;
+    wholeAmountCount: number;
+    usedPercent: number;
+  };
   progressValue: number;
   progressLabel: string;
   maxLabel: string;
@@ -75,10 +84,10 @@ export interface IDealChargingModelData {
 
 export interface IPAYGBalance extends IDealBalance {
   balanceLevel: BalanceLevel;
-  balanceAnkr: string;
-  balanceTotal: string;
-  balanceVoucher: string;
-  balanceWithoutVouchers: string;
+  balanceAnkr: number;
+  balanceTotal: number;
+  balanceVoucher: number;
+  balanceWithoutVouchers: number;
 }
 export interface IPAYGChargingModelData {
   type: EChargingModel.PAYG;

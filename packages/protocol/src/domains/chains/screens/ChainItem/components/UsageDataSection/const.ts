@@ -47,6 +47,7 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.KAVA_TENDERMINT_RPC_TESTNET]: ChainID.KAVA_TESTNET,
 
   [ChainID.STELLAR_HORIZON]: ChainID.STELLAR,
+  [ChainID.STELLAR_SOROBAN]: ChainID.STELLAR,
   [ChainID.STELLAR_TESTNET_HORIZON]: ChainID.STELLAR_TESTNET,
   [ChainID.STELLAR_TESTNET_SOROBAN]: ChainID.STELLAR_TESTNET,
 };
@@ -100,6 +101,7 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.STELLAR]: 'stellar_horizon' as ChainID,
   [ChainID.STELLAR_HORIZON]: 'stellar_horizon' as ChainID,
+  [ChainID.STELLAR_SOROBAN]: 'stellar_soroban' as ChainID,
   [ChainID.STELLAR_TESTNET_HORIZON]: 'stellar_testnet_horizon' as ChainID,
   [ChainID.STELLAR_TESTNET_SOROBAN]: 'stellar_testnet_soroban' as ChainID,
 };

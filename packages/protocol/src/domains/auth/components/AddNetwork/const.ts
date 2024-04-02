@@ -189,6 +189,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://testnet.bscscan.com'],
   },
 
+  [ChainID.BITLAYER_TESTNET]: {
+    chainId: 200810,
+    chainName: 'Bitlayer Chain Testnet',
+    nativeCurrency: {
+      name: 'BTC',
+      symbol: 'BTC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://testnet-scan.bitlayer.org'],
+  },
+
   [ChainID.BTTC]: {
     chainId: 199,
     chainName: 'BitTorrent Chain Mainnet',
@@ -535,6 +546,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://testnet-zkevm.polygonscan.com/'],
+  },
+
+  [ChainID.POLYGON_ZKEVM_CARDONA]: {
+    chainId: 2442,
+    chainName: 'Polygon zkEVM Cardona testnet',
+    nativeCurrency: {
+      name: 'Ether',
+      symbol: 'ETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://cardona-zkevm.polygonscan.com/'],
   },
 
   [ChainID.SYSCOIN]: {

@@ -112,7 +112,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.POLYGON,
       ChainID.POLYGON_MUMBAI,
       ChainID.POLYGON_ZKEVM,
-      ChainID.POLYGON_ZKEVM_TESTNET,
 
       ChainID.SYSCOIN,
 
@@ -142,6 +141,18 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.SCROLL,
     ],
+  },
+  {
+    id: ChainGroupID.CARDONA,
+    name: 'Cardona',
+    pluralName: 'Cardona',
+    chains: [ChainID.POLYGON_ZKEVM_CARDONA],
+  },
+  {
+    id: ChainGroupID.POLYGON_TESTNET,
+    name: 'Testnet',
+    pluralName: 'Testnet',
+    chains: [ChainID.POLYGON_ZKEVM_TESTNET],
   },
   {
     id: ChainGroupID.SCROLL_ALPHA,
@@ -370,6 +381,6 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.STELLAR_SOROBAN,
     name: 'Soroban',
     pluralName: 'Soroban',
-    chains: [ChainID.STELLAR_TESTNET_SOROBAN],
+    chains: [ChainID.STELLAR_SOROBAN, ChainID.STELLAR_TESTNET_SOROBAN],
   },
 ];

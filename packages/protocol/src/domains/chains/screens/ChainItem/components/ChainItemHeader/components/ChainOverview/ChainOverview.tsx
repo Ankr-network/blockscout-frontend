@@ -9,6 +9,7 @@ import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/
 import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
+import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 import { ChainDocsLink } from '../ChainDocsLink';
 import { ChainLogo } from '../ChainLogo';
@@ -48,6 +49,14 @@ export const ChainOverview = ({
     !isChainProtocolSwitchEnabled &&
     !isTronRestApi &&
     !isMetamaskButtonHidden;
+
+  useOnMount(() => {
+    const h1Tag = document.getElementById('chain-item-title');
+
+    if (h1Tag) {
+      h1Tag.innerHTML = name;
+    }
+  });
 
   return (
     <div>
