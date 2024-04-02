@@ -23,15 +23,7 @@ const getLocation = (pathname: string, chainsRoutes: string[]): string => {
     chainsRoutes.some(route => pathname.includes(route)) ||
     pathname.includes(ADVANCED_API_PATH)
   ) {
-    if (pathname === `${INDEX_PATH}eth`) {
-      location = 'chain-item-eth.';
-    } else if (pathname === `${INDEX_PATH}bsc`) {
-      location = 'chain-item-bsc.';
-    } else if (pathname === `${INDEX_PATH}fantom`) {
-      location = 'chain-item-fantom.';
-    } else {
-      location = 'chain-item.';
-    }
+    location = 'chain-item.';
   }
 
   return location;
