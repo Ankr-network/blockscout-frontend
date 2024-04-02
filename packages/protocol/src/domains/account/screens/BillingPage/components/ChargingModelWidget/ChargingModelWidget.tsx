@@ -6,14 +6,17 @@ import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { TopUpCurrency } from 'modules/common/components/UpgradePlanDialog/components/TopUpForm/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useAppSelector } from 'store/useAppSelector';
 import {
   selectAccountChargingModels,
   selectActiveChargingModel,
 } from 'domains/account/store/selectors';
-import { EChargingModel, IChargingModelData } from 'modules/billing/types';
+import {
+  EChargingModel,
+  ECurrency,
+  IChargingModelData,
+} from 'modules/billing/types';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { Balance } from './components/Balance';
@@ -125,7 +128,7 @@ export const ChargingModelWidget = ({
       </Widget>
 
       <UpgradePlanDialog
-        currency={TopUpCurrency.USD}
+        currency={ECurrency.USD}
         defaultState={ContentType.TOP_UP}
         onClose={onUpgradeDialogClose}
         open={isUpgradeDialogOpened}

@@ -1,4 +1,8 @@
+import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+
 import { TConnectAccountSuccessHandler } from 'modules/billing/hooks/useConnectAccountHandler';
+import { swapTransaction } from 'domains/account/store/accountTopUpSlice';
 
 import { useCryptoPaymentSummary } from './useCryptoPaymentSummary';
 import { useCurrency } from './useCurrency';
@@ -15,13 +19,19 @@ import { useUSDPaymentSummary } from './useUSDPaymentSummary';
 
 export interface IUsePaymentFormProps {
   onDepositSuccess: () => void;
-  onConnectAnotherAddressSuccess: TConnectAccountSuccessHandler;
 }
 
-export const usePaymentForm = ({
-  onDepositSuccess,
-  onConnectAnotherAddressSuccess,
-}: IUsePaymentFormProps) => {
+export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
+  const dispatch = useDispatch();
+
+  const onConnectAnotherAddressSuccess =
+    useCallback<TConnectAccountSuccessHandler>(
+      (from, to) => {
+        dispatch(swapTransaction({ from, to }));
+      },
+      [dispatch],
+    );
+
   const { paymentType, paymentTabsProps } = usePaymentType();
 
   const { currency, currencyTabsProps } = useCurrency({ paymentType });

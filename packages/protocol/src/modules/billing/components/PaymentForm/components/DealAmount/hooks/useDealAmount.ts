@@ -1,23 +1,32 @@
 import { t } from '@ankr.com/common';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { ECurrency, IAmount } from 'modules/billing/types';
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
+import { useLazyFetchBundlePaymentPlansQuery } from 'domains/account/actions/bundles/fetchBundlePaymentPlans';
 
 import { IDealAmountProps } from '../DealAmount';
 
 const titleFallbackKey = 'account.payment-form.deal-proposal.title';
 
 export const useDealAmount = (): IDealAmountProps => {
-  const { deal500: currentPlan, loading: isLoading } = useBundlePaymentPlans({
+  const { deal500: deal500Plan, loading: isLoading } = useBundlePaymentPlans({
     skipFetching: true,
   });
 
-  const title = currentPlan?.bundle.name ?? t(titleFallbackKey);
+  const [fetchBundles] = useLazyFetchBundlePaymentPlansQuery();
+
+  useEffect(() => {
+    if (!isLoading && !deal500Plan) {
+      fetchBundles();
+    }
+  }, [deal500Plan, isLoading, fetchBundles]);
+
+  const title = deal500Plan?.bundle.name ?? t(titleFallbackKey);
 
   const amount = useMemo<IAmount | undefined>(() => {
-    if (currentPlan) {
-      const { price } = currentPlan;
+    if (deal500Plan) {
+      const { price } = deal500Plan;
 
       return {
         currency: ECurrency.USD,
@@ -27,7 +36,7 @@ export const useDealAmount = (): IDealAmountProps => {
     }
 
     return undefined;
-  }, [currentPlan]);
+  }, [deal500Plan]);
 
   return { amount, isLoading, title };
 };

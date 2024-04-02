@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { ECurrency } from 'modules/billing/types';
 import { getRequestsByUSDAmount } from 'modules/billing/utils/getRequestsByUSDAmount';
 import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
-import { cutLetters } from 'domains/account/components/TopUp/ANKRTopUpForm/AmountField/AmountFieldUtils';
+import { cutLetters } from 'modules/billing/utils/cutletters';
 
 import { IAmountInputProps } from '../AmountInput';
 import { useInputValue } from './useInputValue';

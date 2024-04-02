@@ -1,42 +1,22 @@
-import { TabsManager } from 'uiKit/TabsManager';
-import { TopUp } from 'domains/account/components/TopUp';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
-import { useTopUpStyles } from 'domains/account/components/TopUp/TopUpStyles';
+import { PaymentForm } from 'modules/billing/components/PaymentForm';
+import { usePaymentForm } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
 
-import { useAccountDetailsTopUpTabs } from './AccountDetailsTopupUtils';
+import { useOngoingCryptoPayment } from '../../hooks/useOngoingCryptoPayment';
+import { useAccountDetailsTopUpStyles } from './useAccountDetailsTopUpStyles';
 
-interface IAccountDetailsTopUpProps {
-  className?: string;
-  hasHeader?: boolean;
-}
+export const AccountDetailsTopUp = () => {
+  const { classes } = useAccountDetailsTopUpStyles();
 
-export const AccountDetailsTopUp = ({
-  className,
-  hasHeader,
-}: IAccountDetailsTopUpProps) => {
-  const { isUserEthAddressType } = useAuth();
-  const { bundle500 } = useBundlePaymentPlans({ skipFetching: true });
-  const usdPriceId = bundle500?.price.id;
+  const { onOpen } = useOngoingCryptoPayment();
 
-  const canPayOnlyByCard = !isUserEthAddressType;
-
-  const { classes } = useTopUpStyles({ canPayOnlyByCard });
-
-  const [tabs, selectedTab] = useAccountDetailsTopUpTabs(
-    canPayOnlyByCard,
-    classes.tab,
-    usdPriceId,
-  );
+  const paymentFormProps = usePaymentForm({
+    onDepositSuccess: onOpen,
+  });
 
   return (
-    <TopUp className={className} hasHeader={hasHeader}>
-      <TabsManager
-        selectedTab={selectedTab}
-        tabs={tabs}
-        className={classes.tabs}
-        allowSingleTab={false}
-      />
-    </TopUp>
+    <PaymentForm
+      className={classes.accountTopupDialogForm}
+      {...paymentFormProps}
+    />
   );
 };

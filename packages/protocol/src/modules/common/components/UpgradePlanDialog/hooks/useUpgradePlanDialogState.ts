@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from 'react';
 
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
+import { ECurrency } from 'modules/billing/types';
 
 import { ContentType, UpgradePlanDialogType } from '../types';
-import { TopUpCurrency } from '../components/TopUpForm/types';
 import { checkContactSalesPopup } from '../utils/checkContactSalesPopup';
 import { useContentType } from './useContentType';
 import { useDialogProps } from './useDialogProps';
@@ -14,7 +14,7 @@ import { usePremiumUpgradeHandler } from './usePremiumUpgradeHandler';
 import { useUpgradePlanHandler } from './useUpgradePlanHandler';
 
 export interface UpgradePlanDialogStateParams {
-  currency?: TopUpCurrency;
+  currency?: ECurrency;
   defaultState?: ContentType;
   onClose: () => void;
   type: UpgradePlanDialogType;

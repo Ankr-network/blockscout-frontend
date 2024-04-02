@@ -1,13 +1,13 @@
 import { Dialog } from 'uiKit/Dialog';
 import { useWindowHeight } from 'hooks/useWindowHeight';
+import { ECurrency } from 'modules/billing/types';
 
 import { ContentType, UpgradePlanDialogType } from './types';
-import { TopUpCurrency } from './components/TopUpForm/types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
 import { useUpgradePlanDialogStyles } from './UpgradePlanDialogStyles';
 
 export interface UpgradePlanDialogProps {
-  currency?: TopUpCurrency;
+  currency?: ECurrency;
   defaultState?: ContentType;
   onClose: () => void;
   open: boolean;

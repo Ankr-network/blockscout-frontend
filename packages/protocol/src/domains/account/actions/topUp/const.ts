@@ -10,17 +10,4 @@ export enum TopUpStep {
 
 export const DEFAULT_ANKR_VALUE = new BigNumber(1_000);
 
-export const DEFAULT_ANKR_VALUE_STRING = DEFAULT_ANKR_VALUE.toString(10);
-
-export const ANKR_CURRENCY = 'ANKR';
-
-export const PRICING_PLANS_LINK =
-  'https://www.ankr.com/docs/build-blockchain/pricing-plans/';
-
-export const PRICING_LINK = 'https://www.ankr.com/docs/rpc-service/pricing/';
-
 export const ETH_BLOCK_TIME = 10_000;
-
-export const ANKR_MAX_DECIMALS = 2;
-
-export const ANKR_MAX_DIGITS = 15;
