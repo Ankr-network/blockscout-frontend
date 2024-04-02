@@ -41,29 +41,11 @@
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "chain-item": {
-      "title": "[{chainId} RPC] get now your instant Remote procedure call gateway!",
-      "description": "{chainId} RPC (Remote Procedure Call). Power your Web3 application with Ankr's RPC making requests quickly, securely and decentralized. Check plans available!",
-      "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Use a fast, reliable & free {chainId} public RPC endpoint",
+      "title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
+      "description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
+      "og-title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
+      "og-description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
       "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
-    },
-    "chain-item-bsc": {
-      "title": "Your Instant RPC Gateway to {chainId}",
-      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
-      "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Start calling BNB Smart Chain now with our free public RPC endpoint"
-    },
-    "chain-item-fantom": {
-      "title": "Your Instant RPC Gateway to {chainId}",
-      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
-      "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Call the Fantom chain with Ankr's free public RPC endpoint"
-    },
-    "chain-item-eth": {
-      "title": "Your Instant RPC Gateway to {chainId}",
-      "description": "Experience unrestricted access to a decentralized {chainId} RPC for developers and DeFi users.",
-      "og-title": "Build on {chainId} With Instant RPC Endpoint",
-      "og-description": "Use a decentralized and free Ethereum public RPC endpoint"
     }
   },
   "error": {

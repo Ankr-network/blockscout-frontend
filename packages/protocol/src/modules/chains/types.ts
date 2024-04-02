@@ -173,8 +173,8 @@ export enum ChainID {
   NERVOS_CKB = 'nervos_ckb',
   NERVOS_GW = 'nervos_gw',
 
-  OKX_X1 = 'okx_x1',
-  OKX_X1_TESTNET = 'okx_x1_testnet',
+  XLAYER = 'xlayer',
+  XLAYER_TESTNET = 'xlayer_testnet',
 
   OPTIMISM = 'optimism',
   OPTIMISM_SEPOLIA = 'optimism_sepolia',

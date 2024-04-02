@@ -450,15 +450,26 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://gwscan.com/'],
   },
 
-  [ChainID.OKX_X1_TESTNET]: {
-    chainId: 195,
-    chainName: 'X1 Testnet',
+  [ChainID.XLAYER]: {
+    chainId: 190,
+    chainName: 'X Layer',
     nativeCurrency: {
       name: 'OKB',
       symbol: 'OKB',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://www.okx.com/explorer/x1-test'],
+    blockExplorerUrls: ['https://www.okx.com/explorer/xlayer'],
+  },
+
+  [ChainID.XLAYER_TESTNET]: {
+    chainId: 195,
+    chainName: 'X Layer Testnet',
+    nativeCurrency: {
+      name: 'OKB',
+      symbol: 'OKB',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://www.okx.com/explorer/xlayer-test'],
   },
 
   [ChainID.OPTIMISM]: {

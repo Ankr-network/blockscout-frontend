@@ -12,12 +12,14 @@ import { useAddChainsFormStyles } from './useAddChainsFormStyles';
 export interface AddChainsFormProps {
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
+  setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectedChainPaths: ChainPath[];
 }
 
 export const AddChainsForm = ({
   selectAllSubChainPaths,
   unSelectAllSubChainPaths,
+  setIsSelectedAll,
   selectedChainPaths,
 }: AddChainsFormProps) => {
   const { classes } = useAddChainsFormStyles();
@@ -46,6 +48,7 @@ export const AddChainsForm = ({
       <ProjectChainsTable
         selectAllSubChainPaths={selectAllSubChainPaths}
         unSelectAllSubChainPaths={unSelectAllSubChainPaths}
+        setIsSelectedAll={setIsSelectedAll}
         searchContent={searchContent}
         selectedChainPaths={selectedChainPaths}
       />

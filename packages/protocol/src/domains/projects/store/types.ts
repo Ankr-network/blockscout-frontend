@@ -14,6 +14,7 @@ export enum GeneralStepFields {
 
 export enum ChainStepFields {
   projectName = 'projectName',
+  isSelectedAll = 'isSelectedAll',
   selectedMainnetIds = 'selectedMainnetIds',
   selectedTestnetIds = 'selectedTestnetIds',
   selectedDevnetIds = 'selectedDevnetIds',
@@ -56,6 +57,7 @@ export interface NewProjectType {
   };
   [NewProjectStep.Chains]?: {
     [ChainStepFields.projectName]?: string;
+    [ChainStepFields.isSelectedAll]?: boolean;
     [ChainStepFields.selectedMainnetIds]?: string[];
     [ChainStepFields.selectedTestnetIds]?: string[];
     [ChainStepFields.selectedDevnetIds]?: string[];

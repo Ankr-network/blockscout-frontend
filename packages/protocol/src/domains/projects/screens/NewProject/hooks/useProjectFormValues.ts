@@ -88,6 +88,7 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
       shouldSkipFormReset = false,
       indexOfEditingWhitelistItem = undefined,
       planName,
+      isSelectedAll = false,
       planPrice,
       selectedMainnetIds = [],
       selectedTestnetIds = [],
@@ -129,6 +130,7 @@ export const useProjectFormValues = (projectChains?: Chain[]) => {
 
   return {
     projectName,
+    isSelectedAll,
     planName,
     whitelistItems,
     whitelistDialog,

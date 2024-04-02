@@ -48,6 +48,7 @@ const getProjectValues = (project: NewProjectType) => {
     project[NewProjectStep.Whitelist]?.whitelistItems || [];
 
   const {
+    isSelectedAll = false,
     selectedMainnetIds = [],
     selectedTestnetIds = [],
     selectedDevnetIds = [],
@@ -71,6 +72,7 @@ const getProjectValues = (project: NewProjectType) => {
     userEndpointToken,
     whitelistItems,
     chainIds,
+    isSelectedAll,
   };
 };
 
@@ -97,10 +99,8 @@ export const useEnableWhitelist = () => {
 
   const { project = {}, handleResetConfig } = useProjectConfig();
 
-  const { chainIds, userEndpointToken, whitelistItems } = useMemo(
-    () => getProjectValues(project),
-    [project],
-  );
+  const { chainIds, isSelectedAll, userEndpointToken, whitelistItems } =
+    useMemo(() => getProjectValues(project), [project]);
 
   const { selectedGroupAddress: groupAddress } = useSelectedUserGroup();
 
@@ -150,7 +150,7 @@ export const useEnableWhitelist = () => {
     const response = await addBlockchainsToWhitelistRequest({
       params: {
         userEndpointToken,
-        blockchains: mappedChainIds,
+        blockchains: isSelectedAll ? [] : mappedChainIds,
         group: groupAddress,
       },
     });
@@ -166,6 +166,7 @@ export const useEnableWhitelist = () => {
     groupAddress,
     paramsForWhitelistRequests,
     userEndpointToken,
+    isSelectedAll,
     chainIds,
     addToWhitelist,
     addBlockchainsToWhitelistRequest,

@@ -7,6 +7,7 @@ import { useProjectChainsTableColumns } from './hooks/useProjectChainsTableColum
 export interface ProjectChainsTableProps {
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
+  setIsSelectedAll: (isSelectedAll: boolean) => void;
   searchContent?: string;
   selectedChainPaths: ChainPath[];
 }
@@ -14,12 +15,14 @@ export interface ProjectChainsTableProps {
 export const ProjectChainsTable = ({
   selectAllSubChainPaths,
   unSelectAllSubChainPaths,
+  setIsSelectedAll,
   searchContent,
   selectedChainPaths,
 }: ProjectChainsTableProps) => {
   const columns = useProjectChainsTableColumns({
     selectAllSubChainPaths,
     unSelectAllSubChainPaths,
+    setIsSelectedAll,
     selectedChainPaths,
   });
 

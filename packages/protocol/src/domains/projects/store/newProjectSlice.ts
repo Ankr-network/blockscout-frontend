@@ -27,6 +27,7 @@ const DEFAULT_NEW_PROJECT: NewProjectConfig = {
       userEndpointToken: '',
     },
     [NewProjectStep.Chains]: {
+      isSelectedAll: false,
       selectedMainnetIds: [],
       selectedTestnetIds: [],
       selectedDevnetIds: [],
