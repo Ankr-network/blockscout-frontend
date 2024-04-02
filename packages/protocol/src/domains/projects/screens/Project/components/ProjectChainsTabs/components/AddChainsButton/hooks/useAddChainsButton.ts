@@ -15,6 +15,7 @@ export const useAddChainsButton = () => {
     handleResetProjectChainsSelection,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
+    setIsSelectedAll,
     isAddingChainsToProject,
     selectedProjectChainsPaths,
   } = useProjectChainsPaths({ onAddChainsSuccess: handleClose });
@@ -28,6 +29,7 @@ export const useAddChainsButton = () => {
     handleAddChainsToProject,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
+    setIsSelectedAll,
     handleSidebarOpen,
     isAddingChainsToProject,
     isSidebarOpened,

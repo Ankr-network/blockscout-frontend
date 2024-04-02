@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
@@ -13,6 +13,7 @@ interface ProjectChainItemProps {
   chain: Chain;
   allChains: Chain[];
   selectedChainPaths: ChainPath[];
+  setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
 }
@@ -21,6 +22,7 @@ export const ProjectChainItemCellWrapper = ({
   chain,
   allChains,
   selectedChainPaths,
+  setIsSelectedAll,
   selectAllSubChainPaths,
   unSelectAllSubChainPaths,
 }: ProjectChainItemProps) => {
@@ -57,6 +59,14 @@ export const ProjectChainItemCellWrapper = ({
       return allChainIds.some(chainId => selectedChainIds.includes(chainId));
     });
   }, [allChains, selectedChainIds]);
+
+  useEffect(() => {
+    if (areAllChainsSelected) {
+      setIsSelectedAll(true);
+    } else {
+      setIsSelectedAll(false);
+    }
+  }, [areAllChainsSelected, setIsSelectedAll]);
 
   return (
     <ChainCell

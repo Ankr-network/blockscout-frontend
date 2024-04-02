@@ -9,12 +9,14 @@ import { ProjectChainItemCellWrapper } from '../../ProjectChainItemColumnWrapper
 
 export interface UseProjectChainsTableColumnsParams {
   selectedChainPaths: ChainPath[];
+  setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
 }
 
 export const useProjectChainsTableColumns = ({
   selectedChainPaths,
+  setIsSelectedAll,
   selectAllSubChainPaths,
   unSelectAllSubChainPaths,
 }: UseProjectChainsTableColumnsParams) =>
@@ -28,6 +30,7 @@ export const useProjectChainsTableColumns = ({
             chain={chain}
             allChains={allChains}
             selectedChainPaths={selectedChainPaths}
+            setIsSelectedAll={setIsSelectedAll}
             selectAllSubChainPaths={selectAllSubChainPaths}
             unSelectAllSubChainPaths={unSelectAllSubChainPaths}
           />
@@ -46,5 +49,10 @@ export const useProjectChainsTableColumns = ({
         maxWidth: '150px',
       },
     ],
-    [selectedChainPaths, selectAllSubChainPaths, unSelectAllSubChainPaths],
+    [
+      selectedChainPaths,
+      setIsSelectedAll,
+      selectAllSubChainPaths,
+      unSelectAllSubChainPaths,
+    ],
   );

@@ -78,6 +78,7 @@ export const useSelectedProjectChainsPaths = ({
   const { paths: projectChainsPaths } = useProjectChainsContext();
   const [selectedProjectChainsPaths, setSelectedProjectChainsPaths] =
     useState<ChainPath[]>(projectChainsPaths);
+  const [isSelectedAll, setIsSelectedAll] = useState(false);
 
   useEffect(() => {
     setSelectedProjectChainsPaths(projectChainsPaths);
@@ -102,9 +103,9 @@ export const useSelectedProjectChainsPaths = ({
   );
 
   const handleUnselectAllSubchainPaths = useCallback(
-    (pathsToSelect: ChainPath[]) => {
+    (pathsToUnselect: ChainPath[]) => {
       setSelectedProjectChainsPaths(selectedPaths =>
-        selectedPaths.filter(path => !pathsToSelect.includes(path)),
+        selectedPaths.filter(path => !pathsToUnselect.includes(path)),
       );
     },
     [],
@@ -120,6 +121,8 @@ export const useSelectedProjectChainsPaths = ({
     handleSelectProjectChainsPaths,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
+    setIsSelectedAll,
+    isSelectedAll,
     selectedProjectChainsPaths,
   };
 };

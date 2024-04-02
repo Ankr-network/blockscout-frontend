@@ -7,11 +7,13 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 
 export interface UseAddChainHandlerParams {
   onAddChainsSuccess: () => void;
+  isSelectedAll?: boolean;
   selectedProjectChainsPaths: ChainPath[];
 }
 
 export const useAddChainsToProjectHandler = ({
   onAddChainsSuccess,
+  isSelectedAll,
   selectedProjectChainsPaths,
 }: UseAddChainHandlerParams) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -27,7 +29,11 @@ export const useAddChainsToProjectHandler = ({
       const blockchains = selectedProjectChainsPaths;
 
       addBlockchains({
-        params: { blockchains, group, userEndpointToken },
+        params: {
+          blockchains: isSelectedAll ? [] : blockchains,
+          group,
+          userEndpointToken,
+        },
       }).then(onAddChainsSuccess);
     }
   }, [
@@ -36,6 +42,7 @@ export const useAddChainsToProjectHandler = ({
     onAddChainsSuccess,
     selectedProjectChainsPaths,
     userEndpointToken,
+    isSelectedAll,
   ]);
 
   return { handleAddChainsToProject, isAddingChainsToProject };
