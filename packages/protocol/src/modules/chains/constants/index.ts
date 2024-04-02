@@ -8,6 +8,5 @@ export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.TAIKO,
   ChainID.KAVA,
   ChainID.STELLAR,
-  ChainID.OKX_X1,
   ChainID.BITLAYER,
 ];
