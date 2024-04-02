@@ -22,14 +22,30 @@ export const currencyLabelsMap: Record<ECurrency, string> = {
   [ECurrency.USD]: 'account.currencies.usd',
 };
 
+type TPath = 'deal' | 'one-time' | 'recurring';
+
+const getTitleKey = (path: TPath) =>
+  `account.payment-types.${path}.payment-summary-title`;
+
+const getDescriptionKey = (path: TPath) =>
+  `account.payment-types.${path}.payment-summary-description`;
+
+const getTooltipKey = (path: TPath) => `account.payment-types.${path}.tooltip`;
+
 export const paymentTypeTitlesMap: Record<EPaymentType, string> = {
-  [EPaymentType.Deal]: 'account.payment-types.deal.title',
-  [EPaymentType.OneTime]: 'account.payment-types.one-time.title',
-  [EPaymentType.Recurring]: 'account.payment-types.recurring.title',
+  [EPaymentType.Deal]: getTitleKey('deal'),
+  [EPaymentType.OneTime]: getTitleKey('one-time'),
+  [EPaymentType.Recurring]: getTitleKey('recurring'),
+};
+
+export const paymentTypeDescriptionsMap: Record<EPaymentType, string> = {
+  [EPaymentType.Deal]: getDescriptionKey('deal'),
+  [EPaymentType.OneTime]: getDescriptionKey('one-time'),
+  [EPaymentType.Recurring]: getDescriptionKey('recurring'),
 };
 
 export const paymentTypeTooltipsMap: Record<EPaymentType, string> = {
-  [EPaymentType.Deal]: 'account.payment-types.deal.tooltip',
-  [EPaymentType.OneTime]: 'account.payment-types.one-time.tooltip',
-  [EPaymentType.Recurring]: 'account.payment-types.recurring.tooltip',
+  [EPaymentType.Deal]: getTooltipKey('deal'),
+  [EPaymentType.OneTime]: getTooltipKey('one-time'),
+  [EPaymentType.Recurring]: getTooltipKey('recurring'),
 };

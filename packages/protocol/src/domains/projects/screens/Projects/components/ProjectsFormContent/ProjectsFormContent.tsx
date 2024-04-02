@@ -10,7 +10,7 @@ import { ECurrency } from 'modules/billing/types';
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectsTable } from '../ProjectsTable';
 import { AddProjectButton } from '../AddProjectButton';
-import { UpgdareAccountDialog } from '../UpgdareAccountDialog';
+import { UpgradeAccountDialog } from '../UpgradeAccountDialog';
 import { EditProjectDialog } from '../EditProjectDialog';
 
 interface ProjectsFormContentProps {
@@ -68,7 +68,7 @@ export const ProjectsFormContent = ({
         </GuardUserGroup>
       )}
 
-      <UpgdareAccountDialog
+      <UpgradeAccountDialog
         isOpened={isUpgradeAccountDialogOpened}
         handleClickSeePlans={handleClickSeePlans}
         handleClose={onUpgradeAccountDialogClose}

@@ -5,10 +5,10 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import {
-  SwitchAccountDialog,
-  useSwitchAccountDialog,
-} from 'modules/billing/components/SwitchAccountDialog';
+// import {
+//   SwitchAccountDialog,
+//   useSwitchAccountDialog,
+// } from 'modules/billing/components/SwitchAccountDialog';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
@@ -61,7 +61,7 @@ export const DefaultLayout = ({
   const { isEnterpriseClient } = useEnterpriseClientStatus();
   const chainsRoutes = usePublicChainsRoutes();
   const { isWeb3UserWithEmailBound } = useConnectWalletDialog();
-  const { switchAccountDialogProps } = useSwitchAccountDialog();
+  // const { switchAccountDialogProps } = useSwitchAccountDialog();
 
   return (
     <div className={classes.root}>
@@ -106,7 +106,7 @@ export const DefaultLayout = ({
         <TwoFADialog />
         <NegativeBalanceTermsOfServicesDialog />
         <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
-        <SwitchAccountDialog {...switchAccountDialogProps} />
+        {/* <SwitchAccountDialog {...switchAccountDialogProps} /> */}
       </div>
     </div>
   );

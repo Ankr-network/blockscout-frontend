@@ -767,7 +767,20 @@
   "enterprise": {
     "breadcrumbs": "Enterprise",
     "forbidden": "The page is beyond your user access. Ask the support for the access you require.",
-    "disabled-endpoint-placeholder": "Not Available"
+    "disabled-endpoint-placeholder": "Not Available",
+    "time-to-upgrade-dialog": {
+      "title": "You've reached the Enterprise level",
+      "description": "Your recent payments activity tells us that Enterprise might fit you better. Contact Sales so we could offer you a more generous offer and a tailor-made solution.",
+      "list": {
+        "item-1": "Dedicated infrastructure",
+        "item-2": "Selected chains and highest rate limits",
+        "item-3": "Engineering team access (Slack, Telegram)",
+        "item-4": "Crypto payments",
+        "item-5": "Custom SLAs"
+      },
+      "button-contact": "Contact Sales",
+      "button-cancel": "Cancel"
+    }
   },
   "jwt-token": {
     "default-project-name": "Default",

@@ -417,7 +417,7 @@ export const selectPAYGChargingModelData = createSelector(
   },
 );
 
-const selectDealChargingModelData = createSelector(
+export const selectDealChargingModelData = createSelector(
   selectMyBundlesStatusState,
   selectBundlePaymentPlans,
   (myByndlesStatus, bundlePaymentPlans) => {

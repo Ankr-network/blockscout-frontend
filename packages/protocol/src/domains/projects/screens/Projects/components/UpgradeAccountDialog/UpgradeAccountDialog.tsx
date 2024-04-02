@@ -3,22 +3,22 @@ import { t, tHTML } from '@ankr.com/common';
 import { Check } from '@ankr.com/ui';
 
 import { Dialog } from 'uiKit/Dialog';
+import image from 'modules/common/assets/performance-upgrade.png';
 
-import image from './assets/performance-upgrade.png';
-import { useUpgdareAccountDialogStyles } from './useUpgdareAccountDialogStyles';
+import { useUpgradeAccountDialogStyles } from './useUpgradeAccountDialogStyles';
 
-interface IUpgdareAccountDialogProps {
+interface IUpgradeAccountDialogProps {
   isOpened: boolean;
   handleClickSeePlans: () => void;
   handleClose: () => void;
 }
 
-export const UpgdareAccountDialog = ({
+export const UpgradeAccountDialog = ({
   isOpened,
   handleClickSeePlans,
   handleClose,
-}: IUpgdareAccountDialogProps) => {
-  const { classes } = useUpgdareAccountDialogStyles();
+}: IUpgradeAccountDialogProps) => {
+  const { classes } = useUpgradeAccountDialogStyles();
 
   return (
     <Dialog

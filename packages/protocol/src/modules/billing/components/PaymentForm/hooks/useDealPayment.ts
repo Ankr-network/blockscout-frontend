@@ -1,7 +1,10 @@
 import { useCallback, useMemo } from 'react';
 
 import { ECurrency, EPaymentType, IAmount } from 'modules/billing/types';
-import { selectBundlePaymentPlans } from 'domains/account/store/selectors';
+import {
+  selectBundlePaymentPlans,
+  selectDealChargingModelData,
+} from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useLazyFetchLinkForBundlePaymentQuery } from 'domains/account/actions/bundles/fetchLinkForBundlePayment';
@@ -20,6 +23,12 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
   const bundlePlans = useAppSelector(selectBundlePaymentPlans);
 
   const { isOpened: open, onClose, onOpen } = useDialog();
+
+  const {
+    isOpened: openEnterpriseDialog,
+    onClose: onCloseEnterpriseDialog,
+    onOpen: onOpenEnterpriseDialog,
+  } = useDialog();
 
   const [fetchLink, { isFetching }] = useLazyFetchLinkForBundlePaymentQuery();
 
@@ -59,7 +68,22 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
     [amountValue, isFetching, onClose, onProceedButtonClick, open],
   );
 
-  const handlePayButtonClick = onOpen;
+  const hasActiveDeal = Boolean(useAppSelector(selectDealChargingModelData));
 
-  return { handlePayButtonClick, usdPaymentSummaryProps };
+  const handlePayButtonClick = useCallback(() => {
+    if (hasActiveDeal) {
+      onOpenEnterpriseDialog();
+    } else {
+      onOpen();
+    }
+  }, [hasActiveDeal, onOpen, onOpenEnterpriseDialog]);
+
+  return {
+    handlePayButtonClick,
+    usdPaymentSummaryProps,
+    enterpriseDialogProps: {
+      open: openEnterpriseDialog,
+      onClose: onCloseEnterpriseDialog,
+    },
+  };
 };

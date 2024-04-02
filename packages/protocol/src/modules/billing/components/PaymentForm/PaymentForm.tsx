@@ -4,6 +4,7 @@ import { t } from '@ankr.com/common';
 import { EPaymentType } from 'modules/billing/types';
 // TODO: move to the billing module
 import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
+import { IDialogProps } from 'uiKit/Dialog';
 
 import { AmountField } from './components/AmountField';
 import {
@@ -24,6 +25,7 @@ import {
 } from '../USDPaymentSummaryDialog';
 import { IUseRecurringAmountResult } from './components/RecurringAmount';
 import { usePaymentFormStyles } from './usePaymentFormStyles';
+import { TimeToUpgradeDialog } from '../TimeToUpgradeDialog';
 
 export interface IPaymentFormProps {
   className?: string;
@@ -31,6 +33,7 @@ export interface IPaymentFormProps {
   cryptoPaymentSummaryProps?: ICryptoPaymentSummaryDialogProps;
   currencyTabsProps: ICurrencyTabsProps;
   dealAmountProps: IDealAmountProps;
+  enterpriseDialogProps: IDialogProps;
   handlePayButtonClick: () => void;
   isPayButtonLoading: boolean;
   oneTimeAmountProps: IOneTimeAmountProps;
@@ -46,6 +49,7 @@ export const PaymentForm = ({
   cryptoPaymentSummaryProps,
   currencyTabsProps,
   dealAmountProps,
+  enterpriseDialogProps,
   handlePayButtonClick,
   isPayButtonLoading,
   oneTimeAmountProps,
@@ -90,6 +94,8 @@ export const PaymentForm = ({
       {cryptoPaymentDepositDialogProps && (
         <CryptoPaymentDepositDialog {...cryptoPaymentDepositDialogProps} />
       )}
+
+      <TimeToUpgradeDialog {...enterpriseDialogProps} />
     </div>
   );
 };

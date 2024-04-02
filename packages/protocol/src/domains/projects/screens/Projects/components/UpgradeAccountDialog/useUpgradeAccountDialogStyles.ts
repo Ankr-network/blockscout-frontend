@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import bg from './assets/bg.png';
 
-export const useUpgdareAccountDialogStyles = makeStyles()(theme => ({
+export const useUpgradeAccountDialogStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

@@ -71,6 +71,7 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
   const {
     handlePayButtonClick: handleDealPaymentPayButtonClick,
     usdPaymentSummaryProps: dealPaymentSummaryProps,
+    enterpriseDialogProps,
   } = useDealPayment({ amount: dealAmount });
 
   const { handlePayButtonClick, isLoading: isPayButtonLoading } =
@@ -104,6 +105,7 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
     currency,
     currencyTabsProps,
     dealAmountProps,
+    enterpriseDialogProps,
     handlePayButtonClick,
     isPayButtonLoading,
     oneTimeAmountProps,
