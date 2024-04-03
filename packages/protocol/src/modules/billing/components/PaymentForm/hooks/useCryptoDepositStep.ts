@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
-import { useDispatch } from 'react-redux';
 
 import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
@@ -13,12 +12,10 @@ import {
   IFeeDetails,
 } from 'modules/billing/types';
 import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
-import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 
 import { useCryptoPaymentDepositDialog } from '../../CryptoPaymentDepositDialog';
 
 interface ICryptoDepositStep {
-  amount: number;
   currency: ECurrency;
   approvalFeeDetails: IFeeDetails;
   depositFeeDetails: IFeeDetails;
@@ -27,18 +24,17 @@ interface ICryptoDepositStep {
 
 // eslint-disable-next-line max-lines-per-function
 export const useCryptoDepositStep = ({
-  amount: nestedAmount,
   approvalFeeDetails,
   currency,
   depositFeeDetails,
   onDepositSuccess,
 }: ICryptoDepositStep) => {
   const {
+    amountToApprove,
     approvedAmount,
     handleDeposit,
     handleFetchPublicKey,
     handleGetAllowance,
-    handleRejectAllowance: rejectTransactionAllowance,
     handleSetAmount,
     handleResetTopUpTransaction,
 
@@ -52,13 +48,10 @@ export const useCryptoDepositStep = ({
     onOpen: handleCryptoPaymentDepositDialogOpen,
   } = useDialog();
 
-  const dispatch = useDispatch();
-
-  const handleRejectAllowance = useCallback(async () => {
-    await rejectTransactionAllowance();
-    dispatch(resetTransaction);
+  const handleRejectAllowance = useCallback(() => {
+    handleResetTopUpTransaction();
     onCloseCryptoPaymentDepositDialog();
-  }, [dispatch, onCloseCryptoPaymentDepositDialog, rejectTransactionAllowance]);
+  }, [handleResetTopUpTransaction, onCloseCryptoPaymentDepositDialog]);
 
   const initialApprovalStatus = useMemo(() => {
     if (Number(approvedAmount) > 0) {
@@ -92,8 +85,8 @@ export const useCryptoDepositStep = ({
   );
 
   const amount = useMemo(
-    () => Number(approvedAmount) || nestedAmount,
-    [nestedAmount, approvedAmount],
+    () => Number(approvedAmount) || Number(amountToApprove),
+    [approvedAmount, amountToApprove],
   );
 
   const [currentApprovalStatus, setCurrentApprovalStatus] =
@@ -137,9 +130,7 @@ export const useCryptoDepositStep = ({
 
   const onGetAllowance = useCallback(
     async (isRetry?: boolean) => {
-      handleResetTopUpTransaction();
       await handleFetchPublicKey();
-      handleCryptoPaymentDepositDialogOpen();
 
       if (isRetry) {
         handleSetAmount(new BigNumber(amount));
@@ -157,14 +148,7 @@ export const useCryptoDepositStep = ({
         setCurrentStep(ECryptoDepositStep.Deposit);
       }
     },
-    [
-      handleResetTopUpTransaction,
-      handleFetchPublicKey,
-      handleCryptoPaymentDepositDialogOpen,
-      handleGetAllowance,
-      handleSetAmount,
-      amount,
-    ],
+    [handleFetchPublicKey, handleGetAllowance, handleSetAmount, amount],
   );
 
   const cryptoDepositDialogProps = useCryptoPaymentDepositDialog({
@@ -190,6 +174,5 @@ export const useCryptoDepositStep = ({
   return {
     isLoadingRate,
     cryptoDepositDialogProps,
-    onGetAllowance,
   };
 };

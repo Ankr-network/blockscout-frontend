@@ -9,6 +9,6 @@ export interface ICryptoPaymentDepositDialogProps
     IStepperProps,
     IButtonsProps,
     IDialogProps {
-  onOpen: (() => void) | undefined;
+  onOpen: () => void;
   amountUsd: number;
 }

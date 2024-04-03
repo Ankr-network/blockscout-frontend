@@ -11,6 +11,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTopupFromDifferentAddress } from 'modules/billing/components/PaymentForm/hooks/useTopupFromDifferentAddress';
+import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 
 import { accountFetchPublicKey } from '../actions/fetchPublicKey';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
@@ -36,9 +37,10 @@ const getErrorMessage = (error: any) => {
 // eslint-disable-next-line max-lines-per-function
 export const useTopUp = () => {
   const { address: personalAddress } = useAuth();
+  const { connectedAddress } = useConnectedAddress();
   const { selectedGroupAddress } = useSelectedUserGroup();
 
-  const address = selectedGroupAddress ?? personalAddress;
+  const address = selectedGroupAddress ?? connectedAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
 
@@ -95,6 +97,12 @@ export const useTopUp = () => {
     [transaction],
   );
 
+  const amountToApprove = useMemo(
+    () =>
+      new BigNumber(transaction?.amountToApprove || transaction?.amount || 0),
+    [transaction],
+  );
+
   const approvedAmount = useMemo(
     () => new BigNumber(transaction?.approvedAmount || 0),
     [transaction],
@@ -106,8 +114,8 @@ export const useTopUp = () => {
   );
 
   const handleGetAllowance = useCallback(
-    () => sendAllowance(amount),
-    [sendAllowance, amount],
+    () => sendAllowance(amountToApprove),
+    [sendAllowance, amountToApprove],
   );
 
   const handleDeposit = useCallback(() => {
@@ -212,6 +220,7 @@ export const useTopUp = () => {
 
   return {
     amount,
+    amountToApprove,
     approvedAmount,
     handleDeposit,
     handleFetchPublicKey,

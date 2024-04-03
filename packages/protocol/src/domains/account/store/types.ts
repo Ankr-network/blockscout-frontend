@@ -6,6 +6,7 @@ import { TopUpOrigin } from '../types';
 export interface ITransaction {
   allowanceTransactionHash?: string;
   amount?: BigNumber;
+  amountToApprove?: BigNumber;
   approvedAmount?: BigNumber;
   isProcessing?: boolean;
   topUpTransactionHash?: string;

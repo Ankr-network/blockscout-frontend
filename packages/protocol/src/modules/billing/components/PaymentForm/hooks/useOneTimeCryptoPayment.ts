@@ -42,7 +42,6 @@ export const useOneTimeCryptoPayment = ({
   );
 
   const { isLoadingRate, cryptoDepositDialogProps } = useCryptoDepositStep({
-    amount,
     approvalFeeDetails,
     currency,
     depositFeeDetails,
@@ -66,7 +65,7 @@ export const useOneTimeCryptoPayment = ({
     depositFeeDetails,
     network: ENetwork.ETH,
     onClose: onCryptoPaymentFlowClose,
-    onConfirm: cryptoDepositDialogProps.onOpen,
+    onOpenCryptoDepositDialog: cryptoDepositDialogProps.onOpen,
     onConnectAccountSuccess,
     totalAmount,
   });

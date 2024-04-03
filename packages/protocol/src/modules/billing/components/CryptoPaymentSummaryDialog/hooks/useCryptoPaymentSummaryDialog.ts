@@ -1,9 +1,13 @@
 import { Web3Address } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import BigNumber from 'bignumber.js';
 
 import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { setAmountToApprove } from 'domains/account/store/accountTopUpSlice';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
 import { IUseCryptoPaymentSummaryDialogProps } from '../types';
@@ -12,7 +16,7 @@ interface IUseCryptoPaymentSummaryDialog
   extends IUseCryptoPaymentSummaryDialogProps {
   onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
   onClose?: () => void;
-  onConfirm?: () => void;
+  onOpenCryptoDepositDialog: () => void;
 }
 
 export const useCryptoPaymentSummaryDialog = ({
@@ -22,7 +26,7 @@ export const useCryptoPaymentSummaryDialog = ({
   depositFeeDetails,
   network,
   onClose: handleCloseExternal,
-  onConfirm,
+  onOpenCryptoDepositDialog,
   onConnectAccountSuccess,
   totalAmount,
 }: IUseCryptoPaymentSummaryDialog) => {
@@ -33,6 +37,7 @@ export const useCryptoPaymentSummaryDialog = ({
   } = useDialog();
 
   const { connectedAddress, walletIcon } = useConnectedAddress();
+  const { address: personalAddress } = useAuth();
 
   const { isConnecting, handleConnectAccount } = useConnectAccountHandler({
     onSuccess: onConnectAccountSuccess,
@@ -47,13 +52,27 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onCancelButtonClick = onClose;
 
-  const onConfirmButtonClick = useCallback(async () => {
+  const dispatch = useDispatch();
+
+  const onConfirmButtonClick = useCallback(() => {
+    dispatch(
+      setAmountToApprove({
+        address: connectedAddress || personalAddress,
+        amountToApprove: new BigNumber(amount),
+      }),
+    );
+
     onClose();
 
-    if (onConfirm) {
-      onConfirm();
-    }
-  }, [onClose, onConfirm]);
+    onOpenCryptoDepositDialog();
+  }, [
+    amount,
+    connectedAddress,
+    personalAddress,
+    dispatch,
+    onClose,
+    onOpenCryptoDepositDialog,
+  ]);
 
   const cryptoPaymentSummaryDialogProps =
     useMemo<ICryptoPaymentSummaryDialogProps>(() => {
