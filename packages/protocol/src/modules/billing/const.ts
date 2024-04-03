@@ -3,7 +3,8 @@ import { EChargingModel, ECurrency, EPaymentType } from './types';
 export const PRICES_PER_REQUEST_URL =
   'https://www.ankr.com/docs/rpc-service/pricing';
 
-export const USD_TO_REQUESTS_RATE = 10_000_000;
+export const USD_TO_API_CREDITS_RATE = 10_000_000;
+export const USD_TO_REQUESTS_RATE = 50_000;
 
 export const DEFAULT_SELECTED_RECURRING_USD_AMOUNT = 50;
 

@@ -1,4 +1,4 @@
-import { Ankr, CreditCard } from '@ankr.com/ui';
+import { CreditCard, CryptoWalletIcon } from '@ankr.com/ui';
 
 import { ECurrency } from 'modules/billing/types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -30,7 +30,7 @@ export const getCurrencyTabs = ({
     isDisabled: disabledCurrencies?.includes(ECurrency.ANKR),
     title: (isSelected: boolean, isDisabled: boolean) => (
       <CurrencyTab
-        icon={<Ankr />}
+        icon={<CryptoWalletIcon />}
         isDisabled={isDisabled}
         isSelected={isSelected}
         label={renderCurrencyLabel(ECurrency.ANKR)}
