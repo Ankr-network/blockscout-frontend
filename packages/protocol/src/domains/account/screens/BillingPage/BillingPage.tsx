@@ -5,16 +5,16 @@ import { t } from '@ankr.com/common';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { CryptoPaymentSuccessDialog } from 'modules/billing/components/CryptoPaymentSuccessDialog';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
-import { usePaymentForm } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
 import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
+import { OngoingPayments } from './components/OngoingPayments';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable';
 import { useAccountDetails } from './hooks/useAccountDetails';
 import { useOngoingCryptoPayment } from './hooks/useOngoingCryptoPayment';
-import { OngoingPayments } from './components/OngoingPayments';
+import { usePaymentForm } from './hooks/usePaymentForm';
 import { useStyles } from './useBillingPageStyles';
 
 export const BillingPage = () => {
@@ -36,11 +36,9 @@ export const BillingPage = () => {
     onOpen,
   } = useOngoingCryptoPayment();
 
-  const { classes } = useStyles();
+  const { paymentFormProps } = usePaymentForm({ onDepositSuccess: onOpen });
 
-  const paymentFormProps = usePaymentForm({
-    onDepositSuccess: onOpen,
-  });
+  const { classes } = useStyles();
 
   if (loading) {
     return <OverlaySpinner />;

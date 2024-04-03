@@ -1,8 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
-
-import { TConnectAccountSuccessHandler } from 'modules/billing/hooks/useConnectAccountHandler';
-import { swapTransaction } from 'domains/account/store/accountTopUpSlice';
+import { Web3Address } from 'multirpc-sdk';
 
 import { useCryptoPaymentSummary } from './useCryptoPaymentSummary';
 import { useCurrency } from './useCurrency';
@@ -18,20 +14,16 @@ import { useRecurringPayment } from './useRecurringPayment';
 import { useUSDPaymentSummary } from './useUSDPaymentSummary';
 
 export interface IUsePaymentFormProps {
+  onConnectAccount: (connectedAddress: Web3Address) => void;
+  onCryptoPaymentFlowClose: () => void;
   onDepositSuccess: () => void;
 }
 
-export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
-  const dispatch = useDispatch();
-
-  const onConnectAnotherAddressSuccess =
-    useCallback<TConnectAccountSuccessHandler>(
-      (from, to) => {
-        dispatch(swapTransaction({ from, to }));
-      },
-      [dispatch],
-    );
-
+export const usePaymentForm = ({
+  onConnectAccount,
+  onCryptoPaymentFlowClose,
+  onDepositSuccess,
+}: IUsePaymentFormProps) => {
   const { paymentType, paymentTabsProps } = usePaymentType();
 
   const { currency, currencyTabsProps } = useCurrency({ paymentType });
@@ -64,7 +56,8 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
   } = useOneTimeCryptoPayment({
     amount: oneTimeAmount,
     currency,
-    onConnectAnotherAddressSuccess,
+    onConnectAccount,
+    onCryptoPaymentFlowClose,
     onDepositSuccess,
   });
 

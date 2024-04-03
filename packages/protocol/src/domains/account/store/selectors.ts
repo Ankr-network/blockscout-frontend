@@ -51,7 +51,7 @@ export const selectTopUpOrigin = (state: RootState) =>
 export const selectTransaction = (
   state: RootState,
   currentAccount: string,
-): ITransaction | undefined => state.accountTopUp[currentAccount];
+): ITransaction | undefined => state.accountTopUp[currentAccount.toLowerCase()];
 
 export const selectBundlePaymentPlansState = createSelector(
   fetchBundlePaymentPlans.select(),
@@ -658,8 +658,8 @@ export const selectANKRDepositFeeLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectHasDepositTransaction = createSelector(
+export const selectHasProcessingTransaction = createSelector(
   (state: RootState, address?: Web3Address) =>
     address ? selectTransaction(state, address) : undefined,
-  transaction => Boolean(transaction),
+  transaction => Boolean(transaction && transaction.isProcessing),
 );

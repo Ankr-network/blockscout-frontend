@@ -1,9 +1,7 @@
+import { Web3Address } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
 
-import {
-  TConnectAccountSuccessHandler,
-  useConnectAccountHandler,
-} from 'modules/billing/hooks/useConnectAccountHandler';
+import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
@@ -12,8 +10,9 @@ import { IUseCryptoPaymentSummaryDialogProps } from '../types';
 
 interface IUseCryptoPaymentSummaryDialog
   extends IUseCryptoPaymentSummaryDialogProps {
+  onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
+  onClose?: () => void;
   onConfirm: () => Promise<void>;
-  onConnectAnotherAddressSuccess: TConnectAccountSuccessHandler;
 }
 
 export const useCryptoPaymentSummaryDialog = ({
@@ -22,9 +21,10 @@ export const useCryptoPaymentSummaryDialog = ({
   currency,
   depositFeeDetails,
   network,
-  totalAmount,
+  onClose: handleCloseExternal,
   onConfirm,
-  onConnectAnotherAddressSuccess,
+  onConnectAccountSuccess,
+  totalAmount,
 }: IUseCryptoPaymentSummaryDialog) => {
   const {
     isOpened,
@@ -35,14 +35,15 @@ export const useCryptoPaymentSummaryDialog = ({
   const { connectedAddress, walletIcon } = useConnectedAddress();
 
   const { isConnecting, handleConnectAccount } = useConnectAccountHandler({
-    onSuccess: onConnectAnotherAddressSuccess,
+    onSuccess: onConnectAccountSuccess,
   });
 
   const onAnotherAddressButtonClick = handleConnectAccount;
 
   const onClose = useCallback(() => {
     handleClose();
-  }, [handleClose]);
+    handleCloseExternal?.();
+  }, [handleClose, handleCloseExternal]);
 
   const onCancelButtonClick = onClose;
 

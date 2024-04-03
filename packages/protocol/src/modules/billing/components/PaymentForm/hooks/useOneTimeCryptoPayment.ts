@@ -1,24 +1,27 @@
+import { Web3Address } from 'multirpc-sdk';
+
 import { ECurrency, ENetwork } from 'modules/billing/types';
-import { TConnectAccountSuccessHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
-import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
-import { useEstimatedANKRDepositFeeDetails } from './useEstimatedANKRDepositFeeDetails';
-import { useEstimatedANKRAllowanceFeeDetails } from './useEstimatedANKRAllowanceFeeDetails';
-import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 import { useCryptoDepositStep } from './useCryptoDepositStep';
+import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
+import { useEstimatedANKRAllowanceFeeDetails } from './useEstimatedANKRAllowanceFeeDetails';
+import { useEstimatedANKRDepositFeeDetails } from './useEstimatedANKRDepositFeeDetails';
+import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 
 export interface IUseOneTimeCryptoPaymentProps {
   amount: number;
   currency: ECurrency;
-  onConnectAnotherAddressSuccess: TConnectAccountSuccessHandler;
+  onConnectAccount: (connectedAddress: Web3Address) => void;
+  onCryptoPaymentFlowClose: () => void;
   onDepositSuccess: () => void;
 }
 
 export const useOneTimeCryptoPayment = ({
   amount,
   currency,
-  onConnectAnotherAddressSuccess,
+  onConnectAccount: onConnectAccountSuccess,
+  onCryptoPaymentFlowClose,
   onDepositSuccess,
 }: IUseOneTimeCryptoPaymentProps) => {
   const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice();
@@ -41,8 +44,8 @@ export const useOneTimeCryptoPayment = ({
   const { isLoadingRate, cryptoDepositDialogProps, onGetAllowance } =
     useCryptoDepositStep({
       amount,
-      currency,
       approvalFeeDetails,
+      currency,
       depositFeeDetails,
       onDepositSuccess,
     });
@@ -63,18 +66,18 @@ export const useOneTimeCryptoPayment = ({
     currency,
     depositFeeDetails,
     network: ENetwork.ETH,
+    onClose: onCryptoPaymentFlowClose,
     onConfirm: onGetAllowance,
-    onConnectAnotherAddressSuccess,
+    onConnectAccountSuccess,
     totalAmount,
   });
 
   const handlePayButtonClick = handleCryptoPaymentSummaryDialogOpen;
 
   return {
+    cryptoPaymentDepositDialogProps: cryptoDepositDialogProps,
     cryptoPaymentSummaryProps,
     handlePayButtonClick,
     isLoading,
-
-    cryptoPaymentDepositDialogProps: cryptoDepositDialogProps,
   };
 };

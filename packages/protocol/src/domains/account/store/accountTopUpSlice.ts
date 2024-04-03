@@ -2,14 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import {
   IAccountSlice,
+  ICreateTxForDepositAddressPayload,
   ISetTransactionPayload,
-  ISwapTransactionPayload,
 } from './types';
 import { TopUpOrigin } from '../types';
 
 const initialState: IAccountSlice = {};
 
-// Need to save transaction states at local storage
 export const accountTopUpSlice = createSlice({
   name: 'account/topUp',
   initialState,
@@ -18,8 +17,10 @@ export const accountTopUpSlice = createSlice({
       state,
       action: PayloadAction<ISetTransactionPayload>,
     ) => {
-      state[action.payload.address] = {
-        ...state[action.payload.address],
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
         allowanceTransactionHash: action.payload.allowanceTransactionHash,
       };
     },
@@ -30,14 +31,18 @@ export const accountTopUpSlice = createSlice({
       state,
       action: PayloadAction<ISetTransactionPayload>,
     ) => {
-      state[action.payload.address] = {
-        ...state[action.payload.address],
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
         topUpTransactionHash: action.payload.topUpTransactionHash,
       };
     },
     setAmount: (state, action: PayloadAction<ISetTransactionPayload>) => {
-      state[action.payload.address] = {
-        ...state[action.payload.address],
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
         amount: action.payload.amount,
       };
     },
@@ -45,9 +50,19 @@ export const accountTopUpSlice = createSlice({
       state,
       action: PayloadAction<ISetTransactionPayload>,
     ) => {
-      state[action.payload.address] = {
-        ...state[action.payload.address],
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
         approvedAmount: action.payload.approvedAmount,
+      };
+    },
+    setIsProcessing: (state, action: PayloadAction<ISetTransactionPayload>) => {
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
+        isProcessing: action.payload.isProcessing,
       };
     },
     resetTopUpOrigin: state => {
@@ -57,27 +72,37 @@ export const accountTopUpSlice = createSlice({
       state,
       action: PayloadAction<ISetTransactionPayload>,
     ) => {
-      state.topUpOrigin = undefined;
-      state[action.payload.address] = {};
-    },
-    swapTransaction: (
-      state,
-      { payload: { from, to } }: PayloadAction<ISwapTransactionPayload>,
-    ) => {
-      const fromTx = state[from];
+      const address = action.payload.address.toLowerCase();
 
-      state[to] = fromTx;
+      state.topUpOrigin = undefined;
+      state[address] = {};
+    },
+    createDepositTxState: (
+      state,
+      action: PayloadAction<ICreateTxForDepositAddressPayload>,
+    ) => {
+      const {
+        payload: { authAddress, depositAddress },
+      } = action;
+
+      const authAddressTx = state[authAddress.toLowerCase()];
+
+      state[depositAddress.toLowerCase()] = {
+        ...authAddressTx,
+        isProcessing: true,
+      };
     },
   },
 });
 
 export const {
+  createDepositTxState,
   resetTopUpOrigin,
   resetTransaction,
   setAllowanceTransaction,
   setAmount,
   setApprovedAmount,
+  setIsProcessing,
   setTopUpOrigin,
   setTopUpTransaction,
-  swapTransaction,
 } = accountTopUpSlice.actions;

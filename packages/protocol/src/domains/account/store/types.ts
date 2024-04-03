@@ -7,6 +7,7 @@ export interface ITransaction {
   allowanceTransactionHash?: string;
   amount?: BigNumber;
   approvedAmount?: BigNumber;
+  isProcessing?: boolean;
   topUpTransactionHash?: string;
 }
 
@@ -20,7 +21,7 @@ export interface ISetTransactionPayload extends ITransaction {
   address: Address;
 }
 
-export interface ISwapTransactionPayload {
-  from: Web3Address;
-  to: Web3Address;
+export interface ICreateTxForDepositAddressPayload {
+  authAddress: Web3Address;
+  depositAddress: Web3Address;
 }

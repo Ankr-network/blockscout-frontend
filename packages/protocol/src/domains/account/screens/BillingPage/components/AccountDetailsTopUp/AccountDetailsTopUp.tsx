@@ -1,17 +1,15 @@
 import { PaymentForm } from 'modules/billing/components/PaymentForm';
-import { usePaymentForm } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
 
-import { useOngoingCryptoPayment } from '../../hooks/useOngoingCryptoPayment';
 import { useAccountDetailsTopUpStyles } from './useAccountDetailsTopUpStyles';
+import { useOngoingCryptoPayment } from '../../hooks/useOngoingCryptoPayment';
+import { usePaymentForm } from '../../hooks/usePaymentForm';
 
 export const AccountDetailsTopUp = () => {
   const { classes } = useAccountDetailsTopUpStyles();
 
-  const { onOpen } = useOngoingCryptoPayment();
+  const { onOpen: onDepositSuccess } = useOngoingCryptoPayment();
 
-  const paymentFormProps = usePaymentForm({
-    onDepositSuccess: onOpen,
-  });
+  const { paymentFormProps } = usePaymentForm({ onDepositSuccess });
 
   return (
     <PaymentForm

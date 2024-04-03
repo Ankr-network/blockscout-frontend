@@ -26,8 +26,8 @@ interface ICryptoDepositStep {
 // eslint-disable-next-line max-lines-per-function
 export const useCryptoDepositStep = ({
   amount: nestedAmount,
-  currency,
   approvalFeeDetails,
+  currency,
   depositFeeDetails,
   onDepositSuccess,
 }: ICryptoDepositStep) => {

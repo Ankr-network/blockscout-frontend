@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
-import { selectHasDepositTransaction } from 'domains/account/store/selectors';
+import { selectHasProcessingTransaction } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
@@ -12,14 +12,17 @@ import { ISwitchAccountDialogProps } from '../SwitchAccountDialog';
 export const useSwitchAccountDialog = () => {
   const { connectedAddress: depositAddress } = useConnectedAddress();
 
-  const { address: authAddress, walletMeta } = useAuth();
+  const { address: authAddress, walletMeta, hasWeb3Connection } = useAuth();
 
   const isDepositAddressDifferent =
     depositAddress?.toLowerCase() !== authAddress.toLowerCase();
 
-  const hasDepositTransaction = useAppSelector(state =>
-    selectHasDepositTransaction(state, depositAddress),
+  const hasProcessingTransaction = useAppSelector(state =>
+    selectHasProcessingTransaction(state, depositAddress),
   );
+
+  const shouldOpenDialog =
+    hasWeb3Connection && !hasProcessingTransaction && isDepositAddressDifferent;
 
   const {
     isOpened: open,
@@ -54,7 +57,7 @@ export const useSwitchAccountDialog = () => {
   );
 
   useEffect(() => {
-    if (!hasDepositTransaction && isDepositAddressDifferent) {
+    if (shouldOpenDialog) {
       handleOpenSwitchAccountDialog();
     } else {
       handleCloseSwitchAccountDialog();
@@ -62,8 +65,7 @@ export const useSwitchAccountDialog = () => {
   }, [
     handleCloseSwitchAccountDialog,
     handleOpenSwitchAccountDialog,
-    hasDepositTransaction,
-    isDepositAddressDifferent,
+    shouldOpenDialog,
   ]);
 
   return { handleOpenSwitchAccountDialog, switchAccountDialogProps };
