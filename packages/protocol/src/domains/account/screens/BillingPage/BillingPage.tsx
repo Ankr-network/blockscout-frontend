@@ -36,7 +36,9 @@ export const BillingPage = () => {
     onOpen,
   } = useOngoingCryptoPayment();
 
-  const { paymentFormProps } = usePaymentForm({ onDepositSuccess: onOpen });
+  const { paymentFormProps } = usePaymentForm({
+    onDepositSuccess: onOpen,
+  });
 
   const { classes } = useStyles();
 

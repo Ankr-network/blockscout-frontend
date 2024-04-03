@@ -2,6 +2,7 @@ import { Web3Address } from 'multirpc-sdk';
 
 import { ECurrency, ENetwork } from 'modules/billing/types';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 
 import { useCryptoDepositStep } from './useCryptoDepositStep';
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
@@ -70,7 +71,11 @@ export const useOneTimeCryptoPayment = ({
     totalAmount,
   });
 
-  const handlePayButtonClick = handleCryptoPaymentSummaryDialogOpen;
+  const transaction = useSelectTopUpTransaction();
+
+  const handlePayButtonClick = transaction
+    ? cryptoDepositDialogProps.onOpen // if user has ongoing transaction, open crypto deposit dialog on "pay" button click
+    : handleCryptoPaymentSummaryDialogOpen;
 
   return {
     cryptoPaymentDepositDialogProps: cryptoDepositDialogProps,

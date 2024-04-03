@@ -40,6 +40,7 @@ export const useTopUp = () => {
   const { connectedAddress } = useConnectedAddress();
   const { selectedGroupAddress } = useSelectedUserGroup();
 
+  // TODO: pay attention to address selection in scope of tasks https://ankrnetwork.atlassian.net/browse/MRPC-4655 and https://ankrnetwork.atlassian.net/browse/MRPC-4663
   const address = selectedGroupAddress ?? connectedAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
