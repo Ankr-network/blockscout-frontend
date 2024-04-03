@@ -93,11 +93,15 @@ export const useCryptoPaymentDepositDialog = ({
     };
 
     const onConfirmButtonClick = () => {
-      if (approvalError) {
-        onGetAllowance(true);
-      } else {
-        onDeposit();
+      if (currentApprovalStatus === ECryptoDepositStepStatus.Confirmation) {
+        return onGetAllowance();
       }
+
+      if (approvalError) {
+        return onGetAllowance(true);
+      }
+
+      return onDeposit();
     };
 
     return {

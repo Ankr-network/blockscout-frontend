@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
+import { useDispatch } from 'react-redux';
 
 import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
@@ -12,6 +13,7 @@ import {
   IFeeDetails,
 } from 'modules/billing/types';
 import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
+import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 
 import { useCryptoPaymentDepositDialog } from '../../CryptoPaymentDepositDialog';
 
@@ -36,13 +38,27 @@ export const useCryptoDepositStep = ({
     handleDeposit,
     handleFetchPublicKey,
     handleGetAllowance,
-    handleRejectAllowance,
+    handleRejectAllowance: rejectTransactionAllowance,
     handleSetAmount,
     handleResetTopUpTransaction,
 
     sendAllowanceErrorMessage,
     depositErrorMessage,
   } = useTopUp();
+
+  const {
+    isOpened: isOpenedCryptoPaymentDepositDialog,
+    onClose: onCloseCryptoPaymentDepositDialog,
+    onOpen: handleCryptoPaymentDepositDialogOpen,
+  } = useDialog();
+
+  const dispatch = useDispatch();
+
+  const handleRejectAllowance = useCallback(async () => {
+    await rejectTransactionAllowance();
+    dispatch(resetTransaction);
+    onCloseCryptoPaymentDepositDialog();
+  }, [dispatch, onCloseCryptoPaymentDepositDialog, rejectTransactionAllowance]);
 
   const initialApprovalStatus = useMemo(() => {
     if (Number(approvedAmount) > 0) {
@@ -98,12 +114,6 @@ export const useCryptoDepositStep = ({
       setCurrentDepositStatus(undefined);
     }
   }, [initialStep, amount, handleSetAmount]);
-
-  const {
-    isOpened: isOpenedCryptoPaymentDepositDialog,
-    onClose: onCloseCryptoPaymentDepositDialog,
-    onOpen: handleCryptoPaymentDepositDialogOpen,
-  } = useDialog();
 
   const onDeposit = useCallback(async () => {
     setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);

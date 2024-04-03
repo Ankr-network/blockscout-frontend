@@ -10,6 +10,7 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useTopupFromDifferentAddress } from 'modules/billing/components/PaymentForm/hooks/useTopupFromDifferentAddress';
 
 import { accountFetchPublicKey } from '../actions/fetchPublicKey';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
@@ -40,6 +41,8 @@ export const useTopUp = () => {
   const address = selectedGroupAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
+
+  const { isDepositAddressDifferent } = useTopupFromDifferentAddress();
 
   const [
     deposit,
@@ -108,20 +111,32 @@ export const useTopUp = () => {
   );
 
   const handleDeposit = useCallback(() => {
-    const amountToDeposit = approvedAmount || amount;
-
     if (selectedGroupAddress) {
       return depositForUser({
-        amount: amountToDeposit,
+        amount: approvedAmount,
         targetAddress: selectedGroupAddress,
       });
     }
 
-    return deposit(amountToDeposit);
-  }, [selectedGroupAddress, depositForUser, amount, approvedAmount, deposit]);
+    if (isDepositAddressDifferent) {
+      return depositForUser({
+        amount: approvedAmount,
+        targetAddress: personalAddress,
+      });
+    }
+
+    return deposit(approvedAmount);
+  }, [
+    approvedAmount,
+    selectedGroupAddress,
+    isDepositAddressDifferent,
+    deposit,
+    depositForUser,
+    personalAddress,
+  ]);
 
   const handleResetDeposit = useCallback(() => {
-    if (selectedGroupAddress) {
+    if (selectedGroupAddress || isDepositAddressDifferent) {
       depositForUserReset();
     } else {
       depositReset();
@@ -129,6 +144,7 @@ export const useTopUp = () => {
 
     waitTransactionConfirmingReset();
   }, [
+    isDepositAddressDifferent,
     depositForUserReset,
     depositReset,
     selectedGroupAddress,

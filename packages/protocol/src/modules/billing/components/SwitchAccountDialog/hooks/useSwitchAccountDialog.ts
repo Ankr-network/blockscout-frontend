@@ -2,20 +2,18 @@ import { useEffect, useMemo } from 'react';
 
 import { selectHasProcessingTransaction } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useTopupFromDifferentAddress } from 'modules/billing/components/PaymentForm/hooks/useTopupFromDifferentAddress';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { ISwitchAccountDialogProps } from '../SwitchAccountDialog';
 
 export const useSwitchAccountDialog = () => {
-  const { connectedAddress: depositAddress } = useConnectedAddress();
+  const { depositAddress, isDepositAddressDifferent } =
+    useTopupFromDifferentAddress();
 
   const { address: authAddress, walletMeta, hasWeb3Connection } = useAuth();
-
-  const isDepositAddressDifferent =
-    depositAddress?.toLowerCase() !== authAddress.toLowerCase();
 
   const hasProcessingTransaction = useAppSelector(state =>
     selectHasProcessingTransaction(state, depositAddress),
@@ -68,5 +66,8 @@ export const useSwitchAccountDialog = () => {
     shouldOpenDialog,
   ]);
 
-  return { handleOpenSwitchAccountDialog, switchAccountDialogProps };
+  return {
+    handleOpenSwitchAccountDialog,
+    switchAccountDialogProps,
+  };
 };

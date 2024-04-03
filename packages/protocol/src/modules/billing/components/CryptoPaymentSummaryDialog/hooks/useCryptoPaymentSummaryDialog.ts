@@ -12,7 +12,7 @@ interface IUseCryptoPaymentSummaryDialog
   extends IUseCryptoPaymentSummaryDialogProps {
   onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
   onClose?: () => void;
-  onConfirm: () => Promise<void>;
+  onConfirm?: () => void;
 }
 
 export const useCryptoPaymentSummaryDialog = ({
@@ -50,7 +50,9 @@ export const useCryptoPaymentSummaryDialog = ({
   const onConfirmButtonClick = useCallback(async () => {
     onClose();
 
-    await onConfirm();
+    if (onConfirm) {
+      onConfirm();
+    }
   }, [onClose, onConfirm]);
 
   const cryptoPaymentSummaryDialogProps =

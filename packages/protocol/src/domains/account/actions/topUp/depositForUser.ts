@@ -6,6 +6,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
+import { MultiService } from 'modules/api/MultiService';
 
 import { accountFetchPublicKey } from '../fetchPublicKey';
 
@@ -50,12 +51,23 @@ export const {
         { targetAddress },
         { dispatch, queryFulfilled },
       ) => {
+        let address = targetAddress; // should be a group address for group account top-up
+
         const { data: depositResponse } = await queryFulfilled;
+
+        const service = MultiService.getWeb3Service();
+
+        if (service) {
+          const provider = service.getKeyWriteProvider();
+          const { currentAccount: currentAccountAddress } = provider;
+
+          address = currentAccountAddress;
+        }
 
         if (depositResponse?.transactionHash) {
           dispatch(
             setTopUpTransaction({
-              address: targetAddress,
+              address,
               topUpTransactionHash: depositResponse.transactionHash,
             }),
           );

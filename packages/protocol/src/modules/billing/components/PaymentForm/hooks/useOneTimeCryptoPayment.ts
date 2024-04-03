@@ -41,14 +41,13 @@ export const useOneTimeCryptoPayment = ({
     },
   );
 
-  const { isLoadingRate, cryptoDepositDialogProps, onGetAllowance } =
-    useCryptoDepositStep({
-      amount,
-      approvalFeeDetails,
-      currency,
-      depositFeeDetails,
-      onDepositSuccess,
-    });
+  const { isLoadingRate, cryptoDepositDialogProps } = useCryptoDepositStep({
+    amount,
+    approvalFeeDetails,
+    currency,
+    depositFeeDetails,
+    onDepositSuccess,
+  });
 
   const isLoading =
     isNativeTokenPriceLoading ||
@@ -67,7 +66,7 @@ export const useOneTimeCryptoPayment = ({
     depositFeeDetails,
     network: ENetwork.ETH,
     onClose: onCryptoPaymentFlowClose,
-    onConfirm: onGetAllowance,
+    onConfirm: cryptoDepositDialogProps.onOpen,
     onConnectAccountSuccess,
     totalAmount,
   });
