@@ -57,7 +57,6 @@ export const DefaultLayout = ({
   const { isEnterpriseClient } = useEnterpriseClientStatus();
   const chainsRoutes = usePublicChainsRoutes();
   const { isWeb3UserWithEmailBound } = useConnectWalletDialog();
-  // const { switchAccountDialogProps } = useSwitchAccountDialog();
 
   return (
     <div className={classes.root}>
