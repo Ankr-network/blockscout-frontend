@@ -451,7 +451,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
   },
 
   [ChainID.XLAYER]: {
-    chainId: 190,
+    chainId: 196,
     chainName: 'X Layer',
     nativeCurrency: {
       name: 'OKB',
