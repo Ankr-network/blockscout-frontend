@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import BigNumber from 'bignumber.js';
 
 import {
   ECryptoDepositStep,
@@ -8,6 +7,8 @@ import {
   ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectMyAllowanceLoading } from 'domains/account/store/selectors';
 
 import { ICryptoPaymentDepositDialogProps } from '../types';
 
@@ -15,7 +16,7 @@ interface IUseCryptoPaymentDepositDialogProps {
   amount: number;
   amountUsd: number;
   currency: ECurrency;
-  approvedAmount: BigNumber;
+  approvedAmount: number;
   approvalFeeDetails: IFeeDetails;
   currentApprovalStatus: ECryptoDepositStepStatus;
   sendAllowanceErrorMessage?: string;
@@ -50,12 +51,17 @@ export const useCryptoPaymentDepositDialog = ({
   onCloseCryptoPaymentDepositDialog,
   handleCryptoPaymentDepositDialogOpen,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
+  const isAllowanceLoading = useAppSelector(selectMyAllowanceLoading);
+
   return useMemo(() => {
     const approvalError = sendAllowanceErrorMessage;
 
     const getPendingStatus = () => {
       if (currentStep === ECryptoDepositStep.Approval) {
-        return currentApprovalStatus === ECryptoDepositStepStatus.Pending;
+        return (
+          isAllowanceLoading ||
+          currentApprovalStatus === ECryptoDepositStepStatus.Pending
+        );
       }
 
       return currentDepositStatus === ECryptoDepositStepStatus.Pending;
@@ -110,7 +116,7 @@ export const useCryptoPaymentDepositDialog = ({
       currency,
       network: ENetwork.ETH,
 
-      approvedAmount: approvedAmount.toNumber(),
+      approvedAmount,
       approvalFeeDetails,
       approvalStatus: currentApprovalStatus,
       approvalError: approvalError as string,
@@ -146,7 +152,8 @@ export const useCryptoPaymentDepositDialog = ({
     isOpenedCryptoPaymentDepositDialog,
     onCloseCryptoPaymentDepositDialog,
     handleCryptoPaymentDepositDialogOpen,
-    onGetAllowance,
+    isAllowanceLoading,
     onDeposit,
+    onGetAllowance,
   ]);
 };

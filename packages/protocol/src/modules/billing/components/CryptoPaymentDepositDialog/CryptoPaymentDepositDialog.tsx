@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';
@@ -39,6 +40,8 @@ export const CryptoPaymentDepositDialog = ({
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();
 
+  const { amountToDeposit, transactionCurrency } = useTopUp();
+
   return (
     <Dialog
       {...dialogProps}
@@ -47,7 +50,11 @@ export const CryptoPaymentDepositDialog = ({
       titleClassName={classes.title}
       hasMinimizeIcon
     >
-      <Header amount={amount} amountUsd={amountUsd} currency={currency} />
+      <Header
+        amount={Number(amountToDeposit)}
+        amountUsd={amountUsd}
+        currency={transactionCurrency || currency}
+      />
       <Stepper
         className={classes.stepper}
         activeStep={activeStep}
@@ -61,7 +68,7 @@ export const CryptoPaymentDepositDialog = ({
         approvalStatus={approvalStatus}
         approvalError={approvalError}
         className={classes.paymentDetails}
-        currency={currency}
+        currency={transactionCurrency || currency}
         depositError={depositError}
         depositFeeDetails={depositFeeDetails}
         depositStatus={depositStatus}

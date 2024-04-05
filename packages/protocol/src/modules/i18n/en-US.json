@@ -1923,7 +1923,7 @@
       "steps": {
         "approval": {
           "title": "Approval",
-          "partial-approval-alert": "Approval is in progress",
+          "partial-approval-alert": "The previous approval for {approvedAmount} doesn’t cover your deposit needs. Confirm editing your approval to {amountToDeposit}.",
           "full-approval-alert": "You've already approved the transaction {approvedAmount}"
         },
         "deposit": {

@@ -6,7 +6,10 @@ import BigNumber from 'bignumber.js';
 import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { setAmountToApprove } from 'domains/account/store/accountTopUpSlice';
+import {
+  setAmountToDeposit,
+  setTransactionCurrency,
+} from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
@@ -56,9 +59,15 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onConfirmButtonClick = useCallback(() => {
     dispatch(
-      setAmountToApprove({
+      setAmountToDeposit({
         address: connectedAddress || personalAddress,
-        amountToApprove: new BigNumber(amount),
+        amountToDeposit: new BigNumber(amount),
+      }),
+    );
+    dispatch(
+      setTransactionCurrency({
+        address: connectedAddress || personalAddress,
+        currency,
       }),
     );
 
@@ -66,10 +75,11 @@ export const useCryptoPaymentSummaryDialog = ({
 
     onOpenCryptoDepositDialog();
   }, [
-    amount,
+    dispatch,
     connectedAddress,
     personalAddress,
-    dispatch,
+    amount,
+    currency,
     onClose,
     onOpenCryptoDepositDialog,
   ]);

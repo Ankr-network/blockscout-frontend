@@ -46,7 +46,7 @@ export const accountTopUpSlice = createSlice({
         amount: action.payload.amount,
       };
     },
-    setAmountToApprove: (
+    setAmountToDeposit: (
       state,
       action: PayloadAction<ISetTransactionPayload>,
     ) => {
@@ -54,7 +54,7 @@ export const accountTopUpSlice = createSlice({
 
       state[address] = {
         ...state[address],
-        amountToApprove: action.payload.amountToApprove,
+        amountToDeposit: action.payload.amountToDeposit,
       };
     },
     setApprovedAmount: (
@@ -66,6 +66,17 @@ export const accountTopUpSlice = createSlice({
       state[address] = {
         ...state[address],
         approvedAmount: action.payload.approvedAmount,
+      };
+    },
+    setTransactionCurrency: (
+      state,
+      action: PayloadAction<ISetTransactionPayload>,
+    ) => {
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
+        currency: action.payload.currency,
       };
     },
     setIsProcessing: (state, action: PayloadAction<ISetTransactionPayload>) => {
@@ -112,8 +123,9 @@ export const {
   resetTransaction,
   setAllowanceTransaction,
   setAmount,
-  setAmountToApprove,
+  setAmountToDeposit,
   setApprovedAmount,
+  setTransactionCurrency,
   setIsProcessing,
   setTopUpOrigin,
   setTopUpTransaction,

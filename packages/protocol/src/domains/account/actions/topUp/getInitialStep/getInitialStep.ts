@@ -81,8 +81,8 @@ export const {
 
           const service = MultiService.getWeb3Service();
 
-          const depositValue = transaction?.approvedAmount
-            ? new BigNumber(transaction?.approvedAmount)
+          const depositValue = transaction?.amountToDeposit
+            ? new BigNumber(transaction?.amountToDeposit)
             : undefined;
 
           const hasDepositValue = depositValue && !depositValue?.isZero();
@@ -104,13 +104,7 @@ export const {
               }
 
               if (allowanceValue.isLessThan(formatToWei(depositValue))) {
-                dispatch(topUpResetTransactionSliceAndRedirect.initiate());
-
-                throw new Error(
-                  t('top-up-steps.errors.allowance-is-less-than-deposit', {
-                    allowance: formatFromWei(allowanceValue),
-                  }),
-                );
+                return { data: TopUpStep.start };
               }
 
               return { data: TopUpStep.deposit };

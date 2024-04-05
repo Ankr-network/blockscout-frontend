@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { formatToWei } from 'multirpc-sdk';
+import { formatFromWei, formatToWei } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -39,23 +39,28 @@ export const {
               }),
             );
 
-            /* saving approved amount for ongoing payments widget */
-            dispatch(
-              setApprovedAmount({
-                address,
-                approvedAmount: amount,
-              }),
-            );
-
             const receipt = await dispatch(
               topUpCheckAllowanceTransaction.initiate(allowanceTransactionHash),
             ).unwrap();
 
             if (receipt) {
+              // get allowance for case when user has changed amount in metamask input
+              const allowanceValue = await web3Service
+                .getContractService()
+                .getAllowanceValue();
+
               dispatch(
                 setAllowanceTransaction({
                   address,
                   allowanceTransactionHash: receipt.transactionHash,
+                }),
+              );
+
+              /* saving approved amount for ongoing payments widget */
+              dispatch(
+                setApprovedAmount({
+                  address,
+                  approvedAmount: new BigNumber(formatFromWei(allowanceValue)),
                 }),
               );
             } else {

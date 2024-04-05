@@ -1,8 +1,12 @@
 import { Web3Address } from 'multirpc-sdk';
+import { useCallback } from 'react';
 
 import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
+import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { useCryptoDepositStep } from './useCryptoDepositStep';
 import { useCryptoPaymentSuccessDialog } from '../../CryptoPaymentSuccessDialog';
@@ -42,6 +46,7 @@ export const useOneTimeCryptoPayment = ({
   );
 
   const transaction = useSelectTopUpTransaction();
+  const depositTransactionHash = transaction?.topUpTransactionHash;
 
   const {
     cryptoPaymentSuccessDialogProps,
@@ -52,10 +57,14 @@ export const useOneTimeCryptoPayment = ({
     currency,
     network: ENetwork.ETH,
     paymentType: EPaymentType.OneTime,
-    txHash: transaction?.topUpTransactionHash ?? '',
+    txHash: depositTransactionHash ?? '',
   });
 
-  const { isLoadingRate, cryptoDepositDialogProps } = useCryptoDepositStep({
+  const {
+    isLoadingRate,
+    cryptoDepositDialogProps,
+    handleCryptoPaymentDepositDialogOpen,
+  } = useCryptoDepositStep({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
@@ -79,14 +88,39 @@ export const useOneTimeCryptoPayment = ({
     depositFeeDetails,
     network: ENetwork.ETH,
     onClose: onCryptoPaymentFlowClose,
-    onOpenCryptoDepositDialog: cryptoDepositDialogProps.onOpen,
+    onOpenCryptoDepositDialog: handleCryptoPaymentDepositDialogOpen,
     onConnectAccountSuccess,
     totalAmount,
   });
 
-  const handlePayButtonClick = transaction
-    ? cryptoDepositDialogProps.onOpen // if user has ongoing transaction, open crypto deposit dialog on "pay" button click
-    : handleCryptoPaymentSummaryDialogOpen;
+  const { shouldShowOngoingPayment: hasOngoingTransaction } =
+    useOngoingPayments();
+
+  const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
+
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const handlePayButtonClick = useCallback(() => {
+    if (depositTransactionHash) {
+      return handleCryptoPaymentSuccessDialogOpen();
+    }
+
+    if (hasOngoingTransaction) {
+      return handleCryptoPaymentDepositDialogOpen();
+    }
+
+    fetchAllowance({ group });
+
+    return handleCryptoPaymentSummaryDialogOpen();
+  }, [
+    depositTransactionHash,
+    fetchAllowance,
+    group,
+    handleCryptoPaymentDepositDialogOpen,
+    handleCryptoPaymentSuccessDialogOpen,
+    handleCryptoPaymentSummaryDialogOpen,
+    hasOngoingTransaction,
+  ]);
 
   return {
     cryptoPaymentDepositDialogProps: cryptoDepositDialogProps,

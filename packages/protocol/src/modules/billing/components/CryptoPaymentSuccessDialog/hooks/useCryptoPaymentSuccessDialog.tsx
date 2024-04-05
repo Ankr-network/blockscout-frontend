@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useTxDetails } from 'domains/account/hooks/useTxDetails';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
@@ -17,9 +18,16 @@ export const useCryptoPaymentSuccessDialog = ({
 }: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
-    onClose,
+    onClose: handleCryptoPaymentSuccessDialogClose,
     onOpen: handleCryptoPaymentSuccessDialogOpen,
   } = useDialog();
+
+  const { handleResetTopUpTransaction } = useTopUp();
+
+  const onClose = useCallback(() => {
+    handleResetTopUpTransaction();
+    handleCryptoPaymentSuccessDialogClose();
+  }, [handleCryptoPaymentSuccessDialogClose, handleResetTopUpTransaction]);
 
   const {
     isLoading,

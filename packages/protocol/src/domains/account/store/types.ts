@@ -1,15 +1,18 @@
 import BigNumber from 'bignumber.js';
 import { Web3Address } from 'multirpc-sdk';
 
+import { ECurrency } from 'modules/billing/types';
+
 import { TopUpOrigin } from '../types';
 
 export interface ITransaction {
   allowanceTransactionHash?: string;
   amount?: BigNumber;
-  amountToApprove?: BigNumber;
+  amountToDeposit?: BigNumber;
   approvedAmount?: BigNumber;
   isProcessing?: boolean;
   topUpTransactionHash?: string;
+  currency?: ECurrency;
 }
 
 type Address = string;

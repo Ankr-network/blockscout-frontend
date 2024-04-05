@@ -44,6 +44,7 @@ import {
   ZERO_STRING,
 } from './const';
 import { ITransaction } from './types';
+import { fetchMyAllowance } from '../actions/fetchMyAllowance';
 import { fetchTxData } from '../actions/fetchTxData';
 import { fetchTxReceipt } from '../actions/fetchTxReceipt';
 import { fetchGasPrice } from '../actions/fetchGasPrice';
@@ -681,6 +682,28 @@ export const selectHasProcessingTransaction = createSelector(
   (state: RootState, address?: Web3Address) =>
     address ? selectTransaction(state, address) : undefined,
   transaction => Boolean(transaction && transaction.isProcessing),
+);
+
+export const selectMyAllowanceState = createSelector(
+  fetchMyAllowance.select(undefined as never),
+  state => state,
+);
+
+export const selectMyAllowanceLoading = createSelector(
+  selectMyAllowanceState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectMyAllowanceValue = createSelector(
+  selectMyAllowanceState,
+  ({ data = ZERO_STRING }) => data,
+);
+
+export const selectIsEnoughAllowance = createSelector(
+  selectMyAllowanceValue,
+  selectTransaction,
+  (allowance, transaction) =>
+    Number(allowance) >= Number(transaction?.amountToDeposit),
 );
 
 export const selectTxDataState = createSelector(

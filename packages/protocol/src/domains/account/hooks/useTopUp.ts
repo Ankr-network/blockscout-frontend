@@ -98,16 +98,16 @@ export const useTopUp = () => {
     [transaction],
   );
 
-  const amountToApprove = useMemo(
-    () =>
-      new BigNumber(transaction?.amountToApprove || transaction?.amount || 0),
-    [transaction],
-  );
+  const amountToDeposit = useMemo(() => {
+    return new BigNumber(transaction?.amountToDeposit || 0);
+  }, [transaction]);
 
   const approvedAmount = useMemo(
     () => new BigNumber(transaction?.approvedAmount || 0),
     [transaction],
   );
+
+  const transactionCurrency = transaction?.currency;
 
   const handleFetchPublicKey = useCallback(
     () => fetchPublicKey(),
@@ -115,28 +115,28 @@ export const useTopUp = () => {
   );
 
   const handleGetAllowance = useCallback(
-    () => sendAllowance(amountToApprove),
-    [sendAllowance, amountToApprove],
+    () => sendAllowance(amountToDeposit),
+    [sendAllowance, amountToDeposit],
   );
 
   const handleDeposit = useCallback(() => {
     if (selectedGroupAddress) {
       return depositForUser({
-        amount: approvedAmount,
+        amount: amountToDeposit,
         targetAddress: selectedGroupAddress,
       });
     }
 
     if (isDepositAddressDifferent) {
       return depositForUser({
-        amount: approvedAmount,
+        amount: amountToDeposit,
         targetAddress: personalAddress,
       });
     }
 
-    return deposit(approvedAmount);
+    return deposit(amountToDeposit);
   }, [
-    approvedAmount,
+    amountToDeposit,
     selectedGroupAddress,
     isDepositAddressDifferent,
     deposit,
@@ -220,8 +220,9 @@ export const useTopUp = () => {
   );
 
   return {
+    transactionCurrency,
     amount,
-    amountToApprove,
+    amountToDeposit,
     approvedAmount,
     handleDeposit,
     handleFetchPublicKey,

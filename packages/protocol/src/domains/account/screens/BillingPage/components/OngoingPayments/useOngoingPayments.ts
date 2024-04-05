@@ -24,8 +24,7 @@ export const useOngoingPayments = () => {
   const approvedAmountString = transaction?.approvedAmount?.toString();
   const approvedAmountNumber = Number(transaction?.approvedAmount) || 0;
 
-  const amountToApproveString = transaction?.amountToApprove?.toString();
-  const amountToApproveNumber = Number(transaction?.amountToApprove) || 0;
+  const amountToDepositString = transaction?.amountToDeposit?.toString();
 
   const { amountUsd: approvedUsdAmount = 0 } = useUSDAmountByCryptoAmount({
     amount: approvedAmountNumber,
@@ -49,13 +48,12 @@ export const useOngoingPayments = () => {
       return 'pending';
     }, [hasError, transaction]);
 
-  const shouldShowOngoingPayment =
-    approvedAmountNumber > 0 || amountToApproveNumber > 0;
+  const shouldShowOngoingPayment = Boolean(transaction?.topUpTransactionHash);
 
   return {
     txHash,
-    amount: transaction?.approvedAmount || transaction?.amountToApprove,
-    approvedAmountString: approvedAmountString || amountToApproveString,
+    amount: transaction?.approvedAmount || transaction?.amountToDeposit,
+    approvedAmountString: approvedAmountString || amountToDepositString,
     approvedUsdAmount,
     transactionStatus,
     isLoading,
