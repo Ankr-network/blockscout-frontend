@@ -11,12 +11,24 @@ export enum RequestType {
   'BindingAccounts' = 'BindingAccounts',
 }
 
+// Endponts that must be cached by their names and params should be listed here
+// Please keep in mind that if the name of an endpoint has changed,
+// this list should also be updated
+const endpointsSerializedByParams = [
+  'fetchTxData',
+  'fetchTxReceipt',
+  'fetchGasPrice',
+];
+
 export const web3Api = createApi({
   baseQuery: fakeBaseQuery(),
   endpoints: () => ({}),
   refetchOnMountOrArgChange: true,
   // needs to cache data by endpoint name only without params
-  serializeQueryArgs: ({ endpointName }) => endpointName,
+  serializeQueryArgs: ({ endpointName, queryArgs }) =>
+    endpointsSerializedByParams.includes(endpointName)
+      ? JSON.stringify({ queryArgs }) + endpointName
+      : endpointName,
   tagTypes: [
     RequestType.MyBundles,
     RequestType.MySubscriptions,

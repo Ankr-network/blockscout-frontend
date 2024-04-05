@@ -1,13 +1,12 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { ExternalLink } from '@ankr.com/ui';
 
-import { NavLink } from 'uiKit/NavLink';
 import { CopyToClipIcon } from 'uiKit/CopyToClipIcon';
+import { NavLink } from 'uiKit/NavLink';
+import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 
 import { useStyles } from './TransactionButtonStyles';
-import { getExplorerLink } from './TransactionButtonUtils';
 
 interface ITransactionButton {
   transactionHash?: string;
@@ -29,7 +28,7 @@ export const TransactionButton = ({
         text={transactionHash}
       />
       <NavLink
-        href={getExplorerLink(transactionHash)}
+        href={getTxExplorerUrl(transactionHash)}
         className={classes.link}
         tabIndex={0}
         startIcon={<ExternalLink className={classes.icon} />}

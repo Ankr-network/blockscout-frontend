@@ -3,7 +3,6 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { CryptoPaymentSuccessDialog } from 'modules/billing/components/CryptoPaymentSuccessDialog';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
@@ -13,7 +12,6 @@ import { ExpenseChart } from './components/ExpenseChart';
 import { OngoingPayments } from './components/OngoingPayments';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable';
 import { useAccountDetails } from './hooks/useAccountDetails';
-import { useOngoingCryptoPayment } from './hooks/useOngoingCryptoPayment';
 import { usePaymentForm } from './hooks/usePaymentForm';
 import { useStyles } from './useBillingPageStyles';
 
@@ -28,17 +26,7 @@ export const BillingPage = () => {
 
   useRedirectToEnterpriseOnGroupChange();
 
-  const {
-    cryptoPaymentSuccessDialogProps,
-    isLoading,
-    isOpened,
-    onClose,
-    onOpen,
-  } = useOngoingCryptoPayment();
-
-  const { paymentFormProps } = usePaymentForm({
-    onDepositSuccess: onOpen,
-  });
+  const { paymentFormProps } = usePaymentForm();
 
   const { classes } = useStyles();
 
@@ -68,13 +56,6 @@ export const BillingPage = () => {
           <ExpenseChart />
         </Box>
       )}
-
-      <CryptoPaymentSuccessDialog
-        {...cryptoPaymentSuccessDialogProps}
-        open={isOpened}
-        onClose={onClose}
-        isLoading={isLoading}
-      />
     </Box>
   );
 };

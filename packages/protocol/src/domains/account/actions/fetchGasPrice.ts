@@ -2,17 +2,23 @@ import {
   AvailableWriteProviders,
   EthereumWeb3KeyProvider,
 } from '@ankr.com/provider';
-import BigNumber from 'bignumber.js';
 
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getProviderManager } from 'modules/api/getProviderManager';
 import { web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { ZERO } from 'modules/common/constants/const';
 
-export const { useGetGasPriceQuery } = web3Api.injectEndpoints({
+import { ZERO_STRING } from '../store/const';
+
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
+export const {
+  useFetchGasPriceQuery,
+  endpoints: { fetchGasPrice },
+} = web3Api.injectEndpoints({
   endpoints: build => ({
-    getGasPrice: build.query<BigNumber, void>({
-      queryFn: createNotifyingQueryFn<void, never, BigNumber>(async () => {
+    fetchGasPrice: build.query<string, void>({
+      queryFn: createNotifyingQueryFn(async () => {
         const provider =
           await getProviderManager().getProvider<EthereumWeb3KeyProvider>(
             AvailableWriteProviders.ethCompatible,
@@ -23,7 +29,7 @@ export const { useGetGasPriceQuery } = web3Api.injectEndpoints({
         const gasPrice = await web3.eth.getGasPrice();
 
         return {
-          data: new BigNumber(web3.utils.fromWei(gasPrice)) ?? ZERO,
+          data: web3.utils.fromWei(gasPrice) ?? ZERO_STRING,
         };
       }),
     }),

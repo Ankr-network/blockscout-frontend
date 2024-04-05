@@ -1,5 +1,3 @@
-import { Web3Address } from 'multirpc-sdk';
-
 import {
   ECurrency,
   ENetwork,
@@ -9,15 +7,9 @@ import {
 
 export interface IUseCryptoPaymentSuccessDialogProps {
   amount: number;
-  amountUsd: number;
   approval?: IFeeDetails;
   currency: ECurrency;
-  depositFee: number;
-  depositFeeUSD: number;
-  depositTxURL: string;
-  fromAddress: Web3Address;
   network: ENetwork;
   paymentType: EPaymentType;
-  toAddress: Web3Address;
-  txDate: Date;
+  txHash: string;
 }

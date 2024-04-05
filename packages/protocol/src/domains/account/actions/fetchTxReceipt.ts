@@ -1,22 +1,24 @@
 import { TransactionReceipt } from 'web3-core';
 
-import { getProviderManager } from 'modules/api/getProviderManager';
 import { API_ENV, getReadProviderId } from 'modules/common/utils/environment';
-import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getProviderManager } from 'modules/api/getProviderManager';
+import { web3Api } from 'store/queries';
 
-interface IGetTxReceiptProps {
+export interface IFetchTxReceiptParams {
   txHash: string;
 }
 
-export const { useGetTxReceiptQuery } = web3Api.injectEndpoints({
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
+export const {
+  endpoints: { fetchTxReceipt },
+  useFetchTxReceiptQuery,
+} = web3Api.injectEndpoints({
   endpoints: build => ({
-    getTxReceipt: build.query<TransactionReceipt, IGetTxReceiptProps>({
-      queryFn: createNotifyingQueryFn<
-        IGetTxReceiptProps,
-        never,
-        TransactionReceipt
-      >(async ({ txHash }) => {
+    fetchTxReceipt: build.query<TransactionReceipt, IFetchTxReceiptParams>({
+      queryFn: createNotifyingQueryFn(async ({ txHash }) => {
         const providerManager = getProviderManager();
         const provider = await providerManager.getETHReadProvider(
           getReadProviderId(API_ENV),
@@ -24,9 +26,7 @@ export const { useGetTxReceiptQuery } = web3Api.injectEndpoints({
 
         const data = await provider.getWeb3().eth.getTransactionReceipt(txHash);
 
-        return {
-          data,
-        };
+        return { data };
       }),
     }),
   }),

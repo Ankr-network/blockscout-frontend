@@ -1,10 +1,11 @@
 import { Web3Address } from 'multirpc-sdk';
 
-import { ECurrency, ENetwork } from 'modules/billing/types';
+import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 
 import { useCryptoDepositStep } from './useCryptoDepositStep';
+import { useCryptoPaymentSuccessDialog } from '../../CryptoPaymentSuccessDialog';
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
 import { useEstimatedANKRAllowanceFeeDetails } from './useEstimatedANKRAllowanceFeeDetails';
 import { useEstimatedANKRDepositFeeDetails } from './useEstimatedANKRDepositFeeDetails';
@@ -15,7 +16,6 @@ export interface IUseOneTimeCryptoPaymentProps {
   currency: ECurrency;
   onConnectAccount: (connectedAddress: Web3Address) => void;
   onCryptoPaymentFlowClose: () => void;
-  onDepositSuccess: () => void;
 }
 
 export const useOneTimeCryptoPayment = ({
@@ -23,7 +23,6 @@ export const useOneTimeCryptoPayment = ({
   currency,
   onConnectAccount: onConnectAccountSuccess,
   onCryptoPaymentFlowClose,
-  onDepositSuccess,
 }: IUseOneTimeCryptoPaymentProps) => {
   const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice();
 
@@ -42,11 +41,25 @@ export const useOneTimeCryptoPayment = ({
     },
   );
 
+  const transaction = useSelectTopUpTransaction();
+
+  const {
+    cryptoPaymentSuccessDialogProps,
+    handleCryptoPaymentSuccessDialogOpen,
+  } = useCryptoPaymentSuccessDialog({
+    amount,
+    approval: approvalFeeDetails,
+    currency,
+    network: ENetwork.ETH,
+    paymentType: EPaymentType.OneTime,
+    txHash: transaction?.topUpTransactionHash ?? '',
+  });
+
   const { isLoadingRate, cryptoDepositDialogProps } = useCryptoDepositStep({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
-    onDepositSuccess,
+    onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
   });
 
   const isLoading =
@@ -71,14 +84,13 @@ export const useOneTimeCryptoPayment = ({
     totalAmount,
   });
 
-  const transaction = useSelectTopUpTransaction();
-
   const handlePayButtonClick = transaction
     ? cryptoDepositDialogProps.onOpen // if user has ongoing transaction, open crypto deposit dialog on "pay" button click
     : handleCryptoPaymentSummaryDialogOpen;
 
   return {
     cryptoPaymentDepositDialogProps: cryptoDepositDialogProps,
+    cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryProps,
     handlePayButtonClick,
     isLoading,

@@ -16,13 +16,11 @@ import { useUSDPaymentSummary } from './useUSDPaymentSummary';
 export interface IUsePaymentFormProps {
   onConnectAccount: (connectedAddress: Web3Address) => void;
   onCryptoPaymentFlowClose: () => void;
-  onDepositSuccess: () => void;
 }
 
 export const usePaymentForm = ({
   onConnectAccount,
   onCryptoPaymentFlowClose,
-  onDepositSuccess,
 }: IUsePaymentFormProps) => {
   const { paymentType, paymentTabsProps } = usePaymentType();
 
@@ -50,6 +48,7 @@ export const usePaymentForm = ({
 
   const {
     cryptoPaymentDepositDialogProps,
+    cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryProps: oneTimeANKRPaymentSummaryProps,
     handlePayButtonClick: handleOneTimeANKRPaymentPayButtonClick,
     isLoading: isOneTimeCryptoPaymentLoading,
@@ -58,7 +57,6 @@ export const usePaymentForm = ({
     currency,
     onConnectAccount,
     onCryptoPaymentFlowClose,
-    onDepositSuccess,
   });
 
   const {
@@ -94,6 +92,7 @@ export const usePaymentForm = ({
 
   return {
     cryptoPaymentDepositDialogProps,
+    cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryProps,
     currency,
     currencyTabsProps,

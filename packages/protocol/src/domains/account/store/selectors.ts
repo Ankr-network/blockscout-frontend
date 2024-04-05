@@ -44,6 +44,9 @@ import {
   ZERO_STRING,
 } from './const';
 import { ITransaction } from './types';
+import { fetchTxData } from '../actions/fetchTxData';
+import { fetchTxReceipt } from '../actions/fetchTxReceipt';
+import { fetchGasPrice } from '../actions/fetchGasPrice';
 
 export const selectTopUpOrigin = (state: RootState) =>
   state.accountTopUp.topUpOrigin;
@@ -678,4 +681,65 @@ export const selectHasProcessingTransaction = createSelector(
   (state: RootState, address?: Web3Address) =>
     address ? selectTransaction(state, address) : undefined,
   transaction => Boolean(transaction && transaction.isProcessing),
+);
+
+export const selectTxDataState = createSelector(
+  (state: RootState, txHash: string) => fetchTxData.select({ txHash })(state),
+  state => state,
+);
+
+export const selectTxData = createSelector(
+  selectTxDataState,
+  ({ data }) => data,
+);
+
+export const selectTxDataFetching = createSelector(
+  selectTxDataState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectTxDataLoading = createSelector(
+  selectTxDataState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectTxReceiptState = createSelector(
+  (state: RootState, txHash: string) =>
+    fetchTxReceipt.select({ txHash })(state),
+  state => state,
+);
+
+export const selectTxReceipt = createSelector(
+  selectTxReceiptState,
+  ({ data }) => data,
+);
+
+export const selectTxReceiptFetching = createSelector(
+  selectTxReceiptState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectTxReceiptLoading = createSelector(
+  selectTxReceiptState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectGasPriceState = createSelector(
+  fetchGasPrice.select(),
+  state => state,
+);
+
+export const selectGasPrice = createSelector(
+  selectGasPriceState,
+  ({ data = ZERO_STRING }) => data,
+);
+
+export const selectGasPriceFetching = createSelector(
+  selectGasPriceState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectGasPriceLoading = createSelector(
+  selectGasPriceState,
+  ({ isLoading }) => isLoading,
 );

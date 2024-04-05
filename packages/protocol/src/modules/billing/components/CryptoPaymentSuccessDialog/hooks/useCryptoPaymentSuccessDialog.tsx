@@ -1,23 +1,19 @@
 import { useMemo } from 'react';
 
+import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useTxDetails } from 'domains/account/hooks/useTxDetails';
 
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
 
 export const useCryptoPaymentSuccessDialog = ({
   amount,
-  amountUsd,
   approval,
   currency,
-  depositFee,
-  depositFeeUSD,
-  depositTxURL,
-  fromAddress,
   network,
   paymentType,
-  toAddress,
-  txDate,
+  txHash,
 }: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
@@ -25,16 +21,30 @@ export const useCryptoPaymentSuccessDialog = ({
     onOpen: handleCryptoPaymentSuccessDialogOpen,
   } = useDialog();
 
+  const {
+    isLoading,
+    depositAmountUsd,
+    depositFee,
+    depositFeeUsd,
+    fromAddress,
+    toAddress,
+    txDate,
+  } = useTxDetails({
+    amount,
+    skipFetching: !isOpened,
+    txHash,
+  });
+
   const cryptoPaymentSuccessDialogProps =
     useMemo<ICryptoPaymentSuccessDialogProps>(
       () => ({
         amount,
-        amountUsd,
+        amountUsd: depositAmountUsd,
         approval,
         currency,
         depositFee,
-        depositFeeUSD,
-        depositTxURL,
+        depositFeeUSD: depositFeeUsd,
+        depositTxURL: getTxExplorerUrl(txHash),
         fromAddress,
         network,
         onClose,
@@ -42,22 +52,24 @@ export const useCryptoPaymentSuccessDialog = ({
         paymentType,
         toAddress,
         txDate,
+        isLoading,
       }),
       [
         amount,
-        amountUsd,
         approval,
         currency,
+        depositAmountUsd,
         depositFee,
-        depositFeeUSD,
-        depositTxURL,
+        depositFeeUsd,
         fromAddress,
+        isLoading,
         isOpened,
         network,
         onClose,
         paymentType,
         toAddress,
         txDate,
+        txHash,
       ],
     );
 

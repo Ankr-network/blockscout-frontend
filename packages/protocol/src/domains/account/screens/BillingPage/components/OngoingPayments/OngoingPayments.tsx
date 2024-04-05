@@ -1,9 +1,8 @@
-import { t } from '@ankr.com/common';
-import { Button, Paper, Typography } from '@mui/material';
 import { Ankr } from '@ankr.com/ui';
-import { Token } from 'multirpc-sdk';
+import { Button, Paper, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { DetailsButtonContainer } from '../PaymentsHistoryTable/components/DetailsButton';
+import { DetailsButton } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
 import { useOngoingPayments } from './useOngoingPayments';
 import { useOngoingPaymentsStyles } from './useOngoingPaymentsStyles';
@@ -54,13 +53,7 @@ export const OngoingPayments = ({
         <OngoingPaymentStatus status={transactionStatus} />
 
         {txHash && approvedAmountString && transactionStatus === 'success' ? (
-          <DetailsButtonContainer
-            amount={approvedAmountString}
-            // temporary const, will be changed in Billing page version 2.0
-            token={Token.ANKR}
-            txHash={txHash}
-            date={new Date()}
-          />
+          <DetailsButton amount={approvedAmountString} txHash={txHash} />
         ) : (
           <Button
             variant="outlined"

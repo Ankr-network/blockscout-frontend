@@ -12,6 +12,10 @@ import {
   ICryptoPaymentDepositDialogProps,
 } from '../CryptoPaymentDepositDialog';
 import {
+  CryptoPaymentSuccessDialog,
+  ICryptoPaymentSuccessDialogProps,
+} from '../CryptoPaymentSuccessDialog';
+import {
   CryptoPaymentSummaryDialog,
   ICryptoPaymentSummaryDialogProps,
 } from '../CryptoPaymentSummaryDialog';
@@ -24,12 +28,13 @@ import {
   USDPaymentSummaryDialog,
 } from '../USDPaymentSummaryDialog';
 import { IUseRecurringAmountResult } from './components/RecurringAmount';
-import { usePaymentFormStyles } from './usePaymentFormStyles';
 import { TimeToUpgradeDialog } from '../TimeToUpgradeDialog';
+import { usePaymentFormStyles } from './usePaymentFormStyles';
 
 export interface IPaymentFormProps {
   className?: string;
   cryptoPaymentDepositDialogProps?: ICryptoPaymentDepositDialogProps;
+  cryptoPaymentSuccessDialogProps: ICryptoPaymentSuccessDialogProps;
   cryptoPaymentSummaryProps?: ICryptoPaymentSummaryDialogProps;
   currencyTabsProps: ICurrencyTabsProps;
   dealAmountProps: IDealAmountProps;
@@ -46,6 +51,7 @@ export interface IPaymentFormProps {
 export const PaymentForm = ({
   className,
   cryptoPaymentDepositDialogProps,
+  cryptoPaymentSuccessDialogProps,
   cryptoPaymentSummaryProps,
   currencyTabsProps,
   dealAmountProps,
@@ -94,6 +100,8 @@ export const PaymentForm = ({
       {cryptoPaymentDepositDialogProps && (
         <CryptoPaymentDepositDialog {...cryptoPaymentDepositDialogProps} />
       )}
+
+      <CryptoPaymentSuccessDialog {...cryptoPaymentSuccessDialogProps} />
 
       <TimeToUpgradeDialog {...enterpriseDialogProps} />
     </div>

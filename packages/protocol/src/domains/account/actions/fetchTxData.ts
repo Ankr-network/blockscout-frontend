@@ -1,31 +1,46 @@
 import { Transaction } from 'web3-core';
 
-import { getProviderManager } from 'modules/api/getProviderManager';
 import { API_ENV, getReadProviderId } from 'modules/common/utils/environment';
-import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getProviderManager } from 'modules/api/getProviderManager';
+import { web3Api } from 'store/queries';
 
-interface IGetTxDataProps {
+export interface IFetchTxDataParams {
   txHash: string;
 }
 
-export const { useGetTxDataQuery } = web3Api.injectEndpoints({
+export interface IFetchTxDataResult {
+  timestamp?: string | number;
+  tx: Transaction;
+}
+
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
+export const {
+  endpoints: { fetchTxData },
+  useFetchTxDataQuery,
+} = web3Api.injectEndpoints({
   endpoints: build => ({
-    getTxData: build.query<Transaction, IGetTxDataProps>({
-      queryFn: createNotifyingQueryFn<IGetTxDataProps, never, Transaction>(
-        async ({ txHash }) => {
-          const providerManager = getProviderManager();
-          const provider = await providerManager.getETHReadProvider(
-            getReadProviderId(API_ENV),
-          );
+    fetchTxData: build.query<IFetchTxDataResult, IFetchTxDataParams>({
+      queryFn: createNotifyingQueryFn(async ({ txHash }) => {
+        const providerManager = getProviderManager();
+        const provider = await providerManager.getETHReadProvider(
+          getReadProviderId(API_ENV),
+        );
 
-          const data = await provider.getWeb3().eth.getTransaction(txHash);
+        const tx = await provider.getWeb3().eth.getTransaction(txHash);
 
-          return {
-            data,
-          };
-        },
-      ),
+        const { blockNumber } = tx;
+
+        const block = blockNumber
+          ? await provider.getWeb3().eth.getBlock(blockNumber)
+          : undefined;
+
+        const timestamp = block?.timestamp;
+
+        return { data: { timestamp, tx } };
+      }),
     }),
   }),
   overrideExisting: true,

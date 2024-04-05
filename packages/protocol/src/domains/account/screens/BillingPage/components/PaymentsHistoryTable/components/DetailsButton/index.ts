@@ -1,1 +1,1 @@
-export * from './DetailsButtonContainer';
+export * from './DetailsButton';

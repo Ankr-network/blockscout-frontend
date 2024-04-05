@@ -10,11 +10,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { usePaymentForm as usePaymentFromBase } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
 
-export interface IUsePaymentFormProps {
-  onDepositSuccess: () => void;
-}
-
-export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
+export const usePaymentForm = () => {
   const { address: authAddress } = useAuth();
   const { connectedAddress } = useConnectedAddress();
 
@@ -45,7 +41,6 @@ export const usePaymentForm = ({ onDepositSuccess }: IUsePaymentFormProps) => {
   const paymentFormProps = usePaymentFromBase({
     onConnectAccount,
     onCryptoPaymentFlowClose,
-    onDepositSuccess,
   });
 
   return { paymentFormProps };
