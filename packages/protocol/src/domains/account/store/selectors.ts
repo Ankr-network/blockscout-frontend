@@ -441,6 +441,22 @@ export const selectDealChargingModelData = createSelector(
   },
 );
 
+export const selectHasActiveDeal = createSelector(
+  selectMyBundles,
+  selectBundlePaymentPlans,
+  (myBundles, bundlePaymentPlans) => {
+    const activeDeals = myBundles.filter(bundle => {
+      const currentPlan = bundlePaymentPlans.find(plan => {
+        return plan.bundle.price_id === bundle.productPriceId;
+      });
+
+      return isDealPlan(currentPlan);
+    });
+
+    return activeDeals.length > 0;
+  },
+);
+
 export const selectPackageChargingModelData = createSelector(
   selectMyBundlesStatusState,
   selectBundlePaymentPlans,

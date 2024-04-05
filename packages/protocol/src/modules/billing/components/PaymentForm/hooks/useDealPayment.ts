@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { ECurrency, EPaymentType, IAmount } from 'modules/billing/types';
 import {
   selectBundlePaymentPlans,
-  selectDealChargingModelData,
+  selectHasActiveDeal,
 } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -68,7 +68,7 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
     [amountValue, isFetching, onClose, onProceedButtonClick, open],
   );
 
-  const hasActiveDeal = Boolean(useAppSelector(selectDealChargingModelData));
+  const hasActiveDeal = useAppSelector(selectHasActiveDeal);
 
   const handlePayButtonClick = useCallback(() => {
     if (hasActiveDeal) {
