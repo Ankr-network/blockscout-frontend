@@ -4,6 +4,8 @@ export const useOngoingPaymentsStyles = makeStyles()(theme => ({
   ongoingPaymentRoot: {},
   ongoingPaymentTitle: {
     marginBottom: theme.spacing(5),
+
+    color: theme.palette.grey[900],
   },
   ongoingPaymentPaper: {
     display: 'flex',
