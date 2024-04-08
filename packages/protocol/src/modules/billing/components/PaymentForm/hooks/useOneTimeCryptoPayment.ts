@@ -2,11 +2,12 @@ import { Web3Address } from 'multirpc-sdk';
 import { useCallback } from 'react';
 
 import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
-import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
+import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
+import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
 import { useCryptoDepositStep } from './useCryptoDepositStep';
 import { useCryptoPaymentSuccessDialog } from '../../CryptoPaymentSuccessDialog';
@@ -28,7 +29,11 @@ export const useOneTimeCryptoPayment = ({
   onConnectAccount: onConnectAccountSuccess,
   onCryptoPaymentFlowClose,
 }: IUseOneTimeCryptoPaymentProps) => {
-  const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice();
+  const { hasWeb3Service } = useHasWeb3Service();
+
+  const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice({
+    skipFetching: !hasWeb3Service,
+  });
 
   const { approvalFeeDetails, isLoading: isAllowanceFeeLoading } =
     useEstimatedANKRAllowanceFeeDetails({ amount, price });
@@ -88,7 +93,7 @@ export const useOneTimeCryptoPayment = ({
     depositFeeDetails,
     network: ENetwork.ETH,
     onClose: onCryptoPaymentFlowClose,
-    onOpenCryptoDepositDialog: handleCryptoPaymentDepositDialogOpen,
+    onConfirmButtonClick: handleCryptoPaymentDepositDialogOpen,
     onConnectAccountSuccess,
     totalAmount,
   });

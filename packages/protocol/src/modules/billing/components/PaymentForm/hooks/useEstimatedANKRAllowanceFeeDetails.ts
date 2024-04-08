@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { IFeeDetails } from 'modules/billing/types';
 import { useAnkrAllowanceFee } from 'domains/account/hooks/useANKRAllowanceFee';
+import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
 
 export interface IUseEstimatedANKRAllowanceFeeDetailsProps {
   amount: number;
@@ -13,7 +14,12 @@ export const useEstimatedANKRAllowanceFeeDetails = ({
   amount,
   price,
 }: IUseEstimatedANKRAllowanceFeeDetailsProps) => {
-  const { fee, isLoading } = useAnkrAllowanceFee({ amount });
+  const { hasWeb3Service } = useHasWeb3Service();
+
+  const { fee, isLoading } = useAnkrAllowanceFee({
+    amount,
+    skipFetching: !hasWeb3Service,
+  });
 
   const approvalFeeDetails = useMemo<IFeeDetails>(
     () => ({

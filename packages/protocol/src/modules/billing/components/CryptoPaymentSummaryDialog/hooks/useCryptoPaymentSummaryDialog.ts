@@ -3,23 +3,26 @@ import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import BigNumber from 'bignumber.js';
 
+import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
+import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
 import {
   setAmountToDeposit,
   setTransactionCurrency,
 } from 'domains/account/store/accountTopUpSlice';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
 import { IUseCryptoPaymentSummaryDialogProps } from '../types';
 
 interface IUseCryptoPaymentSummaryDialog
   extends IUseCryptoPaymentSummaryDialogProps {
-  onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
   onClose?: () => void;
-  onOpenCryptoDepositDialog: () => void;
+  onConfirmButtonClick: () => void;
+  onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
 }
 
 export const useCryptoPaymentSummaryDialog = ({
@@ -29,15 +32,26 @@ export const useCryptoPaymentSummaryDialog = ({
   depositFeeDetails,
   network,
   onClose: handleCloseExternal,
-  onOpenCryptoDepositDialog,
+  onConfirmButtonClick: handleConfirmButtonClick,
   onConnectAccountSuccess,
   totalAmount,
 }: IUseCryptoPaymentSummaryDialog) => {
-  const {
-    isOpened,
-    onClose: handleClose,
-    onOpen: handleCryptoPaymentSummaryDialogOpen,
-  } = useDialog();
+  const { isOpened, onClose: handleClose, onOpen } = useDialog();
+
+  const { hasWeb3Service } = useHasWeb3Service();
+
+  const dispatch = useDispatch();
+  const handleCryptoPaymentSummaryDialogOpen = useCallback(() => {
+    if (!hasWeb3Service) {
+      dispatch(
+        createWeb3Service.initiate({
+          params: { walletId: INJECTED_WALLET_ID },
+        }),
+      );
+    }
+
+    onOpen();
+  }, [dispatch, hasWeb3Service, onOpen]);
 
   const { connectedAddress, walletIcon } = useConnectedAddress();
   const { address: personalAddress } = useAuth();
@@ -55,8 +69,6 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onCancelButtonClick = onClose;
 
-  const dispatch = useDispatch();
-
   const onConfirmButtonClick = useCallback(() => {
     dispatch(
       setAmountToDeposit({
@@ -73,15 +85,15 @@ export const useCryptoPaymentSummaryDialog = ({
 
     onClose();
 
-    onOpenCryptoDepositDialog();
+    handleConfirmButtonClick();
   }, [
-    dispatch,
-    connectedAddress,
-    personalAddress,
     amount,
+    connectedAddress,
     currency,
+    dispatch,
+    handleConfirmButtonClick,
     onClose,
-    onOpenCryptoDepositDialog,
+    personalAddress,
   ]);
 
   const cryptoPaymentSummaryDialogProps =
