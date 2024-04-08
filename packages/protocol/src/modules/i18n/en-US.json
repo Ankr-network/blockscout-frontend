@@ -124,11 +124,15 @@
     "balance-button": {
       "value": "{balance, number, ::compact-short}",
       "requests": " Requests",
-      "credits": " API Credits"
+      "credits": " API Credits",
+      "pay": "Pay",
+      "form-below": "Use the form below to pay"
     },
     "balance-menu": {
       "title": "Charging model",
-      "billing-page-button": "Go to Billing page"
+      "billing-page-button": "Go to Billing page",
+      "usd-balance": "${balance}",
+      "req-balance": " / ≈{balance, number, ::compact-short} reqs"
     }
   },
   "signup-modal": {

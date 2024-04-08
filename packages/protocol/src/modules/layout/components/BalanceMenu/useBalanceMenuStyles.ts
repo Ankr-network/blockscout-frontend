@@ -22,7 +22,7 @@ export const useBalanceMenuStyles = makeStyles()(theme => ({
   header: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(1),
+    gap: theme.spacing(2),
     marginBottom: theme.spacing(4),
   },
   label: {

@@ -5,6 +5,7 @@ import { ArrowDown } from '@ankr.com/ui';
 import { LoadableButton } from 'uiKit/LoadableButton';
 
 import { useBalanceButtonStyles } from './useBalanceButtonStyles';
+import { PlusLink } from './components/PlusLink';
 
 export interface IBalanceButtonProps {
   isMenuOpen: boolean;
@@ -61,6 +62,8 @@ export const BalanceButton = ({
         </Typography>
 
         <ArrowDown className={classes.selectIcon} />
+
+        <PlusLink />
       </div>
     </LoadableButton>
   );

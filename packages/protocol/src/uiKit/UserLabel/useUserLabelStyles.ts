@@ -59,6 +59,11 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     color: '#5856D6',
     backgroundColor: '#E6E6F9',
   },
+  small: {
+    padding: theme.spacing(0.5, 1),
+    height: 20,
+    borderRadius: 8,
+  },
   large: {
     padding: theme.spacing(1, 3),
     borderRadius: 12,

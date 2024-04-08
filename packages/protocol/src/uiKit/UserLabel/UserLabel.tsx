@@ -40,6 +40,7 @@ export const UserLabel = ({
       [classes.enterprise]: hasEnterpriseStatus,
       [classes.package]: chargingModel === EChargingModel.Package,
       [classes.deal]: chargingModel === EChargingModel.Deal,
+      [classes.small]: size === 'small',
       [classes.large]: size === 'large',
     },
     nestedClassName,

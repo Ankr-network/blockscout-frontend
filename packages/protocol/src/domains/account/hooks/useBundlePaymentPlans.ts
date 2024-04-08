@@ -1,4 +1,5 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { SubscriptionOptions } from '@reduxjs/toolkit/dist/query/core/apiState';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
@@ -16,10 +17,17 @@ export interface BundlePaymentPlansParams {
   skipFetching?: boolean;
 }
 
+const defaultOptions: SubscriptionOptions = {
+  pollingInterval: 30_000,
+};
+
 export const useBundlePaymentPlans = ({
   skipFetching = false,
 }: BundlePaymentPlansParams | void = {}) => {
-  useFetchBundlePaymentPlansQuery(skipFetching ? skipToken : undefined);
+  useFetchBundlePaymentPlansQuery(
+    skipFetching ? skipToken : undefined,
+    defaultOptions,
+  );
 
   const bundle500 = useAppSelector(selectFirstBundlePaymentPlan);
   const bundles = useAppSelector(selectBundlePaymentPlans);

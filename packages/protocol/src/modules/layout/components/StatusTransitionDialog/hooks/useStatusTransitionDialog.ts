@@ -6,7 +6,11 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { useMyBundles } from 'domains/account/hooks/useMyBundles';
+import {
+  selectMyBundlesLoaded,
+  selectHasMyBundles,
+} from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { PostTopUpLocationState } from '../types';
 
@@ -21,7 +25,8 @@ export const useStatusTransitionDialog = () => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
-  const { isLoaded, isSubscribed } = useMyBundles();
+  const isLoaded = useAppSelector(selectMyBundlesLoaded);
+  const isSubscribed = useAppSelector(selectHasMyBundles);
 
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =

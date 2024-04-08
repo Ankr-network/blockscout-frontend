@@ -73,24 +73,6 @@ export const getDealChargingModelData = ({
   return chargingModelDeal;
 };
 
-const emptyDealChargingModelData: IDealChargingModelData = {
-  type: EChargingModel.Deal,
-  balance: {
-    balanceApiCredits: 0,
-    balanceUsd: 0,
-    balanceInRequests: 0,
-  },
-  progressData: {
-    usedCount: 0,
-    wholeAmountCount: 0,
-    usedPercent: 0,
-  },
-  progressValue: 0,
-  progressLabel: '',
-  maxLabel: '',
-  expires: 0,
-};
-
 const aggregateDealData = (
   acc: IDealChargingModelData,
   dealData: IDealChargingModelData,
@@ -126,10 +108,7 @@ export const getAggregatedDealChargingModelData = ({
     }),
   );
 
-  const aggregatedDealData = mappedDealData.reduce(
-    aggregateDealData,
-    emptyDealChargingModelData,
-  );
+  const aggregatedDealData = mappedDealData.reduce(aggregateDealData);
 
   const progressValue =
     (aggregatedDealData.progressData.usedCount * 100) /

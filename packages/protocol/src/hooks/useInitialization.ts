@@ -13,6 +13,9 @@ import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actio
 import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTeamsSettings';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { removeAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
+import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
+import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
+import { useMySubscriptions } from 'domains/account/hooks/useMySubscriptions';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   const hasBillingRoleAccess = useGuardUserGroup({
@@ -42,6 +45,9 @@ export const useInitialization = (isLoggedIn: boolean) => {
 
   useBalance({ skipFetching: skipFetchingBilling });
   useMyBundles({ skipFetching: skipFetchingBilling });
+  useMyBundlesStatus({ skipFetching: skipFetchingBilling });
+  useMySubscriptions({ skipFetching: skipFetchingBilling });
+  useBundlePaymentPlans({ skipFetching: skipFetchingBilling });
 
   useCheckChangedSignupUserSettingsAndUpdate();
   useJwtManagerInitializer({ skipFetching: skipFetchingJwt });

@@ -1,16 +1,25 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
-import { useMyBundles } from 'domains/account/hooks/useMyBundles';
-import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
-import { useMySubscriptions } from 'domains/account/hooks/useMySubscriptions';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  selectBundlePaymentPlansInitLoading,
+  selectMyBundlesInitLoading,
+  selectMyBundlesStatusInitLoading,
+  selectMySubscriptionsInitLoading,
+} from 'domains/account/store/selectors';
 
 export const useAccountDetails = () => {
   const { isLoggedIn, isOldPremium, loading: isConnecting } = useAuth();
 
-  const { fetching: bundlePlansFetching } = useBundlePaymentPlans();
-  const { fetching: myBundlesFetching } = useMyBundles();
-  const { fetching: myBundlesStatusFetching } = useMyBundlesStatus();
-  const { fetching: subscriptionsFetching } = useMySubscriptions();
+  const bundlePlansFetching = useAppSelector(
+    selectBundlePaymentPlansInitLoading,
+  );
+  const myBundlesFetching = useAppSelector(selectMyBundlesInitLoading);
+  const myBundlesStatusFetching = useAppSelector(
+    selectMyBundlesStatusInitLoading,
+  );
+  const subscriptionsFetching = useAppSelector(
+    selectMySubscriptionsInitLoading,
+  );
 
   const loading =
     isConnecting ||

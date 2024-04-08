@@ -99,6 +99,11 @@ export const selectBundlePaymentPlansFetching = createSelector(
   ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
+export const selectBundlePaymentPlansInitLoading = createSelector(
+  selectBundlePaymentPlansState,
+  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
+);
+
 export const selectBundlePaymentPlanByBundleId = createSelector(
   selectBundlePaymentPlans,
   (_state: RootState, bundleId?: string) => bundleId,
@@ -114,7 +119,7 @@ export const selectBundlePaymentPlanByPriceId = createSelector(
 );
 
 export const selectMyBundlesState = createSelector(
-  fetchMyBundles.select(undefined),
+  fetchMyBundles.select({ group: undefined }),
   state => state,
 );
 
@@ -148,6 +153,11 @@ export const selectMyBundlesLoading = createSelector(
 export const selectMyBundlesFetching = createSelector(
   selectMyBundlesState,
   ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectMyBundlesInitLoading = createSelector(
+  selectMyBundlesState,
+  ({ isLoading, data }) => isLoading && typeof data === 'undefined',
 );
 
 export const selectMyBundlesLoaded = createSelector(
@@ -242,6 +252,11 @@ export const selectMySubscriptionsFetching = createSelector(
   ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
+export const selectMySubscriptionsInitLoading = createSelector(
+  selectMySubscriptionsState,
+  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
+);
+
 export const selectMySubscriptions = createSelector(
   selectMySubscriptionsState,
   ({ data }) => data?.items ?? [],
@@ -261,7 +276,7 @@ export const selectAllMySubcriptionsAmount = createSelector(
 );
 
 export const selectMyBundlesStatusState = createSelector(
-  fetchMyBundlesStatus.select(undefined),
+  fetchMyBundlesStatus.select({ group: undefined }),
   state => state,
 );
 
@@ -285,6 +300,11 @@ export const selectMyBundlesStatusLoading = createSelector(
 export const selectMyBundlesStatusFetching = createSelector(
   selectMyBundlesStatusState,
   ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectMyBundlesStatusInitLoading = createSelector(
+  selectMyBundlesStatusState,
+  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
 );
 
 export const selectMyCurrentBundleStatuses = createSelector(

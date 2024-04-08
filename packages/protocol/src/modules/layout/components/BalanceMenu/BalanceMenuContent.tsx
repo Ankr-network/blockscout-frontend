@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import BigNumber from 'bignumber.js';
 
 import { ChargingModelLabel } from 'domains/account/screens/BillingPage/components/ChargingModelLabel/ChargingModelLabel';
 import { EChargingModel, IChargingModelData } from 'modules/billing/types';
@@ -17,8 +18,8 @@ export interface IBalanceMenuContentProps {
   isApiCreditsBalance: boolean;
 }
 
-const usdBalanceKey = 'account.account-details.balance-widget.usd-balance';
-const reqBalanceKey = 'account.account-details.balance-widget.req-balance';
+const usdBalanceKey = 'header.balance-menu.usd-balance';
+const reqBalanceKey = 'header.balance-menu.req-balance';
 
 const creditBalanceKey =
   'account.account-details.balance-widget.credit-balance';
@@ -80,7 +81,7 @@ export const BalanceMenuContent = ({
         variant="body4"
         className={classes.detailedBalance}
       >
-        {t(usdBalanceKey, { balance: usdBalance })}
+        {t(usdBalanceKey, { balance: new BigNumber(usdBalance).toFormat(1) })}
         {creditBalance && t(reqBalanceKey, { balance: balanceInRequests })}
       </Typography>
 

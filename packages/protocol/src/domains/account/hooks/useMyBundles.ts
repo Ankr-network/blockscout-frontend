@@ -2,6 +2,7 @@
 import { useEffect, useMemo } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import {
   selectHasMyBundles,
@@ -18,24 +19,32 @@ export interface MyBundlesParams {
   skipFetching?: boolean;
 }
 
+const defaultOptions: SubscriptionOptions = {
+  pollingInterval: 30_000,
+};
+
 export const useMyBundles = ({
   skipFetching = false,
 }: MyBundlesParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
-
+  const { isLoggedIn } = useAuth();
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
   const shouldFetch = useMemo(
-    () => !skipFetching && !isEnterpriseClient && !isEnterpriseStatusLoading,
-    [isEnterpriseClient, isEnterpriseStatusLoading, skipFetching],
+    () =>
+      isLoggedIn &&
+      !skipFetching &&
+      !isEnterpriseClient &&
+      !isEnterpriseStatusLoading,
+    [isEnterpriseClient, isEnterpriseStatusLoading, isLoggedIn, skipFetching],
   );
 
-  const [fetch] = useLazyFetchMyBundlesQuery();
+  const [fetch] = useLazyFetchMyBundlesQuery(defaultOptions);
 
   useEffect(() => {
     if (shouldFetch) {
-      const { unsubscribe } = fetch(group);
+      const { unsubscribe } = fetch({ group });
 
       return unsubscribe;
     }

@@ -5,8 +5,12 @@ import { Route, RouteProps, useHistory } from 'react-router-dom';
 import { useGuardAuth } from 'domains/auth/hooks/useGuardAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { PostTopUpLocationState } from 'modules/layout/components/StatusTransitionDialog/types';
-import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
+import {
+  selectMyBundlesLoaded,
+  selectHasMyBundles,
+} from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
 interface GuardCardPaymentSuccessAuthRouteProps extends RouteProps {
   hasPrivateAccess: boolean;
@@ -22,10 +26,10 @@ export const GuardCardPaymentSuccessAuthRoute = ({
 
   const history = useHistory<PostTopUpLocationState>();
 
-  const { hasAuthData, loading } = useGuardAuth();
-  const { isLoaded, isSubscribed } = useMyBundles({
-    skipFetching: !hasAuthData,
-  });
+  const { loading } = useGuardAuth();
+
+  const isLoaded = useAppSelector(selectMyBundlesLoaded);
+  const isSubscribed = useAppSelector(selectHasMyBundles);
 
   const isPageForbidden = useMemo(() => {
     const isFreeUserWithJWT = !hasPremium && hasPrivateAccess;

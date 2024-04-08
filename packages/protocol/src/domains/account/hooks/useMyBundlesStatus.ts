@@ -1,7 +1,8 @@
-// @ts-nocheck
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { SubscriptionOptions } from '@reduxjs/toolkit/dist/query/core/apiState';
 
 import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import {
   selectMyBundlesStatus,
@@ -17,30 +18,38 @@ export interface MyBundlesStatusParams {
   skipFetching?: boolean;
 }
 
+const defaultOptions: SubscriptionOptions = {
+  pollingInterval: 30_000,
+};
+
 export const useMyBundlesStatus = ({
   skipFetching = false,
 }: MyBundlesStatusParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const { isLoggedIn } = useAuth();
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
-  const [fetch] = useLazyFetchMyBundlesStatusQuery();
+  const [fetch] = useLazyFetchMyBundlesStatusQuery(defaultOptions);
+
+  const shouldFetch = useMemo(
+    () =>
+      isLoggedIn &&
+      !skipFetching &&
+      !isEnterpriseClient &&
+      !isEnterpriseStatusLoading,
+    [isEnterpriseClient, isEnterpriseStatusLoading, isLoggedIn, skipFetching],
+  );
 
   useEffect(() => {
-    if (!skipFetching && !isEnterpriseClient && !isEnterpriseStatusLoading) {
-      const { unsubscribe } = fetch(group);
+    if (shouldFetch) {
+      const { unsubscribe } = fetch({ group });
 
-      return unsubscribe;
+      return () => unsubscribe;
     }
 
     return () => {};
-  }, [
-    fetch,
-    group,
-    skipFetching,
-    isEnterpriseClient,
-    isEnterpriseStatusLoading,
-  ]);
+  }, [fetch, group, shouldFetch]);
 
   const statuses = useAppSelector(selectMyBundlesStatus);
 
