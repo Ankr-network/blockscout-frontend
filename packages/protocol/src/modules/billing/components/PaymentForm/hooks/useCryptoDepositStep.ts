@@ -33,15 +33,13 @@ export const useCryptoDepositStep = ({
   const {
     amountToDeposit,
     approvedAmount,
+    depositErrorMessage,
     handleDeposit,
     handleGetAllowance,
     handleResetTopUpTransaction,
+    handleWaitTransactionConfirming,
     sendAllowanceErrorMessage,
-    depositErrorMessage,
   } = useTopUp();
-
-  const approvedAmountNumber =
-    Number(alreadyApprovedAllowanceValue) || Number(approvedAmount);
 
   const {
     isOpened: isOpenedCryptoPaymentDepositDialog,
@@ -73,11 +71,13 @@ export const useCryptoDepositStep = ({
 
   const onDeposit = useCallback(async () => {
     setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
-    const response = await handleDeposit();
+    const depositResponse = await handleDeposit();
 
     setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
 
-    if (response.error) {
+    const confirmationResponse = await handleWaitTransactionConfirming();
+
+    if (depositResponse.error || confirmationResponse.error) {
       setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
     } else {
       setCurrentDepositStatus(ECryptoDepositStepStatus.Complete);
@@ -86,9 +86,10 @@ export const useCryptoDepositStep = ({
     }
   }, [
     handleDeposit,
+    handleWaitTransactionConfirming,
     onCloseCryptoPaymentDepositDialog,
-    onDepositSuccess,
     setCurrentDepositStatus,
+    onDepositSuccess,
   ]);
 
   const onGetAllowance = useCallback(
@@ -139,7 +140,8 @@ export const useCryptoDepositStep = ({
     amount: Number(amountToDeposit),
     amountUsd,
     currency,
-    approvedAmount: approvedAmountNumber,
+    approvedAmount:
+      Number(alreadyApprovedAllowanceValue) || Number(approvedAmount),
     approvalFeeDetails,
     currentApprovalStatus,
     depositFeeDetails,
