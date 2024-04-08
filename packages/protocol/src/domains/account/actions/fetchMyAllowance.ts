@@ -1,4 +1,4 @@
-import { IApiUserGroupParams, formatFromWei } from 'multirpc-sdk';
+import { formatFromWei } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
 
 import { web3Api } from 'store/queries';
@@ -11,28 +11,21 @@ export const {
   useLazyFetchMyAllowanceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchMyAllowance: build.query<BigNumber | null, IApiUserGroupParams>({
+    fetchMyAllowance: build.query<BigNumber | null, void>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
-          async ({ params: group, web3Service }) => {
-            const allowanceValue = await web3Service
-              .getContractService()
-              .getAllowanceValue();
+        queryFn: createNotifyingQueryFn(async ({ web3Service }) => {
+          const allowanceValue = await web3Service
+            .getContractService()
+            .getAllowanceValue();
 
-            if (group) {
-              // eslint-disable-next-line no-console
-              console.log('fetApprovedAmount for group address: ', group);
-            }
+          const hasAllowance = allowanceValue && !allowanceValue.isZero();
 
-            const hasAllowance = allowanceValue && !allowanceValue.isZero();
+          if (!hasAllowance) {
+            return { data: null };
+          }
 
-            if (!hasAllowance) {
-              return { data: null };
-            }
-
-            return { data: new BigNumber(formatFromWei(allowanceValue)) };
-          },
-        ),
+          return { data: new BigNumber(formatFromWei(allowanceValue)) };
+        }),
         fallback: { data: null },
       }),
     }),

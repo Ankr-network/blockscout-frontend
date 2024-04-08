@@ -14,6 +14,7 @@ import {
   setAmountToDeposit,
   setTransactionCurrency,
 } from 'domains/account/store/accountTopUpSlice';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
 import { IUseCryptoPaymentSummaryDialogProps } from '../types';
@@ -41,6 +42,7 @@ export const useCryptoPaymentSummaryDialog = ({
   const { hasWeb3Service } = useHasWeb3Service();
 
   const dispatch = useDispatch();
+
   const handleCryptoPaymentSummaryDialogOpen = useCallback(() => {
     if (!hasWeb3Service) {
       dispatch(
@@ -69,16 +71,21 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onCancelButtonClick = onClose;
 
+  const { selectedGroupAddress } = useSelectedUserGroup();
+
   const onConfirmButtonClick = useCallback(() => {
+    const activeAddress =
+      selectedGroupAddress || connectedAddress || personalAddress;
+
     dispatch(
       setAmountToDeposit({
-        address: connectedAddress || personalAddress,
+        address: activeAddress,
         amountToDeposit: new BigNumber(amount),
       }),
     );
     dispatch(
       setTransactionCurrency({
-        address: connectedAddress || personalAddress,
+        address: activeAddress,
         currency,
       }),
     );
@@ -94,6 +101,7 @@ export const useCryptoPaymentSummaryDialog = ({
     handleConfirmButtonClick,
     onClose,
     personalAddress,
+    selectedGroupAddress,
   ]);
 
   const cryptoPaymentSummaryDialogProps =

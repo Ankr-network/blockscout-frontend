@@ -100,7 +100,7 @@ export const useCryptoDepositStep = ({
 
       setCurrentApprovalStatus(ECryptoDepositStepStatus.Pending);
       const allowanceResponse = await handleGetAllowance();
-      const allowanceValueResponse = await fetchAllowance({});
+      const allowanceValueResponse = await fetchAllowance();
 
       if (allowanceResponse.error || allowanceValueResponse.error) {
         setCurrentApprovalStatus(ECryptoDepositStepStatus.Error);

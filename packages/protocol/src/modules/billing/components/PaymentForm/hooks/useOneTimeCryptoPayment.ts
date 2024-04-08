@@ -6,7 +6,6 @@ import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
 import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
 import { useCryptoDepositStep } from './useCryptoDepositStep';
@@ -103,8 +102,6 @@ export const useOneTimeCryptoPayment = ({
 
   const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
   const handlePayButtonClick = useCallback(() => {
     if (depositTransactionHash) {
       return handleCryptoPaymentSuccessDialogOpen();
@@ -114,13 +111,12 @@ export const useOneTimeCryptoPayment = ({
       return handleCryptoPaymentDepositDialogOpen();
     }
 
-    fetchAllowance({ group });
+    fetchAllowance();
 
     return handleCryptoPaymentSummaryDialogOpen();
   }, [
     depositTransactionHash,
     fetchAllowance,
-    group,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,

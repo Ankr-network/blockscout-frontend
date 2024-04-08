@@ -705,7 +705,7 @@ export const selectHasProcessingTransaction = createSelector(
 );
 
 export const selectMyAllowanceState = createSelector(
-  fetchMyAllowance.select(undefined as never),
+  fetchMyAllowance.select(),
   state => state,
 );
 
