@@ -1,4 +1,4 @@
-# ankr-protocol-web
+# ankr-web3api
 
 ## How to add new chain
 
