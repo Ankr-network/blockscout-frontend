@@ -1826,7 +1826,7 @@
       "cancel": {
         "custom-title": "Cancel {customChargingModelName}",
         "custom-description": "Cancel your {customChargingModelName} payment scheduled for {date, date, long}?",
-        "recurring-title": "Cancel recurring payment",
+        "recurring-title": "Cancel recurring PAYG payment",
         "recurring-description": "Cancel your ${amount, number, ::compact-short} recurring payment scheduled for {date, date, long}?"
       },
       "cancel-dialog": {
@@ -2018,7 +2018,7 @@
       },
       "edit-subscriptions-dialog": {
         "title": "Edit periodic payments",
-        "recurring-payment": "Recurring payment",
+        "recurring-payment": "Recurring PAYG payment",
         "deal": "Deal",
         "package": "Package"
       },
