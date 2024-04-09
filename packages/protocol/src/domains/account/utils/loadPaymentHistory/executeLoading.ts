@@ -45,38 +45,15 @@ export const executeLoading = async ({
     group,
   });
 
-  const {
-    deductions,
-    loadMore,
-    paymentHistory,
-    transactions,
-    myBundlesPayments,
-  } = combinePaymentHistory({
-    limit,
-    loadedDeductions,
-    loadedTransactions,
-    loadedMyBundlesPayments,
-    loadingDeductions,
-    loadingDeductionsCursor,
-    loadingTransactions,
-    loadingTransactionsCursor,
-    loadingMyBundlesPayments,
-    loadingMyBundlesPaymentsCursor,
-  });
-
-  if (loadMore) {
-    return executeLoading({
-      deductionsCursor: loadingDeductionsCursor,
-      from,
-      limit,
-      loadedDeductions: deductions,
-      loadedTransactions: transactions,
-      to,
-      transactionsCursor: loadingTransactionsCursor,
-      types,
-      group,
+  const { deductions, paymentHistory, transactions, myBundlesPayments } =
+    combinePaymentHistory({
+      loadedDeductions,
+      loadedTransactions,
+      loadedMyBundlesPayments,
+      loadingDeductions,
+      loadingTransactions,
+      loadingMyBundlesPayments,
     });
-  }
 
   const {
     lastDeduction,

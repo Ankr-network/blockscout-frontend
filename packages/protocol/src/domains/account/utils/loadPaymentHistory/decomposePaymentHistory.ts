@@ -18,6 +18,7 @@ export const decomposePaymentHistory = (
           key = 'deductions';
           break;
         case 'TRANSACTION_TYPE_DEAL_DEPOSIT':
+        case 'TRANSACTION_TYPE_PACKAGE_DEPOSIT':
           key = 'bundlesPayments';
           break;
         default:

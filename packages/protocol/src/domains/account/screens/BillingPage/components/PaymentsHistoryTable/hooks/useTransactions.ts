@@ -82,7 +82,8 @@ export const useTransactions = ({
       timeframeRef.current = timeframe;
       paymentTypeRef.current = paymentType;
 
-      // We need this timeout in order to refetch new data after the first request is aborted in case of changing group, timeframe or payment type
+      // We need this timeout in order to refetch new data
+      // after the first request is aborted in case of changing group, timeframe or payment type
       setTimeout(request.refetch, 0);
     }
 
