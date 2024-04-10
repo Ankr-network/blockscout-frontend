@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 
 import {
   EChargingModel,
+  IPackageBalance,
   IPackageChargingModelData,
 } from 'modules/billing/types';
 
@@ -11,6 +12,17 @@ import { CREDITS_TO_REQUESTS_RATE, CREDITS_TO_USD_RATE } from '../store/const';
 interface IGetPackageDataProps {
   packageChargingModel: MyBundleStatus;
   bundlePaymentPlans: BundlePaymentPlan[];
+}
+
+interface IGetPackagesAggregatedDataProps {
+  packageChargingModels: MyBundleStatus[];
+  bundlePaymentPlans: BundlePaymentPlan[];
+}
+
+interface IProgressLabelData {
+  usedCount: number;
+  wholeAmountCount: number;
+  usedPercent: number;
 }
 
 export const getPackageChargingModelData = ({
@@ -71,67 +83,69 @@ export const getPackageChargingModelData = ({
   return chargingModelPackage;
 };
 
-interface IGetPackagesDataProps {
-  packageChargingModels: MyBundleStatus[];
-  bundlePaymentPlans: BundlePaymentPlan[];
-}
+const calculateProgressLabelData = (
+  resultProgressLabelData: IProgressLabelData,
+  currentProgressLabelData: IProgressLabelData,
+): IProgressLabelData => ({
+  usedCount:
+    resultProgressLabelData.usedCount + currentProgressLabelData.usedCount,
+  wholeAmountCount:
+    resultProgressLabelData.wholeAmountCount +
+    currentProgressLabelData.wholeAmountCount,
+  usedPercent: 0, // we are not aggregating this value here because need to summarize all usedCount and wholeAmountCount first
+});
+
+const calculateBalance = (
+  resultBalance: IPackageBalance,
+  currentBalance: IPackageBalance,
+): IPackageBalance => ({
+  balanceInRequests:
+    resultBalance.balanceInRequests + currentBalance.balanceInRequests,
+  balanceUsd: resultBalance.balanceUsd + currentBalance.balanceUsd,
+});
 
 const aggregatePackageModelsData = (
   result: IPackageChargingModelData,
   current: IPackageChargingModelData,
 ): IPackageChargingModelData => {
-  const { progressLabelData: resultProgressLabelData, balance: resultBalance } =
-    result;
-
-  const {
-    progressLabelData: currentProgressLabelData,
-    balance: currentBalance,
-  } = current;
-
-  const progressLabelData = {
-    usedCount:
-      resultProgressLabelData.usedCount + currentProgressLabelData.usedCount,
-    wholeAmountCount:
-      resultProgressLabelData.wholeAmountCount +
-      currentProgressLabelData.wholeAmountCount,
-    usedPercent: 0, // we are not aggregating this value here because need to summarize all usedCount and wholeAmountCount first
-  };
+  const progressLabelData = calculateProgressLabelData(
+    result.progressLabelData,
+    current.progressLabelData,
+  );
+  const balance = calculateBalance(result.balance, current.balance);
 
   return {
     type: EChargingModel.Package,
-    balance: {
-      balanceInRequests:
-        resultBalance.balanceInRequests + currentBalance.balanceInRequests,
-      balanceUsd: resultBalance.balanceUsd + currentBalance.balanceUsd,
-    },
-    progressValue: result.progressValue + current.progressValue,
+    balance,
+    progressValue: 0, // we are not aggregating this value here because need to summarize all usedCount and wholeAmountCount first
     isExpired: result.isExpired && current.isExpired,
     progressLabelData,
-    progressLabel: '', // progressLabel is not used in this context. added here just for types compatibility
+    progressLabel: '',
   };
 };
 
 export const getAggregatedPackageModelsData = ({
   packageChargingModels,
   bundlePaymentPlans,
-}: IGetPackagesDataProps) => {
+}: IGetPackagesAggregatedDataProps) => {
   const mappedData = packageChargingModels.map(packageChargingModel =>
     getPackageChargingModelData({ packageChargingModel, bundlePaymentPlans }),
   );
 
   const summaryPackageData = mappedData.reduce(aggregatePackageModelsData);
 
-  const summaryUsedPercent =
+  const progressValue =
     (summaryPackageData.progressLabelData.usedCount * 100) /
     summaryPackageData.progressLabelData.wholeAmountCount;
 
   const progressLabelData = {
     ...summaryPackageData.progressLabelData,
-    usedPercent: summaryUsedPercent,
+    usedPercent: progressValue,
   };
 
   return {
     ...summaryPackageData,
+    progressValue,
     progressLabelData,
     progressLabel: t(
       'account.account-details.balance-widget.used-credits-label',

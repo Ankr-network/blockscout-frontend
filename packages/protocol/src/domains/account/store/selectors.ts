@@ -453,9 +453,13 @@ export const selectDealChargingModelData = createSelector(
         );
       });
 
-      if (dealChargingModels?.length > 0) {
+      const filteredByExpiration = dealChargingModels.filter(
+        deal => new Date() < new Date(getDateFromUnixSeconds(deal.expires)),
+      );
+
+      if (filteredByExpiration?.length > 0) {
         return getAggregatedDealChargingModelData({
-          dealChargingModels,
+          dealChargingModels: filteredByExpiration,
           bundlePaymentPlans,
         });
       }
@@ -499,12 +503,16 @@ export const selectPackageChargingModelData = createSelector(
         return hasQtyCounter && !hasCostCounter;
       });
 
-    if (!packageChargingModels?.length) {
+    const filteredByExpiration = packageChargingModels?.filter(
+      bundle => new Date() < new Date(getDateFromUnixSeconds(bundle.expires)),
+    );
+
+    if (!filteredByExpiration?.length) {
       return undefined;
     }
 
     return getAggregatedPackageModelsData({
-      packageChargingModels,
+      packageChargingModels: filteredByExpiration,
       bundlePaymentPlans,
     });
   },
