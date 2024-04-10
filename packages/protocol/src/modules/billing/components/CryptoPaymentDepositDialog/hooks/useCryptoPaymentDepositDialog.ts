@@ -15,41 +15,41 @@ import { ICryptoPaymentDepositDialogProps } from '../types';
 interface IUseCryptoPaymentDepositDialogProps {
   amount: number;
   amountUsd: number;
-  currency: ECurrency;
-  approvedAmount: number;
   approvalFeeDetails: IFeeDetails;
+  approvedAmount: number;
+  currency: ECurrency;
   currentApprovalStatus: ECryptoDepositStepStatus;
-  sendAllowanceErrorMessage?: string;
-  depositFeeDetails: IFeeDetails;
   currentDepositStatus?: ECryptoDepositStepStatus;
-  depositErrorMessage?: string;
   currentStep: ECryptoDepositStep;
+  depositErrorMessage?: string;
+  depositFeeDetails: IFeeDetails;
+  handleCryptoPaymentDepositDialogOpen: () => void;
+  handleRejectAllowance: () => void;
+  isCryptoPaymentDepositDialogOpened: boolean;
+  onCryptoPaymentDepositDialogClose: () => void;
   onDeposit: () => void;
   onGetAllowance: (isRetry?: boolean) => void;
-  handleRejectAllowance: () => void;
-  isOpenedCryptoPaymentDepositDialog: boolean;
-  onCloseCryptoPaymentDepositDialog: () => void;
-  handleCryptoPaymentDepositDialogOpen: () => void;
+  sendAllowanceErrorMessage?: string;
 }
 
 export const useCryptoPaymentDepositDialog = ({
   amount,
   amountUsd,
-  currency,
-  approvedAmount,
   approvalFeeDetails,
+  approvedAmount,
+  currency,
   currentApprovalStatus,
-  sendAllowanceErrorMessage,
-  depositFeeDetails,
   currentDepositStatus,
-  depositErrorMessage,
   currentStep,
+  depositErrorMessage,
+  depositFeeDetails,
+  handleCryptoPaymentDepositDialogOpen,
+  handleRejectAllowance,
+  isCryptoPaymentDepositDialogOpened,
+  onCryptoPaymentDepositDialogClose,
   onDeposit,
   onGetAllowance,
-  handleRejectAllowance,
-  isOpenedCryptoPaymentDepositDialog,
-  onCloseCryptoPaymentDepositDialog,
-  handleCryptoPaymentDepositDialogOpen,
+  sendAllowanceErrorMessage,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
   const isAllowanceLoading = useAppSelector(selectMyAllowanceLoading);
 
@@ -132,28 +132,28 @@ export const useCryptoPaymentDepositDialog = ({
       completedStep: getCompletedStep(),
       erroredStep: getErroredStep(),
 
-      open: isOpenedCryptoPaymentDepositDialog,
-      onClose: onCloseCryptoPaymentDepositDialog,
+      open: isCryptoPaymentDepositDialogOpened,
+      onClose: onCryptoPaymentDepositDialogClose,
       onOpen: handleCryptoPaymentDepositDialogOpen,
     };
   }, [
-    sendAllowanceErrorMessage,
     amount,
     amountUsd,
-    currency,
-    approvedAmount,
     approvalFeeDetails,
+    approvedAmount,
+    currency,
     currentApprovalStatus,
-    depositFeeDetails,
     currentDepositStatus,
-    depositErrorMessage,
     currentStep,
-    handleRejectAllowance,
-    isOpenedCryptoPaymentDepositDialog,
-    onCloseCryptoPaymentDepositDialog,
+    depositErrorMessage,
+    depositFeeDetails,
     handleCryptoPaymentDepositDialogOpen,
+    handleRejectAllowance,
     isAllowanceLoading,
+    isCryptoPaymentDepositDialogOpened,
+    onCryptoPaymentDepositDialogClose,
     onDeposit,
     onGetAllowance,
+    sendAllowanceErrorMessage,
   ]);
 };

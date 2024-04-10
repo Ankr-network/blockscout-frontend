@@ -1,5 +1,6 @@
 import { Web3Address } from 'multirpc-sdk';
 
+import { AccountsChangedAlert } from '../AccountsChangedAlert';
 import {
   ConnectedWalletButtons,
   IConnectedWalletButtonsProps,
@@ -16,10 +17,12 @@ export interface IButtonsGroupProps
     INoConnectedWalletButtonProps {
   connectedAddress?: Web3Address;
   walletIcon?: string;
+  isAccountChangedOnDepositStep: boolean;
 }
 
 export const ButtonsGroup = ({
   connectedAddress,
+  isAccountChangedOnDepositStep,
   isConnecting,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
@@ -36,7 +39,9 @@ export const ButtonsGroup = ({
           connectedAddress={connectedAddress}
           walletIcon={walletIcon}
         />
+        {isAccountChangedOnDepositStep && <AccountsChangedAlert />}
         <ConnectedWalletButtons
+          isAccountChangedOnDepositStep={isAccountChangedOnDepositStep}
           onAnotherAddressButtonClick={onAnotherAddressButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onConfirmButtonClick={onConfirmButtonClick}

@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
 
+import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
-import { web3Api } from 'store/queries';
 
 export interface IFetchANKRAllowanceFeeParams {
   amount: number;
@@ -14,6 +14,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchANKRAllowanceFee: build.query<number, IFetchANKRAllowanceFeeParams>({
+      providesTags: [RequestType.ANKRAllowanceFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { amount }, web3Service }) => {

@@ -1888,8 +1888,11 @@
         "tx-fees-placeholder": "connect wallet to estimate fees",
         "connected-address-label": "Connected account address",
         "confirm-button": "Confirm",
+        "proceed-with-new-address-button": "Proceed with new address",
         "another-address-button": "Use another address",
-        "connect-button": "Connect Wallet"
+        "connect-button": "Connect Wallet",
+        "insufficient-balance-warning": "Insufficient ANKR tokens on the connected address. Please add more tokens or use a different address to continue.",
+        "accounts-changed-warning": "You've changed the account address during the latest payment transaction. Revert to the original address or confirm the new one for the transaction."
       }
     },
     "balance": "{balance, number, ::compact-short}",

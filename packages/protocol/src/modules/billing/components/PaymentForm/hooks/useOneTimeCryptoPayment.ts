@@ -1,18 +1,21 @@
 import { Web3Address } from 'multirpc-sdk';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
 import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
+import { useAccountsChangedHandlingOnSummaryStep } from './useAccountsChangedHandlingOnSummaryStep';
 import { useCryptoDepositStep } from './useCryptoDepositStep';
 import { useCryptoPaymentSuccessDialog } from '../../CryptoPaymentSuccessDialog';
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
 import { useEstimatedANKRAllowanceFeeDetails } from './useEstimatedANKRAllowanceFeeDetails';
 import { useEstimatedANKRDepositFeeDetails } from './useEstimatedANKRDepositFeeDetails';
+import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 
 export interface IUseOneTimeCryptoPaymentProps {
@@ -28,7 +31,13 @@ export const useOneTimeCryptoPayment = ({
   onConnectAccount: onConnectAccountSuccess,
   onCryptoPaymentFlowClose,
 }: IUseOneTimeCryptoPaymentProps) => {
+  const [isAccountChangedOnDepositStep, setIsAccountChangedOnDepositStep] =
+    useState(false);
+
   const { hasWeb3Service } = useHasWeb3Service();
+
+  const { hasEnoughTokenBalance, isWalletTokenBalanceLoading } =
+    useHasEnoughTokenBalance({ amount });
 
   const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice({
     skipFetching: !hasWeb3Service,
@@ -39,6 +48,8 @@ export const useOneTimeCryptoPayment = ({
 
   const { depositFeeDetails, isLoading: isDepositFeeLoading } =
     useEstimatedANKRDepositFeeDetails({ amount, price });
+
+  useAccountsChangedHandlingOnSummaryStep();
 
   const { isLoading: isTotalAmountLoading, totalAmount } = useTotalCryptoAmount(
     {
@@ -65,22 +76,10 @@ export const useOneTimeCryptoPayment = ({
   });
 
   const {
-    isLoadingRate,
-    cryptoDepositDialogProps,
-    handleCryptoPaymentDepositDialogOpen,
-  } = useCryptoDepositStep({
-    approvalFeeDetails,
-    currency,
-    depositFeeDetails,
-    onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
-  });
-
-  const isLoading =
-    isNativeTokenPriceLoading ||
-    isAllowanceFeeLoading ||
-    isDepositFeeLoading ||
-    isLoadingRate ||
-    isTotalAmountLoading;
+    isOpened: isCryptoPaymentDepositDialogOpened,
+    onClose: onCryptoPaymentDepositDialogClose,
+    onOpen: handleCryptoPaymentDepositDialogOpen,
+  } = useDialog();
 
   const {
     handleCryptoPaymentSummaryDialogOpen,
@@ -90,12 +89,36 @@ export const useOneTimeCryptoPayment = ({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
+    hasEnoughTokenBalance,
+    isAccountChangedOnDepositStep,
+    isWalletTokenBalanceLoading,
     network: ENetwork.ETH,
     onClose: onCryptoPaymentFlowClose,
     onConfirmButtonClick: handleCryptoPaymentDepositDialogOpen,
     onConnectAccountSuccess,
+    setIsAccountChangedOnDepositStep,
     totalAmount,
   });
+
+  const { isLoadingRate, cryptoDepositDialogProps } = useCryptoDepositStep({
+    approvalFeeDetails,
+    currency,
+    depositFeeDetails,
+    handleCryptoPaymentDepositDialogOpen,
+    handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentDepositDialogOpened,
+    onCryptoPaymentDepositDialogClose,
+    onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
+    setIsAccountChangedOnDepositStep,
+  });
+
+  const isLoading =
+    isNativeTokenPriceLoading ||
+    isAllowanceFeeLoading ||
+    isDepositFeeLoading ||
+    isLoadingRate ||
+    isTotalAmountLoading ||
+    isWalletTokenBalanceLoading;
 
   const { transactionStatus } = useOngoingPayments();
 

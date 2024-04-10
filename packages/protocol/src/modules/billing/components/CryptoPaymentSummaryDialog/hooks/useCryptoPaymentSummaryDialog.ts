@@ -1,29 +1,30 @@
 import { Web3Address } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import BigNumber from 'bignumber.js';
 
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
+import {
+  setAmountToDeposit,
+  setTransactionCurrency,
+} from 'domains/account/store/accountTopUpSlice';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccountHandler';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
-import {
-  setAmountToDeposit,
-  setTransactionCurrency,
-} from 'domains/account/store/accountTopUpSlice';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
-import { IUseCryptoPaymentSummaryDialogProps } from '../types';
+import { ICryptoPaymentSummaryDialogCommonProps } from '../types';
 
-interface IUseCryptoPaymentSummaryDialog
-  extends IUseCryptoPaymentSummaryDialogProps {
+export interface IUseCryptoPaymentSummaryDialogProps
+  extends ICryptoPaymentSummaryDialogCommonProps {
   onClose?: () => void;
   onConfirmButtonClick: () => void;
   onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
+  setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
 
 export const useCryptoPaymentSummaryDialog = ({
@@ -31,21 +32,24 @@ export const useCryptoPaymentSummaryDialog = ({
   approvalFeeDetails,
   currency,
   depositFeeDetails,
+  hasEnoughTokenBalance,
+  isAccountChangedOnDepositStep,
+  isWalletTokenBalanceLoading,
   network,
   onClose: handleCloseExternal,
   onConfirmButtonClick: handleConfirmButtonClick,
   onConnectAccountSuccess,
+  setIsAccountChangedOnDepositStep,
   totalAmount,
-}: IUseCryptoPaymentSummaryDialog) => {
+}: IUseCryptoPaymentSummaryDialogProps) => {
   const { isOpened, onClose: handleClose, onOpen } = useDialog();
 
   const { hasWeb3Service } = useHasWeb3Service();
 
-  const dispatch = useDispatch();
-
-  const handleCryptoPaymentSummaryDialogOpen = useCallback(() => {
+  const dispatch = useAppDispatch();
+  const handleCryptoPaymentSummaryDialogOpen = useCallback(async () => {
     if (!hasWeb3Service) {
-      dispatch(
+      await dispatch(
         createWeb3Service.initiate({
           params: { walletId: INJECTED_WALLET_ID },
         }),
@@ -58,8 +62,17 @@ export const useCryptoPaymentSummaryDialog = ({
   const { connectedAddress, walletIcon } = useConnectedAddress();
   const { address: personalAddress } = useAuth();
 
+  const handleConnectAccountSuccess = useCallback(
+    (address: Web3Address) => {
+      setIsAccountChangedOnDepositStep(false);
+
+      onConnectAccountSuccess(address);
+    },
+    [onConnectAccountSuccess, setIsAccountChangedOnDepositStep],
+  );
+
   const { isConnecting, handleConnectAccount } = useConnectAccountHandler({
-    onSuccess: onConnectAccountSuccess,
+    onSuccess: handleConnectAccountSuccess,
   });
 
   const onAnotherAddressButtonClick = handleConnectAccount;
@@ -67,28 +80,19 @@ export const useCryptoPaymentSummaryDialog = ({
   const onClose = useCallback(() => {
     handleClose();
     handleCloseExternal?.();
-  }, [handleClose, handleCloseExternal]);
+    setIsAccountChangedOnDepositStep(false);
+  }, [handleClose, handleCloseExternal, setIsAccountChangedOnDepositStep]);
 
   const onCancelButtonClick = onClose;
 
   const { selectedGroupAddress } = useSelectedUserGroup();
 
   const onConfirmButtonClick = useCallback(() => {
-    const activeAddress =
-      selectedGroupAddress || connectedAddress || personalAddress;
+    const address = selectedGroupAddress || connectedAddress || personalAddress;
+    const amountToDeposit = new BigNumber(amount);
 
-    dispatch(
-      setAmountToDeposit({
-        address: activeAddress,
-        amountToDeposit: new BigNumber(amount),
-      }),
-    );
-    dispatch(
-      setTransactionCurrency({
-        address: activeAddress,
-        currency,
-      }),
-    );
+    dispatch(setAmountToDeposit({ address, amountToDeposit }));
+    dispatch(setTransactionCurrency({ address, currency }));
 
     onClose();
 
@@ -105,14 +109,17 @@ export const useCryptoPaymentSummaryDialog = ({
   ]);
 
   const cryptoPaymentSummaryDialogProps =
-    useMemo<ICryptoPaymentSummaryDialogProps>(() => {
-      return {
+    useMemo<ICryptoPaymentSummaryDialogProps>(
+      () => ({
         amount,
         approvalFeeDetails,
         connectedAddress,
         currency,
         depositFeeDetails,
+        hasEnoughTokenBalance,
+        isAccountChangedOnDepositStep,
         isConnecting,
+        isWalletTokenBalanceLoading,
         network,
         onAnotherAddressButtonClick,
         onCancelButtonClick,
@@ -122,24 +129,28 @@ export const useCryptoPaymentSummaryDialog = ({
         open: isOpened,
         totalAmount,
         walletIcon,
-      };
-    }, [
-      amount,
-      approvalFeeDetails,
-      connectedAddress,
-      currency,
-      depositFeeDetails,
-      handleConnectAccount,
-      isConnecting,
-      isOpened,
-      network,
-      onAnotherAddressButtonClick,
-      onCancelButtonClick,
-      onClose,
-      onConfirmButtonClick,
-      totalAmount,
-      walletIcon,
-    ]);
+      }),
+      [
+        amount,
+        approvalFeeDetails,
+        connectedAddress,
+        currency,
+        depositFeeDetails,
+        handleConnectAccount,
+        hasEnoughTokenBalance,
+        isAccountChangedOnDepositStep,
+        isConnecting,
+        isOpened,
+        isWalletTokenBalanceLoading,
+        network,
+        onAnotherAddressButtonClick,
+        onCancelButtonClick,
+        onClose,
+        onConfirmButtonClick,
+        totalAmount,
+        walletIcon,
+      ],
+    );
 
   return {
     cryptoPaymentSummaryDialogProps,

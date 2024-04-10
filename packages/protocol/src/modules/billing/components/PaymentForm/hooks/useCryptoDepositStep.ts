@@ -1,34 +1,39 @@
 import { useCallback } from 'react';
 
-import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import {
-  ECryptoDepositStepStatus,
-  ECurrency,
-  IFeeDetails,
-} from 'modules/billing/types';
-import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
-import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
-import { useAppSelector } from 'store/useAppSelector';
+import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import { selectMyAllowanceValue } from 'domains/account/store/selectors';
-import { hasResponseError } from 'modules/common/utils/hasResponseError';
+import { useAppSelector } from 'store/useAppSelector';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
 
 import { useCryptoPaymentDepositDialog } from '../../CryptoPaymentDepositDialog';
+import { useOneTimeGetAllowanceHandler } from './useOneTimeGetAllowanceHandler';
 import { useOneTimeDialogState } from './useOneTimeDialogState';
+import { useOneTimeDepositHandler } from './useOneTimeDepositHandler';
+import { useAccountChangedHandlingOnDepositStep } from './useAccountsChangedHandlingOnDepositStep';
 
 interface ICryptoDepositStep {
-  currency: ECurrency;
   approvalFeeDetails: IFeeDetails;
+  currency: ECurrency;
   depositFeeDetails: IFeeDetails;
+  handleCryptoPaymentDepositDialogOpen: () => void;
+  handleCryptoPaymentSummaryDialogOpen: () => void;
+  isCryptoPaymentDepositDialogOpened: boolean;
+  onCryptoPaymentDepositDialogClose: () => void;
   onDepositSuccess: () => void;
+  setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
 
-// eslint-disable-next-line max-lines-per-function
 export const useCryptoDepositStep = ({
   approvalFeeDetails,
   currency,
   depositFeeDetails,
+  handleCryptoPaymentDepositDialogOpen,
+  handleCryptoPaymentSummaryDialogOpen,
+  isCryptoPaymentDepositDialogOpened,
+  onCryptoPaymentDepositDialogClose,
   onDepositSuccess,
+  setIsAccountChangedOnDepositStep,
 }: ICryptoDepositStep) => {
   const alreadyApprovedAllowanceValue = useAppSelector(selectMyAllowanceValue);
 
@@ -36,21 +41,9 @@ export const useCryptoDepositStep = ({
     amountToDeposit,
     approvedAmount,
     depositErrorMessage,
-    handleDeposit,
-    handleGetAllowance,
     handleResetTopUpTransaction,
-    handleWaitTransactionConfirming,
     sendAllowanceErrorMessage,
-    handleResetDeposit,
   } = useTopUp();
-
-  const {
-    isOpened: isOpenedCryptoPaymentDepositDialog,
-    onClose: onCloseCryptoPaymentDepositDialog,
-    onOpen: handleCryptoPaymentDepositDialogOpen,
-  } = useDialog();
-
-  const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
 
   const {
     currentStep,
@@ -64,85 +57,36 @@ export const useCryptoDepositStep = ({
 
   const handleRejectAllowance = useCallback(() => {
     handleResetTopUpTransaction();
-    onCloseCryptoPaymentDepositDialog();
+    onCryptoPaymentDepositDialogClose();
     setStartApproval();
   }, [
     handleResetTopUpTransaction,
-    onCloseCryptoPaymentDepositDialog,
+    onCryptoPaymentDepositDialogClose,
     setStartApproval,
   ]);
 
-  const onDeposit = useCallback(async () => {
-    handleResetDeposit();
-
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
-    const depositResponse = await handleDeposit();
-
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
-
-    const confirmationResponse = await handleWaitTransactionConfirming();
-
-    try {
-      const hasDepositError =
-        hasResponseError(depositResponse) ||
-        hasResponseError(confirmationResponse);
-
-      if (hasDepositError) {
-        setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
-      } else {
-        setCurrentDepositStatus(ECryptoDepositStepStatus.Complete);
-        onCloseCryptoPaymentDepositDialog();
-        onDepositSuccess();
-      }
-    } catch (error) {
-      setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
-    }
-  }, [
-    handleDeposit,
-    handleWaitTransactionConfirming,
-    handleResetDeposit,
-    onCloseCryptoPaymentDepositDialog,
-    setCurrentDepositStatus,
+  const { onDeposit } = useOneTimeDepositHandler({
+    onCryptoPaymentDepositDialogClose,
     onDepositSuccess,
-  ]);
+    setCurrentDepositStatus,
+  });
 
-  const onGetAllowance = useCallback(
-    async (isRetry?: boolean) => {
-      if (isRetry) {
-        setCurrentApprovalStatus(ECryptoDepositStepStatus.Confirmation);
-      }
+  const { onGetAllowance } = useOneTimeGetAllowanceHandler({
+    moveToDeposit,
+    setCurrentApprovalStatus,
+    setStartApproval,
+  });
 
-      setCurrentApprovalStatus(ECryptoDepositStepStatus.Pending);
-      const allowanceResponse = await handleGetAllowance();
-      const allowanceValueResponse = await fetchAllowance();
-
-      if (allowanceResponse.error || allowanceValueResponse.error) {
-        setCurrentApprovalStatus(ECryptoDepositStepStatus.Error);
-
-        return;
-      }
-
-      const allowanceValueNumber = Number(allowanceValueResponse.data);
-      const hasEnoughAllowance =
-        allowanceValueNumber >= Number(amountToDeposit);
-
-      if (hasEnoughAllowance) {
-        moveToDeposit();
-
-        return;
-      }
-
-      setStartApproval();
-    },
-    [
-      amountToDeposit,
-      fetchAllowance,
-      handleGetAllowance,
-      moveToDeposit,
-      setCurrentApprovalStatus,
-      setStartApproval,
-    ],
-  );
+  // to handle the case when a user has switched his account in wallet
+  // during the payment flow
+  useAccountChangedHandlingOnDepositStep({
+    currentDepositStatus,
+    currentStep,
+    handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentDepositDialogOpened,
+    onCryptoPaymentDepositDialogClose,
+    setIsAccountChangedOnDepositStep,
+  });
 
   const { amountUsd, isLoading: isLoadingRate } = useUSDAmountByCryptoAmount({
     amount: Number(amountToDeposit),
@@ -150,24 +94,24 @@ export const useCryptoDepositStep = ({
   });
 
   const cryptoDepositDialogProps = useCryptoPaymentDepositDialog({
-    sendAllowanceErrorMessage,
     amount: Number(amountToDeposit),
     amountUsd,
-    currency,
+    approvalFeeDetails,
     approvedAmount:
       Number(alreadyApprovedAllowanceValue) || Number(approvedAmount),
-    approvalFeeDetails,
+    currency,
     currentApprovalStatus,
-    depositFeeDetails,
     currentDepositStatus,
-    depositErrorMessage,
     currentStep,
+    depositErrorMessage,
+    depositFeeDetails,
+    handleCryptoPaymentDepositDialogOpen,
+    handleRejectAllowance,
+    isCryptoPaymentDepositDialogOpened,
+    onCryptoPaymentDepositDialogClose,
     onDeposit,
     onGetAllowance,
-    handleRejectAllowance,
-    isOpenedCryptoPaymentDepositDialog,
-    onCloseCryptoPaymentDepositDialog,
-    handleCryptoPaymentDepositDialogOpen,
+    sendAllowanceErrorMessage,
   });
 
   return {

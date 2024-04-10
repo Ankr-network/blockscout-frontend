@@ -1,14 +1,17 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export enum RequestType {
+  'ANKRAllowanceFee' = 'ANKRAllowanceFee',
+  'ANKRDepositFee' = 'ANKRDepositFee',
+  'BindingAccounts' = 'BindingAccounts',
+  'GroupCreationAllowance' = 'GroupCreationAllowance',
   'MyBundles' = 'MyBundles',
   'MySubscriptions' = 'MySubscriptions',
-  'WhitelistBlockchains' = 'WhitelistBlockchains',
   'ProjectWhitelist' = 'ProjectWhitelist',
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
-  'GroupCreationAllowance' = 'GroupCreationAllowance',
-  'BindingAccounts' = 'BindingAccounts',
+  'WalletTokenBalance' = 'WalletTokenBalance',
+  'WhitelistBlockchains' = 'WhitelistBlockchains',
 }
 
 // Endponts that must be cached by their names and params should be listed here
@@ -29,16 +32,7 @@ export const web3Api = createApi({
     endpointsSerializedByParams.includes(endpointName)
       ? JSON.stringify({ queryArgs }) + endpointName
       : endpointName,
-  tagTypes: [
-    RequestType.MyBundles,
-    RequestType.MySubscriptions,
-    RequestType.WhitelistBlockchains,
-    RequestType.ProjectWhitelist,
-    RequestType.UserGroupDetails,
-    RequestType.UserGroupsList,
-    RequestType.GroupCreationAllowance,
-    RequestType.BindingAccounts,
-  ],
+  tagTypes: [...Object.values(RequestType)],
 });
 
 export const projectApi = createApi({

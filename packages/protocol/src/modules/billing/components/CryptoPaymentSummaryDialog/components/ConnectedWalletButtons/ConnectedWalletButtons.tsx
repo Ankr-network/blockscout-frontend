@@ -5,12 +5,18 @@ import { SecondaryButton } from '../SecondaryButton';
 import { useConnectedWalletButtonStyles } from './useConnectedWalletButtonsStyles';
 
 export interface IConnectedWalletButtonsProps {
+  isAccountChangedOnDepositStep: boolean;
   onAnotherAddressButtonClick: () => void;
   onCancelButtonClick: () => void;
   onConfirmButtonClick: () => void;
 }
 
+const confirmKey = 'account.payment-summary-dialog.crypto.confirm-button';
+const proceedKey =
+  'account.payment-summary-dialog.crypto.proceed-with-new-address-button';
+
 export const ConnectedWalletButtons = ({
+  isAccountChangedOnDepositStep,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
   onConfirmButtonClick,
@@ -23,7 +29,7 @@ export const ConnectedWalletButtons = ({
         className={classes.confirmButton}
         onClick={onConfirmButtonClick}
       >
-        {t('account.payment-summary-dialog.crypto.confirm-button')}
+        {t(isAccountChangedOnDepositStep ? proceedKey : confirmKey)}
       </PrimaryButton>
       <SecondaryButton
         className={classes.anotherAddressButton}
