@@ -10,14 +10,12 @@ import { useTopupInitialStep } from '../../../TopUp/useTopupInitialStep';
 export const useOngoingPayments = () => {
   const { isLoading } = useTopupInitialStep();
 
-  const { hasError } = useTopUp();
+  const { hasError, loadingWaitTransactionConfirming } = useTopUp();
 
   const transaction = useSelectTopUpTransaction();
 
   const txHash = useMemo(
-    () =>
-      transaction?.topUpTransactionHash ||
-      transaction?.allowanceTransactionHash,
+    () => transaction?.topUpTransactionHash,
     [transaction],
   );
 
@@ -33,7 +31,7 @@ export const useOngoingPayments = () => {
 
   const transactionStatus: 'error' | 'success' | 'pending' | undefined =
     useMemo(() => {
-      if (transaction?.topUpTransactionHash) {
+      if (txHash && !loadingWaitTransactionConfirming) {
         return 'success';
       }
 
@@ -41,22 +39,25 @@ export const useOngoingPayments = () => {
         return 'error';
       }
 
-      if (!transaction) {
+      if (!txHash) {
         return undefined;
       }
 
       return 'pending';
-    }, [hasError, transaction]);
+    }, [hasError, loadingWaitTransactionConfirming, txHash]);
 
   const shouldShowOngoingPayment = Boolean(transaction?.topUpTransactionHash);
 
+  const isSuccessState =
+    transactionStatus === 'success' && txHash && approvedAmountString;
+
   return {
     txHash,
-    amount: transaction?.approvedAmount || transaction?.amountToDeposit,
     approvedAmountString: approvedAmountString || amountToDepositString,
     approvedUsdAmount,
     transactionStatus,
     isLoading,
     shouldShowOngoingPayment,
+    isSuccessState,
   };
 };

@@ -25,6 +25,7 @@ export const OngoingPayments = ({
     transactionStatus,
     isLoading,
     shouldShowOngoingPayment,
+    isSuccessState,
   } = useOngoingPayments();
 
   if (!shouldShowOngoingPayment || isLoading) {
@@ -52,7 +53,7 @@ export const OngoingPayments = ({
 
         <OngoingPaymentStatus status={transactionStatus} />
 
-        {txHash && approvedAmountString && transactionStatus === 'success' ? (
+        {isSuccessState && approvedAmountString && txHash ? (
           <DetailsButton amount={approvedAmountString} txHash={txHash} />
         ) : (
           <Button

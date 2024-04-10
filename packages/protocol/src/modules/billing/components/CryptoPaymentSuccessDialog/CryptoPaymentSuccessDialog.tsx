@@ -21,7 +21,7 @@ export interface ICryptoPaymentSuccessDialogProps
   fromAddress: Web3Address;
   isLoading?: boolean;
   toAddress: Web3Address;
-  txDate: Date;
+  txDate?: Date;
 }
 
 export const CryptoPaymentSuccessDialog = ({

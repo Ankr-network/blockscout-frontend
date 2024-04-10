@@ -6,8 +6,9 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
-import { MultiService } from 'modules/api/MultiService';
+import { GetState } from 'store';
 
+import { getCurrentTransactionAddress } from '../../utils/getCurrentTransactionAddress';
 import { accountFetchPublicKey } from '../fetchPublicKey';
 
 interface IDepositForUserRequestParams {
@@ -47,22 +48,10 @@ export const {
         ),
         fallback: { data: null },
       }),
-      onQueryStarted: async (
-        { targetAddress },
-        { dispatch, queryFulfilled },
-      ) => {
-        let address = targetAddress; // should be a group address for group account top-up
-
+      onQueryStarted: async (_args, { getState, dispatch, queryFulfilled }) => {
         const { data: depositResponse } = await queryFulfilled;
 
-        const service = MultiService.getWeb3Service();
-
-        if (service) {
-          const provider = service.getKeyWriteProvider();
-          const { currentAccount: currentAccountAddress } = provider;
-
-          address = currentAccountAddress;
-        }
+        const address = getCurrentTransactionAddress(getState as GetState);
 
         if (depositResponse?.transactionHash) {
           dispatch(

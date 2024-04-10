@@ -2,6 +2,7 @@ import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';
@@ -42,13 +43,16 @@ export const CryptoPaymentDepositDialog = ({
 
   const { amountToDeposit, transactionCurrency } = useTopUp();
 
+  const { shouldShowOngoingPayment: hasOngoingTransaction } =
+    useOngoingPayments();
+
   return (
     <Dialog
       {...dialogProps}
       classes={classes}
       title={t('account.crypto-payment-deposit-dialog.title')}
       titleClassName={classes.title}
-      hasMinimizeIcon
+      hasMinimizeIcon={hasOngoingTransaction}
     >
       <Header
         amount={Number(amountToDeposit)}

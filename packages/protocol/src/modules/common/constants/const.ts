@@ -42,6 +42,5 @@ export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';
 
 export const ACTION_TEN_MINUTES_CACHE = 6000;
 
-export const CHARGING_MODEL_DEAL_DOCS_LINK = 'https://TODO'; // TODO: add link
-
-export const ASSETS_BALANCE_LEARN_MORE_LINK = 'https://TODO'; // TODO: add link
+export const CHARGING_MODEL_DEAL_DOCS_LINK =
+  'https://www.ankr.com/docs/rpc-service/service-plans/#deal';

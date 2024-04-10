@@ -2,7 +2,6 @@ import { t, tHTML } from '@ankr.com/common';
 import { Typography } from '@mui/material';
 
 import { Dialog } from 'uiKit/Dialog';
-import { ASSETS_BALANCE_LEARN_MORE_LINK } from 'modules/common/constants/const';
 
 import { intlRoot } from '../../const';
 import { useAssetsDialogStyles } from './useAssetsDialogStyles';
@@ -33,9 +32,7 @@ export const AssetsBalanceDialog = ({
         variant="body2"
         component="p"
       >
-        {tHTML(`${intlRoot}.assets-balance-dialog.description`, {
-          href: ASSETS_BALANCE_LEARN_MORE_LINK, // TODO: add link
-        })}
+        {tHTML(`${intlRoot}.assets-balance-dialog.description`)}
       </Typography>
       {children}
     </Dialog>

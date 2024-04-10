@@ -10,12 +10,18 @@ import {
   ECryptoDepositStepStatus,
 } from 'modules/billing/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
+import { TopUpStep } from 'domains/account/actions/topUp/const';
 
 export const useOneTimeDialogState = () => {
   const isLoadingAllowanceStatus = useAppSelector(selectMyAllowanceLoading);
   const alreadyApprovedAllowanceValue = useAppSelector(selectMyAllowanceValue);
 
   const { amountToDeposit } = useTopUp();
+  const transaction = useSelectTopUpTransaction();
+  const { initialStep, isLoading: isLoadingInitialStep } =
+    useTopupInitialStep();
 
   const hasAllowanceInBlockchain = Number(alreadyApprovedAllowanceValue) > 0;
   const isEnoughAllowance =
@@ -74,6 +80,23 @@ export const useOneTimeDialogState = () => {
     setPendingApproval,
     setStartApproval,
   ]);
+
+  useEffect(() => {
+    if (isLoadingInitialStep) {
+      return;
+    }
+
+    const hasOngoingDepositTransaction =
+      transaction?.topUpTransactionHash &&
+      initialStep === TopUpStep.waitTransactionConfirming;
+
+    /* If user has ongoing deposit transaction load we should set the initial state to pending deposit */
+    if (hasOngoingDepositTransaction) {
+      setCurrentStep(ECryptoDepositStep.Deposit);
+      setCurrentApprovalStatus(ECryptoDepositStepStatus.Complete);
+      setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
+    }
+  }, [initialStep, isLoadingInitialStep, transaction?.topUpTransactionHash]);
 
   return {
     currentStep,

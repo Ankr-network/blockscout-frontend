@@ -2004,7 +2004,7 @@
         "assets-balance-button": "Assets balance",
         "assets-balance-dialog": {
           "title": "Assets balance",
-          "description": "The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make. <a href={href} target='_blank'>Learn more</a>"
+          "description": "The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make."
         }
       },
       "plan-widget": {

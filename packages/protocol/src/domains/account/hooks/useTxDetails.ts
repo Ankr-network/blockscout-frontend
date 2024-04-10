@@ -8,6 +8,7 @@ import { useNativeTokenPrice } from './useNativeTokenPrice';
 import { useTokenPrice } from './useTokenPrice';
 import { useTxData } from './useTxData';
 import { useTxReceipt } from './useTxReceipt';
+import { getDateFromUnixSeconds } from '../../../modules/common/utils/getDateFromUnixSeconds';
 
 export interface IUseTxDetailsProps {
   amount: number;
@@ -51,7 +52,9 @@ export const useTxDetails = ({
 
   const fromAddress = txData?.tx.from ?? '';
   const toAddress = txData?.tx.to ?? '';
-  const txDate = new Date(txData?.timestamp ?? 0);
+  const txDate = txData?.timestamp
+    ? getDateFromUnixSeconds(txData.timestamp)
+    : undefined;
 
   const gasUsed = txReceipt?.gasUsed ?? 0;
   const depositAmountUsd = new BigNumber(tokenPrice)

@@ -6,13 +6,13 @@ import { useHeaderStyles } from './useHeaderStyles';
 
 export interface IHeaderProps {
   className?: string;
-  txDate: Date;
+  txDate?: Date;
 }
 
 export const Header = ({ className, txDate }: IHeaderProps) => {
   const { classes, cx } = useHeaderStyles();
 
-  const formattedDate = format(txDate, 'MMM d Y HH:mm');
+  const formattedDate = txDate ? format(txDate, 'MMM d Y HH:mm') : '';
   const subtitle = t('account.success-crypto-payment-dialog.subtitle', {
     date: formattedDate,
   });
@@ -22,9 +22,11 @@ export const Header = ({ className, txDate }: IHeaderProps) => {
       <Typography className={classes.title} variant="h5">
         {t('account.success-crypto-payment-dialog.title')}
       </Typography>
-      <Typography className={classes.subtitle} variant="body3">
-        {subtitle}
-      </Typography>
+      {txDate && (
+        <Typography className={classes.subtitle} variant="body3">
+          {subtitle}
+        </Typography>
+      )}
     </div>
   );
 };
