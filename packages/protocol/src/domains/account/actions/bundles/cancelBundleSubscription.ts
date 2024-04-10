@@ -1,15 +1,12 @@
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
-import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { RequestType, web3Api } from 'store/queries';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 export interface CancelBundleSubscriptionParams {
   subscriptionId: string;
   group?: string;
 }
-
-export const FIXED_CACHE_KEY_CANCEL_BUNDLE_SUBSCRIPTION =
-  'cancelBundleSubscription';
 
 export const {
   endpoints: { cancelBundleSubscription },
@@ -17,20 +14,22 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     cancelBundleSubscription: build.mutation<
-      null,
+      boolean,
       TwoFAQueryFnParams<CancelBundleSubscriptionParams>
     >({
       invalidatesTags: [RequestType.MyBundles],
-      queryFn: createQueryFnWithErrorHandler({
-        queryFn: async ({ params: { subscriptionId, group }, totp }) => {
+      queryFn: createNotifyingQueryFn(
+        async ({ params: { subscriptionId, group }, totp }) => {
           const api = MultiService.getService().getAccountingGateway();
 
-          await api.cancelBundleSubscription(subscriptionId, { group, totp });
+          await api.cancelBundleSubscription(subscriptionId, {
+            group,
+            totp,
+          });
 
-          return { data: null };
+          return { data: true };
         },
-        errorHandler: error => ({ error }),
-      }),
+      ),
     }),
   }),
   overrideExisting: true,

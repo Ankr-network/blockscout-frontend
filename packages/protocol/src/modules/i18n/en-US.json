@@ -1831,7 +1831,7 @@
       },
       "cancel-dialog": {
         "title": "Payment cancelled",
-        "description": "Your payment has been successfully cancelled",
+        "description": "Your recurring PAYG payment has been successfully cancelled",
         "done-btn": "Done"
       }
     },
