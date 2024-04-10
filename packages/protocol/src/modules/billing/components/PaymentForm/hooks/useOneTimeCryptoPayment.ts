@@ -97,30 +97,28 @@ export const useOneTimeCryptoPayment = ({
     totalAmount,
   });
 
-  const { shouldShowOngoingPayment: hasOngoingTransaction } =
-    useOngoingPayments();
+  const { transactionStatus } = useOngoingPayments();
 
   const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
 
   const handlePayButtonClick = useCallback(() => {
-    if (depositTransactionHash) {
-      return handleCryptoPaymentSuccessDialogOpen();
+    if (transactionStatus === 'pending' || transactionStatus === 'error') {
+      return handleCryptoPaymentDepositDialogOpen();
     }
 
-    if (hasOngoingTransaction) {
-      return handleCryptoPaymentDepositDialogOpen();
+    if (transactionStatus === 'success') {
+      return handleCryptoPaymentSuccessDialogOpen();
     }
 
     fetchAllowance();
 
     return handleCryptoPaymentSummaryDialogOpen();
   }, [
-    depositTransactionHash,
     fetchAllowance,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
-    hasOngoingTransaction,
+    transactionStatus,
   ]);
 
   return {
