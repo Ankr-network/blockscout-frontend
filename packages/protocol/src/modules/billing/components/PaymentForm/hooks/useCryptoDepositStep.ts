@@ -11,6 +11,7 @@ import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountBy
 import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectMyAllowanceValue } from 'domains/account/store/selectors';
+import { hasResponseError } from 'modules/common/utils/hasResponseError';
 
 import { useCryptoPaymentDepositDialog } from '../../CryptoPaymentDepositDialog';
 import { useOneTimeDialogState } from './useOneTimeDialogState';
@@ -22,6 +23,7 @@ interface ICryptoDepositStep {
   onDepositSuccess: () => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const useCryptoDepositStep = ({
   approvalFeeDetails,
   currency,
@@ -39,6 +41,7 @@ export const useCryptoDepositStep = ({
     handleResetTopUpTransaction,
     handleWaitTransactionConfirming,
     sendAllowanceErrorMessage,
+    handleResetDeposit,
   } = useTopUp();
 
   const {
@@ -70,6 +73,8 @@ export const useCryptoDepositStep = ({
   ]);
 
   const onDeposit = useCallback(async () => {
+    handleResetDeposit();
+
     setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
     const depositResponse = await handleDeposit();
 
@@ -77,16 +82,25 @@ export const useCryptoDepositStep = ({
 
     const confirmationResponse = await handleWaitTransactionConfirming();
 
-    if (depositResponse.error || confirmationResponse.error) {
+    try {
+      const hasDepositError =
+        hasResponseError(depositResponse) ||
+        hasResponseError(confirmationResponse);
+
+      if (hasDepositError) {
+        setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
+      } else {
+        setCurrentDepositStatus(ECryptoDepositStepStatus.Complete);
+        onCloseCryptoPaymentDepositDialog();
+        onDepositSuccess();
+      }
+    } catch (error) {
       setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
-    } else {
-      setCurrentDepositStatus(ECryptoDepositStepStatus.Complete);
-      onCloseCryptoPaymentDepositDialog();
-      onDepositSuccess();
     }
   }, [
     handleDeposit,
     handleWaitTransactionConfirming,
+    handleResetDeposit,
     onCloseCryptoPaymentDepositDialog,
     setCurrentDepositStatus,
     onDepositSuccess,

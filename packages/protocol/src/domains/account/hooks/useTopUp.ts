@@ -212,11 +212,12 @@ export const useTopUp = () => {
     loadingCheckAllowanceTransaction;
 
   const depositErrorMessage =
-    getErrorMessage(depositError) || getErrorMessage(depositForUserError);
+    getErrorMessage(depositError) ||
+    getErrorMessage(depositForUserError) ||
+    getErrorMessage(errorWaitTransactionConfirming);
 
-  const hasError = Boolean(
-    errorWaitTransactionConfirming || sendAllowanceError || depositErrorMessage,
-  );
+  const hasError =
+    Boolean(sendAllowanceError || depositErrorMessage) && !loading;
 
   return {
     transactionCurrency,
