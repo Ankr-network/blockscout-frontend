@@ -1,9 +1,12 @@
 import { LoadingButton } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
 
 import { EPaymentType } from 'modules/billing/types';
 // TODO: move to the billing module
 import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
+import { useEmailDialog } from 'domains/account/screens/BillingPage/hooks/useEmailDialog';
+import { TopUpEmailDialog } from 'domains/account/screens/BillingPage/TopUpEmailDialog';
 import { IDialogProps } from 'uiKit/Dialog';
 
 import { AmountField } from './components/AmountField';
@@ -66,28 +69,41 @@ export const PaymentForm = ({
 }: IPaymentFormProps) => {
   const { classes, cx } = usePaymentFormStyles();
 
+  const { dialogProps, emailData, handleOpenEmailDialog, hasEmailBound } =
+    useEmailDialog();
+
+  const handleCheckBoundedEmailAndPay = useCallback(() => {
+    if (!hasEmailBound) {
+      return handleOpenEmailDialog();
+    }
+
+    return handlePayButtonClick();
+  }, [handleOpenEmailDialog, handlePayButtonClick, hasEmailBound]);
+
   return (
-    <div className={cx(classes.paymentFormRoot, className)}>
-      <WidgetTitle className={classes.title}>
-        {t('account.payment-form.title')}
-      </WidgetTitle>
-      <PaymentTabs className={classes.paymentTabs} {...paymentTabsProps} />
-      <CurrencyTabs className={classes.currencyTabs} {...currencyTabsProps} />
-      <AmountField
-        className={classes.amountField}
-        dealAmountProps={dealAmountProps}
-        oneTimeAmountProps={oneTimeAmountProps}
-        paymentType={paymentType}
-        recurringAmountProps={recurringAmountProps}
-      />
-      <LoadingButton
-        fullWidth
-        loading={isPayButtonLoading}
-        onClick={handlePayButtonClick}
-        size="large"
-      >
-        {t('account.payment-form.pay-button')}
-      </LoadingButton>
+    <>
+      <div className={cx(classes.paymentFormRoot, className)}>
+        <WidgetTitle className={classes.title}>
+          {t('account.payment-form.title')}
+        </WidgetTitle>
+        <PaymentTabs className={classes.paymentTabs} {...paymentTabsProps} />
+        <CurrencyTabs className={classes.currencyTabs} {...currencyTabsProps} />
+        <AmountField
+          className={classes.amountField}
+          dealAmountProps={dealAmountProps}
+          oneTimeAmountProps={oneTimeAmountProps}
+          paymentType={paymentType}
+          recurringAmountProps={recurringAmountProps}
+        />
+        <LoadingButton
+          fullWidth
+          loading={isPayButtonLoading}
+          onClick={handleCheckBoundedEmailAndPay}
+          size="large"
+        >
+          {t('account.payment-form.pay-button')}
+        </LoadingButton>
+      </div>
 
       {usdPaymentSummaryProps && (
         <USDPaymentSummaryDialog {...usdPaymentSummaryProps} />
@@ -104,6 +120,8 @@ export const PaymentForm = ({
       <CryptoPaymentSuccessDialog {...cryptoPaymentSuccessDialogProps} />
 
       <TimeToUpgradeDialog {...enterpriseDialogProps} />
-    </div>
+
+      <TopUpEmailDialog dialogProps={dialogProps} emailDataProps={emailData} />
+    </>
   );
 };
