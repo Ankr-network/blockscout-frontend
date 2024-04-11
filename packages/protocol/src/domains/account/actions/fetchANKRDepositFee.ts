@@ -1,8 +1,10 @@
 import BigNumber from 'bignumber.js';
 
+import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
-import { web3Api } from 'store/queries';
+
+import { getCurrentAccountBalance } from '../utils/getCurrentAccountBalance';
 
 export interface IFetchANKRDepositFeeParams {
   amount: number;
@@ -14,16 +16,23 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchANKRDepositFee: build.query<number, IFetchANKRDepositFeeParams>({
+      providesTags: [RequestType.ANKRDepositFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { amount }, web3Service }) => {
-            const contractService = web3Service.getContractService();
+            const balance = await getCurrentAccountBalance({ web3Service });
 
-            const fee = await contractService.getDepositAnkrToPAYGFee(
-              new BigNumber(amount),
-            );
+            if (Number(balance) >= amount) {
+              const contractService = web3Service.getContractService();
 
-            return { data: Number(fee) };
+              const fee = await contractService.getDepositAnkrToPAYGFee(
+                new BigNumber(amount),
+              );
+
+              return { data: Number(fee) };
+            }
+
+            return { data: 0 };
           },
         ),
         fallback: { data: 0 },

@@ -17,7 +17,7 @@ export interface SubscriptionEditorProps {
   amount: string;
   isCanceling: boolean;
   nextBillingDate: string;
-  onCancel: () => Promise<void>;
+  onCancel: () => Promise<{ error: unknown } | { data: boolean }>;
   onOpenSuccessDialog: () => void;
   period: RecurrentInterval;
   customChargingModelName?: string;
@@ -47,10 +47,12 @@ export const SubscriptionEditor = ({
   });
 
   const onContinue = useCallback(async () => {
-    await onCancel();
+    const response = await onCancel();
 
-    onOpenSuccessDialog();
-    onCloseConfirmDialog();
+    if ('data' in response) {
+      onOpenSuccessDialog();
+      onCloseConfirmDialog();
+    }
   }, [onCancel, onCloseConfirmDialog, onOpenSuccessDialog]);
 
   const { classes } = useSubscriptionEditorStyles();

@@ -47,5 +47,5 @@ export const getTokenPriceByChainId = async (chainId: number, tokenAddress?: str
   return getAdvancedApi('ankr_getTokenPrice', {
     blockchain,
     contractAddress: tokenAddress,
-  }).then(res => res.usdPrice);
+  }).then(res => res?.usdPrice);
 };

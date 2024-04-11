@@ -5,7 +5,13 @@ import { useEffect, useState } from 'react';
 import { getProviderManager } from 'modules/api/getProviderManager';
 import { isEventProvider } from 'store/utils/isEventProvider';
 
-export const useConnectedAddress = () => {
+export interface IUseConnectedAddressProps {
+  onAccountsChanged?: () => void;
+}
+
+export const useConnectedAddress = ({
+  onAccountsChanged,
+}: IUseConnectedAddressProps | void = {}) => {
   const [connectedAddress, setConnectedAddress] = useState<string>();
   const [walletIcon, setWalletIcon] = useState<string>();
 
@@ -23,12 +29,14 @@ export const useConnectedAddress = () => {
       walletProvider = provider.getWeb3().currentProvider;
 
       if (isEventProvider(walletProvider)) {
-        listener = (connectedAddresses: string[]) => {
+        listener = async (connectedAddresses: string[]) => {
           const newConnectedAddress = connectedAddresses?.[0];
 
           provider.currentAccount = newConnectedAddress;
 
           setConnectedAddress(newConnectedAddress);
+
+          onAccountsChanged?.();
         };
 
         walletProvider.on(ProviderEvents.AccountsChanged, listener);
@@ -46,7 +54,7 @@ export const useConnectedAddress = () => {
         );
       }
     };
-  }, []);
+  }, [onAccountsChanged]);
 
   return { connectedAddress, walletIcon };
 };

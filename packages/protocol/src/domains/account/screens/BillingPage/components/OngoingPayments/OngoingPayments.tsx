@@ -2,6 +2,8 @@ import { Ankr } from '@ankr.com/ui';
 import { Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
+import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
+
 import { DetailsButton } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
 import { useOngoingPayments } from './useOngoingPayments';
@@ -23,10 +25,11 @@ export const OngoingPayments = ({
     approvedAmountString,
     approvedUsdAmount,
     transactionStatus,
-    isLoading,
     shouldShowOngoingPayment,
     isSuccessState,
   } = useOngoingPayments();
+
+  const { isLoading } = useTopupInitialStep();
 
   if (!shouldShowOngoingPayment || isLoading) {
     return null;

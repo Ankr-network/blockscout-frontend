@@ -5,11 +5,7 @@ import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountBy
 import { ECurrency } from 'modules/billing/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 
-import { useTopupInitialStep } from '../../../TopUp/useTopupInitialStep';
-
 export const useOngoingPayments = () => {
-  const { isLoading } = useTopupInitialStep();
-
   const { hasError, loadingWaitTransactionConfirming } = useTopUp();
 
   const transaction = useSelectTopUpTransaction();
@@ -35,7 +31,7 @@ export const useOngoingPayments = () => {
         return 'success';
       }
 
-      if (hasError) {
+      if (hasError && !loadingWaitTransactionConfirming) {
         return 'error';
       }
 
@@ -56,7 +52,6 @@ export const useOngoingPayments = () => {
     approvedAmountString: approvedAmountString || amountToDepositString,
     approvedUsdAmount,
     transactionStatus,
-    isLoading,
     shouldShowOngoingPayment,
     isSuccessState,
   };

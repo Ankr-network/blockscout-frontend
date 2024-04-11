@@ -4,12 +4,12 @@ import { Dialog, IDialogProps } from 'uiKit/Dialog';
 import { IFeeDetails } from 'modules/billing/types';
 
 import { ButtonsGroup, IButtonsGroupProps } from './components/ButtonsGroup';
-import { IUseCryptoPaymentSummaryDialogProps } from './types';
+import { ICryptoPaymentSummaryDialogCommonProps } from './types';
 import { TxDetails } from './components/TxDetails';
 import { useCryptoPaymentSummaryDialogStyles } from './useCryptoPaymentSummaryDialogStyles';
 
 export interface ICryptoPaymentSummaryDialogProps
-  extends IUseCryptoPaymentSummaryDialogProps,
+  extends ICryptoPaymentSummaryDialogCommonProps,
     IButtonsGroupProps,
     IDialogProps {
   approvalFeeDetails: IFeeDetails;
@@ -22,7 +22,10 @@ export const CryptoPaymentSummaryDialog = ({
   connectedAddress,
   currency,
   depositFeeDetails,
+  hasEnoughTokenBalance,
+  isAccountChangedOnDepositStep,
   isConnecting,
+  isWalletTokenBalanceLoading,
   network,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
@@ -46,12 +49,15 @@ export const CryptoPaymentSummaryDialog = ({
         className={classes.txDetails}
         currency={currency}
         depositFeeDetails={depositFeeDetails}
+        hasEnoughTokenBalance={hasEnoughTokenBalance}
         isWalletConnected={Boolean(connectedAddress)}
+        isWalletTokenBalanceLoading={isWalletTokenBalanceLoading}
         network={network}
         totalAmount={totalAmount}
       />
       <ButtonsGroup
         connectedAddress={connectedAddress}
+        isAccountChangedOnDepositStep={isAccountChangedOnDepositStep}
         isConnecting={isConnecting}
         onAnotherAddressButtonClick={onAnotherAddressButtonClick}
         onCancelButtonClick={onCancelButtonClick}

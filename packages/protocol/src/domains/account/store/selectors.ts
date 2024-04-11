@@ -44,10 +44,11 @@ import {
   ZERO_STRING,
 } from './const';
 import { ITransaction } from './types';
+import { fetchGasPrice } from '../actions/fetchGasPrice';
 import { fetchMyAllowance } from '../actions/fetchMyAllowance';
 import { fetchTxData } from '../actions/fetchTxData';
 import { fetchTxReceipt } from '../actions/fetchTxReceipt';
-import { fetchGasPrice } from '../actions/fetchGasPrice';
+import { fetchWalletAccountANKRBalance } from '../actions/balance/fetchWalletAccountBalance';
 
 export const selectTopUpOrigin = (state: RootState) =>
   state.accountTopUp.topUpOrigin;
@@ -792,5 +793,25 @@ export const selectGasPriceFetching = createSelector(
 
 export const selectGasPriceLoading = createSelector(
   selectGasPriceState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectWalletAccountANKRBalanceState = createSelector(
+  fetchWalletAccountANKRBalance.select(),
+  state => state,
+);
+
+export const selectWalletAccountANKRBalance = createSelector(
+  selectWalletAccountANKRBalanceState,
+  ({ data = ZERO_STRING }) => Number(data),
+);
+
+export const selectWalletAccountANKRBalanceFetching = createSelector(
+  selectWalletAccountANKRBalanceState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectWalletAccountANKRBalanceLoading = createSelector(
+  selectWalletAccountANKRBalanceState,
   ({ isLoading }) => isLoading,
 );

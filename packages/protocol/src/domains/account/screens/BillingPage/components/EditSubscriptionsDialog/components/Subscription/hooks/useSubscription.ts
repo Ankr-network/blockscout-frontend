@@ -19,12 +19,17 @@ export const useSubscription = ({
   onCancel: onCancelSubscription,
   subscription,
 }: SubscriptionParams) => {
-  const [cancelSubscription, { isLoading: isCancelingSubscription }] =
-    useCancelSubscriptionMutation();
+  const [
+    cancelSubscription,
+    { isLoading: isCancelingSubscription, error: cancelSubscriptionError },
+  ] = useCancelSubscriptionMutation();
 
   const [
     cancelBundleSubscription,
-    { isLoading: isCancelingBundleSubscription },
+    {
+      isLoading: isCancelingBundleSubscription,
+      error: cancelBundleSubscriptionError,
+    },
   ] = useCancelBundleSubscriptionMutation();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -40,19 +45,27 @@ export const useSubscription = ({
     subscriptionId,
   } = subscription;
 
-  const isDealBundle = isDealPlan(currentBundleData);
+  const isDealBundle = Boolean(isDealPlan(currentBundleData));
   const isPackageBundle = isPackagePlan(currentBundleData);
 
   const onCancel = useCallback(async () => {
-    const cancelSubscriptionParams = { params: { group, subscriptionId } };
+    const cancelSubscriptionParams = {
+      params: { group, subscriptionId },
+    };
+
+    let response;
 
     if (isDealBundle || isPackageBundle) {
-      await cancelBundleSubscription(cancelSubscriptionParams);
+      response = await cancelBundleSubscription(cancelSubscriptionParams);
     } else {
-      await cancelSubscription(cancelSubscriptionParams);
+      response = await cancelSubscription(cancelSubscriptionParams);
     }
 
-    onCancelSubscription(nextBillingDate, Boolean(isDealBundle));
+    if (!cancelSubscriptionError && !cancelBundleSubscriptionError) {
+      onCancelSubscription(nextBillingDate, isDealBundle);
+    }
+
+    return response;
   }, [
     group,
     subscriptionId,
@@ -60,6 +73,8 @@ export const useSubscription = ({
     isPackageBundle,
     onCancelSubscription,
     nextBillingDate,
+    cancelSubscriptionError,
+    cancelBundleSubscriptionError,
     cancelBundleSubscription,
     cancelSubscription,
   ]);
