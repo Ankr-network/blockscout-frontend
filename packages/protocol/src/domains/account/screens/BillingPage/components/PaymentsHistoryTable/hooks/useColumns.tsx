@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { IPaymentHistoryTableEntity, PaymentType } from 'domains/account/types';
+import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 
 import { Amount, CurrencySymbol } from '../components/Amount';
 import { Deduction } from '../components/Deduction';
@@ -42,6 +43,9 @@ const getCurrencySymbol = (
 /* eslint-disable max-lines-per-function */
 export const useColumns = () => {
   const downloadTransactions = useTransactionsDownloader();
+
+  const { connectedAddress } = useConnectedAddress();
+  const hasConnectedAddress = Boolean(connectedAddress);
 
   return useLocaleMemo(
     (): VirtualTableColumn<IPaymentHistoryTableEntity>[] => [
@@ -153,12 +157,16 @@ export const useColumns = () => {
             amountUsd,
           });
 
-          return txHash && <DetailsButton amount={amount} txHash={txHash} />;
+          if (!txHash || !hasConnectedAddress) {
+            return null;
+          }
+
+          return <DetailsButton amount={amount} txHash={txHash} />;
         },
         width: 110,
         sortable: false,
       },
     ],
-    [],
+    [hasConnectedAddress],
   );
 };
