@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
+import { hasMetamask } from 'domains/auth/utils/hasMetamask';
 import {
   setAmountToDeposit,
   setTransactionCurrency,
@@ -48,7 +49,7 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const dispatch = useAppDispatch();
   const handleCryptoPaymentSummaryDialogOpen = useCallback(async () => {
-    if (!hasWeb3Service) {
+    if (!hasWeb3Service && hasMetamask()) {
       await dispatch(
         createWeb3Service.initiate({
           params: { walletId: INJECTED_WALLET_ID },

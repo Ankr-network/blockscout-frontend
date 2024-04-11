@@ -29,6 +29,13 @@ export const useConnectAccountHandler = ({
 
       if (connectedAddress) {
         onSuccess?.(connectedAddress);
+      } else {
+        dispatch(
+          showNotification({
+            message: t('error.no-metamask'),
+            severity: 'error',
+          }),
+        );
       }
     } else {
       const { error } = result;
