@@ -71,6 +71,7 @@ import blastIconDark from './darkModeIcons/blast.svg';
 import berachainIcon from './icons/berachain.svg';
 import seiIcon from './icons/sei.svg';
 import xdcIcon from './icons/xdc.svg';
+import b2Icon from './icons/b2.svg';
 import xdcIconDark from './darkModeIcons/xdc.svg';
 import lineaIcon from './icons/linea.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
@@ -122,6 +123,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BLAST]: blastIcon,
   [ChainID.BLAST_TESTNET_SEPOLIA]: blastIcon,
 
+  [ChainID.B2]: b2Icon,
+  [ChainID.B2_HABITAT_TESTNET]: b2Icon,
   [ChainID.BTC]: btcIcon,
   [ChainID.BTTC]: bttcIcon,
   [ChainID.BITLAYER]: bitlayerIcon,
@@ -181,8 +184,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.NERVOS]: nervosIcon,
   [ChainID.NERVOS_CKB]: nervosIcon,
   [ChainID.NERVOS_GW]: nervosIcon,
-  [ChainID.OKX_X1]: okxX1Icon,
-  [ChainID.OKX_X1_TESTNET]: okxX1Icon,
+  [ChainID.XLAYER]: okxX1Icon,
+  [ChainID.XLAYER_TESTNET]: okxX1Icon,
   [ChainID.OPTIMISM]: optimisimIcon,
   [ChainID.OPTIMISM_TESTNET]: optimisimIcon,
   [ChainID.OPTIMISM_SEPOLIA]: optimisimIcon,
@@ -289,8 +292,8 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.NERVOS]: nervosIconDark,
   [ChainID.NERVOS_CKB]: nervosIconDark,
   [ChainID.NERVOS_GW]: nervosIconDark,
-  [ChainID.OKX_X1]: okxX1IconDark,
-  [ChainID.OKX_X1_TESTNET]: okxX1IconDark,
+  [ChainID.XLAYER]: okxX1IconDark,
+  [ChainID.XLAYER_TESTNET]: okxX1IconDark,
   [ChainID.TENET]: tenetIconDark,
   [ChainID.SECRET]: secretIconDark,
   [ChainID.SECRET_COSMOS]: secretIconDark,

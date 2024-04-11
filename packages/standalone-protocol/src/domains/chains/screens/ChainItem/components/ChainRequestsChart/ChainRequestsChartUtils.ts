@@ -98,6 +98,9 @@ export const getCachedRequestsColor = (chainId: ChainId, theme: Theme) => {
     case ChainId.Stellar:
       return theme.palette.error.main;
 
+    case ChainId.B2:
+      return theme.palette.text.primary;
+
     default:
       return theme.palette.primary.dark;
   }

@@ -113,6 +113,7 @@ export const useHandleSubmit = (
 
         case NewProjectStep.Chains: {
           const {
+            isSelectedAll,
             selectedMainnetIds = [],
             selectedTestnetIds = [],
             selectedDevnetIds = [],
@@ -144,6 +145,7 @@ export const useHandleSubmit = (
           }
 
           return onSubmit(step, {
+            isSelectedAll,
             selectedMainnetIds,
             selectedTestnetIds,
             selectedDevnetIds,

@@ -47,6 +47,10 @@ export const renderChainName = (chainId?: ChainId | string): string => {
     return ZKSYNC_ERA_NAME;
   }
 
+  if (chainId === ChainId.B2) {
+    return 'B2 NETWORK';
+  }
+
   return chainId ?? '';
 };
 

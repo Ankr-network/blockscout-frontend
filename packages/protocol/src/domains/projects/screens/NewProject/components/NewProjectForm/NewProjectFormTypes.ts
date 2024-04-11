@@ -26,6 +26,7 @@ export interface NewProjectFormValues {
   [GeneralStepFields.tokenIndex]?: number;
   [GeneralStepFields.userEndpointToken]?: string;
   [ChainStepFields.projectName]?: string;
+  [ChainStepFields.isSelectedAll]?: boolean;
   [ChainStepFields.selectedMainnetIds]?: ChainID[];
   [ChainStepFields.selectedTestnetIds]?: ChainID[];
   [ChainStepFields.selectedDevnetIds]?: ChainID[];

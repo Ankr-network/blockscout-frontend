@@ -14,6 +14,7 @@ export const AddChainsButton = () => {
     handleSelectAllSubchainPaths,
     handleSidebarOpen,
     handleUnselectAllSubchainPaths,
+    setIsSelectedAll,
     isAddingChainsToProject,
     isSidebarOpened,
     onSidebarClose,
@@ -44,6 +45,7 @@ export const AddChainsButton = () => {
         <AddChainsForm
           selectAllSubChainPaths={handleSelectAllSubchainPaths}
           unSelectAllSubChainPaths={handleUnselectAllSubchainPaths}
+          setIsSelectedAll={setIsSelectedAll}
           selectedChainPaths={selectedProjectChainsPaths}
         />
       </ProjectSidebar>

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 
-import { Chain, ChainID } from 'modules/chains/types';
+import { ChainID } from 'modules/chains/types';
 import { ProjectChain } from 'domains/projects/screens/NewProject/hooks/useProjectChains';
 import { isExtensionOnlyChain } from 'domains/chains/utils/isExtensionOnlyChain';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
@@ -11,6 +11,7 @@ import {
   ITypeSelectorProps,
   useAllChainsSelection,
 } from '../../../hooks/useAllChainsSelection';
+import { chainIdMapper } from '../../../utils/chainIdMapper';
 
 export interface UseChainCellParams {
   chain: ProjectChain;
@@ -18,8 +19,6 @@ export interface UseChainCellParams {
   selectedProjectChainsIds: ChainID[];
   setSelectedChainsIds: Dispatch<SetStateAction<ChainID[]>>;
 }
-
-const chainIdMapper = ({ id: chainId }: Chain) => chainId;
 
 // eslint-disable-next-line max-lines-per-function
 export const useChainCell = ({
