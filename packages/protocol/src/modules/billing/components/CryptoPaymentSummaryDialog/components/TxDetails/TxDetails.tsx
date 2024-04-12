@@ -5,6 +5,7 @@ import { PaymentInfo } from 'modules/billing/components/PaymentInfo';
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { SeparatedList } from 'modules/billing/components/SeparatedList';
 import { TotalPaymentInfo } from 'modules/billing/components/TotalPaymentInfo';
+import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 
 import {
   IUseTotalFeeDetails,
@@ -18,7 +19,6 @@ export interface ITxDetailsProps extends IUseTotalFeeDetails {
   className?: string;
   currency: ECurrency;
   hasEnoughTokenBalance: boolean;
-  isWalletConnected: boolean;
   isWalletTokenBalanceLoading: boolean;
   network: ENetwork;
   totalAmount: number;
@@ -31,7 +31,6 @@ export const TxDetails = ({
   currency,
   depositFeeDetails,
   hasEnoughTokenBalance,
-  isWalletConnected,
   isWalletTokenBalanceLoading,
   network,
   totalAmount,
@@ -40,6 +39,9 @@ export const TxDetails = ({
     approvalFeeDetails,
     depositFeeDetails,
   });
+
+  const { connectedAddress } = useConnectedAddress();
+  const hasConnectedAddress = Boolean(connectedAddress);
 
   return (
     <SeparatedList className={className}>
@@ -53,18 +55,18 @@ export const TxDetails = ({
         placeholder={<OverlaySpinner size={58} />}
       >
         <Placeholder
-          hasPlaceholder={!hasEnoughTokenBalance}
+          hasPlaceholder={hasConnectedAddress && !hasEnoughTokenBalance}
           placeholder={<InsufficientBalanceAlert />}
         >
           <TxFees
             approvalFeeDetails={approvalFeeDetails}
             depositFeeDetails={depositFeeDetails}
-            isWalletConnected={isWalletConnected}
+            isWalletConnected={hasConnectedAddress}
             network={network}
           />
         </Placeholder>
       </Placeholder>
-      {isWalletConnected && hasEnoughTokenBalance && (
+      {hasConnectedAddress && hasEnoughTokenBalance && (
         <TotalPaymentInfo
           amount={amount}
           currency={currency}

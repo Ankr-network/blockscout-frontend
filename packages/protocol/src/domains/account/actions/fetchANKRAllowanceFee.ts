@@ -18,13 +18,19 @@ export const {
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { amount }, web3Service }) => {
-            const contractService = web3Service.getContractService();
+            const { currentAccount } = web3Service.getKeyWriteProvider();
 
-            const fee = await contractService.getAllowanceFee(
-              new BigNumber(amount),
-            );
+            if (currentAccount) {
+              const contractService = web3Service.getContractService();
 
-            return { data: Number(fee) };
+              const fee = await contractService.getAllowanceFee(
+                new BigNumber(amount),
+              );
+
+              return { data: Number(fee) };
+            }
+
+            return { data: 0 };
           },
         ),
         fallback: { data: 0 },

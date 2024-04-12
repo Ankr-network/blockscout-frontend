@@ -50,7 +50,6 @@ export const CryptoPaymentSummaryDialog = ({
         currency={currency}
         depositFeeDetails={depositFeeDetails}
         hasEnoughTokenBalance={hasEnoughTokenBalance}
-        isWalletConnected={Boolean(connectedAddress)}
         isWalletTokenBalanceLoading={isWalletTokenBalanceLoading}
         network={network}
         totalAmount={totalAmount}
