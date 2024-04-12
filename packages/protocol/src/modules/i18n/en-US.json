@@ -1874,7 +1874,7 @@
         "another-address-button": "Use another address",
         "connect-button": "Connect Wallet",
         "insufficient-balance-warning": "Insufficient ANKR tokens on the connected address. Please add more tokens or use a different address to continue.",
-        "accounts-changed-warning": "You've changed the account address during the latest payment transaction. Revert to the original address or confirm the new one for the transaction."
+        "accounts-changed-warning": "Changing the account address has interrupted the latest payment transaction. Select whether you'd like to start a new transaction via the current account address or via another one."
       }
     },
     "balance": "{balance, number, ::compact-short}",

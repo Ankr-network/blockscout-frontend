@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 
 import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import { selectMyAllowanceValue } from 'domains/account/store/selectors';
@@ -21,7 +21,7 @@ interface ICryptoDepositStep {
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   onDepositSuccess: () => void;
-  setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
+  setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
 }
 
 export const useCryptoDepositStep = ({

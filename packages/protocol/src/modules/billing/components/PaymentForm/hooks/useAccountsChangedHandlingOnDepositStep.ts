@@ -1,10 +1,12 @@
-import { useCallback } from 'react';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 
 import {
   ECryptoDepositStep,
   ECryptoDepositStepStatus,
 } from 'modules/billing/types';
+import { fetchMyAllowance } from 'domains/account/actions/fetchMyAllowance';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface IUseAccountChangedHandlingOnDepositStep {
   currentDepositStatus?: ECryptoDepositStepStatus;
@@ -12,7 +14,7 @@ export interface IUseAccountChangedHandlingOnDepositStep {
   handleCryptoPaymentSummaryDialogOpen: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
-  setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
+  setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
 }
 
 // This hook contains the logic for handling the case when a user switches
@@ -26,6 +28,8 @@ export const useAccountChangedHandlingOnDepositStep = ({
   onCryptoPaymentDepositDialogClose,
   setIsAccountChangedOnDepositStep,
 }: IUseAccountChangedHandlingOnDepositStep) => {
+  const [, , resetMyAllowance] = useQueryEndpoint(fetchMyAllowance);
+
   const onAccountsChanged = useCallback(() => {
     const isApprovalStep = currentStep === ECryptoDepositStep.Approval;
 
@@ -42,9 +46,14 @@ export const useAccountChangedHandlingOnDepositStep = ({
 
     if (shouldMoveToSummaryStep) {
       setIsAccountChangedOnDepositStep(true);
+
       onCryptoPaymentDepositDialogClose();
 
+      resetMyAllowance();
+
       handleCryptoPaymentSummaryDialogOpen();
+    } else {
+      setIsAccountChangedOnDepositStep(false);
     }
   }, [
     currentDepositStatus,
@@ -52,6 +61,7 @@ export const useAccountChangedHandlingOnDepositStep = ({
     handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
     onCryptoPaymentDepositDialogClose,
+    resetMyAllowance,
     setIsAccountChangedOnDepositStep,
   ]);
 

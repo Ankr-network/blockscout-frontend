@@ -37,6 +37,9 @@ export const CryptoPaymentDepositDialog = ({
   completedStep,
   erroredStep,
 
+  // TODO: should be removed https://ankrnetwork.atlassian.net/browse/MRPC-4736
+  onOpen,
+
   ...dialogProps
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();

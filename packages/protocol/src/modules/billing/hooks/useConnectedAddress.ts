@@ -64,11 +64,16 @@ export const useConnectedAddress = ({
               }
 
               setConnectedAddress(newConnectedAddress);
-
-              onAccountsChanged?.();
             };
 
             walletProvider.on(ProviderEvents.AccountsChanged, listener);
+
+            if (onAccountsChanged) {
+              walletProvider.on(
+                ProviderEvents.AccountsChanged,
+                onAccountsChanged,
+              );
+            }
           }
 
           setConnectedAddress(provider.currentAccount);
@@ -83,6 +88,13 @@ export const useConnectedAddress = ({
           ProviderEvents.AccountsChanged,
           listener as () => void,
         );
+
+        if (onAccountsChanged) {
+          walletProvider.removeListener(
+            ProviderEvents.AccountsChanged,
+            onAccountsChanged,
+          );
+        }
       }
     };
   }, [dispatch, onAccountsChanged, hasWeb3Service]);
