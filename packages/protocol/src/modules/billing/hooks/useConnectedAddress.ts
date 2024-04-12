@@ -1,19 +1,22 @@
-import { EWalletId, ProviderEvents } from '@ankr.com/provider';
+import {
+  EthereumWeb3KeyProvider,
+  EWalletId,
+  ProviderEvents,
+} from '@ankr.com/provider';
 import { provider as Provider } from 'web3-core';
-import { t } from '@ankr.com/common';
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { getProviderManager } from 'modules/api/getProviderManager';
 import { hasMetamask } from 'domains/auth/utils/hasMetamask';
 import { isEventProvider } from 'store/utils/isEventProvider';
+import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
+import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
+import { INJECTED_WALLET_ID } from 'modules/api/MultiService';
 
 export interface IUseConnectedAddressProps {
   onAccountsChanged?: () => void;
 }
-
-const { showNotification } = NotificationActions;
 
 export const useConnectedAddress = ({
   onAccountsChanged,
@@ -23,6 +26,8 @@ export const useConnectedAddress = ({
 
   const dispatch = useDispatch();
 
+  const { hasWeb3Service } = useHasWeb3Service();
+
   useEffect(() => {
     let walletProvider: Provider;
 
@@ -31,35 +36,44 @@ export const useConnectedAddress = ({
     (async () => {
       if (hasMetamask()) {
         const providerManager = getProviderManager();
-        const provider = await providerManager.getETHWriteProvider(
-          EWalletId.injected,
-        );
+        let provider: EthereumWeb3KeyProvider | undefined;
 
-        walletProvider = provider.getWeb3().currentProvider;
-
-        if (isEventProvider(walletProvider)) {
-          listener = async (connectedAddresses: string[]) => {
-            const newConnectedAddress = connectedAddresses?.[0];
-
-            provider.currentAccount = newConnectedAddress;
-
-            setConnectedAddress(newConnectedAddress);
-
-            onAccountsChanged?.();
-          };
-
-          walletProvider.on(ProviderEvents.AccountsChanged, listener);
+        try {
+          provider = await providerManager.getETHWriteProvider(
+            EWalletId.injected,
+          );
+        } catch (error) {
+          if (!hasWeb3Service) {
+            dispatch(
+              createWeb3Service.initiate({
+                params: { walletId: INJECTED_WALLET_ID },
+              }),
+            );
+          }
         }
 
-        setConnectedAddress(provider.currentAccount);
-        setWalletIcon(provider.getWalletMeta().icon);
-      } else {
-        dispatch(
-          showNotification({
-            message: t('error.no-metamask'),
-            severity: 'error',
-          }),
-        );
+        if (provider) {
+          walletProvider = provider.getWeb3().currentProvider;
+
+          if (isEventProvider(walletProvider)) {
+            listener = async (connectedAddresses: string[]) => {
+              const newConnectedAddress = connectedAddresses?.[0];
+
+              if (provider) {
+                provider.currentAccount = newConnectedAddress;
+              }
+
+              setConnectedAddress(newConnectedAddress);
+
+              onAccountsChanged?.();
+            };
+
+            walletProvider.on(ProviderEvents.AccountsChanged, listener);
+          }
+
+          setConnectedAddress(provider.currentAccount);
+          setWalletIcon(provider.getWalletMeta().icon);
+        }
       }
     })();
 
@@ -71,7 +85,7 @@ export const useConnectedAddress = ({
         );
       }
     };
-  }, [dispatch, onAccountsChanged]);
+  }, [dispatch, onAccountsChanged, hasWeb3Service]);
 
   return { connectedAddress, walletIcon };
 };
