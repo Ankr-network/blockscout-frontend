@@ -9,12 +9,12 @@ import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog'
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
 
 export const useCryptoPaymentSuccessDialog = ({
+  allowanceTxHash,
   amount,
-  approval,
   currency,
+  depositTxHash,
   network,
   paymentType,
-  txHash,
 }: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
@@ -30,29 +30,46 @@ export const useCryptoPaymentSuccessDialog = ({
   }, [handleCryptoPaymentSuccessDialogClose, handleResetTopUpTransaction]);
 
   const {
-    isLoading,
-    depositAmountUsd,
-    depositFee,
-    depositFeeUsd,
+    amountUsd: depositAmountUsd,
+    fee: depositFee,
+    feeUsd: depositFeeUsd,
     fromAddress,
+    isLoading: isDepositTxDataLoading,
     toAddress,
     txDate,
   } = useTxDetails({
     amount,
     skipFetching: !isOpened,
-    txHash,
+    txHash: depositTxHash,
   });
+
+  const {
+    fee: approvalFee,
+    feeUsd: approvalFeeUsd,
+    isLoading: isAllowanceTxDataLoading,
+  } = useTxDetails({
+    amount,
+    skipFetching: !isOpened || !allowanceTxHash,
+    txHash: allowanceTxHash!,
+  });
+
+  const isLoading = isDepositTxDataLoading || isAllowanceTxDataLoading;
 
   const cryptoPaymentSuccessDialogProps =
     useMemo<ICryptoPaymentSuccessDialogProps>(
       () => ({
         amount,
         amountUsd: depositAmountUsd,
-        approval,
+        approvalFeeDetails: approvalFee
+          ? {
+              feeCrypto: approvalFee,
+              feeUSD: approvalFeeUsd,
+            }
+          : undefined,
         currency,
         depositFee,
         depositFeeUSD: depositFeeUsd,
-        depositTxURL: getTxExplorerUrl(txHash),
+        depositTxURL: getTxExplorerUrl(depositTxHash),
         fromAddress,
         network,
         onClose,
@@ -64,11 +81,13 @@ export const useCryptoPaymentSuccessDialog = ({
       }),
       [
         amount,
-        approval,
+        approvalFee,
+        approvalFeeUsd,
         currency,
         depositAmountUsd,
         depositFee,
         depositFeeUsd,
+        depositTxHash,
         fromAddress,
         isLoading,
         isOpened,
@@ -77,7 +96,6 @@ export const useCryptoPaymentSuccessDialog = ({
         paymentType,
         toAddress,
         txDate,
-        txHash,
       ],
     );
 

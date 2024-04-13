@@ -19,7 +19,7 @@ type TApprovalFields = 'approvalFee' | 'approvalFeeUSD' | 'approvalTxURL';
 
 export interface ITxDetailsProps
   extends Omit<ITotalAmountAttributeProps, TApprovalFields> {
-  approval?: IFeeDetails;
+  approvalFeeDetails?: IFeeDetails;
   depositTxURL: string;
   paymentType: EPaymentType;
 }
@@ -27,7 +27,7 @@ export interface ITxDetailsProps
 export const TxDetails = ({
   amount,
   amountUsd,
-  approval,
+  approvalFeeDetails,
   currency,
   depositFee,
   depositFeeUSD,
@@ -46,8 +46,11 @@ export const TxDetails = ({
         <TxAttribute label={renderAmountLabel(paymentType)}>
           {renderCryptoAmount({ amount, currency })}
         </TxAttribute>
-        {approval && (
-          <ApprovalAtrribute approval={approval} network={network} />
+        {approvalFeeDetails && (
+          <ApprovalAtrribute
+            feeDetails={approvalFeeDetails}
+            network={network}
+          />
         )}
         <TxAttribute
           label={t('account.success-crypto-payment-dialog.deposit-label')}
@@ -62,8 +65,8 @@ export const TxDetails = ({
         <TotalAmountAttribute
           amount={amount}
           amountUsd={amountUsd}
-          approvalFee={approval?.feeCrypto}
-          approvalFeeUSD={approval?.feeUSD}
+          approvalFee={approvalFeeDetails?.feeCrypto}
+          approvalFeeUSD={approvalFeeDetails?.feeUSD}
           currency={currency}
           depositFee={depositFee}
           depositFeeUSD={depositFeeUSD}

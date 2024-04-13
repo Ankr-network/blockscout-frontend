@@ -21,9 +21,9 @@ export const DetailsButton = ({ amount, txHash }: IDetailsButtonProps) => {
   } = useCryptoPaymentSuccessDialog({
     amount: Number(amount),
     currency: ECurrency.ANKR,
+    depositTxHash: txHash,
     network: ENetwork.ETH,
     paymentType: EPaymentType.OneTime,
-    txHash,
   });
 
   const { classes } = useDetailsButtonStyles();

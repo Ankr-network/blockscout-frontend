@@ -57,18 +57,16 @@ export const useTxDetails = ({
     : undefined;
 
   const gasUsed = txReceipt?.gasUsed ?? 0;
-  const depositAmountUsd = new BigNumber(tokenPrice)
-    .multipliedBy(amount)
-    .toNumber();
+  const amountUsd = new BigNumber(tokenPrice).multipliedBy(amount).toNumber();
 
-  const depositFee = new BigNumber(gasPrice).multipliedBy(gasUsed);
+  const fee = new BigNumber(gasPrice).multipliedBy(gasUsed);
 
-  const depositFeeUsd = depositFee.multipliedBy(nativeTokenPrice).toNumber();
+  const feeUsd = fee.multipliedBy(nativeTokenPrice).toNumber();
 
   return {
-    depositAmountUsd,
-    depositFee: depositFee.toNumber(),
-    depositFeeUsd,
+    amountUsd,
+    fee: fee.toNumber(),
+    feeUsd,
     fromAddress,
     isLoading,
     toAddress,

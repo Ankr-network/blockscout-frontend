@@ -3,6 +3,7 @@ import { Web3Address } from 'multirpc-sdk';
 
 import { CheckMarkImage } from 'modules/common/components/CheckMarkImage';
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
+import { IFeeDetails } from 'modules/billing/types';
 import { Placeholder } from 'modules/common/components/Placeholder';
 
 import { AddressDetails } from './components/AddressDetails';
@@ -11,10 +12,13 @@ import { IUseCryptoPaymentSuccessDialogProps } from './types';
 import { TxDetails } from './components/TxDetails';
 import { useCryptoPaymentSuccessDialogStyles } from './useCryptoPaymentSuccessDialogStyles';
 
+type TPropsToOmit = 'allowanceTxHash' | 'depositTxHash';
+
 export interface ICryptoPaymentSuccessDialogProps
   extends IDialogProps,
-    Omit<IUseCryptoPaymentSuccessDialogProps, 'txHash'> {
+    Omit<IUseCryptoPaymentSuccessDialogProps, TPropsToOmit> {
   amountUsd: number;
+  approvalFeeDetails?: IFeeDetails;
   depositFee: number;
   depositFeeUSD: number;
   depositTxURL: string;
@@ -27,18 +31,18 @@ export interface ICryptoPaymentSuccessDialogProps
 export const CryptoPaymentSuccessDialog = ({
   amount,
   amountUsd,
-  approval,
+  approvalFeeDetails,
   currency,
   depositFee,
   depositFeeUSD,
   depositTxURL,
   fromAddress,
+  isLoading = false,
   network,
+  onClose,
   paymentType,
   toAddress,
   txDate,
-  isLoading = false,
-  onClose,
   ...dialogProps
 }: ICryptoPaymentSuccessDialogProps) => {
   const { classes } = useCryptoPaymentSuccessDialogStyles();
@@ -60,7 +64,7 @@ export const CryptoPaymentSuccessDialog = ({
         <TxDetails
           amount={amount}
           amountUsd={amountUsd}
-          approval={approval}
+          approvalFeeDetails={approvalFeeDetails}
           currency={currency}
           depositFee={depositFee}
           depositFeeUSD={depositFeeUSD}

@@ -1,15 +1,10 @@
-import {
-  ECurrency,
-  ENetwork,
-  EPaymentType,
-  IFeeDetails,
-} from 'modules/billing/types';
+import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
 
 export interface IUseCryptoPaymentSuccessDialogProps {
+  allowanceTxHash?: string;
   amount: number;
-  approval?: IFeeDetails;
   currency: ECurrency;
+  depositTxHash: string;
   network: ENetwork;
   paymentType: EPaymentType;
-  txHash: string;
 }

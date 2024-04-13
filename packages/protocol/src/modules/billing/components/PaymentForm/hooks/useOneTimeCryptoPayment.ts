@@ -61,18 +61,19 @@ export const useOneTimeCryptoPayment = ({
   );
 
   const transaction = useSelectTopUpTransaction();
-  const depositTransactionHash = transaction?.topUpTransactionHash;
+  const depositTxHash = transaction?.topUpTransactionHash;
+  const allowanceTxHash = transaction?.allowanceTransactionHash;
 
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
   } = useCryptoPaymentSuccessDialog({
+    allowanceTxHash,
     amount,
-    approval: approvalFeeDetails,
     currency,
+    depositTxHash: depositTxHash ?? '',
     network: ENetwork.ETH,
     paymentType: EPaymentType.OneTime,
-    txHash: depositTransactionHash ?? '',
   });
 
   const {
