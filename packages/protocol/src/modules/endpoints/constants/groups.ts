@@ -66,9 +66,6 @@ export const chainGroups: ChainGroup[] = [
       ChainID.AVALANCHE_FUJI,
       ChainID.AVALANCHE_FUJI_EVM,
 
-      ChainID.B2,
-      ChainID.B2_HABITAT_TESTNET,
-
       ChainID.BASE,
 
       ChainID.BLAST,
@@ -156,12 +153,6 @@ export const chainGroups: ChainGroup[] = [
     name: 'Testnet',
     pluralName: 'Testnet',
     chains: [ChainID.POLYGON_ZKEVM_TESTNET],
-  },
-  {
-    id: ChainGroupID.SCROLL_ALPHA,
-    name: 'Scroll Alpha',
-    pluralName: 'Scroll Alpha',
-    chains: [ChainID.SCROLL_TESTNET],
   },
   {
     id: ChainGroupID.SCROLL_ALPHA,
