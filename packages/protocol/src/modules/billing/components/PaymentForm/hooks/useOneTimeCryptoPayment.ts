@@ -5,9 +5,9 @@ import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
 import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
+import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
 import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { useTokenPrice } from 'domains/account/hooks/useTokenPrice';
 
 import { useAccountsChangedHandlingOnSummaryStep } from './useAccountsChangedHandlingOnSummaryStep';
 import { useCryptoDepositStep } from './useCryptoDepositStep';
@@ -39,7 +39,7 @@ export const useOneTimeCryptoPayment = ({
   const { hasEnoughTokenBalance, isWalletTokenBalanceLoading } =
     useHasEnoughTokenBalance({ amount });
 
-  const { price, isLoading: isNativeTokenPriceLoading } = useTokenPrice({
+  const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
     skipFetching: !hasWeb3Service,
   });
 
