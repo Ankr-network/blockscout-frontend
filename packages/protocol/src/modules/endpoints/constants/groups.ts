@@ -66,6 +66,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.AVALANCHE_FUJI,
       ChainID.AVALANCHE_FUJI_EVM,
 
+      ChainID.B2,
+      ChainID.B2_HABITAT_TESTNET,
+
       ChainID.BASE,
 
       ChainID.BLAST,
