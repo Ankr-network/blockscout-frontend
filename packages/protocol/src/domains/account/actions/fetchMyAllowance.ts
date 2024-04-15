@@ -14,6 +14,12 @@ export const {
     fetchMyAllowance: build.query<BigNumber | null, void>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(async ({ web3Service }) => {
+          const { currentAccount } = web3Service.getKeyWriteProvider();
+
+          if (!currentAccount) {
+            return { data: null };
+          }
+
           const allowanceValue = await web3Service
             .getContractService()
             .getAllowanceValue();

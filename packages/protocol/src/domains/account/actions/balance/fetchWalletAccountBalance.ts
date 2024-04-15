@@ -12,6 +12,12 @@ export const {
       providesTags: [RequestType.WalletTokenBalance],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: async ({ web3Service }) => {
+          const { currentAccount } = web3Service.getKeyWriteProvider();
+
+          if (!currentAccount) {
+            return { data: ZERO_STRING };
+          }
+
           const data = await getCurrentAccountBalance({ web3Service });
 
           return { data };

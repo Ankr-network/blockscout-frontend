@@ -20,6 +20,12 @@ export const {
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { amount }, web3Service }) => {
+            const { currentAccount } = web3Service.getKeyWriteProvider();
+
+            if (!currentAccount) {
+              return { data: 0 };
+            }
+
             const balance = await getCurrentAccountBalance({ web3Service });
 
             if (Number(balance) >= amount) {
