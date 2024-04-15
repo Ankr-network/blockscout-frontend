@@ -96,6 +96,8 @@ import {
 import {
   IAggregatedPaymentHistoryRequest,
   IAggregatedPaymentHistoryResponse,
+  IMyBundlesPaymentsRequest,
+  IMyBundlesPaymentsResponse,
   IPaymentHistoryRequest,
   IPaymentHistoryResponse,
 } from './transactionsHistory';
@@ -189,6 +191,21 @@ export class AccountingGateway {
             stringify(request, { indices: false }),
         },
       );
+
+    return response;
+  }
+
+  public async getMyBundlesPaymentsHistory(
+    params: IMyBundlesPaymentsRequest,
+  ): Promise<IMyBundlesPaymentsResponse> {
+    const { data: response } = await this.api.get<IMyBundlesPaymentsResponse>(
+      '/api/v1/auth/myBundles/payments',
+      {
+        params,
+        paramsSerializer: (request: IMyBundlesPaymentsRequest) =>
+          stringify(request, { indices: false }),
+      },
+    );
 
     return response;
   }
@@ -743,11 +760,13 @@ export class AccountingGateway {
     subscription_id: string,
     { totp, ...params }: IApiUserGroupParams,
   ) {
-    await this.api.post(
+    const { data } = await this.api.post(
       '/api/v1/auth/myBundles/unsubscribe',
       { subscription_id },
       { headers: createTOTPHeaders(totp), params },
     );
+
+    return data;
   }
 
   async getMyBundlesStatus(group?: Web3Address) {

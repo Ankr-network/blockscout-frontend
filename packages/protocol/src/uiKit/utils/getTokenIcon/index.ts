@@ -71,6 +71,7 @@ import blastIconDark from './darkModeIcons/blast.svg';
 import berachainIcon from './icons/berachain.svg';
 import seiIcon from './icons/sei.svg';
 import xdcIcon from './icons/xdc.svg';
+import b2Icon from './icons/b2.svg';
 import xdcIconDark from './darkModeIcons/xdc.svg';
 import lineaIcon from './icons/linea.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
@@ -122,6 +123,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.BLAST]: blastIcon,
   [ChainID.BLAST_TESTNET_SEPOLIA]: blastIcon,
 
+  [ChainID.B2]: b2Icon,
+  [ChainID.B2_HABITAT_TESTNET]: b2Icon,
   [ChainID.BTC]: btcIcon,
   [ChainID.BTTC]: bttcIcon,
   [ChainID.BITLAYER]: bitlayerIcon,

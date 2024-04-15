@@ -9,7 +9,7 @@ import { useLazyOauthSignoutQuery } from '../actions/signout';
 export interface OAuth {
   data?: OauthAutoLoginResult;
   handleLogin: () => void;
-  handleSignout: () => void;
+  handleSignOut: () => void;
   loading: boolean;
 }
 
@@ -17,7 +17,7 @@ export const useOauth = (): OAuth => {
   const [handleLogin, { data, isLoading: autoLoginLoading }] =
     useLazyOauthAutoLoginQuery();
 
-  const [handleSignout] = useLazyOauthSignoutQuery();
+  const [handleSignOut] = useLazyOauthSignoutQuery();
   const [, { isLoading: loginUserLoading1 }] =
     useLazyOauthLoginByGoogleSecretCodeQuery();
   const [, { isLoading: loginUserLoading2 }] = useLazyOauthLoginJwtQuery();
@@ -25,7 +25,7 @@ export const useOauth = (): OAuth => {
   return {
     data,
     handleLogin,
-    handleSignout,
+    handleSignOut,
     loading: autoLoginLoading || loginUserLoading1 || loginUserLoading2,
   };
 };

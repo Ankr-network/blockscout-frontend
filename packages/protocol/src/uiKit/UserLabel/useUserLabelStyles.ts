@@ -4,10 +4,6 @@ import { isLightTheme, getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
 
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
-    marginLeft: theme.spacing(4),
-    fontSize: 14,
-    fontWeight: 500,
-    lineHeight: '20.02px',
     height: 24,
     display: 'flex',
     alignItems: 'center',
@@ -54,5 +50,22 @@ export const useUserLabelStyles = makeStyles()(theme => ({
   },
   skeleton: {
     borderRadius: 8,
+  },
+  package: {
+    color: '#AF52DE',
+    backgroundColor: '#F3E5FA',
+  },
+  deal: {
+    color: '#5856D6',
+    backgroundColor: '#E6E6F9',
+  },
+  small: {
+    padding: theme.spacing(0.5, 1),
+    height: 20,
+    borderRadius: 8,
+  },
+  large: {
+    padding: theme.spacing(1, 3),
+    borderRadius: 12,
   },
 }));

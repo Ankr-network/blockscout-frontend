@@ -10,7 +10,7 @@ import { useCopyButtonStyles } from './useCopyButtonStyles';
 
 export interface CopyButtonProps {
   text: string;
-  size: IconButtonOwnProps['size'];
+  size?: IconButtonOwnProps['size'];
   className?: string;
 }
 
@@ -23,7 +23,7 @@ export const CopyButton = ({ text, size, className }: CopyButtonProps) => {
     <TextTooltip {...tooltipProps} title={t('common.copy-message')}>
       <IconButton size={size} className={cx(classes.root, className)}>
         <CopyToClipboard text={text} onCopy={onCopy}>
-          <Copy />
+          <Copy className={classes.copyIcon} />
         </CopyToClipboard>
       </IconButton>
     </TextTooltip>

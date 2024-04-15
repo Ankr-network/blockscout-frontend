@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { Briefcase } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { Skeleton } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
+
+import { EChargingModel } from 'modules/billing/types';
 
 import { getLabel } from './UserLabelUtils';
 import { useUserLabelStyles } from './useUserLabelStyles';
@@ -9,17 +11,21 @@ import { useUserLabelStyles } from './useUserLabelStyles';
 export interface IUserLabelProps {
   hasPremium?: boolean;
   hasStatusTransition?: boolean;
+  chargingModel?: EChargingModel;
   className?: string;
   hasEnterpriseStatus?: boolean;
   isLoading?: boolean;
+  size: 'small' | 'medium' | 'large';
 }
 
 export const UserLabel = ({
   hasPremium = false,
   hasStatusTransition = false,
+  chargingModel,
   className: nestedClassName,
   hasEnterpriseStatus = false,
   isLoading,
+  size = 'medium',
 }: IUserLabelProps) => {
   const { classes, cx } = useUserLabelStyles();
 
@@ -32,11 +38,18 @@ export const UserLabel = ({
       [classes.free]: !hasPremium,
       [classes.transition]: hasStatusTransition,
       [classes.enterprise]: hasEnterpriseStatus,
+      [classes.package]: chargingModel === EChargingModel.Package,
+      [classes.deal]: chargingModel === EChargingModel.Deal,
+      [classes.small]: size === 'small',
+      [classes.large]: size === 'large',
     },
     nestedClassName,
   );
 
-  const label = useMemo(() => getLabel(hasPremiumLabel), [hasPremiumLabel]);
+  const label = useMemo(
+    () => getLabel(hasPremiumLabel, chargingModel),
+    [hasPremiumLabel, chargingModel],
+  );
 
   if (isLoading) {
     return (
@@ -49,8 +62,10 @@ export const UserLabel = ({
     );
   }
 
+  const isSmall = size === 'small';
+
   return (
-    <div className={className}>
+    <Typography className={className} variant={isSmall ? 'body4' : 'body2'}>
       {hasEnterpriseStatus ? (
         <>
           <Briefcase fontSize="small" className={classes.enterpriseIcon} />
@@ -59,6 +74,6 @@ export const UserLabel = ({
       ) : (
         label
       )}
-    </div>
+    </Typography>
   );
 };

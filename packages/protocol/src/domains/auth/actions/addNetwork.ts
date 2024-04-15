@@ -9,8 +9,8 @@ import { hasMetamask } from 'domains/auth/utils/hasMetamask';
 import { web3Api } from 'store/queries';
 import { trackAddNetworkInMM } from 'modules/analytics/mixpanel/trackAddNetworkInMM';
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
-import { selectAuthData } from '../store/authSlice';
 import {
   selectHasOauthLogin,
   selectHasPremium,

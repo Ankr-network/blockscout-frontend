@@ -9,7 +9,7 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BaseRoute } from 'modules/router/utils/createRouteConfig';
 import { TopUpOrigin } from 'domains/account/types';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
-import { selectTopUpOrigin } from 'domains/account/store/accountTopUpSlice';
+import { selectTopUpOrigin } from 'domains/account/store/selectors';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
@@ -44,6 +44,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
   const {
     amount,
+    approvedAmount,
     handleDeposit,
     handleGetAllowance,
     handleLogin,
@@ -58,6 +59,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
     trackTopUp,
     handleResetTransactionSliceAndRedirect,
   } = useTopUp();
+
   const history = useHistory();
 
   useEffect(() => {
@@ -164,6 +166,7 @@ export const useTopupSteps = (initialStep: TopUpStep) => {
 
   return {
     amount: amount?.toString(10),
+    approvedAmount: approvedAmount?.toString(10),
     hasError,
     isRejectAllowanceLoading,
     loading,

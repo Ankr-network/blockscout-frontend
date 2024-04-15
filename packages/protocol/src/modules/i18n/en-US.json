@@ -102,7 +102,20 @@
     "connect-wallet": "Connect Wallet",
     "add-google": "Add Google account",
     "add-github": "Add Github account",
-    "sign-out": "Sign out"
+    "sign-out": "Sign out",
+    "balance-button": {
+      "value": "{balance, number, ::compact-short}",
+      "requests": " Requests",
+      "credits": " API Credits",
+      "pay": "Pay",
+      "form-below": "Use the form below to pay"
+    },
+    "balance-menu": {
+      "title": "Charging model",
+      "billing-page-button": "Go to Billing page",
+      "usd-balance": "${balance}",
+      "req-balance": " / ≈{balance, number, ::compact-short} reqs"
+    }
   },
   "signup-modal": {
     "title": "Sign in method",
@@ -740,7 +753,20 @@
   "enterprise": {
     "breadcrumbs": "Enterprise",
     "forbidden": "The page is beyond your user access. Ask the support for the access you require.",
-    "disabled-endpoint-placeholder": "Not Available"
+    "disabled-endpoint-placeholder": "Not Available",
+    "time-to-upgrade-dialog": {
+      "title": "You've reached the Enterprise level",
+      "description": "Your recent payments activity tells us that Enterprise might fit you better. Contact Sales so we could offer you a more generous offer and a tailor-made solution.",
+      "list": {
+        "item-1": "Dedicated infrastructure",
+        "item-2": "Selected chains and highest rate limits",
+        "item-3": "Engineering team access (Slack, Telegram)",
+        "item-4": "Crypto payments",
+        "item-5": "Custom SLAs"
+      },
+      "button-contact": "Contact Sales",
+      "button-cancel": "Cancel"
+    }
   },
   "jwt-token": {
     "default-project-name": "Default",
@@ -1317,7 +1343,10 @@
     "show-more": "more",
     "show-less": "Show less",
     "success-title": "Success!",
-    "success-message": "Request has been sent"
+    "success-message": "Request has been sent",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "done": "Done"
   },
   "providers": {
     "endpoint": {
@@ -1750,20 +1779,164 @@
     }
   },
   "account": {
+    "charging-model": {
+      "free": {
+        "title": "Free"
+      },
+      "payg": {
+        "title": "Pay-as-you-go"
+      },
+      "package": {
+        "title": "Package",
+        "package-notice": "This is your last Package. It will be automatically replaced by Deal upon the next subscription renewal.",
+        "expired-notice": "You've used your last Package. We no longer support this option. Switch to Deal as replacement.",
+        "learn-more": "Learn more"
+      },
+      "deal": {
+        "title": "Deal"
+      }
+    },
+    "deal-renewal": {
+      "cancel-dialog": {
+        "title": "Deal renewal cancelled",
+        "description-common": "Deal's remaining API credits are still available for you until spent before or expired",
+        "description-with-date": "Deal's remaining API credits are still available for you until spent before or expired on {date, date, long}.",
+        "done-btn": "Done"
+      }
+    },
+    "periodic-payments": {
+      "cancel": {
+        "custom-title": "Cancel {customChargingModelName}",
+        "custom-description": "Cancel your {customChargingModelName} payment scheduled for {date, date, long}?",
+        "recurring-title": "Cancel recurring PAYG payment",
+        "recurring-description": "Cancel your ${amount, number, ::compact-short} recurring payment scheduled for {date, date, long}?"
+      },
+      "cancel-dialog": {
+        "title": "Payment cancelled",
+        "description": "Your recurring PAYG payment has been successfully cancelled",
+        "done-btn": "Done"
+      }
+    },
     "currencies": {
       "ankr": "ANKR",
       "credit": "Credits",
       "usd": "USD"
     },
+    "amounts": {
+      "crypto": "{amount, number} {currency}",
+      "usd": "{isApproximate, select, true {≈} other {}}{amount, number, USD}",
+      "fee": {
+        "crypto": "{isApproximate, select, true {≈} other {}}{fee} {network}",
+        "usd": "{isApproximate, select, true {≈} other {}}${fee}"
+      },
+      "requests": "{isApproximate, select, true {≈} other {}}{requests, number, ::compact-short} reqs",
+      "prices": {
+        "usd": "${amount, number}",
+        "crypto": "{amount, number, ::compact-short} {currency}"
+      }
+    },
+    "payment-types": {
+      "one-time": {
+        "title": "{isCapitalized, select, true {O} other {o}}ne-time",
+        "payment-summary-title": "One-time payment",
+        "payment-summary-description": "One-time Pay-as-you-go balance payment",
+        "tooltip": "Single Pay-as-you-go balance payment"
+      },
+      "recurring": {
+        "title": "{isCapitalized, select, true {R} other {r}}ecurring",
+        "payment-summary-title": "Recurring payment",
+        "payment-summary-description": "Monthly-repeating Pay-as-you-go balance payment",
+        "tooltip": "Monthly-repeating Pay-as-you-go balance payment"
+      },
+      "deal": {
+        "title": "{isCapitalized, select, true {D} other {d}}eal",
+        "payment-summary-title": "Deal",
+        "payment-summary-description": "Monthly-repeating purchase of 6B API Credits with 30-days validity period",
+        "tooltip": "Subscription for 6B monthly API credits at 20% discount"
+      }
+    },
+    "stripe-wordmark": {
+      "label": "Powered by"
+    },
+    "payment-summary-dialog": {
+      "title": "Payment summary",
+      "total-label": "Total",
+      "cancel-button": "Cancel",
+      "usd": {
+        "proceed-button": "Proceed to checkout"
+      },
+      "crypto": {
+        "tx-fees-label": "Transaction fees <span>(estimated)</span>",
+        "tx-fees-placeholder": "connect wallet to estimate fees",
+        "connected-address-label": "Connected account address",
+        "confirm-button": "Confirm",
+        "proceed-with-new-address-button": "Proceed with new address",
+        "another-address-button": "Use another address",
+        "connect-button": "Connect Wallet",
+        "insufficient-balance-warning": "Insufficient ANKR tokens on the connected address. Please add more tokens or use a different address to continue.",
+        "accounts-changed-warning": "Changing the account address has interrupted the latest payment transaction. Select whether you'd like to start a new transaction via the current account address or via another one."
+      }
+    },
     "balance": "{balance, number, ::compact-short}",
     "operation-loader": "Checking transactions",
     "premium-success": "You’ve now gone Premium! Enjoy <a href='https://www.ankr.com/docs/rpc-service/service-plans/#feature-list' target='_blank'>the features</a> and <a href='https://www.ankr.com/docs/rpc-service/service-plans/#rate-limits' target='_blank'>rate limits</a> available to&nbsp;you.",
-    "descriptions": {
-      "blue": "To begin utilizing Ankr mRPC, replenish your balance via the form on the right.",
-      "yellow": "Low balance range. Topping up is required to prevent account suspension.",
-      "red": "Top up your account balance to continue using our service.",
-      "critical": "Top up your account balance to continue using our service.\nYour account has been suspended.",
-      "grey": "Updating"
+    "switch-account-dialog": {
+      "title": "Switch account back",
+      "description": "To avoid creating a new account, switch back to the original MetaMask account address you've signed in to the Ankr platform with.",
+      "switch-button": "Switch"
+    },
+    "success-crypto-payment-dialog": {
+      "amount-label": "{paymentType} balance top-up",
+      "approval-label": "Approval",
+      "deposit-label": "Deposit",
+      "from-title": "From",
+      "subtitle": "{date} UTC",
+      "title": "Success",
+      "to-title": "To",
+      "total-label": "Total",
+      "transaction-title": "Transaction"
+    },
+    "crypto-payment-deposit-dialog": {
+      "title": "One-time payment",
+      "total-fees-label": "Total fees",
+      "confirm-button": {
+        "approval": "Confirm approval",
+        "deposit": "Confirm deposit",
+        "error": "Try again",
+        "pending": "Pending",
+        "tooltip": "Transaction is in progress"
+      },
+      "discard-button": "Discard"
+    },
+    "payment-flow": {
+      "steps": {
+        "approval": {
+          "title": "Approval",
+          "partial-approval-alert": "The previous approval for {approvedAmount} doesn’t cover your deposit needs. Confirm editing your approval to {amountToDeposit}.",
+          "full-approval-alert": "You've already approved the transaction {approvedAmount}"
+        },
+        "deposit": {
+          "title": "Deposit"
+        }
+      }
+    },
+    "payment-form": {
+      "title": "Payments",
+      "currency-tabs-title": "Currency",
+      "amount-title": "Amount",
+      "how-we-calculate-link": "How we calculate",
+      "deal-proposal": {
+        "title": "Deal",
+        "label": "Save 20%",
+        "amount": "${amount}<span>/mo</span>",
+        "list": {
+          "0": "6B API Credits at 20% discount",
+          "1": "All requests: Node API and Advanced API",
+          "2": "30-days' validity period (Credits can't be carried over to the next month)",
+          "3": "Periodic payment"
+        }
+      },
+      "pay-button": "Pay"
     },
     "account-details": {
       "breadcrumbs": "Billing",
@@ -1783,11 +1956,6 @@
         "ankr-amount-label": "Amount",
         "credits": "({credits, number, ::compact-short} Credits)",
         "cancel-label": "You can cancel anytime",
-        "bundle-banner": {
-          "top": "Save&nbsp;20% on&nbsp;each request with our",
-          "bottom": "special offer",
-          "button": "Learn more"
-        },
         "bundle-dialog": {
           "title": "Unlock new possibilities for your project",
           "description": "Subscribe to Ankr's Premium RPC plan for $500 per month and unleash a variety of benefits.",
@@ -1799,20 +1967,30 @@
       },
       "edit-button": "Edit",
       "top-up-button": "Top Up",
-      "all-plans-button": "See all plans",
-      "price": "${amount, number} <span>per {period, select, day {day} week {week} month {month} year {year}}</span>",
-      "next-billing-date": "Next billing date: {date, date, long}",
+      "price": "${amount, number} <span>/{period, select, day {day} week {week} month {mo} year {year}}</span>",
+      "next-billing-date": "Next payment: {date, date, long}",
+      "deprecated-model": "No longer available for renewal",
+      "no-payments-text": "No periodic payments yet",
       "scheduled-payments": {
         "title": "{paymentsCount, plural, =0 {No scheduled payments} =1 {Scheduled payment ({paymentsCount}):} other {Scheduled payments ({paymentsCount}):}}",
-        "subscription": "${amount, number, ::compact-short} on {date}",
+        "subscription": "${amount, number, ::compact-short}",
         "more-button": "+{subscriptionsCount} more"
       },
       "balance-widget": {
-        "title": "Current balance",
-        "payg-label": "Pay as you go",
-        "credit-balance": "{balance, number, ::compact-short} Credits",
+        "title": "Charging model",
+        "payg-label": "Pay-as-you-go",
+        "credit-balance": "{balance, number, ::compact-short} API Credits",
+        "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
         "usd-balance": "≈{balance, number, USD}",
-        "plural": "s"
+        "requests-balance": "{balance, number, ::compact-short} requests",
+        "req-balance": " / ≈{balance, number, ::compact-short} reqs",
+        "expires": "Expires: {date, date, long}",
+        "plural": "s",
+        "assets-balance-button": "Assets balance",
+        "assets-balance-dialog": {
+          "title": "Assets balance",
+          "description": "The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make."
+        }
       },
       "plan-widget": {
         "title": "Current plan",
@@ -1820,15 +1998,24 @@
         "progress-title-less-one": "<1% used"
       },
       "subscription-editor": {
-        "upgrade-button": "Upgrade",
-        "cancel-button": "Cancel subscription",
+        "cancel-button": "Cancel",
         "warning": "If you cancel now, you will no longer be charged"
       },
-      "edit-plan-dialog": {
-        "title": "Edit current plan"
-      },
       "edit-subscriptions-dialog": {
-        "title": "Edit your payments"
+        "title": "Edit periodic payments",
+        "recurring-payment": "Recurring PAYG payment",
+        "deal": "Deal",
+        "package": "Package"
+      },
+      "ongoing-payments": {
+        "title": "Ongoing Payments",
+        "one-time-payment": "One-time payment",
+        "status": {
+          "pending": "Pending",
+          "success": "Success",
+          "error": "Error"
+        },
+        "details-btn": "View details"
       },
       "expense-chart": {
         "title": "Expense Chart",
@@ -1844,14 +2031,10 @@
         }
       },
       "subscriptions": {
-        "title": "Auto Payment",
+        "title": "Periodic payments",
         "edit": "Edit",
         "top-up-subscriptions": "{value, plural, =1 {Top Up Subscription} other { Top Up Subscriptions }}",
-        "text": "${amount}/{recurringInterval}",
-        "are-you-sure": "Are you sure?",
-        "if-you-continue": "If you continue, your subscription will be canceled",
-        "cancel-subscription": "Cancel subscription",
-        "keep-subscription": "Keep subscription"
+        "text": "${amount}/{recurringInterval}"
       }
     },
     "payment-table": {
@@ -1860,28 +2043,29 @@
       "more": "Show 10 more",
       "empty": "No data for the selected filter parameters.",
       "head": {
-        "col-1": "Date & Time",
+        "col-1": "Date (UTC)",
         "col-2": "Payment type",
-        "col-3": "Amount",
-        "col-4": "Credits"
+        "col-3": "In USD/ANKR",
+        "col-4": "In API Credits",
+        "col-5": " "
       },
-      "csv-title": "Payment charging for {month} {day}, {year}",
+      "csv-title": "Daily charge for {month} {day}, {year}",
       "payment-type": {
         "placeholder": "Payment type",
-        "all": "All",
+        "all": "All types",
         "unknown": "Unknown",
-        "top-up": "Top up",
-        "deduction": "Payment charging",
-        "withdrawal": "Withdrawal",
-        "bonus": "Bonus",
-        "compensation": "Compensation",
-        "voucher": "Voucher operations"
+        "deal": "Deal payment",
+        "package": "Package payment",
+        "payg": "PAYG payment",
+        "voucher": "Voucher operations",
+        "deduction": "Daily charge"
       },
       "time-type": {
         "week": "Past week",
         "month": "Past month",
         "year": "Past year"
-      }
+      },
+      "details": "Details"
     },
     "top-up": {
       "breadcrumbs": "Top Up",

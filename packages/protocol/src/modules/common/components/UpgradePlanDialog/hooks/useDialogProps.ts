@@ -1,12 +1,12 @@
 import { IDialogProps } from 'uiKit/Dialog';
 import { SIGNUP_DIALOG_WIDTH } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useHasBreakdown } from 'uiKit/Theme/useTheme';
+import { ECurrency } from 'modules/billing/types';
 
 import { ContentType, Plan } from '../types';
 import { DIALOG_BREAKDOWN } from '../const';
 import { getContent } from '../utils/getContent';
 import { useDialogTitle } from './useDialogTitle';
-import { TopUpCurrency } from '../components/TopUpForm/types';
 
 const LARGE_WIDTH = 1200;
 
@@ -15,7 +15,7 @@ const getDefaultMaxWidth = (hasBreakdown: boolean) =>
 
 export interface DialogPropsParams {
   contentType: ContentType;
-  currency?: TopUpCurrency;
+  currency?: ECurrency;
   defaultState?: ContentType;
   enterpriseUpgradeHandler: () => void;
   freeUpgradeHandler: () => void;

@@ -24,9 +24,9 @@ export const ConnectWalletCard = () => {
   return (
     <>
       <InfoCard
-        title={t('user-settings.connect-wallet-card.title')}
-        description={t('user-settings.connect-wallet-card.description')}
         align="center"
+        description={t('user-settings.connect-wallet-card.description')}
+        title={t('user-settings.connect-wallet-card.title')}
       >
         <ConnectButton
           variant="contained"

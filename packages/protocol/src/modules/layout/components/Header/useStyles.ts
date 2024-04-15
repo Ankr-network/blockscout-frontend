@@ -9,7 +9,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(2 * 4, 0),
+    padding: theme.spacing(3, 0),
     color: theme.palette.text.primary,
     position: 'fixed',
     width: `calc(100% - ${SIDEBAR_WIDTH}px)`,
@@ -21,8 +21,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     justifyContent: 'space-between',
   },
   switcher: {
-    marginRight: theme.spacing(2 * 4.5),
-    marginLeft: theme.spacing(2 * 1),
+    marginRight: theme.spacing(9),
+    marginLeft: theme.spacing(2),
     maxWidth: 180,
   },
   right: {
@@ -32,8 +32,8 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   buttons: {
     display: 'flex',
-    gap: theme.spacing(2 * 1.5),
+    gap: theme.spacing(3),
 
-    marginLeft: theme.spacing(2 * 1),
+    marginLeft: theme.spacing(2),
   },
 }));

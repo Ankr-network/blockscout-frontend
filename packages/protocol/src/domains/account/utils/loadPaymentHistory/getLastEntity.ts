@@ -1,4 +1,4 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
+import { IPaymentHistoryTableEntity } from 'domains/account/types';
 
-export const getLastEntity = (entities: IPaymentHistoryEntity[] = []) =>
+export const getLastEntity = (entities: IPaymentHistoryTableEntity[] = []) =>
   entities.slice(-1)[0];

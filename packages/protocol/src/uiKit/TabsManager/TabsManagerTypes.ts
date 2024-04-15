@@ -10,6 +10,7 @@ export interface Tab<TI = DefaultTabID> {
   isDisabled?: boolean;
   onSelect?: () => void;
   title?: ReactNode;
+  tooltip?: string;
 }
 
 export interface TabsManagerProps<TI = DefaultTabID> {

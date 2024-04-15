@@ -20,6 +20,10 @@ export interface MySubscriptionsParams {
   skipFetching?: boolean;
 }
 
+const defaultOptions: SubscriptionOptions = {
+  pollingInterval: 30_000,
+};
+
 export const useMySubscriptions = ({
   skipFetching = false,
 }: MySubscriptionsParams | void = {}) => {
@@ -32,7 +36,7 @@ export const useMySubscriptions = ({
 
   const shouldFetch = (hasPremium || hasAccess) && !skipFetching;
 
-  const [fetch] = useLazyFetchMySubscriptionsQuery();
+  const [fetch] = useLazyFetchMySubscriptionsQuery(defaultOptions);
 
   useEffect(() => {
     if (shouldFetch) {

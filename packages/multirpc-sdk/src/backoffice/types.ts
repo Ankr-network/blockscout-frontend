@@ -1,7 +1,7 @@
 import { Milliseconds, Timestamp } from '@ankr.com/utils';
 
 import {
-  IPaymentHistoryEntityType,
+  TPaymentHistoryEntityType,
   PrivateStats,
   PrivateStatsInterval,
   IEthUserAddressWithDeprecatedPublicKey,
@@ -18,7 +18,7 @@ export interface ITransactionsEntity {
   amountUsd: string;
   blockchain: Network;
   timestamp: string;
-  type: IPaymentHistoryEntityType;
+  type: TPaymentHistoryEntityType;
 }
 
 export interface ITransactionsRequest {

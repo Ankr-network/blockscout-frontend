@@ -98,6 +98,8 @@ export enum ChainID {
   BLAST = 'blast',
   BLAST_TESTNET_SEPOLIA = 'blast_testnet_sepolia',
 
+  B2 = 'b2',
+  B2_HABITAT_TESTNET = 'b2_habitat_testnet',
   BTTC = 'bttc',
   BTC = 'btc',
   BITLAYER = 'bitlayer',

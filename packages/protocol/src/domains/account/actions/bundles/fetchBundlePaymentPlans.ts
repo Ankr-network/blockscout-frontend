@@ -7,6 +7,7 @@ import { web3Api } from 'store/queries';
 export const {
   endpoints: { fetchBundlePaymentPlans },
   useFetchBundlePaymentPlansQuery,
+  useLazyFetchBundlePaymentPlansQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchBundlePaymentPlans: build.query<BundlePaymentPlan[], void>({

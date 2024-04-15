@@ -48,10 +48,9 @@ export const useStyles = makeStyles<void, 'rowColumn' | 'row'>()(
       overflow: 'auto',
     },
     rowHead: {
-      height: 49,
       flexShrink: 0,
       paddingTop: theme.spacing(2 * 1),
-      fontSize: 11,
+      fontSize: 14,
       color: theme.palette.grey[600],
       borderBottom: `1px solid ${theme.palette.divider}`,
     },

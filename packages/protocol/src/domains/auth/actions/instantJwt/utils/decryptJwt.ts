@@ -6,9 +6,9 @@ export const decryptJwt = async (
   jwtData: string,
   isEncrypted: boolean,
 ): Promise<JwtTokenFullData> => {
-  if (isEncrypted) {
-    const web3Service = await MultiService.getWeb3Service();
+  const web3Service = MultiService.getWeb3Service();
 
+  if (isEncrypted && web3Service) {
     const decryptedJwtToken = await web3Service.upgradeInstantJwtToken(jwtData);
 
     return decryptedJwtToken;

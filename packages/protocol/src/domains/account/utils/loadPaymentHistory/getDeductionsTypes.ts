@@ -1,4 +1,6 @@
-import { IPaymentHistoryEntityType as Type } from 'multirpc-sdk';
+import { TPaymentHistoryEntityType as Type } from 'multirpc-sdk';
+
+import { PaymentType } from 'domains/account/types';
 
 const typesWithoutDeductions: Type[] = [
   'TRANSACTION_TYPE_UNKNOWN',
@@ -12,7 +14,7 @@ const typesWithoutDeductions: Type[] = [
   'TRANSACTION_TYPE_WITHDRAW_ADJUST',
 ];
 
-export const getDeductionsTypes = (types: Type[]) =>
+export const getDeductionsTypes = (types: PaymentType[]) =>
   types.length === 0
     ? typesWithoutDeductions
-    : types.filter(type => type !== 'TRANSACTION_TYPE_DEDUCTION');
+    : (types.filter(type => type !== 'TRANSACTION_TYPE_DEDUCTION') as Type[]);

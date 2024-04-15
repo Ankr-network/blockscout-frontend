@@ -8,7 +8,6 @@ import { switchChain } from './connectUtils';
 
 export const {
   endpoints: { createWeb3Service },
-  useLazyCreateWeb3ServiceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     createWeb3Service: build.query<null, AuthConnectParams>({

@@ -1,9 +1,8 @@
 import { OauthLoginProvider } from 'multirpc-sdk';
+import { useCallback } from 'react';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { useOauth } from 'domains/oauth/hooks/useOauth';
-
-import { selectAuthData } from '../store/authSlice';
 import {
   selectAddress,
   selectHasConnectWalletMessage,
@@ -24,7 +23,9 @@ import {
   selectIsPremiumStatusUninitialized,
   selectIsPremiumStatusLoaded,
   selectPremiumStatusLoadingInitially,
-} from '../store';
+} from 'domains/auth/store';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+
 import { useWeb3Connection } from './useWeb3Connection';
 
 export const useAuth = () => {
@@ -56,18 +57,36 @@ export const useAuth = () => {
   const address = useAppSelector(selectAddress);
   const premiumStatus = useAppSelector(selectPremiumStatus);
 
-  const { loading: web3ConnectionLoading, ...rest } = useWeb3Connection();
+  const {
+    loading: web3ConnectionLoading,
+    handleDisconnect,
+    ...web3Rest
+  } = useWeb3Connection();
 
-  const { loading: autologinLoading, ...oauthRest } = useOauth();
+  const {
+    loading: autologinLoading,
+    handleSignOut: handleOauthSignOut,
+    ...oauthRest
+  } = useOauth();
+
+  const handleSignOut = useCallback(() => {
+    if (hasWeb3Connection) {
+      handleDisconnect();
+    } else {
+      handleOauthSignOut();
+    }
+  }, [handleDisconnect, handleOauthSignOut, hasWeb3Connection]);
 
   return {
     loading:
       web3ConnectionLoading || autologinLoading || isPremiumStatusLoading,
     isPremiumStatusLoaded,
     isPremiumStatusUninitialized,
-    ...rest,
+    ...web3Rest,
     ...authData,
     ...oauthRest,
+    handleDisconnect,
+    handleSignOut,
     oauthProviders,
     hasGithubLogin: oauthProviders?.includes(OauthLoginProvider.Github),
     hasGoogleLogin: oauthProviders?.includes(OauthLoginProvider.Google),

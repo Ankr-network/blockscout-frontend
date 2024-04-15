@@ -1,23 +1,34 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
+import { IPaymentHistoryTableEntity } from 'domains/account/types';
 
 export interface Decomposition {
-  deductions: IPaymentHistoryEntity[];
-  transactions: IPaymentHistoryEntity[];
+  deductions: IPaymentHistoryTableEntity[];
+  transactions: IPaymentHistoryTableEntity[];
+  bundlesPayments: IPaymentHistoryTableEntity[];
 }
 
 export const decomposePaymentHistory = (
-  paymentHistory: IPaymentHistoryEntity[] = [],
+  paymentHistory: IPaymentHistoryTableEntity[] = [],
 ) =>
   paymentHistory.reduce<Decomposition>(
     (decomposition, entity) => {
-      const key: keyof Decomposition =
-        entity.type === 'TRANSACTION_TYPE_DEDUCTION'
-          ? 'deductions'
-          : 'transactions';
+      let key: keyof Decomposition;
+
+      switch (entity.type) {
+        case 'TRANSACTION_TYPE_DEDUCTION':
+          key = 'deductions';
+          break;
+        case 'TRANSACTION_TYPE_DEAL_DEPOSIT':
+        case 'TRANSACTION_TYPE_PACKAGE_DEPOSIT':
+          key = 'bundlesPayments';
+          break;
+        default:
+          key = 'transactions';
+          break;
+      }
 
       decomposition[key].push(entity);
 
       return decomposition;
     },
-    { deductions: [], transactions: [] },
+    { deductions: [], transactions: [], bundlesPayments: [] },
   );

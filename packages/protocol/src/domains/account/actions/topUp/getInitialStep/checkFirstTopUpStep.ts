@@ -21,43 +21,48 @@ export const checkFirstTopUpStep = async ({
   dispatch,
   group,
 }: CheckFirstTopUpStepArguments) => {
-  const service = await MultiService.getWeb3Service();
-  const keyProvider = service.getKeyReadProvider();
+  const service = MultiService.getWeb3Service();
 
-  const lastTopUpEvent = await service
-    .getContractService()
-    .getLastLockedFundsEvent(address);
+  if (service) {
+    const keyProvider = service.getKeyReadProvider();
 
-  const value = keyProvider
-    .getWeb3()
-    .utils.fromWei(lastTopUpEvent?.returnValues?.amount || '');
+    const lastTopUpEvent = await service
+      .getContractService()
+      .getLastLockedFundsEvent(address);
 
-  const amount = new BigNumber(value);
-  const { credentials, isInstantJwtParticipant, workerTokenData } =
-    selectAuthData(getState());
+    const value = keyProvider
+      .getWeb3()
+      .utils.fromWei(lastTopUpEvent?.returnValues?.amount || '');
 
-  const isFirstTopup =
-    Boolean(lastTopUpEvent) && !credentials && !isInstantJwtParticipant;
+    const amount = new BigNumber(value);
+    const { credentials, isInstantJwtParticipant, workerTokenData } =
+      selectAuthData(getState());
 
-  const isTopupAfterTokenExpiration =
-    Boolean(lastTopUpEvent) &&
-    credentials &&
-    !workerTokenData?.userEndpointToken &&
-    amount.isGreaterThanOrEqualTo(DEFAULT_ANKR_VALUE);
+    const isFirstTopup =
+      Boolean(lastTopUpEvent) && !credentials && !isInstantJwtParticipant;
 
-  const hasFirstTopUp = isFirstTopup || isTopupAfterTokenExpiration;
+    const isTopupAfterTokenExpiration =
+      Boolean(lastTopUpEvent) &&
+      credentials &&
+      !workerTokenData?.userEndpointToken &&
+      amount.isGreaterThanOrEqualTo(DEFAULT_ANKR_VALUE);
 
-  if (!hasFirstTopUp) return null;
+    const hasFirstTopUp = isFirstTopup || isTopupAfterTokenExpiration;
 
-  const transactionReceipt = await service
-    .getContractService()
-    .getTransactionReceipt(lastTopUpEvent?.transactionHash as string);
+    if (!hasFirstTopUp) return null;
 
-  if (transactionReceipt && !isInstantJwtParticipant) {
-    return TopUpStep.login;
+    const transactionReceipt = await service
+      .getContractService()
+      .getTransactionReceipt(lastTopUpEvent?.transactionHash as string);
+
+    if (transactionReceipt && !isInstantJwtParticipant) {
+      return TopUpStep.login;
+    }
+
+    dispatch(topUpWaitTransactionConfirming.initiate({ group }));
+
+    return TopUpStep.waitTransactionConfirming;
   }
 
-  dispatch(topUpWaitTransactionConfirming.initiate({ group }));
-
-  return TopUpStep.waitTransactionConfirming;
+  return null;
 };

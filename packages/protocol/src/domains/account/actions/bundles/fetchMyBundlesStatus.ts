@@ -4,22 +4,28 @@ import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { RequestType, web3Api } from 'store/queries';
 
+// import { fetchMyBundlesStatusMockData } from './fetchMyBundlesStatusMockData'; // use for debugging
+
+interface IFetchMyBundlesStatusParams {
+  group?: Web3Address;
+}
+
 export const {
   endpoints: { fetchMyBundlesStatus },
-  useFetchMyBundlesStatusQuery,
   useLazyFetchMyBundlesStatusQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchMyBundlesStatus: build.query<
       MyBundleStatus[],
-      Web3Address | undefined
+      IFetchMyBundlesStatusParams
     >({
       providesTags: [RequestType.MyBundles],
-      queryFn: createNotifyingQueryFn(async group => {
+      queryFn: createNotifyingQueryFn(async ({ group }) => {
         const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getMyBundlesStatus(group);
 
+        // return { data: fetchMyBundlesStatusMockData }; // use for debugging
         return { data };
       }),
     }),

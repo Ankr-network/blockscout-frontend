@@ -1,10 +1,4 @@
-// @ts-nocheck
-import {
-  EventProvider,
-  ProviderEvents,
-  getProvider,
-  EWalletId,
-} from '@ankr.com/provider';
+import { EWalletId, ProviderEvents } from '@ankr.com/provider';
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 
@@ -39,6 +33,7 @@ import { selectCurrentAddress } from 'domains/auth/store';
 import { resetOriginChainURL } from 'domains/chains/store/chainsSlice';
 import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
 import { getProviderManager } from 'modules/api/getProviderManager';
+import { isEventProvider } from 'store/utils/isEventProvider';
 
 export const listenerMiddleware = createListenerMiddleware<RootState>();
 
@@ -80,19 +75,16 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   matcher: authDisconnect.matchFulfilled,
   effect: async () => {
-    const service = await MultiService.getWeb3Service();
+    const service = MultiService.getWeb3Service();
 
     if (service) {
       const providerManager = getProviderManager();
       const ethWeb3KeyProvider = await providerManager.getETHWriteProvider(
         EWalletId.injected,
       );
-      const web3 = ethWeb3KeyProvider.getWeb3();
+      const provider = ethWeb3KeyProvider.getWeb3()?.currentProvider;
 
-      const provider: EventProvider | null = getProvider(web3?.currentProvider);
-
-      if (provider) {
-        provider.removeAllListeners(ProviderEvents.AccountsChanged);
+      if (isEventProvider(provider)) {
         provider.removeAllListeners(ProviderEvents.ChainChanged);
         provider.removeAllListeners(ProviderEvents.Disconnect);
       }
@@ -109,16 +101,13 @@ listenerMiddleware.startListening({
     const ethWeb3KeyProvider = await providerManager.getETHWriteProvider(
       EWalletId.injected,
     );
-    const web3 = ethWeb3KeyProvider.getWeb3();
+    const provider = ethWeb3KeyProvider.getWeb3()?.currentProvider;
 
-    const provider: EventProvider | null = getProvider(web3?.currentProvider);
-
-    if (provider) {
+    if (isEventProvider(provider)) {
       const handler = () => {
         dispatch(authDisconnect.initiate());
       };
 
-      provider.on(ProviderEvents.AccountsChanged, handler);
       provider.on(ProviderEvents.ChainChanged, handler);
       provider.on(ProviderEvents.Disconnect, handler);
     }

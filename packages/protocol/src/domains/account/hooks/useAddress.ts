@@ -20,10 +20,10 @@ export const useAddress = () => {
         setAddress(selectedGroupAddress);
       } else {
         try {
-          const service = await MultiService.getWeb3Service();
+          const service = MultiService.getWeb3Service();
 
-          const provider = service.getKeyWriteProvider();
-          const { currentAccount } = provider;
+          const provider = service?.getKeyWriteProvider();
+          const { currentAccount = '' } = provider ?? {};
 
           setAddress(currentAccount);
         } catch (e) {

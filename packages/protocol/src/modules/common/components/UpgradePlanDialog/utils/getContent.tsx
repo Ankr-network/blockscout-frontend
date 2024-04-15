@@ -1,19 +1,19 @@
 import { ReactNode } from 'react';
 
-import { AccountDetailsTopUp } from 'domains/account/screens/AccountDetails/components/AccountDetailsTopUp';
+import { AccountDetailsTopUp } from 'domains/account/screens/BillingPage/components/AccountDetailsTopUp';
+import { ECurrency } from 'modules/billing/types';
 
 import { ContactSalesForm } from '../components/ContactSalesForm';
 import { ContentType, Plan } from '../types';
 import { DefaultContent } from '../components/DefaultContent';
 import { SignUpContent } from '../components/SignUpContent';
-import { TopUpCurrency } from '../components/TopUpForm/types';
 
 const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
   ContentType;
 
 export interface ContentParams {
   contentType: ContentType;
-  currency?: TopUpCurrency;
+  currency?: ECurrency;
   enterpriseUpgradeHandler: () => void;
   freeUpgradeHandler: () => void;
   onClose: () => void;
@@ -43,7 +43,7 @@ export const getContent = ({
       />
     ),
     [SIGN_UP]: <SignUpContent onClose={onClose} onOauthSignUp={resetTitle} />,
-    [TOP_UP]: <AccountDetailsTopUp hasHeader={false} />,
+    [TOP_UP]: <AccountDetailsTopUp />,
     [CONTACT_SALES_FORM]: <ContactSalesForm onSubmit={onSubmitContactForm} />,
     [CONTACT_SALES_SUCCESS]: (
       <ContactSalesForm onSubmit={onSubmitContactForm} />

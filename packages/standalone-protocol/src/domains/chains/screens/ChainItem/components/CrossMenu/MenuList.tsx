@@ -55,6 +55,7 @@ import { ReactComponent as CoreLogo } from 'assets/img/logo/core.svg';
 import scrollLogoSrc from 'assets/img/logo/scroll.svg';
 import { ReactComponent as KintoLogo } from 'assets/img/logo/kinto.svg';
 import { ReactComponent as KintoLightLogo } from 'assets/img/logo/kintoLight.svg';
+import { ReactComponent as B2Logo } from 'assets/img/logo/b2.svg';
 
 // eslint-disable-next-line max-lines-per-function
 export const getMenuList = (
@@ -252,5 +253,11 @@ export const getMenuList = (
     name: 'Kinto',
     logo: isMobileSiderBar ? <KintoLogo /> : <KintoLightLogo />,
     url: 'https://kinto-rpc.com',
+  },
+  {
+    chainId: ChainId.B2,
+    name: 'B2',
+    logo: <B2Logo />,
+    url: 'https://b2.public-rpc.com/',
   },
 ];

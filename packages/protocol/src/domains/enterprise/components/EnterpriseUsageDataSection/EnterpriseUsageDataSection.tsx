@@ -11,11 +11,11 @@ import { MethodCalls } from 'domains/chains/screens/ChainItem/components/MethodC
 import { RequestsChart } from 'domains/chains/screens/ChainItem/components/RequestsChart';
 import { PrivateUsageSummary } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/components/PrivateUsageSummary';
 import { useDataUsageSectionStyles } from 'domains/chains/screens/ChainItem/components/UsageDataSection/UsageDataSectionStyles';
+import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { EnterpriseUsageDataControls } from '../EnterpriseUsageDataControls';
 import { useEnterpriseUsageData } from './useEnterpriseUsageData';
 import { useEnterpriseApiKeySelect } from '../EnterpriseApiKeysSelect/useEnterpriseApiKeySelect';
-import { EnterpriseClientJwtManagerItem } from '../../store/selectors';
 
 interface EnterpriseUsageDataSectionProps {
   chain: Chain;

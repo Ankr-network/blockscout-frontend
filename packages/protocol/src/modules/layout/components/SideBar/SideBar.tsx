@@ -6,6 +6,8 @@ import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { useStyles } from './SideBarStyles';
 import { MainNavigation } from '../MainNavigation';
+import { BalanceMenuContent } from '../BalanceMenu';
+import { useBalanceMenuButton } from '../BalanceMenuButton/useBalanceMenuButton';
 
 export interface SidebarProps {
   chainsRoutes: string[];
@@ -25,6 +27,14 @@ export const SideBar = ({
   loading,
 }: SidebarProps) => {
   const { classes, cx } = useStyles(isMobileSideBar);
+  const {
+    balance,
+    creditBalance,
+    usdBalance,
+    balanceInRequests,
+    currentChargingModel,
+    isApiCreditsBalance,
+  } = useBalanceMenuButton();
 
   const onDocsClick = useTrackDocs();
   const onAnalyticsClick = useTrackAnalytics();
@@ -34,6 +44,16 @@ export const SideBar = ({
     <aside className={cx(classes.root, className)}>
       {hasMenu && <GlobalMenuWrapper />}
       {isXsDown && <AccountStatus className={classes.accountStatus} />}
+      <div className={classes.balanceRoot}>
+        <BalanceMenuContent
+          currentChargingModel={currentChargingModel}
+          balance={balance}
+          creditBalance={creditBalance}
+          usdBalance={usdBalance}
+          balanceInRequests={balanceInRequests}
+          isApiCreditsBalance={isApiCreditsBalance}
+        />
+      </div>
       <MainNavigation
         chainsRoutes={chainsRoutes}
         isMobileSideBar={isMobileSideBar}

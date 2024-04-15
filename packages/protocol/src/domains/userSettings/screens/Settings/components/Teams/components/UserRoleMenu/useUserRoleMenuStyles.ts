@@ -15,9 +15,6 @@ export const useUserRoleMenuStyles = makeStyles()(theme => ({
 
     padding: theme.spacing(),
   },
-  selectRoot: {
-    width: 132,
-  },
   root: {
     width: 272,
     height: 220,

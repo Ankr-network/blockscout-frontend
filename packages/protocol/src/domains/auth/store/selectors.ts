@@ -9,12 +9,13 @@ import {
   selectMyCurrentBundle,
   selectTotalBalance,
 } from 'domains/account/store/selectors';
-
 import {
   defaultPremiumStatusData,
   fetchPremiumStatus,
-} from '../actions/fetchPremiumStatus';
-import { getPremiumActivationThreshold } from '../utils/getPremiumActivationThreshold';
+} from 'domains/auth/actions/fetchPremiumStatus';
+import { getPremiumActivationThreshold } from 'domains/auth/utils/getPremiumActivationThreshold';
+
+import { createWeb3Service } from '../actions/connect/createWeb3Service';
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { selectAuthData } from './authSlice';
 
@@ -215,4 +216,9 @@ export const selectCurrentAddress = createSelector(
   selectAddress,
   selectUserGroupConfigByAddress,
   (address, { selectedGroupAddress }) => selectedGroupAddress || address,
+);
+
+export const selectHasWeb3Service = createSelector(
+  createWeb3Service.select(undefined as never),
+  ({ data }) => data === null,
 );
