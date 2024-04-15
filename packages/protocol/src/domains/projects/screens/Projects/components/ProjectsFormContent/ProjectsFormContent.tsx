@@ -2,15 +2,15 @@ import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { Project } from 'domains/projects/utils/getAllProjects';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { ECurrency } from 'modules/billing/types';
 
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectsTable } from '../ProjectsTable';
 import { AddProjectButton } from '../AddProjectButton';
-import { UpgdareAccountDialog } from '../UpgdareAccountDialog';
+import { UpgradeAccountDialog } from '../UpgradeAccountDialog';
 import { EditProjectDialog } from '../EditProjectDialog';
 
 interface ProjectsFormContentProps {
@@ -68,14 +68,14 @@ export const ProjectsFormContent = ({
         </GuardUserGroup>
       )}
 
-      <UpgdareAccountDialog
+      <UpgradeAccountDialog
         isOpened={isUpgradeAccountDialogOpened}
         handleClickSeePlans={handleClickSeePlans}
         handleClose={onUpgradeAccountDialogClose}
       />
 
       <UpgradePlanDialog
-        currency={TopUpCurrency.USD}
+        currency={ECurrency.USD}
         defaultState={ContentType.DEFAULT}
         onClose={onPlansDialogClose}
         open={isPlansDialogOpened}

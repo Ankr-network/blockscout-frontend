@@ -1,20 +1,21 @@
-import { Web3Address } from 'multirpc-sdk';
-
 import { GetState, RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { getSelectedGroupAddress } from 'modules/groups/utils/getSelectedGroupAddress';
 
-export const getCurrentTransactionAddress = async (
-  getState: GetState,
-): Promise<Web3Address> => {
-  const service = await MultiService.getWeb3Service();
-  const provider = service.getKeyWriteProvider();
+export const getCurrentTransactionAddress = (getState: GetState) => {
+  const service = MultiService.getWeb3Service();
   const { selectedGroupAddress: groupAddress } = getSelectedGroupAddress(
     getState() as RootState,
   );
-  const { currentAccount: currentAccountAddress } = provider;
 
-  const result = groupAddress || currentAccountAddress;
+  if (service) {
+    const provider = service.getKeyWriteProvider();
+    const { currentAccount: currentAccountAddress } = provider;
 
-  return result;
+    const result = groupAddress || currentAccountAddress;
+
+    return result;
+  }
+
+  return groupAddress ?? '';
 };

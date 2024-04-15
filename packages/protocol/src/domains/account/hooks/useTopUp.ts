@@ -4,11 +4,14 @@ import { useCallback, useMemo } from 'react';
 import {
   setAmount,
   resetTransaction,
+  setApprovedAmount,
 } from 'domains/account/store/accountTopUpSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useTopupFromDifferentAddress } from 'modules/billing/components/PaymentForm/hooks/useTopupFromDifferentAddress';
+import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 
 import { accountFetchPublicKey } from '../actions/fetchPublicKey';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
@@ -23,29 +26,46 @@ import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
 import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
+const getErrorMessage = (error: any) => {
+  if (error && 'message' in error && typeof error.message === 'string') {
+    return error.message;
+  }
+
+  return undefined;
+};
+
 // eslint-disable-next-line max-lines-per-function
 export const useTopUp = () => {
   const { address: personalAddress } = useAuth();
+  const { connectedAddress } = useConnectedAddress();
   const { selectedGroupAddress } = useSelectedUserGroup();
 
-  const address = selectedGroupAddress ?? personalAddress;
+  const address = selectedGroupAddress ?? connectedAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
 
-  const [deposit, { isLoading: loadingDeposit }, depositReset] =
-    useQueryEndpoint(topUpDeposit);
+  const { isDepositAddressDifferent } = useTopupFromDifferentAddress();
+
+  const [
+    deposit,
+    { isLoading: loadingDeposit, error: depositError },
+    depositReset,
+  ] = useQueryEndpoint(topUpDeposit);
 
   const [
     depositForUser,
-    { isLoading: loadingDepositForUser },
+    { isLoading: loadingDepositForUser, error: depositForUserError },
     depositForUserReset,
   ] = useQueryEndpoint(topUpDepositForUser);
 
   const [fetchPublicKey, { isLoading: loadingFetchPublicKey }] =
     useQueryEndpoint(accountFetchPublicKey);
 
-  const [sendAllowance, { isLoading: loadingGetAllowance }] =
-    useQueryEndpoint(topUpSendAllowance);
+  const [
+    sendAllowance,
+    { isLoading: loadingGetAllowance, error: sendAllowanceError },
+    handleResetAllowance,
+  ] = useQueryEndpoint(topUpSendAllowance);
 
   const [login, { isLoading: loadingLogin }] = useQueryEndpoint(topUpLogin);
 
@@ -78,26 +98,54 @@ export const useTopUp = () => {
     [transaction],
   );
 
+  const amountToDeposit = useMemo(() => {
+    return new BigNumber(transaction?.amountToDeposit || 0);
+  }, [transaction]);
+
+  const approvedAmount = useMemo(
+    () => new BigNumber(transaction?.approvedAmount || 0),
+    [transaction],
+  );
+
+  const transactionCurrency = transaction?.currency;
+
   const handleFetchPublicKey = useCallback(
     () => fetchPublicKey(),
     [fetchPublicKey],
   );
 
   const handleGetAllowance = useCallback(
-    () => sendAllowance(amount),
-    [sendAllowance, amount],
+    () => sendAllowance(amountToDeposit),
+    [sendAllowance, amountToDeposit],
   );
 
   const handleDeposit = useCallback(() => {
     if (selectedGroupAddress) {
-      return depositForUser({ amount, targetAddress: selectedGroupAddress });
+      return depositForUser({
+        amount: amountToDeposit,
+        targetAddress: selectedGroupAddress,
+      });
     }
 
-    return deposit(amount);
-  }, [selectedGroupAddress, depositForUser, amount, deposit]);
+    if (isDepositAddressDifferent) {
+      return depositForUser({
+        amount: amountToDeposit,
+        targetAddress: personalAddress,
+      });
+    }
+
+    return deposit(amountToDeposit);
+  }, [
+    amountToDeposit,
+    selectedGroupAddress,
+    isDepositAddressDifferent,
+    deposit,
+    depositForUser,
+    personalAddress,
+  ]);
 
   const handleResetDeposit = useCallback(() => {
-    if (selectedGroupAddress) {
+    if (selectedGroupAddress || isDepositAddressDifferent) {
       depositForUserReset();
     } else {
       depositReset();
@@ -105,6 +153,7 @@ export const useTopUp = () => {
 
     waitTransactionConfirmingReset();
   }, [
+    isDepositAddressDifferent,
     depositForUserReset,
     depositReset,
     selectedGroupAddress,
@@ -125,6 +174,13 @@ export const useTopUp = () => {
   const handleSetAmount = useCallback(
     (value: BigNumber) => {
       dispatch(setAmount({ address, amount: value }));
+    },
+    [dispatch, address],
+  );
+
+  const handleSetApprovedAmount = useCallback(
+    (value: BigNumber) => {
+      dispatch(setApprovedAmount({ address, amount: value }));
     },
     [dispatch, address],
   );
@@ -156,23 +212,38 @@ export const useTopUp = () => {
     loadingLogin ||
     loadingCheckAllowanceTransaction;
 
+  const depositErrorMessage =
+    getErrorMessage(depositError) ||
+    getErrorMessage(depositForUserError) ||
+    getErrorMessage(errorWaitTransactionConfirming);
+
+  const hasError =
+    Boolean(sendAllowanceError || depositErrorMessage) && !loading;
+
   return {
     amount,
+    amountToDeposit,
+    approvedAmount,
+    depositErrorMessage,
     handleDeposit,
     handleFetchPublicKey,
     handleGetAllowance,
     handleLogin,
     handleRedirectIfCredentials,
     handleRejectAllowance,
+    handleResetAllowance,
     handleResetDeposit,
     handleResetTopUpTransaction,
+    handleResetTransactionSliceAndRedirect,
     handleSetAmount,
+    handleSetApprovedAmount,
     handleWaitTransactionConfirming,
-    hasError: Boolean(errorWaitTransactionConfirming),
+    hasError,
     isRejectAllowanceLoading: loadingRejectAllowance,
     loading,
     loadingWaitTransactionConfirming,
+    sendAllowanceErrorMessage: getErrorMessage(sendAllowanceError),
     trackTopUp,
-    handleResetTransactionSliceAndRedirect,
+    transactionCurrency,
   };
 };

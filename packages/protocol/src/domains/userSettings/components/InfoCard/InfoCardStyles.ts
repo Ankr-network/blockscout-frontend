@@ -48,8 +48,6 @@ export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
     },
   },
   image: {
-    height: 120,
-    width: 120,
     margin: 'auto',
     marginBottom: theme.spacing(4),
   },

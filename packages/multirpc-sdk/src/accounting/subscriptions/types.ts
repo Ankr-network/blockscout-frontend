@@ -1,4 +1,4 @@
-export interface ProductPrice {
+export interface SubscriptionPrice {
   id: string;
   amount: string;
   currency: string;
@@ -8,7 +8,7 @@ export interface ProductPrice {
 }
 
 export interface IGetSubscriptionPricesResponse {
-  productPrices: ProductPrice[];
+  productPrices: SubscriptionPrice[];
 }
 
 export interface IGetLinkForCardPaymentResponse {

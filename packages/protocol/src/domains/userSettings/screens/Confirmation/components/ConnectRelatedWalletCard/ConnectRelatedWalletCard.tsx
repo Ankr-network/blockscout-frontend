@@ -9,9 +9,9 @@ export const ConnectRelatedWalletCard = () => {
 
   return (
     <InfoCard
-      title={t('user-settings.connect-related-wallet-card.title')}
-      description={t('user-settings.connect-related-wallet-card.description')}
       align="center"
+      description={t('user-settings.connect-related-wallet-card.description')}
+      title={t('user-settings.connect-related-wallet-card.title')}
     >
       <Button onClick={handleDisconnect}>
         {t('user-settings.connect-related-wallet-card.change-wallet-button')}

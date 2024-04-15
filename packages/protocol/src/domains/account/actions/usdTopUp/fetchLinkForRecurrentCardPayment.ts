@@ -5,8 +5,8 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { RootState } from 'store';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+import { ECurrency } from 'modules/billing/types';
 
-import { USD_CURRENCY } from './const';
 import { accountFetchPublicKey } from '../fetchPublicKey';
 
 export interface FetchLinkForCardPaymentParams {
@@ -36,7 +36,7 @@ export const {
           .getAccountingGateway()
           .getLinkForRecurrentCardPayment(
             {
-              currency: USD_CURRENCY,
+              currency: ECurrency.USD,
               product_price_id: id,
               public_key: publicKey,
             },

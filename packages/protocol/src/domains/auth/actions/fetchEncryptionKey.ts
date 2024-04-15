@@ -3,13 +3,15 @@ import {
   USER_DENIED_MESSAGE_SIGNATURE_CODE,
 } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { web3Api } from 'store/queries';
 
 export interface FetchEncryptionKeyResult {
   key: string;
 }
+
+const failedLoadKeyError = new Error('Failed to load encryption key');
 
 export const {
   endpoints: { authFetchEncryptionKey },
@@ -17,35 +19,36 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     authFetchEncryptionKey: build.query<FetchEncryptionKeyResult, void>({
-      queryFn: createNotifyingQueryFn(async () => {
-        const service = await MultiService.getWeb3Service();
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: createNotifyingQueryFn(async ({ web3Service }) => {
+          let key = '';
 
-        let key = '';
-
-        try {
-          const { publicKey } = await service
-            .getTokenDecryptionService()
-            .requestEncryptionKeys();
-
-          key = publicKey;
-        } catch (error: any) {
-          const isRejectOperationError =
-            error?.code === METAMASK_REJECTED_OPERATION_CODE;
-          const isDeniedMessageSignatureError =
-            error?.code === USER_DENIED_MESSAGE_SIGNATURE_CODE;
-
-          if (!isRejectOperationError && !isDeniedMessageSignatureError) {
-            key = await service
+          try {
+            const { publicKey } = await web3Service
               .getTokenDecryptionService()
-              .requestMetamaskEncryptionKey();
+              .requestEncryptionKeys();
+
+            key = publicKey;
+          } catch (error: any) {
+            const isRejectOperationError =
+              error?.code === METAMASK_REJECTED_OPERATION_CODE;
+            const isDeniedMessageSignatureError =
+              error?.code === USER_DENIED_MESSAGE_SIGNATURE_CODE;
+
+            if (!isRejectOperationError && !isDeniedMessageSignatureError) {
+              key = await web3Service
+                .getTokenDecryptionService()
+                .requestMetamaskEncryptionKey();
+            }
           }
-        }
 
-        if (!key) {
-          throw new Error('Failed to load encryption key');
-        }
+          if (!key) {
+            throw failedLoadKeyError;
+          }
 
-        return { data: { key } };
+          return { data: { key } };
+        }),
+        fallback: { error: failedLoadKeyError },
       }),
     }),
   }),

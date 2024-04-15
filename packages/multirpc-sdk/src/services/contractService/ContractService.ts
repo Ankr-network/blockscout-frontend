@@ -21,11 +21,15 @@ export class ContractService extends ContractReadService {
     super(PAYGContractManager);
   }
 
-  public async depositAnkrToPAYG(
+  async depositAnkrToPAYG(
     amount: BigNumber,
     publicKey: string,
   ): Promise<IWeb3SendResult> {
     return this.PAYGContractManager.depositAnkr(amount, publicKey);
+  }
+
+  async getDepositAnkrToPAYGFee(amount: BigNumber) {
+    return this.PAYGContractManager.getDepositAnkrFee(amount);
   }
 
   public async depositAnkrToPAYGForUser(
@@ -40,10 +44,14 @@ export class ContractService extends ContractReadService {
     });
   }
 
-  public async setAllowanceForPAYG(
+  async setAllowanceForPAYG(
     amount: BigNumber,
   ): Promise<IWeb3SendResult> {
     return this.PAYGContractManager.setAllowance(amount);
+  }
+
+  async getAllowanceFee(amount: BigNumber) {
+    return this.PAYGContractManager.getAllowanceFee(amount);
   }
 
   public async rejectAllowanceForPAYG(): Promise<IWeb3SendResult> {

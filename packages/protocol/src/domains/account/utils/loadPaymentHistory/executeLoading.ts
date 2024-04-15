@@ -1,6 +1,8 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
-
-import { PaymentHistory, PaymentHistoryParams } from 'domains/account/types';
+import {
+  IPaymentHistoryTableEntity,
+  PaymentHistory,
+  PaymentHistoryParams,
+} from 'domains/account/types';
 
 import { combinePaymentHistory } from './combinePaymentHistory';
 import { fetchPaymentHistory } from './fetchPaymentHistory';
@@ -8,8 +10,9 @@ import { getCursors } from './getCursors';
 import { takePaymentHistory } from './takePaymentHistory';
 
 export interface ExecuteLoadingParams extends PaymentHistoryParams {
-  loadedDeductions?: IPaymentHistoryEntity[];
-  loadedTransactions?: IPaymentHistoryEntity[];
+  loadedDeductions?: IPaymentHistoryTableEntity[];
+  loadedTransactions?: IPaymentHistoryTableEntity[];
+  loadedMyBundlesPayments?: IPaymentHistoryTableEntity[];
 }
 
 export const executeLoading = async ({
@@ -18,6 +21,8 @@ export const executeLoading = async ({
   limit,
   loadedDeductions = [],
   loadedTransactions = [],
+  loadedMyBundlesPayments = [],
+  myBundlesPaymentsCursor: loadedMyBundlesPaymentsCursor = 0,
   to,
   transactionsCursor: loadedTransactionsCursor = 0,
   types = [],
@@ -28,56 +33,54 @@ export const executeLoading = async ({
     deductionsCursor: loadingDeductionsCursor,
     transactions: loadingTransactions,
     transactionsCursor: loadingTransactionsCursor,
+    myBundlesPayments: loadingMyBundlesPayments,
+    myBundlesPaymentsCursor: loadingMyBundlesPaymentsCursor,
   } = await fetchPaymentHistory({
     from,
     to,
     deductionsCursor: loadedDeductionsCursor,
     transactionsCursor: loadedTransactionsCursor,
+    myBundlesPaymentsCursor: loadedMyBundlesPaymentsCursor,
     types,
     group,
   });
 
-  const { deductions, loadMore, paymentHistory, transactions } =
+  const { deductions, paymentHistory, transactions, myBundlesPayments } =
     combinePaymentHistory({
-      limit,
       loadedDeductions,
       loadedTransactions,
+      loadedMyBundlesPayments,
       loadingDeductions,
-      loadingDeductionsCursor,
       loadingTransactions,
-      loadingTransactionsCursor,
+      loadingMyBundlesPayments,
     });
-
-  if (loadMore) {
-    return executeLoading({
-      deductionsCursor: loadingDeductionsCursor,
-      from,
-      limit,
-      loadedDeductions: deductions,
-      loadedTransactions: transactions,
-      to,
-      transactionsCursor: loadingTransactionsCursor,
-      types,
-      group,
-    });
-  }
 
   const {
     lastDeduction,
     lastTransaction,
+    lastMyBundlesPayment,
     paymentHistory: list,
   } = takePaymentHistory(paymentHistory, limit);
 
-  const { deductionsCursor, transactionsCursor } = getCursors({
-    deductions,
-    lastDeduction,
-    lastTransaction,
-    limit,
-    loadingDeductionsCursor,
-    loadingTransactionsCursor,
-    paymentHistory,
-    transactions,
-  });
+  const { deductionsCursor, transactionsCursor, myBundlesPaymentsCursor } =
+    getCursors({
+      paymentHistory,
+      transactions,
+      deductions,
+      myBundlesPayments,
+      lastDeduction,
+      lastTransaction,
+      lastMyBundlesPayment,
+      limit,
+      loadingDeductionsCursor,
+      loadingTransactionsCursor,
+      loadingMyBundlesPaymentsCursor,
+    });
 
-  return { deductionsCursor, list, transactionsCursor };
+  return {
+    deductionsCursor,
+    list,
+    transactionsCursor,
+    myBundlesPaymentsCursor,
+  };
 };

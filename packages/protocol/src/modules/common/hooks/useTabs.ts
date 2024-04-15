@@ -23,6 +23,7 @@ export interface Tab<TI = DefaultTabID> {
   isHidden?: boolean;
   onSelect?: () => void;
   title?: ReactNode;
+  tooltip?: string;
 }
 
 export interface TabsParams<TI = DefaultTabID> {

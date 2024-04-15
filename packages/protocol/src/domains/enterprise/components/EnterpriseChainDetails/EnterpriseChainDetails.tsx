@@ -4,10 +4,10 @@ import { H1Tag } from 'uiKit/H1Tag';
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { useEnterpriseChainDetails } from './useEnterpriseChainDetails';
 import { ChainItemSections } from '../ChainItemSections';
-import { EnterpriseClientJwtManagerItem } from '../../store/selectors';
 import { useEnterpriseChainItemBreadcrumbs } from '../../screens/ChainItem/useEnterpriseChainItemBreadcrumbs';
 
 export interface ChainItemProps {

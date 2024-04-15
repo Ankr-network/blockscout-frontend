@@ -6,7 +6,6 @@ import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyFetchBalanceQuery } from 'domains/account/actions/balance/fetchBalance';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-
 import {
   selectAnkrBalance,
   selectAnkrBalanceWithoutVouchers,
@@ -17,8 +16,8 @@ import {
   selectTotalBalance,
   selectUSDBalance,
   selectVoucherBalance,
-} from '../store/selectors';
-import { useEnterpriseClientStatus } from '../../auth/hooks/useEnterpriseClientStatus';
+} from 'domains/account/store/selectors';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export interface BalanceParams {
   skipFetching?: boolean;

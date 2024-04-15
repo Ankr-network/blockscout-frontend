@@ -26,4 +26,21 @@ export const useStyles = makeStyles<boolean>()((theme, isMobileSideBar) => ({
   accountStatus: {
     width: 'auto',
   },
+  balanceRoot: {
+    display: 'none',
+
+    borderRadius: 16,
+    border: `1px solid ${theme.palette.grey[100]}`,
+    padding: theme.spacing(4, 5),
+
+    width: 312,
+
+    [theme.breakpoints.down('md')]: {
+      display: 'block',
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+  },
 }));

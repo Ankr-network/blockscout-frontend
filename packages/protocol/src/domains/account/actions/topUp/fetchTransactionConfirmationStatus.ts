@@ -1,7 +1,7 @@
 import { IIssueJwtTokenResult } from 'multirpc-sdk';
 
-import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { web3Api } from 'store/queries';
 
 export const {
@@ -13,14 +13,17 @@ export const {
       IIssueJwtTokenResult,
       string
     >({
-      queryFn: createNotifyingQueryFn(async transactionHash => {
-        const service = await MultiService.getWeb3Service();
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: createNotifyingQueryFn(
+          async ({ params: transactionHash, web3Service }) => {
+            const data = await web3Service
+              .getContractService()
+              .canIssueJwtToken(transactionHash);
 
-        const data = await service
-          .getContractService()
-          .canIssueJwtToken(transactionHash);
-
-        return { data };
+            return { data };
+          },
+        ),
+        fallback: { data: { isReady: false } },
       }),
     }),
   }),

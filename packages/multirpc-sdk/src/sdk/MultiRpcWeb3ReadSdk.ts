@@ -75,4 +75,8 @@ export class MultiRpcWeb3ReadSdk {
   public upgradeSyntheticJwtToken(token: string) {
     return this.getTokenIssuerService().upgradeSyntheticJwtToken(token);
   }
+
+  getProvider() {
+    return this.keyReadProvider;
+  }
 }

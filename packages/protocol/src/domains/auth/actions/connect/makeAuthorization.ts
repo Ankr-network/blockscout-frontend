@@ -155,7 +155,7 @@ export const makeAuthorization = async ({
     workerTokenData,
   };
 
-  await dispatch(setAuthData(authData));
+  dispatch(setAuthData(authData));
 
   return authData;
 };

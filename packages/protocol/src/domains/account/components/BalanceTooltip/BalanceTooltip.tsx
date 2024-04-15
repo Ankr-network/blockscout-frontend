@@ -6,7 +6,7 @@ import { TooltipWrapper } from 'uiKit/TooltipWrapper/TooltipWrapper';
 import { useBalanceTooltipStyles } from './BalanceTooltipStyles';
 
 export interface BalanceTooltipProps {
-  balance: string;
+  balance: number;
   children: ReactNode;
 }
 

@@ -29,6 +29,7 @@ export const AccountStatus = ({ className }: IAccountStatusProps) => {
       hasEnterpriseStatus={isEnterpriseClient}
       hasStatusTransition={hasStatusTransition}
       isLoading={loading || isEnterpriseStatusLoading}
+      size="medium"
     />
   );
 };

@@ -15,11 +15,10 @@ import {
   setSelectedTokenIndex,
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useAppSelector } from 'store/useAppSelector';
-
 import {
   EnterpriseClientJwtManagerItem,
   selectEnterpriseUserAddress,
-} from '../../store/selectors';
+} from 'domains/enterprise/store/selectors';
 
 interface TimeframeSectionProps {
   tabs: Tab<Timeframe>[];

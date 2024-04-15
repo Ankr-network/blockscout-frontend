@@ -26,11 +26,11 @@ export const CardPaymentFailure = () => {
   return (
     <CenterContainer>
       <InfoCard
-        title={t('account.card-payment-failure.title')}
-        titleClassName={classes.title}
+        align="center"
         description={t('account.card-payment-failure.description')}
         descriptionClassName={classes.description}
-        align="center"
+        title={t('account.card-payment-failure.title')}
+        titleClassName={classes.title}
       >
         <Button onClick={onClick} variant="outlined" size="large">
           {t('account.card-payment-failure.button')}

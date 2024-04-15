@@ -12,7 +12,7 @@ interface TopUpProps {
 
 export const TopUp = ({ initialStep, hasPrivateAccess }: TopUpProps) => {
   const {
-    amount,
+    approvedAmount,
     hasError,
     isRejectAllowanceLoading,
     loading,
@@ -27,7 +27,7 @@ export const TopUp = ({ initialStep, hasPrivateAccess }: TopUpProps) => {
 
   return (
     <TopUpSteps
-      amount={amount}
+      amount={approvedAmount}
       hasError={hasError}
       hasPrivateAccess={hasPrivateAccess}
       isRejectAllowanceLoading={isRejectAllowanceLoading}

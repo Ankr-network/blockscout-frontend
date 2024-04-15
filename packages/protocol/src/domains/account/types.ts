@@ -1,18 +1,8 @@
 import { Callback } from 'mixpanel-browser';
-import {
-  IPaymentHistoryEntity,
-  IPaymentHistoryEntityType,
-  IApiUserGroupParams,
-} from 'multirpc-sdk';
+import { TPaymentHistoryEntityType, IApiUserGroupParams } from 'multirpc-sdk';
 
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
-
-export enum AccountIcon {
-  INFO = 'info',
-  WARNING = 'warning',
-  ERROR = 'error',
-}
 
 export enum AccountStatus {
   GREEN,
@@ -21,28 +11,36 @@ export enum AccountStatus {
   GREY,
 }
 
-export interface AccountState {
-  descriptionKey?: string;
-  isPAYG: boolean;
-  status: AccountStatus;
-  icon?: AccountIcon;
+export interface IPaymentHistoryTableEntity {
+  timestamp: string;
+  type: PaymentType;
+  amountUsd: string;
+  amountAnkr: string;
+  amount: string;
+  creditAnkrAmount: string;
+  creditUsdAmount: string;
+  creditVoucherAmount: string;
+  txHash?: string;
 }
 
 export interface PaymentHistory {
   deductionsCursor: number;
-  list: IPaymentHistoryEntity[];
+  list: IPaymentHistoryTableEntity[];
   transactionsCursor: number;
+  myBundlesPaymentsCursor: number;
 }
 
 export interface PaymentHistoryParams extends IApiUserGroupParams {
   deductionsCursor?: number;
   from: number;
   limit: number;
-  loadedDeductions?: IPaymentHistoryEntity[];
-  loadedTransactions?: IPaymentHistoryEntity[];
+  loadedDeductions?: IPaymentHistoryTableEntity[];
+  loadedTransactions?: IPaymentHistoryTableEntity[];
+  loadedMyBundlesPayments?: IPaymentHistoryTableEntity[];
   to: number;
   transactionsCursor?: number;
-  types?: IPaymentHistoryEntityType[];
+  myBundlesPaymentsCursor?: number;
+  types?: PaymentType[];
   isPaginationRequest?: boolean;
 }
 
@@ -57,7 +55,14 @@ export interface PaymentHistoryTableTimeframeBorders {
   to: number;
 }
 
-export type PaymentType = IPaymentHistoryEntityType | 'ALL';
+export type TBudlesPaymentsType =
+  | 'TRANSACTION_TYPE_DEAL_DEPOSIT'
+  | 'TRANSACTION_TYPE_PACKAGE_DEPOSIT';
+
+export type PaymentType =
+  | TPaymentHistoryEntityType
+  | TBudlesPaymentsType
+  | 'ALL';
 
 export type TrackTopUpSubmit = (
   amount: string,

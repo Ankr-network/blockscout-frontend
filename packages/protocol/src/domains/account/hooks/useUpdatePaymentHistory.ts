@@ -7,7 +7,7 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
 import { accountFetchPaymentHistory } from '../actions/fetchTransactions';
-import { getTransactionsRequest } from '../screens/AccountDetails/components/PaymentsHistoryTable/utils/getTransactionsRequest';
+import { getTransactionsRequest } from '../screens/BillingPage/components/PaymentsHistoryTable/utils/getTransactionsRequest';
 import { useBalance } from './useBalance';
 
 const TIMEOUT = 30000;

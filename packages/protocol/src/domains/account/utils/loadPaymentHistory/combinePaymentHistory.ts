@@ -1,47 +1,50 @@
-import { IPaymentHistoryEntity } from 'multirpc-sdk';
+import { IPaymentHistoryTableEntity } from 'domains/account/types';
 
 import { filterTransactions } from './filterTransactions';
 
 export interface CombinePaymentHistoryParams {
-  limit: number;
-  loadedDeductions: IPaymentHistoryEntity[];
-  loadedTransactions: IPaymentHistoryEntity[];
-  loadingDeductions: IPaymentHistoryEntity[];
-  loadingDeductionsCursor: number;
-  loadingTransactions: IPaymentHistoryEntity[];
-  loadingTransactionsCursor: number;
+  loadedDeductions: IPaymentHistoryTableEntity[];
+  loadedTransactions: IPaymentHistoryTableEntity[];
+  loadedMyBundlesPayments: IPaymentHistoryTableEntity[];
+  loadingDeductions: IPaymentHistoryTableEntity[];
+  loadingTransactions: IPaymentHistoryTableEntity[];
+  loadingMyBundlesPayments: IPaymentHistoryTableEntity[];
 }
 
 export interface CombinedPaymentHistory {
-  deductions: IPaymentHistoryEntity[];
-  loadMore: boolean;
-  paymentHistory: IPaymentHistoryEntity[];
-  transactions: IPaymentHistoryEntity[];
+  deductions: IPaymentHistoryTableEntity[];
+  paymentHistory: IPaymentHistoryTableEntity[];
+  transactions: IPaymentHistoryTableEntity[];
+  myBundlesPayments: IPaymentHistoryTableEntity[];
 }
 
 export const combinePaymentHistory = ({
-  limit,
   loadedDeductions,
   loadedTransactions,
+  loadedMyBundlesPayments,
   loadingDeductions,
-  loadingDeductionsCursor,
   loadingTransactions,
-  loadingTransactionsCursor,
+  loadingMyBundlesPayments,
 }: CombinePaymentHistoryParams): CombinedPaymentHistory => {
   const transactions = [...loadedTransactions, ...loadingTransactions];
   const deductions = [...loadedDeductions, ...loadingDeductions];
+  const myBundlesPayments = [
+    ...loadedMyBundlesPayments,
+    ...loadingMyBundlesPayments,
+  ];
 
   const filteredTransactions = filterTransactions(transactions);
 
-  const paymentHistory = [...filteredTransactions, ...deductions];
-  const loadMore =
-    paymentHistory.length <= 2 * limit &&
-    (loadingDeductionsCursor !== -1 || loadingTransactionsCursor !== -1);
+  const paymentHistory = [
+    ...filteredTransactions,
+    ...deductions,
+    ...myBundlesPayments,
+  ];
 
   return {
     deductions,
-    loadMore,
     paymentHistory,
     transactions,
+    myBundlesPayments,
   };
 };

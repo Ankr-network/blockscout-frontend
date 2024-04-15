@@ -45,7 +45,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
 
   const { classes, cx } = useGroupMenuStyles();
 
-  const { handleSignout } = useAuth();
+  const { handleSignOut } = useAuth();
 
   const isGroupsCreationAllowed = useAppSelector(selectIsGroupCreationAllowed);
 
@@ -133,7 +133,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
         <Button
           className={cx(classes.actionButton, classes.signOutButton)}
           startIcon={<Logout />}
-          onClick={handleSignout}
+          onClick={handleSignOut}
           variant="text"
           size="medium"
         >

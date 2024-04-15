@@ -38,7 +38,7 @@ export const AccountRoutesConfig = createRouteConfig(
 
 const LoadableAccountDetailsContainer: LoadableComponent<any> = loadable(
   async () =>
-    import('./screens/AccountDetails').then(module => module.AccountDetails),
+    import('./screens/BillingPage').then(module => module.BillingPage),
   {
     fallback: <OverlaySpinner />,
   },

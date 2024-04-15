@@ -1,15 +1,15 @@
 import { ReactChild } from 'react';
 import { Container } from '@mui/material';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
-import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
+import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';

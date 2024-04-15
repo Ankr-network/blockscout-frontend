@@ -3,10 +3,10 @@ import { t } from '@ankr.com/common';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
-import { useAuth } from '../../../auth/hooks/useAuth';
 
 export const Chains = () => {
   const { hasPrivateAccess, hasPremium, isFreePremium } = useAuth();
