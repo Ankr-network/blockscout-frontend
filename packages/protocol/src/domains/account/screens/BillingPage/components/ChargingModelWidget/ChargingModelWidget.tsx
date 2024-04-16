@@ -54,18 +54,21 @@ export const ChargingModelWidget = ({
 
   const renderBalance = useCallback(
     (chargingModel: IChargingModelData) => {
-      const { balance: balancesData } = chargingModel;
+      const { balance: balancesData, type } = chargingModel;
+
+      const isPackage = type === EChargingModel.Package;
+      const creditBalance =
+        API_CREDITS_BALANCE_FIELD_NAME in balancesData
+          ? balancesData.balanceApiCredits
+          : undefined;
 
       return (
         <Balance
-          className={classes.balance}
-          creditBalance={
-            API_CREDITS_BALANCE_FIELD_NAME in balancesData
-              ? balancesData.balanceApiCredits
-              : undefined
-          }
-          usdBalance={balancesData.balanceUsd}
           balanceInRequests={balancesData.balanceInRequests}
+          className={classes.balance}
+          creditBalance={creditBalance}
+          shouldUseRequests={isPackage}
+          usdBalance={balancesData.balanceUsd}
         />
       );
     },
