@@ -1,4 +1,4 @@
-import { BundleType, BundlePaymentPlan, MyBundleStatus } from 'multirpc-sdk';
+import { BundlePaymentPlan, BundleType, MyBundleStatus } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import {
@@ -25,6 +25,11 @@ interface IProgressLabelData {
   usedPercent: number;
 }
 
+// this value is hardcoded because package is no longer listed in bundles response.
+// see details here: https://ankrnetwork.atlassian.net/browse/MRPC-4755
+// and related discussion: https://ankr.slack.com/archives/C0482JES71T/p1713209633085639
+const PACKAGE_REQUESTS_LIMIT = 30000000;
+
 export const getPackageChargingModelData = ({
   packageChargingModel,
   bundlePaymentPlans,
@@ -43,15 +48,10 @@ export const getPackageChargingModelData = ({
 
   const wholeAmountOfRequests =
     relatedBundle?.bundle.limits.find(({ type }) => type === BundleType.QTY)
-      ?.limit || 0;
+      ?.limit || PACKAGE_REQUESTS_LIMIT;
 
-  const usedRequestsCount = wholeAmountOfRequests
-    ? wholeAmountOfRequests - balanceInRequests
-    : 0;
-
-  const usedRequestsPercent = wholeAmountOfRequests
-    ? (usedRequestsCount * 100) / wholeAmountOfRequests
-    : 0;
+  const usedRequestsCount = wholeAmountOfRequests - balanceInRequests;
+  const usedRequestsPercent = (usedRequestsCount * 100) / wholeAmountOfRequests;
 
   const progressLabel = t(
     'account.account-details.balance-widget.used-credits-label',
