@@ -10,7 +10,7 @@ export const renderUSDFee = ({
   fee: rawFee,
   isApproximate,
 }: IRenderUSDFeeParams) => {
-  const fee = new BigNumber(rawFee).toFixed(1);
+  const fee = new BigNumber(rawFee).toFixed(2);
 
   return t('account.amounts.fee.usd', { fee, isApproximate });
 };
