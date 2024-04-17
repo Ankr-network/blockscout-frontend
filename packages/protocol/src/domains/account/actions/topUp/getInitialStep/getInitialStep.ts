@@ -1,6 +1,5 @@
-import { IApiUserGroupParams, formatToWei, formatFromWei } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
+import { IApiUserGroupParams, formatToWei, formatFromWei } from 'multirpc-sdk';
 
 import { GetState, RootState } from 'store';
 import {
@@ -126,7 +125,7 @@ export const {
 
           dispatch(topUpResetTransactionSliceAndRedirect.initiate());
 
-          throw new Error(t('top-up-steps.errors.enter-deposit-value'));
+          return { data: TopUpStep.start };
         },
         errorHandler: (error: unknown, _params, { dispatch }) => {
           if (shouldNotify(error)) {
@@ -138,4 +137,5 @@ export const {
       }),
     }),
   }),
+  overrideExisting: true,
 });
