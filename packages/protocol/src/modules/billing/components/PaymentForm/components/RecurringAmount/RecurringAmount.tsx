@@ -20,20 +20,20 @@ export const RecurringAmount = ({
 }: IRecurringAmountProps) => {
   const { classes, cx } = useRecurringAmountStyles();
 
-  if (isLoading) {
-    return <OverlaySpinner />;
-  }
-
   return (
     <div className={cx(classes.recurringAmountRoot, className)}>
       <AmountHeader />
-      <AmountChips
-        amounts={amounts}
-        columns={AMOUNTS_COLUMNS}
-        onAmountSelect={onAmountSelect}
-        selectedAmountID={selectedAmountID}
-        shouldDisplayRequestsWhenSelected
-      />
+      {isLoading ? (
+        <OverlaySpinner size={90} />
+      ) : (
+        <AmountChips
+          amounts={amounts}
+          columns={AMOUNTS_COLUMNS}
+          onAmountSelect={onAmountSelect}
+          selectedAmountID={selectedAmountID}
+          shouldDisplayRequestsWhenSelected
+        />
+      )}
     </div>
   );
 };
