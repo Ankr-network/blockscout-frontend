@@ -3,6 +3,7 @@ import { Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { DetailsButton } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
@@ -31,6 +32,8 @@ export const OngoingPayments = ({
 
   const { isLoading } = useTopupInitialStep();
 
+  const { handleResetTopUpTransaction } = useTopUp();
+
   if (!shouldShowOngoingPayment || isLoading) {
     return null;
   }
@@ -57,7 +60,11 @@ export const OngoingPayments = ({
         <OngoingPaymentStatus status={transactionStatus} />
 
         {isSuccessState && approvedAmountString && txHash ? (
-          <DetailsButton amount={approvedAmountString} txHash={txHash} />
+          <DetailsButton
+            amount={approvedAmountString}
+            txHash={txHash}
+            onCloseButtonClick={handleResetTopUpTransaction}
+          />
         ) : (
           <Button
             variant="outlined"

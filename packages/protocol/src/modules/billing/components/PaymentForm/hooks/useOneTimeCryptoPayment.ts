@@ -8,6 +8,7 @@ import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAll
 import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
 import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { useAccountsChangedHandlingOnSummaryStep } from './useAccountsChangedHandlingOnSummaryStep';
 import { useCryptoDepositStep } from './useCryptoDepositStep';
@@ -64,6 +65,8 @@ export const useOneTimeCryptoPayment = ({
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
+  const { handleResetTopUpTransaction } = useTopUp();
+
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
@@ -74,6 +77,7 @@ export const useOneTimeCryptoPayment = ({
     depositTxHash: depositTxHash ?? '',
     network: ENetwork.ETH,
     paymentType: EPaymentType.OneTime,
+    onCloseButtonClick: handleResetTopUpTransaction,
   });
 
   const {

@@ -7,4 +7,5 @@ export interface IUseCryptoPaymentSuccessDialogProps {
   depositTxHash: string;
   network: ENetwork;
   paymentType: EPaymentType;
+  onCloseButtonClick?: () => void;
 }

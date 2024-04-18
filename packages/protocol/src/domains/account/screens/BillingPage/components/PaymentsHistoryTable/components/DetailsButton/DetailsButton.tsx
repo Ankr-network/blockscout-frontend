@@ -12,9 +12,14 @@ import { useDetailsButtonStyles } from './useDetailsButtonStyles';
 export interface IDetailsButtonProps {
   amount: string;
   txHash: string;
+  onCloseButtonClick?: () => void;
 }
 
-export const DetailsButton = ({ amount, txHash }: IDetailsButtonProps) => {
+export const DetailsButton = ({
+  amount,
+  txHash,
+  onCloseButtonClick,
+}: IDetailsButtonProps) => {
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
@@ -24,6 +29,7 @@ export const DetailsButton = ({ amount, txHash }: IDetailsButtonProps) => {
     depositTxHash: txHash,
     network: ENetwork.ETH,
     paymentType: EPaymentType.OneTime,
+    onCloseButtonClick,
   });
 
   const { classes } = useDetailsButtonStyles();

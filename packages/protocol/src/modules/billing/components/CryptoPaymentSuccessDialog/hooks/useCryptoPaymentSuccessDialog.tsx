@@ -3,7 +3,6 @@ import { useCallback, useMemo } from 'react';
 import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useTxDetails } from 'domains/account/hooks/useTxDetails';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
@@ -15,6 +14,7 @@ export const useCryptoPaymentSuccessDialog = ({
   depositTxHash,
   network,
   paymentType,
+  onCloseButtonClick,
 }: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
@@ -22,12 +22,10 @@ export const useCryptoPaymentSuccessDialog = ({
     onOpen: handleCryptoPaymentSuccessDialogOpen,
   } = useDialog();
 
-  const { handleResetTopUpTransaction } = useTopUp();
-
   const onClose = useCallback(() => {
-    handleResetTopUpTransaction();
+    onCloseButtonClick?.();
     handleCryptoPaymentSuccessDialogClose();
-  }, [handleCryptoPaymentSuccessDialogClose, handleResetTopUpTransaction]);
+  }, [handleCryptoPaymentSuccessDialogClose, onCloseButtonClick]);
 
   const {
     amountUsd: depositAmountUsd,
