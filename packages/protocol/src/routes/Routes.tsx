@@ -101,7 +101,6 @@ export const Routes = () => {
         exact
         path={[
           AccountRoutesConfig.accountDetails.path,
-          AccountRoutesConfig.topUp.path,
           AccountRoutesConfig.cardPaymentFailure.path,
         ]}
         render={() => (

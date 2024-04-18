@@ -31,7 +31,9 @@ export const {
         dispatch(
           push<PostTopUpLocationState>(route.generatePath(), {
             origin:
-              bundles.length > 0 ? undefined : AccountRoutesConfig.topUp.path,
+              bundles.length > 0
+                ? undefined
+                : AccountRoutesConfig.accountDetails.path,
           }),
         );
 
