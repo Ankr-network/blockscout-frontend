@@ -126,7 +126,14 @@ export const useOneTimeCryptoPayment = ({
   const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
 
   const handlePayButtonClick = useCallback(() => {
-    if (transactionStatus === 'pending' || transactionStatus === 'error') {
+    const isDepositStep =
+      transaction?.allowanceTransactionHash &&
+      transaction?.topUpTransactionHash;
+
+    const hasDepositError = isDepositStep && transactionStatus === 'error';
+    const shouldOpenDepositDialog = isDepositStep && !hasDepositError;
+
+    if (shouldOpenDepositDialog) {
       return handleCryptoPaymentDepositDialogOpen();
     }
 
@@ -142,6 +149,8 @@ export const useOneTimeCryptoPayment = ({
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
+    transaction?.allowanceTransactionHash,
+    transaction?.topUpTransactionHash,
     transactionStatus,
   ]);
 
