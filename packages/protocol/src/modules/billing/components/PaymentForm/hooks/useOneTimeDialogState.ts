@@ -18,7 +18,11 @@ export const useOneTimeDialogState = () => {
   const isLoadingAllowanceStatus = useAppSelector(selectMyAllowanceLoading);
   const alreadyApprovedAllowanceValue = useAppSelector(selectMyAllowanceValue);
 
-  const { amountToDeposit } = useTopUp();
+  const {
+    amountToDeposit,
+    loadingWaitTransactionConfirming: isAwaitingDeposit,
+  } = useTopUp();
+
   const transaction = useSelectTopUpTransaction();
   const { initialStep, isLoading: isLoadingInitialStep } =
     useTopupInitialStep();
@@ -53,6 +57,12 @@ export const useOneTimeDialogState = () => {
     setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
   }, []);
 
+  const moveToAwaitingDeposit = useCallback(() => {
+    setCurrentStep(ECryptoDepositStep.Deposit);
+    setCurrentApprovalStatus(ECryptoDepositStepStatus.Complete);
+    setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
+  }, []);
+
   const setPendingApproval = useCallback(() => {
     setCurrentStep(ECryptoDepositStep.Approval);
     setCurrentApprovalStatus(ECryptoDepositStepStatus.Pending);
@@ -68,6 +78,8 @@ export const useOneTimeDialogState = () => {
   useEffect(() => {
     if (isLoadingAllowanceStatus) {
       setPendingApproval();
+    } else if (isAwaitingDeposit) {
+      moveToAwaitingDeposit();
     } else if (isEnoughAllowance) {
       moveToDeposit();
     } else {
@@ -79,6 +91,8 @@ export const useOneTimeDialogState = () => {
     moveToDeposit,
     setPendingApproval,
     setStartApproval,
+    moveToAwaitingDeposit,
+    isAwaitingDeposit,
   ]);
 
   useEffect(() => {
@@ -108,5 +122,6 @@ export const useOneTimeDialogState = () => {
 
     setStartApproval,
     moveToDeposit,
+    moveToAwaitingDeposit,
   };
 };

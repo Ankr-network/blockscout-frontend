@@ -52,6 +52,7 @@ export const useCryptoDepositStep = ({
     setCurrentApprovalStatus,
     setCurrentDepositStatus,
     moveToDeposit,
+    moveToAwaitingDeposit,
     setStartApproval,
   } = useOneTimeDialogState();
 
@@ -73,6 +74,7 @@ export const useCryptoDepositStep = ({
 
   const { onGetAllowance } = useOneTimeGetAllowanceHandler({
     moveToDeposit,
+    moveToAwaitingDeposit,
     setCurrentApprovalStatus,
     setStartApproval,
   });

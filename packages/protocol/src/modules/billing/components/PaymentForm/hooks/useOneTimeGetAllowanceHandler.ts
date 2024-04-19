@@ -8,57 +8,66 @@ import { useOneTimeDialogState } from './useOneTimeDialogState';
 
 type TPropsToExtend = Pick<
   ReturnType<typeof useOneTimeDialogState>,
-  'moveToDeposit' | 'setCurrentApprovalStatus' | 'setStartApproval'
+  | 'moveToDeposit'
+  | 'moveToAwaitingDeposit'
+  | 'setCurrentApprovalStatus'
+  | 'setStartApproval'
 >;
 
 export interface IUseOneTimeGetAllowanceHandlerProps extends TPropsToExtend {}
 
 export const useOneTimeGetAllowanceHandler = ({
   moveToDeposit,
+  moveToAwaitingDeposit,
   setCurrentApprovalStatus,
   setStartApproval,
 }: IUseOneTimeGetAllowanceHandlerProps) => {
   const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
 
-  const { amountToDeposit, handleGetAllowance } = useTopUp();
+  const {
+    amountToDeposit,
+    handleGetAllowance,
+    loadingWaitTransactionConfirming: isAwaitingDeposit,
+  } = useTopUp();
 
-  const onGetAllowance = useCallback(
-    async (isRetry?: boolean) => {
-      if (isRetry) {
-        setCurrentApprovalStatus(ECryptoDepositStepStatus.Confirmation);
-      }
+  const onGetAllowance = useCallback(async () => {
+    setCurrentApprovalStatus(ECryptoDepositStepStatus.Pending);
 
-      setCurrentApprovalStatus(ECryptoDepositStepStatus.Pending);
-      const allowanceResponse = await handleGetAllowance();
-      const allowanceValueResponse = await fetchAllowance();
+    const allowanceResponse = await handleGetAllowance();
+    const allowanceValueResponse = await fetchAllowance();
 
-      if (allowanceResponse.error || allowanceValueResponse.error) {
-        setCurrentApprovalStatus(ECryptoDepositStepStatus.Error);
+    if (allowanceResponse.error || allowanceValueResponse.error) {
+      setCurrentApprovalStatus(ECryptoDepositStepStatus.Error);
 
-        return;
-      }
+      return;
+    }
 
-      const allowanceValueNumber = Number(allowanceValueResponse.data);
-      const hasEnoughAllowance =
-        allowanceValueNumber >= Number(amountToDeposit);
+    if (isAwaitingDeposit) {
+      moveToAwaitingDeposit();
 
-      if (hasEnoughAllowance) {
-        moveToDeposit();
+      return;
+    }
 
-        return;
-      }
+    const allowanceValueNumber = Number(allowanceValueResponse.data);
+    const hasEnoughAllowance = allowanceValueNumber >= Number(amountToDeposit);
 
-      setStartApproval();
-    },
-    [
-      amountToDeposit,
-      fetchAllowance,
-      handleGetAllowance,
-      moveToDeposit,
-      setCurrentApprovalStatus,
-      setStartApproval,
-    ],
-  );
+    if (hasEnoughAllowance) {
+      moveToDeposit();
+
+      return;
+    }
+
+    setStartApproval();
+  }, [
+    amountToDeposit,
+    fetchAllowance,
+    handleGetAllowance,
+    isAwaitingDeposit,
+    moveToAwaitingDeposit,
+    moveToDeposit,
+    setCurrentApprovalStatus,
+    setStartApproval,
+  ]);
 
   return { onGetAllowance };
 };

@@ -28,7 +28,7 @@ interface IUseCryptoPaymentDepositDialogProps {
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   onDeposit: () => void;
-  onGetAllowance: (isRetry?: boolean) => void;
+  onGetAllowance: () => void;
   sendAllowanceErrorMessage?: string;
 }
 
@@ -99,12 +99,11 @@ export const useCryptoPaymentDepositDialog = ({
     };
 
     const onConfirmButtonClick = () => {
-      if (currentApprovalStatus === ECryptoDepositStepStatus.Confirmation) {
+      if (
+        currentApprovalStatus === ECryptoDepositStepStatus.Confirmation ||
+        approvalError
+      ) {
         return onGetAllowance();
-      }
-
-      if (approvalError) {
-        return onGetAllowance(true);
       }
 
       return onDeposit();

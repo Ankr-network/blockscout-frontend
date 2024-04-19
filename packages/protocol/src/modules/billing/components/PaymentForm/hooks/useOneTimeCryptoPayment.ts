@@ -70,7 +70,8 @@ export const useOneTimeCryptoPayment = ({
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
-  const { handleResetTopUpTransaction } = useTopUp();
+  const { handleResetTopUpTransaction, loadingWaitTransactionConfirming } =
+    useTopUp();
 
   const {
     cryptoPaymentSuccessDialogProps,
@@ -136,20 +137,18 @@ export const useOneTimeCryptoPayment = ({
 
   const handlePayButtonClick = useCallback(() => {
     const isDepositStep = allowanceTxHash && depositTxHash;
+    const hasDepositError =
+      isDepositStep && ongoingPaymentStatus === EOngoingPaymentStatus.Error;
 
-    const isOngoingPaymentSuccess =
-      ongoingPaymentStatus === EOngoingPaymentStatus.Success;
-    const isOngoingPaymentError =
-      ongoingPaymentStatus === EOngoingPaymentStatus.Error;
-
-    const hasDepositError = isDepositStep && isOngoingPaymentError;
-
-    if (isDepositStep && !hasDepositError) {
-      return handleCryptoPaymentDepositDialogOpen();
+    if (ongoingPaymentStatus === EOngoingPaymentStatus.Success) {
+      return handleCryptoPaymentSuccessDialogOpen();
     }
 
-    if (isOngoingPaymentSuccess) {
-      return handleCryptoPaymentSuccessDialogOpen();
+    if (
+      (isDepositStep && !hasDepositError) ||
+      loadingWaitTransactionConfirming
+    ) {
+      return handleCryptoPaymentDepositDialogOpen();
     }
 
     fetchAllowance();
@@ -162,6 +161,7 @@ export const useOneTimeCryptoPayment = ({
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
+    loadingWaitTransactionConfirming,
     ongoingPaymentStatus,
   ]);
 
