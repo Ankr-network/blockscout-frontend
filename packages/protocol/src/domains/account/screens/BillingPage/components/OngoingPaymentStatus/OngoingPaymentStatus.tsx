@@ -1,35 +1,37 @@
-import { t } from '@ankr.com/common';
-import { Typography } from '@mui/material';
 import { CircleCheck, Mark, OverlaySpinner } from '@ankr.com/ui';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+
+import { EOngoingPaymentStatus } from 'modules/billing/types';
 
 import { useOngoingPaymentStatusStyles } from './useOngoingPaymentStatusStyles';
 
-interface IOngoingPaymentStatusProps {
-  status?: 'pending' | 'success' | 'error';
+export interface IOngoingPaymentStatusProps {
+  status?: EOngoingPaymentStatus;
 }
 
 export const OngoingPaymentStatus = ({
-  status = 'pending',
+  status = EOngoingPaymentStatus.Pending,
 }: IOngoingPaymentStatusProps) => {
   const { cx, classes } = useOngoingPaymentStatusStyles();
 
   switch (status) {
-    case 'success':
+    case EOngoingPaymentStatus.Success:
       return (
         <Typography
-          className={cx(classes.paymentStatus, classes[status])}
-          color={status}
+          className={cx(classes.paymentStatus, classes.success)}
+          color="success"
           variant="body3"
         >
           <CircleCheck className={cx(classes.icon, classes.iconSuccess)} />{' '}
           {t('account.account-details.ongoing-payments.status.success')}
         </Typography>
       );
-    case 'error':
+    case EOngoingPaymentStatus.Error:
       return (
         <Typography
-          className={cx(classes.paymentStatus, classes[status])}
-          color={status}
+          className={cx(classes.paymentStatus, classes.error)}
+          color="error"
           variant="body3"
         >
           <Mark className={cx(classes.icon, classes.iconError)} />{' '}
@@ -37,10 +39,10 @@ export const OngoingPaymentStatus = ({
         </Typography>
       );
     default:
-    case 'pending':
+    case EOngoingPaymentStatus.Pending:
       return (
         <Typography
-          className={cx(classes.paymentStatus, classes[status])}
+          className={cx(classes.paymentStatus, classes.pending)}
           color="textSecondary"
           variant="body3"
         >

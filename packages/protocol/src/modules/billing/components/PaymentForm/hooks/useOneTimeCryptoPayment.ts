@@ -1,12 +1,17 @@
 import { Web3Address } from 'multirpc-sdk';
 import { useCallback, useState } from 'react';
 
-import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
+import {
+  ECurrency,
+  ENetwork,
+  EOngoingPaymentStatus,
+  EPaymentType,
+} from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
 import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
-import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
+import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/hooks/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 
@@ -125,23 +130,25 @@ export const useOneTimeCryptoPayment = ({
     isTotalAmountLoading ||
     isWalletTokenBalanceLoading;
 
-  const { transactionStatus } = useOngoingPayments();
+  const { ongoingPaymentStatus } = useOngoingPayments();
 
   const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
 
   const handlePayButtonClick = useCallback(() => {
-    const isDepositStep =
-      transaction?.allowanceTransactionHash &&
-      transaction?.topUpTransactionHash;
+    const isDepositStep = allowanceTxHash && depositTxHash;
 
-    const hasDepositError = isDepositStep && transactionStatus === 'error';
-    const shouldOpenDepositDialog = isDepositStep && !hasDepositError;
+    const isOngoingPaymentSuccess =
+      ongoingPaymentStatus === EOngoingPaymentStatus.Success;
+    const isOngoingPaymentError =
+      ongoingPaymentStatus === EOngoingPaymentStatus.Error;
 
-    if (shouldOpenDepositDialog) {
+    const hasDepositError = isDepositStep && isOngoingPaymentError;
+
+    if (isDepositStep && !hasDepositError) {
       return handleCryptoPaymentDepositDialogOpen();
     }
 
-    if (transactionStatus === 'success') {
+    if (isOngoingPaymentSuccess) {
       return handleCryptoPaymentSuccessDialogOpen();
     }
 
@@ -149,13 +156,13 @@ export const useOneTimeCryptoPayment = ({
 
     return handleCryptoPaymentSummaryDialogOpen();
   }, [
+    allowanceTxHash,
+    depositTxHash,
     fetchAllowance,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
-    transaction?.allowanceTransactionHash,
-    transaction?.topUpTransactionHash,
-    transactionStatus,
+    ongoingPaymentStatus,
   ]);
 
   return {

@@ -7,7 +7,7 @@ import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { DetailsButton } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
-import { useOngoingPayments } from './useOngoingPayments';
+import { useOngoingPayments } from './hooks/useOngoingPayments';
 import { useOngoingPaymentsStyles } from './useOngoingPaymentsStyles';
 
 interface IOngoingPaymentsProps {
@@ -22,12 +22,12 @@ export const OngoingPayments = ({
   const { cx, classes } = useOngoingPaymentsStyles();
 
   const {
-    txHash,
     approvedAmountString,
     approvedUsdAmount,
-    transactionStatus,
-    shouldShowOngoingPayment,
     isSuccessState,
+    ongoingPaymentStatus,
+    shouldShowOngoingPayment,
+    txHash,
   } = useOngoingPayments();
 
   const { isLoading } = useTopupInitialStep();
@@ -57,7 +57,7 @@ export const OngoingPayments = ({
           </Typography>
         )}
 
-        <OngoingPaymentStatus status={transactionStatus} />
+        <OngoingPaymentStatus status={ongoingPaymentStatus} />
 
         {isSuccessState && approvedAmountString && txHash ? (
           <DetailsButton

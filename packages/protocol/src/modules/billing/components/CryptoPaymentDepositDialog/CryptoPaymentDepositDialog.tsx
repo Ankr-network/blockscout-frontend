@@ -1,8 +1,8 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
+import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';

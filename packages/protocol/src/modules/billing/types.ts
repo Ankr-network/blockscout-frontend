@@ -28,6 +28,12 @@ export enum ENetwork {
   ETH = 'ETH',
 }
 
+export enum EOngoingPaymentStatus {
+  Error = 1,
+  Success,
+  Pending,
+}
+
 export enum EPaymentType {
   OneTime = 'one-time',
   Recurring = 'recurring',
