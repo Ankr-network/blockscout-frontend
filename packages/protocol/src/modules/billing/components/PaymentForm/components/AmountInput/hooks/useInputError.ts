@@ -26,5 +26,7 @@ export const useInputError = ({ currency }: IUseInputErrorProps) => {
     [minAmount],
   );
 
-  return { error, validateAmount };
+  const resetError = useCallback(() => setError(undefined), []);
+
+  return { error, validateAmount, resetError };
 };

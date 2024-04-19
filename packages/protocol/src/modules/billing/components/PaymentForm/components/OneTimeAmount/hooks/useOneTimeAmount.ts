@@ -41,10 +41,12 @@ export const useOneTimeAmount = ({
     handleSetAmount: setAmount,
   });
 
-  useEffect(
-    () => setSelectedAmountID(id => selectedByChipAmountID ?? id),
-    [selectedByChipAmountID, setSelectedAmountID],
-  );
+  const { resetInputError } = amountInputProps;
+
+  useEffect(() => {
+    resetInputError();
+    setSelectedAmountID(id => selectedByChipAmountID ?? id);
+  }, [selectedByChipAmountID, setSelectedAmountID, resetInputError]);
 
   return {
     amount,

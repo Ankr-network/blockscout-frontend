@@ -38,7 +38,7 @@ export const AmountInput = ({
       onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
-      value={error ? rawValue : value}
+      value={error || isFocused ? rawValue : value}
     />
   );
 };
