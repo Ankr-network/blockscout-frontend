@@ -57,7 +57,7 @@ export interface PaymentHistoryTableTimeframeBorders {
 
 export type TBudlesPaymentsType =
   | 'TRANSACTION_TYPE_DEAL_DEPOSIT'
-  | 'TRANSACTION_TYPE_PACKAGE_DEPOSIT';
+  | 'TRANSACTION_TYPE_PACKAGE_DEPOSIT'; // package payment is deprecated
 
 export type PaymentType =
   | TPaymentHistoryEntityType

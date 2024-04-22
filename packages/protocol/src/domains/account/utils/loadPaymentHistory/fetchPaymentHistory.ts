@@ -6,7 +6,6 @@ import {
   IMyBundlesPaymentsResponse,
   BundlePaymentPlan,
   IBundleEntity,
-  ELimitType,
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
@@ -140,9 +139,7 @@ export const fetchPaymentHistory = async ({
   ): IPaymentHistoryTableEntity => {
     const bundlePriceId = payment.bundle.price_id;
     const priceData = bundles.find(bundle => bundle.price.id === bundlePriceId);
-    const isTypeDeal = payment.bundle.limits.some(
-      limit => limit.type === ELimitType.COST,
-    );
+    const isTypeDeal = priceData !== undefined;
 
     return {
       timestamp: payment.purchased_at.toString(),
@@ -176,7 +173,9 @@ export const fetchPaymentHistory = async ({
       .map(mapMyBundlesPayments)
       .filter(payment =>
         isBundlesPaymentsType ? types.includes(payment.type) : true,
-      ),
+      )
+      // package transactions shouldn't be displayed in the table (https://ankrnetwork.atlassian.net/browse/MRPC-4763)
+      .filter(payment => payment.type !== 'TRANSACTION_TYPE_PACKAGE_DEPOSIT'),
     myBundlesPaymentsCursor: Number(cursor),
   };
 };
