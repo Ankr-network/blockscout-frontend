@@ -1,22 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useAppSelector } from 'store/useAppSelector';
-import {
-  selectMyAllowanceLoading,
-  selectMyAllowanceValue,
-} from 'domains/account/store/selectors';
 import {
   ECryptoDepositStep,
   ECryptoDepositStepStatus,
 } from 'modules/billing/types';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
-import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
 import { TopUpStep } from 'domains/account/actions/topUp/const';
+import { useMyAllowance } from 'domains/account/hooks/useMyAllowance';
+import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
 
 export const useOneTimeDialogState = () => {
-  const isLoadingAllowanceStatus = useAppSelector(selectMyAllowanceLoading);
-  const alreadyApprovedAllowanceValue = useAppSelector(selectMyAllowanceValue);
+  const { isLoading: isMyAllowanceLoading, myAllowance } = useMyAllowance({
+    skipFetching: true,
+  });
 
   const {
     amountToDeposit,
@@ -27,10 +24,15 @@ export const useOneTimeDialogState = () => {
   const { initialStep, isLoading: isLoadingInitialStep } =
     useTopupInitialStep();
 
-  const hasAllowanceInBlockchain = Number(alreadyApprovedAllowanceValue) > 0;
+  const hasOngoingDepositTransaction = Boolean(
+    transaction?.topUpTransactionHash &&
+      (initialStep === TopUpStep.waitTransactionConfirming ||
+        initialStep === TopUpStep.deposit),
+  );
+
+  const hasAllowanceInBlockchain = myAllowance > 0;
   const isEnoughAllowance =
-    hasAllowanceInBlockchain &&
-    Number(alreadyApprovedAllowanceValue) >= Number(amountToDeposit);
+    hasAllowanceInBlockchain && myAllowance >= amountToDeposit.toNumber();
 
   const initialApprovalStatus = useMemo(() => {
     if (isEnoughAllowance) {
@@ -40,43 +42,42 @@ export const useOneTimeDialogState = () => {
     return ECryptoDepositStepStatus.Confirmation;
   }, [isEnoughAllowance]);
 
-  const [currentStep, setCurrentStep] = useState<ECryptoDepositStep>(
+  const [step, setStep] = useState<ECryptoDepositStep>(
     ECryptoDepositStep.Approval,
   );
 
-  const [currentApprovalStatus, setCurrentApprovalStatus] =
+  const [approvalStatus, setApprovalStatus] =
     useState<ECryptoDepositStepStatus>(initialApprovalStatus);
 
-  const [currentDepositStatus, setCurrentDepositStatus] = useState<
-    ECryptoDepositStepStatus | undefined
-  >(undefined);
+  const [depositStatus, setDepositStatus] =
+    useState<ECryptoDepositStepStatus>();
 
   const moveToDeposit = useCallback(() => {
-    setCurrentStep(ECryptoDepositStep.Deposit);
-    setCurrentApprovalStatus(ECryptoDepositStepStatus.Complete);
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
+    setStep(ECryptoDepositStep.Deposit);
+    setApprovalStatus(ECryptoDepositStepStatus.Complete);
+    setDepositStatus(ECryptoDepositStepStatus.Confirmation);
   }, []);
 
   const moveToAwaitingDeposit = useCallback(() => {
-    setCurrentStep(ECryptoDepositStep.Deposit);
-    setCurrentApprovalStatus(ECryptoDepositStepStatus.Complete);
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
+    setStep(ECryptoDepositStep.Deposit);
+    setApprovalStatus(ECryptoDepositStepStatus.Complete);
+    setDepositStatus(ECryptoDepositStepStatus.Pending);
   }, []);
 
   const setPendingApproval = useCallback(() => {
-    setCurrentStep(ECryptoDepositStep.Approval);
-    setCurrentApprovalStatus(ECryptoDepositStepStatus.Pending);
-    setCurrentDepositStatus(undefined);
+    setStep(ECryptoDepositStep.Approval);
+    setApprovalStatus(ECryptoDepositStepStatus.Pending);
+    setDepositStatus(undefined);
   }, []);
 
   const setStartApproval = useCallback(() => {
-    setCurrentStep(ECryptoDepositStep.Approval);
-    setCurrentApprovalStatus(ECryptoDepositStepStatus.Confirmation);
-    setCurrentDepositStatus(undefined);
+    setStep(ECryptoDepositStep.Approval);
+    setApprovalStatus(ECryptoDepositStepStatus.Confirmation);
+    setDepositStatus(undefined);
   }, []);
 
   useEffect(() => {
-    if (isLoadingAllowanceStatus) {
+    if (isMyAllowanceLoading) {
       setPendingApproval();
     } else if (isAwaitingDeposit) {
       moveToAwaitingDeposit();
@@ -86,13 +87,13 @@ export const useOneTimeDialogState = () => {
       setStartApproval();
     }
   }, [
-    isLoadingAllowanceStatus,
+    isAwaitingDeposit,
     isEnoughAllowance,
+    isMyAllowanceLoading,
+    moveToAwaitingDeposit,
     moveToDeposit,
     setPendingApproval,
     setStartApproval,
-    moveToAwaitingDeposit,
-    isAwaitingDeposit,
   ]);
 
   useEffect(() => {
@@ -100,28 +101,22 @@ export const useOneTimeDialogState = () => {
       return;
     }
 
-    const hasOngoingDepositTransaction =
-      transaction?.topUpTransactionHash &&
-      initialStep === TopUpStep.waitTransactionConfirming;
-
     /* If user has ongoing deposit transaction load we should set the initial state to pending deposit */
     if (hasOngoingDepositTransaction) {
-      setCurrentStep(ECryptoDepositStep.Deposit);
-      setCurrentApprovalStatus(ECryptoDepositStepStatus.Complete);
-      setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
+      setStep(ECryptoDepositStep.Deposit);
+      setApprovalStatus(ECryptoDepositStepStatus.Complete);
+      setDepositStatus(ECryptoDepositStepStatus.Pending);
     }
-  }, [initialStep, isLoadingInitialStep, transaction?.topUpTransactionHash]);
+  }, [hasOngoingDepositTransaction, isLoadingInitialStep]);
 
   return {
-    currentStep,
-    currentApprovalStatus,
-    currentDepositStatus,
-
-    setCurrentApprovalStatus,
-    setCurrentDepositStatus,
-
-    setStartApproval,
-    moveToDeposit,
+    approvalStatus,
+    depositStatus,
     moveToAwaitingDeposit,
+    moveToDeposit,
+    setApprovalStatus,
+    setDepositStatus,
+    setStartApproval,
+    step,
   };
 };

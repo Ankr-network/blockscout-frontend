@@ -1,76 +1,64 @@
-import { useAppSelector } from 'store/useAppSelector';
+import { OverlaySpinner } from '@ankr.com/ui';
+
 import {
-  selectMyAllowanceLoading,
-  selectMyAllowanceValue,
-} from 'domains/account/store/selectors';
+  ECryptoDepositStepStatus,
+  ECurrency,
+  ENetwork,
+  IFeeDetails,
+} from 'modules/billing/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { FullApprovalAttribute } from './components/FullApprovalAttribute';
-import { IApprovalAttributeProps } from './types';
 import { NoApprovalAttribute } from './components/NoApprovalAttribute';
 import { PartialApprovalAttribute } from './components/PartialApprovalAttribute';
+import { hasFullApproval } from './utils/hasFullApproval';
+import { hasPartialApproval } from './utils/hasPartialApproval';
 
 const defaultFeeData = {
   feeCrypto: 0,
   feeUSD: 0,
 };
 
-export const ApprovalAttribute = (props: IApprovalAttributeProps) => {
-  const { amount, currency, network, feeDetails = defaultFeeData } = props;
+export interface IApprovalAttributeProps {
+  amount: number;
+  currency: ECurrency;
+  error?: string;
+  feeDetails?: IFeeDetails;
+  isAllowanceSent: boolean;
+  isMyAllowanceLoading: boolean;
+  myAllowance: number;
+  network: ENetwork;
+  status?: ECryptoDepositStepStatus;
+}
 
+export const ApprovalAttribute = ({
+  amount,
+  currency,
+  error,
+  feeDetails = defaultFeeData,
+  isAllowanceSent,
+  isMyAllowanceLoading,
+  myAllowance,
+  network,
+  status,
+}: IApprovalAttributeProps) => {
   const { amountToDeposit } = useTopUp();
 
-  const alreadyApprovedAllowanceValue = useAppSelector(selectMyAllowanceValue);
-  const alreadyApprovedAllowanceLoading = useAppSelector(
-    selectMyAllowanceLoading,
-  );
+  if (isMyAllowanceLoading) {
+    return <OverlaySpinner />;
+  }
 
-  const approvedAmountNumber = Number(alreadyApprovedAllowanceValue);
-  const amountToDepositNumber = Number(amountToDeposit);
-
-  const hasNoApproval =
-    !alreadyApprovedAllowanceLoading && approvedAmountNumber === 0;
-
-  const hasFullApproval =
-    !alreadyApprovedAllowanceLoading &&
-    amountToDepositNumber > 0 &&
-    amountToDepositNumber === approvedAmountNumber;
-
-  const hasPartialApproval =
-    !alreadyApprovedAllowanceLoading &&
-    amountToDepositNumber > 0 &&
-    amountToDepositNumber !== approvedAmountNumber;
-
-  if (hasNoApproval) {
-    const { error, status } = props;
-
+  if (hasFullApproval({ amountToDeposit, isAllowanceSent, myAllowance })) {
     return (
-      <NoApprovalAttribute
-        error={error}
-        feeCrypto={feeDetails.feeCrypto}
-        feeUSD={feeDetails.feeUSD}
-        network={network}
-        status={status}
-      />
+      <FullApprovalAttribute approvedAmount={myAllowance} currency={currency} />
     );
   }
 
-  if (hasFullApproval) {
-    return (
-      <FullApprovalAttribute
-        approvedAmount={approvedAmountNumber}
-        currency={currency}
-      />
-    );
-  }
-
-  if (hasPartialApproval) {
-    const { error, status } = props;
-
+  if (hasPartialApproval({ amountToDeposit, myAllowance })) {
     return (
       <PartialApprovalAttribute
         amount={amount}
-        approvedAmount={approvedAmountNumber}
+        approvedAmount={myAllowance}
         currency={currency}
         error={error}
         feeCrypto={feeDetails.feeCrypto}
@@ -81,5 +69,13 @@ export const ApprovalAttribute = (props: IApprovalAttributeProps) => {
     );
   }
 
-  return <></>;
+  return (
+    <NoApprovalAttribute
+      error={error}
+      feeCrypto={feeDetails.feeCrypto}
+      feeUSD={feeDetails.feeUSD}
+      network={network}
+      status={status}
+    />
+  );
 };

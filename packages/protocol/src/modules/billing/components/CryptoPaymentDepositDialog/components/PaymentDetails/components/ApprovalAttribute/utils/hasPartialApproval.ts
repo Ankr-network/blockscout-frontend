@@ -1,12 +1,24 @@
-import {
-  IApprovalAttributeProps,
-  IPartialApprovalAttributeProps,
-} from '../types';
+import BigNumber from 'bignumber.js';
 
-export const hasPartialApproval = (
-  props: IApprovalAttributeProps,
-): props is IPartialApprovalAttributeProps =>
-  typeof props.approvedAmount === 'number' &&
-  typeof props.feeDetails === 'object' &&
-  props.approvedAmount !== 0 &&
-  props.feeDetails !== null;
+export interface IHasPartialApprovalParams {
+  amountToDeposit: BigNumber;
+  myAllowance: number;
+}
+
+export const hasPartialApproval = ({
+  amountToDeposit,
+  myAllowance,
+}: IHasPartialApprovalParams) => {
+  const amountToDepositNumber = amountToDeposit.toNumber();
+
+  const isAmountToDepositPositive = amountToDepositNumber > 0;
+  const isAmountToDepositBiggerThanMyAllowance =
+    amountToDepositNumber > myAllowance;
+  const isMyAllowancePositive = myAllowance > 0;
+
+  return (
+    isAmountToDepositPositive &&
+    isMyAllowancePositive &&
+    isAmountToDepositBiggerThanMyAllowance
+  );
+};

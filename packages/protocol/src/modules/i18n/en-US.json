@@ -1913,7 +1913,7 @@
         "approval": {
           "title": "Approval",
           "partial-approval-alert": "The previous approval for {approvedAmount} doesn’t cover your deposit needs. Confirm editing your approval to {amountToDeposit}.",
-          "full-approval-alert": "You've already approved the transaction {approvedAmount}"
+          "full-approval-alert": "You've already confirmed an approval for {approvedAmount} lately"
         },
         "deposit": {
           "title": "Deposit"

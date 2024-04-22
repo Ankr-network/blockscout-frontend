@@ -15,12 +15,14 @@ export interface IPaymentDetailsProps {
   approvalError?: string;
   approvalFeeDetails?: IFeeDetails;
   approvalStatus?: ECryptoDepositStepStatus;
-  approvedAmount?: number;
   className?: string;
   currency: ECurrency;
   depositError?: string;
   depositFeeDetails: IFeeDetails;
   depositStatus?: ECryptoDepositStepStatus;
+  isAllowanceSent: boolean;
+  isMyAllowanceLoading: boolean;
+  myAllowance: number;
   network: ENetwork;
 }
 
@@ -29,22 +31,26 @@ export const PaymentDetails = ({
   approvalError,
   approvalFeeDetails,
   approvalStatus,
-  approvedAmount,
   className,
   currency,
   depositError,
   depositFeeDetails,
   depositStatus,
+  isAllowanceSent,
+  isMyAllowanceLoading,
+  myAllowance,
   network,
 }: IPaymentDetailsProps) => {
   return (
     <SeparatedList className={className}>
       <ApprovalAttribute
         amount={amount}
-        approvedAmount={approvedAmount}
         currency={currency}
         error={approvalError}
         feeDetails={approvalFeeDetails}
+        isAllowanceSent={isAllowanceSent}
+        isMyAllowanceLoading={isMyAllowanceLoading}
+        myAllowance={myAllowance}
         network={network}
         status={approvalStatus}
       />

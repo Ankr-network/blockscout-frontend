@@ -22,7 +22,7 @@ export const useOngoingPayments = () => {
   const { isOngoingPaymentSuccess, ongoingPaymentStatus } =
     useOngoingPaymentStatus({ txHash });
 
-  const shouldShowOngoingPayment = Boolean(transaction?.topUpTransactionHash);
+  const shouldShowOngoingPayment = Boolean(txHash);
 
   const isSuccessState = isOngoingPaymentSuccess && approvedAmountString;
 

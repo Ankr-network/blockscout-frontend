@@ -1,5 +1,4 @@
 import { formatFromWei } from 'multirpc-sdk';
-import BigNumber from 'bignumber.js';
 
 import { web3Api } from 'store/queries';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
@@ -11,13 +10,13 @@ export const {
   useLazyFetchMyAllowanceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchMyAllowance: build.query<BigNumber | null, void>({
+    fetchMyAllowance: build.query<number, void>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(async ({ web3Service }) => {
           const { currentAccount } = web3Service.getKeyWriteProvider();
 
           if (!currentAccount) {
-            return { data: null };
+            return { data: 0 };
           }
 
           const allowanceValue = await web3Service
@@ -27,12 +26,12 @@ export const {
           const hasAllowance = allowanceValue && !allowanceValue.isZero();
 
           if (!hasAllowance) {
-            return { data: null };
+            return { data: 0 };
           }
 
-          return { data: new BigNumber(formatFromWei(allowanceValue)) };
+          return { data: Number(formatFromWei(allowanceValue)) };
         }),
-        fallback: { data: null },
+        fallback: { data: 0 },
       }),
     }),
   }),

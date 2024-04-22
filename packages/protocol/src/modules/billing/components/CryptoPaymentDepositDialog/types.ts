@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 import { IDialogProps } from 'uiKit/Dialog';
 
 import { IPaymentDetailsProps } from './components/PaymentDetails';
@@ -9,6 +11,7 @@ export interface ICryptoPaymentDepositDialogProps
     IStepperProps,
     IButtonsProps,
     IDialogProps {
-  onOpen: () => void;
+  amountToDeposit: BigNumber;
   amountUsd: number;
+  onOpen: () => void;
 }

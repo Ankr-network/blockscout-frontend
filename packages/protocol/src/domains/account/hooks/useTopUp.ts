@@ -63,7 +63,11 @@ export const useTopUp = () => {
 
   const [
     sendAllowance,
-    { isLoading: loadingGetAllowance, error: sendAllowanceError },
+    {
+      data: isAllowanceSent = false,
+      error: sendAllowanceError,
+      isLoading: sendAllowanceLoading,
+    },
     handleResetAllowance,
   ] = useQueryEndpoint(topUpSendAllowance);
 
@@ -114,7 +118,7 @@ export const useTopUp = () => {
     [fetchPublicKey],
   );
 
-  const handleGetAllowance = useCallback(
+  const handleSendAllowance = useCallback(
     () => sendAllowance(amountToDeposit),
     [sendAllowance, amountToDeposit],
   );
@@ -204,7 +208,7 @@ export const useTopUp = () => {
   );
 
   const loading =
-    loadingGetAllowance ||
+    sendAllowanceLoading ||
     loadingFetchPublicKey ||
     loadingDeposit ||
     loadingDepositForUser ||
@@ -227,7 +231,6 @@ export const useTopUp = () => {
     depositErrorMessage,
     handleDeposit,
     handleFetchPublicKey,
-    handleGetAllowance,
     handleLogin,
     handleRedirectIfCredentials,
     handleRejectAllowance,
@@ -235,10 +238,12 @@ export const useTopUp = () => {
     handleResetDeposit,
     handleResetTopUpTransaction,
     handleResetTransactionSliceAndRedirect,
+    handleSendAllowance,
     handleSetAmount,
     handleSetApprovedAmount,
     handleWaitTransactionConfirming,
     hasError,
+    isAllowanceSent,
     isRejectAllowanceLoading: loadingRejectAllowance,
     loading,
     loadingWaitTransactionConfirming,

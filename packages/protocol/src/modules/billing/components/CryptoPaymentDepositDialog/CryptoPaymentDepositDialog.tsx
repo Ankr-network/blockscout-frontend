@@ -1,8 +1,6 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
-import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';
@@ -14,17 +12,20 @@ import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDi
 export const CryptoPaymentDepositDialog = ({
   amount,
   amountUsd,
+  amountToDeposit,
   currency,
   network,
 
   /* IPaymentDetailsProps */
-  approvedAmount,
+  approvalError,
   approvalFeeDetails,
   approvalStatus,
-  approvalError,
+  depositError,
   depositFeeDetails,
   depositStatus,
-  depositError,
+  isAllowanceSent,
+  isMyAllowanceLoading,
+  myAllowance,
 
   /* IButtonsProps */
   activeStep,
@@ -44,23 +45,17 @@ export const CryptoPaymentDepositDialog = ({
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();
 
-  const { amountToDeposit, transactionCurrency } = useTopUp();
-
-  const { shouldShowOngoingPayment: hasOngoingTransaction } =
-    useOngoingPayments();
-
   return (
     <Dialog
       {...dialogProps}
       classes={classes}
       title={t('account.crypto-payment-deposit-dialog.title')}
       titleClassName={classes.title}
-      hasMinimizeIcon={hasOngoingTransaction}
     >
       <Header
         amount={Number(amountToDeposit)}
         amountUsd={amountUsd}
-        currency={transactionCurrency || currency}
+        currency={currency}
       />
       <Stepper
         className={classes.stepper}
@@ -69,16 +64,18 @@ export const CryptoPaymentDepositDialog = ({
         erroredStep={erroredStep}
       />
       <PaymentDetails
-        approvedAmount={approvedAmount}
         amount={amount}
+        approvalError={approvalError}
         approvalFeeDetails={approvalFeeDetails}
         approvalStatus={approvalStatus}
-        approvalError={approvalError}
         className={classes.paymentDetails}
-        currency={transactionCurrency || currency}
+        currency={currency}
         depositError={depositError}
         depositFeeDetails={depositFeeDetails}
         depositStatus={depositStatus}
+        isAllowanceSent={isAllowanceSent}
+        isMyAllowanceLoading={isMyAllowanceLoading}
+        myAllowance={myAllowance}
         network={network}
       />
       <Buttons

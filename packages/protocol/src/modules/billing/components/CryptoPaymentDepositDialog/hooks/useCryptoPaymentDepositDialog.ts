@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
   ECryptoDepositStep,
@@ -7,91 +7,79 @@ import {
   ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
+import { selectIsAllowanceSent } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectMyAllowanceLoading } from 'domains/account/store/selectors';
+import { useMyAllowance } from 'domains/account/hooks/useMyAllowance';
+import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { ICryptoPaymentDepositDialogProps } from '../types';
+import { getCompletedStep } from '../utils/getCompletedStep';
+import { getStatus } from '../utils/getStatus';
+import { isPending } from '../utils/isPending';
 
-interface IUseCryptoPaymentDepositDialogProps {
+export interface IUseCryptoPaymentDepositDialogProps {
   amount: number;
   amountUsd: number;
   approvalFeeDetails: IFeeDetails;
-  approvedAmount: number;
+  approvalStatus: ECryptoDepositStepStatus;
   currency: ECurrency;
-  currentApprovalStatus: ECryptoDepositStepStatus;
-  currentDepositStatus?: ECryptoDepositStepStatus;
-  currentStep: ECryptoDepositStep;
-  depositErrorMessage?: string;
+  depositError?: string;
   depositFeeDetails: IFeeDetails;
+  depositStatus?: ECryptoDepositStepStatus;
   handleCryptoPaymentDepositDialogOpen: () => void;
   handleRejectAllowance: () => void;
+  handleSendAllowance: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   onDeposit: () => void;
-  onGetAllowance: () => void;
-  sendAllowanceErrorMessage?: string;
+  sendAllowanceError?: string;
+  step: ECryptoDepositStep;
 }
 
 export const useCryptoPaymentDepositDialog = ({
   amount,
   amountUsd,
   approvalFeeDetails,
-  approvedAmount,
+  approvalStatus,
   currency,
-  currentApprovalStatus,
-  currentDepositStatus,
-  currentStep,
-  depositErrorMessage,
+  depositError,
   depositFeeDetails,
+  depositStatus,
   handleCryptoPaymentDepositDialogOpen,
   handleRejectAllowance,
+  handleSendAllowance,
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
   onDeposit,
-  onGetAllowance,
-  sendAllowanceErrorMessage,
+  sendAllowanceError,
+  step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
-  const isAllowanceLoading = useAppSelector(selectMyAllowanceLoading);
+  const { myAllowance, isLoading: isMyAllowanceLoading } = useMyAllowance({
+    skipFetching: !isCryptoPaymentDepositDialogOpened,
+  });
 
-  return useMemo(() => {
-    const approvalError = sendAllowanceErrorMessage;
+  const isAllowanceSent = useAppSelector(selectIsAllowanceSent);
 
-    const getPendingStatus = () => {
-      if (currentStep === ECryptoDepositStep.Approval) {
-        return (
-          isAllowanceLoading ||
-          currentApprovalStatus === ECryptoDepositStepStatus.Pending
-        );
-      }
+  const { amountToDeposit, handleResetAllowance, transactionCurrency } =
+    useTopUp();
 
-      return currentDepositStatus === ECryptoDepositStepStatus.Pending;
-    };
+  const { shouldShowOngoingPayment: hasOngoingTransaction } =
+    useOngoingPayments();
 
-    const getStatus = () => {
-      if (currentStep === ECryptoDepositStep.Approval) {
-        return currentApprovalStatus;
-      }
+  const onClose = useCallback(() => {
+    if (depositStatus !== ECryptoDepositStepStatus.Pending) {
+      handleResetAllowance();
+    }
 
-      if (!currentDepositStatus) {
-        return currentApprovalStatus;
-      }
+    onCryptoPaymentDepositDialogClose();
+  }, [depositStatus, handleResetAllowance, onCryptoPaymentDepositDialogClose]);
 
-      return currentDepositStatus;
-    };
-
-    const getCompletedStep = () => {
-      if (
-        currentStep === ECryptoDepositStep.Deposit &&
-        currentApprovalStatus === ECryptoDepositStepStatus.Complete
-      ) {
-        return ECryptoDepositStep.Approval;
-      }
-
-      return undefined;
-    };
+  return useMemo<ICryptoPaymentDepositDialogProps>(() => {
+    const approvalError = sendAllowanceError;
 
     const getErroredStep = () => {
-      if (currentApprovalStatus === ECryptoDepositStepStatus.Error) {
+      if (approvalStatus === ECryptoDepositStepStatus.Error) {
         return ECryptoDepositStep.Approval;
       }
 
@@ -99,60 +87,72 @@ export const useCryptoPaymentDepositDialog = ({
     };
 
     const onConfirmButtonClick = () => {
-      if (
-        currentApprovalStatus === ECryptoDepositStepStatus.Confirmation ||
-        approvalError
-      ) {
-        return onGetAllowance();
+      const isApprovalConfirmationStatus =
+        approvalStatus === ECryptoDepositStepStatus.Confirmation;
+
+      const hasApprovalError = Boolean(approvalError);
+
+      if (isApprovalConfirmationStatus || hasApprovalError) {
+        return handleSendAllowance();
       }
 
       return onDeposit();
     };
 
     return {
+      activeStep: step,
       amount,
+      amountToDeposit,
       amountUsd,
-      currency,
-      network: ENetwork.ETH,
-
-      approvedAmount,
+      approvalError,
       approvalFeeDetails,
-      approvalStatus: currentApprovalStatus,
-      approvalError: approvalError as string,
+      approvalStatus,
+      completedStep: getCompletedStep({ approvalStatus, step }),
+      currency: transactionCurrency || currency,
+      depositError,
       depositFeeDetails,
-      depositStatus: currentDepositStatus,
-      depositError: depositErrorMessage as string,
-
-      activeStep: currentStep,
-      isPending: getPendingStatus(),
+      depositStatus,
+      erroredStep: getErroredStep(),
+      hasMinimizeIcon: hasOngoingTransaction,
+      isAllowanceSent,
+      isMyAllowanceLoading,
+      isPending: isPending({
+        approvalStatus,
+        depositStatus,
+        isMyAllowanceLoading,
+        step,
+      }),
+      myAllowance,
+      network: ENetwork.ETH,
+      onClose,
       onConfirmButtonClick,
       onDiscardButtonClick: handleRejectAllowance,
-      status: getStatus(),
-      completedStep: getCompletedStep(),
-      erroredStep: getErroredStep(),
-
-      open: isCryptoPaymentDepositDialogOpened,
-      onClose: onCryptoPaymentDepositDialogClose,
       onOpen: handleCryptoPaymentDepositDialogOpen,
+      open: isCryptoPaymentDepositDialogOpened,
+      status: getStatus({ approvalStatus, depositStatus, step }),
     };
   }, [
     amount,
+    amountToDeposit,
     amountUsd,
     approvalFeeDetails,
-    approvedAmount,
+    approvalStatus,
     currency,
-    currentApprovalStatus,
-    currentDepositStatus,
-    currentStep,
-    depositErrorMessage,
+    depositError,
     depositFeeDetails,
+    depositStatus,
     handleCryptoPaymentDepositDialogOpen,
     handleRejectAllowance,
-    isAllowanceLoading,
+    handleSendAllowance,
+    hasOngoingTransaction,
+    isAllowanceSent,
     isCryptoPaymentDepositDialogOpened,
-    onCryptoPaymentDepositDialogClose,
+    isMyAllowanceLoading,
+    myAllowance,
+    onClose,
     onDeposit,
-    onGetAllowance,
-    sendAllowanceErrorMessage,
+    sendAllowanceError,
+    step,
+    transactionCurrency,
   ]);
 };

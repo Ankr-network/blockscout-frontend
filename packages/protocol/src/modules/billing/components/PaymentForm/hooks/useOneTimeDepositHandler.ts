@@ -8,7 +8,7 @@ import { useOneTimeDialogState } from './useOneTimeDialogState';
 
 type TPropsToExtend = Pick<
   ReturnType<typeof useOneTimeDialogState>,
-  'setCurrentDepositStatus'
+  'setDepositStatus'
 >;
 
 export interface IUseOneTimeDepositHandler extends TPropsToExtend {
@@ -19,7 +19,7 @@ export interface IUseOneTimeDepositHandler extends TPropsToExtend {
 export const useOneTimeDepositHandler = ({
   onCryptoPaymentDepositDialogClose,
   onDepositSuccess,
-  setCurrentDepositStatus,
+  setDepositStatus,
 }: IUseOneTimeDepositHandler) => {
   const { handleDeposit, handleResetDeposit, handleWaitTransactionConfirming } =
     useTopUp();
@@ -27,10 +27,10 @@ export const useOneTimeDepositHandler = ({
   const onDeposit = useCallback(async () => {
     handleResetDeposit();
 
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
+    setDepositStatus(ECryptoDepositStepStatus.Confirmation);
     const depositResponse = await handleDeposit();
 
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
+    setDepositStatus(ECryptoDepositStepStatus.Pending);
 
     const confirmationResponse = await handleWaitTransactionConfirming();
 
@@ -40,14 +40,14 @@ export const useOneTimeDepositHandler = ({
         hasResponseError(confirmationResponse);
 
       if (hasDepositError) {
-        setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
+        setDepositStatus(ECryptoDepositStepStatus.Error);
       } else {
-        setCurrentDepositStatus(ECryptoDepositStepStatus.Complete);
+        setDepositStatus(ECryptoDepositStepStatus.Complete);
         onCryptoPaymentDepositDialogClose();
         onDepositSuccess();
       }
     } catch (error) {
-      setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
+      setDepositStatus(ECryptoDepositStepStatus.Error);
     }
   }, [
     handleDeposit,
@@ -55,7 +55,7 @@ export const useOneTimeDepositHandler = ({
     handleWaitTransactionConfirming,
     onCryptoPaymentDepositDialogClose,
     onDepositSuccess,
-    setCurrentDepositStatus,
+    setDepositStatus,
   ]);
 
   return { onDeposit };

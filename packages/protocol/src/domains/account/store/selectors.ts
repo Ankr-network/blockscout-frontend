@@ -49,6 +49,7 @@ import { fetchMyAllowance } from '../actions/fetchMyAllowance';
 import { fetchTxData } from '../actions/fetchTxData';
 import { fetchTxReceipt } from '../actions/fetchTxReceipt';
 import { fetchWalletAccountANKRBalance } from '../actions/balance/fetchWalletAccountBalance';
+import { topUpSendAllowance } from '../actions/topUp/sendAllowance';
 
 export const selectTopUpOrigin = (state: RootState) =>
   state.accountTopUp.topUpOrigin;
@@ -723,13 +724,13 @@ export const selectMyAllowanceLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectMyAllowanceValue = createSelector(
+export const selectMyAllowance = createSelector(
   selectMyAllowanceState,
-  ({ data = ZERO_STRING }) => data,
+  ({ data = 0 }) => data,
 );
 
 export const selectIsEnoughAllowance = createSelector(
-  selectMyAllowanceValue,
+  selectMyAllowance,
   selectTransaction,
   (allowance, transaction) =>
     Number(allowance) >= Number(transaction?.amountToDeposit),
@@ -814,4 +815,9 @@ export const selectWalletAccountANKRBalanceFetching = createSelector(
 export const selectWalletAccountANKRBalanceLoading = createSelector(
   selectWalletAccountANKRBalanceState,
   ({ isLoading }) => isLoading,
+);
+
+export const selectIsAllowanceSent = createSelector(
+  topUpSendAllowance.select(undefined as never),
+  ({ data: isAllowanceSent = false }) => isAllowanceSent,
 );

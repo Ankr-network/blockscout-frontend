@@ -9,34 +9,34 @@ import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
 export interface IUseAccountChangedHandlingOnDepositStep {
-  currentDepositStatus?: ECryptoDepositStepStatus;
-  currentStep: ECryptoDepositStep;
+  depositStatus?: ECryptoDepositStepStatus;
   handleCryptoPaymentSummaryDialogOpen: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
+  step: ECryptoDepositStep;
 }
 
 // This hook contains the logic for handling the case when a user switches
 // to another account in wallet during the payment flow.
 // In this case the user should be redirected to the summary step
 export const useAccountChangedHandlingOnDepositStep = ({
-  currentDepositStatus,
-  currentStep,
+  depositStatus,
   handleCryptoPaymentSummaryDialogOpen,
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
   setIsAccountChangedOnDepositStep,
+  step,
 }: IUseAccountChangedHandlingOnDepositStep) => {
   const [, , resetMyAllowance] = useQueryEndpoint(fetchMyAllowance);
 
   const onAccountsChanged = useCallback(() => {
-    const isApprovalStep = currentStep === ECryptoDepositStep.Approval;
+    const isApprovalStep = step === ECryptoDepositStep.Approval;
 
-    const isDepositStep = currentStep === ECryptoDepositStep.Deposit;
+    const isDepositStep = step === ECryptoDepositStep.Deposit;
 
     const isDepositStepPending =
-      currentDepositStatus === ECryptoDepositStepStatus.Pending;
+      depositStatus === ECryptoDepositStepStatus.Pending;
 
     // We should move the user to the summary step if the dialog is opened
     // and at any approval step status or at any deposit step status except pending
@@ -56,13 +56,13 @@ export const useAccountChangedHandlingOnDepositStep = ({
       setIsAccountChangedOnDepositStep(false);
     }
   }, [
-    currentDepositStatus,
-    currentStep,
+    depositStatus,
     handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
     onCryptoPaymentDepositDialogClose,
     resetMyAllowance,
     setIsAccountChangedOnDepositStep,
+    step,
   ]);
 
   useConnectedAddress({ onAccountsChanged });
