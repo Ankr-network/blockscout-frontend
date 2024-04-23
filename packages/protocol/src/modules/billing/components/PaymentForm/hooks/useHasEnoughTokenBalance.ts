@@ -10,12 +10,17 @@ export const useHasEnoughTokenBalance = ({
 }: IUseHasEnoughTokenBalanceProps) => {
   const { connectedAddress } = useConnectedAddress();
 
-  const { ankrBalance: tokenBalance, isLoading: isWalletTokenBalanceLoading } =
-    useWalletAccountANKRBalance({
-      skipFetching: !connectedAddress,
-    });
+  const {
+    ankrBalance: tokenBalance,
+    isLoading: isWalletTokenBalanceLoading,
+    refetchANKRBalance,
+  } = useWalletAccountANKRBalance({ skipFetching: !connectedAddress });
 
   const hasEnoughTokenBalance = tokenBalance >= amount;
 
-  return { hasEnoughTokenBalance, isWalletTokenBalanceLoading };
+  return {
+    hasEnoughTokenBalance,
+    isWalletTokenBalanceLoading,
+    refetchANKRBalance,
+  };
 };

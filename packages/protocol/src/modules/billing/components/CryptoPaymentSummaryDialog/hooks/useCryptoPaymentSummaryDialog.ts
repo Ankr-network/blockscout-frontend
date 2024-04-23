@@ -25,6 +25,7 @@ export interface IUseCryptoPaymentSummaryDialogProps
   onClose?: () => void;
   onConfirmButtonClick: () => void;
   onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
+  onOpen?: () => void;
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
 
@@ -40,6 +41,7 @@ export const useCryptoPaymentSummaryDialog = ({
   onClose: handleCloseExternal,
   onConfirmButtonClick: handleConfirmButtonClick,
   onConnectAccountSuccess,
+  onOpen: onOpenExternal,
   setIsAccountChangedOnDepositStep,
   totalAmount,
 }: IUseCryptoPaymentSummaryDialogProps) => {
@@ -57,8 +59,10 @@ export const useCryptoPaymentSummaryDialog = ({
       );
     }
 
+    onOpenExternal?.();
+
     onOpen();
-  }, [dispatch, hasWeb3Service, onOpen]);
+  }, [dispatch, hasWeb3Service, onOpen, onOpenExternal]);
 
   const { connectedAddress, walletIcon } = useConnectedAddress();
   const { address: personalAddress } = useAuth();

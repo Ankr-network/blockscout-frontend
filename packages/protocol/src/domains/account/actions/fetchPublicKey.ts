@@ -20,7 +20,7 @@ export const {
             authFetchEncryptionKey.initiate(),
           ).unwrap();
 
-          await dispatch(setAuthData({ encryptionPublicKey: publicKey }));
+          dispatch(setAuthData({ encryptionPublicKey: publicKey }));
 
           encryptionPublicKey = publicKey;
         }

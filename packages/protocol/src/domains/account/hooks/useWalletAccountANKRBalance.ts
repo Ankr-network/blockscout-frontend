@@ -17,13 +17,16 @@ export const useWalletAccountANKRBalance = ({
 }: IUseWalletAccountANKRBalanceProps | void = {}) => {
   const { hasWeb3Service } = useHasWeb3Service();
 
-  useFetchWalletAccountANKRBalanceQuery(undefined, {
-    skip: skipFetching || !hasWeb3Service,
-  });
+  const { refetch: refetchANKRBalance } = useFetchWalletAccountANKRBalanceQuery(
+    undefined,
+    {
+      skip: skipFetching || !hasWeb3Service,
+    },
+  );
 
   const ankrBalance = useAppSelector(selectWalletAccountANKRBalance);
   const isFetching = useAppSelector(selectWalletAccountANKRBalanceFetching);
   const isLoading = useAppSelector(selectWalletAccountANKRBalanceLoading);
 
-  return { ankrBalance, isFetching, isLoading };
+  return { ankrBalance, isFetching, isLoading, refetchANKRBalance };
 };
