@@ -45,6 +45,8 @@ export enum ChainGroupID {
   AMOY = 'amoy',
   CARDONA = 'cardona',
   POLYGON_TESTNET = 'testnet',
+  GOLDBERG = 'goldberg',
+  TURING = 'turing',
 
   FALLBACK = 'FALLBACK',
 }

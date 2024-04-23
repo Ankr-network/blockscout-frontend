@@ -50,6 +50,7 @@ import okxX1Icon from './icons/okx.svg';
 import okxX1IconDark from './darkModeIcons/okx.svg';
 import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
+import availIcon from './icons/avail.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -84,6 +85,7 @@ import scrollIconDark from './darkModeIcons/scroll.svg';
 import coreIconDark from './darkModeIcons/core.svg';
 import seiIconDark from './darkModeIcons/sei.svg';
 import klaytnIconDark from './darkModeIcons/klaytn.svg';
+import availIconDark from './darkModeIcons/avail.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -101,6 +103,10 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVALANCHE_FUJI_X]: avaxIcon,
   [ChainID.AVALANCHE_P]: avaxIcon,
   [ChainID.AVALANCHE_X]: avaxIcon,
+
+  [ChainID.AVAIL]: availIcon,
+  [ChainID.AVAIL_GOLDBERG_TESTNET]: availIcon,
+  [ChainID.AVAIL_TURING_TESTNET]: availIcon,
 
   [ChainID.FLARE]: flareIcon,
   [ChainID.FLARE_C]: flareIcon,
@@ -335,6 +341,9 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: seiIconDark,
   [ChainID.KLAYTN]: klaytnIconDark,
   [ChainID.KLAYTN_TESTNET]: klaytnIconDark,
+  [ChainID.AVAIL]: availIconDark,
+  [ChainID.AVAIL_GOLDBERG_TESTNET]: availIconDark,
+  [ChainID.AVAIL_TURING_TESTNET]: availIconDark,
 };
 
 const chainNameIcons: Record<string, string> = {

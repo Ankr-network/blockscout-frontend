@@ -386,4 +386,16 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'Soroban',
     chains: [ChainID.STELLAR_SOROBAN, ChainID.STELLAR_TESTNET_SOROBAN],
   },
+  {
+    id: ChainGroupID.GOLDBERG,
+    name: 'Goldberg',
+    pluralName: 'Goldberg',
+    chains: [ChainID.AVAIL_GOLDBERG_TESTNET],
+  },
+  {
+    id: ChainGroupID.TURING,
+    name: 'Turing',
+    pluralName: 'Turing',
+    chains: [ChainID.AVAIL_TURING_TESTNET],
+  },
 ];

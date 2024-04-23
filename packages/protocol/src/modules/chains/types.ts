@@ -83,6 +83,11 @@ export enum ChainID {
   AVALANCHE_FUJI_X = 'avalanche_fuji-x',
   AVALANCHE_P = 'avalanche-p',
   AVALANCHE_X = 'avalanche-x',
+
+  AVAIL = 'avail',
+  AVAIL_GOLDBERG_TESTNET = 'avail_goldberg_testnet',
+  AVAIL_TURING_TESTNET = 'avail_turing_testnet',
+
   BSC = 'bsc',
   BSC_TESTNET_CHAPEL = 'bsc_testnet_chapel',
 

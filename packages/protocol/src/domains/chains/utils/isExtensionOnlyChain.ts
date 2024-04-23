@@ -5,6 +5,7 @@ const extensionOnlyChain: ChainID[] = [
   ChainID.SEI,
   ChainID.STELLAR,
   ChainID.KAVA,
+  ChainID.AVAIL,
 ];
 
 export const isExtensionOnlyChain = (chainId: ChainID) =>
