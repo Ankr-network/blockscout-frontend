@@ -10,7 +10,7 @@ import { useOneTimeDepositHandler } from './useOneTimeDepositHandler';
 import { useOneTimeDialogState } from './useOneTimeDialogState';
 import { useSendAllowanceHandler } from './useSendAllowanceHandler';
 
-interface ICryptoDepositStep {
+export interface IUseCryptoDepositStepProps {
   approvalFeeDetails: IFeeDetails;
   currency: ECurrency;
   depositFeeDetails: IFeeDetails;
@@ -32,7 +32,7 @@ export const useCryptoDepositStep = ({
   onCryptoPaymentDepositDialogClose,
   onDepositSuccess,
   setIsAccountChangedOnDepositStep,
-}: ICryptoDepositStep) => {
+}: IUseCryptoDepositStepProps) => {
   const {
     amountToDeposit,
     depositErrorMessage: depositError,
