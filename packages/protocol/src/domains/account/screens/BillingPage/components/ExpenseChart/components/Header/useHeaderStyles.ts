@@ -1,29 +1,26 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useHeaderStyles = makeStyles()(theme => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
 
-    marginBottom: theme.spacing(2 * 1.875),
+    marginBottom: theme.spacing(3.75),
   },
   left: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: theme.spacing(2 * 1.25),
+    gap: theme.spacing(2.5),
   },
   title: {
     color: theme.palette.text.primary,
 
-    fontWeight: 700,
-    fontSize: theme.spacing(2 * 2),
-    lineHeight: theme.spacing(2 * 3),
+    letterSpacing: '-0.03em',
   },
   currency: {
-    padding: theme.spacing(2 * 0.5, 2 * 1),
+    padding: theme.spacing(1, 2),
 
     borderRadius: 18,
     border: `1px solid ${theme.palette.action.disabledBackground}`,
@@ -33,6 +30,6 @@ export const useStyles = makeStyles()((theme: Theme) => ({
 
     fontWeight: 400,
     fontSize: 11,
-    lineHeight: theme.spacing(2 * 2),
+    lineHeight: theme.spacing(4),
   },
 }));

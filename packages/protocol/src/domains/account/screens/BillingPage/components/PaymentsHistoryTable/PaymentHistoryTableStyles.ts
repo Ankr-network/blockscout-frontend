@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useStyles = makeStyles()(theme => ({
   top: {
     width: '100%',
 
@@ -17,7 +16,10 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   paymentsHistoryTitle: {
     flexShrink: 0,
+
     color: theme.palette.text.primary,
+
+    letterSpacing: '-0.03em',
   },
   preloader: {
     height: theme.spacing(14),
