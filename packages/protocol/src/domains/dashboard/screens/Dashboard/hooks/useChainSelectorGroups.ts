@@ -22,6 +22,8 @@ export const useChainSelectorGroups = ({
   selectedGroupId,
   onBlockedTabClick,
 }: IDashboardChainSelector) => {
+  const isFlare = chain.id === ChainID.FLARE;
+
   const {
     chainProtocolContext,
     publicChain,
@@ -42,6 +44,7 @@ export const useChainSelectorGroups = ({
     isChainArchived: false,
     selectedType,
     selectedGroupId,
+    shouldExpandFlareTestnets: isFlare,
     onBlockedTabClick,
   });
 

@@ -133,6 +133,21 @@ export enum ChainID {
   FLARE_C = 'flare-c',
   FLARE_P = 'flare-p',
   FLARE_X = 'flare-x',
+  FLARE_COSTON = 'flare_coston',
+  FLARE_COSTON_EVM = 'flare_coston-evm',
+  FLARE_COSTON_C = 'flare_coston-c',
+  FLARE_COSTON_P = 'flare_coston-p',
+  FLARE_COSTON_X = 'flare_coston-x',
+  FLARE_COSTON2 = 'flare_coston2',
+  FLARE_COSTON2_EVM = 'flare_coston2-evm',
+  FLARE_COSTON2_C = 'flare_coston2-c',
+  FLARE_COSTON2_P = 'flare_coston2-p',
+  FLARE_COSTON2_X = 'flare_coston2-x',
+  FLARE_SONGBIRD = 'flare_songbird',
+  FLARE_SONGBIRD_EVM = 'flare_songbird-evm',
+  FLARE_SONGBIRD_C = 'flare_songbird-c',
+  FLARE_SONGBIRD_P = 'flare_songbird-p',
+  FLARE_SONGBIRD_X = 'flare_songbird-x',
 
   GNOSIS = 'gnosis',
   GNOSIS_BEACON = 'gnosis_beacon',
@@ -271,4 +286,31 @@ export const ZETACHAIN_ATHENS3_CHAINS = [
   ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
+];
+
+export const FLARE_TESTNETS = [
+  ChainID.FLARE_COSTON,
+  ChainID.FLARE_COSTON_EVM,
+  ChainID.FLARE_COSTON_C,
+  ChainID.FLARE_COSTON_P,
+  ChainID.FLARE_COSTON_X,
+  ChainID.FLARE_COSTON2,
+  ChainID.FLARE_COSTON2_EVM,
+  ChainID.FLARE_COSTON2_C,
+  ChainID.FLARE_COSTON2_P,
+  ChainID.FLARE_COSTON2_X,
+  ChainID.FLARE_SONGBIRD,
+  ChainID.FLARE_SONGBIRD_EVM,
+  ChainID.FLARE_SONGBIRD_C,
+  ChainID.FLARE_SONGBIRD_P,
+  ChainID.FLARE_SONGBIRD_X,
+];
+
+export const FLARE_CHAINS = [
+  ChainID.FLARE,
+  ChainID.FLARE_EVM,
+  ChainID.FLARE_C,
+  ChainID.FLARE_P,
+  ChainID.FLARE_X,
+  ...FLARE_TESTNETS,
 ];

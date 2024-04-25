@@ -53,6 +53,7 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   isHiddenMainnet?: boolean;
   isPremiumLabelHidden?: boolean;
   isChainRequestStatsVisible?: boolean;
+  shouldExpandFlareTestnets?: boolean;
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -68,10 +69,12 @@ export const usePrivateChainItem = ({
   isHiddenMainnet,
   isPremiumLabelHidden,
   isChainRequestStatsVisible,
+  shouldExpandFlareTestnets = false,
 }: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
+    shouldExpandFlareTestnets,
   });
 
   const { hasPremium } = useAuth();

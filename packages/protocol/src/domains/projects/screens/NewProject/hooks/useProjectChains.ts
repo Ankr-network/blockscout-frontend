@@ -32,6 +32,8 @@ const isNotTendermintGroup = (group: EndpointGroup) => {
 
 const getFirstChain = (group: EndpointGroup) => group.chains[0];
 
+const getAllChains = (group: EndpointGroup) => group.chains;
+
 const mapProjectChains = (chain: Chain) => {
   const {
     beacons: beaconsMainnet,
@@ -40,7 +42,13 @@ const mapProjectChains = (chain: Chain) => {
     testnets: chainTestnets,
   } = chain;
 
-  const endpoints = getGroupedEndpoints({ chain, groups: chainGroups });
+  const isFlare = chain.id === ChainID.FLARE;
+
+  const endpoints = getGroupedEndpoints({
+    chain,
+    groups: chainGroups,
+    shouldExpandFlareTestnets: isFlare,
+  });
 
   const testnets = chainTestnets?.flatMap(testnet => {
     const { extensions: testnetExtensions = [] } = testnet;
@@ -75,7 +83,6 @@ const mapProjectChains = (chain: Chain) => {
     opnodesTestnetWithFallback?.length > 0
       ? opnodesTestnetWithFallback
       : undefined;
-
   const chainParams = {
     ...chain,
     mainnets: endpoints.mainnet.filter(isNotTendermintGroup).map(getFirstChain),
@@ -87,6 +94,16 @@ const mapProjectChains = (chain: Chain) => {
     opnodesMainnet,
     opnodesTestnet,
   };
+
+  if (id === ChainID.FLARE) {
+    return {
+      ...chainParams,
+      testnets: endpoints.testnet
+        .filter(isNotTendermintGroup)
+        .map(getAllChains)
+        .flat(),
+    };
+  }
 
   if (id !== ChainID.SECRET && id !== ChainID.ZETACHAIN && id !== ChainID.SEI) {
     return {
@@ -112,7 +129,6 @@ export const useProjectChains = () => {
   const chains = useAppSelector(state =>
     selectConfiguredBlockchainsForToken(state, userEndpointToken),
   );
-
   const projectChains = useMemo(
     () =>
       chains.map(mapProjectChains).sort((a, b) => a.name.localeCompare(b.name)),

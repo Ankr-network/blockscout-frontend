@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID, FLARE_TESTNETS } from 'modules/chains/types';
 
 import { ChainGroupID } from '../types';
 import { getGroupById } from './getGroupById';
@@ -13,6 +13,12 @@ export const filterChainIdsByGroup = (
   groupId: ChainGroupID,
   withExceptions?: boolean,
 ) => {
+  // it's shity hack because of unexpected flare testnets dependencies and grouping
+  // @ts-ignore
+  if (FLARE_TESTNETS.includes(groupId)) {
+    return [groupId] as unknown as ChainID[];
+  }
+
   const group = getGroupById(groupId);
 
   const withoutProcessing =

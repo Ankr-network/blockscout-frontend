@@ -10,6 +10,7 @@ import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValue
 import { useAvailableIds } from './useAvailableIds';
 
 export interface ITypeSelectorProps extends SelectMenuProps {
+  chainId: ChainID;
   chainTypes: ISelectOption[];
   endpoints: GroupedEndpoints;
   beaconsMainnet?: Chain[];

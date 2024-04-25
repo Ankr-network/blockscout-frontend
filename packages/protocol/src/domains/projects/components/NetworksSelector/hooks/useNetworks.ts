@@ -8,7 +8,7 @@ import { ChainGroupID } from 'modules/endpoints/types';
 import { getNetworks } from '../utils/getNetworks';
 
 export const useNetworks = (chain: Chain) => {
-  const endpoints = useGroupedEndpoints(chain);
+  const endpoints = useGroupedEndpoints(chain, true);
 
   const networks = useMemo(() => getNetworks(endpoints), [endpoints]);
 

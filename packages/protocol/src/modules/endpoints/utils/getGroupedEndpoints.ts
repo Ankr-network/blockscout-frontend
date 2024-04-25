@@ -1,7 +1,12 @@
-import { ChainID, Chain, ChainURL } from 'modules/chains/types';
+import { ChainID, Chain, ChainURL, FLARE_TESTNETS } from 'modules/chains/types';
 
 import { getFallbackEndpointGroup } from '../constants/groups';
-import { ChainGroup, EndpointGroup, GroupedEndpoints } from '../types';
+import {
+  ChainGroup,
+  ChainGroupID,
+  EndpointGroup,
+  GroupedEndpoints,
+} from '../types';
 import { flatChains } from './flatChains';
 
 const flatChainUrls = ({
@@ -41,11 +46,22 @@ const getChainToEndpointGroupMap = (
   return map;
 };
 
-const getEndpointGroups = (
-  chain: Chain,
-  chainGroups: ChainGroup[],
-  fallbackEndpointGroup?: EndpointGroup,
-): EndpointGroup[] => {
+interface IShouldExpandFlareTestnetsParam {
+  shouldExpandFlareTestnets?: boolean;
+}
+
+interface IGetEndpointGroupsParams extends IShouldExpandFlareTestnetsParam {
+  chain: Chain;
+  chainGroups: ChainGroup[];
+  fallbackEndpointGroup?: EndpointGroup;
+}
+
+const getEndpointGroups = ({
+  chain,
+  chainGroups,
+  fallbackEndpointGroup,
+  shouldExpandFlareTestnets,
+}: IGetEndpointGroupsParams): EndpointGroup[] => {
   const chains = flatChains(chain);
 
   const chainToEndpointGroupMap = getChainToEndpointGroupMap(chainGroups);
@@ -57,6 +73,14 @@ const getEndpointGroups = (
     const urlsCount = getUrlsCount(urls);
 
     const targetEndpointGroup = chainToEndpointGroupMap[chainID];
+
+    if (
+      targetEndpointGroup &&
+      FLARE_TESTNETS.includes(chainID) &&
+      shouldExpandFlareTestnets
+    ) {
+      targetEndpointGroup.id = chainID as unknown as ChainGroupID;
+    }
 
     if (targetEndpointGroup) {
       targetEndpointGroup.chains.push(chain_);
@@ -109,15 +133,25 @@ const getEndpointGroups = (
   return endpointGroups;
 };
 
-interface GetGroupParams {
+interface GetGroupParams extends IShouldExpandFlareTestnetsParam {
   groups: ChainGroup[];
   fallback: EndpointGroup;
   nets?: Chain[];
 }
 
-const getGroups = ({ fallback, groups, nets = [] }: GetGroupParams) => {
+const getGroups = ({
+  fallback,
+  groups,
+  nets = [],
+  shouldExpandFlareTestnets,
+}: GetGroupParams) => {
   const endpointGroup = nets.flatMap(net =>
-    getEndpointGroups(net, groups, fallback),
+    getEndpointGroups({
+      chain: net,
+      chainGroups: groups,
+      fallbackEndpointGroup: fallback,
+      shouldExpandFlareTestnets,
+    }),
   );
 
   if (fallback.urlsCount) {
@@ -131,14 +165,28 @@ const getFallback = (chain: Chain) => {
   return getFallbackEndpointGroup(chain.name);
 };
 
-export interface GetGrouppedEndpointsParams {
+export interface GetGrouppedEndpointsParams
+  extends IShouldExpandFlareTestnetsParam {
   chain: Chain;
   groups: ChainGroup[];
 }
 
+const getFlareTestnets = (testnets?: Chain[]) => {
+  if (!testnets) return [];
+
+  const notEmptyTestnets = testnets?.filter(testnet => testnet);
+
+  return notEmptyTestnets
+    .map(testnet => testnet.extensions)
+    .filter(testnet => testnet)
+    .flat()
+    .filter(testnet => testnet);
+};
+
 export const getGroupedEndpoints = ({
   chain,
   groups,
+  shouldExpandFlareTestnets = false,
 }: GetGrouppedEndpointsParams): GroupedEndpoints => {
   const mainnetGroups = getGroups({
     groups,
@@ -148,7 +196,11 @@ export const getGroupedEndpoints = ({
   const testnetGroups = getGroups({
     groups,
     fallback: getFallback(chain),
-    nets: chain.testnets,
+    // @ts-ignore
+    nets: shouldExpandFlareTestnets
+      ? getFlareTestnets(chain.testnets)
+      : chain.testnets,
+    shouldExpandFlareTestnets,
   });
   const devnetGroups = getGroups({
     groups,

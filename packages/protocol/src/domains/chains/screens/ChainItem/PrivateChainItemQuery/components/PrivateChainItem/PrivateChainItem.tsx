@@ -32,6 +32,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     headerContent,
   } = usePrivateChainItem({
     ...data,
+    shouldExpandFlareTestnets: false,
     onBlockedTabClick: onOpen,
   });
 

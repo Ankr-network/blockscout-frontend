@@ -10,6 +10,7 @@ import {
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { getOptionsByTabs } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/GroupSelector/utils/getOptionsByTabs';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
+import { FLARE_TESTNETS } from 'modules/chains/types';
 
 import { useGroupSelector } from './hooks/useGroupSelector';
 import { useGroupSelectorStyles } from './useGroupSelectorStyles';
@@ -30,7 +31,14 @@ export const GroupSelector = ({
 }: IGroupSelectorProps) => {
   const { classes, cx } = useGroupSelectorStyles();
 
-  const options = useMemo(() => getOptionsByTabs(groups), [groups]);
+  // it's shity hack because of unexpected flare testnets dependencies and grouping
+  // @ts-ignore
+  const isFlareTestnet = FLARE_TESTNETS.includes(groupID);
+
+  const options = useMemo(
+    () => getOptionsByTabs(groups, isFlareTestnet),
+    [groups, isFlareTestnet],
+  );
 
   const { renderValue } = useGroupSelector(options);
 
