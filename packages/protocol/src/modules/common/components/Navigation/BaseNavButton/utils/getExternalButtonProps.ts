@@ -4,13 +4,14 @@ import { NavigationItem } from '../types';
 
 export const getExternalButtonProps = ({
   StartIcon,
+  blockName,
   isActive,
   isComingSoon,
   isDisabled,
   isEnabled,
+  isHidden,
   isNew,
   isNotLinkItem,
-  isHidden,
   ...props
 }: NavigationItem): ButtonProps<'a', { component: 'a' }> => ({
   ...props,
