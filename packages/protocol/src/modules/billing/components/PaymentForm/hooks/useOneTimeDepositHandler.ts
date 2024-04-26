@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { ECryptoDepositStepStatus } from 'modules/billing/types';
-import { hasResponseError } from 'modules/common/utils/hasResponseError';
+import { hasTxConfirmationError } from 'domains/account/actions/topUp/waitTransactionConfirming';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { useOneTimeDialogState } from './useOneTimeDialogState';
@@ -27,28 +27,24 @@ export const useOneTimeDepositHandler = ({
   const onDeposit = useCallback(async () => {
     handleResetDeposit();
 
-    setDepositStatus(ECryptoDepositStepStatus.Confirmation);
+    setDepositStatus(ECryptoDepositStepStatus.Pending);
+
     const depositResponse = await handleDeposit();
 
-    setDepositStatus(ECryptoDepositStepStatus.Pending);
+    if (depositResponse.isError) {
+      return setDepositStatus(ECryptoDepositStepStatus.Error);
+    }
 
     const confirmationResponse = await handleWaitTransactionConfirming();
 
-    try {
-      const hasDepositError =
-        hasResponseError(depositResponse) ||
-        hasResponseError(confirmationResponse);
-
-      if (hasDepositError) {
-        setDepositStatus(ECryptoDepositStepStatus.Error);
-      } else {
-        setDepositStatus(ECryptoDepositStepStatus.Complete);
-        onCryptoPaymentDepositDialogClose();
-        onDepositSuccess();
-      }
-    } catch (error) {
-      setDepositStatus(ECryptoDepositStepStatus.Error);
+    if (hasTxConfirmationError(confirmationResponse)) {
+      return setDepositStatus(ECryptoDepositStepStatus.Error);
     }
+
+    setDepositStatus(ECryptoDepositStepStatus.Complete);
+    onCryptoPaymentDepositDialogClose();
+
+    return onDepositSuccess();
   }, [
     handleDeposit,
     handleResetDeposit,

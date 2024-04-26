@@ -1,8 +1,10 @@
 import { CONFIRMATION_BLOCKS, IApiUserGroupParams } from 'multirpc-sdk';
+import { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 import { TransactionReceipt } from 'web3-core';
 import { t } from '@ankr.com/common';
 
 import { AppDispatch, GetState } from 'store';
+import { Definition } from 'store/queries/types';
 import { MultiService } from 'modules/api/MultiService';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
@@ -56,6 +58,18 @@ export const getReceipt = async (
 
   return { receipt };
 };
+
+type TxConfirmationResponse = Awaited<
+  QueryActionCreatorResult<
+    Definition<IApiUserGroupParams, WaitTransactionConfirmingResult>
+  >
+>;
+
+export const hasTxConfirmationError = (response: TxConfirmationResponse) =>
+  'data' in response &&
+  typeof response.data === 'object' &&
+  response.data !== null &&
+  'error' in response.data;
 
 export const {
   endpoints: { topUpWaitTransactionConfirming },

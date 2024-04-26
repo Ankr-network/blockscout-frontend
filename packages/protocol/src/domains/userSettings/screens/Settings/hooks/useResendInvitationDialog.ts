@@ -5,7 +5,7 @@ import { t } from '@ankr.com/common';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { useResendTeamInvitationMutation } from 'domains/userSettings/actions/teams/resendTeamInvitation';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 
 export const useResendInvitation = (groupAddress: Web3Address) => {
   const [

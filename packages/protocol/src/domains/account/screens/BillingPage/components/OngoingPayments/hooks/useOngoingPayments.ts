@@ -19,8 +19,12 @@ export const useOngoingPayments = () => {
     currency: ECurrency.ANKR,
   });
 
-  const { isOngoingPaymentSuccess, ongoingPaymentStatus } =
-    useOngoingPaymentStatus({ txHash });
+  const {
+    isOngoingPaymentError,
+    isOngoingPaymentPending,
+    isOngoingPaymentSuccess,
+    ongoingPaymentStatus,
+  } = useOngoingPaymentStatus({ txHash });
 
   const shouldShowOngoingPayment = Boolean(txHash);
 
@@ -29,6 +33,8 @@ export const useOngoingPayments = () => {
   return {
     approvedAmountString: approvedAmountString || amountToDepositString,
     approvedUsdAmount,
+    isOngoingPaymentError,
+    isOngoingPaymentPending,
     isSuccessState,
     ongoingPaymentStatus,
     shouldShowOngoingPayment,

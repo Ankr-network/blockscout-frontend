@@ -12,7 +12,7 @@ import {
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { ESettingsContentType } from 'domains/userSettings/types';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 
 interface UseCreateTeamFlowParams {
   onOpenDataTransferDialog: () => void;

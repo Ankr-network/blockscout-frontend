@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { t } from '@ankr.com/common';
 
 import { useUnbindLoginProviderMutation } from 'domains/userSettings/actions/email/unbindLoginProvider';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 
 export const useLoginProvider = () => {

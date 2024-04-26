@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { isMetamaskError } from 'modules/common/utils/isMetamaskError';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useConnectWalletAccountMutation } from 'domains/account/actions/connectWalletAccount';
 
 const { showNotification } = NotificationActions;

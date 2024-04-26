@@ -8,7 +8,7 @@ import { useRenameTeamMutation } from 'domains/userSettings/actions/teams/rename
 import { Dialog } from 'uiKit/Dialog';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { MAX_TEAM_NAME_LENGTH } from 'domains/userSettings/screens/Settings/constants';
 
 import { useRenameTeamDialogStyles } from './useRenameTeamDialogStyles';

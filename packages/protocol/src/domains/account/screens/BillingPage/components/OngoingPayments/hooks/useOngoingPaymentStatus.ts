@@ -31,5 +31,16 @@ export const useOngoingPaymentStatus = ({
   const isOngoingPaymentSuccess =
     ongoingPaymentStatus === EOngoingPaymentStatus.Success;
 
-  return { isOngoingPaymentSuccess, ongoingPaymentStatus };
+  const isOngoingPaymentPending =
+    ongoingPaymentStatus === EOngoingPaymentStatus.Pending;
+
+  const isOngoingPaymentError =
+    ongoingPaymentStatus === EOngoingPaymentStatus.Error;
+
+  return {
+    isOngoingPaymentError,
+    isOngoingPaymentPending,
+    isOngoingPaymentSuccess,
+    ongoingPaymentStatus,
+  };
 };
