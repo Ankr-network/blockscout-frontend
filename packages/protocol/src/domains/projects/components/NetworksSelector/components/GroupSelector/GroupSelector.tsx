@@ -1,4 +1,6 @@
 import { Checkbox } from 'domains/projects/components/Checkbox';
+import { FLARE_TESTNETS_GROUPS_LIST } from 'modules/endpoints/types';
+import { FLARE_TESTNETS } from 'modules/chains/types';
 
 import {
   UseGroupSelectorParams,
@@ -11,13 +13,19 @@ export const GroupSelector = (props: GroupSelectorProps) => {
   const { isSelected, onChange } = useGroupSelector(props);
 
   const {
-    group: { name },
+    group: { chainName, name, id },
   } = props;
+
+  const isFlareTestnet =
+    FLARE_TESTNETS_GROUPS_LIST.includes(id) ||
+    // it's shity hack because of unexpected flare testnets dependencies and grouping
+    // @ts-ignore
+    FLARE_TESTNETS.includes(id);
 
   return (
     <Checkbox
       isChecked={isSelected}
-      label={name}
+      label={isFlareTestnet ? chainName : name}
       onChange={onChange}
       hasTreeView
     />

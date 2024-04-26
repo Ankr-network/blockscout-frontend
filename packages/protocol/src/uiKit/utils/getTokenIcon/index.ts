@@ -50,6 +50,7 @@ import okxX1Icon from './icons/okx.svg';
 import okxX1IconDark from './darkModeIcons/okx.svg';
 import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
+import availIcon from './icons/avail.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -84,6 +85,7 @@ import scrollIconDark from './darkModeIcons/scroll.svg';
 import coreIconDark from './darkModeIcons/core.svg';
 import seiIconDark from './darkModeIcons/sei.svg';
 import klaytnIconDark from './darkModeIcons/klaytn.svg';
+import availIconDark from './darkModeIcons/avail.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -102,11 +104,30 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVALANCHE_P]: avaxIcon,
   [ChainID.AVALANCHE_X]: avaxIcon,
 
+  [ChainID.AVAIL]: availIcon,
+  [ChainID.AVAIL_GOLDBERG_TESTNET]: availIcon,
+  [ChainID.AVAIL_TURING_TESTNET]: availIcon,
+
   [ChainID.FLARE]: flareIcon,
   [ChainID.FLARE_C]: flareIcon,
   [ChainID.FLARE_EVM]: flareIcon,
   [ChainID.FLARE_P]: flareIcon,
   [ChainID.FLARE_X]: flareIcon,
+  [ChainID.FLARE_COSTON]: flareIcon,
+  [ChainID.FLARE_COSTON_EVM]: flareIcon,
+  [ChainID.FLARE_COSTON_C]: flareIcon,
+  [ChainID.FLARE_COSTON_P]: flareIcon,
+  [ChainID.FLARE_COSTON_X]: flareIcon,
+  [ChainID.FLARE_COSTON2]: flareIcon,
+  [ChainID.FLARE_COSTON2_EVM]: flareIcon,
+  [ChainID.FLARE_COSTON2_C]: flareIcon,
+  [ChainID.FLARE_COSTON2_P]: flareIcon,
+  [ChainID.FLARE_COSTON2_X]: flareIcon,
+  [ChainID.FLARE_SONGBIRD]: flareIcon,
+  [ChainID.FLARE_SONGBIRD_EVM]: flareIcon,
+  [ChainID.FLARE_SONGBIRD_C]: flareIcon,
+  [ChainID.FLARE_SONGBIRD_P]: flareIcon,
+  [ChainID.FLARE_SONGBIRD_X]: flareIcon,
 
   [ChainID.BSC]: bscIcon,
   [ChainID.BSC_TESTNET_CHAPEL]: bscIcon,
@@ -335,6 +356,9 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SEI_COSMOS_GRPC_TESTNET]: seiIconDark,
   [ChainID.KLAYTN]: klaytnIconDark,
   [ChainID.KLAYTN_TESTNET]: klaytnIconDark,
+  [ChainID.AVAIL]: availIconDark,
+  [ChainID.AVAIL_GOLDBERG_TESTNET]: availIconDark,
+  [ChainID.AVAIL_TURING_TESTNET]: availIconDark,
 };
 
 const chainNameIcons: Record<string, string> = {

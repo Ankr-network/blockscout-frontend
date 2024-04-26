@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainType } from 'modules/chains/types';
+import { Chain, ChainID, ChainType } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import {
   ProjectChainType,
@@ -20,7 +20,11 @@ import {
 } from './hooks/useAllChainsSelection';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 
-const mapEndpoints = (endpoints: EndpointGroup[]) => {
+const mapEndpoints = (
+  endpoints: EndpointGroup[],
+  chainId: ChainID,
+  chainType: ChainType,
+) => {
   // JSON-RPC and REST Tendermint subchains have the same path,
   // so should we ignore JSON-RPC endpoints and show REST
   const filteredEndpoints = endpoints.filter(
@@ -29,9 +33,12 @@ const mapEndpoints = (endpoints: EndpointGroup[]) => {
       endpoint.id !== ChainGroupID.KAVA_TENDERMINT_RPC,
   );
 
+  const isFlareTestnet =
+    chainId === ChainID.FLARE && chainType === ChainType.Testnet;
+
   return filteredEndpoints.map(endpoint => ({
     ...endpoint,
-    label: endpoint.name,
+    label: isFlareTestnet ? endpoint.chainName : endpoint.name,
     chainId: endpoint.chains[0].id,
   }));
 };
@@ -42,6 +49,7 @@ const mapChainToNestedItem = ({ id, name }: Chain) => ({
 });
 
 export const TypeSelector = ({
+  chainId,
   chainTypes,
   endpoints,
   beaconsMainnet,
@@ -52,6 +60,7 @@ export const TypeSelector = ({
   const { classes } = useTypeSelectorStyles();
 
   const { onChange, isChecked, isIndeterminate } = useAllChainsSelection({
+    chainId,
     endpoints,
   });
 
@@ -77,9 +86,14 @@ export const TypeSelector = ({
       />
 
       {chainTypes.map(({ value, label }) => {
-        const currentTypeEndpoints = endpoints[value as ChainType];
+        const chainType = value as ChainType;
+        const currentTypeEndpoints = endpoints[chainType];
 
-        const nestedItems = mapEndpoints(currentTypeEndpoints);
+        const nestedItems = mapEndpoints(
+          currentTypeEndpoints,
+          chainId,
+          chainType,
+        );
 
         return (
           <IndeterminateCheckbox

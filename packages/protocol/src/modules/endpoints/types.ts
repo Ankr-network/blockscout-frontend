@@ -45,9 +45,20 @@ export enum ChainGroupID {
   AMOY = 'amoy',
   CARDONA = 'cardona',
   POLYGON_TESTNET = 'testnet',
+  FLARE_COSTON = 'flare-coston',
+  FLARE_COSTON2 = 'flare-coston2',
+  FLARE_SONGBIRD = 'flare-songbird',
+  GOLDBERG = 'goldberg',
+  TURING = 'turing',
 
   FALLBACK = 'FALLBACK',
 }
+
+export const FLARE_TESTNETS_GROUPS_LIST = [
+  ChainGroupID.FLARE_COSTON,
+  ChainGroupID.FLARE_COSTON2,
+  ChainGroupID.FLARE_SONGBIRD,
+];
 
 export const nonEvmGroupsList = [
   ChainGroupID.C_CHAIN,

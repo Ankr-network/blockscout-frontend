@@ -62,6 +62,7 @@ export const ChainSelectList = ({
 
       <div className={classes.selectors}>
         <TypeSelector
+          chainId={chainId}
           chainTypes={chainTypes}
           endpoints={endpoints}
           beaconsMainnet={beaconsMainnet}
