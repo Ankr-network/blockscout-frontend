@@ -50,7 +50,7 @@ export const ChargingModelWidget = ({
 
   const isMobile = useIsXSDown();
 
-  const { shouldShowFreemium } = useFreemiumChargingModel();
+  const { shouldShowFreemium } = useFreemiumChargingModel(currentChargingModel);
 
   const renderBalance = useCallback(
     (chargingModel: IChargingModelData) => {
@@ -123,6 +123,7 @@ export const ChargingModelWidget = ({
         <Header
           className={classes.header}
           currentChargingModelType={currentChargingModel.type}
+          currentChargingModel={currentChargingModel}
         >
           {!isMobile && assetsBtn}
         </Header>

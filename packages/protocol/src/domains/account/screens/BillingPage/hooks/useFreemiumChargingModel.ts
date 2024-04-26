@@ -2,8 +2,11 @@ import { useAppSelector } from 'store/useAppSelector';
 import { selectHasFreemium } from 'domains/auth/store';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { IChargingModelData } from 'modules/billing/types';
 
-export const useFreemiumChargingModel = () => {
+export const useFreemiumChargingModel = (
+  currentChargingModel: IChargingModelData,
+) => {
   const isFreePremium = useAppSelector(selectHasFreemium);
   const hasAccountStatusAccess = useGuardUserGroup({
     blockName: BlockWithPermission.AccountStatus,
@@ -12,7 +15,10 @@ export const useFreemiumChargingModel = () => {
     blockName: BlockWithPermission.Billing,
   });
   const shouldShowFreemium =
-    isFreePremium && hasAccountStatusAccess && hasBillingAccess;
+    isFreePremium &&
+    hasAccountStatusAccess &&
+    hasBillingAccess &&
+    currentChargingModel?.balance?.balanceInRequests === 0;
 
   return { shouldShowFreemium };
 };
