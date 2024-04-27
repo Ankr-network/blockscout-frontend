@@ -9,14 +9,13 @@ import {
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { usePaymentForm as usePaymentFromBase } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const usePaymentForm = () => {
   const { address: authAddress } = useAuth();
 
   const { connectedAddress } = useConnectedAddress();
 
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const txAddress = connectedAddress || authAddress;
 
   const dispatch = useDispatch();
 
@@ -32,26 +31,10 @@ export const usePaymentForm = () => {
   );
 
   const onCryptoPaymentFlowClose = useCallback(() => {
-    if (selectedGroupAddress) {
-      dispatch(
-        setIsProcessing({
-          address: selectedGroupAddress,
-          isProcessing: false,
-        }),
-      );
-
-      return;
+    if (txAddress) {
+      dispatch(setIsProcessing({ address: txAddress, isProcessing: false }));
     }
-
-    if (connectedAddress) {
-      dispatch(
-        setIsProcessing({
-          address: connectedAddress,
-          isProcessing: false,
-        }),
-      );
-    }
-  }, [connectedAddress, dispatch, selectedGroupAddress]);
+  }, [dispatch, txAddress]);
 
   const paymentFormProps = usePaymentFromBase({
     onConnectAccount,

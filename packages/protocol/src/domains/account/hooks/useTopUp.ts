@@ -40,7 +40,7 @@ export const useTopUp = () => {
   const { connectedAddress } = useConnectedAddress();
   const { selectedGroupAddress } = useSelectedUserGroup();
 
-  const address = selectedGroupAddress ?? connectedAddress ?? personalAddress;
+  const address = connectedAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
 

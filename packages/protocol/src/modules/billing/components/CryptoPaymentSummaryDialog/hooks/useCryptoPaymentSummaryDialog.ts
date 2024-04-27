@@ -15,7 +15,6 @@ import { useConnectAccountHandler } from 'modules/billing/hooks/useConnectAccoun
 import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
 import { ICryptoPaymentSummaryDialogCommonProps } from '../types';
@@ -90,10 +89,8 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onCancelButtonClick = onClose;
 
-  const { selectedGroupAddress } = useSelectedUserGroup();
-
   const onConfirmButtonClick = useCallback(() => {
-    const address = selectedGroupAddress || connectedAddress || personalAddress;
+    const address = connectedAddress || personalAddress;
     const amountToDeposit = new BigNumber(amount);
 
     dispatch(setAmountToDeposit({ address, amountToDeposit }));
@@ -110,7 +107,6 @@ export const useCryptoPaymentSummaryDialog = ({
     handleConfirmButtonClick,
     onClose,
     personalAddress,
-    selectedGroupAddress,
   ]);
 
   const cryptoPaymentSummaryDialogProps =
