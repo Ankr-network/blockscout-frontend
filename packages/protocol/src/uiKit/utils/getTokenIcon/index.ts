@@ -73,6 +73,7 @@ import berachainIcon from './icons/berachain.svg';
 import seiIcon from './icons/sei.svg';
 import xdcIcon from './icons/xdc.svg';
 import b2Icon from './icons/b2.svg';
+import xaiIcon from './icons/xai.svg';
 import xdcIconDark from './darkModeIcons/xdc.svg';
 import lineaIcon from './icons/linea.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
@@ -265,6 +266,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI]: suiIcon,
   [ChainID.SUI_TESTNET]: suiIcon,
 
+  [ChainID.XAI]: xaiIcon,
   [ChainID.XDC]: xdcIcon,
   [ChainID.XDC_TESTNET]: xdcIcon,
 
