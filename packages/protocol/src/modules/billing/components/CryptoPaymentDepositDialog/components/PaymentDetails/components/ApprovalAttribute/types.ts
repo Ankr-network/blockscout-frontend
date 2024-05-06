@@ -1,7 +1,8 @@
+import { EBlockchain } from 'multirpc-sdk';
+
 import {
   ECryptoDepositStepStatus,
   ECurrency,
-  ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
 
@@ -10,7 +11,7 @@ export interface ICommonApprovalAttributeProps {
   approvedAmount?: number;
   currency: ECurrency;
   error?: string;
-  network: ENetwork;
+  network: EBlockchain;
   status?: ECryptoDepositStepStatus;
 }
 

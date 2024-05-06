@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
 
-import { PrefixedHex } from '../common';
+import { PrefixedHex, Web3Address } from '../common';
 
-export interface IPAYGContractManagerConfig {
+export interface IAnkrPAYGContractManagerConfig {
   payAsYouGoAnkrTokenContractAddress: PrefixedHex;
   payAsYouGoContractAddress: PrefixedHex;
   payAsYouGoContractCreationBlockNumber: number;
@@ -16,9 +16,23 @@ export interface SendDepositTransactionForUserParams {
   expiresAfter: string;
 }
 
+export interface SendDepositTokenTransactionForUserParams {
+  tokenAddress: Web3Address;
+  depositValue: BigNumber;
+  targetAddress: string;
+}
+
 export interface DepositAnkrForUserParams {
   depositValue: BigNumber;
   publicKey: string;
   targetAddress: string;
   expiresAfter?: string;
+}
+
+export interface DepositTokenForUserParams {
+  depositValue: BigNumber;
+  targetAddress: string;
+  tokenAddress: Web3Address;
+  tokenDecimals: number;
+  depositContractAddress: Web3Address;
 }

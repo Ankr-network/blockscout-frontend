@@ -2,8 +2,8 @@ import { UserGroup, GroupUserRole, IApiUserGroup } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RequestType, web3Api } from 'store/queries';
-import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
 import { PERSONAL_GROUP_NAME } from '../constants/groups';
 
@@ -16,12 +16,10 @@ const getPersonalUserGroup = (groupAddress: string): UserGroup => {
   };
 };
 
-const getAddress = (state: RootState) => {
-  const authData = selectAuthData(state);
+const getAuthAddress = (state: RootState) => {
+  const { authAddress = '' } = selectAuthData(state);
 
-  const { address } = authData;
-
-  return address as string;
+  return authAddress;
 };
 
 const mapUserGroup = (userGroup: IApiUserGroup, index: number): UserGroup => {
@@ -68,7 +66,7 @@ export const {
 
         const { groups } = await service.getAccountingGateway().getUserGroups();
 
-        const personalUserAddress = getAddress(getState() as RootState);
+        const personalUserAddress = getAuthAddress(getState() as RootState);
         const personalUserGroup = getPersonalUserGroup(personalUserAddress);
 
         if (groups.length === 0) {

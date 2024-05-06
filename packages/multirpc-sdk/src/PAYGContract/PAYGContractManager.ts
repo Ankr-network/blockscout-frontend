@@ -1,18 +1,24 @@
 import BigNumber from 'bignumber.js';
-import { Web3KeyWriteProvider, IWeb3SendResult, Web3KeyReadProvider } from '@ankr.com/provider';
+import {
+  Web3KeyWriteProvider,
+  IWeb3SendResult,
+  Web3KeyReadProvider,
+} from '@ankr.com/provider';
 import { Contract } from 'web3-eth-contract';
 
 import { base64ToPrefixedHex } from '../common';
-import { DepositAnkrForUserParams, IPAYGContractManagerConfig, SendDepositTransactionForUserParams } from './types';
+import {
+  DepositAnkrForUserParams,
+  IAnkrPAYGContractManagerConfig,
+  SendDepositTransactionForUserParams,
+} from './types';
 import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGo } from './abi/IPayAsYouGo';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { PAYGReadContractManager } from './PAYGReadContractManager';
-import { formatFromWei, roundDecimals } from '../utils/roundDecimals';
-
-const GAS_LIMIT = '200000';
-const DEPOSIT_EXPIRATION = '31536000';
+import { formatFromWei, roundDecimals } from '../utils';
+import { DEPOSIT_EXPIRATION, GAS_LIMIT } from './const';
 
 export const DEPOSIT_ERROR =
   'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
@@ -25,7 +31,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
   constructor(
     protected readonly keyWriteProvider: Web3KeyWriteProvider,
     protected readonly keyReadProvider: Web3KeyReadProvider,
-    protected readonly config: IPAYGContractManagerConfig,
+    protected readonly config: IAnkrPAYGContractManagerConfig,
   ) {
     super(keyReadProvider, config);
 
@@ -77,7 +83,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
         allowanceValue.toString(10),
       )
       .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
-    
+
     const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();
 
     const feeWei = gasPrice.multipliedBy(gasAmount);
@@ -212,7 +218,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
         depositValue.toString(10),
       )
       .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
-    
+
     const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();
 
     const feeWei = gasPrice.multipliedBy(gasAmount);

@@ -2,17 +2,18 @@ import { IJwtToken, OauthLoginProvider, WorkerTokenData } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
+import { addSignedWorkerTokenToService } from 'domains/auth/actions/utils/addSignedWorkerTokenToService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
 
 export interface OauthAutoLoginResult {
-  address?: string;
+  authAddress?: string;
   authorizationToken?: string;
   credentials?: IJwtToken;
   email?: string;
-  workerTokenData?: WorkerTokenData;
   oauthProviders?: OauthLoginProvider[];
+  workerTokenData?: WorkerTokenData;
 }
 
 export const {
@@ -22,14 +23,16 @@ export const {
   endpoints: build => ({
     oauthAutoLogin: build.query<OauthAutoLoginResult, void>({
       queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+        const state = getState() as RootState;
+
         const {
-          credentials,
+          authAddress,
           authorizationToken,
-          workerTokenData,
-          address,
+          credentials,
           email,
           oauthProviders,
-        } = selectAuthData(getState() as RootState);
+          workerTokenData,
+        } = selectAuthData(state);
 
         const service = MultiService.getService();
         const web3ReadService = await MultiService.getWeb3ReadService();
@@ -37,18 +40,18 @@ export const {
         web3ReadService.getAccountingGateway().addToken(authorizationToken!);
         service.getEnterpriseGateway().addToken(authorizationToken!);
 
-        if (workerTokenData?.signedToken) {
-          service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);
-        }
+        const signedWorkerToken = workerTokenData?.signedToken;
+
+        addSignedWorkerTokenToService({ service, signedWorkerToken });
 
         return {
           data: {
-            credentials,
+            authAddress,
             authorizationToken,
-            workerTokenData,
+            credentials,
             email,
-            address,
             oauthProviders,
+            workerTokenData,
           },
         };
       }),

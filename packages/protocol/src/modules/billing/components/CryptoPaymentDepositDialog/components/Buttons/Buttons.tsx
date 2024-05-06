@@ -6,27 +6,46 @@ import {
 import { ConfirmButton } from '../ConfirmButton';
 import { DiscardButton } from '../DiscardButton';
 import { useButtonsStyles } from './useButtonsStyles';
+import { RevokeApprovalButtons } from '../RevokeApprovalButtons';
 
 export interface IButtonsProps {
   activeStep: ECryptoDepositStep;
   isPending: boolean;
+  isRevokeApprovalLoading: boolean;
   onConfirmButtonClick: () => void;
   onDiscardButtonClick: () => void;
+  onCheckApproval: () => void;
   status: ECryptoDepositStepStatus;
+  isWrongNetwork: boolean;
+  shouldRevokeApproval: boolean;
 }
 
 export const Buttons = ({
   activeStep,
   isPending,
+  isRevokeApprovalLoading,
   onConfirmButtonClick,
   onDiscardButtonClick,
+  onCheckApproval,
   status,
+  isWrongNetwork,
+  shouldRevokeApproval,
 }: IButtonsProps) => {
   const isDepositStep = activeStep === ECryptoDepositStep.Deposit;
   const hasError = status === ECryptoDepositStepStatus.Error;
   const hasDiscardButton = isDepositStep && hasError;
 
   const { classes } = useButtonsStyles();
+
+  if (shouldRevokeApproval) {
+    return (
+      <RevokeApprovalButtons
+        isLoading={isRevokeApprovalLoading}
+        onCheckApproval={onCheckApproval}
+        onDiscardButtonClick={onDiscardButtonClick}
+      />
+    );
+  }
 
   return (
     <div className={classes.root}>
@@ -35,6 +54,7 @@ export const Buttons = ({
         isPending={isPending}
         onClick={onConfirmButtonClick}
         status={status}
+        isWrongNetwork={isWrongNetwork}
       />
       {hasDiscardButton && <DiscardButton onClick={onDiscardButtonClick} />}
     </div>

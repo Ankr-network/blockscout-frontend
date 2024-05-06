@@ -1,20 +1,31 @@
 import { Button } from '@mui/material';
+import { EBlockchain } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import {
   CryptoPaymentSuccessDialog,
   useCryptoPaymentSuccessDialog,
 } from 'modules/billing/components/CryptoPaymentSuccessDialog';
-import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
+import { ECurrency, EPaymentType } from 'modules/billing/types';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import { useDetailsButtonStyles } from './useDetailsButtonStyles';
 
 export interface IDetailsButtonProps {
   amount: string;
+  network: EBlockchain;
   txHash: string;
+  onCloseButtonClick?: () => void;
 }
 
-export const DetailsButton = ({ amount, txHash }: IDetailsButtonProps) => {
+export const DetailsButton = ({
+  amount,
+  network,
+  txHash,
+  onCloseButtonClick,
+}: IDetailsButtonProps) => {
+  const { handleCreateWeb3Service: onOpen } = useWeb3Service();
+
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
@@ -22,7 +33,9 @@ export const DetailsButton = ({ amount, txHash }: IDetailsButtonProps) => {
     amount: Number(amount),
     currency: ECurrency.ANKR,
     depositTxHash: txHash,
-    network: ENetwork.ETH,
+    network,
+    onCloseButtonClick,
+    onOpen,
     paymentType: EPaymentType.OneTime,
   });
 

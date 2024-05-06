@@ -1,7 +1,8 @@
+import { EBlockchain } from 'multirpc-sdk';
+
 import {
   ECryptoDepositStepStatus,
   ECurrency,
-  ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
 import { SeparatedList } from 'modules/billing/components/SeparatedList';
@@ -15,13 +16,15 @@ export interface IPaymentDetailsProps {
   approvalError?: string;
   approvalFeeDetails?: IFeeDetails;
   approvalStatus?: ECryptoDepositStepStatus;
-  approvedAmount?: number;
   className?: string;
   currency: ECurrency;
   depositError?: string;
   depositFeeDetails: IFeeDetails;
   depositStatus?: ECryptoDepositStepStatus;
-  network: ENetwork;
+  isAllowanceSent: boolean;
+  isMyAllowanceLoading: boolean;
+  myAllowance: number;
+  network: EBlockchain;
 }
 
 export const PaymentDetails = ({
@@ -29,22 +32,26 @@ export const PaymentDetails = ({
   approvalError,
   approvalFeeDetails,
   approvalStatus,
-  approvedAmount,
   className,
   currency,
   depositError,
   depositFeeDetails,
   depositStatus,
+  isAllowanceSent,
+  isMyAllowanceLoading,
+  myAllowance,
   network,
 }: IPaymentDetailsProps) => {
   return (
     <SeparatedList className={className}>
       <ApprovalAttribute
         amount={amount}
-        approvedAmount={approvedAmount}
         currency={currency}
         error={approvalError}
         feeDetails={approvalFeeDetails}
+        isAllowanceSent={isAllowanceSent}
+        isMyAllowanceLoading={isMyAllowanceLoading}
+        myAllowance={myAllowance}
         network={network}
         status={approvalStatus}
       />

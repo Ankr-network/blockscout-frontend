@@ -5,7 +5,6 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
 export const PATH_ACCOUNT = '/account/';
-export const PATH_TOPUP = `${PATH_ACCOUNT}topup/`;
 export const PATH_CARDPAYMENT_SUCCESS = `${PATH_ACCOUNT}success/`;
 export const PATH_CARDPAYMENT_FAILURE = `${PATH_ACCOUNT}failure/`;
 
@@ -15,11 +14,6 @@ export const AccountRoutesConfig = createRouteConfig(
       path: PATH_ACCOUNT,
       generatePath: () => PATH_ACCOUNT,
       breadcrumbs: 'account.account-details.breadcrumbs',
-    },
-    topUp: {
-      path: PATH_TOPUP,
-      generatePath: () => PATH_TOPUP,
-      breadcrumbs: 'account.top-up.breadcrumbs',
     },
     cardPaymentSuccess: {
       path: PATH_CARDPAYMENT_SUCCESS,
@@ -39,13 +33,6 @@ export const AccountRoutesConfig = createRouteConfig(
 const LoadableAccountDetailsContainer: LoadableComponent<any> = loadable(
   async () =>
     import('./screens/BillingPage').then(module => module.BillingPage),
-  {
-    fallback: <OverlaySpinner />,
-  },
-);
-
-const LoadableTopUpContainer: LoadableComponent<any> = loadable(
-  async () => import('./screens/TopUp').then(module => module.TopUp),
   {
     fallback: <OverlaySpinner />,
   },
@@ -78,11 +65,6 @@ export function AccountRoutes() {
         exact
         path={AccountRoutesConfig.accountDetails.path}
         component={LoadableAccountDetailsContainer}
-      />
-      <Route
-        exact
-        path={AccountRoutesConfig.topUp.path}
-        component={LoadableTopUpContainer}
       />
       <Route
         exact

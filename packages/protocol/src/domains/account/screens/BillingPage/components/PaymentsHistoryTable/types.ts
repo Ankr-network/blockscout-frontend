@@ -24,3 +24,10 @@ export interface PaymentHistoryRequestParams extends PaymentHistoryParams {
 }
 
 export type TransactionsDownloader = (timestamp: string) => Promise<void>;
+
+export enum ECurrencySymbol {
+  ankr = 'ANKR',
+  usdt = 'USDT',
+  usdc = 'USDC',
+  usd = '$',
+}

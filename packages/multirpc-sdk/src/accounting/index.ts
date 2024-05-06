@@ -18,3 +18,4 @@ export * from './whitelists';
 export * from './googleOauth';
 export * from './oauth';
 export * from './groups';
+export * from './payments';

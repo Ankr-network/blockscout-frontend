@@ -6,7 +6,14 @@ export const useHeaderStyles = makeStyles()(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  iconsRoot: {
+    width: 48,
+    height: 48,
+    position: 'relative',
+  },
   icon: {
+    width: 48,
+    height: 48,
     marginBottom: theme.spacing(4),
   },
   amount: {

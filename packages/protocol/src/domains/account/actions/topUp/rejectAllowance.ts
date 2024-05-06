@@ -37,9 +37,9 @@ export const {
             );
 
             await dispatch(
-              topUpCheckAllowanceTransaction.initiate(
-                rejectAllowanceTransactionHash,
-              ),
+              topUpCheckAllowanceTransaction.initiate({
+                initialTransactionHash: rejectAllowanceTransactionHash,
+              }),
             );
 
             dispatch(topUpResetTransactionSliceAndRedirect.initiate());

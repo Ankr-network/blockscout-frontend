@@ -1,11 +1,8 @@
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { Alert } from 'modules/billing/components/CryptoPaymentDepositDialog/components/PaymentDetails/components/Alert';
-import {
-  ECryptoDepositStepStatus,
-  ECurrency,
-  ENetwork,
-} from 'modules/billing/types';
+import { ECryptoDepositStepStatus, ECurrency } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { Label } from 'modules/billing/components/CryptoPaymentDepositDialog/components/PaymentDetails/components/Label';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
@@ -21,7 +18,7 @@ export interface IPartialApprovalAttributeProps {
   error?: string;
   feeCrypto: number;
   feeUSD: number;
-  network: ENetwork;
+  network: EBlockchain;
   status?: ECryptoDepositStepStatus;
 }
 
@@ -52,6 +49,8 @@ export const PartialApprovalAttribute = ({
   const alertProps = useAlertProps({
     amountToDeposit,
     approvedAmount: approvedAmountString,
+    hasEnoughApproval: approvedAmount >= amount,
+    currency,
     error,
     status,
   });

@@ -32,7 +32,7 @@ export const FullApprovalAttribute = ({
     <TxAttribute
       classes={classes}
       label={<Label status={Complete} text={t(labelKey)} />}
-      extraContent={<Alert text={alertText} />}
+      extraContent={<Alert severity="info" text={alertText} />}
     >
       –
     </TxAttribute>

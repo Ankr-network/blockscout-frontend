@@ -9,7 +9,7 @@ import { IDealAmountProps } from '../DealAmount';
 const titleFallbackKey = 'account.payment-form.deal-proposal.title';
 
 export const useDealAmount = (): IDealAmountProps => {
-  const { deal500: deal500Plan, loading: isLoading } = useBundlePaymentPlans({
+  const { deal500: deal500Plan, isLoadingInitially } = useBundlePaymentPlans({
     skipFetching: true,
   });
 
@@ -29,5 +29,5 @@ export const useDealAmount = (): IDealAmountProps => {
     return undefined;
   }, [deal500Plan]);
 
-  return { amount, isLoading, title };
+  return { amount, isLoading: isLoadingInitially, title };
 };

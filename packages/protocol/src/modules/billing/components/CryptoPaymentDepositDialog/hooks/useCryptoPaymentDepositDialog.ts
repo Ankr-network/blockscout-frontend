@@ -1,159 +1,158 @@
 import { useMemo } from 'react';
+import { EBlockchain } from 'multirpc-sdk';
 
 import {
   ECryptoDepositStep,
   ECryptoDepositStepStatus,
   ECurrency,
-  ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectMyAllowanceLoading } from 'domains/account/store/selectors';
 
 import { ICryptoPaymentDepositDialogProps } from '../types';
+import { getCompletedStep } from '../utils/getCompletedStep';
+import { getErroredStep } from '../utils/getErroredStep';
+import { getStatus } from '../utils/getStatus';
+import { isPending } from '../utils/isPending';
+import { useCryptoPaymentDepositDialogProps } from './useCryptoPaymentDepositDialogProps';
+import { useConfirmButtonClickHandler } from './useConfirmButtonClickHandler';
 
-interface IUseCryptoPaymentDepositDialogProps {
+export interface IUseCryptoPaymentDepositDialogProps {
   amount: number;
   amountUsd: number;
   approvalFeeDetails: IFeeDetails;
-  approvedAmount: number;
+  approvalStatus: ECryptoDepositStepStatus;
   currency: ECurrency;
-  currentApprovalStatus: ECryptoDepositStepStatus;
-  currentDepositStatus?: ECryptoDepositStepStatus;
-  currentStep: ECryptoDepositStep;
-  depositErrorMessage?: string;
+  depositError?: string;
   depositFeeDetails: IFeeDetails;
+  network: EBlockchain;
+  depositStatus?: ECryptoDepositStepStatus;
   handleCryptoPaymentDepositDialogOpen: () => void;
   handleRejectAllowance: () => void;
+  handleSendAllowance: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   onDeposit: () => void;
-  onGetAllowance: (isRetry?: boolean) => void;
-  sendAllowanceErrorMessage?: string;
+  sendAllowanceError?: string;
+  step: ECryptoDepositStep;
 }
 
 export const useCryptoPaymentDepositDialog = ({
   amount,
   amountUsd,
   approvalFeeDetails,
-  approvedAmount,
+  approvalStatus,
   currency,
-  currentApprovalStatus,
-  currentDepositStatus,
-  currentStep,
-  depositErrorMessage,
+  depositError,
   depositFeeDetails,
+  network,
+  depositStatus,
   handleCryptoPaymentDepositDialogOpen,
   handleRejectAllowance,
+  handleSendAllowance,
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
   onDeposit,
-  onGetAllowance,
-  sendAllowanceErrorMessage,
+  sendAllowanceError: approvalError,
+  step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
-  const isAllowanceLoading = useAppSelector(selectMyAllowanceLoading);
-
-  return useMemo(() => {
-    const approvalError = sendAllowanceErrorMessage;
-
-    const getPendingStatus = () => {
-      if (currentStep === ECryptoDepositStep.Approval) {
-        return (
-          isAllowanceLoading ||
-          currentApprovalStatus === ECryptoDepositStepStatus.Pending
-        );
-      }
-
-      return currentDepositStatus === ECryptoDepositStepStatus.Pending;
-    };
-
-    const getStatus = () => {
-      if (currentStep === ECryptoDepositStep.Approval) {
-        return currentApprovalStatus;
-      }
-
-      if (!currentDepositStatus) {
-        return currentApprovalStatus;
-      }
-
-      return currentDepositStatus;
-    };
-
-    const getCompletedStep = () => {
-      if (
-        currentStep === ECryptoDepositStep.Deposit &&
-        currentApprovalStatus === ECryptoDepositStepStatus.Complete
-      ) {
-        return ECryptoDepositStep.Approval;
-      }
-
-      return undefined;
-    };
-
-    const getErroredStep = () => {
-      if (currentApprovalStatus === ECryptoDepositStepStatus.Error) {
-        return ECryptoDepositStep.Approval;
-      }
-
-      return undefined;
-    };
-
-    const onConfirmButtonClick = () => {
-      if (currentApprovalStatus === ECryptoDepositStepStatus.Confirmation) {
-        return onGetAllowance();
-      }
-
-      if (approvalError) {
-        return onGetAllowance(true);
-      }
-
-      return onDeposit();
-    };
-
-    return {
-      amount,
-      amountUsd,
-      currency,
-      network: ENetwork.ETH,
-
-      approvedAmount,
-      approvalFeeDetails,
-      approvalStatus: currentApprovalStatus,
-      approvalError: approvalError as string,
-      depositFeeDetails,
-      depositStatus: currentDepositStatus,
-      depositError: depositErrorMessage as string,
-
-      activeStep: currentStep,
-      isPending: getPendingStatus(),
-      onConfirmButtonClick,
-      onDiscardButtonClick: handleRejectAllowance,
-      status: getStatus(),
-      completedStep: getCompletedStep(),
-      erroredStep: getErroredStep(),
-
-      open: isCryptoPaymentDepositDialogOpened,
-      onClose: onCryptoPaymentDepositDialogClose,
-      onOpen: handleCryptoPaymentDepositDialogOpen,
-    };
-  }, [
-    amount,
-    amountUsd,
-    approvalFeeDetails,
-    approvedAmount,
+  const {
+    myAllowance,
+    isMyAllowanceLoading,
+    isWrongNetwork,
+    shouldRevokeApproval,
+    handleSwitchNetwork,
+    isSwitchNetworkLoading,
+    isAllowanceSent,
+    isOngoingPaymentError,
+    amountToDeposit,
+    transactionCurrency,
+    hasOngoingTransaction,
+    onClose,
+    onCheckApproval,
+  } = useCryptoPaymentDepositDialogProps({
     currency,
-    currentApprovalStatus,
-    currentDepositStatus,
-    currentStep,
-    depositErrorMessage,
-    depositFeeDetails,
-    handleCryptoPaymentDepositDialogOpen,
-    handleRejectAllowance,
-    isAllowanceLoading,
+    network,
+    depositStatus,
     isCryptoPaymentDepositDialogOpened,
     onCryptoPaymentDepositDialogClose,
-    onDeposit,
-    onGetAllowance,
-    sendAllowanceErrorMessage,
-  ]);
+  });
+
+  const { onConfirmButtonClick } = useConfirmButtonClickHandler({
+    approvalError,
+    approvalStatus,
+    network,
+    isWrongNetwork,
+    handleSwitchNetwork,
+    handleDeposit: onDeposit,
+    handleSendAllowance,
+  });
+
+  return useMemo<ICryptoPaymentDepositDialogProps>(
+    () => ({
+      activeStep: step,
+      amount,
+      amountToDeposit,
+      amountUsd,
+      network,
+      isWrongNetwork,
+      shouldRevokeApproval,
+      approvalError,
+      approvalFeeDetails,
+      approvalStatus,
+      completedStep: getCompletedStep({ approvalStatus, step }),
+      currency: transactionCurrency || currency,
+      depositError,
+      depositFeeDetails,
+      depositStatus,
+      erroredStep: getErroredStep({ approvalStatus }),
+      hasMinimizeIcon: hasOngoingTransaction && !isOngoingPaymentError,
+      isAllowanceSent,
+      isMyAllowanceLoading,
+      isPending: isPending({
+        isSwitchNetworkLoading,
+        approvalStatus,
+        depositStatus,
+        isMyAllowanceLoading,
+        step,
+      }),
+      isRevokeApprovalLoading: isMyAllowanceLoading,
+      myAllowance,
+      onClose,
+      onConfirmButtonClick,
+      onDiscardButtonClick: handleRejectAllowance,
+      onCheckApproval,
+      onOpen: handleCryptoPaymentDepositDialogOpen,
+      open: isCryptoPaymentDepositDialogOpened,
+      status: getStatus({ approvalStatus, depositStatus, step }),
+    }),
+    [
+      amount,
+      amountToDeposit,
+      amountUsd,
+      approvalError,
+      approvalFeeDetails,
+      approvalStatus,
+      currency,
+      depositError,
+      depositFeeDetails,
+      depositStatus,
+      handleCryptoPaymentDepositDialogOpen,
+      handleRejectAllowance,
+      hasOngoingTransaction,
+      isAllowanceSent,
+      isCryptoPaymentDepositDialogOpened,
+      isMyAllowanceLoading,
+      isOngoingPaymentError,
+      myAllowance,
+      onClose,
+      onConfirmButtonClick,
+      onCheckApproval,
+      step,
+      transactionCurrency,
+      isSwitchNetworkLoading,
+      isWrongNetwork,
+      network,
+      shouldRevokeApproval,
+    ],
+  );
 };

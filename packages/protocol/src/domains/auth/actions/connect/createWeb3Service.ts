@@ -1,9 +1,9 @@
 import { INJECTED_WALLET_ID, MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+import { resetAuthData } from 'domains/auth/store/authSlice';
 
 import { AuthConnectParams } from './types';
-import { resetAuthData } from '../../store/authSlice';
 import { switchChain } from './connectUtils';
 
 export const {
@@ -14,7 +14,6 @@ export const {
       queryFn: createNotifyingQueryFn(
         async ({ params: { walletId } }, { dispatch }) => {
           await MultiService.createWeb3Service(walletId);
-
           if (walletId === INJECTED_WALLET_ID) {
             try {
               await switchChain();

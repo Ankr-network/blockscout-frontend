@@ -10,6 +10,8 @@ export const isMainnet = currentEnv === Env.Production;
 
 export const ZERO = new BigNumber(0);
 
+export const DEFAULT_TOKEN_DECIMALS = 18;
+
 export enum MilliSeconds {
   Second = 1000,
   Minute = Second * 60,
@@ -44,3 +46,5 @@ export const ACTION_TEN_MINUTES_CACHE = 6000;
 
 export const CHARGING_MODEL_DEAL_DOCS_LINK =
   'https://www.ankr.com/docs/rpc-service/service-plans/#deal';
+
+export const INTEGER_REGEX = /[^0-9]/;

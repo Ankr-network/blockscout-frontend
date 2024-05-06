@@ -1,26 +1,30 @@
-import { Web3Address } from 'multirpc-sdk';
-import { useCallback, useState } from 'react';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
+import { useState } from 'react';
 
-import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
+import { ECurrency, EPaymentType } from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
-import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
-import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
+import { INetworkSelectOption } from '../../NetworkSelect';
+import { IOneTimeAmountProps } from '../components/OneTimeAmount';
 import { useAccountsChangedHandlingOnSummaryStep } from './useAccountsChangedHandlingOnSummaryStep';
 import { useCryptoDepositStep } from './useCryptoDepositStep';
+import { useCryptoPaymentPayButtonHandler } from './useCryptoPaymentPayButtonHandler';
 import { useCryptoPaymentSuccessDialog } from '../../CryptoPaymentSuccessDialog';
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
-import { useEstimatedANKRAllowanceFeeDetails } from './useEstimatedANKRAllowanceFeeDetails';
-import { useEstimatedANKRDepositFeeDetails } from './useEstimatedANKRDepositFeeDetails';
-import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
+import { useOneTimeCryptoFees } from './useOneTimeCryptoFees';
 import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 
 export interface IUseOneTimeCryptoPaymentProps {
   amount: number;
   currency: ECurrency;
+  network: EBlockchain;
+  networkOptions: INetworkSelectOption[];
+  oneTimeAmountProps: IOneTimeAmountProps;
+  handleNetworkChange: (network: EBlockchain) => void;
   onConnectAccount: (connectedAddress: Web3Address) => void;
   onCryptoPaymentFlowClose: () => void;
 }
@@ -28,26 +32,36 @@ export interface IUseOneTimeCryptoPaymentProps {
 export const useOneTimeCryptoPayment = ({
   amount,
   currency,
+  network,
   onConnectAccount: onConnectAccountSuccess,
   onCryptoPaymentFlowClose,
+  networkOptions,
+  oneTimeAmountProps,
+  handleNetworkChange,
 }: IUseOneTimeCryptoPaymentProps) => {
   const [isAccountChangedOnDepositStep, setIsAccountChangedOnDepositStep] =
     useState(false);
 
-  const { hasWeb3Service } = useHasWeb3Service();
-
-  const { hasEnoughTokenBalance, isWalletTokenBalanceLoading } =
-    useHasEnoughTokenBalance({ amount });
+  const { hasWeb3Service } = useWeb3Service();
 
   const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
     skipFetching: !hasWeb3Service,
   });
 
-  const { approvalFeeDetails, isLoading: isAllowanceFeeLoading } =
-    useEstimatedANKRAllowanceFeeDetails({ amount, price });
-
-  const { depositFeeDetails, isLoading: isDepositFeeLoading } =
-    useEstimatedANKRDepositFeeDetails({ amount, price });
+  const {
+    hasEnoughTokenBalance,
+    isWalletTokenBalanceLoading,
+    refetchANKRBalance,
+    approvalFeeDetails,
+    isAllowanceFeeLoading,
+    depositFeeDetails,
+    isDepositFeeLoading,
+  } = useOneTimeCryptoFees({
+    price,
+    network,
+    amount,
+    currency,
+  });
 
   useAccountsChangedHandlingOnSummaryStep();
 
@@ -64,6 +78,8 @@ export const useOneTimeCryptoPayment = ({
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
+  const { handleResetTopUpTransaction } = useTopUp();
+
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
@@ -71,9 +87,10 @@ export const useOneTimeCryptoPayment = ({
     allowanceTxHash,
     amount,
     currency,
+    network,
     depositTxHash: depositTxHash ?? '',
-    network: ENetwork.ETH,
     paymentType: EPaymentType.OneTime,
+    onCloseButtonClick: handleResetTopUpTransaction,
   });
 
   const {
@@ -86,70 +103,57 @@ export const useOneTimeCryptoPayment = ({
     handleCryptoPaymentSummaryDialogOpen,
     cryptoPaymentSummaryDialogProps: cryptoPaymentSummaryProps,
   } = useCryptoPaymentSummaryDialog({
-    amount,
     approvalFeeDetails,
     currency,
     depositFeeDetails,
+    network,
+    amount,
     hasEnoughTokenBalance,
     isAccountChangedOnDepositStep,
     isWalletTokenBalanceLoading,
-    network: ENetwork.ETH,
     onClose: onCryptoPaymentFlowClose,
     onConfirmButtonClick: handleCryptoPaymentDepositDialogOpen,
     onConnectAccountSuccess,
+    onOpen: refetchANKRBalance,
     setIsAccountChangedOnDepositStep,
     totalAmount,
+    networkOptions,
+    oneTimeAmountProps,
+    handleNetworkChange,
   });
 
   const { isLoadingRate, cryptoDepositDialogProps } = useCryptoDepositStep({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
+    network,
+    setIsAccountChangedOnDepositStep,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
     onCryptoPaymentDepositDialogClose,
     onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
-    setIsAccountChangedOnDepositStep,
   });
 
-  const isLoading =
-    isNativeTokenPriceLoading ||
-    isAllowanceFeeLoading ||
-    isDepositFeeLoading ||
-    isLoadingRate ||
-    isTotalAmountLoading ||
-    isWalletTokenBalanceLoading;
-
-  const { transactionStatus } = useOngoingPayments();
-
-  const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
-
-  const handlePayButtonClick = useCallback(() => {
-    if (transactionStatus === 'pending' || transactionStatus === 'error') {
-      return handleCryptoPaymentDepositDialogOpen();
-    }
-
-    if (transactionStatus === 'success') {
-      return handleCryptoPaymentSuccessDialogOpen();
-    }
-
-    fetchAllowance();
-
-    return handleCryptoPaymentSummaryDialogOpen();
-  }, [
-    fetchAllowance,
+  const { handlePayButtonClick } = useCryptoPaymentPayButtonHandler({
+    allowanceTxHash,
+    depositTxHash,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
-    transactionStatus,
-  ]);
+  });
 
   return {
     cryptoPaymentDepositDialogProps: cryptoDepositDialogProps,
     cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryProps,
     handlePayButtonClick,
-    isLoading,
+    isLoading:
+      isNativeTokenPriceLoading ||
+      isAllowanceFeeLoading ||
+      isDepositFeeLoading ||
+      isLoadingRate ||
+      isTotalAmountLoading ||
+      isWalletTokenBalanceLoading,
   };
 };

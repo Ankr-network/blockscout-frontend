@@ -1,43 +1,34 @@
 import { CONFIRMATION_BLOCKS, IApiUserGroupParams } from 'multirpc-sdk';
+import { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 import { TransactionReceipt } from 'web3-core';
 import { t } from '@ankr.com/common';
 
 import { AppDispatch, GetState } from 'store';
+import { Definition } from 'store/queries/types';
 import { MultiService } from 'modules/api/MultiService';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
-import { selectAuthData } from 'domains/auth/store/authSlice';
 import { selectTransaction } from 'domains/account/store/selectors';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { web3Api } from 'store/queries';
 
+import { ETH_BLOCK_TIME } from './const';
 import { fetchBalance } from '../balance/fetchBalance';
 import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { waitForPendingTransaction } from './waitForPendingTransaction';
-import { ETH_BLOCK_TIME } from './const';
 
 export interface WaitTransactionConfirmingResult {
   error?: unknown;
 }
 
-const waitForBlocks = async (
-  getState: GetState,
-  dispatch: AppDispatch,
-  transactionHash: string,
-) => {
+const waitForBlocks = async (txHash: string, dispatch: AppDispatch) => {
   let inProcess = true;
 
   while (inProcess) {
-    const authData = selectAuthData(getState());
-
-    if (!authData?.hasWeb3Connection) {
-      break;
-    }
-
     // eslint-disable-next-line
     const { data } = await dispatch(
-      topUpFetchTransactionConfirmationStatus.initiate(transactionHash),
+      topUpFetchTransactionConfirmationStatus.initiate(txHash),
     );
 
     inProcess = !data?.isReady;
@@ -68,6 +59,18 @@ export const getReceipt = async (
   return { receipt };
 };
 
+type TxConfirmationResponse = Awaited<
+  QueryActionCreatorResult<
+    Definition<IApiUserGroupParams, WaitTransactionConfirmingResult>
+  >
+>;
+
+export const hasTxConfirmationError = (response: TxConfirmationResponse) =>
+  'data' in response &&
+  typeof response.data === 'object' &&
+  response.data !== null &&
+  'error' in response.data;
+
 export const {
   endpoints: { topUpWaitTransactionConfirming },
   useLazyTopUpWaitTransactionConfirmingQuery,
@@ -91,6 +94,7 @@ export const {
         if (!initialTransactionHash) {
           // RTK Query does not allow to reset errors properly, so we have to
           // pass an error inside data object.
+
           return { data: { error: new Error(t('error.failed')) } };
         }
 
@@ -100,11 +104,7 @@ export const {
         );
 
         if (receipt1) {
-          await waitForBlocks(
-            getState as GetState,
-            dispatch,
-            initialTransactionHash,
-          );
+          await waitForBlocks(initialTransactionHash, dispatch);
 
           return { data: {} };
         }
@@ -124,7 +124,7 @@ export const {
         );
 
         if (receipt2) {
-          await waitForBlocks(getState as GetState, dispatch, transactionHash);
+          await waitForBlocks(transactionHash, dispatch);
 
           return { data: {} };
         }
@@ -173,7 +173,7 @@ export const {
           }
         }
 
-        await waitForBlocks(getState as GetState, dispatch, transactionHash);
+        await waitForBlocks(transactionHash, dispatch);
 
         return { data: {} };
       },

@@ -1,69 +1,81 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import {
   ECryptoDepositStep,
   ECryptoDepositStepStatus,
+  ECurrency,
 } from 'modules/billing/types';
-import { fetchMyAllowance } from 'domains/account/actions/fetchMyAllowance';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { fetchMyAllowanceAnkr } from 'domains/account/actions/fetchMyAllowanceAnkr';
+import { fetchMyAllowanceUsdc } from 'domains/account/actions/fetchMyAllowanceUsdc';
+import { fetchMyAllowanceUsdt } from 'domains/account/actions/fetchMyAllowanceUsdt';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 export interface IUseAccountChangedHandlingOnDepositStep {
-  currentDepositStatus?: ECryptoDepositStepStatus;
-  currentStep: ECryptoDepositStep;
+  depositStatus?: ECryptoDepositStepStatus;
   handleCryptoPaymentSummaryDialogOpen: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
+  step: ECryptoDepositStep;
+  currency: ECurrency;
 }
 
 // This hook contains the logic for handling the case when a user switches
 // to another account in wallet during the payment flow.
 // In this case the user should be redirected to the summary step
 export const useAccountChangedHandlingOnDepositStep = ({
-  currentDepositStatus,
-  currentStep,
+  depositStatus,
   handleCryptoPaymentSummaryDialogOpen,
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
   setIsAccountChangedOnDepositStep,
+  step,
+  currency,
 }: IUseAccountChangedHandlingOnDepositStep) => {
-  const [, , resetMyAllowance] = useQueryEndpoint(fetchMyAllowance);
+  const [, , resetMyAllowanceAnkr] = useQueryEndpoint(fetchMyAllowanceAnkr);
+  const [, , resetMyAllowanceUsdt] = useQueryEndpoint(fetchMyAllowanceUsdt);
+  const [, , resetMyAllowanceUsdc] = useQueryEndpoint(fetchMyAllowanceUsdc);
 
-  const onAccountsChanged = useCallback(() => {
-    const isApprovalStep = currentStep === ECryptoDepositStep.Approval;
+  const { walletAddress: connectedAddress } = useWalletAddress();
 
-    const isDepositStep = currentStep === ECryptoDepositStep.Deposit;
+  useEffect(
+    () => {
+      const isApprovalStep = step === ECryptoDepositStep.Approval;
 
-    const isDepositStepPending =
-      currentDepositStatus === ECryptoDepositStepStatus.Pending;
+      const isDepositStep = step === ECryptoDepositStep.Deposit;
 
-    // We should move the user to the summary step if the dialog is opened
-    // and at any approval step status or at any deposit step status except pending
-    const shouldMoveToSummaryStep =
-      isCryptoPaymentDepositDialogOpened &&
-      (isApprovalStep || (isDepositStep && !isDepositStepPending));
+      const isDepositStepPending =
+        depositStatus === ECryptoDepositStepStatus.Pending;
 
-    if (shouldMoveToSummaryStep) {
-      setIsAccountChangedOnDepositStep(true);
+      // We should move the user to the summary step if the dialog is opened
+      // and at any approval step status or at any deposit step status except pending
+      const shouldMoveToSummaryStep =
+        isCryptoPaymentDepositDialogOpened &&
+        (isApprovalStep || (isDepositStep && !isDepositStepPending));
 
-      onCryptoPaymentDepositDialogClose();
+      if (shouldMoveToSummaryStep) {
+        setIsAccountChangedOnDepositStep(true);
 
-      resetMyAllowance();
+        onCryptoPaymentDepositDialogClose();
 
-      handleCryptoPaymentSummaryDialogOpen();
-    } else {
-      setIsAccountChangedOnDepositStep(false);
-    }
-  }, [
-    currentDepositStatus,
-    currentStep,
-    handleCryptoPaymentSummaryDialogOpen,
-    isCryptoPaymentDepositDialogOpened,
-    onCryptoPaymentDepositDialogClose,
-    resetMyAllowance,
-    setIsAccountChangedOnDepositStep,
-  ]);
+        if (currency === ECurrency.USDT) {
+          resetMyAllowanceUsdt();
+        }
 
-  useConnectedAddress({ onAccountsChanged });
+        if (currency === ECurrency.USDC) {
+          resetMyAllowanceUsdc();
+        }
+
+        if (currency === ECurrency.ANKR) {
+          resetMyAllowanceAnkr();
+        }
+
+        handleCryptoPaymentSummaryDialogOpen();
+      }
+    },
+    // We should only track connectedAddress change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [connectedAddress],
+  );
 };

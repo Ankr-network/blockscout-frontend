@@ -21,7 +21,8 @@
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
     "duplicate-url-validation": "This endpoint has already been added",
     "number-only": "Must be a number",
-    "min-greater": "Should be greater than {value}",
+    "integer-only": "Must be an integer",
+    "min-greater": "Should be at least {value}",
     "max": "Should be less than {value}",
     "min": "Should be at least {value}"
   },
@@ -1824,7 +1825,36 @@
     "currencies": {
       "ankr": "ANKR",
       "credit": "Credits",
-      "usd": "USD"
+      "usd": "USD",
+      "eth": "ETH",
+      "ftm": "FTM",
+      "bnb": "BNB",
+      "matic": "MATIC",
+      "op": "OP",
+      "gno": "OP",
+      "avax": "AVAX",
+      "xdai": "xDai",
+      "flr": "FLR",
+      "sys": "SYS",
+      "usdt": "USDT/USDC",
+      "usdc": "USDT/USDC"
+    },
+    "networks": {
+      "label": "Network",
+      "eth": "Ethereum",
+      "fantom": "Fantom",
+      "avalanche": "Avalanche",
+      "bsc": "BSC",
+      "flare": "Flare",
+      "gno": "Gnosis",
+      "polygon": "Polygon",
+      "arbitrum": "Arbitrum",
+      "linea": "Linea",
+      "optimism": "Optimism",
+      "rollux": "Rollux",
+      "scroll": "Scroll",
+      "syscoin": "Syscoin",
+      "base": "Base"
     },
     "amounts": {
       "crypto": "{amount, number} {currency}",
@@ -1836,6 +1866,7 @@
       "requests": "{isApproximate, select, true {≈} other {}}{requests, number, ::compact-short} reqs",
       "prices": {
         "usd": "${amount, number}",
+        "stablecoin": "{amount, number} {token}",
         "crypto": "{amount, number, ::compact-short} {currency}"
       }
     },
@@ -1877,7 +1908,7 @@
         "proceed-with-new-address-button": "Proceed with new address",
         "another-address-button": "Use another address",
         "connect-button": "Connect Wallet",
-        "insufficient-balance-warning": "Insufficient ANKR tokens on the connected address. Please add more tokens or use a different address to continue.",
+        "insufficient-balance-warning": "Insufficient tokens on the connected address. Please add more tokens or use a different address to continue.",
         "accounts-changed-warning": "Changing the account address has interrupted the latest payment transaction. Select whether you'd like to start a new transaction via the current account address or via another one."
       }
     },
@@ -1903,13 +1934,18 @@
     "crypto-payment-deposit-dialog": {
       "title": "One-time payment",
       "total-fees-label": "Total fees",
+      "switch-network-banner": "The {network} network selected differs from the one used in your wallet. Switch your wallet’s network to continue. Either use the <strong>Switch network</strong> button or open the wallet and switch it manually.",
       "confirm-button": {
         "approval": "Confirm approval",
         "deposit": "Confirm deposit",
         "error": "Try again",
         "pending": "Pending",
+        "switch-network": "Switch network",
         "tooltip": "Transaction is in progress"
       },
+      "revoke-button": "Revoke approval",
+      "check-approval-button": "Check approval",
+      "cancel-button": "Cancel",
       "discard-button": "Discard"
     },
     "payment-flow": {
@@ -1917,7 +1953,8 @@
         "approval": {
           "title": "Approval",
           "partial-approval-alert": "The previous approval for {approvedAmount} doesn’t cover your deposit needs. Confirm editing your approval to {amountToDeposit}.",
-          "full-approval-alert": "You've already approved the transaction {approvedAmount}"
+          "full-approval-alert": "You've already confirmed an approval for {approvedAmount} lately",
+          "revoke-usdt-approval-alert": "The current payment amount exceeds your recently approved {approvedAmount}. Due to the specifics of the USDT smart contract, you must <a href=\"{href}\" target=\"_blank\">revoke</a> the approval before requesting a new one."
         },
         "deposit": {
           "title": "Deposit"
@@ -2049,7 +2086,7 @@
       "head": {
         "col-1": "Date (UTC)",
         "col-2": "Payment type",
-        "col-3": "In USD/ANKR",
+        "col-3": "In USD/Crypto",
         "col-4": "In API Credits",
         "col-5": " "
       },

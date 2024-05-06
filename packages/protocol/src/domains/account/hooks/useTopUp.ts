@@ -1,30 +1,39 @@
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
 
+import { ECurrency } from 'modules/billing/types';
 import {
-  setAmount,
   resetTransaction,
+  setAmount,
   setApprovedAmount,
 } from 'domains/account/store/accountTopUpSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
+import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTopupFromDifferentAddress } from 'modules/billing/components/PaymentForm/hooks/useTopupFromDifferentAddress';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 import { accountFetchPublicKey } from '../actions/fetchPublicKey';
+import { selectPaymentOptionsByNetwork } from '../store/selectors';
 import { topUpCheckAllowanceTransaction } from '../actions/topUp/checkAllowanceTransaction';
 import { topUpDeposit } from '../actions/topUp/deposit';
 import { topUpDepositForUser } from '../actions/topUp/depositForUser';
+import { topUpDepositForUserUSDC } from '../actions/topUp/depositForUserUSDC';
+import { topUpDepositForUserUSDT } from '../actions/topUp/depositForUserUSDT';
+import { topUpDepositUSDC } from '../actions/topUp/depositUSDC';
+import { topUpDepositUSDT } from '../actions/topUp/depositUSDT';
 import { topUpLogin } from '../actions/topUp/login';
 import { topUpRedirectIfCredentials } from '../actions/topUp/redirectIfCredentials';
 import { topUpRejectAllowance } from '../actions/topUp/rejectAllowance';
-import { topUpSendAllowance } from '../actions/topUp/sendAllowance';
+import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
+import { topUpSendAllowanceAnkr } from '../actions/topUp/sendAllowanceAnkr';
+import { topUpSendAllowanceUsdc } from '../actions/topUp/sendAllowanceUsdc';
+import { topUpSendAllowanceUsdt } from '../actions/topUp/sendAllowanceUsdt';
 import { topUpWaitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
-import { topUpResetTransactionSliceAndRedirect } from '../actions/topUp/resetTransactionSliceAndRedirect';
 
 const getErrorMessage = (error: any) => {
   if (error && 'message' in error && typeof error.message === 'string') {
@@ -37,35 +46,83 @@ const getErrorMessage = (error: any) => {
 // eslint-disable-next-line max-lines-per-function
 export const useTopUp = () => {
   const { address: personalAddress } = useAuth();
-  const { connectedAddress } = useConnectedAddress();
+  const { walletAddress: connectedAddress } = useWalletAddress();
   const { selectedGroupAddress } = useSelectedUserGroup();
 
-  const address = selectedGroupAddress ?? connectedAddress ?? personalAddress;
+  const address = connectedAddress ?? personalAddress;
 
   const dispatch = useAppDispatch();
 
   const { isDepositAddressDifferent } = useTopupFromDifferentAddress();
 
   const [
-    deposit,
-    { isLoading: loadingDeposit, error: depositError },
-    depositReset,
+    depositANKR,
+    { isLoading: loadingDepositANKR, error: depositANKRError },
+    depositResetANKR,
   ] = useQueryEndpoint(topUpDeposit);
 
   const [
-    depositForUser,
-    { isLoading: loadingDepositForUser, error: depositForUserError },
-    depositForUserReset,
+    depositUSDC,
+    { isLoading: loadingDepositUSDC, error: depositUSDCError },
+    depositResetUSDC,
+  ] = useQueryEndpoint(topUpDepositUSDC);
+
+  const [
+    depositUSDT,
+    { isLoading: loadingDepositUSDT, error: depositUSDTError },
+    depositResetUSDT,
+  ] = useQueryEndpoint(topUpDepositUSDT);
+
+  const [
+    depositUSDCForUser,
+    { isLoading: loadingDepositUSDCForUser, error: depositUSDCForUserError },
+    depositUSDCForUserReset,
+  ] = useQueryEndpoint(topUpDepositForUserUSDC);
+
+  const [
+    depositUSDTForUser,
+    { isLoading: loadingDepositUSDTForUser, error: depositUSDTForUserError },
+    depositUSDTForUserReset,
+  ] = useQueryEndpoint(topUpDepositForUserUSDT);
+
+  const [
+    depositANKRForUser,
+    { isLoading: loadingDepositANKRForUser, error: depositANKRForUserError },
+    depositANKRForUserReset,
   ] = useQueryEndpoint(topUpDepositForUser);
 
   const [fetchPublicKey, { isLoading: loadingFetchPublicKey }] =
     useQueryEndpoint(accountFetchPublicKey);
 
   const [
-    sendAllowance,
-    { isLoading: loadingGetAllowance, error: sendAllowanceError },
-    handleResetAllowance,
-  ] = useQueryEndpoint(topUpSendAllowance);
+    sendAllowanceAnkr,
+    {
+      data: isAllowanceAnkrSent = false,
+      error: sendAllowanceAnkrError,
+      isLoading: isSendAllowanceAnkrLoading,
+    },
+    handleResetAllowanceAnkr,
+  ] = useQueryEndpoint(topUpSendAllowanceAnkr);
+
+  const [
+    sendAllowanceUsdc,
+    {
+      data: isAllowanceUsdcSent = false,
+      error: sendAllowanceUsdcError,
+      isLoading: isSendAllowanceUsdcLoading,
+    },
+    handleResetAllowanceUsdc,
+  ] = useQueryEndpoint(topUpSendAllowanceUsdc);
+
+  const [
+    sendAllowanceUsdt,
+    {
+      data: isAllowanceUsdtSent = false,
+      error: sendAllowanceUsdtError,
+      isLoading: isSendAllowanceUsdtLoading,
+    },
+    handleResetAllowanceUsdt,
+  ] = useQueryEndpoint(topUpSendAllowanceUsdt);
 
   const [login, { isLoading: loadingLogin }] = useQueryEndpoint(topUpLogin);
 
@@ -108,54 +165,160 @@ export const useTopUp = () => {
   );
 
   const transactionCurrency = transaction?.currency;
+  const transactionNetwork = transaction?.network;
 
   const handleFetchPublicKey = useCallback(
     () => fetchPublicKey(),
     [fetchPublicKey],
   );
 
-  const handleGetAllowance = useCallback(
-    () => sendAllowance(amountToDeposit),
-    [sendAllowance, amountToDeposit],
+  const {
+    depositContractAddress = '',
+    tokenAddress = '',
+    tokenDecimals = 0,
+    confirmationBlocksNumber = 0,
+  } = useAppSelector(state =>
+    selectPaymentOptionsByNetwork(
+      state,
+      transactionNetwork,
+      transactionCurrency,
+    ),
   );
 
+  // eslint-disable-next-line consistent-return
+  const handleSendAllowance = useCallback(() => {
+    if (transactionCurrency === ECurrency.ANKR) {
+      return sendAllowanceAnkr(amountToDeposit);
+    }
+
+    if (transactionCurrency === ECurrency.USDT) {
+      return sendAllowanceUsdt({
+        amount: amountToDeposit,
+        depositContractAddress,
+        tokenAddress,
+        tokenDecimals,
+        confirmationBlocksNumber,
+      });
+    }
+
+    if (transactionCurrency === ECurrency.USDC) {
+      return sendAllowanceUsdc({
+        amount: amountToDeposit,
+        depositContractAddress,
+        tokenAddress,
+        tokenDecimals,
+        confirmationBlocksNumber,
+      });
+    }
+  }, [
+    transactionCurrency,
+    sendAllowanceAnkr,
+    amountToDeposit,
+    sendAllowanceUsdt,
+    depositContractAddress,
+    tokenAddress,
+    tokenDecimals,
+    confirmationBlocksNumber,
+    sendAllowanceUsdc,
+  ]);
+
+  // add payment currency check to manage with actions requests
   const handleDeposit = useCallback(() => {
+    const defaultParams = {
+      tokenDecimals,
+      amount: amountToDeposit,
+      depositContractAddress,
+      tokenAddress,
+    };
+
+    if (transactionCurrency === ECurrency.USDC) {
+      if (selectedGroupAddress) {
+        return depositUSDCForUser({
+          ...defaultParams,
+          targetAddress: selectedGroupAddress,
+        });
+      }
+
+      if (isDepositAddressDifferent) {
+        return depositUSDCForUser({
+          ...defaultParams,
+          targetAddress: personalAddress,
+        });
+      }
+
+      return depositUSDC(defaultParams);
+    }
+
+    if (transactionCurrency === ECurrency.USDT) {
+      if (selectedGroupAddress) {
+        return depositUSDTForUser({
+          ...defaultParams,
+          targetAddress: selectedGroupAddress,
+        });
+      }
+
+      if (isDepositAddressDifferent) {
+        return depositUSDTForUser({
+          ...defaultParams,
+          targetAddress: personalAddress,
+        });
+      }
+
+      return depositUSDT(defaultParams);
+    }
+
     if (selectedGroupAddress) {
-      return depositForUser({
+      return depositANKRForUser({
         amount: amountToDeposit,
         targetAddress: selectedGroupAddress,
       });
     }
 
     if (isDepositAddressDifferent) {
-      return depositForUser({
+      return depositANKRForUser({
         amount: amountToDeposit,
         targetAddress: personalAddress,
       });
     }
 
-    return deposit(amountToDeposit);
+    return depositANKR(amountToDeposit);
   }, [
+    tokenDecimals,
     amountToDeposit,
+    depositContractAddress,
+    tokenAddress,
+    transactionCurrency,
     selectedGroupAddress,
     isDepositAddressDifferent,
-    deposit,
-    depositForUser,
+    depositANKR,
+    depositUSDC,
+    depositUSDCForUser,
     personalAddress,
+    depositUSDT,
+    depositUSDTForUser,
+    depositANKRForUser,
   ]);
 
   const handleResetDeposit = useCallback(() => {
     if (selectedGroupAddress || isDepositAddressDifferent) {
-      depositForUserReset();
+      depositANKRForUserReset();
+      depositUSDCForUserReset();
+      depositUSDTForUserReset();
     } else {
-      depositReset();
+      depositResetANKR();
+      depositResetUSDC();
+      depositResetUSDT();
     }
 
     waitTransactionConfirmingReset();
   }, [
     isDepositAddressDifferent,
-    depositForUserReset,
-    depositReset,
+    depositANKRForUserReset,
+    depositUSDCForUserReset,
+    depositUSDTForUserReset,
+    depositResetANKR,
+    depositResetUSDC,
+    depositResetUSDT,
     selectedGroupAddress,
     waitTransactionConfirmingReset,
   ]);
@@ -204,21 +367,72 @@ export const useTopUp = () => {
   );
 
   const loading =
-    loadingGetAllowance ||
+    isSendAllowanceAnkrLoading ||
+    isSendAllowanceUsdtLoading ||
+    isSendAllowanceUsdcLoading ||
     loadingFetchPublicKey ||
-    loadingDeposit ||
-    loadingDepositForUser ||
+    loadingDepositANKR ||
+    loadingDepositUSDC ||
+    loadingDepositUSDT ||
+    loadingDepositANKRForUser ||
+    loadingDepositUSDCForUser ||
+    loadingDepositUSDTForUser ||
     loadingWaitTransactionConfirming ||
     loadingLogin ||
     loadingCheckAllowanceTransaction;
 
   const depositErrorMessage =
-    getErrorMessage(depositError) ||
-    getErrorMessage(depositForUserError) ||
+    getErrorMessage(depositANKRError) ||
+    getErrorMessage(depositUSDCError) ||
+    getErrorMessage(depositUSDTError) ||
+    getErrorMessage(depositANKRForUserError) ||
+    getErrorMessage(depositUSDCForUserError) ||
+    getErrorMessage(depositUSDTForUserError) ||
     getErrorMessage(errorWaitTransactionConfirming);
 
   const hasError =
-    Boolean(sendAllowanceError || depositErrorMessage) && !loading;
+    Boolean(sendAllowanceAnkrError || depositErrorMessage) && !loading;
+
+  const { isAllowanceSent, sendAllowanceErrorMessage, handleResetAllowance } =
+    useMemo(() => {
+      switch (transactionCurrency) {
+        case ECurrency.ANKR:
+          return {
+            isAllowanceSent: isAllowanceAnkrSent,
+            sendAllowanceErrorMessage: getErrorMessage(sendAllowanceAnkrError),
+            handleResetAllowance: handleResetAllowanceAnkr,
+          };
+        case ECurrency.USDT:
+          return {
+            isAllowanceSent: isAllowanceUsdtSent,
+            sendAllowanceErrorMessage: getErrorMessage(sendAllowanceUsdtError),
+            handleResetAllowance: handleResetAllowanceUsdt,
+          };
+        case ECurrency.USDC:
+          return {
+            isAllowanceSent: isAllowanceUsdcSent,
+            sendAllowanceErrorMessage: getErrorMessage(sendAllowanceUsdcError),
+            handleResetAllowance: handleResetAllowanceUsdc,
+          };
+        default:
+          return {
+            isAllowanceSent: false,
+            sendAllowanceErrorMessage: undefined,
+            handleResetAllowance: () => {},
+          };
+      }
+    }, [
+      handleResetAllowanceAnkr,
+      handleResetAllowanceUsdc,
+      handleResetAllowanceUsdt,
+      isAllowanceAnkrSent,
+      isAllowanceUsdcSent,
+      isAllowanceUsdtSent,
+      sendAllowanceAnkrError,
+      sendAllowanceUsdcError,
+      sendAllowanceUsdtError,
+      transactionCurrency,
+    ]);
 
   return {
     amount,
@@ -227,7 +441,6 @@ export const useTopUp = () => {
     depositErrorMessage,
     handleDeposit,
     handleFetchPublicKey,
-    handleGetAllowance,
     handleLogin,
     handleRedirectIfCredentials,
     handleRejectAllowance,
@@ -235,15 +448,18 @@ export const useTopUp = () => {
     handleResetDeposit,
     handleResetTopUpTransaction,
     handleResetTransactionSliceAndRedirect,
+    handleSendAllowance,
     handleSetAmount,
     handleSetApprovedAmount,
     handleWaitTransactionConfirming,
     hasError,
+    isAllowanceSent,
     isRejectAllowanceLoading: loadingRejectAllowance,
     loading,
     loadingWaitTransactionConfirming,
-    sendAllowanceErrorMessage: getErrorMessage(sendAllowanceError),
+    sendAllowanceErrorMessage,
     trackTopUp,
     transactionCurrency,
+    transactionNetwork,
   };
 };

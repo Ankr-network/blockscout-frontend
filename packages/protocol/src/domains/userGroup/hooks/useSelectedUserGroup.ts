@@ -4,8 +4,8 @@ import {
   selectUserGroupJwtBySelectedGroupAddress,
   selectUserGroupLoading,
 } from 'domains/userGroup/store';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { useUserGroupConfig } from './useUserGroupConfig';
 
@@ -13,15 +13,14 @@ export const useSelectedUserGroup = () => {
   const { selectedGroupAddress: savedSelectedGroupAddress, selectedGroupRole } =
     useUserGroupConfig();
 
-  const authData = useAppSelector(selectAuthData);
+  const { authAddress } = useAppSelector(selectAuthData);
 
   const group = useAppSelector(selectSelectedUserGroup);
 
   const index = useAppSelector(selectSelectedUserGroupIndex);
 
   const isPersonal = savedSelectedGroupAddress
-    ? authData?.address?.toLowerCase() ===
-      savedSelectedGroupAddress?.toLowerCase()
+    ? authAddress?.toLowerCase() === savedSelectedGroupAddress?.toLowerCase()
     : true;
 
   const selectedGroupAddress = isPersonal

@@ -1,4 +1,5 @@
 import type { AxiosRequestConfig } from 'axios';
+import BigNumber from 'bignumber.js';
 
 import { IConfig } from './types';
 
@@ -10,6 +11,8 @@ export const AXIOS_DEFAULT_CONFIG: AxiosRequestConfig = {
 };
 
 export const CONFIRMATION_BLOCKS = 12;
+
+export const TEN = new BigNumber(10);
 
 export const ENTERPRISE_API_KEY_QUERY_PARAM = 'apikey';
 
@@ -81,8 +84,12 @@ export enum EBlockchain {
   syscoin = 'syscoin',
   avalanche_fuji = 'avalanche_fuji',
   eth_goerli = 'eth_goerli',
+  eth_holesky = 'eth_holesky',
   optimism_testnet = 'optimism_testnet',
   polygon_mumbai = 'polygon_mumbai',
+  arbitrum_sepolia = 'arbitrum_sepolia',
+  fantom_testnet = 'fantom_testnet',
+  bsc_testnet_chapel = 'bsc_testnet_chapel',
 }
 
 export const postRequestConfig = {

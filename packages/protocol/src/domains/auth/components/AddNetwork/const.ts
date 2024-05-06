@@ -826,4 +826,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://testnet.kavascan.com/'],
   },
+
+  [ChainID.XAI]: {
+    chainId: 660279,
+    chainName: 'XAI',
+    nativeCurrency: {
+      name: 'XAI',
+      symbol: 'XAI',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.xai-chain.net/'],
+  },
 };

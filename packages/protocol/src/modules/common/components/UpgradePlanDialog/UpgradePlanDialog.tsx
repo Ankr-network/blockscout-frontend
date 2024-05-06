@@ -1,6 +1,6 @@
 import { Dialog } from 'uiKit/Dialog';
-import { useWindowHeight } from 'hooks/useWindowHeight';
 import { ECurrency } from 'modules/billing/types';
+import { useWindowHeight } from 'hooks/useWindowHeight';
 
 import { ContentType, UpgradePlanDialogType } from './types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
@@ -45,6 +45,7 @@ export const UpgradePlanDialog = ({
       titleClassName={cx(classes.title, {
         [classes.dialogTitleBlack]: isContactSalesPopup,
       })}
+      keepMounted
       {...dialogProps}
     />
   );

@@ -1,8 +1,9 @@
 import { ExternalLink } from '@ankr.com/ui';
 import { IconButton, Typography, TypographyOwnProps } from '@mui/material';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { CopyButton } from 'uiKit/CopyButton';
-import { ENetwork, IFeeDetails } from 'modules/billing/types';
+import { IFeeDetails } from 'modules/billing/types';
 import { renderCryptoFee } from 'modules/billing/utils/renderCryptoFee';
 import { renderUSDFee } from 'modules/billing/utils/renderUSDFee';
 
@@ -12,7 +13,7 @@ export interface IFeeAmountProps extends IFeeDetails {
   amountVariant?: TypographyOwnProps['variant'];
   classes?: Partial<ReturnType<typeof useFeeAmountStyles>['classes']>;
   isApproximate?: boolean;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 export const FeeAmount = ({

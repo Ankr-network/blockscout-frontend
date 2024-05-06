@@ -1,7 +1,10 @@
 import { MultiService } from 'modules/api/MultiService';
 import { TwoFAQueryFnParams } from 'store/queries/types';
-import { RequestType, web3Api } from 'store/queries';
+import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { RootState } from 'store';
+
+import { selectMyBundles } from '../../store/selectors';
 
 export interface CancelBundleSubscriptionParams {
   subscriptionId: string;
@@ -17,7 +20,6 @@ export const {
       boolean,
       TwoFAQueryFnParams<CancelBundleSubscriptionParams>
     >({
-      invalidatesTags: [RequestType.MyBundles],
       queryFn: createNotifyingQueryFn(
         async ({ params: { subscriptionId, group }, totp }) => {
           const api = MultiService.getService().getAccountingGateway();
@@ -30,6 +32,27 @@ export const {
           return { data: true };
         },
       ),
+      onQueryStarted: async (
+        { params: { subscriptionId } },
+        { dispatch, queryFulfilled, getState },
+      ) => {
+        const currentBundles = selectMyBundles(getState() as RootState);
+        const bundlesWithoutCurrent = currentBundles.filter(
+          bundle => bundle.subscriptionId !== subscriptionId,
+        );
+
+        await queryFulfilled;
+
+        // we have to update data for fetchMyBundles query instead of using invalidatesTags: [RequestType.MyBundles]
+        // because there is some delay on the backend side and we can't rely on the response
+        dispatch(
+          web3Api.util.updateQueryData(
+            'fetchMyBundles' as unknown as never,
+            undefined as unknown as never,
+            () => bundlesWithoutCurrent,
+          ),
+        );
+      },
     }),
   }),
   overrideExisting: true,

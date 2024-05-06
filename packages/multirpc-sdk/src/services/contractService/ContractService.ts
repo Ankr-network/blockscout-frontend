@@ -44,9 +44,7 @@ export class ContractService extends ContractReadService {
     });
   }
 
-  async setAllowanceForPAYG(
-    amount: BigNumber,
-  ): Promise<IWeb3SendResult> {
+  async setAllowanceForPAYG(amount: BigNumber): Promise<IWeb3SendResult> {
     return this.PAYGContractManager.setAllowance(amount);
   }
 

@@ -22,17 +22,19 @@ export const PaymentInfo = ({
 
   return (
     <div className={classes.root}>
-      <Typography className={classes.header} component="div" variant="body2">
-        {renderPaymentTypeTitle({
-          isCapitalized: true,
-          isHTML: true,
-          paymentType,
-        })}
-        {renderPaymentSummaryAmount({ amount, currency })}
-      </Typography>
-      <Typography className={classes.description} variant="body4">
-        {renderPaymentTypeDescription(paymentType)}
-      </Typography>
+      <>
+        <Typography className={classes.header} component="div" variant="body2">
+          {renderPaymentTypeTitle({
+            isCapitalized: true,
+            isHTML: true,
+            paymentType,
+          })}
+          {renderPaymentSummaryAmount({ amount, currency })}
+        </Typography>
+        <Typography className={classes.description} variant="body4">
+          {renderPaymentTypeDescription(paymentType)}
+        </Typography>
+      </>
     </div>
   );
 };

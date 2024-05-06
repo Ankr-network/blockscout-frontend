@@ -4,7 +4,7 @@ import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 
-import { getCurrentAccountBalance } from '../utils/getCurrentAccountBalance';
+import { getCurrentAccountBalanceAnkr } from '../utils/getCurrentAccountBalanceAnkr';
 
 export interface IFetchANKRDepositFeeParams {
   amount: number;
@@ -26,7 +26,7 @@ export const {
               return { data: 0 };
             }
 
-            const balance = await getCurrentAccountBalance({ web3Service });
+            const balance = await getCurrentAccountBalanceAnkr({ web3Service });
 
             if (Number(balance) >= amount) {
               const contractService = web3Service.getContractService();

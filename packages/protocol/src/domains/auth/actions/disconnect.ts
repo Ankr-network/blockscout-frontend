@@ -7,6 +7,7 @@ import {
   resetUserGroupConfig,
   resetUserGroupJwt,
 } from 'domains/userGroup/store';
+import { resetWalleState } from 'domains/wallet/store/walletSlice';
 
 export const {
   useLazyAuthDisconnectQuery,
@@ -15,12 +16,13 @@ export const {
   endpoints: build => ({
     authDisconnect: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
-        const { address } = selectAuthData(getState() as RootState);
+        const { authAddress } = selectAuthData(getState() as RootState);
 
-        dispatch(resetUserGroupConfig(address));
-        dispatch(resetUserGroupJwt(address));
+        dispatch(resetUserGroupConfig(authAddress));
+        dispatch(resetUserGroupJwt(authAddress));
 
         dispatch(resetAuthData());
+        dispatch(resetWalleState());
 
         dispatch(web3Api.util.resetApiState());
         dispatch(projectApi.util.resetApiState());

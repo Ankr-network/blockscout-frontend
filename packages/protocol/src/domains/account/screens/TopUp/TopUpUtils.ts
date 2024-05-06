@@ -1,18 +1,14 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
-import { useHistory } from 'react-router';
 import { t } from '@ankr.com/common';
-import { DEPOSIT_ERROR } from 'multirpc-sdk';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BaseRoute } from 'modules/router/utils/createRouteConfig';
 import { TopUpOrigin } from 'domains/account/types';
-import { TopUpStep } from 'domains/account/actions/topUp/const';
 import { selectTopUpOrigin } from 'domains/account/store/selectors';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { topUpOriginRoutesMap } from '../CardPaymentSuccess/utils/getOriginRoute';
 
@@ -31,150 +27,9 @@ export const useTopUpBreadcrumbs = (route: BaseRoute) => {
       title: t(route.breadcrumbs!),
       link: route.generatePath(),
     },
-    {
-      title: t(AccountRoutesConfig.topUp.breadcrumbs),
-    },
   ];
 
   useSetBreadcrumbs(breadcrumbs);
-};
-
-export const useTopupSteps = (initialStep: TopUpStep) => {
-  const [step, setStep] = useState<TopUpStep>(initialStep);
-
-  const {
-    amount,
-    approvedAmount,
-    handleDeposit,
-    handleGetAllowance,
-    handleLogin,
-    handleRedirectIfCredentials,
-    handleRejectAllowance,
-    handleResetDeposit,
-    handleWaitTransactionConfirming,
-    hasError,
-    isRejectAllowanceLoading,
-    loading,
-    loadingWaitTransactionConfirming,
-    trackTopUp,
-    handleResetTransactionSliceAndRedirect,
-  } = useTopUp();
-
-  const history = useHistory();
-
-  useEffect(() => {
-    setStep(initialStep);
-  }, [initialStep]);
-
-  const onConfirm = useMemo(() => {
-    switch (step) {
-      case TopUpStep.start:
-        return () => {
-          // move to allowance
-          setStep(oldStep => ++oldStep);
-        };
-
-      case TopUpStep.allowance: {
-        return async () => {
-          const { error } = await handleGetAllowance();
-
-          if (error) {
-            trackTopUp({ isTopUpAccepted: true });
-          } else {
-            // move to deposit
-            setStep(oldStep => ++oldStep);
-          }
-        };
-      }
-
-      case TopUpStep.deposit: {
-        return async () => {
-          const { error } = await handleDeposit();
-
-          if (error) {
-            trackTopUp({
-              isAllowanceConfirmed: true,
-              isTopUpAccepted: true,
-            });
-
-            if ((error as Error).message?.includes(DEPOSIT_ERROR)) {
-              handleResetTransactionSliceAndRedirect();
-            }
-          } else {
-            // move to waitTransactionConfirming
-            setStep(oldStep => ++oldStep);
-
-            await handleWaitTransactionConfirming();
-          }
-        };
-      }
-
-      case TopUpStep.waitTransactionConfirming: {
-        return async () => {
-          if (hasError) {
-            handleResetDeposit();
-            setStep(oldStep => --oldStep);
-
-            trackTopUp({
-              isAllowanceConfirmed: true,
-              isTopUpAccepted: true,
-              isTransactionConfirmed: true,
-            });
-          } else {
-            const { data: hasRedirect } = await handleRedirectIfCredentials();
-
-            trackTopUp({
-              isAllowanceConfirmed: true,
-              isTopUpAccepted: true,
-              isTopUpSuccessful: true,
-              isTransactionConfirmed: true,
-            });
-
-            if (!hasRedirect) {
-              // move to login
-              setStep(oldStep => ++oldStep);
-            }
-          }
-        };
-      }
-
-      case TopUpStep.login:
-      default:
-        return async () => {
-          const { error } = await handleLogin();
-
-          if (!error) {
-            const link = AccountRoutesConfig.accountDetails.generatePath();
-
-            history.push(link);
-          }
-        };
-    }
-  }, [
-    handleDeposit,
-    handleGetAllowance,
-    handleLogin,
-    handleRedirectIfCredentials,
-    handleResetDeposit,
-    handleWaitTransactionConfirming,
-    hasError,
-    history,
-    step,
-    trackTopUp,
-    handleResetTransactionSliceAndRedirect,
-  ]);
-
-  return {
-    amount: amount?.toString(10),
-    approvedAmount: approvedAmount?.toString(10),
-    hasError,
-    isRejectAllowanceLoading,
-    loading,
-    loadingWaitTransactionConfirming,
-    onConfirm,
-    onReject: handleRejectAllowance,
-    step,
-  };
 };
 
 export const useCheckConfirmedEmail = (

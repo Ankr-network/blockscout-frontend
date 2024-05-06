@@ -1,12 +1,12 @@
 import { useAppSelector } from 'store/useAppSelector';
-import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import {
   selectWalletAccountANKRBalance,
   selectWalletAccountANKRBalanceFetching,
   selectWalletAccountANKRBalanceLoading,
 } from '../store/selectors';
-import { useFetchWalletAccountANKRBalanceQuery } from '../actions/balance/fetchWalletAccountBalance';
+import { useFetchWalletAccountANKRBalanceQuery } from '../actions/balance/fetchWalletAccountANRKBalance';
 
 export interface IUseWalletAccountANKRBalanceProps {
   skipFetching?: boolean;
@@ -15,15 +15,18 @@ export interface IUseWalletAccountANKRBalanceProps {
 export const useWalletAccountANKRBalance = ({
   skipFetching = false,
 }: IUseWalletAccountANKRBalanceProps | void = {}) => {
-  const { hasWeb3Service } = useHasWeb3Service();
+  const { hasWeb3Service } = useWeb3Service();
 
-  useFetchWalletAccountANKRBalanceQuery(undefined, {
-    skip: skipFetching || !hasWeb3Service,
-  });
+  const { refetch: refetchANKRBalance } = useFetchWalletAccountANKRBalanceQuery(
+    undefined,
+    {
+      skip: skipFetching || !hasWeb3Service,
+    },
+  );
 
   const ankrBalance = useAppSelector(selectWalletAccountANKRBalance);
   const isFetching = useAppSelector(selectWalletAccountANKRBalanceFetching);
   const isLoading = useAppSelector(selectWalletAccountANKRBalanceLoading);
 
-  return { ankrBalance, isFetching, isLoading };
+  return { ankrBalance, isFetching, isLoading, refetchANKRBalance };
 };

@@ -1,16 +1,16 @@
 import { RootState } from 'store';
-import { selectUserGroupConfigByAddress } from 'domains/userGroup/store/selectors';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { selectUserGroupConfigByAddress } from 'domains/userGroup/store/selectors';
 
 export const getSelectedGroupAddress = (state: RootState) => {
-  const { address } = selectAuthData(state);
+  const { authAddress } = selectAuthData(state);
   const { selectedGroupAddress, selectedGroupRole } =
     selectUserGroupConfigByAddress(state);
 
-  // if selectedGroupAddress is equal address
+  // if selectedGroupAddress is equal auth address
   // user is using account as personal,
   // and we don't need to use group requests.
-  if (address === selectedGroupAddress) {
+  if (authAddress === selectedGroupAddress) {
     return { selectedGroupAddress: undefined, selectedGroupRole: undefined };
   }
 

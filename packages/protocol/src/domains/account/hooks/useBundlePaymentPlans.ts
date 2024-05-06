@@ -5,6 +5,7 @@ import { useAppSelector } from 'store/useAppSelector';
 import {
   selectBundlePaymentPlans,
   selectBundlePaymentPlansFetching,
+  selectBundlePaymentPlansInitLoading,
   selectBundlePaymentPlansLoading,
   selectDealPaymentPlans,
   selectFirstBundlePaymentPlan,
@@ -35,6 +36,17 @@ export const useBundlePaymentPlans = ({
   const deal500 = useAppSelector(selectFirstDealPaymentPlan);
   const fetching = useAppSelector(selectBundlePaymentPlansFetching);
   const loading = useAppSelector(selectBundlePaymentPlansLoading);
+  const isLoadingInitially = useAppSelector(
+    selectBundlePaymentPlansInitLoading,
+  );
 
-  return { bundle500, bundles, dealBundles, deal500, fetching, loading };
+  return {
+    bundle500,
+    bundles,
+    dealBundles,
+    deal500,
+    fetching,
+    loading,
+    isLoadingInitially,
+  };
 };

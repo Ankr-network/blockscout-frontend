@@ -1,15 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
-import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 import { hasGroupPermission } from 'modules/groups/utils/hasGroupPermission';
 import { mapGroupDetails } from 'modules/groups/utils/mapGroupDetails';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 
-import { userGroupFetchGroups } from '../actions/fetchGroups';
 import { BlockWithPermission, PERSONAL_GROUP_NAME } from '../constants/groups';
 import { userGroupFetchCreationAllowance } from '../actions/fetchGroupCreationAllowance';
 import { userGroupFetchGroupDetails } from '../actions/fetchGroupDetails';
+import { userGroupFetchGroups } from '../actions/fetchGroups';
 
 const requestParamsPlaceholder = undefined as unknown as IApiUserGroupParams;
 
@@ -22,7 +22,7 @@ export const selectUserGroupJwt = (state: RootState) =>
 export const selectUserGroupConfigByAddress = createSelector(
   selectAuthData,
   selectUserGroupConfig,
-  ({ address = '' }, userGroupConfig) => userGroupConfig[address] ?? {},
+  ({ authAddress = '' }, userGroupConfig) => userGroupConfig[authAddress] ?? {},
 );
 
 export const selectUserGroupLoading = createSelector(
@@ -55,7 +55,7 @@ export const selectIsGroupCreationAllowanceLoading = createSelector(
 export const selectGroupDetailsRequestData = createSelector(
   userGroupFetchGroupDetails.select(requestParamsPlaceholder),
   selectAuthData,
-  ({ data }, { address: currentUserAddress = '' }) =>
+  ({ data }, { authAddress: currentUserAddress = '' }) =>
     mapGroupDetails(data, currentUserAddress),
 );
 

@@ -1,30 +1,30 @@
 import { useCallback, useState } from 'react';
 
-import { ECurrency } from 'modules/billing/types';
-import { MIN_ANKR_AMOUNT, MIN_USD_AMOUNT } from 'modules/billing/const';
-
 import { renderAmountError } from '../utils/renderAmountError';
 
 export interface IUseInputErrorProps {
-  currency: ECurrency;
+  minAmount: number;
+  isInteger?: boolean;
 }
 
-export const useInputError = ({ currency }: IUseInputErrorProps) => {
+export const useInputError = ({
+  minAmount,
+  isInteger,
+}: IUseInputErrorProps) => {
   const [error, setError] = useState<string>();
-
-  const minAmount =
-    currency === ECurrency.ANKR ? MIN_ANKR_AMOUNT : MIN_USD_AMOUNT;
 
   const validateAmount = useCallback(
     (amount: string) => {
-      const amountError = renderAmountError({ amount, minAmount });
+      const amountError = renderAmountError({ amount, minAmount, isInteger });
 
       setError(amountError);
 
       return amountError;
     },
-    [minAmount],
+    [minAmount, isInteger],
   );
 
-  return { error, validateAmount };
+  const resetError = useCallback(() => setError(undefined), []);
+
+  return { error, validateAmount, resetError };
 };

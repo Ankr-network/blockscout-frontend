@@ -133,6 +133,7 @@ import {
   InviteGroupMemeberResult,
   RejectGroupInvitationParams,
 } from './groups';
+import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
 
 export class AccountingGateway {
   public api: AxiosInstance;
@@ -983,6 +984,21 @@ export class AccountingGateway {
     const { data } = await this.api.get<IGoogleLoginParamsResponse>(
       '/api/v1/oauth2/getProviderParams',
       { params: { provider } },
+    );
+
+    return data;
+  }
+
+  async getCryptoPaymentOptions(params?: IGetCryptoPaymentOptionsParams): Promise<IGetCryptoPaymentOptionsResponse> {
+    const defaultParams: IGetCryptoPaymentOptionsParams = {
+      active: true,
+    };
+
+    const { data } = await this.api.get<IGetCryptoPaymentOptionsResponse>(
+      '/api/v1/auth/payment/getCryptoPaymentOptions',
+      {
+        params: params || defaultParams,
+      }
     );
 
     return data;

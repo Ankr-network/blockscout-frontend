@@ -7,10 +7,11 @@ import { intlRoot } from '../../const';
 import { useBalanceStyles } from './BalanceStyles';
 
 export interface BalanceProps {
+  balanceInRequests: number;
   className?: string;
   creditBalance?: number;
+  shouldUseRequests: boolean;
   usdBalance: number;
-  balanceInRequests: number;
 }
 
 const creditIntlKey = `${intlRoot}.credit-balance`;
@@ -19,20 +20,23 @@ const usdIntlKey = `${intlRoot}.usd-balance`;
 const reqIntlKey = `${intlRoot}.req-balance`;
 
 export const Balance = ({
+  balanceInRequests,
   className,
   creditBalance,
+  shouldUseRequests,
   usdBalance,
-  balanceInRequests,
 }: BalanceProps) => {
   const { classes, cx } = useBalanceStyles();
 
+  const [balance, balanceKey] = shouldUseRequests
+    ? [balanceInRequests, requestsIntlKey]
+    : [creditBalance ?? 0, creditIntlKey];
+
   return (
-    <BalanceTooltip balance={creditBalance || balanceInRequests}>
+    <BalanceTooltip balance={balance}>
       <div className={cx(classes.root, className)}>
         <Typography className={classes.creditBalance} variant="h6">
-          {creditBalance
-            ? t(creditIntlKey, { balance: creditBalance })
-            : t(requestsIntlKey, { balance: balanceInRequests })}
+          {t(balanceKey, { balance })}
         </Typography>
         <Typography className={classes.usdBalance} variant="body2">
           {t(usdIntlKey, { balance: usdBalance })}

@@ -1,12 +1,14 @@
-import { Ankr } from '@ankr.com/ui';
 import { Button, Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
+import { CurrencyIcon } from 'modules/common/components/CurrencyIcon';
+import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { DetailsButton } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
-import { useOngoingPayments } from './useOngoingPayments';
+import { useOngoingPayments } from './hooks/useOngoingPayments';
 import { useOngoingPaymentsStyles } from './useOngoingPaymentsStyles';
 
 interface IOngoingPaymentsProps {
@@ -21,15 +23,19 @@ export const OngoingPayments = ({
   const { cx, classes } = useOngoingPaymentsStyles();
 
   const {
-    txHash,
     approvedAmountString,
     approvedUsdAmount,
-    transactionStatus,
-    shouldShowOngoingPayment,
     isSuccessState,
+    ongoingPaymentStatus,
+    shouldShowOngoingPayment,
+    txHash,
+    currency,
+    network,
   } = useOngoingPayments();
 
   const { isLoading } = useTopupInitialStep();
+
+  const { handleResetTopUpTransaction } = useTopUp();
 
   if (!shouldShowOngoingPayment || isLoading) {
     return null;
@@ -47,17 +53,29 @@ export const OngoingPayments = ({
 
         {approvedAmountString && (
           <Typography variant="body3" className={classes.paymentValue}>
-            <Ankr className={classes.iconAnkr} /> {approvedAmountString} ANKR{' '}
+            <CurrencyIcon
+              currency={currency}
+              network={network}
+              rootClassName={classes.currencyIcon}
+              currencyClassName={classes.currencyIcon}
+              networkClassName={classes.networkIcon}
+            />
+            {approvedAmountString} {currency}{' '}
             <Typography variant="body3" color="textSecondary">
               / ≈${approvedUsdAmount}
             </Typography>
           </Typography>
         )}
 
-        <OngoingPaymentStatus status={transactionStatus} />
+        <OngoingPaymentStatus status={ongoingPaymentStatus} />
 
         {isSuccessState && approvedAmountString && txHash ? (
-          <DetailsButton amount={approvedAmountString} txHash={txHash} />
+          <DetailsButton
+            amount={approvedAmountString}
+            txHash={txHash}
+            network={EBlockchain.eth} // TODO: https://ankrnetwork.atlassian.net/browse/MRPC-4801
+            onCloseButtonClick={handleResetTopUpTransaction}
+          />
         ) : (
           <Button
             variant="outlined"

@@ -1,6 +1,7 @@
+import { EBlockchain } from 'multirpc-sdk';
 import { Typography } from '@mui/material';
 
-import { ECurrency, ENetwork, IFeeDetails } from 'modules/billing/types';
+import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import { renderCryptoFee } from 'modules/billing/utils/renderCryptoFee';
 import { renderPaymentSummaryAmount } from 'modules/billing/utils/renderPaymentSummaryAmount';
 
@@ -11,7 +12,7 @@ export interface IDetailedAmountProps {
   className?: string;
   currency: ECurrency;
   feeDetails: IFeeDetails;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 export const DetailedAmount = ({

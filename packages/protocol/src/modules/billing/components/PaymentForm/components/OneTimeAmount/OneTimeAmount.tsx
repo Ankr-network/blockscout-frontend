@@ -4,17 +4,18 @@ import { IAmount } from 'modules/billing/types';
 
 import { AMOUNTS_COLUMNS } from './const';
 import { AmountChips } from '../AmountChips';
-import { AmountHeader } from '../AmountHeader';
+import { AmountHeader, IAmountHeaderProps } from '../AmountHeader';
 import { AmountInput, IAmountInputProps } from '../AmountInput';
 import { useOneTimeAmountStyles } from './useOneTimeAmountStyles';
 
-export interface IOneTimeAmountProps {
+export interface IOneTimeAmountProps extends IAmountHeaderProps {
   amountInputProps: IAmountInputProps;
   amounts: IAmount[];
   className?: string;
   isLoading: boolean;
   onAmountSelect: (amount: IAmount) => void;
   selectedAmountID?: IAmount['id'];
+  hasChips?: boolean;
 }
 
 export const OneTimeAmount = ({
@@ -24,6 +25,8 @@ export const OneTimeAmount = ({
   isLoading,
   onAmountSelect,
   selectedAmountID,
+  hasChips = true,
+  hasDocsLink,
 }: IOneTimeAmountProps) => {
   const { classes, cx } = useOneTimeAmountStyles();
 
@@ -33,15 +36,17 @@ export const OneTimeAmount = ({
 
   return (
     <div className={cx(classes.oneTimeAmountRoot, className)}>
-      <AmountHeader />
+      <AmountHeader hasDocsLink={hasDocsLink} />
       <AmountInput {...amountInputProps} />
-      <AmountChips
-        amounts={amounts}
-        columns={AMOUNTS_COLUMNS}
-        onAmountSelect={onAmountSelect}
-        selectedAmountID={selectedAmountID}
-        size="small"
-      />
+      {hasChips && (
+        <AmountChips
+          amounts={amounts}
+          columns={AMOUNTS_COLUMNS}
+          onAmountSelect={onAmountSelect}
+          selectedAmountID={selectedAmountID}
+          size="small"
+        />
+      )}
     </div>
   );
 };

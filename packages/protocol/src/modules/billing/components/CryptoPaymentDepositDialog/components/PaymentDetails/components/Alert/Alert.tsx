@@ -16,8 +16,10 @@ export const Alert = ({ hasIcon = false, severity, text }: IAlertProps) => {
     return null;
   }
 
+  const icon = !hasIcon || undefined;
+
   return (
-    <InlineAlert icon={hasIcon} severity={severity}>
+    <InlineAlert classes={classes} icon={icon} severity={severity}>
       <Typography className={classes.text} variant="body2">
         {text}
       </Typography>

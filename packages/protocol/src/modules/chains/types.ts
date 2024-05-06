@@ -250,13 +250,13 @@ export enum ChainID {
 
   TAIKO = 'taiko',
   TAIKO_KATLA = 'taiko_katla',
-
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
 
   TENET = 'tenet',
   TENET_EVM = 'tenet-evm',
 
+  XAI = 'xai',
   XDAI = 'xdai',
 
   SUI = 'sui',

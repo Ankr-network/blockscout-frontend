@@ -21,7 +21,7 @@ import { selectAuthData } from './authSlice';
 
 export const selectAddress = createSelector(
   selectAuthData,
-  ({ address = '' }) => address,
+  ({ authAddress = '' }) => authAddress,
 );
 
 export const selectCredentials = createSelector(
@@ -129,7 +129,7 @@ export const selectHasInfrastructureAccess = createSelector(
 
 export const selectIsUserEthAddressType = createSelector(
   selectAuthData,
-  ({ ethAddressType }) => ethAddressType === EthAddressType.User,
+  ({ authAddressType }) => authAddressType === EthAddressType.User,
 );
 
 export const selectHasUserEndpointToken = createSelector(

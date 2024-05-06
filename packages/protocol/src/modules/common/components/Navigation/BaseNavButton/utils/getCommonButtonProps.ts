@@ -5,13 +5,13 @@ import { NavigationItem } from '../types';
 
 export const getCommonButtonProps = (
   {
+    href,
     isActive,
     isComingSoon,
     isDisabled,
     isEnabled,
-    onClick,
-    href,
     label,
+    onClick,
   }: NavigationItem,
   activeClassName: string,
 ): ButtonProps<NavLink, NavLinkProps> => ({

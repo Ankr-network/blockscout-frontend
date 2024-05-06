@@ -61,3 +61,59 @@ export const ONE_TIME_PAYMENT_ANKR_AMOUNTS: IAmount[] = [
     value: 40_000,
   },
 ];
+
+export const ONE_TIME_PAYMENT_USDT_AMOUNTS: IAmount[] = [
+  {
+    id: '50',
+    currency: ECurrency.USDT,
+    value: 50,
+  },
+  {
+    id: '100',
+    currency: ECurrency.USDT,
+    value: 100,
+  },
+  {
+    id: '250',
+    currency: ECurrency.USDT,
+    value: 250,
+  },
+  {
+    id: '500',
+    currency: ECurrency.USDT,
+    value: 500,
+  },
+  {
+    id: '1_000',
+    currency: ECurrency.USDT,
+    value: 1_000,
+  },
+];
+
+export const ONE_TIME_PAYMENT_USDC_AMOUNTS: IAmount[] = [
+  {
+    id: '50',
+    currency: ECurrency.USDC,
+    value: 50,
+  },
+  {
+    id: '100',
+    currency: ECurrency.USDC,
+    value: 100,
+  },
+  {
+    id: '250',
+    currency: ECurrency.USDC,
+    value: 250,
+  },
+  {
+    id: '500',
+    currency: ECurrency.USDC,
+    value: 500,
+  },
+  {
+    id: '1_000',
+    currency: ECurrency.USDC,
+    value: 1_000,
+  },
+];

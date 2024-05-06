@@ -3,12 +3,12 @@ import { useMemo } from 'react';
 import { ECurrency } from 'modules/billing/types';
 import { useTabs } from 'modules/common/hooks/useTabs';
 
-import { getCurrencyTabs } from '../utils/getCurrencyTabs';
+import { ECurrencyTab, getCurrencyTabs } from '../utils/getCurrencyTabs';
 
 export interface IUseCurrencyTabsProps {
   disabledCurrencies?: ECurrency[];
-  initialTabID?: ECurrency;
-  onCurrencySelect?: (id: ECurrency) => void;
+  initialTabID?: ECurrencyTab;
+  onCurrencySelect?: (id: ECurrencyTab) => void;
 }
 
 export const useCurrencyTabs = ({
@@ -21,11 +21,11 @@ export const useCurrencyTabs = ({
     [disabledCurrencies],
   );
 
-  const [tabs, selectedTab, handleSelectCurrency] = useTabs({
+  const [tabs, selectedTab, handleSelectCurrencyTab] = useTabs({
     initialTabID,
     onTabSelect: onCurrencySelect,
     tabs: rawTabs,
   });
 
-  return { handleSelectCurrency, selectedTab, tabs };
+  return { handleSelectCurrencyTab, selectedTab, tabs };
 };

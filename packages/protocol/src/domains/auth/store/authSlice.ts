@@ -16,26 +16,25 @@ const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';
 let WORKER_TOKEN_DATA: IAuthSlice['workerTokenData'];
 
 export interface IAuthSlice {
-  address?: string;
+  authAddress?: string;
+  authAddressType?: EthAddressType;
   authorizationToken?: string;
   credentials?: IJwtToken;
   email?: string;
   encryptionPublicKey?: string;
-  ethAddressType?: EthAddressType;
   hasOauthLogin?: boolean;
+  hasWeb3Autoconnect?: boolean;
   hasWeb3Connection?: boolean;
   isCardPayment?: boolean;
+  isInstantJwtParticipant?: boolean;
+  loginName?: string;
+  oauthProviders?: OauthLoginProvider[];
   trackingWalletName?: string;
   walletMeta?: IWalletMeta;
   workerTokenData?: WorkerTokenData;
-  isInstantJwtParticipant?: boolean;
-  hasWeb3Autoconnect?: boolean;
-  oauthProviders?: OauthLoginProvider[];
-  loginName?: string;
 }
 
 const initialState: IAuthSlice = {
-  address: '',
   oauthProviders: [],
 };
 
@@ -97,7 +96,7 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
     };
   }
 
-  return { address: '' };
+  return {};
 };
 
 export const { setAuthData, resetAuthData } = authSlice.actions;

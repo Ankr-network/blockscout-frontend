@@ -1,7 +1,7 @@
 import { GroupUserRole, IUpdateGroupMemberRoleParams } from 'multirpc-sdk';
 import { useCallback, useMemo, useState } from 'react';
 
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useUpdateRoleMutation } from 'domains/userSettings/actions/teams/updateRole';
 
 import { getUserRole } from '../utils/getUserRole';

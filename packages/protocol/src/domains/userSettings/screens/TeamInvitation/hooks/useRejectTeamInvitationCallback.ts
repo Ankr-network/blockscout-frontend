@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useRejectTeamInvitationMutation } from 'domains/userSettings/actions/teams/rejectTeamInvitation';
 
 export interface UseRejectTeamInvitationCallbackParams {

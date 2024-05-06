@@ -6,7 +6,7 @@ import { emptyFn } from 'modules/common/utils/emptyFn';
 export interface IUsePayButtonHandlerProps {
   currency: ECurrency;
   handleDealPaymentPayButtonClick: () => void;
-  handleOneTimeANKRPaymentPayButtonClick: () => void;
+  handleOneTimeCryptoPaymentPayButtonClick: () => void;
   handleOneTimeUSDPaymentPayButtonClick: () => void;
   handleRecurringPaymentPayButtonClick: () => void;
   isOneTimeCryptoPaymentLoading: boolean;
@@ -18,41 +18,41 @@ type THandlersMap = Record<EPaymentType, [() => void, boolean]>;
 export const usePayButtonHandler = ({
   currency,
   handleDealPaymentPayButtonClick,
-  handleOneTimeANKRPaymentPayButtonClick,
+  handleOneTimeCryptoPaymentPayButtonClick,
   handleOneTimeUSDPaymentPayButtonClick,
   handleRecurringPaymentPayButtonClick,
   isOneTimeCryptoPaymentLoading,
   paymentType,
 }: IUsePayButtonHandlerProps) => {
-  const isANKR = currency === ECurrency.ANKR;
+  const isUSD = currency === ECurrency.USD;
 
   const [handlePayButtonClick, isLoading] = useMemo(() => {
-    if (isANKR) {
+    if (isUSD) {
       const handlersMap: THandlersMap = {
-        [EPaymentType.Deal]: [emptyFn, false],
-        [EPaymentType.OneTime]: [
-          handleOneTimeANKRPaymentPayButtonClick,
-          isOneTimeCryptoPaymentLoading,
-        ],
-        [EPaymentType.Recurring]: [emptyFn, false],
+        [EPaymentType.Deal]: [handleDealPaymentPayButtonClick, false],
+        [EPaymentType.OneTime]: [handleOneTimeUSDPaymentPayButtonClick, false],
+        [EPaymentType.Recurring]: [handleRecurringPaymentPayButtonClick, false],
       };
 
       return handlersMap[paymentType];
     }
 
     const handlersMap: THandlersMap = {
-      [EPaymentType.Deal]: [handleDealPaymentPayButtonClick, false],
-      [EPaymentType.OneTime]: [handleOneTimeUSDPaymentPayButtonClick, false],
-      [EPaymentType.Recurring]: [handleRecurringPaymentPayButtonClick, false],
+      [EPaymentType.Deal]: [emptyFn, false],
+      [EPaymentType.OneTime]: [
+        handleOneTimeCryptoPaymentPayButtonClick,
+        isOneTimeCryptoPaymentLoading,
+      ],
+      [EPaymentType.Recurring]: [emptyFn, false],
     };
 
     return handlersMap[paymentType];
   }, [
     handleDealPaymentPayButtonClick,
-    handleOneTimeANKRPaymentPayButtonClick,
+    handleOneTimeCryptoPaymentPayButtonClick,
     handleOneTimeUSDPaymentPayButtonClick,
     handleRecurringPaymentPayButtonClick,
-    isANKR,
+    isUSD,
     isOneTimeCryptoPaymentLoading,
     paymentType,
   ]);

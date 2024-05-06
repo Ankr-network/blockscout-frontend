@@ -36,6 +36,8 @@ export enum ChainId {
   Stellar = 'stellar',
   Kinto = 'kinto',
   B2 = 'b2',
+  Bitlayer = 'Bitlayer',
+  Xlayer = 'Xlayer',
 }
 
 export const HORIZEN_NAME = 'Horizen EON';

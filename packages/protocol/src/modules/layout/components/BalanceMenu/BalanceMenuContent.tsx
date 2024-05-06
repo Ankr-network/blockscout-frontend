@@ -65,6 +65,7 @@ export const BalanceMenuContent = ({
           {t('header.balance-menu.title')}
         </Typography>
         <ChargingModelLabel
+          currentChargingModel={currentChargingModel}
           currentChargingModelType={type}
           size="small"
           className={classes.label}

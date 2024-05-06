@@ -1,8 +1,6 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments/useOngoingPayments';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';
@@ -10,21 +8,28 @@ import { ICryptoPaymentDepositDialogProps } from './types';
 import { PaymentDetails } from './components/PaymentDetails';
 import { Stepper } from './components/Stepper';
 import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
+import { SwitchNetworkBanner } from './components/SwitchNetworkBanner';
 
 export const CryptoPaymentDepositDialog = ({
   amount,
   amountUsd,
+  amountToDeposit,
   currency,
   network,
+  isWrongNetwork,
+  shouldRevokeApproval,
+  onCheckApproval,
 
   /* IPaymentDetailsProps */
-  approvedAmount,
+  approvalError,
   approvalFeeDetails,
   approvalStatus,
-  approvalError,
+  depositError,
   depositFeeDetails,
   depositStatus,
-  depositError,
+  isAllowanceSent,
+  isMyAllowanceLoading,
+  myAllowance,
 
   /* IButtonsProps */
   activeStep,
@@ -44,23 +49,18 @@ export const CryptoPaymentDepositDialog = ({
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();
 
-  const { amountToDeposit, transactionCurrency } = useTopUp();
-
-  const { shouldShowOngoingPayment: hasOngoingTransaction } =
-    useOngoingPayments();
-
   return (
     <Dialog
       {...dialogProps}
       classes={classes}
       title={t('account.crypto-payment-deposit-dialog.title')}
       titleClassName={classes.title}
-      hasMinimizeIcon={hasOngoingTransaction}
     >
       <Header
         amount={Number(amountToDeposit)}
         amountUsd={amountUsd}
-        currency={transactionCurrency || currency}
+        currency={currency}
+        network={network}
       />
       <Stepper
         className={classes.stepper}
@@ -69,24 +69,31 @@ export const CryptoPaymentDepositDialog = ({
         erroredStep={erroredStep}
       />
       <PaymentDetails
-        approvedAmount={approvedAmount}
         amount={amount}
+        approvalError={approvalError}
         approvalFeeDetails={approvalFeeDetails}
         approvalStatus={approvalStatus}
-        approvalError={approvalError}
         className={classes.paymentDetails}
-        currency={transactionCurrency || currency}
+        currency={currency}
         depositError={depositError}
         depositFeeDetails={depositFeeDetails}
         depositStatus={depositStatus}
+        isAllowanceSent={isAllowanceSent}
+        isMyAllowanceLoading={isMyAllowanceLoading}
+        myAllowance={myAllowance}
         network={network}
       />
+      {isWrongNetwork && <SwitchNetworkBanner network={network} />}
       <Buttons
         activeStep={activeStep}
         isPending={isPending}
         onConfirmButtonClick={onConfirmButtonClick}
         onDiscardButtonClick={onDiscardButtonClick}
         status={status}
+        isWrongNetwork={isWrongNetwork}
+        shouldRevokeApproval={shouldRevokeApproval}
+        isRevokeApprovalLoading={isMyAllowanceLoading}
+        onCheckApproval={onCheckApproval}
       />
     </Dialog>
   );

@@ -1,25 +1,29 @@
 import BigNumber from 'bignumber.js';
 import { Token, getTokenAddress } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
 import { API_ENV } from 'modules/common/utils/environment';
+import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
+import { ECurrency } from 'modules/billing/types';
 
-import { useGasPrice } from './useGasPrice';
+import { getTxFeeByTxReceipt } from '../utils/getTxFeeByTxReceipt';
 import { useNativeTokenPrice } from './useNativeTokenPrice';
 import { useTokenPrice } from './useTokenPrice';
 import { useTxData } from './useTxData';
 import { useTxReceipt } from './useTxReceipt';
-import { getDateFromUnixSeconds } from '../../../modules/common/utils/getDateFromUnixSeconds';
 
 export interface IUseTxDetailsProps {
   amount: number;
   skipFetching?: boolean;
   txHash: string;
+  currency: ECurrency;
 }
 
 export const useTxDetails = ({
   amount,
   skipFetching,
   txHash,
+  currency,
 }: IUseTxDetailsProps) => {
   const { txData, isLoading: isTxDataLoading } = useTxData({
     skipFetching,
@@ -35,11 +39,8 @@ export const useTxDetails = ({
     useNativeTokenPrice({ skipFetching });
 
   const { price: tokenPrice, isFetching: isTokenPriceLoading } = useTokenPrice({
-    tokenAddress: getTokenAddress(Token.ANKR, API_ENV),
-    skipFetching,
-  });
-
-  const { gasPrice, isLoading: isGasPriceLoading } = useGasPrice({
+    currency,
+    tokenAddress: getTokenAddress(currency as unknown as Token, API_ENV),
     skipFetching,
   });
 
@@ -47,8 +48,7 @@ export const useTxDetails = ({
     isTxDataLoading ||
     isTxReceiptLoading ||
     isNativeTokenPriceLoading ||
-    isTokenPriceLoading ||
-    isGasPriceLoading;
+    isTokenPriceLoading;
 
   const fromAddress = txData?.tx.from ?? '';
   const toAddress = txData?.tx.to ?? '';
@@ -56,16 +56,14 @@ export const useTxDetails = ({
     ? getDateFromUnixSeconds(txData.timestamp)
     : undefined;
 
-  const gasUsed = txReceipt?.gasUsed ?? 0;
+  const fee = useMemo(() => getTxFeeByTxReceipt({ txReceipt }), [txReceipt]);
+
   const amountUsd = new BigNumber(tokenPrice).multipliedBy(amount).toNumber();
-
-  const fee = new BigNumber(gasPrice).multipliedBy(gasUsed);
-
-  const feeUsd = fee.multipliedBy(nativeTokenPrice).toNumber();
+  const feeUsd = new BigNumber(fee).multipliedBy(nativeTokenPrice).toNumber();
 
   return {
     amountUsd,
-    fee: fee.toNumber(),
+    fee,
     feeUsd,
     fromAddress,
     isLoading,

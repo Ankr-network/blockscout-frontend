@@ -14,7 +14,7 @@ import { useAppSelector } from 'store/useAppSelector';
 
 import { PostTopUpLocationState } from '../types';
 
-const { cardPaymentSuccess, topUp } = AccountRoutesConfig;
+const { cardPaymentSuccess, accountDetails } = AccountRoutesConfig;
 
 export const useStatusTransitionDialog = () => {
   const { hasFreeToPremiumTransition } = useAuth();
@@ -30,7 +30,7 @@ export const useStatusTransitionDialog = () => {
 
   const shouldShowDialog = useMemo(() => {
     const isRedirectedFromSuccessTopUp =
-      origin === cardPaymentSuccess.path || origin === topUp.path;
+      origin === cardPaymentSuccess.path || origin === accountDetails.path;
 
     return (
       (hasFreeToPremiumTransition || (isSubscribed && isLoaded)) &&

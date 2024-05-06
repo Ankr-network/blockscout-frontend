@@ -11,9 +11,7 @@ export interface PersonalAccountInfoProps {
 export const PersonalAccountInfo = ({
   onAccountButtonClick,
 }: PersonalAccountInfoProps) => {
-  const { address, hasOauthLogin, hasWeb3Connection } = useAuth();
-
-  const hasOauthWithoutWeb3 = Boolean(hasOauthLogin && !hasWeb3Connection);
+  const { address, hasOauthWithoutWeb3 } = useAuth();
 
   const { classes } = usePersonalAccountInfoStyles();
 

@@ -12,6 +12,8 @@ import { usePaymentType } from './usePaymentType';
 import { useRecurringAmount } from '../components/RecurringAmount';
 import { useRecurringPayment } from './useRecurringPayment';
 import { useUSDPaymentSummary } from './useUSDPaymentSummary';
+import { useNetwork } from './useNetwork';
+import { useMinAmount } from './useMinAmount';
 
 export interface IUsePaymentFormProps {
   onConnectAccount: (connectedAddress: Web3Address) => void;
@@ -24,13 +26,21 @@ export const usePaymentForm = ({
 }: IUsePaymentFormProps) => {
   const { paymentType, paymentTabsProps } = usePaymentType();
 
-  const { currency, currencyTabsProps } = useCurrency({ paymentType });
+  const { currency, currencyTabsProps, handleChangeCurrency } = useCurrency({
+    paymentType,
+  });
+
+  const { network, networkOptions, handleNetworkChange } = useNetwork(currency);
 
   const { amount: recurringAmount, ...recurringAmountProps } =
     useRecurringAmount();
 
+  const minAmount = useMinAmount({ currency, network });
+
   const { amount: oneTimeAmount, ...oneTimeAmountProps } = useOneTimeAmount({
     currency,
+    minAmount,
+    handleChangeCurrency,
   });
 
   const dealAmountProps = useDealAmount();
@@ -49,12 +59,16 @@ export const usePaymentForm = ({
   const {
     cryptoPaymentDepositDialogProps,
     cryptoPaymentSuccessDialogProps,
-    cryptoPaymentSummaryProps: oneTimeANKRPaymentSummaryProps,
-    handlePayButtonClick: handleOneTimeANKRPaymentPayButtonClick,
+    cryptoPaymentSummaryProps: oneTimeCryptoPaymentSummaryProps,
+    handlePayButtonClick: handleOneTimeCryptoPaymentPayButtonClick,
     isLoading: isOneTimeCryptoPaymentLoading,
   } = useOneTimeCryptoPayment({
     amount: oneTimeAmount,
     currency,
+    network,
+    networkOptions,
+    oneTimeAmountProps,
+    handleNetworkChange,
     onConnectAccount,
     onCryptoPaymentFlowClose,
   });
@@ -69,7 +83,7 @@ export const usePaymentForm = ({
     usePayButtonHandler({
       currency,
       handleDealPaymentPayButtonClick,
-      handleOneTimeANKRPaymentPayButtonClick,
+      handleOneTimeCryptoPaymentPayButtonClick,
       handleOneTimeUSDPaymentPayButtonClick,
       handleRecurringPaymentPayButtonClick,
       isOneTimeCryptoPaymentLoading,
@@ -86,7 +100,7 @@ export const usePaymentForm = ({
 
   const { cryptoPaymentSummaryProps } = useCryptoPaymentSummary({
     currency,
-    oneTimeANKRPaymentSummaryProps,
+    oneTimeCryptoPaymentSummaryProps,
     paymentType,
   });
 

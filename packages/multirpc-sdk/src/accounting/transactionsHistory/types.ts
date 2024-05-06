@@ -1,3 +1,4 @@
+import { EBlockchain } from '../../common';
 import { IApiUserGroupParams } from '../userGroup';
 
 export interface IAggregatedPaymentHistoryResponse {
@@ -39,6 +40,7 @@ export interface IPaymentHistoryEntity {
   amountUsd: string;
   amountAnkr: string;
   amount: string;
+  blockchain?: EBlockchain;
   creditAnkrAmount: string;
   creditUsdAmount: string;
   creditVoucherAmount: string;

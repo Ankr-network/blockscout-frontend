@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { InviteeRole } from 'modules/groups/components/InviteTeammatesDialog/types';
-import { isMutationSuccessful } from 'store/utils/isMutationSuccessful';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useInviteTeamMemberMutation } from 'domains/userSettings/actions/teams/inviteTeamMember';
 import {
   resetNewUserGroupData,

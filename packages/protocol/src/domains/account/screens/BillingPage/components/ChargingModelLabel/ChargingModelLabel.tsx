@@ -1,23 +1,25 @@
 import { useMemo } from 'react';
 
-import { EChargingModel } from 'modules/billing/types';
+import { EChargingModel, IChargingModelData } from 'modules/billing/types';
 import { UserLabel } from 'uiKit/UserLabel';
 
 import { PAYGLabel } from '../ChargingModelWidget/components/PAYGLabel';
 import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
 
 interface IChargingModelLabelParams {
+  currentChargingModel: IChargingModelData;
   currentChargingModelType: EChargingModel;
   size: 'small' | 'medium' | 'large';
   className?: string;
 }
 
 export const ChargingModelLabel = ({
+  currentChargingModel,
   currentChargingModelType,
   size = 'medium',
   className,
 }: IChargingModelLabelParams) => {
-  const { shouldShowFreemium } = useFreemiumChargingModel();
+  const { shouldShowFreemium } = useFreemiumChargingModel(currentChargingModel);
 
   const freeLabel = useMemo(() => {
     return (

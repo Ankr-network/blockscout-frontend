@@ -30,7 +30,6 @@ import { useWeb3Connection } from './useWeb3Connection';
 
 export const useAuth = () => {
   const { oauthProviders, ...authData } = useAppSelector(selectAuthData);
-
   const hasConnectWalletMessage = useAppSelector(selectHasConnectWalletMessage);
   const hasFreeToPremiumTransition = useAppSelector(
     selectHasFreeToPremiumTransition,
@@ -90,6 +89,7 @@ export const useAuth = () => {
     oauthProviders,
     hasGithubLogin: oauthProviders?.includes(OauthLoginProvider.Github),
     hasGoogleLogin: oauthProviders?.includes(OauthLoginProvider.Google),
+    hasOauthWithoutWeb3: Boolean(authData.hasOauthLogin && !hasWeb3Connection),
     address,
     hasWeb3Connection: Boolean(hasWeb3Connection),
     isWalletConnected: Boolean(address),

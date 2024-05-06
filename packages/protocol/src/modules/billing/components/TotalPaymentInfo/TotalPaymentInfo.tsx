@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { ECurrency, ENetwork, IFeeDetails } from 'modules/billing/types';
+import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import {
   IRenderPaymentSummaryAmountParams,
   renderPaymentSummaryAmount,
@@ -13,7 +14,7 @@ import { useTotalPaymentInfoStyles } from './useTotalPaymentInfoStyles';
 export interface ITotalPaymentInfoProps
   extends IRenderPaymentSummaryAmountParams {
   feeDetails?: IFeeDetails;
-  network?: ENetwork;
+  network?: EBlockchain;
   totalAmount: number;
 }
 

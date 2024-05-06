@@ -1,7 +1,8 @@
+import { EBlockchain } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { Alert } from 'modules/billing/components/CryptoPaymentDepositDialog/components/PaymentDetails/components/Alert';
-import { ECryptoDepositStepStatus, ENetwork } from 'modules/billing/types';
+import { ECryptoDepositStepStatus } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { Label } from 'modules/billing/components/CryptoPaymentDepositDialog/components/PaymentDetails/components/Label';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
@@ -12,7 +13,7 @@ export interface INoApprovalAttributeProps {
   error?: string;
   feeCrypto: number;
   feeUSD: number;
-  network: ENetwork;
+  network: EBlockchain;
   status?: ECryptoDepositStepStatus;
 }
 

@@ -1,55 +1,20 @@
-import { EthAddressType, MultiRpcSdk, MultiRpcWeb3Sdk } from 'multirpc-sdk';
 import { EWalletId, getWalletName } from '@ankr.com/provider';
+import { MultiRpcSdk, MultiRpcWeb3Sdk } from 'multirpc-sdk';
 
-import { AppDispatch, GetState } from 'store';
-import {
-  IAuthSlice,
-  selectAuthData,
-  setAuthData,
-} from 'domains/auth/store/authSlice';
+import { AppDispatch } from 'store';
+import { IAuthSlice, setAuthData } from 'domains/auth/store/authSlice';
 import { getProviderManager } from 'modules/api/getProviderManager';
+import {
+  setNetworkId,
+  setWalletAddress,
+  setWalletMeta,
+} from 'domains/wallet/store/walletSlice';
 
-import { authAuthorizeProvider } from '../getAuthorizationToken';
+import { addSignedWorkerTokenToService } from '../utils/addSignedWorkerTokenToService';
 import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
 import { authFetchDevdaoInstantJwtParticipantToken } from '../instantJwt/fetchDevdaoInstantJwtParticipantToken';
-import { fetchPremiumStatus } from '../fetchPremiumStatus';
 import { authFetchInstantJwtParticipantToken } from '../instantJwt/fetchInstantJwtParticipantToken';
-
-export const getCachedData = (
-  service: MultiRpcSdk,
-  getState: GetState,
-): IAuthSlice => {
-  const authData = selectAuthData(getState());
-
-  if (authData?.authorizationToken) {
-    service.getAccountingGateway().addToken(authData?.authorizationToken);
-    service.getEnterpriseGateway().addToken(authData?.authorizationToken);
-
-    if (authData?.workerTokenData) {
-      service
-        .getWorkerGateway()
-        .addJwtToken(authData?.workerTokenData.signedToken);
-    }
-  }
-
-  return authData;
-};
-
-export const setWeb3UserAuthorizationToken = async (
-  service: MultiRpcSdk,
-  dispatch: AppDispatch,
-) => {
-  const authorizationToken = await dispatch(
-    authAuthorizeProvider.initiate(),
-  ).unwrap();
-
-  dispatch(
-    setAuthData({ authorizationToken, ethAddressType: EthAddressType.User }),
-  );
-
-  service.getAccountingGateway().addToken(authorizationToken);
-  service.getEnterpriseGateway().addToken(authorizationToken);
-};
+import { fetchPremiumStatus } from '../fetchPremiumStatus';
 
 const isInstantJwtParticipant = async (dispatch: AppDispatch) => {
   const isParticipant = await dispatch(
@@ -99,7 +64,7 @@ const getJwtTokenFullData = async ({
   ).unwrap();
 };
 
-interface MakeAuthorizationArguments {
+export interface IMakeAuthorizationParams {
   web3Service: MultiRpcWeb3Sdk;
   service: MultiRpcSdk;
   dispatch: AppDispatch;
@@ -108,14 +73,18 @@ interface MakeAuthorizationArguments {
   totp?: string;
 }
 
+export interface IMakeAuthorizationResult {
+  authData: IAuthSlice;
+}
+
 export const makeAuthorization = async ({
-  web3Service,
-  service,
   dispatch,
-  walletId,
   hasOauthLogin,
+  service,
   totp,
-}: MakeAuthorizationArguments): Promise<IAuthSlice> => {
+  walletId,
+  web3Service,
+}: IMakeAuthorizationParams): Promise<IMakeAuthorizationResult> => {
   const providerManager = getProviderManager();
   const provider = await providerManager.getETHWriteProvider(
     EWalletId.injected,
@@ -138,14 +107,16 @@ export const makeAuthorization = async ({
     );
   }
 
-  if (workerTokenData) {
-    service.getWorkerGateway().addJwtToken(workerTokenData.signedToken);
-  }
+  addSignedWorkerTokenToService({
+    service,
+    signedWorkerToken: workerTokenData?.signedToken,
+  });
 
   const walletMeta = provider.getWalletMeta();
+  const currentNetworkId = provider.currentChain;
 
   const authData: IAuthSlice = {
-    address: currentAccount,
+    authAddress: currentAccount,
     credentials,
     hasOauthLogin,
     hasWeb3Connection: true,
@@ -157,5 +128,9 @@ export const makeAuthorization = async ({
 
   dispatch(setAuthData(authData));
 
-  return authData;
+  dispatch(setWalletAddress(currentAccount));
+  dispatch(setNetworkId(currentNetworkId));
+  dispatch(setWalletMeta(walletMeta));
+
+  return { authData };
 };

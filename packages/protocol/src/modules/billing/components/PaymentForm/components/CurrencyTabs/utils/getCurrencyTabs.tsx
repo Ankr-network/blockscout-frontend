@@ -10,11 +10,17 @@ export interface IGetCurrencyTabsParams {
   disabledCurrencies?: ECurrency[];
 }
 
+export enum ECurrencyTab {
+  ANKR = 'ANKR',
+  USD = 'USD',
+  STABLECOIN = 'STABLECOIN',
+}
+
 export const getCurrencyTabs = ({
   disabledCurrencies,
-}: IGetCurrencyTabsParams): Tab<ECurrency>[] => [
+}: IGetCurrencyTabsParams): Tab<ECurrencyTab>[] => [
   {
-    id: ECurrency.USD,
+    id: ECurrencyTab.USD,
     isDisabled: disabledCurrencies?.includes(ECurrency.USD),
     title: (isSelected: boolean, isDisabled: boolean) => (
       <CurrencyTab
@@ -26,7 +32,7 @@ export const getCurrencyTabs = ({
     ),
   },
   {
-    id: ECurrency.ANKR,
+    id: ECurrencyTab.ANKR,
     isDisabled: disabledCurrencies?.includes(ECurrency.ANKR),
     title: (isSelected: boolean, isDisabled: boolean) => (
       <CurrencyTab
@@ -34,6 +40,20 @@ export const getCurrencyTabs = ({
         isDisabled={isDisabled}
         isSelected={isSelected}
         label={renderCurrencyLabel(ECurrency.ANKR)}
+      />
+    ),
+  },
+  {
+    id: ECurrencyTab.STABLECOIN,
+    isDisabled:
+      disabledCurrencies?.includes(ECurrency.USDT) ||
+      disabledCurrencies?.includes(ECurrency.USDC),
+    title: (isSelected: boolean, isDisabled: boolean) => (
+      <CurrencyTab
+        icon={<CryptoWalletIcon />}
+        isDisabled={isDisabled}
+        isSelected={isSelected}
+        label={renderCurrencyLabel(ECurrency.USDT)}
       />
     ),
   },

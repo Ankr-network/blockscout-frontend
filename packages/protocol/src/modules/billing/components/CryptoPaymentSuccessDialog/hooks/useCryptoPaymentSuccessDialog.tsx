@@ -3,7 +3,6 @@ import { useCallback, useMemo } from 'react';
 import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useTxDetails } from 'domains/account/hooks/useTxDetails';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
@@ -14,20 +13,26 @@ export const useCryptoPaymentSuccessDialog = ({
   currency,
   depositTxHash,
   network,
+  onCloseButtonClick,
+  onOpen,
   paymentType,
 }: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
     onClose: handleCryptoPaymentSuccessDialogClose,
-    onOpen: handleCryptoPaymentSuccessDialogOpen,
+    onOpen: handleOpen,
   } = useDialog();
 
-  const { handleResetTopUpTransaction } = useTopUp();
-
   const onClose = useCallback(() => {
-    handleResetTopUpTransaction();
+    onCloseButtonClick?.();
     handleCryptoPaymentSuccessDialogClose();
-  }, [handleCryptoPaymentSuccessDialogClose, handleResetTopUpTransaction]);
+  }, [handleCryptoPaymentSuccessDialogClose, onCloseButtonClick]);
+
+  const handleCryptoPaymentSuccessDialogOpen = useCallback(async () => {
+    await onOpen?.();
+
+    handleOpen();
+  }, [onOpen, handleOpen]);
 
   const {
     amountUsd: depositAmountUsd,
@@ -41,6 +46,7 @@ export const useCryptoPaymentSuccessDialog = ({
     amount,
     skipFetching: !isOpened,
     txHash: depositTxHash,
+    currency,
   });
 
   const {
@@ -51,6 +57,7 @@ export const useCryptoPaymentSuccessDialog = ({
     amount,
     skipFetching: !isOpened || !allowanceTxHash,
     txHash: allowanceTxHash!,
+    currency,
   });
 
   const isLoading = isDepositTxDataLoading || isAllowanceTxDataLoading;

@@ -39,17 +39,17 @@ export const {
           const service = MultiService.getService();
 
           const {
-            data: { cachedData, hasWeb3Connection, hasOauthLogin } = {},
+            data: { cachedAuthData, hasWeb3Connection, hasOauthLogin } = {},
           } = authConnect.select(undefined as never)(getState() as RootState);
 
           if (hasWeb3Connection) {
             dispatch(setAuthData({ hasWeb3Autoconnect: true }));
 
-            return { data: cachedData };
+            return { data: cachedAuthData };
           }
 
           if (web3Service) {
-            const authData = await makeAuthorization({
+            const { authData } = await makeAuthorization({
               web3Service,
               service,
               dispatch,
@@ -58,12 +58,12 @@ export const {
               totp,
             });
 
-            const { address, trackingWalletName: walletName } = authData;
+            const { authAddress, trackingWalletName: walletName } = authData;
 
             const hasPremium = selectHasPremium(getState() as RootState);
 
             trackWeb3SignUpSuccess({
-              address,
+              address: authAddress,
               hasPremium,
               walletName: walletName!,
             });
@@ -71,7 +71,7 @@ export const {
             return { data: authData };
           }
 
-          return { data: cachedData };
+          return { data: cachedAuthData };
         },
         errorHandler: error => {
           return {

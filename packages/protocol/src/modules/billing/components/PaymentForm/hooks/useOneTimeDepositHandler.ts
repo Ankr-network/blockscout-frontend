@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 
 import { ECryptoDepositStepStatus } from 'modules/billing/types';
-import { hasResponseError } from 'modules/common/utils/hasResponseError';
+import { hasTxConfirmationError } from 'domains/account/actions/topUp/waitTransactionConfirming';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { useOneTimeDialogState } from './useOneTimeDialogState';
 
 type TPropsToExtend = Pick<
   ReturnType<typeof useOneTimeDialogState>,
-  'setCurrentDepositStatus'
+  'setDepositStatus'
 >;
 
 export interface IUseOneTimeDepositHandler extends TPropsToExtend {
@@ -19,7 +19,7 @@ export interface IUseOneTimeDepositHandler extends TPropsToExtend {
 export const useOneTimeDepositHandler = ({
   onCryptoPaymentDepositDialogClose,
   onDepositSuccess,
-  setCurrentDepositStatus,
+  setDepositStatus,
 }: IUseOneTimeDepositHandler) => {
   const { handleDeposit, handleResetDeposit, handleWaitTransactionConfirming } =
     useTopUp();
@@ -27,35 +27,31 @@ export const useOneTimeDepositHandler = ({
   const onDeposit = useCallback(async () => {
     handleResetDeposit();
 
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Confirmation);
+    setDepositStatus(ECryptoDepositStepStatus.Pending);
+
     const depositResponse = await handleDeposit();
 
-    setCurrentDepositStatus(ECryptoDepositStepStatus.Pending);
+    if (depositResponse.isError) {
+      return setDepositStatus(ECryptoDepositStepStatus.Error);
+    }
 
     const confirmationResponse = await handleWaitTransactionConfirming();
 
-    try {
-      const hasDepositError =
-        hasResponseError(depositResponse) ||
-        hasResponseError(confirmationResponse);
-
-      if (hasDepositError) {
-        setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
-      } else {
-        setCurrentDepositStatus(ECryptoDepositStepStatus.Complete);
-        onCryptoPaymentDepositDialogClose();
-        onDepositSuccess();
-      }
-    } catch (error) {
-      setCurrentDepositStatus(ECryptoDepositStepStatus.Error);
+    if (hasTxConfirmationError(confirmationResponse)) {
+      return setDepositStatus(ECryptoDepositStepStatus.Error);
     }
+
+    setDepositStatus(ECryptoDepositStepStatus.Complete);
+    onCryptoPaymentDepositDialogClose();
+
+    return onDepositSuccess();
   }, [
     handleDeposit,
     handleResetDeposit,
     handleWaitTransactionConfirming,
     onCryptoPaymentDepositDialogClose,
     onDepositSuccess,
-    setCurrentDepositStatus,
+    setDepositStatus,
   ]);
 
   return { onDeposit };
