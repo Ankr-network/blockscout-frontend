@@ -56,6 +56,9 @@ import scrollLogoSrc from 'assets/img/logo/scroll.svg';
 import { ReactComponent as KintoLogo } from 'assets/img/logo/kinto.svg';
 import { ReactComponent as KintoLightLogo } from 'assets/img/logo/kintoLight.svg';
 import { ReactComponent as B2Logo } from 'assets/img/logo/b2.svg';
+import { ReactComponent as BitlayerLogo } from 'assets/img/logo/bitlayer.svg';
+import { ReactComponent as XlayerLogo } from 'assets/img/logo/xlayer.svg';
+import { ReactComponent as XlayerDarkLogo } from 'assets/img/logo/xlayerDark.svg';
 
 // eslint-disable-next-line max-lines-per-function
 export const getMenuList = (
@@ -258,6 +261,18 @@ export const getMenuList = (
     chainId: ChainId.B2,
     name: 'B2',
     logo: <B2Logo />,
-    url: 'https://b2.public-rpc.com/',
+    url: 'https://b2-rpc.com/',
+  },
+  {
+    chainId: ChainId.Bitlayer,
+    name: 'Bitlayer',
+    logo: <BitlayerLogo />,
+    url: 'https://bitlayer-rpc.com/',
+  },
+  {
+    chainId: ChainId.Xlayer,
+    name: 'X Layer',
+    logo: isLightTheme ? <XlayerLogo /> : <XlayerDarkLogo />,
+    url: 'https://xlayer-rpc.com/',
   },
 ];
