@@ -1,12 +1,12 @@
 import { useAppSelector } from 'store/useAppSelector';
-import { useHasWeb3Service } from 'domains/auth/hooks/useHasWeb3Service';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import {
   selectWalletAccountANKRBalance,
   selectWalletAccountANKRBalanceFetching,
   selectWalletAccountANKRBalanceLoading,
 } from '../store/selectors';
-import { useFetchWalletAccountANKRBalanceQuery } from '../actions/balance/fetchWalletAccountBalance';
+import { useFetchWalletAccountANKRBalanceQuery } from '../actions/balance/fetchWalletAccountANRKBalance';
 
 export interface IUseWalletAccountANKRBalanceProps {
   skipFetching?: boolean;
@@ -15,7 +15,7 @@ export interface IUseWalletAccountANKRBalanceProps {
 export const useWalletAccountANKRBalance = ({
   skipFetching = false,
 }: IUseWalletAccountANKRBalanceProps | void = {}) => {
-  const { hasWeb3Service } = useHasWeb3Service();
+  const { hasWeb3Service } = useWeb3Service();
 
   const { refetch: refetchANKRBalance } = useFetchWalletAccountANKRBalanceQuery(
     undefined,

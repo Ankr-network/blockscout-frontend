@@ -1,13 +1,20 @@
 import { AppDispatch } from 'store';
-import { MultiService } from 'modules/api/MultiService';
 import { IAuthSlice, setAuthData } from 'domains/auth/store/authSlice';
+import { MultiService } from 'modules/api/MultiService';
+import { addSignedWorkerTokenToService } from 'domains/auth/actions/utils/addSignedWorkerTokenToService';
 import { authFetchInstantJwtParticipantToken } from 'domains/auth/actions/instantJwt/fetchInstantJwtParticipantToken';
 
-export const loginUserJwt = async (
-  dispatch: AppDispatch,
-  authData: IAuthSlice,
-  totp?: string,
-) => {
+interface ILoginUserJwtParams {
+  authData: IAuthSlice;
+  dispatch: AppDispatch;
+  totp?: string;
+}
+
+export const loginUserJwt = async ({
+  authData,
+  dispatch,
+  totp,
+}: ILoginUserJwtParams) => {
   const service = MultiService.getService();
 
   const { data, error } = await dispatch(
@@ -27,9 +34,10 @@ export const loginUserJwt = async (
 
   const { jwtToken, workerTokenData } = data || {};
 
-  if (workerTokenData?.signedToken) {
-    service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);
-  }
+  addSignedWorkerTokenToService({
+    service,
+    signedWorkerToken: workerTokenData?.signedToken,
+  });
 
   dispatch(
     setAuthData({

@@ -93,9 +93,6 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.FLARE,
       ChainID.FLARE_EVM,
-      ChainID.FLARE_COSTON_EVM,
-      ChainID.FLARE_COSTON2_EVM,
-      ChainID.FLARE_SONGBIRD_EVM,
 
       ChainID.GNOSIS,
       ChainID.GNOSIS_BEACON,
@@ -389,42 +386,6 @@ export const chainGroups: ChainGroup[] = [
     name: 'Soroban',
     pluralName: 'Soroban',
     chains: [ChainID.STELLAR_SOROBAN, ChainID.STELLAR_TESTNET_SOROBAN],
-  },
-  {
-    id: ChainGroupID.FLARE_COSTON,
-    name: 'Coston',
-    pluralName: 'Coston',
-    chains: [
-      ChainID.FLARE_COSTON,
-      ChainID.FLARE_COSTON_EVM,
-      ChainID.FLARE_COSTON_C,
-      ChainID.FLARE_COSTON_P,
-      ChainID.FLARE_COSTON_X,
-    ],
-  },
-  {
-    id: ChainGroupID.FLARE_COSTON2,
-    name: 'Coston 2',
-    pluralName: 'Coston 2',
-    chains: [
-      ChainID.FLARE_COSTON2,
-      ChainID.FLARE_COSTON2_EVM,
-      ChainID.FLARE_COSTON2_C,
-      ChainID.FLARE_COSTON2_P,
-      ChainID.FLARE_COSTON2_X,
-    ],
-  },
-  {
-    id: ChainGroupID.FLARE_SONGBIRD,
-    name: 'Songbird',
-    pluralName: 'Songbird',
-    chains: [
-      ChainID.FLARE_SONGBIRD,
-      ChainID.FLARE_SONGBIRD_EVM,
-      ChainID.FLARE_SONGBIRD_C,
-      ChainID.FLARE_SONGBIRD_P,
-      ChainID.FLARE_SONGBIRD_X,
-    ],
   },
   {
     id: ChainGroupID.GOLDBERG,

@@ -1,24 +1,19 @@
 import { useMemo } from 'react';
+import { EBlockchain } from 'multirpc-sdk';
 
 import {
   ECryptoDepositStep,
   ECryptoDepositStepStatus,
   ECurrency,
-  ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
-import { selectIsAllowanceSent } from 'domains/account/store/selectors';
-import { useAppSelector } from 'store/useAppSelector';
-import { useMyAllowance } from 'domains/account/hooks/useMyAllowance';
-import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments';
-import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 import { ICryptoPaymentDepositDialogProps } from '../types';
 import { getCompletedStep } from '../utils/getCompletedStep';
 import { getErroredStep } from '../utils/getErroredStep';
 import { getStatus } from '../utils/getStatus';
 import { isPending } from '../utils/isPending';
-import { useCloseDialogHandler } from './useCloseDialogHandler';
+import { useCryptoPaymentDepositDialogProps } from './useCryptoPaymentDepositDialogProps';
 import { useConfirmButtonClickHandler } from './useConfirmButtonClickHandler';
 
 export interface IUseCryptoPaymentDepositDialogProps {
@@ -29,6 +24,7 @@ export interface IUseCryptoPaymentDepositDialogProps {
   currency: ECurrency;
   depositError?: string;
   depositFeeDetails: IFeeDetails;
+  network: EBlockchain;
   depositStatus?: ECryptoDepositStepStatus;
   handleCryptoPaymentDepositDialogOpen: () => void;
   handleRejectAllowance: () => void;
@@ -48,6 +44,7 @@ export const useCryptoPaymentDepositDialog = ({
   currency,
   depositError,
   depositFeeDetails,
+  network,
   depositStatus,
   handleCryptoPaymentDepositDialogOpen,
   handleRejectAllowance,
@@ -58,32 +55,34 @@ export const useCryptoPaymentDepositDialog = ({
   sendAllowanceError: approvalError,
   step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
-  const { myAllowance, isLoading: isMyAllowanceLoading } = useMyAllowance({
-    skipFetching: !isCryptoPaymentDepositDialogOpened,
-  });
-
-  const isAllowanceSent = useAppSelector(selectIsAllowanceSent);
-
-  const { amountToDeposit, handleResetAllowance, transactionCurrency } =
-    useTopUp();
-
   const {
+    myAllowance,
+    isMyAllowanceLoading,
+    isWrongNetwork,
+    shouldRevokeApproval,
+    handleSwitchNetwork,
+    isSwitchNetworkLoading,
+    isAllowanceSent,
     isOngoingPaymentError,
-    isOngoingPaymentPending,
-    shouldShowOngoingPayment: hasOngoingTransaction,
-  } = useOngoingPayments();
-
-  const { onClose } = useCloseDialogHandler({
-    handleRejectAllowance,
-    handleResetAllowance,
-    isOngoingPaymentError,
-    isOngoingPaymentPending,
+    amountToDeposit,
+    transactionCurrency,
+    hasOngoingTransaction,
+    onClose,
+    onCheckApproval,
+  } = useCryptoPaymentDepositDialogProps({
+    currency,
+    network,
+    depositStatus,
+    isCryptoPaymentDepositDialogOpened,
     onCryptoPaymentDepositDialogClose,
   });
 
   const { onConfirmButtonClick } = useConfirmButtonClickHandler({
     approvalError,
     approvalStatus,
+    network,
+    isWrongNetwork,
+    handleSwitchNetwork,
     handleDeposit: onDeposit,
     handleSendAllowance,
   });
@@ -94,6 +93,9 @@ export const useCryptoPaymentDepositDialog = ({
       amount,
       amountToDeposit,
       amountUsd,
+      network,
+      isWrongNetwork,
+      shouldRevokeApproval,
       approvalError,
       approvalFeeDetails,
       approvalStatus,
@@ -107,16 +109,18 @@ export const useCryptoPaymentDepositDialog = ({
       isAllowanceSent,
       isMyAllowanceLoading,
       isPending: isPending({
+        isSwitchNetworkLoading,
         approvalStatus,
         depositStatus,
         isMyAllowanceLoading,
         step,
       }),
+      isRevokeApprovalLoading: isMyAllowanceLoading,
       myAllowance,
-      network: ENetwork.ETH,
       onClose,
       onConfirmButtonClick,
       onDiscardButtonClick: handleRejectAllowance,
+      onCheckApproval,
       onOpen: handleCryptoPaymentDepositDialogOpen,
       open: isCryptoPaymentDepositDialogOpened,
       status: getStatus({ approvalStatus, depositStatus, step }),
@@ -142,8 +146,13 @@ export const useCryptoPaymentDepositDialog = ({
       myAllowance,
       onClose,
       onConfirmButtonClick,
+      onCheckApproval,
       step,
       transactionCurrency,
+      isSwitchNetworkLoading,
+      isWrongNetwork,
+      network,
+      shouldRevokeApproval,
     ],
   );
 };

@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 
 import { API_ENV } from 'modules/common/utils/environment';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
+import { ECurrency } from 'modules/billing/types';
 
 import { getTxFeeByTxReceipt } from '../utils/getTxFeeByTxReceipt';
 import { useNativeTokenPrice } from './useNativeTokenPrice';
@@ -15,12 +16,14 @@ export interface IUseTxDetailsProps {
   amount: number;
   skipFetching?: boolean;
   txHash: string;
+  currency: ECurrency;
 }
 
 export const useTxDetails = ({
   amount,
   skipFetching,
   txHash,
+  currency,
 }: IUseTxDetailsProps) => {
   const { txData, isLoading: isTxDataLoading } = useTxData({
     skipFetching,
@@ -36,7 +39,8 @@ export const useTxDetails = ({
     useNativeTokenPrice({ skipFetching });
 
   const { price: tokenPrice, isFetching: isTokenPriceLoading } = useTokenPrice({
-    tokenAddress: getTokenAddress(Token.ANKR, API_ENV),
+    currency,
+    tokenAddress: getTokenAddress(currency as unknown as Token, API_ENV),
     skipFetching,
   });
 

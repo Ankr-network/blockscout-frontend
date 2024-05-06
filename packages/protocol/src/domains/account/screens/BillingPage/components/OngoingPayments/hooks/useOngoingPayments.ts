@@ -8,15 +8,15 @@ export const useOngoingPayments = () => {
   const transaction = useSelectTopUpTransaction();
 
   const txHash = transaction?.topUpTransactionHash;
+  const network = transaction?.network;
+  const currency = transaction?.currency ?? ECurrency.ANKR;
 
-  const approvedAmountString = transaction?.approvedAmount?.toString();
-  const approvedAmountNumber = Number(transaction?.approvedAmount) || 0;
-
-  const amountToDepositString = transaction?.amountToDeposit?.toString();
+  const depositAmountString = transaction?.amountToDeposit?.toString();
+  const depositAmountNumber = Number(transaction?.amountToDeposit) || 0;
 
   const { amountUsd: approvedUsdAmount = 0 } = useUSDAmountByCryptoAmount({
-    amount: approvedAmountNumber,
-    currency: ECurrency.ANKR,
+    amount: depositAmountNumber,
+    currency,
   });
 
   const {
@@ -28,10 +28,10 @@ export const useOngoingPayments = () => {
 
   const shouldShowOngoingPayment = Boolean(txHash);
 
-  const isSuccessState = isOngoingPaymentSuccess && approvedAmountString;
+  const isSuccessState = isOngoingPaymentSuccess && depositAmountString;
 
   return {
-    approvedAmountString: approvedAmountString || amountToDepositString,
+    approvedAmountString: depositAmountString,
     approvedUsdAmount,
     isOngoingPaymentError,
     isOngoingPaymentPending,
@@ -39,5 +39,7 @@ export const useOngoingPayments = () => {
     ongoingPaymentStatus,
     shouldShowOngoingPayment,
     txHash,
+    currency,
+    network,
   };
 };

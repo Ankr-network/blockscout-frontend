@@ -3,6 +3,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 import { loadPaymentHistory } from '../utils/loadPaymentHistory';
+import { mapTransactionsWithTxReceiptData } from '../utils/loadPaymentHistory/mapTransactionsWithTxReceiptData';
 
 export const {
   endpoints: { accountFetchPaymentHistory },
@@ -16,7 +17,16 @@ export const {
       queryFn: createNotifyingQueryFn(async params => {
         const data = await loadPaymentHistory(params);
 
-        return { data };
+        const updatedTransactions = await mapTransactionsWithTxReceiptData(
+          data.list,
+        );
+
+        return {
+          data: {
+            ...data,
+            list: updatedTransactions,
+          },
+        };
       }),
       onQueryStarted: async (
         { isPaginationRequest },

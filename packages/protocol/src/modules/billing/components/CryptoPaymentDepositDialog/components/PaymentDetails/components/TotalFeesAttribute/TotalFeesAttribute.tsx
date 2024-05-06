@@ -1,13 +1,14 @@
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { ENetwork, IFeeDetails } from 'modules/billing/types';
+import { IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
 
 export interface ITotalFeesAttributeProps {
   approvalFeeDetails?: IFeeDetails;
   depositFeeDetails: IFeeDetails;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 const defaultApprovalFeeDetails: IFeeDetails = {

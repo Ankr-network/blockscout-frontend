@@ -1,11 +1,15 @@
 import { LoadingButton } from '@ankr.com/ui';
+import { ButtonProps, ButtonOwnProps, LinkProps } from '@mui/material';
 import { ReactNode } from 'react';
 
-export interface IPrimaryButtonProps {
+export interface IPrimaryButtonProps
+  extends ButtonProps,
+    Omit<ButtonOwnProps, 'classes'>,
+    Pick<LinkProps, 'target'> {
   children: ReactNode;
   className?: string;
   isLoading?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const PrimaryButton = ({ isLoading, ...props }: IPrimaryButtonProps) => {

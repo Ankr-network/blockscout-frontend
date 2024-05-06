@@ -1,39 +1,44 @@
 import { EWalletId, ProviderEvents } from '@ankr.com/provider';
-import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
+import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 
-import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { NewProjectStep } from 'domains/projects/types';
+import { RootState } from 'store';
+import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
+import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
+import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
+import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
 import { disconnectService } from 'domains/auth/actions/connect/connectUtils';
+import { getAxiosAccountingErrorMessage } from 'store/utils/getAxiosAccountingErrorMessage';
 import { getEndpointByName } from 'store/utils/getEndpointByName';
+import { getProviderManager } from 'modules/api/getProviderManager';
+import { is2FAError } from 'store/utils/is2FAError';
 import { is2FARejectedAction } from 'store/matchers/is2FARejectedAction';
 import { isAuthRejectedAction } from 'store/matchers/isAuthRejectedAction';
+import { isEventProvider } from 'store/utils/isEventProvider';
+import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
 import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
+import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { oauthSignout } from 'domains/oauth/actions/signout';
+import { resetConfig, selectNewProjectConfig } from 'domains/projects/store';
+import { resetOriginChainURL } from 'domains/chains/store/chainsSlice';
+import { selectCurrentAddress } from 'domains/auth/store';
 import {
-  setTwoFAErrorMessage,
+  selectTwoFAEndpoint,
   setIsTwoFADialogOpened,
   setTwoFACode,
   setTwoFAEndpoint,
-  selectTwoFAEndpoint,
+  setTwoFAErrorMessage,
 } from 'domains/userSettings/store/userSettingsSlice';
+import {
+  setNetworkId,
+  setWalletAddress,
+  setWalletMeta,
+} from 'domains/wallet/store/walletSlice';
 import { shouldShowUserGroupDialog } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { usdTopUpWatchForTheFirstCardPayment } from 'domains/account/actions/usdTopUp/watchForTheFirstCardPayment';
-import { is2FAError } from 'store/utils/is2FAError';
-import { getAxiosAccountingErrorMessage } from 'store/utils/getAxiosAccountingErrorMessage';
-import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
-import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
-import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
-import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
-import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
-import { resetConfig, selectNewProjectConfig } from 'domains/projects/store';
-import { NewProjectStep } from 'domains/projects/types';
-import { selectCurrentAddress } from 'domains/auth/store';
-import { resetOriginChainURL } from 'domains/chains/store/chainsSlice';
-import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
-import { getProviderManager } from 'modules/api/getProviderManager';
-import { isEventProvider } from 'store/utils/isEventProvider';
 
 export const listenerMiddleware = createListenerMiddleware<RootState>();
 
@@ -85,8 +90,8 @@ listenerMiddleware.startListening({
       const provider = ethWeb3KeyProvider.getWeb3()?.currentProvider;
 
       if (isEventProvider(provider)) {
-        provider.removeAllListeners(ProviderEvents.ChainChanged);
         provider.removeAllListeners(ProviderEvents.Disconnect);
+        provider.removeAllListeners(ProviderEvents.ChainChanged);
       }
     }
 
@@ -101,15 +106,39 @@ listenerMiddleware.startListening({
     const ethWeb3KeyProvider = await providerManager.getETHWriteProvider(
       EWalletId.injected,
     );
-    const provider = ethWeb3KeyProvider.getWeb3()?.currentProvider;
+    const web3 = ethWeb3KeyProvider.getWeb3();
+    const provider = web3?.currentProvider;
+
+    dispatch(setWalletMeta(ethWeb3KeyProvider.getWalletMeta()));
+    dispatch(setWalletAddress(ethWeb3KeyProvider.currentAccount));
 
     if (isEventProvider(provider)) {
-      const handler = () => {
+      const disconnectHandler = () => {
         dispatch(authDisconnect.initiate());
       };
 
-      provider.on(ProviderEvents.ChainChanged, handler);
-      provider.on(ProviderEvents.Disconnect, handler);
+      const chainChangedHandler = (data: string) => {
+        const chainId = data.startsWith('0x')
+          ? data
+          : web3.utils.numberToHex(data);
+
+        const networkId = Number.parseInt(chainId, 16);
+
+        dispatch(setNetworkId(networkId));
+        disconnectHandler();
+      };
+
+      const accountsChangedHandler = (connectedAddresses: string[]) => {
+        const address = connectedAddresses?.[0];
+
+        dispatch(setWalletAddress(address));
+
+        ethWeb3KeyProvider.currentAccount = address;
+      };
+
+      provider.on(ProviderEvents.Disconnect, disconnectHandler);
+      provider.on(ProviderEvents.ChainChanged, chainChangedHandler);
+      provider.on(ProviderEvents.AccountsChanged, accountsChangedHandler);
     }
   },
 });

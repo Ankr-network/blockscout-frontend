@@ -9,14 +9,19 @@ import { useAmountInput } from '../../AmountInput';
 
 export interface IUseOneTimeAmountProps {
   currency: ECurrency;
+  minAmount: number;
+  handleChangeCurrency: (currency: ECurrency) => void;
 }
 
 export interface IUseOneTimeAmountResult extends IOneTimeAmountProps {
   amount: number;
+  handleChangeCurrency: (currency: ECurrency) => void;
 }
 
 export const useOneTimeAmount = ({
   currency,
+  minAmount,
+  handleChangeCurrency,
 }: IUseOneTimeAmountProps): IUseOneTimeAmountResult => {
   const { amount, amounts, selectedAmountID, setAmount, setSelectedAmountID } =
     useAmount({ currency });
@@ -38,7 +43,9 @@ export const useOneTimeAmount = ({
   const { isLoading, ...amountInputProps } = useAmountInput({
     amount,
     currency,
+    minAmount,
     handleSetAmount: setAmount,
+    handleChangeCurrency,
   });
 
   const { resetInputError } = amountInputProps;
@@ -54,6 +61,7 @@ export const useOneTimeAmount = ({
     amounts,
     isLoading,
     onAmountSelect,
+    handleChangeCurrency,
     selectedAmountID,
   };
 };

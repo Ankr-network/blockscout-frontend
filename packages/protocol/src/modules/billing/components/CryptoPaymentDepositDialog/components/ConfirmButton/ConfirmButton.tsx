@@ -1,5 +1,5 @@
-import { LoadingButton } from '@ankr.com/ui';
 import { useCallback } from 'react';
+import { LoadingButton } from '@ankr.com/ui';
 
 import {
   ECryptoDepositStep,
@@ -15,6 +15,7 @@ export interface IConfirmButtonProps {
   isPending: boolean;
   onClick: () => void;
   status: ECryptoDepositStepStatus;
+  isWrongNetwork: boolean;
 }
 
 export const ConfirmButton = ({
@@ -22,10 +23,12 @@ export const ConfirmButton = ({
   isPending,
   onClick: handleClick,
   status,
+  isWrongNetwork,
 }: IConfirmButtonProps) => {
   const tooltipProps = useTooltip();
 
   const { onOpen: handleTooltipOpen } = tooltipProps;
+
   const onClick = useCallback(() => {
     if (isPending) {
       handleTooltipOpen();
@@ -44,7 +47,7 @@ export const ConfirmButton = ({
         size="large"
         variant="contained"
       >
-        {renderButtonText({ activeStep, isPending, status })}
+        {renderButtonText({ activeStep, isPending, status, isWrongNetwork })}
       </LoadingButton>
     </Tooltip>
   );

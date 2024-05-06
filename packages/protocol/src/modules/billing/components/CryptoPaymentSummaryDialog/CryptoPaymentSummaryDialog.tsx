@@ -7,6 +7,7 @@ import { ButtonsGroup, IButtonsGroupProps } from './components/ButtonsGroup';
 import { ICryptoPaymentSummaryDialogCommonProps } from './types';
 import { TxDetails } from './components/TxDetails';
 import { useCryptoPaymentSummaryDialogStyles } from './useCryptoPaymentSummaryDialogStyles';
+import { IOneTimeAmountProps } from '../PaymentForm/components/OneTimeAmount';
 
 export interface ICryptoPaymentSummaryDialogProps
   extends ICryptoPaymentSummaryDialogCommonProps,
@@ -14,6 +15,7 @@ export interface ICryptoPaymentSummaryDialogProps
     IDialogProps {
   approvalFeeDetails: IFeeDetails;
   depositFeeDetails: IFeeDetails;
+  oneTimeAmountProps: IOneTimeAmountProps;
 }
 
 export const CryptoPaymentSummaryDialog = ({
@@ -27,12 +29,15 @@ export const CryptoPaymentSummaryDialog = ({
   isConnecting,
   isWalletTokenBalanceLoading,
   network,
+  networkOptions,
+  handleNetworkChange,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
   onConfirmButtonClick,
   onConnectButtonClick,
   totalAmount,
   walletIcon,
+  oneTimeAmountProps,
   ...dialogProps
 }: ICryptoPaymentSummaryDialogProps) => {
   const { classes } = useCryptoPaymentSummaryDialogStyles();
@@ -52,7 +57,10 @@ export const CryptoPaymentSummaryDialog = ({
         hasEnoughTokenBalance={hasEnoughTokenBalance}
         isWalletTokenBalanceLoading={isWalletTokenBalanceLoading}
         network={network}
+        networkOptions={networkOptions}
+        onNetworkChange={handleNetworkChange}
         totalAmount={totalAmount}
+        oneTimeAmountProps={oneTimeAmountProps}
       />
       <ButtonsGroup
         connectedAddress={connectedAddress}

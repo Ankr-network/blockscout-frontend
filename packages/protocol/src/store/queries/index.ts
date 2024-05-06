@@ -2,7 +2,11 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export enum RequestType {
   'ANKRAllowanceFee' = 'ANKRAllowanceFee',
+  'USDTAllowanceFee' = 'USDTAllowanceFee',
+  'USDCAllowanceFee' = 'USDCAllowanceFee',
   'ANKRDepositFee' = 'ANKRDepositFee',
+  'USDTDepositFee' = 'USDTDepositFee',
+  'USDCDepositFee' = 'USDCDepositFee',
   'BindingAccounts' = 'BindingAccounts',
   'GroupCreationAllowance' = 'GroupCreationAllowance',
   'MyBundles' = 'MyBundles',
@@ -10,7 +14,9 @@ export enum RequestType {
   'ProjectWhitelist' = 'ProjectWhitelist',
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
-  'WalletTokenBalance' = 'WalletTokenBalance',
+  'WalletANKRTokenBalance' = 'WalletANKRTokenBalance',
+  'WalletUSDTTokenBalance' = 'WalletUSDTTokenBalance',
+  'WalletUSDCTokenBalance' = 'WalletUSDCTokenBalance',
   'WhitelistBlockchains' = 'WhitelistBlockchains',
 }
 

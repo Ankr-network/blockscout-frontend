@@ -1,9 +1,9 @@
+import { EBlockchain } from 'multirpc-sdk';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import {
   ECryptoDepositStepStatus,
   ECurrency,
-  ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
@@ -27,7 +27,7 @@ export interface IApprovalAttributeProps {
   isAllowanceSent: boolean;
   isMyAllowanceLoading: boolean;
   myAllowance: number;
-  network: ENetwork;
+  network: EBlockchain;
   status?: ECryptoDepositStepStatus;
 }
 

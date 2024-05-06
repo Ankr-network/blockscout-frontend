@@ -35,7 +35,7 @@ export const useSendAllowanceHandler = ({
 
     const sendAllowanceResponce = await sendAllowance();
 
-    if (sendAllowanceResponce.error) {
+    if (sendAllowanceResponce?.error) {
       setApprovalStatus(ECryptoDepositStepStatus.Error);
 
       return;

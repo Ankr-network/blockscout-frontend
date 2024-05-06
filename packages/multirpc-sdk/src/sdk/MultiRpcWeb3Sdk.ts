@@ -6,6 +6,7 @@ import {
   Web3Address,
   Tier,
   DATE_MULTIPLIER,
+  TContractAddresses,
 } from '../common';
 import { PAYGContractManager } from '../PAYGContract';
 import {
@@ -15,15 +16,27 @@ import {
   ContractService,
 } from '../services';
 import { parseJwtToken } from './utils';
+import { UsdtPAYGContractManager } from '../PAYGContract/UsdtPAYGContractManager';
+import { UsdcPAYGContractManager } from '../PAYGContract/UsdcPAYGContractManager';
+import { USDTContractService } from '../services/contractService/UsdtContractService';
+import { USDCContractService } from '../services/contractService/UsdcContractService';
 
 export class MultiRpcWeb3Sdk {
   private PAYGContractManager?: PAYGContractManager;
+
+  private usdtContractManager?: UsdtPAYGContractManager;
+
+  private usdcContractManager?: UsdcPAYGContractManager;
 
   private tokenIssuerService?: Web3TokenIssuerService;
 
   private tokenDecryptionService?: TokenDecryptionService;
 
   private contractService?: ContractService;
+
+  private usdtContractService?: USDTContractService;
+
+  private usdcContractService?: USDCContractService;
 
   public constructor(
     private readonly keyWriteProvider: Web3KeyWriteProvider,
@@ -139,9 +152,65 @@ export class MultiRpcWeb3Sdk {
   private getPAYGContractManager(): PAYGContractManager {
     this.PAYGContractManager =
       this.PAYGContractManager ||
-      new PAYGContractManager(this.keyWriteProvider, this.keyReadProvider, this.config);
+      new PAYGContractManager(
+        this.keyWriteProvider,
+        this.keyReadProvider,
+        this.config,
+      );
 
     return this.PAYGContractManager;
+  }
+
+  private getUsdtContractManager({
+    depositContractAddress,
+    tokenAddress,
+  }: TContractAddresses): UsdtPAYGContractManager {
+    const isContractManagerInitializedWithCurrentAddresses =
+      this.usdtContractManager?.depositContractAddress ===
+      depositContractAddress &&
+      this.usdtContractManager?.tokenAddress ===
+      tokenAddress;
+
+    const canUseCurrentManager =
+      this.usdtContractManager &&
+      isContractManagerInitializedWithCurrentAddresses;
+
+    this.usdtContractManager = canUseCurrentManager
+      ? this.usdtContractManager!
+      : new UsdtPAYGContractManager(
+        this.keyWriteProvider,
+        this.keyReadProvider,
+        tokenAddress,
+        depositContractAddress,
+      );
+
+    return this.usdtContractManager;
+  }
+
+  private getUsdcContractManager({
+    depositContractAddress,
+    tokenAddress,
+  }: TContractAddresses): UsdcPAYGContractManager {
+    const isContractManagerInitializedWithCurrentAddresses =
+      this.usdcContractManager?.depositContractAddress ===
+      depositContractAddress &&
+      this.usdcContractManager?.tokenAddress ===
+      tokenAddress;
+
+    const canUseCurrentManager =
+      this.usdcContractManager &&
+      isContractManagerInitializedWithCurrentAddresses;
+
+    this.usdcContractManager = canUseCurrentManager
+      ? this.usdcContractManager!
+      : new UsdcPAYGContractManager(
+        this.keyWriteProvider,
+        this.keyReadProvider,
+        tokenAddress,
+        depositContractAddress,
+      );
+
+    return this.usdcContractManager;
   }
 
   public getTokenDecryptionService(): TokenDecryptionService {
@@ -174,6 +243,60 @@ export class MultiRpcWeb3Sdk {
       );
 
     return this.contractService;
+  }
+
+  public getUsdtContractService({
+    depositContractAddress,
+    tokenAddress,
+  }: TContractAddresses): USDTContractService {
+    const isContractManagerInitializedWithCurrentAddresses =
+      this.usdtContractManager?.depositContractAddress ===
+      depositContractAddress &&
+      this.usdtContractManager?.tokenAddress ===
+      tokenAddress;
+
+    const canUseCurrentManager =
+      this.usdtContractService &&
+      isContractManagerInitializedWithCurrentAddresses;
+
+    this.usdtContractService = canUseCurrentManager
+      ? this.usdtContractService!
+      : new USDTContractService(
+        this.keyWriteProvider,
+        this.getUsdtContractManager({
+          depositContractAddress,
+          tokenAddress,
+        }),
+      );
+
+    return this.usdtContractService;
+  }
+
+  public getUsdcContractService({
+    depositContractAddress,
+    tokenAddress,
+  }: TContractAddresses): USDCContractService {
+    const isContractManagerInitializedWithCurrentAddresses =
+      this.usdcContractManager?.depositContractAddress ===
+      depositContractAddress &&
+      this.usdcContractManager?.tokenAddress ===
+      tokenAddress;
+
+    const canUseCurrentManager =
+      this.usdcContractService &&
+      isContractManagerInitializedWithCurrentAddresses;
+
+    this.usdcContractService = canUseCurrentManager
+      ? this.usdcContractService!
+      : new USDCContractService(
+        this.keyWriteProvider,
+        this.getUsdcContractManager({
+          depositContractAddress,
+          tokenAddress,
+        }),
+      );
+
+    return this.usdcContractService;
   }
 
   public upgradeInstantJwtToken(token: string) {

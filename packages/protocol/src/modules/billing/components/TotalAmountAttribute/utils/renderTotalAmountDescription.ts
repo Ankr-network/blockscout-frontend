@@ -1,4 +1,6 @@
-import { ECurrency, ENetwork } from 'modules/billing/types';
+import { EBlockchain } from 'multirpc-sdk';
+
+import { ECurrency } from 'modules/billing/types';
 import { renderCryptoAmount } from 'modules/billing/utils/renderCryptoAmount';
 import { renderCryptoFee } from 'modules/billing/utils/renderCryptoFee';
 
@@ -9,7 +11,7 @@ export interface IRenderTotalAmountDescriptionParams {
   currency: ECurrency;
   approvalFee?: number;
   depositFee: number;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 export const renderTotalAmountDescription = ({

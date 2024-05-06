@@ -10,6 +10,8 @@ export const isMainnet = currentEnv === Env.Production;
 
 export const ZERO = new BigNumber(0);
 
+export const DEFAULT_TOKEN_DECIMALS = 18;
+
 export enum MilliSeconds {
   Second = 1000,
   Minute = Second * 60,

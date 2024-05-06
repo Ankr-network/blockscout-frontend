@@ -1,14 +1,14 @@
-import { web3Api } from 'store/queries';
-import { selectAuthData } from 'domains/auth/store/authSlice';
 import { RootState } from 'store';
 import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
-import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
+import { selectAuthData } from 'domains/auth/store/authSlice';
 import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
+import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
+import { web3Api } from 'store/queries';
 
 import {
   resetUserGroupConfig,
-  selectUserGroupConfigByAddress,
   resetUserGroupJwt,
+  selectUserGroupConfigByAddress,
   setUserGroupConfig,
 } from '../store';
 import { userGroupFetchGroups } from './fetchGroups';
@@ -36,10 +36,10 @@ export const {
         }
 
         const {
-          hasWeb3Autoconnect,
-          address: userAddress,
-          hasWeb3Connection,
+          authAddress: userAddress,
           hasOauthLogin,
+          hasWeb3Autoconnect,
+          hasWeb3Connection,
         } = selectAuthData(state);
 
         const { shouldRemind, selectedGroupAddress } =

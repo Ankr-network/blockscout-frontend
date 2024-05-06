@@ -10,11 +10,11 @@ export const usePersonalAccountButton = () => {
     email,
     hasOauthLogin,
     hasWeb3Connection,
+    hasOauthWithoutWeb3,
     loginName,
     oauthProviders: [oauthProvider] = [undefined],
   } = useAuth();
 
-  const hasOauthWithoutWeb3 = Boolean(hasOauthLogin && !hasWeb3Connection);
   const withoutWeb3WithoutOauth = !hasOauthLogin && !hasWeb3Connection;
 
   const accountName = useMemo(

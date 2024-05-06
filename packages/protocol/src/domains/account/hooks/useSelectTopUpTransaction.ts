@@ -1,12 +1,12 @@
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 import { selectTransaction } from '../store/selectors';
 
 export const useSelectTopUpTransaction = () => {
   const { address: personalAddress } = useAuth();
-  const { connectedAddress: depositAddress } = useConnectedAddress();
+  const { walletAddress: depositAddress } = useWalletAddress();
 
   const address = depositAddress ?? personalAddress;
 

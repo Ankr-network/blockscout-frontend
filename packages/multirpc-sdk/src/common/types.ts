@@ -4,6 +4,11 @@ export type Web3Address = string;
 export type Base64 = string;
 export type PrefixedHex = string;
 
+export type TContractAddresses = {
+  depositContractAddress: Web3Address;
+  tokenAddress: Web3Address;
+}
+
 export type Network =
   | 'solana'
   | 'near'
@@ -144,6 +149,8 @@ export interface JwtTokenFullData {
 export enum Token {
   ANKR = 'ANKR',
   ETH = 'ETH',
+  USDT = 'USDT',
+  USDC = 'USDC',
 }
 
 export interface IConfig {

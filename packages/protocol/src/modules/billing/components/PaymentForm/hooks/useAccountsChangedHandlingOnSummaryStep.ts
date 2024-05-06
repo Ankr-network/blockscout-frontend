@@ -3,19 +3,27 @@ import { useDispatch } from 'react-redux';
 
 import { MilliSeconds } from 'modules/common/constants/const';
 import { RequestType, web3Api } from 'store/queries';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { waitFor } from 'modules/common/utils/waitFor';
 
 const tagsToInvalidate = [
-  RequestType.WalletTokenBalance,
+  RequestType.WalletANKRTokenBalance,
   RequestType.ANKRAllowanceFee,
   RequestType.ANKRDepositFee,
+
+  RequestType.WalletUSDTTokenBalance,
+  RequestType.USDTAllowanceFee,
+  RequestType.USDTDepositFee,
+
+  RequestType.WalletUSDCTokenBalance,
+  RequestType.USDCAllowanceFee,
+  RequestType.USDCDepositFee,
 ];
 
 export const useAccountsChangedHandlingOnSummaryStep = () => {
   const dispatch = useDispatch();
 
-  const { connectedAddress } = useConnectedAddress();
+  const { walletAddress: connectedAddress } = useWalletAddress();
 
   useEffect(
     () => {

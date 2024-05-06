@@ -1,10 +1,7 @@
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
-import {
-  ECryptoDepositStepStatus,
-  ENetwork,
-  IFeeDetails,
-} from 'modules/billing/types';
+import { ECryptoDepositStepStatus, IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
 
@@ -16,7 +13,7 @@ import { useDepositAttributeStyles } from './useDepositAttributeStyles';
 export interface IDepositAttributeProps {
   error?: string;
   feeDetails: IFeeDetails;
-  network: ENetwork;
+  network: EBlockchain;
   status?: ECryptoDepositStepStatus;
 }
 

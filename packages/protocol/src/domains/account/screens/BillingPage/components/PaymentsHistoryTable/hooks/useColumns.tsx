@@ -1,12 +1,14 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
 
+import { IPaymentHistoryTableEntity } from 'domains/account/types';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
+import { selectPaymentOptions } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
-import { IPaymentHistoryTableEntity, PaymentType } from 'domains/account/types';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
-import { Amount, CurrencySymbol } from '../components/Amount';
+import { Amount } from '../components/Amount';
 import { Deduction } from '../components/Deduction';
 import { DetailsButton } from '../components/DetailsButton';
 import {
@@ -15,36 +17,18 @@ import {
   PAYMENT_HISTORY_TYPE,
 } from '../const';
 import { formatPaymentHistoryAmount } from '../utils/formatPaymentHistoryAmount';
-import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDirection';
-import { useTransactionsDownloader } from './useTransactionsDownloader';
 import { getAmount, isCreditAmount } from '../utils/amountUtils';
 import { getCreditsValue } from '../utils/getCreditsValue';
-
-const getCurrencySymbol = (
-  type: PaymentType,
-  creditAnkrAmount: string,
-  creditUsdAmount: string,
-) => {
-  if (isCreditAmount(type, creditAnkrAmount, creditUsdAmount)) {
-    return '';
-  }
-
-  if (Number(creditAnkrAmount) > 0) {
-    return CurrencySymbol.ankr;
-  }
-
-  if (Number(creditUsdAmount) > 0) {
-    return CurrencySymbol.usd;
-  }
-
-  return CurrencySymbol.ankr;
-};
+import { getCurrencySymbol } from '../utils/getCurrencySymbol';
+import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDirection';
+import { useTransactionsDownloader } from './useTransactionsDownloader';
 
 /* eslint-disable max-lines-per-function */
 export const useColumns = () => {
   const downloadTransactions = useTransactionsDownloader();
+  const paymentOptionsData = useAppSelector(selectPaymentOptions);
 
-  const { connectedAddress } = useConnectedAddress();
+  const { walletAddress: connectedAddress } = useWalletAddress();
   const hasConnectedAddress = Boolean(connectedAddress);
 
   return useLocaleMemo(
@@ -87,19 +71,24 @@ export const useColumns = () => {
         field: 'amount_usd',
         headerName: t('account.payment-table.head.col-3'),
         render: ({
-          creditUsdAmount,
-          creditAnkrAmount,
           amountUsd,
           amountAnkr,
+          network,
+          currencyAddress,
+          creditUsdAmount,
+          creditAnkrAmount,
           type,
         }) => {
           return (
             <Amount
-              currencySymbol={getCurrencySymbol(
-                type,
+              currencySymbol={getCurrencySymbol({
+                network,
                 creditAnkrAmount,
                 creditUsdAmount,
-              )}
+                currencyAddress,
+                type,
+                paymentOptions: paymentOptionsData?.result.options,
+              })}
               direction={
                 isCreditAmount(type, creditAnkrAmount, creditUsdAmount)
                   ? undefined
@@ -142,12 +131,14 @@ export const useColumns = () => {
         field: 'button',
         headerName: t('account.payment-table.head.col-5'),
         render: ({
-          creditUsdAmount,
-          creditAnkrAmount,
           amountUsd,
           amountAnkr,
+          network,
+          creditUsdAmount,
+          creditAnkrAmount,
           type,
           txHash,
+          currencyAddress,
         }) => {
           const amount = getAmount({
             type,
@@ -157,16 +148,18 @@ export const useColumns = () => {
             amountUsd,
           });
 
-          if (!txHash || !hasConnectedAddress) {
+          if (!txHash || !network || !hasConnectedAddress || currencyAddress) {
             return null;
           }
 
-          return <DetailsButton amount={amount} txHash={txHash} />;
+          return (
+            <DetailsButton amount={amount} network={network} txHash={txHash} />
+          );
         },
         width: 110,
         sortable: false,
       },
     ],
-    [hasConnectedAddress],
+    [hasConnectedAddress, paymentOptionsData],
   );
 };

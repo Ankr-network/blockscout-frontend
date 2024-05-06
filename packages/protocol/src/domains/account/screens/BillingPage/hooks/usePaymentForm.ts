@@ -7,13 +7,13 @@ import {
   setIsProcessing,
 } from 'domains/account/store/accountTopUpSlice';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
 import { usePaymentForm as usePaymentFromBase } from 'modules/billing/components/PaymentForm/hooks/usePaymentForm';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 export const usePaymentForm = () => {
   const { address: authAddress } = useAuth();
 
-  const { connectedAddress } = useConnectedAddress();
+  const { walletAddress: connectedAddress } = useWalletAddress();
 
   const txAddress = connectedAddress || authAddress;
 

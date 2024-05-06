@@ -16,6 +16,7 @@ import { removeAvoidGuestTeamInvitationDialog } from 'domains/userSettings/scree
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
 import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
 import { useMySubscriptions } from 'domains/account/hooks/useMySubscriptions';
+import { useStablecoinsPaymentData } from 'domains/account/screens/BillingPage/hooks/useStablecoinsPaymentData';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   const hasBillingRoleAccess = useGuardUserGroup({
@@ -59,6 +60,8 @@ export const useInitialization = (isLoggedIn: boolean) => {
   useUserGroupFetchCreationAllowanceQuery(undefined, {
     skip: !shouldInitialize,
   });
+
+  useStablecoinsPaymentData();
 
   useRedirectToTeamsSettings();
 

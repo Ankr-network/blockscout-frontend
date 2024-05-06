@@ -27,12 +27,12 @@ export const selectCanContinueTeamCreationFlow = createSelector(
   (
     shouldContinueDataTransferFlow,
     newGroupOwner,
-    { address = '', email = '' },
+    { authAddress = '', email = '' },
     isLoggedIn,
     // eslint-disable-next-line max-params
   ) => {
     const isCurrentUserOwnerOfNewTeam =
-      newGroupOwner?.address.toLowerCase() === address.toLowerCase() ||
+      newGroupOwner?.address.toLowerCase() === authAddress.toLowerCase() ||
       newGroupOwner?.email.toLowerCase() === email.toLowerCase();
 
     const canContinueTeamCreationFlow =

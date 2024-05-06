@@ -4,6 +4,7 @@ import {
 } from 'modules/billing/types';
 
 export interface IIsPendingParams {
+  isSwitchNetworkLoading: boolean;
   approvalStatus: ECryptoDepositStepStatus;
   depositStatus?: ECryptoDepositStepStatus;
   isMyAllowanceLoading: boolean;
@@ -11,11 +12,16 @@ export interface IIsPendingParams {
 }
 
 export const isPending = ({
+  isSwitchNetworkLoading,
   approvalStatus,
   depositStatus,
   isMyAllowanceLoading,
   step,
 }: IIsPendingParams) => {
+  if (isSwitchNetworkLoading) {
+    return true;
+  }
+
   const isApprovalStep = step === ECryptoDepositStep.Approval;
 
   if (isApprovalStep) {

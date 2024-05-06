@@ -1,19 +1,36 @@
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency, IAmount } from 'modules/billing/types';
 
 import {
   DEFAULT_SELECTED_ONE_TIME_ANKR_AMOUNT,
   DEFAULT_SELECTED_ONE_TIME_USD_AMOUNT,
+  ONE_TIME_PAYMENT_USDC_AMOUNTS,
+  ONE_TIME_PAYMENT_USDT_AMOUNTS,
   ONE_TIME_PAYMENT_ANKR_AMOUNTS,
   ONE_TIME_PAYMENT_USD_AMOUNTS,
 } from '../const';
 import { getAmountIDByAmountValue } from './getAmountIDByAmountValue';
 
-export const getAmounts = (currency: ECurrency) => {
-  const isUSD = currency === ECurrency.USD;
+const amountsMap: Record<ECurrency, [IAmount[], number]> = {
+  [ECurrency.ANKR]: [
+    ONE_TIME_PAYMENT_ANKR_AMOUNTS,
+    DEFAULT_SELECTED_ONE_TIME_ANKR_AMOUNT,
+  ],
+  [ECurrency.USD]: [
+    ONE_TIME_PAYMENT_USD_AMOUNTS,
+    DEFAULT_SELECTED_ONE_TIME_USD_AMOUNT,
+  ],
+  [ECurrency.USDC]: [
+    ONE_TIME_PAYMENT_USDC_AMOUNTS,
+    DEFAULT_SELECTED_ONE_TIME_USD_AMOUNT,
+  ],
+  [ECurrency.USDT]: [
+    ONE_TIME_PAYMENT_USDT_AMOUNTS,
+    DEFAULT_SELECTED_ONE_TIME_USD_AMOUNT,
+  ],
+};
 
-  const [amounts, initialAmount] = isUSD
-    ? [ONE_TIME_PAYMENT_USD_AMOUNTS, DEFAULT_SELECTED_ONE_TIME_USD_AMOUNT]
-    : [ONE_TIME_PAYMENT_ANKR_AMOUNTS, DEFAULT_SELECTED_ONE_TIME_ANKR_AMOUNT];
+export const getAmounts = (currency: ECurrency) => {
+  const [amounts, initialAmount] = amountsMap[currency];
 
   const initialSelectedAmountID = getAmountIDByAmountValue({
     amount: initialAmount,

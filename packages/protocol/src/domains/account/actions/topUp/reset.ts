@@ -6,11 +6,14 @@ import { web3Api } from 'store/queries';
 import { accountFetchPublicKey } from '../fetchPublicKey';
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpDeposit } from './deposit';
+import { topUpDepositUSDC } from './depositUSDC';
+import { topUpDepositUSDT } from './depositUSDT';
 import { topUpFetchTransactionConfirmationStatus } from './fetchTransactionConfirmationStatus';
 import { topUpGetInitialStep } from './getInitialStep/getInitialStep';
 import { topUpGetLastLockedFundsEvent } from './getLastLockedFundsEvent';
 import { topUpLogin } from './login';
-import { topUpSendAllowance } from './sendAllowance';
+import { topUpSendAllowanceAnkr } from './sendAllowanceAnkr';
+import { topUpSendAllowanceUsdt } from './sendAllowanceUsdt';
 import { topUpWaitTransactionConfirming } from './waitTransactionConfirming';
 
 export const {
@@ -24,9 +27,12 @@ export const {
 
         const endpoints = [
           getEndpointName(topUpGetInitialStep, getState),
-          getEndpointName(topUpSendAllowance, getState),
+          getEndpointName(topUpSendAllowanceAnkr, getState),
+          getEndpointName(topUpSendAllowanceUsdt, getState),
           getEndpointName(accountFetchPublicKey, getState),
           getEndpointName(topUpDeposit, getState),
+          getEndpointName(topUpDepositUSDC, getState),
+          getEndpointName(topUpDepositUSDT, getState),
           getEndpointName(topUpWaitTransactionConfirming, getState),
           getEndpointName(topUpFetchTransactionConfirmationStatus, getState),
           getEndpointName(topUpLogin, getState),

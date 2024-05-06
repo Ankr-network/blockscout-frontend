@@ -70,9 +70,9 @@ export const {
           // allowance
           if (transaction?.allowanceTransactionHash) {
             await dispatch(
-              topUpCheckAllowanceTransaction.initiate(
-                transaction?.allowanceTransactionHash,
-              ),
+              topUpCheckAllowanceTransaction.initiate({
+                initialTransactionHash: transaction?.allowanceTransactionHash,
+              }),
             );
 
             dispatch(setAllowanceTransaction({ address }));

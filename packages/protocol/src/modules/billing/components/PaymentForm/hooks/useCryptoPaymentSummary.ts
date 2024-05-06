@@ -5,7 +5,7 @@ import { ECurrency, EPaymentType } from 'modules/billing/types';
 import { ICryptoPaymentSummaryDialogProps } from '../../CryptoPaymentSummaryDialog';
 
 export interface IUseCryptoPaymentSummaryProps {
-  oneTimeANKRPaymentSummaryProps: ICryptoPaymentSummaryDialogProps;
+  oneTimeCryptoPaymentSummaryProps: ICryptoPaymentSummaryDialogProps;
   currency: ECurrency;
   paymentType: EPaymentType;
 }
@@ -17,16 +17,16 @@ type TSummaryPropsMap = Record<
 
 export const useCryptoPaymentSummary = ({
   currency,
-  oneTimeANKRPaymentSummaryProps,
+  oneTimeCryptoPaymentSummaryProps,
   paymentType,
 }: IUseCryptoPaymentSummaryProps) => {
-  const isANKR = currency === ECurrency.ANKR;
+  const isCrypto = currency !== ECurrency.USD;
 
   const cryptoPaymentSummaryProps = useMemo(() => {
-    if (isANKR) {
+    if (isCrypto) {
       const summaryPropsMap: TSummaryPropsMap = {
         [EPaymentType.Deal]: undefined,
-        [EPaymentType.OneTime]: oneTimeANKRPaymentSummaryProps,
+        [EPaymentType.OneTime]: oneTimeCryptoPaymentSummaryProps,
         [EPaymentType.Recurring]: undefined,
       };
 
@@ -34,7 +34,7 @@ export const useCryptoPaymentSummary = ({
     }
 
     return undefined;
-  }, [isANKR, oneTimeANKRPaymentSummaryProps, paymentType]);
+  }, [isCrypto, oneTimeCryptoPaymentSummaryProps, paymentType]);
 
   return { cryptoPaymentSummaryProps };
 };

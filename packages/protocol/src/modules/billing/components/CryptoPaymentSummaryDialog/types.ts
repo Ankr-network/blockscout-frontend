@@ -1,4 +1,8 @@
-import { ECurrency, ENetwork, IFeeDetails } from 'modules/billing/types';
+import { EBlockchain } from 'multirpc-sdk';
+
+import { ECurrency, IFeeDetails } from 'modules/billing/types';
+
+import { INetworkSelectOption } from '../NetworkSelect';
 
 export interface ICryptoPaymentSummaryDialogCommonProps {
   amount: number;
@@ -8,6 +12,8 @@ export interface ICryptoPaymentSummaryDialogCommonProps {
   hasEnoughTokenBalance: boolean;
   isAccountChangedOnDepositStep: boolean;
   isWalletTokenBalanceLoading: boolean;
-  network: ENetwork;
   totalAmount: number;
+  network: EBlockchain;
+  networkOptions: INetworkSelectOption[];
+  handleNetworkChange: (network: EBlockchain) => void;
 }

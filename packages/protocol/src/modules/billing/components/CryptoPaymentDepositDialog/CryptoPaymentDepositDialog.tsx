@@ -8,6 +8,7 @@ import { ICryptoPaymentDepositDialogProps } from './types';
 import { PaymentDetails } from './components/PaymentDetails';
 import { Stepper } from './components/Stepper';
 import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
+import { SwitchNetworkBanner } from './components/SwitchNetworkBanner';
 
 export const CryptoPaymentDepositDialog = ({
   amount,
@@ -15,6 +16,9 @@ export const CryptoPaymentDepositDialog = ({
   amountToDeposit,
   currency,
   network,
+  isWrongNetwork,
+  shouldRevokeApproval,
+  onCheckApproval,
 
   /* IPaymentDetailsProps */
   approvalError,
@@ -56,6 +60,7 @@ export const CryptoPaymentDepositDialog = ({
         amount={Number(amountToDeposit)}
         amountUsd={amountUsd}
         currency={currency}
+        network={network}
       />
       <Stepper
         className={classes.stepper}
@@ -78,12 +83,17 @@ export const CryptoPaymentDepositDialog = ({
         myAllowance={myAllowance}
         network={network}
       />
+      {isWrongNetwork && <SwitchNetworkBanner network={network} />}
       <Buttons
         activeStep={activeStep}
         isPending={isPending}
         onConfirmButtonClick={onConfirmButtonClick}
         onDiscardButtonClick={onDiscardButtonClick}
         status={status}
+        isWrongNetwork={isWrongNetwork}
+        shouldRevokeApproval={shouldRevokeApproval}
+        isRevokeApprovalLoading={isMyAllowanceLoading}
+        onCheckApproval={onCheckApproval}
       />
     </Dialog>
   );

@@ -23,11 +23,15 @@ export const useOngoingPaymentsStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  iconAnkr: {
-    marginRight: theme.spacing(),
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: '50%',
-    padding: theme.spacing(1),
-    color: theme.palette.common.white,
+  currencyIcon: {
+    width: 24,
+    height: 24,
+    marginRight: theme.spacing(1),
+  },
+  networkIcon: {
+    width: 12,
+    height: 12,
+    top: 0,
+    right: theme.spacing(-1),
   },
 }));

@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
-import { useLazyFetchMyAllowanceQuery } from 'domains/account/actions/fetchMyAllowance';
 import { useOngoingPayments } from 'domains/account/screens/BillingPage/components/OngoingPayments';
 import { EOngoingPaymentStatus } from 'modules/billing/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useMyAllowance } from 'domains/account/hooks/useMyAllowance';
 
 export interface IUseCryptoPaymentPayButtonHandlerProps {
   allowanceTxHash?: string;
@@ -22,9 +22,10 @@ export const useCryptoPaymentPayButtonHandler = ({
 }: IUseCryptoPaymentPayButtonHandlerProps) => {
   const { loadingWaitTransactionConfirming: isTransactionConfirming } =
     useTopUp();
+
   const { ongoingPaymentStatus } = useOngoingPayments();
 
-  const [fetchAllowance] = useLazyFetchMyAllowanceQuery();
+  const { fetchMyAllowance } = useMyAllowance({ skipFetching: true });
 
   const handlePayButtonClick = useCallback(() => {
     const isDepositStep = allowanceTxHash && depositTxHash;
@@ -39,13 +40,13 @@ export const useCryptoPaymentPayButtonHandler = ({
       return handleCryptoPaymentDepositDialogOpen();
     }
 
-    fetchAllowance();
+    fetchMyAllowance();
 
     return handleCryptoPaymentSummaryDialogOpen();
   }, [
     allowanceTxHash,
     depositTxHash,
-    fetchAllowance,
+    fetchMyAllowance,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,

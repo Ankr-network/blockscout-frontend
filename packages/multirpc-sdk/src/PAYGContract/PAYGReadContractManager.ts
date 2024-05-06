@@ -2,7 +2,7 @@ import { Contract, EventData } from 'web3-eth-contract';
 import { Web3KeyReadProvider } from '@ankr.com/provider';
 
 import { PrefixedHex, Web3Address } from '../common';
-import { IPAYGContractManagerConfig } from './types';
+import { IAnkrPAYGContractManagerConfig } from './types';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
 import { IPayAsYouGoEvents } from './abi/IPayAsYouGo';
@@ -15,7 +15,7 @@ export class PAYGReadContractManager {
 
   constructor(
     protected readonly keyReadProvider: Web3KeyReadProvider,
-    protected readonly config: IPAYGContractManagerConfig,
+    protected readonly config: IAnkrPAYGContractManagerConfig,
   ) {
     this.ankrTokenReadContract = keyReadProvider.createContract(
       ABI_ANKR_TOKEN,

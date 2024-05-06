@@ -1,15 +1,15 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import { ECurrency } from 'modules/billing/types';
 import { Tab, TabsManager } from 'uiKit/TabsManager';
 
 import { useCurrencyTabsStyles } from './useCurrencyTabsStyles';
+import { ECurrencyTab } from './utils/getCurrencyTabs';
 
 export interface ICurrencyTabsProps {
   className?: string;
-  selectedTab?: Tab<ECurrency>;
-  tabs: Tab<ECurrency>[];
+  selectedTab?: Tab<ECurrencyTab>;
+  tabs: Tab<ECurrencyTab>[];
 }
 
 export const CurrencyTabs = ({

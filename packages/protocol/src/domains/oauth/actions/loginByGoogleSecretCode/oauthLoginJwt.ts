@@ -60,32 +60,32 @@ export const {
             : [provider];
 
           if (ethAddressType === EthAddressType.Generated) {
-            await loginSyntheticJwt(
+            await loginSyntheticJwt({
               dispatch,
-              {
+              authData: {
                 ...authData,
-                address,
+                authAddress: address,
+                authAddressType: ethAddressType,
                 authorizationToken,
                 encryptionPublicKey,
-                ethAddressType,
                 oauthProviders,
               },
               totp,
-            );
+            });
           }
 
           if (ethAddressType === EthAddressType.User) {
-            await loginUserJwt(
+            await loginUserJwt({
               dispatch,
-              {
-                address,
+              authData: {
+                authAddress: address,
+                authAddressType: ethAddressType,
                 authorizationToken,
                 encryptionPublicKey,
-                ethAddressType,
                 oauthProviders,
               },
               totp,
-            );
+            });
           }
 
           await trackLoginSuccess({ getState });

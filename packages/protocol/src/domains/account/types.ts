@@ -1,5 +1,10 @@
+import { Address } from '@ankr.com/provider';
 import { Callback } from 'mixpanel-browser';
-import { TPaymentHistoryEntityType, IApiUserGroupParams } from 'multirpc-sdk';
+import {
+  TPaymentHistoryEntityType,
+  IApiUserGroupParams,
+  EBlockchain,
+} from 'multirpc-sdk';
 
 import { TopUpCurrency } from 'modules/analytics/mixpanel/const';
 import { TopUpTrackingParams } from 'modules/analytics/mixpanel/trackTopUp';
@@ -17,6 +22,8 @@ export interface IPaymentHistoryTableEntity {
   amountUsd: string;
   amountAnkr: string;
   amount: string;
+  network?: EBlockchain;
+  currencyAddress?: Address;
   creditAnkrAmount: string;
   creditUsdAmount: string;
   creditVoucherAmount: string;

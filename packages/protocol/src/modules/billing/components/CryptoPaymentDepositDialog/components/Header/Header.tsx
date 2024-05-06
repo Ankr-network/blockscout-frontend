@@ -1,9 +1,10 @@
 import { Typography } from '@mui/material';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { AnrkNetworkIcon } from 'modules/common/components/AnkrNetworkIcon';
 import { ECurrency } from 'modules/billing/types';
 import { renderCryptoAmount } from 'modules/billing/utils/renderCryptoAmount';
 import { renderUSDAmount } from 'modules/billing/utils/renderUSDAmount';
+import { CurrencyIcon } from 'modules/common/components/CurrencyIcon';
 
 import { useHeaderStyles } from './useHeaderStyles';
 
@@ -11,14 +12,26 @@ export interface IHeaderProps {
   amount: number;
   amountUsd: number;
   currency: ECurrency;
+  network: EBlockchain;
 }
 
-export const Header = ({ amount, amountUsd, currency }: IHeaderProps) => {
+export const Header = ({
+  amount,
+  amountUsd,
+  currency,
+  network,
+}: IHeaderProps) => {
   const { classes } = useHeaderStyles();
 
   return (
     <div className={classes.root}>
-      <AnrkNetworkIcon className={classes.icon} />
+      <div className={classes.iconsRoot}>
+        <CurrencyIcon
+          currency={currency}
+          network={network}
+          currencyClassName={classes.icon}
+        />
+      </div>
       <Typography className={classes.amount} variant="h5">
         {renderCryptoAmount({ amount, currency })}
       </Typography>

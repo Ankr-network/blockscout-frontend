@@ -1,8 +1,8 @@
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 export const useTopupFromDifferentAddress = () => {
-  const { connectedAddress: depositAddress } = useConnectedAddress();
+  const { walletAddress: depositAddress } = useWalletAddress();
 
   const { address: authAddress } = useAuth();
 

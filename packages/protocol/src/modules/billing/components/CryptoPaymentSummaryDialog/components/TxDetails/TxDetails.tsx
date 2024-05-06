@@ -1,11 +1,20 @@
 import { OverlaySpinner } from '@ankr.com/ui';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { ECurrency, ENetwork, EPaymentType } from 'modules/billing/types';
+import { ECurrency, EPaymentType } from 'modules/billing/types';
+import {
+  INetworkSelectOption,
+  NetworkSelect,
+} from 'modules/billing/components/NetworkSelect';
+import {
+  IOneTimeAmountProps,
+  OneTimeAmount,
+} from 'modules/billing/components/PaymentForm/components/OneTimeAmount';
 import { PaymentInfo } from 'modules/billing/components/PaymentInfo';
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { SeparatedList } from 'modules/billing/components/SeparatedList';
 import { TotalPaymentInfo } from 'modules/billing/components/TotalPaymentInfo';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 import {
   IUseTotalFeeDetails,
@@ -20,8 +29,11 @@ export interface ITxDetailsProps extends IUseTotalFeeDetails {
   currency: ECurrency;
   hasEnoughTokenBalance: boolean;
   isWalletTokenBalanceLoading: boolean;
-  network: ENetwork;
   totalAmount: number;
+  network: EBlockchain;
+  networkOptions: INetworkSelectOption[];
+  oneTimeAmountProps: IOneTimeAmountProps;
+  onNetworkChange: (network: EBlockchain) => void;
 }
 
 export const TxDetails = ({
@@ -32,24 +44,47 @@ export const TxDetails = ({
   depositFeeDetails,
   hasEnoughTokenBalance,
   isWalletTokenBalanceLoading,
-  network,
   totalAmount,
+  network,
+  networkOptions,
+  oneTimeAmountProps,
+  onNetworkChange,
 }: ITxDetailsProps) => {
   const totalFeeDetails = useTotalFeeDetails({
     approvalFeeDetails,
     depositFeeDetails,
   });
 
-  const { connectedAddress } = useConnectedAddress();
+  const { walletAddress: connectedAddress } = useWalletAddress();
   const hasConnectedAddress = Boolean(connectedAddress);
+
+  const isAnkrPayment = currency === ECurrency.ANKR;
+  const isUsdPayment = currency === ECurrency.USD;
+
+  const isUsualView = isAnkrPayment || isUsdPayment;
 
   return (
     <SeparatedList className={className}>
-      <PaymentInfo
-        amount={amount}
-        currency={currency}
-        paymentType={EPaymentType.OneTime}
+      {isUsualView && (
+        <PaymentInfo
+          amount={amount}
+          currency={currency}
+          paymentType={EPaymentType.OneTime}
+        />
+      )}
+      {!isUsualView && oneTimeAmountProps && (
+        <OneTimeAmount
+          {...oneTimeAmountProps}
+          hasChips={false}
+          hasDocsLink={false}
+        />
+      )}
+      <NetworkSelect
+        activeNetwork={network}
+        options={networkOptions}
+        onNetworkChange={onNetworkChange}
       />
+
       <Placeholder
         hasPlaceholder={isWalletTokenBalanceLoading}
         placeholder={<OverlaySpinner size={58} />}

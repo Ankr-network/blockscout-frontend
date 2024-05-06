@@ -1,0 +1,74 @@
+import BigNumber from 'bignumber.js';
+import { IWeb3SendResult } from '@ankr.com/provider';
+import { Web3Address } from 'multirpc-sdk';
+
+import { GetState } from 'store';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
+import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
+import { web3Api } from 'store/queries';
+import { ECurrency } from 'modules/billing/types';
+
+interface ITopUpDepositUSDCQueryParams {
+  tokenDecimals: number;
+  amount: BigNumber;
+  depositContractAddress: Web3Address;
+  tokenAddress: Web3Address;
+}
+
+export const {
+  endpoints: { topUpDepositUSDC },
+  useLazyTopUpDepositUSDCQuery,
+} = web3Api.injectEndpoints({
+  endpoints: build => ({
+    topUpDepositUSDC: build.query<
+      IWeb3SendResult | null,
+      ITopUpDepositUSDCQueryParams
+    >({
+      queryFn: createQueryFnWithWeb3ServiceGuard({
+        queryFn: createNotifyingQueryFn(
+          async (
+            {
+              params: {
+                tokenDecimals,
+                amount,
+                depositContractAddress,
+                tokenAddress,
+              },
+              web3Service,
+            },
+            { getState, dispatch },
+          ) => {
+            const address = getCurrentTransactionAddress(getState as GetState);
+
+            const depositResponse = await web3Service
+              .getUsdcContractService({
+                depositContractAddress,
+                tokenAddress,
+              })
+              .depositUSDCToPAYG(
+                amount,
+                tokenDecimals,
+                tokenAddress,
+                depositContractAddress,
+              );
+
+            if (depositResponse.transactionHash) {
+              dispatch(
+                setTopUpTransaction({
+                  address,
+                  topUpTransactionHash: depositResponse.transactionHash,
+                  currency: ECurrency.USDC,
+                }),
+              );
+            }
+
+            return { data: depositResponse };
+          },
+        ),
+        fallback: { data: null },
+      }),
+    }),
+  }),
+});

@@ -22,10 +22,8 @@ export enum ECryptoDepositStepStatus {
 export enum ECurrency {
   ANKR = 'ANKR',
   USD = 'USD',
-}
-
-export enum ENetwork {
-  ETH = 'ETH',
+  USDT = 'USDT',
+  USDC = 'USDC',
 }
 
 export enum EOngoingPaymentStatus {

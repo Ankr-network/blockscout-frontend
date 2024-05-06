@@ -1,2 +1,2 @@
-export * from './ContractService'
+export * from './ContractService';
 export * from './ContractReadService';

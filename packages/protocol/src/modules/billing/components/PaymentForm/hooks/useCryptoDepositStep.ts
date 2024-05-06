@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useCallback } from 'react';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
@@ -14,6 +15,7 @@ export interface IUseCryptoDepositStepProps {
   approvalFeeDetails: IFeeDetails;
   currency: ECurrency;
   depositFeeDetails: IFeeDetails;
+  network: EBlockchain;
   handleCryptoPaymentDepositDialogOpen: () => void;
   handleCryptoPaymentSummaryDialogOpen: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
@@ -26,6 +28,7 @@ export const useCryptoDepositStep = ({
   approvalFeeDetails,
   currency,
   depositFeeDetails,
+  network,
   handleCryptoPaymentDepositDialogOpen,
   handleCryptoPaymentSummaryDialogOpen,
   isCryptoPaymentDepositDialogOpened,
@@ -83,6 +86,7 @@ export const useCryptoDepositStep = ({
     onCryptoPaymentDepositDialogClose,
     setIsAccountChangedOnDepositStep,
     step,
+    currency,
   });
 
   const { amountUsd, isLoading: isLoadingRate } = useUSDAmountByCryptoAmount({
@@ -98,6 +102,7 @@ export const useCryptoDepositStep = ({
     currency,
     depositError,
     depositFeeDetails,
+    network,
     depositStatus,
     handleCryptoPaymentDepositDialogOpen,
     handleRejectAllowance,

@@ -1,4 +1,6 @@
-import { ENetwork, IFeeDetails } from 'modules/billing/types';
+import { EBlockchain } from 'multirpc-sdk';
+
+import { IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
 
@@ -7,7 +9,7 @@ import { usePartialTxFeeAttributeStyles } from './usePartialTxFeeAttributeStyles
 export interface IPartialTxFeeAttributeProps {
   feeDetails: IFeeDetails;
   label: string;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 export const PartialTxFeeAttribute = ({

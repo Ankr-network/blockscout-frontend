@@ -15,28 +15,38 @@ import { web3Api } from 'store/queries';
 const ONE_MINUTE_MS = 60_000;
 const TOPUP_EVENT_TIMEOUT = 3 * ONE_MINUTE_MS;
 
-const checkLastTopupEvent = async (
-  web3ReadService: MultiRpcWeb3ReadSdk,
-  dispatch: AppDispatch,
-  authData: IAuthSlice,
-) => {
-  if (!authData || !authData.address) return false;
+interface ICheckLastTopupEventParams {
+  web3ReadService: MultiRpcWeb3ReadSdk;
+  dispatch: AppDispatch;
+  authData: IAuthSlice;
+}
+
+const checkLastTopupEvent = async ({
+  web3ReadService,
+  dispatch,
+  authData,
+}: ICheckLastTopupEventParams) => {
+  const { authAddress, authAddressType } = authData;
+
+  if (authAddress) {
+    return false;
+  }
 
   const {
-    address,
     hasWeb3Connection,
     encryptionPublicKey,
     isCardPayment,
-    ethAddressType,
     credentials,
     workerTokenData,
   } = authData;
 
   const lastTopUpEvent = await web3ReadService
     .getContractService()
-    .getLastLockedFundsEvent(address);
+    .getLastLockedFundsEvent(authAddress!);
 
-  if (!lastTopUpEvent) return true;
+  if (!lastTopUpEvent) {
+    return true;
+  }
 
   const isFirstPaymentByCardWithWeb3 =
     !credentials && hasWeb3Connection && isCardPayment;
@@ -54,14 +64,14 @@ const checkLastTopupEvent = async (
     return false;
   }
 
-  if (ethAddressType === EthAddressType.User) {
+  if (authAddressType === EthAddressType.User) {
     return false;
   }
 
   // Other cases with google account
   const { jwtToken, workerTokenData: currentWorkerTokenData } =
     await web3ReadService.getIssuedJwtTokenOrIssue(
-      address,
+      authAddress!,
       encryptionPublicKey as string,
     );
 
@@ -93,17 +103,17 @@ export const {
       queryFn: async (_args, { getState, dispatch }) => {
         const authData = selectAuthData(getState() as RootState);
 
-        if (authData?.workerTokenData || !authData.address) {
+        if (authData.workerTokenData || authData.authAddress) {
           return { data: true };
         }
 
         const web3ReadService = await MultiService.getWeb3ReadService();
 
-        let shouldWatchForTopupEvent = await checkLastTopupEvent(
-          web3ReadService,
-          dispatch,
+        let shouldWatchForTopupEvent = await checkLastTopupEvent({
           authData,
-        );
+          dispatch,
+          web3ReadService,
+        });
 
         // Check new top up event every 3 minutes
         while (shouldWatchForTopupEvent) {
@@ -112,16 +122,16 @@ export const {
 
           const newAuthData = selectAuthData(getState() as RootState);
 
-          if (!newAuthData.address) {
+          if (!newAuthData.authAddress) {
             break;
           }
 
           // eslint-disable-next-line
-          shouldWatchForTopupEvent = await checkLastTopupEvent(
+          shouldWatchForTopupEvent = await checkLastTopupEvent({
             web3ReadService,
             dispatch,
-            newAuthData,
-          );
+            authData: newAuthData,
+          });
         }
 
         return { data: true };

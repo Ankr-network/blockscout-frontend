@@ -1,12 +1,13 @@
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { ENetwork, IFeeDetails } from 'modules/billing/types';
+import { IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
 
 export interface IApprovalAttributeProps {
+  network: EBlockchain;
   feeDetails: IFeeDetails;
-  network: ENetwork;
 }
 
 const labelKey = 'account.success-crypto-payment-dialog.approval-label';

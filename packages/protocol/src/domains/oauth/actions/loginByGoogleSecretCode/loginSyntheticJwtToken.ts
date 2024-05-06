@@ -1,12 +1,19 @@
 import { AppDispatch } from 'store';
-import { MultiService } from 'modules/api/MultiService';
 import { IAuthSlice, setAuthData } from 'domains/auth/store/authSlice';
+import { MultiService } from 'modules/api/MultiService';
+import { addSignedWorkerTokenToService } from 'domains/auth/actions/utils/addSignedWorkerTokenToService';
 
-export const loginSyntheticJwt = async (
-  dispatch: AppDispatch,
-  authData: IAuthSlice,
-  totp?: string,
-) => {
+interface ILoginSyntheticJwtParams {
+  authData: IAuthSlice;
+  dispatch: AppDispatch;
+  totp?: string;
+}
+
+export const loginSyntheticJwt = async ({
+  authData,
+  dispatch,
+  totp,
+}: ILoginSyntheticJwtParams) => {
   const service = MultiService.getService();
   const web3ReadService = await MultiService.getWeb3ReadService();
 
@@ -19,9 +26,9 @@ export const loginSyntheticJwt = async (
       syntheticTokenData?.jwt_data,
     );
 
-  if (workerTokenData?.signedToken) {
-    service.getWorkerGateway().addJwtToken(workerTokenData?.signedToken);
-  }
+  const signedWorkerToken = workerTokenData?.signedToken;
+
+  addSignedWorkerTokenToService({ service, signedWorkerToken });
 
   dispatch(
     setAuthData({

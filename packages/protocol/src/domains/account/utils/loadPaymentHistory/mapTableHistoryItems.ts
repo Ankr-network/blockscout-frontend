@@ -9,5 +9,6 @@ export const mapTableHistoryItems = (
   return {
     ...initItem,
     txHash: isValidTxHash(initItem.reason) ? initItem.reason : undefined,
+    network: initItem.blockchain,
   };
 };

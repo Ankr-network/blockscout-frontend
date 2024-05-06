@@ -13,8 +13,10 @@ import { useInputError } from './useInputError';
 
 export interface IUseAmountInputProps {
   amount: number;
+  minAmount: number;
   currency: ECurrency;
   handleSetAmount: (amount: number) => void;
+  handleChangeCurrency: (currency: ECurrency) => void;
 }
 
 export interface IUseAmountInputResult extends IAmountInputProps {
@@ -24,11 +26,13 @@ export interface IUseAmountInputResult extends IAmountInputProps {
 
 export const useAmountInput = ({
   amount,
+  minAmount,
   currency,
   handleSetAmount,
+  handleChangeCurrency,
 }: IUseAmountInputProps): IUseAmountInputResult => {
   const [isFocused, setIsFocused] = useState(false);
-  const { error, validateAmount, resetError } = useInputError({ currency });
+  const { error, validateAmount, resetError } = useInputError({ minAmount });
 
   const { isLoading, amountUsd } = useUSDAmountByCryptoAmount({
     amount,
@@ -92,6 +96,8 @@ export const useAmountInput = ({
     rawValue,
     requests,
     value,
+    currency,
+    handleChangeCurrency,
     resetInputError: resetError,
   };
 };

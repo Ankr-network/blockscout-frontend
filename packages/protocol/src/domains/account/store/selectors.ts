@@ -6,6 +6,8 @@ import {
   MyBundleStatusCounter,
   MyBundleStatus,
   Web3Address,
+  EBlockchain,
+  Token,
 } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
@@ -35,7 +37,24 @@ import { getAggregatedDealChargingModelData } from 'domains/account/utils/getDea
 import { getAggregatedPackageModelsData } from 'domains/account/utils/getPackageChargingModelData';
 import { isDealPlan } from 'domains/account/utils/isDealPlan';
 import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
+import { fetchUSDTDepositFee } from 'domains/account/actions/fetchUSDTDepositFee';
+import { fetchUSDCDepositFee } from 'domains/account/actions/fetchUSDCDepositFee';
+import { fetchPaymentOptions } from 'domains/account/actions/fetchPaymentOptions';
+import { fetchGasPrice } from 'domains/account/actions/fetchGasPrice';
+import { fetchMyAllowanceAnkr } from 'domains/account/actions/fetchMyAllowanceAnkr';
+import { fetchTxData } from 'domains/account/actions/fetchTxData';
+import { fetchTxReceipt } from 'domains/account/actions/fetchTxReceipt';
+import { fetchWalletAccountANKRBalance } from 'domains/account/actions/balance/fetchWalletAccountANRKBalance';
+import { fetchUSDTAllowanceFee } from 'domains/account/actions/fetchUSDTAllowanceFee';
+import { fetchUSDCAllowanceFee } from 'domains/account/actions/fetchUSDCAllowanceFee';
+import { fetchWalletAccountUSDTBalance } from 'domains/account/actions/balance/fetchWalletAccountUSDTBalance';
+import { fetchWalletAccountUSDCBalance } from 'domains/account/actions/balance/fetchWalletAccountUSDCBalance';
+import { topUpSendAllowanceAnkr } from 'domains/account/actions/topUp/sendAllowanceAnkr';
+import { topUpSendAllowanceUsdt } from 'domains/account/actions/topUp/sendAllowanceUsdt';
+import { topUpSendAllowanceUsdc } from 'domains/account/actions/topUp/sendAllowanceUsdc';
+import { fetchMyAllowanceUsdt } from 'domains/account/actions/fetchMyAllowanceUsdt';
 
+import { ITransaction } from './types';
 import {
   ALL_BLOCKCHAINS_PATH,
   ANKR_TO_CREDITS_RATE,
@@ -43,13 +62,7 @@ import {
   DEFAULT_BALANCE,
   ZERO_STRING,
 } from './const';
-import { ITransaction } from './types';
-import { fetchGasPrice } from '../actions/fetchGasPrice';
-import { fetchMyAllowance } from '../actions/fetchMyAllowance';
-import { fetchTxData } from '../actions/fetchTxData';
-import { fetchTxReceipt } from '../actions/fetchTxReceipt';
-import { fetchWalletAccountANKRBalance } from '../actions/balance/fetchWalletAccountBalance';
-import { topUpSendAllowance } from '../actions/topUp/sendAllowance';
+import { fetchMyAllowanceUsdc } from '../actions/fetchMyAllowanceUsdc';
 
 export const selectTopUpOrigin = (state: RootState) =>
   state.accountTopUp.topUpOrigin;
@@ -648,6 +661,48 @@ export const selectANKRAllowanceFeeLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
+// USDT
+export const selectUSDTAllowanceFeeState = createSelector(
+  fetchUSDTAllowanceFee.select(undefined as never),
+  state => state,
+);
+
+export const selectUSDTAllowanceFee = createSelector(
+  selectUSDTAllowanceFeeState,
+  ({ data = 0 }) => data,
+);
+
+export const selectUSDTAllowanceFeeFetching = createSelector(
+  selectUSDTAllowanceFeeState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectUSDTAllowanceFeeLoading = createSelector(
+  selectUSDTAllowanceFeeState,
+  ({ isLoading }) => isLoading,
+);
+
+// USDC
+export const selectUSDCAllowanceFeeState = createSelector(
+  fetchUSDCAllowanceFee.select(undefined as never),
+  state => state,
+);
+
+export const selectUSDCAllowanceFee = createSelector(
+  selectUSDCAllowanceFeeState,
+  ({ data = 0 }) => data,
+);
+
+export const selectUSDCAllowanceFeeFetching = createSelector(
+  selectUSDCAllowanceFeeState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectUSDCAllowanceFeeLoading = createSelector(
+  selectUSDCAllowanceFeeState,
+  ({ isLoading }) => isLoading,
+);
+
 export const selectTokenPriceState = createSelector(
   fetchTokenPrice.select(undefined as never),
   state => state,
@@ -708,29 +763,176 @@ export const selectANKRDepositFeeLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
+// USDT
+export const selectUSDTDepositFeeState = createSelector(
+  fetchUSDTDepositFee.select(undefined as never),
+  state => state,
+);
+
+export const selectUSDTDepositFee = createSelector(
+  selectUSDTDepositFeeState,
+  ({ data = 0 }) => data,
+);
+
+export const selectUSDTDepositFeeFetching = createSelector(
+  selectUSDTDepositFeeState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectUSDTDepositFeeLoading = createSelector(
+  selectUSDTDepositFeeState,
+  ({ isLoading }) => isLoading,
+);
+
+// USDC
+export const selectUSDCDepositFeeState = createSelector(
+  fetchUSDCDepositFee.select(undefined as never),
+  state => state,
+);
+
+export const selectUSDCDepositFee = createSelector(
+  selectUSDCDepositFeeState,
+  ({ data = 0 }) => data,
+);
+
+export const selectUSDCDepositFeeFetching = createSelector(
+  selectUSDCDepositFeeState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectUSDCDepositFeeLoading = createSelector(
+  selectUSDCDepositFeeState,
+  ({ isLoading }) => isLoading,
+);
+
 export const selectHasProcessingTransaction = createSelector(
   (state: RootState, address?: Web3Address) =>
     address ? selectTransaction(state, address) : undefined,
   transaction => Boolean(transaction && transaction.isProcessing),
 );
 
-export const selectMyAllowanceState = createSelector(
-  fetchMyAllowance.select(),
+export const selectPaymentOptionsState = createSelector(
+  fetchPaymentOptions.select(undefined as never),
   state => state,
 );
 
-export const selectMyAllowanceLoading = createSelector(
-  selectMyAllowanceState,
+export const selectPaymentOptions = createSelector(
+  selectPaymentOptionsState,
+  ({ data }) => {
+    const filteredData = data?.result.options.filter(
+      option =>
+        option.blockchain === EBlockchain.eth_holesky ||
+        option.blockchain === EBlockchain.eth,
+    );
+
+    return { result: { options: filteredData } };
+  },
+);
+
+export const selectPaymentOptionsByNetwork = createSelector(
+  selectPaymentOptionsState,
+  (_state: RootState, network?: EBlockchain, currency?: ECurrency) => ({
+    network,
+    currency,
+  }),
+  (data, { network, currency }) => {
+    if (!network || !currency) {
+      return {
+        depositContractAddress: undefined,
+        tokenAddress: undefined,
+        tokenDecimals: 0,
+        confirmationBlocksNumber: 0,
+      };
+    }
+
+    const currentPaymentOption = data?.data?.result?.options?.find(
+      item => item.blockchain === network,
+    );
+
+    const depositContractAddress =
+      currentPaymentOption?.deposit_contract_address;
+
+    const currentToken = currentPaymentOption?.tokens.find(
+      token => token.token_symbol === (currency as unknown as Token),
+    );
+
+    const tokenAddress = currentToken?.token_address;
+
+    const tokenDecimals = currentToken?.token_decimals;
+    const confirmationBlocksNumber = currentPaymentOption?.confirmation_blocks;
+
+    return {
+      depositContractAddress,
+      tokenAddress,
+      tokenDecimals,
+      confirmationBlocksNumber,
+    };
+  },
+);
+
+export const selectMyAllowanceAnkrState = createSelector(
+  fetchMyAllowanceAnkr.select(),
+  state => state,
+);
+
+export const selectMyAllowanceAnkrLoading = createSelector(
+  selectMyAllowanceAnkrState,
   ({ isLoading }) => isLoading,
 );
 
-export const selectMyAllowance = createSelector(
-  selectMyAllowanceState,
+export const selectMyAllowanceAnkr = createSelector(
+  selectMyAllowanceAnkrState,
   ({ data = 0 }) => data,
 );
 
-export const selectIsEnoughAllowance = createSelector(
-  selectMyAllowance,
+export const selectIsEnoughAllowanceAnkr = createSelector(
+  selectMyAllowanceAnkr,
+  selectTransaction,
+  (allowance, transaction) =>
+    Number(allowance) >= Number(transaction?.amountToDeposit),
+);
+
+// USDT
+export const selectMyAllowanceUsdtState = createSelector(
+  fetchMyAllowanceUsdt.select(undefined as never),
+  state => state,
+);
+
+export const selectMyAllowanceUsdtLoading = createSelector(
+  selectMyAllowanceUsdtState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectMyAllowanceUsdt = createSelector(
+  selectMyAllowanceUsdtState,
+  ({ data = 0 }) => data,
+);
+
+export const selectIsEnoughAllowanceUsdt = createSelector(
+  selectMyAllowanceUsdt,
+  selectTransaction,
+  (allowance, transaction) =>
+    Number(allowance) >= Number(transaction?.amountToDeposit),
+);
+
+// USDC
+export const selectMyAllowanceUsdcState = createSelector(
+  fetchMyAllowanceUsdc.select(undefined as never),
+  state => state,
+);
+
+export const selectMyAllowanceUsdcLoading = createSelector(
+  selectMyAllowanceUsdcState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectMyAllowanceUsdc = createSelector(
+  selectMyAllowanceUsdcState,
+  ({ data = 0 }) => data,
+);
+
+export const selectIsEnoughAllowanceUsdc = createSelector(
+  selectMyAllowanceUsdc,
   selectTransaction,
   (allowance, transaction) =>
     Number(allowance) >= Number(transaction?.amountToDeposit),
@@ -817,7 +1019,59 @@ export const selectWalletAccountANKRBalanceLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectIsAllowanceSent = createSelector(
-  topUpSendAllowance.select(undefined as never),
+export const selectIsAllowanceAnkrSent = createSelector(
+  topUpSendAllowanceAnkr.select(undefined as never),
+  ({ data: isAllowanceSent = false }) => isAllowanceSent,
+);
+
+// USDT
+export const selectWalletAccountUSDTBalanceState = createSelector(
+  fetchWalletAccountUSDTBalance.select(undefined as never),
+  state => state,
+);
+
+export const selectWalletAccountUSDTBalance = createSelector(
+  selectWalletAccountUSDTBalanceState,
+  ({ data = ZERO_STRING }) => Number(data),
+);
+
+export const selectWalletAccountUSDTBalanceFetching = createSelector(
+  selectWalletAccountUSDTBalanceState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectWalletAccountUSDTBalanceLoading = createSelector(
+  selectWalletAccountUSDTBalanceState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectIsAllowanceUsdtSent = createSelector(
+  topUpSendAllowanceUsdt.select(undefined as never),
+  ({ data: isAllowanceSent = false }) => isAllowanceSent,
+);
+
+// USDC
+export const selectWalletAccountUSDCBalanceState = createSelector(
+  fetchWalletAccountUSDCBalance.select(undefined as never),
+  state => state,
+);
+
+export const selectWalletAccountUSDCBalance = createSelector(
+  selectWalletAccountUSDCBalanceState,
+  ({ data = ZERO_STRING }) => Number(data),
+);
+
+export const selectWalletAccountUSDCBalanceFetching = createSelector(
+  selectWalletAccountUSDCBalanceState,
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
+);
+
+export const selectWalletAccountUSDCBalanceLoading = createSelector(
+  selectWalletAccountUSDCBalanceState,
+  ({ isLoading }) => isLoading,
+);
+
+export const selectIsAllowanceUsdcSent = createSelector(
+  topUpSendAllowanceUsdc.select(undefined as never),
   ({ data: isAllowanceSent = false }) => isAllowanceSent,
 );

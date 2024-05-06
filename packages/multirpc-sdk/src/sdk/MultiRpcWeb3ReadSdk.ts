@@ -17,7 +17,7 @@ export class MultiRpcWeb3ReadSdk {
   public constructor(
     private readonly keyReadProvider: Web3KeyReadProvider,
     private readonly config: IConfig,
-  ) { }
+  ) {}
 
   private getPAYGReadContractManager(): PAYGReadContractManager {
     this.PAYGReadContractManager =

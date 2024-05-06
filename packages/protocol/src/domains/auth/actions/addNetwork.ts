@@ -62,14 +62,15 @@ export const {
 
           const state = getState() as RootState;
 
-          const { address, email, trackingWalletName } = selectAuthData(state);
+          const { authAddress, email, trackingWalletName } =
+            selectAuthData(state);
           const hasOauthLogin = selectHasOauthLogin(state);
           const hasWeb3Connection = selectHasWeb3Connection(state);
           const isLoggedIn = selectIsLoggedIn(state);
           const hasPremium = selectHasPremium(state);
 
           trackAddNetworkInMM({
-            address,
+            address: authAddress,
             chainID,
             email: hasOauthLogin ? email : undefined,
             hasOauthLogin,

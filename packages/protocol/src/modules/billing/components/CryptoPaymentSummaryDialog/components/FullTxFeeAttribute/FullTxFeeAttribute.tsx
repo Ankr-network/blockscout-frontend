@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { ENetwork, IFeeDetails } from 'modules/billing/types';
+import { IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
 
@@ -15,7 +16,7 @@ export interface IFullTxFeeAttributeProps {
   approvalFeeDetails: IFeeDetails;
   depositFeeDetails: IFeeDetails;
   isWalletConnected: boolean;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 export const FullTxFeeAttribute = ({

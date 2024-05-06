@@ -1,23 +1,27 @@
-import { EWalletId } from '@ankr.com/provider';
+import { EthAddressType } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { getProviderManager } from 'modules/api/getProviderManager';
-import { GetState } from 'store';
-import { web3Api } from 'store/queries';
+import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getWalletAddress } from 'domains/wallet/utils/getWalletAddress';
+import { web3Api } from 'store/queries';
 
-import {
-  getCachedData,
-  setWeb3UserAuthorizationToken,
-} from './makeAuthorization';
-import { IAuthSlice, resetAuthData } from '../../store/authSlice';
-import { createWeb3Service } from './createWeb3Service';
 import { AuthConnectParams } from './types';
+import {
+  IAuthSlice,
+  resetAuthData,
+  selectAuthData,
+  setAuthData,
+} from '../../store/authSlice';
+import { addAuthTokenToService } from '../utils/addAuthTokenToService';
+import { addSignedWorkerTokenToService } from '../utils/addSignedWorkerTokenToService';
+import { authAuthorizeProvider } from '../getAuthorizationToken';
+import { createWeb3Service } from './createWeb3Service';
 
-interface AuthConnectResult {
-  cachedData: IAuthSlice;
-  hasWeb3Connection?: boolean;
+export interface AuthConnectResult {
+  cachedAuthData: IAuthSlice;
   hasOauthLogin?: boolean;
+  hasWeb3Connection?: boolean;
 }
 
 export const {
@@ -35,34 +39,46 @@ export const {
           throw error;
         }
 
-        const cachedData = getCachedData(service, getState as GetState);
+        const cachedAuthData = selectAuthData(getState() as RootState);
+        const {
+          authAddress: cachedAuthAddress,
+          authorizationToken: authToken,
+          hasWeb3Connection,
+          workerTokenData,
+        } = cachedAuthData;
+        const signedWorkerToken = workerTokenData?.signedToken;
 
-        const { hasWeb3Connection, address: cachedAddress } = cachedData;
-        let { hasOauthLogin } = cachedData;
+        addAuthTokenToService({ authToken, service });
+        addSignedWorkerTokenToService({ service, signedWorkerToken });
 
-        const providerManager = getProviderManager();
-        const provider = await providerManager.getETHWriteProvider(
-          EWalletId.injected,
-        );
+        const providerAddress = await getWalletAddress();
 
-        const { currentAccount: providerAddress } = provider;
+        const shouldResetAuthData =
+          Boolean(cachedAuthAddress) &&
+          providerAddress.toLowerCase() !== cachedAuthAddress!.toLowerCase();
 
-        if (
-          cachedAddress &&
-          providerAddress.toLowerCase() !== cachedAddress?.toLowerCase()
-        ) {
+        if (shouldResetAuthData) {
           dispatch(resetAuthData());
-
-          hasOauthLogin = false;
         }
+
+        const { hasOauthLogin } = selectAuthData(getState() as RootState);
 
         if (!hasOauthLogin) {
-          await setWeb3UserAuthorizationToken(service, dispatch);
+          const authorizationToken = await dispatch(
+            authAuthorizeProvider.initiate(),
+          ).unwrap();
+
+          dispatch(
+            setAuthData({
+              authorizationToken,
+              authAddressType: EthAddressType.User,
+            }),
+          );
+
+          addAuthTokenToService({ authToken: authorizationToken, service });
         }
 
-        return {
-          data: { cachedData, hasWeb3Connection, hasOauthLogin },
-        };
+        return { data: { cachedAuthData, hasOauthLogin, hasWeb3Connection } };
       }),
     }),
   }),

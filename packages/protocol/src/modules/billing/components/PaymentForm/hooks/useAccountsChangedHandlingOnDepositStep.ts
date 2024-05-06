@@ -3,10 +3,13 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 import {
   ECryptoDepositStep,
   ECryptoDepositStepStatus,
+  ECurrency,
 } from 'modules/billing/types';
-import { fetchMyAllowance } from 'domains/account/actions/fetchMyAllowance';
-import { useConnectedAddress } from 'modules/billing/hooks/useConnectedAddress';
+import { fetchMyAllowanceAnkr } from 'domains/account/actions/fetchMyAllowanceAnkr';
+import { fetchMyAllowanceUsdc } from 'domains/account/actions/fetchMyAllowanceUsdc';
+import { fetchMyAllowanceUsdt } from 'domains/account/actions/fetchMyAllowanceUsdt';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 export interface IUseAccountChangedHandlingOnDepositStep {
   depositStatus?: ECryptoDepositStepStatus;
@@ -15,6 +18,7 @@ export interface IUseAccountChangedHandlingOnDepositStep {
   onCryptoPaymentDepositDialogClose: () => void;
   setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
   step: ECryptoDepositStep;
+  currency: ECurrency;
 }
 
 // This hook contains the logic for handling the case when a user switches
@@ -27,10 +31,13 @@ export const useAccountChangedHandlingOnDepositStep = ({
   onCryptoPaymentDepositDialogClose,
   setIsAccountChangedOnDepositStep,
   step,
+  currency,
 }: IUseAccountChangedHandlingOnDepositStep) => {
-  const [, , resetMyAllowance] = useQueryEndpoint(fetchMyAllowance);
+  const [, , resetMyAllowanceAnkr] = useQueryEndpoint(fetchMyAllowanceAnkr);
+  const [, , resetMyAllowanceUsdt] = useQueryEndpoint(fetchMyAllowanceUsdt);
+  const [, , resetMyAllowanceUsdc] = useQueryEndpoint(fetchMyAllowanceUsdc);
 
-  const { connectedAddress } = useConnectedAddress();
+  const { walletAddress: connectedAddress } = useWalletAddress();
 
   useEffect(
     () => {
@@ -52,7 +59,17 @@ export const useAccountChangedHandlingOnDepositStep = ({
 
         onCryptoPaymentDepositDialogClose();
 
-        resetMyAllowance();
+        if (currency === ECurrency.USDT) {
+          resetMyAllowanceUsdt();
+        }
+
+        if (currency === ECurrency.USDC) {
+          resetMyAllowanceUsdc();
+        }
+
+        if (currency === ECurrency.ANKR) {
+          resetMyAllowanceAnkr();
+        }
 
         handleCryptoPaymentSummaryDialogOpen();
       }

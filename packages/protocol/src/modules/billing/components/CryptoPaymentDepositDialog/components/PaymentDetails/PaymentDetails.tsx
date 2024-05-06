@@ -1,7 +1,8 @@
+import { EBlockchain } from 'multirpc-sdk';
+
 import {
   ECryptoDepositStepStatus,
   ECurrency,
-  ENetwork,
   IFeeDetails,
 } from 'modules/billing/types';
 import { SeparatedList } from 'modules/billing/components/SeparatedList';
@@ -23,7 +24,7 @@ export interface IPaymentDetailsProps {
   isAllowanceSent: boolean;
   isMyAllowanceLoading: boolean;
   myAllowance: number;
-  network: ENetwork;
+  network: EBlockchain;
 }
 
 export const PaymentDetails = ({
