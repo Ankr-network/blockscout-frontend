@@ -46,3 +46,5 @@ export const ACTION_TEN_MINUTES_CACHE = 6000;
 
 export const CHARGING_MODEL_DEAL_DOCS_LINK =
   'https://www.ankr.com/docs/rpc-service/service-plans/#deal';
+
+export const INTEGER_REGEX = /[^0-9]/;

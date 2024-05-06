@@ -4,20 +4,24 @@ import { renderAmountError } from '../utils/renderAmountError';
 
 export interface IUseInputErrorProps {
   minAmount: number;
+  isInteger?: boolean;
 }
 
-export const useInputError = ({ minAmount }: IUseInputErrorProps) => {
+export const useInputError = ({
+  minAmount,
+  isInteger,
+}: IUseInputErrorProps) => {
   const [error, setError] = useState<string>();
 
   const validateAmount = useCallback(
     (amount: string) => {
-      const amountError = renderAmountError({ amount, minAmount });
+      const amountError = renderAmountError({ amount, minAmount, isInteger });
 
       setError(amountError);
 
       return amountError;
     },
-    [minAmount],
+    [minAmount, isInteger],
   );
 
   const resetError = useCallback(() => setError(undefined), []);

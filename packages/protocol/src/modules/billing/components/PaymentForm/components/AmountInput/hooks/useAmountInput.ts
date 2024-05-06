@@ -6,6 +6,7 @@ import { getRequestsByUSDAmount } from 'modules/billing/utils/getRequestsByUSDAm
 import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
 import { cutNonNumericSymbols } from 'modules/billing/utils/cutNonNumericSymbols';
 import { replaceCommaByDot } from 'modules/billing/utils/replaceCommaByDot';
+import { INTEGER_REGEX } from 'modules/common/constants/const';
 
 import { IAmountInputProps } from '../AmountInput';
 import { useInputValue } from './useInputValue';
@@ -32,7 +33,14 @@ export const useAmountInput = ({
   handleChangeCurrency,
 }: IUseAmountInputProps): IUseAmountInputResult => {
   const [isFocused, setIsFocused] = useState(false);
-  const { error, validateAmount, resetError } = useInputError({ minAmount });
+
+  const isStableCoin =
+    currency === ECurrency.USDC || currency === ECurrency.USDT;
+
+  const { error, validateAmount, resetError } = useInputError({
+    minAmount,
+    isInteger: isStableCoin,
+  });
 
   const { isLoading, amountUsd } = useUSDAmountByCryptoAmount({
     amount,
@@ -74,6 +82,12 @@ export const useAmountInput = ({
   const onChange = useCallback<Required<InputProps>['onChange']>(
     event => {
       const nextAmount = event.target.value;
+
+      if (nextAmount.match(INTEGER_REGEX)) {
+        event.preventDefault();
+
+        return;
+      }
 
       const formattedAmount = cutNonNumericSymbols(
         replaceCommaByDot(nextAmount),
