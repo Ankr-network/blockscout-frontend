@@ -1,14 +1,14 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { Chain } from 'modules/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { ChainGroupID } from 'modules/endpoints/types';
 
 import { getNetworks } from '../utils/getNetworks';
 
 export const useNetworks = (chain: Chain) => {
-  const endpoints = useGroupedEndpoints(chain, true);
+  const endpoints = useGroupedEndpoints(chain, chain.id === ChainID.FLARE);
 
   const networks = useMemo(() => getNetworks(endpoints), [endpoints]);
 
