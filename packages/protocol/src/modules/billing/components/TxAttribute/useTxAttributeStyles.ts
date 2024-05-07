@@ -4,6 +4,7 @@ export const useTxAttributeStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
+    gap: theme.spacing(4),
   },
   content: {
     display: 'flex',

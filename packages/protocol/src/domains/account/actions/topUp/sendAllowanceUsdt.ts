@@ -51,10 +51,12 @@ export const {
             });
 
             const allowanceResponse = await contractService.setAllowanceForPAYG(
-              new BigNumber(amount),
-              depositContractAddress,
-              tokenAddress,
-              tokenDecimals,
+              {
+                allowanceValue: new BigNumber(amount),
+                depositContractAddress,
+                tokenAddress,
+                tokenDecimals,
+              },
             );
 
             const { transactionHash: allowanceTransactionHash } =

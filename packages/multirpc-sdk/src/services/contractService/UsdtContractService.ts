@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
 
-import { PrefixedHex, Web3Address } from '../../common';
+import { IAllowanceParams, PrefixedHex, Web3Address } from '../../common';
 import { UsdtPAYGContractManager } from '../../PAYGContract/UsdtPAYGContractManager';
 import { UsdtContractReadService } from './UsdtContractReadService';
 import { convertNumberWithDecimalsToString } from '../../utils';
@@ -23,7 +23,9 @@ export class USDTContractService extends UsdtContractReadService {
     tokenAddress: Web3Address,
     depositContractAddress: Web3Address,
   ): Promise<IWeb3SendResult> {
-    const formattedAmount = new BigNumber(convertNumberWithDecimalsToString(amount, tokenDecimals));
+    const formattedAmount = new BigNumber(
+      convertNumberWithDecimalsToString(amount, tokenDecimals),
+    );
 
     return this.usdtPAYGContractManager.depositUSDT(
       formattedAmount,
@@ -42,6 +44,7 @@ export class USDTContractService extends UsdtContractReadService {
       depositContractAddress,
     );
   }
+
   // eslint-disable-next-line max-params
   public async depositUSDTToPAYGForUser(
     amount: BigNumber,
@@ -50,7 +53,9 @@ export class USDTContractService extends UsdtContractReadService {
     tokenAddress: Web3Address,
     depositContractAddress: Web3Address,
   ): Promise<IWeb3SendResult> {
-    const formattedAmount = new BigNumber(convertNumberWithDecimalsToString(amount, tokenDecimals));
+    const formattedAmount = new BigNumber(
+      convertNumberWithDecimalsToString(amount, tokenDecimals),
+    );
 
     return this.usdtPAYGContractManager.depositUsdtForUser({
       tokenDecimals,
@@ -61,19 +66,10 @@ export class USDTContractService extends UsdtContractReadService {
     });
   }
 
-  // eslint-disable-next-line max-params
   async setAllowanceForPAYG(
-    amount: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenAddress: Web3Address,
-    tokenDecimals: number,
+    params: IAllowanceParams,
   ): Promise<IWeb3SendResult> {
-    return this.usdtPAYGContractManager.setAllowance(
-      amount,
-      depositContractAddress,
-      tokenAddress,
-      tokenDecimals,
-    );
+    return this.usdtPAYGContractManager.setAllowance(params);
   }
 
   async getAllowanceFee(
