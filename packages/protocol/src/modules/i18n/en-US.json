@@ -32,20 +32,14 @@
   "meta": {
     "title": "Check out the price of Ankr's Remote procedure call (RPC)",
     "description": "Check out the price of Ankr's RPC (Remote Procedure Call). Plans that scale with you: Free, Premium RPC (Pay as you go) and Enterprise RPC. Contact us!",
-    "og-title": "Decentralized Infrastructure to Power Your dApp",
-    "og-description": "Build now with RPCs to access over a dozen blockchains",
     "public": {
       "title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
       "description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
-      "og-title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
-      "og-description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "chain-item": {
       "title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
       "description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
-      "og-title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
-      "og-description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
       "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
     }
   },

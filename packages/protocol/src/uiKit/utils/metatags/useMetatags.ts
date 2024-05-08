@@ -1,6 +1,4 @@
-// @ts-nocheck
 import { Theme } from '@mui/material';
-import { t } from '@ankr.com/common';
 import { useEffect } from 'react';
 import { INDEX_PATH } from 'routes/constants';
 
@@ -8,9 +6,11 @@ import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { getChainName } from './useMetatagsUtils';
 import { PROTOCOL_URL } from './const';
+import { metaTranslation } from './translation';
 
 const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   let location = '';
@@ -40,7 +40,11 @@ export const useMetatags = (
 
   const isIndexPath = rawPathname === INDEX_PATH;
 
-  const pathname = isIndexPath ? rawPathname : rawPathname.replace(/\/$/, '');
+  const { t, keys } = useTranslation(metaTranslation);
+
+  const pathname = (
+    isIndexPath ? rawPathname : rawPathname.replace(/\/$/, '')
+  ) as keyof typeof keys;
 
   useEffect(() => {
     const themeTag = document.getElementById('meta-theme') as HTMLMetaElement;
@@ -96,34 +100,40 @@ export const useMetatags = (
       );
     }
 
-    document.title = t(`meta.${location}title`, { chainId: name });
+    const titleKey = keys[pathname]?.title;
+    const title = titleKey
+      ? t(titleKey)
+      : t(`meta.${location}title`, { chainId: name });
+
+    const descriptionKey = keys[pathname]?.description;
+    const description = descriptionKey
+      ? t(descriptionKey)
+      : t(`meta.${location}description`, {
+          chainId: name,
+        });
+
+    document.title = title;
 
     if (descriptionTag) {
-      descriptionTag.content = t(`meta.${location}description`, {
-        chainId: name,
-      });
+      descriptionTag.content = description;
     }
 
     if (ogTitle) {
-      ogTitle.content = t(`meta.${location}og-title`, { chainId: name });
+      ogTitle.content = title;
     }
 
     if (ogDescription) {
-      ogDescription.content = t(`meta.${location}og-description`, {
-        chainId: name,
-      });
+      ogDescription.content = description;
     }
 
     if (twitterTitle) {
-      twitterTitle.content = t(`meta.${location}og-title`, { chainId: name });
+      twitterTitle.content = title;
     }
 
     if (twitterDescription) {
-      twitterDescription.content = t(`meta.${location}og-description`, {
-        chainId: name,
-      });
+      twitterDescription.content = description;
     }
 
     return () => {};
-  }, [chainsRoutes, currentThemeColor, beacons, pathname]);
+  }, [chainsRoutes, currentThemeColor, beacons, pathname, t, keys]);
 };
