@@ -16,15 +16,21 @@ export interface IUseTxReceiptProps extends IFetchTxReceiptParams {
   skipFetching?: boolean;
 }
 
-export const useTxReceipt = ({ skipFetching, txHash }: IUseTxReceiptProps) => {
-  useFetchTxReceiptQuery(skipFetching ? skipToken : { txHash });
+export const useTxReceipt = ({
+  skipFetching,
+  txHash,
+  network,
+}: IUseTxReceiptProps) => {
+  useFetchTxReceiptQuery(skipFetching ? skipToken : { txHash, network });
 
-  const txReceipt = useAppSelector(state => selectTxReceipt(state, txHash));
+  const txReceipt = useAppSelector(state =>
+    selectTxReceipt(state, txHash, network),
+  );
   const isLoading = useAppSelector(state =>
-    selectTxReceiptLoading(state, txHash),
+    selectTxReceiptLoading(state, txHash, network),
   );
   const isFetching = useAppSelector(state =>
-    selectTxReceiptFetching(state, txHash),
+    selectTxReceiptFetching(state, txHash, network),
   );
 
   return { isFetching, isLoading, txReceipt };

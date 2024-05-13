@@ -7,6 +7,7 @@ import { selectPaymentOptions } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
+import { ECurrency } from 'modules/billing/types';
 
 import { Amount } from '../components/Amount';
 import { Deduction } from '../components/Deduction';
@@ -22,6 +23,7 @@ import { getCreditsValue } from '../utils/getCreditsValue';
 import { getCurrencySymbol } from '../utils/getCurrencySymbol';
 import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDirection';
 import { useTransactionsDownloader } from './useTransactionsDownloader';
+import { getTxCurrency } from '../utils/getTxCurrency';
 
 /* eslint-disable max-lines-per-function */
 export const useColumns = () => {
@@ -134,11 +136,11 @@ export const useColumns = () => {
           amountUsd,
           amountAnkr,
           network,
+          currencyAddress,
           creditUsdAmount,
           creditAnkrAmount,
           type,
           txHash,
-          currencyAddress,
         }) => {
           const amount = getAmount({
             type,
@@ -148,12 +150,23 @@ export const useColumns = () => {
             amountUsd,
           });
 
-          if (!txHash || !network || !hasConnectedAddress || currencyAddress) {
+          if (!txHash || !network) {
             return null;
           }
 
+          const txCurrency = getTxCurrency({
+            network,
+            currencyAddress,
+            paymentOptions: paymentOptionsData?.result.options,
+          });
+
           return (
-            <DetailsButton amount={amount} network={network} txHash={txHash} />
+            <DetailsButton
+              amount={amount}
+              network={network}
+              currency={txCurrency as unknown as ECurrency}
+              txHash={txHash}
+            />
           );
         },
         width: 110,

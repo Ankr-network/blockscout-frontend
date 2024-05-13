@@ -46,6 +46,7 @@ export const useOneTimeCryptoPayment = ({
 
   const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
     skipFetching: !hasWeb3Service,
+    network,
   });
 
   const {

@@ -74,6 +74,7 @@ export const OngoingPayments = ({
             amount={approvedAmountString}
             txHash={txHash}
             network={network ?? EBlockchain.eth}
+            currency={currency}
             onCloseButtonClick={handleResetTopUpTransaction}
           />
         ) : (
