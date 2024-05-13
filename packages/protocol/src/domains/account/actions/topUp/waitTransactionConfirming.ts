@@ -11,7 +11,7 @@ import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { selectTransaction } from 'domains/account/store/selectors';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { timeout } from 'modules/common/utils/timeout';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 import { ETH_BLOCK_TIME } from './const';
 import { fetchBalance } from '../balance/fetchBalance';
@@ -64,6 +64,12 @@ type TxConfirmationResponse = Awaited<
     Definition<IApiUserGroupParams, WaitTransactionConfirmingResult>
   >
 >;
+
+const balancesTagsToInvalidate = [
+  RequestType.WalletANKRTokenBalance,
+  RequestType.WalletUSDTTokenBalance,
+  RequestType.WalletUSDCTokenBalance,
+];
 
 export const hasTxConfirmationError = (response: TxConfirmationResponse) =>
   'data' in response &&
@@ -180,6 +186,7 @@ export const {
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
+        dispatch(web3Api.util.invalidateTags(balancesTagsToInvalidate));
         dispatch(fetchBalance.initiate({ group }));
       },
     }),
