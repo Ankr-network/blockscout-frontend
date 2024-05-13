@@ -125,7 +125,6 @@ listenerMiddleware.startListening({
         const networkId = Number.parseInt(chainId, 16);
 
         dispatch(setNetworkId(networkId));
-        disconnectHandler();
       };
 
       const accountsChangedHandler = (connectedAddresses: string[]) => {

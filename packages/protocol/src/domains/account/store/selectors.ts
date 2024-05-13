@@ -819,11 +819,7 @@ export const selectPaymentOptionsState = createSelector(
 export const selectPaymentOptions = createSelector(
   selectPaymentOptionsState,
   ({ data }) => {
-    const filteredData = data?.result.options.filter(
-      option =>
-        option.blockchain === EBlockchain.eth_holesky ||
-        option.blockchain === EBlockchain.eth,
-    );
+    const filteredData = data?.result.options;
 
     return { result: { options: filteredData } };
   },
