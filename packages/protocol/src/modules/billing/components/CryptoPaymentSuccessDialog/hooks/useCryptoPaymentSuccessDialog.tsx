@@ -76,7 +76,7 @@ export const useCryptoPaymentSuccessDialog = ({
         currency,
         depositFee,
         depositFeeUSD: depositFeeUsd,
-        depositTxURL: getTxExplorerUrl(depositTxHash),
+        depositTxURL: getTxExplorerUrl(network, depositTxHash),
         fromAddress,
         network,
         onClose,
