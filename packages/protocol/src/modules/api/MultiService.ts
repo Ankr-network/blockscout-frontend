@@ -1,7 +1,4 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import {
   MultiRpcWeb3Sdk,
   MultiRpcSdk,
@@ -37,14 +34,10 @@ export class MultiService {
       getReadProviderId(API_ENV),
     );
 
-    const isEthereumNetwork =
-      writeProvider.currentChain === EEthereumNetworkId.mainnet ||
-      writeProvider.currentChain === EEthereumNetworkId.holesky;
-
-    if (!isEthereumNetwork && walletId !== INJECTED_WALLET_ID) {
+    if (walletId !== INJECTED_WALLET_ID) {
       MultiService.removeServices();
 
-      throw new Error(t('error.not-supported-chain'));
+      throw new Error(t('error.not-supported-wallet'));
     }
 
     MultiService.web3Service = new MultiRpcWeb3Sdk(
