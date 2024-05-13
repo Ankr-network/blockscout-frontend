@@ -34,6 +34,7 @@ import { topUpSendAllowanceUsdt } from '../actions/topUp/sendAllowanceUsdt';
 import { topUpWaitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
+import { EBlockchain } from 'multirpc-sdk';
 
 const getErrorMessage = (error: any) => {
   if (error && 'message' in error && typeof error.message === 'string') {
@@ -193,6 +194,7 @@ export const useTopUp = () => {
 
     if (transactionCurrency === ECurrency.USDT) {
       return sendAllowanceUsdt({
+        network: transactionNetwork ?? EBlockchain.eth,
         amount: amountToDeposit,
         depositContractAddress,
         tokenAddress,
@@ -203,6 +205,7 @@ export const useTopUp = () => {
 
     if (transactionCurrency === ECurrency.USDC) {
       return sendAllowanceUsdc({
+        network: transactionNetwork ?? EBlockchain.eth,
         amount: amountToDeposit,
         depositContractAddress,
         tokenAddress,

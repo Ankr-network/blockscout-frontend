@@ -1,4 +1,4 @@
-import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
+import { CONFIRMATION_BLOCKS, EBlockchain } from 'multirpc-sdk';
 import { TransactionReceipt } from 'web3-core';
 
 import { GetState } from 'store';
@@ -11,6 +11,7 @@ import { waitForPendingTransaction } from './waitForPendingTransaction';
 import { getContractService } from './utils/getContractService';
 
 interface ITopUpCheckAllowanceTransactionParams {
+  network: EBlockchain;
   initialTransactionHash: string;
   confirmationBlocksNumber?: number;
 }
@@ -29,6 +30,7 @@ export const {
           async (
             {
               params: {
+                network,
                 initialTransactionHash,
                 confirmationBlocksNumber = CONFIRMATION_BLOCKS,
               },
@@ -54,7 +56,7 @@ export const {
             if (transactionReceipt) return { data: transactionReceipt };
 
             // step 2: waiting for a pending transaction
-            await waitForPendingTransaction(address);
+            await waitForPendingTransaction(network, address);
 
             // step 3: trying to take a receipt again
             let transactionHash = initialTransactionHash;

@@ -1,5 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { getBNWithDecimalsFromString, Web3Address } from 'multirpc-sdk';
+import {
+  EBlockchain,
+  getBNWithDecimalsFromString,
+  Web3Address,
+} from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -15,6 +19,7 @@ import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 interface ISendAllowanceUsdtParams {
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   tokenDecimals: number;
@@ -33,6 +38,7 @@ export const {
           async (
             {
               params: {
+                network,
                 depositContractAddress,
                 tokenAddress,
                 tokenDecimals,
@@ -71,6 +77,7 @@ export const {
 
             const receipt = await dispatch(
               topUpCheckAllowanceTransaction.initiate({
+                network,
                 initialTransactionHash: allowanceTransactionHash,
                 confirmationBlocksNumber,
               }),
