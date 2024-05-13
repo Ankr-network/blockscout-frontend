@@ -1,8 +1,8 @@
-import { RPC_URLS_BY_NETWORK } from '@ankr.com/provider';
-import { ethNetworkIdByBlockchainMap } from 'multirpc-sdk';
 import Web3 from 'web3';
 
 import { IPaymentHistoryTableEntity } from 'domains/account/types';
+
+import { getRpcUrlByNetwork } from '../getRpcUrlByNetwork';
 
 export const mapTransactionsWithTxReceiptData = async (
   transactions: IPaymentHistoryTableEntity[],
@@ -19,9 +19,7 @@ export const mapTransactionsWithTxReceiptData = async (
         txHash;
 
       if (isNotAnkrPayment) {
-        const ethNetworkId = ethNetworkIdByBlockchainMap[network];
-        const rpcUrl =
-          RPC_URLS_BY_NETWORK[ethNetworkId as keyof typeof RPC_URLS_BY_NETWORK];
+        const rpcUrl = getRpcUrlByNetwork(network);
         const web3 = new Web3(rpcUrl);
 
         const txData = await web3.eth.getTransaction(txHash);

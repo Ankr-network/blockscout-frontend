@@ -939,7 +939,8 @@ export const selectIsEnoughAllowanceUsdc = createSelector(
 );
 
 export const selectTxDataState = createSelector(
-  (state: RootState, txHash: string) => fetchTxData.select({ txHash })(state),
+  (state: RootState, txHash: string, network: EBlockchain) =>
+    fetchTxData.select({ txHash, network })(state),
   state => state,
 );
 
@@ -959,8 +960,8 @@ export const selectTxDataLoading = createSelector(
 );
 
 export const selectTxReceiptState = createSelector(
-  (state: RootState, txHash: string) =>
-    fetchTxReceipt.select({ txHash })(state),
+  (state: RootState, txHash: string, network: EBlockchain) =>
+    fetchTxReceipt.select({ txHash, network })(state),
   state => state,
 );
 

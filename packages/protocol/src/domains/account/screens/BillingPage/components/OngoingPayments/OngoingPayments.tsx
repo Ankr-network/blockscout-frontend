@@ -73,7 +73,8 @@ export const OngoingPayments = ({
           <DetailsButton
             amount={approvedAmountString}
             txHash={txHash}
-            network={EBlockchain.eth} // TODO: https://ankrnetwork.atlassian.net/browse/MRPC-4801
+            network={network ?? EBlockchain.eth}
+            currency={currency}
             onCloseButtonClick={handleResetTopUpTransaction}
           />
         ) : (

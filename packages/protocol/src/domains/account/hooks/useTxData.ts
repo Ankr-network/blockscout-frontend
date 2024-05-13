@@ -16,13 +16,19 @@ export interface IUseTxDataProps extends IFetchTxDataParams {
   skipFetching?: boolean;
 }
 
-export const useTxData = ({ skipFetching, txHash }: IUseTxDataProps) => {
-  useFetchTxDataQuery(skipFetching ? skipToken : { txHash });
+export const useTxData = ({
+  skipFetching,
+  txHash,
+  network,
+}: IUseTxDataProps) => {
+  useFetchTxDataQuery(skipFetching ? skipToken : { txHash, network });
 
-  const txData = useAppSelector(state => selectTxData(state, txHash));
-  const isLoading = useAppSelector(state => selectTxDataLoading(state, txHash));
+  const txData = useAppSelector(state => selectTxData(state, txHash, network));
+  const isLoading = useAppSelector(state =>
+    selectTxDataLoading(state, txHash, network),
+  );
   const isFetching = useAppSelector(state =>
-    selectTxDataFetching(state, txHash),
+    selectTxDataFetching(state, txHash, network),
   );
 
   return { isFetching, isLoading, txData };

@@ -47,6 +47,7 @@ export const useCryptoPaymentSuccessDialog = ({
     skipFetching: !isOpened,
     txHash: depositTxHash,
     currency,
+    network,
   });
 
   const {
@@ -58,6 +59,7 @@ export const useCryptoPaymentSuccessDialog = ({
     skipFetching: !isOpened || !allowanceTxHash,
     txHash: allowanceTxHash!,
     currency,
+    network,
   });
 
   const isLoading = isDepositTxDataLoading || isAllowanceTxDataLoading;

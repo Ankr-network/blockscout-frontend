@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Token, getTokenAddress } from 'multirpc-sdk';
+import { EBlockchain, Token, getTokenAddress } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
 import { API_ENV } from 'modules/common/utils/environment';
@@ -17,6 +17,7 @@ export interface IUseTxDetailsProps {
   skipFetching?: boolean;
   txHash: string;
   currency: ECurrency;
+  network: EBlockchain;
 }
 
 export const useTxDetails = ({
@@ -24,22 +25,26 @@ export const useTxDetails = ({
   skipFetching,
   txHash,
   currency,
+  network,
 }: IUseTxDetailsProps) => {
   const { txData, isLoading: isTxDataLoading } = useTxData({
     skipFetching,
     txHash,
+    network,
   });
 
   const { txReceipt, isLoading: isTxReceiptLoading } = useTxReceipt({
-    txHash,
     skipFetching,
+    txHash,
+    network,
   });
 
   const { price: nativeTokenPrice, isFetching: isNativeTokenPriceLoading } =
-    useNativeTokenPrice({ skipFetching });
+    useNativeTokenPrice({ skipFetching, network });
 
   const { price: tokenPrice, isFetching: isTokenPriceLoading } = useTokenPrice({
     currency,
+    network,
     tokenAddress: getTokenAddress(currency as unknown as Token, API_ENV),
     skipFetching,
   });

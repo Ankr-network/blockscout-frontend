@@ -14,6 +14,7 @@ import { useDetailsButtonStyles } from './useDetailsButtonStyles';
 export interface IDetailsButtonProps {
   amount: string;
   network: EBlockchain;
+  currency: ECurrency;
   txHash: string;
   onCloseButtonClick?: () => void;
 }
@@ -21,6 +22,7 @@ export interface IDetailsButtonProps {
 export const DetailsButton = ({
   amount,
   network,
+  currency,
   txHash,
   onCloseButtonClick,
 }: IDetailsButtonProps) => {
@@ -31,7 +33,7 @@ export const DetailsButton = ({
     handleCryptoPaymentSuccessDialogOpen,
   } = useCryptoPaymentSuccessDialog({
     amount: Number(amount),
-    currency: ECurrency.ANKR,
+    currency,
     depositTxHash: txHash,
     network,
     onCloseButtonClick,
