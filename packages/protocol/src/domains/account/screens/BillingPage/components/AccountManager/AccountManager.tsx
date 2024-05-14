@@ -9,7 +9,7 @@ import { ChargingModelWidget } from '../ChargingModelWidget';
 import { RecurringPaymentsWidget } from '../RecurringPaymentsWidget';
 import { useAccountManagerStyles } from './AccountManagerStyles';
 
-interface IAccountManagerProps extends IPaymentFormProps { }
+interface IAccountManagerProps extends IPaymentFormProps {}
 
 export const AccountManager = (paymentFormProps: IAccountManagerProps) => {
   const { classes } = useAccountManagerStyles();

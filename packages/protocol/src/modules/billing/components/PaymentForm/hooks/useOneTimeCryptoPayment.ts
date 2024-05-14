@@ -1,5 +1,5 @@
 import { EBlockchain, Web3Address } from 'multirpc-sdk';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ECurrency, EPaymentType } from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -79,7 +79,12 @@ export const useOneTimeCryptoPayment = ({
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
-  const { handleResetTopUpTransaction } = useTopUp();
+  const { handleResetTopUpTransaction, handleResetDeposit } = useTopUp();
+
+  const handleCryptoPaymentSuccessDialogClose = useCallback(() => {
+    handleResetTopUpTransaction();
+    handleResetDeposit();
+  }, [handleResetDeposit, handleResetTopUpTransaction]);
 
   const {
     cryptoPaymentSuccessDialogProps,
@@ -88,10 +93,10 @@ export const useOneTimeCryptoPayment = ({
     allowanceTxHash,
     amount,
     currency,
-    network,
     depositTxHash: depositTxHash ?? '',
+    network,
+    onClose: handleCryptoPaymentSuccessDialogClose,
     paymentType: EPaymentType.OneTime,
-    onCloseButtonClick: handleResetTopUpTransaction,
   });
 
   const {

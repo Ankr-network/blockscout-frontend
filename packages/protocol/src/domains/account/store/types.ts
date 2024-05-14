@@ -7,13 +7,14 @@ import { TopUpOrigin } from '../types';
 
 export interface ITransaction {
   allowanceTransactionHash?: string;
-  amountToDeposit?: BigNumber; // transaction amount
   amount?: BigNumber; // deprecated (it was used by topup form)
+  amountToDeposit?: BigNumber; // transaction amount
   approvedAmount?: BigNumber; // deprecated (we are fetching this amount on the flight)
-  isProcessing?: boolean;
-  topUpTransactionHash?: string;
   currency?: ECurrency;
+  isConfirmed?: boolean;
+  isProcessing?: boolean;
   network?: EBlockchain;
+  topUpTransactionHash?: string;
 }
 
 type Address = string;

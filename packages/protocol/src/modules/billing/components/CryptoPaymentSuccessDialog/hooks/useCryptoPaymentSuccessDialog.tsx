@@ -13,7 +13,7 @@ export const useCryptoPaymentSuccessDialog = ({
   currency,
   depositTxHash,
   network,
-  onCloseButtonClick,
+  onClose: handleClose,
   onOpen,
   paymentType,
 }: IUseCryptoPaymentSuccessDialogProps) => {
@@ -24,9 +24,9 @@ export const useCryptoPaymentSuccessDialog = ({
   } = useDialog();
 
   const onClose = useCallback(() => {
-    onCloseButtonClick?.();
+    handleClose?.();
     handleCryptoPaymentSuccessDialogClose();
-  }, [handleCryptoPaymentSuccessDialogClose, onCloseButtonClick]);
+  }, [handleClose, handleCryptoPaymentSuccessDialogClose]);
 
   const handleCryptoPaymentSuccessDialogOpen = useCallback(async () => {
     await onOpen?.();

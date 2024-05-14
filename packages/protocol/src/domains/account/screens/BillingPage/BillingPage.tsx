@@ -34,6 +34,9 @@ export const BillingPage = () => {
     return <OverlaySpinner />;
   }
 
+  const handleOpenDepositDialog =
+    paymentFormProps.cryptoPaymentDepositDialogProps.onOpen;
+
   return (
     <Box className={classes.root}>
       <ExpiredTokenBanner />
@@ -42,9 +45,7 @@ export const BillingPage = () => {
 
       <OngoingPayments
         className={classes.ongoingPayments}
-        onOpenPaymentDialog={
-          paymentFormProps.cryptoPaymentDepositDialogProps?.onOpen
-        }
+        handleOpenDepositDialog={handleOpenDepositDialog}
       />
 
       <Box className={classes.payments}>

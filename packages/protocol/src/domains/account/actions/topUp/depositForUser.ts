@@ -4,12 +4,10 @@ import { Web3Address, formatToWei } from 'multirpc-sdk';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
-import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
-import { GetState } from 'store';
 
-import { getCurrentTransactionAddress } from '../../utils/getCurrentTransactionAddress';
 import { accountFetchPublicKey } from '../fetchPublicKey';
+import { updateTxHash } from './utils/updateTxHash';
 
 interface IDepositForUserRequestParams {
   amount: BigNumber;
@@ -29,7 +27,7 @@ export const {
         queryFn: createNotifyingQueryFn(
           async (
             { params: { amount, targetAddress }, web3Service },
-            { dispatch },
+            { dispatch, getState },
           ) => {
             const publicKey = await dispatch(
               accountFetchPublicKey.initiate(),
@@ -43,25 +41,15 @@ export const {
                 targetAddress,
               );
 
+            const txHash = depositResponse.transactionHash;
+
+            updateTxHash({ dispatch, getState, txHash });
+
             return { data: depositResponse };
           },
         ),
         fallback: { data: null },
       }),
-      onQueryStarted: async (_args, { getState, dispatch, queryFulfilled }) => {
-        const { data: depositResponse } = await queryFulfilled;
-
-        const address = getCurrentTransactionAddress(getState as GetState);
-
-        if (depositResponse?.transactionHash) {
-          dispatch(
-            setTopUpTransaction({
-              address,
-              topUpTransactionHash: depositResponse.transactionHash,
-            }),
-          );
-        }
-      },
     }),
   }),
 });
