@@ -5,6 +5,7 @@ import { ECurrency } from 'modules/billing/types';
 import { MIN_ANKR_AMOUNT, MIN_USD_AMOUNT } from 'modules/billing/const';
 import { selectPaymentOptions } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
 
 interface IUseMinAmountProps {
   currency: ECurrency;
@@ -18,7 +19,7 @@ export const useMinAmount = ({ currency, network }: IUseMinAmountProps) => {
     return MIN_ANKR_AMOUNT;
   }
 
-  if (currency === ECurrency.USDC || currency === ECurrency.USDT) {
+  if (isStableCoinCurrency(currency)) {
     const networkOptions = paymentOptionsData?.result?.options?.find(
       networkOption => networkOption.blockchain === network,
     );

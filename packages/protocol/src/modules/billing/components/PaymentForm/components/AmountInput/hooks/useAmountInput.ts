@@ -6,6 +6,7 @@ import { getRequestsByUSDAmount } from 'modules/billing/utils/getRequestsByUSDAm
 import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
 import { cutNonNumericSymbols } from 'modules/billing/utils/cutNonNumericSymbols';
 import { replaceCommaByDot } from 'modules/billing/utils/replaceCommaByDot';
+import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
 import { INTEGER_REGEX } from 'modules/common/constants/const';
 
 import { IAmountInputProps } from '../AmountInput';
@@ -34,18 +35,16 @@ export const useAmountInput = ({
 }: IUseAmountInputProps): IUseAmountInputResult => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const isStableCoin =
-    currency === ECurrency.USDC || currency === ECurrency.USDT;
-
   const { error, validateAmount, resetError } = useInputError({
     minAmount,
-    isInteger: isStableCoin,
+    isInteger: isStableCoinCurrency(currency),
   });
 
   const { isLoading, amountUsd } = useUSDAmountByCryptoAmount({
     amount,
     currency,
   });
+
   const requests = useMemo(
     () => getRequestsByUSDAmount(amountUsd),
     [amountUsd],

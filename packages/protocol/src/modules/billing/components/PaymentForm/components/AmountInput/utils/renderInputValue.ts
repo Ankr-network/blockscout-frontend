@@ -3,6 +3,7 @@ import { renderCryptoAmount } from 'modules/billing/utils/renderCryptoAmount';
 import { renderStablecoinPrice } from 'modules/billing/utils/renderStablecoinPrice';
 import { renderUSDAmount } from 'modules/billing/utils/renderUSDAmount';
 import { renderUSDPrice } from 'modules/billing/utils/renderUSDPrice';
+import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
 
 export interface IRenderInputValueParams {
   amount: number;
@@ -16,8 +17,6 @@ export const renderInputValue = ({
   amountUsd,
 }: IRenderInputValueParams) => {
   const isANKR = currency === ECurrency.ANKR;
-  const isUSDT = currency === ECurrency.USDT;
-  const isUSDC = currency === ECurrency.USDC;
 
   if (isANKR) {
     const amountString = renderCryptoAmount({ amount, currency });
@@ -29,7 +28,7 @@ export const renderInputValue = ({
     return `${amountString} / ${usdAmountString}`;
   }
 
-  if (isUSDC || isUSDT) {
+  if (isStableCoinCurrency(currency)) {
     return renderStablecoinPrice(currency, amount);
   }
 

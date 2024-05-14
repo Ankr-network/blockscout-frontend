@@ -1,6 +1,6 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { ECurrency, IAmount } from 'modules/billing/types';
+import { ECurrency } from 'modules/billing/types';
 
 import { IOneTimeAmountProps } from '../OneTimeAmount';
 import { useAmount } from './useAmount';
@@ -23,22 +23,14 @@ export const useOneTimeAmount = ({
   minAmount,
   handleChangeCurrency,
 }: IUseOneTimeAmountProps): IUseOneTimeAmountResult => {
-  const { amount, amounts, selectedAmountID, setAmount, setSelectedAmountID } =
-    useAmount({ currency });
-
-  const handleAmountSelect = useCallback(
-    ({ id, value }: IAmount) => {
-      setAmount(value);
-      setSelectedAmountID(id);
-    },
-    [setAmount, setSelectedAmountID],
-  );
-
-  const { onAmountSelect, selectedAmountID: selectedByChipAmountID } =
-    useAmountChips({
-      selectedAmountID,
-      onAmountSelect: handleAmountSelect,
-    });
+  const {
+    amount,
+    amounts,
+    selectedAmountID,
+    setAmount,
+    setSelectedAmountID,
+    handleAmountSelectByChipClick,
+  } = useAmount({ currency });
 
   const { isLoading, ...amountInputProps } = useAmountInput({
     amount,
@@ -49,6 +41,12 @@ export const useOneTimeAmount = ({
   });
 
   const { resetInputError } = amountInputProps;
+
+  const { onAmountSelect, selectedAmountID: selectedByChipAmountID } =
+    useAmountChips({
+      selectedAmountID,
+      onAmountSelect: handleAmountSelectByChipClick,
+    });
 
   useEffect(() => {
     resetInputError();
