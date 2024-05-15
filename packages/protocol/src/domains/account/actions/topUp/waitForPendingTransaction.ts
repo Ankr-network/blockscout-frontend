@@ -13,16 +13,7 @@ const hasPendingTransaction = async (
   const service = MultiService.getWeb3Service();
 
   if (service) {
-    const provider = service.getKeyReadProvider();
-
     const web3 = getWeb3Instance(network);
-
-    const infuraNodeBlockNumber: number = await provider
-      .getWeb3()
-      .eth.getBlockNumber();
-    const ankrNodeBlockNumber: number = await web3.eth.getBlockNumber();
-
-    if (infuraNodeBlockNumber !== ankrNodeBlockNumber) return true;
 
     const latestTransactionCount = await web3.eth.getTransactionCount(
       address,
