@@ -739,15 +739,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://sepolia-explorer.base.org/'],
   },
 
-  [ChainID.TAIKO_KATLA]: {
-    chainId: 167008,
-    chainName: 'Taiko Katla testnet',
+  [ChainID.TAIKO_HEKLA]: {
+    chainId: 167009,
+    chainName: 'Taiko Hekla testnet',
     nativeCurrency: {
       name: 'Ether',
       symbol: 'ETH',
       decimals: 18,
     },
-    blockExplorerUrls: ['https://explorer.katla.taiko.xyz/'],
+    blockExplorerUrls: ['https://explorer.hekla.taiko.xyz/'],
   },
 
   [ChainID.SCROLL]: {
@@ -836,5 +836,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://explorer.xai-chain.net/'],
+  },
+  [ChainID.XAI_TESTNET]: {
+    chainId: 47279324479,
+    chainName: 'XAI Testnet',
+    nativeCurrency: {
+      name: 'GETH',
+      symbol: 'GETH',
+      decimals: 18,
+    },
+    blockExplorerUrls: [' https://testnet-explorer.xai-chain.net/'],
   },
 };

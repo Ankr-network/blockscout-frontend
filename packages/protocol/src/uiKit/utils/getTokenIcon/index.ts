@@ -257,7 +257,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SYSCOIN]: syscoinIcon,
 
   [ChainID.TAIKO]: taikoIcon,
-  [ChainID.TAIKO_KATLA]: taikoIcon,
+  [ChainID.TAIKO_HEKLA]: taikoIcon,
 
   [ChainID.TRON]: tronIcon,
   [ChainID.TRON_JSON_RPC]: tronIcon,
@@ -267,6 +267,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SUI_TESTNET]: suiIcon,
 
   [ChainID.XAI]: xaiIcon,
+  [ChainID.XAI_TESTNET]: xaiIcon,
   [ChainID.XDC]: xdcIcon,
   [ChainID.XDC_TESTNET]: xdcIcon,
 
@@ -341,7 +342,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.STELLAR_TESTNET_SOROBAN]: stellarIconDark,
   [ChainID.SYSCOIN]: syscoinIconDark,
   [ChainID.TAIKO]: taikoIconDark,
-  [ChainID.TAIKO_KATLA]: taikoIconDark,
+  [ChainID.TAIKO_HEKLA]: taikoIconDark,
   [ChainID.SCROLL]: scrollIconDark,
   [ChainID.SCROLL_TESTNET]: scrollIconDark,
   [ChainID.SCROLL_SEPOLIA_TESTNET]: scrollIconDark,
