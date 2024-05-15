@@ -1,5 +1,7 @@
 import { EBlockchain } from 'multirpc-sdk';
 
+import { isMainnet } from 'modules/common/constants/const';
+
 import { EChargingModel, ECurrency, EPaymentType } from './types';
 
 export const PRICES_PER_REQUEST_URL =
@@ -107,3 +109,7 @@ export const nativeTokenNameMap: Record<EBlockchain, string> = {
   [EBlockchain.syscoin]: 'account.currencies.sys',
   [EBlockchain.scroll]: 'account.currencies.eth',
 };
+
+export const ANKR_TOP_UP_NETWORK = isMainnet
+  ? EBlockchain.eth
+  : EBlockchain.eth_holesky;

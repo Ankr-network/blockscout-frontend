@@ -2,14 +2,10 @@ import { EBlockchain, ethNetworkIdByBlockchainMap } from 'multirpc-sdk';
 import { useMemo } from 'react';
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { ECurrency } from 'modules/billing/types';
 import { useSwitchNetworkMutation } from 'modules/common/actions/switchNetwork';
 import { isMainnet } from 'modules/common/constants/const';
 
-export const useNetworkGuard = (
-  selectedNetwork: EBlockchain,
-  currency: ECurrency,
-) => {
+export const useNetworkGuard = (selectedNetwork: EBlockchain) => {
   const [handleSwitchNetwork, { isLoading: isSwitchNetworkLoading }] =
     useSwitchNetworkMutation();
 
@@ -23,12 +19,12 @@ export const useNetworkGuard = (
     //   setProviderNetworkId(dispatch);
     // }
 
-    if (isMainnet || currency === ECurrency.ANKR) {
+    if (isMainnet) {
       return selectedNetworkId !== EEthereumNetworkId.mainnet;
     }
 
     return selectedNetworkId !== EEthereumNetworkId.holesky;
-  }, [currency, selectedNetworkId]);
+  }, [selectedNetworkId]);
 
   return {
     isWrongNetwork,
