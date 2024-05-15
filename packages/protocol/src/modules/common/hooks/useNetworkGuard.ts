@@ -26,7 +26,7 @@ export const useNetworkGuard = (
     }
 
     return selectedNetworkId !== networkId;
-  }, [currency, selectedNetworkId]);
+  }, [currency, networkId, selectedNetworkId]);
 
   return {
     isWrongNetwork,
