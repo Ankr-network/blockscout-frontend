@@ -4,6 +4,7 @@ import { EBlockchain, Token } from 'multirpc-sdk';
 import { selectPaymentOptions } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { ECurrency } from 'modules/billing/types';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 import { INetworkSelectOption } from '../../NetworkSelect';
 
@@ -18,7 +19,7 @@ export const useNetwork = (currency: ECurrency) => {
     const paymentOptions = paymentOptionsData?.result.options ?? [];
 
     if (isANKRCurrencyActive) {
-      return [{ value: EBlockchain.eth }];
+      return [{ value: ANKR_TOP_UP_NETWORK }];
     }
 
     return paymentOptions
@@ -38,7 +39,7 @@ export const useNetwork = (currency: ECurrency) => {
     }
 
     if (isANKRCurrencyActive) {
-      setNetwork(EBlockchain.eth);
+      setNetwork(ANKR_TOP_UP_NETWORK);
     }
   }, [currency, networkOptions, isANKRCurrencyActive]);
 
