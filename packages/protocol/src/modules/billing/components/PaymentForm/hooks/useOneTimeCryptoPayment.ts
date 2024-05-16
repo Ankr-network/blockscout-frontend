@@ -45,8 +45,8 @@ export const useOneTimeCryptoPayment = ({
   const { hasWeb3Service } = useWeb3Service();
 
   const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
-    skipFetching: !hasWeb3Service,
     network,
+    skipFetching: !hasWeb3Service,
   });
 
   const {
@@ -57,12 +57,7 @@ export const useOneTimeCryptoPayment = ({
     isAllowanceFeeLoading,
     depositFeeDetails,
     isDepositFeeLoading,
-  } = useOneTimeCryptoFees({
-    price,
-    network,
-    amount,
-    currency,
-  });
+  } = useOneTimeCryptoFees({ amount, currency, network, price });
 
   useAccountsChangedHandlingOnSummaryStep();
 
@@ -79,7 +74,8 @@ export const useOneTimeCryptoPayment = ({
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
-  const { handleResetTopUpTransaction, handleResetDeposit } = useTopUp();
+  const { amountToDeposit, handleResetTopUpTransaction, handleResetDeposit } =
+    useTopUp();
 
   const handleCryptoPaymentSuccessDialogClose = useCallback(() => {
     handleResetTopUpTransaction();
@@ -91,7 +87,7 @@ export const useOneTimeCryptoPayment = ({
     handleCryptoPaymentSuccessDialogOpen,
   } = useCryptoPaymentSuccessDialog({
     allowanceTxHash,
-    amount,
+    amount: amountToDeposit.toNumber(),
     currency,
     depositTxHash: depositTxHash ?? '',
     network,
