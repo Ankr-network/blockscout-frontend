@@ -1,40 +1,23 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { ECurrency } from 'modules/billing/types';
-import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
 
 import { renderInputValue } from '../utils/renderInputValue';
 
 export interface IUseInputValue {
   amount: number;
+  amountUsd: number;
   currency: ECurrency;
   isFocused: boolean;
-  amountUsd: number;
 }
 
 export const useInputValue = ({
   amount,
+  amountUsd,
   currency,
   isFocused,
-  amountUsd,
 }: IUseInputValue) => {
-  const cachedCurrencyRef = useRef(currency);
-
-  const [rawValue, setRawValue] = useState('');
-
-  useEffect(() => {
-    const isSwitchedBetweenStableCoins =
-      isStableCoinCurrency(cachedCurrencyRef.current) &&
-      isStableCoinCurrency(currency);
-
-    if (!isSwitchedBetweenStableCoins) {
-      // raw value should be reset on currency change except for stable coins
-      // (https://ankrnetwork.atlassian.net/browse/MRPC-4815)
-      setRawValue('');
-    }
-
-    cachedCurrencyRef.current = currency;
-  }, [currency]);
+  const [rawValue, setRawValue] = useState(amount.toString());
 
   const value = useMemo(() => {
     if (isFocused) {
@@ -43,6 +26,8 @@ export const useInputValue = ({
 
     return renderInputValue({ amount, currency, amountUsd });
   }, [amount, currency, isFocused, amountUsd]);
+
+  useEffect(() => setRawValue(amount.toString()), [amount]);
 
   return { rawValue, setRawValue, value };
 };

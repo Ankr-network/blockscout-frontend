@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { formatToWei } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -8,6 +9,9 @@ export interface IFetchANKRAllowanceFeeParams {
   amount: number;
 }
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchANKRAllowanceFee },
   useFetchANKRAllowanceFeeQuery,
@@ -24,7 +28,7 @@ export const {
               const contractService = web3Service.getContractService();
 
               const fee = await contractService.getAllowanceFee(
-                new BigNumber(amount),
+                formatToWei(new BigNumber(amount)),
               );
 
               return { data: Number(fee) };

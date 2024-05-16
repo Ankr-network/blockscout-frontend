@@ -7,8 +7,9 @@ import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWith
 
 export interface IFetchUSDTAllowanceFeeParams {
   amount: number;
-  tokenAddress: Web3Address;
   depositContractAddress: Web3Address;
+  tokenAddress: Web3Address;
+  tokenDecimals: number;
 }
 
 export const {
@@ -21,7 +22,12 @@ export const {
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({
-            params: { amount, depositContractAddress, tokenAddress },
+            params: {
+              amount,
+              depositContractAddress,
+              tokenAddress,
+              tokenDecimals,
+            },
             web3Service,
           }) => {
             const { currentAccount } = web3Service.getKeyWriteProvider();
@@ -35,6 +41,7 @@ export const {
               const fee = await contractService.getAllowanceFee(
                 new BigNumber(amount),
                 depositContractAddress,
+                tokenDecimals,
               );
 
               return { data: Number(fee) };

@@ -10,18 +10,20 @@ import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   amount: number;
-  price: string;
   currency: ECurrency;
   depositContractAddress: Web3Address;
+  price: string;
   tokenAddress: Web3Address;
+  tokenDecimals: number;
 }
 
 export const useEstimatedCryptoAllowanceFeeDetails = ({
   amount,
-  price,
   currency,
   depositContractAddress,
+  price,
   tokenAddress,
+  tokenDecimals,
 }: IUseEstimatedCryptoAllowanceFeeDetailsProps) => {
   const { hasWeb3Service } = useWeb3Service();
 
@@ -34,6 +36,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     amount,
     depositContractAddress,
     tokenAddress,
+    tokenDecimals,
     skipFetching:
       !hasWeb3Service ||
       currency !== ECurrency.USDT ||
@@ -45,6 +48,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     amount,
     depositContractAddress,
     tokenAddress,
+    tokenDecimals,
     skipFetching:
       !hasWeb3Service ||
       currency !== ECurrency.USDC ||

@@ -38,10 +38,12 @@ export class USDCContractService extends UsdcContractReadService {
   async getDepositUSDCToPAYGFee(
     amount: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     return this.usdcPAYGContractManager.getDepositUsdcFee(
       amount,
       depositContractAddress,
+      tokenDecimals,
     );
   }
 
@@ -75,10 +77,12 @@ export class USDCContractService extends UsdcContractReadService {
   async getAllowanceFee(
     amount: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     return this.usdcPAYGContractManager.getAllowanceFee(
       amount,
       depositContractAddress,
+      tokenDecimals,
     );
   }
 

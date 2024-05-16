@@ -17,8 +17,9 @@ import ABI_USDC_TOKEN from './abi/UsdcToken.json';
 import ABI_PAY_AS_YOU_GO_COMMON from './abi/PayAsYouGoCommon.json';
 import { UsdcPAYGReadContractManager } from './UsdcPAYGReadContractManager';
 import {
-  getBNWithDecimalsFromString,
+  convertNumberWithDecimalsToString,
   getBNAmountByTokenDecimals,
+  getBNWithDecimalsFromString,
 } from '../utils';
 import { GAS_LIMIT } from './const';
 
@@ -90,11 +91,15 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
   public async getAllowanceFee(
     allowanceValue: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     const { currentAccount } = this.keyWriteProvider;
 
     const gasAmount = await (this.usdcTokenContract.methods as IUsdcToken)
-      .approve(depositContractAddress, allowanceValue.toString(10))
+      .approve(
+        depositContractAddress,
+        convertNumberWithDecimalsToString(allowanceValue, tokenDecimals),
+      )
       .estimateGas({
         from: currentAccount,
         gas: Number(GAS_LIMIT),
@@ -233,11 +238,15 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
   async getDepositUsdcFee(
     depositValue: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     const { currentAccount } = this.keyWriteProvider;
 
     const gasAmount = await (this.usdcTokenContract.methods as IUsdcToken)
-      .transfer(depositContractAddress, depositValue.toString(10))
+      .transfer(
+        depositContractAddress,
+        convertNumberWithDecimalsToString(depositValue, tokenDecimals),
+      )
       .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
 
     const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();

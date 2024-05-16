@@ -642,7 +642,8 @@ export const selectRates = createSelector(
 );
 
 export const selectANKRAllowanceFeeState = createSelector(
-  fetchANKRAllowanceFee.select(undefined as never),
+  (state: RootState, amount: number) =>
+    fetchANKRAllowanceFee.select({ amount })(state),
   state => state,
 );
 
@@ -744,7 +745,8 @@ export const selectNativeTokenPriceLoading = createSelector(
 );
 
 export const selectANKRDepositFeeState = createSelector(
-  fetchANKRDepositFee.select(undefined as never),
+  (state: RootState, amount: number) =>
+    fetchANKRDepositFee.select({ amount })(state),
   state => state,
 );
 

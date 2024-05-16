@@ -4,14 +4,11 @@ import { useCallback, useMemo, useState } from 'react';
 import { ECurrency } from 'modules/billing/types';
 import { getRequestsByUSDAmount } from 'modules/billing/utils/getRequestsByUSDAmount';
 import { useUSDAmountByCryptoAmount } from 'modules/billing/hooks/useUSDAmountByCryptoAmount';
-import { cutNonNumericSymbols } from 'modules/billing/utils/cutNonNumericSymbols';
-import { replaceCommaByDot } from 'modules/billing/utils/replaceCommaByDot';
-import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
-import { INTEGER_REGEX } from 'modules/common/constants/const';
 
 import { IAmountInputProps } from '../AmountInput';
-import { useInputValue } from './useInputValue';
+import { formatAmountRawValue } from '../utils/formatAmountRawValue';
 import { useInputError } from './useInputError';
+import { useInputValue } from './useInputValue';
 
 export interface IUseAmountInputProps {
   amount: number;
@@ -35,10 +32,7 @@ export const useAmountInput = ({
 }: IUseAmountInputProps): IUseAmountInputResult => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const { error, validateAmount, resetError } = useInputError({
-    minAmount,
-    isInteger: isStableCoinCurrency(currency),
-  });
+  const { error, validateAmount, resetError } = useInputError({ minAmount });
 
   const { isLoading, amountUsd } = useUSDAmountByCryptoAmount({
     amount,
@@ -52,29 +46,12 @@ export const useAmountInput = ({
 
   const { rawValue, setRawValue, value } = useInputValue({
     amount,
+    amountUsd,
     currency,
     isFocused,
-    amountUsd,
   });
 
-  const handleErrorAndSetAmount = useCallback(
-    (inputValue: string) => {
-      const errorMessage = validateAmount(inputValue);
-
-      if (!errorMessage) {
-        handleSetAmount(Number(inputValue));
-      }
-    },
-    [handleSetAmount, validateAmount],
-  );
-
-  const onFocus = useCallback(() => {
-    if (rawValue) {
-      handleErrorAndSetAmount(rawValue);
-    }
-
-    setIsFocused(true);
-  }, [handleErrorAndSetAmount, rawValue]);
+  const onFocus = useCallback(() => setIsFocused(true), []);
 
   const onBlur = useCallback(() => setIsFocused(false), []);
 
@@ -82,21 +59,20 @@ export const useAmountInput = ({
     event => {
       const nextAmount = event.target.value;
 
-      if (nextAmount.match(INTEGER_REGEX)) {
-        event.preventDefault();
-
-        return;
-      }
-
-      const formattedAmount = cutNonNumericSymbols(
-        replaceCommaByDot(nextAmount),
-      );
+      const formattedAmount = formatAmountRawValue({
+        amount: nextAmount,
+        currency,
+      });
 
       setRawValue(formattedAmount);
 
-      handleErrorAndSetAmount(formattedAmount);
+      const errorMessage = validateAmount(formattedAmount);
+
+      if (!errorMessage) {
+        handleSetAmount(Number(formattedAmount));
+      }
     },
-    [handleErrorAndSetAmount, setRawValue],
+    [currency, handleSetAmount, setRawValue, validateAmount],
   );
 
   return {

@@ -18,13 +18,19 @@ export interface IUseAnkrAllowanceFeeProps extends IFetchANKRDepositFeeParams {
 
 export const useANKRDepositFee = ({
   skipFetching = false,
-  ...queryParams
+  ...params
 }: IUseAnkrAllowanceFeeProps) => {
-  useFetchANKRDepositFeeQuery(skipFetching ? skipToken : queryParams);
+  useFetchANKRDepositFeeQuery(skipFetching ? skipToken : params);
 
-  const fee = useAppSelector(selectANKRDepositFee);
-  const isFetching = useAppSelector(selectANKRDepositFeeFetching);
-  const isLoading = useAppSelector(selectANKRDepositFeeLoading);
+  const { amount } = params;
+
+  const fee = useAppSelector(state => selectANKRDepositFee(state, amount));
+  const isFetching = useAppSelector(state =>
+    selectANKRDepositFeeFetching(state, amount),
+  );
+  const isLoading = useAppSelector(state =>
+    selectANKRDepositFeeLoading(state, amount),
+  );
 
   return { fee, isFetching, isLoading };
 };

@@ -21,7 +21,6 @@
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
     "duplicate-url-validation": "This endpoint has already been added",
     "number-only": "Must be a number",
-    "integer-only": "Must be an integer",
     "min-greater": "Should be at least {value}",
     "max": "Should be less than {value}",
     "min": "Should be at least {value}"

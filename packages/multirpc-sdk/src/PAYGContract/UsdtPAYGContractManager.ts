@@ -17,8 +17,9 @@ import ABI_USDT_TOKEN from './abi/UsdtToken.json';
 import ABI_PAY_AS_YOU_GO_COMMON from './abi/PayAsYouGoCommon.json';
 import { UsdtPAYGReadContractManager } from './UsdtPAYGReadContractManager';
 import {
-  getBNWithDecimalsFromString,
+  convertNumberWithDecimalsToString,
   getBNAmountByTokenDecimals,
+  getBNWithDecimalsFromString,
 } from '../utils';
 import { GAS_LIMIT } from './const';
 
@@ -93,6 +94,7 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
   public async getAllowanceFee(
     allowanceValue: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     const { currentAccount } = this.keyWriteProvider;
 
@@ -104,7 +106,10 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     // p.s. this is the specifics of USDT smart contract
     try {
       gasAmount = await (this.usdtTokenContract.methods as IUsdtToken)
-        .approve(depositContractAddress, allowanceValue.toString(10))
+        .approve(
+          depositContractAddress,
+          convertNumberWithDecimalsToString(allowanceValue, tokenDecimals),
+        )
         .estimateGas({
           from: currentAccount,
           gas: Number(GAS_LIMIT),
