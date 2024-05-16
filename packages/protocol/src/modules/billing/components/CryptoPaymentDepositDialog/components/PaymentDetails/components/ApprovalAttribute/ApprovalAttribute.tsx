@@ -25,6 +25,7 @@ export interface IApprovalAttributeProps {
   error?: string;
   feeDetails?: IFeeDetails;
   isAllowanceSent: boolean;
+  isDepositPending: boolean;
   isMyAllowanceLoading: boolean;
   myAllowance: number;
   network: EBlockchain;
@@ -37,6 +38,7 @@ export const ApprovalAttribute = ({
   error,
   feeDetails = defaultFeeData,
   isAllowanceSent,
+  isDepositPending,
   isMyAllowanceLoading,
   myAllowance,
   network,
@@ -50,7 +52,11 @@ export const ApprovalAttribute = ({
 
   if (hasFullApproval({ amountToDeposit, isAllowanceSent, myAllowance })) {
     return (
-      <FullApprovalAttribute approvedAmount={myAllowance} currency={currency} />
+      <FullApprovalAttribute
+        approvedAmount={myAllowance}
+        currency={currency}
+        shouldHideAlert={isDepositPending}
+      />
     );
   }
 
@@ -64,6 +70,7 @@ export const ApprovalAttribute = ({
         feeCrypto={feeDetails.feeCrypto}
         feeUSD={feeDetails.feeUSD}
         network={network}
+        shouldHideAlert={isDepositPending}
         status={status}
       />
     );

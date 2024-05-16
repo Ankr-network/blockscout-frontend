@@ -19,6 +19,7 @@ export interface IPartialApprovalAttributeProps {
   feeCrypto: number;
   feeUSD: number;
   network: EBlockchain;
+  shouldHideAlert: boolean;
   status?: ECryptoDepositStepStatus;
 }
 
@@ -32,6 +33,7 @@ export const PartialApprovalAttribute = ({
   feeCrypto,
   feeUSD,
   network,
+  shouldHideAlert,
   status,
 }: IPartialApprovalAttributeProps) => {
   const { classes } = usePartialApprovalAttributeStyles();
@@ -59,7 +61,7 @@ export const PartialApprovalAttribute = ({
     <TxAttribute
       classes={classes}
       label={<Label status={status} text={t(labelKey)} />}
-      extraContent={<Alert {...alertProps} />}
+      extraContent={!shouldHideAlert && <Alert {...alertProps} />}
     >
       <FeeAmount
         feeCrypto={feeCrypto}

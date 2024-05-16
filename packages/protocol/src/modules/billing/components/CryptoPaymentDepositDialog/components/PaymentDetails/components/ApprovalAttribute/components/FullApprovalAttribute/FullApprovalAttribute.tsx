@@ -11,6 +11,7 @@ import { useFullApprovalAttributeStyles } from './useFullApprovalAttributeStyles
 export interface IFullApprovalAttributeProps {
   approvedAmount: number;
   currency: ECurrency;
+  shouldHideAlert: boolean;
 }
 
 const alertKey = 'account.payment-flow.steps.approval.full-approval-alert';
@@ -21,6 +22,7 @@ const { Complete } = ECryptoDepositStepStatus;
 export const FullApprovalAttribute = ({
   approvedAmount: amount,
   currency,
+  shouldHideAlert,
 }: IFullApprovalAttributeProps) => {
   const { classes } = useFullApprovalAttributeStyles();
 
@@ -32,7 +34,9 @@ export const FullApprovalAttribute = ({
     <TxAttribute
       classes={classes}
       label={<Label status={Complete} text={t(labelKey)} />}
-      extraContent={<Alert severity="info" text={alertText} />}
+      extraContent={
+        !shouldHideAlert && <Alert severity="info" text={alertText} />
+      }
     >
       –
     </TxAttribute>
