@@ -94,6 +94,11 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
 
                 color: theme.palette.primary.main,
               },
+
+              // this classname is used in PromoLabel component
+              '& .promo': {
+                background: theme.palette.background.default,
+              },
             }
           : {
               backgroundColor: 'transparent',
