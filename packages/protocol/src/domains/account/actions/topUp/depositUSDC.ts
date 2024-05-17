@@ -49,13 +49,13 @@ export const {
                 depositContractAddress,
                 tokenAddress,
               })
-              .depositUSDCToPAYG(
+              .depositUSDCToPAYG({
                 amount,
                 tokenDecimals,
                 tokenAddress,
                 network,
                 depositContractAddress,
-              );
+              });
 
             if (depositResponse.transactionHash) {
               dispatch(

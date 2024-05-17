@@ -39,6 +39,7 @@ export const useEstimatedCryptoDepositFeeDetails = ({
     network,
     depositContractAddress,
     tokenAddress,
+    tokenDecimals,
     skipFetching:
       !hasWeb3Service ||
       !depositContractAddress ||

@@ -47,14 +47,14 @@ export const {
                 depositContractAddress,
                 tokenAddress,
               })
-              .depositUSDTToPAYGForUser(
+              .depositUSDTToPAYGForUser({
                 amount,
                 tokenDecimals,
                 targetAddress,
                 tokenAddress,
                 network,
                 depositContractAddress,
-              );
+              });
 
             return { data: depositResponse };
           },

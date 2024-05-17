@@ -7,9 +7,19 @@ import {
 } from '@ankr.com/provider';
 import { Contract } from 'web3-eth-contract';
 
-import { EBlockchain, IAllowanceParams, ISetAllowanceParams, Web3Address } from '../common';
+import {
+  EBlockchain,
+  IAllowanceParams,
+  IDepositStablecoinToPAYG,
+  IGetAllowanceFee,
+  IGetDepositStablecoinToPAYGFee,
+  ISetAllowanceParams,
+  Web3Address,
+} from '../common';
 import {
   DepositTokenForUserParams,
+  IThrowErrorIfDepositIsGreaterThanAllowance,
+  IThrowErrorIfValueIsGreaterThanBalanceParams,
   SendDepositTokenTransactionForUserParams,
 } from './types';
 import { IUsdtToken } from './abi/IUsdtToken';
@@ -89,14 +99,13 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     );
   }
 
-  // eslint-disable-next-line max-params
-  public async getAllowanceFee(
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-    allowanceValue: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenDecimals: number,
-  ) {
+  public async getAllowanceFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetAllowanceFee) {
     const { currentAccount } = this.keyWriteProvider;
 
     const provider =
@@ -117,7 +126,7 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
       gasAmount = await (contract.methods as IUsdtToken)
         .approve(
           depositContractAddress,
-          convertNumberWithDecimalsToString(allowanceValue, tokenDecimals),
+          convertNumberWithDecimalsToString(amount, tokenDecimals),
         )
         .estimateGas({
           from: currentAccount,
@@ -176,14 +185,14 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     );
   }
 
-  private async throwErrorIfValueIsGreaterThanBalance(
-    value: BigNumber,
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-  ) {
+  private async throwErrorIfValueIsGreaterThanBalance({
+    amount,
+    network,
+    tokenAddress,
+  }: IThrowErrorIfValueIsGreaterThanBalanceParams) {
     const balance = await this.getCurrentAccountBalance(network, tokenAddress);
 
-    if (value.isGreaterThan(new BigNumber(balance))) {
+    if (amount.isGreaterThan(new BigNumber(balance))) {
       throw new Error(`You don't have enough Usdt tokens`);
     }
   }
@@ -198,17 +207,17 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     }
   }
 
-  private throwErrorIfDepositIsGreaterThanAllowance(
-    deposit: BigNumber,
-    allowance: BigNumber,
-    tokenDecimals: number,
-  ) {
+  private throwErrorIfDepositIsGreaterThanAllowance({
+    depositValue,
+    allowanceValue,
+    tokenDecimals,
+  }: IThrowErrorIfDepositIsGreaterThanAllowance) {
     const amount = getBNWithDecimalsFromString(
-      allowance.toFixed(),
+      allowanceValue.toFixed(),
       tokenDecimals,
     );
 
-    if (deposit.isGreaterThan(allowance)) {
+    if (depositValue.isGreaterThan(allowanceValue)) {
       throw new Error(`${DEPOSIT_ERROR} (${amount})`);
     }
   }
@@ -226,7 +235,11 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     });
 
     this.throwErrorIfValueIsLessThanZero(allowanceAmount);
-    await this.throwErrorIfValueIsGreaterThanBalance(allowanceAmount, network, tokenAddress);
+    await this.throwErrorIfValueIsGreaterThanBalance({
+      amount: allowanceAmount,
+      network,
+      tokenAddress
+    });
 
     return this.sendAllowance({
       allowanceValue,
@@ -247,34 +260,39 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     return new BigNumber(allowance);
   }
 
-  // eslint-disable-next-line max-params
-  async depositUSDT(
-    depositValue: BigNumber,
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-    tokenDecimals: number,
-    depositContractAddress: Web3Address,
-  ): Promise<IWeb3SendResult> {
+  async depositUSDT({
+    amount,
+    network,
+    tokenAddress,
+    tokenDecimals,
+    depositContractAddress,
+  }: IDepositStablecoinToPAYG): Promise<IWeb3SendResult> {
     const allowanceValue = await this.getAllowanceValue(depositContractAddress);
 
-    this.throwErrorIfValueIsLessThanZero(depositValue);
-    await this.throwErrorIfValueIsGreaterThanBalance(depositValue, network, tokenAddress);
-    this.throwErrorIfDepositIsGreaterThanAllowance(
-      depositValue,
+    this.throwErrorIfValueIsLessThanZero(amount);
+    await this.throwErrorIfValueIsGreaterThanBalance({
+
+
+      amount,
+      network,
+      tokenAddress
+    });
+    this.throwErrorIfDepositIsGreaterThanAllowance({
+      depositValue: amount,
       allowanceValue,
       tokenDecimals,
-    );
+    });
 
-    return this.sendDepositTransaction(depositValue, tokenAddress);
+    return this.sendDepositTransaction(amount, tokenAddress);
   }
 
-  // eslint-disable-next-line max-params
-  async getDepositUsdtFee(
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-    depositValue: BigNumber,
-    depositContractAddress: Web3Address,
-  ) {
+  async getDepositUsdtFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetDepositStablecoinToPAYGFee) {
     const { currentAccount } = this.keyWriteProvider;
 
     const provider =
@@ -293,7 +311,10 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     // p.s. this is the specifics of USDT smart contract
     try {
       gasAmount = await (contract.methods as IUsdtToken)
-        .transfer(depositContractAddress, depositValue.toString(10))
+        .transfer(
+          depositContractAddress,
+          convertNumberWithDecimalsToString(amount, tokenDecimals)
+        )
         .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
     } catch (e) {
       gasAmount = await (contract.methods as IUsdtToken)
@@ -319,12 +340,18 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     const allowanceValue = await this.getAllowanceValue(depositContractAddress);
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
-    await this.throwErrorIfValueIsGreaterThanBalance(depositValue, network, tokenAddress);
-    this.throwErrorIfDepositIsGreaterThanAllowance(
+    await this.throwErrorIfValueIsGreaterThanBalance({
+
+      amount:
+        depositValue,
+      network,
+      tokenAddress
+    });
+    this.throwErrorIfDepositIsGreaterThanAllowance({
       depositValue,
       allowanceValue,
       tokenDecimals,
-    );
+    });
 
     return this.sendDepositTransactionForUser({
       tokenAddress,

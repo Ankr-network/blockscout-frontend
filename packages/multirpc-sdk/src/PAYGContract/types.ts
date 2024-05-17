@@ -37,3 +37,15 @@ export interface DepositTokenForUserParams {
   tokenDecimals: number;
   depositContractAddress: Web3Address;
 }
+
+export interface IThrowErrorIfValueIsGreaterThanBalanceParams {
+  amount: BigNumber;
+  network: EBlockchain;
+  tokenAddress: Web3Address;
+}
+
+export interface IThrowErrorIfDepositIsGreaterThanAllowance {
+  depositValue: BigNumber;
+  allowanceValue: BigNumber;
+  tokenDecimals: number;
+}

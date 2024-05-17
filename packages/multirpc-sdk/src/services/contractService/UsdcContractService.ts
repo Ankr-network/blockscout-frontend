@@ -3,7 +3,16 @@ import BigNumber from 'bignumber.js';
 import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
 
-import { EBlockchain, ISetAllowanceParams, PrefixedHex, Web3Address } from '../../common';
+import {
+  EBlockchain,
+  IDepositStablecoinToPAYG,
+  IDepositStablecoinToPAYGForUser,
+  IGetAllowanceFee,
+  IGetDepositStablecoinToPAYGFee,
+  ISetAllowanceParams,
+  PrefixedHex,
+  Web3Address
+} from '../../common';
 import { UsdcPAYGContractManager } from '../../PAYGContract/UsdcPAYGContractManager';
 import { UsdcContractReadService } from './UsdcContractReadService';
 import { convertNumberWithDecimalsToString } from '../../utils';
@@ -16,53 +25,50 @@ export class USDCContractService extends UsdcContractReadService {
     super(usdcPAYGContractManager);
   }
 
-  // eslint-disable-next-line max-params
-  async depositUSDCToPAYG(
-    amount: BigNumber,
-    tokenDecimals: number,
-    tokenAddress: Web3Address,
-    network: EBlockchain,
-    depositContractAddress: Web3Address,
-  ): Promise<IWeb3SendResult> {
+  async depositUSDCToPAYG({
+    amount,
+    tokenDecimals,
+    tokenAddress,
+    network,
+    depositContractAddress,
+  }: IDepositStablecoinToPAYG): Promise<IWeb3SendResult> {
     const formattedAmount = new BigNumber(
       convertNumberWithDecimalsToString(amount, tokenDecimals),
     );
 
-    return this.usdcPAYGContractManager.depositUSDC(
-      formattedAmount,
+    return this.usdcPAYGContractManager.depositUSDC({
+      amount: formattedAmount,
       network,
       tokenAddress,
       tokenDecimals,
       depositContractAddress,
-    );
+    });
   }
 
-  // eslint-disable-next-line max-params
-  async getDepositUSDCToPAYGFee(
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-    amount: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenDecimals: number,
-  ) {
-    return this.usdcPAYGContractManager.getDepositUsdcFee(
+  async getDepositUSDCToPAYGFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetDepositStablecoinToPAYGFee) {
+    return this.usdcPAYGContractManager.getDepositUsdcFee({
       network,
       tokenAddress,
       amount,
       depositContractAddress,
       tokenDecimals,
-    );
+    });
   }
 
-  // eslint-disable-next-line max-params
-  public async depositUSDCToPAYGForUser(
-    amount: BigNumber,
-    tokenDecimals: number,
-    targetAddress: Web3Address,
-    tokenAddress: Web3Address,
-    network: EBlockchain,
-    depositContractAddress: Web3Address,
-  ): Promise<IWeb3SendResult> {
+  public async depositUSDCToPAYGForUser({
+    amount,
+    tokenDecimals,
+    targetAddress,
+    tokenAddress,
+    network,
+    depositContractAddress,
+  }: IDepositStablecoinToPAYGForUser): Promise<IWeb3SendResult> {
     const formattedAmount = new BigNumber(
       convertNumberWithDecimalsToString(amount, tokenDecimals),
     );
@@ -83,21 +89,20 @@ export class USDCContractService extends UsdcContractReadService {
     return this.usdcPAYGContractManager.setAllowance(params);
   }
 
-  // eslint-disable-next-line max-params
-  async getAllowanceFee(
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-    amount: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenDecimals: number,
-  ) {
-    return this.usdcPAYGContractManager.getAllowanceFee(
+  async getAllowanceFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetAllowanceFee) {
+    return this.usdcPAYGContractManager.getAllowanceFee({
       network,
       tokenAddress,
       amount,
       depositContractAddress,
       tokenDecimals,
-    );
+    });
   }
 
   // public async rejectAllowanceForPAYG(): Promise<IWeb3SendResult> {

@@ -790,21 +790,8 @@ export const selectANKRDepositFeeLoading = createSelector(
 
 // USDT
 export const selectUSDTDepositFeeState = createSelector(
-  (
-    state: RootState,
-    {
-      amount,
-      network,
-      depositContractAddress,
-      tokenAddress,
-    }: IFetchUSDTDepositFeeParams,
-  ) =>
-    fetchUSDTDepositFee.select({
-      amount,
-      network,
-      depositContractAddress,
-      tokenAddress,
-    })(state),
+  (state: RootState, params: IFetchUSDTDepositFeeParams) =>
+    fetchUSDTDepositFee.select(params)(state),
   state => state,
 );
 
