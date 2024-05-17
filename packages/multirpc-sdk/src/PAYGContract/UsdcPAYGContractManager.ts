@@ -10,9 +10,9 @@ import { Contract } from 'web3-eth-contract';
 import {
   EBlockchain,
   IAllowanceParams,
-  IDepositStablecoinToPAYG,
-  IGetAllowanceFee,
-  IGetDepositStablecoinToPAYGFee,
+  IDepositStablecoinToPAYGParams,
+  IGetAllowanceFeeParams,
+  IGetDepositStablecoinToPAYGFeeParams,
   ISetAllowanceParams,
   Web3Address,
 } from '../common';
@@ -102,7 +102,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     amount,
     depositContractAddress,
     tokenDecimals,
-  }: IGetAllowanceFee) {
+  }: IGetAllowanceFeeParams) {
     const { currentAccount } = this.keyWriteProvider;
 
     const provider =
@@ -248,7 +248,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     tokenAddress,
     tokenDecimals,
     depositContractAddress,
-  }: IDepositStablecoinToPAYG): Promise<IWeb3SendResult> {
+  }: IDepositStablecoinToPAYGParams): Promise<IWeb3SendResult> {
     const allowanceValue = await this.getAllowanceValue(depositContractAddress);
 
     this.throwErrorIfValueIsLessThanZero(amount);
@@ -270,7 +270,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     amount,
     depositContractAddress,
     tokenDecimals,
-  }: IGetDepositStablecoinToPAYGFee) {
+  }: IGetDepositStablecoinToPAYGFeeParams) {
     const { currentAccount } = this.keyWriteProvider;
 
     const provider =

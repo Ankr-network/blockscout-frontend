@@ -5,10 +5,10 @@ import { EventData } from 'web3-eth-contract';
 
 import {
   EBlockchain,
-  IDepositStablecoinToPAYG,
-  IDepositStablecoinToPAYGForUser,
-  IGetAllowanceFee,
-  IGetDepositStablecoinToPAYGFee,
+  IDepositStablecoinToPAYGParams,
+  IDepositStablecoinToPAYGForUserParams,
+  IGetAllowanceFeeParams,
+  IGetDepositStablecoinToPAYGFeeParams,
   ISetAllowanceParams,
   PrefixedHex,
   Web3Address
@@ -31,7 +31,7 @@ export class USDCContractService extends UsdcContractReadService {
     tokenAddress,
     network,
     depositContractAddress,
-  }: IDepositStablecoinToPAYG): Promise<IWeb3SendResult> {
+  }: IDepositStablecoinToPAYGParams): Promise<IWeb3SendResult> {
     const formattedAmount = new BigNumber(
       convertNumberWithDecimalsToString(amount, tokenDecimals),
     );
@@ -51,7 +51,7 @@ export class USDCContractService extends UsdcContractReadService {
     amount,
     depositContractAddress,
     tokenDecimals,
-  }: IGetDepositStablecoinToPAYGFee) {
+  }: IGetDepositStablecoinToPAYGFeeParams) {
     return this.usdcPAYGContractManager.getDepositUsdcFee({
       network,
       tokenAddress,
@@ -68,7 +68,7 @@ export class USDCContractService extends UsdcContractReadService {
     tokenAddress,
     network,
     depositContractAddress,
-  }: IDepositStablecoinToPAYGForUser): Promise<IWeb3SendResult> {
+  }: IDepositStablecoinToPAYGForUserParams): Promise<IWeb3SendResult> {
     const formattedAmount = new BigNumber(
       convertNumberWithDecimalsToString(amount, tokenDecimals),
     );
@@ -95,7 +95,7 @@ export class USDCContractService extends UsdcContractReadService {
     amount,
     depositContractAddress,
     tokenDecimals,
-  }: IGetAllowanceFee) {
+  }: IGetAllowanceFeeParams) {
     return this.usdcPAYGContractManager.getAllowanceFee({
       network,
       tokenAddress,

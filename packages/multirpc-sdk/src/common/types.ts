@@ -225,7 +225,7 @@ export interface IAllowanceParams {
   depositContractAddress: Web3Address;
 }
 
-export interface IDepositStablecoinToPAYG {
+export interface IDepositStablecoinToPAYGParams {
   amount: BigNumber;
   tokenDecimals: number;
   tokenAddress: Web3Address;
@@ -233,7 +233,7 @@ export interface IDepositStablecoinToPAYG {
   depositContractAddress: Web3Address;
 }
 
-export interface IGetDepositStablecoinToPAYGFee {
+export interface IGetDepositStablecoinToPAYGFeeParams {
   network: EBlockchain;
   tokenAddress: Web3Address;
   amount: BigNumber;
@@ -241,7 +241,7 @@ export interface IGetDepositStablecoinToPAYGFee {
   tokenDecimals: number
 }
 
-export interface IDepositStablecoinToPAYGForUser {
+export interface IDepositStablecoinToPAYGForUserParams {
   amount: BigNumber;
   tokenDecimals: number;
   targetAddress: Web3Address;
@@ -250,7 +250,7 @@ export interface IDepositStablecoinToPAYGForUser {
   depositContractAddress: Web3Address;
 }
 
-export interface IGetAllowanceFee {
+export interface IGetAllowanceFeeParams {
   network: EBlockchain;
   tokenAddress: Web3Address;
   amount: BigNumber;

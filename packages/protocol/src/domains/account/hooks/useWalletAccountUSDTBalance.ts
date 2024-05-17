@@ -25,15 +25,15 @@ export const useWalletAccountUSDTBalance = ({
   useFetchWalletAccountUSDTBalanceQuery(skipFetching ? skipToken : queryParams);
 
   const usdtBalance = useAppSelector(state =>
-    selectWalletAccountUSDTBalance(state, { ...queryParams }),
+    selectWalletAccountUSDTBalance(state, queryParams),
   );
 
   const isFetching = useAppSelector(state =>
-    selectWalletAccountUSDTBalanceFetching(state, { ...queryParams }),
+    selectWalletAccountUSDTBalanceFetching(state, queryParams),
   );
 
   const isLoading = useAppSelector(state =>
-    selectWalletAccountUSDTBalanceLoading(state, { ...queryParams }),
+    selectWalletAccountUSDTBalanceLoading(state, queryParams),
   );
 
   return { usdtBalance, isFetching, isLoading };
