@@ -17,7 +17,6 @@ export const useNetworkGuard = (
 
   const selectedNetworkId = ethNetworkIdByBlockchainMap[selectedNetwork];
 
-  // in this version only ethereum network is supported
   const { networkId } = useWalletNetworkId();
 
   const isWrongNetwork = useMemo(() => {

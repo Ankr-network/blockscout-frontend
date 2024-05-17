@@ -158,7 +158,11 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
   }
 
-  private async throwErrorIfValueIsGreaterThanBalance(value: BigNumber, network: EBlockchain, tokenAddress: Web3Address) {
+  private async throwErrorIfValueIsGreaterThanBalance(
+    value: BigNumber,
+    network: EBlockchain,
+    tokenAddress: Web3Address,
+  ) {
     const balance = await this.getCurrentAccountBalance(network, tokenAddress);
 
     if (value.isGreaterThan(new BigNumber(balance))) {
