@@ -1,5 +1,7 @@
 import { EBlockchain } from 'multirpc-sdk';
 
+import { isMainnet } from 'modules/common/constants/const';
+
 import { EChargingModel, ECurrency, EPaymentType } from './types';
 
 export const PRICES_PER_REQUEST_URL =
@@ -13,6 +15,12 @@ export const DEFAULT_SELECTED_RECURRING_USD_AMOUNT = 50;
 
 export const MIN_ANKR_AMOUNT = 1_000;
 export const MIN_USD_AMOUNT = 10;
+
+export const MAX_USD_DECIMALS = 1;
+export const MAX_CRYPTO_DECIMALS = 2;
+
+export const MAX_USD_DIGITS = 6;
+export const MAX_CRYPTO_DIGITS = 8;
 
 export const chargigModelTitlesMap: Record<EChargingModel, string> = {
   [EChargingModel.Deal]: 'account.charging-model.deal.title',
@@ -133,3 +141,7 @@ export const EXPLORER_URLS: Record<EBlockchain, string> = {
   [EBlockchain.syscoin]: 'https://explorer.syscoin.org/',
   [EBlockchain.scroll]: 'https://scrollscan.com',
 };
+
+export const ANKR_TOP_UP_NETWORK = isMainnet
+  ? EBlockchain.eth
+  : EBlockchain.eth_holesky;

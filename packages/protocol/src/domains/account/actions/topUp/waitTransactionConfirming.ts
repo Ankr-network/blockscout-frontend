@@ -13,7 +13,10 @@ import { MultiService } from 'modules/api/MultiService';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { selectTransaction } from 'domains/account/store/selectors';
-import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
+import {
+  setIsConfirmed,
+  setTopUpTransaction,
+} from 'domains/account/store/accountTopUpSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { RequestType, web3Api } from 'store/queries';
 
@@ -24,6 +27,7 @@ import { waitForPendingTransaction } from './waitForPendingTransaction';
 
 export interface WaitTransactionConfirmingResult {
   error?: unknown;
+  isSuccessful: boolean;
 }
 
 const waitForBlocks = async (txHash: string, dispatch: AppDispatch) => {
@@ -64,7 +68,7 @@ export const getReceipt = async (
   return { receipt };
 };
 
-type TxConfirmationResponse = Awaited<
+export type TTxConfirmationResponse = Awaited<
   QueryActionCreatorResult<
     Definition<IApiUserGroupParams, WaitTransactionConfirmingResult>
   >
@@ -76,7 +80,7 @@ const balancesTagsToInvalidate = [
   RequestType.WalletUSDCTokenBalance,
 ];
 
-export const hasTxConfirmationError = (response: TxConfirmationResponse) =>
+export const hasTxConfirmationError = (response: TTxConfirmationResponse) =>
   'data' in response &&
   typeof response.data === 'object' &&
   response.data !== null &&
@@ -107,7 +111,9 @@ export const {
           // RTK Query does not allow to reset errors properly, so we have to
           // pass an error inside data object.
 
-          return { data: { error: new Error(t('error.failed')) } };
+          return {
+            data: { error: new Error(t('error.failed')), isSuccessful: false },
+          };
         }
 
         // step 1: trying to take a receipt
@@ -119,11 +125,11 @@ export const {
         if (receipt1) {
           await waitForBlocks(initialTransactionHash, dispatch);
 
-          return { data: {} };
+          return { data: { isSuccessful: true } };
         }
 
         if (receipt1Error) {
-          return { data: { error: receipt1Error } };
+          return { data: { error: receipt1Error, isSuccessful: false } };
         }
 
         // step 2: there're no receipt. we should wait
@@ -140,11 +146,11 @@ export const {
         if (receipt2) {
           await waitForBlocks(transactionHash, dispatch);
 
-          return { data: {} };
+          return { data: { isSuccessful: true } };
         }
 
         if (receipt2Error) {
-          return { data: { error: receipt2Error } };
+          return { data: { error: receipt2Error, isSuccessful: false } };
         }
 
         // step 4: we already haven't had pending transaction and
@@ -164,7 +170,9 @@ export const {
         ) {
           // RTK Query does not allow to reset errors properly, so we have to
           // pass an error inside data object.
-          return { data: { error: new Error(t('error.failed')) } };
+          return {
+            data: { error: new Error(t('error.failed')), isSuccessful: false },
+          };
         }
 
         if (
@@ -183,19 +191,30 @@ export const {
           const { error } = await getReceipt(network, transactionHash);
 
           if (error) {
-            return { data: { error } };
+            return { data: { error, isSuccessful: false } };
           }
         }
 
         await waitForBlocks(transactionHash, dispatch);
 
-        return { data: {} };
+        return { data: { isSuccessful: true } };
       },
-      onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
+      onQueryStarted: async (
+        { group },
+        { dispatch, getState, queryFulfilled },
+      ) => {
+        const {
+          data: { isSuccessful },
+        } = await queryFulfilled;
 
-        dispatch(web3Api.util.invalidateTags(balancesTagsToInvalidate));
-        dispatch(fetchBalance.initiate({ group }));
+        if (isSuccessful) {
+          const address = getCurrentTransactionAddress(getState as GetState);
+
+          dispatch(setIsConfirmed({ address, isConfirmed: true }));
+
+          dispatch(web3Api.util.invalidateTags(balancesTagsToInvalidate));
+          dispatch(fetchBalance.initiate({ group }));
+        }
       },
     }),
   }),

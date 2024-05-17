@@ -249,7 +249,7 @@ export enum ChainID {
   SYSCOIN = 'syscoin',
 
   TAIKO = 'taiko',
-  TAIKO_KATLA = 'taiko_katla',
+  TAIKO_HEKLA = 'taiko_hekla',
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
 
@@ -257,6 +257,7 @@ export enum ChainID {
   TENET_EVM = 'tenet-evm',
 
   XAI = 'xai',
+  XAI_TESTNET = 'xai_testnet',
   XDAI = 'xdai',
 
   SUI = 'sui',

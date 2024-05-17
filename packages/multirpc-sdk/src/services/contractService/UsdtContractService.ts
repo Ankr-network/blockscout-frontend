@@ -87,12 +87,14 @@ export class USDTContractService extends UsdtContractReadService {
     tokenAddress: Web3Address,
     amount: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     return this.usdtPAYGContractManager.getAllowanceFee(
       network,
       tokenAddress,
       amount,
       depositContractAddress,
+      tokenDecimals,
     );
   }
 

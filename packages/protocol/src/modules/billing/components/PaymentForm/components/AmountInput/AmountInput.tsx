@@ -1,6 +1,7 @@
 import { InputProps, TextField } from '@mui/material';
 
 import { ECurrency } from 'modules/billing/types';
+import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
 
 import { RequestsLabel } from './components/RequestsLabel';
 import { useAmountInputStyles } from './useAmountInputStyles';
@@ -34,13 +35,10 @@ export const AmountInput = ({
 }: IAmountInputProps) => {
   const { classes } = useAmountInputStyles();
 
-  const shouldShowCurrencySelect =
-    currency === ECurrency.USDC || currency === ECurrency.USDT;
-
   return (
     <TextField
       InputProps={{
-        startAdornment: shouldShowCurrencySelect && (
+        startAdornment: isStableCoinCurrency(currency) && (
           <CurrencySelect
             activeCurrency={currency}
             options={STABLECOINS_OPTIONS}

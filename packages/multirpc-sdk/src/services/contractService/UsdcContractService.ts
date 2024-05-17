@@ -43,12 +43,14 @@ export class USDCContractService extends UsdcContractReadService {
     tokenAddress: Web3Address,
     amount: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     return this.usdcPAYGContractManager.getDepositUsdcFee(
       network,
       tokenAddress,
       amount,
       depositContractAddress,
+      tokenDecimals,
     );
   }
 
@@ -87,12 +89,14 @@ export class USDCContractService extends UsdcContractReadService {
     tokenAddress: Web3Address,
     amount: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     return this.usdcPAYGContractManager.getAllowanceFee(
       network,
       tokenAddress,
       amount,
       depositContractAddress,
+      tokenDecimals,
     );
   }
 

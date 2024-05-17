@@ -10,6 +10,7 @@ export interface IFetchUSDTAllowanceFeeParams {
   network: EBlockchain;
   tokenAddress: Web3Address;
   depositContractAddress: Web3Address;
+  tokenDecimals: number;
 }
 
 export const {
@@ -22,7 +23,13 @@ export const {
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({
-            params: { amount, network, depositContractAddress, tokenAddress },
+            params: {
+              amount,
+              network,
+              depositContractAddress,
+              tokenAddress,
+              tokenDecimals,
+            },
             web3Service,
           }) => {
             const { currentAccount } = web3Service.getKeyWriteProvider();
@@ -38,6 +45,7 @@ export const {
                 tokenAddress,
                 new BigNumber(amount),
                 depositContractAddress,
+                tokenDecimals,
               );
 
               return { data: Number(fee) };

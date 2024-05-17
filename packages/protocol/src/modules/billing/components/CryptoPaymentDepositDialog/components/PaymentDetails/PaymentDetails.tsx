@@ -22,6 +22,7 @@ export interface IPaymentDetailsProps {
   depositFeeDetails: IFeeDetails;
   depositStatus?: ECryptoDepositStepStatus;
   isAllowanceSent: boolean;
+  isDepositPending: boolean;
   isMyAllowanceLoading: boolean;
   myAllowance: number;
   network: EBlockchain;
@@ -38,6 +39,7 @@ export const PaymentDetails = ({
   depositFeeDetails,
   depositStatus,
   isAllowanceSent,
+  isDepositPending,
   isMyAllowanceLoading,
   myAllowance,
   network,
@@ -50,6 +52,7 @@ export const PaymentDetails = ({
         error={approvalError}
         feeDetails={approvalFeeDetails}
         isAllowanceSent={isAllowanceSent}
+        isDepositPending={isDepositPending}
         isMyAllowanceLoading={isMyAllowanceLoading}
         myAllowance={myAllowance}
         network={network}

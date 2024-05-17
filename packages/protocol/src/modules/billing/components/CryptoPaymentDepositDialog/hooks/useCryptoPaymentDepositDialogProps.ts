@@ -38,7 +38,7 @@ export const useCryptoPaymentDepositDialogProps = ({
   });
 
   const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
-    useNetworkGuard(network, currency);
+    useNetworkGuard(network);
 
   const isAllowanceAnkrSent = useAppSelector(selectIsAllowanceAnkrSent);
   const isAllowanceUsdtSent = useAppSelector(selectIsAllowanceUsdtSent);

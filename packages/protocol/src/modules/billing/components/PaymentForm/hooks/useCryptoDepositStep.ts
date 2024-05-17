@@ -65,6 +65,7 @@ export const useCryptoDepositStep = ({
   ]);
 
   const { onDeposit } = useOneTimeDepositHandler({
+    isCryptoPaymentDepositDialogOpened,
     onCryptoPaymentDepositDialogClose,
     onDepositSuccess,
     setDepositStatus,

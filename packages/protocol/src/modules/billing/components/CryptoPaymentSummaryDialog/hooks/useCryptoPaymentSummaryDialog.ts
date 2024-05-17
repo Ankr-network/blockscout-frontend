@@ -15,8 +15,8 @@ import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { useWalletMeta } from 'domains/wallet/hooks/useWalletMeta';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
-import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
 import { ICryptoPaymentSummaryDialogCommonProps } from '../types';
+import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
 import { IOneTimeAmountProps } from '../../PaymentForm/components/OneTimeAmount';
 
 export interface IUseCryptoPaymentSummaryDialogProps

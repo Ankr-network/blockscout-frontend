@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { formatToWei } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -10,6 +11,9 @@ export interface IFetchANKRDepositFeeParams {
   amount: number;
 }
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchANKRDepositFee },
   useFetchANKRDepositFeeQuery,
@@ -32,7 +36,7 @@ export const {
               const contractService = web3Service.getContractService();
 
               const fee = await contractService.getDepositAnkrToPAYGFee(
-                new BigNumber(amount),
+                formatToWei(new BigNumber(amount)),
               );
 
               return { data: Number(fee) };

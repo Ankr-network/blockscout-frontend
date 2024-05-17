@@ -19,13 +19,19 @@ export interface IUseAnkrAllowanceFeeProps
 
 export const useAnkrAllowanceFee = ({
   skipFetching = false,
-  ...queryParams
+  ...params
 }: IUseAnkrAllowanceFeeProps) => {
-  useFetchANKRAllowanceFeeQuery(skipFetching ? skipToken : queryParams);
+  useFetchANKRAllowanceFeeQuery(skipFetching ? skipToken : params);
 
-  const fee = useAppSelector(selectANKRAllowanceFee);
-  const isFetching = useAppSelector(selectANKRAllowanceFeeFetching);
-  const isLoading = useAppSelector(selectANKRAllowanceFeeLoading);
+  const { amount } = params;
+
+  const fee = useAppSelector(state => selectANKRAllowanceFee(state, amount));
+  const isFetching = useAppSelector(state =>
+    selectANKRAllowanceFeeFetching(state, amount),
+  );
+  const isLoading = useAppSelector(state =>
+    selectANKRAllowanceFeeLoading(state, amount),
+  );
 
   return { fee, isFetching, isLoading };
 };

@@ -18,9 +18,10 @@ import ABI_USDC_TOKEN from './abi/UsdcToken.json';
 import ABI_PAY_AS_YOU_GO_COMMON from './abi/PayAsYouGoCommon.json';
 import { UsdcPAYGReadContractManager } from './UsdcPAYGReadContractManager';
 import {
-  getBNWithDecimalsFromString,
   getBNAmountByTokenDecimals,
   getReadProviderByNetwork,
+  getBNWithDecimalsFromString,
+  convertNumberWithDecimalsToString,
 } from '../utils';
 import { GAS_LIMIT } from './const';
 
@@ -91,6 +92,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     tokenAddress: Web3Address,
     allowanceValue: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     const { currentAccount } = this.keyWriteProvider;
 
@@ -103,7 +105,10 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
 
     const gasAmount = await (contract.methods as IUsdcToken)
-      .approve(depositContractAddress, allowanceValue.toString(10))
+      .approve(
+        depositContractAddress,
+        convertNumberWithDecimalsToString(allowanceValue, tokenDecimals),
+      )
       .estimateGas({
         from: currentAccount,
         gas: Number(GAS_LIMIT),
@@ -247,6 +252,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     tokenAddress: Web3Address,
     depositValue: BigNumber,
     depositContractAddress: Web3Address,
+    tokenDecimals: number,
   ) {
     const { currentAccount } = this.keyWriteProvider;
 
@@ -259,7 +265,10 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
 
     const gasAmount = await (contract.methods as IUsdcToken)
-      .transfer(depositContractAddress, depositValue.toString(10))
+      .transfer(
+        depositContractAddress,
+        convertNumberWithDecimalsToString(depositValue, tokenDecimals),
+      )
       .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
 
     const gasPrice = await provider.getSafeGasPriceWei();

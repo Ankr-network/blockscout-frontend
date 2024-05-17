@@ -7,7 +7,7 @@ import { IStepperProps } from './components/Stepper';
 import { IButtonsProps } from './components/Buttons';
 
 export interface ICryptoPaymentDepositDialogProps
-  extends IPaymentDetailsProps,
+  extends Omit<IPaymentDetailsProps, 'isDepositPending'>,
     IStepperProps,
     IButtonsProps,
     IDialogProps {

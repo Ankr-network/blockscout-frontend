@@ -59,6 +59,7 @@ export const {
                 tokenAddress,
                 new BigNumber(amount),
                 depositContractAddress,
+                tokenDecimals,
               );
 
               return { data: Number(fee) };

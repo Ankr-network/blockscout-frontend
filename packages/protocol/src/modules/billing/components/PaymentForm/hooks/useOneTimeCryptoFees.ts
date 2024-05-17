@@ -45,11 +45,12 @@ export const useOneTimeCryptoFees = ({
   const { approvalFeeDetails, isLoading: isAllowanceFeeLoading } =
     useEstimatedCryptoAllowanceFeeDetails({
       amount,
-      price,
       currency,
       network,
       depositContractAddress,
+      price,
       tokenAddress,
+      tokenDecimals,
     });
 
   const { depositFeeDetails, isLoading: isDepositFeeLoading } =

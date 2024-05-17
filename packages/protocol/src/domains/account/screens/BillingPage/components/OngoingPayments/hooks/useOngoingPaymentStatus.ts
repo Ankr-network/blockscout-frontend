@@ -5,12 +5,14 @@ import { useTopUp } from 'domains/account/hooks/useTopUp';
 
 export interface IUseOngoingPaymentStatusProps {
   txHash?: string;
+  isConfirmed?: boolean;
 }
 
 export const useOngoingPaymentStatus = ({
   txHash,
+  isConfirmed,
 }: IUseOngoingPaymentStatusProps) => {
-  const { hasError, loading } = useTopUp();
+  const { hasError, loading, isTransactionConfirmingSuccess } = useTopUp();
 
   const ongoingPaymentStatus = useMemo(() => {
     if (!txHash) {
@@ -25,8 +27,12 @@ export const useOngoingPaymentStatus = ({
       return EOngoingPaymentStatus.Pending;
     }
 
-    return EOngoingPaymentStatus.Success;
-  }, [hasError, loading, txHash]);
+    if (isTransactionConfirmingSuccess || isConfirmed) {
+      return EOngoingPaymentStatus.Success;
+    }
+
+    return undefined;
+  }, [hasError, isConfirmed, isTransactionConfirmingSuccess, loading, txHash]);
 
   const isOngoingPaymentSuccess =
     ongoingPaymentStatus === EOngoingPaymentStatus.Success;

@@ -445,8 +445,12 @@ export const selectFullPAYGBalance = createSelector(
     balancePaygWithoutVouchers,
     // eslint-disable-next-line max-params
   ) => {
+    const premiumUserActiveBalance = Number(balancePaygTotal);
+
+    const isNegativeBalance = premiumUserActiveBalance <= 0;
+
     const balanceInRequests =
-      Number(balancePaygTotal) / CREDITS_TO_REQUESTS_RATE;
+      premiumUserActiveBalance / CREDITS_TO_REQUESTS_RATE;
 
     return {
       balanceLevel: balancePaygLevel,
@@ -456,7 +460,7 @@ export const selectFullPAYGBalance = createSelector(
       balanceUsd: Number(balancePaygUsd),
       balanceVoucher: Number(balancePaygVoucher),
       balanceWithoutVouchers: Number(balancePaygWithoutVouchers),
-      balanceInRequests,
+      balanceInRequests: isNegativeBalance ? 0 : balanceInRequests,
     };
   },
 );
@@ -659,7 +663,8 @@ export const selectRates = createSelector(
 );
 
 export const selectANKRAllowanceFeeState = createSelector(
-  fetchANKRAllowanceFee.select(undefined as never),
+  (state: RootState, amount: number) =>
+    fetchANKRAllowanceFee.select({ amount })(state),
   state => state,
 );
 
@@ -763,7 +768,8 @@ export const selectNativeTokenPriceLoading = createSelector(
 );
 
 export const selectANKRDepositFeeState = createSelector(
-  fetchANKRDepositFee.select(undefined as never),
+  (state: RootState, amount: number) =>
+    fetchANKRDepositFee.select({ amount })(state),
   state => state,
 );
 
