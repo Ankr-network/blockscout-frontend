@@ -271,8 +271,6 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
 
     this.throwErrorIfValueIsLessThanZero(amount);
     await this.throwErrorIfValueIsGreaterThanBalance({
-
-
       amount,
       network,
       tokenAddress
@@ -341,7 +339,6 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
     await this.throwErrorIfValueIsGreaterThanBalance({
-
       amount:
         depositValue,
       network,
