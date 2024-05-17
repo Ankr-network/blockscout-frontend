@@ -7,7 +7,7 @@ import {
 } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { API_ENV, getReadProviderId } from '../common/utils/environment';
+import { API_ENV, getEthReadProviderId } from '../common/utils/environment';
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 import { getProviderManager } from './getProviderManager';
 
@@ -31,7 +31,7 @@ export class MultiService {
     const writeProvider = await providerManager.getETHWriteProvider(walletId);
 
     const readProvider = await providerManager.getETHReadProvider(
-      getReadProviderId(API_ENV),
+      getEthReadProviderId(API_ENV),
     );
 
     if (walletId !== INJECTED_WALLET_ID) {
@@ -70,7 +70,7 @@ export class MultiService {
       const providerManager = ProviderManagerSingleton.getInstance();
 
       const readProvider = await providerManager.getETHReadProvider(
-        getReadProviderId(API_ENV),
+        getEthReadProviderId(API_ENV),
       );
 
       MultiService.web3ReadService = new MultiRpcWeb3ReadSdk(

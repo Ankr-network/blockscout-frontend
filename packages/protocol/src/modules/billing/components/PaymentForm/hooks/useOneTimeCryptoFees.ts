@@ -36,6 +36,7 @@ export const useOneTimeCryptoFees = ({
   } = useHasEnoughTokenBalance({
     amount,
     currency,
+    network,
     depositContractAddress,
     tokenAddress,
     tokenDecimals,
@@ -46,6 +47,7 @@ export const useOneTimeCryptoFees = ({
       amount,
       price,
       currency,
+      network,
       depositContractAddress,
       tokenAddress,
     });
@@ -55,6 +57,7 @@ export const useOneTimeCryptoFees = ({
       amount,
       price,
       currency,
+      network,
       depositContractAddress,
       tokenAddress,
       tokenDecimals,

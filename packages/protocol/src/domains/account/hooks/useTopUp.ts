@@ -232,6 +232,7 @@ export const useTopUp = () => {
       amount: amountToDeposit,
       depositContractAddress,
       tokenAddress,
+      network: transactionNetwork ?? EBlockchain.eth,
     };
 
     if (transactionCurrency === ECurrency.USDC) {
@@ -293,6 +294,7 @@ export const useTopUp = () => {
     transactionCurrency,
     selectedGroupAddress,
     isDepositAddressDifferent,
+    transactionNetwork,
     depositANKR,
     depositUSDC,
     depositUSDCForUser,

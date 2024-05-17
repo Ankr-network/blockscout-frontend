@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -7,6 +7,7 @@ import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWith
 
 export interface IFetchUSDCAllowanceFeeParams {
   amount: number;
+  network: EBlockchain;
   tokenAddress: Web3Address;
   depositContractAddress: Web3Address;
 }
@@ -21,7 +22,7 @@ export const {
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({
-            params: { amount, depositContractAddress, tokenAddress },
+            params: { amount, network, depositContractAddress, tokenAddress },
             web3Service,
           }) => {
             const { currentAccount } = web3Service.getKeyWriteProvider();
@@ -33,6 +34,8 @@ export const {
               });
 
               const fee = await contractService.getAllowanceFee(
+                network,
+                tokenAddress,
                 new BigNumber(amount),
                 depositContractAddress,
               );

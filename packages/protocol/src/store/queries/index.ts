@@ -26,7 +26,12 @@ export enum RequestType {
 const endpointsSerializedByParams = [
   'fetchTxData',
   'fetchTxReceipt',
-  'fetchGasPrice',
+  'fetchUSDTDepositFee',
+  'fetchUSDCDepositFee',
+  'fetchUSDTAllowanceFee',
+  'fetchUSDCAllowanceFee',
+  'fetchWalletAccountUSDTBalance',
+  'fetchWalletAccountUSDCBalance',
 ];
 
 export const web3Api = createApi({

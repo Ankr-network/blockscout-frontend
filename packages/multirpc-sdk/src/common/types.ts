@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { EBlockchain } from './const';
 
 export type BigInt = string;
 export type UUID = string;
@@ -213,9 +214,13 @@ export type BlockchainID = string;
 
 export type Timeframe = '1h' | '24h' | '7d' | '30d';
 
+export interface ISetAllowanceParams extends IAllowanceParams {
+  network: EBlockchain;
+}
+
 export interface IAllowanceParams {
   allowanceValue: BigNumber;
+  tokenAddress: Web3Address;
   tokenDecimals: number;
   depositContractAddress: Web3Address;
-  tokenAddress: Web3Address;
 }

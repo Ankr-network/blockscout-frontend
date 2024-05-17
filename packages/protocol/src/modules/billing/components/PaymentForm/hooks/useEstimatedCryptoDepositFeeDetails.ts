@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import { useANKRDepositFee } from 'domains/account/hooks/useANKRDepositFee';
@@ -12,6 +12,7 @@ export interface IUseEstimatedCryptoDepositFeeDetailsParams {
   amount: number;
   price: string;
   currency: ECurrency;
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   tokenDecimals: number;
@@ -21,6 +22,7 @@ export const useEstimatedCryptoDepositFeeDetails = ({
   amount,
   price,
   currency,
+  network,
   depositContractAddress,
   tokenAddress,
   tokenDecimals,
@@ -34,6 +36,7 @@ export const useEstimatedCryptoDepositFeeDetails = ({
 
   const { fee: feeUsdt, isLoading: isLoadingUsdt } = useUSDTDepositFee({
     amount,
+    network,
     depositContractAddress,
     tokenAddress,
     skipFetching:
@@ -45,9 +48,10 @@ export const useEstimatedCryptoDepositFeeDetails = ({
 
   const { fee: feeUsdc, isLoading: isLoadingUsdc } = useUSDCDepositFee({
     amount,
-    tokenDecimals,
+    network,
     depositContractAddress,
     tokenAddress,
+    tokenDecimals,
     skipFetching:
       !hasWeb3Service ||
       !depositContractAddress ||
@@ -68,6 +72,7 @@ export const useEstimatedCryptoDepositFeeDetails = ({
     }
   }, [
     currency,
+    network,
     feeAnkr,
     feeUsdt,
     feeUsdc,

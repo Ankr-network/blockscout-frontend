@@ -12,7 +12,7 @@ export const getExpectedChainId = (env: Environment) => {
   return EEthereumNetworkId.holesky;
 };
 
-export const getReadProviderId = (env: Environment) => {
+export const getEthReadProviderId = (env: Environment) => {
   if (env === 'prod') {
     return AvailableReadProviders.ethMainnet;
   }

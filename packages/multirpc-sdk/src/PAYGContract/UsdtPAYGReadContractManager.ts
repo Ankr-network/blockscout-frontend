@@ -1,11 +1,11 @@
 import { Contract, EventData } from 'web3-eth-contract';
-import { Web3KeyReadProvider } from '@ankr.com/provider';
+import { ProviderManager, Web3KeyReadProvider } from '@ankr.com/provider';
 
-import { Web3Address } from '../common';
+import { EBlockchain, Web3Address } from '../common';
 import ABI_USDT_TOKEN from './abi/UsdtToken.json';
 import ABI_PAY_AS_YOU_GO_COMMON from './abi/PayAsYouGoCommon.json';
-import { IPayAsYouGoCommonEvents } from './abi/IPayAsYouGoCommon';
-import { getPastEventsBlockchain } from './utils/getPastEventsBlockchain';
+import { IUsdtToken } from './abi/IUsdtToken';
+import { getReadProviderByNetwork } from '../utils';
 
 export class UsdtPAYGReadContractManager {
   protected readonly usdtTokenReadContract: Contract;
@@ -28,33 +28,6 @@ export class UsdtPAYGReadContractManager {
     );
   }
 
-  private async getLatestUserEventLogs(
-    event: IPayAsYouGoCommonEvents,
-    user: Web3Address,
-  ) {
-    const contract = this.payAsYouGoReadContract;
-    // TODO: pass start block depending on blockchain
-    // const startBlock = this.config.payAsYouGoContractCreationBlockNumber;
-    const startBlock = 0;
-
-    const latestBlockNumber = await this.keyReadProvider
-      .getWeb3()
-      .eth.getBlockNumber();
-
-    return getPastEventsBlockchain({
-      web3: this.keyReadProvider.getWeb3(),
-      contract,
-      eventName: event,
-      filter: {
-        sender: user,
-      },
-      startBlock,
-      latestBlockNumber,
-      apiUrl:
-        'https://rpc.ankr.com/multichain/f8e4e17caa0ff53dbba438d87f25bb8d29734490c488292c062cf020be629a98',
-    });
-  }
-
   public async getLatestAllowanceEvents(
     user: Web3Address,
   ): Promise<EventData[]> {
@@ -71,5 +44,25 @@ export class UsdtPAYGReadContractManager {
       .sort((a, b) => a.blockNumber - b.blockNumber);
 
     return allowanceEvents;
+  }
+
+  protected async getAccountBalance(
+    accountAddress: Web3Address,
+    network: EBlockchain,
+    tokenAddress: Web3Address,
+  ) {
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDT_TOKEN,
+      tokenAddress,
+    );
+
+    const balance = await (contract.methods as IUsdtToken)
+      .balanceOf(accountAddress)
+      .call();
+
+    return balance;
   }
 }

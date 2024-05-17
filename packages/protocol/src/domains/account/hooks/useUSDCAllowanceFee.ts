@@ -23,9 +23,15 @@ export const useUsdcAllowanceFee = ({
 }: IUseUsdcAllowanceFeeProps) => {
   useFetchUSDCAllowanceFeeQuery(skipFetching ? skipToken : queryParams);
 
-  const fee = useAppSelector(selectUSDCAllowanceFee);
-  const isFetching = useAppSelector(selectUSDCAllowanceFeeFetching);
-  const isLoading = useAppSelector(selectUSDCAllowanceFeeLoading);
+  const fee = useAppSelector(state =>
+    selectUSDCAllowanceFee(state, queryParams),
+  );
+  const isFetching = useAppSelector(state =>
+    selectUSDCAllowanceFeeFetching(state, queryParams),
+  );
+  const isLoading = useAppSelector(state =>
+    selectUSDCAllowanceFeeLoading(state, queryParams),
+  );
 
   return { fee, isFetching, isLoading };
 };

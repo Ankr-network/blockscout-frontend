@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { web3Api } from 'store/queries';
@@ -17,6 +17,7 @@ interface IDepositForUserUSDTRequestParams {
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   targetAddress: Web3Address;
+  network: EBlockchain;
 }
 
 export const {
@@ -37,6 +38,7 @@ export const {
               targetAddress,
               depositContractAddress,
               tokenAddress,
+              network,
             },
             web3Service,
           }) => {
@@ -50,6 +52,7 @@ export const {
                 tokenDecimals,
                 targetAddress,
                 tokenAddress,
+                network,
                 depositContractAddress,
               );
 
