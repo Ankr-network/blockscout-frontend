@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -15,6 +15,7 @@ interface ITopUpDepositUSDCQueryParams {
   amount: BigNumber;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
+  network: EBlockchain;
 }
 
 export const {
@@ -35,6 +36,7 @@ export const {
                 amount,
                 depositContractAddress,
                 tokenAddress,
+                network,
               },
               web3Service,
             },
@@ -51,6 +53,7 @@ export const {
                 amount,
                 tokenDecimals,
                 tokenAddress,
+                network,
                 depositContractAddress,
               );
 

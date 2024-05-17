@@ -61,6 +61,7 @@ export const {
                 allowanceValue: new BigNumber(amount),
                 depositContractAddress,
                 tokenAddress,
+                network,
                 tokenDecimals,
               },
             );
