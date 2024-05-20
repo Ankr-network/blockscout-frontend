@@ -27,6 +27,7 @@ const endpointsSerializedByParams = [
   'fetchANKRAllowanceFee',
   'fetchANKRDepositFee',
   'fetchGasPrice',
+  'fetchNativeTokenPrice',
   'fetchTxData',
   'fetchTxReceipt',
 ];

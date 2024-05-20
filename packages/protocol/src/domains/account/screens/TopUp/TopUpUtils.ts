@@ -9,6 +9,7 @@ import { TopUpOrigin } from 'domains/account/types';
 import { selectTopUpOrigin } from 'domains/account/store/selectors';
 import { useEmailData } from 'domains/userSettings/screens/Settings/hooks/useSettings';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { topUpOriginRoutesMap } from '../CardPaymentSuccess/utils/getOriginRoute';
 
@@ -22,10 +23,12 @@ export const useTopUpOriginRoute = (isLoggedIn: boolean) => {
 };
 
 export const useTopUpBreadcrumbs = (route: BaseRoute) => {
+  const { isLoggedIn } = useAuth();
+
   const breadcrumbs = [
     {
       title: t(route.breadcrumbs!),
-      link: route.generatePath(),
+      link: route.generatePath({ isLoggedIn }),
     },
   ];
 

@@ -729,7 +729,8 @@ export const selectTokenPriceLoading = createSelector(
 );
 
 export const selectNativeTokenPriceState = createSelector(
-  fetchNativeTokenPrice.select(undefined as never),
+  (state: RootState, network: EBlockchain) =>
+    fetchNativeTokenPrice.select({ network })(state),
   state => state,
 );
 
