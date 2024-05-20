@@ -44,7 +44,7 @@ export interface IThrowErrorIfValueIsGreaterThanBalanceParams {
   tokenAddress: Web3Address;
 }
 
-export interface IThrowErrorIfDepositIsGreaterThanAllowance {
+export interface IThrowErrorIfDepositIsGreaterThanAllowanceParams {
   depositValue: BigNumber;
   allowanceValue: BigNumber;
   tokenDecimals: number;

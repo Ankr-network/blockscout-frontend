@@ -18,7 +18,7 @@ import {
 } from '../common';
 import {
   DepositTokenForUserParams,
-  IThrowErrorIfDepositIsGreaterThanAllowance,
+  IThrowErrorIfDepositIsGreaterThanAllowanceParams,
   IThrowErrorIfValueIsGreaterThanBalanceParams,
   SendDepositTokenTransactionForUserParams,
 } from './types';
@@ -211,7 +211,7 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     depositValue,
     allowanceValue,
     tokenDecimals,
-  }: IThrowErrorIfDepositIsGreaterThanAllowance) {
+  }: IThrowErrorIfDepositIsGreaterThanAllowanceParams) {
     const amount = getBNWithDecimalsFromString(
       allowanceValue.toFixed(),
       tokenDecimals,
