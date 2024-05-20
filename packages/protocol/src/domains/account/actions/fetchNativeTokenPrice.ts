@@ -13,6 +13,9 @@ export interface IFetchNativeTokenPriceParams {
   network: EBlockchain;
 }
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchNativeTokenPrice },
   useFetchNativeTokenPriceQuery,
