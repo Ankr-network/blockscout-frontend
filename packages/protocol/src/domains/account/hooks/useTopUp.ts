@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/billing/types';
 import {
@@ -34,7 +35,6 @@ import { topUpSendAllowanceUsdt } from '../actions/topUp/sendAllowanceUsdt';
 import { topUpWaitTransactionConfirming } from '../actions/topUp/waitTransactionConfirming';
 import { useSelectTopUpTransaction } from './useSelectTopUpTransaction';
 import { useTopUpTrackingHandler } from './useTopUpTrackingHandler';
-import { EBlockchain } from 'multirpc-sdk';
 
 const getErrorMessage = (error: any) => {
   if (error && 'message' in error && typeof error.message === 'string') {
@@ -219,6 +219,7 @@ export const useTopUp = () => {
     }
   }, [
     transactionCurrency,
+    transactionNetwork,
     sendAllowanceAnkr,
     amountToDeposit,
     sendAllowanceUsdt,

@@ -73,7 +73,6 @@ export const useEstimatedCryptoDepositFeeDetails = ({
     }
   }, [
     currency,
-    network,
     feeAnkr,
     feeUsdt,
     feeUsdc,
