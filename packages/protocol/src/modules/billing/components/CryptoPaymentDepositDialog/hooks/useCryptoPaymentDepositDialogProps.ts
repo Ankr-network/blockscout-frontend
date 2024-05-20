@@ -59,8 +59,7 @@ export const useCryptoPaymentDepositDialogProps = ({
 
   const {
     amountToDeposit,
-    handleResetAllowance,
-    handleRejectAllowance,
+    handleResetAllowance: handleResetAllowanceState,
     transactionCurrency,
   } = useTopUp();
 
@@ -71,15 +70,13 @@ export const useCryptoPaymentDepositDialogProps = ({
   } = useOngoingPayments();
 
   const onClose = useCallback(() => {
-    if (isOngoingPaymentError) {
-      handleRejectAllowance();
-    }
-
-    if (
+    const shouldResetAllowanceState =
       depositStatus !== ECryptoDepositStepStatus.Pending ||
-      !isOngoingPaymentPending
-    ) {
-      handleResetAllowance();
+      !isOngoingPaymentPending ||
+      isOngoingPaymentError;
+
+    if (shouldResetAllowanceState) {
+      handleResetAllowanceState();
     }
 
     onCryptoPaymentDepositDialogClose();
@@ -87,8 +84,7 @@ export const useCryptoPaymentDepositDialogProps = ({
     depositStatus,
     isOngoingPaymentError,
     isOngoingPaymentPending,
-    handleResetAllowance,
-    handleRejectAllowance,
+    handleResetAllowanceState,
     onCryptoPaymentDepositDialogClose,
   ]);
 

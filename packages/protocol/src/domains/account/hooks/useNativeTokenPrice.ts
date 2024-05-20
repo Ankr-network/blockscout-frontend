@@ -7,20 +7,29 @@ import {
   selectNativeTokenPriceFetching,
   selectNativeTokenPriceLoading,
 } from '../store/selectors';
-import { useFetchNativeTokenPriceQuery } from '../actions/fetchNativeTokenPrice';
+import {
+  IFetchNativeTokenPriceParams,
+  useFetchNativeTokenPriceQuery,
+} from '../actions/fetchNativeTokenPrice';
 
-export interface IUseNativeTokenPriceParams {
+export interface IUseNativeTokenPriceParams
+  extends IFetchNativeTokenPriceParams {
   skipFetching?: boolean;
 }
 
 export const useNativeTokenPrice = ({
+  network,
   skipFetching = false,
-}: IUseNativeTokenPriceParams | void = {}) => {
-  useFetchNativeTokenPriceQuery(skipFetching ? skipToken : undefined);
+}: IUseNativeTokenPriceParams) => {
+  useFetchNativeTokenPriceQuery(skipFetching ? skipToken : { network });
 
-  const price = useAppSelector(selectNativeTokenPrice);
-  const isLoading = useAppSelector(selectNativeTokenPriceLoading);
-  const isFetching = useAppSelector(selectNativeTokenPriceFetching);
+  const price = useAppSelector(state => selectNativeTokenPrice(state, network));
+  const isLoading = useAppSelector(state =>
+    selectNativeTokenPriceLoading(state, network),
+  );
+  const isFetching = useAppSelector(state =>
+    selectNativeTokenPriceFetching(state, network),
+  );
 
   return { isFetching, isLoading, price };
 };

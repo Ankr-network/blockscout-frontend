@@ -1,7 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { premiumGradient } from 'uiKit/Theme/themeUtils';
-
 const MARKER_SIZE = 8;
 
 export const useDealAmountStyles = makeStyles()(theme => ({
@@ -42,15 +40,7 @@ export const useDealAmountStyles = makeStyles()(theme => ({
   },
   labelWrapper: {
     marginLeft: theme.spacing(2),
-    padding: theme.spacing(0, 2),
     backgroundColor: theme.palette.background.default,
-    borderRadius: 8,
-    lineHeight: 1.4,
-  },
-  label: {
-    background: premiumGradient,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   },
   amount: {
     marginLeft: 'auto',

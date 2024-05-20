@@ -21,7 +21,6 @@
     "premium-url-validation": "Should not be a premium endpoint of Ankr",
     "duplicate-url-validation": "This endpoint has already been added",
     "number-only": "Must be a number",
-    "integer-only": "Must be an integer",
     "min-greater": "Should be at least {value}",
     "max": "Should be less than {value}",
     "min": "Should be at least {value}"
@@ -32,20 +31,14 @@
   "meta": {
     "title": "Check out the price of Ankr's Remote procedure call (RPC)",
     "description": "Check out the price of Ankr's RPC (Remote Procedure Call). Plans that scale with you: Free, Premium RPC (Pay as you go) and Enterprise RPC. Contact us!",
-    "og-title": "Decentralized Infrastructure to Power Your dApp",
-    "og-description": "Build now with RPCs to access over a dozen blockchains",
     "public": {
       "title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
       "description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
-      "og-title": "Get more than 30 Remote procedure call (RPC) Crypto | Ankr",
-      "og-description": "Use Ankr’s RPC (Remote Procedure Call) and get data from various blockchain in a decentralized, fast and secure way",
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "chain-item": {
       "title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
       "description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
-      "og-title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
-      "og-description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
       "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
     }
   },
@@ -1837,7 +1830,11 @@
       "flr": "FLR",
       "sys": "SYS",
       "usdt": "USDT/USDC",
-      "usdc": "USDT/USDC"
+      "usdc": "USDT/USDC",
+      "additional": {
+        "ankr-promo": "Save 10%",
+        "ankr-tooltip": "Get 10％ more API credits paying in ANKR"
+      }
     },
     "networks": {
       "label": "Network",
@@ -1873,13 +1870,13 @@
     "payment-types": {
       "one-time": {
         "title": "{isCapitalized, select, true {O} other {o}}ne-time",
-        "payment-summary-title": "One-time payment",
+        "payment-summary-title": "One-time",
         "payment-summary-description": "One-time Pay-as-you-go balance payment",
         "tooltip": "Single Pay-as-you-go balance payment"
       },
       "recurring": {
         "title": "{isCapitalized, select, true {R} other {r}}ecurring",
-        "payment-summary-title": "Recurring payment",
+        "payment-summary-title": "Recurring",
         "payment-summary-description": "Monthly-repeating Pay-as-you-go balance payment",
         "tooltip": "Monthly-repeating Pay-as-you-go balance payment"
       },
@@ -1921,7 +1918,7 @@
       "switch-button": "Switch"
     },
     "success-crypto-payment-dialog": {
-      "amount-label": "{paymentType} balance top-up",
+      "amount-label": "balance top-up",
       "approval-label": "Approval",
       "deposit-label": "Deposit",
       "from-title": "From",

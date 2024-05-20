@@ -14,13 +14,20 @@ export interface IBalance {
   balance_voucher: string;
 }
 
+// production values for user balance in api credits are in the comments.
 export enum BalanceLevel {
+  // balance >= -10m Api Credits
   CRITICAL = 'CRITICAL',
+  // balance >= 100m Api Credits
   GREEN = 'GREEN',
+  // balance >= 10m Api Credits
   RED = 'RED',
+  // balance >= -50m Api Credits
   TOO_LOW = 'TOO_LOW',
   // balance has never been topped up
   UNKNOWN = 'UNKNOWN',
+  // balance >= 50m Api Credits
   YELLOW = 'YELLOW',
+  // balance = 0 Api Credits
   ZERO = 'ZERO',
 }

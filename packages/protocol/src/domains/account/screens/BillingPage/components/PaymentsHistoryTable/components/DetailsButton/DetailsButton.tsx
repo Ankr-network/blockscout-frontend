@@ -13,16 +13,18 @@ import { useDetailsButtonStyles } from './useDetailsButtonStyles';
 
 export interface IDetailsButtonProps {
   amount: string;
+  currency: ECurrency;
   network: EBlockchain;
+  onDialogClose?: () => void;
   txHash: string;
-  onCloseButtonClick?: () => void;
 }
 
 export const DetailsButton = ({
   amount,
+  currency,
   network,
+  onDialogClose,
   txHash,
-  onCloseButtonClick,
 }: IDetailsButtonProps) => {
   const { handleCreateWeb3Service: onOpen } = useWeb3Service();
 
@@ -31,10 +33,10 @@ export const DetailsButton = ({
     handleCryptoPaymentSuccessDialogOpen,
   } = useCryptoPaymentSuccessDialog({
     amount: Number(amount),
-    currency: ECurrency.ANKR,
+    currency,
     depositTxHash: txHash,
     network,
-    onCloseButtonClick,
+    onClose: onDialogClose,
     onOpen,
     paymentType: EPaymentType.OneTime,
   });

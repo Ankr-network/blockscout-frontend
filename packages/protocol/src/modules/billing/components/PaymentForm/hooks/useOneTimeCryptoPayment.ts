@@ -1,5 +1,5 @@
 import { EBlockchain, Web3Address } from 'multirpc-sdk';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ECurrency, EPaymentType } from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
@@ -45,6 +45,7 @@ export const useOneTimeCryptoPayment = ({
   const { hasWeb3Service } = useWeb3Service();
 
   const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
+    network,
     skipFetching: !hasWeb3Service,
   });
 
@@ -56,12 +57,7 @@ export const useOneTimeCryptoPayment = ({
     isAllowanceFeeLoading,
     depositFeeDetails,
     isDepositFeeLoading,
-  } = useOneTimeCryptoFees({
-    price,
-    network,
-    amount,
-    currency,
-  });
+  } = useOneTimeCryptoFees({ amount, currency, network, price });
 
   useAccountsChangedHandlingOnSummaryStep();
 
@@ -78,19 +74,25 @@ export const useOneTimeCryptoPayment = ({
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
-  const { handleResetTopUpTransaction } = useTopUp();
+  const { amountToDeposit, handleResetTopUpTransaction, handleResetDeposit } =
+    useTopUp();
+
+  const handleCryptoPaymentSuccessDialogClose = useCallback(() => {
+    handleResetTopUpTransaction();
+    handleResetDeposit();
+  }, [handleResetDeposit, handleResetTopUpTransaction]);
 
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
   } = useCryptoPaymentSuccessDialog({
     allowanceTxHash,
-    amount,
+    amount: amountToDeposit.toNumber(),
     currency,
-    network,
     depositTxHash: depositTxHash ?? '',
+    network,
+    onClose: handleCryptoPaymentSuccessDialogClose,
     paymentType: EPaymentType.OneTime,
-    onCloseButtonClick: handleResetTopUpTransaction,
   });
 
   const {

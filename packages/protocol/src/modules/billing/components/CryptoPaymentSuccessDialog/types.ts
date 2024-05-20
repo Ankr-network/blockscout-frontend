@@ -8,7 +8,7 @@ export interface IUseCryptoPaymentSuccessDialogProps {
   currency: ECurrency;
   depositTxHash: string;
   network: EBlockchain;
-  onCloseButtonClick?: () => void;
+  onClose?: () => void;
   onOpen?: () => Promise<void>;
   paymentType: EPaymentType;
 }

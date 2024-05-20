@@ -12,7 +12,7 @@ import { IUseCryptoPaymentSuccessDialogProps } from './types';
 import { TxDetails } from './components/TxDetails';
 import { useCryptoPaymentSuccessDialogStyles } from './useCryptoPaymentSuccessDialogStyles';
 
-type TPropsToOmit = 'allowanceTxHash' | 'depositTxHash';
+type TPropsToOmit = 'allowanceTxHash' | 'depositTxHash' | 'onClose';
 
 export interface ICryptoPaymentSuccessDialogProps
   extends IDialogProps,

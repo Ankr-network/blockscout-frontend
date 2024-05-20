@@ -1,10 +1,11 @@
 import { Button, Paper, Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
 import { EBlockchain } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
 
-import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
 import { CurrencyIcon } from 'modules/common/components/CurrencyIcon';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
+import { useTopupInitialStep } from 'domains/account/screens/TopUp/useTopupInitialStep';
 
 import { DetailsButton } from '../PaymentsHistoryTable/components/DetailsButton';
 import { OngoingPaymentStatus } from '../OngoingPaymentStatus';
@@ -13,31 +14,38 @@ import { useOngoingPaymentsStyles } from './useOngoingPaymentsStyles';
 
 interface IOngoingPaymentsProps {
   className?: string;
-  onOpenPaymentDialog?: () => void;
+  handleOpenDepositDialog: () => void;
 }
 
 export const OngoingPayments = ({
   className,
-  onOpenPaymentDialog,
+  handleOpenDepositDialog,
 }: IOngoingPaymentsProps) => {
   const { cx, classes } = useOngoingPaymentsStyles();
 
   const {
-    approvedAmountString,
+    amountString,
     approvedUsdAmount,
+    currency,
     isSuccessState,
+    network,
     ongoingPaymentStatus,
     shouldShowOngoingPayment,
     txHash,
-    currency,
-    network,
   } = useOngoingPayments();
 
   const { isLoading } = useTopupInitialStep();
 
-  const { handleResetTopUpTransaction } = useTopUp();
+  const { handleResetDeposit, handleResetTopUpTransaction } = useTopUp();
 
-  if (!shouldShowOngoingPayment || isLoading) {
+  const onSuccessDialogClose = useCallback(() => {
+    handleResetTopUpTransaction();
+    handleResetDeposit();
+  }, [handleResetDeposit, handleResetTopUpTransaction]);
+
+  const shouldRenderOngoingPayments = shouldShowOngoingPayment && !isLoading;
+
+  if (!shouldRenderOngoingPayments) {
     return null;
   }
 
@@ -51,7 +59,7 @@ export const OngoingPayments = ({
           {t('account.account-details.ongoing-payments.one-time-payment')}
         </Typography>
 
-        {approvedAmountString && (
+        {amountString && (
           <Typography variant="body3" className={classes.paymentValue}>
             <CurrencyIcon
               currency={currency}
@@ -60,7 +68,7 @@ export const OngoingPayments = ({
               currencyClassName={classes.currencyIcon}
               networkClassName={classes.networkIcon}
             />
-            {approvedAmountString} {currency}{' '}
+            {amountString} {currency}{' '}
             <Typography variant="body3" color="textSecondary">
               / ≈${approvedUsdAmount}
             </Typography>
@@ -69,18 +77,19 @@ export const OngoingPayments = ({
 
         <OngoingPaymentStatus status={ongoingPaymentStatus} />
 
-        {isSuccessState && approvedAmountString && txHash ? (
+        {isSuccessState && amountString && txHash ? (
           <DetailsButton
-            amount={approvedAmountString}
+            amount={amountString}
+            currency={currency}
+            network={network ?? EBlockchain.eth}
+            onDialogClose={onSuccessDialogClose}
             txHash={txHash}
-            network={EBlockchain.eth} // TODO: https://ankrnetwork.atlassian.net/browse/MRPC-4801
-            onCloseButtonClick={handleResetTopUpTransaction}
           />
         ) : (
           <Button
             variant="outlined"
             size="extraSmall"
-            onClick={onOpenPaymentDialog}
+            onClick={handleOpenDepositDialog}
           >
             {t('account.payment-table.details')}
           </Button>

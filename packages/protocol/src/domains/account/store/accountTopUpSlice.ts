@@ -125,6 +125,14 @@ export const accountTopUpSlice = createSlice({
         isProcessing: true,
       };
     },
+    setIsConfirmed: (state, action: PayloadAction<ISetTransactionPayload>) => {
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
+        isConfirmed: action.payload.isConfirmed,
+      };
+    },
   },
 });
 
@@ -136,9 +144,10 @@ export const {
   setAmount,
   setAmountToDeposit,
   setApprovedAmount,
-  setTransactionCurrency,
-  setTransactionNetwork,
+  setIsConfirmed,
   setIsProcessing,
   setTopUpOrigin,
   setTopUpTransaction,
+  setTransactionCurrency,
+  setTransactionNetwork,
 } = accountTopUpSlice.actions;

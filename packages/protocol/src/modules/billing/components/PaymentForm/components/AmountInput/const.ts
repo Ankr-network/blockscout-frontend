@@ -15,3 +15,6 @@ export const STABLECOINS_OPTIONS: ISelectStablecoinOption[] = [
     value: ECurrency.USDC,
   },
 ];
+
+// If users make a payment in ANKR, they get 10% more requests
+export const ANKR_PROMO_EXTRA_REQUESTS_RATE = 1.1;

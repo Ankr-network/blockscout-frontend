@@ -1,53 +1,53 @@
 import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
+import {
+  ECryptoDepositStep,
+  ECryptoDepositStepStatus,
+} from 'modules/billing/types';
 
 import { Buttons } from './components/Buttons';
 import { Header } from './components/Header';
 import { ICryptoPaymentDepositDialogProps } from './types';
 import { PaymentDetails } from './components/PaymentDetails';
 import { Stepper } from './components/Stepper';
-import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
 import { SwitchNetworkBanner } from './components/SwitchNetworkBanner';
+import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
 
 export const CryptoPaymentDepositDialog = ({
+  activeStep,
   amount,
-  amountUsd,
   amountToDeposit,
-  currency,
-  network,
-  isWrongNetwork,
-  shouldRevokeApproval,
-  onCheckApproval,
-
-  /* IPaymentDetailsProps */
+  amountUsd,
   approvalError,
   approvalFeeDetails,
   approvalStatus,
+  completedStep,
+  currency,
   depositError,
   depositFeeDetails,
   depositStatus,
+  erroredStep,
   isAllowanceSent,
   isMyAllowanceLoading,
-  myAllowance,
-
-  /* IButtonsProps */
-  activeStep,
   isPending,
+  isWrongNetwork,
+  myAllowance,
+  network,
+  onCheckApproval,
   onConfirmButtonClick,
   onDiscardButtonClick,
-  status,
-
-  /* IStepperProps */
-  completedStep,
-  erroredStep,
-
   // TODO: should be removed https://ankrnetwork.atlassian.net/browse/MRPC-4736
   onOpen,
-
+  shouldRevokeApproval,
+  status,
   ...dialogProps
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();
+
+  const isDepositPending =
+    activeStep === ECryptoDepositStep.Deposit &&
+    depositStatus === ECryptoDepositStepStatus.Pending;
 
   return (
     <Dialog
@@ -63,8 +63,8 @@ export const CryptoPaymentDepositDialog = ({
         network={network}
       />
       <Stepper
-        className={classes.stepper}
         activeStep={activeStep}
+        className={classes.stepper}
         completedStep={completedStep}
         erroredStep={erroredStep}
       />
@@ -79,6 +79,7 @@ export const CryptoPaymentDepositDialog = ({
         depositFeeDetails={depositFeeDetails}
         depositStatus={depositStatus}
         isAllowanceSent={isAllowanceSent}
+        isDepositPending={isDepositPending}
         isMyAllowanceLoading={isMyAllowanceLoading}
         myAllowance={myAllowance}
         network={network}
@@ -87,13 +88,13 @@ export const CryptoPaymentDepositDialog = ({
       <Buttons
         activeStep={activeStep}
         isPending={isPending}
+        isRevokeApprovalLoading={isMyAllowanceLoading}
+        isWrongNetwork={isWrongNetwork}
+        onCheckApproval={onCheckApproval}
         onConfirmButtonClick={onConfirmButtonClick}
         onDiscardButtonClick={onDiscardButtonClick}
-        status={status}
-        isWrongNetwork={isWrongNetwork}
         shouldRevokeApproval={shouldRevokeApproval}
-        isRevokeApprovalLoading={isMyAllowanceLoading}
-        onCheckApproval={onCheckApproval}
+        status={status}
       />
     </Dialog>
   );

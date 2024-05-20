@@ -54,6 +54,7 @@ export const {
               const fee = await contractService.getDepositUSDCToPAYGFee(
                 new BigNumber(amount),
                 depositContractAddress,
+                tokenDecimals,
               );
 
               return { data: Number(fee) };

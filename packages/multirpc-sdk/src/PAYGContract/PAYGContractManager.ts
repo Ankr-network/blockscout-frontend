@@ -215,7 +215,7 @@ export class PAYGContractManager extends PAYGReadContractManager {
     const gasAmount = await (this.ankrTokenContract.methods as IAnkrToken)
       .transfer(
         this.config.payAsYouGoContractAddress,
-        depositValue.toString(10),
+        roundDecimals(depositValue).toString(10),
       )
       .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
 

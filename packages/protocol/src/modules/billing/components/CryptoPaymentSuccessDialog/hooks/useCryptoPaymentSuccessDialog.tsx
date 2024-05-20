@@ -13,7 +13,7 @@ export const useCryptoPaymentSuccessDialog = ({
   currency,
   depositTxHash,
   network,
-  onCloseButtonClick,
+  onClose: handleClose,
   onOpen,
   paymentType,
 }: IUseCryptoPaymentSuccessDialogProps) => {
@@ -24,9 +24,9 @@ export const useCryptoPaymentSuccessDialog = ({
   } = useDialog();
 
   const onClose = useCallback(() => {
-    onCloseButtonClick?.();
+    handleClose?.();
     handleCryptoPaymentSuccessDialogClose();
-  }, [handleCryptoPaymentSuccessDialogClose, onCloseButtonClick]);
+  }, [handleClose, handleCryptoPaymentSuccessDialogClose]);
 
   const handleCryptoPaymentSuccessDialogOpen = useCallback(async () => {
     await onOpen?.();
@@ -47,6 +47,7 @@ export const useCryptoPaymentSuccessDialog = ({
     skipFetching: !isOpened,
     txHash: depositTxHash,
     currency,
+    network,
   });
 
   const {
@@ -58,6 +59,7 @@ export const useCryptoPaymentSuccessDialog = ({
     skipFetching: !isOpened || !allowanceTxHash,
     txHash: allowanceTxHash!,
     currency,
+    network,
   });
 
   const isLoading = isDepositTxDataLoading || isAllowanceTxDataLoading;

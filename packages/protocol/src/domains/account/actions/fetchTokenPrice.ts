@@ -1,14 +1,19 @@
-import { getTokenPriceByChainId } from 'multirpc-sdk';
+import {
+  EBlockchain,
+  ethNetworkIdByBlockchainMap,
+  getTokenPriceByChainId,
+} from 'multirpc-sdk';
 
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { web3Api } from 'store/queries';
 import { ECurrency } from 'modules/billing/types';
+import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
 
 import { ONE_STRING, ZERO_STRING } from '../store/const';
 
 export interface IFetchTokenPriceParams {
   currency?: ECurrency;
+  network?: EBlockchain;
   tokenAddress?: string;
 }
 
@@ -18,29 +23,24 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchTokenPrice: build.query<string, IFetchTokenPriceParams>({
-      queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
-          async ({ params: { currency, tokenAddress }, web3Service }) => {
-            if (currency === ECurrency.USDC || currency === ECurrency.USDT) {
-              return {
-                data: ONE_STRING,
-              };
-            }
-
-            const { currentChain } = web3Service.getKeyWriteProvider();
-
-            const price = await getTokenPriceByChainId(
-              currentChain,
-              tokenAddress,
-            );
-
+      queryFn: createNotifyingQueryFn(
+        async ({ currency, network, tokenAddress }) => {
+          if (isStableCoinCurrency(currency)) {
             return {
-              data: price ?? ZERO_STRING,
+              data: ONE_STRING,
             };
-          },
-        ),
-        fallback: { data: ZERO_STRING },
-      }),
+          }
+
+          const chainId =
+            ethNetworkIdByBlockchainMap[network ?? EBlockchain.eth];
+
+          const price = await getTokenPriceByChainId(chainId, tokenAddress);
+
+          return {
+            data: price ?? ZERO_STRING,
+          };
+        },
+      ),
     }),
   }),
   overrideExisting: true,

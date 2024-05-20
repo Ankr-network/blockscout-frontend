@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js';
+
 export type BigInt = string;
 export type UUID = string;
 export type Web3Address = string;
@@ -210,3 +212,10 @@ export interface IBlockchainEntity {
 export type BlockchainID = string;
 
 export type Timeframe = '1h' | '24h' | '7d' | '30d';
+
+export interface IAllowanceParams {
+  allowanceValue: BigNumber;
+  tokenDecimals: number;
+  depositContractAddress: Web3Address;
+  tokenAddress: Web3Address;
+}

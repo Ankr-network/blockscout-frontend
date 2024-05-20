@@ -129,8 +129,12 @@ export const useTopUp = () => {
   const [
     waitTransactionConfirming,
     {
-      data: { error: errorWaitTransactionConfirming = undefined } = {},
+      data: {
+        error: errorWaitTransactionConfirming = undefined,
+        isSuccessful: isTransactionConfirmingSuccess = false,
+      } = {},
       isLoading: loadingWaitTransactionConfirming,
+      isUninitialized: isWaitTransactionConfirmingUninitialized,
     },
     waitTransactionConfirmingReset,
   ] = useQueryEndpoint(topUpWaitTransactionConfirming);
@@ -455,6 +459,8 @@ export const useTopUp = () => {
     hasError,
     isAllowanceSent,
     isRejectAllowanceLoading: loadingRejectAllowance,
+    isTransactionConfirmingSuccess,
+    isWaitTransactionConfirmingUninitialized,
     loading,
     loadingWaitTransactionConfirming,
     sendAllowanceErrorMessage,

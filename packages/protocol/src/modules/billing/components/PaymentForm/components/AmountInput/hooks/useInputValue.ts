@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { ECurrency } from 'modules/billing/types';
 
@@ -6,18 +6,18 @@ import { renderInputValue } from '../utils/renderInputValue';
 
 export interface IUseInputValue {
   amount: number;
+  amountUsd: number;
   currency: ECurrency;
   isFocused: boolean;
-  amountUsd: number;
 }
 
 export const useInputValue = ({
   amount,
+  amountUsd,
   currency,
   isFocused,
-  amountUsd,
 }: IUseInputValue) => {
-  const [rawValue, setRawValue] = useState('');
+  const [rawValue, setRawValue] = useState(amount.toString());
 
   const value = useMemo(() => {
     if (isFocused) {
@@ -26,6 +26,8 @@ export const useInputValue = ({
 
     return renderInputValue({ amount, currency, amountUsd });
   }, [amount, currency, isFocused, amountUsd]);
+
+  useEffect(() => setRawValue(amount.toString()), [amount]);
 
   return { rawValue, setRawValue, value };
 };
