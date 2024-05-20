@@ -5,12 +5,8 @@ import { useSwitchNetworkMutation } from 'modules/common/actions/switchNetwork';
 import { useWalletNetworkId } from 'domains/wallet/hooks/useWalletNetworkId';
 import { setProviderNetworkId } from 'domains/wallet/utils/setProviderNetworkId';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { ECurrency } from 'modules/billing/types';
 
-export const useNetworkGuard = (
-  selectedNetwork: EBlockchain,
-  currency: ECurrency,
-) => {
+export const useNetworkGuard = (selectedNetwork: EBlockchain) => {
   const dispatch = useAppDispatch();
   const [handleSwitchNetwork, { isLoading: isSwitchNetworkLoading }] =
     useSwitchNetworkMutation();
@@ -25,7 +21,7 @@ export const useNetworkGuard = (
     }
 
     return selectedNetworkId !== networkId;
-  }, [currency, networkId, selectedNetworkId, dispatch]);
+  }, [networkId, selectedNetworkId, dispatch]);
 
   return {
     isWrongNetwork,
