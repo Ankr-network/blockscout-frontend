@@ -51,6 +51,7 @@ import okxX1IconDark from './darkModeIcons/okx.svg';
 import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
 import availIcon from './icons/avail.svg';
+import telosIcon from './icons/telos.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -87,6 +88,7 @@ import coreIconDark from './darkModeIcons/core.svg';
 import seiIconDark from './darkModeIcons/sei.svg';
 import klaytnIconDark from './darkModeIcons/klaytn.svg';
 import availIconDark from './darkModeIcons/avail.svg';
+import telosIconDark from './darkModeIcons/telos.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -258,6 +260,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.TAIKO]: taikoIcon,
   [ChainID.TAIKO_HEKLA]: taikoIcon,
+  [ChainID.TELOS]: telosIcon,
 
   [ChainID.TRON]: tronIcon,
   [ChainID.TRON_JSON_RPC]: tronIcon,
@@ -343,6 +346,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.SYSCOIN]: syscoinIconDark,
   [ChainID.TAIKO]: taikoIconDark,
   [ChainID.TAIKO_HEKLA]: taikoIconDark,
+  [ChainID.TELOS]: telosIconDark,
   [ChainID.SCROLL]: scrollIconDark,
   [ChainID.SCROLL_TESTNET]: scrollIconDark,
   [ChainID.SCROLL_SEPOLIA_TESTNET]: scrollIconDark,

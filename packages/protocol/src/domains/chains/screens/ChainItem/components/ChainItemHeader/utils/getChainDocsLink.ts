@@ -39,6 +39,7 @@ const chainIdToDocsChainIdMap: Partial<Record<ChainID, string>> = {
   [ChainID.MANTLE]: 'mantle',
   [ChainID.HORIZEN]: 'horizen-eon',
   [ChainID.BASE]: 'base',
+  [ChainID.TAIKO]: 'taiko',
 };
 
 const protocolChainIdToDocsChainIdMap: Partial<Record<ChainID, string>> = {
