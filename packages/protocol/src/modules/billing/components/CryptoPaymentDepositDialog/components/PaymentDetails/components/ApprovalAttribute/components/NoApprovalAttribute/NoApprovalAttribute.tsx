@@ -14,6 +14,7 @@ export interface INoApprovalAttributeProps {
   feeCrypto: number;
   feeUSD: number;
   network: EBlockchain;
+  txURL?: string;
   status?: ECryptoDepositStepStatus;
 }
 
@@ -24,6 +25,7 @@ export const NoApprovalAttribute = ({
   feeCrypto,
   feeUSD,
   network,
+  txURL,
   status,
 }: INoApprovalAttributeProps) => {
   const alertProps = getAlertProps({ error, status });
@@ -37,6 +39,7 @@ export const NoApprovalAttribute = ({
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}
         isApproximate
+        txURL={txURL}
         network={network}
       />
     </TxAttribute>

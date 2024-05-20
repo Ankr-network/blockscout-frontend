@@ -7,6 +7,7 @@ import { useTxDetails } from 'domains/account/hooks/useTxDetails';
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
 
+/* eslint-disable max-lines-per-function */
 export const useCryptoPaymentSuccessDialog = ({
   allowanceTxHash,
   amount,

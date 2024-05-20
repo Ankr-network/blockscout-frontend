@@ -7,6 +7,7 @@ import { useAnkrAllowanceFee } from 'domains/account/hooks/useANKRAllowanceFee';
 import { useUsdcAllowanceFee } from 'domains/account/hooks/useUSDCAllowanceFee';
 import { useUsdtAllowanceFee } from 'domains/account/hooks/useUSDTAllowanceFee';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 
 export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   amount: number;
@@ -15,6 +16,7 @@ export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   price: string;
   tokenAddress: Web3Address;
   tokenDecimals: number;
+  txHash?: string;
 }
 
 export const useEstimatedCryptoAllowanceFeeDetails = ({
@@ -24,6 +26,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
   price,
   tokenAddress,
   tokenDecimals,
+  txHash,
 }: IUseEstimatedCryptoAllowanceFeeDetailsProps) => {
   const { hasWeb3Service } = useWeb3Service();
 
@@ -81,8 +84,9 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     () => ({
       feeCrypto: fee,
       feeUSD: new BigNumber(fee).multipliedBy(price).toNumber(),
+      txURL: txHash ? getTxExplorerUrl(txHash) : undefined,
     }),
-    [fee, price],
+    [fee, price, txHash],
   );
 
   return { approvalFeeDetails, isLoading };

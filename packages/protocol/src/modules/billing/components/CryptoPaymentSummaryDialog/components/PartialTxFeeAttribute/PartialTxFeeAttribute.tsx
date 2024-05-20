@@ -13,7 +13,7 @@ export interface IPartialTxFeeAttributeProps {
 }
 
 export const PartialTxFeeAttribute = ({
-  feeDetails: { feeCrypto, feeUSD },
+  feeDetails: { feeCrypto, feeUSD, txURL },
   label,
   network,
 }: IPartialTxFeeAttributeProps) => {
@@ -28,6 +28,7 @@ export const PartialTxFeeAttribute = ({
         feeUSD={feeUSD}
         isApproximate
         network={network}
+        txURL={txURL}
       />
     </TxAttribute>
   );

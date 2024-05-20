@@ -21,7 +21,7 @@ const labelKey = 'account.payment-flow.steps.deposit.title';
 
 export const DepositAttribute = ({
   error,
-  feeDetails: { feeCrypto, feeUSD },
+  feeDetails: { feeCrypto, feeUSD, txURL },
   network,
   status,
 }: IDepositAttributeProps) => {
@@ -37,6 +37,7 @@ export const DepositAttribute = ({
       <FeeAmount
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}
+        txURL={txURL}
         isApproximate
         network={network}
       />
