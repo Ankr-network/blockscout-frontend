@@ -24,9 +24,12 @@ export const useWalletAccountUSDCBalance = ({
 }: IUseWalletAccountUSDCBalanceProps) => {
   const { hasWeb3Service } = useWeb3Service();
 
-  useFetchWalletAccountUSDCBalanceQuery(queryParams, {
-    skip: skipFetching || !hasWeb3Service,
-  });
+  const { refetch: refetchUSDCBalance } = useFetchWalletAccountUSDCBalanceQuery(
+    queryParams,
+    {
+      skip: skipFetching || !hasWeb3Service,
+    },
+  );
 
   const usdcBalance = useAppSelector(state =>
     selectWalletAccountUSDCBalance(state, queryParams),
@@ -38,5 +41,5 @@ export const useWalletAccountUSDCBalance = ({
     selectWalletAccountUSDCBalanceLoading(state, queryParams),
   );
 
-  return { usdcBalance, isFetching, isLoading };
+  return { usdcBalance, isFetching, isLoading, refetchUSDCBalance };
 };

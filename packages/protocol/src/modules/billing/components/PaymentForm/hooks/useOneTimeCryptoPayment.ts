@@ -52,7 +52,7 @@ export const useOneTimeCryptoPayment = ({
   const {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
     approvalFeeDetails,
     isAllowanceFeeLoading,
     depositFeeDetails,
@@ -116,7 +116,7 @@ export const useOneTimeCryptoPayment = ({
     onClose: onCryptoPaymentFlowClose,
     onConfirmButtonClick: handleCryptoPaymentDepositDialogOpen,
     onConnectAccountSuccess,
-    onOpen: refetchANKRBalance,
+    onOpen: refetchBalances,
     setIsAccountChangedOnDepositStep,
     totalAmount,
     networkOptions,

@@ -1,5 +1,5 @@
 import { EBlockchain, Web3Address } from 'multirpc-sdk';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { ECurrency } from 'modules/billing/types';
 import { useWalletAccountANKRBalance } from 'domains/account/hooks/useWalletAccountANKRBalance';
@@ -38,6 +38,7 @@ export const useHasEnoughTokenBalance = ({
     usdtBalance,
     isLoading: isWalletUsdtTokenBalanceLoading,
     isFetching: isWalletUsdtTokenBalanceFetching,
+    refetchUSDTBalance,
   } = useWalletAccountUSDTBalance({
     depositContractAddress,
     tokenAddress,
@@ -54,6 +55,7 @@ export const useHasEnoughTokenBalance = ({
     usdcBalance,
     isLoading: isWalletUsdcTokenBalanceLoading,
     isFetching: isWalletUsdcTokenBalanceFetching,
+    refetchUSDCBalance,
   } = useWalletAccountUSDCBalance({
     depositContractAddress,
     tokenAddress,
@@ -101,9 +103,14 @@ export const useHasEnoughTokenBalance = ({
 
   const hasEnoughTokenBalance = tokenBalance >= amount;
 
+  const refetchBalances = useCallback(() => {
+    refetchUSDTBalance();
+    refetchUSDCBalance();
+    refetchANKRBalance();
+  }, []);
   return {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
   };
 };

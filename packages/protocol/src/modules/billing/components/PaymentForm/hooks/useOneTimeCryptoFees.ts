@@ -32,7 +32,7 @@ export const useOneTimeCryptoFees = ({
   const {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
   } = useHasEnoughTokenBalance({
     amount,
     currency,
@@ -67,7 +67,7 @@ export const useOneTimeCryptoFees = ({
   return {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
     approvalFeeDetails,
     isAllowanceFeeLoading,
     depositFeeDetails,

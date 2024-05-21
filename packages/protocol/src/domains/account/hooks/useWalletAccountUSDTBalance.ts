@@ -22,7 +22,9 @@ export const useWalletAccountUSDTBalance = ({
   skipFetching = false,
   ...queryParams
 }: IUseWalletAccountUSDTBalanceProps) => {
-  useFetchWalletAccountUSDTBalanceQuery(skipFetching ? skipToken : queryParams);
+  const { refetch: refetchUSDTBalance } = useFetchWalletAccountUSDTBalanceQuery(
+    skipFetching ? skipToken : queryParams,
+  );
 
   const usdtBalance = useAppSelector(state =>
     selectWalletAccountUSDTBalance(state, queryParams),
@@ -36,5 +38,5 @@ export const useWalletAccountUSDTBalance = ({
     selectWalletAccountUSDTBalanceLoading(state, queryParams),
   );
 
-  return { usdtBalance, isFetching, isLoading };
+  return { usdtBalance, isFetching, isLoading, refetchUSDTBalance };
 };

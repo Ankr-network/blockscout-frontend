@@ -22,6 +22,8 @@ export const getReadProviderByNetwork = (
       return AvailableReadProviders.polygonZkEVM;
     case EBlockchain.arbitrum:
       return AvailableReadProviders.arbitrum;
+    case EBlockchain.arbitrum_sepolia:
+      return AvailableReadProviders.arbitrumSepoliaTestnet;
     case EBlockchain.optimism:
       return AvailableReadProviders.optimism;
     case EBlockchain.optimism_testnet:
