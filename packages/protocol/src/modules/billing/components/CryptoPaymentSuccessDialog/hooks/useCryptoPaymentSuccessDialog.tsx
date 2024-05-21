@@ -74,6 +74,7 @@ export const useCryptoPaymentSuccessDialog = ({
           ? {
               feeCrypto: approvalFee,
               feeUSD: approvalFeeUsd,
+              txURL: allowanceTxHash,
             }
           : undefined,
         currency,
@@ -91,6 +92,7 @@ export const useCryptoPaymentSuccessDialog = ({
       }),
       [
         amount,
+        allowanceTxHash,
         approvalFee,
         approvalFeeUsd,
         currency,
