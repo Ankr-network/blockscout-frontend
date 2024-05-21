@@ -85,30 +85,35 @@ export const TxDetails = ({
         onNetworkChange={onNetworkChange}
       />
 
-      <Placeholder
-        hasPlaceholder={isWalletTokenBalanceLoading}
-        placeholder={<OverlaySpinner size={58} />}
-      >
-        <Placeholder
-          hasPlaceholder={hasConnectedAddress && !hasEnoughTokenBalance}
-          placeholder={<InsufficientBalanceAlert />}
-        >
-          <TxFees
-            approvalFeeDetails={approvalFeeDetails}
-            depositFeeDetails={depositFeeDetails}
-            isWalletConnected={hasConnectedAddress}
-            network={network}
-          />
-        </Placeholder>
-      </Placeholder>
-      {hasConnectedAddress && hasEnoughTokenBalance && (
-        <TotalPaymentInfo
-          amount={amount}
-          currency={currency}
-          feeDetails={totalFeeDetails}
-          network={network}
-          totalAmount={totalAmount}
-        />
+      {network && (
+        <>
+          <Placeholder
+            hasPlaceholder={isWalletTokenBalanceLoading}
+            placeholder={<OverlaySpinner size={58} />}
+          >
+            <Placeholder
+              hasPlaceholder={hasConnectedAddress && !hasEnoughTokenBalance}
+              placeholder={<InsufficientBalanceAlert />}
+            >
+              <TxFees
+                approvalFeeDetails={approvalFeeDetails}
+                depositFeeDetails={depositFeeDetails}
+                isWalletConnected={hasConnectedAddress}
+                network={network}
+              />
+            </Placeholder>
+          </Placeholder>
+
+          {hasConnectedAddress && hasEnoughTokenBalance && (
+            <TotalPaymentInfo
+              amount={amount}
+              currency={currency}
+              feeDetails={totalFeeDetails}
+              network={network}
+              totalAmount={totalAmount}
+            />
+          )}
+        </>
       )}
     </SeparatedList>
   );

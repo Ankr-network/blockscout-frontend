@@ -92,10 +92,10 @@
     web3-utils "1.7.0"
     web3modal "^1.9.4"
 
-"@ankr.com/provider@^4.8.0":
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-4.8.0.tgz#5c5fbdb691742297f6be8b714eedfba6b08ba022"
-  integrity sha512-R1h/c3tn+LuwEgWqX3s9D9TX/pJnmhMqQX2ea0zbQAo4BHjqOPUyFDpH/o4MpFKY3AKJYxjhA9CURsm/4uWqUQ==
+"@ankr.com/provider@^4.20.0":
+  version "4.20.0"
+  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-4.20.0.tgz#fcb2365a6c048b8bd24603ec09b99ec5c1b9fff2"
+  integrity sha512-EJ9OwZYbyu8Aa0zGf7EHx0NiLrisJHuK8hbu/vu/QZnnzU60s5Fyw1bBMuZX/vzeObEutmBuS3L032yXgM6Gag==
   dependencies:
     "@binance-chain/bsc-connector" "^1.0.0"
     "@coinbase/wallet-sdk" "^3.5.2"

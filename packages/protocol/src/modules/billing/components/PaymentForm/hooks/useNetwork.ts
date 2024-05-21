@@ -28,6 +28,7 @@ export const useNetwork = (currency: ECurrency) => {
           .map(token => token.token_symbol)
           .includes(currency as unknown as Token),
       )
+      .sort((a, b) => a.blockchain.localeCompare(b.blockchain))
       .map(option => ({
         value: option.blockchain,
       }));

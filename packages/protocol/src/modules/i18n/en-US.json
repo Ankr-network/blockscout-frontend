@@ -1847,7 +1847,8 @@
       "rollux": "Rollux",
       "scroll": "Scroll",
       "syscoin": "Syscoin",
-      "base": "Base"
+      "base": "Base",
+      "placeholder": "Select network"
     },
     "amounts": {
       "crypto": "{amount, number} {currency}",
