@@ -101,6 +101,17 @@ export const accountTopUpSlice = createSlice({
     resetTopUpOrigin: state => {
       state.topUpOrigin = undefined;
     },
+    resetAllowanceTxHash: (
+      state,
+      action: PayloadAction<ISetTransactionPayload>,
+    ) => {
+      const address = action.payload.address.toLowerCase();
+
+      state[address] = {
+        ...state[address],
+        allowanceTransactionHash: undefined,
+      };
+    },
     resetTransaction: (
       state,
       action: PayloadAction<ISetTransactionPayload>,
@@ -150,4 +161,5 @@ export const {
   setTopUpTransaction,
   setTransactionCurrency,
   setTransactionNetwork,
+  resetAllowanceTxHash,
 } = accountTopUpSlice.actions;
