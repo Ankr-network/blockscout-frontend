@@ -66,6 +66,10 @@ export const useMetatags = (
       'meta-description',
     ) as HTMLMetaElement;
 
+    const keywordsTag = document.getElementById(
+      'meta-keywords',
+    ) as HTMLMetaElement;
+
     const ogTitle = document.getElementById('meta-og-title') as HTMLMetaElement;
     const ogDescription = document.getElementById(
       'meta-og-description',
@@ -111,11 +115,16 @@ export const useMetatags = (
       : t(`meta.${location}description`, {
           chainId: name,
         });
+    const keywordsKey = keys[pathname]?.keywords;
 
     document.title = title;
 
     if (descriptionTag) {
       descriptionTag.content = description;
+    }
+
+    if (keywordsTag && keywordsKey) {
+      keywordsTag.content = t(keywordsKey);
     }
 
     if (ogTitle) {
