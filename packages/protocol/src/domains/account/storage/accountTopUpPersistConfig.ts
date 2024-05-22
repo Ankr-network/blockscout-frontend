@@ -12,7 +12,6 @@ export const accountTopUpPersistConfig = {
           ? state[address]
           : {
               ...state[address],
-              isProcessing: false,
               amount: new BigNumber(state[address]?.amount ?? 0),
             };
     });

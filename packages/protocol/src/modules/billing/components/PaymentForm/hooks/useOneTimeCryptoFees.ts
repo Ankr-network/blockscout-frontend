@@ -1,30 +1,37 @@
 import { EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/billing/types';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectPaymentOptionsByNetwork } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
-import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 import { useEstimatedCryptoAllowanceFeeDetails } from './useEstimatedCryptoAllowanceFeeDetails';
 import { useEstimatedCryptoDepositFeeDetails } from './useEstimatedCryptoDepositFeeDetails';
+import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 
 interface IOneTimeCryptoFees {
+  allowanceTxHash?: string;
   amount: number;
   currency: ECurrency;
-  network: EBlockchain;
-  price: string;
-  allowanceTxHash?: string;
   depositTxHash?: string;
+  network: EBlockchain;
 }
 
 export const useOneTimeCryptoFees = ({
+  allowanceTxHash,
   amount,
   currency,
-  network,
-  price,
-  allowanceTxHash,
   depositTxHash,
+  network,
 }: IOneTimeCryptoFees) => {
+  const { hasWeb3Service } = useWeb3Service();
+
+  const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
+    network,
+    skipFetching: !hasWeb3Service,
+  });
+
   const {
     depositContractAddress = '',
     tokenAddress = '',
@@ -67,13 +74,18 @@ export const useOneTimeCryptoFees = ({
       txHash: depositTxHash,
     });
 
+  const isLoading =
+    isAllowanceFeeLoading ||
+    isDepositFeeLoading ||
+    isNativeTokenPriceLoading ||
+    isWalletTokenBalanceLoading;
+
   return {
+    approvalFeeDetails,
+    depositFeeDetails,
     hasEnoughTokenBalance,
+    isLoading,
     isWalletTokenBalanceLoading,
     refetchANKRBalance,
-    approvalFeeDetails,
-    isAllowanceFeeLoading,
-    depositFeeDetails,
-    isDepositFeeLoading,
   };
 };
