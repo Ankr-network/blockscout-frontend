@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 
 import { IAmount } from 'modules/billing/types';
+import { PromoLabel } from 'modules/common/components/PromoLabel/PromoLabel';
 
 import { useDealAmountStyles } from './useDealAmountStyles';
 
@@ -39,11 +40,10 @@ export const DealAmount = ({
           {title}
         </Typography>
 
-        <div className={classes.labelWrapper}>
-          <Typography className={classes.label} variant="body3">
-            {t('account.payment-form.deal-proposal.label')}
-          </Typography>
-        </div>
+        <PromoLabel
+          label={t('account.payment-form.deal-proposal.label')}
+          className={classes.labelWrapper}
+        />
 
         <Typography
           className={classes.amount}

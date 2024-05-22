@@ -12,7 +12,7 @@ import { TxAttribute } from 'modules/billing/components/TxAttribute';
 import { renderCryptoAmount } from 'modules/billing/utils/renderCryptoAmount';
 
 import { ApprovalAtrribute } from './components/ApprovalAttribute';
-import { renderAmountLabel } from './utils/renderAmountLabel';
+import { AmountLabel } from './components/AmountLabel/AmountLabel';
 import { useTxDetailsStyles } from './useTxDetailsStyles';
 
 type TApprovalFields = 'approvalFee' | 'approvalFeeUSD' | 'approvalTxURL';
@@ -43,7 +43,7 @@ export const TxDetails = ({
         {t('account.success-crypto-payment-dialog.transaction-title')}
       </Typography>
       <SeparatedList>
-        <TxAttribute label={renderAmountLabel(paymentType)}>
+        <TxAttribute label={<AmountLabel paymentType={paymentType} />}>
           {renderCryptoAmount({ amount, currency })}
         </TxAttribute>
         {approvalFeeDetails && (

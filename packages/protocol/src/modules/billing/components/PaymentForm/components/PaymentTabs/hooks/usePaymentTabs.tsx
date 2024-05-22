@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
+import { t } from '@ankr.com/common';
 
 import { EPaymentType } from 'modules/billing/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
-import { renderPaymentTypeTitle } from 'modules/billing/utils/renderPaymentTypeTitle';
+import { PaymentTypeTitle } from 'modules/billing/components/PaymentForm/components/PaymentTypeTitle/PaymentTypeTitle';
 import { renderPaymentTypeTooltip } from 'modules/billing/utils/renderPaymentTypeTooltip';
 
 import { PaymentTab } from '../../PaymentTab';
@@ -21,7 +22,7 @@ export const usePaymentTabs = ({
         title: (isSelected: boolean) => (
           <PaymentTab
             isSelected={isSelected}
-            label={renderPaymentTypeTitle({
+            label={PaymentTypeTitle({
               isCapitalized: true,
               paymentType: EPaymentType.Recurring,
             })}
@@ -34,7 +35,7 @@ export const usePaymentTabs = ({
         title: (isSelected: boolean) => (
           <PaymentTab
             isSelected={isSelected}
-            label={renderPaymentTypeTitle({
+            label={PaymentTypeTitle({
               isCapitalized: true,
               paymentType: EPaymentType.OneTime,
             })}
@@ -47,9 +48,10 @@ export const usePaymentTabs = ({
         title: (isSelected: boolean) => (
           <PaymentTab
             isSelected={isSelected}
-            label={renderPaymentTypeTitle({
+            label={PaymentTypeTitle({
               isCapitalized: true,
               paymentType: EPaymentType.Deal,
+              promo: t('account.payment-form.deal-proposal.label'),
             })}
           />
         ),

@@ -1,4 +1,5 @@
 import { CreditCard, CryptoWalletIcon } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
 import { ECurrency } from 'modules/billing/types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -40,8 +41,14 @@ export const getCurrencyTabs = ({
         isDisabled={isDisabled}
         isSelected={isSelected}
         label={renderCurrencyLabel(ECurrency.ANKR)}
+        promo={
+          isDisabled ? undefined : t('account.currencies.additional.ankr-promo')
+        }
       />
     ),
+    tooltip: disabledCurrencies?.includes(ECurrency.ANKR)
+      ? undefined
+      : t('account.currencies.additional.ankr-tooltip'),
   },
   {
     id: ECurrencyTab.STABLECOIN,

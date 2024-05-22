@@ -9,16 +9,14 @@ import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 import { INetworkSelectOption } from '../../NetworkSelect';
 
 export const useNetwork = (currency: ECurrency) => {
-  const [network, setNetwork] = useState(EBlockchain.eth);
-
-  const isANKRCurrencyActive = currency === ECurrency.ANKR;
+  const [network, setNetwork] = useState(ANKR_TOP_UP_NETWORK);
 
   const paymentOptionsData = useAppSelector(selectPaymentOptions);
 
   const networkOptions: INetworkSelectOption[] = useMemo(() => {
     const paymentOptions = paymentOptionsData?.result.options ?? [];
 
-    if (isANKRCurrencyActive) {
+    if (currency === ECurrency.ANKR) {
       return [{ value: ANKR_TOP_UP_NETWORK }];
     }
 
@@ -32,17 +30,13 @@ export const useNetwork = (currency: ECurrency) => {
       .map(option => ({
         value: option.blockchain,
       }));
-  }, [currency, paymentOptionsData, isANKRCurrencyActive]);
+  }, [currency, paymentOptionsData]);
 
   useEffect(() => {
     if (networkOptions.length) {
       setNetwork(networkOptions[0].value);
     }
-
-    if (isANKRCurrencyActive) {
-      setNetwork(ANKR_TOP_UP_NETWORK);
-    }
-  }, [currency, networkOptions, isANKRCurrencyActive]);
+  }, [networkOptions]);
 
   const handleNetworkChange = useCallback(
     (newNetwork: EBlockchain) => setNetwork(newNetwork),

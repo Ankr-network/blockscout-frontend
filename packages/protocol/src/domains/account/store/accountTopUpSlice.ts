@@ -90,14 +90,6 @@ export const accountTopUpSlice = createSlice({
         network: action.payload.network,
       };
     },
-    setIsProcessing: (state, action: PayloadAction<ISetTransactionPayload>) => {
-      const address = action.payload.address.toLowerCase();
-
-      state[address] = {
-        ...state[address],
-        isProcessing: action.payload.isProcessing,
-      };
-    },
     resetTopUpOrigin: state => {
       state.topUpOrigin = undefined;
     },
@@ -120,10 +112,7 @@ export const accountTopUpSlice = createSlice({
 
       const authAddressTx = state[authAddress.toLowerCase()];
 
-      state[depositAddress.toLowerCase()] = {
-        ...authAddressTx,
-        isProcessing: true,
-      };
+      state[depositAddress.toLowerCase()] = { ...authAddressTx };
     },
     setIsConfirmed: (state, action: PayloadAction<ISetTransactionPayload>) => {
       const address = action.payload.address.toLowerCase();
@@ -145,7 +134,6 @@ export const {
   setAmountToDeposit,
   setApprovedAmount,
   setIsConfirmed,
-  setIsProcessing,
   setTopUpOrigin,
   setTopUpTransaction,
   setTransactionCurrency,

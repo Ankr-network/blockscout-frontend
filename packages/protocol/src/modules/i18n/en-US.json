@@ -1830,7 +1830,11 @@
       "flr": "FLR",
       "sys": "SYS",
       "usdt": "USDT/USDC",
-      "usdc": "USDT/USDC"
+      "usdc": "USDT/USDC",
+      "additional": {
+        "ankr-promo": "Save 10%",
+        "ankr-tooltip": "Get 10％ more API credits paying in ANKR"
+      }
     },
     "networks": {
       "label": "Network",
@@ -1867,13 +1871,13 @@
     "payment-types": {
       "one-time": {
         "title": "{isCapitalized, select, true {O} other {o}}ne-time",
-        "payment-summary-title": "One-time payment",
+        "payment-summary-title": "One-time",
         "payment-summary-description": "One-time Pay-as-you-go balance payment",
         "tooltip": "Single Pay-as-you-go balance payment"
       },
       "recurring": {
         "title": "{isCapitalized, select, true {R} other {r}}ecurring",
-        "payment-summary-title": "Recurring payment",
+        "payment-summary-title": "Recurring",
         "payment-summary-description": "Monthly-repeating Pay-as-you-go balance payment",
         "tooltip": "Monthly-repeating Pay-as-you-go balance payment"
       },
@@ -1915,7 +1919,7 @@
       "switch-button": "Switch"
     },
     "success-crypto-payment-dialog": {
-      "amount-label": "{paymentType} balance top-up",
+      "amount-label": "balance top-up",
       "approval-label": "Approval",
       "deposit-label": "Deposit",
       "from-title": "From",

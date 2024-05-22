@@ -23,9 +23,13 @@ export const useNativeTokenPrice = ({
 }: IUseNativeTokenPriceParams) => {
   useFetchNativeTokenPriceQuery(skipFetching ? skipToken : { network });
 
-  const price = useAppSelector(selectNativeTokenPrice);
-  const isLoading = useAppSelector(selectNativeTokenPriceLoading);
-  const isFetching = useAppSelector(selectNativeTokenPriceFetching);
+  const price = useAppSelector(state => selectNativeTokenPrice(state, network));
+  const isLoading = useAppSelector(state =>
+    selectNativeTokenPriceLoading(state, network),
+  );
+  const isFetching = useAppSelector(state =>
+    selectNativeTokenPriceFetching(state, network),
+  );
 
   return { isFetching, isLoading, price };
 };

@@ -5,7 +5,6 @@ import {
   ISubscriptionsItem,
   MyBundleStatusCounter,
   MyBundleStatus,
-  Web3Address,
   EBlockchain,
   Token,
 } from 'multirpc-sdk';
@@ -748,7 +747,8 @@ export const selectTokenPriceLoading = createSelector(
 );
 
 export const selectNativeTokenPriceState = createSelector(
-  fetchNativeTokenPrice.select(undefined as never),
+  (state: RootState, network: EBlockchain) =>
+    fetchNativeTokenPrice.select({ network })(state),
   state => state,
 );
 
@@ -830,12 +830,6 @@ export const selectUSDCDepositFeeFetching = createSelector(
 export const selectUSDCDepositFeeLoading = createSelector(
   selectUSDCDepositFeeState,
   ({ isLoading }) => isLoading,
-);
-
-export const selectHasProcessingTransaction = createSelector(
-  (state: RootState, address?: Web3Address) =>
-    address ? selectTransaction(state, address) : undefined,
-  transaction => Boolean(transaction && transaction.isProcessing),
 );
 
 export const selectPaymentOptionsState = createSelector(

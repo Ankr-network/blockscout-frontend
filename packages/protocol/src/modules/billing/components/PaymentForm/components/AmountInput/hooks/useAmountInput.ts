@@ -9,6 +9,7 @@ import { IAmountInputProps } from '../AmountInput';
 import { formatAmountRawValue } from '../utils/formatAmountRawValue';
 import { useInputError } from './useInputError';
 import { useInputValue } from './useInputValue';
+import { ANKR_PROMO_EXTRA_REQUESTS_RATE } from '../const';
 
 export interface IUseAmountInputProps {
   amount: number;
@@ -39,10 +40,12 @@ export const useAmountInput = ({
     currency,
   });
 
-  const requests = useMemo(
-    () => getRequestsByUSDAmount(amountUsd),
-    [amountUsd],
-  );
+  const requests = useMemo(() => {
+    const extraRequestsRate =
+      currency === ECurrency.ANKR ? ANKR_PROMO_EXTRA_REQUESTS_RATE : 1;
+
+    return getRequestsByUSDAmount(amountUsd, extraRequestsRate);
+  }, [amountUsd, currency]);
 
   const { rawValue, setRawValue, value } = useInputValue({
     amount,

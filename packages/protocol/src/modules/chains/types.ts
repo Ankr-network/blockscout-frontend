@@ -250,6 +250,7 @@ export enum ChainID {
 
   TAIKO = 'taiko',
   TAIKO_HEKLA = 'taiko_hekla',
+  TELOS = 'telos',
   TRON = 'tron',
   TRON_JSON_RPC = 'tron_jsonrpc',
 

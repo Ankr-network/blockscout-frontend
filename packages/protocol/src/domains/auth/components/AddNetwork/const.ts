@@ -750,6 +750,17 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://explorer.hekla.taiko.xyz/'],
   },
 
+  [ChainID.TELOS]: {
+    chainId: 40,
+    chainName: 'Telos',
+    nativeCurrency: {
+      name: 'TLOS',
+      symbol: 'TLOS',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://teloscan.io'],
+  },
+
   [ChainID.SCROLL]: {
     chainId: 534352,
     chainName: 'Scroll Mainnet',
