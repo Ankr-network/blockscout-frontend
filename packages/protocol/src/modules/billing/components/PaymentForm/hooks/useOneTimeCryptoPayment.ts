@@ -73,6 +73,7 @@ export const useOneTimeCryptoPayment = ({
   const transaction = useSelectTopUpTransaction();
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
+  const txNetwork = transaction?.network;
 
   const { amountToDeposit, handleResetTopUpTransaction, handleResetDeposit } =
     useTopUp();
@@ -90,7 +91,7 @@ export const useOneTimeCryptoPayment = ({
     amount: amountToDeposit.toNumber(),
     currency,
     depositTxHash: depositTxHash ?? '',
-    network,
+    network: txNetwork ?? network,
     onClose: handleCryptoPaymentSuccessDialogClose,
     paymentType: EPaymentType.OneTime,
   });
