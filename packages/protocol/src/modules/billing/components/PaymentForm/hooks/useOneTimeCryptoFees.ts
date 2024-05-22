@@ -13,6 +13,8 @@ interface IOneTimeCryptoFees {
   currency: ECurrency;
   network: EBlockchain;
   price: string;
+  allowanceTxHash?: string;
+  depositTxHash?: string;
 }
 
 export const useOneTimeCryptoFees = ({
@@ -20,6 +22,8 @@ export const useOneTimeCryptoFees = ({
   currency,
   network,
   price,
+  allowanceTxHash,
+  depositTxHash,
 }: IOneTimeCryptoFees) => {
   const {
     depositContractAddress = '',
@@ -49,6 +53,7 @@ export const useOneTimeCryptoFees = ({
       price,
       tokenAddress,
       tokenDecimals,
+      txHash: allowanceTxHash,
     });
 
   const { depositFeeDetails, isLoading: isDepositFeeLoading } =
@@ -59,6 +64,7 @@ export const useOneTimeCryptoFees = ({
       depositContractAddress,
       tokenAddress,
       tokenDecimals,
+      txHash: depositTxHash,
     });
 
   return {

@@ -7,6 +7,7 @@ import { useANKRDepositFee } from 'domains/account/hooks/useANKRDepositFee';
 import { useUSDCDepositFee } from 'domains/account/hooks/useUSDCDepositFee';
 import { useUSDTDepositFee } from 'domains/account/hooks/useUSDTDepositFee';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 
 export interface IUseEstimatedCryptoDepositFeeDetailsParams {
   amount: number;
@@ -15,6 +16,7 @@ export interface IUseEstimatedCryptoDepositFeeDetailsParams {
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   tokenDecimals: number;
+  txHash?: string;
 }
 
 export const useEstimatedCryptoDepositFeeDetails = ({
@@ -24,6 +26,7 @@ export const useEstimatedCryptoDepositFeeDetails = ({
   depositContractAddress,
   tokenAddress,
   tokenDecimals,
+  txHash,
 }: IUseEstimatedCryptoDepositFeeDetailsParams) => {
   const { hasWeb3Service } = useWeb3Service();
 
@@ -80,8 +83,9 @@ export const useEstimatedCryptoDepositFeeDetails = ({
     () => ({
       feeCrypto: fee,
       feeUSD: new BigNumber(fee).multipliedBy(price).toNumber(),
+      txURL: txHash ? getTxExplorerUrl(txHash) : undefined,
     }),
-    [fee, price],
+    [fee, price, txHash],
   );
 
   return { depositFeeDetails, isLoading };

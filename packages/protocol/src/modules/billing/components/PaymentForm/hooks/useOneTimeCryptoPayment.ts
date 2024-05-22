@@ -29,6 +29,7 @@ export interface IUseOneTimeCryptoPaymentProps {
   onCryptoPaymentFlowClose: () => void;
 }
 
+/* eslint-disable max-lines-per-function */
 export const useOneTimeCryptoPayment = ({
   amount,
   currency,
@@ -49,6 +50,10 @@ export const useOneTimeCryptoPayment = ({
     skipFetching: !hasWeb3Service,
   });
 
+  const transaction = useSelectTopUpTransaction();
+  const depositTxHash = transaction?.topUpTransactionHash;
+  const allowanceTxHash = transaction?.allowanceTransactionHash;
+
   const {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
@@ -57,7 +62,14 @@ export const useOneTimeCryptoPayment = ({
     isAllowanceFeeLoading,
     depositFeeDetails,
     isDepositFeeLoading,
-  } = useOneTimeCryptoFees({ amount, currency, network, price });
+  } = useOneTimeCryptoFees({
+    amount,
+    currency,
+    network,
+    price,
+    depositTxHash,
+    allowanceTxHash,
+  });
 
   useAccountsChangedHandlingOnSummaryStep();
 
@@ -69,10 +81,6 @@ export const useOneTimeCryptoPayment = ({
       depositFeeDetails,
     },
   );
-
-  const transaction = useSelectTopUpTransaction();
-  const depositTxHash = transaction?.topUpTransactionHash;
-  const allowanceTxHash = transaction?.allowanceTransactionHash;
 
   const { amountToDeposit, handleResetTopUpTransaction, handleResetDeposit } =
     useTopUp();
