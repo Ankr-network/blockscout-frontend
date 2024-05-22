@@ -3,10 +3,8 @@ import { useCallback, useState } from 'react';
 
 import { ECurrency, EPaymentType } from 'modules/billing/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
 import { useSelectTopUpTransaction } from 'domains/account/hooks/useSelectTopUpTransaction';
 import { useTopUp } from 'domains/account/hooks/useTopUp';
-import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import { INetworkSelectOption } from '../../NetworkSelect';
 import { IOneTimeAmountProps } from '../components/OneTimeAmount';
@@ -21,54 +19,51 @@ import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 export interface IUseOneTimeCryptoPaymentProps {
   amount: number;
   currency: ECurrency;
+  handleNetworkChange: (network: EBlockchain) => void;
   network: EBlockchain;
   networkOptions: INetworkSelectOption[];
-  oneTimeAmountProps: IOneTimeAmountProps;
-  handleNetworkChange: (network: EBlockchain) => void;
   onConnectAccount: (connectedAddress: Web3Address) => void;
-  onCryptoPaymentFlowClose: () => void;
+  oneTimeAmountProps: IOneTimeAmountProps;
 }
 
-/* eslint-disable max-lines-per-function */
 export const useOneTimeCryptoPayment = ({
   amount,
-  currency,
-  network,
-  onConnectAccount: onConnectAccountSuccess,
-  onCryptoPaymentFlowClose,
-  networkOptions,
-  oneTimeAmountProps,
+  currency: formCurrency,
   handleNetworkChange,
+  network,
+  networkOptions,
+  onConnectAccount: onConnectAccountSuccess,
+  oneTimeAmountProps,
 }: IUseOneTimeCryptoPaymentProps) => {
   const [isAccountChangedOnDepositStep, setIsAccountChangedOnDepositStep] =
     useState(false);
 
-  const { hasWeb3Service } = useWeb3Service();
+  const {
+    amountToDeposit,
+    handleResetTopUpTransaction,
+    handleResetDeposit,
+    transactionCurrency,
+  } = useTopUp();
 
-  const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
-    network,
-    skipFetching: !hasWeb3Service,
-  });
+  const currency = transactionCurrency ?? formCurrency;
 
   const transaction = useSelectTopUpTransaction();
   const depositTxHash = transaction?.topUpTransactionHash;
   const allowanceTxHash = transaction?.allowanceTransactionHash;
 
   const {
-    hasEnoughTokenBalance,
-    isWalletTokenBalanceLoading,
-    refetchANKRBalance,
     approvalFeeDetails,
-    isAllowanceFeeLoading,
     depositFeeDetails,
-    isDepositFeeLoading,
+    hasEnoughTokenBalance,
+    isLoading: cryptoFeesLoading,
+    refetchANKRBalance,
+    isWalletTokenBalanceLoading,
   } = useOneTimeCryptoFees({
+    allowanceTxHash,
     amount,
     currency,
-    network,
-    price,
     depositTxHash,
-    allowanceTxHash,
+    network,
   });
 
   useAccountsChangedHandlingOnSummaryStep();
@@ -81,9 +76,6 @@ export const useOneTimeCryptoPayment = ({
       depositFeeDetails,
     },
   );
-
-  const { amountToDeposit, handleResetTopUpTransaction, handleResetDeposit } =
-    useTopUp();
 
   const handleCryptoPaymentSuccessDialogClose = useCallback(() => {
     handleResetTopUpTransaction();
@@ -121,7 +113,6 @@ export const useOneTimeCryptoPayment = ({
     hasEnoughTokenBalance,
     isAccountChangedOnDepositStep,
     isWalletTokenBalanceLoading,
-    onClose: onCryptoPaymentFlowClose,
     onConfirmButtonClick: handleCryptoPaymentDepositDialogOpen,
     onConnectAccountSuccess,
     onOpen: refetchANKRBalance,
@@ -158,12 +149,6 @@ export const useOneTimeCryptoPayment = ({
     cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryProps,
     handlePayButtonClick,
-    isLoading:
-      isNativeTokenPriceLoading ||
-      isAllowanceFeeLoading ||
-      isDepositFeeLoading ||
-      isLoadingRate ||
-      isTotalAmountLoading ||
-      isWalletTokenBalanceLoading,
+    isLoading: cryptoFeesLoading || isLoadingRate || isTotalAmountLoading,
   };
 };

@@ -12,7 +12,6 @@ export interface ITransaction {
   approvedAmount?: BigNumber; // deprecated (we are fetching this amount on the flight)
   currency?: ECurrency;
   isConfirmed?: boolean;
-  isProcessing?: boolean;
   network?: EBlockchain;
   topUpTransactionHash?: string;
 }

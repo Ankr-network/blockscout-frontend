@@ -60,7 +60,7 @@ export const useCryptoPaymentDepositDialogProps = ({
   const {
     amountToDeposit,
     handleResetAllowance: handleResetAllowanceState,
-    transactionCurrency,
+    handleResetTopUpTransaction,
   } = useTopUp();
 
   const {
@@ -77,6 +77,7 @@ export const useCryptoPaymentDepositDialogProps = ({
 
     if (shouldResetAllowanceState) {
       handleResetAllowanceState();
+      handleResetTopUpTransaction();
     }
 
     onCryptoPaymentDepositDialogClose();
@@ -86,6 +87,7 @@ export const useCryptoPaymentDepositDialogProps = ({
     isOngoingPaymentPending,
     handleResetAllowanceState,
     onCryptoPaymentDepositDialogClose,
+    handleResetTopUpTransaction,
   ]);
 
   const shouldRevokeApproval = useMemo(() => {
@@ -105,18 +107,17 @@ export const useCryptoPaymentDepositDialogProps = ({
   }, [fetchMyAllowance]);
 
   return {
-    myAllowance,
+    amountToDeposit,
+    handleSwitchNetwork,
+    hasOngoingTransaction,
+    isAllowanceSent,
     isMyAllowanceLoading,
     isOngoingPaymentError,
-    isWrongNetwork,
-    shouldRevokeApproval,
-    handleSwitchNetwork,
     isSwitchNetworkLoading,
-    isAllowanceSent,
-    amountToDeposit,
-    transactionCurrency,
-    hasOngoingTransaction,
-    onClose,
+    isWrongNetwork,
+    myAllowance,
     onCheckApproval,
+    onClose,
+    shouldRevokeApproval,
   };
 };
