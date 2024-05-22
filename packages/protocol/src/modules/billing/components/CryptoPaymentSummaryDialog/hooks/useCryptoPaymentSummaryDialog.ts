@@ -22,7 +22,6 @@ import { IOneTimeAmountProps } from '../../PaymentForm/components/OneTimeAmount'
 export interface IUseCryptoPaymentSummaryDialogProps
   extends ICryptoPaymentSummaryDialogCommonProps {
   oneTimeAmountProps: IOneTimeAmountProps;
-  onClose?: () => void;
   onConfirmButtonClick: () => void;
   onConnectAccountSuccess: (connectedAddress: Web3Address) => void;
   onOpen?: () => void;
@@ -32,7 +31,6 @@ export interface IUseCryptoPaymentSummaryDialogProps
 export const useCryptoPaymentSummaryDialog = ({
   amount,
   currency,
-  onClose: handleCloseExternal,
   onConfirmButtonClick: handleConfirmButtonClick,
   onConnectAccountSuccess,
   onOpen: onOpenExternal,
@@ -81,9 +79,8 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onClose = useCallback(() => {
     handleClose();
-    handleCloseExternal?.();
     setIsAccountChangedOnDepositStep(false);
-  }, [handleClose, handleCloseExternal, setIsAccountChangedOnDepositStep]);
+  }, [handleClose, setIsAccountChangedOnDepositStep]);
 
   const onCancelButtonClick = onClose;
 

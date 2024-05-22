@@ -1,26 +1,33 @@
 import { EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/billing/types';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectPaymentOptionsByNetwork } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
-import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 import { useEstimatedCryptoAllowanceFeeDetails } from './useEstimatedCryptoAllowanceFeeDetails';
 import { useEstimatedCryptoDepositFeeDetails } from './useEstimatedCryptoDepositFeeDetails';
+import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 
 interface IOneTimeCryptoFees {
   amount: number;
   currency: ECurrency;
   network: EBlockchain;
-  price: string;
 }
 
 export const useOneTimeCryptoFees = ({
   amount,
   currency,
   network,
-  price,
 }: IOneTimeCryptoFees) => {
+  const { hasWeb3Service } = useWeb3Service();
+
+  const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
+    network,
+    skipFetching: !hasWeb3Service,
+  });
+
   const {
     depositContractAddress = '',
     tokenAddress = '',
@@ -62,12 +69,13 @@ export const useOneTimeCryptoFees = ({
     });
 
   return {
+    approvalFeeDetails,
+    depositFeeDetails,
     hasEnoughTokenBalance,
+    isAllowanceFeeLoading,
+    isDepositFeeLoading,
+    isNativeTokenPriceLoading,
     isWalletTokenBalanceLoading,
     refetchANKRBalance,
-    approvalFeeDetails,
-    isAllowanceFeeLoading,
-    depositFeeDetails,
-    isDepositFeeLoading,
   };
 };
