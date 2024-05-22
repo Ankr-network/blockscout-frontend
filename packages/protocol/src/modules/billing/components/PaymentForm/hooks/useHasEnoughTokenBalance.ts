@@ -107,7 +107,8 @@ export const useHasEnoughTokenBalance = ({
     refetchUSDTBalance();
     refetchUSDCBalance();
     refetchANKRBalance();
-  }, []);
+  }, [refetchUSDTBalance, refetchUSDCBalance, refetchANKRBalance]);
+
   return {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
