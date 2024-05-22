@@ -74,7 +74,7 @@ export const useCryptoPaymentSuccessDialog = ({
           ? {
               feeCrypto: approvalFee,
               feeUSD: approvalFeeUsd,
-              txURL: allowanceTxHash,
+              txURL: getTxExplorerUrl(allowanceTxHash),
             }
           : undefined,
         currency,
