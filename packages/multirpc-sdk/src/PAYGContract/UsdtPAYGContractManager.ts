@@ -12,6 +12,7 @@ import {
   IAllowanceParams,
   IDepositStablecoinToPAYGParams,
   IGetAllowanceFeeParams,
+  IGetAllowanceValueParams,
   IGetDepositStablecoinToPAYGFeeParams,
   ISetAllowanceParams,
   Web3Address,
@@ -248,12 +249,22 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
       tokenAddress,
     });
   }
+  async getAllowanceValue({
+    network,
+    depositContractAddress,
+    tokenAddress,
+  }: IGetAllowanceValueParams) {
+    const { currentAccount } = this.keyWriteProvider;
 
-  async getAllowanceValue(depositContractAddress: Web3Address) {
-    const provider = this.keyWriteProvider;
-    const { currentAccount } = provider;
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
 
-    const allowance = await (this.usdtTokenContract.methods as IUsdtToken)
+    const contract = provider.createContract(
+      ABI_USDT_TOKEN,
+      tokenAddress,
+    );
+
+    const allowance = await (contract.methods as IUsdtToken)
       .allowance(currentAccount, depositContractAddress)
       .call();
 
@@ -267,7 +278,11 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     tokenDecimals,
     depositContractAddress,
   }: IDepositStablecoinToPAYGParams): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
     this.throwErrorIfValueIsLessThanZero(amount);
     await this.throwErrorIfValueIsGreaterThanBalance({
@@ -335,7 +350,11 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     depositContractAddress,
     tokenDecimals,
   }: DepositTokenForUserParams): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
     await this.throwErrorIfValueIsGreaterThanBalance({

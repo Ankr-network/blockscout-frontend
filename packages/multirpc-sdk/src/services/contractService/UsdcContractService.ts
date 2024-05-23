@@ -11,7 +11,8 @@ import {
   IGetDepositStablecoinToPAYGFeeParams,
   ISetAllowanceParams,
   PrefixedHex,
-  Web3Address
+  Web3Address,
+  IGetAllowanceValueParams
 } from '../../common';
 import { UsdcPAYGContractManager } from '../../PAYGContract/UsdcPAYGContractManager';
 import { UsdcContractReadService } from './UsdcContractReadService';
@@ -119,12 +120,16 @@ export class USDCContractService extends UsdcContractReadService {
     return transactionReceipt;
   }
 
-  async getAllowanceValue(
-    depositContractAddress: Web3Address,
-  ): Promise<BigNumber> {
-    return this.usdcPAYGContractManager.getAllowanceValue(
+  async getAllowanceValue({
+    network,
+    depositContractAddress,
+    tokenAddress,
+  }: IGetAllowanceValueParams): Promise<BigNumber> {
+    return this.usdcPAYGContractManager.getAllowanceValue({
+      network,
       depositContractAddress,
-    );
+      tokenAddress,
+    });
   }
 
   async getLatestAllowanceEvent(

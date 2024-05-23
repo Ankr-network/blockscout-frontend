@@ -86,9 +86,11 @@ export const {
 
             if (receipt) {
               // get allowance for case when user has changed amount in metamask input
-              const allowanceValue = await contractService.getAllowanceValue(
+              const allowanceValue = await contractService.getAllowanceValue({
+                network,
+                depositContractAddress,
                 tokenAddress,
-              );
+              });
 
               dispatch(
                 setAllowanceTransaction({

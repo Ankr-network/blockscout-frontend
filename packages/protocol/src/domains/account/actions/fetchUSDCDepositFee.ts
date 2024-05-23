@@ -48,7 +48,6 @@ export const {
               network,
             });
 
-            // timofei remove it
             if (Number(balance) >= amount) {
               const contractService = web3Service.getUsdcContractService({
                 depositContractAddress,

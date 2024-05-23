@@ -4,7 +4,6 @@ import { ECurrency } from 'modules/billing/types';
 import { selectPaymentOptionsByNetwork } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
-import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import { useEstimatedCryptoAllowanceFeeDetails } from './useEstimatedCryptoAllowanceFeeDetails';
 import { useEstimatedCryptoDepositFeeDetails } from './useEstimatedCryptoDepositFeeDetails';
@@ -21,11 +20,8 @@ export const useOneTimeCryptoFees = ({
   currency,
   network,
 }: IOneTimeCryptoFees) => {
-  const { hasWeb3Service } = useWeb3Service();
-
   const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
     network,
-    skipFetching: !hasWeb3Service,
   });
 
   const {

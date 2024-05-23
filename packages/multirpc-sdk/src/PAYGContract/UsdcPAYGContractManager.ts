@@ -12,6 +12,7 @@ import {
   IAllowanceParams,
   IDepositStablecoinToPAYGParams,
   IGetAllowanceFeeParams,
+  IGetAllowanceValueParams,
   IGetDepositStablecoinToPAYGFeeParams,
   ISetAllowanceParams,
   Web3Address,
@@ -231,11 +232,22 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     });
   }
 
-  async getAllowanceValue(depositContractAddress: Web3Address) {
-    const provider = this.keyWriteProvider;
-    const { currentAccount } = provider;
+  async getAllowanceValue({
+    network,
+    depositContractAddress,
+    tokenAddress,
+  }: IGetAllowanceValueParams) {
+    const { currentAccount } = this.keyWriteProvider;
 
-    const allowance = await (this.usdcTokenReadContract.methods as IUsdcToken)
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDC_TOKEN,
+      tokenAddress,
+    );
+
+    const allowance = await (contract.methods as IUsdcToken)
       .allowance(currentAccount, depositContractAddress)
       .call();
 
@@ -249,7 +261,11 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     tokenDecimals,
     depositContractAddress,
   }: IDepositStablecoinToPAYGParams): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
     this.throwErrorIfValueIsLessThanZero(amount);
     await this.throwErrorIfValueIsGreaterThanBalance({ amount, network, tokenAddress });
@@ -303,7 +319,11 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     network,
     depositContractAddress,
   }: DepositTokenForUserParams): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
     await this.throwErrorIfValueIsGreaterThanBalance({

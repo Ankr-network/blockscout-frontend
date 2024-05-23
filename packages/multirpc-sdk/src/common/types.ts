@@ -241,6 +241,12 @@ export interface IGetDepositStablecoinToPAYGFeeParams {
   tokenDecimals: number
 }
 
+export interface IGetAllowanceValueParams {
+  network: EBlockchain;
+  depositContractAddress: Web3Address;
+  tokenAddress: Web3Address;
+}
+
 export interface IDepositStablecoinToPAYGForUserParams {
   amount: BigNumber;
   tokenDecimals: number;
