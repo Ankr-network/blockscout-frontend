@@ -1,4 +1,5 @@
 import { queryFnWrapper } from '@ankr.com/utils';
+import * as Sentry from '@sentry/react';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { extractMessage } from 'modules/common/utils/extractError';
@@ -12,6 +13,8 @@ import { isAxiosAccountingError } from './isAxiosAccountingError';
 import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
 import { isCustomError } from './isCustomError';
+
+const INVALID_ADDRESS_ERROR_TEXT = 'invalid address';
 
 export const makeNotification = (
   error: unknown,
@@ -54,6 +57,14 @@ export const shouldNotify = (error: unknown) => {
 
 export const createNotifyingQueryFn = queryFnWrapper({
   onNotification({ api: { dispatch }, error }) {
+    const shouldSendSentryException =
+      error instanceof Error &&
+      error.message.includes(INVALID_ADDRESS_ERROR_TEXT);
+
+    if (shouldSendSentryException) {
+      Sentry.captureException(error);
+    }
+
     if (shouldNotify(error)) {
       makeNotification(error, dispatch);
     }
