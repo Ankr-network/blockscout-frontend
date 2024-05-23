@@ -16,7 +16,7 @@ export const renderUSDFee = ({
 
   const shouldExpandDecimals = value.isLessThan(LOW_APPROXIMATE_LIMIT_USD);
 
-  const fee = value.toFixed(shouldExpandDecimals ? 4 : 2);
+  const fee = value.toFixed(shouldExpandDecimals ? 5 : 2);
 
   return t('account.amounts.fee.usd', { fee, isApproximate });
 };
