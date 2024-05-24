@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Web3Address } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 
 export interface IFetchUSDCAllowanceFeeParams {
@@ -20,7 +20,7 @@ export const {
     fetchUSDCAllowanceFee: build.query<number, IFetchUSDCAllowanceFeeParams>({
       providesTags: [RequestType.USDCAllowanceFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
             params: {
               amount,

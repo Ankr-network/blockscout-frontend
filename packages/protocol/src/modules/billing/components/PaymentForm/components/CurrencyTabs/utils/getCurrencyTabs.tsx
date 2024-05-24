@@ -41,9 +41,7 @@ export const getCurrencyTabs = ({
         isDisabled={isDisabled}
         isSelected={isSelected}
         label={renderCurrencyLabel(ECurrency.ANKR)}
-        promo={
-          isDisabled ? undefined : t('account.currencies.additional.ankr-promo')
-        }
+        promo={t('account.currencies.additional.ankr-promo')}
       />
     ),
     tooltip: disabledCurrencies?.includes(ECurrency.ANKR)

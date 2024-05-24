@@ -1,7 +1,7 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
@@ -18,7 +18,7 @@ export const {
   endpoints: build => ({
     topUpRejectAllowance: build.query<boolean, IApiUserGroupParams>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({ web3Service }, { dispatch, getState }) => {
             const address = getCurrentTransactionAddress(getState as GetState);
 
