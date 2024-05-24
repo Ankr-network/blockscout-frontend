@@ -2,7 +2,7 @@ import { TContractAddresses, getBNWithDecimalsFromString } from 'multirpc-sdk';
 
 import { web3Api } from 'store/queries';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 interface IFetchMyAllowanceUsdtParams extends TContractAddresses {
   tokenDecimals: number;
@@ -16,7 +16,7 @@ export const {
   endpoints: build => ({
     fetchMyAllowanceUsdt: build.query<number, IFetchMyAllowanceUsdtParams>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
             params: { depositContractAddress, tokenAddress, tokenDecimals },
             web3Service,

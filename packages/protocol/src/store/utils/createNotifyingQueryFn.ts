@@ -14,8 +14,6 @@ import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
 import { isCustomError } from './isCustomError';
 
-const INVALID_ADDRESS_ERROR_TEXT = 'invalid address';
-
 export const makeNotification = (
   error: unknown,
   dispatch: any,
@@ -57,14 +55,15 @@ export const shouldNotify = (error: unknown) => {
 
 export const createNotifyingQueryFn = queryFnWrapper({
   onNotification({ api: { dispatch }, error }) {
-    const shouldSendSentryException =
-      error instanceof Error &&
-      error.message.includes(INVALID_ADDRESS_ERROR_TEXT);
-
-    if (shouldSendSentryException) {
-      Sentry.captureException(error);
+    if (shouldNotify(error)) {
+      makeNotification(error, dispatch);
     }
+  },
+});
 
+export const createWeb3NotifyingQueryFn = queryFnWrapper({
+  onNotification({ api: { dispatch }, error }) {
+    Sentry.captureException(error);
     if (shouldNotify(error)) {
       makeNotification(error, dispatch);
     }

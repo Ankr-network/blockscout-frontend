@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { Web3Address, formatToWei } from 'multirpc-sdk';
 
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { web3Api } from 'store/queries';
 
@@ -24,7 +24,7 @@ export const {
       IDepositForUserRequestParams
     >({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async (
             { params: { amount, targetAddress }, web3Service },
             { dispatch, getState },
