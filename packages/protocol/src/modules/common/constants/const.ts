@@ -9,7 +9,8 @@ export const currentEnv: Env = process.env.REACT_APP_API_ENV
 export const isMainnet = currentEnv === Env.Production;
 
 export const ZERO = new BigNumber(0);
-export const LOW_APPROXIMATE_LIMIT_USD = new BigNumber(0.01);
+export const LOW_APPROXIMATED_USD = new BigNumber(0.01);
+export const LOW_APPROXIMATED_CRYPTO = new BigNumber(0.00001);
 
 export const DEFAULT_TOKEN_DECIMALS = 18;
 
