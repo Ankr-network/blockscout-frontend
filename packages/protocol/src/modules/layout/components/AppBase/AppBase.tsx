@@ -15,6 +15,9 @@ import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoute
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Dialogs } from 'modules/guardDialog';
 
+import { MaintenanceDialog } from '../MaintenanceDialog';
+import { useMaintenanceDialog } from '../MaintenanceDialog/useMaintenanceDialog';
+
 interface IAppBaseProps {
   children: ReactNode;
 }
@@ -26,6 +29,8 @@ export const AppBase = ({ children }: IAppBaseProps) => {
   const currentTheme = useMemo(() => getMainTheme(themes), [themes]);
 
   useMetatags(historyInstance.location.pathname, chainsRoutes, currentTheme);
+
+  const { isOpened, onClose } = useMaintenanceDialog();
 
   return (
     <StyledEngineProvider injectFirst>
@@ -39,6 +44,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
             {children}
           </ConnectedRouter>
           <Dialogs />
+          <MaintenanceDialog isOpened={isOpened} onClose={onClose} />
         </SentryErrorBoundary>
       </ThemeProvider>
     </StyledEngineProvider>
