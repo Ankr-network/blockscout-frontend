@@ -15,8 +15,11 @@ import {
   ISetDepositFeeDetailsEstimatedPayload,
   ISetDepositFeeDetailsPaidPayload,
   ISetDepositTxHashPayload,
+  ISetIsAllowanceConfirmingPayload,
   ISetIsApprovedPayload,
   ISetIsApprovingPayload,
+  ISetIsConfirmedPayload,
+  ISetIsDepositConfirmingPayload,
   ISetIsDepositingPayload,
   IUpdateCryptoTxPayload,
 } from '../types';
@@ -105,10 +108,25 @@ export const paymentsSlice = createSlice({
     ) => {
       updateCryptoTx({ action, state });
     },
+    setIsAllowanceConfirming: (
+      state,
+      action: PayloadAction<ISetIsAllowanceConfirmingPayload>,
+    ) => {
+      updateCryptoTx({ action, state });
+    },
     setIsApproved: (state, action: PayloadAction<ISetIsApprovedPayload>) => {
       updateCryptoTx({ action, state });
     },
     setIsApproving: (state, action: PayloadAction<ISetIsApprovingPayload>) => {
+      updateCryptoTx({ action, state });
+    },
+    setIsConfirmed: (state, action: PayloadAction<ISetIsConfirmedPayload>) => {
+      updateCryptoTx({ action, state });
+    },
+    setIsDepositConfirming: (
+      state,
+      action: PayloadAction<ISetIsDepositConfirmingPayload>,
+    ) => {
       updateCryptoTx({ action, state });
     },
     setIsDepositing: (
@@ -138,7 +156,10 @@ export const {
   setDepositFeeDetailsEstimated,
   setDepositFeeDetailsPaid,
   setDepositTxHash,
+  setIsAllowanceConfirming,
   setIsApproved,
   setIsApproving,
+  setIsConfirmed,
+  setIsDepositConfirming,
   setIsDepositing,
 } = paymentsSlice.actions;

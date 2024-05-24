@@ -21,6 +21,7 @@ import { newProjectSlice, projectsSlice } from 'domains/projects/store';
 import { newUserGroupPersistConfig } from 'modules/groups/storage/newUserGroupPersistConfig';
 import { newUserGroupSlice } from 'modules/groups/store/newUserGroupSlice';
 import { notificationSlice } from 'domains/notification/store/notificationSlice';
+import { paymentsSlice } from 'modules/payments/store/paymentsSlice';
 import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistConfig';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
 import { themePersistConfig } from 'modules/layout/storage/themePersistConfig';
@@ -70,6 +71,7 @@ const rootReducer = combineReducers({
     newUserGroupPersistConfig,
     newUserGroupSlice.reducer,
   ),
+  payments: paymentsSlice.reducer,
 });
 
 export const store = configureStore({
@@ -91,7 +93,11 @@ export const store = configureStore({
 export const persistor = persistStore(store);
 
 export type Store = typeof store;
-export type APIState = RTKQRootState<EndpointDefinitions, string, 'api'>;
+export type APIState = RTKQRootState<
+  EndpointDefinitions,
+  string,
+  'api' | 'projectApi'
+>;
 export type AppDispatch = typeof store.dispatch;
 export type GetState = typeof store.getState;
 export type RootState = ReturnType<typeof rootReducer>;

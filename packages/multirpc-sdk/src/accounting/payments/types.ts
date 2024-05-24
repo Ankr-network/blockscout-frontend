@@ -27,7 +27,7 @@ export interface IGetCryptoPaymentOption {
   tokens: IGetCryptoPaymentOptionToken[];
 }
 
-interface IGetCryptoPaymentOptionsResult {
+export interface IGetCryptoPaymentOptionsResult {
   options: IGetCryptoPaymentOption[];
 }
 

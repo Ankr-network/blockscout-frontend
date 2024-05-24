@@ -1,12 +1,22 @@
 import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
-import { ECurrency, IFeeDetails } from 'modules/billing/types';
+export enum ECurrency {
+  ANKR = 'ANKR',
+  USD = 'USD',
+  USDT = 'USDT',
+  USDC = 'USDC',
+}
 
 export interface ICryptoTransactionKey {
   accountAddress: Web3Address; // auth address or group address
   amount: number;
   currency: ECurrency;
   network: EBlockchain;
+}
+
+export interface IFeeDetails {
+  feeCrypto: number;
+  feeUSD: number;
 }
 
 export interface ICryptoTransaction extends ICryptoTransactionKey {
@@ -22,8 +32,11 @@ export interface ICryptoTransaction extends ICryptoTransactionKey {
   from: Web3Address;
   hadAllowance: boolean;
   id: string;
+  isAllowanceConfirming: boolean;
   isApproved: boolean;
   isApproving?: boolean;
+  isConfirmed?: boolean;
+  isDepositConfirming: boolean;
   isDepositing?: boolean;
   network: EBlockchain;
   to: Web3Address; // PAYG contract address
@@ -91,6 +104,10 @@ export interface ISetDepositTxHashPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'depositTxHash'> {}
 
+export interface ISetIsAllowanceConfirmingPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'isAllowanceConfirming'> {}
+
 export interface ISetIsApprovedPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'isApproved'> {}
@@ -98,6 +115,14 @@ export interface ISetIsApprovedPayload
 export interface ISetIsApprovingPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'isApproving'> {}
+
+export interface ISetIsConfirmedPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'isConfirmed'> {}
+
+export interface ISetIsDepositConfirmingPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'isDepositConfirming'> {}
 
 export interface ISetIsDepositingPayload
   extends IUpdateCryptoTxPayload,
