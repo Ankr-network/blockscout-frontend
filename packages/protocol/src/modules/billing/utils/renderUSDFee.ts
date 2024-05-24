@@ -16,9 +16,9 @@ export const renderUSDFee = ({
 
   const shouldShowSmallestValue = value.isLessThan(LOW_APPROXIMATED_USD);
 
-  const fee = (shouldShowSmallestValue ? LOW_APPROXIMATED_USD : value).toFixed(
-    2,
-  );
+  const fee = (shouldShowSmallestValue ? LOW_APPROXIMATED_USD : value)
+    .decimalPlaces(2, BigNumber.ROUND_UP)
+    .toFormat();
 
   return t('account.amounts.fee.usd', { fee, isApproximate });
 };

@@ -21,9 +21,9 @@ export const renderCryptoFee = ({
 
   const shouldShowSmallestValue = value.isLessThan(LOW_APPROXIMATED_CRYPTO);
 
-  const fee = (
-    shouldShowSmallestValue ? LOW_APPROXIMATED_CRYPTO : value
-  ).toFixed(5);
+  const fee = (shouldShowSmallestValue ? LOW_APPROXIMATED_CRYPTO : value)
+    .decimalPlaces(5, BigNumber.ROUND_UP)
+    .toFormat();
   const networkName = t(nativeTokenNameMap[network]);
 
   return t('account.amounts.fee.crypto', {
