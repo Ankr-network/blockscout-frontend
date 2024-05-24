@@ -11,14 +11,18 @@ import { useEstimatedCryptoDepositFeeDetails } from './useEstimatedCryptoDeposit
 import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 
 interface IOneTimeCryptoFees {
+  allowanceTxHash?: string;
   amount: number;
   currency: ECurrency;
+  depositTxHash?: string;
   network: EBlockchain;
 }
 
 export const useOneTimeCryptoFees = ({
+  allowanceTxHash,
   amount,
   currency,
+  depositTxHash,
   network,
 }: IOneTimeCryptoFees) => {
   const { hasWeb3Service } = useWeb3Service();
@@ -56,6 +60,7 @@ export const useOneTimeCryptoFees = ({
       price,
       tokenAddress,
       tokenDecimals,
+      txHash: allowanceTxHash,
     });
 
   const { depositFeeDetails, isLoading: isDepositFeeLoading } =
@@ -66,15 +71,20 @@ export const useOneTimeCryptoFees = ({
       depositContractAddress,
       tokenAddress,
       tokenDecimals,
+      txHash: depositTxHash,
     });
+
+  const isLoading =
+    isAllowanceFeeLoading ||
+    isDepositFeeLoading ||
+    isNativeTokenPriceLoading ||
+    isWalletTokenBalanceLoading;
 
   return {
     approvalFeeDetails,
     depositFeeDetails,
     hasEnoughTokenBalance,
-    isAllowanceFeeLoading,
-    isDepositFeeLoading,
-    isNativeTokenPriceLoading,
+    isLoading,
     isWalletTokenBalanceLoading,
     refetchANKRBalance,
   };

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { stringify } from 'qs';
 
 import {
   AXIOS_DEFAULT_CONFIG,
@@ -11,6 +12,8 @@ import {
 } from './types';
 import {
   IApiUserGroupParams,
+  IUsageStats,
+  IUsageStatsParams,
   PrivateStats,
   PrivateStatsInterval,
   StatsByRangeRequest,
@@ -57,6 +60,19 @@ export class EnterpriseGateway {
         '/api/v1/auth/enterprise/endpoints',
         { headers: createTOTPHeaders(totp), params },
       );
+
+    return response;
+  }
+
+  async getEnterpriseUsage(params: IUsageStatsParams): Promise<IUsageStats> {
+    const { data: response } = await this.api.get<IUsageStats>(
+      '/api/v1/auth/enterprise/usage',
+      {
+        params,
+        paramsSerializer: (request: IUsageStatsParams) =>
+          stringify(request, { indices: false }),
+      },
+    );
 
     return response;
   }

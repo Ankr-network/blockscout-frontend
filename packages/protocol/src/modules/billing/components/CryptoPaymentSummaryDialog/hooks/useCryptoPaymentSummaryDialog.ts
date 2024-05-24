@@ -3,6 +3,7 @@ import { useCallback, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
 import {
+  resetAllowanceTxHash,
   setAmountToDeposit,
   setTransactionCurrency,
   setTransactionNetwork,
@@ -28,6 +29,7 @@ export interface IUseCryptoPaymentSummaryDialogProps
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
 
+/* eslint-disable max-lines-per-function */
 export const useCryptoPaymentSummaryDialog = ({
   amount,
   currency,
@@ -90,6 +92,7 @@ export const useCryptoPaymentSummaryDialog = ({
 
     dispatch(setAmountToDeposit({ address, amountToDeposit }));
     dispatch(setTransactionCurrency({ address, currency }));
+    dispatch(resetAllowanceTxHash({ address }));
     dispatch(setTransactionNetwork({ address, network }));
 
     onClose();

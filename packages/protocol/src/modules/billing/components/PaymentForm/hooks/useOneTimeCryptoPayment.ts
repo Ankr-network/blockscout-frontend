@@ -47,16 +47,24 @@ export const useOneTimeCryptoPayment = ({
 
   const currency = transactionCurrency ?? formCurrency;
 
+  const transaction = useSelectTopUpTransaction();
+  const depositTxHash = transaction?.topUpTransactionHash;
+  const allowanceTxHash = transaction?.allowanceTransactionHash;
+
   const {
-    hasEnoughTokenBalance,
-    isWalletTokenBalanceLoading,
-    refetchANKRBalance,
     approvalFeeDetails,
-    isAllowanceFeeLoading,
     depositFeeDetails,
-    isDepositFeeLoading,
-    isNativeTokenPriceLoading,
-  } = useOneTimeCryptoFees({ amount, currency, network });
+    hasEnoughTokenBalance,
+    isLoading: cryptoFeesLoading,
+    refetchANKRBalance,
+    isWalletTokenBalanceLoading,
+  } = useOneTimeCryptoFees({
+    allowanceTxHash,
+    amount,
+    currency,
+    depositTxHash,
+    network,
+  });
 
   useAccountsChangedHandlingOnSummaryStep();
 
@@ -68,10 +76,6 @@ export const useOneTimeCryptoPayment = ({
       depositFeeDetails,
     },
   );
-
-  const transaction = useSelectTopUpTransaction();
-  const depositTxHash = transaction?.topUpTransactionHash;
-  const allowanceTxHash = transaction?.allowanceTransactionHash;
 
   const handleCryptoPaymentSuccessDialogClose = useCallback(() => {
     handleResetTopUpTransaction();
@@ -145,12 +149,6 @@ export const useOneTimeCryptoPayment = ({
     cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryProps,
     handlePayButtonClick,
-    isLoading:
-      isNativeTokenPriceLoading ||
-      isAllowanceFeeLoading ||
-      isDepositFeeLoading ||
-      isLoadingRate ||
-      isTotalAmountLoading ||
-      isWalletTokenBalanceLoading,
+    isLoading: cryptoFeesLoading || isLoadingRate || isTotalAmountLoading,
   };
 };
