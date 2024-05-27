@@ -50,7 +50,7 @@ export const {
               .depositUSDTToPAYG(
                 amount,
                 tokenDecimals,
-                '',
+                tokenAddress,
                 depositContractAddress,
               );
 
