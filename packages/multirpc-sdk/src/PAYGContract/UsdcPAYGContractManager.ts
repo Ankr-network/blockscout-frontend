@@ -39,6 +39,8 @@ import { GAS_LIMIT } from './const';
 export const DEPOSIT_ERROR =
   'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
 
+const ZERO_STRING = '0';
+
 export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
   protected readonly usdcTokenContract: Contract;
 
@@ -114,15 +116,32 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
       tokenAddress,
     );
 
-    const gasAmount = await (contract.methods as IUsdcToken)
-      .approve(
-        depositContractAddress,
-        convertNumberWithDecimalsToString(amount, tokenDecimals),
-      )
-      .estimateGas({
-        from: currentAccount,
-        gas: Number(GAS_LIMIT),
-      });
+    let gasAmount = 0;
+
+    // we add here this structure to avoid an error
+    // when requesting gas fee for approve tx
+    // if don't have enough money
+    // p.s. this is the specifics of USDC smart contract 
+    // on arbitrum (and probably another chains)
+    try {
+      gasAmount = await (contract.methods as IUsdcToken)
+        .approve(
+          depositContractAddress,
+          convertNumberWithDecimalsToString(amount, tokenDecimals),
+        )
+        .estimateGas({
+          from: currentAccount,
+          gas: Number(GAS_LIMIT),
+        });
+
+    } catch (e) {
+      gasAmount = await (contract.methods as IUsdcToken)
+        .approve(depositContractAddress, ZERO_STRING)
+        .estimateGas({
+          from: currentAccount,
+          gas: Number(GAS_LIMIT),
+        });
+    }
 
     return this.keyReadProvider.getContractMethodFee(gasAmount);
   }
@@ -297,12 +316,25 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
       tokenAddress,
     );
 
-    const gasAmount = await (contract.methods as IUsdcToken)
-      .transfer(
-        depositContractAddress,
-        convertNumberWithDecimalsToString(amount, tokenDecimals),
-      )
-      .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+    let gasAmount = 0;
+
+    // we add here this structure to avoid an error
+    // when requesting gas fee for approve tx
+    // if don't have enough money
+    // p.s. this is the specifics of USDC smart contract 
+    // on arbitrum (and probably another chains)
+    try {
+      gasAmount = await (contract.methods as IUsdcToken)
+        .transfer(
+          depositContractAddress,
+          convertNumberWithDecimalsToString(amount, tokenDecimals),
+        )
+        .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+    } catch (e) {
+      gasAmount = await (contract.methods as IUsdcToken)
+        .transfer(depositContractAddress, ZERO_STRING)
+        .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+    }
 
     const gasPrice = await provider.getSafeGasPriceWei();
 
