@@ -7,6 +7,10 @@ import { useAnkrAllowanceFee } from 'domains/account/hooks/useANKRAllowanceFee';
 import { useUsdcAllowanceFee } from 'domains/account/hooks/useUSDCAllowanceFee';
 import { useUsdtAllowanceFee } from 'domains/account/hooks/useUSDTAllowanceFee';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+import {
+  LOW_APPROXIMATED_CRYPTO,
+  LOW_APPROXIMATED_USD,
+} from 'modules/common/constants/const';
 
 export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   amount: number;
@@ -81,13 +85,22 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     isLoadingUsdc,
   ]);
 
-  const approvalFeeDetails = useMemo<IFeeDetails>(
-    () => ({
-      feeCrypto: fee,
-      feeUSD: new BigNumber(fee).multipliedBy(price).toNumber(),
-    }),
-    [fee, price],
-  );
+  const approvalFeeDetails = useMemo<IFeeDetails>(() => {
+    const feeCryptoBN = new BigNumber(fee);
+    const feeCrypto = feeCryptoBN.isLessThan(LOW_APPROXIMATED_CRYPTO)
+      ? LOW_APPROXIMATED_CRYPTO
+      : feeCryptoBN;
+
+    const feeUsdBN = feeCryptoBN.multipliedBy(price);
+    const feeUsd = feeUsdBN.isLessThan(LOW_APPROXIMATED_USD)
+      ? LOW_APPROXIMATED_USD
+      : feeUsdBN;
+
+    return {
+      feeCrypto: feeCrypto.toNumber(),
+      feeUSD: feeUsd.toNumber(),
+    };
+  }, [fee, price]);
 
   return { approvalFeeDetails, isLoading };
 };

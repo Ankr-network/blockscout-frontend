@@ -7,6 +7,10 @@ import { useANKRDepositFee } from 'domains/account/hooks/useANKRDepositFee';
 import { useUSDCDepositFee } from 'domains/account/hooks/useUSDCDepositFee';
 import { useUSDTDepositFee } from 'domains/account/hooks/useUSDTDepositFee';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+import {
+  LOW_APPROXIMATED_CRYPTO,
+  LOW_APPROXIMATED_USD,
+} from 'modules/common/constants/const';
 
 export interface IUseEstimatedCryptoDepositFeeDetailsParams {
   amount: number;
@@ -81,13 +85,22 @@ export const useEstimatedCryptoDepositFeeDetails = ({
     isLoadingUsdc,
   ]);
 
-  const depositFeeDetails = useMemo<IFeeDetails>(
-    () => ({
-      feeCrypto: fee,
-      feeUSD: new BigNumber(fee).multipliedBy(price).toNumber(),
-    }),
-    [fee, price],
-  );
+  const depositFeeDetails = useMemo<IFeeDetails>(() => {
+    const feeCryptoBN = new BigNumber(fee);
+    const feeCrypto = feeCryptoBN.isLessThan(LOW_APPROXIMATED_CRYPTO)
+      ? LOW_APPROXIMATED_CRYPTO
+      : feeCryptoBN;
+
+    const feeUsdBN = feeCryptoBN.multipliedBy(price);
+    const feeUsd = feeUsdBN.isLessThan(LOW_APPROXIMATED_USD)
+      ? LOW_APPROXIMATED_USD
+      : feeUsdBN;
+
+    return {
+      feeCrypto: feeCrypto.toNumber(),
+      feeUSD: feeUsd.toNumber(),
+    };
+  }, [fee, price]);
 
   return { depositFeeDetails, isLoading };
 };
