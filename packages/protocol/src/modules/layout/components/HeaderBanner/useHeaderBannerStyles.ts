@@ -14,6 +14,7 @@ export const useHeaderBannerStyles = makeStyles()(theme => ({
   },
   text: {
     color: theme.palette.common.white,
+    textAlign: 'center',
 
     '& > span > span': {
       textDecoration: 'underline',
