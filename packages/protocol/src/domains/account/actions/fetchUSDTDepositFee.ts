@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Web3Address } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 
 export interface IFetchUSDTDepositFeeParams {
@@ -19,7 +19,7 @@ export const {
     fetchUSDTDepositFee: build.query<number, IFetchUSDTDepositFeeParams>({
       providesTags: [RequestType.USDTDepositFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
             params: { amount, depositContractAddress, tokenAddress },
             web3Service,

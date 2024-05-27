@@ -1,4 +1,5 @@
 import { queryFnWrapper } from '@ankr.com/utils';
+import * as Sentry from '@sentry/react';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { extractMessage } from 'modules/common/utils/extractError';
@@ -54,6 +55,15 @@ export const shouldNotify = (error: unknown) => {
 
 export const createNotifyingQueryFn = queryFnWrapper({
   onNotification({ api: { dispatch }, error }) {
+    if (shouldNotify(error)) {
+      makeNotification(error, dispatch);
+    }
+  },
+});
+
+export const createWeb3NotifyingQueryFn = queryFnWrapper({
+  onNotification({ api: { dispatch }, error }) {
+    Sentry.captureException(error);
     if (shouldNotify(error)) {
       makeNotification(error, dispatch);
     }

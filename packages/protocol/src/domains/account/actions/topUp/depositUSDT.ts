@@ -3,7 +3,7 @@ import { IWeb3SendResult } from '@ankr.com/provider';
 import { Web3Address } from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
@@ -27,7 +27,7 @@ export const {
       ITopUpDepositUSDTQueryParams
     >({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async (
             {
               params: {
@@ -63,6 +63,8 @@ export const {
                 }),
               );
             }
+
+            // Sentry.captureException(error);
 
             return { data: depositResponse };
           },

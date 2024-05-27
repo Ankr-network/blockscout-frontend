@@ -37,7 +37,7 @@ export const useMaintenanceDialogStyles = makeStyles()(theme => ({
     position: 'absolute',
     display: 'flex',
     height: 280,
-    width: 600,
+    width: 'calc(100% + 80px)',
     top: -40,
     left: -40,
     overflow: 'hidden',

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
+import { useEffect } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { MaintenanceDialog } from '../MaintenanceDialog';
@@ -15,13 +15,13 @@ export const HeaderBanner = () => {
 
   const { isOpened, onClose, onOpen } = useDialog();
 
-  useOnMount(() => {
-    const element = document.getElementById('learn-more');
+  const element = document.getElementById('learn-more');
 
+  useEffect(() => {
     if (element) {
       element.onclick = onOpen;
     }
-  });
+  }, [element, onOpen]);
 
   return (
     <>
