@@ -7,6 +7,7 @@ import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTr
 import { resetTransaction } from 'domains/account/store/accountTopUpSlice';
 import { setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 export interface Deposit {
   address: string;
@@ -26,7 +27,7 @@ export const {
             const address = getCurrentTransactionAddress(getState as GetState);
 
             const { jwtToken: credentials, workerTokenData } =
-              await web3Service.issueJwtToken(address);
+              await web3Service.issueJwtToken(address, ANKR_TOP_UP_NETWORK);
 
             if (credentials) {
               dispatch(setAuthData({ credentials, workerTokenData }));

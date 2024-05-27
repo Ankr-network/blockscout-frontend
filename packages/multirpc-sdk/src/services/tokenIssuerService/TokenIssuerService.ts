@@ -1,3 +1,5 @@
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
+
 import {
   IJwtToken,
   JwtTokenFullData,
@@ -94,6 +96,7 @@ export class TokenIssuerService extends BaseTokenIssuerService {
   public async getIssuedJwtTokenOrIssue(
     user: Web3Address,
     publicKey: string,
+    blockchain: TBlockchain
   ): Promise<JwtTokenFullData> {
     const issuedToken = await this.findIssuedTokenAndUpgrade(user);
 
@@ -101,7 +104,7 @@ export class TokenIssuerService extends BaseTokenIssuerService {
       return issuedToken;
     }
 
-    const transactionHash = await this.getPAYGTransactionHash(user);
+    const transactionHash = await this.getPAYGTransactionHash(user, blockchain);
 
     if (!transactionHash) return {};
 

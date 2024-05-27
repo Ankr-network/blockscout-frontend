@@ -11,6 +11,7 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { oauthSignout } from 'domains/oauth/actions/signout';
 import { timeout } from 'modules/common/utils/timeout';
 import { web3Api } from 'store/queries';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 const ONE_MINUTE_MS = 60_000;
 const TOPUP_EVENT_TIMEOUT = 3 * ONE_MINUTE_MS;
@@ -42,7 +43,7 @@ const checkLastTopupEvent = async ({
 
   const lastTopUpEvent = await web3ReadService
     .getContractService()
-    .getLastLockedFundsEvent(authAddress!);
+    .getLastLockedFundsEvent(authAddress!, ANKR_TOP_UP_NETWORK);
 
   if (!lastTopUpEvent) {
     return true;
@@ -73,6 +74,7 @@ const checkLastTopupEvent = async ({
     await web3ReadService.getIssuedJwtTokenOrIssue(
       authAddress!,
       encryptionPublicKey as string,
+      ANKR_TOP_UP_NETWORK,
     );
 
   dispatch(

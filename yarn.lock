@@ -19,7 +19,7 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@ankr.com/advanced-api@*", "@ankr.com/advanced-api@^1.1.0":
+"@ankr.com/advanced-api@*":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ankr.com/advanced-api/-/advanced-api-1.1.0.tgz#52b1342ab554463ad20328f7e1304f2d7290ce18"
   integrity sha512-hRtnkMdZoZVUa7CdwGRpyQGHI19fUdegnbR70VpWyP02fkLKCo8XEkVQBNot4nQkXvvy66XVkXu8QX8f6yS5qQ==
@@ -29,6 +29,11 @@
     web3-core "1.7.0"
     web3-eth-contract "1.7.0"
     web3-utils "1.7.0"
+
+"@ankr.com/advanced-api@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@ankr.com/advanced-api/-/advanced-api-3.0.1.tgz#ef835cf7baca21cbb925f68e8d49c3c4ba737095"
+  integrity sha512-wHt1U/d94isgLD4T89+WqjFESsG7GmNLU121rQHW02hcukEfI77xKuMo9bsjzO6vweprFY5Joq+OH7QE2e9/UA==
 
 "@ankr.com/assets@^0.0.6":
   version "0.0.6"

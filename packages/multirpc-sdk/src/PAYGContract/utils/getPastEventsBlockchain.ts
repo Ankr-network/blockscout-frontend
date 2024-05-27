@@ -1,6 +1,7 @@
 import { EventData, Contract, Filter } from 'web3-eth-contract';
-import { getPastEvents, isMainnet } from '@ankr.com/advanced-api';
+import { getPastEvents } from '@ankr.com/advanced-api';
 import { IWeb3SendResult } from '@ankr.com/provider';
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
 import Web3 from 'web3';
 
 
@@ -11,6 +12,7 @@ export interface IDepositAnkrToWalletResult {
 
 export interface IGetPastEvents {
   web3: Web3;
+  blockchain: TBlockchain;
   contract: Contract;
   eventName: string;
   startBlock: number;
@@ -23,6 +25,7 @@ export interface IGetPastEvents {
 
 export const getPastEventsBlockchain = async ({
   web3,
+  blockchain,
   contract,
   eventName,
   startBlock,
@@ -33,7 +36,7 @@ export const getPastEventsBlockchain = async ({
   return getPastEvents({
     fromBlock: startBlock,
     toBlock: latestBlockNumber,
-    blockchain: isMainnet ? 'eth' : 'eth_goerli',
+    blockchain,
     contract,
     web3,
     eventName,

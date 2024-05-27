@@ -219,3 +219,8 @@ export interface IAllowanceParams {
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
 }
+
+export enum Env {
+  Production = 'prod',
+  Stage = 'stage',
+}

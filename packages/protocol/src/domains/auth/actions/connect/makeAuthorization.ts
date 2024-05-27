@@ -9,6 +9,7 @@ import {
   setWalletAddress,
   setWalletMeta,
 } from 'domains/wallet/store/walletSlice';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 import { addSignedWorkerTokenToService } from '../utils/addSignedWorkerTokenToService';
 import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
@@ -51,10 +52,16 @@ const getJwtTokenFullData = async ({
   }
 
   const isOldPremiumAndActiveToken =
-    await web3Service.isOldPremiumAndActiveToken(currentAccount);
+    await web3Service.isOldPremiumAndActiveToken(
+      currentAccount,
+      ANKR_TOP_UP_NETWORK,
+    );
 
   if (isOldPremiumAndActiveToken) {
-    return web3Service.getOldPremiumJwtToken(currentAccount);
+    return web3Service.getOldPremiumJwtToken(
+      currentAccount,
+      ANKR_TOP_UP_NETWORK,
+    );
   }
 
   dispatch(setAuthData({ isInstantJwtParticipant: true }));
