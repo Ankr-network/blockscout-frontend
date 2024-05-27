@@ -4,6 +4,7 @@ import { Web3Address } from 'multirpc-sdk';
 import { AppDispatch, GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 import { DEFAULT_ANKR_VALUE, TopUpStep } from '../const';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
@@ -28,7 +29,7 @@ export const checkFirstTopUpStep = async ({
 
     const lastTopUpEvent = await service
       .getContractService()
-      .getLastLockedFundsEvent(address);
+      .getLastLockedFundsEvent(address, ANKR_TOP_UP_NETWORK);
 
     const value = keyProvider
       .getWeb3()

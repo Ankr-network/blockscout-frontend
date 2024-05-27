@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { formatFromWei, formatToWei } from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import {
   setAllowanceTransaction,
@@ -22,7 +22,7 @@ export const {
   endpoints: build => ({
     topUpSendAllowanceAnkr: build.query<boolean, BigNumber>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({ params: amount, web3Service }, { dispatch, getState }) => {
             const address = getCurrentTransactionAddress(getState as GetState);
 

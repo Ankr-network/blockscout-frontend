@@ -1,9 +1,9 @@
 import { Transaction } from 'web3-core';
 import { EBlockchain } from 'multirpc-sdk';
 
-import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
+import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
 export interface IFetchTxDataParams {
   txHash: string;
@@ -24,7 +24,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchTxData: build.query<IFetchTxDataResult, IFetchTxDataParams>({
-      queryFn: createNotifyingQueryFn(async ({ txHash, network }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ txHash, network }) => {
         const web3 = getWeb3Instance(network);
         const tx = await web3.eth.getTransaction(txHash);
 

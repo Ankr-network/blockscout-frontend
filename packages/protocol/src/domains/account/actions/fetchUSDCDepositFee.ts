@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 
 import { getCurrentAccountBalanceUSDC } from '../utils/getCurrentAccountBalanceUSDC';
@@ -23,7 +23,7 @@ export const {
     fetchUSDCDepositFee: build.query<number, IFetchUSDCDepositFeeParams>({
       providesTags: [RequestType.USDCDepositFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
             params: {
               amount,

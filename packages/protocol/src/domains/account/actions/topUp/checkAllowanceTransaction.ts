@@ -2,7 +2,7 @@ import { CONFIRMATION_BLOCKS, EBlockchain } from 'multirpc-sdk';
 import { TransactionReceipt } from 'web3-core';
 
 import { GetState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { web3Api } from 'store/queries';
@@ -26,7 +26,7 @@ export const {
       ITopUpCheckAllowanceTransactionParams
     >({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async (
             {
               params: {

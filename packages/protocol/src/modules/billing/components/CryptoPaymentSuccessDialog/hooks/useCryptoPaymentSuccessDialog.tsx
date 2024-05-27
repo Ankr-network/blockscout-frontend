@@ -7,6 +7,7 @@ import { useTxDetails } from 'domains/account/hooks/useTxDetails';
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
 
+/* eslint-disable max-lines-per-function */
 export const useCryptoPaymentSuccessDialog = ({
   allowanceTxHash,
   amount,
@@ -73,6 +74,7 @@ export const useCryptoPaymentSuccessDialog = ({
           ? {
               feeCrypto: approvalFee,
               feeUSD: approvalFeeUsd,
+              txURL: getTxExplorerUrl(allowanceTxHash),
             }
           : undefined,
         currency,
@@ -90,6 +92,7 @@ export const useCryptoPaymentSuccessDialog = ({
       }),
       [
         amount,
+        allowanceTxHash,
         approvalFee,
         approvalFeeUsd,
         currency,

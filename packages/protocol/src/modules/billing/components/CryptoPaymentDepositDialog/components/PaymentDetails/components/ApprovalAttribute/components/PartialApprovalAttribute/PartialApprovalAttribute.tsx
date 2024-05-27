@@ -20,6 +20,7 @@ export interface IPartialApprovalAttributeProps {
   feeUSD: number;
   network: EBlockchain;
   shouldHideAlert: boolean;
+  txURL?: string;
   status?: ECryptoDepositStepStatus;
 }
 
@@ -34,6 +35,7 @@ export const PartialApprovalAttribute = ({
   feeUSD,
   network,
   shouldHideAlert,
+  txURL,
   status,
 }: IPartialApprovalAttributeProps) => {
   const { classes } = usePartialApprovalAttributeStyles();
@@ -69,6 +71,7 @@ export const PartialApprovalAttribute = ({
         feeUSD={feeUSD}
         isApproximate
         network={network}
+        txURL={txURL}
       />
     </TxAttribute>
   );

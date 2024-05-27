@@ -19,6 +19,7 @@ import {
 } from 'domains/account/store/accountTopUpSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { RequestType, web3Api } from 'store/queries';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 import { ETH_BLOCK_TIME } from './const';
 import { fetchBalance } from '../balance/fetchBalance';
@@ -157,7 +158,7 @@ export const {
         // a receipt too -> check the latest top up transaction
         const lastTopUpEvent = await service
           ?.getContractService()
-          .getLastLockedFundsEvent(address);
+          .getLastLockedFundsEvent(address, ANKR_TOP_UP_NETWORK);
 
         const currentBlockNumber =
           (await provider?.getWeb3().eth.getBlockNumber()) ?? 0;

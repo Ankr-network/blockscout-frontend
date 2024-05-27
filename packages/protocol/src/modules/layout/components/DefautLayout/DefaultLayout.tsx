@@ -10,6 +10,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
@@ -19,6 +20,7 @@ import { Breadcrumbs } from '../Breadcrumbs';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
+import { HeaderBanner } from '../HeaderBanner';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -59,49 +61,52 @@ export const DefaultLayout = ({
   const { isWeb3UserWithEmailBound } = useConnectWalletDialog();
 
   return (
-    <div className={classes.root}>
-      <SideBar
-        chainsRoutes={chainsRoutes}
-        className={classes.sidebar}
-        hasMenu
-        isEnterpriseClient={isEnterpriseClient}
-        loading={loading}
-      />
-      <div className={classes.body}>
-        {!hasError && (
-          <Header
-            className={cx(classes.header, {
-              [classes.dashboardHeader]: isDashboardPage,
-            })}
-            isChainItemPage={isChainItemPage}
-          />
-        )}
-        <MobileHeader
-          className={classes.mobileHeader}
+    <>
+      {SHOULD_SHOW_HEADER_BANNER && <HeaderBanner />}
+      <div className={classes.root}>
+        <SideBar
           chainsRoutes={chainsRoutes}
+          className={classes.sidebar}
+          hasMenu
           isEnterpriseClient={isEnterpriseClient}
           loading={loading}
         />
-        <Container
-          disableGutters={disableGutters}
-          className={cx(classes.main, {
-            [classes.dashboardMain]: isDashboardPage,
-          })}
-        >
-          <div className={classes.mobileBreadcrumbs}>
-            <Breadcrumbs />
-          </div>
-          {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
-        </Container>
-        {isLoggedIn && !isEnterpriseClient && (
-          <GuardUserGroup blockName={BlockWithPermission.Billing}>
-            <StatusTransitionDialog />
-          </GuardUserGroup>
-        )}
-        <TwoFADialog />
-        <NegativeBalanceTermsOfServicesDialog />
-        <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
+        <div className={classes.body}>
+          {!hasError && (
+            <Header
+              className={cx(classes.header, {
+                [classes.dashboardHeader]: isDashboardPage,
+              })}
+              isChainItemPage={isChainItemPage}
+            />
+          )}
+          <MobileHeader
+            className={classes.mobileHeader}
+            chainsRoutes={chainsRoutes}
+            isEnterpriseClient={isEnterpriseClient}
+            loading={loading}
+          />
+          <Container
+            disableGutters={disableGutters}
+            className={cx(classes.main, {
+              [classes.dashboardMain]: isDashboardPage,
+            })}
+          >
+            <div className={classes.mobileBreadcrumbs}>
+              <Breadcrumbs />
+            </div>
+            {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
+          </Container>
+          {isLoggedIn && !isEnterpriseClient && (
+            <GuardUserGroup blockName={BlockWithPermission.Billing}>
+              <StatusTransitionDialog />
+            </GuardUserGroup>
+          )}
+          <TwoFADialog />
+          <NegativeBalanceTermsOfServicesDialog />
+          <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -11,6 +11,7 @@ import {
   LOW_APPROXIMATED_CRYPTO,
   LOW_APPROXIMATED_USD,
 } from 'modules/common/constants/const';
+import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 
 export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   amount: number;
@@ -20,6 +21,7 @@ export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   price: string;
   tokenAddress: Web3Address;
   tokenDecimals: number;
+  txHash?: string;
 }
 
 export const useEstimatedCryptoAllowanceFeeDetails = ({
@@ -30,6 +32,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
   price,
   tokenAddress,
   tokenDecimals,
+  txHash,
 }: IUseEstimatedCryptoAllowanceFeeDetailsProps) => {
   const { hasWeb3Service } = useWeb3Service();
 
@@ -99,6 +102,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     return {
       feeCrypto: feeCrypto.toNumber(),
       feeUSD: feeUsd.toNumber(),
+      txURL: txHash ? getTxExplorerUrl(txHash) : undefined,
     };
   }, [fee, price]);
 

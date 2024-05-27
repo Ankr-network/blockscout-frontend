@@ -41,7 +41,7 @@
     ]
   },
   "dependencies": {
-    "@ankr.com/advanced-api": "^1.1.0",
+    "@ankr.com/advanced-api": "^3.0.1",
     "eth-sig-util": "^3.0.1",
     "ethereumjs-util": "^7.0.7",
     "qs": "^6.10.3",

@@ -6,7 +6,7 @@ import {
 
 import { web3Api } from 'store/queries';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 interface IFetchMyAllowanceUsdcParams extends TContractAddresses {
   network: EBlockchain;
@@ -21,7 +21,7 @@ export const {
   endpoints: build => ({
     fetchMyAllowanceUsdc: build.query<number, IFetchMyAllowanceUsdcParams>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
             params: {
               network,

@@ -4,7 +4,7 @@ import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
 import { ECurrency } from 'modules/billing/types';
@@ -30,7 +30,7 @@ export const {
       IDepositForUserUSDTRequestParams
     >({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
             params: {
               tokenDecimals,
