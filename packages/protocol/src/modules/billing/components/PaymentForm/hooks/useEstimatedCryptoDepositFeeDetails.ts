@@ -104,7 +104,7 @@ export const useEstimatedCryptoDepositFeeDetails = ({
       feeUSD: feeUsd.toNumber(),
       txURL: txHash ? getTxExplorerUrl(network, txHash) : undefined,
     };
-  }, [fee, price, txHash]);
+  }, [fee, price, txHash, network]);
 
   return { depositFeeDetails, isLoading };
 };

@@ -104,7 +104,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
       feeUSD: feeUsd.toNumber(),
       txURL: txHash ? getTxExplorerUrl(network, txHash) : undefined,
     };
-  }, [fee, price, txHash]);
+  }, [fee, price, txHash, network]);
 
   return { approvalFeeDetails, isLoading };
 };
