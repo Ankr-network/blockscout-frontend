@@ -4,7 +4,6 @@ import { ECurrency } from 'modules/billing/types';
 import { selectPaymentOptionsByNetwork } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
-import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import { useEstimatedCryptoAllowanceFeeDetails } from './useEstimatedCryptoAllowanceFeeDetails';
 import { useEstimatedCryptoDepositFeeDetails } from './useEstimatedCryptoDepositFeeDetails';
@@ -25,11 +24,8 @@ export const useOneTimeCryptoFees = ({
   depositTxHash,
   network,
 }: IOneTimeCryptoFees) => {
-  const { hasWeb3Service } = useWeb3Service();
-
   const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
     network,
-    skipFetching: !hasWeb3Service,
   });
 
   const {
@@ -43,10 +39,11 @@ export const useOneTimeCryptoFees = ({
   const {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
   } = useHasEnoughTokenBalance({
     amount,
     currency,
+    network,
     depositContractAddress,
     tokenAddress,
     tokenDecimals,
@@ -56,6 +53,7 @@ export const useOneTimeCryptoFees = ({
     useEstimatedCryptoAllowanceFeeDetails({
       amount,
       currency,
+      network,
       depositContractAddress,
       price,
       tokenAddress,
@@ -68,6 +66,7 @@ export const useOneTimeCryptoFees = ({
       amount,
       price,
       currency,
+      network,
       depositContractAddress,
       tokenAddress,
       tokenDecimals,
@@ -86,6 +85,6 @@ export const useOneTimeCryptoFees = ({
     hasEnoughTokenBalance,
     isLoading,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
   };
 };

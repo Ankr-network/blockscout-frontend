@@ -3,12 +3,24 @@ import {
   Web3KeyWriteProvider,
   Web3KeyReadProvider,
   IWeb3SendResult,
+  ProviderManager,
 } from '@ankr.com/provider';
 import { Contract } from 'web3-eth-contract';
 
-import { IAllowanceParams, Web3Address } from '../common';
+import {
+  EBlockchain,
+  IAllowanceParams,
+  IDepositStablecoinToPAYGParams,
+  IGetAllowanceFeeParams,
+  IGetAllowanceValueParams,
+  IGetDepositStablecoinToPAYGFeeParams,
+  ISetAllowanceParams,
+  Web3Address,
+} from '../common';
 import {
   DepositTokenForUserParams,
+  IThrowErrorIfDepositIsGreaterThanAllowanceParams,
+  IThrowErrorIfValueIsGreaterThanBalanceParams,
   SendDepositTokenTransactionForUserParams,
 } from './types';
 import { IUsdcToken } from './abi/IUsdcToken';
@@ -17,9 +29,10 @@ import ABI_USDC_TOKEN from './abi/UsdcToken.json';
 import ABI_PAY_AS_YOU_GO_COMMON from './abi/PayAsYouGoCommon.json';
 import { UsdcPAYGReadContractManager } from './UsdcPAYGReadContractManager';
 import {
-  convertNumberWithDecimalsToString,
   getBNAmountByTokenDecimals,
+  getReadProviderByNetwork,
   getBNWithDecimalsFromString,
+  convertNumberWithDecimalsToString,
 } from '../utils';
 import { GAS_LIMIT } from './const';
 
@@ -51,14 +64,10 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
   }
 
-  public async getCurrentAccountBalance() {
+  public async getCurrentAccountBalance(network: EBlockchain, tokenAddress: Web3Address) {
     const { currentAccount } = this.keyWriteProvider;
 
-    const balance = await (this.usdcTokenContract.methods as IUsdcToken)
-      .balanceOf(currentAccount)
-      .call();
-
-    return balance;
+    return this.getAccountBalance(currentAccount, network, tokenAddress);
   }
 
   private async sendAllowance({
@@ -88,17 +97,27 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
   }
 
-  public async getAllowanceFee(
-    allowanceValue: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenDecimals: number,
-  ) {
+  public async getAllowanceFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetAllowanceFeeParams) {
     const { currentAccount } = this.keyWriteProvider;
 
-    const gasAmount = await (this.usdcTokenContract.methods as IUsdcToken)
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDC_TOKEN,
+      tokenAddress,
+    );
+
+    const gasAmount = await (contract.methods as IUsdcToken)
       .approve(
         depositContractAddress,
-        convertNumberWithDecimalsToString(allowanceValue, tokenDecimals),
+        convertNumberWithDecimalsToString(amount, tokenDecimals),
       )
       .estimateGas({
         from: currentAccount,
@@ -149,10 +168,14 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
   }
 
-  private async throwErrorIfValueIsGreaterThanBalance(value: BigNumber) {
-    const balance = await this.getCurrentAccountBalance();
+  private async throwErrorIfValueIsGreaterThanBalance({
+    amount,
+    network,
+    tokenAddress,
+  }: IThrowErrorIfValueIsGreaterThanBalanceParams) {
+    const balance = await this.getCurrentAccountBalance(network, tokenAddress);
 
-    if (value.isGreaterThan(new BigNumber(balance))) {
+    if (amount.isGreaterThan(new BigNumber(balance))) {
       throw new Error(`You don't have enough Usdc tokens`);
     }
   }
@@ -167,17 +190,17 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     }
   }
 
-  private throwErrorIfDepositIsGreaterThanAllowance(
-    deposit: BigNumber,
-    allowance: BigNumber,
-    tokenDecimals: number,
-  ) {
+  private throwErrorIfDepositIsGreaterThanAllowance({
+    depositValue,
+    allowanceValue,
+    tokenDecimals,
+  }: IThrowErrorIfDepositIsGreaterThanAllowanceParams) {
     const amount = getBNWithDecimalsFromString(
-      allowance.toFixed(),
+      allowanceValue.toFixed(),
       tokenDecimals,
     );
 
-    if (deposit.isGreaterThan(allowance)) {
+    if (depositValue.isGreaterThan(allowanceValue)) {
       throw new Error(`${DEPOSIT_ERROR} (${amount})`);
     }
   }
@@ -186,15 +209,20 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     allowanceValue,
     depositContractAddress,
     tokenAddress,
+    network,
     tokenDecimals,
-  }: IAllowanceParams) {
+  }: ISetAllowanceParams) {
     const allowanceAmount = getBNAmountByTokenDecimals({
       value: allowanceValue,
       tokenDecimals,
     });
 
     this.throwErrorIfValueIsLessThanZero(allowanceAmount);
-    await this.throwErrorIfValueIsGreaterThanBalance(allowanceAmount);
+    await this.throwErrorIfValueIsGreaterThanBalance({
+      amount: allowanceAmount,
+      network,
+      tokenAddress,
+    });
 
     return this.sendAllowance({
       allowanceValue,
@@ -204,52 +232,79 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     });
   }
 
-  async getAllowanceValue(depositContractAddress: Web3Address) {
-    const provider = this.keyWriteProvider;
-    const { currentAccount } = provider;
+  async getAllowanceValue({
+    network,
+    depositContractAddress,
+    tokenAddress,
+  }: IGetAllowanceValueParams) {
+    const { currentAccount } = this.keyWriteProvider;
 
-    const allowance = await (this.usdcTokenReadContract.methods as IUsdcToken)
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDC_TOKEN,
+      tokenAddress,
+    );
+
+    const allowance = await (contract.methods as IUsdcToken)
       .allowance(currentAccount, depositContractAddress)
       .call();
 
     return new BigNumber(allowance);
   }
 
-  // eslint-disable-next-line max-params
-  async depositUSDC(
-    depositValue: BigNumber,
-    tokenAddress: Web3Address,
-    tokenDecimals: number,
-    depositContractAddress: Web3Address,
-  ): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+  async depositUSDC({
+    amount,
+    network,
+    tokenAddress,
+    tokenDecimals,
+    depositContractAddress,
+  }: IDepositStablecoinToPAYGParams): Promise<IWeb3SendResult> {
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
-    this.throwErrorIfValueIsLessThanZero(depositValue);
-    await this.throwErrorIfValueIsGreaterThanBalance(depositValue);
+    this.throwErrorIfValueIsLessThanZero(amount);
+    await this.throwErrorIfValueIsGreaterThanBalance({ amount, network, tokenAddress });
     this.throwErrorIfDepositIsGreaterThanAllowance(
-      depositValue,
-      allowanceValue,
-      tokenDecimals,
+      {
+        depositValue: amount,
+        allowanceValue,
+        tokenDecimals
+      },
     );
 
-    return this.sendDepositTransaction(depositValue, tokenAddress);
+    return this.sendDepositTransaction(amount, tokenAddress);
   }
 
-  async getDepositUsdcFee(
-    depositValue: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenDecimals: number,
-  ) {
+  async getDepositUsdcFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetDepositStablecoinToPAYGFeeParams) {
     const { currentAccount } = this.keyWriteProvider;
 
-    const gasAmount = await (this.usdcTokenContract.methods as IUsdcToken)
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDC_TOKEN,
+      tokenAddress,
+    );
+
+    const gasAmount = await (contract.methods as IUsdcToken)
       .transfer(
         depositContractAddress,
-        convertNumberWithDecimalsToString(depositValue, tokenDecimals),
+        convertNumberWithDecimalsToString(amount, tokenDecimals),
       )
       .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
 
-    const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();
+    const gasPrice = await provider.getSafeGasPriceWei();
 
     const feeWei = gasPrice.multipliedBy(gasAmount);
 
@@ -261,17 +316,26 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     targetAddress,
     tokenAddress,
     tokenDecimals,
+    network,
     depositContractAddress,
   }: DepositTokenForUserParams): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
-    await this.throwErrorIfValueIsGreaterThanBalance(depositValue);
-    this.throwErrorIfDepositIsGreaterThanAllowance(
+    await this.throwErrorIfValueIsGreaterThanBalance({
+      amount: depositValue,
+      network,
+      tokenAddress,
+    });
+    this.throwErrorIfDepositIsGreaterThanAllowance({
       depositValue,
       allowanceValue,
       tokenDecimals,
-    );
+    });
 
     return this.sendDepositTransactionForUser({
       tokenAddress,

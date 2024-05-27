@@ -48,7 +48,7 @@
     "uuid": "8.3.2"
   },
   "peerDependencies": {
-    "@ankr.com/provider": "^4.8.0",
+    "@ankr.com/provider": "^4.20.0",
     "@ankr.com/utils": "^1.1.1",
     "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",

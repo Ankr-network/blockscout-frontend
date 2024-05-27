@@ -1,5 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { getBNWithDecimalsFromString, Web3Address } from 'multirpc-sdk';
+import {
+  EBlockchain,
+  getBNWithDecimalsFromString,
+  Web3Address,
+} from 'multirpc-sdk';
 
 import { GetState } from 'store';
 import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -15,6 +19,7 @@ import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 interface ISendAllowanceUsdtParams {
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   tokenDecimals: number;
@@ -33,6 +38,7 @@ export const {
           async (
             {
               params: {
+                network,
                 depositContractAddress,
                 tokenAddress,
                 tokenDecimals,
@@ -55,6 +61,7 @@ export const {
                 allowanceValue: new BigNumber(amount),
                 depositContractAddress,
                 tokenAddress,
+                network,
                 tokenDecimals,
               },
             );
@@ -71,6 +78,7 @@ export const {
 
             const receipt = await dispatch(
               topUpCheckAllowanceTransaction.initiate({
+                network,
                 initialTransactionHash: allowanceTransactionHash,
                 confirmationBlocksNumber,
               }),
@@ -78,9 +86,11 @@ export const {
 
             if (receipt) {
               // get allowance for case when user has changed amount in metamask input
-              const allowanceValue = await contractService.getAllowanceValue(
+              const allowanceValue = await contractService.getAllowanceValue({
+                network,
+                depositContractAddress,
                 tokenAddress,
-              );
+              });
 
               dispatch(
                 setAllowanceTransaction({

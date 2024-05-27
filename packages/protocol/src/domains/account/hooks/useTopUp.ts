@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/billing/types';
 import {
@@ -197,6 +198,7 @@ export const useTopUp = () => {
 
     if (transactionCurrency === ECurrency.USDT) {
       return sendAllowanceUsdt({
+        network: transactionNetwork ?? EBlockchain.eth,
         amount: amountToDeposit,
         depositContractAddress,
         tokenAddress,
@@ -207,6 +209,7 @@ export const useTopUp = () => {
 
     if (transactionCurrency === ECurrency.USDC) {
       return sendAllowanceUsdc({
+        network: transactionNetwork ?? EBlockchain.eth,
         amount: amountToDeposit,
         depositContractAddress,
         tokenAddress,
@@ -216,6 +219,7 @@ export const useTopUp = () => {
     }
   }, [
     transactionCurrency,
+    transactionNetwork,
     sendAllowanceAnkr,
     amountToDeposit,
     sendAllowanceUsdt,
@@ -233,6 +237,7 @@ export const useTopUp = () => {
       amount: amountToDeposit,
       depositContractAddress,
       tokenAddress,
+      network: transactionNetwork ?? EBlockchain.eth,
     };
 
     if (transactionCurrency === ECurrency.USDC) {
@@ -294,6 +299,7 @@ export const useTopUp = () => {
     transactionCurrency,
     selectedGroupAddress,
     isDepositAddressDifferent,
+    transactionNetwork,
     depositANKR,
     depositUSDC,
     depositUSDCForUser,

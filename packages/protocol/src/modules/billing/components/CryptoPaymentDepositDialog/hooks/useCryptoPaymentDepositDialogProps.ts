@@ -29,16 +29,16 @@ export const useCryptoPaymentDepositDialogProps = ({
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
 }: IUseCryptoPaymentDepositDialogProps) => {
+  const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
+    useNetworkGuard(network);
+
   const {
     myAllowance,
     isLoading: isMyAllowanceLoading,
     fetchMyAllowance,
   } = useMyAllowance({
-    skipFetching: !isCryptoPaymentDepositDialogOpened,
+    skipFetching: !isCryptoPaymentDepositDialogOpened || isWrongNetwork,
   });
-
-  const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
-    useNetworkGuard(network);
 
   const isAllowanceAnkrSent = useAppSelector(selectIsAllowanceAnkrSent);
   const isAllowanceUsdtSent = useAppSelector(selectIsAllowanceUsdtSent);

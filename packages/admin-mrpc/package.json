@@ -41,7 +41,7 @@
     "@ankr.com/common": "*",
     "@ankr.com/assets": "^0.0.6",
     "@ankr.com/cross-navigation": "^1.0.10",
-    "@ankr.com/provider": "^4.8.0",
+    "@ankr.com/provider": "^4.20.0",
     "@ankr.com/staking-sdk": "^1.2.5",
     "@ankr.com/ui": "^0.12.1",
     "@ankr.com/utils": "^1.1.1",

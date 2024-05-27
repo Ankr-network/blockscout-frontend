@@ -54,7 +54,7 @@
     "credentials": "Credentials are not ready",
     "failed": "The transaction failed",
     "no-metamask": "No metamask extension found",
-    "not-supported-chain": "Unsupported chain",
+    "not-supported-wallet": "Unsupported wallet",
     "permission": "You do not have enough permissions to get all the data",
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
@@ -1851,7 +1851,8 @@
       "rollux": "Rollux",
       "scroll": "Scroll",
       "syscoin": "Syscoin",
-      "base": "Base"
+      "base": "Base",
+      "placeholder": "Select network"
     },
     "amounts": {
       "crypto": "{amount, number} {currency}",

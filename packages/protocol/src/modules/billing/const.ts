@@ -116,6 +116,32 @@ export const nativeTokenNameMap: Record<EBlockchain, string> = {
   [EBlockchain.scroll]: 'account.currencies.eth',
 };
 
+export const EXPLORER_URLS: Record<EBlockchain, string> = {
+  [EBlockchain.eth]: 'https://etherscan.io',
+  [EBlockchain.eth_holesky]: 'https://holesky.etherscan.io',
+  [EBlockchain.eth_goerli]: 'https://goerli.etherscan.io',
+  [EBlockchain.arbitrum]: 'https://arbiscan.io/',
+  [EBlockchain.arbitrum_sepolia]: 'https://sepolia.arbiscan.io/',
+  [EBlockchain.avalanche]: 'https://snowtrace.io',
+  [EBlockchain.avalanche_fuji]: 'https://testnet.snowtrace.io',
+  [EBlockchain.bsc]: 'https://bscscan.com',
+  [EBlockchain.base]: 'https://basescan.org',
+  [EBlockchain.bsc_testnet_chapel]: 'https://testnet.bscscan.com',
+  [EBlockchain.fantom]: 'https://ftmscan.com',
+  [EBlockchain.fantom_testnet]: 'https://testnet.ftmscan.com',
+  [EBlockchain.flare]: 'https://flare-explorer.flare.network',
+  [EBlockchain.polygon]: 'https://polygonscan.com',
+  [EBlockchain.polygon_mumbai]: 'https://mumbai.polygonscan.com',
+  [EBlockchain.gnosis]: 'https://gnosisscan.io',
+  [EBlockchain.polygon_zkevm]: 'https://zkevm.polygonscan.com',
+  [EBlockchain.optimism]: 'https://optimistic.etherscan.io',
+  [EBlockchain.optimism_testnet]: 'https://goerli-explorer.optimism.io/',
+  [EBlockchain.linea]: 'https://lineascan.build',
+  [EBlockchain.rollux]: 'https://explorer.rollux.com',
+  [EBlockchain.syscoin]: 'https://explorer.syscoin.org/',
+  [EBlockchain.scroll]: 'https://scrollscan.com',
+};
+
 export const ANKR_TOP_UP_NETWORK = isMainnet
   ? EBlockchain.eth
   : EBlockchain.eth_holesky;

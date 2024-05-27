@@ -14,7 +14,7 @@ import { useOngoingPaymentsStyles } from './useOngoingPaymentsStyles';
 
 interface IOngoingPaymentsProps {
   className?: string;
-  handleOpenDepositDialog: () => void;
+  handleOpenDepositDialog: (network: EBlockchain) => void;
 }
 
 export const OngoingPayments = ({
@@ -44,6 +44,10 @@ export const OngoingPayments = ({
   }, [handleResetDeposit, handleResetTopUpTransaction]);
 
   const shouldRenderOngoingPayments = shouldShowOngoingPayment && !isLoading;
+
+  const handleClickDetails = useCallback(() => {
+    handleOpenDepositDialog(network ?? EBlockchain.eth);
+  }, [handleOpenDepositDialog, network]);
 
   if (!shouldRenderOngoingPayments) {
     return null;
@@ -89,7 +93,7 @@ export const OngoingPayments = ({
           <Button
             variant="outlined"
             size="extraSmall"
-            onClick={handleOpenDepositDialog}
+            onClick={handleClickDetails}
           >
             {t('account.payment-table.details')}
           </Button>

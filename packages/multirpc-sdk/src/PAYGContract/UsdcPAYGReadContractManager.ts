@@ -1,9 +1,11 @@
 import { Contract, EventData } from 'web3-eth-contract';
-import { Web3KeyReadProvider } from '@ankr.com/provider';
+import { ProviderManager, Web3KeyReadProvider } from '@ankr.com/provider';
 
-import { Web3Address } from '../common';
+import { EBlockchain, Web3Address } from '../common';
 import ABI_USDC_TOKEN from './abi/UsdcToken.json';
 import ABI_PAY_AS_YOU_GO_COMMON from './abi/PayAsYouGoCommon.json';
+import { IUsdcToken } from './abi/IUsdcToken';
+import { getReadProviderByNetwork } from '../utils';
 
 export class UsdcPAYGReadContractManager {
   protected readonly usdcTokenReadContract: Contract;
@@ -42,5 +44,25 @@ export class UsdcPAYGReadContractManager {
       .sort((a, b) => a.blockNumber - b.blockNumber);
 
     return allowanceEvents;
+  }
+
+  protected async getAccountBalance(
+    accountAddress: Web3Address,
+    network: EBlockchain,
+    tokenAddress: Web3Address,
+  ) {
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDC_TOKEN,
+      tokenAddress,
+    );
+
+    const balance = await (contract.methods as IUsdcToken)
+      .balanceOf(accountAddress)
+      .call();
+
+    return balance;
   }
 }
