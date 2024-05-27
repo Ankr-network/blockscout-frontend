@@ -102,7 +102,7 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     return {
       feeCrypto: feeCrypto.toNumber(),
       feeUSD: feeUsd.toNumber(),
-      txURL: txHash ? getTxExplorerUrl(txHash) : undefined,
+      txURL: txHash ? getTxExplorerUrl(network, txHash) : undefined,
     };
   }, [fee, price]);
 
