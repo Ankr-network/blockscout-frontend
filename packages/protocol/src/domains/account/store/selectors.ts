@@ -840,7 +840,11 @@ export const selectPaymentOptionsState = createSelector(
 export const selectPaymentOptions = createSelector(
   selectPaymentOptionsState,
   ({ data }) => {
-    const filteredData = data?.result.options;
+    const filteredData = data?.result.options.filter(
+      option =>
+        option.blockchain !== EBlockchain.arbitrum_sepolia &&
+        option.blockchain !== EBlockchain.arbitrum,
+    );
 
     return { result: { options: filteredData } };
   },
