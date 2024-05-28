@@ -37,7 +37,7 @@
       "h1-tag": "Find fast and reliable RPCs, APIs, and endpoints"
     },
     "chain-item": {
-      "title": "[{chainId} RPC] Free WEB3 API endpoints for blockchain interaction",
+      "title": "[{chainId} Dedicated RPC] Free WEB3 API endpoints for blockchain interaction",
       "description": "Use Ankr's {chainId} API to power dApp and crypto projects with blockchain interaction. Make {chainId} RPC requests to access reliable web3 data. Start for Free.",
       "h1-tag": "Access a fast, reliable, and decentralized {chainId} RPC"
     }
