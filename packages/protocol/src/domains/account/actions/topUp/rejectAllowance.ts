@@ -5,6 +5,7 @@ import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { setAllowanceTransaction } from 'domains/account/store/accountTopUpSlice';
+import { ANKR_TOP_UP_NETWORK } from 'domains/account/const';
 import { web3Api } from 'store/queries';
 
 import { fetchBalance } from '../balance/fetchBalance';
@@ -38,6 +39,7 @@ export const {
 
             await dispatch(
               topUpCheckAllowanceTransaction.initiate({
+                network: ANKR_TOP_UP_NETWORK,
                 initialTransactionHash: rejectAllowanceTransactionHash,
               }),
             );

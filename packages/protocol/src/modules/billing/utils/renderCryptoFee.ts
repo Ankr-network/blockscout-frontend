@@ -2,6 +2,11 @@ import BigNumber from 'bignumber.js';
 import { t } from '@ankr.com/common';
 import { EBlockchain } from 'multirpc-sdk';
 
+import {
+  CRYPTO_DECIMALS,
+  LOW_APPROXIMATED_CRYPTO,
+} from 'modules/common/constants/const';
+
 import { nativeTokenNameMap } from '../const';
 
 export interface IRenderCryptoFeeParams {
@@ -15,7 +20,13 @@ export const renderCryptoFee = ({
   isApproximate,
   network,
 }: IRenderCryptoFeeParams) => {
-  const fee = new BigNumber(rawFee).toFixed(5);
+  const value = new BigNumber(rawFee);
+
+  const shouldShowSmallestValue = value.isLessThan(LOW_APPROXIMATED_CRYPTO);
+
+  const fee = (shouldShowSmallestValue ? LOW_APPROXIMATED_CRYPTO : value)
+    .decimalPlaces(CRYPTO_DECIMALS, BigNumber.ROUND_UP)
+    .toFormat();
   const networkName = t(nativeTokenNameMap[network]);
 
   return t('account.amounts.fee.crypto', {

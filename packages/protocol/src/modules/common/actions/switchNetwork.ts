@@ -17,7 +17,7 @@ export const {
   endpoints: build => ({
     switchNetwork: build.mutation<null, EEthereumNetworkId>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(async chainId => {
+        queryFn: createNotifyingQueryFn(async ({ params: chainId }) => {
           const provider =
             await getProviderManager().getProvider<EthereumWeb3KeyProvider>(
               AvailableWriteProviders.ethCompatible,

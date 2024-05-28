@@ -5,6 +5,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { web3Api } from 'store/queries';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 export const {
   endpoints: { topUpGetLastLockedFundsEvent },
@@ -20,7 +21,7 @@ export const {
 
             const data = await web3Service
               .getContractService()
-              .getLastLockedFundsEvent(address);
+              .getLastLockedFundsEvent(address, ANKR_TOP_UP_NETWORK);
 
             return { data: data || false };
           },

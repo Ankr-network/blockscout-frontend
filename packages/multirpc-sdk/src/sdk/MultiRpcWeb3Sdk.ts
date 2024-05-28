@@ -1,4 +1,5 @@
 import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
 
 import {
   IConfig,
@@ -52,12 +53,15 @@ export class MultiRpcWeb3Sdk {
     return this.keyReadProvider;
   }
 
-  public async isOldPremiumAndActiveToken(user: Web3Address) {
+  public async isOldPremiumAndActiveToken(
+    user: Web3Address,
+    blockchain: TBlockchain
+  ) {
     const tokenIssuerService = this.getTokenIssuerService();
 
     const allTokens = await tokenIssuerService.getAllIssuedJwtTokens(user);
     const transactionHashes =
-      await tokenIssuerService.getAllLatestUserTierAssignedEventLogHashes(user);
+      await tokenIssuerService.getAllLatestUserTierAssignedEventLogHashes(user, blockchain);
 
     const isNewUserWithPAYGTransaction =
       (!allTokens || allTokens?.length === 0) && Boolean(transactionHashes);
@@ -76,62 +80,20 @@ export class MultiRpcWeb3Sdk {
 
   public async getOldPremiumJwtToken(
     user: Web3Address,
+    blockchain: TBlockchain
   ): Promise<JwtTokenFullData> {
     const tokenIssuerService = this.getTokenIssuerService();
 
-    return tokenIssuerService.getIssuedJwtTokenOrIssue(user);
+    return tokenIssuerService.getIssuedJwtTokenOrIssue(user, blockchain);
   }
 
-  public async shouldIssueToken(user: Web3Address) {
-    const tokenIssuerService = this.getTokenIssuerService();
-
-    const allTokens = await tokenIssuerService.getAllIssuedJwtTokens(user);
-    const transactionHashes =
-      await tokenIssuerService.getAllLatestUserTierAssignedEventLogHashes(user);
-
-    const isNewUserWithPAYGTransaction =
-      (!allTokens || allTokens?.length === 0) && Boolean(transactionHashes);
-
-    if (isNewUserWithPAYGTransaction) return true;
-
-    const hasPAYGTransactionAndTokenIsNotIssued = Boolean(
-      allTokens &&
-      allTokens?.length === 1 &&
-      transactionHashes &&
-      !transactionHashes?.includes(allTokens?.[0]?.id as string),
-    );
-
-    const premiumToken = allTokens?.[0];
-
-    const parsedToken = parseJwtToken(premiumToken?.signing_data);
-    const isPremium = parsedToken?.sub?.tier === Tier.Premium;
-    const isExpiredToken =
-      Number(premiumToken?.expires_at) * DATE_MULTIPLIER < Date.now();
-
-    const isPremiumUserWithExpiredTokenAndPAYGTransaction =
-      isPremium && isExpiredToken && hasPAYGTransactionAndTokenIsNotIssued;
-
-    return isPremiumUserWithExpiredTokenAndPAYGTransaction;
-  }
-
-  public async getIssuedJwtTokenOrIssue(
+  public async issueJwtToken(
     user: Web3Address,
+    blockchain: TBlockchain
   ): Promise<JwtTokenFullData> {
     const tokenIssuerService = this.getTokenIssuerService();
 
-    const shouldIssueToken = await this.shouldIssueToken(user);
-
-    if (shouldIssueToken) {
-      return this.issueJwtToken(user);
-    }
-
-    return tokenIssuerService.getIssuedJwtTokenOrIssue(user);
-  }
-
-  public async issueJwtToken(user: Web3Address): Promise<JwtTokenFullData> {
-    const tokenIssuerService = this.getTokenIssuerService();
-
-    return tokenIssuerService.issueJwtToken(user);
+    return tokenIssuerService.issueJwtToken(user, blockchain);
   }
 
   public async getAuthorizationToken(lifeTime: number): Promise<string> {

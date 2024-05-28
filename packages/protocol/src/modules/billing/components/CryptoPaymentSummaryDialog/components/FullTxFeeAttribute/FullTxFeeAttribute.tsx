@@ -5,6 +5,8 @@ import { EBlockchain } from 'multirpc-sdk';
 import { IFeeDetails } from 'modules/billing/types';
 import { FeeAmount } from 'modules/billing/components/FeeAmount';
 import { TxAttribute } from 'modules/billing/components/TxAttribute';
+import { sumAmountsWithRoundUp } from 'modules/billing/utils/sumAmountsWithRoundUp';
+import { CRYPTO_DECIMALS, USD_DECIMALS } from 'modules/common/constants/const';
 
 import { useFullTxFeeAttributeStyles } from './useFullTxFeeAttributeStyles';
 
@@ -25,8 +27,16 @@ export const FullTxFeeAttribute = ({
   isWalletConnected,
   network,
 }: IFullTxFeeAttributeProps) => {
-  const feeCrypto = approvalFeeDetails.feeCrypto + depositFeeDetails.feeCrypto;
-  const feeUSD = approvalFeeDetails.feeUSD + depositFeeDetails.feeUSD;
+  const feeCrypto = sumAmountsWithRoundUp(
+    approvalFeeDetails.feeCrypto,
+    depositFeeDetails.feeCrypto,
+    CRYPTO_DECIMALS,
+  );
+  const feeUSD = sumAmountsWithRoundUp(
+    approvalFeeDetails.feeUSD,
+    depositFeeDetails.feeUSD,
+    USD_DECIMALS,
+  );
 
   const { classes } = useFullTxFeeAttributeStyles();
 

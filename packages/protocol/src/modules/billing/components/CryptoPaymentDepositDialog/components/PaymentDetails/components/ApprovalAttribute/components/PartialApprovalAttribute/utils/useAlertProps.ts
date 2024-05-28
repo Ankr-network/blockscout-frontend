@@ -7,7 +7,8 @@ import { REVOKE_CASH_URL } from 'modules/billing/const';
 
 export interface IGetAlertPropsParams {
   amountToDeposit: string;
-  approvedAmount: string;
+  approvedAmount: number;
+  approvedAmountString: string;
   hasEnoughApproval: boolean;
   currency: ECurrency;
   error?: string;
@@ -24,6 +25,7 @@ const alertKeyRevokeApproval =
 export const useAlertProps = ({
   amountToDeposit,
   approvedAmount,
+  approvedAmountString,
   hasEnoughApproval,
   currency,
   error,
@@ -31,7 +33,8 @@ export const useAlertProps = ({
 }: IGetAlertPropsParams): IAlertProps => {
   const hasErrorStatus = status === ECryptoDepositStepStatus.Error;
 
-  const isRevokeAlert = currency === ECurrency.USDT && !hasEnoughApproval;
+  const isRevokeAlert =
+    currency === ECurrency.USDT && approvedAmount !== 0 && !hasEnoughApproval;
 
   const text = useMemo(() => {
     if (error && hasErrorStatus) {
@@ -39,24 +42,30 @@ export const useAlertProps = ({
     }
 
     if (hasEnoughApproval) {
-      return t(alertKeyEnoughApproval, { amountToDeposit, approvedAmount });
+      return t(alertKeyEnoughApproval, {
+        amountToDeposit,
+        approvedAmount: approvedAmountString,
+      });
     }
 
     if (isRevokeAlert) {
       return tHTML(alertKeyRevokeApproval, {
-        approvedAmount,
+        approvedAmount: approvedAmountString,
         href: REVOKE_CASH_URL,
       });
     }
 
     if (!hasEnoughApproval) {
-      return t(alertKeyNotEnoughApproval, { amountToDeposit, approvedAmount });
+      return t(alertKeyNotEnoughApproval, {
+        amountToDeposit,
+        approvedAmount: approvedAmountString,
+      });
     }
 
     return '';
   }, [
     amountToDeposit,
-    approvedAmount,
+    approvedAmountString,
     isRevokeAlert,
     error,
     hasErrorStatus,

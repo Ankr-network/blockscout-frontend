@@ -6,10 +6,10 @@ import {
   EEthereumNetworkId,
 } from '@ankr.com/provider';
 
-import { getWeb3RpcUrl } from './utils/getWeb3Instance';
+import { getWeb3EthRpcUrl } from './utils/getWeb3Instance';
 
 const RPC_URLS: IPartialRpcUrlsConfig = {
-  [AvailableReadProviders.ethMainnet]: getWeb3RpcUrl(),
+  [AvailableReadProviders.ethMainnet]: getWeb3EthRpcUrl(),
 };
 
 export class ProviderManagerSingleton {
@@ -20,7 +20,7 @@ export class ProviderManagerSingleton {
       return ProviderManagerSingleton.instance;
     }
 
-    DEFAULT_RPC[EEthereumNetworkId.mainnet] = getWeb3RpcUrl();
+    DEFAULT_RPC[EEthereumNetworkId.mainnet] = getWeb3EthRpcUrl();
 
     ProviderManagerSingleton.instance = new ProviderManager(
       undefined,

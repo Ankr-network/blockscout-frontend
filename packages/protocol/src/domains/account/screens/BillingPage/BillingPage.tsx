@@ -1,6 +1,8 @@
+import { useCallback } from 'react';
 import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
@@ -30,12 +32,17 @@ export const BillingPage = () => {
 
   const { classes } = useStyles();
 
+  const handleOpenDepositDialog = useCallback(
+    (network: EBlockchain) => {
+      paymentFormProps.cryptoPaymentSummaryProps?.handleNetworkChange(network);
+      paymentFormProps.cryptoPaymentDepositDialogProps.onOpen();
+    },
+    [paymentFormProps],
+  );
+
   if (loading) {
     return <OverlaySpinner />;
   }
-
-  const handleOpenDepositDialog =
-    paymentFormProps.cryptoPaymentDepositDialogProps.onOpen;
 
   return (
     <Box className={classes.root}>

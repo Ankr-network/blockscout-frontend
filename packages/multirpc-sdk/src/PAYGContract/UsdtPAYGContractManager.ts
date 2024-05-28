@@ -3,12 +3,24 @@ import {
   Web3KeyWriteProvider,
   IWeb3SendResult,
   Web3KeyReadProvider,
+  ProviderManager,
 } from '@ankr.com/provider';
 import { Contract } from 'web3-eth-contract';
 
-import { IAllowanceParams, Web3Address } from '../common';
+import {
+  EBlockchain,
+  IAllowanceParams,
+  IDepositStablecoinToPAYGParams,
+  IGetAllowanceFeeParams,
+  IGetAllowanceValueParams,
+  IGetDepositStablecoinToPAYGFeeParams,
+  ISetAllowanceParams,
+  Web3Address,
+} from '../common';
 import {
   DepositTokenForUserParams,
+  IThrowErrorIfDepositIsGreaterThanAllowanceParams,
+  IThrowErrorIfValueIsGreaterThanBalanceParams,
   SendDepositTokenTransactionForUserParams,
 } from './types';
 import { IUsdtToken } from './abi/IUsdtToken';
@@ -19,6 +31,7 @@ import { UsdtPAYGReadContractManager } from './UsdtPAYGReadContractManager';
 import {
   convertNumberWithDecimalsToString,
   getBNAmountByTokenDecimals,
+  getReadProviderByNetwork,
   getBNWithDecimalsFromString,
 } from '../utils';
 import { GAS_LIMIT } from './const';
@@ -53,14 +66,10 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     );
   }
 
-  public async getCurrentAccountBalance() {
+  public async getCurrentAccountBalance(network: EBlockchain, tokenAddress: Web3Address) {
     const { currentAccount } = this.keyWriteProvider;
 
-    const balance = await (this.usdtTokenContract.methods as IUsdtToken)
-      .balanceOf(currentAccount)
-      .call();
-
-    return balance;
+    return this.getAccountBalance(currentAccount, network, tokenAddress);
   }
 
   private async sendAllowance({
@@ -91,12 +100,22 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     );
   }
 
-  public async getAllowanceFee(
-    allowanceValue: BigNumber,
-    depositContractAddress: Web3Address,
-    tokenDecimals: number,
-  ) {
+  public async getAllowanceFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetAllowanceFeeParams) {
     const { currentAccount } = this.keyWriteProvider;
+
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDT_TOKEN,
+      tokenAddress,
+    );
 
     let gasAmount = 0;
 
@@ -105,17 +124,17 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     // if user already have any approved amount
     // p.s. this is the specifics of USDT smart contract
     try {
-      gasAmount = await (this.usdtTokenContract.methods as IUsdtToken)
+      gasAmount = await (contract.methods as IUsdtToken)
         .approve(
           depositContractAddress,
-          convertNumberWithDecimalsToString(allowanceValue, tokenDecimals),
+          convertNumberWithDecimalsToString(amount, tokenDecimals),
         )
         .estimateGas({
           from: currentAccount,
           gas: Number(GAS_LIMIT),
         });
     } catch {
-      gasAmount = await (this.usdtTokenContract.methods as IUsdtToken)
+      gasAmount = await (contract.methods as IUsdtToken)
         .approve(depositContractAddress, ZERO_STRING)
         .estimateGas({
           from: currentAccount,
@@ -167,10 +186,14 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     );
   }
 
-  private async throwErrorIfValueIsGreaterThanBalance(value: BigNumber) {
-    const balance = await this.getCurrentAccountBalance();
+  private async throwErrorIfValueIsGreaterThanBalance({
+    amount,
+    network,
+    tokenAddress,
+  }: IThrowErrorIfValueIsGreaterThanBalanceParams) {
+    const balance = await this.getCurrentAccountBalance(network, tokenAddress);
 
-    if (value.isGreaterThan(new BigNumber(balance))) {
+    if (amount.isGreaterThan(new BigNumber(balance))) {
       throw new Error(`You don't have enough Usdt tokens`);
     }
   }
@@ -185,17 +208,17 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     }
   }
 
-  private throwErrorIfDepositIsGreaterThanAllowance(
-    deposit: BigNumber,
-    allowance: BigNumber,
-    tokenDecimals: number,
-  ) {
+  private throwErrorIfDepositIsGreaterThanAllowance({
+    depositValue,
+    allowanceValue,
+    tokenDecimals,
+  }: IThrowErrorIfDepositIsGreaterThanAllowanceParams) {
     const amount = getBNWithDecimalsFromString(
-      allowance.toFixed(),
+      allowanceValue.toFixed(),
       tokenDecimals,
     );
 
-    if (deposit.isGreaterThan(allowance)) {
+    if (depositValue.isGreaterThan(allowanceValue)) {
       throw new Error(`${DEPOSIT_ERROR} (${amount})`);
     }
   }
@@ -204,15 +227,20 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     allowanceValue,
     depositContractAddress,
     tokenAddress,
+    network,
     tokenDecimals,
-  }: IAllowanceParams) {
+  }: ISetAllowanceParams) {
     const allowanceAmount = getBNAmountByTokenDecimals({
       value: allowanceValue,
       tokenDecimals,
     });
 
     this.throwErrorIfValueIsLessThanZero(allowanceAmount);
-    await this.throwErrorIfValueIsGreaterThanBalance(allowanceAmount);
+    await this.throwErrorIfValueIsGreaterThanBalance({
+      amount: allowanceAmount,
+      network,
+      tokenAddress
+    });
 
     return this.sendAllowance({
       allowanceValue,
@@ -221,43 +249,72 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
       tokenAddress,
     });
   }
+  async getAllowanceValue({
+    network,
+    depositContractAddress,
+    tokenAddress,
+  }: IGetAllowanceValueParams) {
+    const { currentAccount } = this.keyWriteProvider;
 
-  async getAllowanceValue(depositContractAddress: Web3Address) {
-    const provider = this.keyWriteProvider;
-    const { currentAccount } = provider;
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
 
-    const allowance = await (this.usdtTokenContract.methods as IUsdtToken)
+    const contract = provider.createContract(
+      ABI_USDT_TOKEN,
+      tokenAddress,
+    );
+
+    const allowance = await (contract.methods as IUsdtToken)
       .allowance(currentAccount, depositContractAddress)
       .call();
 
     return new BigNumber(allowance);
   }
 
-  // eslint-disable-next-line max-params
-  async depositUSDT(
-    depositValue: BigNumber,
-    tokenAddress: Web3Address,
-    tokenDecimals: number,
-    depositContractAddress: Web3Address,
-  ): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+  async depositUSDT({
+    amount,
+    network,
+    tokenAddress,
+    tokenDecimals,
+    depositContractAddress,
+  }: IDepositStablecoinToPAYGParams): Promise<IWeb3SendResult> {
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
-    this.throwErrorIfValueIsLessThanZero(depositValue);
-    await this.throwErrorIfValueIsGreaterThanBalance(depositValue);
-    this.throwErrorIfDepositIsGreaterThanAllowance(
-      depositValue,
+    this.throwErrorIfValueIsLessThanZero(amount);
+    await this.throwErrorIfValueIsGreaterThanBalance({
+      amount,
+      network,
+      tokenAddress
+    });
+    this.throwErrorIfDepositIsGreaterThanAllowance({
+      depositValue: amount,
       allowanceValue,
       tokenDecimals,
-    );
+    });
 
-    return this.sendDepositTransaction(depositValue, tokenAddress);
+    return this.sendDepositTransaction(amount, tokenAddress);
   }
 
-  async getDepositUsdtFee(
-    depositValue: BigNumber,
-    depositContractAddress: Web3Address,
-  ) {
+  async getDepositUsdtFee({
+    network,
+    tokenAddress,
+    amount,
+    depositContractAddress,
+    tokenDecimals,
+  }: IGetDepositStablecoinToPAYGFeeParams) {
     const { currentAccount } = this.keyWriteProvider;
+
+    const provider =
+      await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
+
+    const contract = provider.createContract(
+      ABI_USDT_TOKEN,
+      tokenAddress,
+    );
 
     let gasAmount = 0;
 
@@ -266,16 +323,19 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     // if user don't have enough allowance or tokens
     // p.s. this is the specifics of USDT smart contract
     try {
-      gasAmount = await (this.usdtTokenContract.methods as IUsdtToken)
-        .transfer(depositContractAddress, depositValue.toString(10))
+      gasAmount = await (contract.methods as IUsdtToken)
+        .transfer(
+          depositContractAddress,
+          convertNumberWithDecimalsToString(amount, tokenDecimals)
+        )
         .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
     } catch (e) {
-      gasAmount = await (this.usdtTokenContract.methods as IUsdtToken)
+      gasAmount = await (contract.methods as IUsdtToken)
         .transfer(depositContractAddress, ZERO_STRING)
         .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
     }
 
-    const gasPrice = await this.keyWriteProvider.getSafeGasPriceWei();
+    const gasPrice = await provider.getSafeGasPriceWei();
 
     const feeWei = gasPrice.multipliedBy(gasAmount);
 
@@ -286,18 +346,28 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     depositValue,
     targetAddress,
     tokenAddress,
+    network,
     depositContractAddress,
     tokenDecimals,
   }: DepositTokenForUserParams): Promise<IWeb3SendResult> {
-    const allowanceValue = await this.getAllowanceValue(depositContractAddress);
+    const allowanceValue = await this.getAllowanceValue({
+      network,
+      tokenAddress,
+      depositContractAddress,
+    });
 
     this.throwErrorIfValueIsLessThanZero(depositValue);
-    await this.throwErrorIfValueIsGreaterThanBalance(depositValue);
-    this.throwErrorIfDepositIsGreaterThanAllowance(
+    await this.throwErrorIfValueIsGreaterThanBalance({
+      amount:
+        depositValue,
+      network,
+      tokenAddress
+    });
+    this.throwErrorIfDepositIsGreaterThanAllowance({
       depositValue,
       allowanceValue,
       tokenDecimals,
-    );
+    });
 
     return this.sendDepositTransactionForUser({
       tokenAddress,

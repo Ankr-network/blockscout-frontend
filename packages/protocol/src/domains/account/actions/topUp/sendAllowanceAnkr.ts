@@ -10,6 +10,7 @@ import {
 } from 'domains/account/store/accountTopUpSlice';
 import { web3Api } from 'store/queries';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
+import { ANKR_TOP_UP_NETWORK } from 'domains/account/const';
 
 import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
@@ -41,6 +42,7 @@ export const {
 
             const receipt = await dispatch(
               topUpCheckAllowanceTransaction.initiate({
+                network: ANKR_TOP_UP_NETWORK,
                 initialTransactionHash: allowanceTransactionHash,
               }),
             ).unwrap();

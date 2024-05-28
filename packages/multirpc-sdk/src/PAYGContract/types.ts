@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { PrefixedHex, Web3Address } from '../common';
+import { EBlockchain, PrefixedHex, Web3Address } from '../common';
 
 export interface IAnkrPAYGContractManagerConfig {
   payAsYouGoAnkrTokenContractAddress: PrefixedHex;
@@ -33,6 +33,19 @@ export interface DepositTokenForUserParams {
   depositValue: BigNumber;
   targetAddress: string;
   tokenAddress: Web3Address;
+  network: EBlockchain;
   tokenDecimals: number;
   depositContractAddress: Web3Address;
+}
+
+export interface IThrowErrorIfValueIsGreaterThanBalanceParams {
+  amount: BigNumber;
+  network: EBlockchain;
+  tokenAddress: Web3Address;
+}
+
+export interface IThrowErrorIfDepositIsGreaterThanAllowanceParams {
+  depositValue: BigNumber;
+  allowanceValue: BigNumber;
+  tokenDecimals: number;
 }

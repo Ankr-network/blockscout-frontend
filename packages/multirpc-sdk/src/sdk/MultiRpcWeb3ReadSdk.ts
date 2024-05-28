@@ -1,4 +1,5 @@
 import { Web3KeyReadProvider } from '@ankr.com/provider';
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
 
 import { AccountingGateway } from '../accounting';
 import { IConfig, IJwtToken, JwtTokenFullData, Web3Address } from '../common';
@@ -17,7 +18,7 @@ export class MultiRpcWeb3ReadSdk {
   public constructor(
     private readonly keyReadProvider: Web3KeyReadProvider,
     private readonly config: IConfig,
-  ) {}
+  ) { }
 
   private getPAYGReadContractManager(): PAYGReadContractManager {
     this.PAYGReadContractManager =
@@ -58,10 +59,11 @@ export class MultiRpcWeb3ReadSdk {
   public async getIssuedJwtTokenOrIssue(
     user: Web3Address,
     publicKey: string,
+    blockchain: TBlockchain
   ): Promise<JwtTokenFullData> {
     const tokenIssuerService = this.getTokenIssuerService();
 
-    return tokenIssuerService.getIssuedJwtTokenOrIssue(user, publicKey);
+    return tokenIssuerService.getIssuedJwtTokenOrIssue(user, publicKey, blockchain);
   }
 
   public async getIssuedJwtToken(

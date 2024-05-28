@@ -1,13 +1,13 @@
-import { EEthereumNetworkId } from '@ankr.com/provider';
+import { EBlockchain } from 'multirpc-sdk';
 
-import { API_ENV, getExpectedChainId } from 'modules/common/utils/environment';
+import { EXPLORER_URLS } from '../const';
 
-export const getTxExplorerUrl = (transactionId = '') => {
-  const chainId = getExpectedChainId(API_ENV);
+export type TLinkType = 'tx' | 'address' | 'block';
 
-  if (chainId === EEthereumNetworkId.mainnet) {
-    return `https://etherscan.io/tx/${transactionId}`;
-  }
-
-  return `https://holesky.etherscan.io/tx/${transactionId}`;
+export const getTxExplorerUrl = (
+  network: EBlockchain,
+  txHash = '',
+  type: TLinkType = 'tx',
+) => {
+  return `${EXPLORER_URLS[network]}/${type}/${txHash}`;
 };

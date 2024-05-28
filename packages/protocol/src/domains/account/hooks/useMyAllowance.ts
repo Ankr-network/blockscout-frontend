@@ -1,5 +1,6 @@
-import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useMemo } from 'react';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { EBlockchain } from 'multirpc-sdk';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { ECurrency } from 'modules/billing/types';
@@ -50,8 +51,9 @@ export const useMyAllowance = ({
       depositContractAddress,
       tokenAddress,
       tokenDecimals,
+      network: transactionNetwork ?? EBlockchain.eth,
     }),
-    [depositContractAddress, tokenAddress, tokenDecimals],
+    [transactionNetwork, depositContractAddress, tokenAddress, tokenDecimals],
   );
 
   useFetchMyAllowanceAnkrQuery(

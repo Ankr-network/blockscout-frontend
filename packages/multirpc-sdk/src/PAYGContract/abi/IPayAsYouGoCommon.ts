@@ -51,7 +51,7 @@ export interface MethodConstantReturnContext<TCallReturn> {
   encodeABI(): string;
 }
 
-export interface MethodReturnContext extends MethodPayableReturnContext {}
+export interface MethodReturnContext extends MethodPayableReturnContext { }
 
 export type ContractContext = Web3ContractContext<
   IPayAsYouGoCommon,

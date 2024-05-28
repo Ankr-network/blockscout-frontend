@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
 import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
@@ -7,8 +7,9 @@ import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWith
 
 export interface IFetchUSDTAllowanceFeeParams {
   amount: number;
-  depositContractAddress: Web3Address;
+  network: EBlockchain;
   tokenAddress: Web3Address;
+  depositContractAddress: Web3Address;
   tokenDecimals: number;
 }
 
@@ -24,6 +25,7 @@ export const {
           async ({
             params: {
               amount,
+              network,
               depositContractAddress,
               tokenAddress,
               tokenDecimals,
@@ -38,11 +40,13 @@ export const {
                 tokenAddress,
               });
 
-              const fee = await contractService.getAllowanceFee(
-                new BigNumber(amount),
+              const fee = await contractService.getAllowanceFee({
+                network,
+                tokenAddress,
+                amount: new BigNumber(amount),
                 depositContractAddress,
                 tokenDecimals,
-              );
+              });
 
               return { data: Number(fee) };
             }

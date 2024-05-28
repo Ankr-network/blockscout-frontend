@@ -19,7 +19,7 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@ankr.com/advanced-api@*", "@ankr.com/advanced-api@^1.1.0":
+"@ankr.com/advanced-api@*":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ankr.com/advanced-api/-/advanced-api-1.1.0.tgz#52b1342ab554463ad20328f7e1304f2d7290ce18"
   integrity sha512-hRtnkMdZoZVUa7CdwGRpyQGHI19fUdegnbR70VpWyP02fkLKCo8XEkVQBNot4nQkXvvy66XVkXu8QX8f6yS5qQ==
@@ -29,6 +29,11 @@
     web3-core "1.7.0"
     web3-eth-contract "1.7.0"
     web3-utils "1.7.0"
+
+"@ankr.com/advanced-api@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@ankr.com/advanced-api/-/advanced-api-3.0.1.tgz#ef835cf7baca21cbb925f68e8d49c3c4ba737095"
+  integrity sha512-wHt1U/d94isgLD4T89+WqjFESsG7GmNLU121rQHW02hcukEfI77xKuMo9bsjzO6vweprFY5Joq+OH7QE2e9/UA==
 
 "@ankr.com/assets@^0.0.6":
   version "0.0.6"
@@ -92,10 +97,10 @@
     web3-utils "1.7.0"
     web3modal "^1.9.4"
 
-"@ankr.com/provider@^4.8.0":
-  version "4.8.0"
-  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-4.8.0.tgz#5c5fbdb691742297f6be8b714eedfba6b08ba022"
-  integrity sha512-R1h/c3tn+LuwEgWqX3s9D9TX/pJnmhMqQX2ea0zbQAo4BHjqOPUyFDpH/o4MpFKY3AKJYxjhA9CURsm/4uWqUQ==
+"@ankr.com/provider@^4.20.0":
+  version "4.20.0"
+  resolved "https://registry.yarnpkg.com/@ankr.com/provider/-/provider-4.20.0.tgz#fcb2365a6c048b8bd24603ec09b99ec5c1b9fff2"
+  integrity sha512-EJ9OwZYbyu8Aa0zGf7EHx0NiLrisJHuK8hbu/vu/QZnnzU60s5Fyw1bBMuZX/vzeObEutmBuS3L032yXgM6Gag==
   dependencies:
     "@binance-chain/bsc-connector" "^1.0.0"
     "@coinbase/wallet-sdk" "^3.5.2"

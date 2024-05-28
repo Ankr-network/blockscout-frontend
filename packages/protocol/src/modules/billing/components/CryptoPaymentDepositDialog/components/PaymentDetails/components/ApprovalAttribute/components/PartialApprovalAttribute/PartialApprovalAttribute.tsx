@@ -52,7 +52,8 @@ export const PartialApprovalAttribute = ({
 
   const alertProps = useAlertProps({
     amountToDeposit,
-    approvedAmount: approvedAmountString,
+    approvedAmount,
+    approvedAmountString,
     hasEnoughApproval: approvedAmount >= amount,
     currency,
     error,

@@ -22,9 +22,13 @@ export const useUSDTDepositFee = ({
 }: IUseUsdtAllowanceFeeProps) => {
   useFetchUSDTDepositFeeQuery(skipFetching ? skipToken : queryParams);
 
-  const fee = useAppSelector(selectUSDTDepositFee);
-  const isFetching = useAppSelector(selectUSDTDepositFeeFetching);
-  const isLoading = useAppSelector(selectUSDTDepositFeeLoading);
+  const fee = useAppSelector(state => selectUSDTDepositFee(state, queryParams));
+  const isFetching = useAppSelector(state =>
+    selectUSDTDepositFeeFetching(state, queryParams),
+  );
+  const isLoading = useAppSelector(state =>
+    selectUSDTDepositFeeLoading(state, queryParams),
+  );
 
   return { fee, isFetching, isLoading };
 };

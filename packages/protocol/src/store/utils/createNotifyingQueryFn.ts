@@ -64,6 +64,7 @@ export const createNotifyingQueryFn = queryFnWrapper({
 export const createWeb3NotifyingQueryFn = queryFnWrapper({
   onNotification({ api: { dispatch }, error }) {
     Sentry.captureException(error);
+
     if (shouldNotify(error)) {
       makeNotification(error, dispatch);
     }
