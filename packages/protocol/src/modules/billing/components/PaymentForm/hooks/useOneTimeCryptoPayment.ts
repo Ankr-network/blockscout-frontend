@@ -64,7 +64,7 @@ export const useOneTimeCryptoPayment = ({
     amount,
     currency,
     depositTxHash,
-    network,
+    network: txNetwork ?? network,
   });
 
   useAccountsChangedHandlingOnSummaryStep();
@@ -109,7 +109,7 @@ export const useOneTimeCryptoPayment = ({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
-    network,
+    network: txNetwork ?? network,
     amount,
     hasEnoughTokenBalance,
     isAccountChangedOnDepositStep,
@@ -128,7 +128,7 @@ export const useOneTimeCryptoPayment = ({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
-    network,
+    network: txNetwork ?? network,
     setIsAccountChangedOnDepositStep,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
