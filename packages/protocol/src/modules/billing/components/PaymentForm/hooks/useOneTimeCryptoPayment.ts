@@ -52,6 +52,8 @@ export const useOneTimeCryptoPayment = ({
   const allowanceTxHash = transaction?.allowanceTransactionHash;
   const txNetwork = transaction?.network;
 
+  const activeNetwork = txNetwork ?? network;
+
   const {
     refetchBalances,
     approvalFeeDetails,
@@ -64,7 +66,7 @@ export const useOneTimeCryptoPayment = ({
     amount,
     currency,
     depositTxHash,
-    network: txNetwork ?? network,
+    network: activeNetwork,
   });
 
   useAccountsChangedHandlingOnSummaryStep();
@@ -91,7 +93,7 @@ export const useOneTimeCryptoPayment = ({
     amount: amountToDeposit.toNumber(),
     currency,
     depositTxHash: depositTxHash ?? '',
-    network: txNetwork ?? network,
+    network: activeNetwork,
     onClose: handleCryptoPaymentSuccessDialogClose,
     paymentType: EPaymentType.OneTime,
   });
@@ -109,7 +111,7 @@ export const useOneTimeCryptoPayment = ({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
-    network: txNetwork ?? network,
+    network: activeNetwork,
     amount,
     hasEnoughTokenBalance,
     isAccountChangedOnDepositStep,
@@ -128,7 +130,7 @@ export const useOneTimeCryptoPayment = ({
     approvalFeeDetails,
     currency,
     depositFeeDetails,
-    network: txNetwork ?? network,
+    network: activeNetwork,
     setIsAccountChangedOnDepositStep,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
