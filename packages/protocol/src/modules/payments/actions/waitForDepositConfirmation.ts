@@ -16,50 +16,44 @@ import {
 import { waitForTxBlockConfirmation } from '../utils/waitForTxBlockConfirmation';
 
 export interface IWaitForDepositConfirmationParams {
-  txHash: string;
   txId: string;
 }
 
 export const {
-  endpoints: { waitForTxConfirmation },
-  useWaitForTxConfirmationMutation,
+  endpoints: { waitForDepositConfirmation },
+  useWaitForDepositConfirmationMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    waitForTxConfirmation: build.mutation<
+    waitForDepositConfirmation: build.mutation<
       boolean,
       IWaitForDepositConfirmationParams
     >({
-      queryFn: createNotifyingQueryFn(
-        async ({ txHash, txId }, { getState }) => {
-          const state = getState() as RootState;
+      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+        const state = getState() as RootState;
 
-          const tx = selectCryptoTxById(state, txId);
+        const tx = selectCryptoTxById(state, txId);
+        const depositTxHash = tx?.depositTxHash;
 
-          if (tx) {
-            const { currency, network } = tx;
+        if (depositTxHash) {
+          const { currency, network } = tx;
 
-            const { confirmationBlocksNumber } =
-              selectPaymentOptionsByNetworkAndCurrency(
-                state,
-                network,
-                currency,
-              );
+          const { confirmationBlocksNumber } =
+            selectPaymentOptionsByNetworkAndCurrency(state, network, currency);
 
-            const blocksToConfirm =
-              confirmationBlocksNumber ?? CONFIRMATION_BLOCKS;
+          const blocksToConfirm =
+            confirmationBlocksNumber ?? CONFIRMATION_BLOCKS;
 
-            const isConfirmed = await waitForTxBlockConfirmation({
-              blocksToConfirm,
-              network,
-              txHash,
-            });
+          const isConfirmed = await waitForTxBlockConfirmation({
+            blocksToConfirm,
+            network,
+            txHash: depositTxHash,
+          });
 
-            return { data: isConfirmed };
-          }
+          return { data: isConfirmed };
+        }
 
-          return { data: false };
-        },
-      ),
+        return { data: false };
+      }),
       onQueryStarted: async (
         { txId },
         { dispatch, getState, queryFulfilled },

@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import {
@@ -36,10 +35,9 @@ export const paymentsSlice = createSlice({
   reducers: {
     createCryptoTx: (state, action: PayloadAction<ICreateCryptoTxPayload>) => {
       const { payload } = action;
-      const id = uuid();
       const isApproved = payload.hadAllowance;
 
-      const tx: ICryptoTransaction = { id, isApproved, ...payload };
+      const tx: ICryptoTransaction = { isApproved, ...payload };
 
       state.cryptoTransactions.push(tx);
     },

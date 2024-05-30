@@ -2,34 +2,45 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
 import { formatToWei } from 'multirpc-sdk';
 
+import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { web3Api } from 'store/queries';
 
 import { handleAllowanceQuery } from '../utils/handleAllowanceQuery';
+import { selectCryptoTxById } from '../store/selectors';
 
-export interface ISendAnkrAllowanceToPaygParams {
-  amount: number;
+export interface ISendAllowanceAnkrParams {
   txId: string;
 }
 
 export const {
-  endpoints: { sendAnkrAllowanceToPayg },
-  useSendAnkrAllowanceToPaygMutation,
+  endpoints: { sendAllowanceAnkr },
+  useSendAllowanceAnkrMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    sendAnkrAllowanceToPayg: build.mutation<
+    sendAllowanceAnkr: build.mutation<
       IWeb3SendResult | null,
-      ISendAnkrAllowanceToPaygParams
+      ISendAllowanceAnkrParams
     >({
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
-          async ({ params: { amount }, web3Service }) => {
-            const allowanceResponse = await web3Service
-              .getContractService()
-              .setAllowanceForPAYG(formatToWei(new BigNumber(amount)));
+          async ({ params: { txId }, web3Service }, { getState }) => {
+            const state = getState() as RootState;
 
-            return { data: allowanceResponse };
+            const tx = selectCryptoTxById(state, txId);
+
+            if (tx) {
+              const { amount } = tx;
+
+              const allowanceResponse = await web3Service
+                .getContractService()
+                .setAllowanceForPAYG(formatToWei(new BigNumber(amount)));
+
+              return { data: allowanceResponse };
+            }
+
+            return { data: null };
           },
         ),
         fallback: { data: null },

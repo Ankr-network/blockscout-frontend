@@ -12,7 +12,6 @@ import {
 import { waitForTxBlockConfirmation } from '../utils/waitForTxBlockConfirmation';
 
 export interface IWaitForAllowanceConfirmationParams {
-  txHash: string;
   txId: string;
 }
 
@@ -25,27 +24,26 @@ export const {
       boolean,
       IWaitForAllowanceConfirmationParams
     >({
-      queryFn: createNotifyingQueryFn(
-        async ({ txHash, txId }, { getState }) => {
-          const state = getState() as RootState;
+      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+        const state = getState() as RootState;
 
-          const tx = selectCryptoTxById(state, txId);
+        const tx = selectCryptoTxById(state, txId);
+        const allowanceTxHash = tx?.allowanceTxHash;
 
-          if (tx) {
-            const { network } = tx;
+        if (allowanceTxHash) {
+          const { network } = tx;
 
-            const isConfirmed = await waitForTxBlockConfirmation({
-              blocksToConfirm: ALLOWANCE_CONFIRMATION_BLOCKS,
-              network,
-              txHash,
-            });
+          const isConfirmed = await waitForTxBlockConfirmation({
+            blocksToConfirm: ALLOWANCE_CONFIRMATION_BLOCKS,
+            network,
+            txHash: allowanceTxHash,
+          });
 
-            return { data: isConfirmed };
-          }
+          return { data: isConfirmed };
+        }
 
-          return { data: false };
-        },
-      ),
+        return { data: false };
+      }),
       onQueryStarted: async (
         { txId },
         { dispatch, getState, queryFulfilled },

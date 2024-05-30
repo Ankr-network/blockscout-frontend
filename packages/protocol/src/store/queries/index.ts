@@ -31,9 +31,15 @@ const endpointsSerializedByParams = [
   'fetchTxData',
   'fetchTxReceipt',
 
-  'estimateAnkrAllowanceToPaygFee',
-  'estimateUsdcAllowanceToPaygFee',
-  'estimateUsdtAllowanceToPaygFee',
+  'estimateAllowanceFeeAnkr',
+  'estimateAllowanceFeeUsdc',
+  'estimateAllowanceFeeUsdt',
+  'estimateDepositFeeAnkr',
+  'estimateDepositFeeUsdc',
+  'estimateDepositFeeUsdt',
+  'fetchAllowanceUsdc',
+  'fetchAllowanceUsdt',
+  'fetchTokenPrice',
 ];
 
 export const web3Api = createApi({

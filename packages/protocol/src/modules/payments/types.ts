@@ -7,24 +7,20 @@ export enum ECurrency {
   USDC = 'USDC',
 }
 
-export interface ICryptoTransactionKey {
-  accountAddress: Web3Address; // auth address or group address
-  amount: number;
-  currency: ECurrency;
-  network: EBlockchain;
-}
-
 export interface IFeeDetails {
   feeCrypto: number;
   feeUSD: number;
 }
 
-export interface ICryptoTransaction extends ICryptoTransactionKey {
+export interface ICryptoTransaction {
+  accountAddress: Web3Address; // auth address or group address
   allowanceAmount?: number;
   allowanceError?: string;
   allowanceFeeDetailsEstimated?: IFeeDetails;
   allowanceFeeDetailsPaid?: IFeeDetails;
   allowanceTxHash?: string;
+  amount: number;
+  currency: ECurrency;
   depositError?: string;
   depositFeeDetailsEstimated?: IFeeDetails;
   depositFeeDetailsPaid?: IFeeDetails;
@@ -32,16 +28,14 @@ export interface ICryptoTransaction extends ICryptoTransactionKey {
   from: Web3Address;
   hadAllowance: boolean;
   id: string;
-  isAllowanceConfirming: boolean;
+  isAllowanceConfirming?: boolean;
   isApproved: boolean;
   isApproving?: boolean;
   isConfirmed?: boolean;
-  isDepositConfirming: boolean;
+  isDepositConfirming?: boolean;
   isDepositing?: boolean;
   network: EBlockchain;
   to: Web3Address; // PAYG contract address
-  tokenContractAddress: string;
-  tokenDecimals: number;
 }
 
 export interface IFiatTransaction {
@@ -55,7 +49,7 @@ export interface IPaymentsSlice {
 }
 
 export interface ICreateCryptoTxPayload
-  extends Omit<ICryptoTransaction, 'id' | 'isApproved'> {}
+  extends Omit<ICryptoTransaction, 'isApproved'> {}
 
 export interface ICreateFiatTxPayload extends IFiatTransaction {}
 

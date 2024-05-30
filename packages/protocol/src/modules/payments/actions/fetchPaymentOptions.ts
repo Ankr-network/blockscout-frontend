@@ -17,6 +17,7 @@ import { useAppSelector } from 'store/useAppSelector';
 export const {
   endpoints: { fetchPaymentOptions },
   useFetchPaymentOptionsQuery,
+  useLazyFetchPaymentOptionsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchPaymentOptions: build.query<
@@ -52,7 +53,7 @@ export const usePaymentOptions = ({
   ...params
 }: IUsePaymentOptionsProps | void = {}) => {
   const { refetch } = useFetchPaymentOptionsQuery(
-    getQueryParams({ skipFetching, ...params }),
+    getQueryParams({ params, skipFetching }),
   );
 
   const paymentOptions = useAppSelector(selectPaymentOptions);

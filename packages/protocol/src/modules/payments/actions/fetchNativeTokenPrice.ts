@@ -20,6 +20,7 @@ export interface IFetchNativeTokenPriceParams {
 export const {
   endpoints: { fetchNativeTokenPrice },
   useFetchNativeTokenPriceQuery,
+  useLazyFetchNativeTokenPriceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchNativeTokenPrice: build.query<string, IFetchNativeTokenPriceParams>({
