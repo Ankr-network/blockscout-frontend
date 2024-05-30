@@ -33,10 +33,10 @@ export const useNetwork = (currency: ECurrency) => {
   }, [currency, paymentOptionsData]);
 
   useEffect(() => {
-    if (networkOptions.length) {
+    if (networkOptions.length && currency === ECurrency.ANKR) {
       setNetwork(networkOptions[0].value);
     }
-  }, [networkOptions]);
+  }, [networkOptions, currency]);
 
   const handleNetworkChange = useCallback(
     (newNetwork: EBlockchain) => setNetwork(newNetwork),
