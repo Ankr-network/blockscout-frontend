@@ -858,4 +858,26 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: [' https://testnet-explorer.xai-chain.net/'],
   },
+
+  [ChainID.BAHAMUT]: {
+    chainId: 5165,
+    chainName: 'Bahamut',
+    nativeCurrency: {
+      name: 'FTN',
+      symbol: 'FTN',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://www.ftnscan.com/'],
+  },
+
+  [ChainID.BAHAMUT_OCEAN]: {
+    chainId: 4058,
+    chainName: 'Bahamut Ocean Testnet',
+    nativeCurrency: {
+      name: 'FTN',
+      symbol: 'FTN',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://ocean.ftnscan.com/'],
+  },
 };
