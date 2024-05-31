@@ -62,6 +62,7 @@
     "common": "Oops! Something went wrong.",
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts."
   },
+  "maintenance-screen": "Maintenance is in progress.<br/><br/>No worries — your Web3 API calls are<br/>unaffected, we’re working on the<br/>Dashboard only.<br/><br/>You’ll be able to sign in shortly.<br/>Thanks for your patience.",
   "main-navigation": {
     "projects": "Projects",
     "analytics": "Analytics",
