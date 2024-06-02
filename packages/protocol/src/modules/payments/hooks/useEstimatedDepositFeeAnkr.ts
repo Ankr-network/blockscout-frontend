@@ -30,7 +30,7 @@ export const useEstimatedDepositFeeAnkr = ({
     [fetchLazy, params],
   );
 
-  const depositFee = useAppSelector(state =>
+  const depositFeeAnkr = useAppSelector(state =>
     selectEstimatedDepositFeeAnkr(state, params),
   );
 
@@ -39,7 +39,7 @@ export const useEstimatedDepositFeeAnkr = ({
   );
 
   return {
-    depositFee,
+    depositFeeAnkr,
     handleFetchEstimatedDepositFeeAnkr,
     handleRefetchEstimatedDepositFeeAnkr,
     isLoading,

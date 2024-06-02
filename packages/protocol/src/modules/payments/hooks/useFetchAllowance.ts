@@ -17,43 +17,53 @@ export const useFetchAllowance = ({
   network,
   skipFetching,
 }: IUseFetchAllowanceParams) => {
+  const isAnkr = currency === ECurrency.ANKR;
+  const isUsdc = currency === ECurrency.USDC;
+  const isUsdt = currency === ECurrency.USDT;
+
   const {
-    ankrAllowance,
+    allowanceAnkr,
     handleFetchAllowanceAnkr,
     isLoading: isAnkrAllowanceLoading,
-  } = useFetchAllowanceAnkr({ skipFetching });
+    resetAlowanceFetchingAnkr,
+  } = useFetchAllowanceAnkr({ skipFetching: skipFetching || !isAnkr });
 
   const {
-    usdcAllowance,
+    allowanceUsdc,
     handleFetchAllowanceUsdc,
     isLoading: isUsdcAllowanceLoading,
-  } = useFetchAllowanceUsdc({ network, skipFetching });
+    resetAlowanceFetchingUsdc,
+  } = useFetchAllowanceUsdc({ network, skipFetching: skipFetching || !isUsdc });
 
   const {
-    usdtAllowance,
+    allowanceUsdt,
     handleFetchAllowanceUsdt,
     isLoading: isUsdtAllowanceLoading,
-  } = useFetchAllowanceUsdt({ skipFetching, network });
+    resetAlowanceFetchingUsdt,
+  } = useFetchAllowanceUsdt({ network, skipFetching: skipFetching || !isUsdt });
 
-  if (currency === ECurrency.USDC) {
+  if (isUsdc) {
     return {
-      allowance: usdcAllowance,
+      allowance: allowanceUsdc,
       handleFetchAllowance: handleFetchAllowanceUsdc,
+      handleResetAllowanceFetching: resetAlowanceFetchingUsdc,
       isLoading: isUsdcAllowanceLoading,
     };
   }
 
-  if (currency === ECurrency.USDT) {
+  if (isUsdt) {
     return {
-      allowance: usdtAllowance,
+      allowance: allowanceUsdt,
       handleFetchAllowance: handleFetchAllowanceUsdt,
+      handleResetAllowanceFetching: resetAlowanceFetchingUsdt,
       isLoading: isUsdtAllowanceLoading,
     };
   }
 
   return {
-    allowance: ankrAllowance,
+    allowance: allowanceAnkr,
     handleFetchAllowance: handleFetchAllowanceAnkr,
+    handleResetAllowanceFetching: resetAlowanceFetchingAnkr,
     isLoading: isAnkrAllowanceLoading,
   };
 };

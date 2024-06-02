@@ -1,12 +1,12 @@
 import { MultiRpcWeb3Sdk } from 'multirpc-sdk';
 
-export interface IGetCurrentAccountBalanceParams {
+export interface IGetWalletBalanceAnkrParams {
   web3Service: MultiRpcWeb3Sdk;
 }
 
-export const getCurrentAccountBalanceAnkr = async ({
+export const getWalletBalanceAnkr = async ({
   web3Service,
-}: IGetCurrentAccountBalanceParams) => {
+}: IGetWalletBalanceAnkrParams) => {
   const balance = await web3Service
     .getContractService()
     .getCurrentAccountBalance();

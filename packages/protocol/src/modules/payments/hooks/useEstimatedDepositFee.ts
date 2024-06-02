@@ -15,43 +15,62 @@ export const useEstimatedDepositFee = ({
   skipFetching,
   txId,
 }: IUseEstimatedDepositFeeProps) => {
+  const isAnkr = currency === ECurrency.ANKR;
+  const isUsdc = currency === ECurrency.USDC;
+  const isUsdt = currency === ECurrency.USDT;
+
   const {
-    depositFee: ankrDepositFee,
+    depositFeeAnkr,
     handleFetchEstimatedDepositFeeAnkr,
+    handleRefetchEstimatedDepositFeeAnkr,
     isLoading: isAnkrDepositFeeEstimating,
-  } = useEstimatedDepositFeeAnkr({ skipFetching, txId });
+  } = useEstimatedDepositFeeAnkr({
+    skipFetching: skipFetching || !isAnkr,
+    txId,
+  });
 
   const {
-    depositFee: usdcDepositFee,
+    depositFeeUsdc,
     handleFetchEstimatedDepositFeeUsdc,
+    handleRefetchEstimatedDepositFeeUsdc,
     isLoading: isUsdcDepositFeeEstimating,
-  } = useEstimatedDepositFeeUsdc({ skipFetching, txId });
+  } = useEstimatedDepositFeeUsdc({
+    skipFetching: skipFetching || !isUsdc,
+    txId,
+  });
 
   const {
-    depositFee: usdtDepositFee,
+    depositFeeUsdt,
     handleFetchEstimatedDepositFeeUsdt,
+    handleRefetchEstimatedDepositFeeUsdt,
     isLoading: isUsdtDepositFeeEstimating,
-  } = useEstimatedDepositFeeUsdt({ skipFetching, txId });
+  } = useEstimatedDepositFeeUsdt({
+    skipFetching: skipFetching || !isUsdt,
+    txId,
+  });
 
-  if (currency === ECurrency.USDC) {
+  if (isUsdc) {
     return {
-      fee: usdcDepositFee,
+      depositFee: depositFeeUsdc,
       handleFetchEstimatedDepositFee: handleFetchEstimatedDepositFeeUsdc,
+      handleRefetchEstimatedDepositFee: handleRefetchEstimatedDepositFeeUsdc,
       isEstimating: isUsdcDepositFeeEstimating,
     };
   }
 
-  if (currency === ECurrency.USDT) {
+  if (isUsdt) {
     return {
-      fee: usdtDepositFee,
+      depositFee: depositFeeUsdt,
       handleFetchEstimatedDepositFee: handleFetchEstimatedDepositFeeUsdt,
+      handleRefetchEstimatedDepositFee: handleRefetchEstimatedDepositFeeUsdt,
       isEstimating: isUsdtDepositFeeEstimating,
     };
   }
 
   return {
-    fee: ankrDepositFee,
+    depositFee: depositFeeAnkr,
     handleFetchEstimatedDepositFee: handleFetchEstimatedDepositFeeAnkr,
+    handleRefetchEstimatedDepositFee: handleRefetchEstimatedDepositFeeAnkr,
     isEstimating: isAnkrDepositFeeEstimating,
   };
 };

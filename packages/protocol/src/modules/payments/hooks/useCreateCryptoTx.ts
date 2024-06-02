@@ -16,17 +16,17 @@ import { useFetchAllowance } from './useFetchAllowance';
 import { usePaygContractAddress } from './usePaygContractAddress';
 import { useNativeTokenPrice } from './useNativeTokenPrice';
 
-export interface IUseCreateCryptoTxProps {
+export interface IUseCryptoTxProps {
   amount: number;
   currency: ECurrency;
   network: EBlockchain;
 }
 
-export const useCreateCryptoTx = ({
+export const useCryptoTx = ({
   amount,
   currency,
   network,
-}: IUseCreateCryptoTxProps) => {
+}: IUseCryptoTxProps) => {
   const [txId] = useState<string>(uuid());
 
   const tx = useAppSelector(state => selectCryptoTxById(state, txId));
@@ -55,15 +55,16 @@ export const useCreateCryptoTx = ({
 
   const handleCreateCryptoTx = useCallback(async () => {
     if (walletAddress && paygContractAddress) {
-      const { data: allowance } = await handleFetchAllowance();
+      const { data: allowanceAmount = 0 } = await handleFetchAllowance();
 
       dispatch(
         createCryptoTx({
           accountAddress,
+          allowanceAmount,
           amount,
           currency,
           from: walletAddress,
-          hadAllowance: Boolean(allowance),
+          hadAllowance: Boolean(allowanceAmount),
           id: txId,
           network,
           to: paygContractAddress,

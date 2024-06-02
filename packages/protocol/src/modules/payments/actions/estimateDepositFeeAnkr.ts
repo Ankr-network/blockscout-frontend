@@ -7,7 +7,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
-import { getCurrentAccountBalanceAnkr } from '../utils/getCurrentAccountBalanceAnkr';
+import { getWalletBalanceAnkr } from '../utils/getWalletBalanceAnkr';
 import { handleEstimateDepositFeeQuery } from '../utils/handleEstimateDepositFeeQuery';
 import { selectCryptoTxById } from '../store/selectors';
 
@@ -43,9 +43,7 @@ export const {
                 return { data: fallback };
               }
 
-              const balance = await getCurrentAccountBalanceAnkr({
-                web3Service,
-              });
+              const balance = await getWalletBalanceAnkr({ web3Service });
 
               if (Number(balance) >= amount) {
                 const contractService = web3Service.getContractService();

@@ -12,26 +12,68 @@ export interface IUseSendAllowanceProps {
 export const useSendAllowance = ({ tx }: IUseSendAllowanceProps) => {
   const { currency, id: txId, isApproving: isAllowanceSending } = tx;
 
-  const [sendAnkrAllowance] = useSendAllowanceAnkrMutation();
-  const [sendUsdcAllowance] = useSendAllowanceUsdcMutation();
-  const [sendUsdtAllowance] = useSendAllowanceUsdtMutation();
+  const [
+    sendAnkrAllowance,
+    { data: sendAllowanceResultAnkr, reset: resetAllowanceSendingAnkr },
+  ] = useSendAllowanceAnkrMutation({ fixedCacheKey: txId });
+  const [
+    sendUsdcAllowance,
+    { data: sendAllowanceResultUsdc, reset: resetAllowanceSendingUsdc },
+  ] = useSendAllowanceUsdcMutation({ fixedCacheKey: txId });
+  const [
+    sendUsdtAllowance,
+    { data: sendAllowanceResultUsdt, reset: resetAllowanceSendingUsdt },
+  ] = useSendAllowanceUsdtMutation({ fixedCacheKey: txId });
 
-  const sendAllowance = useMemo(() => {
-    if (currency === ECurrency.USDC) {
-      return sendUsdcAllowance;
-    }
+  const isAllowanceSentAnkr = Boolean(sendAllowanceResultAnkr);
+  const isAllowanceSentUsdc = Boolean(sendAllowanceResultUsdc);
+  const isAllowanceSentUsdt = Boolean(sendAllowanceResultUsdt);
 
-    if (currency === ECurrency.USDT) {
-      return sendUsdtAllowance;
-    }
+  const [sendAllowance, handleResetAllowanceSending, isAllowanceSent] =
+    useMemo(() => {
+      if (currency === ECurrency.USDC) {
+        return [
+          sendUsdcAllowance,
+          resetAllowanceSendingUsdc,
+          isAllowanceSentUsdc,
+        ];
+      }
 
-    return sendAnkrAllowance;
-  }, [currency, sendAnkrAllowance, sendUsdcAllowance, sendUsdtAllowance]);
+      if (currency === ECurrency.USDT) {
+        return [
+          sendUsdtAllowance,
+          resetAllowanceSendingUsdt,
+          isAllowanceSentUsdt,
+        ];
+      }
+
+      return [
+        sendAnkrAllowance,
+        resetAllowanceSendingAnkr,
+        isAllowanceSentAnkr,
+      ];
+    }, [
+      currency,
+      isAllowanceSentAnkr,
+      isAllowanceSentUsdc,
+      isAllowanceSentUsdt,
+      resetAllowanceSendingAnkr,
+      resetAllowanceSendingUsdc,
+      resetAllowanceSendingUsdt,
+      sendAnkrAllowance,
+      sendUsdcAllowance,
+      sendUsdtAllowance,
+    ]);
 
   const handleSendAllowance = useCallback(
     () => sendAllowance({ txId }),
     [sendAllowance, txId],
   );
 
-  return { handleSendAllowance, isAllowanceSending };
+  return {
+    handleResetAllowanceSending,
+    handleSendAllowance,
+    isAllowanceSending,
+    isAllowanceSent,
+  };
 };

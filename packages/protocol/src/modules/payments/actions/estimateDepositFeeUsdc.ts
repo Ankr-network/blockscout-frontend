@@ -6,7 +6,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
-import { getCurrentAccountBalanceUsdc } from '../utils/getCurrencyAccountBalanceUsdc';
+import { getWalletBalanceUsdc } from '../utils/getWalletBalanceUsdc';
 import { handleEstimateDepositFeeQuery } from '../utils/handleEstimateDepositFeeQuery';
 import {
   selectCryptoTxById,
@@ -59,7 +59,7 @@ export const {
                 return { data: fallback };
               }
 
-              const balance = await getCurrentAccountBalanceUsdc({
+              const balance = await getWalletBalanceUsdc({
                 depositContractAddress,
                 tokenAddress,
                 tokenDecimals,

@@ -40,6 +40,8 @@ const endpointsSerializedByParams = [
   'fetchAllowanceUsdc',
   'fetchAllowanceUsdt',
   'fetchTokenPrice',
+  'fetchWalletBalanceUsdc',
+  'fetchWalletBalanceUsdt',
 ];
 
 export const web3Api = createApi({

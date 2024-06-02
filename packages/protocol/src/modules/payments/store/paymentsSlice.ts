@@ -14,6 +14,7 @@ import {
   ISetDepositFeeDetailsEstimatedPayload,
   ISetDepositFeeDetailsPaidPayload,
   ISetDepositTxHashPayload,
+  ISetFromAddressPayload,
   ISetIsAllowanceConfirmingPayload,
   ISetIsApprovedPayload,
   ISetIsApprovingPayload,
@@ -106,6 +107,9 @@ export const paymentsSlice = createSlice({
     ) => {
       updateCryptoTx({ action, state });
     },
+    setFromAddress: (state, action: PayloadAction<ISetFromAddressPayload>) => {
+      updateCryptoTx({ action, state });
+    },
     setIsAllowanceConfirming: (
       state,
       action: PayloadAction<ISetIsAllowanceConfirmingPayload>,
@@ -154,6 +158,7 @@ export const {
   setDepositFeeDetailsEstimated,
   setDepositFeeDetailsPaid,
   setDepositTxHash,
+  setFromAddress,
   setIsAllowanceConfirming,
   setIsApproved,
   setIsApproving,

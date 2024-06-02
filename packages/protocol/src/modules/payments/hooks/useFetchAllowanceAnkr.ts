@@ -1,5 +1,9 @@
+import { useCallback } from 'react';
+
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
+import { resetEndpoint } from 'store/utils/resetEndpoint';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
 
 import {
@@ -7,6 +11,7 @@ import {
   selectAllowanceAnkrLoading,
   useFetchAllowanceAnkrQuery,
   useLazyFetchAllowanceAnkrQuery,
+  selectAllowanceAnkrState,
 } from '../actions/fetchAllowanceAnkr';
 
 export interface IUseFetchAllowanceAnkrProps extends IUseQueryProps {}
@@ -20,13 +25,21 @@ export const useFetchAllowanceAnkr = ({
 
   const [handleFetchAllowanceAnkr] = useLazyFetchAllowanceAnkrQuery();
 
-  const ankrAllowance = useAppSelector(selectAllowanceAnkr);
+  const { endpointName } = useAppSelector(selectAllowanceAnkrState);
+  const allowanceAnkr = useAppSelector(selectAllowanceAnkr);
   const isLoading = useAppSelector(selectAllowanceAnkrLoading);
 
+  const dispatch = useAppDispatch();
+  const resetAlowanceFetchingAnkr = useCallback(
+    () => resetEndpoint(endpointName, dispatch),
+    [dispatch, endpointName],
+  );
+
   return {
-    ankrAllowance,
+    allowanceAnkr,
     handleFetchAllowanceAnkr,
     handleRefetchAllowanceAnkr,
     isLoading,
+    resetAlowanceFetchingAnkr,
   };
 };

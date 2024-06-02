@@ -30,7 +30,7 @@ export const useEstimatedAllowanceFeeUsdc = ({
     [fetchLazy, params],
   );
 
-  const allowanceFee = useAppSelector(state =>
+  const allowanceFeeUsdc = useAppSelector(state =>
     selectEstimatedAllowanceFeeUsdc(state, params),
   );
 
@@ -39,7 +39,7 @@ export const useEstimatedAllowanceFeeUsdc = ({
   );
 
   return {
-    allowanceFee,
+    allowanceFeeUsdc,
     handleFetchEstimatedAllowanceFeeUsdc,
     handleRefetchEstimatedAllowanceFeeUsdc,
     isLoading,

@@ -15,43 +15,64 @@ export const useEstimatedAllowanceFee = ({
   txId,
   skipFetching,
 }: IUseEstimatedAllowanceFeeProps) => {
+  const isAnkr = currency === ECurrency.ANKR;
+  const isUsdc = currency === ECurrency.USDC;
+  const isUsdt = currency === ECurrency.USDT;
+
   const {
-    allowanceFee: ankrAllowanceFee,
+    allowanceFeeAnkr,
     handleFetchEstimatedAllowanceFeeAnkr,
+    handleRefetchEstimatedAllowanceFeeAnkr,
     isLoading: isAnkrAllowanceFeeEstimating,
-  } = useEstimatedAllowanceFeeAnkr({ skipFetching, txId });
+  } = useEstimatedAllowanceFeeAnkr({
+    skipFetching: skipFetching || !isAnkr,
+    txId,
+  });
 
   const {
-    allowanceFee: usdcAllowanceFee,
+    allowanceFeeUsdc,
     handleFetchEstimatedAllowanceFeeUsdc,
+    handleRefetchEstimatedAllowanceFeeUsdc,
     isLoading: isUsdcAllowanceFeeEstimating,
-  } = useEstimatedAllowanceFeeUsdc({ skipFetching, txId });
+  } = useEstimatedAllowanceFeeUsdc({
+    skipFetching: skipFetching || !isUsdc,
+    txId,
+  });
 
   const {
-    allowanceFee: usdtAllowanceFee,
+    allowanceFeeUsdt,
     handleFetchEstimatedAllowanceFeeUsdt,
+    handleRefetchEstimatedAllowanceFeeUsdt,
     isLoading: isUsdtAllowanceFeeEstimating,
-  } = useEstimatedAllowanceFeeUsdt({ skipFetching, txId });
+  } = useEstimatedAllowanceFeeUsdt({
+    skipFetching: skipFetching || isUsdt,
+    txId,
+  });
 
-  if (currency === ECurrency.USDC) {
+  if (isUsdc) {
     return {
-      fee: usdcAllowanceFee,
+      allowanceFee: allowanceFeeUsdc,
       handleFetchEstimatedAllowanceFee: handleFetchEstimatedAllowanceFeeUsdc,
+      handleRefetchEstimatedAllowanceFee:
+        handleRefetchEstimatedAllowanceFeeUsdc,
       isEstimating: isUsdcAllowanceFeeEstimating,
     };
   }
 
-  if (currency === ECurrency.USDT) {
+  if (isUsdt) {
     return {
-      fee: usdtAllowanceFee,
+      allowanceFee: allowanceFeeUsdt,
       handleFetchEstimatedAllowanceFee: handleFetchEstimatedAllowanceFeeUsdt,
+      handleRefetchEstimatedAllowanceFee:
+        handleRefetchEstimatedAllowanceFeeUsdt,
       isEstimating: isUsdtAllowanceFeeEstimating,
     };
   }
 
   return {
-    fee: ankrAllowanceFee,
+    allowanceFee: allowanceFeeAnkr,
     handleFetchEstimatedAllowanceFee: handleFetchEstimatedAllowanceFeeAnkr,
+    handleRefetchEstimatedAllowanceFee: handleRefetchEstimatedAllowanceFeeAnkr,
     isEstimating: isAnkrAllowanceFeeEstimating,
   };
 };

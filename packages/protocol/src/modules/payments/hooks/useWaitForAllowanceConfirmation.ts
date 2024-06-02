@@ -12,13 +12,19 @@ export const useWaitForAllowanceConfirmation = ({
 }: IUseWaitForAllowanceConfirmationProps) => {
   const { id: txId, isAllowanceConfirming } = tx;
 
-  const [waitForAllowanceConfirmation] =
-    useWaitForAllowanceConfirmationMutation();
+  const [
+    waitForAllowanceConfirmation,
+    { reset: handleResetAllowanceConfirmation },
+  ] = useWaitForAllowanceConfirmationMutation({ fixedCacheKey: txId });
 
   const handleWaitForAllowanceConfirmation = useCallback(
     () => waitForAllowanceConfirmation({ txId }),
     [txId, waitForAllowanceConfirmation],
   );
 
-  return { handleWaitForAllowanceConfirmation, isAllowanceConfirming };
+  return {
+    handleResetAllowanceConfirmation,
+    handleWaitForAllowanceConfirmation,
+    isAllowanceConfirming,
+  };
 };

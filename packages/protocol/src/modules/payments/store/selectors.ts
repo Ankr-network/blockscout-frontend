@@ -1,10 +1,13 @@
+import BigNumber from 'bignumber.js';
 import { EBlockchain } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { ECurrency } from 'modules/billing/types';
+import { ECryptoDepositStepStatus, ECurrency } from 'modules/billing/types';
 import { RootState } from 'store';
 
+import { ANKR_PAYMENT_NETWORK, MIN_ANKR_AMOUNT } from '../const';
 import { selectPaymentOptions } from '../actions/fetchPaymentOptions';
+import { ECryptoDepositStep, INetwork } from '../types';
 
 export const selectPaymentsState = (state: RootState) => state.payments;
 
@@ -56,4 +59,138 @@ export const selectPaymentOptionsByNetworkAndCurrency = createSelector(
       tokenDecimals,
     };
   },
+);
+
+export const selectMinCryptoPaymentAmount = createSelector(
+  (_state: RootState, currency: ECurrency, network: EBlockchain) => ({
+    currency,
+    network,
+  }),
+  selectPaymentOptions,
+  ({ currency, network }, paymentOptions) => {
+    const networkOptions = paymentOptions?.options?.find(
+      networkOption => networkOption.blockchain === network,
+    );
+
+    const networkTokenOptions = networkOptions?.tokens.find(
+      token => token.token_symbol === currency.toString(),
+    );
+
+    if (networkTokenOptions) {
+      const { min_amount: minAmount, token_decimals: tokenDecimals } =
+        networkTokenOptions;
+
+      return new BigNumber(minAmount).dividedBy(10 ** tokenDecimals).toNumber();
+    }
+
+    return MIN_ANKR_AMOUNT;
+  },
+);
+
+export const selectNetworks = createSelector(
+  (_state: RootState, currency: ECurrency) => currency,
+  selectPaymentOptions,
+  (currency, paymentOptionsResult): INetwork[] => {
+    if (currency === ECurrency.ANKR) {
+      return [{ blockchain: ANKR_PAYMENT_NETWORK }];
+    }
+
+    const paymentOptions = paymentOptionsResult?.options ?? [];
+
+    return paymentOptions
+      .filter(({ tokens }) =>
+        tokens.some(token => token.token_symbol === currency.toString()),
+      )
+      .map<INetwork>(({ blockchain }) => ({ blockchain }));
+  },
+);
+
+export const selectCryptoDepositStep = createSelector(
+  selectCryptoTxById,
+  tx => {
+    if (tx) {
+      const {
+        depositError,
+        depositTxHash,
+        isDepositConfirming,
+        isDepositing,
+        isConfirmed,
+      } = tx;
+
+      const isDepositStep =
+        Boolean(depositError) ||
+        Boolean(depositTxHash) ||
+        isDepositConfirming ||
+        isDepositing ||
+        isConfirmed;
+
+      if (isDepositStep) {
+        return ECryptoDepositStep.Deposit;
+      }
+    }
+
+    return ECryptoDepositStep.Allowance;
+  },
+);
+
+export const selectAllowanceStepStatus = createSelector(
+  selectCryptoTxById,
+  selectCryptoDepositStep,
+  (tx, step) => {
+    if (tx) {
+      if (step === ECryptoDepositStep.Allowance) {
+        const {
+          allowanceError,
+          isAllowanceConfirming,
+          isApproved,
+          isApproving,
+        } = tx;
+
+        if (isApproved) {
+          return ECryptoDepositStepStatus.Complete;
+        }
+
+        if (allowanceError) {
+          return ECryptoDepositStepStatus.Error;
+        }
+
+        if (isApproving || isAllowanceConfirming) {
+          return ECryptoDepositStepStatus.Pending;
+        }
+      }
+    }
+
+    return ECryptoDepositStepStatus.Confirmation;
+  },
+);
+
+export const selectDepositStepStatus = createSelector(
+  selectCryptoTxById,
+  selectCryptoDepositStep,
+  (tx, step) => {
+    if (tx) {
+      if (step === ECryptoDepositStep.Deposit) {
+        const { depositError, isConfirmed, isDepositConfirming, isDepositing } =
+          tx;
+
+        if (isConfirmed) {
+          return ECryptoDepositStepStatus.Complete;
+        }
+
+        if (depositError) {
+          return ECryptoDepositStepStatus.Error;
+        }
+
+        if (isDepositing || isDepositConfirming) {
+          return ECryptoDepositStepStatus.Pending;
+        }
+      }
+    }
+
+    return ECryptoDepositStepStatus.Confirmation;
+  },
+);
+
+export const selectIsCryptoTxOngoing = createSelector(selectCryptoTxById, tx =>
+  Boolean(tx?.depositTxHash),
 );

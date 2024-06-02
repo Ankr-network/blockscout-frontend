@@ -1,4 +1,16 @@
-import { EBlockchain, Web3Address } from 'multirpc-sdk';
+import { EBlockchain, SubscriptionPrice, Web3Address } from 'multirpc-sdk';
+
+export enum ECryptoDepositStep {
+  Allowance = 1,
+  Deposit,
+}
+
+export enum ECryptoDepositStepStatus {
+  Complete = 1,
+  Confirmation,
+  Error,
+  Pending,
+}
 
 export enum ECurrency {
   ANKR = 'ANKR',
@@ -7,9 +19,29 @@ export enum ECurrency {
   USDC = 'USDC',
 }
 
+export enum EPaymentType {
+  OneTime = 'one-time',
+  Recurring = 'recurring',
+  Deal = 'deal',
+}
+
+export type TStablecoinCurrency = ECurrency.USDC | ECurrency.USDT;
+
+export type TCryptoCurrency = TStablecoinCurrency | ECurrency.ANKR;
+
+export interface IAmount {
+  currency: ECurrency;
+  id: SubscriptionPrice['id'];
+  value: number;
+}
+
 export interface IFeeDetails {
   feeCrypto: number;
   feeUSD: number;
+}
+
+export interface INetwork {
+  blockchain: EBlockchain;
 }
 
 export interface ICryptoTransaction {
@@ -97,6 +129,10 @@ export interface ISetDepositFeeDetailsEstimatedPayload
 export interface ISetDepositTxHashPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'depositTxHash'> {}
+
+export interface ISetFromAddressPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'from'> {}
 
 export interface ISetIsAllowanceConfirmingPayload
   extends IUpdateCryptoTxPayload,
