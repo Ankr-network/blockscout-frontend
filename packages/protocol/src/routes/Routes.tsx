@@ -42,20 +42,15 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { GuardTeamInvitationRoute } from 'domains/userSettings/components/GuardTeamInvitationRoute';
 import { TeamsRoutes, TeamsRoutesConfig } from 'domains/teams/Routes';
-import { MaintenanceRoutesConfig } from 'domains/maintenance/routes/routesConfig';
-import { MaintenanceRoutes } from 'domains/maintenance/routes/Routes';
 
 import { INDEX_PATH } from './constants';
 import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
-import { useMaintenanceRedirect } from './hooks/useMaintenanceRedirect';
 
 /* eslint-disable max-lines-per-function */
 export const Routes = () => {
   const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
 
   const shouldRedirectToProjects = useShouldRedirectToProjects();
-
-  useMaintenanceRedirect();
 
   return (
     <Switch>
@@ -79,16 +74,6 @@ export const Routes = () => {
         render={() => (
           <DefaultLayout hasNoReactSnap>
             <ProjectsRoutes />
-          </DefaultLayout>
-        )}
-      />
-
-      <Route
-        exact
-        path={MaintenanceRoutesConfig.maintenance.path}
-        render={() => (
-          <DefaultLayout isMaintenancePage>
-            <MaintenanceRoutes />
           </DefaultLayout>
         )}
       />
