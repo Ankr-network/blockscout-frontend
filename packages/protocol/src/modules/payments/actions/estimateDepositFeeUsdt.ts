@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
 
-import { RequestType, web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { web3Api } from 'store/queries';
 
 import { handleEstimateDepositFeeQuery } from '../utils/handleEstimateDepositFeeQuery';
 import {
@@ -25,7 +25,6 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     estimateDepositFeeUsdt: build.query<number, IEstimateDepositFeeUsdtParams>({
-      providesTags: [RequestType.USDTDepositFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { txId }, web3Service }, { getState }) => {

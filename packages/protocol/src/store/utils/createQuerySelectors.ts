@@ -18,17 +18,17 @@ export const createQuerySelectors = <Params, Result>({
   );
 
   const selectDataCachedByParams = createSelector(
-    selectStateCachedByParams,
+    (state: RootState, params: Params) => endpoint.select(params)(state),
     ({ data }) => data,
   );
 
   const selectDataWithFallbackCachedByParams = createSelector(
-    selectDataCachedByParams,
-    data => (data ?? fallback) as Result,
+    (state: RootState, params: Params) => endpoint.select(params)(state),
+    ({ data }) => (data ?? fallback) as Result,
   );
 
   const selectLoadingCachedByParams = createSelector(
-    selectStateCachedByParams,
+    (state: RootState, params: Params) => endpoint.select(params)(state),
     ({ isLoading }) => isLoading,
   );
 

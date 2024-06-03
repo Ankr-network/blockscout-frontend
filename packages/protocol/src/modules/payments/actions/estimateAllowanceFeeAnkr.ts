@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js';
 import { formatToWei } from 'multirpc-sdk';
 
-import { RequestType, web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { web3Api } from 'store/queries';
 
 import { handleEstimateAllowanceFeeQuery } from '../utils/handleEstimateAllowanceFeeQuery';
 import { selectCryptoTxById } from '../store/selectors';
@@ -29,7 +29,6 @@ export const {
       number,
       IEstimateAllowanceFeeAnkrParams
     >({
-      providesTags: [RequestType.ANKRAllowanceFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { txId }, web3Service }, { getState }) => {

@@ -21,6 +21,7 @@ import { newProjectSlice, projectsSlice } from 'domains/projects/store';
 import { newUserGroupPersistConfig } from 'modules/groups/storage/newUserGroupPersistConfig';
 import { newUserGroupSlice } from 'modules/groups/store/newUserGroupSlice';
 import { notificationSlice } from 'domains/notification/store/notificationSlice';
+import { paymentsPersistConfig } from 'modules/payments/storage/paymentsPersistConfig';
 import { paymentsSlice } from 'modules/payments/store/paymentsSlice';
 import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistConfig';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
@@ -71,7 +72,7 @@ const rootReducer = combineReducers({
     newUserGroupPersistConfig,
     newUserGroupSlice.reducer,
   ),
-  payments: paymentsSlice.reducer,
+  payments: persistReducer(paymentsPersistConfig, paymentsSlice.reducer),
 });
 
 export const store = configureStore({

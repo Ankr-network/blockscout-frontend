@@ -6,15 +6,11 @@ import { ICryptoTransaction, INetwork } from 'modules/payments/types';
 import { removeCryptoTx } from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useConnectWalletAccount } from 'domains/wallet/hooks/useConnectWalletAccount';
-import { useEstimatedAllowanceFee } from 'modules/payments/hooks/useEstimatedAllowanceFee';
-import { useEstimatedDepositFee } from 'modules/payments/hooks/useEstimatedDepositFee';
-import { useNativeTokenPrice } from 'modules/payments/hooks/useNativeTokenPrice';
 import { useWalletBalance } from 'modules/payments/hooks/useWalletBalance';
 
 import { IOneTimeAmountProps } from '../components/OneTimeAmount';
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
 import { useTotalCryptoAmount } from './useTotalCryptoAmount';
-import { useHandleWalletAccountChange } from './useHandleWalletAccountChange';
 
 export interface IUseCryptoPaymentSummaryStepProps {
   handleNetworkChange: (network: EBlockchain) => void;
@@ -44,19 +40,6 @@ export const useCryptoPaymentSummaryStep = ({
     depositFeeDetailsEstimated: depositFeeDetails,
   } = tx;
 
-  const { handleFetchNativeTokenPrice, isLoading: isNativeTokenPriceLoading } =
-    useNativeTokenPrice({ network, skipFetching: true });
-
-  const {
-    handleFetchEstimatedAllowanceFee,
-    isEstimating: isAllowanceFeeEstimating,
-  } = useEstimatedAllowanceFee({ currency, skipFetching: true, txId });
-
-  const {
-    handleFetchEstimatedDepositFee,
-    isEstimating: isDepositFeeEstimating,
-  } = useEstimatedDepositFee({ currency, skipFetching: true, txId });
-
   const {
     handleFetchWalletbalance,
     isLoading: isWalletBalanceLoading,
@@ -72,33 +55,14 @@ export const useCryptoPaymentSummaryStep = ({
     },
   );
 
-  const isLoading =
-    isNativeTokenPriceLoading ||
-    isAllowanceFeeEstimating ||
-    isDepositFeeEstimating ||
-    isWalletBalanceLoading ||
-    isTotalAmountLoading;
+  const isLoading = isWalletBalanceLoading || isTotalAmountLoading;
+
+  // wrapped by useCallback to explicitly convert to () => Promise<void> type
+  const onOpen = useCallback(async () => {
+    await handleFetchWalletbalance();
+  }, [handleFetchWalletbalance]);
 
   const dispatch = useAppDispatch();
-  const { handleWalletAccountChange } = useHandleWalletAccountChange({
-    currency,
-    network,
-    setIsAccountChangedOnDepositStep,
-    txId,
-  });
-
-  const onOpen = useCallback(async () => {
-    await handleFetchNativeTokenPrice();
-    await handleFetchEstimatedAllowanceFee();
-    await handleFetchEstimatedDepositFee();
-    await handleFetchWalletbalance();
-  }, [
-    handleFetchEstimatedAllowanceFee,
-    handleFetchEstimatedDepositFee,
-    handleFetchNativeTokenPrice,
-    handleFetchWalletbalance,
-  ]);
-
   const onClose = useCallback(() => {
     dispatch(removeCryptoTx({ id: txId }));
   }, [dispatch, txId]);
@@ -106,7 +70,7 @@ export const useCryptoPaymentSummaryStep = ({
   const {
     handleConnectWalletAccount,
     isConnecting: isWalletAccountConnecting,
-  } = useConnectWalletAccount({ onSuccess: handleWalletAccountChange });
+  } = useConnectWalletAccount();
 
   const hasEnoughTokenBalance = new BigNumber(walletBalance).gte(amount);
 
@@ -137,5 +101,6 @@ export const useCryptoPaymentSummaryStep = ({
   return {
     cryptoPaymentSummaryDialogProps,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentSummaryDialogOpening: isLoading,
   };
 };

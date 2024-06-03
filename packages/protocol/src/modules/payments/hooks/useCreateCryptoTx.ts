@@ -3,18 +3,17 @@ import { useCallback, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useAppSelector } from 'store/useAppSelector';
 import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 
 import { ECurrency } from '../types';
-import { createCryptoTx, removeCryptoTx } from '../store/paymentsSlice';
-import { selectCryptoTxById } from '../store/selectors';
+import { createCryptoTx } from '../store/paymentsSlice';
 import { useAccountAddress } from './useAccountAddress';
 import { useEstimatedAllowanceFee } from './useEstimatedAllowanceFee';
 import { useEstimatedDepositFee } from './useEstimatedDepositFee';
 import { useFetchAllowance } from './useFetchAllowance';
-import { usePaygContractAddress } from './usePaygContractAddress';
 import { useNativeTokenPrice } from './useNativeTokenPrice';
+import { usePaygContractAddress } from './usePaygContractAddress';
+import { useTxByTxId } from './useTxByTxId';
 
 export interface IUseCryptoTxProps {
   amount: number;
@@ -29,11 +28,10 @@ export const useCryptoTx = ({
 }: IUseCryptoTxProps) => {
   const [txId] = useState<string>(uuid());
 
-  const tx = useAppSelector(state => selectCryptoTxById(state, txId));
-
   const { accountAddress } = useAccountAddress();
-  const { walletAddress } = useWalletAddress();
   const { paygContractAddress } = usePaygContractAddress({ currency, network });
+  const { tx } = useTxByTxId({ txId });
+  const { walletAddress } = useWalletAddress();
 
   const { handleFetchAllowance, isLoading: isAllowanceFetching } =
     useFetchAllowance({ currency, skipFetching: true, network });
@@ -90,15 +88,11 @@ export const useCryptoTx = ({
     walletAddress,
   ]);
 
-  const handleRemoveCryptoTx = useCallback(() => {
-    dispatch(removeCryptoTx({ id: txId }));
-  }, [dispatch, txId]);
-
   const isCreating =
     isAllowanceFetching ||
     isNativeTokenPriceLoading ||
     isAllowanceFeeEstimating ||
     isDepositFeeEstimating;
 
-  return { handleCreateCryptoTx, handleRemoveCryptoTx, isCreating, tx };
+  return { handleCreateCryptoTx, isCreating, tx };
 };

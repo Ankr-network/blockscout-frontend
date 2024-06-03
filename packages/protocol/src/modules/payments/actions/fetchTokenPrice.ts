@@ -4,14 +4,14 @@ import {
   getTokenPriceByChainId,
 } from 'multirpc-sdk';
 
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
+import { ONE_STRING, ZERO_STRING } from 'modules/common/constants/const';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { isStableCoinCurrency } from 'modules/billing/utils/isStableCoinCurrency';
-import { web3Api } from 'store/queries';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { web3Api } from 'store/queries';
 
-import { ONE_STRING, ZERO_STRING } from '../const';
+import { isStablecoin } from '../utils/isStablecoin';
 import { selectPaymentOptionsByNetworkAndCurrency } from '../store/selectors';
 
 export interface IFetchTokenPriceParams {
@@ -25,12 +25,13 @@ export interface IFetchTokenPriceParams {
 export const {
   endpoints: { fetchTokenPrice },
   useFetchTokenPriceQuery,
+  useLazyFetchTokenPriceQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchTokenPrice: build.query<string, IFetchTokenPriceParams>({
       queryFn: createNotifyingQueryFn(
         async ({ currency, network }, { getState }) => {
-          if (isStableCoinCurrency(currency)) {
+          if (isStablecoin(currency)) {
             return { data: ONE_STRING };
           }
 

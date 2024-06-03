@@ -2,18 +2,34 @@ import BigNumber from 'bignumber.js';
 import { EBlockchain } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { ECryptoDepositStepStatus, ECurrency } from 'modules/billing/types';
 import { RootState } from 'store';
+import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
 import { ANKR_PAYMENT_NETWORK, MIN_ANKR_AMOUNT } from '../const';
+import {
+  ECryptoDepositStep,
+  INetwork,
+  ECryptoDepositStepStatus,
+  ECurrency,
+} from '../types';
 import { selectPaymentOptions } from '../actions/fetchPaymentOptions';
-import { ECryptoDepositStep, INetwork } from '../types';
 
 export const selectPaymentsState = (state: RootState) => state.payments;
 
 export const selectCryptoTransactions = createSelector(
   selectPaymentsState,
   state => state.cryptoTransactions,
+);
+
+export const selectOngoingCryptoTransactions = createSelector(
+  selectCryptoTransactions,
+  selectUserGroupConfigByAddress,
+  (transactions, { selectedGroupAddress }) =>
+    transactions.filter(
+      tx =>
+        Boolean(tx.depositTxHash) &&
+        selectedGroupAddress?.toLowerCase() === tx.accountAddress.toLowerCase(),
+    ),
 );
 
 export const selectCryptoTxById = createSelector(
@@ -112,9 +128,10 @@ export const selectCryptoDepositStep = createSelector(
       const {
         depositError,
         depositTxHash,
+        isApproved,
+        isConfirmed,
         isDepositConfirming,
         isDepositing,
-        isConfirmed,
       } = tx;
 
       const isDepositStep =
@@ -122,7 +139,8 @@ export const selectCryptoDepositStep = createSelector(
         Boolean(depositTxHash) ||
         isDepositConfirming ||
         isDepositing ||
-        isConfirmed;
+        isConfirmed ||
+        isApproved;
 
       if (isDepositStep) {
         return ECryptoDepositStep.Deposit;
@@ -135,28 +153,21 @@ export const selectCryptoDepositStep = createSelector(
 
 export const selectAllowanceStepStatus = createSelector(
   selectCryptoTxById,
-  selectCryptoDepositStep,
-  (tx, step) => {
+  tx => {
     if (tx) {
-      if (step === ECryptoDepositStep.Allowance) {
-        const {
-          allowanceError,
-          isAllowanceConfirming,
-          isApproved,
-          isApproving,
-        } = tx;
+      const { allowanceError, isAllowanceConfirming, isApproved, isApproving } =
+        tx;
 
-        if (isApproved) {
-          return ECryptoDepositStepStatus.Complete;
-        }
+      if (isApproved) {
+        return ECryptoDepositStepStatus.Complete;
+      }
 
-        if (allowanceError) {
-          return ECryptoDepositStepStatus.Error;
-        }
+      if (allowanceError) {
+        return ECryptoDepositStepStatus.Error;
+      }
 
-        if (isApproving || isAllowanceConfirming) {
-          return ECryptoDepositStepStatus.Pending;
-        }
+      if (isApproving || isAllowanceConfirming) {
+        return ECryptoDepositStepStatus.Pending;
       }
     }
 
@@ -168,26 +179,28 @@ export const selectDepositStepStatus = createSelector(
   selectCryptoTxById,
   selectCryptoDepositStep,
   (tx, step) => {
+    if (step === ECryptoDepositStep.Allowance) {
+      return undefined;
+    }
+
     if (tx) {
-      if (step === ECryptoDepositStep.Deposit) {
-        const { depositError, isConfirmed, isDepositConfirming, isDepositing } =
-          tx;
+      const { depositError, isConfirmed, isDepositConfirming, isDepositing } =
+        tx;
 
-        if (isConfirmed) {
-          return ECryptoDepositStepStatus.Complete;
-        }
+      if (isConfirmed) {
+        return ECryptoDepositStepStatus.Complete;
+      }
 
-        if (depositError) {
-          return ECryptoDepositStepStatus.Error;
-        }
+      if (depositError) {
+        return ECryptoDepositStepStatus.Error;
+      }
 
-        if (isDepositing || isDepositConfirming) {
-          return ECryptoDepositStepStatus.Pending;
-        }
+      if (isDepositing || isDepositConfirming) {
+        return ECryptoDepositStepStatus.Pending;
       }
     }
 
-    return ECryptoDepositStepStatus.Confirmation;
+    return undefined;
   },
 );
 

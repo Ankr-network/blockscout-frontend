@@ -5,9 +5,8 @@ import { t } from '@ankr.com/common';
 import {
   CryptoPaymentSuccessDialog,
   useCryptoPaymentSuccessDialog,
-} from 'modules/billing/components/CryptoPaymentSuccessDialog';
-import { ECurrency, EPaymentType } from 'modules/billing/types';
-import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+} from 'modules/payments/components/CryptoPaymentSuccessDialog';
+import { ECurrency, EPaymentType } from 'modules/payments/types';
 
 import { useDetailsButtonStyles } from './useDetailsButtonStyles';
 
@@ -26,8 +25,6 @@ export const DetailsButton = ({
   onDialogClose,
   txHash,
 }: IDetailsButtonProps) => {
-  const { handleCreateWeb3Service: onOpen } = useWeb3Service();
-
   const {
     cryptoPaymentSuccessDialogProps,
     handleCryptoPaymentSuccessDialogOpen,
@@ -37,7 +34,6 @@ export const DetailsButton = ({
     depositTxHash: txHash,
     network,
     onClose: onDialogClose,
-    onOpen,
     paymentType: EPaymentType.OneTime,
   });
 

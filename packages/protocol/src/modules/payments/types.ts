@@ -114,6 +114,14 @@ export interface ISetAllowanceTxHashPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'allowanceTxHash'> {}
 
+export interface ISetAmountPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'amount'> {}
+
+export interface ISetCurrencyPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'currency'> {}
+
 export interface ISetDepositErrorPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'depositError'> {}
@@ -157,3 +165,7 @@ export interface ISetIsDepositConfirmingPayload
 export interface ISetIsDepositingPayload
   extends IUpdateCryptoTxPayload,
     TCryptoTxField<'isDepositing'> {}
+
+export interface ISetNetworkPayload
+  extends IUpdateCryptoTxPayload,
+    TCryptoTxField<'network'> {}

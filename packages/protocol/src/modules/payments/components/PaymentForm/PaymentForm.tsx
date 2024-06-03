@@ -40,7 +40,7 @@ export interface IPaymentFormProps {
   className?: string;
   cryptoPaymentDepositDialogProps: ICryptoPaymentDepositDialogProps;
   cryptoPaymentSuccessDialogProps: ICryptoPaymentSuccessDialogProps;
-  cryptoPaymentSummaryProps: ICryptoPaymentSummaryDialogProps;
+  cryptoPaymentSummaryDialogProps: ICryptoPaymentSummaryDialogProps;
   currencyTabsProps: ICurrencyTabsProps;
   dealAmountProps: IDealAmountProps;
   emailData: EmailData;
@@ -52,14 +52,14 @@ export interface IPaymentFormProps {
   paymentTabsProps: IPaymentTabsProps;
   paymentType: EPaymentType;
   recurringAmountProps: IRecurringAmountProps;
-  usdPaymentSummaryProps: IUSDPaymentSummaryDialogProps;
+  usdPaymentSummaryDialogProps?: IUSDPaymentSummaryDialogProps;
 }
 
 export const PaymentForm = ({
   className,
   cryptoPaymentDepositDialogProps,
   cryptoPaymentSuccessDialogProps,
-  cryptoPaymentSummaryProps,
+  cryptoPaymentSummaryDialogProps,
   currencyTabsProps,
   dealAmountProps,
   emailData,
@@ -71,7 +71,7 @@ export const PaymentForm = ({
   paymentTabsProps,
   paymentType,
   recurringAmountProps,
-  usdPaymentSummaryProps,
+  usdPaymentSummaryDialogProps,
 }: IPaymentFormProps) => {
   const { classes, cx } = usePaymentFormStyles();
 
@@ -99,8 +99,10 @@ export const PaymentForm = ({
           {t('account.payment-form.pay-button')}
         </LoadingButton>
       </div>
-      <USDPaymentSummaryDialog {...usdPaymentSummaryProps} />
-      <CryptoPaymentSummaryDialog {...cryptoPaymentSummaryProps} />
+      {usdPaymentSummaryDialogProps && (
+        <USDPaymentSummaryDialog {...usdPaymentSummaryDialogProps} />
+      )}
+      <CryptoPaymentSummaryDialog {...cryptoPaymentSummaryDialogProps} />
       <CryptoPaymentDepositDialog {...cryptoPaymentDepositDialogProps} />
       <CryptoPaymentSuccessDialog {...cryptoPaymentSuccessDialogProps} />
       <TimeToUpgradeDialog {...enterpriseDialogProps} />

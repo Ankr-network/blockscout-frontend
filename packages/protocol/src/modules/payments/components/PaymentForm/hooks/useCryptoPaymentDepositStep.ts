@@ -1,40 +1,34 @@
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { useCallback } from 'react';
 
-import { ICryptoTransaction } from 'modules/payments/types';
-import { defaultCryptoTx } from 'modules/payments/const';
 import {
-  removeCryptoTx,
-  setAllowanceAmount,
-} from 'modules/payments/store/paymentsSlice';
+  ECryptoDepositStepStatus,
+  ICryptoTransaction,
+} from 'modules/payments/types';
+import { defaultCryptoTx } from 'modules/payments/const';
 import { selectIsCryptoTxOngoing } from 'modules/payments/store/selectors';
+import { setAllowanceAmount } from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
 import { useFetchAllowance } from 'modules/payments/hooks/useFetchAllowance';
-import { useUSDAmountByCryptoAmount } from 'modules/payments/hooks/useUSDAmountByCryptoAmount';
+import { useUsdAmountByCryptoAmount } from 'modules/payments/hooks/useUsdAmountByCryptoAmount';
 
-import { useAccountChangedHandlingOnDepositStep } from './useAccountsChangedHandlingOnDepositStep';
 import { useCryptoPaymentDepositDialog } from '../../CryptoPaymentDepositDialog';
 import { useCryptoPaymentDepositHandler } from './useCryptoPaymentDepositHandler';
+import { useCryptoPaymentDepositStepReset } from './useCryptoPaymentDepositStepReset';
 import { useCryptoPaymentDepositStepState } from './useCryptoPaymentDepositStepState';
 import { useCryptoPaymentSendAllowanceHandler } from './useCryptoPaymentSendAllowanceHandler';
 
 export interface IUseCryptoPaymentDepositStepProps {
   handleCryptoPaymentDepositDialogClose: () => void;
-  handleCryptoPaymentDepositDialogOpen: () => void;
-  handleCryptoPaymentSummaryDialogOpen: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   onDepositSuccess: () => void;
-  setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
   tx: ICryptoTransaction | undefined;
 }
 
 export const useCryptoPaymentDepositStep = ({
   handleCryptoPaymentDepositDialogClose,
-  handleCryptoPaymentDepositDialogOpen,
-  handleCryptoPaymentSummaryDialogOpen,
   isCryptoPaymentDepositDialogOpened,
   onDepositSuccess,
-  setIsAccountChangedOnDepositStep,
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentDepositStepProps) => {
   const {
@@ -70,26 +64,33 @@ export const useCryptoPaymentDepositStep = ({
   const { handleFetchAllowance, isLoading: isAllowanceLoading } =
     useFetchAllowance({ currency, network, skipFetching: true });
 
-  const { amountUsd } = useUSDAmountByCryptoAmount({ amount, currency });
+  const { amountUsd } = useUsdAmountByCryptoAmount({ amount, currency });
 
-  // to handle the case when a user has switched his account in wallet
-  // during the payment flow
-  useAccountChangedHandlingOnDepositStep({
-    depositStepStatus,
+  const { handleResetDepositStep } = useCryptoPaymentDepositStepReset({
     handleCryptoPaymentDepositDialogClose,
-    handleCryptoPaymentSummaryDialogOpen,
-    isCryptoPaymentDepositDialogOpened,
-    setIsAccountChangedOnDepositStep,
-    step,
+    onDepositSuccess,
     tx,
   });
 
-  const dispatch = useAppDispatch();
+  const onClose = useCallback(() => {
+    if (depositStepStatus !== ECryptoDepositStepStatus.Pending) {
+      handleResetDepositStep();
+    }
+
+    handleCryptoPaymentDepositDialogClose();
+  }, [
+    depositStepStatus,
+    handleCryptoPaymentDepositDialogClose,
+    handleResetDepositStep,
+  ]);
 
   const handleDiscardTx = useCallback(() => {
-    dispatch(removeCryptoTx({ id: txId }));
+    handleResetDepositStep();
+
     handleCryptoPaymentDepositDialogClose();
-  }, [dispatch, handleCryptoPaymentDepositDialogClose, txId]);
+  }, [handleResetDepositStep, handleCryptoPaymentDepositDialogClose]);
+
+  const dispatch = useAppDispatch();
 
   const onCheckAllowanceButtonClick = useCallback(async () => {
     const { data: allowanceAmount = 0 } = await handleFetchAllowance();
@@ -109,8 +110,6 @@ export const useCryptoPaymentDepositStep = ({
     depositError,
     depositFeeDetails: depositFeeDetailsPaid ?? depositFeeDetailsEstimated,
     depositStepStatus,
-    handleCryptoPaymentDepositDialogClose,
-    handleCryptoPaymentDepositDialogOpen,
     handleDeposit,
     handleDiscardTx,
     handleResetAllowanceSending,
@@ -121,6 +120,7 @@ export const useCryptoPaymentDepositStep = ({
     isOngoingTx,
     network,
     onCheckAllowanceButtonClick,
+    onClose,
     step,
   });
 

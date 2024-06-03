@@ -35,7 +35,9 @@ export const FullAllowanceAttribute = ({
       classes={classes}
       label={<Label status={Complete} text={t(labelKey)} />}
       extraContent={
-        !shouldHideAlert && <Alert severity="info" text={alertText} />
+        !shouldHideAlert && (
+          <Alert hasIcon severity="success" text={alertText} />
+        )
       }
     >
       –

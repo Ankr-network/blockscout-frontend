@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { ECurrency } from 'modules/payments/types';
 import { getRequestsByUSDAmount } from 'modules/payments/utils/getRequestsByUSDAmount';
-import { useUSDAmountByCryptoAmount } from 'modules/payments/hooks/useUSDAmountByCryptoAmount';
+import { useUsdAmountByCryptoAmount } from 'modules/payments/hooks/useUsdAmountByCryptoAmount';
 
 import { ANKR_PROMO_EXTRA_REQUESTS_RATE } from '../const';
 import { IAmountInputProps } from '../AmountInput';
@@ -34,7 +34,7 @@ export const useAmountInput = ({
     resetError: resetInputError,
   } = useInputError({ minAmount });
 
-  const { isLoading, amountUsd } = useUSDAmountByCryptoAmount({
+  const { isLoading, amountUsd } = useUsdAmountByCryptoAmount({
     amount,
     currency,
   });

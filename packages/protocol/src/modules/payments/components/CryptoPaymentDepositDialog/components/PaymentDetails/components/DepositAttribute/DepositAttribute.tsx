@@ -1,12 +1,12 @@
-import { t } from '@ankr.com/common';
 import { EBlockchain } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
-import { ECryptoDepositStepStatus, IFeeDetails } from 'modules/billing/types';
-import { FeeAmount } from 'modules/billing/components/FeeAmount';
-import { TxAttribute } from 'modules/billing/components/TxAttribute';
+import { Alert } from 'modules/payments/components/Alert';
+import { ECryptoDepositStepStatus, IFeeDetails } from 'modules/payments/types';
+import { FeeAmount } from 'modules/payments/components/FeeAmount';
+import { Label } from 'modules/payments/components/Label';
+import { TxAttribute } from 'modules/payments/components/TxAttribute';
 
-import { Alert } from '../../../../../Alert';
-import { Label } from '../../../../../Label';
 import { getAlertProps } from './utils/getAlertProps';
 import { useDepositAttributeStyles } from './useDepositAttributeStyles';
 

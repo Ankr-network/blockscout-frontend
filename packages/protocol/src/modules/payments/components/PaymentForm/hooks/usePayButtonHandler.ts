@@ -5,7 +5,7 @@ import { emptyFn } from 'modules/common/utils/emptyFn';
 
 export interface IUsePayButtonHandlerProps {
   currency: ECurrency;
-  handleCryptoPaymentFlowInit: () => void;
+  handleCryptoPaymentFlowInit: () => Promise<void>;
   handleDealPaymentSummaryDialogOpen: () => void;
   handleOneTimeUsdPaymentSummaryDialogOpen: () => void;
   handleOpenEmailDialog: () => void;
@@ -15,7 +15,10 @@ export interface IUsePayButtonHandlerProps {
   paymentType: EPaymentType;
 }
 
-type THandlersMap = Record<EPaymentType, [() => void, boolean]>;
+type THandlersMap = Record<
+  EPaymentType,
+  [(() => void) | (() => Promise<void>), boolean]
+>;
 
 export const usePayButtonHandler = ({
   currency,
@@ -67,12 +70,14 @@ export const usePayButtonHandler = ({
     paymentType,
   ]);
 
-  const handlePayButtonClick = useCallback(() => {
+  const handlePayButtonClick = useCallback(async () => {
     if (!hasEmailBound) {
-      return handleOpenEmailDialog();
+      handleOpenEmailDialog();
+
+      return;
     }
 
-    return handlePayButtonClickRaw();
+    await handlePayButtonClickRaw();
   }, [handleOpenEmailDialog, handlePayButtonClickRaw, hasEmailBound]);
 
   return { handlePayButtonClick, isLoading };

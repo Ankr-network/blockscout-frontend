@@ -3,17 +3,17 @@ import { CurrencyRate, CurrencyRateSymbol } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/payments/types';
 
-export interface IGetUSDAmountByCryptoAmountParams {
+export interface IGetUsdAmountByCryptoAmountParams {
   amount: number;
   currency: ECurrency;
   rates: CurrencyRate[];
 }
 
-export const getUSDAmountByCryptoAmount = ({
+export const getUsdAmountByCryptoAmount = ({
   amount,
   currency,
   rates,
-}: IGetUSDAmountByCryptoAmountParams) => {
+}: IGetUsdAmountByCryptoAmountParams) => {
   const isANKR = currency === ECurrency.ANKR;
 
   if (isANKR) {

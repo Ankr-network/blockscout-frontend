@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ECurrency, EPaymentType } from 'modules/billing/types';
+import { ECurrency, EPaymentType } from 'modules/payments/types';
 
 import { ICryptoPaymentSummaryDialogProps } from '../../CryptoPaymentSummaryDialog';
 

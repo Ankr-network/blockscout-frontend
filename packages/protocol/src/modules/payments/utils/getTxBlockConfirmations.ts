@@ -23,7 +23,7 @@ export const getTxBlockConfirmations = async ({
 
   const latestBlock = await web3.eth.getBlock('latest');
 
-  const confirmations = txReceipt.blockNumber - latestBlock.number;
+  const confirmations = latestBlock.number - txReceipt.blockNumber;
 
   return confirmations;
 };

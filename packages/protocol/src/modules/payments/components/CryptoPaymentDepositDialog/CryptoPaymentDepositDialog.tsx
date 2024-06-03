@@ -26,7 +26,7 @@ export const CryptoPaymentDepositDialog = ({
   currency,
   depositError,
   depositFeeDetails,
-  depositStatus,
+  depositStepStatus,
   erroredStep,
   isAllowanceLoading,
   isAllowanceSent,
@@ -44,7 +44,7 @@ export const CryptoPaymentDepositDialog = ({
 
   const isDepositPending =
     activeStep === ECryptoDepositStep.Deposit &&
-    depositStatus === ECryptoDepositStepStatus.Pending;
+    depositStepStatus === ECryptoDepositStepStatus.Pending;
 
   return (
     <Dialog
@@ -75,7 +75,7 @@ export const CryptoPaymentDepositDialog = ({
         currency={currency}
         depositError={depositError}
         depositFeeDetails={depositFeeDetails}
-        depositStatus={depositStatus}
+        depositStepStatus={depositStepStatus}
         isAllowanceLoading={isAllowanceLoading}
         isAllowanceSent={isAllowanceSent}
         isDepositPending={isDepositPending}

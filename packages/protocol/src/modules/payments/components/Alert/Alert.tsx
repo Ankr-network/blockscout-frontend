@@ -16,7 +16,7 @@ export const Alert = ({ hasIcon = false, severity, text }: IAlertProps) => {
     return null;
   }
 
-  const icon = !hasIcon || undefined;
+  const icon = hasIcon ? undefined : false;
 
   return (
     <InlineAlert classes={classes} icon={icon} severity={severity}>

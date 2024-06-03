@@ -12,12 +12,20 @@ export const useWaitForDepositConfirmation = ({
 }: IUseWaitForDepositConfirmationProps) => {
   const { id: txId, isDepositConfirming } = tx;
 
-  const [waitForDepositConfirmation] = useWaitForDepositConfirmationMutation();
+  const [
+    waitForDepositConfirmation,
+    { reset: handleResetDepositConfirmation, isUninitialized },
+  ] = useWaitForDepositConfirmationMutation({ fixedCacheKey: txId });
 
   const handleWaitForDepositConfirmation = useCallback(
     () => waitForDepositConfirmation({ txId }),
     [txId, waitForDepositConfirmation],
   );
 
-  return { handleWaitForDepositConfirmation, isDepositConfirming };
+  return {
+    handleResetDepositConfirmation,
+    handleWaitForDepositConfirmation,
+    isDepositConfirming,
+    isUninitialized,
+  };
 };

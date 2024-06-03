@@ -1,6 +1,6 @@
 import { ECurrency, IFeeDetails } from 'modules/payments/types';
 import { defaultFeeDetails } from 'modules/payments/const';
-import { useUSDAmountByCryptoAmount } from 'modules/payments/hooks/useUSDAmountByCryptoAmount';
+import { useUsdAmountByCryptoAmount } from 'modules/payments/hooks/useUsdAmountByCryptoAmount';
 
 export interface IUseTotalCryptoAmountProps {
   allowanceFeeDetails?: IFeeDetails;
@@ -15,7 +15,7 @@ export const useTotalCryptoAmount = ({
   currency,
   depositFeeDetails: { feeUSD: depositFeeUSD } = defaultFeeDetails,
 }: IUseTotalCryptoAmountProps) => {
-  const { amountUsd, isLoading } = useUSDAmountByCryptoAmount({
+  const { amountUsd, isLoading } = useUsdAmountByCryptoAmount({
     amount,
     currency,
   });

@@ -39,6 +39,7 @@ export const useCryptoPaymentFlow = ({
   const {
     cryptoPaymentSummaryDialogProps,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentSummaryDialogOpening,
   } = useCryptoPaymentSummaryStep({
     handleNetworkChange,
     isAccountChangedOnDepositStep,
@@ -51,11 +52,8 @@ export const useCryptoPaymentFlow = ({
 
   const { cryptoPaymentDepositDialogProps } = useCryptoPaymentDepositStep({
     handleCryptoPaymentDepositDialogClose,
-    handleCryptoPaymentDepositDialogOpen,
-    handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
     onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
-    setIsAccountChangedOnDepositStep,
     tx,
   });
 
@@ -63,6 +61,11 @@ export const useCryptoPaymentFlow = ({
     cryptoPaymentDepositDialogProps,
     cryptoPaymentSuccessDialogProps,
     cryptoPaymentSummaryDialogProps,
+    handleCryptoPaymentDepositDialogClose,
+    handleCryptoPaymentDepositDialogOpen,
+    handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentSummaryDialogOpening,
+    setIsAccountChangedOnDepositStep,
   };
 };

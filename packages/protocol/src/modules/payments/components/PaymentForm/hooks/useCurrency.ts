@@ -7,10 +7,9 @@ import { useCurrencyTabs } from '../components/CurrencyTabs';
 import { useDisabledCurrencies } from './useDisabledCurrenices';
 
 export interface IUseCurrencyProps {
+  initialCurrency?: ECurrency;
   paymentType: EPaymentType;
 }
-
-const initialTabID = ECurrencyTab.USD;
 
 const currencyTabToCurrencyMap: Record<ECurrencyTab, ECurrency> = {
   [ECurrencyTab.ANKR]: ECurrency.ANKR,
@@ -18,8 +17,18 @@ const currencyTabToCurrencyMap: Record<ECurrencyTab, ECurrency> = {
   [ECurrencyTab.STABLECOIN]: ECurrency.USDT,
 };
 
-export const useCurrency = ({ paymentType }: IUseCurrencyProps) => {
-  const [currency, setCurrency] = useState(ECurrency.USD);
+const currencyToCurrencyTabMap: Record<ECurrency, ECurrencyTab> = {
+  [ECurrency.ANKR]: ECurrencyTab.ANKR,
+  [ECurrency.USD]: ECurrencyTab.USD,
+  [ECurrency.USDC]: ECurrencyTab.STABLECOIN,
+  [ECurrency.USDT]: ECurrencyTab.STABLECOIN,
+};
+
+export const useCurrency = ({
+  initialCurrency = ECurrency.USD,
+  paymentType,
+}: IUseCurrencyProps) => {
+  const [currency, setCurrency] = useState(initialCurrency);
 
   const disabledCurrencies = useDisabledCurrencies({ currency, paymentType });
 
@@ -30,7 +39,7 @@ export const useCurrency = ({ paymentType }: IUseCurrencyProps) => {
 
   const { handleSelectCurrencyTab, ...currencyTabsProps } = useCurrencyTabs({
     disabledCurrencies,
-    initialTabID,
+    initialTabID: currencyToCurrencyTabMap[initialCurrency],
     onCurrencyTabSelect,
   });
 
@@ -38,8 +47,8 @@ export const useCurrency = ({ paymentType }: IUseCurrencyProps) => {
 
   useEffect(
     () => {
-      handleSelectCurrencyTab(ECurrencyTab.USD);
-      setCurrency(ECurrency.USD);
+      handleSelectCurrencyTab(currencyToCurrencyTabMap[initialCurrency]);
+      setCurrency(initialCurrency);
     },
     // We should track payment type changes only
     // eslint-disable-next-line react-hooks/exhaustive-deps

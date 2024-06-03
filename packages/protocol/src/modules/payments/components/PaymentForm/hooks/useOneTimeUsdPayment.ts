@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
-import { ECurrency, EPaymentType } from 'modules/billing/types';
+import { ECurrency, EPaymentType } from 'modules/payments/types';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useLazyUsdTopUpFetchLinkForOneTimePaymentQuery } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';

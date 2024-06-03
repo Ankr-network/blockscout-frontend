@@ -1,13 +1,13 @@
-import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
+import { ECurrency } from 'modules/payments/types';
 import { IPaymentHistoryTableEntity } from 'domains/account/types';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
-import { selectPaymentOptions } from 'domains/account/store/selectors';
+import { selectPaymentOptions } from 'modules/payments/actions/fetchPaymentOptions';
 import { useAppSelector } from 'store/useAppSelector';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
-import { ECurrency } from 'modules/billing/types';
 
 import { Amount } from '../components/Amount';
 import { Deduction } from '../components/Deduction';
@@ -22,8 +22,8 @@ import { getAmount, isCreditAmount } from '../utils/amountUtils';
 import { getCreditsValue } from '../utils/getCreditsValue';
 import { getCurrencySymbol } from '../utils/getCurrencySymbol';
 import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDirection';
-import { useTransactionsDownloader } from './useTransactionsDownloader';
 import { getTxCurrency } from '../utils/getTxCurrency';
+import { useTransactionsDownloader } from './useTransactionsDownloader';
 
 /* eslint-disable max-lines-per-function */
 export const useColumns = () => {
@@ -89,7 +89,7 @@ export const useColumns = () => {
                 creditUsdAmount,
                 currencyAddress,
                 type,
-                paymentOptions: paymentOptionsData?.result.options,
+                paymentOptions: paymentOptionsData?.options,
               })}
               direction={
                 isCreditAmount(type, creditAnkrAmount, creditUsdAmount)
@@ -157,7 +157,7 @@ export const useColumns = () => {
           const txCurrency = getTxCurrency({
             network,
             currencyAddress,
-            paymentOptions: paymentOptionsData?.result.options,
+            paymentOptions: paymentOptionsData?.options,
           });
 
           return (

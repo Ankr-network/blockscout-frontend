@@ -13,7 +13,7 @@ export interface IUseCryptoPaymentSummaryDialogProps
   handleConnectWalletAccount: () => void;
   onClose?: () => void;
   onConfirmButtonClick: () => void;
-  onOpen?: () => void;
+  onOpen?: () => Promise<void>;
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
 
@@ -44,7 +44,7 @@ export const useCryptoPaymentSummaryDialog = ({
   const handleCryptoPaymentSummaryDialogOpen = useCallback(async () => {
     await handleCreateWeb3Service();
 
-    onOpenExternal?.();
+    await onOpenExternal?.();
 
     onOpen();
   }, [handleCreateWeb3Service, onOpen, onOpenExternal]);
@@ -54,6 +54,7 @@ export const useCryptoPaymentSummaryDialog = ({
 
   const onClose = useCallback(() => {
     handleClose();
+
     handleCloseExternal?.();
     setIsAccountChangedOnDepositStep(false);
   }, [handleClose, handleCloseExternal, setIsAccountChangedOnDepositStep]);
@@ -61,10 +62,11 @@ export const useCryptoPaymentSummaryDialog = ({
   const onCancelButtonClick = onClose;
 
   const onConfirmButtonClick = useCallback(() => {
-    onClose();
+    handleClose();
+    setIsAccountChangedOnDepositStep(false);
 
     handleConfirmButtonClick();
-  }, [handleConfirmButtonClick, onClose]);
+  }, [handleClose, handleConfirmButtonClick, setIsAccountChangedOnDepositStep]);
 
   const walletIcon = walletMeta?.icon;
 

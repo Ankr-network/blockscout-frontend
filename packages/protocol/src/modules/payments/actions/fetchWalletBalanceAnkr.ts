@@ -1,8 +1,8 @@
-import { RequestType, web3Api } from 'store/queries';
+import { ZERO_STRING } from 'modules/common/constants/const';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { web3Api } from 'store/queries';
 
-import { ZERO_STRING } from '../const';
 import { getWalletBalanceAnkr } from '../utils/getWalletBalanceAnkr';
 
 const fallback = ZERO_STRING;
@@ -14,7 +14,6 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchWalletBalanceAnkr: build.query<string, void>({
-      providesTags: [RequestType.WalletANKRTokenBalance],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: async ({ web3Service }) => {
           const { currentAccount } = web3Service.getKeyWriteProvider();

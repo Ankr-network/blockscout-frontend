@@ -4,11 +4,10 @@ import {
   getTokenPriceByChainId,
 } from 'multirpc-sdk';
 
+import { ZERO_STRING } from 'modules/common/constants/const';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
-
-import { ZERO_STRING } from '../const';
 
 export interface IFetchNativeTokenPriceParams {
   network: EBlockchain;

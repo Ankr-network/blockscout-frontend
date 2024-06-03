@@ -14,6 +14,7 @@ export const useCryptoPaymentDepositStepState = ({
   tx: { id: txId },
 }: IUseCryptoPaymentDepositStepStateProps) => {
   const step = useAppSelector(state => selectCryptoDepositStep(state, txId));
+
   const allowanceStepStatus = useAppSelector(state =>
     selectAllowanceStepStatus(state, txId),
   );

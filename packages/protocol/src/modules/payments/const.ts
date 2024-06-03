@@ -13,9 +13,6 @@ import {
 
 export const ALLOWANCE_CONFIRMATION_BLOCKS = 1;
 
-export const ONE_STRING = '1';
-export const ZERO_STRING = '0';
-
 export const MIN_ANKR_AMOUNT = 1_000;
 export const MIN_USD_AMOUNT = 10;
 

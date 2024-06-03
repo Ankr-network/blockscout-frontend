@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js';
 import { formatToWei } from 'multirpc-sdk';
 
-import { RequestType, web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { web3Api } from 'store/queries';
 
 import { getWalletBalanceAnkr } from '../utils/getWalletBalanceAnkr';
 import { handleEstimateDepositFeeQuery } from '../utils/handleEstimateDepositFeeQuery';
@@ -27,7 +27,6 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     estimateDepositFeeAnkr: build.query<number, IEstimateDepositFeeAnkrParams>({
-      providesTags: [RequestType.ANKRDepositFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
         queryFn: createNotifyingQueryFn(
           async ({ params: { txId }, web3Service }, { getState }) => {

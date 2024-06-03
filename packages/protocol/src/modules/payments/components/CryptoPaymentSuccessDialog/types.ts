@@ -1,6 +1,6 @@
 import { EBlockchain } from 'multirpc-sdk';
 
-import { ECurrency, EPaymentType } from 'modules/billing/types';
+import { ECurrency, EPaymentType } from 'modules/payments/types';
 
 export interface IUseCryptoPaymentSuccessDialogProps {
   allowanceTxHash?: string;
@@ -9,6 +9,5 @@ export interface IUseCryptoPaymentSuccessDialogProps {
   depositTxHash: string | undefined;
   network: EBlockchain;
   onClose?: () => void;
-  onOpen?: () => Promise<void>;
   paymentType: EPaymentType;
 }

@@ -2,16 +2,16 @@ import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { Project } from 'domains/projects/utils/getAllProjects';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { ECurrency } from 'modules/payments/types';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { ECurrency } from 'modules/billing/types';
+import { Project } from 'domains/projects/utils/getAllProjects';
 
+import { AddProjectButton } from '../AddProjectButton';
+import { EditProjectDialog } from '../EditProjectDialog';
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectsTable } from '../ProjectsTable';
-import { AddProjectButton } from '../AddProjectButton';
 import { UpgradeAccountDialog } from '../UpgradeAccountDialog';
-import { EditProjectDialog } from '../EditProjectDialog';
 
 interface ProjectsFormContentProps {
   allProjects: Project[];

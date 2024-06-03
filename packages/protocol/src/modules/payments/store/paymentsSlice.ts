@@ -10,6 +10,8 @@ import {
   ISetAllowanceFeeDetailsEstimatedPayload,
   ISetAllowanceFeeDetailsPaidPayload,
   ISetAllowanceTxHashPayload,
+  ISetAmountPayload,
+  ISetCurrencyPayload,
   ISetDepositErrorPayload,
   ISetDepositFeeDetailsEstimatedPayload,
   ISetDepositFeeDetailsPaidPayload,
@@ -21,6 +23,7 @@ import {
   ISetIsConfirmedPayload,
   ISetIsDepositConfirmingPayload,
   ISetIsDepositingPayload,
+  ISetNetworkPayload,
   IUpdateCryptoTxPayload,
 } from '../types';
 import { updateCryptoTx } from '../utils/updateCryptoTx';
@@ -47,7 +50,7 @@ export const paymentsSlice = createSlice({
     },
     removeCryptoTx: (state, action: PayloadAction<IUpdateCryptoTxPayload>) => {
       state.cryptoTransactions = state.cryptoTransactions.filter(
-        tx => tx.id === action.payload.id,
+        tx => tx.id !== action.payload.id,
       );
     },
     removeFiatTx: state => {
@@ -81,6 +84,12 @@ export const paymentsSlice = createSlice({
       state,
       action: PayloadAction<ISetAllowanceTxHashPayload>,
     ) => {
+      updateCryptoTx({ action, state });
+    },
+    setAmount: (state, action: PayloadAction<ISetAmountPayload>) => {
+      updateCryptoTx({ action, state });
+    },
+    setCurrency: (state, action: PayloadAction<ISetCurrencyPayload>) => {
       updateCryptoTx({ action, state });
     },
     setDepositError: (
@@ -137,6 +146,9 @@ export const paymentsSlice = createSlice({
     ) => {
       updateCryptoTx({ action, state });
     },
+    setNetwork: (state, action: PayloadAction<ISetNetworkPayload>) => {
+      updateCryptoTx({ action, state });
+    },
     reset: state => {
       Object.assign(state, initialState);
     },
@@ -154,6 +166,8 @@ export const {
   setAllowanceFeeDetailsEstimated,
   setAllowanceFeeDetailsPaid,
   setAllowanceTxHash,
+  setAmount,
+  setCurrency,
   setDepositError,
   setDepositFeeDetailsEstimated,
   setDepositFeeDetailsPaid,
@@ -165,4 +179,5 @@ export const {
   setIsConfirmed,
   setIsDepositConfirming,
   setIsDepositing,
+  setNetwork,
 } = paymentsSlice.actions;

@@ -1,4 +1,4 @@
-import { IAmount } from 'modules/billing/types';
+import { IAmount } from 'modules/payments/types';
 
 import { AmountChip, IAmountChipProps } from '../AmounChip';
 import {

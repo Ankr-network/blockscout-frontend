@@ -1,23 +1,23 @@
 import { useMemo } from 'react';
 
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 import { useRates } from 'domains/account/hooks/useRates';
 
-import { getUSDAmountByCryptoAmount } from '../utils/getUSDAmountByCryptoAmount';
+import { getUsdAmountByCryptoAmount } from '../utils/getUsdAmountByCryptoAmount';
 
-export interface IUseUSDAmountProps {
+export interface IUseUsdAmountProps {
   amount: number;
   currency: ECurrency;
 }
 
-export const useUSDAmountByCryptoAmount = ({
+export const useUsdAmountByCryptoAmount = ({
   amount,
   currency,
-}: IUseUSDAmountProps) => {
+}: IUseUsdAmountProps) => {
   const { isLoading, rates } = useRates();
 
   const amountUsd = useMemo(
-    () => getUSDAmountByCryptoAmount({ amount, currency, rates }),
+    () => getUsdAmountByCryptoAmount({ amount, currency, rates }),
     [amount, currency, rates],
   );
 

@@ -1,3 +1,4 @@
+import { EBlockchain } from 'multirpc-sdk';
 import { useState } from 'react';
 
 import { ANKR_PAYMENT_NETWORK } from 'modules/payments/const';
@@ -7,10 +8,14 @@ import { useAppSelector } from 'store/useAppSelector';
 
 export interface IUseNetworkProps {
   currency: ECurrency;
+  initialNetwork?: EBlockchain;
 }
 
-export const useNetwork = ({ currency }: IUseNetworkProps) => {
-  const [network, setNetwork] = useState(ANKR_PAYMENT_NETWORK);
+export const useNetwork = ({
+  currency,
+  initialNetwork = ANKR_PAYMENT_NETWORK,
+}: IUseNetworkProps) => {
+  const [network, setNetwork] = useState(initialNetwork);
 
   const networks = useAppSelector(state => selectNetworks(state, currency));
 

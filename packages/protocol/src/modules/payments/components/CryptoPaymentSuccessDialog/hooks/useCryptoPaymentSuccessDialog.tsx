@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 
 import { getTxExplorerUrl } from 'modules/payments/utils/getTxExplorerUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useTxDetails } from 'domains/account/hooks/useTxDetails';
+import { useTxDetails } from 'modules/payments/hooks/useTxDetails';
 
 import { ICryptoPaymentSuccessDialogProps } from '../CryptoPaymentSuccessDialog';
 import { IUseCryptoPaymentSuccessDialogProps } from '../types';
@@ -14,25 +14,18 @@ export const useCryptoPaymentSuccessDialog = ({
   depositTxHash,
   network,
   onClose: handleClose,
-  onOpen,
   paymentType,
 }: IUseCryptoPaymentSuccessDialogProps) => {
   const {
     isOpened,
     onClose: handleCryptoPaymentSuccessDialogClose,
-    onOpen: handleOpen,
+    onOpen: handleCryptoPaymentSuccessDialogOpen,
   } = useDialog();
 
   const onClose = useCallback(() => {
     handleClose?.();
     handleCryptoPaymentSuccessDialogClose();
   }, [handleClose, handleCryptoPaymentSuccessDialogClose]);
-
-  const handleCryptoPaymentSuccessDialogOpen = useCallback(async () => {
-    await onOpen?.();
-
-    handleOpen();
-  }, [onOpen, handleOpen]);
 
   const {
     amountUsd: depositAmountUsd,

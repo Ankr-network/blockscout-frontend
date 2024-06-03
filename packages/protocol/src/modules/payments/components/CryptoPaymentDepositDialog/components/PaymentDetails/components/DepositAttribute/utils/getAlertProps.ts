@@ -1,6 +1,5 @@
-import { ECryptoDepositStepStatus } from 'modules/billing/types';
-
-import { IAlertProps } from '../../../../../../Alert';
+import { ECryptoDepositStepStatus } from 'modules/payments/types';
+import { IAlertProps } from 'modules/payments/components/Alert';
 
 export interface IGetAlertPropsParams {
   error?: string;

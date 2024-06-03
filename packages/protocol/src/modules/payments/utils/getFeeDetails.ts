@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { IFeeDetails } from 'modules/billing/types';
+import { IFeeDetails } from 'modules/payments/types';
 
 export interface IGetFeeDetailsParams {
   fee: number;

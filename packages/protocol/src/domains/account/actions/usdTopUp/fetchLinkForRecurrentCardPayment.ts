@@ -1,11 +1,11 @@
 import { Web3Address } from 'multirpc-sdk';
 
+import { ECurrency } from 'modules/payments/types';
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { RootState } from 'store';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
-import { ECurrency } from 'modules/billing/types';
 
 import { accountFetchPublicKey } from '../fetchPublicKey';
 

@@ -1,5 +1,5 @@
 import { EBlockchain } from 'multirpc-sdk';
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import {
   ECryptoDepositStep,
@@ -28,8 +28,6 @@ export interface IUseCryptoPaymentDepositDialogProps {
   depositError?: string;
   depositFeeDetails?: IFeeDetails;
   depositStepStatus?: ECryptoDepositStepStatus;
-  handleCryptoPaymentDepositDialogClose: () => void;
-  handleCryptoPaymentDepositDialogOpen: () => void;
   handleDeposit: () => Promise<void>;
   handleDiscardTx: () => void;
   handleResetAllowanceSending: () => void;
@@ -40,6 +38,7 @@ export interface IUseCryptoPaymentDepositDialogProps {
   isOngoingTx: boolean;
   network: EBlockchain;
   onCheckAllowanceButtonClick: () => Promise<void>;
+  onClose: () => void;
   step: ECryptoDepositStep;
 }
 
@@ -54,11 +53,8 @@ export const useCryptoPaymentDepositDialog = ({
   depositError,
   depositFeeDetails = defaultFeeDetails,
   depositStepStatus,
-  handleCryptoPaymentDepositDialogClose,
-  handleCryptoPaymentDepositDialogOpen,
   handleDeposit,
   handleDiscardTx,
-  handleResetAllowanceSending,
   handleSendAllowance,
   isAllowanceLoading,
   isAllowanceSent,
@@ -66,22 +62,11 @@ export const useCryptoPaymentDepositDialog = ({
   isOngoingTx,
   network,
   onCheckAllowanceButtonClick,
+  onClose,
   step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
   const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
     useNetworkGuard(network);
-
-  const onClose = useCallback(() => {
-    if (depositStepStatus === ECryptoDepositStepStatus.Error) {
-      handleResetAllowanceSending();
-    }
-
-    handleCryptoPaymentDepositDialogClose();
-  }, [
-    depositStepStatus,
-    handleCryptoPaymentDepositDialogClose,
-    handleResetAllowanceSending,
-  ]);
 
   const { onConfirmButtonClick } = useConfirmButtonClickHandler({
     allowanceStepStatus,
@@ -92,8 +77,8 @@ export const useCryptoPaymentDepositDialog = ({
     network,
   });
 
-  return useMemo<ICryptoPaymentDepositDialogProps>(
-    () => ({
+  return useMemo(
+    (): ICryptoPaymentDepositDialogProps => ({
       activeStep: step,
       allowance,
       allowanceError,
@@ -123,7 +108,6 @@ export const useCryptoPaymentDepositDialog = ({
       onClose,
       onConfirmButtonClick,
       onDiscardButtonClick: handleDiscardTx,
-      onOpen: handleCryptoPaymentDepositDialogOpen,
       open: isCryptoPaymentDepositDialogOpened,
       shouldRevokeAllowance:
         currency === ECurrency.USDT && allowance !== 0 && allowance < amount,
@@ -140,12 +124,11 @@ export const useCryptoPaymentDepositDialog = ({
       depositError,
       depositFeeDetails,
       depositStepStatus,
-      handleCryptoPaymentDepositDialogOpen,
       handleDiscardTx,
-      isOngoingTx,
       isAllowanceLoading,
       isAllowanceSent,
       isCryptoPaymentDepositDialogOpened,
+      isOngoingTx,
       isSwitchNetworkLoading,
       isWrongNetwork,
       network,

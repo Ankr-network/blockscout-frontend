@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 
 import { ContentType, UpgradePlanDialogType } from '../types';
 import { checkContactSalesPopup } from '../utils/checkContactSalesPopup';
