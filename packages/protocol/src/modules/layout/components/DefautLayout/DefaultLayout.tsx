@@ -38,6 +38,7 @@ export interface ILayoutProps {
   hasGradient?: boolean;
   isChainItemPage?: boolean;
   isDashboardPage?: boolean;
+  isMaintenancePage?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -48,6 +49,7 @@ export const DefaultLayout = ({
   hasGradient = false,
   isChainItemPage,
   isDashboardPage = false,
+  isMaintenancePage = false,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
@@ -72,39 +74,49 @@ export const DefaultLayout = ({
           loading={loading}
         />
         <div className={classes.body}>
-          {!hasError && (
-            <Header
-              className={cx(classes.header, {
-                [classes.dashboardHeader]: isDashboardPage,
-              })}
-              isChainItemPage={isChainItemPage}
-            />
+          {isMaintenancePage ? (
+            children
+          ) : (
+            <>
+              {!hasError && (
+                <Header
+                  className={cx(classes.header, {
+                    [classes.dashboardHeader]: isDashboardPage,
+                  })}
+                  isChainItemPage={isChainItemPage}
+                />
+              )}
+              <MobileHeader
+                className={classes.mobileHeader}
+                chainsRoutes={chainsRoutes}
+                isEnterpriseClient={isEnterpriseClient}
+                loading={loading}
+              />
+              <Container
+                disableGutters={disableGutters}
+                className={cx(classes.main, {
+                  [classes.dashboardMain]: isDashboardPage,
+                })}
+              >
+                <div className={classes.mobileBreadcrumbs}>
+                  <Breadcrumbs />
+                </div>
+                {hasNoReactSnap ? (
+                  <NoReactSnap>{children}</NoReactSnap>
+                ) : (
+                  children
+                )}
+              </Container>
+              {isLoggedIn && !isEnterpriseClient && (
+                <GuardUserGroup blockName={BlockWithPermission.Billing}>
+                  <StatusTransitionDialog />
+                </GuardUserGroup>
+              )}
+              <TwoFADialog />
+              <NegativeBalanceTermsOfServicesDialog />
+              <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
+            </>
           )}
-          <MobileHeader
-            className={classes.mobileHeader}
-            chainsRoutes={chainsRoutes}
-            isEnterpriseClient={isEnterpriseClient}
-            loading={loading}
-          />
-          <Container
-            disableGutters={disableGutters}
-            className={cx(classes.main, {
-              [classes.dashboardMain]: isDashboardPage,
-            })}
-          >
-            <div className={classes.mobileBreadcrumbs}>
-              <Breadcrumbs />
-            </div>
-            {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
-          </Container>
-          {isLoggedIn && !isEnterpriseClient && (
-            <GuardUserGroup blockName={BlockWithPermission.Billing}>
-              <StatusTransitionDialog />
-            </GuardUserGroup>
-          )}
-          <TwoFADialog />
-          <NegativeBalanceTermsOfServicesDialog />
-          <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
         </div>
       </div>
     </>
