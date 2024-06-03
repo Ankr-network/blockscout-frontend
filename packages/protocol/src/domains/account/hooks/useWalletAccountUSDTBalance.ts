@@ -1,7 +1,7 @@
-import { Web3Address } from 'multirpc-sdk';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { useAppSelector } from 'store/useAppSelector';
-import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import {
   selectWalletAccountUSDTBalance,
@@ -13,28 +13,30 @@ import { useFetchWalletAccountUSDTBalanceQuery } from '../actions/balance/fetchW
 export interface IUseWalletAccountUSDTBalanceProps {
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
+  network: EBlockchain;
   tokenDecimals: number;
   skipFetching?: boolean;
 }
 
 export const useWalletAccountUSDTBalance = ({
-  depositContractAddress,
-  tokenAddress,
-  tokenDecimals,
   skipFetching = false,
+  ...queryParams
 }: IUseWalletAccountUSDTBalanceProps) => {
-  const { hasWeb3Service } = useWeb3Service();
-
-  useFetchWalletAccountUSDTBalanceQuery(
-    { depositContractAddress, tokenAddress, tokenDecimals },
-    {
-      skip: skipFetching || !hasWeb3Service,
-    },
+  const { refetch: refetchUSDTBalance } = useFetchWalletAccountUSDTBalanceQuery(
+    skipFetching ? skipToken : queryParams,
   );
 
-  const usdtBalance = useAppSelector(selectWalletAccountUSDTBalance);
-  const isFetching = useAppSelector(selectWalletAccountUSDTBalanceFetching);
-  const isLoading = useAppSelector(selectWalletAccountUSDTBalanceLoading);
+  const usdtBalance = useAppSelector(state =>
+    selectWalletAccountUSDTBalance(state, queryParams),
+  );
 
-  return { usdtBalance, isFetching, isLoading };
+  const isFetching = useAppSelector(state =>
+    selectWalletAccountUSDTBalanceFetching(state, queryParams),
+  );
+
+  const isLoading = useAppSelector(state =>
+    selectWalletAccountUSDTBalanceLoading(state, queryParams),
+  );
+
+  return { usdtBalance, isFetching, isLoading, refetchUSDTBalance };
 };

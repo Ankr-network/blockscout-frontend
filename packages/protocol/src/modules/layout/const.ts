@@ -7,3 +7,5 @@ export enum Header {
   Sidebar = 'sidebar',
   Mobile = 'mobile',
 }
+
+export const SHOULD_SHOW_HEADER_BANNER = true;

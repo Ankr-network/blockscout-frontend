@@ -1,3 +1,5 @@
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
+
 import {
   IJwtToken,
   JwtTokenFullData,
@@ -51,9 +53,13 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
     return { jwtToken, workerTokenData };
   }
 
-  public async getAllLatestUserTierAssignedEventLogHashes(user: Web3Address) {
+  public async getAllLatestUserTierAssignedEventLogHashes(
+    user: Web3Address,
+    blockchain: TBlockchain
+  ) {
     return this.PAYGContractManager.getAllLatestUserTierAssignedEventLogHashes(
       user,
+      blockchain,
     );
   }
 
@@ -83,6 +89,7 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
 
   public async getIssuedJwtTokenOrIssue(
     user: Web3Address,
+    blockchain: TBlockchain
   ): Promise<JwtTokenFullData> {
     const issuedToken = await this.findIssuedTokenAndUpgrade(user);
 
@@ -90,11 +97,14 @@ export class Web3TokenIssuerService extends BaseTokenIssuerService {
       return issuedToken;
     }
 
-    return this.issueJwtToken(user);
+    return this.issueJwtToken(user, blockchain);
   }
 
-  public async issueJwtToken(user: Web3Address) {
-    const PAYGTransactionHash = await this.getPAYGTransactionHash(user);
+  public async issueJwtToken(
+    user: Web3Address,
+    blockchain: TBlockchain
+  ) {
+    const PAYGTransactionHash = await this.getPAYGTransactionHash(user, blockchain);
 
     if (!PAYGTransactionHash) return {};
 

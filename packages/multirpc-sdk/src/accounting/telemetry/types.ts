@@ -2,7 +2,7 @@ import { Address } from '@ankr.com/provider';
 import { Timestamp } from '@ankr.com/utils';
 
 import { IApiUserGroupParams } from '../userGroup';
-import { BlockchainID, Timeframe } from '../../common';
+import { BlockchainID, Timeframe, Web3Address } from '../../common';
 
 export interface IGetLatestRequestsRequest {
   from_ms?: number;
@@ -56,6 +56,84 @@ export enum PrivateStatsInterval {
   DAY = 'h24',
   WEEK = 'd7',
   MONTH = 'd30',
+}
+
+export interface IRequestTimelinePoint {
+  time: number; // "1710460800"
+  value: number; // "22282"
+}
+
+export interface IRequestTimeline {
+  name: string; // "Usage",
+  points: IRequestTimelinePoint[];
+}
+
+export interface IUsageTopElement {
+  name: string;
+  count: number;
+}
+
+export interface IUsageTop {
+  top_of: ETelemetryTopOf;
+  elements: IUsageTopElement[];
+}
+
+export interface IUsageStats {
+  total: number;
+  all_time_total: number;
+  request_timelines: IRequestTimeline[];
+  tops?: IUsageTop[];
+}
+
+export enum ETelemetryGroupBy {
+  UNSPECIFIED = 'unspecified',
+  TENAT = 'tenat',
+  API_KEY = 'api_key',
+  PROTOCOL = 'protocol',
+  BLOCKCHAIN = 'blockchain',
+  METHOD = 'method',
+}
+
+export enum ETelemetryTopOf {
+  UNSPECIFIED = 'unspecified',
+  IP = 'ip',
+  ERROR = 'error',
+  COUNTRY = 'country',
+  METHOD = 'method',
+  BLOCKCHAIN = 'blockchain',
+  PROTOCOL = 'protocol',
+  TENANT = 'tenant',
+  API_KEY = 'api_key',
+  MONTHLY_USAGE = 'monthly_usage',
+}
+
+export enum EPrivateStatsInterval {
+  HOUR = '1h',
+  DAY = '24h',
+}
+
+export interface IUsageStatsParams {
+  group: Web3Address;
+
+  /** The time interval to query for */
+  // stats start timestamp in ms
+  from?: number;
+  // stats end timestamp in ms
+  to?: number;
+  // stats interval duration, valid time units are “ns”, “us” (or “µs”), “ms”, “s”, “m”, “h”: 1h, 2h...
+  intervalDuration: EPrivateStatsInterval;
+
+  /** Filters */
+  tenantIds?: string[];
+  apiKeyIds?: string[];
+  protocols?: string[];
+  blockchains?: string[];
+  methods?: string[];
+  topLimit?: number;
+  /** Stats grouping */
+  groupBy?: ETelemetryGroupBy[];
+  /** use this param to request additional top lists */
+  includeTopOfs?: ETelemetryTopOf[];
 }
 
 export interface PrivateStats {
@@ -160,7 +238,6 @@ export type PrivateStatTopRequestsData = Record<string, number | ChartDate>;
 
 export type UserRequest = Record<string, number>;
 export type UserRequestsResponse = Record<string, UserRequest>;
-
 
 export interface TotalStatsResponse {
   blockchains_info: TotalStatsBlockchainsInfo;

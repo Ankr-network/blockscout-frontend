@@ -17,13 +17,9 @@ import { useMinAmount } from './useMinAmount';
 
 export interface IUsePaymentFormProps {
   onConnectAccount: (connectedAddress: Web3Address) => void;
-  onCryptoPaymentFlowClose: () => void;
 }
 
-export const usePaymentForm = ({
-  onConnectAccount,
-  onCryptoPaymentFlowClose,
-}: IUsePaymentFormProps) => {
+export const usePaymentForm = ({ onConnectAccount }: IUsePaymentFormProps) => {
   const { paymentType, paymentTabsProps } = usePaymentType();
 
   const { currency, currencyTabsProps, handleChangeCurrency } = useCurrency({
@@ -70,7 +66,6 @@ export const usePaymentForm = ({
     oneTimeAmountProps,
     handleNetworkChange,
     onConnectAccount,
-    onCryptoPaymentFlowClose,
   });
 
   const {

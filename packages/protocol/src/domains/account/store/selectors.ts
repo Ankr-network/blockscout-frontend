@@ -5,7 +5,6 @@ import {
   ISubscriptionsItem,
   MyBundleStatusCounter,
   MyBundleStatus,
-  Web3Address,
   EBlockchain,
   Token,
 } from 'multirpc-sdk';
@@ -37,18 +36,35 @@ import { getAggregatedDealChargingModelData } from 'domains/account/utils/getDea
 import { getAggregatedPackageModelsData } from 'domains/account/utils/getPackageChargingModelData';
 import { isDealPlan } from 'domains/account/utils/isDealPlan';
 import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
-import { fetchUSDTDepositFee } from 'domains/account/actions/fetchUSDTDepositFee';
-import { fetchUSDCDepositFee } from 'domains/account/actions/fetchUSDCDepositFee';
+import {
+  IFetchUSDTDepositFeeParams,
+  fetchUSDTDepositFee,
+} from 'domains/account/actions/fetchUSDTDepositFee';
+import {
+  IFetchUSDCDepositFeeParams,
+  fetchUSDCDepositFee,
+} from 'domains/account/actions/fetchUSDCDepositFee';
 import { fetchPaymentOptions } from 'domains/account/actions/fetchPaymentOptions';
-import { fetchGasPrice } from 'domains/account/actions/fetchGasPrice';
 import { fetchMyAllowanceAnkr } from 'domains/account/actions/fetchMyAllowanceAnkr';
 import { fetchTxData } from 'domains/account/actions/fetchTxData';
 import { fetchTxReceipt } from 'domains/account/actions/fetchTxReceipt';
 import { fetchWalletAccountANKRBalance } from 'domains/account/actions/balance/fetchWalletAccountANRKBalance';
-import { fetchUSDTAllowanceFee } from 'domains/account/actions/fetchUSDTAllowanceFee';
-import { fetchUSDCAllowanceFee } from 'domains/account/actions/fetchUSDCAllowanceFee';
-import { fetchWalletAccountUSDTBalance } from 'domains/account/actions/balance/fetchWalletAccountUSDTBalance';
-import { fetchWalletAccountUSDCBalance } from 'domains/account/actions/balance/fetchWalletAccountUSDCBalance';
+import {
+  IFetchUSDTAllowanceFeeParams,
+  fetchUSDTAllowanceFee,
+} from 'domains/account/actions/fetchUSDTAllowanceFee';
+import {
+  IFetchUSDCAllowanceFeeParams,
+  fetchUSDCAllowanceFee,
+} from 'domains/account/actions/fetchUSDCAllowanceFee';
+import {
+  IFetchWalletAccountUSDTBalanceParams,
+  fetchWalletAccountUSDTBalance,
+} from 'domains/account/actions/balance/fetchWalletAccountUSDTBalance';
+import {
+  IFetchWalletAccountUSDCBalanceParams,
+  fetchWalletAccountUSDCBalance,
+} from 'domains/account/actions/balance/fetchWalletAccountUSDCBalance';
 import { topUpSendAllowanceAnkr } from 'domains/account/actions/topUp/sendAllowanceAnkr';
 import { topUpSendAllowanceUsdt } from 'domains/account/actions/topUp/sendAllowanceUsdt';
 import { topUpSendAllowanceUsdc } from 'domains/account/actions/topUp/sendAllowanceUsdc';
@@ -668,7 +684,8 @@ export const selectANKRAllowanceFeeLoading = createSelector(
 
 // USDT
 export const selectUSDTAllowanceFeeState = createSelector(
-  fetchUSDTAllowanceFee.select(undefined as never),
+  (state: RootState, params: IFetchUSDTAllowanceFeeParams) =>
+    fetchUSDTAllowanceFee.select(params)(state),
   state => state,
 );
 
@@ -689,7 +706,8 @@ export const selectUSDTAllowanceFeeLoading = createSelector(
 
 // USDC
 export const selectUSDCAllowanceFeeState = createSelector(
-  fetchUSDCAllowanceFee.select(undefined as never),
+  (state: RootState, params: IFetchUSDCAllowanceFeeParams) =>
+    fetchUSDCAllowanceFee.select(params)(state),
   state => state,
 );
 
@@ -772,7 +790,8 @@ export const selectANKRDepositFeeLoading = createSelector(
 
 // USDT
 export const selectUSDTDepositFeeState = createSelector(
-  fetchUSDTDepositFee.select(undefined as never),
+  (state: RootState, params: IFetchUSDTDepositFeeParams) =>
+    fetchUSDTDepositFee.select(params)(state),
   state => state,
 );
 
@@ -793,7 +812,8 @@ export const selectUSDTDepositFeeLoading = createSelector(
 
 // USDC
 export const selectUSDCDepositFeeState = createSelector(
-  fetchUSDCDepositFee.select(undefined as never),
+  (state: RootState, params: IFetchUSDCDepositFeeParams) =>
+    fetchUSDCDepositFee.select(params)(state),
   state => state,
 );
 
@@ -812,12 +832,6 @@ export const selectUSDCDepositFeeLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectHasProcessingTransaction = createSelector(
-  (state: RootState, address?: Web3Address) =>
-    address ? selectTransaction(state, address) : undefined,
-  transaction => Boolean(transaction && transaction.isProcessing),
-);
-
 export const selectPaymentOptionsState = createSelector(
   fetchPaymentOptions.select(undefined as never),
   state => state,
@@ -828,8 +842,8 @@ export const selectPaymentOptions = createSelector(
   ({ data }) => {
     const filteredData = data?.result.options.filter(
       option =>
-        option.blockchain === EBlockchain.eth_holesky ||
-        option.blockchain === EBlockchain.eth,
+        option.blockchain !== EBlockchain.arbitrum_sepolia &&
+        option.blockchain !== EBlockchain.arbitrum,
     );
 
     return { result: { options: filteredData } };
@@ -987,26 +1001,6 @@ export const selectTxReceiptLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectGasPriceState = createSelector(
-  fetchGasPrice.select(),
-  state => state,
-);
-
-export const selectGasPrice = createSelector(
-  selectGasPriceState,
-  ({ data = ZERO_STRING }) => data,
-);
-
-export const selectGasPriceFetching = createSelector(
-  selectGasPriceState,
-  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
-);
-
-export const selectGasPriceLoading = createSelector(
-  selectGasPriceState,
-  ({ isLoading }) => isLoading,
-);
-
 export const selectWalletAccountANKRBalanceState = createSelector(
   fetchWalletAccountANKRBalance.select(),
   state => state,
@@ -1034,7 +1028,8 @@ export const selectIsAllowanceAnkrSent = createSelector(
 
 // USDT
 export const selectWalletAccountUSDTBalanceState = createSelector(
-  fetchWalletAccountUSDTBalance.select(undefined as never),
+  (state: RootState, params: IFetchWalletAccountUSDTBalanceParams) =>
+    fetchWalletAccountUSDTBalance.select(params)(state),
   state => state,
 );
 
@@ -1060,7 +1055,8 @@ export const selectIsAllowanceUsdtSent = createSelector(
 
 // USDC
 export const selectWalletAccountUSDCBalanceState = createSelector(
-  fetchWalletAccountUSDCBalance.select(undefined as never),
+  (state: RootState, params: IFetchWalletAccountUSDCBalanceParams) =>
+    fetchWalletAccountUSDCBalance.select(params)(state),
   state => state,
 );
 

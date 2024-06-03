@@ -1,30 +1,27 @@
 import { EBlockchain, ethNetworkIdByBlockchainMap } from 'multirpc-sdk';
 import { useMemo } from 'react';
-import { EEthereumNetworkId } from '@ankr.com/provider';
 
 import { useSwitchNetworkMutation } from 'modules/common/actions/switchNetwork';
-import { isMainnet } from 'modules/common/constants/const';
+import { useWalletNetworkId } from 'domains/wallet/hooks/useWalletNetworkId';
+import { setProviderNetworkId } from 'domains/wallet/utils/setProviderNetworkId';
+import { useAppDispatch } from 'store/useAppDispatch';
 
 export const useNetworkGuard = (selectedNetwork: EBlockchain) => {
+  const dispatch = useAppDispatch();
   const [handleSwitchNetwork, { isLoading: isSwitchNetworkLoading }] =
     useSwitchNetworkMutation();
 
   const selectedNetworkId = ethNetworkIdByBlockchainMap[selectedNetwork];
 
-  // in this version only ethereum network is supported
-  // TODO: use const { networkId } = useWalletNetworkId(); for checking conditions in the next version
-  const isWrongNetwork = useMemo(() => {
-    // TODO: use this condition in the next version
-    // if (!networkId) {
-    //   setProviderNetworkId(dispatch);
-    // }
+  const { networkId } = useWalletNetworkId();
 
-    if (isMainnet) {
-      return selectedNetworkId !== EEthereumNetworkId.mainnet;
+  const isWrongNetwork = useMemo(() => {
+    if (!networkId) {
+      setProviderNetworkId(dispatch);
     }
 
-    return selectedNetworkId !== EEthereumNetworkId.holesky;
-  }, [selectedNetworkId]);
+    return selectedNetworkId !== networkId;
+  }, [networkId, selectedNetworkId, dispatch]);
 
   return {
     isWrongNetwork,

@@ -1,5 +1,10 @@
 import BigNumber from 'bignumber.js';
-import { IApiUserGroupParams, formatToWei, formatFromWei } from 'multirpc-sdk';
+import {
+  IApiUserGroupParams,
+  formatToWei,
+  formatFromWei,
+  EBlockchain,
+} from 'multirpc-sdk';
 
 import { GetState, RootState } from 'store';
 import {
@@ -71,6 +76,7 @@ export const {
           if (transaction?.allowanceTransactionHash) {
             await dispatch(
               topUpCheckAllowanceTransaction.initiate({
+                network: transaction?.network ?? EBlockchain.eth,
                 initialTransactionHash: transaction?.allowanceTransactionHash,
               }),
             );

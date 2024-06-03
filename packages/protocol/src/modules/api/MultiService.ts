@@ -1,7 +1,4 @@
-import {
-  AvailableWriteProviders,
-  EEthereumNetworkId,
-} from '@ankr.com/provider';
+import { AvailableWriteProviders } from '@ankr.com/provider';
 import {
   MultiRpcWeb3Sdk,
   MultiRpcSdk,
@@ -10,7 +7,7 @@ import {
 } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { API_ENV, getReadProviderId } from '../common/utils/environment';
+import { API_ENV, getEthReadProviderId } from '../common/utils/environment';
 import { ProviderManagerSingleton } from './ProviderManagerSingleton';
 import { getProviderManager } from './getProviderManager';
 
@@ -34,17 +31,13 @@ export class MultiService {
     const writeProvider = await providerManager.getETHWriteProvider(walletId);
 
     const readProvider = await providerManager.getETHReadProvider(
-      getReadProviderId(API_ENV),
+      getEthReadProviderId(API_ENV),
     );
 
-    const isEthereumNetwork =
-      writeProvider.currentChain === EEthereumNetworkId.mainnet ||
-      writeProvider.currentChain === EEthereumNetworkId.holesky;
-
-    if (!isEthereumNetwork && walletId !== INJECTED_WALLET_ID) {
+    if (walletId !== INJECTED_WALLET_ID) {
       MultiService.removeServices();
 
-      throw new Error(t('error.not-supported-chain'));
+      throw new Error(t('error.not-supported-wallet'));
     }
 
     MultiService.web3Service = new MultiRpcWeb3Sdk(
@@ -77,7 +70,7 @@ export class MultiService {
       const providerManager = ProviderManagerSingleton.getInstance();
 
       const readProvider = await providerManager.getETHReadProvider(
-        getReadProviderId(API_ENV),
+        getEthReadProviderId(API_ENV),
       );
 
       MultiService.web3ReadService = new MultiRpcWeb3ReadSdk(

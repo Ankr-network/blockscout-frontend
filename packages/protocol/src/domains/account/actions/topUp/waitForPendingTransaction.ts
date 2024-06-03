@@ -1,23 +1,19 @@
+import { EBlockchain } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
 import { timeout } from 'modules/common/utils/timeout';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
 import { ETH_BLOCK_TIME } from './const';
 
-const hasPendingTransaction = async (address: string): Promise<boolean> => {
+const hasPendingTransaction = async (
+  network: EBlockchain,
+  address: string,
+): Promise<boolean> => {
   const service = MultiService.getWeb3Service();
 
   if (service) {
-    const provider = service.getKeyReadProvider();
-
-    const web3 = getWeb3Instance();
-
-    const infuraNodeBlockNumber: number = await provider
-      .getWeb3()
-      .eth.getBlockNumber();
-    const ankrNodeBlockNumber: number = await web3.eth.getBlockNumber();
-
-    if (infuraNodeBlockNumber !== ankrNodeBlockNumber) return true;
+    const web3 = getWeb3Instance(network);
 
     const latestTransactionCount = await web3.eth.getTransactionCount(
       address,
@@ -36,14 +32,17 @@ const hasPendingTransaction = async (address: string): Promise<boolean> => {
   return false;
 };
 
-export const waitForPendingTransaction = async (address: string) => {
+export const waitForPendingTransaction = async (
+  network: EBlockchain,
+  address: string,
+) => {
   await timeout();
 
   let inProcess = true;
 
   while (inProcess) {
     // eslint-disable-next-line
-    inProcess = await hasPendingTransaction(address);
+    inProcess = await hasPendingTransaction(network, address);
 
     if (inProcess) {
       // eslint-disable-next-line

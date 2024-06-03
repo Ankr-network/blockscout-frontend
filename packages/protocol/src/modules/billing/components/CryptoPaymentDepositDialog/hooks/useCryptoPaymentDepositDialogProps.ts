@@ -29,16 +29,16 @@ export const useCryptoPaymentDepositDialogProps = ({
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
 }: IUseCryptoPaymentDepositDialogProps) => {
+  const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
+    useNetworkGuard(network);
+
   const {
     myAllowance,
     isLoading: isMyAllowanceLoading,
     fetchMyAllowance,
   } = useMyAllowance({
-    skipFetching: !isCryptoPaymentDepositDialogOpened,
+    skipFetching: !isCryptoPaymentDepositDialogOpened || isWrongNetwork,
   });
-
-  const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
-    useNetworkGuard(network);
 
   const isAllowanceAnkrSent = useAppSelector(selectIsAllowanceAnkrSent);
   const isAllowanceUsdtSent = useAppSelector(selectIsAllowanceUsdtSent);
@@ -60,7 +60,7 @@ export const useCryptoPaymentDepositDialogProps = ({
   const {
     amountToDeposit,
     handleResetAllowance: handleResetAllowanceState,
-    transactionCurrency,
+    handleResetTopUpTransaction,
   } = useTopUp();
 
   const {
@@ -77,6 +77,7 @@ export const useCryptoPaymentDepositDialogProps = ({
 
     if (shouldResetAllowanceState) {
       handleResetAllowanceState();
+      handleResetTopUpTransaction();
     }
 
     onCryptoPaymentDepositDialogClose();
@@ -86,6 +87,7 @@ export const useCryptoPaymentDepositDialogProps = ({
     isOngoingPaymentPending,
     handleResetAllowanceState,
     onCryptoPaymentDepositDialogClose,
+    handleResetTopUpTransaction,
   ]);
 
   const shouldRevokeApproval = useMemo(() => {
@@ -105,18 +107,17 @@ export const useCryptoPaymentDepositDialogProps = ({
   }, [fetchMyAllowance]);
 
   return {
-    myAllowance,
+    amountToDeposit,
+    handleSwitchNetwork,
+    hasOngoingTransaction,
+    isAllowanceSent,
     isMyAllowanceLoading,
     isOngoingPaymentError,
-    isWrongNetwork,
-    shouldRevokeApproval,
-    handleSwitchNetwork,
     isSwitchNetworkLoading,
-    isAllowanceSent,
-    amountToDeposit,
-    transactionCurrency,
-    hasOngoingTransaction,
-    onClose,
+    isWrongNetwork,
+    myAllowance,
     onCheckApproval,
+    onClose,
+    shouldRevokeApproval,
   };
 };

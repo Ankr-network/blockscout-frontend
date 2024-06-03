@@ -1,26 +1,33 @@
 import { EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/billing/types';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectPaymentOptionsByNetwork } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useNativeTokenPrice } from 'domains/account/hooks/useNativeTokenPrice';
 
-import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 import { useEstimatedCryptoAllowanceFeeDetails } from './useEstimatedCryptoAllowanceFeeDetails';
 import { useEstimatedCryptoDepositFeeDetails } from './useEstimatedCryptoDepositFeeDetails';
+import { useHasEnoughTokenBalance } from './useHasEnoughTokenBalance';
 
 interface IOneTimeCryptoFees {
+  allowanceTxHash?: string;
   amount: number;
   currency: ECurrency;
+  depositTxHash?: string;
   network: EBlockchain;
-  price: string;
 }
 
 export const useOneTimeCryptoFees = ({
+  allowanceTxHash,
   amount,
   currency,
+  depositTxHash,
   network,
-  price,
 }: IOneTimeCryptoFees) => {
+  const { price, isLoading: isNativeTokenPriceLoading } = useNativeTokenPrice({
+    network,
+  });
+
   const {
     depositContractAddress = '',
     tokenAddress = '',
@@ -32,10 +39,11 @@ export const useOneTimeCryptoFees = ({
   const {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
   } = useHasEnoughTokenBalance({
     amount,
     currency,
+    network,
     depositContractAddress,
     tokenAddress,
     tokenDecimals,
@@ -45,10 +53,12 @@ export const useOneTimeCryptoFees = ({
     useEstimatedCryptoAllowanceFeeDetails({
       amount,
       currency,
+      network,
       depositContractAddress,
       price,
       tokenAddress,
       tokenDecimals,
+      txHash: allowanceTxHash,
     });
 
   const { depositFeeDetails, isLoading: isDepositFeeLoading } =
@@ -56,18 +66,25 @@ export const useOneTimeCryptoFees = ({
       amount,
       price,
       currency,
+      network,
       depositContractAddress,
       tokenAddress,
       tokenDecimals,
+      txHash: depositTxHash,
     });
 
+  const isLoading =
+    isAllowanceFeeLoading ||
+    isDepositFeeLoading ||
+    isNativeTokenPriceLoading ||
+    isWalletTokenBalanceLoading;
+
   return {
-    hasEnoughTokenBalance,
-    isWalletTokenBalanceLoading,
-    refetchANKRBalance,
     approvalFeeDetails,
-    isAllowanceFeeLoading,
     depositFeeDetails,
-    isDepositFeeLoading,
+    hasEnoughTokenBalance,
+    isLoading,
+    isWalletTokenBalanceLoading,
+    refetchBalances,
   };
 };

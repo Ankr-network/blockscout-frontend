@@ -75,6 +75,7 @@ import seiIcon from './icons/sei.svg';
 import xdcIcon from './icons/xdc.svg';
 import b2Icon from './icons/b2.svg';
 import xaiIcon from './icons/xai.svg';
+import bahamutIcon from './icons/bahamut.svg';
 import xdcIconDark from './darkModeIcons/xdc.svg';
 import lineaIcon from './icons/linea.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
@@ -134,6 +135,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.BSC]: bscIcon,
   [ChainID.BSC_TESTNET_CHAPEL]: bscIcon,
+
+  [ChainID.BAHAMUT]: bahamutIcon,
+  [ChainID.BAHAMUT_OCEAN]: bahamutIcon,
 
   [ChainID.BASE]: baseIcon,
   [ChainID.BASE_TESTNET]: baseIcon,

@@ -1,5 +1,5 @@
-import { Web3Address } from 'multirpc-sdk';
-import { useMemo } from 'react';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
+import { useCallback, useMemo } from 'react';
 
 import { ECurrency } from 'modules/billing/types';
 import { useWalletAccountANKRBalance } from 'domains/account/hooks/useWalletAccountANKRBalance';
@@ -10,6 +10,7 @@ import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 export interface IUseHasEnoughTokenBalanceProps {
   amount: number;
   currency: ECurrency;
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   tokenDecimals: number;
@@ -18,6 +19,7 @@ export interface IUseHasEnoughTokenBalanceProps {
 export const useHasEnoughTokenBalance = ({
   amount,
   currency,
+  network,
   depositContractAddress,
   tokenAddress,
   tokenDecimals,
@@ -32,41 +34,53 @@ export const useHasEnoughTokenBalance = ({
     skipFetching: !connectedAddress || currency !== ECurrency.ANKR,
   });
 
-  const { usdtBalance, isLoading: isWalletUsdtTokenBalanceLoading } =
-    useWalletAccountUSDTBalance({
-      depositContractAddress,
-      tokenAddress,
-      tokenDecimals,
-      skipFetching:
-        currency !== ECurrency.USDT ||
-        !connectedAddress ||
-        !depositContractAddress ||
-        !tokenAddress,
-    });
+  const {
+    usdtBalance,
+    isLoading: isWalletUsdtTokenBalanceLoading,
+    isFetching: isWalletUsdtTokenBalanceFetching,
+    refetchUSDTBalance,
+  } = useWalletAccountUSDTBalance({
+    depositContractAddress,
+    tokenAddress,
+    network,
+    tokenDecimals,
+    skipFetching:
+      currency !== ECurrency.USDT ||
+      !connectedAddress ||
+      !depositContractAddress ||
+      !tokenAddress,
+  });
 
-  const { usdcBalance, isLoading: isWalletUsdcTokenBalanceLoading } =
-    useWalletAccountUSDCBalance({
-      depositContractAddress,
-      tokenAddress,
-      tokenDecimals,
-      skipFetching:
-        currency !== ECurrency.USDC ||
-        !connectedAddress ||
-        !depositContractAddress ||
-        !tokenAddress,
-    });
+  const {
+    usdcBalance,
+    isLoading: isWalletUsdcTokenBalanceLoading,
+    isFetching: isWalletUsdcTokenBalanceFetching,
+    refetchUSDCBalance,
+  } = useWalletAccountUSDCBalance({
+    depositContractAddress,
+    tokenAddress,
+    network,
+    tokenDecimals,
+    skipFetching:
+      currency !== ECurrency.USDC ||
+      !connectedAddress ||
+      !depositContractAddress ||
+      !tokenAddress,
+  });
 
   const { tokenBalance, isWalletTokenBalanceLoading } = useMemo(() => {
     switch (currency) {
       case ECurrency.USDT:
         return {
           tokenBalance: usdtBalance,
-          isWalletTokenBalanceLoading: isWalletUsdtTokenBalanceLoading,
+          isWalletTokenBalanceLoading:
+            isWalletUsdtTokenBalanceLoading || isWalletUsdtTokenBalanceFetching,
         };
       case ECurrency.USDC:
         return {
           tokenBalance: usdcBalance,
-          isWalletTokenBalanceLoading: isWalletUsdcTokenBalanceLoading,
+          isWalletTokenBalanceLoading:
+            isWalletUsdcTokenBalanceLoading || isWalletUsdcTokenBalanceFetching,
         };
       default:
       case ECurrency.ANKR:
@@ -80,16 +94,24 @@ export const useHasEnoughTokenBalance = ({
     currency,
     isWalletAnkrTokenBalanceLoading,
     isWalletUsdcTokenBalanceLoading,
+    isWalletUsdcTokenBalanceFetching,
     isWalletUsdtTokenBalanceLoading,
+    isWalletUsdtTokenBalanceFetching,
     usdcBalance,
     usdtBalance,
   ]);
 
   const hasEnoughTokenBalance = tokenBalance >= amount;
 
+  const refetchBalances = useCallback(() => {
+    refetchUSDTBalance();
+    refetchUSDCBalance();
+    refetchANKRBalance();
+  }, [refetchUSDTBalance, refetchUSDCBalance, refetchANKRBalance]);
+
   return {
     hasEnoughTokenBalance,
     isWalletTokenBalanceLoading,
-    refetchANKRBalance,
+    refetchBalances,
   };
 };

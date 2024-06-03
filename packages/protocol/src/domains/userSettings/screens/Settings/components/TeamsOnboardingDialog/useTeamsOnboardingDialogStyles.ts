@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { dialogHeaderGradient } from 'uiKit/Theme/themeUtils';
+
 export const useTeamsOnboardingDialogStyles = makeStyles()(theme => ({
   root: {
     width: 600,
@@ -20,8 +22,7 @@ export const useTeamsOnboardingDialogStyles = makeStyles()(theme => ({
     height: 280,
     top: 0,
     left: 0,
-    background:
-      'linear-gradient(180deg, rgba(242, 245, 250, 0.00) 0%, #F2F5FA 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)',
+    background: dialogHeaderGradient,
   },
   closeButton: {
     border: 'none',

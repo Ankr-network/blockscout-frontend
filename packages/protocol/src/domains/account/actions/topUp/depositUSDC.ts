@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTransactionAddress';
 import { setTopUpTransaction } from 'domains/account/store/accountTopUpSlice';
@@ -15,6 +15,7 @@ interface ITopUpDepositUSDCQueryParams {
   amount: BigNumber;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
+  network: EBlockchain;
 }
 
 export const {
@@ -27,7 +28,7 @@ export const {
       ITopUpDepositUSDCQueryParams
     >({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async (
             {
               params: {
@@ -35,6 +36,7 @@ export const {
                 amount,
                 depositContractAddress,
                 tokenAddress,
+                network,
               },
               web3Service,
             },
@@ -47,12 +49,13 @@ export const {
                 depositContractAddress,
                 tokenAddress,
               })
-              .depositUSDCToPAYG(
+              .depositUSDCToPAYG({
                 amount,
                 tokenDecimals,
                 tokenAddress,
+                network,
                 depositContractAddress,
-              );
+              });
 
             if (depositResponse.transactionHash) {
               dispatch(

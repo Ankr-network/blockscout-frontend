@@ -9,7 +9,7 @@ import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 import { INetworkSelectOption } from '../../NetworkSelect';
 
 export const useNetwork = (currency: ECurrency) => {
-  const [network, setNetwork] = useState(EBlockchain.eth);
+  const [network, setNetwork] = useState(ANKR_TOP_UP_NETWORK);
 
   const paymentOptionsData = useAppSelector(selectPaymentOptions);
 
@@ -26,6 +26,7 @@ export const useNetwork = (currency: ECurrency) => {
           .map(token => token.token_symbol)
           .includes(currency as unknown as Token),
       )
+      .sort((a, b) => a.blockchain.localeCompare(b.blockchain))
       .map(option => ({
         value: option.blockchain,
       }));

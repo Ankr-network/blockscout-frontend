@@ -1,14 +1,16 @@
 import BigNumber from 'bignumber.js';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { RequestType, web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 
 export interface IFetchUSDTDepositFeeParams {
   amount: number;
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
+  tokenDecimals: number;
 }
 
 export const {
@@ -19,9 +21,15 @@ export const {
     fetchUSDTDepositFee: build.query<number, IFetchUSDTDepositFeeParams>({
       providesTags: [RequestType.USDTDepositFee],
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({
-            params: { amount, depositContractAddress, tokenAddress },
+            params: {
+              amount,
+              network,
+              depositContractAddress,
+              tokenAddress,
+              tokenDecimals,
+            },
             web3Service,
           }) => {
             const { currentAccount } = web3Service.getKeyWriteProvider();
@@ -35,10 +43,13 @@ export const {
               tokenAddress,
             });
 
-            const fee = await contractService.getDepositUSDTToPAYGFee(
-              new BigNumber(amount),
+            const fee = await contractService.getDepositUSDTToPAYGFee({
+              network,
+              tokenAddress,
+              amount: new BigNumber(amount),
               depositContractAddress,
-            );
+              tokenDecimals,
+            });
 
             return { data: Number(fee) };
           },

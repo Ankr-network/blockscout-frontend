@@ -69,6 +69,7 @@ export const ApprovalAttribute = ({
         error={error}
         feeCrypto={feeDetails.feeCrypto}
         feeUSD={feeDetails.feeUSD}
+        txURL={feeDetails.txURL}
         network={network}
         shouldHideAlert={isDepositPending}
         status={status}
@@ -81,6 +82,7 @@ export const ApprovalAttribute = ({
       error={error}
       feeCrypto={feeDetails.feeCrypto}
       feeUSD={feeDetails.feeUSD}
+      txURL={feeDetails.txURL}
       network={network}
       status={status}
     />

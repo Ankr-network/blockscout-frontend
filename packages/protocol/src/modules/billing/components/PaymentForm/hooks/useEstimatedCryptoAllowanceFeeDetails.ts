@@ -1,29 +1,38 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
-import { Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { ECurrency, IFeeDetails } from 'modules/billing/types';
 import { useAnkrAllowanceFee } from 'domains/account/hooks/useANKRAllowanceFee';
 import { useUsdcAllowanceFee } from 'domains/account/hooks/useUSDCAllowanceFee';
 import { useUsdtAllowanceFee } from 'domains/account/hooks/useUSDTAllowanceFee';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+import {
+  LOW_APPROXIMATED_CRYPTO,
+  LOW_APPROXIMATED_USD,
+} from 'modules/common/constants/const';
+import { getTxExplorerUrl } from 'modules/billing/utils/getTxExplorerUrl';
 
 export interface IUseEstimatedCryptoAllowanceFeeDetailsProps {
   amount: number;
   currency: ECurrency;
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   price: string;
   tokenAddress: Web3Address;
   tokenDecimals: number;
+  txHash?: string;
 }
 
 export const useEstimatedCryptoAllowanceFeeDetails = ({
   amount,
   currency,
+  network,
   depositContractAddress,
   price,
   tokenAddress,
   tokenDecimals,
+  txHash,
 }: IUseEstimatedCryptoAllowanceFeeDetailsProps) => {
   const { hasWeb3Service } = useWeb3Service();
 
@@ -34,8 +43,9 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
 
   const { fee: feeUsdt, isLoading: isLoadingUsdt } = useUsdtAllowanceFee({
     amount,
-    depositContractAddress,
+    network,
     tokenAddress,
+    depositContractAddress,
     tokenDecimals,
     skipFetching:
       !hasWeb3Service ||
@@ -46,8 +56,9 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
 
   const { fee: feeUsdc, isLoading: isLoadingUsdc } = useUsdcAllowanceFee({
     amount,
-    depositContractAddress,
+    network,
     tokenAddress,
+    depositContractAddress,
     tokenDecimals,
     skipFetching:
       !hasWeb3Service ||
@@ -77,13 +88,23 @@ export const useEstimatedCryptoAllowanceFeeDetails = ({
     isLoadingUsdc,
   ]);
 
-  const approvalFeeDetails = useMemo<IFeeDetails>(
-    () => ({
-      feeCrypto: fee,
-      feeUSD: new BigNumber(fee).multipliedBy(price).toNumber(),
-    }),
-    [fee, price],
-  );
+  const approvalFeeDetails = useMemo<IFeeDetails>(() => {
+    const feeCryptoBN = new BigNumber(fee);
+    const feeCrypto = feeCryptoBN.isLessThan(LOW_APPROXIMATED_CRYPTO)
+      ? LOW_APPROXIMATED_CRYPTO
+      : feeCryptoBN;
+
+    const feeUsdBN = feeCryptoBN.multipliedBy(price);
+    const feeUsd = feeUsdBN.isLessThan(LOW_APPROXIMATED_USD)
+      ? LOW_APPROXIMATED_USD
+      : feeUsdBN;
+
+    return {
+      feeCrypto: feeCrypto.toNumber(),
+      feeUSD: feeUsd.toNumber(),
+      txURL: txHash ? getTxExplorerUrl(network, txHash) : undefined,
+    };
+  }, [fee, price, txHash, network]);
 
   return { approvalFeeDetails, isLoading };
 };

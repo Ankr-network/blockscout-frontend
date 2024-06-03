@@ -9,14 +9,15 @@ export const metaTranslation = {
       keywords: 'Free RPC, RPC, Chainlist, RPC Crypto',
     },
     '/sei': {
-      title: '[Sei RPC] Freemium Plan Available! Connect With 45+ Crypto RPCs',
+      title:
+        '[Sei Dedicated RPC] Freemium Plan Available! Connect With 45+ Crypto RPCs',
       description:
         'Explore the world of blockchain with SEI RPC Freemium plan. Connect to 45+ Crypto RPCs. Freemium and premium plans available to suit your needs. Start now!',
       keywords: 'Sei RPC, Sei RPC Free',
     },
     '/solana': {
       title:
-        '[Solana RPC] Freemium Plan Available! Connect With 45+ Crypto RPCs',
+        '[Solana Dedicated RPC] Freemium Plan Available! Connect With 45+ Crypto RPCs',
       description:
         'Explore the world of blockchain with SOLANA RPC Freemium plan. Connect to 45+ Crypto RPCs. Freemium and premium plans available to suit your needs. Start now!',
       keywords: 'Solana RPC, Solana RPC Free',

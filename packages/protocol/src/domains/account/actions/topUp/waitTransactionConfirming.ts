@@ -1,4 +1,8 @@
-import { CONFIRMATION_BLOCKS, IApiUserGroupParams } from 'multirpc-sdk';
+import {
+  CONFIRMATION_BLOCKS,
+  EBlockchain,
+  IApiUserGroupParams,
+} from 'multirpc-sdk';
 import { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 import { TransactionReceipt } from 'web3-core';
 import { t } from '@ankr.com/common';
@@ -15,6 +19,7 @@ import {
 } from 'domains/account/store/accountTopUpSlice';
 import { timeout } from 'modules/common/utils/timeout';
 import { RequestType, web3Api } from 'store/queries';
+import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 import { ETH_BLOCK_TIME } from './const';
 import { fetchBalance } from '../balance/fetchBalance';
@@ -50,10 +55,11 @@ interface ReceiptResult {
 }
 
 export const getReceipt = async (
+  network: EBlockchain,
   transactionHash: string,
 ): Promise<ReceiptResult> => {
   // wallet connect provider returns uncorrect status for transaction
-  const web3 = getWeb3Instance();
+  const web3 = getWeb3Instance(network);
   const receipt = await web3.eth.getTransactionReceipt(transactionHash);
 
   if (receipt && !receipt.status) {
@@ -98,6 +104,7 @@ export const {
         const address = getCurrentTransactionAddress(getState as GetState);
 
         const transaction = selectTransaction(state, address);
+        const network = transaction?.network ?? EBlockchain.eth;
 
         const initialTransactionHash = transaction?.topUpTransactionHash;
 
@@ -112,6 +119,7 @@ export const {
 
         // step 1: trying to take a receipt
         const { receipt: receipt1, error: receipt1Error } = await getReceipt(
+          network,
           initialTransactionHash,
         );
 
@@ -126,12 +134,13 @@ export const {
         }
 
         // step 2: there're no receipt. we should wait
-        await waitForPendingTransaction(address);
+        await waitForPendingTransaction(network, address);
 
         // step 3: trying to take a receipt again
         let transactionHash = initialTransactionHash;
 
         const { receipt: receipt2, error: receipt2Error } = await getReceipt(
+          network,
           transactionHash,
         );
 
@@ -149,7 +158,7 @@ export const {
         // a receipt too -> check the latest top up transaction
         const lastTopUpEvent = await service
           ?.getContractService()
-          .getLastLockedFundsEvent(address);
+          .getLastLockedFundsEvent(address, ANKR_TOP_UP_NETWORK);
 
         const currentBlockNumber =
           (await provider?.getWeb3().eth.getBlockNumber()) ?? 0;
@@ -180,7 +189,7 @@ export const {
             }),
           );
 
-          const { error } = await getReceipt(transactionHash);
+          const { error } = await getReceipt(network, transactionHash);
 
           if (error) {
             return { data: { error, isSuccessful: false } };

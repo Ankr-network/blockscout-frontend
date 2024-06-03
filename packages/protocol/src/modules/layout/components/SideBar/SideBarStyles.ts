@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
+
 export const SIDEBAR_WIDTH = 220;
 
 const MOBILE_HEADER_HEIGHT = 130;
@@ -13,6 +15,7 @@ export const useStyles = makeStyles<boolean>()((theme, isMobileSideBar) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: theme.spacing(10),
+    top: !isMobileSideBar && SHOULD_SHOW_HEADER_BANNER ? 40 : 0,
 
     width: isMobileSideBar ? '100%' : SIDEBAR_WIDTH,
     height: isMobileSideBar ? `calc(100% - ${MOBILE_HEADER_HEIGHT}px)` : '100%',

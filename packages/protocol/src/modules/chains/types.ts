@@ -88,6 +88,9 @@ export enum ChainID {
   AVAIL_GOLDBERG_TESTNET = 'avail_goldberg_testnet',
   AVAIL_TURING_TESTNET = 'avail_turing_testnet',
 
+  BAHAMUT = 'bahamut',
+  BAHAMUT_OCEAN = 'bahamut_ocean',
+
   BSC = 'bsc',
   BSC_TESTNET_CHAPEL = 'bsc_testnet_chapel',
 

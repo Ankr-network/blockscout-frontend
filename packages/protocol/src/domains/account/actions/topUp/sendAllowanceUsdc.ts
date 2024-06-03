@@ -1,8 +1,12 @@
 import BigNumber from 'bignumber.js';
-import { getBNWithDecimalsFromString, Web3Address } from 'multirpc-sdk';
+import {
+  EBlockchain,
+  getBNWithDecimalsFromString,
+  Web3Address,
+} from 'multirpc-sdk';
 
 import { GetState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import {
   setAllowanceTransaction,
@@ -15,6 +19,7 @@ import { topUpCheckAllowanceTransaction } from './checkAllowanceTransaction';
 import { topUpResetTransactionSliceAndRedirect } from './resetTransactionSliceAndRedirect';
 
 interface ISendAllowanceUsdcParams {
+  network: EBlockchain;
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
   tokenDecimals: number;
@@ -29,10 +34,11 @@ export const {
   endpoints: build => ({
     topUpSendAllowanceUsdc: build.query<boolean, ISendAllowanceUsdcParams>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async (
             {
               params: {
+                network,
                 depositContractAddress,
                 tokenAddress,
                 tokenDecimals,
@@ -53,6 +59,7 @@ export const {
             const allowanceResponse = await contractService.setAllowanceForPAYG(
               {
                 allowanceValue: new BigNumber(amount),
+                network,
                 depositContractAddress,
                 tokenAddress,
                 tokenDecimals,
@@ -71,6 +78,7 @@ export const {
 
             const receipt = await dispatch(
               topUpCheckAllowanceTransaction.initiate({
+                network,
                 initialTransactionHash: allowanceTransactionHash,
                 confirmationBlocksNumber,
               }),
@@ -78,9 +86,11 @@ export const {
 
             if (receipt) {
               // get allowance for case when user has changed amount in metamask input
-              const allowanceValue = await contractService.getAllowanceValue(
+              const allowanceValue = await contractService.getAllowanceValue({
+                network,
+                depositContractAddress,
                 tokenAddress,
-              );
+              });
 
               dispatch(
                 setAllowanceTransaction({
