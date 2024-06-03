@@ -10,7 +10,6 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 import { Header } from '../Header';
 import { MobileHeader } from '../MobileHeader';
@@ -20,7 +19,6 @@ import { Breadcrumbs } from '../Breadcrumbs';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
-import { HeaderBanner } from '../HeaderBanner';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -62,7 +60,6 @@ export const DefaultLayout = ({
 
   return (
     <>
-      {SHOULD_SHOW_HEADER_BANNER && <HeaderBanner />}
       <div className={classes.root}>
         <SideBar
           chainsRoutes={chainsRoutes}
