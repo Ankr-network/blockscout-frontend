@@ -69,6 +69,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.B2,
       ChainID.B2_HABITAT_TESTNET,
 
+      ChainID.BAHAMUT,
+      ChainID.BAHAMUT_OCEAN,
+
       ChainID.BASE,
 
       ChainID.BLAST,

@@ -50,6 +50,7 @@ export const {
 
           const data = await getWalletBalanceUsdt({
             depositContractAddress,
+            network,
             tokenAddress,
             tokenDecimals,
             web3Service,

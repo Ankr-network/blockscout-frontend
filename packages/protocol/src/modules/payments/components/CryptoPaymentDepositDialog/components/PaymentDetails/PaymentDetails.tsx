@@ -16,12 +16,14 @@ export interface IPaymentDetailsProps {
   allowanceError?: string;
   allowanceFeeDetails?: IFeeDetails;
   allowanceStepStatus?: ECryptoDepositStepStatus;
+  allowanceTxHash?: string;
   amount: number;
   className?: string;
   currency: ECurrency;
   depositError?: string;
   depositFeeDetails: IFeeDetails;
   depositStepStatus?: ECryptoDepositStepStatus;
+  depositTxHash?: string;
   isAllowanceLoading: boolean;
   isAllowanceSent: boolean;
   isDepositPending: boolean;
@@ -33,12 +35,14 @@ export const PaymentDetails = ({
   allowanceError,
   allowanceFeeDetails,
   allowanceStepStatus,
+  allowanceTxHash,
   amount,
   className,
   currency,
   depositError,
   depositFeeDetails,
   depositStepStatus,
+  depositTxHash,
   isAllowanceLoading,
   isAllowanceSent,
   isDepositPending,
@@ -57,12 +61,14 @@ export const PaymentDetails = ({
         isDepositPending={isDepositPending}
         network={network}
         status={allowanceStepStatus}
+        txHash={allowanceTxHash}
       />
       <DepositAttribute
         error={depositError}
         feeDetails={depositFeeDetails}
         network={network}
         status={depositStepStatus}
+        txHash={depositTxHash}
       />
       <TotalFeesAttribute
         allowanceFeeDetails={allowanceFeeDetails}

@@ -1,5 +1,6 @@
 import { EthAddressType, MultiRpcWeb3ReadSdk } from 'multirpc-sdk';
 
+import { ANKR_PAYMENT_NETWORK } from 'modules/payments/const';
 import { AppDispatch, RootState } from 'store';
 import {
   IAuthSlice,
@@ -42,7 +43,7 @@ const checkLastTopupEvent = async ({
 
   const lastTopUpEvent = await web3ReadService
     .getContractService()
-    .getLastLockedFundsEvent(authAddress!);
+    .getLastLockedFundsEvent(authAddress!, ANKR_PAYMENT_NETWORK);
 
   if (!lastTopUpEvent) {
     return true;
@@ -73,6 +74,7 @@ const checkLastTopupEvent = async ({
     await web3ReadService.getIssuedJwtTokenOrIssue(
       authAddress!,
       encryptionPublicKey as string,
+      ANKR_PAYMENT_NETWORK,
     );
 
   dispatch(

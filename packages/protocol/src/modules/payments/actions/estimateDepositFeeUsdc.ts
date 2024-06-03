@@ -60,6 +60,7 @@ export const {
 
               const balance = await getWalletBalanceUsdc({
                 depositContractAddress,
+                network,
                 tokenAddress,
                 tokenDecimals,
                 web3Service,
@@ -71,11 +72,13 @@ export const {
                   tokenAddress,
                 });
 
-                const fee = await contractService.getDepositUSDCToPAYGFee(
-                  new BigNumber(amount),
+                const fee = await contractService.getDepositUSDCToPAYGFee({
+                  amount: new BigNumber(amount),
                   depositContractAddress,
+                  network,
+                  tokenAddress,
                   tokenDecimals,
-                );
+                });
 
                 return { data: Number(fee) };
               }

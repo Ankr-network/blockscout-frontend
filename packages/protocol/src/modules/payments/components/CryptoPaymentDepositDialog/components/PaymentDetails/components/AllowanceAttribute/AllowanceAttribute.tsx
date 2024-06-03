@@ -7,6 +7,7 @@ import {
   IFeeDetails,
 } from 'modules/payments/types';
 import { defaultFeeDetails } from 'modules/payments/const';
+import { getTxExplorerUrl } from 'modules/payments/utils/getTxExplorerUrl';
 
 import { FullAllowanceAttribute } from './components/FullAllowanceAttribute';
 import { NoAllowanceAttribute } from './components/NoAllowanceAttribute';
@@ -25,6 +26,7 @@ export interface IAllowanceAttributeProps {
   isDepositPending: boolean;
   network: EBlockchain;
   status?: ECryptoDepositStepStatus;
+  txHash?: string;
 }
 
 export const AllowanceAttribute = ({
@@ -38,7 +40,10 @@ export const AllowanceAttribute = ({
   isDepositPending,
   network,
   status,
+  txHash,
 }: IAllowanceAttributeProps) => {
+  const txUrl = getTxExplorerUrl(network, txHash);
+
   if (isAllowanceLoading) {
     return <OverlaySpinner />;
   }
@@ -62,6 +67,7 @@ export const AllowanceAttribute = ({
         error={error}
         feeCrypto={feeDetails.feeCrypto}
         feeUSD={feeDetails.feeUSD}
+        txURL={txUrl}
         network={network}
         shouldHideAlert={isDepositPending}
         status={status}
@@ -76,6 +82,7 @@ export const AllowanceAttribute = ({
       feeUSD={feeDetails.feeUSD}
       network={network}
       status={status}
+      txURL={txUrl}
     />
   );
 };

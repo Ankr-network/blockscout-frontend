@@ -1,8 +1,10 @@
-import BigNumber from 'bignumber.js';
 import { EBlockchain } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
+import { IFeeDetails } from '../types';
 import { nativeTokenNameMap } from '../const';
+import { processLowFeeDetails } from './processLowFeeDetails';
+import { roundCryptoFee } from './roundCryptoFee';
 
 export interface IRenderCryptoFeeParams {
   fee: number;
@@ -11,11 +13,17 @@ export interface IRenderCryptoFeeParams {
 }
 
 export const renderCryptoFee = ({
-  fee: rawFee,
+  fee: feeCrypto,
   isApproximate,
   network,
 }: IRenderCryptoFeeParams) => {
-  const fee = new BigNumber(rawFee).toFixed(5);
+  const feeDetails: IFeeDetails = { feeCrypto, feeUSD: 0 };
+
+  const { feeCrypto: feeCryptoProcessed } = processLowFeeDetails({
+    feeDetails,
+  });
+
+  const fee = roundCryptoFee({ feeCrypto: feeCryptoProcessed });
 
   const networkName = t(nativeTokenNameMap[network]);
 

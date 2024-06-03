@@ -2,6 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { commonShadow } from 'uiKit/Theme/themeUtils';
 import { SELECT_WIDTH } from 'modules/common/components/ProjectSelect/ProjectSelectStyles';
+import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 export const useDashboardStyles = makeStyles()(theme => ({
   root: {
@@ -18,6 +19,7 @@ export const useDashboardStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     gap: theme.spacing(2.5),
+    marginTop: SHOULD_SHOW_HEADER_BANNER ? theme.spacing(5) : 0,
     marginBottom: theme.spacing(2.5),
 
     [theme.breakpoints.down('md')]: {

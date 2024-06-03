@@ -49,6 +49,9 @@ export const commonShadow =
 export const tooltipBoxShadow =
   '0 3px 15px 0 rgba(31, 34, 38, 0.10), 0 2px 5px 0 rgba(31, 34, 38, 0.10)';
 
+export const dialogHeaderGradient =
+  'linear-gradient(180deg, rgba(242, 245, 250, 0.00) 0%, #F2F5FA 100%), linear-gradient(270deg, #D0DCF9 0%, #E3DCFA 50%, #F4E7DE 100%)';
+
 export const isLightTheme = (theme: Theme) => {
   return theme.palette.mode === Themes.light;
 };

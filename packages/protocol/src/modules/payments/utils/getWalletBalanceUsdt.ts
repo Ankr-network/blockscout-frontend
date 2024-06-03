@@ -1,10 +1,11 @@
-import { MultiRpcWeb3Sdk, Web3Address } from 'multirpc-sdk';
+import { EBlockchain, MultiRpcWeb3Sdk, Web3Address } from 'multirpc-sdk';
 
 import { formatBalanceByDecimals } from './formatBalanceByDecimals';
 
 export interface IGetWalletBalanceUsdtParams {
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
+  network: EBlockchain;
   tokenDecimals: number;
   web3Service: MultiRpcWeb3Sdk;
 }
@@ -12,6 +13,7 @@ export interface IGetWalletBalanceUsdtParams {
 export const getWalletBalanceUsdt = async ({
   depositContractAddress,
   tokenAddress,
+  network,
   tokenDecimals,
   web3Service,
 }: IGetWalletBalanceUsdtParams) => {
@@ -20,7 +22,10 @@ export const getWalletBalanceUsdt = async ({
     tokenAddress,
   });
 
-  const balance = await contractService.getCurrentAccountBalance();
+  const balance = await contractService.getCurrentAccountBalance(
+    network,
+    tokenAddress,
+  );
 
   return formatBalanceByDecimals(balance, tokenDecimals);
 };

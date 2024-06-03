@@ -36,11 +36,13 @@ export const useCryptoPaymentDepositStep = ({
     allowanceError,
     allowanceFeeDetailsEstimated,
     allowanceFeeDetailsPaid,
+    allowanceTxHash,
     amount,
     currency,
     depositError,
     depositFeeDetailsEstimated,
     depositFeeDetailsPaid,
+    depositTxHash,
     id: txId,
     network,
   } = tx;
@@ -99,17 +101,19 @@ export const useCryptoPaymentDepositStep = ({
   }, [dispatch, handleFetchAllowance, txId]);
 
   const cryptoPaymentDepositDialogProps = useCryptoPaymentDepositDialog({
+    allowance,
     allowanceError,
     allowanceFeeDetails:
       allowanceFeeDetailsPaid ?? allowanceFeeDetailsEstimated,
-    allowance,
     allowanceStepStatus,
+    allowanceTxHash,
     amount,
     amountUsd,
     currency,
     depositError,
     depositFeeDetails: depositFeeDetailsPaid ?? depositFeeDetailsEstimated,
     depositStepStatus,
+    depositTxHash,
     handleDeposit,
     handleDiscardTx,
     handleResetAllowanceSending,

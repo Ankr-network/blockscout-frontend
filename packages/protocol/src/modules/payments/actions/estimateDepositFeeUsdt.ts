@@ -58,10 +58,13 @@ export const {
                 tokenAddress,
               });
 
-              const fee = await contractService.getDepositUSDTToPAYGFee(
-                new BigNumber(amount),
+              const fee = await contractService.getDepositUSDTToPAYGFee({
+                amount: new BigNumber(amount),
                 depositContractAddress,
-              );
+                network,
+                tokenAddress,
+                tokenDecimals,
+              });
 
               return { data: Number(fee) };
             }

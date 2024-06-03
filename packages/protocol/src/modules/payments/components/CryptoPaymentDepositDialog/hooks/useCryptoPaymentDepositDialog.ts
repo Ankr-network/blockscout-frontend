@@ -22,12 +22,14 @@ export interface IUseCryptoPaymentDepositDialogProps {
   allowanceError?: string;
   allowanceFeeDetails?: IFeeDetails;
   allowanceStepStatus: ECryptoDepositStepStatus;
+  allowanceTxHash?: string;
   amount: number;
   amountUsd: number;
   currency: ECurrency;
   depositError?: string;
   depositFeeDetails?: IFeeDetails;
   depositStepStatus?: ECryptoDepositStepStatus;
+  depositTxHash?: string;
   handleDeposit: () => Promise<void>;
   handleDiscardTx: () => void;
   handleResetAllowanceSending: () => void;
@@ -47,12 +49,14 @@ export const useCryptoPaymentDepositDialog = ({
   allowanceError,
   allowanceFeeDetails = defaultFeeDetails,
   allowanceStepStatus,
+  allowanceTxHash,
   amount,
   amountUsd,
   currency,
   depositError,
   depositFeeDetails = defaultFeeDetails,
   depositStepStatus,
+  depositTxHash,
   handleDeposit,
   handleDiscardTx,
   handleSendAllowance,
@@ -84,6 +88,7 @@ export const useCryptoPaymentDepositDialog = ({
       allowanceError,
       allowanceFeeDetails,
       allowanceStepStatus,
+      allowanceTxHash,
       amount,
       amountUsd,
       completedStep: getCompletedStep({ allowanceStepStatus, step }),
@@ -91,6 +96,7 @@ export const useCryptoPaymentDepositDialog = ({
       depositError,
       depositFeeDetails,
       depositStepStatus,
+      depositTxHash,
       erroredStep: getErroredStep({ allowanceStepStatus }),
       hasMinimizeIcon: isOngoingTx && !depositError,
       isAllowanceLoading,
@@ -118,12 +124,14 @@ export const useCryptoPaymentDepositDialog = ({
       allowanceError,
       allowanceFeeDetails,
       allowanceStepStatus,
+      allowanceTxHash,
       amount,
       amountUsd,
       currency,
       depositError,
       depositFeeDetails,
       depositStepStatus,
+      depositTxHash,
       handleDiscardTx,
       isAllowanceLoading,
       isAllowanceSent,

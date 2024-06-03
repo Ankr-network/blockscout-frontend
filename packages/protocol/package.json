@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/Web3APIApplication",
-  "version": "1.71.0",
+  "version": "1.71.3",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -28,7 +28,7 @@
     "@ankr.com/assets": "^0.0.6",
     "@ankr.com/common": "*",
     "@ankr.com/cross-navigation": "^1.0.13",
-    "@ankr.com/provider": "^4.8.0",
+    "@ankr.com/provider": "^4.20.0",
     "@ankr.com/telemetry": "*",
     "@ankr.com/ui": "^0.13.46",
     "@ankr.com/utils": "^1.1.1",

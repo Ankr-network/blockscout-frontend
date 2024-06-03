@@ -19,12 +19,19 @@ export const MIN_USD_AMOUNT = 10;
 export const MAX_USD_DECIMALS = 1;
 export const MAX_CRYPTO_DECIMALS = 2;
 
+export const USD_FEE_DECIMALS = 2;
+export const CRYPTO_FEE_DECIMALS = 5;
+
 export const MAX_USD_DIGITS = 6;
 export const MAX_CRYPTO_DIGITS = 8;
 
 export const USD_TO_REQUESTS_RATE = 50_000;
 
 export const REVOKE_CASH_URL = 'https://revoke.cash';
+
+export const MIN_USD_FEE = 0.01;
+
+export const MIN_CRYPTO_FEE = 0.00001;
 
 export const PRICES_PER_REQUEST_URL =
   'https://www.ankr.com/docs/rpc-service/pricing';
@@ -122,6 +129,32 @@ export const nativeTokenNameMap: Record<EBlockchain, string> = {
   [EBlockchain.rollux]: 'account.currencies.sys',
   [EBlockchain.syscoin]: 'account.currencies.sys',
   [EBlockchain.scroll]: 'account.currencies.eth',
+};
+
+export const EXPLORER_URLS: Record<EBlockchain, string> = {
+  [EBlockchain.eth]: 'https://etherscan.io',
+  [EBlockchain.eth_holesky]: 'https://holesky.etherscan.io',
+  [EBlockchain.eth_goerli]: 'https://goerli.etherscan.io',
+  [EBlockchain.arbitrum]: 'https://arbiscan.io/',
+  [EBlockchain.arbitrum_sepolia]: 'https://sepolia.arbiscan.io/',
+  [EBlockchain.avalanche]: 'https://snowtrace.io',
+  [EBlockchain.avalanche_fuji]: 'https://testnet.snowtrace.io',
+  [EBlockchain.bsc]: 'https://bscscan.com',
+  [EBlockchain.base]: 'https://basescan.org',
+  [EBlockchain.bsc_testnet_chapel]: 'https://testnet.bscscan.com',
+  [EBlockchain.fantom]: 'https://ftmscan.com',
+  [EBlockchain.fantom_testnet]: 'https://testnet.ftmscan.com',
+  [EBlockchain.flare]: 'https://flare-explorer.flare.network',
+  [EBlockchain.polygon]: 'https://polygonscan.com',
+  [EBlockchain.polygon_mumbai]: 'https://mumbai.polygonscan.com',
+  [EBlockchain.gnosis]: 'https://gnosisscan.io',
+  [EBlockchain.polygon_zkevm]: 'https://zkevm.polygonscan.com',
+  [EBlockchain.optimism]: 'https://optimistic.etherscan.io',
+  [EBlockchain.optimism_testnet]: 'https://goerli-explorer.optimism.io/',
+  [EBlockchain.linea]: 'https://lineascan.build',
+  [EBlockchain.rollux]: 'https://explorer.rollux.com',
+  [EBlockchain.syscoin]: 'https://explorer.syscoin.org/',
+  [EBlockchain.scroll]: 'https://scrollscan.com',
 };
 
 export const defaultFeeDetails: IFeeDetails = { feeCrypto: 0, feeUSD: 0 };

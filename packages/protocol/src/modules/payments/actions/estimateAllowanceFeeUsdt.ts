@@ -62,11 +62,13 @@ export const {
                   tokenAddress,
                 });
 
-                const fee = await contractService.getAllowanceFee(
-                  new BigNumber(amount),
+                const fee = await contractService.getAllowanceFee({
+                  amount: new BigNumber(amount),
                   depositContractAddress,
+                  network,
+                  tokenAddress,
                   tokenDecimals,
-                );
+                });
 
                 return { data: Number(fee) };
               }

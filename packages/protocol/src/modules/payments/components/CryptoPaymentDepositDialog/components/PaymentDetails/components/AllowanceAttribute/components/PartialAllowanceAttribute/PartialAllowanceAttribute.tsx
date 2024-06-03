@@ -21,6 +21,7 @@ export interface IPartialAllowanceAttributeProps {
   network: EBlockchain;
   shouldHideAlert: boolean;
   status?: ECryptoDepositStepStatus;
+  txURL?: string;
 }
 
 const labelKey = 'account.payment-flow.steps.approval.title';
@@ -35,6 +36,7 @@ export const PartialAllowanceAttribute = ({
   network,
   shouldHideAlert,
   status,
+  txURL,
 }: IPartialAllowanceAttributeProps) => {
   const { classes } = usePartialAllowanceAttributeStyles();
 
@@ -62,6 +64,7 @@ export const PartialAllowanceAttribute = ({
         feeUSD={feeUSD}
         isApproximate
         network={network}
+        txURL={txURL}
       />
     </TxAttribute>
   );

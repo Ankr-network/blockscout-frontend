@@ -1,3 +1,5 @@
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
+
 import { IConfig, Web3Address } from '../../common';
 import { ConsensusGateway, IConsensusGateway } from '../../consensus';
 import { WorkerGateway } from '../../worker';
@@ -79,7 +81,10 @@ export class BaseTokenIssuerService {
     return thresholdKeys[0].id;
   }
 
-  protected async getPAYGTransactionHash(user: Web3Address) {
-    return this.PAYGContractManager.getLatestUserTierAssignedEventLogHash(user);
+  protected async getPAYGTransactionHash(
+    user: Web3Address,
+    blockchain: TBlockchain
+  ) {
+    return this.PAYGContractManager.getLatestUserTierAssignedEventLogHash(user, blockchain);
   }
 }

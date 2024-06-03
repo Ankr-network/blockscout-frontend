@@ -81,7 +81,6 @@ export const TxDetails = ({
         onNetworkChange={onNetworkChange}
         options={networks}
       />
-
       <Placeholder
         hasPlaceholder={isLoading}
         placeholder={<OverlaySpinner size={58} />}

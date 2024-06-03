@@ -1,5 +1,6 @@
 import { Contract, EventData } from 'web3-eth-contract';
 import { Web3KeyReadProvider } from '@ankr.com/provider';
+import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
 
 import { PrefixedHex, Web3Address } from '../common';
 import { IAnkrPAYGContractManagerConfig } from './types';
@@ -31,6 +32,7 @@ export class PAYGReadContractManager {
   private async getLatestUserEventLogs(
     event: IPayAsYouGoEvents,
     user: Web3Address,
+    blockchain: TBlockchain
   ) {
     const contract = this.payAsYouGoReadContract;
     const startBlock = this.config.payAsYouGoContractCreationBlockNumber;
@@ -41,6 +43,7 @@ export class PAYGReadContractManager {
 
     return getPastEventsBlockchain({
       web3: this.keyReadProvider.getWeb3(),
+      blockchain,
       contract,
       eventName: event,
       filter: {
@@ -54,10 +57,12 @@ export class PAYGReadContractManager {
 
   public async getAllLatestUserTierAssignedEventLogHashes(
     user: Web3Address,
+    blockchain: TBlockchain
   ): Promise<string[] | false> {
     const tierAssignedEvents = await this.getLatestUserEventLogs(
       'TierAssigned',
       user,
+      blockchain,
     );
 
     if (!tierAssignedEvents.length) return false;
@@ -67,10 +72,12 @@ export class PAYGReadContractManager {
 
   public async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
+    blockchain: TBlockchain
   ): Promise<PrefixedHex | false> {
     const tierAssignedEvents = await this.getLatestUserEventLogs(
       'TierAssigned',
       user,
+      blockchain
     );
 
     if (!tierAssignedEvents.length) return false;
@@ -80,8 +87,13 @@ export class PAYGReadContractManager {
 
   public async getLatestLockedFundsEvents(
     user: Web3Address,
+    blockchain: TBlockchain
   ): Promise<EventData[]> {
-    return this.getLatestUserEventLogs('FundsLocked', user);
+    return this.getLatestUserEventLogs(
+      'FundsLocked',
+      user,
+      blockchain,
+    );
   }
 
   public async getLatestAllowanceEvents(

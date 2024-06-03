@@ -6,6 +6,7 @@ import { ECryptoDepositStepStatus, IFeeDetails } from 'modules/payments/types';
 import { FeeAmount } from 'modules/payments/components/FeeAmount';
 import { Label } from 'modules/payments/components/Label';
 import { TxAttribute } from 'modules/payments/components/TxAttribute';
+import { getTxExplorerUrl } from 'modules/payments/utils/getTxExplorerUrl';
 
 import { getAlertProps } from './utils/getAlertProps';
 import { useDepositAttributeStyles } from './useDepositAttributeStyles';
@@ -15,6 +16,7 @@ export interface IDepositAttributeProps {
   feeDetails: IFeeDetails;
   network: EBlockchain;
   status?: ECryptoDepositStepStatus;
+  txHash?: string;
 }
 
 const labelKey = 'account.payment-flow.steps.deposit.title';
@@ -24,6 +26,7 @@ export const DepositAttribute = ({
   feeDetails: { feeCrypto, feeUSD },
   network,
   status,
+  txHash,
 }: IDepositAttributeProps) => {
   const { classes } = useDepositAttributeStyles();
 
@@ -37,6 +40,7 @@ export const DepositAttribute = ({
       <FeeAmount
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}
+        txURL={getTxExplorerUrl(network, txHash)}
         isApproximate
         network={network}
       />

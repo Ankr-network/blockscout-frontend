@@ -2,8 +2,8 @@ import { Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { EBlockchain } from 'multirpc-sdk';
 
-import { IFeeDetails } from 'modules/payments/types';
 import { FeeAmount } from 'modules/payments/components/FeeAmount';
+import { IFeeDetails } from 'modules/payments/types';
 import { TxAttribute } from 'modules/payments/components/TxAttribute';
 
 import { useFullTxFeeAttributeStyles } from './useFullTxFeeAttributeStyles';
@@ -29,6 +29,7 @@ export const FullTxFeeAttribute = ({
   const { feeCrypto, feeUSD } = useTotalFeeDetails({
     allowanceFeeDetails,
     depositFeeDetails,
+    shouldRoundUp: true,
   });
 
   const { classes } = useFullTxFeeAttributeStyles();

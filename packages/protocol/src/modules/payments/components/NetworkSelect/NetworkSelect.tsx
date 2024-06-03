@@ -34,7 +34,9 @@ export const NetworkSelect = ({
   const networkIcon = useChainIcon(activeNetwork as unknown as ChainID);
 
   const renderValue = useCallback(
-    (value: EBlockchain) => {
+    (value?: EBlockchain) => {
+      if (!value) return t('account.networks.placeholder');
+
       return (
         <div className={classes.networkRoot}>
           <img src={networkIcon} className={classes.networkIcon} alt={value} />
@@ -52,6 +54,7 @@ export const NetworkSelect = ({
       </Typography>
 
       <Select
+        displayEmpty
         value={activeNetwork}
         renderValue={renderValue}
         onChange={handleChangeNetwork}

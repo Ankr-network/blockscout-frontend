@@ -53,7 +53,11 @@ export const {
                 depositContractAddress,
                 tokenAddress,
               })
-              .getAllowanceValue(depositContractAddress);
+              .getAllowanceValue({
+                depositContractAddress,
+                network,
+                tokenAddress,
+              });
 
             const hasAllowance = allowanceValue && !allowanceValue.isZero();
 

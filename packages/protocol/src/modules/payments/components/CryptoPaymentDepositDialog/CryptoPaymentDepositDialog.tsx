@@ -20,6 +20,7 @@ export const CryptoPaymentDepositDialog = ({
   allowanceError,
   allowanceFeeDetails,
   allowanceStepStatus,
+  allowanceTxHash,
   amount,
   amountUsd,
   completedStep,
@@ -27,6 +28,7 @@ export const CryptoPaymentDepositDialog = ({
   depositError,
   depositFeeDetails,
   depositStepStatus,
+  depositTxHash,
   erroredStep,
   isAllowanceLoading,
   isAllowanceSent,
@@ -70,12 +72,14 @@ export const CryptoPaymentDepositDialog = ({
         allowanceError={allowanceError}
         allowanceFeeDetails={allowanceFeeDetails}
         allowanceStepStatus={allowanceStepStatus}
+        allowanceTxHash={allowanceTxHash}
         amount={amount}
         className={classes.paymentDetails}
         currency={currency}
         depositError={depositError}
         depositFeeDetails={depositFeeDetails}
         depositStepStatus={depositStepStatus}
+        depositTxHash={depositTxHash}
         isAllowanceLoading={isAllowanceLoading}
         isAllowanceSent={isAllowanceSent}
         isDepositPending={isDepositPending}

@@ -15,6 +15,7 @@ export interface INoAllowanceAttributeProps {
   feeUSD: number;
   network: EBlockchain;
   status?: ECryptoDepositStepStatus;
+  txURL?: string;
 }
 
 const labelKey = 'account.payment-flow.steps.approval.title';
@@ -24,6 +25,7 @@ export const NoAllowanceAttribute = ({
   feeCrypto,
   feeUSD,
   network,
+  txURL,
   status,
 }: INoAllowanceAttributeProps) => {
   const alertProps = getAlertProps({ error, status });
@@ -37,6 +39,7 @@ export const NoAllowanceAttribute = ({
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}
         isApproximate
+        txURL={txURL}
         network={network}
       />
     </TxAttribute>

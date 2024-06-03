@@ -52,6 +52,7 @@ export const {
                   await contractService.setAllowanceForPAYG({
                     allowanceValue: new BigNumber(amount),
                     depositContractAddress,
+                    network,
                     tokenAddress,
                     tokenDecimals,
                   });

@@ -45,12 +45,13 @@ export const {
                     depositContractAddress,
                     tokenAddress,
                   })
-                  .depositUSDTToPAYG(
-                    new BigNumber(amount),
-                    tokenDecimals,
-                    tokenAddress,
+                  .depositUSDTToPAYG({
+                    amount: new BigNumber(amount),
                     depositContractAddress,
-                  );
+                    network,
+                    tokenAddress,
+                    tokenDecimals,
+                  });
 
                 return { data: depositResponse };
               }

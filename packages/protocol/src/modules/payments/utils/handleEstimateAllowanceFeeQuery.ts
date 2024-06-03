@@ -2,6 +2,7 @@ import { AppDispatch, RootState } from 'store';
 import { TQueryFulfilled } from 'store/queries/types';
 
 import { getFeeDetails } from './getFeeDetails';
+import { processLowFeeDetails } from './processLowFeeDetails';
 import { selectCryptoTxById } from '../store/selectors';
 import { selectNativeTokenPrice } from '../actions/fetchNativeTokenPrice';
 import { setAllowanceFeeDetailsEstimated } from '../store/paymentsSlice';
@@ -29,7 +30,9 @@ export const handleEstimateAllowanceFeeQuery = async ({
 
     const price = selectNativeTokenPrice(state, { network });
 
-    const allowanceFeeDetailsEstimated = getFeeDetails({ fee, price });
+    const allowanceFeeDetailsEstimated = processLowFeeDetails({
+      feeDetails: getFeeDetails({ fee, price }),
+    });
 
     dispatch(
       setAllowanceFeeDetailsEstimated({
