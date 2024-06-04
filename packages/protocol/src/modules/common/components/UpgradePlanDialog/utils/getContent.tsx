@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { AccountDetailsTopUp } from 'domains/account/screens/BillingPage/components/AccountDetailsTopUp';
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 
 import { ContactSalesForm } from '../components/ContactSalesForm';
 import { ContentType, Plan } from '../types';

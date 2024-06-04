@@ -1,8 +1,7 @@
 import Web3 from 'web3';
 
 import { IPaymentHistoryTableEntity } from 'domains/account/types';
-
-import { getRpcUrlByNetwork } from '../getRpcUrlByNetwork';
+import { getRpcUrlByNetwork } from 'modules/api/utils/getRpcUrlByNetwork';
 
 export const mapTransactionsWithTxReceiptData = async (
   transactions: IPaymentHistoryTableEntity[],

@@ -2,7 +2,8 @@ import Web3 from 'web3';
 import { EBlockchain } from 'multirpc-sdk';
 
 import { API_ENV } from 'modules/common/utils/environment';
-import { getRpcUrlByNetwork } from 'domains/account/utils/getRpcUrlByNetwork';
+
+import { getRpcUrlByNetwork } from './getRpcUrlByNetwork';
 
 export const getWeb3EthRpcUrl = () => {
   return API_ENV === 'prod'

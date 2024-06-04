@@ -1,5 +1,5 @@
 import { Dialog } from 'uiKit/Dialog';
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 import { useWindowHeight } from 'hooks/useWindowHeight';
 
 import { ContentType, UpgradePlanDialogType } from './types';

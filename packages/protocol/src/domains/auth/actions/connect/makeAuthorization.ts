@@ -1,6 +1,7 @@
 import { EWalletId, getWalletName } from '@ankr.com/provider';
 import { MultiRpcSdk, MultiRpcWeb3Sdk } from 'multirpc-sdk';
 
+import { ANKR_PAYMENT_NETWORK } from 'modules/payments/const';
 import { AppDispatch } from 'store';
 import { IAuthSlice, setAuthData } from 'domains/auth/store/authSlice';
 import { getProviderManager } from 'modules/api/getProviderManager';
@@ -9,7 +10,6 @@ import {
   setWalletAddress,
   setWalletMeta,
 } from 'domains/wallet/store/walletSlice';
-import { ANKR_TOP_UP_NETWORK } from 'modules/billing/const';
 
 import { addSignedWorkerTokenToService } from '../utils/addSignedWorkerTokenToService';
 import { authCheckDevdaoInstantJwtParticipant } from '../instantJwt/checkDevdaoInstantJwtParticipant';
@@ -54,13 +54,13 @@ const getJwtTokenFullData = async ({
   const isOldPremiumAndActiveToken =
     await web3Service.isOldPremiumAndActiveToken(
       currentAccount,
-      ANKR_TOP_UP_NETWORK,
+      ANKR_PAYMENT_NETWORK,
     );
 
   if (isOldPremiumAndActiveToken) {
     return web3Service.getOldPremiumJwtToken(
       currentAccount,
-      ANKR_TOP_UP_NETWORK,
+      ANKR_PAYMENT_NETWORK,
     );
   }
 

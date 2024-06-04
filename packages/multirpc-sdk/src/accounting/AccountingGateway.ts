@@ -989,16 +989,12 @@ export class AccountingGateway {
     return data;
   }
 
-  async getCryptoPaymentOptions(params?: IGetCryptoPaymentOptionsParams): Promise<IGetCryptoPaymentOptionsResponse> {
-    const defaultParams: IGetCryptoPaymentOptionsParams = {
-      active: true,
-    };
-
+  async getCryptoPaymentOptions(
+    params: IGetCryptoPaymentOptionsParams | void = { active: true },
+  ): Promise<IGetCryptoPaymentOptionsResponse> {
     const { data } = await this.api.get<IGetCryptoPaymentOptionsResponse>(
       '/api/v1/auth/payment/getCryptoPaymentOptions',
-      {
-        params: params || defaultParams,
-      }
+      { params }
     );
 
     return data;
