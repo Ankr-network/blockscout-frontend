@@ -10,7 +10,7 @@ export interface IUseTotalCryptoAmountProps {
 }
 
 export const useTotalCryptoAmount = ({
-  allowanceFeeDetails: { feeUSD: approvalFeeUSD } = defaultFeeDetails,
+  allowanceFeeDetails: { feeUSD: allowanceFeeUSD } = defaultFeeDetails,
   amount,
   currency,
   depositFeeDetails: { feeUSD: depositFeeUSD } = defaultFeeDetails,
@@ -20,7 +20,7 @@ export const useTotalCryptoAmount = ({
     currency,
   });
 
-  const totalAmount = amountUsd + approvalFeeUSD + depositFeeUSD;
+  const totalAmount = amountUsd + allowanceFeeUSD + depositFeeUSD;
 
   return { isLoading, totalAmount };
 };

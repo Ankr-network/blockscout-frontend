@@ -23,10 +23,10 @@ const endpointsSerializedByParams = [
   'estimateDepositFeeUsdt',
   'fetchAllowanceUsdc',
   'fetchAllowanceUsdt',
-  'fetchBlockchainTx',
+  'fetchBlockchainTxData',
+  'fetchBlockchainTxReceipt',
   'fetchNativeTokenPrice',
   'fetchTokenPrice',
-  'fetchTxReceipt',
   'fetchWalletBalanceUsdc',
   'fetchWalletBalanceUsdt',
 ];

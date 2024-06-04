@@ -6,10 +6,10 @@ import { ECurrency } from 'modules/payments/types';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 
 import { getTxFeeByTxReceipt } from '../utils/getTxFeeByTxReceipt';
-import { useBlockchainTx } from './useBlockchainTx';
+import { useBlockchainTxData } from './useBlockchainTxData';
+import { useBlockchainTxReceipt } from './useBlockchainTxReceipt';
 import { useNativeTokenPrice } from './useNativeTokenPrice';
 import { useTokenPrice } from './useTokenPrice';
-import { useTxReceipt } from './useTxReceipt';
 
 export interface IUseTxDetailsProps {
   amount: number;
@@ -26,13 +26,10 @@ export const useTxDetails = ({
   skipFetching,
   txHash,
 }: IUseTxDetailsProps) => {
-  const { blockchainTx, isLoading: isTxDataLoading } = useBlockchainTx({
-    network,
-    skipFetching,
-    txHash,
-  });
+  const { blockchainTxData, isLoading: isBlockchainTxDataLoading } =
+    useBlockchainTxData({ network, skipFetching, txHash });
 
-  const { txReceipt, isLoading: isTxReceiptLoading } = useTxReceipt({
+  const { txReceipt, isLoading: isTxReceiptLoading } = useBlockchainTxReceipt({
     network,
     skipFetching,
     txHash,
@@ -48,15 +45,15 @@ export const useTxDetails = ({
   });
 
   const isLoading =
-    isTxDataLoading ||
+    isBlockchainTxDataLoading ||
     isTxReceiptLoading ||
     isNativeTokenPriceLoading ||
     isTokenPriceLoading;
 
-  const fromAddress = blockchainTx?.tx.from ?? '';
-  const toAddress = blockchainTx?.tx.to ?? '';
-  const txDate = blockchainTx?.timestamp
-    ? getDateFromUnixSeconds(blockchainTx.timestamp)
+  const fromAddress = blockchainTxData?.tx.from ?? '';
+  const toAddress = blockchainTxData?.tx.to ?? '';
+  const txDate = blockchainTxData?.timestamp
+    ? getDateFromUnixSeconds(blockchainTxData.timestamp)
     : undefined;
 
   const fee = useMemo(() => getTxFeeByTxReceipt({ txReceipt }), [txReceipt]);

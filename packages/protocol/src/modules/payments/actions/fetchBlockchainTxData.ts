@@ -6,12 +6,12 @@ import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { web3Api } from 'store/queries';
 
-export interface IFetchBlockchainTxParams {
+export interface IFetchBlockchainTxDataParams {
   network: EBlockchain;
   txHash: string;
 }
 
-export interface IFetchBlockchainTxResult {
+export interface IFetchBlockchainTxDataResult {
   timestamp?: string | number;
   tx: Transaction;
 }
@@ -20,14 +20,14 @@ export interface IFetchBlockchainTxResult {
 // in packages/protocol/src/store/queries/index.ts file.
 // If the name has changed it should be refelected there as well.
 export const {
-  endpoints: { fetchBlockchainTx },
-  useFetchBlockchainTxQuery,
-  useLazyFetchBlockchainTxQuery,
+  endpoints: { fetchBlockchainTxData },
+  useFetchBlockchainTxDataQuery,
+  useLazyFetchBlockchainTxDataQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchBlockchainTx: build.query<
-      IFetchBlockchainTxResult,
-      IFetchBlockchainTxParams
+    fetchBlockchainTxData: build.query<
+      IFetchBlockchainTxDataResult,
+      IFetchBlockchainTxDataParams
     >({
       queryFn: createNotifyingQueryFn(async ({ txHash, network }) => {
         const web3 = getWeb3Instance(network);
@@ -50,7 +50,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectBlockchainTxState,
-  selectDataCachedByParams: selectBlockchainTx,
-  selectLoadingCachedByParams: selectBlockchainTxLoading,
-} = createQuerySelectors({ endpoint: fetchBlockchainTx });
+  selectStateCachedByParams: selectBlockchainTxDataState,
+  selectDataCachedByParams: selectBlockchainTxData,
+  selectLoadingCachedByParams: selectBlockchainTxDataLoading,
+} = createQuerySelectors({ endpoint: fetchBlockchainTxData });
