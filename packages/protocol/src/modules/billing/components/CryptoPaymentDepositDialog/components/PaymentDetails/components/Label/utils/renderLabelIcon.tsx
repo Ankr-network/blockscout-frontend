@@ -3,7 +3,8 @@ import { ReactNode } from 'react';
 
 import { ECryptoDepositStepStatus } from 'modules/billing/types';
 
-const { Complete, Confirmation, Error, Pending } = ECryptoDepositStepStatus;
+const { Complete, Confirmation, Error, Pending, ConfirmationBlocksWaiting } =
+  ECryptoDepositStepStatus;
 
 const labelIconsMap: Record<ECryptoDepositStepStatus, ReactNode> = {
   [Complete]: <CircleCheck color="success" size={20} />,
@@ -12,6 +13,7 @@ const labelIconsMap: Record<ECryptoDepositStepStatus, ReactNode> = {
   ),
   [Error]: <Mark color="error" size={20} />,
   [Pending]: <OverlaySpinner size={20} />,
+  [ConfirmationBlocksWaiting]: <CircleCheck color="success" size={20} />,
 };
 
 export const renderLabelIcon = (icon?: ECryptoDepositStepStatus) =>

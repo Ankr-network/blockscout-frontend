@@ -1938,6 +1938,7 @@
         "deposit": "Confirm deposit",
         "error": "Try again",
         "pending": "Pending",
+        "waiting": "Waiting",
         "switch-network": "Switch network",
         "tooltip": "Transaction is in progress"
       },
@@ -2051,6 +2052,7 @@
         "one-time-payment": "One-time payment",
         "status": {
           "pending": "Pending",
+          "waiting": "Waiting",
           "success": "Success",
           "error": "Error"
         },

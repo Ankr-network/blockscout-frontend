@@ -35,6 +35,7 @@ export const useOngoingPayments = ({
   const {
     isOngoingPaymentError,
     isOngoingPaymentPending,
+    isOngoingPaymentWaiting,
     isOngoingPaymentSuccess,
     ongoingPaymentStatus,
   } = useOngoingPaymentStatus({ isConfirmed, txHash });
@@ -49,6 +50,7 @@ export const useOngoingPayments = ({
     currency,
     isOngoingPaymentError,
     isOngoingPaymentPending,
+    isOngoingPaymentWaiting,
     isSuccessState,
     network,
     ongoingPaymentStatus,

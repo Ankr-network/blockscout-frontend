@@ -114,6 +114,8 @@ export const useCryptoPaymentDepositDialog = ({
         isMyAllowanceLoading,
         step,
       }),
+      isConfirmationBlocksWaiting:
+        depositStatus === ECryptoDepositStepStatus.ConfirmationBlocksWaiting,
       isRevokeApprovalLoading: isMyAllowanceLoading,
       myAllowance,
       onClose,

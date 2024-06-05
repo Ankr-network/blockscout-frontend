@@ -61,7 +61,7 @@ export const useOneTimeDialogState = () => {
   const moveToAwaitingDeposit = useCallback(() => {
     setStep(ECryptoDepositStep.Deposit);
     setApprovalStatus(ECryptoDepositStepStatus.Complete);
-    setDepositStatus(ECryptoDepositStepStatus.Pending);
+    setDepositStatus(ECryptoDepositStepStatus.ConfirmationBlocksWaiting);
   }, []);
 
   const setPendingApproval = useCallback(() => {

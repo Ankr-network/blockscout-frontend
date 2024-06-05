@@ -16,6 +16,7 @@ export interface IConfirmButtonProps {
   onClick: () => void;
   status: ECryptoDepositStepStatus;
   isWrongNetwork: boolean;
+  isConfirmationBlocksWaiting: boolean;
 }
 
 export const ConfirmButton = ({
@@ -24,30 +25,39 @@ export const ConfirmButton = ({
   onClick: handleClick,
   status,
   isWrongNetwork,
+  isConfirmationBlocksWaiting,
 }: IConfirmButtonProps) => {
   const tooltipProps = useTooltip();
 
   const { onOpen: handleTooltipOpen } = tooltipProps;
 
+  const isLoading = isPending || isConfirmationBlocksWaiting;
+
   const onClick = useCallback(() => {
-    if (isPending) {
+    if (isLoading) {
       handleTooltipOpen();
     } else {
       handleClick();
     }
-  }, [handleClick, handleTooltipOpen, isPending]);
+  }, [handleClick, handleTooltipOpen, isLoading]);
 
   return (
     <Tooltip {...tooltipProps}>
       <LoadingButton
         fullWidth
         isDisabledWhenLoading={false}
-        loading={isPending}
+        loading={isLoading}
         onClick={onClick}
         size="large"
         variant="contained"
       >
-        {renderButtonText({ activeStep, isPending, status, isWrongNetwork })}
+        {renderButtonText({
+          activeStep,
+          isPending,
+          status,
+          isWrongNetwork,
+          isConfirmationBlocksWaiting,
+        })}
       </LoadingButton>
     </Tooltip>
   );

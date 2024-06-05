@@ -38,6 +38,17 @@ export const OngoingPaymentStatus = ({
           {t('account.account-details.ongoing-payments.status.error')}
         </Typography>
       );
+    case EOngoingPaymentStatus.ConfirmationBlocksWaiting:
+      return (
+        <Typography
+          className={cx(classes.paymentStatus, classes.pending)}
+          color="textSecondary"
+          variant="body3"
+        >
+          <OverlaySpinner size={14} className={classes.icon} />{' '}
+          {t('account.account-details.ongoing-payments.status.waiting')}
+        </Typography>
+      );
     default:
     case EOngoingPaymentStatus.Pending:
       return (

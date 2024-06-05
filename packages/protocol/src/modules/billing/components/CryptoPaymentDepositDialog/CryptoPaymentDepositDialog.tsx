@@ -31,6 +31,7 @@ export const CryptoPaymentDepositDialog = ({
   isAllowanceSent,
   isMyAllowanceLoading,
   isPending,
+  isConfirmationBlocksWaiting,
   isWrongNetwork,
   myAllowance,
   network,
@@ -48,6 +49,10 @@ export const CryptoPaymentDepositDialog = ({
   const isDepositPending =
     activeStep === ECryptoDepositStep.Deposit &&
     depositStatus === ECryptoDepositStepStatus.Pending;
+
+  const isDepositWaiting =
+    activeStep === ECryptoDepositStep.Deposit &&
+    depositStatus === ECryptoDepositStepStatus.ConfirmationBlocksWaiting;
 
   return (
     <Dialog
@@ -80,6 +85,7 @@ export const CryptoPaymentDepositDialog = ({
         depositStatus={depositStatus}
         isAllowanceSent={isAllowanceSent}
         isDepositPending={isDepositPending}
+        isDepositWaiting={isDepositWaiting}
         isMyAllowanceLoading={isMyAllowanceLoading}
         myAllowance={myAllowance}
         network={network}
@@ -88,6 +94,7 @@ export const CryptoPaymentDepositDialog = ({
       <Buttons
         activeStep={activeStep}
         isPending={isPending}
+        isConfirmationBlocksWaiting={isConfirmationBlocksWaiting}
         isRevokeApprovalLoading={isMyAllowanceLoading}
         isWrongNetwork={isWrongNetwork}
         onCheckApproval={onCheckApproval}
