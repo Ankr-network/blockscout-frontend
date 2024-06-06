@@ -1,3 +1,4 @@
+import { SerializeQueryArgs } from '@reduxjs/toolkit/dist/query/defaultSerializeQueryArgs';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export enum RequestType {
@@ -31,15 +32,33 @@ const endpointsSerializedByParams = [
   'fetchWalletBalanceUsdt',
 ];
 
+const sortQueryArgsKeys = (queryArgs: unknown) => {
+  if (queryArgs && typeof queryArgs === 'object') {
+    // to make sure that a cache key doesn't depend on the query args keys order
+    return Object.fromEntries(Object.entries(queryArgs).sort());
+  }
+
+  return queryArgs;
+};
+
+const serializeQueryArgs: SerializeQueryArgs<unknown> = ({
+  endpointName,
+  queryArgs,
+}) => {
+  if (endpointsSerializedByParams.includes(endpointName)) {
+    const sortedArgs = sortQueryArgsKeys(queryArgs);
+
+    return JSON.stringify({ queryArgs: sortedArgs }) + endpointName;
+  }
+
+  return endpointName;
+};
+
 export const web3Api = createApi({
   baseQuery: fakeBaseQuery(),
   endpoints: () => ({}),
   refetchOnMountOrArgChange: true,
-  // needs to cache data by endpoint name only without params
-  serializeQueryArgs: ({ endpointName, queryArgs }) =>
-    endpointsSerializedByParams.includes(endpointName)
-      ? JSON.stringify({ queryArgs }) + endpointName
-      : endpointName,
+  serializeQueryArgs,
   tagTypes: [...Object.values(RequestType)],
 });
 
