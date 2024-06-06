@@ -61,15 +61,15 @@ export const usePrivateChainItem = ({
   additionalSelector,
   chain,
   isChainArchived,
-  onBlockedTabClick,
-  selectedGroupId,
-  selectedType,
-  unfilteredChain: publicChain,
+  isChainRequestStatsVisible,
   isGroupSelectorAutoWidth,
   isHiddenMainnet,
   isPremiumLabelHidden,
-  isChainRequestStatsVisible,
+  onBlockedTabClick,
+  selectedGroupId,
+  selectedType,
   shouldExpandFlareTestnets = false,
+  unfilteredChain: publicChain,
 }: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -99,7 +99,7 @@ export const usePrivateChainItem = ({
       netId,
     });
 
-  const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
+  const { group, groupID, groupTab, groupTabs, groups, selectGroup } = useGroup(
     {
       chain,
       chainType,

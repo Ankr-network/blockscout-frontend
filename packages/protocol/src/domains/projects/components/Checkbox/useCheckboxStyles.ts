@@ -7,7 +7,7 @@ export interface UseCheckboxStylesParams {
 }
 
 export const useCheckboxStyles = makeStyles<UseCheckboxStylesParams>()(
-  (theme, { hasBorderBottom, hasPadding, hasMarginTop }) => ({
+  (theme, { hasBorderBottom, hasMarginTop, hasPadding }) => ({
     root: {
       padding: hasPadding ? theme.spacing(3, 0) : theme.spacing(1),
 

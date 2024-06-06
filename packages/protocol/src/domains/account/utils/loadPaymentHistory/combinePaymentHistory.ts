@@ -20,11 +20,11 @@ export interface CombinedPaymentHistory {
 
 export const combinePaymentHistory = ({
   loadedDeductions,
-  loadedTransactions,
   loadedMyBundlesPayments,
+  loadedTransactions,
   loadingDeductions,
-  loadingTransactions,
   loadingMyBundlesPayments,
+  loadingTransactions,
 }: CombinePaymentHistoryParams): CombinedPaymentHistory => {
   const transactions = [...loadedTransactions, ...loadingTransactions];
   const deductions = [...loadedDeductions, ...loadingDeductions];

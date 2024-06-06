@@ -18,7 +18,7 @@ export const takePaymentHistory = (
     .sort((a, b) => Number(b.timestamp) - Number(a.timestamp))
     .slice(0, limit);
 
-  const { transactions, deductions, bundlesPayments } =
+  const { bundlesPayments, deductions, transactions } =
     decomposePaymentHistory(takenPaymentHistory);
 
   const lastTransaction = getLastEntity(

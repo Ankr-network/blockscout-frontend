@@ -15,9 +15,9 @@ export const useNetworksButton = () => {
   );
 
   const {
-    isOpened: isSidebarOpened,
     handleClose,
     handleOpen: handleSidebarOpen,
+    isOpened: isSidebarOpened,
   } = useProjectSidebar();
 
   const {

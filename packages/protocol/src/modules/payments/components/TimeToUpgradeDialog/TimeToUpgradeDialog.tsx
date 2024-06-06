@@ -13,7 +13,7 @@ import image from 'modules/common/assets/performance-upgrade.png';
 
 import { useTimeToUpgradeDialogStyles } from './useTimeToUpgradeDialogStyles';
 
-export const TimeToUpgradeDialog = ({ open, onClose }: IDialogProps) => {
+export const TimeToUpgradeDialog = ({ onClose, open }: IDialogProps) => {
   const { classes } = useTimeToUpgradeDialogStyles();
 
   const [isContactSalesPopup, setIsContactSalesPopup] = useState(false);

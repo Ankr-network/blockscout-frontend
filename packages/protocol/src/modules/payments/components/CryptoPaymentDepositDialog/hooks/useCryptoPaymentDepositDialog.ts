@@ -69,7 +69,7 @@ export const useCryptoPaymentDepositDialog = ({
   onClose,
   step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
-  const { isWrongNetwork, handleSwitchNetwork, isSwitchNetworkLoading } =
+  const { handleSwitchNetwork, isSwitchNetworkLoading, isWrongNetwork } =
     useNetworkGuard(network);
 
   const { onConfirmButtonClick } = useConfirmButtonClickHandler({

@@ -7,10 +7,10 @@ import { useChainProtocolSwitchStyles } from './ChainProtocolSwitchStyles';
 
 export const ChainProtocolSwitch = () => {
   const {
-    protocolGroup,
-    isChainProtocolSwitchEnabled,
-    toggleChainProtocolSwitch,
     chainProtocol,
+    isChainProtocolSwitchEnabled,
+    protocolGroup,
+    toggleChainProtocolSwitch,
   } = useChainProtocolContext();
 
   const { classes } = useChainProtocolSwitchStyles();

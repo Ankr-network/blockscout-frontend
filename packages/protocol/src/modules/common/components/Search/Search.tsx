@@ -13,10 +13,10 @@ interface ISearchProps {
 }
 
 export const Search = ({
-  searchContent,
   className,
-  setSearchContent,
   rootClassName,
+  searchContent,
+  setSearchContent,
 }: ISearchProps) => {
   const { classes, cx } = useSearchStyles(Boolean(searchContent));
 

@@ -6,14 +6,14 @@ export const initialValues = {
 };
 
 export const useProjectFormValues = () => {
-  const { getState, change } = useForm();
+  const { change, getState } = useForm();
 
   const {
+    valid,
     values: {
       name = initialValues.name,
       tokenIndex = initialValues.tokenIndex,
     },
-    valid,
   } = getState();
 
   return {

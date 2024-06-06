@@ -23,7 +23,7 @@ export const useAddProject = (tokenIndex: number) => {
     [tokenIndex],
   );
 
-  const { handleCreateJwtToken, resetCreateJwtToken, isLoading } =
+  const { handleCreateJwtToken, isLoading, resetCreateJwtToken } =
     useCreateJwtToken();
 
   const handleCreate = useCallback(async () => {

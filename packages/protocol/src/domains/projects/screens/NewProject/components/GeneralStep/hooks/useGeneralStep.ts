@@ -10,7 +10,7 @@ import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
 export const useGeneralStep = () => {
   const { change } = useForm<NewProjectFormValues>();
 
-  const { tokenIndex: projectTokenIndex, projectName: initProjectName } =
+  const { projectName: initProjectName, tokenIndex: projectTokenIndex } =
     useProjectFormValues();
 
   const savedTokenIndex = useRef(projectTokenIndex);

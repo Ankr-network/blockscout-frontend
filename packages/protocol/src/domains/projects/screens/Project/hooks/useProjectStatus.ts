@@ -17,10 +17,10 @@ export const useProjectStatus = (): UseProjectStatus => {
   const allProjects = useAppSelector(selectProjectsStatuses);
   const [
     fetchTokenStatus,
-    { data: projectStatusData = {} as ProjectStatus, isLoading, isFetching },
+    { data: projectStatusData = {} as ProjectStatus, isFetching, isLoading },
   ] = useLazyFetchJwtTokenStatusQuery();
 
-  const { project, isLoaded } = useSelectedProject();
+  const { isLoaded, project } = useSelectedProject();
 
   const currentProject = allProjects.find(
     ({ userEndpointToken }) => userEndpointToken === project?.userEndpointToken,

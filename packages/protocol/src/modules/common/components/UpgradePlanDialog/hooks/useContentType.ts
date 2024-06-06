@@ -5,7 +5,7 @@ import { useOnUnmount } from 'modules/common/hooks/useOnUnmount';
 
 import { ContentType } from '../types';
 
-const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
+const { CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS, DEFAULT, SIGN_UP, TOP_UP } =
   ContentType;
 
 interface UseContentTypeProps {

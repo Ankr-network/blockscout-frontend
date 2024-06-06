@@ -10,12 +10,12 @@ export const useTeamInvitationDialog = ({
   ...props
 }: UseTeamInvitationDialogParams) => {
   const {
+    handleHide: handleTeamInvitationDialogHide,
+    handleShow: handleTeamInvitationDialogShow,
+    isHidden,
     isOpened: open,
     onClose,
     onOpen: handleTeamInvitationDialogOpen,
-    isHidden,
-    handleHide: handleTeamInvitationDialogHide,
-    handleShow: handleTeamInvitationDialogShow,
   } = useDialog(isInitiallyOpen);
 
   const teamInvitationDialogProps = useMemo<IDialogProps>(

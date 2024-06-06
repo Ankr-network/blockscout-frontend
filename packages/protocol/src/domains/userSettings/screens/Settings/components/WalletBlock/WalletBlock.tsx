@@ -12,9 +12,9 @@ import { usesWalletBlockStyles } from './useWalletBlockStyles';
 export const WalletBlock = () => {
   const { classes } = usesWalletBlockStyles();
 
-  const { hasOauthLogin, address, isUserEthAddressType } = useAuth();
+  const { address, hasOauthLogin, isUserEthAddressType } = useAuth();
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   if (!hasOauthLogin || !isUserEthAddressType) {
     return null;

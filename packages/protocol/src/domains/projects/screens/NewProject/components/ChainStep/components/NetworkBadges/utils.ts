@@ -30,8 +30,8 @@ const getSecretChainExtensions = (
 
 export const getCurrentChainSelectedExtensions = ({
   chainId,
-  subChains,
   selectedMainnetIds,
+  subChains,
 }: GetCurrentChainSelectedExtensionsProps) => {
   if (chainId === ChainID.SECRET) {
     // for ChainID.SECRET we need only extenders so filtering mainnet from list

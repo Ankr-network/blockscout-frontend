@@ -12,7 +12,7 @@ import { useUpgradeInfoStyls } from './useUpgradeInfoStyles';
 export const UpgradeInfo = () => {
   const { classes } = useUpgradeInfoStyls();
 
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   return (
     <div className={classes.root}>

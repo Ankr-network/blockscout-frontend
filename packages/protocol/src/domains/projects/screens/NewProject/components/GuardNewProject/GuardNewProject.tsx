@@ -17,7 +17,7 @@ interface GuardNewProjectProps {
 export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { project, projectStep, handleResetConfig } = useProjectConfig();
+  const { handleResetConfig, project, projectStep } = useProjectConfig();
   const { enableAddProject, isLoaded } = useJwtTokenManager();
 
   const showNotification = useCallback(() => {

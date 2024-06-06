@@ -30,7 +30,7 @@ export const {
             const tx = selectCryptoTxById(state, txId);
 
             if (tx) {
-              const { amount, network, currency } = tx;
+              const { amount, currency, network } = tx;
 
               const { depositContractAddress, tokenAddress, tokenDecimals } =
                 selectPaymentOptionsByNetworkAndCurrency(
@@ -62,7 +62,7 @@ export const {
         ),
         fallback: { data: null },
       }),
-      onQueryStarted: async ({ txId }, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async ({ txId }, { dispatch, queryFulfilled }) => {
         await handleDepositQuery({ dispatch, queryFulfilled, txId });
       },
     }),

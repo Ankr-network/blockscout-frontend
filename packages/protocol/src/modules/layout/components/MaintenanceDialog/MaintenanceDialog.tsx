@@ -18,7 +18,7 @@ export const MaintenanceDialog = ({
 }: IMaintenanceDialogProps) => {
   const { classes } = useMaintenanceDialogStyles();
 
-  const { t, tHTML, keys } = useTranslation(maintenanceDialogTranslation);
+  const { keys, t, tHTML } = useTranslation(maintenanceDialogTranslation);
 
   return (
     <Dialog

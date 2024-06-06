@@ -19,13 +19,13 @@ interface ILoginProviderProps {
 }
 
 export const LoginProvider = ({
-  provider,
-  isConnected,
-  shouldHideDisconnectButton,
-  shouldDisableConnectButton,
   address,
-  nickName,
   handleConnectClick,
+  isConnected,
+  nickName,
+  provider,
+  shouldDisableConnectButton,
+  shouldHideDisconnectButton,
 }: ILoginProviderProps) => {
   const { classes } = useLoginProviderStyles();
   const { handleUnbindProvider, isUnbindProviderLoading } = useLoginProvider();

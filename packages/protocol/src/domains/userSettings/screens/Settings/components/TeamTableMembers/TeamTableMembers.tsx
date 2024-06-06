@@ -29,30 +29,30 @@ interface TeamTableMembersProps {
 }
 
 export const TeamTableMembers = ({
-  members,
   groupAddress,
   isGroupAvailableForManagement,
+  members,
 }: TeamTableMembersProps) => {
   const { address: userAddress } = useAuth();
 
   const {
-    isOpened: isOpenedRemoveTeamMemberDialog,
     handleClose: onCloseRemoveTeamMemberDialog,
+    handleRemoveUser,
+    isOpened: isOpenedRemoveTeamMemberDialog,
     teammateToRemoveAddress,
     teammateToRemoveEmail,
-    handleRemoveUser,
   } = useRemoveTeamMember();
 
   const {
     isOpened: isTrasnferOwnershipDialogOpened,
-    onOpen: onOpenTrasnferOwnershipDialog,
     onClose: onCloseTrasnferOwnershipDialog,
+    onOpen: onOpenTrasnferOwnershipDialog,
   } = useDialog();
 
   const {
     isOpened: isLeaveTeamDialogOpened,
-    onOpen: onOpenLeaveTeamDialog,
     onClose: onCloseLeaveTeamDialog,
+    onOpen: onOpenLeaveTeamDialog,
   } = useDialog();
 
   const handleTransferOwnership = useCallback(() => {

@@ -25,7 +25,7 @@ export const CodeHighlighter = ({
 
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
-      {({ className, tokens, getLineProps, getTokenProps }) => (
+      {({ className, getLineProps, getTokenProps, tokens }) => (
         <pre className={cx(outerClassName, className)}>
           {tokens.map((line, i) => (
             <div {...getLineProps({ line, key: i })} key={i}>

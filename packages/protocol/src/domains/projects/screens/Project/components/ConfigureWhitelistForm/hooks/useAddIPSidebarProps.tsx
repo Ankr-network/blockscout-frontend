@@ -41,10 +41,10 @@ export const useAddIPSidebarProps = ({
 
   const {
     handleSelectBlockchain,
+    isValid: isSelectorValid,
     reset: resetSelectorState,
     selectedBlockchains,
     subchains,
-    isValid: isSelectorValid,
   } = useWhitelistItemChainsSelector();
 
   const reset = useCallback(() => {

@@ -9,7 +9,7 @@ interface Params {
 }
 
 export const useStyles = makeStyles<Params, 'text' | 'copyIcon' | 'copyText'>()(
-  (theme: Theme, { size, isDisabled }: Params, classes) => ({
+  (theme: Theme, { isDisabled, size }: Params, classes) => ({
     text: {
       marginRight: theme.spacing(1),
       fontSize: size === 'm' ? 12 : 16,

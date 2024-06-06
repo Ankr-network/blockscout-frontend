@@ -12,11 +12,11 @@ interface MenuItemButtonProps {
 }
 
 export const MenuItemButton = ({
+  content,
+  icon,
   isLoading,
   onClick,
   title,
-  content,
-  icon,
 }: MenuItemButtonProps) => {
   const { classes } = useGoogleMenuItemStyles();
 

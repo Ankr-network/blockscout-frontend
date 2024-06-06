@@ -33,11 +33,11 @@ interface PrivateUsageDataSectionProps {
 
 export const PrivateUsageDataSection = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
-  timeframeTabs,
   timeframe,
+  timeframeTabs,
 }: PrivateUsageDataSectionProps) => {
   const {
     countries,
@@ -57,7 +57,7 @@ export const PrivateUsageDataSection = ({
     timeframe,
   });
 
-  const { shouldShowTokenManager, selectedProjectEndpointToken } =
+  const { selectedProjectEndpointToken, shouldShowTokenManager } =
     useTokenManagerConfigSelector();
   const shouldHideIpsAndRequestsMap =
     shouldShowTokenManager && selectedProjectEndpointToken;

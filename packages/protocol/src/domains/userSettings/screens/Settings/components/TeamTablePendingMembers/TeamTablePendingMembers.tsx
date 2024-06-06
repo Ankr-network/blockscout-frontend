@@ -19,20 +19,20 @@ interface TeamTablePendingMembersProps {
 }
 
 export const TeamTablePendingMembers = ({
-  pendingMembers,
   groupAddress,
   isGroupAvailableForManagement,
+  pendingMembers,
 }: TeamTablePendingMembersProps) => {
   const {
-    isOpened: isOpenedRevokeInvitationDialog,
-    handleClose: onCloseRevokeInvitationDialog,
     emailToRevoke,
+    handleClose: onCloseRevokeInvitationDialog,
     handleRevokeInvitation,
+    isOpened: isOpenedRevokeInvitationDialog,
   } = useRevokeInvitation();
 
   const {
-    isLoadingResendTeamInvite,
     handleResendInvitation,
+    isLoadingResendTeamInvite,
     originalArgs: currentInvitationParams,
   } = useResendInvitation(groupAddress);
 
@@ -40,7 +40,7 @@ export const TeamTablePendingMembers = ({
 
   return (
     <>
-      {pendingMembers?.map(({ status, email: name, role, url, address }) => {
+      {pendingMembers?.map(({ address, email: name, role, status, url }) => {
         const statusString =
           status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 

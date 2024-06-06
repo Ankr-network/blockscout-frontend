@@ -15,7 +15,7 @@ export interface HeaderProps {
   data?: PrivateStatTopRequests[];
 }
 
-export const Header = ({ timeframe, data }: HeaderProps) => {
+export const Header = ({ data, timeframe }: HeaderProps) => {
   const { classes } = useHeaderStyles();
 
   return (

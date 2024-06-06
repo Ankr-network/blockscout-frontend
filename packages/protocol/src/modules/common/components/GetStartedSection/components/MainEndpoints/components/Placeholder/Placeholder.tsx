@@ -12,7 +12,7 @@ export interface PlaceholderProps {
 }
 
 export const Placeholder = ({ title }: PlaceholderProps) => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   return (
     <>

@@ -9,9 +9,9 @@ interface GetCreditsValueProps {
 }
 
 export const getCreditsValue = ({
-  creditUsdAmount,
-  creditAnkrAmount,
   amount,
+  creditAnkrAmount,
+  creditUsdAmount,
 }: GetCreditsValueProps) => {
   const creditAmount =
     Number(creditUsdAmount) > 0 ? creditUsdAmount : creditAnkrAmount;

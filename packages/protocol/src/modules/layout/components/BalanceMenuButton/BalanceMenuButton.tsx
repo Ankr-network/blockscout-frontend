@@ -7,19 +7,19 @@ import { useBalanceMenuButton } from './useBalanceMenuButton';
 
 export const BalanceMenuButton = () => {
   const {
-    balance,
-    creditBalance,
-    usdBalance,
-    balanceInRequests,
-    currentChargingModel,
-    hasStatusTransition,
-    isApiCreditsBalance,
-    isLoading,
-    isLoggedIn,
     anchorEl,
+    balance,
+    balanceInRequests,
+    creditBalance,
+    currentChargingModel,
     handleClose,
     handleOpen,
+    hasStatusTransition,
+    isApiCreditsBalance,
     isBalanceMenuOpened,
+    isLoading,
+    isLoggedIn,
+    usdBalance,
   } = useBalanceMenuButton();
 
   return (

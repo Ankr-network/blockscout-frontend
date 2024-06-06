@@ -5,12 +5,12 @@ import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
 
 export const {
-  useLazyAccountFetchPublicKeyQuery,
   endpoints: { accountFetchPublicKey },
+  useLazyAccountFetchPublicKeyQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     accountFetchPublicKey: build.query<string, void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const state = getState() as RootState;
 
         let { encryptionPublicKey } = selectAuthData(state);

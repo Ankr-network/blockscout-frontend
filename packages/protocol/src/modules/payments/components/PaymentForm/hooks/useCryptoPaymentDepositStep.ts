@@ -60,7 +60,7 @@ export const useCryptoPaymentDepositStep = ({
     tx,
   });
 
-  const { handleSendAllowance, handleResetAllowanceSending, isAllowanceSent } =
+  const { handleResetAllowanceSending, handleSendAllowance, isAllowanceSent } =
     useCryptoPaymentSendAllowanceHandler({ tx });
 
   const { handleFetchAllowance, isLoading: isAllowanceLoading } =

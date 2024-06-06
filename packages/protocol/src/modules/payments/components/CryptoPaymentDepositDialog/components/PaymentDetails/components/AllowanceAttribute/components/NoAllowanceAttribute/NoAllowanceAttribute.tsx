@@ -25,8 +25,8 @@ export const NoAllowanceAttribute = ({
   feeCrypto,
   feeUSD,
   network,
-  txURL,
   status,
+  txURL,
 }: INoAllowanceAttributeProps) => {
   const alertProps = getAlertProps({ error, status });
 

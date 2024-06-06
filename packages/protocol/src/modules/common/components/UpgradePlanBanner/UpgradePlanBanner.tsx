@@ -23,7 +23,7 @@ export const UpgradePlanBanner = ({
   isAdvancedApi = false,
   isPublicUser = false,
 }: UpgradePlanBannerProps) => {
-  const { hasPremium, loading, hasWeb3Connection, hasPrivateAccess } =
+  const { hasPremium, hasPrivateAccess, hasWeb3Connection, loading } =
     useAuth();
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();

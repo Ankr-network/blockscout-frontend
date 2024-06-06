@@ -11,7 +11,7 @@ export interface DialogCardProps {
 }
 
 export const DialogCard = ({ children, className }: DialogCardProps) => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   return (
     <>

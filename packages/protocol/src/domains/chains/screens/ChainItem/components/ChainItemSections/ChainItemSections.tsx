@@ -21,15 +21,15 @@ export interface IChainItemTabsProps {
 }
 
 export const ChainItemSections = ({
-  chainType,
-  chainSubType,
   chain,
+  chainSubType,
+  chainType,
   group,
   unfilteredGroup,
 }: IChainItemTabsProps) => {
   const { shouldShowTokenManager } = useTokenManagerConfigSelector();
 
-  const { isLoggedIn, hasPrivateAccess } = useAuth();
+  const { hasPrivateAccess, isLoggedIn } = useAuth();
 
   const rpcUrl = useMemo(
     () => unfilteredGroup?.urls[0]?.rpc ?? unfilteredGroup?.urls[0]?.rest,

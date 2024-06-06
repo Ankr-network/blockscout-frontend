@@ -33,7 +33,7 @@ export const {
 });
 
 export const {
-  selectState: selectWalletBalanceAnkrState,
   selectDataWithFallback: selectWalletBalanceAnkr,
   selectLoading: selectWalletBalanceAnkrLoading,
+  selectState: selectWalletBalanceAnkrState,
 } = createQuerySelectors({ endpoint: fetchWalletBalanceAnkr, fallback });

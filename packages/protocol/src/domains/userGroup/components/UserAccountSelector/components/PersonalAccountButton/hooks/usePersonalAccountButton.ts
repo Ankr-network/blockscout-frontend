@@ -9,8 +9,8 @@ export const usePersonalAccountButton = () => {
     address,
     email,
     hasOauthLogin,
-    hasWeb3Connection,
     hasOauthWithoutWeb3,
+    hasWeb3Connection,
     loginName,
     oauthProviders: [oauthProvider] = [undefined],
   } = useAuth();

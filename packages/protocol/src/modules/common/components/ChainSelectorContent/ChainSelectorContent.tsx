@@ -39,9 +39,9 @@ export const ChainSelectorContent = ({
   groupTabs,
   groups,
   hasGroupSelector,
+  isGroupSelectorAutoWidth = false,
   isProtocolSwitcherHidden,
   selectGroup,
-  isGroupSelectorAutoWidth = false,
 }: IChainSelectorContentProps) => {
   const isMobile = useIsSMDown();
 

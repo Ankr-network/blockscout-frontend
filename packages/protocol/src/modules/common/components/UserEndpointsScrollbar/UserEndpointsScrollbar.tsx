@@ -22,8 +22,8 @@ interface UserEndpointsScrollbarProps {
 }
 
 export const UserEndpointsScrollbar = ({
-  jwtTokens,
   children,
+  jwtTokens,
 }: UserEndpointsScrollbarProps) => {
   const { classes } = useUserEndpointsScrollbarStyles();
 

@@ -14,10 +14,10 @@ export interface WidgetProps {
 }
 
 export const Widget = ({
+  actionsClassName,
   children,
   className,
   contentClassName,
-  actionsClassName,
   hasEditButton = false,
   onEdit,
 }: WidgetProps) => {

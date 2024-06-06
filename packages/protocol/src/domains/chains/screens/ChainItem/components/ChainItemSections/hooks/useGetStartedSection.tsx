@@ -30,7 +30,7 @@ export const useGetStartedSection = ({
   group,
   publicUrl,
 }: GetStartedSectionParams) => {
-  const { hasPrivateAccess, loading: isConnecting, hasPremium } = useAuth();
+  const { hasPremium, hasPrivateAccess, loading: isConnecting } = useAuth();
 
   const hasUpgradeBanner = useMemo(
     () => checkUpgradeBanner({ hasPrivateAccess, hasPremium, isConnecting }),

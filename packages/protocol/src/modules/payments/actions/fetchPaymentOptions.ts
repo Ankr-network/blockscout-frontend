@@ -33,7 +33,7 @@ export const {
 });
 
 export const {
-  selectState: selectPaymentOptionsState,
   selectData: selectPaymentOptions,
   selectLoading: selectPaymentOptionsLoading,
+  selectState: selectPaymentOptionsState,
 } = createQuerySelectors({ endpoint: fetchPaymentOptions });

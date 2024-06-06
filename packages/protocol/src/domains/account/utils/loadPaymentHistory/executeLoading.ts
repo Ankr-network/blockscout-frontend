@@ -18,23 +18,23 @@ export interface ExecuteLoadingParams extends PaymentHistoryParams {
 export const executeLoading = async ({
   deductionsCursor: loadedDeductionsCursor = 0,
   from,
+  group,
   limit,
   loadedDeductions = [],
-  loadedTransactions = [],
   loadedMyBundlesPayments = [],
+  loadedTransactions = [],
   myBundlesPaymentsCursor: loadedMyBundlesPaymentsCursor = 0,
   to,
   transactionsCursor: loadedTransactionsCursor = 0,
   types = [],
-  group,
 }: ExecuteLoadingParams): Promise<PaymentHistory> => {
   const {
     deductions: loadingDeductions,
     deductionsCursor: loadingDeductionsCursor,
-    transactions: loadingTransactions,
-    transactionsCursor: loadingTransactionsCursor,
     myBundlesPayments: loadingMyBundlesPayments,
     myBundlesPaymentsCursor: loadingMyBundlesPaymentsCursor,
+    transactions: loadingTransactions,
+    transactionsCursor: loadingTransactionsCursor,
   } = await fetchPaymentHistory({
     from,
     to,
@@ -45,7 +45,7 @@ export const executeLoading = async ({
     group,
   });
 
-  const { deductions, paymentHistory, transactions, myBundlesPayments } =
+  const { deductions, myBundlesPayments, paymentHistory, transactions } =
     combinePaymentHistory({
       loadedDeductions,
       loadedTransactions,
@@ -57,12 +57,12 @@ export const executeLoading = async ({
 
   const {
     lastDeduction,
-    lastTransaction,
     lastMyBundlesPayment,
+    lastTransaction,
     paymentHistory: list,
   } = takePaymentHistory(paymentHistory, limit);
 
-  const { deductionsCursor, transactionsCursor, myBundlesPaymentsCursor } =
+  const { deductionsCursor, myBundlesPaymentsCursor, transactionsCursor } =
     getCursors({
       paymentHistory,
       transactions,

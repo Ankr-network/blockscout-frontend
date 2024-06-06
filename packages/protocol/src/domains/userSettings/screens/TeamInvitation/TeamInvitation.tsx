@@ -9,8 +9,8 @@ export const TeamInvitation = () => {
     emailVerificationDialogProps,
     expiredLinkDialogProps,
     isLoggedIn,
-    teamInvitationDialogProps,
     shouldAvoidGuestTeamInvitationDialog,
+    teamInvitationDialogProps,
   } = useTeamInvitationPage();
 
   const acceptInvitationDialog =

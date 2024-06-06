@@ -13,7 +13,7 @@ export const usePrivateChainsInfo = (skipFetching?: boolean) => {
 
   const [
     fetchPrivateChainsInfo,
-    { data: { chains, allChains } = defaultData, isLoading, isUninitialized },
+    { data: { allChains, chains } = defaultData, isLoading, isUninitialized },
   ] = useLazyChainsFetchPrivateChainsInfoQuery();
 
   useLayoutEffect(() => {

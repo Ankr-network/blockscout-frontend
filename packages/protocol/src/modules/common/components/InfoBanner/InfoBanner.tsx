@@ -8,7 +8,7 @@ interface InfoBannerProps {
   className?: string;
 }
 
-export const InfoBanner = ({ icon, message, className }: InfoBannerProps) => {
+export const InfoBanner = ({ className, icon, message }: InfoBannerProps) => {
   const { classes, cx } = useInfoBannerStyles();
 
   return (

@@ -13,9 +13,9 @@ export interface UseEmailsCountParams {
 }
 
 export const useEmailsCount = ({
-  teamMembersCount,
-  invitedEmails,
   handleChange,
+  invitedEmails,
+  teamMembersCount,
 }: UseEmailsCountParams) => {
   const [emailsCount, setEmailsCount] = useState(teamMembersCount);
   const [invalidEmailsCount, setInvalidEmailsCount] = useState(0);

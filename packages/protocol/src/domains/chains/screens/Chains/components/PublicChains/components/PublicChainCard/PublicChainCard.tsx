@@ -16,13 +16,13 @@ export const PublicChainCard = ({
   timeframe,
   ...props
 }: IChainCardProps) => {
-  const { totalRequests, loading = false } = usePublicChainsItem({
+  const { loading = false, totalRequests } = usePublicChainsItem({
     chain,
     timeframe,
   });
 
   const { totalRequestsStr } = useCommonChainsItemData(chain, totalRequests);
-  const { premiumOnly, isComingSoon } = chain;
+  const { isComingSoon, premiumOnly } = chain;
 
   const cardProps: IBaseChainCardProps = {
     chain,

@@ -7,12 +7,12 @@ import { web3Api } from 'store/queries';
 import { infrastructureFetchProvider } from './fetchProvider';
 
 export const {
-  useInfrastructureFetchAvailableChainsQuery,
   endpoints: { infrastructureFetchAvailableChains },
+  useInfrastructureFetchAvailableChainsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureFetchAvailableChains: build.query<Chain[], void>({
-      queryFn: createNotifyingQueryFn(async (_args, { getState, dispatch }) => {
+      queryFn: createNotifyingQueryFn(async (_args, { dispatch, getState }) => {
         const { data: { chains = [] } = {} } = await dispatch(
           chainsFetchPublicChains.initiate(),
         );

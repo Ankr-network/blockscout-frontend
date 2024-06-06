@@ -7,7 +7,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { TeamInvitationContentType } from '../constants';
 
 export const useTeamInvitationContentType = () => {
-  const { isLoggedIn, email: authEmail } = useAuth();
+  const { email: authEmail, isLoggedIn } = useAuth();
 
   // Used to prevent dialogs blinking when logging out before logging in via
   // another email
@@ -15,7 +15,7 @@ export const useTeamInvitationContentType = () => {
     fetchGoogleLoginParams,
   );
 
-  const { expires_at: expiresAtSec = '', email } =
+  const { email, expires_at: expiresAtSec = '' } =
     UserSettingsRoutesConfig.teamInvitation.useQuery();
 
   const isWrongEmail = isLoggedIn && email !== authEmail;

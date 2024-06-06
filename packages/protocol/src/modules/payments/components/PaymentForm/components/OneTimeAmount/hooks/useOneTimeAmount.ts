@@ -21,10 +21,10 @@ export const useOneTimeAmount = ({
   const {
     amount,
     amounts,
+    handleAmountSelectByChipClick,
     selectedAmountID,
     setAmount,
     setSelectedAmountID,
-    handleAmountSelectByChipClick,
   } = useAmount({ currency });
 
   const { amountInputProps, isLoading, resetInputError } = useAmountInput({

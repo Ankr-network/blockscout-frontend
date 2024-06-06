@@ -9,8 +9,8 @@ interface NetworkBadgeItemProps {
 }
 
 export const NetworkBadgeItem = ({
-  name,
   isSelected,
+  name,
 }: NetworkBadgeItemProps) => {
   const { classes, cx } = useNetworksBadgesStyles();
 

@@ -24,24 +24,24 @@ export const useAllChainsSelection = ({
   endpoints,
 }: Omit<ITypeSelectorProps, 'chainTypes'>) => {
   const {
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
+    onChange: onFormChange,
     selectedBeaconMainnetIds,
     selectedBeaconTestnetIds,
+    selectedDevnetIds,
+    selectedMainnetIds,
     selectedOpnodeMainnetIds,
     selectedOpnodeTestnetIds,
-    onChange: onFormChange,
+    selectedTestnetIds,
   } = useProjectFormValues();
 
   const {
-    allAvailableMainnetIds,
-    allAvailableTestnetIds,
-    allAvailableDevnetIds,
     allAvailableBeaconMainnetIds,
     allAvailableBeaconTestnetIds,
+    allAvailableDevnetIds,
+    allAvailableMainnetIds,
     allAvailableOpnodeMainnetIds,
     allAvailableOpnodeTestnetIds,
+    allAvailableTestnetIds,
     areAllAvailableChainsSelected,
     hasCurrentChainSelectedIds,
   } = useAvailableIds(endpoints);

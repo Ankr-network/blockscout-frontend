@@ -18,7 +18,7 @@ export const ProjectChainTab = ({
   name,
   onClick,
 }: ProjectChainTabProps) => {
-  const { cx, classes } = useProjectChainTabStyles();
+  const { classes, cx } = useProjectChainTabStyles();
 
   return (
     <div

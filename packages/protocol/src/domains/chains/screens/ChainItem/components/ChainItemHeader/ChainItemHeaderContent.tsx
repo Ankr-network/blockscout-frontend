@@ -66,14 +66,14 @@ export const ChainItemHeaderContent = ({
   groups,
   isChainArchived,
   isEnterprise = false,
+  isGroupSelectorAutoWidth,
   isMetamaskButtonHidden,
   isMultiChain,
+  isPremiumLabelHidden,
   isProtocolSwitcherHidden,
   publicChain,
-  selectGroup,
-  isGroupSelectorAutoWidth,
-  isPremiumLabelHidden,
   requestsString,
+  selectGroup,
 }: ChainItemHeaderContentProps) => {
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 

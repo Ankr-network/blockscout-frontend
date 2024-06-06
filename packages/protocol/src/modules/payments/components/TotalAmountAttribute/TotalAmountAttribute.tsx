@@ -15,10 +15,10 @@ export interface ITotalAmountAttributeProps
     IRenderTotalAmountDescriptionParams {}
 
 export const TotalAmountAttribute = ({
-  amount,
-  amountUsd,
   allowanceFee,
   allowanceFeeUSD,
+  amount,
+  amountUsd,
   currency,
   depositFee,
   depositFeeUSD,

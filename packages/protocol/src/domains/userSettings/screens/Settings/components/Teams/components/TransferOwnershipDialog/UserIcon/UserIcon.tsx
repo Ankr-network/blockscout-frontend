@@ -7,7 +7,7 @@ interface IUserIconProps {
   className?: string;
 }
 
-export const UserIcon = ({ userName, className }: IUserIconProps) => {
+export const UserIcon = ({ className, userName }: IUserIconProps) => {
   const { classes, cx } = useUserIconStyles();
 
   return (

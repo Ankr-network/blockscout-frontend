@@ -19,11 +19,11 @@ interface ProjectChainItemProps {
 }
 
 export const ProjectChainItemCellWrapper = ({
-  chain,
   allChains,
+  chain,
+  selectAllSubChainPaths,
   selectedChainPaths,
   setIsSelectedAll,
-  selectAllSubChainPaths,
   unSelectAllSubChainPaths,
 }: ProjectChainItemProps) => {
   const allSubchainPaths = useAppSelector(state =>

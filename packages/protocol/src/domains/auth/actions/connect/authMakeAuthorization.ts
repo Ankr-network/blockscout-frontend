@@ -39,7 +39,7 @@ export const {
           const service = MultiService.getService();
 
           const {
-            data: { cachedAuthData, hasWeb3Connection, hasOauthLogin } = {},
+            data: { cachedAuthData, hasOauthLogin, hasWeb3Connection } = {},
           } = authConnect.select(undefined as never)(getState() as RootState);
 
           if (hasWeb3Connection) {

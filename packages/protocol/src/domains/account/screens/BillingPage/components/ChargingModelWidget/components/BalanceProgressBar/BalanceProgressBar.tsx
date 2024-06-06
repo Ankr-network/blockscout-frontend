@@ -13,10 +13,10 @@ interface IBalanceProgressBarProps {
 
 export const BalanceProgressBar = ({
   chargingModel,
-  progressValue,
-  progressLabel,
-  maxLabel,
   isNoticeHidden,
+  maxLabel,
+  progressLabel,
+  progressValue,
 }: IBalanceProgressBarProps) => {
   switch (chargingModel) {
     case EChargingModel.Package:

@@ -7,7 +7,7 @@ interface AuthCodeInputProps {
   hasError: boolean;
 }
 
-export const AuthCodeInput = ({ onChange, hasError }: AuthCodeInputProps) => {
+export const AuthCodeInput = ({ hasError, onChange }: AuthCodeInputProps) => {
   const { classes } = useAuthCodeInputStyles(hasError);
 
   return (

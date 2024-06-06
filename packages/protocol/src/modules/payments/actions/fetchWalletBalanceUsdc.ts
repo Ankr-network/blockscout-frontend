@@ -65,7 +65,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectWalletBalanceUsdcState,
   selectDataWithFallbackCachedByParams: selectWalletBalanceUsdc,
   selectLoadingCachedByParams: selectWalletBalanceUsdcLoading,
+  selectStateCachedByParams: selectWalletBalanceUsdcState,
 } = createQuerySelectors({ endpoint: fetchWalletBalanceUsdc, fallback });

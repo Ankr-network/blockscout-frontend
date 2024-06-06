@@ -46,7 +46,7 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
           </TableHead>
           <TableBody className={classes.body}>
             {data.map(country => {
-              const { color, name, requests, isoA2 } = country;
+              const { color, isoA2, name, requests } = country;
 
               const isSelectedCountry = selectedCountry === isoA2;
 

@@ -14,7 +14,7 @@ export const LocationsWidget = ({
   isLoading,
   locations,
 }: LocationsWidgetProps) => {
-  const { cx, classes } = useLocationsWidgetStyles();
+  const { classes, cx } = useLocationsWidgetStyles();
   const {
     classes: { container },
   } = useNoDataContainerStyles(locations.length === 0);

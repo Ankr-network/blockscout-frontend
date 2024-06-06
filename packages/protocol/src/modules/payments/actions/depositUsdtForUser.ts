@@ -66,7 +66,7 @@ export const {
         ),
         fallback: { data: null },
       }),
-      onQueryStarted: async ({ txId }, { queryFulfilled, dispatch }) => {
+      onQueryStarted: async ({ txId }, { dispatch, queryFulfilled }) => {
         await handleDepositQuery({ dispatch, queryFulfilled, txId });
       },
     }),

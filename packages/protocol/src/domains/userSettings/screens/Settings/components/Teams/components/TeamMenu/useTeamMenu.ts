@@ -8,19 +8,19 @@ import { TeamMenuProps } from './TeamMenu';
 import { IRenameTeamDialogProps } from '../RenameTeamDialog';
 
 export const useTeamMenu = (group: UserGroup) => {
-  const { address: groupAddress, name, comment = '', companyType = '' } = group;
+  const { address: groupAddress, comment = '', companyType = '', name } = group;
 
   const {
     anchorEl: anchorElGroupMenu,
-    handleOpen: handleOpenGroupMenu,
     handleClose: handleCloseGroupMenu,
+    handleOpen: handleOpenGroupMenu,
     open: isGroupMenuOpened,
   } = useMenu();
 
   const {
     isOpened: isRenameTeamDialogOpened,
-    onOpen: onOpenRenameTeamDialog,
     onClose: onCloseRenameTeamDialog,
+    onOpen: onOpenRenameTeamDialog,
   } = useDialog();
 
   const handleOpenRenameTeamDialog = useCallback(() => {

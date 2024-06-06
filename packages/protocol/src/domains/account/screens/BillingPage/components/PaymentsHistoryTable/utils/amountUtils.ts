@@ -22,11 +22,11 @@ interface GetAmountArguments {
 }
 
 export const getAmount = ({
-  type,
-  creditAnkrAmount,
-  creditUsdAmount,
   amountAnkr,
   amountUsd,
+  creditAnkrAmount,
+  creditUsdAmount,
+  type,
 }: GetAmountArguments) => {
   if (isCreditAmount(type, creditAnkrAmount, creditUsdAmount)) {
     return '';

@@ -7,7 +7,7 @@ interface UserDataProps {
   subtitle?: string;
 }
 
-export const UserData = ({ title, subtitle }: UserDataProps) => {
+export const UserData = ({ subtitle, title }: UserDataProps) => {
   const { classes } = useUserDataStyles();
 
   return (

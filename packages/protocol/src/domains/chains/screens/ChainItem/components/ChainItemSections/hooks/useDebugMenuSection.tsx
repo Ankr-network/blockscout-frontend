@@ -23,8 +23,8 @@ export interface DebugMenuSectionParams {
 
 export const useDebugMenuSection = ({
   chainId,
-  group,
   getSelectHandler,
+  group,
   publicUrl,
 }: DebugMenuSectionParams) => {
   const { hasPremium, hasPrivateAccess } = useAuth();

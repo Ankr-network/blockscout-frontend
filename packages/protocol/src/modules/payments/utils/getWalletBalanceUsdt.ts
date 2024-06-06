@@ -12,8 +12,8 @@ export interface IGetWalletBalanceUsdtParams {
 
 export const getWalletBalanceUsdt = async ({
   depositContractAddress,
-  tokenAddress,
   network,
+  tokenAddress,
   tokenDecimals,
   web3Service,
 }: IGetWalletBalanceUsdtParams) => {

@@ -5,9 +5,9 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 export const {
+  endpoints: { chainsFetchEnterpriseV2StatsTotal },
   useChainsFetchEnterpriseV2StatsTotalQuery,
   useLazyChainsFetchEnterpriseV2StatsTotalQuery,
-  endpoints: { chainsFetchEnterpriseV2StatsTotal },
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchEnterpriseV2StatsTotal: build.query<

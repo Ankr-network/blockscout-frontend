@@ -26,13 +26,13 @@ interface IShowUserEndpointDialogProps {
 
 // TODO:  https://ankrnetwork.atlassian.net/browse/MRPC-3212
 export const UserEndpointDialog = ({
-  shouldConnectWallet,
-  tokenIndex,
   endpointToken,
+  handleDeleteProjectOpen,
   isOpened,
   name,
   onClose,
-  handleDeleteProjectOpen,
+  shouldConnectWallet,
+  tokenIndex,
 }: IShowUserEndpointDialogProps) => {
   const { classes } = useUserEndpointDialogStyles();
 
@@ -45,8 +45,8 @@ export const UserEndpointDialog = ({
 
   const {
     isOpened: isLoginOpened,
-    onOpen: onOpenLogin,
     onClose: onCloseLogin,
+    onOpen: onOpenLogin,
   } = useDialog();
 
   const handleLoginDialogOpen = useCallback(() => {

@@ -13,14 +13,14 @@ type AnimatedButtonProps = Omit<ButtonProps, 'children'> & {
 };
 
 export const AnimatedButton = ({
-  width,
-
-  data,
-  loading,
-
   children,
+
   className,
+  data,
+
   disabled,
+  loading,
+  width,
   ...props
 }: AnimatedButtonProps) => {
   const { isSuccess } = useAnimatedButton({

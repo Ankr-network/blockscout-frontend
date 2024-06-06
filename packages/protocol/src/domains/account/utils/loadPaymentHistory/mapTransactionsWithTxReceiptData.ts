@@ -8,7 +8,7 @@ export const mapTransactionsWithTxReceiptData = async (
 ) => {
   await Promise.all(
     transactions.map(async transaction => {
-      const { network, txHash, creditAnkrAmount, creditUsdAmount } =
+      const { creditAnkrAmount, creditUsdAmount, network, txHash } =
         transaction;
 
       const isNotAnkrPayment =

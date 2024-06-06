@@ -22,24 +22,24 @@ export const RecurringPaymentsWidget = ({
   const {
     amount,
     isEditDialogOpened,
-    onEditDialogClose,
-    onEdit,
     isSubscribed,
+    onEdit,
+    onEditDialogClose,
   } = useRecurringPaymentsWidget();
 
   const {
     isOpened: isOpenedSuccessDialog,
-    onOpen: onOpenSuccessDialog,
     onClose: onCloseSuccessDialog,
+    onOpen: onOpenSuccessDialog,
   } = useDialog();
 
   const { classes, cx } = useRecurringPaymentsWidgetStyles();
 
   const {
-    onCancelSubscription,
-    recurringPayments,
     expirationDate,
     isDealCancelled,
+    onCancelSubscription,
+    recurringPayments,
   } = useEditSubscriptionsDialog(onEditDialogClose);
 
   return (

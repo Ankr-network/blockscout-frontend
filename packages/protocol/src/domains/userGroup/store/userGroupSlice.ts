@@ -58,7 +58,7 @@ export const userGroupSlice = createSlice({
       const config = state.userGroupConfig[address];
 
       if (config) {
-        const { shouldRemind, selectedGroupAddress, selectedGroupRole } =
+        const { selectedGroupAddress, selectedGroupRole, shouldRemind } =
           config;
 
         state.userGroupConfig[address] = {
@@ -83,8 +83,8 @@ export const userGroupSlice = createSlice({
 });
 
 export const {
-  setUserGroupConfig,
   resetUserGroupConfig,
-  setUserGroupJwt,
   resetUserGroupJwt,
+  setUserGroupConfig,
+  setUserGroupJwt,
 } = userGroupSlice.actions;

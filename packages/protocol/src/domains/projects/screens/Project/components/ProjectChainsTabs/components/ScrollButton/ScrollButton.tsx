@@ -10,10 +10,10 @@ interface ScrollButtonProps {
 }
 
 export const ScrollButton = ({
-  onClick,
   className,
-  name,
   isButtonVisible,
+  name,
+  onClick,
 }: ScrollButtonProps) => {
   if (!isButtonVisible) {
     return null;

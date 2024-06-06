@@ -23,8 +23,8 @@ interface IConfirmEmailBindingQueryProps {
 }
 
 export const ConfirmEmailBindingQuery = ({
-  email,
   code,
+  email,
 }: IConfirmEmailBindingQueryProps) => {
   const dispatch = useAppDispatch();
 

@@ -23,12 +23,12 @@ export interface RequestComposerLogsResult {
 }
 
 export function useRequestComposerLogs<S extends string, T>({
+  clear,
+  logError,
   logInit,
+  logRequest,
   logResponse,
   logResponseTime,
-  logError,
-  logRequest,
-  clear,
   logs,
   request,
 }: RequestComposerLogsParams<S, T>): RequestComposerLogsResult {

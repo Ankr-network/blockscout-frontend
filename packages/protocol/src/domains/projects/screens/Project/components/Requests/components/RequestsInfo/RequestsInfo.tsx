@@ -19,14 +19,14 @@ interface RequestsInfoProps {
 
 export const RequestsInfo = ({
   data,
+  isDisabled,
   isLoading,
   relativeChange,
   totalRequestsCount,
-  isDisabled,
 }: RequestsInfoProps) => {
   const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
 
-  const { cx, classes } = useRequestsInfoStyles(relativeChangeSign);
+  const { classes, cx } = useRequestsInfoStyles(relativeChangeSign);
 
   const chartProps = useMemo(
     (): IChartProps => ({

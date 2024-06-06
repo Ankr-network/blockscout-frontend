@@ -14,8 +14,8 @@ interface ChainSelectModalProps {
 }
 
 export const ChainSelectModal = ({
-  selectedChain,
   children,
+  selectedChain,
 }: ChainSelectModalProps) => {
   const { classes } = useChainStepStyles();
 

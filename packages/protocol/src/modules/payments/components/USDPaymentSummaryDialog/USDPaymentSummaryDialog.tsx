@@ -21,12 +21,12 @@ export interface IUSDPaymentSummaryDialogProps
 export const USDPaymentSummaryDialog = ({
   amount,
   currency,
+  isProceeding,
+  onCancelButtonClick,
+  onProceedButtonClick,
   paymentType,
   totalAmount,
   totalCurrency,
-  onCancelButtonClick,
-  onProceedButtonClick,
-  isProceeding,
   ...dialogProps
 }: IUSDPaymentSummaryDialogProps) => {
   const { classes } = useUSDPaymentSummaryDialogStyles();

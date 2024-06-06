@@ -4,8 +4,8 @@ export interface IHasPartialAllowanceParams {
 }
 
 export const hasPartialAllowance = ({
-  amount,
   allowance,
+  amount,
 }: IHasPartialAllowanceParams) => {
   const isAmountPositive = amount > 0;
   const isAmountBiggerThanAllowance = amount > allowance;

@@ -16,9 +16,9 @@ interface TwoFAControlDialogProps {
 }
 
 export const TwoFAControlDialog = ({
-  open,
-  onClose,
   isEnabled,
+  onClose,
+  open,
 }: TwoFAControlDialogProps) => {
   const [view, setView] = useState<TwoFAControlDialogView>(
     TwoFAControlDialogView.Default,

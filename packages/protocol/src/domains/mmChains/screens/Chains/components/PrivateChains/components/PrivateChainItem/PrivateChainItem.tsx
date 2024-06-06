@@ -13,7 +13,7 @@ export const PrivateChainItem = ({
   timeframe,
   ...props
 }: ChainsItemQueryProps) => {
-  const { totalRequests, loading } = usePrivateChainsItem({ chain });
+  const { loading, totalRequests } = usePrivateChainsItem({ chain });
 
   const { isHighlighted, totalRequestsStr, urls } = useCommonChainsItemData(
     chain,

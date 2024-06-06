@@ -44,10 +44,10 @@ export const useAddSmartContractSidebarProps = ({
 
   const {
     handleSelectBlockchain,
+    isValid: isSelectorValid,
     reset: resetSelectorState,
     selectedBlockchains,
     subchains,
-    isValid: isSelectorValid,
   } = useWhitelistItemChainsSelector();
 
   const reset = useCallback(() => {

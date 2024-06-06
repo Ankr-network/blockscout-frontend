@@ -13,8 +13,8 @@ export const useGetStartedSection = ({
   chainId,
   getSelectHandler,
   group,
-  publicUrl,
   hasWssAccess,
+  publicUrl,
 }: GetStartedSectionParams) => {
   const [technology, setTechnology] = useTechnology();
 

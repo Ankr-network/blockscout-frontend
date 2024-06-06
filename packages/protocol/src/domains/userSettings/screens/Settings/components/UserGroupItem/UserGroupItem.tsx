@@ -31,18 +31,18 @@ export const UserGroupItem = ({ group }: UserGroupItemProps) => {
     groupDetails,
     handleAccordionChange,
     handleInviteTeammatesDialogOpen,
+    hasRenamePermissions,
     inviteTeammatesDialogProps,
     isExpanded,
     isExpanding,
     isGroupAvailableForManagement,
-    hasRenamePermissions,
     isInviteTeammatesDialogLoading,
   } = useUserGroupItem({ group });
 
-  const { handleMenuClick, renameTeamDialogProps, groupMenuProps } =
+  const { groupMenuProps, handleMenuClick, renameTeamDialogProps } =
     useTeamMenu(group);
 
-  const { email: userEmail = '', address: userAddress } = useAuth();
+  const { address: userAddress, email: userEmail = '' } = useAuth();
 
   const { selectedGroupAddress } = useSelectedUserGroup();
 

@@ -18,16 +18,16 @@ interface IndeterminateCheckboxProps {
 }
 
 const IndeterminateCheckbox = ({
-  parentLabel,
-  nestedItems,
   chainType,
+  nestedItems,
+  parentLabel,
 }: IndeterminateCheckboxProps) => {
   const {
-    isParentIndeterminate,
-    isParentChecked,
-    onSelectParent,
     checkedItems,
     handleChangeItem,
+    isParentChecked,
+    isParentIndeterminate,
+    onSelectParent,
   } = useNestedChainItemsSelection(nestedItems, chainType);
 
   const { classes } = useTypeSelectorStyles();

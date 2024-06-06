@@ -15,7 +15,7 @@ import { useRecurringPayment } from './useRecurringPayment';
 import { useUsdPaymentSummaryDialog } from './useUsdPaymentSummaryDialog';
 
 export const usePaymentForm = () => {
-  const { paymentType, paymentTabsProps } = usePaymentType();
+  const { paymentTabsProps, paymentType } = usePaymentType();
 
   const { currency, currencyTabsProps, handleCurrencyChange } = useCurrency({
     paymentType,
@@ -63,9 +63,9 @@ export const usePaymentForm = () => {
   });
 
   const {
-    handleDealPaymentSummaryDialogOpen,
     dealPaymentSummaryDialogProps,
     enterpriseDialogProps,
+    handleDealPaymentSummaryDialogOpen,
   } = useDealPayment({ amount: dealAmount });
 
   const {

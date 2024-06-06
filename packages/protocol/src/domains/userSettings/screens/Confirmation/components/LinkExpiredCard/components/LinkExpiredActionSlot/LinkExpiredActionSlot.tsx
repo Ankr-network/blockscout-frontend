@@ -17,10 +17,10 @@ export interface ILinkExpiredActionSlotProps {
 
 export const LinkExpiredActionSlot = ({
   onChangeEmail,
-  resendEmailData,
-  resendEmailLoading,
-  resendEmailErrorMessage,
   onResendEmail,
+  resendEmailData,
+  resendEmailErrorMessage,
+  resendEmailLoading,
 }: ILinkExpiredActionSlotProps) => {
   const { classes } = useStyles();
 

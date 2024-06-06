@@ -5,7 +5,7 @@ export interface IGetTotalAmountParams {
 }
 
 export const getTotalAmount = ({
-  amountUsd,
   allowanceFeeUSD = 0,
+  amountUsd,
   depositFeeUSD,
 }: IGetTotalAmountParams) => amountUsd + depositFeeUSD + allowanceFeeUSD;

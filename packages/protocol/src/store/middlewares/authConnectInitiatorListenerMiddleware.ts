@@ -27,7 +27,7 @@ authConnectInitiatorListenerMiddleware.startListening({
         arg: { originalArgs: params },
       },
     },
-    { take, dispatch },
+    { dispatch, take },
   ) => {
     let totp = '';
 

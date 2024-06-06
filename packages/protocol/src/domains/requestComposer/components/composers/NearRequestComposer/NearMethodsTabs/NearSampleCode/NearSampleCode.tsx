@@ -17,10 +17,10 @@ interface ISampleCodeProps {
 }
 
 export const NearSampleCode = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: ISampleCodeProps) => {
   const httpUrl = useMemo(() => group.urls[0].rpc, [group]);
   const wssUrl = useMemo(() => group.urls[0]?.ws ?? '', [group]);

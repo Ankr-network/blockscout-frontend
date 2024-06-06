@@ -14,9 +14,9 @@ interface IUpgradeAccountDialogProps {
 }
 
 export const UpgradeAccountDialog = ({
-  isOpened,
   handleClickSeePlans,
   handleClose,
+  isOpened,
 }: IUpgradeAccountDialogProps) => {
   const { classes } = useUpgradeAccountDialogStyles();
 

@@ -20,8 +20,8 @@ export const TooltipWrapper = ({
   children,
   className,
   hasIcon = true,
-  tipIcon,
   iconClassName,
+  tipIcon,
   tooltipClassName: tooltip,
   tooltipText,
 }: ITooltipWrapperProps) => {

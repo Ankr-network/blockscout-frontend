@@ -29,7 +29,7 @@ export const {
       IFetchBlockchainTxDataResult,
       IFetchBlockchainTxDataParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ txHash, network }) => {
+      queryFn: createNotifyingQueryFn(async ({ network, txHash }) => {
         const web3 = getWeb3Instance(network);
 
         const tx = await web3.eth.getTransaction(txHash);
@@ -50,7 +50,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectBlockchainTxDataState,
   selectDataCachedByParams: selectBlockchainTxData,
   selectLoadingCachedByParams: selectBlockchainTxDataLoading,
+  selectStateCachedByParams: selectBlockchainTxDataState,
 } = createQuerySelectors({ endpoint: fetchBlockchainTxData });

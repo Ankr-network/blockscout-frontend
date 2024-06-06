@@ -49,7 +49,7 @@ const getMappedNetwork = (
     chainName: addNamePostfix(networkInfo.chainName),
 
     rpcUrls: flatNetworkURLs<ChainURL, Chain>(chain).mainnetURLs.map(
-      ({ rpc, enterprise }) => (isEnterprise ? enterprise : rpc),
+      ({ enterprise, rpc }) => (isEnterprise ? enterprise : rpc),
     ),
   };
 };
@@ -62,10 +62,10 @@ interface GetFlattenChainArguments {
 }
 
 export const getFlattenChain = ({
-  publicChain,
+  chainSubType,
   chainType,
   group,
-  chainSubType,
+  publicChain,
 }: GetFlattenChainArguments) => {
   const flatChainId = getChainId({
     publicChain,
@@ -102,8 +102,8 @@ export const getNetworkConfiguration = ({
 
 const getFlattenChainAndId = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
 }: IUseAddNetworkButtonParams) => {
   if (group && chainType) {
@@ -120,8 +120,8 @@ const getFlattenChainAndId = ({
 
 export const getNetworkParams = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   isEnterprise = false,
 }: IUseAddNetworkButtonParams) => {

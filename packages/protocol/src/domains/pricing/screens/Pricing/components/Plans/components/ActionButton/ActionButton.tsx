@@ -13,10 +13,10 @@ export interface IActionButtonProps {
 }
 
 export const ActionButton = ({
-  planName,
   isButtonDisabled,
   isCurrentPlan,
   onClick,
+  planName,
 }: IActionButtonProps) => {
   const { classes, cx } = useActionButtonStyles();
 

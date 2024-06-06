@@ -25,10 +25,10 @@ interface TeamTableProps {
 }
 
 export const TeamTable = ({
-  members,
-  pendingMembers,
   groupAddress,
   isGroupAvailableForManagement,
+  members,
+  pendingMembers,
 }: TeamTableProps) => {
   const { classes, cx } = useTeamTableStyles();
 

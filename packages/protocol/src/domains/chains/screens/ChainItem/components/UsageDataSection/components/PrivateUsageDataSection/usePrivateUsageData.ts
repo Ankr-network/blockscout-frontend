@@ -51,14 +51,14 @@ export const getUserTopRequest = (
 
 export const usePrivateUsageData = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   timeframe,
 }: UsageDataParams): UsageData => {
   const { loading: isConnecting } = useAuth();
 
-  const { isChainProtocolSwitchEnabled, chainProtocol } =
+  const { chainProtocol, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
 
   const chainId = getStatsChainId({

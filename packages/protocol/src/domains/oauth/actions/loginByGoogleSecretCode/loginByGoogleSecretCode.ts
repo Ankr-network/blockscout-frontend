@@ -28,8 +28,8 @@ export interface LoginBySecretCodeResult {
 
 const getLoginData = async ({
   code,
-  state,
   provider,
+  state,
 }: OauthRedirectionURLState) => {
   if (!code) {
     throw new Error(t('oauth.secret-code-error'));
@@ -56,9 +56,9 @@ export const {
   endpoints: build => ({
     oauthLoginByGoogleSecretCode: build.query<LoginBySecretCodeResult, void>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async (_arg, { getState, dispatch }) => {
+        queryFn: async (_arg, { dispatch, getState }) => {
           const service = MultiService.getService();
-          const { code, state, provider, error } = getSecreteCodeAndState();
+          const { code, error, provider, state } = getSecreteCodeAndState();
 
           if (error) {
             throw new Error(error);
@@ -107,8 +107,8 @@ export const {
 
           const {
             address,
-            type: ethAddressType,
             public_key: encryptionPublicKey,
+            type: ethAddressType,
           } = ethUserAddress;
 
           const web3ReadService = await MultiService.getWeb3ReadService();

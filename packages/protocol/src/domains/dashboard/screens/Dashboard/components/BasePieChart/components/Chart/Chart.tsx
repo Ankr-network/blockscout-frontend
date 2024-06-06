@@ -16,10 +16,10 @@ export interface ChartProps {
 
 export const Chart = ({
   amount,
+  amountClassName = '',
   className,
   data,
   hasOtherValuesSection,
-  amountClassName = '',
 }: ChartProps) => {
   const { classes, cx } = useChartStyles();
 

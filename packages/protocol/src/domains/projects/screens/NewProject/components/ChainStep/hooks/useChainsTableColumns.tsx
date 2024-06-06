@@ -24,7 +24,7 @@ export const useChainsTableColumns = ({
       {
         field: 'chain',
         headerName: 'Chains',
-        render: ({ chain, allChains }) => (
+        render: ({ allChains, chain }) => (
           <ChainCell
             allChains={allChains}
             chain={chain}

@@ -11,8 +11,8 @@ type TPropsToExtend = Partial<
 export interface IUseAmountChipsProps extends TPropsToExtend {}
 
 export const useAmountChips = ({
-  selectedAmountID: initiallySelectedAmountID,
   onAmountSelect,
+  selectedAmountID: initiallySelectedAmountID,
 }: IUseAmountChipsProps) => {
   const [selectedAmountID, setSelectedAmountID] = useState(
     initiallySelectedAmountID,

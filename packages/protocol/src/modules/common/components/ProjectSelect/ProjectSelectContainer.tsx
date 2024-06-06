@@ -2,7 +2,7 @@ import { ProjectSelect, SelectMenuProps } from './ProjectSelect';
 import { useProjectSelect } from './hooks/useProjectSelect';
 
 export const ProjectSelectContainer = (props: SelectMenuProps) => {
-  const { options, handleSetOption, selectedOption } = useProjectSelect();
+  const { handleSetOption, options, selectedOption } = useProjectSelect();
 
   return (
     <ProjectSelect

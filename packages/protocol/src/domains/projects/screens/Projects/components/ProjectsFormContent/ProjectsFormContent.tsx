@@ -33,20 +33,20 @@ interface ProjectsFormContentProps {
 
 export const ProjectsFormContent = ({
   allProjects,
-  isLoaded,
-  onEditDialogOpen,
   canEditProject,
-  isFreePremium,
-  onUpgradeAccountDialogOpen,
-  isUpgradeAccountDialogOpened,
   handleClickSeePlans,
-  onUpgradeAccountDialogClose,
-  onPlansDialogClose,
-  isPlansDialogOpened,
-  isEditDialogOpened,
   handleSubmit,
-  onEditDialogClose,
   hasProjectButton,
+  isEditDialogOpened,
+  isFreePremium,
+  isLoaded,
+  isPlansDialogOpened,
+  isUpgradeAccountDialogOpened,
+  onEditDialogClose,
+  onEditDialogOpen,
+  onPlansDialogClose,
+  onUpgradeAccountDialogClose,
+  onUpgradeAccountDialogOpen,
 }: ProjectsFormContentProps) => {
   return (
     <>

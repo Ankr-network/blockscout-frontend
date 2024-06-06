@@ -37,7 +37,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectBlockchainTxReceiptState,
   selectDataCachedByParams: selectBlockchainTxReceipt,
   selectLoadingCachedByParams: selectBlockchainTxReceiptLoading,
+  selectStateCachedByParams: selectBlockchainTxReceiptState,
 } = createQuerySelectors({ endpoint: fetchBlockchainTxReceipt });

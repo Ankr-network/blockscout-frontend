@@ -3,7 +3,7 @@ import { chainGroups } from 'modules/endpoints/constants/groups';
 import { Chain } from 'modules/chains/types';
 
 export const hasWsFeature = (chain: Chain): boolean => {
-  const { mainnet, testnet, devnet } = getGroupedEndpoints({
+  const { devnet, mainnet, testnet } = getGroupedEndpoints({
     chain,
     groups: chainGroups,
   });

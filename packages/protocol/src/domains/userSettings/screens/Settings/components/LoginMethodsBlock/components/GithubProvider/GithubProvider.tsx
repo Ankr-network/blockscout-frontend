@@ -13,11 +13,11 @@ interface IGithubProviderProps {
 }
 
 export const GithubProvider = ({
-  isConnected,
-  shouldHideDisconnectButton,
-  shouldDisableConnectButton,
   address,
+  isConnected,
   nickName,
+  shouldDisableConnectButton,
+  shouldHideDisconnectButton,
 }: IGithubProviderProps) => {
   const onGithubLogin = useFetchOauthLoginParams();
 

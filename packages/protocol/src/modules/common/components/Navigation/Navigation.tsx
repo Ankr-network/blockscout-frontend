@@ -4,7 +4,7 @@ import {
   NavigationProps,
 } from './BaseNavButton';
 
-export const Navigation = ({ items, isMobileSideBar }: NavigationProps) => {
+export const Navigation = ({ isMobileSideBar, items }: NavigationProps) => {
   return (
     <nav>
       {items.map((item: NavigationItem) => (

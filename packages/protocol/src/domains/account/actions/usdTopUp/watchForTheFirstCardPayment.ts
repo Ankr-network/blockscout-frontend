@@ -23,9 +23,9 @@ interface ICheckLastTopupEventParams {
 }
 
 const checkLastTopupEvent = async ({
-  web3ReadService,
-  dispatch,
   authData,
+  dispatch,
+  web3ReadService,
 }: ICheckLastTopupEventParams) => {
   const { authAddress, authAddressType } = authData;
 
@@ -34,10 +34,10 @@ const checkLastTopupEvent = async ({
   }
 
   const {
-    hasWeb3Connection,
-    encryptionPublicKey,
-    isCardPayment,
     credentials,
+    encryptionPublicKey,
+    hasWeb3Connection,
+    isCardPayment,
     workerTokenData,
   } = authData;
 
@@ -102,7 +102,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     usdTopUpWatchForTheFirstCardPayment: build.query<boolean, void>({
-      queryFn: async (_args, { getState, dispatch }) => {
+      queryFn: async (_args, { dispatch, getState }) => {
         const authData = selectAuthData(getState() as RootState);
 
         if (authData.workerTokenData || authData.authAddress) {

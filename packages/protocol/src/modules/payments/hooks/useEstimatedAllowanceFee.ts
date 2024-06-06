@@ -12,8 +12,8 @@ export interface IUseEstimatedAllowanceFeeProps extends IUseQueryProps {
 
 export const useEstimatedAllowanceFee = ({
   currency,
-  txId,
   skipFetching,
+  txId,
 }: IUseEstimatedAllowanceFeeProps) => {
   const isAnkr = currency === ECurrency.ANKR;
   const isUsdc = currency === ECurrency.USDC;

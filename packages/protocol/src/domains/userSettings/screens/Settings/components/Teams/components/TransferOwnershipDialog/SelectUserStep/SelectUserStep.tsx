@@ -17,10 +17,10 @@ interface ISelectUserStepProps
   > {}
 
 export const SelectUserStep = ({
-  selectedUser,
-  userOptions,
   handleSelectUser,
   ownerInputError,
+  selectedUser,
+  userOptions,
 }: ISelectUserStepProps) => {
   const { classes } = useSelectUserStepStyles();
 
@@ -82,7 +82,7 @@ export const SelectUserStep = ({
         helperText={renderHelperText}
         required
       >
-        {userOptions.map(({ email, address, role }) => {
+        {userOptions.map(({ address, email, role }) => {
           const name = email || address;
 
           return (

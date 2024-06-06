@@ -14,8 +14,8 @@ interface IDeleteProjectDialogContentProps {
 }
 
 export const DeleteProjectContent = ({
-  isLoading,
   handleDelete,
+  isLoading,
   onClose,
 }: IDeleteProjectDialogContentProps) => {
   const { classes } = useDeleteProjectDialogStyles();

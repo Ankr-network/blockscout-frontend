@@ -8,8 +8,8 @@ import { web3Api } from 'store/queries';
 import { checkWhitelistSecretChainsAndGetChainId } from '../const';
 
 export const {
-  useInfrastructureFetchRestrictedIpsQuery,
   endpoints: { infrastructureFetchRestrictedIps },
+  useInfrastructureFetchRestrictedIpsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureFetchRestrictedIps: build.query<string[], string>({

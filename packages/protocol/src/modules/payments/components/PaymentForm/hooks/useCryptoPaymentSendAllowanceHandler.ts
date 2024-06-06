@@ -22,8 +22,8 @@ export const useCryptoPaymentSendAllowanceHandler = ({
     isAllowanceSent,
   } = useSendAllowance({ tx });
   const {
-    handleWaitForAllowanceConfirmation,
     handleResetAllowanceConfirmation,
+    handleWaitForAllowanceConfirmation,
   } = useWaitForAllowanceConfirmation({ tx });
   const { handleFetchAllowance } = useFetchAllowance({
     currency,

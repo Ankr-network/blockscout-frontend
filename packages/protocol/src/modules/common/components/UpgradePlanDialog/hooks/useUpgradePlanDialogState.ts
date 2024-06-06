@@ -28,11 +28,11 @@ export const useUpgradePlanDialogState = ({
 }: UpgradePlanDialogStateParams) => {
   const {
     contentType,
+    setContactSales,
+    setContactSalesSuccess: onSubmitContactForm,
     setDefault,
     setSignUp,
     setTopUp,
-    setContactSales,
-    setContactSalesSuccess: onSubmitContactForm,
   } = useContentType({ defaultState });
   const isSignUp = contentType === ContentType.SIGN_UP;
 

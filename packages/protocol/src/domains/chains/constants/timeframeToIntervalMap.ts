@@ -2,7 +2,7 @@ import { PrivateStatsInterval, PublicStatsInterval } from 'multirpc-sdk';
 
 import { Timeframe } from 'modules/chains/types';
 
-const { Hour, Day, Week, Month } = Timeframe;
+const { Day, Hour, Month, Week } = Timeframe;
 
 export const timeframeToIntervalMap: Record<Timeframe, PrivateStatsInterval> = {
   [Hour]: PrivateStatsInterval.HOUR,

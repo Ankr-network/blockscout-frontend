@@ -26,9 +26,9 @@ export interface ChainTypeResult {
 export const usePublicChainType = ({
   chain,
   endpoints,
-  netId,
-  isBlockedTestnet,
   isBlockedMainnet,
+  isBlockedTestnet,
+  netId,
   onBlockedTabClick,
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(

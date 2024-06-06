@@ -9,9 +9,9 @@ import { useContent } from './useContent';
 
 export const useRequestsChart = ({
   data,
+  isFlexibleHeight = true,
   isLoading,
   timeframe,
-  isFlexibleHeight = true,
 }: Omit<RequestsChartProps, 'className' | 'title'>) => {
   const xAxisTickFormatter = useCallback(
     value => formatXAxis(value, timeframe),
@@ -34,7 +34,7 @@ export const useRequestsChart = ({
     [data, isLoading, xAxisTickFormatter, yAxisTickFormatter, isFlexibleHeight],
   );
 
-  const { hasPreloader, hasChart, hasPlaceholder } = useContent({
+  const { hasChart, hasPlaceholder, hasPreloader } = useContent({
     data,
     isLoading,
   });

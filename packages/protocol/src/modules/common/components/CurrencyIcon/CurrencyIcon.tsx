@@ -18,8 +18,8 @@ interface ICurrencyIconProps {
 
 export const CurrencyIcon = ({
   currency,
-  network,
   currencyClassName,
+  network,
   networkClassName,
   rootClassName,
 }: ICurrencyIconProps) => {

@@ -39,8 +39,8 @@ export const useHandleSubmit = (
         case NewProjectStep.General:
         default: {
           const {
-            name,
             description,
+            name,
             tokenIndex,
             userEndpointToken: sliceUserEndpointToken,
           } = values;
@@ -114,13 +114,13 @@ export const useHandleSubmit = (
         case NewProjectStep.Chains: {
           const {
             isSelectedAll,
-            selectedMainnetIds = [],
-            selectedTestnetIds = [],
-            selectedDevnetIds = [],
             selectedBeaconMainnetIds = [],
             selectedBeaconTestnetIds = [],
+            selectedDevnetIds = [],
+            selectedMainnetIds = [],
             selectedOpnodeMainnetIds = [],
             selectedOpnodeTestnetIds = [],
+            selectedTestnetIds = [],
           } = values;
 
           if (
@@ -157,7 +157,7 @@ export const useHandleSubmit = (
         }
 
         case NewProjectStep.Whitelist: {
-          const { whitelistItems, userEndpointToken } = values;
+          const { userEndpointToken, whitelistItems } = values;
 
           const hasContracts = whitelistItems?.some(
             item => item.type === UserEndpointTokenMode.ADDRESS,

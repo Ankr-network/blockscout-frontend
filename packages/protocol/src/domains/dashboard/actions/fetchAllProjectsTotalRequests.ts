@@ -11,7 +11,7 @@ export const {
   endpoints: build => ({
     fetchAllProjectsTotalRequests: build.query<number, ProjectsStatsParams>({
       queryFn: createNotifyingQueryFn(
-        async ({ interval, group, gateway = getAccountingGateway() }) => {
+        async ({ gateway = getAccountingGateway(), group, interval }) => {
           const data = await gateway.getPrivateStats(interval, group);
 
           return { data: data?.total_requests ?? 0 };

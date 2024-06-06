@@ -15,7 +15,7 @@ import { projectApi } from 'store/queries';
 
 export const useProjectConfig = () => {
   const dispatch = useDispatch();
-  const { step: projectStep, project = {} } = useAppSelector(
+  const { project = {}, step: projectStep } = useAppSelector(
     selectNewProjectConfig,
   );
   const address = useAppSelector(selectCurrentAddress);

@@ -11,14 +11,14 @@ import { PublicChainCard } from './components/PublicChainCard';
 
 export const PublicChains = () => {
   const {
-    chains,
     allChains,
+    chains,
     loading,
+    searchContent,
+    setSearchContent,
     setSortType,
     sortType,
     timeframe,
-    searchContent,
-    setSearchContent,
   } = usePublicChainsData();
 
   const { processedChains } = usePublicChains({

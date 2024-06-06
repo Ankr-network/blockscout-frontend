@@ -25,20 +25,20 @@ interface TeamHeaderProps {
 // eslint-disable-next-line max-lines-per-function
 export const TeamHeader = ({
   group: {
-    index,
     address,
-    role,
+    index,
+    invitesCount = 0,
     membersCount = 0,
     membersLimit = 0,
-    invitesCount = 0,
     name,
+    role,
   },
   groupDetails,
   handleInviteClick,
   handleMenuClick,
+  hasRenamePermissions,
   isCurrentGroupActive,
   isGroupAvailableForManagement,
-  hasRenamePermissions,
   isInviteTeammatesDialogLoading,
 }: TeamHeaderProps) => {
   const { classes } = useUserGroupItemStyles();

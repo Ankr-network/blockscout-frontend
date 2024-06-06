@@ -33,10 +33,10 @@ interface GetJwtTokenFullDataArguments {
 }
 
 const getJwtTokenFullData = async ({
-  web3Service,
-  dispatch,
   currentAccount,
+  dispatch,
   totp,
+  web3Service,
 }: GetJwtTokenFullDataArguments) => {
   const isParticipant = await isInstantJwtParticipant(dispatch);
 

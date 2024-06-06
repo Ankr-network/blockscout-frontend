@@ -166,7 +166,7 @@ const getSortArrow = (order: VirtualTableQuery['order']) => {
 export const PaginationMore = ({ text = 'Show more' }: { text?: string }) => {
   const { classes, cx } = useStyles();
 
-  const { loading, handleLoadMore } = useTable();
+  const { handleLoadMore, loading } = useTable();
 
   return (
     <div
@@ -193,7 +193,7 @@ interface ColProps {
   colIndex: number;
 }
 
-export const Col = ({ col, rowData, rowIndex, colIndex }: ColProps) => {
+export const Col = ({ col, colIndex, rowData, rowIndex }: ColProps) => {
   const { classes, cx } = useStyles();
   const { colWidths } = useTable();
 
@@ -223,7 +223,7 @@ interface TableHeadProps {
 }
 
 export const TableHead = ({ className }: TableHeadProps) => {
-  const { query, cols, colWidths, setColsWidthCalculated, handleSort } =
+  const { colWidths, cols, handleSort, query, setColsWidthCalculated } =
     useTable();
   const { classes, cx } = useStyles();
   const headRowRef = useRef<HTMLDivElement>(null);
@@ -293,13 +293,13 @@ interface RowProps {
 }
 
 export const Row = ({
-  style,
   index,
-  rowContainerClass,
-  rowClass,
   onClick,
+  rowClass,
+  rowContainerClass,
+  style,
 }: RowProps) => {
-  const { rows, cols, expandedRow, renderExpand, recalculateRows } = useTable();
+  const { cols, expandedRow, recalculateRows, renderExpand, rows } = useTable();
   const { classes, cx } = useStyles();
 
   const rowData = rows[index];

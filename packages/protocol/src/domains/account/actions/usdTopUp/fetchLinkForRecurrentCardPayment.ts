@@ -15,15 +15,15 @@ export interface FetchLinkForCardPaymentParams {
 }
 
 export const {
-  useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery,
   endpoints: { usdTopUpFetchLinkForRecurrentCardPayment },
+  useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     usdTopUpFetchLinkForRecurrentCardPayment: build.query<
       string,
       FetchLinkForCardPaymentParams
     >({
-      queryFn: async ({ id, groupAddress }, { dispatch, getState }) => {
+      queryFn: async ({ groupAddress, id }, { dispatch, getState }) => {
         const service = MultiService.getService();
         const { hasWeb3Connection } = selectAuthData(getState() as RootState);
 

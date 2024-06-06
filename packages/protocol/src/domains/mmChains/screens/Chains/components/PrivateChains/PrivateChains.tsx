@@ -18,21 +18,21 @@ interface IPrivateChainsProps {
 
 export const PrivateChains = ({
   hasPremium,
-  isFreePremium,
   hasTotalRequestsLabel,
+  isFreePremium,
 }: IPrivateChainsProps) => {
   const {
-    chains,
     allChains,
+    chains,
     loading,
+    searchContent,
+    setSearchContent,
     setSortType,
     sortType,
     timeframe,
-    searchContent,
-    setSearchContent,
   } = usePrivateChainsData();
 
-  const { processedChains, chainsDictionary } = usePrivateChains({
+  const { chainsDictionary, processedChains } = usePrivateChains({
     allChains,
     chains: processTestnetOnlyChains(chains),
     sortType,

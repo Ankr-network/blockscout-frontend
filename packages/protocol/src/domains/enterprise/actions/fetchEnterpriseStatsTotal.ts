@@ -13,8 +13,8 @@ export interface FetchEnterpriseStatsTotalParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyChainsFetchEnterpriseStatsTotalQuery,
   endpoints: { chainsFetchEnterpriseStatsTotal },
+  useLazyChainsFetchEnterpriseStatsTotalQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchEnterpriseStatsTotal: build.query<

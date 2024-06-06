@@ -1,7 +1,7 @@
 import { CircleCheck, Mark } from '@ankr.com/ui';
 import { StepIconProps, Typography } from '@mui/material';
 
-export const StepIcon = ({ completed, icon, error }: StepIconProps) => {
+export const StepIcon = ({ completed, error, icon }: StepIconProps) => {
   if (error) {
     return <Mark color="error" size={32} />;
   }

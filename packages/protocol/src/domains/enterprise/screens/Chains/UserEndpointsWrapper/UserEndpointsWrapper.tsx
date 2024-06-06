@@ -21,17 +21,17 @@ interface UserEndpointsWrapperProps {
 }
 
 export const UserEndpointsWrapper = ({
-  className,
-  onSelectToken = () => {},
   apiKeys,
+  className,
   isLoading,
+  onSelectToken = () => {},
   openedEndpoint,
   setOpenedEndpointIndex,
 }: UserEndpointsWrapperProps) => {
   const {
     isOpened: isViewEndpointOpened,
-    onOpen: onEndpointOpen,
     onClose: onEndpointClose,
+    onOpen: onEndpointOpen,
   } = useDialog();
 
   const selectedApiKey = useAppSelector(selectEnterpriseUserEndpointToken);

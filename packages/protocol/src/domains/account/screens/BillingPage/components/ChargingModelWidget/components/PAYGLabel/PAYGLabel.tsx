@@ -13,7 +13,7 @@ interface IPAYGLabelProps {
   className?: string;
 }
 
-export const PAYGLabel = ({ size = 'medium', className }: IPAYGLabelProps) => {
+export const PAYGLabel = ({ className, size = 'medium' }: IPAYGLabelProps) => {
   const { classes, cx } = usePAYGLabelStyles();
 
   const isSmall = size === 'small';

@@ -24,9 +24,9 @@ interface ITypeSelectorProps extends SelectMenuProps {
 export const SubTypeSelector = ({
   chainSubType,
   chainSubTypes,
-  onSubTypeSelect,
-  menuProps,
   classNameMenuItem,
+  menuProps,
+  onSubTypeSelect,
 }: ITypeSelectorProps) => {
   const { classes, cx } = useSubTypeSelectorStyles();
 

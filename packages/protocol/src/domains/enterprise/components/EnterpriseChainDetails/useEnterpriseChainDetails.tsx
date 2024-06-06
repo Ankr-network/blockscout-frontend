@@ -52,11 +52,11 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
 // eslint-disable-next-line max-lines-per-function
 export const useEnterpriseChainDetails = ({
   chain,
-  unfilteredChain: publicChain,
-  selectedType,
-  selectedGroupId,
-  onBlockedTabClick,
   isChainArchived,
+  onBlockedTabClick,
+  selectedGroupId,
+  selectedType,
+  unfilteredChain: publicChain,
 }: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -83,7 +83,7 @@ export const useEnterpriseChainDetails = ({
       netId,
     });
 
-  const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
+  const { group, groupID, groupTab, groupTabs, groups, selectGroup } = useGroup(
     {
       chain,
       chainType,

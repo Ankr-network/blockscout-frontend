@@ -4,7 +4,7 @@ import { usePrivateChains } from 'domains/chains/screens/Chains/components/Priva
 import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 
 export const useChains = (timeframes?: Timeframe[]) => {
-  const { chains, allChains, timeframe, timeframeTabs, isLoading, error } =
+  const { allChains, chains, error, isLoading, timeframe, timeframeTabs } =
     usePrivateChainsData({ timeframes });
 
   const { processedChains } = usePrivateChains({

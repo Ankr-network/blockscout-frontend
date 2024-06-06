@@ -17,8 +17,8 @@ export interface ISectionProps extends BoxProps {
 export const Section = ({
   children,
   className,
-  stackUp = false,
   stackDown = false,
+  stackUp = false,
   ...restProps
 }: ISectionProps) => {
   const { classes, cx } = useSectionStyles();

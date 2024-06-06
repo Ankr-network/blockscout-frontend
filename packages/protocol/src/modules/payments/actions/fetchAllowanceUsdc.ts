@@ -82,7 +82,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectAllowanceUsdcState,
   selectDataWithFallbackCachedByParams: selectAllowanceUsdc,
   selectLoadingCachedByParams: selectAllowanceUsdcLoading,
+  selectStateCachedByParams: selectAllowanceUsdcState,
 } = createQuerySelectors({ endpoint: fetchAllowanceUsdc, fallback });

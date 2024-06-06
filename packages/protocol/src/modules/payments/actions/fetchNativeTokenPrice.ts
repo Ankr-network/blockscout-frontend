@@ -36,9 +36,9 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectNativeTokenPriceState,
   selectDataWithFallbackCachedByParams: selectNativeTokenPrice,
   selectLoadingCachedByParams: selectNativeTokenPriceLoading,
+  selectStateCachedByParams: selectNativeTokenPriceState,
 } = createQuerySelectors({
   endpoint: fetchNativeTokenPrice,
   fallback: ZERO_STRING,

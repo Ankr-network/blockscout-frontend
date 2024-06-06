@@ -40,7 +40,7 @@ export const useMetatags = (
 
   const isIndexPath = rawPathname === INDEX_PATH;
 
-  const { t, keys } = useTranslation(metaTranslation);
+  const { keys, t } = useTranslation(metaTranslation);
 
   const pathname = (
     isIndexPath ? rawPathname : rawPathname.replace(/\/$/, '')

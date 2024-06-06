@@ -32,7 +32,7 @@ export const {
       FetchProjectChainsStatsFor1hParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ token, group, gateway = getAccountingGateway() }) => {
+        async ({ gateway = getAccountingGateway(), group, token }) => {
           const data = await gateway.getPrivateStatsByPremiumId(
             PrivateStatsInterval.HOUR,
             token,

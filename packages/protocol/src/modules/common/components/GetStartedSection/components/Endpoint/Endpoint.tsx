@@ -27,7 +27,7 @@ export const Endpoint = ({
 }: EndpointProps) => {
   const { classes } = useEndpointStyles();
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
 

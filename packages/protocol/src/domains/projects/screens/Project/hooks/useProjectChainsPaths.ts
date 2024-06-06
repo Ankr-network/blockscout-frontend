@@ -10,12 +10,12 @@ export const useProjectChainsPaths = ({
 }: UseProjectChainPathsParams) => {
   const {
     handleResetProjectChainsSelection,
-    handleSelectProjectChainsPaths,
     handleSelectAllSubchainPaths,
+    handleSelectProjectChainsPaths,
     handleUnselectAllSubchainPaths,
+    isSelectedAll,
     selectedProjectChainsPaths,
     setIsSelectedAll,
-    isSelectedAll,
   } = useSelectedProjectChainsPaths();
 
   const { handleAddChainsToProject, isAddingChainsToProject } =

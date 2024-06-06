@@ -29,7 +29,7 @@ import { useSelectorVisibility } from './components/ChainSelector/useSelectorVis
 import { SubTypeSelector } from './components/SubTypeSelector';
 
 export const Dashboard = () => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   useSetBreadcrumbs([
     { title: t(DashboardRoutesConfig.dashboard.breadcrumbs) },
@@ -45,29 +45,29 @@ export const Dashboard = () => {
   } = useDashboard();
 
   const {
-    selectedChainId,
-    handleChange,
-    renderValue,
-    options,
-    showAdditionalSelect,
     chain,
-    unfilteredChain,
+    handleChange,
     isTestnetOnlyChainSelected,
+    options,
+    renderValue,
+    selectedChainId,
+    showAdditionalSelect,
+    unfilteredChain,
   } = useChainsSelector({ chains: rawChains, allChains });
 
   const {
-    statsChainId,
-    detailsChainId,
     chainProtocolContext,
-    chainType,
-    chainTypes,
-    selectType,
     chainSubType,
     chainSubTypes,
-    selectSubType,
-    groups,
+    chainType,
+    chainTypes,
+    detailsChainId,
     groupID,
+    groups,
     selectGroup,
+    selectSubType,
+    selectType,
+    statsChainId,
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,

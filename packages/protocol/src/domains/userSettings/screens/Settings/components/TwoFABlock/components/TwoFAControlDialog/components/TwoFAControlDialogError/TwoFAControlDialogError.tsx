@@ -10,8 +10,8 @@ interface TwoFAControlDialogErrorProps {
 }
 
 export const TwoFAControlDialogError = ({
-  handleClose,
   handleClick,
+  handleClose,
 }: TwoFAControlDialogErrorProps) => {
   const { classes } = useTwoFAControlDialogContentStyles();
 

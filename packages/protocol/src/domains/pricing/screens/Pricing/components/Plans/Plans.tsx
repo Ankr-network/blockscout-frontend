@@ -22,7 +22,7 @@ export const Plans = () => {
 
   const { deprecatedIsFinanceRole } = usePermissionsAndRole();
 
-  const { isLoggedIn, hasOauthLogin, hasPremium } = useAuth();
+  const { hasOauthLogin, hasPremium, isLoggedIn } = useAuth();
   const {
     isOpened,
     onClose,

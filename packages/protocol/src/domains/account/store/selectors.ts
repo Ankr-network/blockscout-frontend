@@ -135,17 +135,17 @@ export const selectMyBundlesLoading = createSelector(
 
 export const selectMyBundlesFetching = createSelector(
   selectMyBundlesState,
-  ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectMyBundlesInitLoading = createSelector(
   selectMyBundlesState,
-  ({ isLoading, data }) => isLoading && typeof data === 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data === 'undefined',
 );
 
 export const selectMyBundlesLoaded = createSelector(
   selectMyBundlesState,
-  ({ isUninitialized, isLoading }) => !isUninitialized && !isLoading,
+  ({ isLoading, isUninitialized }) => !isUninitialized && !isLoading,
 );
 
 export const selectIsMyBundleBySubscriptionId = createSelector(
@@ -557,7 +557,7 @@ export const selectUSDSubscriptionPricesState = createSelector(
 
 export const selectUSDSubscriptionPricesFetching = createSelector(
   selectUSDSubscriptionPricesState,
-  ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectUSDSubscruptionPricesLoading = createSelector(
@@ -600,7 +600,7 @@ export const selectRatesState = createSelector(
 
 export const selectRatesFetching = createSelector(
   selectRatesState,
-  ({ isLoading, data }) => isLoading && typeof data !== 'undefined',
+  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectRatesLoading = createSelector(

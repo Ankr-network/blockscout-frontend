@@ -62,7 +62,7 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     tx,
   });
 
-  const { isUninitialized, handleWaitForDepositConfirmation } =
+  const { handleWaitForDepositConfirmation, isUninitialized } =
     useWaitForDepositConfirmation({ tx });
 
   const handleInitDepositFlow = useCallback(() => {

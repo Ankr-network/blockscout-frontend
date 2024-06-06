@@ -15,8 +15,8 @@ export interface FetchEnterpriseStatsByApiKeyParams
 }
 
 export const {
-  useLazyChainsFetchEnterpriseStatsByApiKeyQuery,
   endpoints: { chainsFetchEnterpriseStatsByApiKey },
+  useLazyChainsFetchEnterpriseStatsByApiKeyQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchEnterpriseStatsByApiKey: build.query<

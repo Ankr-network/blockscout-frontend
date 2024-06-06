@@ -9,8 +9,8 @@ import { web3Api } from 'store/queries';
 import { infrastructureFetchEndpoints } from './fetchEndpoints';
 
 export const {
-  useLazyInfrastructureApiEditPrivateEndpointQuery,
   endpoints: { infrastructureApiEditPrivateEndpoint },
+  useLazyInfrastructureApiEditPrivateEndpointQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureApiEditPrivateEndpoint: build.query<

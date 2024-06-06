@@ -18,11 +18,11 @@ interface IUserRequestsByIpProps {
 }
 
 export const RequestsByIP = ({
-  loading,
-  data = [],
   className,
+  data = [],
+  loading,
 }: IUserRequestsByIpProps) => {
-  const { cx, classes } = useRequestsByIPStyles();
+  const { classes, cx } = useRequestsByIPStyles();
 
   const maxCounts = useMemo(
     () => Math.max(...data.map(item => item.count)),

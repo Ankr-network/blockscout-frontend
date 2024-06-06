@@ -7,7 +7,7 @@ import { useBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 export const useGuardAuth = () => {
-  const { address, loading, hasPremium, isLoggedIn } = useAuth();
+  const { address, hasPremium, isLoggedIn, loading } = useAuth();
 
   const { setBreadcrumbs } = useBreadcrumbs();
   const history = useHistory();

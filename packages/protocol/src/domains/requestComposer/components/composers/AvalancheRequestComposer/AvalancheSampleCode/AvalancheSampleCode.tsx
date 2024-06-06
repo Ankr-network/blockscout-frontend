@@ -13,11 +13,11 @@ interface ISampleCodeProps<T> {
 }
 
 export function AvalancheSampleCode<T>({
-  group,
-  title,
   args,
-  libraryID,
   config,
+  group,
+  libraryID,
+  title,
 }: ISampleCodeProps<T>) {
   const httpUrl = useMemo(() => group.urls[0].rpc, [group]);
   const wssUrl = useMemo(() => group.urls[0]?.ws ?? '', [group]);

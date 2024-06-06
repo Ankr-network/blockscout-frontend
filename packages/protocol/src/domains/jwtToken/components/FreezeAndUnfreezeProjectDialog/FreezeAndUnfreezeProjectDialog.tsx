@@ -17,20 +17,20 @@ interface IFreezeAndUnfreezeProjectDialogProps {
 }
 
 export const FreezeAndUnfreezeProjectDialog = ({
-  open,
   isFreeze,
-  userEndpointToken,
-  projectName,
   onClose,
+  open,
+  projectName,
+  userEndpointToken,
 }: IFreezeAndUnfreezeProjectDialogProps) => {
   const { classes } = useFreezeAndUnfreezeProjectDialogStyles();
 
   const {
-    titleText,
     descriptionText,
-    submitText,
-    isLoading,
     handeUpdateStatus,
+    isLoading,
+    submitText,
+    titleText,
   } = useFreezeAndUnfreezeProject({
     isFreeze,
     userEndpointToken,

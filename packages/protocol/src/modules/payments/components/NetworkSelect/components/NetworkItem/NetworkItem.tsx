@@ -13,7 +13,7 @@ export interface INetworkItemProps {
   network: EBlockchain;
 }
 
-export const NetworkItem = ({ network, isActive }: INetworkItemProps) => {
+export const NetworkItem = ({ isActive, network }: INetworkItemProps) => {
   const { classes } = useNetworkItemStyles();
 
   const networkIcon = useChainIcon(network as unknown as ChainID);

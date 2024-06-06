@@ -18,11 +18,11 @@ interface ICardProps {
 
 export const UserEndpointCard = ({
   isSelected,
-  onProjectSelect,
-  userEndpointToken,
-  tokenIndex,
   name,
+  onProjectSelect,
   onProjectView,
+  tokenIndex,
+  userEndpointToken,
 }: ICardProps) => {
   const { classes } = useUserEndpointCardStyles(isSelected);
 

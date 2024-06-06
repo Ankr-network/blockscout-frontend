@@ -29,16 +29,16 @@ export const useTxDetails = ({
   const { blockchainTxData, isLoading: isBlockchainTxDataLoading } =
     useBlockchainTxData({ network, skipFetching, txHash });
 
-  const { txReceipt, isLoading: isTxReceiptLoading } = useBlockchainTxReceipt({
+  const { isLoading: isTxReceiptLoading, txReceipt } = useBlockchainTxReceipt({
     network,
     skipFetching,
     txHash,
   });
 
-  const { price: nativeTokenPrice, isLoading: isNativeTokenPriceLoading } =
+  const { isLoading: isNativeTokenPriceLoading, price: nativeTokenPrice } =
     useNativeTokenPrice({ skipFetching, network });
 
-  const { price: tokenPrice, isLoading: isTokenPriceLoading } = useTokenPrice({
+  const { isLoading: isTokenPriceLoading, price: tokenPrice } = useTokenPrice({
     currency,
     network,
     skipFetching,

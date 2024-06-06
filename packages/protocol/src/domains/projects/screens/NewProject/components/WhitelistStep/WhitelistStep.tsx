@@ -30,7 +30,7 @@ export const WhitelistStep = () => {
     onOpen: onAddToWhitelistDialogOpen,
   } = useDialog();
 
-  const { allSelectedChainIds, whitelistItems, onChange } =
+  const { allSelectedChainIds, onChange, whitelistItems } =
     useProjectFormValues();
   const { handleSetStepConfig } = useProjectConfig();
 

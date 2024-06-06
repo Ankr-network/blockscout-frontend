@@ -14,7 +14,7 @@ const getArgName = (arg: string): string | number => {
 
 const formatUnfilledParameter = (args: any[], argList?: IHarmonyArg[]) => {
   argList?.forEach((arg, index) => {
-    const { type, defaultValue } = arg;
+    const { defaultValue, type } = arg;
 
     if (!args[index]) {
       if (type === ArgumentType.boolean) {

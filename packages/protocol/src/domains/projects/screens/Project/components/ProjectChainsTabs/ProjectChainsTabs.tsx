@@ -10,11 +10,11 @@ export const ProjectChainsTabs = () => {
     useProjectChainsContext();
 
   const {
+    onScroll,
     refTabsInner,
     refTabsScrollWrapper,
-    scrollForwardBtn,
     scrollBackBtn,
-    onScroll,
+    scrollForwardBtn,
   } = useProjectChainsTabsScroll(selectedProjectChainsTab?.id);
 
   const { classes } = useProjectChainsTabsStyles();

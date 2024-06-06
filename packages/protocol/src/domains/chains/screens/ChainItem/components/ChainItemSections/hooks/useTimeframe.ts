@@ -15,8 +15,8 @@ interface UseTimeframeParams {
 }
 
 export const useTimeframe = ({
-  timeframes = USAGE_FULL_TIMEFRAME_LIST,
   initialTimeframe = Timeframe.Month,
+  timeframes = USAGE_FULL_TIMEFRAME_LIST,
 }: UseTimeframeParams): TimeframeResult => {
   const tabs = useMemo(
     () => timeframes.map<Tab<Timeframe>>(id => ({ id })),

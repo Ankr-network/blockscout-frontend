@@ -22,7 +22,7 @@ export interface AllProjectsStatsParams extends ProjectsStatsParams {
 }
 
 const getProjectStatsPromise = async (
-  { index, userEndpointToken, name }: JwtManagerToken,
+  { index, name, userEndpointToken }: JwtManagerToken,
   { group, interval }: ProjectsStatsParams,
   api: AccountingGateway | EnterpriseGateway,
 ): Promise<AllProjectsStats> => ({
@@ -46,10 +46,10 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(
         async ({
-          projects,
+          gateway = getAccountingGateway(),
           group,
           interval,
-          gateway = getAccountingGateway(),
+          projects,
         }) => {
           const data = await Promise.all(
             projects.map(project =>

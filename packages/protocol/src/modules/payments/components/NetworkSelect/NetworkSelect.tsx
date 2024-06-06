@@ -19,8 +19,8 @@ export interface INetworkSelectProps {
 
 export const NetworkSelect = ({
   activeNetwork,
-  options,
   onNetworkChange,
+  options,
 }: INetworkSelectProps) => {
   const { classes } = useNetworkSelectStyles();
 

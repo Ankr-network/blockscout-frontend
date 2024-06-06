@@ -13,8 +13,8 @@ export interface IRenderInputValueParams {
 
 export const renderInputValue = ({
   amount,
-  currency,
   amountUsd,
+  currency,
 }: IRenderInputValueParams) => {
   const isANKR = currency === ECurrency.ANKR;
 

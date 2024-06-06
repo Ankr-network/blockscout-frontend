@@ -26,8 +26,8 @@ export interface PublicUsageDataSectionProps {
 
 export const PublicUsageDataSection = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   timeframe,
   timeframeTabs,
@@ -38,11 +38,11 @@ export const PublicUsageDataSection = ({
     countries,
     error,
     isConnecting,
+    isLoggedIn,
     loading,
     totalCached,
     totalRequests,
     totalRequestsHistory,
-    isLoggedIn,
   } = usePublicUsageData({ chain, chainType, chainSubType, group, timeframe });
 
   return (

@@ -9,8 +9,8 @@ interface OauthIconProps {
 }
 
 export const OauthIcon = ({
-  oauthProvider,
   className,
+  oauthProvider,
   styles,
 }: OauthIconProps) => {
   switch (oauthProvider) {

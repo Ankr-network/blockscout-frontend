@@ -30,11 +30,11 @@ export const useAmountInput = ({
 
   const {
     error,
-    validateAmount,
     resetError: resetInputError,
+    validateAmount,
   } = useInputError({ minAmount });
 
-  const { isLoading, amountUsd } = useUsdAmountByCryptoAmount({
+  const { amountUsd, isLoading } = useUsdAmountByCryptoAmount({
     amount,
     currency,
   });

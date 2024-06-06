@@ -9,7 +9,7 @@ export interface PageHeaderProps {
   button?: ReactNode;
 }
 
-export const PageHeader = ({ title, select, button }: PageHeaderProps) => {
+export const PageHeader = ({ button, select, title }: PageHeaderProps) => {
   const { classes } = useStyles();
 
   return (

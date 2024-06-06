@@ -10,9 +10,9 @@ export interface TabsProps {
 }
 
 export const CodeSampleTabs = ({
-  setCodeType,
-  classNameTabsWrapper,
   classNameTab,
+  classNameTabsWrapper,
+  setCodeType,
 }: TabsProps) => {
   const [processedTabs, selectedTab] = useTabs({
     tabs,

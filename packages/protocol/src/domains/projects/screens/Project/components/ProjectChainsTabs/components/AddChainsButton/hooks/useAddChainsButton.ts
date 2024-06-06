@@ -5,9 +5,9 @@ import { useProjectChainsPaths } from 'domains/projects/screens/Project/hooks/us
 
 export const useAddChainsButton = () => {
   const {
-    isOpened: isSidebarOpened,
     handleClose,
     handleOpen: handleSidebarOpen,
+    isOpened: isSidebarOpened,
   } = useProjectSidebar();
 
   const {
@@ -15,9 +15,9 @@ export const useAddChainsButton = () => {
     handleResetProjectChainsSelection,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
-    setIsSelectedAll,
     isAddingChainsToProject,
     selectedProjectChainsPaths,
+    setIsSelectedAll,
   } = useProjectChainsPaths({ onAddChainsSuccess: handleClose });
 
   const onSidebarClose = useCallback(() => {

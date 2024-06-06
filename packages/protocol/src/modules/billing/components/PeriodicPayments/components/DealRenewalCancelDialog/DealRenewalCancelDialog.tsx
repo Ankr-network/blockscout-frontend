@@ -12,10 +12,10 @@ interface IDealRenewalCancelDialogProps {
 }
 
 export const DealRenewalCancelDialog = ({
-  isOpened = false,
-  onClose,
   expiresAt,
   isDeal,
+  isOpened = false,
+  onClose,
 }: IDealRenewalCancelDialogProps) => {
   const renderDescription = useMemo(() => {
     if (!isDeal) {

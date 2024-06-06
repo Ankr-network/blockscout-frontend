@@ -18,10 +18,10 @@ interface ISampleCodeProps {
 }
 
 export const TronSampleCode = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: ISampleCodeProps) => {
   const httpUrl = useMemo(() => group.urls[0].rest, [group]);
 

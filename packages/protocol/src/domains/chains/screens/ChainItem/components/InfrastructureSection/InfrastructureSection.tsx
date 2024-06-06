@@ -30,14 +30,14 @@ const HAS_NODES_TABLE = false;
 
 export const InfrastructureSection = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   withMyEndpoints = true,
   withNodes = true,
 }: InfrastructureSectionProps) => {
   const [fetchEndpoints] = useLazyInfrastructureFetchEndpointsQuery();
-  const { isChainProtocolSwitchEnabled, chainProtocol } =
+  const { chainProtocol, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
 
   const chainId = getStatsChainId({
@@ -53,14 +53,14 @@ export const InfrastructureSection = ({
 
   const {
     hasInfrastructureAccess,
+    hasPremium,
     loading: authLoading,
     workerTokenData,
-    hasPremium,
   } = useAuth();
   const {
-    providerData,
-    isLoading: providerLoading,
     handleFetchProvider,
+    isLoading: providerLoading,
+    providerData,
   } = useProvider();
 
   useEffect(() => {

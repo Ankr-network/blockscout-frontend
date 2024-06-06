@@ -39,7 +39,7 @@ export const Breadcrumbs = ({
       }}
     >
       {items.map((item, index) => {
-        const { title, link, onClick } = item;
+        const { link, onClick, title } = item;
 
         const isLastIcon = index === items.length - 2;
 

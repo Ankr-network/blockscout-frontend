@@ -15,11 +15,11 @@ interface ProjectDetailsMenuProps {
 }
 
 export const ProjectDetailsMenu = ({
-  openProjectInfoDialog,
-  openProjectDeleteDialog,
   isDeleteProjectDisabled,
+  openProjectDeleteDialog,
+  openProjectInfoDialog,
 }: ProjectDetailsMenuProps) => {
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
+  const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   const { classes, cx } = useProjectDetailsMenuStyles();
 

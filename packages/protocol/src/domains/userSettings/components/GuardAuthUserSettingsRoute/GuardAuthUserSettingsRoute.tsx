@@ -20,7 +20,7 @@ export const GuardAuthUserSettingsRoute = ({
   location,
   ...routeProps
 }: IGuardAuthUserSettingsRoute) => {
-  const { hasPrivateAccess, address, loading } = useAuth();
+  const { address, hasPrivateAccess, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const hasInvitation = useMemo(
     () => !isReactSnap && isInvitation(location),

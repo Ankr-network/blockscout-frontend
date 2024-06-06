@@ -9,11 +9,11 @@ import { useTwoFADialogStyles } from './TwoFADialogStyles';
 
 export const TwoFADialog = () => {
   const {
-    isOpened,
-    handleClose,
-    handleSetTwoFACode,
     errorMessage,
+    handleClose,
     handleResetErroMessage,
+    handleSetTwoFACode,
+    isOpened,
   } = useTwoFADialog();
   const { classes } = useTwoFADialogStyles();
 

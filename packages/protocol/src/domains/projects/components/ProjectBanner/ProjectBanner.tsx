@@ -15,10 +15,10 @@ interface ProjectBannerProps {
 }
 
 export const ProjectBanner = ({
-  message,
+  button,
   className,
   hasCloseIcon,
-  button,
+  message,
 }: ProjectBannerProps) => {
   const { classes, cx } = useProjectBannerStyles();
 

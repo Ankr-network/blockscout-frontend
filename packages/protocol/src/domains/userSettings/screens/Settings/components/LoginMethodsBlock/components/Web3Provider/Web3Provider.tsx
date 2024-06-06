@@ -7,7 +7,7 @@ interface IWeb3ProviderProps {
   address?: string;
 }
 
-export const Web3Provider = ({ isConnected, address }: IWeb3ProviderProps) => {
+export const Web3Provider = ({ address, isConnected }: IWeb3ProviderProps) => {
   if (!isConnected) return null;
 
   return (

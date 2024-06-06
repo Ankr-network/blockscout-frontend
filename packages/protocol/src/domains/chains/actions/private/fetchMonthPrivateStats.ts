@@ -17,8 +17,8 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
 };
 
 export const {
-  useLazyChainsFetchMonthPrivateStatsQuery,
   endpoints: { chainsFetchMonthPrivateStats },
+  useLazyChainsFetchMonthPrivateStatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchMonthPrivateStats: build.query<

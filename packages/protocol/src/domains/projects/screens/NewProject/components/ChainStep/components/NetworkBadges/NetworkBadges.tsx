@@ -18,20 +18,20 @@ interface NetworkBadgesProps {
 
 export const NetworkBadges = ({
   chain,
-  setSelectedChainsIds,
-  onOpenModal,
   className,
+  onOpenModal,
+  setSelectedChainsIds,
 }: NetworkBadgesProps) => {
   const { classes, cx } = useNetworksBadgesStyles();
 
   const {
-    currentChainMainnetChainsBadges,
-    currentChainTestnetChainsBadges,
-    currentChainDevnetChainsBadges,
     currentChainBeaconMainnetChainsBadges,
     currentChainBeaconTestnetChainsBadges,
+    currentChainDevnetChainsBadges,
+    currentChainMainnetChainsBadges,
     currentChainOpnodeMainnetChainsBadges,
     currentChainOpnodeTestnetChainsBadges,
+    currentChainTestnetChainsBadges,
     isEditButtonVisible,
   } = useNetworkBadges(chain, setSelectedChainsIds);
 
@@ -41,7 +41,7 @@ export const NetworkBadges = ({
   );
 
   const renderSubChains = useCallback((chains: ChainBadge[]) => {
-    return chains.map(({ id, name, isSelected }) => (
+    return chains.map(({ id, isSelected, name }) => (
       <NetworkBadgeItem
         key={id}
         name={getCustomLabelForChainsCornerCases({

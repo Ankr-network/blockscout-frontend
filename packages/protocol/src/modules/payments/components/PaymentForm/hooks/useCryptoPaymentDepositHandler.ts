@@ -19,7 +19,7 @@ export const useCryptoPaymentDepositHandler = ({
 }: IUseCryptoPaymentDepositHandlerProps) => {
   const { handleDeposit: deposit, handleResetDeposit: resetDeposit } =
     useDeposit({ tx });
-  const { handleWaitForDepositConfirmation, handleResetDepositConfirmation } =
+  const { handleResetDepositConfirmation, handleWaitForDepositConfirmation } =
     useWaitForDepositConfirmation({ tx });
 
   const handleDeposit = useCallback(async () => {

@@ -22,25 +22,25 @@ interface ActionsMenuProps {
 }
 
 export const ActionsMenu = ({
-  rowData,
   onProjectDialogOpen,
+  rowData,
 }: ActionsMenuProps) => {
   const {
-    tokenIndex,
     isFrozen: frozen,
-    userEndpointToken,
     name,
     projectStatus,
+    tokenIndex,
+    userEndpointToken,
   } = rowData;
   const isPrimary = tokenIndex === PRIMARY_TOKEN_INDEX;
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
+  const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 
   const {
     isOpened: isDeleteProjectDialogOpened,
-    onOpen: onOpenDeleteProjectDialog,
     onClose: onCloseDeleteProjectDialog,
+    onOpen: onOpenDeleteProjectDialog,
   } = useDialog();
   const { initialize } = useForm();
 
@@ -56,8 +56,8 @@ export const ActionsMenu = ({
 
   const {
     isOpened: isFreezeAndUnfreezeProjectDialogOpened,
-    onOpen: onOpenFreezeAndUnfreezeProjectDialog,
     onClose: onCloseFreezeAndUnfreezeProjectDialog,
+    onOpen: onOpenFreezeAndUnfreezeProjectDialog,
   } = useDialog();
 
   const handleCloseDeleteProjectDialog = (

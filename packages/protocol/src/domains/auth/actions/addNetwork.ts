@@ -36,8 +36,8 @@ export interface IChainParams {
 }
 
 export const {
-  useLazyAuthAddNetworkQuery,
   endpoints: { authAddNetwork },
+  useLazyAuthAddNetworkQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     authAddNetwork: build.query<boolean, AddNetworkParams>({

@@ -5,7 +5,7 @@ export const getOptionsByTabs = (
   tabs: EndpointGroup[],
   shouldShowChainNameLabel = false,
 ) =>
-  tabs.map<ISelectOption>(({ id, urlsCount, name, pluralName, chainName }) => {
+  tabs.map<ISelectOption>(({ chainName, id, name, pluralName, urlsCount }) => {
     const commonLabel = urlsCount > 1 ? pluralName : name;
 
     return {

@@ -18,9 +18,9 @@ export interface AddChainsFormProps {
 
 export const AddChainsForm = ({
   selectAllSubChainPaths,
-  unSelectAllSubChainPaths,
-  setIsSelectedAll,
   selectedChainPaths,
+  setIsSelectedAll,
+  unSelectAllSubChainPaths,
 }: AddChainsFormProps) => {
   const { classes } = useAddChainsFormStyles();
 

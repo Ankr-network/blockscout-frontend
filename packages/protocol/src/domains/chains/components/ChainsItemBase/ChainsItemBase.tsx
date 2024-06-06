@@ -10,13 +10,13 @@ export const ChainsItemBase = ({
   chainsItemLink,
   description,
   hasPremiumDialog,
+  hasTotalRequestsLabel,
   isHighlighted = false,
   isLoading,
   name,
   period,
   timeframe,
   totalRequests,
-  hasTotalRequestsLabel,
 }: ChainsItemBaseProps) => {
   const { classes } = useChainsItemBaseStyles(isHighlighted);
 

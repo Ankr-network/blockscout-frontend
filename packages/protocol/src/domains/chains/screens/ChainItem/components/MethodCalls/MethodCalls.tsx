@@ -16,10 +16,10 @@ interface IMethodCallsProps {
 }
 
 export const MethodCalls = ({
-  loading,
   data,
-  timeframe,
   isCostHidden,
+  loading,
+  timeframe,
 }: IMethodCallsProps) => {
   const { classes } = useMethodCallStyles();
 

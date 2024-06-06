@@ -17,8 +17,8 @@ export interface ICurrencySelectProps {
 
 export const CurrencySelect = ({
   activeCurrency,
-  options,
   changeCurrency,
+  options,
 }: ICurrencySelectProps) => {
   const { classes } = useCurrencySelectStyles();
 

@@ -11,7 +11,7 @@ export const GuardAuthRoute = ({
   hasReactSnapCheck,
   ...routeProps
 }: GuardAuthRouteProps) => {
-  const { loading, hasAuthData } = useGuardAuth();
+  const { hasAuthData, loading } = useGuardAuth();
 
   if (loading) {
     return <OverlaySpinner />;

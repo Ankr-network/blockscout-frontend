@@ -16,10 +16,10 @@ interface IProviderAddressProps {
 }
 
 export const ProviderAddress = ({
-  provider,
   address,
-  nickName,
   isConnected,
+  nickName,
+  provider,
 }: IProviderAddressProps) => {
   const { classes } = useProviderAddressStyles();
 

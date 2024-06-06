@@ -21,7 +21,7 @@ export const {
       IEmailResponse,
       ConditionallyNotifyingQueryFnParams<ConfirmEmailBindingParams>
     >({
-      queryFn: createConditionallyNotifyingQueryFn(async ({ email, code }) => {
+      queryFn: createConditionallyNotifyingQueryFn(async ({ code, email }) => {
         const service = MultiService.getService();
 
         const data = await service

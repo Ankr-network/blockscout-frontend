@@ -196,7 +196,7 @@ listenerMiddleware.startListening({
         arg: { endpointName, originalArgs: params = {} },
       },
     },
-    { take, dispatch, getState },
+    { dispatch, getState, take },
   ) => {
     dispatch(setIsTwoFADialogOpened(true));
     // we need to use saved endpoint name for every iteration of listener

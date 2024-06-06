@@ -55,7 +55,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectTokenPriceState,
   selectDataWithFallbackCachedByParams: selectTokenPrice,
   selectLoadingCachedByParams: selectTokenPriceLoading,
+  selectStateCachedByParams: selectTokenPriceState,
 } = createQuerySelectors({ endpoint: fetchTokenPrice, fallback: ZERO_STRING });

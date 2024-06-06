@@ -32,12 +32,12 @@ export const useCryptoPaymentSummaryStep = ({
   tx,
 }: IUseCryptoPaymentSummaryStepProps) => {
   const {
+    allowanceFeeDetailsEstimated: allowanceFeeDetails,
     amount,
     currency,
+    depositFeeDetailsEstimated: depositFeeDetails,
     id: txId,
     network,
-    allowanceFeeDetailsEstimated: allowanceFeeDetails,
-    depositFeeDetailsEstimated: depositFeeDetails,
   } = tx;
 
   const {

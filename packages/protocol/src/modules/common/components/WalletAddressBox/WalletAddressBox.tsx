@@ -23,8 +23,8 @@ export const WalletAddressBox = ({
   address,
   className,
   classes: classesOverrides,
-  walletIcon,
   copyButtonSize,
+  walletIcon,
 }: IWalletAddressBoxProps) => {
   const { classes, cx } = useWalletAddressBoxStyles(undefined, {
     props: { classes: classesOverrides },

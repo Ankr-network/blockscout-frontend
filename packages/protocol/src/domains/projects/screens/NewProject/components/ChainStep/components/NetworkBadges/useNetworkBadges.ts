@@ -13,24 +13,24 @@ export const useNetworkBadges = (
   setSelectedChainsIds: Dispatch<SetStateAction<ChainID[]>>,
 ) => {
   const {
-    id,
-    mainnets = [],
-    testnets = [],
-    devnets = [],
     beaconsMainnet = [],
     beaconsTestnet = [],
+    devnets = [],
+    id,
+    mainnets = [],
     opnodesMainnet = [],
     opnodesTestnet = [],
+    testnets = [],
   } = chain;
 
   const {
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
     selectedBeaconMainnetIds,
     selectedBeaconTestnetIds,
+    selectedDevnetIds,
+    selectedMainnetIds,
     selectedOpnodeMainnetIds,
     selectedOpnodeTestnetIds,
+    selectedTestnetIds,
   } = useProjectFormValues();
 
   const currentChainMainnetChainsBadges = useMemo(() => {

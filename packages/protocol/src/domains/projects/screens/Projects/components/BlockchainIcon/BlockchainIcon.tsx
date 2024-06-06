@@ -17,8 +17,8 @@ const MAX_VISIBLE_ICONS_COUNT = 5;
 
 export const BlockchainIcon = ({
   blockchains,
-  moreLabelKey = 'projects.new-project.checkout-step.more',
   isPaddingLeftIgnored,
+  moreLabelKey = 'projects.new-project.checkout-step.more',
 }: BlockchainIconProps) => {
   const { classes, cx } = useBlockchainIconStyles();
 

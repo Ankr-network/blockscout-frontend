@@ -12,14 +12,14 @@ interface EnterpriseUsageDataSectionParams extends UsageDataSectionParams {
 }
 
 export const useUsageDataSection = ({
+  apiKeys,
   chain,
-  chainType,
   chainSubType,
+  chainType,
   getSelectHandler,
   group,
   timeframe,
   timeframeTabs,
-  apiKeys,
 }: EnterpriseUsageDataSectionParams) => {
   return {
     id: SectionID.UsageData,

@@ -12,8 +12,8 @@ import { getRows } from './LocationsTableUtils';
 
 export const LocationsTableContainer = ({
   loading,
-  shouldShowRealNodesRatio,
   nodesDetail,
+  shouldShowRealNodesRatio,
 }: ChainNodesLocationsProps) => {
   const { classes } = useChainNodesLocationsStyles();
 

@@ -10,8 +10,8 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { BottomMenuItemsParams } from '../types';
 
 export const getBottomMenuItems = ({
-  isLoggedIn,
   isEnterpriseClient,
+  isLoggedIn,
   onDocsClick,
   onOpenAccessDeniedDialog,
 }: BottomMenuItemsParams): NavigationItem[] => {

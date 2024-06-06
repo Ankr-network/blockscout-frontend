@@ -96,7 +96,7 @@ export const {
 });
 
 export const {
-  selectStateCachedByParams: selectEstimatedAllowanceFeeUsdcState,
   selectDataWithFallbackCachedByParams: selectEstimatedAllowanceFeeUsdc,
   selectLoadingCachedByParams: selectEstimatedAllowanceFeeUsdcLoading,
+  selectStateCachedByParams: selectEstimatedAllowanceFeeUsdcState,
 } = createQuerySelectors({ endpoint: estimateAllowanceFeeUsdc, fallback });

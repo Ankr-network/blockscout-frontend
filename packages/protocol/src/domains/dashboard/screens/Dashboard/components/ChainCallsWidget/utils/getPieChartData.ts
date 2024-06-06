@@ -35,7 +35,7 @@ export const getPieChartData = ({
 }: PieChartDataParams) => {
   const max = totalRequests || 1;
 
-  return formatChainCalls(chainCalls).map<PieChartData>(({ name, calls }) => ({
+  return formatChainCalls(chainCalls).map<PieChartData>(({ calls, name }) => ({
     name,
     value: calls / max,
   }));

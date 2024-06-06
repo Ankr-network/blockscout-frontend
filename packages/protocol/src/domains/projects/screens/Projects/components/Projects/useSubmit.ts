@@ -17,8 +17,8 @@ interface UseSubmitProps {
 }
 
 export const useSubmit = ({
-  onEditDialogClose,
   allProjects,
+  onEditDialogClose,
 }: UseSubmitProps) => {
   const dispatch = useDispatch();
 

@@ -4,11 +4,11 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 
 export const useAutoconnect = () => {
   const {
-    handleAutoconnect,
     authorizationToken,
-    walletMeta,
+    handleAutoconnect,
     hasOauthLogin,
     hasWeb3Connection,
+    walletMeta,
   } = useAuth();
 
   const { handleLogin } = useOauth();

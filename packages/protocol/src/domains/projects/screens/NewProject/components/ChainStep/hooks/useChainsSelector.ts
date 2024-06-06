@@ -18,12 +18,12 @@ export const useChainsSelector = (
   nestedSelectedChainId: ChainID,
   onBlockedTabClick: () => void,
 ) => {
-  const { processedChains: chains, allChains } = useChains();
+  const { allChains, processedChains: chains } = useChains();
 
   const {
     chain: chainSelectItem,
-    unfilteredChain,
     isTestnetOnlyChainSelected,
+    unfilteredChain,
   } = useChainsSelect({
     chains,
     allChains,
@@ -33,7 +33,7 @@ export const useChainsSelector = (
   const { getState } = useForm();
 
   const {
-    values: { groupId: selectedGroupId, chainType: selectedChainType },
+    values: { chainType: selectedChainType, groupId: selectedGroupId },
   } = getState();
 
   const savedChainType = useRef<ChainType | undefined>(selectedChainType);
@@ -43,12 +43,12 @@ export const useChainsSelector = (
     chainProtocolContext,
     chainType,
     chainTypes,
-    selectType,
-    groups,
-    groupID,
-    selectGroup,
     detailsChainId,
     endpoints,
+    groupID,
+    groups,
+    selectGroup,
+    selectType,
   } = useChainSelectorGroups({
     chain: chainSelectItem || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,

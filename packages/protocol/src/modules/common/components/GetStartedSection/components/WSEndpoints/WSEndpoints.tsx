@@ -11,10 +11,10 @@ export interface WSEndpointsProps {
 }
 
 export const WSEndpoints = ({
-  title,
-  wss,
   hasConnectWalletMessage,
   onCopyEndpoint,
+  title,
+  wss,
 }: WSEndpointsProps) => {
   const { classes } = useWsEdnpointsStyles();
 

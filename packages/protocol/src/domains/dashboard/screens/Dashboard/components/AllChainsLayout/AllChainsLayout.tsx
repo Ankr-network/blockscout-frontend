@@ -27,10 +27,10 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     areLocationsLoading,
     countries,
     ipRequests,
+    isLoadingTotalStats,
     locations,
     requestsChartData,
     totalRequestsNumber,
-    isLoadingTotalStats,
   } = useAllChainsData(timeframe);
 
   const { data: monthlyStats = [] } = useMonthlyStats();

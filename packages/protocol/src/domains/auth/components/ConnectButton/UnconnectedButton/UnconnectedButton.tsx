@@ -26,7 +26,7 @@ export const UnconnectedButton = ({
   variant = 'text',
 }: UnconnectedButtonProps) => {
   const { classes, cx } = useStyles(false);
-  const { loading, hasOauthLogin } = useAuth();
+  const { hasOauthLogin, loading } = useAuth();
   const [isOpened, setIsOpened] = useState<boolean>(false);
 
   const handleClose = useCallback(async () => {

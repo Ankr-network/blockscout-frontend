@@ -22,8 +22,8 @@ interface InfrastructureSectionParams {
 
 export const useInfrastructureSection = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   getSelectHandler,
   group,
 }: InfrastructureSectionParams) => {

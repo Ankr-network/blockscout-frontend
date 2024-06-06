@@ -48,11 +48,11 @@ interface GetAllProjectsParams {
 }
 
 export const getAllProjects = ({
-  projects,
-  whitelists,
-  whitelistBlockchains,
   isLoading,
   projectStatuses,
+  projects,
+  whitelistBlockchains,
+  whitelists,
 }: GetAllProjectsParams): Project[] =>
   projects.map((item, index) => {
     const currentProjectStatus = projectStatuses.find(

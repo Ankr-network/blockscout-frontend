@@ -23,7 +23,7 @@ export const TopCountriesWidget = ({
   className,
   data,
 }: TopCountriesWidgetProps) => {
-  const { cx, classes } = useTableWidgetStyles();
+  const { classes, cx } = useTableWidgetStyles();
   const {
     classes: { container },
   } = useNoDataContainerStyles(data.length === 0);
@@ -41,7 +41,7 @@ export const TopCountriesWidget = ({
             <Typography variant="caption">{text('country')}</Typography>
             <Typography variant="caption">{text('requests')}</Typography>
           </div>
-          {data.map(({ country, count }) => {
+          {data.map(({ count, country }) => {
             let regionName = '';
 
             try {

@@ -19,11 +19,11 @@ interface ActionsMenuProps {
 
 export const ActionsMenu = ({
   index,
-  rowData,
   onWhitelistDialogOpen,
+  rowData,
 }: ActionsMenuProps) => {
   const { handleSetStepConfig } = useProjectConfig();
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
+  const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   const { change, getState, initialize } = useForm();
   const { values } = getState();

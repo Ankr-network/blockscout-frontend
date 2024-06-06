@@ -20,20 +20,20 @@ interface IBaseNavButtonProps {
 }
 
 export const BaseNavButton = ({
-  item,
   isMobileSideBar = false,
+  item,
 }: IBaseNavButtonProps) => {
   const { isLightTheme } = useThemes();
 
   const {
-    label,
+    StartIcon,
+    blockName,
     href,
     isComingSoon,
-    isNew,
-    StartIcon,
     isDisabled,
+    isNew,
     isNotLinkItem,
-    blockName,
+    label,
   } = item;
 
   const hasAccess = useGuardUserGroup({

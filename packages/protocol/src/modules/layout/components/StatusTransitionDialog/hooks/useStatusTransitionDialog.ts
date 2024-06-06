@@ -14,7 +14,7 @@ import { useAppSelector } from 'store/useAppSelector';
 
 import { PostTopUpLocationState } from '../types';
 
-const { cardPaymentSuccess, accountDetails } = AccountRoutesConfig;
+const { accountDetails, cardPaymentSuccess } = AccountRoutesConfig;
 
 export const useStatusTransitionDialog = () => {
   const { hasFreeToPremiumTransition } = useAuth();

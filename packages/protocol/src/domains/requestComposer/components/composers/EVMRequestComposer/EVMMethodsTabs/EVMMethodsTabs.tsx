@@ -12,10 +12,10 @@ interface IMethodsTabsProps {
 }
 
 export const EVMMethodsTabs = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: IMethodsTabsProps) => {
   const [tabs, selectedTab] = useMethodsTabsUtils({
     group,

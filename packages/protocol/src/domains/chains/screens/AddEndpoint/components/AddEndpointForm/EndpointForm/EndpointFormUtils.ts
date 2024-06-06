@@ -28,11 +28,11 @@ interface ValidateUserEndpointArguments {
 }
 
 export const validateUserEndpoint = async ({
-  value,
   chainId,
-  privateUrls,
   endpoints,
+  privateUrls,
   publicUrls,
+  value,
 }: ValidateUserEndpointArguments) => {
   if (typeof value !== 'string') {
     return t('validation.required');

@@ -21,9 +21,9 @@ export const useUserGroupItem = ({ group }: UseUserGroupItemProps) => {
 
   const {
     data: groupDetails,
+    error: groupDetailsError,
     isLoading: isGroupDetailsLoading,
     originalArgs: fetchGroupDetailsArgs,
-    error: groupDetailsError,
   } = useAppSelector(selectGroupDetailsRequestState);
 
   const isCurrentGroupRequest = fetchGroupDetailsArgs?.group === groupAddress;
@@ -69,9 +69,9 @@ export const useUserGroupItem = ({ group }: UseUserGroupItemProps) => {
   });
 
   const {
-    isInviteTeammatesDialogLoading,
-    inviteTeammatesDialogProps,
     handleInviteTeammatesDialogOpen,
+    inviteTeammatesDialogProps,
+    isInviteTeammatesDialogLoading,
   } = useInviteTeammatesDialog({
     group,
     groupDetails,

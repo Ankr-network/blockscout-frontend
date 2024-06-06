@@ -12,8 +12,8 @@ interface CollapsingStringProps {
 const DEFAULT_MAX_LENGTH = 60;
 
 export const CollapsingString = ({
-  text,
   maxLength = DEFAULT_MAX_LENGTH,
+  text,
 }: CollapsingStringProps) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 

@@ -8,11 +8,11 @@ import { useChartData } from './hooks/useChartData';
 
 export const RequestsChart = ({
   isConnecting,
+  isFlexibleHeight,
   isLoggedIn,
   loading,
   timeframe,
   totalRequestsHistory,
-  isFlexibleHeight,
 }: RequestsChartProps) => {
   const data = useChartData({ isLoggedIn, timeframe, totalRequestsHistory });
 

@@ -15,9 +15,9 @@ export interface ConnectionSnippetProps {
 
 export const ConnectionSnippet = ({
   hasFullWidthSnippets,
-  technology,
-  setTechnology,
   httpCode,
+  setTechnology,
+  technology,
   wssCode,
 }: ConnectionSnippetProps) => {
   const { classes } = useStyles();

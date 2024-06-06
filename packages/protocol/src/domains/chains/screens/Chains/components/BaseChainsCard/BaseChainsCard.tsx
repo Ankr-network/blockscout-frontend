@@ -24,20 +24,20 @@ export interface IBaseChainCardProps {
 }
 
 export const BaseChainsCard = ({
-  chain,
+  badge,
   buttonClassName,
   buttonText,
+  chain,
   className,
+  hasTotalRequestsLabel = true,
+  loading,
   onClick,
   timeframe,
   totalRequests,
-  loading,
-  badge,
-  hasTotalRequestsLabel = true,
 }: IBaseChainCardProps) => {
   const { classes, cx } = useChainCardStyles();
 
-  const { name, coinName, id } = chain;
+  const { coinName, id, name } = chain;
 
   const icon = useChainIcon(id);
 

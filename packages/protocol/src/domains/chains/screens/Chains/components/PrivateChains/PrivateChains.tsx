@@ -12,13 +12,13 @@ export const PrivateChains = () => {
   const { hasPremium } = useAuth();
 
   const {
-    chains,
     allChains,
+    chains,
     loading,
-    setSortType,
-    sortType,
     searchContent,
     setSearchContent,
+    setSortType,
+    sortType,
     timeframe,
   } = usePrivateChainsData({ ignoreJwtManager: true });
 

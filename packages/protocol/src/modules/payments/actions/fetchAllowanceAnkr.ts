@@ -41,7 +41,7 @@ export const {
 });
 
 export const {
-  selectState: selectAllowanceAnkrState,
   selectDataWithFallback: selectAllowanceAnkr,
   selectLoading: selectAllowanceAnkrLoading,
+  selectState: selectAllowanceAnkrState,
 } = createQuerySelectors({ endpoint: fetchAllowanceAnkr, fallback });

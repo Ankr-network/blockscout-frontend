@@ -53,7 +53,7 @@ export const useColumns = () => {
         align: 'left',
         field: 'type',
         headerName: t('account.payment-table.head.col-2'),
-        render: ({ type, timestamp }) => {
+        render: ({ timestamp, type }) => {
           const typeString = PAYMENT_HISTORY_TYPE[type] || type;
 
           return type === 'TRANSACTION_TYPE_DEDUCTION' ? (
@@ -73,12 +73,12 @@ export const useColumns = () => {
         field: 'amount_usd',
         headerName: t('account.payment-table.head.col-3'),
         render: ({
-          amountUsd,
           amountAnkr,
-          network,
-          currencyAddress,
-          creditUsdAmount,
+          amountUsd,
           creditAnkrAmount,
+          creditUsdAmount,
+          currencyAddress,
+          network,
           type,
         }) => {
           return (
@@ -116,7 +116,7 @@ export const useColumns = () => {
         align: 'right',
         field: 'credit',
         headerName: t('account.payment-table.head.col-4'),
-        render: ({ creditUsdAmount, creditAnkrAmount, type, amount = '0' }) => (
+        render: ({ amount = '0', creditAnkrAmount, creditUsdAmount, type }) => (
           <Amount
             direction={getPaymentHistoryItemDirection(type)}
             value={getCreditsValue({
@@ -133,14 +133,14 @@ export const useColumns = () => {
         field: 'button',
         headerName: t('account.payment-table.head.col-5'),
         render: ({
-          amountUsd,
           amountAnkr,
-          network,
-          currencyAddress,
-          creditUsdAmount,
+          amountUsd,
           creditAnkrAmount,
-          type,
+          creditUsdAmount,
+          currencyAddress,
+          network,
           txHash,
+          type,
         }) => {
           const amount = getAmount({
             type,

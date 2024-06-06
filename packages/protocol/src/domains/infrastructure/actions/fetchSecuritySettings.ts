@@ -27,7 +27,7 @@ export const {
       ISecuritySettingsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ chainId, jwtToken }, { getState, dispatch }) => {
+        async ({ chainId, jwtToken }, { dispatch, getState }) => {
           credentialsGuard(getState as GetState);
 
           await makeWorkerGatewayAuthorization(jwtToken);

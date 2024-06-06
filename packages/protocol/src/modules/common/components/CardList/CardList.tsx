@@ -13,11 +13,11 @@ interface CardListProps {
 }
 
 export const CardList = ({
-  className,
-  cardHeaderIcon,
   cardHeaderAdditionalItem,
-  title,
+  cardHeaderIcon,
+  className,
   listItems,
+  title,
 }: CardListProps) => {
   const { classes } = useCardListStyles();
 

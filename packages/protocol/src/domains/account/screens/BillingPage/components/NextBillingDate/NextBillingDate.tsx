@@ -13,9 +13,9 @@ export interface NextBillingDateProps {
 
 export const NextBillingDate = ({
   className,
+  customText,
   date: outerDate,
   isDeprecatedModel = false,
-  customText,
 }: NextBillingDateProps) => {
   const { classes, cx } = useNextBillingDateStyles();
 

@@ -23,14 +23,14 @@ const creditBalanceKey = 'header.balance-button.credits';
 const requestBalanceKey = 'header.balance-button.requests';
 
 export const BalanceButton = ({
-  isMenuOpen,
   balance,
+  handleClose,
+  handleOpen,
   hasStatusTransition,
   isApiCreditsBalance,
   isLoading,
   isLoggedIn,
-  handleClose,
-  handleOpen,
+  isMenuOpen,
 }: IBalanceButtonProps) => {
   const { classes } = useBalanceButtonStyles({
     isMenuOpen,

@@ -26,14 +26,14 @@ export interface GetStartedSectionProps extends ConnectionSnippetProps {
 export const GetStartedSection = ({
   chainId,
   group,
-  hasUpgradeBanner,
-  publicUrl,
   hasRequestComposer,
-  technology,
-  setTechnology,
-  httpCode,
-  wssCode,
+  hasUpgradeBanner,
   hasWssAccess,
+  httpCode,
+  publicUrl,
+  setTechnology,
+  technology,
+  wssCode,
 }: GetStartedSectionProps) => {
   const isMultiChain = chainId === ChainID.MULTICHAIN;
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();

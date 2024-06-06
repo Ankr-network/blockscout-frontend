@@ -13,8 +13,8 @@ export interface IRenderPaymentTypeTitleParams {
 
 export const PaymentTypeTitle = ({
   isCapitalized,
-  paymentType,
   isHTML,
+  paymentType,
   promo,
 }: IRenderPaymentTypeTitleParams) => {
   const renderer = isHTML ? tHTML : t;

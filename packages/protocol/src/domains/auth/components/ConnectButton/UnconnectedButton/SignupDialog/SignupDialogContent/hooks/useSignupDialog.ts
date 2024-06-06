@@ -25,9 +25,9 @@ interface SignupDialogHookProps {
 export const useSignupDialog = ({
   hasOauthLogin,
   hasOnlyGoogleAuth,
-  shouldResetAuthDataForGoogleAuth,
   onClose,
   onOauthSignUp = () => {},
+  shouldResetAuthDataForGoogleAuth,
   title,
 }: SignupDialogHookProps) => {
   const dispatch = useDispatch();

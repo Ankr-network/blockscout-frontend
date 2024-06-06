@@ -10,7 +10,7 @@ export interface HeaderProps {
   timeframe: Timeframe;
 }
 
-export const Header = ({ timeframe, switchTimeframe }: HeaderProps) => {
+export const Header = ({ switchTimeframe, timeframe }: HeaderProps) => {
   const { classes } = useStyles();
 
   return (

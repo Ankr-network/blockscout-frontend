@@ -20,37 +20,37 @@ const CAN_ADD_PROJECT_FROM_JWT_MANAGER = false;
 export const JwtTokenManager = () => {
   const { classes } = useJwtTokenManagerStyles();
 
-  const { tokenIndex: selectedProjectIndex, handleSelectTokenIndex } =
+  const { handleSelectTokenIndex, tokenIndex: selectedProjectIndex } =
     useSelectTokenIndex();
 
   const [openedProjectIndex, setOpenedProjectIndex] =
     useState(selectedProjectIndex);
 
   const {
-    isLoading,
-    hasConnectWalletMessage,
-    shouldShowTokenManager,
     allowedAddProjectTokenIndex,
-    jwtTokens,
     enableAddProject: canAddProject,
+    hasConnectWalletMessage,
+    isLoading,
+    jwtTokens,
+    shouldShowTokenManager,
   } = useJwtTokenManager();
 
   const {
     isOpened: isAddProjectDialogOpened,
-    onOpen: onOpenAddProjectDialog,
     onClose: onAddProjectDialogClose,
+    onOpen: onOpenAddProjectDialog,
   } = useDialog();
 
   const {
     isOpened: isDeleteProjectOpened,
-    onOpen: onDeleteProjectOpen,
     onClose: onDeleteProjectClose,
+    onOpen: onDeleteProjectOpen,
   } = useDialog();
 
   const {
     isOpened: isViewProjectOpened,
-    onOpen: onProjectOpen,
     onClose: onProjectClose,
+    onOpen: onProjectOpen,
   } = useDialog();
 
   const handleDeleteProjectOpen = useCallback(() => {

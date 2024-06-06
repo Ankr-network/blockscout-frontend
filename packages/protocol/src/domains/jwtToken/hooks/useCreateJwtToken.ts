@@ -17,7 +17,7 @@ export const useCreateJwtToken = () => {
     useQueryEndpoint(createJwtToken);
 
   const handleCreateJwtToken = useCallback(
-    ({ tokenIndex, name, description }: CreateJwtTokenParams) =>
+    ({ description, name, tokenIndex }: CreateJwtTokenParams) =>
       createJwtTokenQuery({
         tokenIndex,
         name,

@@ -43,9 +43,9 @@ const BAR_MARGIN = { top: 5, right: 20, bottom: 5, left: -10 };
 const Y_AXIS_MARGIN = 10;
 
 export const RequestsChart = ({
+  barMetaList,
   data,
   tickFormatter,
-  barMetaList,
   tooltipContent,
   yAxisScale = 'auto',
 }: IChartProps) => {

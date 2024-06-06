@@ -82,9 +82,9 @@ const getData = (
   const {
     dataCached,
     totalCached,
+    totalRequests,
     totalServed,
     uniqueVisitors,
-    totalRequests,
     ...other
   } = data;
 
@@ -99,8 +99,8 @@ const getData = (
 };
 
 export const {
-  useLazyChainsFetchChainTimeframeDataQuery,
   endpoints: { chainsFetchChainTimeframeData },
+  useLazyChainsFetchChainTimeframeDataQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchChainTimeframeData: build.query<

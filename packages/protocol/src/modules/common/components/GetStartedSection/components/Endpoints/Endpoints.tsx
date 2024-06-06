@@ -40,11 +40,11 @@ const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
 };
 
 export const Endpoints = ({
-  publicChain,
   chainType,
   group,
-  placeholder,
   isPremiumLabelHidden,
+  placeholder,
+  publicChain,
 }: EndpointsProps) => {
   const { classes } = useEndpointsStyles();
 

@@ -10,11 +10,11 @@ import { ChainItemLink } from './ChainItemLink';
 export const ChainItem = ({
   chain,
   chainId,
-  timeframe,
   isPublic,
+  timeframe,
   ...props
 }: ChainsItemQueryProps) => {
-  const { totalRequests, loading } = usePublicChainsItem({
+  const { loading, totalRequests } = usePublicChainsItem({
     chain,
     timeframe,
   });

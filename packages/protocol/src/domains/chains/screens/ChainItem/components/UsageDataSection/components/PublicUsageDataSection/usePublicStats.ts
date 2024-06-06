@@ -29,10 +29,10 @@ export const usePublicStats = ({
     fetchChainTimeframeData,
     {
       data: {
+        countries,
         totalCached,
         totalRequests,
         totalRequestsHistory,
-        countries,
       } = defaultData,
       error,
       isFetching,

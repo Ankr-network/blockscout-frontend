@@ -31,10 +31,10 @@ export const getPrivateUsageData = ({
   userTopRequestsIp,
 }: UsageDataParams): UsageData => {
   const {
-    total_requests: privateTotalRequests = 0,
+    countries_count: { top_countries: privateCountries = [] } = {},
     counts: privateTotalRequestsHistory = {},
     total: { total_cost: totalCost = 0 } = {},
-    countries_count: { top_countries: privateCountries = [] } = {},
+    total_requests: privateTotalRequests = 0,
   } = privateStats || {};
 
   const {

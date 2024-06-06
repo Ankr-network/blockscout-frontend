@@ -12,7 +12,7 @@ import { useUpgradeBannerStyles } from './UpgradeBannerStyles';
 export const UpgradeBanner = () => {
   const { classes } = useUpgradeBannerStyles();
 
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   return (
     <div className={classes.upgradeBanner}>

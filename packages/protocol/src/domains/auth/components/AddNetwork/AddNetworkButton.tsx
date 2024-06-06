@@ -20,13 +20,13 @@ interface IAddNetworkProps {
 
 export const AddNetworkButton = ({
   chain,
-  chainType,
   chainSubType,
-  group,
+  chainType,
   className,
+  group,
+  isEnterprise,
   label,
   size,
-  isEnterprise,
 }: IAddNetworkProps) => {
   const { loading } = useAuth();
 

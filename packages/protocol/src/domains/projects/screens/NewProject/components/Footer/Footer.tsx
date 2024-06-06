@@ -20,15 +20,15 @@ interface FooterProps {
 }
 
 export const Footer = ({
-  step,
-  onBackClick,
-  shouldShowSkipButton,
   isBackButtonDisabled,
   isLoading,
   isNextButtonDisabled,
+  onBackClick,
+  shouldShowSkipButton,
+  step,
 }: FooterProps) => {
   const { classes } = useFooterStyles();
-  const { getState, change } = useForm();
+  const { change, getState } = useForm();
   const { validating } = getState();
 
   const handleSkipClick = useCallback(() => {

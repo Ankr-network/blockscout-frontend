@@ -15,16 +15,16 @@ export interface SuccessStepsPropsParams {
 }
 
 export const useSuccessStepsProps = ({
-  submittedEmail,
-  onFormSubmit,
   onFormStateChange,
+  onFormSubmit,
+  submittedEmail,
 }: SuccessStepsPropsParams) => {
   const [
     resendConfirmationCode,
     {
       data: resendEmailData,
-      isLoading: resendEmailLoading,
       error: resendEmailError,
+      isLoading: resendEmailLoading,
     },
   ] = useLazyUserSettingsResendConfirmationCodeQuery();
 

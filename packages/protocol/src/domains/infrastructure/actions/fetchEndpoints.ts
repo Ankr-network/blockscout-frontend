@@ -44,8 +44,8 @@ export const mapEndpoints = (endpoints: IWorkerEndpoint[]): Endpoints => {
 };
 
 export const {
-  useLazyInfrastructureFetchEndpointsQuery,
   endpoints: { infrastructureFetchEndpoints },
+  useLazyInfrastructureFetchEndpointsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureFetchEndpoints: build.query<Endpoints, void>({

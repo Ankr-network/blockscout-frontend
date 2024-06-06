@@ -44,7 +44,9 @@ export const Content = ({
   chainsItemLink,
   description,
   hasPremiumDialog,
+  hasTotalRequestsLabel,
   isArchive,
+  isComingSoon,
   isHighlighted,
   isLoading,
   isSui,
@@ -53,8 +55,6 @@ export const Content = ({
   period,
   timeframe,
   totalRequests,
-  isComingSoon,
-  hasTotalRequestsLabel,
 }: ContentProps) => {
   const hasLabel = isArchive || isSui || isComingSoon;
 

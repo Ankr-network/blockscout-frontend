@@ -15,10 +15,10 @@ interface IMethodsTabsProps {
 }
 
 export const XChainMethodsTabs = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: IMethodsTabsProps) => {
   const [tabs, selectedTab] = useMethodsTabsUtils({
     group,

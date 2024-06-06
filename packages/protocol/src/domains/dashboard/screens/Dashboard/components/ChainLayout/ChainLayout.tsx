@@ -22,18 +22,18 @@ export const ChainLayout = ({
   const {
     allTimeTotalRequestsNumber,
     areLocationsLoading,
+    blockHeight,
     chainStats,
     countries,
     ipRequests,
+    isLoadingTotalStats,
     locations,
+    methodCalls,
     requestsChartData,
     totalRequestsNumber,
-    methodCalls,
-    blockHeight,
-    isLoadingTotalStats,
   } = useChainData({ statsChainId, detailsChainId, timeframe });
 
-  const { requestsChartTranslations, methodCallsChartTranslations } =
+  const { methodCallsChartTranslations, requestsChartTranslations } =
     useChartTranslations({
       timeframe,
       totalRequestsNumber,

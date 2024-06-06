@@ -41,7 +41,7 @@ export const jwtTokenManagerSlice = createSlice({
       state,
       action: PayloadAction<ISetTokenIndexPayload>,
     ) => {
-      const { tokenIndex, address = '' } = action.payload;
+      const { address = '', tokenIndex } = action.payload;
 
       state[address] = {
         ...state[address],
@@ -70,5 +70,5 @@ export const selectTokenManagerConfig = (
   currentAccount = '',
 ) => state.jwtTokenManager[currentAccount] ?? {};
 
-export const { setSelectedTokenIndex, setSelectedProjectEndpointToken } =
+export const { setSelectedProjectEndpointToken, setSelectedTokenIndex } =
   jwtTokenManagerSlice.actions;

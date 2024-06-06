@@ -10,7 +10,7 @@ interface AvatarProps {
   name: string;
 }
 
-export const Avatar = ({ name, icon, avatarColor, className }: AvatarProps) => {
+export const Avatar = ({ avatarColor, className, icon, name }: AvatarProps) => {
   const { classes, cx } = useAvatarStyles(avatarColor);
 
   return (

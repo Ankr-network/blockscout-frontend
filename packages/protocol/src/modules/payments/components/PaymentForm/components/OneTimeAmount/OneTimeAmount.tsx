@@ -22,11 +22,11 @@ export const OneTimeAmount = ({
   amountInputProps,
   amounts,
   className,
+  hasChips = true,
+  hasDocsLink,
   isLoading,
   onAmountSelect,
   selectedAmountID,
-  hasChips = true,
-  hasDocsLink,
 }: IOneTimeAmountProps) => {
   const { classes, cx } = useOneTimeAmountStyles();
 

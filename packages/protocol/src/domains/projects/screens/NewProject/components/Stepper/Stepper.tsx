@@ -17,7 +17,7 @@ interface StepperProps {
   className?: string;
 }
 
-export const Stepper = ({ step: activeStep, className }: StepperProps) => {
+export const Stepper = ({ className, step: activeStep }: StepperProps) => {
   const { classes, cx } = useStepperStyles();
 
   const steps = useMemo(() => getSteps(), []);
@@ -29,7 +29,7 @@ export const Stepper = ({ step: activeStep, className }: StepperProps) => {
       alternativeLabel
       connector={<Connector />}
     >
-      {steps.map(({ step, label }) => {
+      {steps.map(({ label, step }) => {
         return (
           <Step
             key={step}

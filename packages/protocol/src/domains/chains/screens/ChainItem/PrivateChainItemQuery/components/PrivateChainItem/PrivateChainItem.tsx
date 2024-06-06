@@ -19,17 +19,17 @@ export interface ChainItemProps {
 }
 
 export const PrivateChainItem = ({ data }: ChainItemProps) => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   const {
-    chainProtocolContext,
     chain,
+    chainProtocolContext,
+    chainSubType,
     chainType,
     group,
-    chainSubType,
-    unfilteredGroup,
-    name,
     headerContent,
+    name,
+    unfilteredGroup,
   } = usePrivateChainItem({
     ...data,
     shouldExpandFlareTestnets: false,

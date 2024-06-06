@@ -19,9 +19,9 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
   const avoidAccessDeniedAlert = useAvoidAccessDeniedAlert();
 
   const {
-    shouldRemind: savedShouldRemind,
     selectedGroupAddress: savedSelectedGroupAddress,
     selectedGroupRole: savedSelectedGroupRole,
+    shouldRemind: savedShouldRemind,
   } = useUserGroupConfig();
 
   const [selectedGroupAddress, setSelectedGroupAddress] = useState<

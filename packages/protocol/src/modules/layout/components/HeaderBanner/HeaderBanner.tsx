@@ -11,7 +11,7 @@ import { bannerTranslation } from './translation';
 export const HeaderBanner = () => {
   const { classes } = useHeaderBannerStyles();
 
-  const { tHTML, keys } = useTranslation(bannerTranslation);
+  const { keys, tHTML } = useTranslation(bannerTranslation);
 
   const { isOpened, onClose, onOpen } = useDialog();
 

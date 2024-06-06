@@ -30,7 +30,7 @@ interface ITooltipProps {
   label?: string;
 }
 
-export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
+export const Tooltip = ({ active, label, payload }: ITooltipProps) => {
   const maxMethodWidth = useMemo(
     () =>
       payload

@@ -12,8 +12,8 @@ interface IGetDealDataProps {
 }
 
 export const getDealChargingModelData = ({
-  dealChargingModel,
   bundlePaymentPlans,
+  dealChargingModel,
 }: IGetDealDataProps) => {
   const balanceApiCredits =
     Number(
@@ -78,7 +78,7 @@ const aggregateDealData = (
   dealData: IDealChargingModelData,
 ): IDealChargingModelData => {
   const { balance, expires, progressData } = dealData;
-  const { balanceApiCredits, balanceUsd, balanceInRequests } = balance;
+  const { balanceApiCredits, balanceInRequests, balanceUsd } = balance;
   const { usedCount, wholeAmountCount } = progressData;
 
   acc.balance.balanceApiCredits += balanceApiCredits;
@@ -95,8 +95,8 @@ const aggregateDealData = (
 };
 
 export const getAggregatedDealChargingModelData = ({
-  dealChargingModels,
   bundlePaymentPlans,
+  dealChargingModels,
 }: {
   dealChargingModels: MyBundleStatus[];
   bundlePaymentPlans: BundlePaymentPlan[];

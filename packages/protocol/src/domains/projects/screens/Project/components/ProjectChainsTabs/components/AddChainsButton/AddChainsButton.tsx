@@ -14,11 +14,11 @@ export const AddChainsButton = () => {
     handleSelectAllSubchainPaths,
     handleSidebarOpen,
     handleUnselectAllSubchainPaths,
-    setIsSelectedAll,
     isAddingChainsToProject,
     isSidebarOpened,
     onSidebarClose,
     selectedProjectChainsPaths,
+    setIsSelectedAll,
   } = useAddChainsButton();
 
   const { classes } = useAddChainsButtonStyles();

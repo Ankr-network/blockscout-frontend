@@ -5,18 +5,18 @@ import { executeLoading } from './executeLoading';
 export const loadPaymentHistory = async ({
   deductionsCursor = 0,
   from,
+  group,
   limit,
+  myBundlesPaymentsCursor = 0,
   to,
   transactionsCursor = 0,
-  myBundlesPaymentsCursor = 0,
   types = [],
-  group,
 }: PaymentHistoryParams): Promise<PaymentHistory> => {
   const {
     deductionsCursor: nextDeductionsCursor,
     list,
-    transactionsCursor: nextTransactionsCursor,
     myBundlesPaymentsCursor: nextMyBundlesPaymentsCursor,
+    transactionsCursor: nextTransactionsCursor,
   } = await executeLoading({
     deductionsCursor,
     from,

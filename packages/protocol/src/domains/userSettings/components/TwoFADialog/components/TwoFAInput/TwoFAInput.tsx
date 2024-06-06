@@ -21,10 +21,10 @@ interface TwoFAInputProps {
 
 export const TwoFAInput = ({
   buttonText,
-  onConfirm,
   errorMessage,
-  onReset,
   isLoading,
+  onConfirm,
+  onReset,
 }: TwoFAInputProps) => {
   const { classes } = useTwoFAInputStyles();
 

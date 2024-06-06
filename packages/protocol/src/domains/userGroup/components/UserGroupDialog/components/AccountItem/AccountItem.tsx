@@ -11,12 +11,12 @@ interface AccountsItemProps {
 }
 
 export const AccountItem = ({
+  children,
+  isSelected,
   name,
   onClick,
-  isSelected,
-  children,
 }: AccountsItemProps) => {
-  const { cx, classes } = useAccountItemStyles();
+  const { classes, cx } = useAccountItemStyles();
 
   return (
     <Box

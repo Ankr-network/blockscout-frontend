@@ -27,12 +27,12 @@ const requestBalanceKey =
   'account.account-details.balance-widget.requests-balance';
 
 export const BalanceMenuContent = ({
-  currentChargingModel,
   balance,
-  creditBalance,
-  usdBalance,
   balanceInRequests,
+  creditBalance,
+  currentChargingModel,
   isApiCreditsBalance,
+  usdBalance,
 }: IBalanceMenuContentProps) => {
   const { classes } = useBalanceMenuStyles();
 

@@ -15,16 +15,16 @@ export interface ChainItemProps {
   apiKeys: EnterpriseClientJwtManagerItem[];
 }
 
-export const EnterpriseChainDetails = ({ data, apiKeys }: ChainItemProps) => {
+export const EnterpriseChainDetails = ({ apiKeys, data }: ChainItemProps) => {
   const {
-    chainProtocolContext,
     chain,
+    chainProtocolContext,
+    chainSubType,
     chainType,
     group,
-    chainSubType,
-    unfilteredGroup,
-    name,
     headerContent,
+    name,
+    unfilteredGroup,
   } = useEnterpriseChainDetails({ ...data, onBlockedTabClick: () => {} });
 
   useEnterpriseChainItemBreadcrumbs(chain.name);

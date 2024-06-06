@@ -21,17 +21,17 @@ export interface CursorsParams {
 }
 
 export const getCursors = ({
-  paymentHistory,
-  transactions,
   deductions,
-  myBundlesPayments,
   lastDeduction,
-  lastTransaction,
   lastMyBundlesPayment,
+  lastTransaction,
   limit,
   loadingDeductionsCursor,
-  loadingTransactionsCursor,
   loadingMyBundlesPaymentsCursor,
+  loadingTransactionsCursor,
+  myBundlesPayments,
+  paymentHistory,
+  transactions,
 }: CursorsParams): Cursors => {
   const transactionsCursor =
     transactions.findIndex(
