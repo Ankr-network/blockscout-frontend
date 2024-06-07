@@ -13,7 +13,7 @@ export const USD_TO_REQUESTS_RATE = 50_000;
 
 export const DEFAULT_SELECTED_RECURRING_USD_AMOUNT = 50;
 
-export const MIN_ANKR_AMOUNT = 1_000;
+export const MIN_ANKR_AMOUNT = 200;
 export const MIN_USD_AMOUNT = 10;
 
 export const MAX_USD_DECIMALS = 1;

@@ -33,5 +33,5 @@ export const renderLabel = ({
     return amount;
   }
 
-  return renderCryptoPrice({ amount: value, currency });
+  return renderCryptoPrice({ amount: value, currency, isSelected });
 };

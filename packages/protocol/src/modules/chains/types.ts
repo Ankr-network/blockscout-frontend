@@ -127,6 +127,9 @@ export enum ChainID {
   ETH_SEPOLIA_BEACON = 'eth_sepolia_beacon',
   ETH_HOLESKY = 'eth_holesky',
   ETH_HOLESKY_BEACON = 'eth_holesky_beacon',
+  ELECTRONEUM = 'electroneum',
+  ELECTRONEUM_TESTNET = 'electroneum_testnet',
+
   FANTOM = 'fantom',
   FANTOM_TESTNET = 'fantom_testnet',
   FILECOIN = 'filecoin',

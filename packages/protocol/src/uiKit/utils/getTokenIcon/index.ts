@@ -78,6 +78,7 @@ import xaiIcon from './icons/xai.svg';
 import bahamutIcon from './icons/bahamut.svg';
 import xdcIconDark from './darkModeIcons/xdc.svg';
 import lineaIcon from './icons/linea.svg';
+import electroneumIcon from './icons/electroneum.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
 import stellarIcon from './icons/stellar.svg';
 import stellarIconDark from './darkModeIcons/stellar.svg';
@@ -90,6 +91,7 @@ import seiIconDark from './darkModeIcons/sei.svg';
 import klaytnIconDark from './darkModeIcons/klaytn.svg';
 import availIconDark from './darkModeIcons/avail.svg';
 import telosIconDark from './darkModeIcons/telos.svg';
+import electroneumIconDark from './darkModeIcons/electroneum.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.APTOS]: aptosIcon,
@@ -170,6 +172,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ETH_SEPOLIA_BEACON]: ethIcon,
   [ChainID.ETH_HOLESKY]: ethIcon,
   [ChainID.ETH_HOLESKY_BEACON]: ethIcon,
+  [ChainID.ELECTRONEUM]: electroneumIcon,
+  [ChainID.ELECTRONEUM_TESTNET]: electroneumIcon,
   [ChainID.FANTOM]: ftmIcon,
   [ChainID.FANTOM_TESTNET]: ftmIcon,
   [ChainID.FILECOIN]: filecoinIcon,
@@ -313,6 +317,8 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ETH_SEPOLIA_BEACON]: ethIconDark,
   [ChainID.ETH_HOLESKY]: ethIconDark,
   [ChainID.ETH_HOLESKY_BEACON]: ethIconDark,
+  [ChainID.ELECTRONEUM]: electroneumIconDark,
+  [ChainID.ELECTRONEUM_TESTNET]: electroneumIconDark,
   [ChainID.KINTO]: kintoIconDark,
   [ChainID.KUSAMA]: kusamaIconDark,
   [ChainID.MANTLE]: mantleIconDark,

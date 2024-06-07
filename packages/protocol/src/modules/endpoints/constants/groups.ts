@@ -91,6 +91,9 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.CORE,
 
+      ChainID.ELECTRONEUM,
+      ChainID.ELECTRONEUM_TESTNET,
+
       ChainID.FANTOM,
       ChainID.FANTOM_TESTNET,
 
