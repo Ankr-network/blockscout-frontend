@@ -150,13 +150,7 @@ export class USDTContractService extends UsdtContractReadService {
   //   // Replace with USDT-specific can issue JWT token method
   // }
 
-  public getCurrentAccountBalance(
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-  ) {
-    return this.usdtPAYGContractManager.getCurrentAccountBalance(
-      network,
-      tokenAddress
-    );
+  public getCurrentAccountBalance(network: EBlockchain) {
+    return this.usdtPAYGContractManager.getCurrentAccountBalance(network);
   }
 }

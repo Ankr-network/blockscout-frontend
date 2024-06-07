@@ -1,25 +1,24 @@
-import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
 import BigNumber from 'bignumber.js';
-import { TransactionReceipt } from 'web3-core';
 import { EventData } from 'web3-eth-contract';
+import { IWeb3SendResult, Web3KeyWriteProvider } from '@ankr.com/provider';
+import { TransactionReceipt } from 'web3-core';
 
 import { IConfig, PrefixedHex, Web3Address } from '../../common';
-import { PAYGContractManager as IPAYGContractManager } from '../../PAYGContract';
-import { ContractReadService } from './ContractReadService';
+import {
+  PAYGContractManager as IPAYGContractManager,
+} from '../../PAYGContract';
 
 export interface IIssueJwtTokenResult {
   isReady: boolean;
   remainingBlocks?: number;
 }
 
-export class ContractService extends ContractReadService {
+export class ContractService {
   public constructor(
     private readonly keyProvider: Web3KeyWriteProvider,
     protected readonly PAYGContractManager: IPAYGContractManager,
     private readonly config: IConfig,
-  ) {
-    super(PAYGContractManager);
-  }
+  ) {}
 
   async depositAnkrToPAYG(
     amount: BigNumber,

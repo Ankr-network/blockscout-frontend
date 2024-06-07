@@ -23,6 +23,7 @@ export interface IButtonsGroupProps
 export const ButtonsGroup = ({
   connectedAddress,
   isAccountChangedOnDepositStep,
+  isConfirming,
   isWalletAccountConnecting,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
@@ -42,6 +43,7 @@ export const ButtonsGroup = ({
         {isAccountChangedOnDepositStep && <AccountsChangedAlert />}
         <ConnectedWalletButtons
           isAccountChangedOnDepositStep={isAccountChangedOnDepositStep}
+          isConfirming={isConfirming}
           onAnotherAddressButtonClick={onAnotherAddressButtonClick}
           onCancelButtonClick={onCancelButtonClick}
           onConfirmButtonClick={onConfirmButtonClick}

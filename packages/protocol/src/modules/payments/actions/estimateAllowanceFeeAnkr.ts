@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { formatToWei } from 'multirpc-sdk';
 
+import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -29,32 +29,27 @@ export const {
       number,
       IEstimateAllowanceFeeAnkrParams
     >({
-      queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
-          async ({ params: { txId }, web3Service }, { getState }) => {
-            const state = getState() as RootState;
+      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+        const state = getState() as RootState;
 
-            const tx = selectCryptoTxById(state, txId);
+        const tx = selectCryptoTxById(state, txId);
 
-            if (tx) {
-              const { amount } = tx;
-              const { currentAccount } = web3Service.getKeyWriteProvider();
+        if (tx) {
+          const { amount, from } = tx;
 
-              if (currentAccount) {
-                const contractService = web3Service.getContractService();
+          const web3ReadService = await MultiService.getWeb3ReadService();
 
-                const fee = await contractService.getAllowanceFee(
-                  formatToWei(new BigNumber(amount)),
-                );
+          const contractService = web3ReadService.getContractService();
 
-                return { data: Number(fee) };
-              }
-            }
+          const fee = await contractService.estimateAllowanceFee(
+            formatToWei(new BigNumber(amount)),
+            from,
+          );
 
-            return { data: fallback };
-          },
-        ),
-        fallback: { data: fallback },
+          return { data: Number(fee) };
+        }
+
+        return { data: fallback };
       }),
       onQueryStarted: async (
         { txId },

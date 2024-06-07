@@ -43,6 +43,7 @@ export const useCryptoPayment = ({
     cryptoPaymentSummaryDialogProps,
     handleCryptoPaymentDepositDialogClose,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentDepositDialogOpened,
     isCryptoPaymentSummaryDialogOpening,
     setIsAccountChangedOnDepositStep,
   } = useCryptoPaymentFlow({
@@ -62,6 +63,7 @@ export const useCryptoPayment = ({
     currency,
     handleCryptoPaymentDepositDialogClose,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentDepositDialogOpened,
     network,
     setIsAccountChangedOnDepositStep,
     txId,

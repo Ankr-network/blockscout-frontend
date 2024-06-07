@@ -1,7 +1,14 @@
 import { EEthereumNetworkId } from '@ankr.com/provider';
 
-import { Base64, Environment, IConfig, PrefixedHex, Token } from './types';
-import { EBlockchain, PROD_CONFIG, STAGING_CONFIG } from './const';
+import {
+  Base64,
+  EBlockchain,
+  Environment,
+  IConfig,
+  PrefixedHex,
+  Token,
+} from './types';
+import { PROD_CONFIG, STAGING_CONFIG } from './const';
 
 export const base64ToPrefixedHex = (value: Base64): PrefixedHex => {
   return `0x${Buffer.from(value, 'base64').toString('hex')}`;
@@ -26,7 +33,7 @@ export const createTOTPHeaders = (totp?: string) =>
   totp ? { 'x-ankr-totp-token': totp } : {};
 
 
-export const getBlochainByChainId = (chainId: EEthereumNetworkId): EBlockchain => {
+export const getBlochainByChainId = (chainId: EEthereumNetworkId) => {
   switch (chainId) {
     case EEthereumNetworkId.arbitrum:
       return EBlockchain.arbitrum;

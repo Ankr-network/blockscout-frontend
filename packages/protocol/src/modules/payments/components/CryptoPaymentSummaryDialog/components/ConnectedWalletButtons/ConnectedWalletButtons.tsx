@@ -7,6 +7,7 @@ import { useConnectedWalletButtonStyles } from './useConnectedWalletButtonsStyle
 
 export interface IConnectedWalletButtonsProps {
   isAccountChangedOnDepositStep: boolean;
+  isConfirming: boolean;
   onAnotherAddressButtonClick: () => void;
   onCancelButtonClick: () => void;
   onConfirmButtonClick: () => void;
@@ -18,6 +19,7 @@ const proceedKey =
 
 export const ConnectedWalletButtons = ({
   isAccountChangedOnDepositStep,
+  isConfirming,
   onAnotherAddressButtonClick,
   onCancelButtonClick,
   onConfirmButtonClick,
@@ -28,6 +30,7 @@ export const ConnectedWalletButtons = ({
     <div className={classes.root}>
       <PrimaryButton
         className={classes.confirmButton}
+        isLoading={isConfirming}
         onClick={onConfirmButtonClick}
       >
         {t(isAccountChangedOnDepositStep ? proceedKey : confirmKey)}

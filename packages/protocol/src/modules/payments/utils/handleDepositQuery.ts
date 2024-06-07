@@ -1,7 +1,10 @@
 import { IWeb3SendResult } from '@ankr.com/provider';
+import { t } from '@ankr.com/common';
 
 import { AppDispatch } from 'store';
 import { TQueryFulfilled } from 'store/queries/types';
+import { isMetamaskError } from 'modules/common/utils/isMetamaskError';
+import { isQueryReturnValue } from 'store/utils/isQueryReturnValue';
 
 import {
   setDepositError,
@@ -30,13 +33,16 @@ export const handleDepositQuery = async ({
     if (depositTxHash) {
       dispatch(setDepositTxHash({ depositTxHash, id: txId }));
     }
-  } catch (error) {
-    // TODO: handle properly
-    const depositError = JSON.stringify(error);
+  } catch (exception) {
+    if (isQueryReturnValue(exception)) {
+      const depositError = isMetamaskError(exception.error)
+        ? exception.error.message
+        : t('error.common');
 
-    dispatch(setDepositError({ depositError, id: txId }));
-
-    throw error;
+      dispatch(setDepositError({ depositError, id: txId }));
+    } else {
+      throw exception;
+    }
   } finally {
     dispatch(setIsDepositing({ isDepositing: false, id: txId }));
   }

@@ -6,6 +6,7 @@ import { ICryptoTransaction, INetwork } from 'modules/payments/types';
 import { removeCryptoTx } from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useConnectWalletAccount } from 'domains/wallet/hooks/useConnectWalletAccount';
+import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { useWalletBalance } from 'modules/payments/hooks/useWalletBalance';
 
 import { IOneTimeAmountProps } from '../components/OneTimeAmount';
@@ -15,6 +16,7 @@ import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 export interface IUseCryptoPaymentSummaryStepProps {
   handleNetworkChange: (network: EBlockchain) => void;
   isAccountChangedOnDepositStep: boolean;
+  isConfirming: boolean;
   networks: INetwork[];
   onConfirmButtonClick: () => void;
   oneTimeAmountProps: IOneTimeAmountProps;
@@ -25,17 +27,21 @@ export interface IUseCryptoPaymentSummaryStepProps {
 export const useCryptoPaymentSummaryStep = ({
   handleNetworkChange,
   isAccountChangedOnDepositStep,
+  isConfirming,
   networks,
   onConfirmButtonClick,
   oneTimeAmountProps,
   setIsAccountChangedOnDepositStep,
   tx,
 }: IUseCryptoPaymentSummaryStepProps) => {
+  const { walletAddress } = useWalletAddress();
+
   const {
     allowanceFeeDetailsEstimated: allowanceFeeDetails,
     amount,
     currency,
     depositFeeDetailsEstimated: depositFeeDetails,
+    from,
     id: txId,
     network,
   } = tx;
@@ -44,7 +50,12 @@ export const useCryptoPaymentSummaryStep = ({
     handleFetchWalletbalance,
     isLoading: isWalletBalanceLoading,
     walletBalance,
-  } = useWalletBalance({ currency, network, skipFetching: true });
+  } = useWalletBalance({
+    accountAddress: from || walletAddress!,
+    currency,
+    network,
+    skipFetching: true,
+  });
 
   const { isLoading: isTotalAmountLoading, totalAmount } = useTotalCryptoAmount(
     {
@@ -86,6 +97,7 @@ export const useCryptoPaymentSummaryStep = ({
     handleNetworkChange,
     hasEnoughTokenBalance,
     isAccountChangedOnDepositStep,
+    isConfirming,
     isLoading,
     isWalletAccountConnecting,
     network,

@@ -42,10 +42,10 @@ export const AllowanceAttribute = ({
   status,
   txHash,
 }: IAllowanceAttributeProps) => {
-  const txUrl = getTxExplorerUrl(network, txHash);
+  const txUrl = txHash ? getTxExplorerUrl(network, txHash) : undefined;
 
   if (isAllowanceLoading) {
-    return <OverlaySpinner />;
+    return <OverlaySpinner size={30} />;
   }
 
   if (hasFullAllowance({ amount, isAllowanceSent, allowance })) {

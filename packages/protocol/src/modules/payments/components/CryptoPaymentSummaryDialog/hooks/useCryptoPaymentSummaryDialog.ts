@@ -11,6 +11,7 @@ import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog'
 export interface IUseCryptoPaymentSummaryDialogProps
   extends ICryptoPaymentSummaryDialogCommonProps {
   handleConnectWalletAccount: () => void;
+  isConfirming: boolean;
   onClose?: () => void;
   onConfirmButtonClick: () => void;
   onOpen?: () => Promise<void>;
@@ -26,6 +27,7 @@ export const useCryptoPaymentSummaryDialog = ({
   handleNetworkChange,
   hasEnoughTokenBalance,
   isAccountChangedOnDepositStep,
+  isConfirming,
   isLoading,
   isWalletAccountConnecting,
   network,
@@ -81,6 +83,7 @@ export const useCryptoPaymentSummaryDialog = ({
         handleNetworkChange,
         hasEnoughTokenBalance,
         isAccountChangedOnDepositStep,
+        isConfirming,
         isLoading,
         isWalletAccountConnecting,
         network,
@@ -105,6 +108,7 @@ export const useCryptoPaymentSummaryDialog = ({
         handleNetworkChange,
         hasEnoughTokenBalance,
         isAccountChangedOnDepositStep,
+        isConfirming,
         isLoading,
         isOpened,
         isWalletAccountConnecting,

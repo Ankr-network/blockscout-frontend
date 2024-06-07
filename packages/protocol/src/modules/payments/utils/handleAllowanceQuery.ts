@@ -1,7 +1,10 @@
 import { IWeb3SendResult } from '@ankr.com/provider';
+import { t } from '@ankr.com/common';
 
 import { AppDispatch } from 'store';
 import { TQueryFulfilled } from 'store/queries/types';
+import { isMetamaskError } from 'modules/common/utils/isMetamaskError';
+import { isQueryReturnValue } from 'store/utils/isQueryReturnValue';
 
 import {
   setAllowanceError,
@@ -30,13 +33,16 @@ export const handleAllowanceQuery = async ({
     if (allowanceTxHash) {
       dispatch(setAllowanceTxHash({ allowanceTxHash, id: txId }));
     }
-  } catch (error) {
-    // TODO: handle properly
-    const allowanceError = JSON.stringify(error);
+  } catch (exception) {
+    if (isQueryReturnValue(exception)) {
+      const allowanceError = isMetamaskError(exception.error)
+        ? exception.error.message
+        : t('error.common');
 
-    dispatch(setAllowanceError({ allowanceError, id: txId }));
-
-    throw error;
+      dispatch(setAllowanceError({ allowanceError, id: txId }));
+    } else {
+      throw exception;
+    }
   } finally {
     dispatch(setIsApproving({ isApproving: false, id: txId }));
   }

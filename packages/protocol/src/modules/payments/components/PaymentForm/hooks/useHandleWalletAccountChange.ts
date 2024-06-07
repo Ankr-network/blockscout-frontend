@@ -1,16 +1,13 @@
 import { EBlockchain } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
+import { ECryptoDepositStepStatus, ECurrency } from 'modules/payments/types';
+import { selectDepositStepStatus } from 'modules/payments/store/selectors';
 import {
-  ECryptoDepositStep,
-  ECryptoDepositStepStatus,
-  ECurrency,
-} from 'modules/payments/types';
-import {
-  selectCryptoDepositStep,
-  selectDepositStepStatus,
-} from 'modules/payments/store/selectors';
-import { setFromAddress } from 'modules/payments/store/paymentsSlice';
+  setAllowanceAmount,
+  setFromAddress,
+  setIsApproved,
+} from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
 import { useEstimatedAllowanceFee } from 'modules/payments/hooks/useEstimatedAllowanceFee';
@@ -24,6 +21,7 @@ export interface IUseHandleWalletAccountChangeProps {
   currency: ECurrency;
   handleCryptoPaymentDepositDialogClose: () => void;
   handleCryptoPaymentSummaryDialogOpen: () => void;
+  isCryptoPaymentDepositDialogOpened: boolean;
   network: EBlockchain;
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
   txId: string;
@@ -35,6 +33,7 @@ export const useHandleWalletAccountChange = ({
   currency,
   handleCryptoPaymentDepositDialogClose,
   handleCryptoPaymentSummaryDialogOpen,
+  isCryptoPaymentDepositDialogOpened,
   network,
   setIsAccountChangedOnDepositStep,
   txId,
@@ -42,8 +41,6 @@ export const useHandleWalletAccountChange = ({
   const depositStepStatus = useAppSelector(state =>
     selectDepositStepStatus(state, txId),
   );
-
-  const step = useAppSelector(state => selectCryptoDepositStep(state, txId));
 
   const { hasTx } = useTxByTxId({ txId });
   const { walletAddress } = useWalletAddress();
@@ -66,7 +63,8 @@ export const useHandleWalletAccountChange = ({
     txId,
   });
 
-  const { handleRefetchWalletBalance } = useWalletBalance({
+  const { handleFetchWalletbalance } = useWalletBalance({
+    accountAddress: walletAddress!,
     currency,
     network,
     skipFetching,
@@ -76,24 +74,31 @@ export const useHandleWalletAccountChange = ({
 
   useEffect(() => {
     if (walletAddress && hasTx) {
-      const isDeposit = step === ECryptoDepositStep.Deposit;
       const isDepositStepPending =
         depositStepStatus === ECryptoDepositStepStatus.Pending;
 
       dispatch(setFromAddress({ from: walletAddress, id: txId }));
 
+      // using fetch since paramters of the qieries has changed
+      // on wallet address change
+      handleFetchWalletbalance();
+
       // using refetch since parameters of the queries remains the same after
       // wallet address change
       handleRefetchEstimatedAllowanceFee();
       handleRefetchEstimatedDepositFee();
-      handleRefetchWalletBalance();
 
-      if (isDeposit && !isDepositStepPending) {
+      // to go back to the summary step to re-init the payment flow
+      if (isCryptoPaymentDepositDialogOpened && !isDepositStepPending) {
         setIsAccountChangedOnDepositStep(true);
 
         handleCryptoPaymentDepositDialogClose();
 
         handleResetAllowanceFetching();
+
+        // to reset allowance in the tx object
+        dispatch(setAllowanceAmount({ allowanceAmount: 0, id: txId }));
+        dispatch(setIsApproved({ isApproved: false, id: txId }));
 
         handleCryptoPaymentSummaryDialogOpen();
       } else {

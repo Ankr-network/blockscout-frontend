@@ -41,7 +41,6 @@ export interface DepositTokenForUserParams {
 export interface IThrowErrorIfValueIsGreaterThanBalanceParams {
   amount: BigNumber;
   network: EBlockchain;
-  tokenAddress: Web3Address;
 }
 
 export interface IThrowErrorIfDepositIsGreaterThanAllowanceParams {

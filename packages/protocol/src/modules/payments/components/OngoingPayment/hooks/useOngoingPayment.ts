@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { EPaymentType, ICryptoTransaction } from 'modules/payments/types';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useCryptoPaymentFlow } from 'modules/payments/components/PaymentForm/hooks/useCryptoPaymentFlow';
 import { useCurrency } from 'modules/payments/components/PaymentForm/hooks/useCurrency';
 import { useMinAmount } from 'modules/payments/components/PaymentForm/hooks/useMinAmount';
@@ -55,6 +56,7 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     handleCryptoPaymentDepositDialogClose,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
+    isCryptoPaymentDepositDialogOpened,
   } = useCryptoPaymentFlow({
     handleNetworkChange,
     networks,
@@ -62,30 +64,51 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     tx,
   });
 
+  const depositDialogRef = useRef(isCryptoPaymentDepositDialogOpened);
+
   const { handleWaitForDepositConfirmation, isUninitialized } =
     useWaitForDepositConfirmation({ tx });
 
-  const handleInitDepositFlow = useCallback(() => {
-    if (!depositError && isUninitialized) {
-      handleWaitForDepositConfirmation().then(() => {
-        handleCryptoPaymentSuccessDialogOpen();
-        handleCryptoPaymentDepositDialogClose();
-      });
+  const handleDetailsButtonClick = useCallback(() => {
+    if (isSuccessful) {
+      handleCryptoPaymentSuccessDialogOpen();
+    } else {
+      handleCryptoPaymentDepositDialogOpen({ shouldFetchAllowance: false });
     }
+  }, [
+    handleCryptoPaymentDepositDialogOpen,
+    handleCryptoPaymentSuccessDialogOpen,
+    isSuccessful,
+  ]);
 
-    handleCryptoPaymentDepositDialogOpen();
+  useEffect(() => {
+    depositDialogRef.current = isCryptoPaymentDepositDialogOpened;
+  }, [isCryptoPaymentDepositDialogOpened]);
+
+  useEffect(() => {
+    const initDepositFlow = async () => {
+      // to init deposit flow
+      if (!depositError && isUninitialized) {
+        const response = await handleWaitForDepositConfirmation();
+
+        if (isMutationSuccessful(response)) {
+          if (depositDialogRef.current) {
+            handleCryptoPaymentSuccessDialogOpen();
+            handleCryptoPaymentDepositDialogClose();
+          }
+        }
+      }
+    };
+
+    initDepositFlow();
   }, [
     depositError,
     handleCryptoPaymentDepositDialogClose,
-    handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSuccessDialogOpen,
     handleWaitForDepositConfirmation,
+    isCryptoPaymentDepositDialogOpened,
     isUninitialized,
   ]);
-
-  const handleDetailsButtonClick = isSuccessful
-    ? handleCryptoPaymentSuccessDialogOpen
-    : handleInitDepositFlow;
 
   return {
     amount,

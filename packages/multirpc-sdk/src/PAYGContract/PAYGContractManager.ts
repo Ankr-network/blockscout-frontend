@@ -12,16 +12,13 @@ import {
   IAnkrPAYGContractManagerConfig,
   SendDepositTransactionForUserParams,
 } from './types';
-import { IAnkrToken } from './abi/IAnkrToken';
-import { IPayAsYouGo } from './abi/IPayAsYouGo';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
+import { DEPOSIT_ERROR, DEPOSIT_EXPIRATION, GAS_LIMIT } from './const';
+import { IAnkrToken } from './abi/IAnkrToken';
+import { IPayAsYouGo } from './abi/IPayAsYouGo';
 import { PAYGReadContractManager } from './PAYGReadContractManager';
 import { formatFromWei, roundDecimals } from '../utils';
-import { DEPOSIT_EXPIRATION, GAS_LIMIT } from './const';
-
-export const DEPOSIT_ERROR =
-  'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
 
 export class PAYGContractManager extends PAYGReadContractManager {
   protected readonly ankrTokenContract: Contract;

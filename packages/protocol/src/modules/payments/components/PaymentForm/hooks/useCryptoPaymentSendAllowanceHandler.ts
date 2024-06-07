@@ -3,9 +3,11 @@ import { useCallback } from 'react';
 import { ICryptoTransaction } from 'modules/payments/types';
 import { defaultCryptoTx } from 'modules/payments/const';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useFetchAllowance } from 'modules/payments/hooks/useFetchAllowance';
 import { useSendAllowance } from 'modules/payments/hooks/useSendAllowance';
 import { useWaitForAllowanceConfirmation } from 'modules/payments/hooks/useWaitForAllowanceConfirmation';
+import { setAllowanceError } from 'modules/payments/store/paymentsSlice';
 
 export interface IUseCryptoPaymentSendAllowanceHandler {
   tx: ICryptoTransaction | undefined;
@@ -14,7 +16,7 @@ export interface IUseCryptoPaymentSendAllowanceHandler {
 export const useCryptoPaymentSendAllowanceHandler = ({
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentSendAllowanceHandler) => {
-  const { currency, network } = tx;
+  const { currency, id: txId, network } = tx;
 
   const {
     handleResetAllowanceSending: resetAllowanceSending,
@@ -31,7 +33,12 @@ export const useCryptoPaymentSendAllowanceHandler = ({
     skipFetching: true,
   });
 
+  const dispatch = useAppDispatch();
+
   const handleSendAllowance = useCallback(async () => {
+    // to reset allowance error if exists
+    dispatch(setAllowanceError({ allowanceError: undefined, id: txId }));
+
     const sendAllowanceResponse = await sendAllowance();
 
     if (isMutationSuccessful(sendAllowanceResponse)) {
@@ -41,7 +48,13 @@ export const useCryptoPaymentSendAllowanceHandler = ({
         await handleFetchAllowance();
       }
     }
-  }, [handleFetchAllowance, handleWaitForAllowanceConfirmation, sendAllowance]);
+  }, [
+    dispatch,
+    handleFetchAllowance,
+    handleWaitForAllowanceConfirmation,
+    sendAllowance,
+    txId,
+  ]);
 
   const handleResetAllowanceSending = useCallback(() => {
     resetAllowanceSending();

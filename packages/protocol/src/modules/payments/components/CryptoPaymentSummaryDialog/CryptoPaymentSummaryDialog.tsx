@@ -21,6 +21,7 @@ export const CryptoPaymentSummaryDialog = ({
   handleNetworkChange,
   hasEnoughTokenBalance,
   isAccountChangedOnDepositStep,
+  isConfirming,
   isLoading,
   isWalletAccountConnecting,
   network,
@@ -59,6 +60,7 @@ export const CryptoPaymentSummaryDialog = ({
       <ButtonsGroup
         connectedAddress={connectedAddress}
         isAccountChangedOnDepositStep={isAccountChangedOnDepositStep}
+        isConfirming={isConfirming}
         isWalletAccountConnecting={isWalletAccountConnecting}
         onAnotherAddressButtonClick={onAnotherAddressButtonClick}
         onCancelButtonClick={onCancelButtonClick}

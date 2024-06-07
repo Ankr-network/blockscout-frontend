@@ -1,17 +1,20 @@
-import { MultiRpcWeb3Sdk } from 'multirpc-sdk';
+import { Web3Address } from 'multirpc-sdk';
+
+import { MultiService } from 'modules/api/MultiService';
 
 export interface IGetWalletBalanceAnkrParams {
-  web3Service: MultiRpcWeb3Sdk;
+  accountAddress: Web3Address;
 }
 
 export const getWalletBalanceAnkr = async ({
-  web3Service,
+  accountAddress,
 }: IGetWalletBalanceAnkrParams) => {
-  const balance = await web3Service
+  const web3ReadService = await MultiService.getWeb3ReadService();
+  const balance = await web3ReadService
     .getContractService()
-    .getCurrentAccountBalance();
+    .getBalance(accountAddress);
 
-  const keyProvider = web3Service.getKeyWriteProvider();
+  const provider = web3ReadService.getProvider();
 
-  return keyProvider.getWeb3().utils.fromWei(balance);
+  return provider.getWeb3().utils.fromWei(balance);
 };

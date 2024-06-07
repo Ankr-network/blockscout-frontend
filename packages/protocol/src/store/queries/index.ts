@@ -28,6 +28,7 @@ const endpointsSerializedByParams = [
   'fetchBlockchainTxReceipt',
   'fetchNativeTokenPrice',
   'fetchTokenPrice',
+  'fetchWalletBalanceAnkr',
   'fetchWalletBalanceUsdc',
   'fetchWalletBalanceUsdt',
 ];

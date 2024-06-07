@@ -3,6 +3,8 @@ import { useCallback } from 'react';
 import { ICryptoTransaction } from 'modules/payments/types';
 import { defaultCryptoTx } from 'modules/payments/const';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { setDepositError } from 'modules/payments/store/paymentsSlice';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useDeposit } from 'modules/payments/hooks/useDeposit';
 import { useWaitForDepositConfirmation } from 'modules/payments/hooks/useWaitForDepositConfirmation';
 
@@ -17,12 +19,19 @@ export const useCryptoPaymentDepositHandler = ({
   onDepositSuccess: handleDepositSuccess,
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentDepositHandlerProps) => {
+  const txId = tx.id;
+
   const { handleDeposit: deposit, handleResetDeposit: resetDeposit } =
     useDeposit({ tx });
   const { handleResetDepositConfirmation, handleWaitForDepositConfirmation } =
     useWaitForDepositConfirmation({ tx });
 
+  const dispatch = useAppDispatch();
+
   const handleDeposit = useCallback(async () => {
+    // to reset deposit error if exists
+    dispatch(setDepositError({ depositError: undefined, id: txId }));
+
     const depositResponse = await deposit();
 
     if (isMutationSuccessful(depositResponse)) {
@@ -35,9 +44,11 @@ export const useCryptoPaymentDepositHandler = ({
     }
   }, [
     deposit,
+    dispatch,
     handleCryptoPaymentDepositDialogClose,
     handleDepositSuccess,
     handleWaitForDepositConfirmation,
+    txId,
   ]);
 
   const handleResetDeposit = useCallback(() => {

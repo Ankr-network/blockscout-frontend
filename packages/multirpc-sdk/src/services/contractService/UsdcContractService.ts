@@ -15,16 +15,13 @@ import {
   IGetAllowanceValueParams
 } from '../../common';
 import { UsdcPAYGContractManager } from '../../PAYGContract/UsdcPAYGContractManager';
-import { UsdcContractReadService } from './UsdcContractReadService';
 import { convertNumberWithDecimalsToString } from '../../utils';
 
-export class USDCContractService extends UsdcContractReadService {
+export class USDCContractService {
   public constructor(
     private readonly keyProvider: Web3KeyWriteProvider,
     protected readonly usdcPAYGContractManager: UsdcPAYGContractManager,
-  ) {
-    super(usdcPAYGContractManager);
-  }
+  ) {}
 
   async depositUSDCToPAYG({
     amount,
@@ -150,13 +147,7 @@ export class USDCContractService extends UsdcContractReadService {
   //   // Replace with USDC-specific can issue JWT token method
   // }
 
-  public getCurrentAccountBalance(
-    network: EBlockchain,
-    tokenAddress: Web3Address,
-  ) {
-    return this.usdcPAYGContractManager.getCurrentAccountBalance(
-      network,
-      tokenAddress
-    );
+  public getCurrentAccountBalance(network: EBlockchain) {
+    return this.usdcPAYGContractManager.getCurrentAccountBalance(network);
   }
 }

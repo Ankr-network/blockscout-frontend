@@ -89,10 +89,12 @@ export interface IUpdateCryptoTxPayload {
   id: string;
 }
 
-type TCryptoTxField<Field extends keyof ICryptoTransaction> = Pick<
-  Required<ICryptoTransaction>,
-  Field
->;
+type TCryptoTxField<
+  Field extends keyof ICryptoTransaction,
+  Partial = false,
+> = Partial extends true
+  ? Pick<ICryptoTransaction, Field>
+  : Pick<Required<ICryptoTransaction>, Field>;
 
 export interface ISetAllowanceAmountPayload
   extends IUpdateCryptoTxPayload,
@@ -100,7 +102,7 @@ export interface ISetAllowanceAmountPayload
 
 export interface ISetAllowanceErrorPayload
   extends IUpdateCryptoTxPayload,
-    TCryptoTxField<'allowanceError'> {}
+    TCryptoTxField<'allowanceError', true> {}
 
 export interface ISetAllowanceFeeDetailsPaidPayload
   extends IUpdateCryptoTxPayload,
@@ -124,7 +126,7 @@ export interface ISetCurrencyPayload
 
 export interface ISetDepositErrorPayload
   extends IUpdateCryptoTxPayload,
-    TCryptoTxField<'depositError'> {}
+    TCryptoTxField<'depositError', true> {}
 
 export interface ISetDepositFeeDetailsPaidPayload
   extends IUpdateCryptoTxPayload,

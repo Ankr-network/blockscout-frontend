@@ -62,7 +62,7 @@ export const useCryptoTx = ({
           amount,
           currency,
           from: walletAddress,
-          hadAllowance: Boolean(allowanceAmount),
+          hadAllowance: allowanceAmount >= amount,
           id: txId,
           network,
           to: paygContractAddress,

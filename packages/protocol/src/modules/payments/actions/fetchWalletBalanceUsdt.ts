@@ -2,7 +2,6 @@ import { EBlockchain } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 import { ZERO_STRING } from 'modules/common/constants/const';
-import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -11,6 +10,7 @@ import { getWalletBalanceUsdt } from '../utils/getWalletBalanceUsdt';
 import { selectPaymentOptionsByNetworkAndCurrency } from '../store/selectors';
 
 export interface IFetchWalletBalanceUsdtParams {
+  accountAddress: string;
   network: EBlockchain;
 }
 
@@ -27,39 +27,26 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchWalletBalanceUsdt: build.query<string, IFetchWalletBalanceUsdtParams>({
-      queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: async ({ params: { network }, web3Service }, { getState }) => {
-          const { currentAccount } = web3Service.getKeyWriteProvider();
+      queryFn: async ({ accountAddress, network }, { getState }) => {
+        const state = getState() as RootState;
+        const { tokenAddress, tokenDecimals } =
+          selectPaymentOptionsByNetworkAndCurrency(state, network, currency);
 
-          const { depositContractAddress, tokenAddress, tokenDecimals } =
-            selectPaymentOptionsByNetworkAndCurrency(
-              getState() as RootState,
-              network,
-              currency,
-            );
+        const hasNecessaryData = tokenAddress && tokenDecimals;
 
-          const hasNecessaryData =
-            currentAccount &&
-            depositContractAddress &&
-            tokenAddress &&
-            tokenDecimals;
+        if (!hasNecessaryData) {
+          return { data: fallback };
+        }
 
-          if (!hasNecessaryData) {
-            return { data: fallback };
-          }
+        const data = await getWalletBalanceUsdt({
+          accountAddress,
+          network,
+          tokenAddress,
+          tokenDecimals,
+        });
 
-          const data = await getWalletBalanceUsdt({
-            depositContractAddress,
-            network,
-            tokenAddress,
-            tokenDecimals,
-            web3Service,
-          });
-
-          return { data };
-        },
-        fallback: { data: fallback },
-      }),
+        return { data };
+      },
     }),
   }),
 });

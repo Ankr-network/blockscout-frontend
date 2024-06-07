@@ -1,14 +1,26 @@
-import { EventData } from 'web3-eth-contract';
-
-import { UsdcPAYGContractManager } from '../../PAYGContract/UsdcPAYGContractManager';
+import { EBlockchain, IEstimateStablecoinFeeParams } from '../../common';
 import { UsdcPAYGReadContractManager } from '../../PAYGContract/UsdcPAYGReadContractManager';
 
-export type { EventData };
-
 export class UsdcContractReadService {
-  public constructor(
-    protected readonly usdcPAYGContractManager:
-      | UsdcPAYGContractManager
-      | UsdcPAYGReadContractManager,
-  ) { }
+  constructor(
+    protected readonly usdcPAYGContractManager: UsdcPAYGReadContractManager,
+  ) {}
+
+  async getBalance(
+    accountAddress: string,
+    network: EBlockchain,
+  ) {
+    return this.usdcPAYGContractManager.getAccountBalance(
+      accountAddress,
+      network,
+    );
+  }
+
+  async estimateAllowanceFee(params: IEstimateStablecoinFeeParams) {
+    return this.usdcPAYGContractManager.estimateAllowanceFee(params);
+  }
+
+  async estimateDepositFee(params: IEstimateStablecoinFeeParams) {
+    return this.usdcPAYGContractManager.estimateDepositFee(params);
+  }
 }

@@ -2,6 +2,7 @@ import { EBlockchain } from 'multirpc-sdk';
 import { useEffect } from 'react';
 
 import { ECurrency } from 'modules/payments/types';
+import { defaultCryptoTx } from 'modules/payments/const';
 import { setCurrency } from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useEstimatedAllowanceFee } from 'modules/payments/hooks/useEstimatedAllowanceFee';
@@ -24,7 +25,8 @@ export const useHandleCurrencyChange = ({
   network,
   txId,
 }: IUseHandleCurrencyChangeProps) => {
-  const { hasTx } = useTxByTxId({ txId });
+  const { hasTx, tx = defaultCryptoTx } = useTxByTxId({ txId });
+  const { from } = tx;
 
   const { handleFetchEstimatedAllowanceFee } = useEstimatedAllowanceFee({
     currency,
@@ -39,6 +41,7 @@ export const useHandleCurrencyChange = ({
   });
 
   const { handleFetchWalletbalance } = useWalletBalance({
+    accountAddress: from,
     currency,
     network,
     skipFetching,

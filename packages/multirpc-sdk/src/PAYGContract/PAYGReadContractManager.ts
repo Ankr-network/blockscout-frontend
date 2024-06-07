@@ -1,13 +1,17 @@
+import BigNumber from 'bignumber.js';
 import { Contract, EventData } from 'web3-eth-contract';
-import { Web3KeyReadProvider } from '@ankr.com/provider';
 import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
-import { PrefixedHex, Web3Address } from '../common';
-import { IAnkrPAYGContractManagerConfig } from './types';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
+import { GAS_LIMIT } from './const';
+import { IAnkrPAYGContractManagerConfig } from './types';
+import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGoEvents } from './abi/IPayAsYouGo';
+import { PrefixedHex, Web3Address } from '../common';
 import { getPastEventsBlockchain } from './utils/getPastEventsBlockchain';
+import { roundDecimals } from '../utils';
 
 export class PAYGReadContractManager {
   protected readonly ankrTokenReadContract: Contract;
@@ -112,5 +116,43 @@ export class PAYGReadContractManager {
       .sort((a, b) => a.blockNumber - b.blockNumber);
 
     return allowanceEvents;
+  }
+
+  async getBalance(accountAddress: Web3Address) {
+    return (this.ankrTokenReadContract.methods as IAnkrToken)
+      .balanceOf(accountAddress)
+      .call();
+  }
+
+  async estimateAllowanceFee(amount: BigNumber, from: Web3Address) {
+    const amountString = amount.toString(10);
+    const gas = Number(GAS_LIMIT);
+    const to = this.config.payAsYouGoContractAddress;
+
+    const gasAmount = await (this.ankrTokenReadContract.methods as IAnkrToken)
+      .approve(to, amountString)
+      .estimateGas({ from, gas });
+
+    const gasPrice = await this.keyReadProvider.getSafeGasPriceWei();
+
+    const feeWei = gasPrice.multipliedBy(gasAmount);
+
+    return this.keyReadProvider.getWeb3().utils.fromWei(feeWei.toString());
+  }
+
+  async estimateDepositFee(amount: BigNumber, from: Web3Address) {
+    const amountString = roundDecimals(amount).toString(10);
+    const gas = Number(GAS_LIMIT);
+    const to = this.config.payAsYouGoContractAddress;
+
+    const gasAmount = await (this.ankrTokenReadContract.methods as IAnkrToken)
+      .transfer(to, amountString)
+      .estimateGas({ from, gas });
+
+    const gasPrice = await this.keyReadProvider.getSafeGasPriceWei();
+
+    const feeWei = gasPrice.multipliedBy(gasAmount);
+
+    return this.keyReadProvider.getWeb3().utils.fromWei(feeWei.toString());
   }
 }

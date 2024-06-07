@@ -8,11 +8,13 @@ import { useWalletBalanceUsdc } from './useWalletBalanceUsdc';
 import { useWalletBalanceUsdt } from './useWalletBalanceUsdt';
 
 export interface IUseWalletBalanceParams extends IUseQueryProps {
+  accountAddress: string;
   currency: ECurrency;
   network: EBlockchain;
 }
 
 export const useWalletBalance = ({
+  accountAddress,
   currency,
   network,
   skipFetching,
@@ -26,21 +28,32 @@ export const useWalletBalance = ({
     handleFetchWalletBalanceAnkr,
     handleRefetchWalletBalanceAnkr,
     isLoading: isWalletBalanceAnkrLoading,
-  } = useWalletBalanceAnkr({ skipFetching: skipFetching || !isAnkr });
+  } = useWalletBalanceAnkr({
+    accountAddress,
+    skipFetching: skipFetching || !isAnkr,
+  });
 
   const {
     balanceUsdc,
     handleFetchWalletBalanceUsdc,
     handleRefetchWalletBalanceUsdc,
     isLoading: isWalletBalanceUsdcLoading,
-  } = useWalletBalanceUsdc({ network, skipFetching: skipFetching || !isUsdc });
+  } = useWalletBalanceUsdc({
+    accountAddress,
+    network,
+    skipFetching: skipFetching || !isUsdc,
+  });
 
   const {
     balanceUsdt,
     handleFetchWalletBalanceUsdt,
     handleRefetchWalletBalanceUsdt,
     isLoading: isWalletBalanceUsdtLoading,
-  } = useWalletBalanceUsdt({ network, skipFetching: skipFetching || !isUsdt });
+  } = useWalletBalanceUsdt({
+    accountAddress,
+    network,
+    skipFetching: skipFetching || !isUsdt,
+  });
 
   if (isUsdc) {
     return {

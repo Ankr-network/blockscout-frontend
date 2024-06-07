@@ -1,31 +1,27 @@
-import { EBlockchain, MultiRpcWeb3Sdk, Web3Address } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
+
+import { MultiService } from 'modules/api/MultiService';
 
 import { formatBalanceByDecimals } from './formatBalanceByDecimals';
 
 export interface IGetWalletBalanceUsdtParams {
-  depositContractAddress: Web3Address;
-  tokenAddress: Web3Address;
+  accountAddress: string;
   network: EBlockchain;
+  tokenAddress: Web3Address;
   tokenDecimals: number;
-  web3Service: MultiRpcWeb3Sdk;
 }
 
 export const getWalletBalanceUsdt = async ({
-  depositContractAddress,
+  accountAddress,
   network,
   tokenAddress,
   tokenDecimals,
-  web3Service,
 }: IGetWalletBalanceUsdtParams) => {
-  const contractService = web3Service.getUsdtContractService({
-    depositContractAddress,
-    tokenAddress,
-  });
+  const web3ReadService = await MultiService.getWeb3ReadService();
 
-  const balance = await contractService.getCurrentAccountBalance(
-    network,
-    tokenAddress,
-  );
+  const contractService = web3ReadService.getContractServiceUsdt(tokenAddress);
+
+  const balance = await contractService.getBalance(accountAddress, network);
 
   return formatBalanceByDecimals(balance, tokenDecimals);
 };

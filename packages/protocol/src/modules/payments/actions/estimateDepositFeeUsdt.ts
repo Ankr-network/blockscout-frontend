@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
 
+import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -25,54 +25,41 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     estimateDepositFeeUsdt: build.query<number, IEstimateDepositFeeUsdtParams>({
-      queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
-          async ({ params: { txId }, web3Service }, { getState }) => {
-            const state = getState() as RootState;
+      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+        const state = getState() as RootState;
 
-            const tx = selectCryptoTxById(state, txId);
+        const tx = selectCryptoTxById(state, txId);
 
-            if (tx) {
-              const { amount, currency, network } = tx;
-              const { currentAccount } = web3Service.getKeyWriteProvider();
+        if (tx) {
+          const { amount, currency, from, network } = tx;
 
-              const { depositContractAddress, tokenAddress, tokenDecimals } =
-                selectPaymentOptionsByNetworkAndCurrency(
-                  state,
-                  network,
-                  currency,
-                );
+          const { depositContractAddress, tokenAddress, tokenDecimals } =
+            selectPaymentOptionsByNetworkAndCurrency(state, network, currency);
 
-              const hasNecessaryData =
-                currentAccount &&
-                depositContractAddress &&
-                tokenAddress &&
-                tokenDecimals;
+          const hasNecessaryData =
+            depositContractAddress && tokenAddress && tokenDecimals;
 
-              if (!hasNecessaryData) {
-                return { data: fallback };
-              }
-
-              const contractService = web3Service.getUsdtContractService({
-                depositContractAddress,
-                tokenAddress,
-              });
-
-              const fee = await contractService.getDepositUSDTToPAYGFee({
-                amount: new BigNumber(amount),
-                depositContractAddress,
-                network,
-                tokenAddress,
-                tokenDecimals,
-              });
-
-              return { data: Number(fee) };
-            }
-
+          if (!hasNecessaryData) {
             return { data: fallback };
-          },
-        ),
-        fallback: { data: fallback },
+          }
+
+          const web3ReadService = await MultiService.getWeb3ReadService();
+
+          const contractReadService =
+            web3ReadService.getContractServiceUsdt(tokenAddress);
+
+          const fee = await contractReadService.estimateDepositFee({
+            amount: new BigNumber(amount),
+            from,
+            network,
+            to: depositContractAddress,
+            tokenDecimals,
+          });
+
+          return { data: Number(fee) };
+        }
+
+        return { data: fallback };
       }),
       onQueryStarted: async (
         { txId },

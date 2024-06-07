@@ -34,12 +34,8 @@ import {
   getBNWithDecimalsFromString,
   convertNumberWithDecimalsToString,
 } from '../utils';
-import { GAS_LIMIT } from './const';
+import { DEPOSIT_ERROR, GAS_LIMIT, ZERO_STRING } from './const';
 
-export const DEPOSIT_ERROR =
-  'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
-
-const ZERO_STRING = '0';
 
 export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
   protected readonly usdcTokenContract: Contract;
@@ -53,7 +49,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     public readonly tokenAddress: Web3Address, // token_contract_address
     public readonly depositContractAddress: Web3Address, // deposit_contract_address
   ) {
-    super(keyReadProvider, tokenAddress, depositContractAddress);
+    super(keyReadProvider, tokenAddress);
 
     this.usdcTokenContract = keyWriteProvider.createContract(
       ABI_USDC_TOKEN,
@@ -66,10 +62,10 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     );
   }
 
-  public async getCurrentAccountBalance(network: EBlockchain, tokenAddress: Web3Address) {
+  public async getCurrentAccountBalance(network: EBlockchain) {
     const { currentAccount } = this.keyWriteProvider;
 
-    return this.getAccountBalance(currentAccount, network, tokenAddress);
+    return this.getAccountBalance(currentAccount, network);
   }
 
   private async sendAllowance({
@@ -190,9 +186,8 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
   private async throwErrorIfValueIsGreaterThanBalance({
     amount,
     network,
-    tokenAddress,
   }: IThrowErrorIfValueIsGreaterThanBalanceParams) {
-    const balance = await this.getCurrentAccountBalance(network, tokenAddress);
+    const balance = await this.getCurrentAccountBalance(network);
 
     if (amount.isGreaterThan(new BigNumber(balance))) {
       throw new Error(`You don't have enough Usdc tokens`);
@@ -240,7 +235,6 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     await this.throwErrorIfValueIsGreaterThanBalance({
       amount: allowanceAmount,
       network,
-      tokenAddress,
     });
 
     return this.sendAllowance({
@@ -287,7 +281,7 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     });
 
     this.throwErrorIfValueIsLessThanZero(amount);
-    await this.throwErrorIfValueIsGreaterThanBalance({ amount, network, tokenAddress });
+    await this.throwErrorIfValueIsGreaterThanBalance({ amount, network });
     this.throwErrorIfDepositIsGreaterThanAllowance(
       {
         depositValue: amount,
@@ -361,7 +355,6 @@ export class UsdcPAYGContractManager extends UsdcPAYGReadContractManager {
     await this.throwErrorIfValueIsGreaterThanBalance({
       amount: depositValue,
       network,
-      tokenAddress,
     });
     this.throwErrorIfDepositIsGreaterThanAllowance({
       depositValue,

@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { formatToWei } from 'multirpc-sdk';
 
+import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -27,38 +27,31 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     estimateDepositFeeAnkr: build.query<number, IEstimateDepositFeeAnkrParams>({
-      queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
-          async ({ params: { txId }, web3Service }, { getState }) => {
-            const state = getState() as RootState;
+      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+        const state = getState() as RootState;
 
-            const tx = selectCryptoTxById(state, txId);
+        const tx = selectCryptoTxById(state, txId);
 
-            if (tx) {
-              const { amount } = tx;
-              const { currentAccount } = web3Service.getKeyWriteProvider();
+        if (tx) {
+          const { amount, from } = tx;
 
-              if (!currentAccount) {
-                return { data: fallback };
-              }
+          const balance = await getWalletBalanceAnkr({ accountAddress: from });
 
-              const balance = await getWalletBalanceAnkr({ web3Service });
+          if (Number(balance) >= amount) {
+            const web3ReadService = await MultiService.getWeb3ReadService();
 
-              if (Number(balance) >= amount) {
-                const contractService = web3Service.getContractService();
+            const contractService = web3ReadService.getContractService();
 
-                const fee = await contractService.getDepositAnkrToPAYGFee(
-                  formatToWei(new BigNumber(amount)),
-                );
+            const fee = await contractService.estimateDepositFee(
+              formatToWei(new BigNumber(amount)),
+              from,
+            );
 
-                return { data: Number(fee) };
-              }
-            }
+            return { data: Number(fee) };
+          }
+        }
 
-            return { data: fallback };
-          },
-        ),
-        fallback: { data: fallback },
+        return { data: fallback };
       }),
       onQueryStarted: async (
         { txId },

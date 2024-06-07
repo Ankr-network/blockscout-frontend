@@ -40,7 +40,7 @@ export const DepositAttribute = ({
       <FeeAmount
         feeCrypto={feeCrypto}
         feeUSD={feeUSD}
-        txURL={getTxExplorerUrl(network, txHash)}
+        txURL={txHash ? getTxExplorerUrl(network, txHash) : undefined}
         isApproximate
         network={network}
       />

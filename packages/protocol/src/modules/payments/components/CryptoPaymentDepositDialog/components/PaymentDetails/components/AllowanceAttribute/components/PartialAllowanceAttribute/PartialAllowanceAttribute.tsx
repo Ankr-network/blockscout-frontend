@@ -42,7 +42,7 @@ export const PartialAllowanceAttribute = ({
 
   const amountString = renderCryptoAmount({ amount, currency });
 
-  const allowanceString = renderCryptoAmount({ amount, currency });
+  const allowanceString = renderCryptoAmount({ amount: allowance, currency });
 
   const alertProps = useAlert({
     allowanceString,

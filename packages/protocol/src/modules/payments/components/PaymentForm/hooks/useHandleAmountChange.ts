@@ -40,10 +40,13 @@ export const useHandleAmountChange = ({
     if (hasTx) {
       dispatch(setAmount({ amount, id: txId }));
 
+      // using fetch since paramters of the qieries has changed
+      // on amount change
+      handleRefetchEstimatedDepositFee();
+
       // using refetch since parameters of the queries remains the same
       // on amount change
       handleFetchEstimatedAllowanceFee();
-      handleRefetchEstimatedDepositFee();
     }
     // we should only track currency
     // eslint-disable-next-line react-hooks/exhaustive-deps

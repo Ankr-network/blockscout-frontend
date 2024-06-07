@@ -14,7 +14,11 @@ export const useWaitForDepositConfirmation = ({
 
   const [
     waitForDepositConfirmation,
-    { isUninitialized, reset: handleResetDepositConfirmation },
+    {
+      data: isConfirmed,
+      isUninitialized,
+      reset: handleResetDepositConfirmation,
+    },
   ] = useWaitForDepositConfirmationMutation({ fixedCacheKey: txId });
 
   const handleWaitForDepositConfirmation = useCallback(
@@ -25,6 +29,7 @@ export const useWaitForDepositConfirmation = ({
   return {
     handleResetDepositConfirmation,
     handleWaitForDepositConfirmation,
+    isConfirmed,
     isDepositConfirming,
     isUninitialized,
   };
