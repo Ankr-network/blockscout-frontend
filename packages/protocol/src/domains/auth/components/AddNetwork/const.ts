@@ -306,6 +306,28 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://ethereum-holesky.publicnode.com/'],
   },
 
+  [ChainID.ELECTRONEUM]: {
+    chainId: 52014,
+    chainName: 'Electroneum Mainnet',
+    nativeCurrency: {
+      name: 'ETN',
+      symbol: 'ETN',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockexplorer.electroneum.com/'],
+  },
+
+  [ChainID.ELECTRONEUM_TESTNET]: {
+    chainId: 5201420,
+    chainName: 'Electroneum Testnet',
+    nativeCurrency: {
+      name: 'ETN',
+      symbol: 'ETN',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockexplorer.thesecurityteam.rocks/'],
+  },
+
   [ChainID.FANTOM]: {
     chainId: 250,
     chainName: 'Fantom Opera',
