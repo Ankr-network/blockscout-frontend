@@ -44,9 +44,13 @@ export const CryptoPaymentDepositDialog = ({
 }: ICryptoPaymentDepositDialogProps) => {
   const { classes } = useCryptoPaymentDepositDialogStyles();
 
+  const isDeposit = activeStep === ECryptoDepositStep.Deposit;
+
   const isDepositPending =
-    activeStep === ECryptoDepositStep.Deposit &&
-    depositStepStatus === ECryptoDepositStepStatus.Pending;
+    isDeposit && depositStepStatus === ECryptoDepositStepStatus.Pending;
+
+  const isDepositConfirming =
+    isDeposit && depositStepStatus === ECryptoDepositStepStatus.Confirming;
 
   return (
     <Dialog
@@ -82,12 +86,14 @@ export const CryptoPaymentDepositDialog = ({
         depositTxHash={depositTxHash}
         isAllowanceLoading={isAllowanceLoading}
         isAllowanceSent={isAllowanceSent}
+        isDepositConfirming={isDepositConfirming}
         isDepositPending={isDepositPending}
         network={network}
       />
       {isWrongNetwork && <SwitchNetworkBanner network={network} />}
       <Buttons
         activeStep={activeStep}
+        isDepositConfirming={isDepositConfirming}
         isPending={isPending}
         isRevokeAllowanceLoading={isAllowanceLoading}
         isWrongNetwork={isWrongNetwork}

@@ -10,6 +10,7 @@ import { useButtonsStyles } from './useButtonsStyles';
 
 export interface IButtonsProps {
   activeStep: ECryptoDepositStep;
+  isDepositConfirming: boolean;
   isPending: boolean;
   isRevokeAllowanceLoading: boolean;
   isWrongNetwork: boolean;
@@ -22,6 +23,7 @@ export interface IButtonsProps {
 
 export const Buttons = ({
   activeStep,
+  isDepositConfirming,
   isPending,
   isRevokeAllowanceLoading,
   isWrongNetwork,
@@ -51,10 +53,11 @@ export const Buttons = ({
     <div className={classes.root}>
       <ConfirmButton
         activeStep={activeStep}
+        isDepositConfirming={isDepositConfirming}
         isPending={isPending}
+        isWrongNetwork={isWrongNetwork}
         onClick={onConfirmButtonClick}
         status={status}
-        isWrongNetwork={isWrongNetwork}
       />
       {hasDiscardButton && <DiscardButton onClick={onDiscardButtonClick} />}
     </div>

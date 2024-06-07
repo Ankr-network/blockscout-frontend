@@ -171,7 +171,7 @@ export const selectAllowanceStepStatus = createSelector(
       }
     }
 
-    return ECryptoDepositStepStatus.Confirmation;
+    return ECryptoDepositStepStatus.Initializing;
   },
 );
 
@@ -195,7 +195,11 @@ export const selectDepositStepStatus = createSelector(
         return ECryptoDepositStepStatus.Error;
       }
 
-      if (isDepositing || isDepositConfirming) {
+      if (isDepositConfirming) {
+        return ECryptoDepositStepStatus.Confirming;
+      }
+
+      if (isDepositing) {
         return ECryptoDepositStepStatus.Pending;
       }
     }

@@ -12,6 +12,7 @@ import { renderButtonText } from './utils/renderButtonText';
 
 export interface IConfirmButtonProps {
   activeStep: ECryptoDepositStep;
+  isDepositConfirming: boolean;
   isPending: boolean;
   isWrongNetwork: boolean;
   onClick: () => void;
@@ -20,6 +21,7 @@ export interface IConfirmButtonProps {
 
 export const ConfirmButton = ({
   activeStep,
+  isDepositConfirming,
   isPending,
   isWrongNetwork,
   onClick: handleClick,
@@ -29,25 +31,33 @@ export const ConfirmButton = ({
 
   const { onOpen: handleTooltipOpen } = tooltipProps;
 
+  const isLoading = isPending || isDepositConfirming;
+
   const onClick = useCallback(() => {
-    if (isPending) {
+    if (isLoading) {
       handleTooltipOpen();
     } else {
       handleClick();
     }
-  }, [handleClick, handleTooltipOpen, isPending]);
+  }, [handleClick, handleTooltipOpen, isLoading]);
 
   return (
     <Tooltip {...tooltipProps}>
       <LoadingButton
         fullWidth
         isDisabledWhenLoading={false}
-        loading={isPending}
+        loading={isLoading}
         onClick={onClick}
         size="large"
         variant="contained"
       >
-        {renderButtonText({ activeStep, isPending, status, isWrongNetwork })}
+        {renderButtonText({
+          activeStep,
+          isPending,
+          status,
+          isWrongNetwork,
+          isDepositConfirming,
+        })}
       </LoadingButton>
     </Tooltip>
   );

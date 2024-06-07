@@ -23,6 +23,7 @@ export interface IAllowanceAttributeProps {
   feeDetails?: IFeeDetails;
   isAllowanceLoading: boolean;
   isAllowanceSent: boolean;
+  isDepositConfirming: boolean;
   isDepositPending: boolean;
   network: EBlockchain;
   status?: ECryptoDepositStepStatus;
@@ -37,12 +38,14 @@ export const AllowanceAttribute = ({
   feeDetails = defaultFeeDetails,
   isAllowanceLoading,
   isAllowanceSent,
+  isDepositConfirming,
   isDepositPending,
   network,
   status,
   txHash,
 }: IAllowanceAttributeProps) => {
   const txUrl = txHash ? getTxExplorerUrl(network, txHash) : undefined;
+  const shouldHideAlert = isDepositPending || isDepositConfirming;
 
   if (isAllowanceLoading) {
     return <OverlaySpinner size={30} />;
@@ -53,7 +56,7 @@ export const AllowanceAttribute = ({
       <FullAllowanceAttribute
         allowance={allowance}
         currency={currency}
-        shouldHideAlert={isDepositPending}
+        shouldHideAlert={shouldHideAlert}
       />
     );
   }
@@ -67,10 +70,10 @@ export const AllowanceAttribute = ({
         error={error}
         feeCrypto={feeDetails.feeCrypto}
         feeUSD={feeDetails.feeUSD}
-        txURL={txUrl}
         network={network}
-        shouldHideAlert={isDepositPending}
+        shouldHideAlert={shouldHideAlert}
         status={status}
+        txURL={txUrl}
       />
     );
   }

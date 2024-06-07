@@ -7,8 +7,9 @@ export enum ECryptoDepositStep {
 
 export enum ECryptoDepositStepStatus {
   Complete = 1,
-  Confirmation,
+  Confirming,
   Error,
+  Initializing,
   Pending,
 }
 

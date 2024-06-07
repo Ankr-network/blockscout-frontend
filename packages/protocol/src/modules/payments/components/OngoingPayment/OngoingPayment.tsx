@@ -25,6 +25,7 @@ export const OngoingPayment = ({ tx }: IOngoingPaymentProps) => {
     cryptoPaymentSummaryDialogProps,
     currency,
     handleDetailsButtonClick,
+    isConfirming,
     isErrored,
     isSuccessful,
     network,
@@ -43,7 +44,11 @@ export const OngoingPayment = ({ tx }: IOngoingPaymentProps) => {
         currency={currency}
         network={network}
       />
-      <StatusBadge isErrored={isErrored} isSuccessful={isSuccessful} />
+      <StatusBadge
+        isErrored={isErrored}
+        isSuccessful={isSuccessful}
+        isConfirming={isConfirming}
+      />
       <DetailsButton onClick={handleDetailsButtonClick} />
       <CryptoPaymentSummaryDialog {...cryptoPaymentSummaryDialogProps} />
       <CryptoPaymentDepositDialog {...cryptoPaymentDepositDialogProps} />

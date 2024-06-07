@@ -26,6 +26,7 @@ export interface IPaymentDetailsProps {
   depositTxHash?: string;
   isAllowanceLoading: boolean;
   isAllowanceSent: boolean;
+  isDepositConfirming: boolean;
   isDepositPending: boolean;
   network: EBlockchain;
 }
@@ -45,6 +46,7 @@ export const PaymentDetails = ({
   depositTxHash,
   isAllowanceLoading,
   isAllowanceSent,
+  isDepositConfirming,
   isDepositPending,
   network,
 }: IPaymentDetailsProps) => {
@@ -58,6 +60,7 @@ export const PaymentDetails = ({
         feeDetails={allowanceFeeDetails}
         isAllowanceLoading={isAllowanceLoading}
         isAllowanceSent={isAllowanceSent}
+        isDepositConfirming={isDepositConfirming}
         isDepositPending={isDepositPending}
         network={network}
         status={allowanceStepStatus}

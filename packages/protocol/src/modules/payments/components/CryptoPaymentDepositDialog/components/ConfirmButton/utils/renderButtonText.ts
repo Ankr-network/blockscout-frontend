@@ -7,6 +7,7 @@ import {
 
 export interface IRenderButtonTextProps {
   activeStep: ECryptoDepositStep;
+  isDepositConfirming: boolean;
   isPending: boolean;
   isWrongNetwork: boolean;
   status: ECryptoDepositStepStatus;
@@ -14,6 +15,7 @@ export interface IRenderButtonTextProps {
 
 export const renderButtonText = ({
   activeStep,
+  isDepositConfirming,
   isPending,
   isWrongNetwork,
   status,
@@ -22,6 +24,10 @@ export const renderButtonText = ({
     return t(
       'account.crypto-payment-deposit-dialog.confirm-button.switch-network',
     );
+  }
+
+  if (isDepositConfirming) {
+    return t('account.crypto-payment-deposit-dialog.confirm-button.waiting');
   }
 
   if (isPending) {

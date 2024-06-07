@@ -26,13 +26,13 @@ export const useConfirmButtonClickHandler = ({
       return handleSwitchNetwork(ethNetworkIdByBlockchainMap[network]);
     }
 
-    const hasAllowanceConfirmationStatus =
-      allowanceStepStatus === ECryptoDepositStepStatus.Confirmation;
+    const hasAllowanceInitializingStatus =
+      allowanceStepStatus === ECryptoDepositStepStatus.Initializing;
 
     const hasAllowanceError =
       allowanceStepStatus === ECryptoDepositStepStatus.Error;
 
-    if (hasAllowanceConfirmationStatus || hasAllowanceError) {
+    if (hasAllowanceInitializingStatus || hasAllowanceError) {
       return handleSendAllowance();
     }
 

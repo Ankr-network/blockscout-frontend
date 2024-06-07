@@ -1,9 +1,6 @@
 import { useCallback } from 'react';
 
-import {
-  ECryptoDepositStepStatus,
-  ICryptoTransaction,
-} from 'modules/payments/types';
+import { ICryptoTransaction } from 'modules/payments/types';
 import { defaultCryptoTx } from 'modules/payments/const';
 import { selectIsCryptoTxOngoing } from 'modules/payments/store/selectors';
 import { setAllowanceAmount } from 'modules/payments/store/paymentsSlice';
@@ -44,6 +41,8 @@ export const useCryptoPaymentDepositStep = ({
     depositFeeDetailsPaid,
     depositTxHash,
     id: txId,
+    isDepositConfirming,
+    isDepositing,
     network,
   } = tx;
 
@@ -75,15 +74,16 @@ export const useCryptoPaymentDepositStep = ({
   });
 
   const onClose = useCallback(() => {
-    if (depositStepStatus !== ECryptoDepositStepStatus.Pending) {
+    if (!isDepositing && !isDepositConfirming) {
       handleResetDepositStep();
     }
 
     handleCryptoPaymentDepositDialogClose();
   }, [
-    depositStepStatus,
     handleCryptoPaymentDepositDialogClose,
     handleResetDepositStep,
+    isDepositConfirming,
+    isDepositing,
   ]);
 
   const handleDiscardTx = useCallback(() => {

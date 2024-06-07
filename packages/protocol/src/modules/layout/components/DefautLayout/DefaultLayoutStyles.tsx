@@ -2,7 +2,6 @@ import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { premiumBackground } from 'uiKit/Theme/themeUtils';
-import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
@@ -89,7 +88,6 @@ export const useStyles = makeStyles<Props>()(
       },
     },
     mobileBreadcrumbs: {
-      marginTop: SHOULD_SHOW_HEADER_BANNER ? theme.spacing(5) : 0,
       marginBottom: theme.spacing(2 * 2.5),
       paddingLeft: 2,
 

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 import { EPaymentType, ICryptoTransaction } from 'modules/payments/types';
-import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useCryptoPaymentFlow } from 'modules/payments/components/PaymentForm/hooks/useCryptoPaymentFlow';
 import { useCurrency } from 'modules/payments/components/PaymentForm/hooks/useCurrency';
 import { useMinAmount } from 'modules/payments/components/PaymentForm/hooks/useMinAmount';
@@ -20,14 +19,15 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     currency: initialCurrency,
     depositError,
     isConfirmed = false,
-    isDepositConfirming,
-    isDepositing,
+    isDepositConfirming = false,
+    isDepositing = false,
     network: initialNetwork,
   } = tx;
 
   const isErrored = Boolean(depositError);
-  const isPending = !isErrored && (isDepositing || isDepositConfirming);
-  const isSuccessful = !isPending && isConfirmed;
+  const isPending = !isErrored && isDepositing;
+  const isConfirming = !isErrored && isDepositConfirming;
+  const isSuccessful = !isErrored && !isPending && !isConfirming && isConfirmed;
 
   const { currency, handleCurrencyChange } = useCurrency({
     initialCurrency,
@@ -64,8 +64,6 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     tx,
   });
 
-  const depositDialogRef = useRef(isCryptoPaymentDepositDialogOpened);
-
   const { handleWaitForDepositConfirmation, isUninitialized } =
     useWaitForDepositConfirmation({ tx });
 
@@ -81,32 +79,29 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     isSuccessful,
   ]);
 
+  // we need this ref to be able to use the actuall value in the callback
+  // that called on successful result of handleWaitForDepositConfirmation fn.
+  const isDepositDialogOpenedRef = useRef(isCryptoPaymentDepositDialogOpened);
+
   useEffect(() => {
-    depositDialogRef.current = isCryptoPaymentDepositDialogOpened;
+    isDepositDialogOpenedRef.current = isCryptoPaymentDepositDialogOpened;
   }, [isCryptoPaymentDepositDialogOpened]);
 
   useEffect(() => {
-    const initDepositFlow = async () => {
-      // to init deposit flow
-      if (!depositError && isUninitialized) {
-        const response = await handleWaitForDepositConfirmation();
-
-        if (isMutationSuccessful(response)) {
-          if (depositDialogRef.current) {
-            handleCryptoPaymentSuccessDialogOpen();
-            handleCryptoPaymentDepositDialogClose();
-          }
+    // to init deposit flow
+    if (!depositError && isUninitialized) {
+      handleWaitForDepositConfirmation().then(() => {
+        if (isDepositDialogOpenedRef.current) {
+          handleCryptoPaymentSuccessDialogOpen();
+          handleCryptoPaymentDepositDialogClose();
         }
-      }
-    };
-
-    initDepositFlow();
+      });
+    }
   }, [
     depositError,
     handleCryptoPaymentDepositDialogClose,
     handleCryptoPaymentSuccessDialogOpen,
     handleWaitForDepositConfirmation,
-    isCryptoPaymentDepositDialogOpened,
     isUninitialized,
   ]);
 
@@ -118,6 +113,7 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     cryptoPaymentSummaryDialogProps,
     currency,
     handleDetailsButtonClick,
+    isConfirming,
     isErrored,
     isSuccessful,
     network,
