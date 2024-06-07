@@ -1,12 +1,17 @@
 import { ECurrency, IAmount } from 'modules/billing/types';
 
-export const AMOUNTS_COLUMNS = 5;
+export const AMOUNTS_COLUMNS = 6;
 
 export const DEFAULT_SELECTED_ONE_TIME_USD_AMOUNT = 50;
 
 export const DEFAULT_SELECTED_ONE_TIME_ANKR_AMOUNT = 2_000;
 
 export const ONE_TIME_PAYMENT_USD_AMOUNTS: IAmount[] = [
+  {
+    id: '10',
+    currency: ECurrency.USD,
+    value: 10,
+  },
   {
     id: '50',
     currency: ECurrency.USD,
@@ -36,6 +41,11 @@ export const ONE_TIME_PAYMENT_USD_AMOUNTS: IAmount[] = [
 
 export const ONE_TIME_PAYMENT_ANKR_AMOUNTS: IAmount[] = [
   {
+    id: '200',
+    currency: ECurrency.ANKR,
+    value: 200,
+  },
+  {
     id: '2_000',
     currency: ECurrency.ANKR,
     value: 2_000,
@@ -64,6 +74,11 @@ export const ONE_TIME_PAYMENT_ANKR_AMOUNTS: IAmount[] = [
 
 export const ONE_TIME_PAYMENT_USDT_AMOUNTS: IAmount[] = [
   {
+    id: '10',
+    currency: ECurrency.USDT,
+    value: 10,
+  },
+  {
     id: '50',
     currency: ECurrency.USDT,
     value: 50,
@@ -91,6 +106,11 @@ export const ONE_TIME_PAYMENT_USDT_AMOUNTS: IAmount[] = [
 ];
 
 export const ONE_TIME_PAYMENT_USDC_AMOUNTS: IAmount[] = [
+  {
+    id: '10',
+    currency: ECurrency.USDC,
+    value: 10,
+  },
   {
     id: '50',
     currency: ECurrency.USDC,

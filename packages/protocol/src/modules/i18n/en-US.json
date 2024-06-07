@@ -1865,7 +1865,8 @@
       "prices": {
         "usd": "${amount, number}",
         "stablecoin": "{amount, number} {token}",
-        "crypto": "{amount, number, ::compact-short} {currency}"
+        "crypto": "{amount, number, ::compact-short} {currency}",
+        "crypto-amount": "{amount, number, ::compact-short}"
       }
     },
     "payment-types": {
