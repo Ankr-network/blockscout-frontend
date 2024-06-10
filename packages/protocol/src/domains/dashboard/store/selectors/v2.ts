@@ -94,15 +94,17 @@ export const selectTopMonthlyStats = createSelector(selectUsageData, data => {
     topItem => topItem.top_of === ETelemetryTopOf.MONTHLY_USAGE,
   );
 
-  return (
+  const monthlyData =
     topMonthlyData?.elements?.map(topElement => ({
       month: topElement.name,
       calls: topElement.count,
       formattedCallsValue: t('dashboard.usage-history.calls-number', {
         calls: topElement.count,
       }),
-    })) || []
-  );
+    })) || [];
+
+  // data from backend is sorted in descending order, so we need to reverse it
+  return [...monthlyData].reverse();
 });
 
 export const selectChainCallsData = createSelector(
