@@ -21,6 +21,7 @@ export const useEstimatedDepositFee = ({
 
   const {
     depositFeeAnkr,
+    fetchEstimatedDepositFeeAnkrRef,
     handleFetchEstimatedDepositFeeAnkr,
     handleRefetchEstimatedDepositFeeAnkr,
     isLoading: isAnkrDepositFeeEstimating,
@@ -31,6 +32,7 @@ export const useEstimatedDepositFee = ({
 
   const {
     depositFeeUsdc,
+    fetchEstimatedDepositFeeUsdcRef,
     handleFetchEstimatedDepositFeeUsdc,
     handleRefetchEstimatedDepositFeeUsdc,
     isLoading: isUsdcDepositFeeEstimating,
@@ -41,6 +43,7 @@ export const useEstimatedDepositFee = ({
 
   const {
     depositFeeUsdt,
+    fetchEstimatedDepositFeeUsdtRef,
     handleFetchEstimatedDepositFeeUsdt,
     handleRefetchEstimatedDepositFeeUsdt,
     isLoading: isUsdtDepositFeeEstimating,
@@ -52,6 +55,7 @@ export const useEstimatedDepositFee = ({
   if (isUsdc) {
     return {
       depositFee: depositFeeUsdc,
+      fetchEstimatedDepositFeeRef: fetchEstimatedDepositFeeUsdcRef,
       handleFetchEstimatedDepositFee: handleFetchEstimatedDepositFeeUsdc,
       handleRefetchEstimatedDepositFee: handleRefetchEstimatedDepositFeeUsdc,
       isEstimating: isUsdcDepositFeeEstimating,
@@ -61,6 +65,7 @@ export const useEstimatedDepositFee = ({
   if (isUsdt) {
     return {
       depositFee: depositFeeUsdt,
+      fetchEstimatedDepositFeeRef: fetchEstimatedDepositFeeUsdtRef,
       handleFetchEstimatedDepositFee: handleFetchEstimatedDepositFeeUsdt,
       handleRefetchEstimatedDepositFee: handleRefetchEstimatedDepositFeeUsdt,
       isEstimating: isUsdtDepositFeeEstimating,
@@ -69,6 +74,7 @@ export const useEstimatedDepositFee = ({
 
   return {
     depositFee: depositFeeAnkr,
+    fetchEstimatedDepositFeeRef: fetchEstimatedDepositFeeAnkrRef,
     handleFetchEstimatedDepositFee: handleFetchEstimatedDepositFeeAnkr,
     handleRefetchEstimatedDepositFee: handleRefetchEstimatedDepositFeeAnkr,
     isEstimating: isAnkrDepositFeeEstimating,

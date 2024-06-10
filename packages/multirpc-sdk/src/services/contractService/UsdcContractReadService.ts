@@ -1,4 +1,9 @@
-import { EBlockchain, IEstimateStablecoinFeeParams } from '../../common';
+import {
+  EBlockchain,
+  IEstimateStablecoinFeeParams,
+  IGetStablecoinAllowanceParams,
+  Web3Address,
+} from '../../common';
 import { UsdcPAYGReadContractManager } from '../../PAYGContract/UsdcPAYGReadContractManager';
 
 export class UsdcContractReadService {
@@ -6,21 +11,22 @@ export class UsdcContractReadService {
     protected readonly usdcPAYGContractManager: UsdcPAYGReadContractManager,
   ) {}
 
-  async getBalance(
-    accountAddress: string,
-    network: EBlockchain,
-  ) {
+  getBalance(accountAddress: Web3Address, network: EBlockchain) {
     return this.usdcPAYGContractManager.getAccountBalance(
       accountAddress,
       network,
     );
   }
 
-  async estimateAllowanceFee(params: IEstimateStablecoinFeeParams) {
+  getAllowance(params: IGetStablecoinAllowanceParams) {
+    return this.usdcPAYGContractManager.getAllowance(params);
+  }
+
+  estimateAllowanceFee(params: IEstimateStablecoinFeeParams) {
     return this.usdcPAYGContractManager.estimateAllowanceFee(params);
   }
 
-  async estimateDepositFee(params: IEstimateStablecoinFeeParams) {
+  estimateDepositFee(params: IEstimateStablecoinFeeParams) {
     return this.usdcPAYGContractManager.estimateDepositFee(params);
   }
 }

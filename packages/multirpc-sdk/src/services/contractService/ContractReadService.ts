@@ -6,7 +6,7 @@ import { Web3Address } from '../../common';
 import { PAYGReadContractManager } from '../../PAYGContract';
 
 export class ContractReadService {
-  public constructor(
+  constructor(
     protected readonly PAYGContractManager: PAYGReadContractManager
   ) {}
 
@@ -19,20 +19,24 @@ export class ContractReadService {
       blockchain,
     );
 
-    const sortedEvent = events?.sort((a, b) => a.blockNumber - b.blockNumber);
+    const sortedEvents = events?.sort((a, b) => a.blockNumber - b.blockNumber);
 
-    return sortedEvent?.[sortedEvent.length - 1];
+    return sortedEvents?.[sortedEvents.length - 1];
   }
 
-  async getBalance(accountAddress: string) {
+  getBalance(accountAddress: Web3Address) {
     return this.PAYGContractManager.getBalance(accountAddress);
   }
 
-  async estimateAllowanceFee(amount: BigNumber, from: Web3Address) {
+  getAllowance(accountAddress: Web3Address) {
+    return this.PAYGContractManager.getAllowance(accountAddress);
+  }
+
+  estimateAllowanceFee(amount: BigNumber, from: Web3Address) {
     return this.PAYGContractManager.estimateAllowanceFee(amount, from);
   }
 
-  async estimateDepositFee(amount: BigNumber, from: Web3Address) {
+  estimateDepositFee(amount: BigNumber, from: Web3Address) {
     return this.PAYGContractManager.estimateDepositFee(amount, from);
   }
 }

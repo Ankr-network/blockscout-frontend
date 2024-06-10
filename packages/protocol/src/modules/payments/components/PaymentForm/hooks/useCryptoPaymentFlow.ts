@@ -32,13 +32,18 @@ export const useCryptoPaymentFlow = ({
   oneTimeAmountProps,
   tx,
 }: IUseOneTimeCryptoPaymentProps) => {
-  const { amount, currency, id: txId, network } = tx;
+  const { amount, currency, from, id: txId, network } = tx;
 
   const [isAccountChangedOnDepositStep, setIsAccountChangedOnDepositStep] =
     useState(false);
 
   const { handleFetchAllowance, isLoading: isAllowanceFetching } =
-    useFetchAllowance({ currency, skipFetching: true, network });
+    useFetchAllowance({
+      address: from,
+      currency,
+      network,
+      skipFetching: true,
+    });
 
   const {
     isOpened: isCryptoPaymentDepositDialogOpened,
@@ -74,6 +79,7 @@ export const useCryptoPaymentFlow = ({
   const {
     cryptoPaymentSummaryDialogProps,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentSummaryDialogOpened,
     isCryptoPaymentSummaryDialogOpening,
   } = useCryptoPaymentSummaryStep({
     handleNetworkChange,
@@ -102,6 +108,7 @@ export const useCryptoPaymentFlow = ({
     handleCryptoPaymentSuccessDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
+    isCryptoPaymentSummaryDialogOpened,
     isCryptoPaymentSummaryDialogOpening,
     setIsAccountChangedOnDepositStep,
   };

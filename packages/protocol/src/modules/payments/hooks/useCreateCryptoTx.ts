@@ -21,6 +21,8 @@ export interface IUseCryptoTxProps {
   network: EBlockchain;
 }
 
+const skipFetching = true;
+
 export const useCryptoTx = ({
   amount,
   currency,
@@ -33,27 +35,30 @@ export const useCryptoTx = ({
   const { tx } = useTxByTxId({ txId });
   const { walletAddress } = useWalletAddress();
 
-  const { handleFetchAllowance, isLoading: isAllowanceFetching } =
-    useFetchAllowance({ currency, skipFetching: true, network });
+  const { fetchAllowanceRef, isLoading: isAllowanceFetching } =
+    useFetchAllowance({
+      address: walletAddress!,
+      currency,
+      network,
+      skipFetching,
+    });
 
-  const { handleFetchNativeTokenPrice, isLoading: isNativeTokenPriceLoading } =
-    useNativeTokenPrice({ network, skipFetching: true });
+  const { fetchNativeTokenPriceRef, isLoading: isNativeTokenPriceLoading } =
+    useNativeTokenPrice({ network, skipFetching });
 
   const {
-    handleFetchEstimatedAllowanceFee,
+    fetchEstimatedAllowanceFeeRef,
     isEstimating: isAllowanceFeeEstimating,
-  } = useEstimatedAllowanceFee({ currency, skipFetching: true, txId });
+  } = useEstimatedAllowanceFee({ currency, skipFetching, txId });
 
-  const {
-    handleFetchEstimatedDepositFee,
-    isEstimating: isDepositFeeEstimating,
-  } = useEstimatedDepositFee({ currency, skipFetching: true, txId });
+  const { fetchEstimatedDepositFeeRef, isEstimating: isDepositFeeEstimating } =
+    useEstimatedDepositFee({ currency, skipFetching, txId });
 
   const dispatch = useAppDispatch();
 
   const handleCreateCryptoTx = useCallback(async () => {
     if (walletAddress && paygContractAddress) {
-      const { data: allowanceAmount = 0 } = await handleFetchAllowance();
+      const { data: allowanceAmount = 0 } = await fetchAllowanceRef.current();
 
       dispatch(
         createCryptoTx({
@@ -69,19 +74,19 @@ export const useCryptoTx = ({
         }),
       );
 
-      await handleFetchNativeTokenPrice();
-      await handleFetchEstimatedAllowanceFee();
-      await handleFetchEstimatedDepositFee();
+      await fetchNativeTokenPriceRef.current();
+      await fetchEstimatedAllowanceFeeRef.current();
+      await fetchEstimatedDepositFeeRef.current();
     }
   }, [
     accountAddress,
     amount,
     currency,
     dispatch,
-    handleFetchAllowance,
-    handleFetchEstimatedAllowanceFee,
-    handleFetchEstimatedDepositFee,
-    handleFetchNativeTokenPrice,
+    fetchAllowanceRef,
+    fetchEstimatedAllowanceFeeRef,
+    fetchNativeTokenPriceRef,
+    fetchEstimatedDepositFeeRef,
     network,
     paygContractAddress,
     txId,

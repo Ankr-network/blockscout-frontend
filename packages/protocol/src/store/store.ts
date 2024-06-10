@@ -31,7 +31,6 @@ import { userGroupPersistConfig } from 'domains/userGroup/storage/userGroupPersi
 import { userGroupSlice } from 'domains/userGroup/store';
 import { userSettingsPersistConfig } from 'domains/userSettings/storage/userSettingsPersistConfig';
 import { userSettingsSlice } from 'domains/userSettings/store/userSettingsSlice';
-import { walletPersistConfig } from 'domains/wallet/storage/walletPersistConfig';
 import { walletSlice } from 'domains/wallet/store/walletSlice';
 
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
@@ -46,7 +45,7 @@ const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   theme: persistReducer(themePersistConfig, themeSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
-  wallet: persistReducer(walletPersistConfig, walletSlice.reducer),
+  wallet: walletSlice.reducer,
   jwtTokenManager: persistReducer(
     jwtTokenManagerPersistConfig,
     jwtTokenManagerSlice.reducer,

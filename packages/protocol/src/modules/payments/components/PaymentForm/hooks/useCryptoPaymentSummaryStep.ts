@@ -5,9 +5,10 @@ import { useCallback } from 'react';
 import { ICryptoTransaction, INetwork } from 'modules/payments/types';
 import { removeCryptoTx } from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useConnectWalletAccount } from 'domains/wallet/hooks/useConnectWalletAccount';
+import { useConnectWalletAccountMutation } from 'domains/wallet/actions/connectWalletAccount';
 import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { useWalletBalance } from 'modules/payments/hooks/useWalletBalance';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import { IOneTimeAmountProps } from '../components/OneTimeAmount';
 import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog';
@@ -46,12 +47,16 @@ export const useCryptoPaymentSummaryStep = ({
     network,
   } = tx;
 
+  const fromAddress = from || walletAddress!;
+
+  const fromAddressRef = useAutoupdatedRef(fromAddress);
+
   const {
-    handleFetchWalletbalance,
+    fetchWalletBalanceRef,
     isLoading: isWalletBalanceLoading,
     walletBalance,
   } = useWalletBalance({
-    accountAddress: from || walletAddress!,
+    address: fromAddress,
     currency,
     network,
     skipFetching: true,
@@ -68,20 +73,23 @@ export const useCryptoPaymentSummaryStep = ({
 
   const isLoading = isWalletBalanceLoading || isTotalAmountLoading;
 
-  // wrapped by useCallback to explicitly convert to () => Promise<void> type
   const onOpen = useCallback(async () => {
-    await handleFetchWalletbalance();
-  }, [handleFetchWalletbalance]);
+    if (fromAddressRef.current) {
+      await fetchWalletBalanceRef.current();
+    }
+  }, [fetchWalletBalanceRef, fromAddressRef]);
 
   const dispatch = useAppDispatch();
   const onClose = useCallback(() => {
     dispatch(removeCryptoTx({ id: txId }));
   }, [dispatch, txId]);
 
-  const {
-    handleConnectWalletAccount,
-    isConnecting: isWalletAccountConnecting,
-  } = useConnectWalletAccount();
+  const [handleConnectWalletAccount, { isLoading: isWalletAccountConnecting }] =
+    useConnectWalletAccountMutation();
+
+  const onConnectButtonClick = useCallback(async () => {
+    await handleConnectWalletAccount();
+  }, [handleConnectWalletAccount]);
 
   const hasEnoughTokenBalance = new BigNumber(walletBalance).gte(amount);
 
@@ -104,15 +112,20 @@ export const useCryptoPaymentSummaryStep = ({
     networks,
     onClose,
     onConfirmButtonClick,
+    onConnectButtonClick,
     onOpen,
     oneTimeAmountProps,
     setIsAccountChangedOnDepositStep,
     totalAmount,
   });
 
+  const isCryptoPaymentSummaryDialogOpened =
+    cryptoPaymentSummaryDialogProps.open;
+
   return {
     cryptoPaymentSummaryDialogProps,
     handleCryptoPaymentSummaryDialogOpen,
+    isCryptoPaymentSummaryDialogOpened,
     isCryptoPaymentSummaryDialogOpening: isLoading,
   };
 };

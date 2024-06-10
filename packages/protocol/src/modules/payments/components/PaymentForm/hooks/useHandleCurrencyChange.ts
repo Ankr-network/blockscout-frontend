@@ -41,7 +41,7 @@ export const useHandleCurrencyChange = ({
   });
 
   const { handleFetchWalletbalance } = useWalletBalance({
-    accountAddress: from,
+    address: from,
     currency,
     network,
     skipFetching,
@@ -54,6 +54,7 @@ export const useHandleCurrencyChange = ({
   });
 
   const { handleFetchAllowance } = useFetchAllowance({
+    address: from,
     currency,
     network,
     skipFetching,

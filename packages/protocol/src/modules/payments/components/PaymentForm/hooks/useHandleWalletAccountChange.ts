@@ -19,9 +19,11 @@ import { useWalletBalance } from 'modules/payments/hooks/useWalletBalance';
 
 export interface IUseHandleWalletAccountChangeProps {
   currency: ECurrency;
+  handleCreateCryptoTx: () => Promise<void>;
   handleCryptoPaymentDepositDialogClose: () => void;
   handleCryptoPaymentSummaryDialogOpen: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
+  isCryptoPaymentSummaryDialogOpened: boolean;
   network: EBlockchain;
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
   txId: string;
@@ -31,9 +33,11 @@ const skipFetching = true;
 
 export const useHandleWalletAccountChange = ({
   currency,
+  handleCreateCryptoTx,
   handleCryptoPaymentDepositDialogClose,
   handleCryptoPaymentSummaryDialogOpen,
   isCryptoPaymentDepositDialogOpened,
+  isCryptoPaymentSummaryDialogOpened,
   network,
   setIsAccountChangedOnDepositStep,
   txId,
@@ -46,6 +50,7 @@ export const useHandleWalletAccountChange = ({
   const { walletAddress } = useWalletAddress();
 
   const { handleResetAllowanceFetching } = useFetchAllowance({
+    address: walletAddress!,
     currency,
     network,
     skipFetching,
@@ -64,7 +69,7 @@ export const useHandleWalletAccountChange = ({
   });
 
   const { handleFetchWalletbalance } = useWalletBalance({
-    accountAddress: walletAddress!,
+    address: walletAddress!,
     currency,
     network,
     skipFetching,
@@ -72,37 +77,45 @@ export const useHandleWalletAccountChange = ({
 
   const dispatch = useAppDispatch();
 
+  const isPaymentFlowStarted =
+    isCryptoPaymentDepositDialogOpened || isCryptoPaymentSummaryDialogOpened;
+
   useEffect(() => {
-    if (walletAddress && hasTx) {
-      const isDepositStepPending =
-        depositStepStatus === ECryptoDepositStepStatus.Pending;
+    if (walletAddress) {
+      if (hasTx) {
+        const isDepositStepPending =
+          depositStepStatus === ECryptoDepositStepStatus.Pending;
 
-      dispatch(setFromAddress({ from: walletAddress, id: txId }));
+        dispatch(setFromAddress({ from: walletAddress, id: txId }));
 
-      // using fetch since paramters of the qieries has changed
-      // on wallet address change
-      handleFetchWalletbalance();
+        // using fetch since paramters of the qieries has changed
+        // on wallet address change
+        handleFetchWalletbalance();
 
-      // using refetch since parameters of the queries remains the same after
-      // wallet address change
-      handleRefetchEstimatedAllowanceFee();
-      handleRefetchEstimatedDepositFee();
+        // using refetch since parameters of the queries remains the same after
+        // wallet address change
+        handleRefetchEstimatedAllowanceFee();
+        handleRefetchEstimatedDepositFee();
 
-      // to go back to the summary step to re-init the payment flow
-      if (isCryptoPaymentDepositDialogOpened && !isDepositStepPending) {
-        setIsAccountChangedOnDepositStep(true);
+        // to go back to the summary step to re-init the payment flow
+        if (isCryptoPaymentDepositDialogOpened && !isDepositStepPending) {
+          setIsAccountChangedOnDepositStep(true);
 
-        handleCryptoPaymentDepositDialogClose();
+          handleCryptoPaymentDepositDialogClose();
 
-        handleResetAllowanceFetching();
+          handleResetAllowanceFetching();
 
-        // to reset allowance in the tx object
-        dispatch(setAllowanceAmount({ allowanceAmount: 0, id: txId }));
-        dispatch(setIsApproved({ isApproved: false, id: txId }));
+          // to reset allowance in the tx object
+          dispatch(setAllowanceAmount({ allowanceAmount: 0, id: txId }));
+          dispatch(setIsApproved({ isApproved: false, id: txId }));
 
-        handleCryptoPaymentSummaryDialogOpen();
-      } else {
-        setIsAccountChangedOnDepositStep(false);
+          handleCryptoPaymentSummaryDialogOpen();
+        } else {
+          setIsAccountChangedOnDepositStep(false);
+        }
+      } else if (isPaymentFlowStarted) {
+        handleFetchWalletbalance();
+        handleCreateCryptoTx();
       }
     }
     // we should only track wallet address

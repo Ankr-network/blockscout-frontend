@@ -5,29 +5,47 @@ import { getQueryParams } from 'store/utils/getQueryParams';
 import { resetEndpoint } from 'store/utils/resetEndpoint';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
+  IFetchAllowanceAnkrParams,
   selectAllowanceAnkr,
   selectAllowanceAnkrLoading,
+  selectAllowanceAnkrState,
   useFetchAllowanceAnkrQuery,
   useLazyFetchAllowanceAnkrQuery,
-  selectAllowanceAnkrState,
 } from '../actions/fetchAllowanceAnkr';
 
-export interface IUseFetchAllowanceAnkrProps extends IUseQueryProps {}
+export interface IUseFetchAllowanceAnkrProps
+  extends IUseQueryProps,
+    IFetchAllowanceAnkrParams {}
 
 export const useFetchAllowanceAnkr = ({
   skipFetching,
-}: IUseFetchAllowanceAnkrProps | void = {}) => {
+  ...params
+}: IUseFetchAllowanceAnkrProps) => {
   const { refetch: handleRefetchAllowanceAnkr } = useFetchAllowanceAnkrQuery(
-    getQueryParams({ params: undefined, skipFetching }),
+    getQueryParams({ params, skipFetching }),
   );
 
-  const [handleFetchAllowanceAnkr] = useLazyFetchAllowanceAnkrQuery();
+  const [fetchLazy] = useLazyFetchAllowanceAnkrQuery();
 
-  const { endpointName } = useAppSelector(selectAllowanceAnkrState);
-  const allowanceAnkr = useAppSelector(selectAllowanceAnkr);
-  const isLoading = useAppSelector(selectAllowanceAnkrLoading);
+  const handleFetchAllowanceAnkr = useCallback(
+    () => fetchLazy(params),
+    [fetchLazy, params],
+  );
+
+  const fetchAllowanceAnkrRef = useAutoupdatedRef(handleFetchAllowanceAnkr);
+
+  const { endpointName } = useAppSelector(state =>
+    selectAllowanceAnkrState(state, params),
+  );
+  const allowanceAnkr = useAppSelector(state =>
+    selectAllowanceAnkr(state, params),
+  );
+  const isLoading = useAppSelector(state =>
+    selectAllowanceAnkrLoading(state, params),
+  );
 
   const dispatch = useAppDispatch();
   const resetAlowanceFetchingAnkr = useCallback(
@@ -37,6 +55,7 @@ export const useFetchAllowanceAnkr = ({
 
   return {
     allowanceAnkr,
+    fetchAllowanceAnkrRef,
     handleFetchAllowanceAnkr,
     handleRefetchAllowanceAnkr,
     isLoading,

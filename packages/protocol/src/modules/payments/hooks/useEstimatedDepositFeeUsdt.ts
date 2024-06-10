@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
   IEstimateDepositFeeUsdtParams,
@@ -30,6 +31,10 @@ export const useEstimatedDepositFeeUsdt = ({
     [fetchLazy, params],
   );
 
+  const fetchEstimatedDepositFeeUsdtRef = useAutoupdatedRef(
+    handleFetchEstimatedDepositFeeUsdt,
+  );
+
   const depositFeeUsdt = useAppSelector(state =>
     selectEstimatedDepositFeeUsdt(state, params),
   );
@@ -40,6 +45,7 @@ export const useEstimatedDepositFeeUsdt = ({
 
   return {
     depositFeeUsdt,
+    fetchEstimatedDepositFeeUsdtRef,
     handleFetchEstimatedDepositFeeUsdt,
     handleRefetchEstimatedDepositFeeUsdt,
     isLoading,

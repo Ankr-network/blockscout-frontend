@@ -2,13 +2,15 @@ import { ZERO_STRING } from 'modules/common/constants/const';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
-import { getWalletBalanceAnkr } from '../utils/getWalletBalanceAnkr';
+import {
+  IGetWalletBalanceAnkrParams,
+  getWalletBalanceAnkr,
+} from '../utils/getWalletBalanceAnkr';
 
 const fallback = ZERO_STRING;
 
-export interface IFetchWalletBalanceAnkrParams {
-  accountAddress: string;
-}
+export interface IFetchWalletBalanceAnkrParams
+  extends IGetWalletBalanceAnkrParams {}
 
 // The endpoint name is listed in endpointsSerializedByParams constant
 // in packages/protocol/src/store/queries/index.ts file.
@@ -20,8 +22,8 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchWalletBalanceAnkr: build.query<string, IFetchWalletBalanceAnkrParams>({
-      queryFn: async ({ accountAddress }) => {
-        const data = await getWalletBalanceAnkr({ accountAddress });
+      queryFn: async ({ address }) => {
+        const data = await getWalletBalanceAnkr({ address });
 
         return { data };
       },

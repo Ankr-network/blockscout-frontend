@@ -5,15 +5,14 @@ import { MultiService } from 'modules/api/MultiService';
 import { formatBalanceByDecimals } from './formatBalanceByDecimals';
 
 export interface IGetWalletBalanceUsdcParams {
-  accountAddress: string;
-  depositContractAddress: Web3Address;
-  tokenAddress: Web3Address;
+  address: Web3Address;
   network: EBlockchain;
+  tokenAddress: Web3Address;
   tokenDecimals: number;
 }
 
 export const getWalletBalanceUsdc = async ({
-  accountAddress,
+  address,
   network,
   tokenAddress,
   tokenDecimals,
@@ -22,7 +21,7 @@ export const getWalletBalanceUsdc = async ({
 
   const contractService = web3ReadService.getContractServiceUsdc(tokenAddress);
 
-  const balance = await contractService.getBalance(accountAddress, network);
+  const balance = await contractService.getBalance(address, network);
 
   return formatBalanceByDecimals(balance, tokenDecimals);
 };

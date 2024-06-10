@@ -1,4 +1,4 @@
-import { EBlockchain } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 import { ZERO_STRING } from 'modules/common/constants/const';
@@ -10,7 +10,7 @@ import { getWalletBalanceUsdc } from '../utils/getWalletBalanceUsdc';
 import { selectPaymentOptionsByNetworkAndCurrency } from '../store/selectors';
 
 export interface IFetchWalletBalanceUsdcParams {
-  accountAddress: string;
+  address: Web3Address;
   network: EBlockchain;
 }
 
@@ -27,7 +27,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchWalletBalanceUsdc: build.query<string, IFetchWalletBalanceUsdcParams>({
-      queryFn: async ({ accountAddress, network }, { getState }) => {
+      queryFn: async ({ address, network }, { getState }) => {
         const { depositContractAddress, tokenAddress, tokenDecimals } =
           selectPaymentOptionsByNetworkAndCurrency(
             getState() as RootState,
@@ -43,8 +43,7 @@ export const {
         }
 
         const data = await getWalletBalanceUsdc({
-          accountAddress,
-          depositContractAddress,
+          address,
           network,
           tokenAddress,
           tokenDecimals,

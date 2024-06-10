@@ -1,4 +1,4 @@
-import { EBlockchain } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { IUseQueryProps } from 'store/queries/types';
 
@@ -8,11 +8,13 @@ import { useFetchAllowanceUsdc } from './useFetchAllowanceUsdc';
 import { useFetchAllowanceUsdt } from './useFetchAllowanceUsdt';
 
 export interface IUseFetchAllowanceParams extends IUseQueryProps {
+  address: Web3Address;
   currency: ECurrency;
   network: EBlockchain;
 }
 
 export const useFetchAllowance = ({
+  address,
   currency,
   network,
   skipFetching,
@@ -23,28 +25,43 @@ export const useFetchAllowance = ({
 
   const {
     allowanceAnkr,
+    fetchAllowanceAnkrRef,
     handleFetchAllowanceAnkr,
     isLoading: isAnkrAllowanceLoading,
     resetAlowanceFetchingAnkr,
-  } = useFetchAllowanceAnkr({ skipFetching: skipFetching || !isAnkr });
+  } = useFetchAllowanceAnkr({
+    address,
+    skipFetching: skipFetching || !isAnkr,
+  });
 
   const {
     allowanceUsdc,
+    fetchAllowanceUsdcRef,
     handleFetchAllowanceUsdc,
     isLoading: isUsdcAllowanceLoading,
     resetAlowanceFetchingUsdc,
-  } = useFetchAllowanceUsdc({ network, skipFetching: skipFetching || !isUsdc });
+  } = useFetchAllowanceUsdc({
+    address,
+    network,
+    skipFetching: skipFetching || !isUsdc,
+  });
 
   const {
     allowanceUsdt,
+    fetchAllowanceUsdtRef,
     handleFetchAllowanceUsdt,
     isLoading: isUsdtAllowanceLoading,
     resetAlowanceFetchingUsdt,
-  } = useFetchAllowanceUsdt({ network, skipFetching: skipFetching || !isUsdt });
+  } = useFetchAllowanceUsdt({
+    address,
+    network,
+    skipFetching: skipFetching || !isUsdt,
+  });
 
   if (isUsdc) {
     return {
       allowance: allowanceUsdc,
+      fetchAllowanceRef: fetchAllowanceUsdcRef,
       handleFetchAllowance: handleFetchAllowanceUsdc,
       handleResetAllowanceFetching: resetAlowanceFetchingUsdc,
       isLoading: isUsdcAllowanceLoading,
@@ -54,6 +71,7 @@ export const useFetchAllowance = ({
   if (isUsdt) {
     return {
       allowance: allowanceUsdt,
+      fetchAllowanceRef: fetchAllowanceUsdtRef,
       handleFetchAllowance: handleFetchAllowanceUsdt,
       handleResetAllowanceFetching: resetAlowanceFetchingUsdt,
       isLoading: isUsdtAllowanceLoading,
@@ -62,6 +80,7 @@ export const useFetchAllowance = ({
 
   return {
     allowance: allowanceAnkr,
+    fetchAllowanceRef: fetchAllowanceAnkrRef,
     handleFetchAllowance: handleFetchAllowanceAnkr,
     handleResetAllowanceFetching: resetAlowanceFetchingAnkr,
     isLoading: isAnkrAllowanceLoading,

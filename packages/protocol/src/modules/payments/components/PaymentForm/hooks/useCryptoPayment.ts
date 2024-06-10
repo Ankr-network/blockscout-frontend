@@ -4,6 +4,8 @@ import { useCallback } from 'react';
 import { ECurrency, INetwork } from 'modules/payments/types';
 import { defaultCryptoTx } from 'modules/payments/const';
 import { useCryptoTx } from 'modules/payments/hooks/useCreateCryptoTx';
+import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import { IOneTimeAmountProps } from '../components/OneTimeAmount';
 import { useCryptoPaymentFlow } from './useCryptoPaymentFlow';
@@ -31,9 +33,11 @@ export const useCryptoPayment = ({
 }: IUseOneTimeCryptoPaymentProps) => {
   const {
     handleCreateCryptoTx,
-    isCreating,
+    isCreating: isTxCreating,
     tx = { ...defaultCryptoTx, amount, currency, network },
   } = useCryptoTx({ amount, currency, network });
+
+  const createCryptoTxRef = useAutoupdatedRef(handleCreateCryptoTx);
 
   const txId = tx.id;
 
@@ -44,6 +48,7 @@ export const useCryptoPayment = ({
     handleCryptoPaymentDepositDialogClose,
     handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
+    isCryptoPaymentSummaryDialogOpened,
     isCryptoPaymentSummaryDialogOpening,
     setIsAccountChangedOnDepositStep,
   } = useCryptoPaymentFlow({
@@ -53,6 +58,8 @@ export const useCryptoPayment = ({
     oneTimeAmountProps,
   });
 
+  const { handleCreateWeb3Service, isWeb3ServiceCreating } = useWeb3Service();
+
   useHandleAmountChange({ amount, currency, txId });
 
   useHandleCurrencyChange({ currency, network, txId });
@@ -61,22 +68,32 @@ export const useCryptoPayment = ({
 
   useHandleWalletAccountChange({
     currency,
+    handleCreateCryptoTx,
     handleCryptoPaymentDepositDialogClose,
     handleCryptoPaymentSummaryDialogOpen,
     isCryptoPaymentDepositDialogOpened,
+    isCryptoPaymentSummaryDialogOpened,
     network,
     setIsAccountChangedOnDepositStep,
     txId,
   });
 
   const handleCryptoPaymentFlowInit = useCallback(async () => {
-    await handleCreateCryptoTx();
+    await handleCreateWeb3Service();
+
+    await createCryptoTxRef.current();
 
     await handleCryptoPaymentSummaryDialogOpen();
-  }, [handleCreateCryptoTx, handleCryptoPaymentSummaryDialogOpen]);
+  }, [
+    createCryptoTxRef,
+    handleCreateWeb3Service,
+    handleCryptoPaymentSummaryDialogOpen,
+  ]);
 
   const isCryptoPaymentFlowInitializing =
-    isCreating || isCryptoPaymentSummaryDialogOpening;
+    isWeb3ServiceCreating ||
+    isTxCreating ||
+    isCryptoPaymentSummaryDialogOpening;
 
   return {
     cryptoPaymentDepositDialogProps,

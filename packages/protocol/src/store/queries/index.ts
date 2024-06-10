@@ -22,6 +22,7 @@ const endpointsSerializedByParams = [
   'estimateDepositFeeAnkr',
   'estimateDepositFeeUsdc',
   'estimateDepositFeeUsdt',
+  'fetchAllowanceAnkr',
   'fetchAllowanceUsdc',
   'fetchAllowanceUsdt',
   'fetchBlockchainTxData',

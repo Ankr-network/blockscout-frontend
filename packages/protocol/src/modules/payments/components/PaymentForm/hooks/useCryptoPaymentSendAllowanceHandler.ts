@@ -16,18 +16,21 @@ export interface IUseCryptoPaymentSendAllowanceHandler {
 export const useCryptoPaymentSendAllowanceHandler = ({
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentSendAllowanceHandler) => {
-  const { currency, id: txId, network } = tx;
+  const { currency, from, id: txId, network } = tx;
 
   const {
     handleResetAllowanceSending: resetAllowanceSending,
     handleSendAllowance: sendAllowance,
     isAllowanceSent,
   } = useSendAllowance({ tx });
+
   const {
     handleResetAllowanceConfirmation,
     handleWaitForAllowanceConfirmation,
   } = useWaitForAllowanceConfirmation({ tx });
+
   const { handleFetchAllowance } = useFetchAllowance({
+    address: from,
     currency,
     network,
     skipFetching: true,

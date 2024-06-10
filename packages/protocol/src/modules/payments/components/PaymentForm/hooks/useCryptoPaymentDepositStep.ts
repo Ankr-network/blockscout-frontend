@@ -40,6 +40,7 @@ export const useCryptoPaymentDepositStep = ({
     depositFeeDetailsEstimated,
     depositFeeDetailsPaid,
     depositTxHash,
+    from,
     id: txId,
     isDepositConfirming,
     isDepositing,
@@ -63,7 +64,12 @@ export const useCryptoPaymentDepositStep = ({
     useCryptoPaymentSendAllowanceHandler({ tx });
 
   const { handleFetchAllowance, isLoading: isAllowanceLoading } =
-    useFetchAllowance({ currency, network, skipFetching: true });
+    useFetchAllowance({
+      address: from,
+      currency,
+      network,
+      skipFetching: true,
+    });
 
   const { amountUsd } = useUsdAmountByCryptoAmount({ amount, currency });
 

@@ -5,6 +5,7 @@ import { getQueryParams } from 'store/utils/getQueryParams';
 import { resetEndpoint } from 'store/utils/resetEndpoint';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
   IFetchAllowanceUsdcParams,
@@ -34,6 +35,8 @@ export const useFetchAllowanceUsdc = ({
     [fetchLazy, params],
   );
 
+  const fetchAllowanceUsdcRef = useAutoupdatedRef(handleFetchAllowanceUsdc);
+
   const { endpointName } = useAppSelector(state =>
     selectAllowanceUsdcState(state, params),
   );
@@ -52,6 +55,7 @@ export const useFetchAllowanceUsdc = ({
 
   return {
     allowanceUsdc,
+    fetchAllowanceUsdcRef,
     handleFetchAllowanceUsdc,
     handleRefetchAllowanceUsdc,
     isLoading,

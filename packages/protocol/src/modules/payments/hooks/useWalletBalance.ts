@@ -1,4 +1,4 @@
-import { EBlockchain } from 'multirpc-sdk';
+import { EBlockchain, Web3Address } from 'multirpc-sdk';
 
 import { IUseQueryProps } from 'store/queries/types';
 
@@ -8,13 +8,13 @@ import { useWalletBalanceUsdc } from './useWalletBalanceUsdc';
 import { useWalletBalanceUsdt } from './useWalletBalanceUsdt';
 
 export interface IUseWalletBalanceParams extends IUseQueryProps {
-  accountAddress: string;
+  address: Web3Address;
   currency: ECurrency;
   network: EBlockchain;
 }
 
 export const useWalletBalance = ({
-  accountAddress,
+  address,
   currency,
   network,
   skipFetching,
@@ -25,32 +25,35 @@ export const useWalletBalance = ({
 
   const {
     balanceAnkr,
+    fetchWalletBalanceAnkrRef,
     handleFetchWalletBalanceAnkr,
     handleRefetchWalletBalanceAnkr,
     isLoading: isWalletBalanceAnkrLoading,
   } = useWalletBalanceAnkr({
-    accountAddress,
+    address,
     skipFetching: skipFetching || !isAnkr,
   });
 
   const {
     balanceUsdc,
+    fetchWalletBalanceUsdcRef,
     handleFetchWalletBalanceUsdc,
     handleRefetchWalletBalanceUsdc,
     isLoading: isWalletBalanceUsdcLoading,
   } = useWalletBalanceUsdc({
-    accountAddress,
+    address,
     network,
     skipFetching: skipFetching || !isUsdc,
   });
 
   const {
     balanceUsdt,
+    fetchWalletBalanceUsdtRef,
     handleFetchWalletBalanceUsdt,
     handleRefetchWalletBalanceUsdt,
     isLoading: isWalletBalanceUsdtLoading,
   } = useWalletBalanceUsdt({
-    accountAddress,
+    address,
     network,
     skipFetching: skipFetching || !isUsdt,
   });
@@ -58,6 +61,7 @@ export const useWalletBalance = ({
   if (isUsdc) {
     return {
       walletBalance: balanceUsdc,
+      fetchWalletBalanceRef: fetchWalletBalanceUsdcRef,
       handleFetchWalletbalance: handleFetchWalletBalanceUsdc,
       handleRefetchWalletBalance: handleRefetchWalletBalanceUsdc,
       isLoading: isWalletBalanceUsdcLoading,
@@ -67,6 +71,7 @@ export const useWalletBalance = ({
   if (isUsdt) {
     return {
       walletBalance: balanceUsdt,
+      fetchWalletBalanceRef: fetchWalletBalanceUsdtRef,
       handleFetchWalletbalance: handleFetchWalletBalanceUsdt,
       handleRefetchWalletBalance: handleRefetchWalletBalanceUsdt,
       isLoading: isWalletBalanceUsdtLoading,
@@ -75,6 +80,7 @@ export const useWalletBalance = ({
 
   return {
     walletBalance: balanceAnkr,
+    fetchWalletBalanceRef: fetchWalletBalanceAnkrRef,
     handleFetchWalletbalance: handleFetchWalletBalanceAnkr,
     handleRefetchWalletBalance: handleRefetchWalletBalanceAnkr,
     isLoading: isWalletBalanceAnkrLoading,

@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import { Contract, EventData } from 'web3-eth-contract';
 import { ProviderManager, Web3KeyReadProvider } from '@ankr.com/provider';
 
@@ -66,7 +65,7 @@ export class UsdtPAYGReadContractManager {
       .allowance(from, to)
       .call();
 
-    return new BigNumber(allowance);
+    return allowance;
   }
 
   async estimateAllowanceFee({

@@ -59,7 +59,7 @@ export class PAYGReadContractManager {
     });
   }
 
-  public async getAllLatestUserTierAssignedEventLogHashes(
+  async getAllLatestUserTierAssignedEventLogHashes(
     user: Web3Address,
     blockchain: TBlockchain
   ): Promise<string[] | false> {
@@ -74,7 +74,7 @@ export class PAYGReadContractManager {
     return tierAssignedEvents.map(item => item.transactionHash);
   }
 
-  public async getLatestUserTierAssignedEventLogHash(
+  async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
     blockchain: TBlockchain
   ): Promise<PrefixedHex | false> {
@@ -89,7 +89,7 @@ export class PAYGReadContractManager {
     return tierAssignedEvents[tierAssignedEvents.length - 1].transactionHash;
   }
 
-  public async getLatestLockedFundsEvents(
+  async getLatestLockedFundsEvents(
     user: Web3Address,
     blockchain: TBlockchain
   ): Promise<EventData[]> {
@@ -100,7 +100,7 @@ export class PAYGReadContractManager {
     );
   }
 
-  public async getLatestAllowanceEvents(
+  async getLatestAllowanceEvents(
     user: Web3Address,
   ): Promise<EventData[]> {
     const events = await this.ankrTokenReadContract.getPastEvents('Approval', {
@@ -122,6 +122,14 @@ export class PAYGReadContractManager {
     return (this.ankrTokenReadContract.methods as IAnkrToken)
       .balanceOf(accountAddress)
       .call();
+  }
+
+  async getAllowance(accountAddress: Web3Address) {
+    const allowance = await (this.ankrTokenReadContract.methods as IAnkrToken)
+      .allowance(accountAddress, this.config.payAsYouGoContractAddress)
+      .call();
+
+    return allowance;
   }
 
   async estimateAllowanceFee(amount: BigNumber, from: Web3Address) {

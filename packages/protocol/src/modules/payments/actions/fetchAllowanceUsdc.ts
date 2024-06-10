@@ -1,8 +1,13 @@
-import { EBlockchain, getBNWithDecimalsFromString } from 'multirpc-sdk';
+import BigNumber from 'bignumber.js';
+import {
+  EBlockchain,
+  Web3Address,
+  getBNWithDecimalsFromString,
+} from 'multirpc-sdk';
 
+import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -10,6 +15,7 @@ import { ECurrency } from '../types';
 import { selectPaymentOptionsByNetworkAndCurrency } from '../store/selectors';
 
 export interface IFetchAllowanceUsdcParams {
+  address: Web3Address;
   network: EBlockchain;
 }
 
@@ -26,57 +32,47 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllowanceUsdc: build.query<number, IFetchAllowanceUsdcParams>({
-      queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
-          async ({ params: { network }, web3Service }, { getState }) => {
-            const { currentAccount } = web3Service.getKeyWriteProvider();
+      queryFn: createNotifyingQueryFn(
+        async ({ address, network }, { getState }) => {
+          const state = getState() as RootState;
 
-            const { depositContractAddress, tokenAddress, tokenDecimals } =
-              selectPaymentOptionsByNetworkAndCurrency(
-                getState() as RootState,
-                network,
-                currency,
-              );
+          const { depositContractAddress, tokenAddress, tokenDecimals } =
+            selectPaymentOptionsByNetworkAndCurrency(state, network, currency);
 
-            const hasNecessaryData =
-              currentAccount &&
-              depositContractAddress &&
-              tokenAddress &&
-              tokenDecimals;
+          const hasNecessaryData =
+            depositContractAddress && tokenAddress && tokenDecimals;
 
-            if (!hasNecessaryData) {
-              return { data: fallback };
-            }
+          if (!hasNecessaryData) {
+            return { data: fallback };
+          }
 
-            const allowanceValue = await web3Service
-              .getUsdcContractService({
-                depositContractAddress,
-                tokenAddress,
-              })
-              .getAllowanceValue({
-                depositContractAddress,
-                network,
-                tokenAddress,
-              });
+          const web3ReadService = await MultiService.getWeb3ReadService();
 
-            const hasAllowance = allowanceValue && !allowanceValue.isZero();
+          const contractReadService =
+            web3ReadService.getContractServiceUsdc(tokenAddress);
 
-            if (!hasAllowance) {
-              return { data: fallback };
-            }
+          const allowance = await contractReadService.getAllowance({
+            from: address,
+            to: depositContractAddress,
+            network,
+          });
 
-            return {
-              data: Number(
-                getBNWithDecimalsFromString(
-                  allowanceValue.toFixed(),
-                  tokenDecimals,
-                ),
+          const allowanceNumber = new BigNumber(allowance);
+
+          if (allowanceNumber.isZero()) {
+            return { data: fallback };
+          }
+
+          return {
+            data: Number(
+              getBNWithDecimalsFromString(
+                allowanceNumber.toFixed(),
+                tokenDecimals,
               ),
-            };
-          },
-        ),
-        fallback: { data: fallback },
-      }),
+            ),
+          };
+        },
+      ),
     }),
   }),
 });

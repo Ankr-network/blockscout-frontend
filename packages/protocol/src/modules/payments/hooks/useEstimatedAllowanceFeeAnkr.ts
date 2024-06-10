@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
   IEstimateAllowanceFeeAnkrParams,
@@ -30,6 +31,10 @@ export const useEstimatedAllowanceFeeAnkr = ({
     [fetchLazy, params],
   );
 
+  const fetchEstimatedAllowanceFeeAnkrRef = useAutoupdatedRef(
+    handleFetchEstimatedAllowanceFeeAnkr,
+  );
+
   const allowanceFeeAnkr = useAppSelector(state =>
     selectEstimatedAllowanceFeeAnkr(state, params),
   );
@@ -40,6 +45,7 @@ export const useEstimatedAllowanceFeeAnkr = ({
 
   return {
     allowanceFeeAnkr,
+    fetchEstimatedAllowanceFeeAnkrRef,
     handleFetchEstimatedAllowanceFeeAnkr,
     handleRefetchEstimatedAllowanceFeeAnkr,
     isLoading,

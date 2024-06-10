@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
   IFetchWalletBalanceUsdtParams,
@@ -30,6 +31,10 @@ export const useWalletBalanceUsdt = ({
     [fetchLazy, params],
   );
 
+  const fetchWalletBalanceUsdtRef = useAutoupdatedRef(
+    handleFetchWalletBalanceUsdt,
+  );
+
   const balanceUsdt = useAppSelector(state =>
     selectWalletBalanceUsdt(state, params),
   );
@@ -40,6 +45,7 @@ export const useWalletBalanceUsdt = ({
 
   return {
     balanceUsdt,
+    fetchWalletBalanceUsdtRef,
     handleFetchWalletBalanceUsdt,
     handleRefetchWalletBalanceUsdt,
     isLoading,

@@ -19,7 +19,7 @@ export const useCryptoPaymentDepositStepReset = ({
   onDepositSuccess,
   tx,
 }: IUseCryptoPaymentDepositStepResetProps) => {
-  const { currency, id: txId, network } = tx;
+  const { currency, from, id: txId, network } = tx;
 
   const { handleResetDeposit } = useCryptoPaymentDepositHandler({
     handleCryptoPaymentDepositDialogClose,
@@ -32,6 +32,7 @@ export const useCryptoPaymentDepositStepReset = ({
   });
 
   const { handleResetAllowanceFetching } = useFetchAllowance({
+    address: from,
     currency,
     network,
     skipFetching: true,

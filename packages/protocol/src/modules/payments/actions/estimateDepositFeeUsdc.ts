@@ -48,8 +48,7 @@ export const {
           }
 
           const balance = await getWalletBalanceUsdc({
-            accountAddress: from,
-            depositContractAddress,
+            address: from,
             network,
             tokenAddress,
             tokenDecimals,

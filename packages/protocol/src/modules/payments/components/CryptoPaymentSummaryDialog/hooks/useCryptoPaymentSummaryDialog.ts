@@ -3,7 +3,6 @@ import { useCallback, useMemo } from 'react';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { useWalletMeta } from 'domains/wallet/hooks/useWalletMeta';
-import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 
 import { ICryptoPaymentSummaryDialogCommonProps } from '../types';
 import { ICryptoPaymentSummaryDialogProps } from '../CryptoPaymentSummaryDialog';
@@ -14,6 +13,7 @@ export interface IUseCryptoPaymentSummaryDialogProps
   isConfirming: boolean;
   onClose?: () => void;
   onConfirmButtonClick: () => void;
+  onConnectButtonClick: () => Promise<void>;
   onOpen?: () => Promise<void>;
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
@@ -34,6 +34,7 @@ export const useCryptoPaymentSummaryDialog = ({
   networks,
   onClose: handleCloseExternal,
   onConfirmButtonClick: handleConfirmButtonClick,
+  onConnectButtonClick,
   onOpen: onOpenExternal,
   oneTimeAmountProps,
   setIsAccountChangedOnDepositStep,
@@ -41,15 +42,11 @@ export const useCryptoPaymentSummaryDialog = ({
 }: IUseCryptoPaymentSummaryDialogProps) => {
   const { isOpened, onClose: handleClose, onOpen } = useDialog();
 
-  const { handleCreateWeb3Service } = useWeb3Service();
-
   const handleCryptoPaymentSummaryDialogOpen = useCallback(async () => {
-    await handleCreateWeb3Service();
-
     await onOpenExternal?.();
 
     onOpen();
-  }, [handleCreateWeb3Service, onOpen, onOpenExternal]);
+  }, [onOpen, onOpenExternal]);
 
   const { walletAddress: connectedAddress } = useWalletAddress();
   const { walletMeta } = useWalletMeta();
@@ -92,7 +89,7 @@ export const useCryptoPaymentSummaryDialog = ({
         onCancelButtonClick,
         onClose,
         onConfirmButtonClick,
-        onConnectButtonClick: handleConnectWalletAccount,
+        onConnectButtonClick,
         oneTimeAmountProps,
         open: isOpened,
         totalAmount,
@@ -117,6 +114,7 @@ export const useCryptoPaymentSummaryDialog = ({
         onCancelButtonClick,
         onClose,
         onConfirmButtonClick,
+        onConnectButtonClick,
         oneTimeAmountProps,
         totalAmount,
         walletIcon,

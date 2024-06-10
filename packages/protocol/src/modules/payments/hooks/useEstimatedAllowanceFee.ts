@@ -21,6 +21,7 @@ export const useEstimatedAllowanceFee = ({
 
   const {
     allowanceFeeAnkr,
+    fetchEstimatedAllowanceFeeAnkrRef,
     handleFetchEstimatedAllowanceFeeAnkr,
     handleRefetchEstimatedAllowanceFeeAnkr,
     isLoading: isAnkrAllowanceFeeEstimating,
@@ -31,6 +32,7 @@ export const useEstimatedAllowanceFee = ({
 
   const {
     allowanceFeeUsdc,
+    fetchEstimatedAllowanceFeeUsdcRef,
     handleFetchEstimatedAllowanceFeeUsdc,
     handleRefetchEstimatedAllowanceFeeUsdc,
     isLoading: isUsdcAllowanceFeeEstimating,
@@ -41,6 +43,7 @@ export const useEstimatedAllowanceFee = ({
 
   const {
     allowanceFeeUsdt,
+    fetchEstimatedAllowanceFeeUsdtRef,
     handleFetchEstimatedAllowanceFeeUsdt,
     handleRefetchEstimatedAllowanceFeeUsdt,
     isLoading: isUsdtAllowanceFeeEstimating,
@@ -52,6 +55,7 @@ export const useEstimatedAllowanceFee = ({
   if (isUsdc) {
     return {
       allowanceFee: allowanceFeeUsdc,
+      fetchEstimatedAllowanceFeeRef: fetchEstimatedAllowanceFeeUsdcRef,
       handleFetchEstimatedAllowanceFee: handleFetchEstimatedAllowanceFeeUsdc,
       handleRefetchEstimatedAllowanceFee:
         handleRefetchEstimatedAllowanceFeeUsdc,
@@ -62,6 +66,7 @@ export const useEstimatedAllowanceFee = ({
   if (isUsdt) {
     return {
       allowanceFee: allowanceFeeUsdt,
+      fetchEstimatedAllowanceFeeRef: fetchEstimatedAllowanceFeeUsdtRef,
       handleFetchEstimatedAllowanceFee: handleFetchEstimatedAllowanceFeeUsdt,
       handleRefetchEstimatedAllowanceFee:
         handleRefetchEstimatedAllowanceFeeUsdt,
@@ -71,6 +76,7 @@ export const useEstimatedAllowanceFee = ({
 
   return {
     allowanceFee: allowanceFeeAnkr,
+    fetchEstimatedAllowanceFeeRef: fetchEstimatedAllowanceFeeAnkrRef,
     handleFetchEstimatedAllowanceFee: handleFetchEstimatedAllowanceFeeAnkr,
     handleRefetchEstimatedAllowanceFee: handleRefetchEstimatedAllowanceFeeAnkr,
     isEstimating: isAnkrAllowanceFeeEstimating,

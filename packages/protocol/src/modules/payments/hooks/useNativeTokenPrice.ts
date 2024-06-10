@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
   IFetchNativeTokenPriceParams,
@@ -30,12 +31,17 @@ export const useNativeTokenPrice = ({
     [fetchLazy, params],
   );
 
+  const fetchNativeTokenPriceRef = useAutoupdatedRef(
+    handleFetchNativeTokenPrice,
+  );
+
   const price = useAppSelector(state => selectNativeTokenPrice(state, params));
   const isLoading = useAppSelector(state =>
     selectNativeTokenPriceLoading(state, params),
   );
 
   return {
+    fetchNativeTokenPriceRef,
     handleFetchNativeTokenPrice,
     handleRefetchNativeTokenPrice,
     isLoading,

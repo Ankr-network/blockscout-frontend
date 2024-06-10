@@ -35,7 +35,7 @@ export const {
         if (tx) {
           const { amount, from } = tx;
 
-          const balance = await getWalletBalanceAnkr({ accountAddress: from });
+          const balance = await getWalletBalanceAnkr({ address: from });
 
           if (Number(balance) >= amount) {
             const web3ReadService = await MultiService.getWeb3ReadService();

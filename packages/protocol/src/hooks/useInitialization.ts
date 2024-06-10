@@ -1,7 +1,7 @@
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { removeAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
-import { useAutoconnect } from 'hooks/useAutoconnect';
+import { useAutologin } from 'hooks/useAutologin';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
 import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
@@ -42,7 +42,7 @@ export const useInitialization = (isLoggedIn: boolean) => {
 
   const skipFetchingJwt = skipFetchingBase || !hasJwtReadRoleAccess;
 
-  useAutoconnect();
+  useAutologin();
 
   useBalance({ skipFetching: skipFetchingBilling });
   useMyBundles({ skipFetching: skipFetchingBilling });
