@@ -9,6 +9,7 @@ import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { Gateway } from 'domains/dashboard/types';
+import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -36,7 +37,8 @@ export const {
             group,
             gateway = getAccountingGateway(),
           }) => {
-            const data = await (userEndpointToken
+            const data = await (userEndpointToken &&
+            userEndpointToken !== ALL_PROJECTS_VALUE
               ? gateway.getPrivateStatsByPremiumId(
                   interval,
                   userEndpointToken,

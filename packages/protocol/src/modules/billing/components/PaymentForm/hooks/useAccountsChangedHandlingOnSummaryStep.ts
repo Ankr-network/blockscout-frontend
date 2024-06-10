@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { MilliSeconds } from 'modules/common/constants/const';
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { RequestType, web3Api } from 'store/queries';
 import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { waitFor } from 'modules/common/utils/waitFor';
@@ -31,7 +31,7 @@ export const useAccountsChangedHandlingOnSummaryStep = () => {
         dispatch(web3Api.util.invalidateTags(tagsToInvalidate));
 
       // waiting for updating currentAccount field in provider
-      waitFor(MilliSeconds.Second).then(invalidateTags);
+      waitFor(EMilliSeconds.Second).then(invalidateTags);
     },
     // We should only track connectedAddress change
     // eslint-disable-next-line react-hooks/exhaustive-deps

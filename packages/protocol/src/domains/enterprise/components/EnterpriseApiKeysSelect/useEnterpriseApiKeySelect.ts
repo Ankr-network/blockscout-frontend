@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
@@ -9,8 +9,22 @@ import {
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useResetIfSelectedProjectWasDeleted } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
+import { getAllProjectsItem } from 'modules/common/components/ProjectSelect/hooks/useProjectSelectOptions';
 
 import { useEnterpriseSelectedToken } from '../../hooks/useEnterpriseSelectedToken';
+
+export interface ProjectOption {
+  id: string;
+  value: string;
+  index: number;
+  title: string;
+}
+
+const apiKeyAllOption: ProjectOption = {
+  id: '',
+  index: -1,
+  ...getAllProjectsItem(),
+};
 
 export const useEnterpriseApiKeySelect = (
   apiKeys: EnterpriseClientJwtManagerItem[],
@@ -20,13 +34,16 @@ export const useEnterpriseApiKeySelect = (
   const address = selectedGroupAddress || currentUserAddress;
   const dispatch = useDispatch();
 
-  const apiKeyOptions = apiKeys.map(item => ({
-    value: item.userEndpointToken,
-    index: item.index,
-    title: item.name || item.userEndpointToken,
-  }));
+  const options = useMemo(() => {
+    const apiKeyOptions: ProjectOption[] = apiKeys.map(item => ({
+      id: item.id,
+      value: item.userEndpointToken,
+      index: item.index,
+      title: item.name || item.userEndpointToken,
+    }));
 
-  const options = apiKeyOptions;
+    return [apiKeyAllOption, ...apiKeyOptions];
+  }, [apiKeys]);
 
   const { userEndpointToken: selectedProjectEndpointToken } =
     useEnterpriseSelectedToken();
@@ -39,8 +56,11 @@ export const useEnterpriseApiKeySelect = (
 
   const handleSetOption = useCallback(
     (value: string) => {
-      const tokenIndex =
-        apiKeyOptions.find(option => option.value === value)?.index || -1;
+      const currentTokenData = options.find(option => option.value === value);
+
+      const tokenIndex = currentTokenData
+        ? currentTokenData.index
+        : apiKeyAllOption.index;
 
       const selectedProject = value;
 
@@ -58,17 +78,22 @@ export const useEnterpriseApiKeySelect = (
         }),
       );
     },
-    [dispatch, address, apiKeyOptions],
+    [options, dispatch, address],
   );
 
-  const selectedOption = selectedProjectEndpointToken || options[0].value;
+  const selectedOption = selectedProjectEndpointToken || options[0]?.value;
 
   const hasSelectedProject = Boolean(selectedOption);
+
+  const selectedProjectId = apiKeys.find(
+    item => item.userEndpointToken === selectedOption,
+  )?.id;
 
   return {
     options,
     handleSetOption,
     selectedOption,
     hasSelectedProject,
+    selectedProjectId,
   };
 };

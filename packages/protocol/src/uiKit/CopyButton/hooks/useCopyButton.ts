@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { useTooltip } from 'modules/common/components/TextTooltip';
-import { MilliSeconds } from 'modules/common/constants/const';
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { useTimeout } from 'modules/common/hooks/useTimeout';
 
 export const useCopyButton = () => {
@@ -11,7 +11,7 @@ export const useCopyButton = () => {
     tooltipProps;
 
   const { run } = useTimeout({
-    delay: MilliSeconds.Second,
+    delay: EMilliSeconds.Second,
     onTimeout: handleTooltipClose,
   });
 

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
+import { PieChartData } from '@ankr.com/telemetry';
 
-import { PieChartData } from '../../types';
 import { getColor } from '../../utils/getColor';
 import { getPercent } from '../../utils/getPercent';
 import { useLegendItemStyles } from './LegendItemStyles';

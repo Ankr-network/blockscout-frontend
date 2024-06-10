@@ -1,7 +1,7 @@
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { Typography } from '@mui/material';
+import { PieChartData } from '@ankr.com/telemetry';
 
-import { PieChartData } from '../../types';
 import { getColor } from '../../utils/getColor';
 import { text } from '../../utils/text';
 import { useChartStyles } from './ChartStyles';

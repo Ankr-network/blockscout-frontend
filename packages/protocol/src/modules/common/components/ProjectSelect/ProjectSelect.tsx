@@ -23,7 +23,7 @@ export interface SelectMenuProps {
   classNameMenuItem?: string;
 }
 
-interface ProjectSelectProps extends SelectMenuProps {
+export interface ProjectSelectProps extends SelectMenuProps {
   options: SelectOption[];
   handleSetOption: (value: string) => void;
   selectedOption: string;

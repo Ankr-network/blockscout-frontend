@@ -16,27 +16,27 @@ import { aggregateRequests } from 'modules/stats/utils/aggregateRequests';
 import { getAllChainsRequests } from 'modules/stats/utils/getAllChainsRequests';
 import { mapCountsToEntries } from 'modules/stats/utils/mapCountsToEntries';
 
-import { ChainCalls } from '../screens/Dashboard/types';
-import { aggregateIPRequests } from './utils/aggregateIPRequests';
-import { aggregateMethodCallsRequests } from './utils/aggregateMethodCallsRequests';
-import { aggregateTopCountries } from './utils/aggregateTopCountries';
-import { aggregateUsageHistory } from './utils/aggregateUsageHistory';
+import { ChainCalls } from '../../screens/Dashboard/types';
+import { aggregateIPRequests } from '../utils/aggregateIPRequests';
+import { aggregateMethodCallsRequests } from '../utils/aggregateMethodCallsRequests';
+import { aggregateTopCountries } from '../utils/aggregateTopCountries';
+import { aggregateUsageHistory } from '../utils/aggregateUsageHistory';
 import {
   AllProjectsStatsParams,
   fetchAllProjectsStats,
-} from '../actions/fetchAllProjectsStats';
-import { fetchAllProjectsTotalRequests } from '../actions/fetchAllProjectsTotalRequests';
-import { fetchUserTotalStats } from '../actions/fetchUserTotalStats';
-import { getAllChainsIPRequests } from './utils/getAllChainsIPRequests';
-import { getAllChainsTopCountries } from './utils/getAllChainsTopCountries';
-import { getChainNamesMap } from './utils/getChainNamesMap';
-import { getLocations } from './utils/getLocations';
-import { getProjectsStats } from './utils/getProjectsStats';
-import { getUsageHistoryData } from './utils/getUsageHistoryData';
-import { sortIPRequests } from './utils/sortIPRequests';
-import { sortTopCountries } from './utils/sortTopCountries';
-import { findDetailsById } from './utils/findDetailsById';
-import { fetchMonthlyUsageHistory } from '../actions/fetchMonthlyUsageHistory';
+} from '../../actions/fetchAllProjectsStats';
+import { fetchAllProjectsTotalRequests } from '../../actions/fetchAllProjectsTotalRequests';
+import { fetchUserTotalStats } from '../../actions/fetchUserTotalStats';
+import { getAllChainsIPRequests } from '../utils/getAllChainsIPRequests';
+import { getAllChainsTopCountries } from '../utils/getAllChainsTopCountries';
+import { getChainNamesMap } from '../utils/getChainNamesMap';
+import { getLocations } from '../utils/getLocations';
+import { getProjectsStats } from '../utils/getProjectsStats';
+import { getUsageHistoryData } from '../utils/getUsageHistoryData';
+import { sortIPRequests } from '../utils/sortIPRequests';
+import { sortTopCountries } from '../utils/sortTopCountries';
+import { findDetailsById } from '../utils/findDetailsById';
+import { fetchMonthlyUsageHistory } from '../../actions/fetchMonthlyUsageHistory';
 
 export const selectStatsData = createSelector(
   chainsFetchPrivateStats.select(undefined as unknown as PrivateStatsParams),
@@ -182,7 +182,9 @@ export const selectBlockHeight = createSelector(
   (details, chainID) => {
     const detail = details.find(({ id }) => findDetailsById(id, chainID));
 
-    return detail?.nodes?.[0]?.height;
+    const blockHeight = detail?.nodes?.find(node => node.height > 0)?.height;
+
+    return blockHeight;
   },
 );
 

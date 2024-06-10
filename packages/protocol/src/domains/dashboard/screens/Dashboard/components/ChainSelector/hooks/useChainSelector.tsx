@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 
 import { Chain, ChainID } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectChainsWithStats } from 'domains/dashboard/store/selectors';
+import { selectChainsWithStats } from 'domains/dashboard/store/selectors/v1';
 
 import { SelectedContent } from '../SelectedContent';
 import { SelectedChainContent } from '../SelectedChainContent';

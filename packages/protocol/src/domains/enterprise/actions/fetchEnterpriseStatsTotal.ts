@@ -21,11 +21,11 @@ export const {
       PrivateStats,
       FetchEnterpriseStatsTotalParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ interval }) => {
+      queryFn: createNotifyingQueryFn(async ({ interval, group }) => {
         const service = MultiService.getService();
         const enterpriseGateway = service.getEnterpriseGateway();
 
-        const data = await enterpriseGateway.getPrivateStats(interval);
+        const data = await enterpriseGateway.getPrivateStats(interval, group);
 
         return { data };
       }),

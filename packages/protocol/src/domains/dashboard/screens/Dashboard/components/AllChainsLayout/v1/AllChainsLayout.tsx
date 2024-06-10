@@ -7,15 +7,17 @@ import { t } from '@ankr.com/common';
 
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
-import { EmptyLayoutGuard } from '../EmptyLayoutGuard';
-import { ILayoutProps } from '../../types';
-import { LocationsWidget } from '../LocationsWidget';
-import { ProjectsWidget } from '../ProjectsWidget';
+import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
+import { ILayoutProps } from '../../../types';
+import { LocationsWidget } from '../../LocationsWidget';
+import { ProjectsWidget } from '../../ProjectsWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
-import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
-import { useMonthlyStats } from '../../hooks/useMonthlyStats';
-import { ChainCallsWidget } from '../ChainCallsWidget';
-import { getRequestsChartTranslations } from '../../useChartsTranslations';
+import { useAllChainsLayoutStyles } from '../AllChainsLayoutStyles';
+import { useMonthlyStats } from '../../../hooks/useMonthlyStats';
+import { ChainCallsWidget } from '../../ChainCallsWidget';
+import { getRequestsChartTranslations } from '../../../useChartsTranslations';
+import { useChainCalls } from '../../ChainCallsWidget/hooks/useChainCalls';
+import { useProjectsData } from './hooks/useProjectsData';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
   const { hasSelectedProject } = useProjectSelect();
@@ -35,6 +37,15 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
 
   const { data: monthlyStats = [] } = useMonthlyStats();
 
+  const { data: chainCallsData, isLoading: isLoadingChainCalls } =
+    useChainCalls();
+
+  const {
+    amount: projectsDataTotal,
+    data: projectCallsData,
+    isLoading: isLoadingProjectCalls,
+  } = useProjectsData(timeframe);
+
   return (
     <EmptyLayoutGuard data={requestsChartData}>
       <div className={classes.root}>
@@ -49,8 +60,18 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             totalRequestsNumber,
           })}
         />
-        <ChainCallsWidget className={classes.calls} />
-        <ProjectsWidget className={classes.projects} timeframe={timeframe} />
+        <ChainCallsWidget
+          className={classes.calls}
+          data={chainCallsData}
+          isLoading={isLoadingChainCalls}
+          totalRequests={totalRequestsNumber}
+        />
+        <ProjectsWidget
+          className={classes.projects}
+          amount={Number(projectsDataTotal)}
+          data={projectCallsData}
+          isLoading={isLoadingProjectCalls}
+        />
         {!hasSelectedProject && (
           <BaseTable
             headingTitles={[

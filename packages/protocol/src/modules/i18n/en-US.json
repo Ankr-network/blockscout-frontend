@@ -637,6 +637,7 @@
       "title": "Top Countries",
       "country": "Country",
       "requests": "Requests",
+      "unknown": "Unknown",
       "count": "{count, number, ::compact-short}"
     },
     "usage-history": {
@@ -653,6 +654,12 @@
       "requests": "Requests",
       "usage": "Usage",
       "other": "other methods"
+    },
+    "top-responses": {
+      "title": "Responses by Status",
+      "code": "Status",
+      "amount": "Amount",
+      "count": "{count, number, ::compact-short}"
     }
   },
   "requests-chart": {

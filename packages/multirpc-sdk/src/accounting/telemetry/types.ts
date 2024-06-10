@@ -75,13 +75,13 @@ export interface IUsageTopElement {
 
 export interface IUsageTop {
   top_of: ETelemetryTopOf;
-  elements: IUsageTopElement[];
+  elements: IUsageTopElement[] | null;
 }
 
 export interface IUsageStats {
   total: number;
   all_time_total: number;
-  request_timelines: IRequestTimeline[];
+  request_timelines: IRequestTimeline[] | null;
   tops?: IUsageTop[];
 }
 
@@ -108,6 +108,7 @@ export enum ETelemetryTopOf {
 }
 
 export enum EPrivateStatsInterval {
+  FIVE_MINUTES = '5m', // 5m is minimal value that backend supports
   HOUR = '1h',
   DAY = '24h',
 }
@@ -134,6 +135,15 @@ export interface IUsageStatsParams {
   groupBy?: ETelemetryGroupBy[];
   /** use this param to request additional top lists */
   includeTopOfs?: ETelemetryTopOf[];
+}
+
+export interface IPrivateStatsRequestParams extends IApiUserGroupParams {
+  intervalType: PrivateStatsInterval;
+}
+
+export interface IPrivateStatsByApiKeyRequestParams
+  extends IPrivateStatsRequestParams {
+  apiKey: string;
 }
 
 export interface PrivateStats {

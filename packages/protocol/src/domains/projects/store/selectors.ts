@@ -2,7 +2,7 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
-import { MilliSeconds } from 'modules/common/constants/const';
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { RootState } from 'store';
 import { selectCurrentAddress } from 'domains/auth/store';
 
@@ -89,7 +89,7 @@ export const selectProjectTotalRequestsForLastHour = createSelector(
   selectProjectTotalRequestsForLastTwoHours,
   selectProjectTotalRequestsForLastTwoHoursTimestamp,
   (totalRequests, now) => {
-    const hourAgo = now - MilliSeconds.Hour;
+    const hourAgo = now - EMilliSeconds.Hour;
     const filter = (timestamp: number) => timestamp > hourAgo;
 
     return filterTotalRequests({ filter, totalRequests });
@@ -105,7 +105,7 @@ export const selectProjectTotalRequestsForPreviousHour = createSelector(
   selectProjectTotalRequestsForLastTwoHours,
   selectProjectTotalRequestsForLastTwoHoursTimestamp,
   (totalRequests, now) => {
-    const hourAgo = now - MilliSeconds.Hour;
+    const hourAgo = now - EMilliSeconds.Hour;
     const filter = (timestamp: number) => timestamp < hourAgo;
 
     return filterTotalRequests({ filter, totalRequests });
@@ -151,7 +151,7 @@ export const selectProjectTotalRequestsForLastDay = createSelector(
   selectProjectTotalRequestsForLastTwoDays,
   selectProjectTotalRequestsForLastTwoDaysTimestamp,
   (totalRequests, now) => {
-    const dayAgo = now - MilliSeconds.Day;
+    const dayAgo = now - EMilliSeconds.Day;
     const filter = (timestamp: number) => timestamp > dayAgo;
 
     return filterTotalRequests({ filter, totalRequests });
@@ -167,7 +167,7 @@ export const selectProjectTotalRequestsForPreviousDay = createSelector(
   selectProjectTotalRequestsForLastTwoDays,
   selectProjectTotalRequestsForLastTwoDaysTimestamp,
   (totalRequests, now) => {
-    const dayAgo = now - MilliSeconds.Day;
+    const dayAgo = now - EMilliSeconds.Day;
     const filter = (timestamp: number) => timestamp < dayAgo;
 
     return filterTotalRequests({ filter, totalRequests });
@@ -229,7 +229,7 @@ export const selectAllProjectsActivity = createSelector(
   selectAllProjectsTotalRequests,
   selectAllProjectsTotalRequestsTimestamp,
   (totalRequests, now) => {
-    const dayAgo = now - MilliSeconds.Day;
+    const dayAgo = now - EMilliSeconds.Day;
 
     const filterLastDay = (timestamp: number) => timestamp > dayAgo;
     const filterPreviousDay = (timestamp: number) => timestamp < dayAgo;

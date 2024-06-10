@@ -6,7 +6,8 @@ import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenMa
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 export const useLastMonthStats = (isChainSelected: boolean) => {
-  const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
+  const { gateway, isEnterpriseStatusLoading, isEnterpriseClient } =
+    useMultiServiceGateway();
   const [fetch] = useLazyFetchLastMonthStatsQuery();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
@@ -17,7 +18,7 @@ export const useLastMonthStats = (isChainSelected: boolean) => {
   useEffect(() => {
     const isGroupChanged = groupRef.current !== group;
 
-    if (!isChainSelected && !isEnterpriseStatusLoading) {
+    if (!isChainSelected && !isEnterpriseStatusLoading && !isEnterpriseClient) {
       if (isGroupChanged) {
         groupRef.current = group;
         fetch({ group, gateway });
@@ -36,5 +37,6 @@ export const useLastMonthStats = (isChainSelected: boolean) => {
     selectedProjectEndpointToken,
     gateway,
     isEnterpriseStatusLoading,
+    isEnterpriseClient,
   ]);
 };
