@@ -13,6 +13,7 @@ import { PaymentDetails } from './components/PaymentDetails';
 import { Stepper } from './components/Stepper';
 import { SwitchNetworkBanner } from './components/SwitchNetworkBanner';
 import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
+import { WaitingBlockBanner } from './components/WaitingBlockBanner';
 
 export const CryptoPaymentDepositDialog = ({
   activeStep,
@@ -35,6 +36,7 @@ export const CryptoPaymentDepositDialog = ({
   isWrongNetwork,
   myAllowance,
   network,
+  confirmationBlocksNumber,
   onCheckApproval,
   onConfirmButtonClick,
   onDiscardButtonClick,
@@ -91,6 +93,9 @@ export const CryptoPaymentDepositDialog = ({
         network={network}
       />
       {isWrongNetwork && <SwitchNetworkBanner network={network} />}
+      {isConfirmationBlocksWaiting && (
+        <WaitingBlockBanner blocks={confirmationBlocksNumber} />
+      )}
       <Buttons
         activeStep={activeStep}
         isPending={isPending}

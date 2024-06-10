@@ -1,5 +1,7 @@
 import { Web3Address } from 'multirpc-sdk';
 
+import { useTopUp } from 'domains/account/hooks/useTopUp';
+
 import { useCryptoPaymentSummary } from './useCryptoPaymentSummary';
 import { useCurrency } from './useCurrency';
 import { useDealAmount } from '../components/DealAmount';
@@ -42,6 +44,8 @@ export const usePaymentForm = ({ onConnectAccount }: IUsePaymentFormProps) => {
   const dealAmountProps = useDealAmount();
   const { amount: dealAmount } = dealAmountProps;
 
+  const { confirmationBlocksNumber } = useTopUp();
+
   const {
     handlePayButtonClick: handleRecurringPaymentPayButtonClick,
     usdPaymentSummaryProps: recurringPaymentSummaryProps,
@@ -62,6 +66,7 @@ export const usePaymentForm = ({ onConnectAccount }: IUsePaymentFormProps) => {
     amount: oneTimeAmount,
     currency,
     network,
+    confirmationBlocksNumber,
     networkOptions,
     oneTimeAmountProps,
     handleNetworkChange,

@@ -21,13 +21,16 @@ import { getCurrentTransactionAddress } from 'domains/account/utils/getCurrentTr
 import { MultiService } from 'modules/api/MultiService';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
-import { topUpResetTransactionSliceAndRedirect } from '../resetTransactionSliceAndRedirect';
 import { topUpCheckAllowanceTransaction } from '../checkAllowanceTransaction';
 import { topUpWaitTransactionConfirming } from '../waitTransactionConfirming';
 import { checkFirstTopUpStep } from './checkFirstTopUpStep';
 import { TopUpStep } from '../const';
 
 const ONE_ANKR_TOKEN = new BigNumber(1);
+
+interface ITopUpGetInitialStepParams extends IApiUserGroupParams {
+  confirmationBlocksNumber: number;
+}
 // 1 check the first top up
 // 2 has deposit transaction - wait transaction
 
@@ -46,9 +49,15 @@ export const {
   useLazyTopUpGetInitialStepQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    topUpGetInitialStep: build.query<TopUpStep | null, IApiUserGroupParams>({
+    topUpGetInitialStep: build.query<
+      TopUpStep | null,
+      ITopUpGetInitialStepParams
+    >({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async ({ group }, { getState, dispatch }) => {
+        queryFn: async (
+          { group, confirmationBlocksNumber },
+          { getState, dispatch },
+        ) => {
           const address = getCurrentTransactionAddress(getState as GetState);
 
           const stepForTheFirstTopUp = await checkFirstTopUpStep({
@@ -56,6 +65,7 @@ export const {
             getState: getState as GetState,
             dispatch,
             group,
+            confirmationBlocksNumber,
           });
 
           if (stepForTheFirstTopUp) return { data: stepForTheFirstTopUp };
@@ -67,7 +77,12 @@ export const {
           );
 
           if (transaction?.topUpTransactionHash) {
-            dispatch(topUpWaitTransactionConfirming.initiate({ group }));
+            dispatch(
+              topUpWaitTransactionConfirming.initiate({
+                group,
+                confirmationBlocksNumber,
+              }),
+            );
 
             return { data: TopUpStep.waitTransactionConfirming };
           }
@@ -78,6 +93,7 @@ export const {
               topUpCheckAllowanceTransaction.initiate({
                 network: transaction?.network ?? EBlockchain.eth,
                 initialTransactionHash: transaction?.allowanceTransactionHash,
+                confirmationBlocksNumber,
               }),
             );
 
@@ -128,8 +144,6 @@ export const {
           if (!hasDepositValue) {
             return { data: TopUpStep.start };
           }
-
-          dispatch(topUpResetTransactionSliceAndRedirect.initiate());
 
           return { data: TopUpStep.start };
         },

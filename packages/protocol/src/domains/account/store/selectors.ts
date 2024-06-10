@@ -7,6 +7,7 @@ import {
   MyBundleStatus,
   EBlockchain,
   Token,
+  CONFIRMATION_BLOCKS,
 } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
@@ -886,7 +887,10 @@ export const selectPaymentOptionsByNetwork = createSelector(
       depositContractAddress,
       tokenAddress,
       tokenDecimals,
-      confirmationBlocksNumber,
+      confirmationBlocksNumber:
+        currency === ECurrency.ANKR
+          ? CONFIRMATION_BLOCKS
+          : confirmationBlocksNumber,
     };
   },
 );

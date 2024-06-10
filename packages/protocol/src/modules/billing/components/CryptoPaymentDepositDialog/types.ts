@@ -13,5 +13,6 @@ export interface ICryptoPaymentDepositDialogProps
     IDialogProps {
   amountToDeposit: BigNumber;
   amountUsd: number;
+  confirmationBlocksNumber: number;
   onOpen: () => void;
 }

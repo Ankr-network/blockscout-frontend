@@ -17,12 +17,14 @@ export const useOneTimeDialogState = () => {
 
   const {
     amountToDeposit,
+    confirmationBlocksNumber,
     loadingWaitTransactionConfirming: isAwaitingDeposit,
   } = useTopUp();
 
   const transaction = useSelectTopUpTransaction();
-  const { initialStep, isLoading: isLoadingInitialStep } =
-    useTopupInitialStep();
+  const { initialStep, isLoading: isLoadingInitialStep } = useTopupInitialStep(
+    confirmationBlocksNumber,
+  );
 
   const hasOngoingDepositTransaction = Boolean(
     transaction?.topUpTransactionHash &&

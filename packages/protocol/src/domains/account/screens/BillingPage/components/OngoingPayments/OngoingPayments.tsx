@@ -32,9 +32,10 @@ export const OngoingPayments = ({
     ongoingPaymentStatus,
     shouldShowOngoingPayment,
     txHash,
+    confirmationBlocksNumber,
   } = useOngoingPayments();
 
-  const { isLoading } = useTopupInitialStep();
+  const { isLoading } = useTopupInitialStep(confirmationBlocksNumber);
 
   const { handleResetDeposit, handleResetTopUpTransaction } = useTopUp();
 

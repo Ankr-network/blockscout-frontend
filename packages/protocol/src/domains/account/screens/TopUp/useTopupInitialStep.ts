@@ -15,7 +15,7 @@ import {
   useTopUpOriginRoute,
 } from './TopUpUtils';
 
-export const useTopupInitialStep = () => {
+export const useTopupInitialStep = (confirmationBlocksNumber: number) => {
   const { hasPrivateAccess, isLoggedIn, isWalletConnected } = useAuth();
   const [
     getInitialStep,
@@ -42,11 +42,17 @@ export const useTopupInitialStep = () => {
 
   useEffect(() => {
     if (isWalletConnected) {
-      getInitialStep({ group });
+      getInitialStep({ group, confirmationBlocksNumber });
     } else {
       redirect();
     }
-  }, [isWalletConnected, redirect, getInitialStep, group]);
+  }, [
+    isWalletConnected,
+    redirect,
+    getInitialStep,
+    group,
+    confirmationBlocksNumber,
+  ]);
 
   useOnUnmount(() => {
     reset();

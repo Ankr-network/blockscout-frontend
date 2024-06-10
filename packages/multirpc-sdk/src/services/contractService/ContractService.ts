@@ -85,6 +85,7 @@ export class ContractService extends ContractReadService {
 
   async canIssueJwtToken(
     transactionHash: PrefixedHex,
+    confirmationBlocksNumber: number,
   ): Promise<IIssueJwtTokenResult> {
     const latestKnownBlockNumber = await this.keyProvider
       .getWeb3()
@@ -96,7 +97,7 @@ export class ContractService extends ContractReadService {
 
     if (!transactionReceipt) {
       return {
-        remainingBlocks: this.config.confirmationBlocks,
+        remainingBlocks: confirmationBlocksNumber,
         isReady: false,
       };
     }
@@ -104,9 +105,9 @@ export class ContractService extends ContractReadService {
     const passedBlocks =
       latestKnownBlockNumber - transactionReceipt?.blockNumber;
 
-    if (passedBlocks < this.config.confirmationBlocks) {
+    if (passedBlocks < confirmationBlocksNumber) {
       return {
-        remainingBlocks: this.config.confirmationBlocks - passedBlocks,
+        remainingBlocks: confirmationBlocksNumber - passedBlocks,
         isReady: false,
       };
     }

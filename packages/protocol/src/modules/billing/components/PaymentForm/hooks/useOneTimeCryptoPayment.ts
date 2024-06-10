@@ -22,6 +22,7 @@ export interface IUseOneTimeCryptoPaymentProps {
   handleNetworkChange: (network: EBlockchain) => void;
   network: EBlockchain;
   networkOptions: INetworkSelectOption[];
+  confirmationBlocksNumber: number;
   onConnectAccount: (connectedAddress: Web3Address) => void;
   oneTimeAmountProps: IOneTimeAmountProps;
 }
@@ -32,6 +33,7 @@ export const useOneTimeCryptoPayment = ({
   handleNetworkChange,
   network,
   networkOptions,
+  confirmationBlocksNumber,
   onConnectAccount: onConnectAccountSuccess,
   oneTimeAmountProps,
 }: IUseOneTimeCryptoPaymentProps) => {
@@ -131,6 +133,7 @@ export const useOneTimeCryptoPayment = ({
     currency,
     depositFeeDetails,
     network: activeNetwork,
+    confirmationBlocksNumber,
     setIsAccountChangedOnDepositStep,
     handleCryptoPaymentDepositDialogOpen,
     handleCryptoPaymentSummaryDialogOpen,
