@@ -102,7 +102,7 @@ export const useCryptoPaymentDepositDialog = ({
       approvalError,
       approvalFeeDetails,
       approvalStatus,
-      completedStep: getCompletedStep({ approvalStatus, step }),
+      completedStep: getCompletedStep({ approvalStatus, step, depositStatus }),
       currency,
       depositError,
       depositFeeDetails,

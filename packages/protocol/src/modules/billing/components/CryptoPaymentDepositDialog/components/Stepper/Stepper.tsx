@@ -38,7 +38,9 @@ export const Stepper = ({
       {steps.map(({ inlKey, step }) => (
         <Step
           active={step === activeStep}
-          completed={step === completedStep}
+          completed={
+            step === completedStep || (!!completedStep && step < completedStep)
+          }
           key={step}
         >
           <StepLabel
