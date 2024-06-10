@@ -23,7 +23,7 @@ export const CryptoPaymentDepositDialog = ({
   allowanceTxHash,
   amount,
   amountUsd,
-  completedStep,
+  completedSteps,
   currency,
   depositError,
   depositFeeDetails,
@@ -68,7 +68,7 @@ export const CryptoPaymentDepositDialog = ({
       <Stepper
         activeStep={activeStep}
         className={classes.stepper}
-        completedStep={completedStep}
+        completedSteps={completedSteps}
         erroredStep={erroredStep}
       />
       <PaymentDetails

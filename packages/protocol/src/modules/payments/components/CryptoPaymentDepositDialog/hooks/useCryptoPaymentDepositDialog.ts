@@ -11,7 +11,7 @@ import { defaultFeeDetails } from 'modules/payments/const';
 import { useNetworkGuard } from 'modules/common/hooks/useNetworkGuard';
 
 import { ICryptoPaymentDepositDialogProps } from '../types';
-import { getCompletedStep } from '../utils/getCompletedStep';
+import { getCompletedSteps } from '../utils/getCompletedSteps';
 import { getErroredStep } from '../utils/getErroredStep';
 import { getStatus } from '../utils/getStatus';
 import { isPending } from '../utils/isPending';
@@ -91,7 +91,11 @@ export const useCryptoPaymentDepositDialog = ({
       allowanceTxHash,
       amount,
       amountUsd,
-      completedStep: getCompletedStep({ allowanceStepStatus, step }),
+      completedSteps: getCompletedSteps({
+        allowanceStepStatus,
+        depositStepStatus,
+        step,
+      }),
       currency,
       depositError,
       depositFeeDetails,

@@ -111,6 +111,7 @@ listenerMiddleware.startListening({
 
     dispatch(setWalletMeta(ethWeb3KeyProvider.getWalletMeta()));
     dispatch(setWalletAddress(ethWeb3KeyProvider.currentAccount));
+    dispatch(setNetworkId(ethWeb3KeyProvider.currentChain));
 
     if (isEventProvider(provider)) {
       const disconnectHandler = () => {

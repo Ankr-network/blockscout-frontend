@@ -202,6 +202,8 @@ export const selectDepositStepStatus = createSelector(
       if (isDepositing) {
         return ECryptoDepositStepStatus.Pending;
       }
+
+      return ECryptoDepositStepStatus.Initializing;
     }
 
     return undefined;

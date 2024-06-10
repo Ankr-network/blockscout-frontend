@@ -16,14 +16,14 @@ import { useStepperStyles } from './useStepperStyles';
 export interface IStepperProps {
   activeStep: ECryptoDepositStep;
   className?: string;
-  completedStep?: ECryptoDepositStep;
+  completedSteps: ECryptoDepositStep[];
   erroredStep?: ECryptoDepositStep;
 }
 
 export const Stepper = ({
   activeStep,
   className,
-  completedStep,
+  completedSteps,
   erroredStep,
 }: IStepperProps) => {
   const { classes } = useStepperStyles();
@@ -38,7 +38,7 @@ export const Stepper = ({
       {steps.map(({ inlKey, step }) => (
         <Step
           active={step === activeStep}
-          completed={step === completedStep}
+          completed={completedSteps.includes(step)}
           key={step}
         >
           <StepLabel
