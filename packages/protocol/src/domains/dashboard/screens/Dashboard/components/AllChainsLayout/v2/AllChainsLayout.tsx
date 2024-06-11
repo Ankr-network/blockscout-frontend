@@ -10,7 +10,7 @@ import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
 import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { ChainCallsWidget } from '../../ChainCallsWidget';
 import { ProjectsWidget } from '../../ProjectsWidget';
-import { useAllChainsDataV2 } from './hooks/useAllChainsDataV2';
+import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from '../AllChainsLayoutStyles';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
@@ -28,7 +28,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     responseError,
     responses,
     totalRequestsNumber,
-  } = useAllChainsDataV2();
+  } = useAllChainsData();
 
   return (
     <EmptyLayoutGuard data={responseError ? [] : requestsChartData}>

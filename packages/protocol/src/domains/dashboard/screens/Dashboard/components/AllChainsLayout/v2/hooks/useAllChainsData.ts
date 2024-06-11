@@ -35,7 +35,7 @@ interface IUseAllChainsDataResult {
   responseError: unknown;
 }
 
-export const useAllChainsDataV2 = (): IUseAllChainsDataResult => {
+export const useAllChainsData = (): IUseAllChainsDataResult => {
   const { isEnterpriseStatusLoading } = useEnterpriseClientStatus();
 
   const [, { isFetching, isLoading }] =

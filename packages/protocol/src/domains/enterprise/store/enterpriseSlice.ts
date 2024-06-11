@@ -2,26 +2,24 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 
-import { EnterpriseRoutesConfig } from '../routes';
-
 const initialState = {
-  originURL: EnterpriseRoutesConfig.chains.path,
+  blockchainsWithUsage: [] as string[],
 };
 
 export const enterpriseChainsSlice = createSlice({
-  name: 'enterprise/originURL',
+  name: 'enterprise/chains',
   initialState,
   reducers: {
-    setOriginChainURL: (
+    setBlockchainsWithUsage: (
       state,
-      { payload: originURL }: PayloadAction<string>,
+      { payload: blockchains }: PayloadAction<string[]>,
     ) => {
-      state.originURL = originURL;
+      state.blockchainsWithUsage = blockchains;
     },
   },
 });
 
-export const selectEnterpriseChainsOriginURL = (state: RootState) =>
-  state.enterpriseOriginURL.originURL;
+export const selectEnterpriseChainsWithUsage = (state: RootState) =>
+  state.enterpriseChains.blockchainsWithUsage;
 
-export const { setOriginChainURL } = enterpriseChainsSlice.actions;
+export const { setBlockchainsWithUsage } = enterpriseChainsSlice.actions;

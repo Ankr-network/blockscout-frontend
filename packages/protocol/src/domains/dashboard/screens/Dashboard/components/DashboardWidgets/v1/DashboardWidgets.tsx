@@ -2,7 +2,7 @@ import { ChainID, Timeframe } from 'modules/chains/types';
 
 import { ChainLayout } from '../../ChainLayout/v1';
 import { AllChainsLayout } from '../../AllChainsLayout/v1';
-import { useLastMonthStats } from '../../../hooks/useLastMonthStats';
+import { useLastMonthStats } from '../../../v1/hooks/useLastMonthStats';
 
 interface IDashboardWidgetsProps {
   detailsChainId?: ChainID;

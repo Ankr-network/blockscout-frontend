@@ -55,7 +55,7 @@ const rootReducer = combineReducers({
     accountTopUpSlice.reducer,
   ),
   chainsOriginURL: chainsSlice.reducer,
-  enterpriseOriginURL: enterpriseChainsSlice.reducer,
+  enterpriseChains: enterpriseChainsSlice.reducer,
   requestComposer: requestComposerSlice.reducer,
   router: connectRouter(historyInstance),
   notifications: notificationSlice.reducer,

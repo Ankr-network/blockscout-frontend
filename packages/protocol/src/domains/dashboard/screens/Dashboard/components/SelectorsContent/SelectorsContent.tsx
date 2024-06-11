@@ -1,13 +1,12 @@
 import { SelectChangeEvent } from '@mui/material';
-import { useMemo } from 'react';
 
-import { ProjectSelect } from 'modules/common/components/ProjectSelect';
-import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
-import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import {
+  ProjectSelect,
+  SelectOption,
+} from 'modules/common/components/ProjectSelect';
 import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { ISelectOption } from 'uiKit/Select';
-import { ProjectOption } from 'domains/enterprise/components/EnterpriseApiKeysSelect/useEnterpriseApiKeySelect';
 import {
   ChainSubTypeItem,
   ChainTypeItem,
@@ -17,14 +16,14 @@ import { ChainSelector } from '../ChainSelector';
 import { SubTypeSelector } from '../SubTypeSelector';
 import { PrivateChainSelectedContent } from '../PrivateChainSelectedContent';
 import { useDashboardStyles } from '../../useDashboardStyles';
-import { usePrivateChainSelector } from '../../hooks/usePrivateChainSelector';
+import { usePrivateChainSelector } from '../../v1/hooks/usePrivateChainSelector';
 import { useSelectorVisibility } from '../ChainSelector/useSelectorVisibility';
-import { useDashboardProjects } from '../../hooks/useDashboardProjects';
+import { useDashboardProjects } from '../../v1/hooks/useDashboardProjects';
 
 interface ISelectorContentProps {
-  projectOptionsV2: ProjectOption[];
-  handleSetOptionV2: (value: string) => void;
-  selectOptionV2: string;
+  projectOptions: SelectOption[];
+  handleSetOption: (value: string) => void;
+  selectedOption: string;
   selectedChainId: ChainID;
   handleChange: (event: SelectChangeEvent<ChainID>) => void;
   renderValue: (value: ChainID) => JSX.Element;
@@ -52,21 +51,19 @@ export const SelectorsContent = ({
   groupID,
   groups,
   handleChange,
-  handleSetOptionV2,
+  handleSetOption,
   isTestnetOnlyChainSelected,
   networksConfigurations,
-  projectOptionsV2,
+  projectOptions,
   renderValue,
   selectGroup,
-  selectOptionV2,
   selectSubType,
   selectType,
   selectedChainId,
+  selectedOption,
   showAdditionalSelect,
 }: ISelectorContentProps) => {
   const { classes } = useDashboardStyles();
-
-  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const { classNameMenuItem, menuProps } = usePrivateChainSelector();
 
@@ -74,50 +71,18 @@ export const SelectorsContent = ({
 
   const { shouldShowTokenManager } = useDashboardProjects();
 
-  const {
-    handleSetOption: handleSetOptionV1,
-    options: projectOptionsV1,
-    selectedOption: selectedOptionV1,
-  } = useProjectSelect();
-
-  const projectSelectProps = useMemo(() => {
-    if (isEnterpriseClient) {
-      return {
-        classNameMenuItem,
-        menuProps,
-        selectProps,
-        options: projectOptionsV2,
-        handleSetOption: handleSetOptionV2,
-        selectedOption: selectOptionV2,
-      };
-    }
-
-    return {
-      classNameMenuItem,
-      menuProps,
-      selectProps,
-      options: projectOptionsV1,
-      handleSetOption: handleSetOptionV1,
-      selectedOption: selectedOptionV1,
-    };
-  }, [
-    classNameMenuItem,
-    handleSetOptionV1,
-    handleSetOptionV2,
-    isEnterpriseClient,
-    menuProps,
-    projectOptionsV1,
-    projectOptionsV2,
-    selectOptionV2,
-    selectProps,
-    selectedOptionV1,
-  ]);
-
   return (
     <div className={classes.selectorContent}>
       {shouldShowTokenManager && (
         <div className={classes.projectSelect}>
-          <ProjectSelect {...projectSelectProps} />
+          <ProjectSelect
+            classNameMenuItem={classNameMenuItem}
+            menuProps={menuProps}
+            selectProps={selectProps}
+            options={projectOptions}
+            handleSetOption={handleSetOption}
+            selectedOption={selectedOption}
+          />
         </div>
       )}
       <ChainSelector

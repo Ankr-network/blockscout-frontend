@@ -7,13 +7,13 @@ import { t } from '@ankr.com/common';
 
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
+import { useMonthlyStats } from '../../../v1/hooks/useMonthlyStats';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
 import { ILayoutProps } from '../../../types';
 import { LocationsWidget } from '../../LocationsWidget';
 import { ProjectsWidget } from '../../ProjectsWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from '../AllChainsLayoutStyles';
-import { useMonthlyStats } from '../../../hooks/useMonthlyStats';
 import { ChainCallsWidget } from '../../ChainCallsWidget';
 import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { useChainCalls } from '../../ChainCallsWidget/hooks/useChainCalls';

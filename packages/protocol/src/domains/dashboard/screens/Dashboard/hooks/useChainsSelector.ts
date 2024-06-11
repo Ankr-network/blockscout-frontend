@@ -14,15 +14,20 @@ import {
 interface IChainSelectorProps {
   chains: Chain[];
   allChains: Chain[];
+  chainIdsWithStats: ChainID[];
   nestedSelectedChainId?: ChainID;
 }
 
 export const useChainsSelector = ({
   allChains,
+  chainIdsWithStats,
   chains,
   nestedSelectedChainId,
 }: IChainSelectorProps) => {
-  const { defaultValue, options, renderValue } = useChainSelector(chains);
+  const { defaultValue, options, renderValue } = useChainSelector(
+    chains,
+    chainIdsWithStats,
+  );
 
   const [selectedChainId, setSelectedChainId] = useState<ChainID>(defaultValue);
   const chainId = nestedSelectedChainId || selectedChainId;

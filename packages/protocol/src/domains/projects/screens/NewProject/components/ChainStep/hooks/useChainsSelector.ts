@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useForm } from 'react-final-form';
 
-import { useChains } from 'domains/dashboard/screens/Dashboard/hooks/useChains';
+import { useChains } from 'domains/dashboard/screens/Dashboard/v1/hooks/useChains';
 import { useChainsSelector as useChainsSelect } from 'domains/dashboard/screens/Dashboard/hooks/useChainsSelector';
 import { useChainSelectorGroups } from 'domains/dashboard/screens/Dashboard/hooks/useChainSelectorGroups';
 import { fallbackChain } from 'domains/dashboard/screens/Dashboard/const';
@@ -27,6 +27,7 @@ export const useChainsSelector = (
   } = useChainsSelect({
     chains,
     allChains,
+    chainIdsWithStats: [],
     nestedSelectedChainId,
   });
 

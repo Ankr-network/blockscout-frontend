@@ -7,7 +7,11 @@ import { secondsToMilliseconds } from 'date-fns';
 import { RootState } from 'store';
 import { ChainID } from 'modules/chains/types';
 import { chainsFetchEnterpriseV2StatsTotal } from 'domains/enterprise/actions/v2/fetchEnterpriseStatsTotal';
-import { selectEnterpriseEndpoints } from 'domains/enterprise/store/selectors';
+import {
+  selectEnterpriseBlockchainsDependingOnSelectedApiKey,
+  selectEnterpriseEndpoints,
+} from 'domains/enterprise/store/selectors';
+import { selectEnterpriseChainsWithUsage } from 'domains/enterprise/store/enterpriseSlice';
 import { selectBlockchainsData } from 'modules/chains/store/selectors';
 
 import { mapTopToBaseDataTableProps } from '../utils/mapTopToBaseDataTableProps';
@@ -67,7 +71,10 @@ export const selectResponseCodesNumber = createSelector(
       topItem => topItem.top_of === ETelemetryTopOf.ERROR,
     );
 
-    return mapTopToBaseDataTableProps(topResponseCodesData);
+    const mappedResponseCodesData =
+      mapTopToBaseDataTableProps(topResponseCodesData);
+
+    return mappedResponseCodesData;
   },
 );
 
@@ -105,17 +112,32 @@ export const selectTopMonthlyStats = createSelector(selectUsageData, data => {
   );
 });
 
+export const selectChainCallsRawData = createSelector(selectUsageData, data => {
+  return data?.tops?.find(
+    topItem => topItem.top_of === ETelemetryTopOf.BLOCKCHAIN,
+  );
+});
+
+export const selectEnterpriseBlockchainsDependingOnSelectedApiKeyWithUsage =
+  createSelector(
+    selectEnterpriseBlockchainsDependingOnSelectedApiKey,
+    selectEnterpriseChainsWithUsage,
+    (blockchains, allEnterpriseChainsWithUsage) => {
+      return (
+        blockchains.filter(blockchain =>
+          allEnterpriseChainsWithUsage.includes(blockchain),
+        ) || []
+      );
+    },
+  );
+
 export const selectChainCallsData = createSelector(
-  selectUsageData,
+  selectChainCallsRawData,
   selectTotalRequestsNumber,
   selectChainNamesMap,
   selectBlockchainsData,
   // eslint-disable-next-line max-params
-  (data, totalRequestsNumber, chainNamesMap, blockchains) => {
-    const chainCallsData = data?.tops?.find(
-      topItem => topItem.top_of === ETelemetryTopOf.BLOCKCHAIN,
-    );
-
+  (chainCallsData, totalRequestsNumber, chainNamesMap, blockchains) => {
     const mappedChains = mapChainCallsData({
       chainCallsData,
       totalRequestsNumber,
