@@ -47,6 +47,11 @@ export const selectEnterpriseEndpoints = createSelector(
   data => data,
 );
 
+export const selectEnterpriseEndpointsLoading = createSelector(
+  selectEnterpriseEndpoints,
+  ({ isLoading }) => isLoading,
+);
+
 export const selectEnterpriseEndpointsError = createSelector<
   any, // should be typeof selectEnterpriseEndpoints, but it is readonly. so just declared any to describe the return type
   Error | undefined
