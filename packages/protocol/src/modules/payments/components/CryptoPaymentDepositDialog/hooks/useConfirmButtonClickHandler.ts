@@ -7,7 +7,8 @@ import { ECryptoDepositStepStatus } from 'modules/payments/types';
 export interface IUseConfirmButtonClickHandlerProps {
   allowanceStepStatus: ECryptoDepositStepStatus;
   handleDeposit: () => void;
-  handleSendAllowance: () => void;
+  handleFetchAllowance: () => Promise<void>;
+  handleSendAllowance: () => Promise<void>;
   handleSwitchNetwork: (network: EEthereumNetworkId) => void;
   isWrongNetwork: boolean;
   network: EBlockchain;
@@ -16,12 +17,13 @@ export interface IUseConfirmButtonClickHandlerProps {
 export const useConfirmButtonClickHandler = ({
   allowanceStepStatus,
   handleDeposit,
+  handleFetchAllowance,
   handleSendAllowance,
   handleSwitchNetwork,
   isWrongNetwork,
   network,
 }: IUseConfirmButtonClickHandlerProps) => {
-  const onConfirmButtonClick = useCallback(() => {
+  const onConfirmButtonClick = useCallback(async () => {
     if (isWrongNetwork) {
       return handleSwitchNetwork(ethNetworkIdByBlockchainMap[network]);
     }
@@ -33,13 +35,16 @@ export const useConfirmButtonClickHandler = ({
       allowanceStepStatus === ECryptoDepositStepStatus.Error;
 
     if (hasAllowanceInitializingStatus || hasAllowanceError) {
-      return handleSendAllowance();
+      await handleSendAllowance();
+
+      return handleFetchAllowance();
     }
 
     return handleDeposit();
   }, [
     allowanceStepStatus,
     handleDeposit,
+    handleFetchAllowance,
     handleSendAllowance,
     handleSwitchNetwork,
     isWrongNetwork,

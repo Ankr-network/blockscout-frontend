@@ -32,14 +32,14 @@ export interface IUseCryptoPaymentDepositDialogProps {
   depositTxHash?: string;
   handleDeposit: () => Promise<void>;
   handleDiscardTx: () => void;
+  handleFetchAllowance: () => Promise<void>;
   handleResetAllowanceSending: () => void;
-  handleSendAllowance: () => void;
+  handleSendAllowance: () => Promise<void>;
   isAllowanceLoading: boolean;
   isAllowanceSent: boolean;
   isCryptoPaymentDepositDialogOpened: boolean;
   isOngoingTx: boolean;
   network: EBlockchain;
-  onCheckAllowanceButtonClick: () => Promise<void>;
   onClose: () => void;
   step: ECryptoDepositStep;
 }
@@ -59,13 +59,13 @@ export const useCryptoPaymentDepositDialog = ({
   depositTxHash,
   handleDeposit,
   handleDiscardTx,
+  handleFetchAllowance,
   handleSendAllowance,
   isAllowanceLoading,
   isAllowanceSent,
   isCryptoPaymentDepositDialogOpened,
   isOngoingTx,
   network,
-  onCheckAllowanceButtonClick,
   onClose,
   step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
@@ -75,6 +75,7 @@ export const useCryptoPaymentDepositDialog = ({
   const { onConfirmButtonClick } = useConfirmButtonClickHandler({
     allowanceStepStatus,
     handleDeposit,
+    handleFetchAllowance,
     handleSendAllowance,
     handleSwitchNetwork,
     isWrongNetwork,
@@ -114,7 +115,7 @@ export const useCryptoPaymentDepositDialog = ({
       }),
       isWrongNetwork,
       network,
-      onCheckAllowanceButtonClick,
+      onCheckAllowanceButtonClick: handleFetchAllowance,
       onClose,
       onConfirmButtonClick,
       onDiscardButtonClick: handleDiscardTx,
@@ -137,6 +138,7 @@ export const useCryptoPaymentDepositDialog = ({
       depositStepStatus,
       depositTxHash,
       handleDiscardTx,
+      handleFetchAllowance,
       isAllowanceLoading,
       isAllowanceSent,
       isCryptoPaymentDepositDialogOpened,
@@ -144,7 +146,6 @@ export const useCryptoPaymentDepositDialog = ({
       isSwitchNetworkLoading,
       isWrongNetwork,
       network,
-      onCheckAllowanceButtonClick,
       onClose,
       onConfirmButtonClick,
       step,

@@ -3,7 +3,10 @@ import { useCallback } from 'react';
 import { ICryptoTransaction } from 'modules/payments/types';
 import { defaultCryptoTx } from 'modules/payments/const';
 import { selectIsCryptoTxOngoing } from 'modules/payments/store/selectors';
-import { setAllowanceAmount } from 'modules/payments/store/paymentsSlice';
+import {
+  setAllowanceAmount,
+  setIsApproved,
+} from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAppSelector } from 'store/useAppSelector';
 import { useFetchAllowance } from 'modules/payments/hooks/useFetchAllowance';
@@ -63,13 +66,25 @@ export const useCryptoPaymentDepositStep = ({
   const { handleResetAllowanceSending, handleSendAllowance, isAllowanceSent } =
     useCryptoPaymentSendAllowanceHandler({ tx });
 
-  const { handleFetchAllowance, isLoading: isAllowanceLoading } =
-    useFetchAllowance({
-      address: from,
-      currency,
-      network,
-      skipFetching: true,
-    });
+  const {
+    handleFetchAllowance: fetchAllowance,
+    isLoading: isAllowanceLoading,
+  } = useFetchAllowance({
+    address: from,
+    currency,
+    network,
+    skipFetching: true,
+  });
+
+  const dispatch = useAppDispatch();
+  const handleFetchAllowance = useCallback(async () => {
+    const { data: allowanceAmount = 0 } = await fetchAllowance();
+    const isApproved = amount <= allowanceAmount;
+    const id = txId;
+
+    dispatch(setAllowanceAmount({ allowanceAmount, id }));
+    dispatch(setIsApproved({ isApproved, id }));
+  }, [amount, dispatch, fetchAllowance, txId]);
 
   const { amountUsd } = useUsdAmountByCryptoAmount({ amount, currency });
 
@@ -98,14 +113,6 @@ export const useCryptoPaymentDepositStep = ({
     handleCryptoPaymentDepositDialogClose();
   }, [handleResetDepositStep, handleCryptoPaymentDepositDialogClose]);
 
-  const dispatch = useAppDispatch();
-
-  const onCheckAllowanceButtonClick = useCallback(async () => {
-    const { data: allowanceAmount = 0 } = await handleFetchAllowance();
-
-    dispatch(setAllowanceAmount({ allowanceAmount, id: txId }));
-  }, [dispatch, handleFetchAllowance, txId]);
-
   const cryptoPaymentDepositDialogProps = useCryptoPaymentDepositDialog({
     allowance,
     allowanceError,
@@ -122,6 +129,7 @@ export const useCryptoPaymentDepositStep = ({
     depositTxHash,
     handleDeposit,
     handleDiscardTx,
+    handleFetchAllowance,
     handleResetAllowanceSending,
     handleSendAllowance,
     isAllowanceLoading,
@@ -129,7 +137,6 @@ export const useCryptoPaymentDepositStep = ({
     isCryptoPaymentDepositDialogOpened,
     isOngoingTx,
     network,
-    onCheckAllowanceButtonClick,
     onClose,
     step,
   });
