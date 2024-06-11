@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'store';
 
 export interface JwtManagerToken {
+  id: string;
   index: number;
   userEndpointToken: string;
   jwtData: string;

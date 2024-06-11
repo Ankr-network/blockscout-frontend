@@ -25,6 +25,7 @@ export interface IUseCryptoPaymentDepositDialogProps {
   allowanceTxHash?: string;
   amount: number;
   amountUsd: number;
+  confirmationBlocks: number;
   currency: ECurrency;
   depositError?: string;
   depositFeeDetails?: IFeeDetails;
@@ -52,6 +53,7 @@ export const useCryptoPaymentDepositDialog = ({
   allowanceTxHash,
   amount,
   amountUsd,
+  confirmationBlocks,
   currency,
   depositError,
   depositFeeDetails = defaultFeeDetails,
@@ -92,6 +94,7 @@ export const useCryptoPaymentDepositDialog = ({
       allowanceTxHash,
       amount,
       amountUsd,
+      confirmationBlocks,
       completedSteps: getCompletedSteps({
         allowanceStepStatus,
         depositStepStatus,
@@ -132,6 +135,7 @@ export const useCryptoPaymentDepositDialog = ({
       allowanceTxHash,
       amount,
       amountUsd,
+      confirmationBlocks,
       currency,
       depositError,
       depositFeeDetails,

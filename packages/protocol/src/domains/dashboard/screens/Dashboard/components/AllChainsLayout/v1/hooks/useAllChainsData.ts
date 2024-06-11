@@ -9,7 +9,7 @@ import {
   selectTotalRequests,
   selectTotalRequestsNumber,
   selectTotalStatsLoading,
-} from 'domains/dashboard/store/selectors';
+} from 'domains/dashboard/store/selectors/v1';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { useTop10Stats } from './useTop10Stats';

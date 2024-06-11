@@ -8,12 +8,13 @@ import {
   IGetStablecoinAllowanceParams,
   Web3Address,
 } from '../common';
-import { GAS_LIMIT, ZERO_STRING } from './const';
 import { IUsdcToken } from './abi/IUsdcToken';
+import { ZERO_STRING } from './const';
 import {
   convertNumberWithDecimalsToString,
   getReadProviderByNetwork,
 } from '../utils';
+import { getGasLimitByNetwork } from './utils/getGasLimitByNetwork';
 
 export class UsdcPAYGReadContractManager {
   protected readonly usdcTokenContract: Contract;
@@ -87,7 +88,7 @@ export class UsdcPAYGReadContractManager {
     const contract = provider.createContract(ABI_USDC_TOKEN, this.tokenAddress);
 
     const amountString = convertNumberWithDecimalsToString(amount, decimals);
-    const gas = Number(GAS_LIMIT);
+    const gas = Number(getGasLimitByNetwork(network));
 
     let gasAmount = 0;
 
@@ -121,7 +122,7 @@ export class UsdcPAYGReadContractManager {
     const contract = provider.createContract(ABI_USDC_TOKEN, this.tokenAddress);
 
     const amountString = convertNumberWithDecimalsToString(amount, decimals);
-    const gas = Number(GAS_LIMIT);
+    const gas = Number(getGasLimitByNetwork(network));
 
     let gasAmount = 0;
 

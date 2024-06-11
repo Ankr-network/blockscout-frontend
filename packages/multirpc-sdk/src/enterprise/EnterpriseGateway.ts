@@ -99,11 +99,12 @@ export class EnterpriseGateway {
   async getPrivateStatsByPremiumId(
     intervalType: PrivateStatsInterval,
     apiKey: string,
+    group?: Web3Address,
   ): Promise<PrivateStats> {
     const { data } = await this.api.get<PrivateStats>(
       `/api/v1/auth/enterprise/stats/apiKey`,
       {
-        params: { intervalType, apiKey },
+        params: { intervalType, apiKey, group },
       },
     );
 

@@ -29,7 +29,7 @@ export interface ChainTypeItem {
   label: string;
 }
 
-interface ChainSubTypeItem {
+export interface ChainSubTypeItem {
   value: ChainSubType;
   label: string;
 }

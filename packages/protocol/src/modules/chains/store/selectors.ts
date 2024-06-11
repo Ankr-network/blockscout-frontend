@@ -20,6 +20,11 @@ export const selectBlockchains = createSelector(
   blockchains => blockchains,
 );
 
+export const selectBlockchainsData = createSelector(
+  selectBlockchains,
+  ({ data }) => data,
+);
+
 export const selectBlockchainsLoadingStatus = createSelector(
   chainsFetchBlockchains.select(),
   ({ isLoading }) => isLoading,

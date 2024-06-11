@@ -1,7 +1,8 @@
+import { PieChartData } from '@ankr.com/telemetry';
+
 import { ChainID } from 'modules/chains/types';
 
 import { ChainCalls } from '../../../types';
-import { PieChartData } from '../../BasePieChart';
 import { text } from './text';
 
 const MAX_PIECES = 5;

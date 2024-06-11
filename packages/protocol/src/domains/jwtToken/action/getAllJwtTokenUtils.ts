@@ -39,6 +39,7 @@ export const formatTokenAndDecryptJwt = async (
 
   if (index === PRIMARY_TOKEN_INDEX) {
     return {
+      id: index.toString(),
       index,
       name,
       description,
@@ -50,6 +51,7 @@ export const formatTokenAndDecryptJwt = async (
   const userEndpointToken = await getUserEndpointToken(jwtData, isEncrypted);
 
   return {
+    id: index.toString(),
     index,
     name,
     description,

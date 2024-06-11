@@ -3,11 +3,16 @@ import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { INDEX_PATH } from 'routes/constants';
 
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { ENTERPRISE_ROOT_PATH } from 'domains/enterprise/routes';
+
 import { text } from '../../utils/text';
 import { useStartButtonStyles } from './StartButtonStyles';
 
 export const StartButton = () => {
   const { classes } = useStartButtonStyles();
+
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   return (
     <Button
@@ -17,7 +22,7 @@ export const StartButton = () => {
       }}
       component={Link}
       endIcon={<ArrowRightSmall />}
-      to={INDEX_PATH}
+      to={isEnterpriseClient ? ENTERPRISE_ROOT_PATH : INDEX_PATH}
       variant="contained"
     >
       {text('button')}

@@ -13,4 +13,5 @@ export interface ICryptoPaymentDepositDialogProps
     Omit<IButtonsProps, 'isRevokeAllowanceLoading' | 'isDepositConfirming'>,
     IDialogProps {
   amountUsd: number;
+  confirmationBlocks: number;
 }

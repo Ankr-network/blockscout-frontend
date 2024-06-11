@@ -1,11 +1,11 @@
 import { Paper } from '@mui/material';
+import { PieChartData } from '@ankr.com/telemetry';
 
 import { ScrollableContainer } from 'modules/common/components/ScrollableContainer';
 
 import { Chart } from './components/Chart';
 import { Legend } from './components/Legend';
 import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
-import { PieChartData } from './types';
 import { Title } from '../Title';
 import { useBasePieChartStyles } from './BasePieChartStyles';
 

@@ -67,7 +67,10 @@ export class ContractService {
     return events[events.length - 1];
   }
 
-  async canIssueJwtToken(txHash: PrefixedHex): Promise<IIssueJwtTokenResult> {
+  async canIssueJwtToken(
+    txHash: PrefixedHex,
+    confirmationBlocksNumber: number,
+  ): Promise<IIssueJwtTokenResult> {
     const latestKnownBlockNumber = await this.keyProvider
       .getWeb3()
       .eth.getBlockNumber();
@@ -76,7 +79,7 @@ export class ContractService {
 
     if (!transactionReceipt) {
       return {
-        remainingBlocks: this.config.confirmationBlocks,
+        remainingBlocks: confirmationBlocksNumber,
         isReady: false,
       };
     }
@@ -84,9 +87,9 @@ export class ContractService {
     const passedBlocks =
       latestKnownBlockNumber - transactionReceipt?.blockNumber;
 
-    if (passedBlocks < this.config.confirmationBlocks) {
+    if (passedBlocks < confirmationBlocksNumber) {
       return {
-        remainingBlocks: this.config.confirmationBlocks - passedBlocks,
+        remainingBlocks: confirmationBlocksNumber - passedBlocks,
         isReady: false,
       };
     }

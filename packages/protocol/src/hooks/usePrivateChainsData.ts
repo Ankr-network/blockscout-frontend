@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';

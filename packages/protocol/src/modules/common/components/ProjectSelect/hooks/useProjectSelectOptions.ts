@@ -15,12 +15,11 @@ import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
 
 import { SelectOption } from '../ProjectSelect';
 
-export const ALL_PROJECTS_VALUE = 'All';
-
-const getAllProjectsItem = () => {
+export const getAllProjectsItem = () => {
   return {
     value: ALL_PROJECTS_VALUE,
     title: t(`${jwtTokenIntlRoot}.select.all-projects`),

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { EBlockchain } from 'multirpc-sdk';
+import { CONFIRMATION_BLOCKS, EBlockchain } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
@@ -58,7 +58,10 @@ export const selectPaymentOptionsByNetworkAndCurrency = createSelector(
     const paymentOption = options.find(option => option.blockchain === network);
 
     const tokens = paymentOption?.tokens;
-    const confirmationBlocksNumber = paymentOption?.confirmation_blocks;
+    const confirmationBlocksNumber =
+      currency === ECurrency.ANKR
+        ? CONFIRMATION_BLOCKS
+        : paymentOption?.confirmation_blocks;
     const depositContractAddress = paymentOption?.deposit_contract_address;
 
     const currentToken = tokens?.find(
@@ -69,7 +72,7 @@ export const selectPaymentOptionsByNetworkAndCurrency = createSelector(
     const tokenDecimals = currentToken?.token_decimals;
 
     return {
-      confirmationBlocksNumber,
+      confirmationBlocksNumber: confirmationBlocksNumber || CONFIRMATION_BLOCKS,
       depositContractAddress,
       tokenAddress,
       tokenDecimals,

@@ -1,6 +1,6 @@
 import { EBlockchain } from 'multirpc-sdk';
 
-import { MilliSeconds } from 'modules/common/constants/const';
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 
 import { getTxBlockConfirmations } from './getTxBlockConfirmations';
@@ -13,7 +13,7 @@ export interface IWaitForTxBlockConfirmationParams {
 
 // Chosen taking Etherium average block time
 // Reference: https://etherscan.io/chart/blocktime
-const fetchingInterval = 12 * MilliSeconds.Second;
+const fetchingInterval = 12 * EMilliSeconds.Second;
 
 export const waitForTxBlockConfirmation = ({
   blocksToConfirm,

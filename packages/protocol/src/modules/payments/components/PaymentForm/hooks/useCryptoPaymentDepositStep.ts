@@ -2,7 +2,10 @@ import { useCallback } from 'react';
 
 import { ICryptoTransaction } from 'modules/payments/types';
 import { defaultCryptoTx } from 'modules/payments/const';
-import { selectIsCryptoTxOngoing } from 'modules/payments/store/selectors';
+import {
+  selectIsCryptoTxOngoing,
+  selectPaymentOptionsByNetworkAndCurrency,
+} from 'modules/payments/store/selectors';
 import {
   setAllowanceAmount,
   setIsApproved,
@@ -49,6 +52,10 @@ export const useCryptoPaymentDepositStep = ({
     isDepositing,
     network,
   } = tx;
+
+  const { confirmationBlocksNumber: confirmationBlocks } = useAppSelector(
+    state => selectPaymentOptionsByNetworkAndCurrency(state, network, currency),
+  );
 
   const isOngoingTx = useAppSelector(state =>
     selectIsCryptoTxOngoing(state, txId),
@@ -122,6 +129,7 @@ export const useCryptoPaymentDepositStep = ({
     allowanceTxHash,
     amount,
     amountUsd,
+    confirmationBlocks,
     currency,
     depositError,
     depositFeeDetails: depositFeeDetailsPaid ?? depositFeeDetailsEstimated,

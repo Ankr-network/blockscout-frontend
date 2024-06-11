@@ -7,6 +7,7 @@ import {
 } from '@ankr.com/provider';
 import { Contract } from 'web3-eth-contract';
 
+import { DEPOSIT_ERROR, GAS_LIMIT, ZERO_STRING } from './const';
 import {
   EBlockchain,
   IAllowanceParams,
@@ -34,7 +35,7 @@ import {
   getReadProviderByNetwork,
   getBNWithDecimalsFromString,
 } from '../utils';
-import { DEPOSIT_ERROR, GAS_LIMIT, ZERO_STRING } from './const';
+import { getGasLimitByNetwork } from './utils/getGasLimitByNetwork';
 
 export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
   protected readonly usdtTokenContract: Contract;
@@ -107,6 +108,8 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     const provider =
       await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
 
+    const gasLimit = getGasLimitByNetwork(network);
+
     const contract = provider.createContract(
       ABI_USDT_TOKEN,
       tokenAddress,
@@ -126,14 +129,14 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
         )
         .estimateGas({
           from: currentAccount,
-          gas: Number(GAS_LIMIT),
+          gas: Number(gasLimit),
         });
     } catch {
       gasAmount = await (contract.methods as IUsdtToken)
         .approve(depositContractAddress, ZERO_STRING)
         .estimateGas({
           from: currentAccount,
-          gas: Number(GAS_LIMIT),
+          gas: Number(gasLimit),
         });
     }
 
@@ -304,6 +307,8 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     const provider =
       await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
 
+    const gasLimit = getGasLimitByNetwork(network);
+
     const contract = provider.createContract(
       ABI_USDT_TOKEN,
       tokenAddress,
@@ -321,11 +326,11 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
           depositContractAddress,
           convertNumberWithDecimalsToString(amount, tokenDecimals)
         )
-        .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+        .estimateGas({ from: currentAccount, gas: Number(gasLimit) });
     } catch (e) {
       gasAmount = await (contract.methods as IUsdtToken)
         .transfer(depositContractAddress, ZERO_STRING)
-        .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+        .estimateGas({ from: currentAccount, gas: Number(gasLimit) });
     }
 
     const gasPrice = await provider.getSafeGasPriceWei();

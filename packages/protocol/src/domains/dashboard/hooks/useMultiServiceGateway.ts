@@ -12,5 +12,5 @@ export const useMultiServiceGateway = () => {
     ? getEnterpriseGateway()
     : getAccountingGateway();
 
-  return { gateway, isEnterpriseStatusLoading };
+  return { gateway, isEnterpriseStatusLoading, isEnterpriseClient };
 };

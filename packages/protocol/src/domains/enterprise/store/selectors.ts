@@ -25,6 +25,7 @@ const mapEnterpriseApiKeysToJwtManagerTokens = (
 ) => {
   return {
     index,
+    id: endpoint.api_key_id,
     name: endpoint.enterprise_api_key_name || '',
     description: '',
     jwtData: '',
@@ -41,7 +42,7 @@ const mapEnterpriseChainIds = ({
   );
 };
 
-const selectEnterpriseEndpoints = createSelector(
+export const selectEnterpriseEndpoints = createSelector(
   fetchEnterpriseEndpoints.select(undefined as unknown as never),
   data => data,
 );
@@ -72,7 +73,7 @@ export const selectEnterpriseUserAddress = createSelector(
     selectedGroupAddress || userAddress,
 );
 
-const selectEnterpriseSelectedApiKey = createSelector(
+export const selectEnterpriseSelectedApiKey = createSelector(
   selectEnterpriseApiKeysAsJwtManagerTokens,
   selectJwtTokenManager,
   selectEnterpriseUserAddress,
@@ -92,7 +93,7 @@ const selectAllAvailableEnterpriseChainIds = createSelector(
   },
 );
 
-const selectEnterpriseChainsForSelectedApiKey = createSelector(
+export const selectEnterpriseChainsForSelectedApiKey = createSelector(
   selectEnterpriseSelectedApiKey,
   selectedApiKey => {
     return (

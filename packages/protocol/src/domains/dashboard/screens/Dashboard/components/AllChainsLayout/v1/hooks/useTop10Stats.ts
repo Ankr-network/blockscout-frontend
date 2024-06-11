@@ -8,28 +8,12 @@ import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop1
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
-
-const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+import { mapCountries } from 'domains/dashboard/store/utils/mapCountries';
 
 const mapIpRequests = (ip: Top10StatItem): BaseTableData => ({
   label: ip.key,
   value: t('dashboard.requests-by-ip.count', { count: ip.value }),
 });
-
-const mapCountries = (country: Top10StatItem): BaseTableData => {
-  let regionName = '';
-
-  try {
-    regionName = regionNames.of(country.key) ?? '';
-  } catch {
-    regionName = country.key;
-  }
-
-  return {
-    label: regionName,
-    value: t('dashboard.top-countries.count', { count: country.value }),
-  };
-};
 
 export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
   const [fetchTop10Stats, { data: top10Data }] = useLazyFetchTop10StatsQuery();

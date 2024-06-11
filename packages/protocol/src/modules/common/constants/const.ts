@@ -15,11 +15,13 @@ export const ZERO_STRING = '0';
 
 export const DEFAULT_TOKEN_DECIMALS = 18;
 
-export enum MilliSeconds {
+export enum EMilliSeconds {
   Second = 1000,
   Minute = Second * 60,
   Hour = Minute * 60,
   Day = Hour * 24,
+  Week = Day * 7,
+  Month = Day * 30,
 }
 
 export const TWITTER_COLOR = '#479AE9';

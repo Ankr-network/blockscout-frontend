@@ -637,6 +637,7 @@
       "title": "Top Countries",
       "country": "Country",
       "requests": "Requests",
+      "unknown": "Unknown",
       "count": "{count, number, ::compact-short}"
     },
     "usage-history": {
@@ -653,6 +654,12 @@
       "requests": "Requests",
       "usage": "Usage",
       "other": "other methods"
+    },
+    "top-responses": {
+      "title": "Responses by Status",
+      "code": "Status",
+      "amount": "Amount",
+      "count": "{count, number, ::compact-short}"
     }
   },
   "requests-chart": {
@@ -1934,6 +1941,7 @@
       "title": "One-time payment",
       "total-fees-label": "Total fees",
       "switch-network-banner": "The {network} network selected differs from the one used in your wallet. Switch your wallet’s network to continue. Either use the <strong>Switch network</strong> button or open the wallet and switch it manually.",
+      "waiting-blocks-banner": "The deposit has been sent. It will show up in your account in 1-2 min. This time is required for {blocks} block confirmations that secure your transaction from re-orgs.",
       "confirm-button": {
         "approval": "Confirm approval",
         "deposit": "Confirm deposit",

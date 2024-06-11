@@ -17,7 +17,7 @@ export const usePrivateChainsInfo = (skipFetching?: boolean) => {
   ] = useLazyChainsFetchPrivateChainsInfoQuery();
 
   useLayoutEffect(() => {
-    if (!skipFetching && userEndpointToken) {
+    if (!skipFetching) {
       fetchPrivateChainsInfo({
         userEndpointToken,
       });

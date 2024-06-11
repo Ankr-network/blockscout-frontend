@@ -1,39 +1,48 @@
 import {
   RequestsWidget,
+  MethodCallsWidget,
   BaseTable,
-  UsageHistoryWidget,
 } from '@ankr.com/telemetry';
 import { t } from '@ankr.com/common';
 
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
-import { EmptyLayoutGuard } from '../EmptyLayoutGuard';
-import { ILayoutProps } from '../../types';
-import { LocationsWidget } from '../LocationsWidget';
-import { ProjectsWidget } from '../ProjectsWidget';
-import { useAllChainsData } from './hooks/useAllChainsData';
-import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
-import { useMonthlyStats } from '../../hooks/useMonthlyStats';
-import { ChainCallsWidget } from '../ChainCallsWidget';
-import { getRequestsChartTranslations } from '../../useChartsTranslations';
+import { ChainLayoutProps } from '../types';
+import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
+import { LocationsWidget } from '../../LocationsWidget';
+import { useChainData } from './hooks/useChainData';
+import { useChainLayoutStyles } from '../ChainLayoutStyles';
+import { useChartTranslations } from '../../../useChartsTranslations';
 
-export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
-  const { hasSelectedProject } = useProjectSelect();
-
-  const { classes } = useAllChainsLayoutStyles(hasSelectedProject);
-
+export const ChainLayout = ({
+  detailsChainId,
+  statsChainId,
+  timeframe,
+}: ChainLayoutProps) => {
   const {
     allTimeTotalRequestsNumber,
     areLocationsLoading,
+    blockHeight,
+    chainStats,
     countries,
     ipRequests,
     isLoadingTotalStats,
     locations,
+    methodCalls,
     requestsChartData,
     totalRequestsNumber,
-  } = useAllChainsData(timeframe);
+  } = useChainData({ statsChainId, detailsChainId, timeframe });
 
-  const { data: monthlyStats = [] } = useMonthlyStats();
+  const { methodCallsChartTranslations, requestsChartTranslations } =
+    useChartTranslations({
+      timeframe,
+      totalRequestsNumber,
+      allTimeTotalRequestsNumber,
+    });
+
+  const { hasSelectedProject } = useProjectSelect();
+
+  const { classes } = useChainLayoutStyles(hasSelectedProject);
 
   return (
     <EmptyLayoutGuard data={requestsChartData}>
@@ -43,14 +52,17 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           data={requestsChartData}
           className={classes.requests}
           isLoading={isLoadingTotalStats}
-          translation={getRequestsChartTranslations({
-            timeframe,
-            allTimeTotalRequestsNumber,
-            totalRequestsNumber,
-          })}
+          translation={requestsChartTranslations}
         />
-        <ChainCallsWidget className={classes.calls} />
-        <ProjectsWidget className={classes.projects} timeframe={timeframe} />
+        <MethodCallsWidget
+          className={classes.methods}
+          total={chainStats?.total.count}
+          requests={methodCalls}
+          timeframe={timeframe}
+          isLoading={false}
+          blockHeight={blockHeight}
+          translation={methodCallsChartTranslations}
+        />
         {!hasSelectedProject && (
           <BaseTable
             headingTitles={[
@@ -78,15 +90,6 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             data={countries}
           />
         )}
-        <UsageHistoryWidget
-          headingTitles={[
-            t('dashboard.usage-history.month'),
-            t('dashboard.usage-history.calls'),
-          ]}
-          title={t('dashboard.usage-history.title')}
-          className={classes.history}
-          data={monthlyStats}
-        />
       </div>
     </EmptyLayoutGuard>
   );
