@@ -6,4 +6,9 @@ export const useOngoingPaymentsStyles = makeStyles()(theme => ({
 
     color: theme.palette.grey[900],
   },
+  payments: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(5),
+  },
 }));
