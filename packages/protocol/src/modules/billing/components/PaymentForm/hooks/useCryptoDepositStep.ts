@@ -21,6 +21,7 @@ export interface IUseCryptoDepositStepProps {
   isCryptoPaymentDepositDialogOpened: boolean;
   onCryptoPaymentDepositDialogClose: () => void;
   onDepositSuccess: () => void;
+  confirmationBlocksNumber: number;
   setIsAccountChangedOnDepositStep: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -34,6 +35,7 @@ export const useCryptoDepositStep = ({
   isCryptoPaymentDepositDialogOpened,
   onCryptoPaymentDepositDialogClose,
   onDepositSuccess,
+  confirmationBlocksNumber,
   setIsAccountChangedOnDepositStep,
 }: IUseCryptoDepositStepProps) => {
   const {
@@ -104,6 +106,7 @@ export const useCryptoDepositStep = ({
     depositError,
     depositFeeDetails,
     network,
+    confirmationBlocksNumber,
     depositStatus,
     handleCryptoPaymentDepositDialogOpen,
     handleRejectAllowance,

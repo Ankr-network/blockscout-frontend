@@ -5,11 +5,9 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { setSelectedProjectEndpointToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
 
-import {
-  ALL_PROJECTS_VALUE,
-  useProjectSelectOptions,
-} from './useProjectSelectOptions';
+import { useProjectSelectOptions } from './useProjectSelectOptions';
 import { SelectOption } from '../ProjectSelect';
 
 export const useResetIfSelectedProjectWasDeleted = (

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
 import { useEnterpriseSelectedToken } from './useEnterpriseSelectedToken';
 import { useLazyChainsFetchEnterpriseStatsByApiKeyQuery } from '../actions/fetchEnterpriseStatsByApiKey';
 import { useLazyChainsFetchEnterpriseStatsTotalQuery } from '../actions/fetchEnterpriseStatsTotal';
@@ -22,6 +24,8 @@ export const useEnterpriseStatsRequest = ({
   const [fetchEnterpriseStatsTotal] =
     useLazyChainsFetchEnterpriseStatsTotalQuery();
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   useEffect(() => {
     if (!shouldFetch) {
       return () => {};
@@ -31,6 +35,7 @@ export const useEnterpriseStatsRequest = ({
       const { abort } = fetchEnterpriseStatsByApiKey({
         interval,
         userEndpointToken,
+        group,
       });
 
       return abort;
@@ -38,6 +43,7 @@ export const useEnterpriseStatsRequest = ({
 
     const { abort } = fetchEnterpriseStatsTotal({
       interval,
+      group,
     });
 
     return abort;
@@ -47,5 +53,6 @@ export const useEnterpriseStatsRequest = ({
     fetchEnterpriseStatsTotal,
     fetchEnterpriseStatsByApiKey,
     interval,
+    group,
   ]);
 };

@@ -7,12 +7,12 @@ import { t } from '@ankr.com/common';
 
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
-import { ChainLayoutProps } from './types';
-import { EmptyLayoutGuard } from '../EmptyLayoutGuard';
-import { LocationsWidget } from '../LocationsWidget';
+import { ChainLayoutProps } from '../types';
+import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
+import { LocationsWidget } from '../../LocationsWidget';
 import { useChainData } from './hooks/useChainData';
-import { useChainLayoutStyles } from './ChainLayoutStyles';
-import { useChartTranslations } from '../../useChartsTranslations';
+import { useChainLayoutStyles } from '../ChainLayoutStyles';
+import { useChartTranslations } from '../../../useChartsTranslations';
 
 export const ChainLayout = ({
   detailsChainId,

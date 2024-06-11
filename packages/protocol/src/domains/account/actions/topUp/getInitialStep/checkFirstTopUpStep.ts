@@ -14,6 +14,7 @@ interface CheckFirstTopUpStepArguments {
   getState: GetState;
   dispatch: AppDispatch;
   group?: Web3Address;
+  confirmationBlocksNumber: number;
 }
 
 export const checkFirstTopUpStep = async ({
@@ -21,6 +22,7 @@ export const checkFirstTopUpStep = async ({
   getState,
   dispatch,
   group,
+  confirmationBlocksNumber,
 }: CheckFirstTopUpStepArguments) => {
   const service = MultiService.getWeb3Service();
 
@@ -60,7 +62,12 @@ export const checkFirstTopUpStep = async ({
       return TopUpStep.login;
     }
 
-    dispatch(topUpWaitTransactionConfirming.initiate({ group }));
+    dispatch(
+      topUpWaitTransactionConfirming.initiate({
+        group,
+        confirmationBlocksNumber,
+      }),
+    );
 
     return TopUpStep.waitTransactionConfirming;
   }

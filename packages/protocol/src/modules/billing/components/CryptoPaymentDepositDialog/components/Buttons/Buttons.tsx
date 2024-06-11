@@ -11,6 +11,7 @@ import { RevokeApprovalButtons } from '../RevokeApprovalButtons';
 export interface IButtonsProps {
   activeStep: ECryptoDepositStep;
   isPending: boolean;
+  isConfirmationBlocksWaiting: boolean;
   isRevokeApprovalLoading: boolean;
   onConfirmButtonClick: () => void;
   onDiscardButtonClick: () => void;
@@ -23,6 +24,7 @@ export interface IButtonsProps {
 export const Buttons = ({
   activeStep,
   isPending,
+  isConfirmationBlocksWaiting,
   isRevokeApprovalLoading,
   onConfirmButtonClick,
   onDiscardButtonClick,
@@ -55,6 +57,7 @@ export const Buttons = ({
         onClick={onConfirmButtonClick}
         status={status}
         isWrongNetwork={isWrongNetwork}
+        isConfirmationBlocksWaiting={isConfirmationBlocksWaiting}
       />
       {hasDiscardButton && <DiscardButton onClick={onDiscardButtonClick} />}
     </div>

@@ -34,8 +34,10 @@ export interface IUseCryptoPaymentDepositDialogProps {
   onDeposit: () => void;
   sendAllowanceError?: string;
   step: ECryptoDepositStep;
+  confirmationBlocksNumber: number;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const useCryptoPaymentDepositDialog = ({
   amount,
   amountUsd,
@@ -54,6 +56,7 @@ export const useCryptoPaymentDepositDialog = ({
   onDeposit,
   sendAllowanceError: approvalError,
   step,
+  confirmationBlocksNumber,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
   const {
     myAllowance,
@@ -94,6 +97,7 @@ export const useCryptoPaymentDepositDialog = ({
       amountUsd,
       network,
       isWrongNetwork,
+      confirmationBlocksNumber,
       shouldRevokeApproval,
       approvalError,
       approvalFeeDetails,
@@ -114,6 +118,8 @@ export const useCryptoPaymentDepositDialog = ({
         isMyAllowanceLoading,
         step,
       }),
+      isConfirmationBlocksWaiting:
+        depositStatus === ECryptoDepositStepStatus.ConfirmationBlocksWaiting,
       isRevokeApprovalLoading: isMyAllowanceLoading,
       myAllowance,
       onClose,
@@ -151,6 +157,7 @@ export const useCryptoPaymentDepositDialog = ({
       onConfirmButtonClick,
       shouldRevokeApproval,
       step,
+      confirmationBlocksNumber,
     ],
   );
 };

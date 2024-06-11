@@ -11,11 +11,11 @@ import {
   selectTotalRequestsByChainID,
   selectTotalRequestsNumberByChainID,
   selectTotalStatsLoading,
-} from 'domains/dashboard/store/selectors';
+} from 'domains/dashboard/store/selectors/v1';
 import { useAppSelector } from 'store/useAppSelector';
 
-import { ChainLayoutProps } from '../types';
-import { useTop10Stats } from '../../AllChainsLayout/hooks/useTop10Stats';
+import { ChainLayoutProps } from '../../types';
+import { useTop10Stats } from '../../../AllChainsLayout/v1/hooks/useTop10Stats';
 
 export const useChainData = ({
   statsChainId,

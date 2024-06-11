@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
-import { EBlockchain } from 'multirpc-sdk';
+import { CONFIRMATION_BLOCKS, EBlockchain } from 'multirpc-sdk';
 
 import { ECurrency } from 'modules/billing/types';
 import {
@@ -181,7 +181,7 @@ export const useTopUp = () => {
     depositContractAddress = '',
     tokenAddress = '',
     tokenDecimals = 0,
-    confirmationBlocksNumber = 0,
+    confirmationBlocksNumber = CONFIRMATION_BLOCKS,
   } = useAppSelector(state =>
     selectPaymentOptionsByNetwork(
       state,
@@ -334,8 +334,12 @@ export const useTopUp = () => {
   ]);
 
   const handleWaitTransactionConfirming = useCallback(
-    () => waitTransactionConfirming({ group: selectedGroupAddress }),
-    [waitTransactionConfirming, selectedGroupAddress],
+    () =>
+      waitTransactionConfirming({
+        group: selectedGroupAddress,
+        confirmationBlocksNumber,
+      }),
+    [waitTransactionConfirming, selectedGroupAddress, confirmationBlocksNumber],
   );
 
   const handleLogin = useCallback(() => login(), [login]);
@@ -473,5 +477,6 @@ export const useTopUp = () => {
     trackTopUp,
     transactionCurrency,
     transactionNetwork,
+    confirmationBlocksNumber,
   };
 };

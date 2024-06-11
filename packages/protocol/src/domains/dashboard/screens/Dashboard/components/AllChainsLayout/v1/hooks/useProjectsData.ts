@@ -4,7 +4,7 @@ import { Timeframe } from 'modules/chains/types';
 import {
   selectProjectsStats,
   selectProjectsTotalRequestNumber,
-} from 'domains/dashboard/store/selectors';
+} from 'domains/dashboard/store/selectors/v1';
 import { useAppSelector } from 'store/useAppSelector';
 import { useLazyFetchAllProjectsStatsQuery } from 'domains/dashboard/actions/fetchAllProjectsStats';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -13,7 +13,6 @@ import { useLazyFetchAllJwtTokenRequestsQuery } from 'domains/jwtToken/action/ge
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
-import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 export const useProjectsData = (timeframe: Timeframe) => {
@@ -26,9 +25,6 @@ export const useProjectsData = (timeframe: Timeframe) => {
     useLazyFetchAllJwtTokenRequestsQuery();
 
   const projects = useAppSelector(selectJwtTokens);
-  const { apiKeys: enterpriseProjects } = useAppSelector(
-    selectEnterpriseApiKeysAsJwtManagerTokens,
-  );
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
@@ -40,15 +36,16 @@ export const useProjectsData = (timeframe: Timeframe) => {
 
   useEffect(() => {
     const shouldFetch =
-      (projects || enterpriseProjects) &&
+      projects &&
       !areProjectsLoading &&
-      !isEnterpriseStatusLoading;
+      !isEnterpriseStatusLoading &&
+      !isEnterpriseClient;
 
     if (shouldFetch) {
       fetchAllProjectsStats({
         group,
         interval: timeframeToIntervalMap[timeframe],
-        projects: isEnterpriseClient ? enterpriseProjects : projects,
+        projects,
         gateway,
       });
     }
@@ -59,7 +56,6 @@ export const useProjectsData = (timeframe: Timeframe) => {
     group,
     projects,
     isEnterpriseClient,
-    enterpriseProjects,
     gateway,
     isEnterpriseStatusLoading,
   ]);
@@ -70,7 +66,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
   ] = useLazyFetchAllProjectsTotalRequestsQuery();
 
   useEffect(() => {
-    if (!isEnterpriseStatusLoading) {
+    if (!isEnterpriseStatusLoading && !isEnterpriseClient) {
       fetchAllJwtTokenRequests({
         group,
       });
@@ -85,6 +81,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
     timeframe,
     gateway,
     fetchAllProjectsTotalRequests,
+    isEnterpriseClient,
     isEnterpriseStatusLoading,
     fetchAllJwtTokenRequests,
   ]);

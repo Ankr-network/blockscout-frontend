@@ -1,6 +1,5 @@
 import { PrivateStatCount, PrivateStatTimestamp } from 'multirpc-sdk';
-
-import { PieChartData } from '../screens/Dashboard/components/BasePieChart';
+import { PieChartData } from '@ankr.com/telemetry';
 
 export type AggregatedUsageHistory = Record<Month, PrivateStatCount['count']>;
 

@@ -1,4 +1,5 @@
 export const INDEX_PATH = '/';
+
 export const CONTENT_QUERY_PARAM = 'content';
 
 export enum IndexContent {

@@ -1,5 +1,6 @@
+import { PieChartData } from '@ankr.com/telemetry';
+
 import { LegendItem } from '../LegendItem';
-import { PieChartData } from '../../types';
 import { useLegendStyles } from './LegendStyles';
 
 export interface LegendProps {

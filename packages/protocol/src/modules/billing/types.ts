@@ -17,6 +17,7 @@ export enum ECryptoDepositStepStatus {
   Confirmation,
   Error,
   Pending,
+  ConfirmationBlocksWaiting,
 }
 
 export enum ECurrency {
@@ -30,6 +31,7 @@ export enum EOngoingPaymentStatus {
   Error = 1,
   Success,
   Pending,
+  ConfirmationBlocksWaiting,
 }
 
 export enum EPaymentType {

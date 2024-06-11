@@ -49,6 +49,8 @@ export const useOneTimeDepositHandler = ({
       return setDepositStatus(ECryptoDepositStepStatus.Error);
     }
 
+    setDepositStatus(ECryptoDepositStepStatus.ConfirmationBlocksWaiting);
+
     const confirmationResponse = await handleWaitTransactionConfirming();
 
     if (hasTxConfirmationError(confirmationResponse)) {

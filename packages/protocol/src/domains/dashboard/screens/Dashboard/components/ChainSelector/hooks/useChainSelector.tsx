@@ -2,8 +2,6 @@ import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
 import { Chain, ChainID } from 'modules/chains/types';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectChainsWithStats } from 'domains/dashboard/store/selectors';
 
 import { SelectedContent } from '../SelectedContent';
 import { SelectedChainContent } from '../SelectedChainContent';
@@ -26,16 +24,17 @@ const getDefaultOptions = (): ISelectOption[] => [
   },
 ];
 
-export const useChainSelector = (chains: Chain[]) => {
-  const chainIds = useAppSelector(selectChainsWithStats);
-
+export const useChainSelector = (
+  chains: Chain[],
+  chainIdsWithStats: ChainID[],
+) => {
   const options: ISelectOption[] = useMemo(
     () =>
       getDefaultOptions().concat(
         chains
           // filtering chains to get only chains with stats for selector
           .filter(chain =>
-            chainIds.some(
+            chainIdsWithStats.some(
               chainId => chainId.startsWith(chain.id) || chainId === chain.id,
             ),
           )
@@ -46,7 +45,7 @@ export const useChainSelector = (chains: Chain[]) => {
             };
           }),
       ),
-    [chains, chainIds],
+    [chains, chainIdsWithStats],
   );
 
   const renderValue = useCallback(

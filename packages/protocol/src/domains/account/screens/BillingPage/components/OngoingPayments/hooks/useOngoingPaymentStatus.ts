@@ -12,7 +12,12 @@ export const useOngoingPaymentStatus = ({
   txHash,
   isConfirmed,
 }: IUseOngoingPaymentStatusProps) => {
-  const { hasError, loading, isTransactionConfirmingSuccess } = useTopUp();
+  const {
+    hasError,
+    loading,
+    isTransactionConfirmingSuccess,
+    loadingWaitTransactionConfirming,
+  } = useTopUp();
 
   const ongoingPaymentStatus = useMemo(() => {
     if (!txHash) {
@@ -21,6 +26,10 @@ export const useOngoingPaymentStatus = ({
 
     if (hasError) {
       return EOngoingPaymentStatus.Error;
+    }
+
+    if (loadingWaitTransactionConfirming) {
+      return EOngoingPaymentStatus.ConfirmationBlocksWaiting;
     }
 
     if (loading) {
@@ -32,7 +41,14 @@ export const useOngoingPaymentStatus = ({
     }
 
     return undefined;
-  }, [hasError, isConfirmed, isTransactionConfirmingSuccess, loading, txHash]);
+  }, [
+    hasError,
+    isConfirmed,
+    isTransactionConfirmingSuccess,
+    loading,
+    loadingWaitTransactionConfirming,
+    txHash,
+  ]);
 
   const isOngoingPaymentSuccess =
     ongoingPaymentStatus === EOngoingPaymentStatus.Success;
@@ -40,12 +56,16 @@ export const useOngoingPaymentStatus = ({
   const isOngoingPaymentPending =
     ongoingPaymentStatus === EOngoingPaymentStatus.Pending;
 
+  const isOngoingPaymentWaiting =
+    ongoingPaymentStatus === EOngoingPaymentStatus.ConfirmationBlocksWaiting;
+
   const isOngoingPaymentError =
     ongoingPaymentStatus === EOngoingPaymentStatus.Error;
 
   return {
     isOngoingPaymentError,
     isOngoingPaymentPending,
+    isOngoingPaymentWaiting,
     isOngoingPaymentSuccess,
     ongoingPaymentStatus,
   };

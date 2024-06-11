@@ -4,7 +4,7 @@ import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fet
 import {
   selectChainCalls,
   selectTotalRequestsNumber,
-} from 'domains/dashboard/store/selectors';
+} from 'domains/dashboard/store/selectors/v1';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { getPieChartData } from '../utils/getPieChartData';

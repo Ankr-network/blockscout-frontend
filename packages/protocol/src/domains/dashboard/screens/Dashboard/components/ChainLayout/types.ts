@@ -1,7 +1,8 @@
-import { ChainID, Timeframe } from 'modules/chains/types';
+import { ChainID } from 'modules/chains/types';
 
-export interface ChainLayoutProps {
+import { ILayoutProps } from '../../types';
+
+export interface ChainLayoutProps extends ILayoutProps {
   statsChainId: ChainID;
   detailsChainId: ChainID;
-  timeframe: Timeframe;
 }

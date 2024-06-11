@@ -24,13 +24,14 @@ export const {
       FetchEnterpriseStatsByApiKeyParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ interval, userEndpointToken }) => {
+        async ({ interval, userEndpointToken, group }) => {
           const service = MultiService.getService();
           const enterpriseGateway = service.getEnterpriseGateway();
 
           const data = await enterpriseGateway.getPrivateStatsByPremiumId(
             interval,
             userEndpointToken,
+            group,
           );
 
           return { data };

@@ -1,8 +1,4 @@
-import {
-  CONFIRMATION_BLOCKS,
-  EBlockchain,
-  IApiUserGroupParams,
-} from 'multirpc-sdk';
+import { EBlockchain, IApiUserGroupParams } from 'multirpc-sdk';
 import { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 import { TransactionReceipt } from 'web3-core';
 import { t } from '@ankr.com/common';
@@ -31,13 +27,20 @@ export interface WaitTransactionConfirmingResult {
   isSuccessful: boolean;
 }
 
-const waitForBlocks = async (txHash: string, dispatch: AppDispatch) => {
+const waitForBlocks = async (
+  txHash: string,
+  confirmationBlocksNumber: number,
+  dispatch: AppDispatch,
+) => {
   let inProcess = true;
 
   while (inProcess) {
     // eslint-disable-next-line
     const { data } = await dispatch(
-      topUpFetchTransactionConfirmationStatus.initiate(txHash),
+      topUpFetchTransactionConfirmationStatus.initiate({
+        transactionHash: txHash,
+        confirmationBlocksNumber,
+      }),
     );
 
     inProcess = !data?.isReady;
@@ -87,6 +90,10 @@ export const hasTxConfirmationError = (response: TTxConfirmationResponse) =>
   response.data !== null &&
   'error' in response.data;
 
+interface ITopUpWaitTransactionConfirmingParams extends IApiUserGroupParams {
+  confirmationBlocksNumber: number;
+}
+
 export const {
   endpoints: { topUpWaitTransactionConfirming },
   useLazyTopUpWaitTransactionConfirmingQuery,
@@ -94,9 +101,9 @@ export const {
   endpoints: build => ({
     topUpWaitTransactionConfirming: build.query<
       WaitTransactionConfirmingResult,
-      IApiUserGroupParams
+      ITopUpWaitTransactionConfirmingParams
     >({
-      queryFn: async (_args, { getState, dispatch }) => {
+      queryFn: async ({ confirmationBlocksNumber }, { getState, dispatch }) => {
         const state = getState() as ReturnType<GetState>;
         const service = MultiService.getWeb3Service();
         const provider = service?.getKeyReadProvider();
@@ -124,7 +131,11 @@ export const {
         );
 
         if (receipt1) {
-          await waitForBlocks(initialTransactionHash, dispatch);
+          await waitForBlocks(
+            initialTransactionHash,
+            confirmationBlocksNumber,
+            dispatch,
+          );
 
           return { data: { isSuccessful: true } };
         }
@@ -145,7 +156,11 @@ export const {
         );
 
         if (receipt2) {
-          await waitForBlocks(transactionHash, dispatch);
+          await waitForBlocks(
+            transactionHash,
+            confirmationBlocksNumber,
+            dispatch,
+          );
 
           return { data: { isSuccessful: true } };
         }
@@ -167,7 +182,7 @@ export const {
         // New top up transaction is failed or cancelled
         if (
           currentBlockNumber - (lastTopUpEvent?.blockNumber || 0) >
-          CONFIRMATION_BLOCKS
+          confirmationBlocksNumber
         ) {
           // RTK Query does not allow to reset errors properly, so we have to
           // pass an error inside data object.
@@ -196,7 +211,11 @@ export const {
           }
         }
 
-        await waitForBlocks(transactionHash, dispatch);
+        await waitForBlocks(
+          transactionHash,
+          confirmationBlocksNumber,
+          dispatch,
+        );
 
         return { data: { isSuccessful: true } };
       },

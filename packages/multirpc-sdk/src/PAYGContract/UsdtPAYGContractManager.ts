@@ -34,7 +34,7 @@ import {
   getReadProviderByNetwork,
   getBNWithDecimalsFromString,
 } from '../utils';
-import { GAS_LIMIT } from './const';
+import { ARB_GAS_LIMIT, GAS_LIMIT } from './const';
 
 export const DEPOSIT_ERROR =
   'The deposit value exceeds the amount you approved for the deposit contract to withdraw from your account';
@@ -112,6 +112,9 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     const provider =
       await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
 
+    const isArbitrumNetwork = network === EBlockchain.arbitrum || network === EBlockchain.arbitrum_sepolia;
+    const gasLimit = isArbitrumNetwork ? ARB_GAS_LIMIT : GAS_LIMIT;
+
     const contract = provider.createContract(
       ABI_USDT_TOKEN,
       tokenAddress,
@@ -131,14 +134,14 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
         )
         .estimateGas({
           from: currentAccount,
-          gas: Number(GAS_LIMIT),
+          gas: Number(gasLimit),
         });
     } catch {
       gasAmount = await (contract.methods as IUsdtToken)
         .approve(depositContractAddress, ZERO_STRING)
         .estimateGas({
           from: currentAccount,
-          gas: Number(GAS_LIMIT),
+          gas: Number(gasLimit),
         });
     }
 
@@ -311,6 +314,9 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
     const provider =
       await (new ProviderManager().getETHReadProvider(getReadProviderByNetwork(network)));
 
+    const isArbitrumNetwork = network === EBlockchain.arbitrum || network === EBlockchain.arbitrum_sepolia;
+    const gasLimit = isArbitrumNetwork ? ARB_GAS_LIMIT : GAS_LIMIT;
+
     const contract = provider.createContract(
       ABI_USDT_TOKEN,
       tokenAddress,
@@ -328,11 +334,11 @@ export class UsdtPAYGContractManager extends UsdtPAYGReadContractManager {
           depositContractAddress,
           convertNumberWithDecimalsToString(amount, tokenDecimals)
         )
-        .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+        .estimateGas({ from: currentAccount, gas: Number(gasLimit) });
     } catch (e) {
       gasAmount = await (contract.methods as IUsdtToken)
         .transfer(depositContractAddress, ZERO_STRING)
-        .estimateGas({ from: currentAccount, gas: Number(GAS_LIMIT) });
+        .estimateGas({ from: currentAccount, gas: Number(gasLimit) });
     }
 
     const gasPrice = await provider.getSafeGasPriceWei();

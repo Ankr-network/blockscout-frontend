@@ -5,15 +5,16 @@ export interface EnterpriseIsClientResponse {
 }
 
 interface EnterpriseBlockchain {
-  blockchain: BlockchainID
+  blockchain: BlockchainID;
 }
 
 export interface EnterpriseClientEndpoint {
+  api_key_id: string;
   enterprise_api_key: string;
   enterprise_api_key_name: string;
-  blockchains?: EnterpriseBlockchain[]
+  blockchains?: EnterpriseBlockchain[];
 }
 
 export interface GetEnterpriseEndpointsResponse {
-  api_keys: EnterpriseClientEndpoint[]
+  api_keys: EnterpriseClientEndpoint[];
 }

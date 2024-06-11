@@ -7,11 +7,12 @@ import { IStepperProps } from './components/Stepper';
 import { IButtonsProps } from './components/Buttons';
 
 export interface ICryptoPaymentDepositDialogProps
-  extends Omit<IPaymentDetailsProps, 'isDepositPending'>,
+  extends Omit<IPaymentDetailsProps, 'isDepositPending' | 'isDepositWaiting'>,
     IStepperProps,
     IButtonsProps,
     IDialogProps {
   amountToDeposit: BigNumber;
   amountUsd: number;
+  confirmationBlocksNumber: number;
   onOpen: () => void;
 }
