@@ -1,11 +1,12 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { ETelemetryTopOf } from 'multirpc-sdk';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useLazyChainsFetchEnterpriseV2StatsTotalQuery } from 'domains/enterprise/actions/v2/fetchEnterpriseStatsTotal';
-import { emptyFn } from 'modules/common/utils/emptyFn';
 import { ChainID, Timeframe } from 'modules/chains/types';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectEnterpriseEndpointsLoading } from 'domains/enterprise/store/selectors';
 
 import { mapTimeframeToRequestParams } from '../../../AllChainsLayout/v2/utils';
 
@@ -20,6 +21,8 @@ export const useDashboardData = ({
   statsChainId,
   selectedProjectId,
 }: IUseDashboardDataProps) => {
+  const selectedProjectRef = useRef(selectedProjectId);
+
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
@@ -32,20 +35,28 @@ export const useDashboardData = ({
     [timeframe],
   );
 
+  const isLoadingEndpoints = useAppSelector(selectEnterpriseEndpointsLoading);
+
   useEffect(() => {
+    const isProjectChanged = selectedProjectRef.current !== selectedProjectId;
+
     const shouldRequest =
-      !isEnterpriseStatusLoading && isEnterpriseClient && group;
+      !isEnterpriseStatusLoading &&
+      isEnterpriseClient &&
+      group &&
+      !isLoadingEndpoints;
 
     const apiKeyIds = selectedProjectId ? [selectedProjectId] : undefined;
-    const blockchains = statsChainId ? [statsChainId] : undefined;
+    const blockchains =
+      statsChainId && !isProjectChanged ? [statsChainId] : undefined;
 
     if (shouldRequest) {
-      const { abort } = fetchUsage({
+      fetchUsage({
         ...timeParams,
         group,
         apiKeyIds,
         blockchains,
-        topLimit: 15,
+        topLimit: 0,
         includeTopOfs: [
           ETelemetryTopOf.IP,
           ETelemetryTopOf.ERROR,
@@ -57,12 +68,11 @@ export const useDashboardData = ({
           ETelemetryTopOf.API_KEY,
           ETelemetryTopOf.MONTHLY_USAGE,
         ],
+        shouldSetBlockchains: isProjectChanged,
       });
 
-      return abort;
+      selectedProjectRef.current = selectedProjectId;
     }
-
-    return emptyFn;
   }, [
     isEnterpriseClient,
     group,
@@ -72,5 +82,6 @@ export const useDashboardData = ({
     timeParams,
     selectedProjectId,
     statsChainId,
+    isLoadingEndpoints,
   ]);
 };

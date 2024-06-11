@@ -1,12 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { ETelemetryTopOf, IUsageStatsParams } from 'multirpc-sdk';
+import { ETelemetryTopOf } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { IChartData } from '@ankr.com/telemetry';
 import { secondsToMilliseconds } from 'date-fns';
 
 import { RootState } from 'store';
 import { ChainID } from 'modules/chains/types';
-import { chainsFetchEnterpriseV2StatsTotal } from 'domains/enterprise/actions/v2/fetchEnterpriseStatsTotal';
+import {
+  chainsFetchEnterpriseV2StatsTotal,
+  IFetchUsageStatsParams,
+} from 'domains/enterprise/actions/v2/fetchEnterpriseStatsTotal';
 import {
   selectEnterpriseBlockchainsDependingOnSelectedApiKey,
   selectEnterpriseEndpoints,
@@ -24,14 +27,14 @@ import { selectChainNamesMap } from './v1';
 
 export const selectUsageData = createSelector(
   chainsFetchEnterpriseV2StatsTotal.select(
-    undefined as unknown as IUsageStatsParams,
+    undefined as unknown as IFetchUsageStatsParams,
   ),
   ({ data }) => data,
 );
 
 export const selectIsUsageLoading = createSelector(
   chainsFetchEnterpriseV2StatsTotal.select(
-    undefined as unknown as IUsageStatsParams,
+    undefined as unknown as IFetchUsageStatsParams,
   ),
   ({ isLoading, isUninitialized }) => ({
     isLoading,
@@ -41,7 +44,7 @@ export const selectIsUsageLoading = createSelector(
 
 export const selectUsageDataError = createSelector(
   chainsFetchEnterpriseV2StatsTotal.select(
-    undefined as unknown as IUsageStatsParams,
+    undefined as unknown as IFetchUsageStatsParams,
   ),
   ({ error }) => error,
 );
@@ -119,6 +122,11 @@ export const selectChainCallsRawData = createSelector(selectUsageData, data => {
     topItem => topItem.top_of === ETelemetryTopOf.BLOCKCHAIN,
   );
 });
+
+export const selectBlockchainIdsFromUsage = createSelector(
+  selectChainCallsRawData,
+  data => data?.elements?.map(({ name }) => name),
+);
 
 export const selectEnterpriseBlockchainsDependingOnSelectedApiKeyWithUsage =
   createSelector(
