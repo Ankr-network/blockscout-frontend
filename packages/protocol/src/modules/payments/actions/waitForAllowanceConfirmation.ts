@@ -1,6 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { RootState } from 'store';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { isMetamaskError } from 'modules/common/utils/isMetamaskError';
 import { isQueryReturnValue } from 'store/utils/isQueryReturnValue';
 import { web3Api } from 'store/queries';
@@ -27,7 +28,7 @@ export const {
       boolean,
       IWaitForAllowanceConfirmationParams
     >({
-      queryFn: async ({ txId }, { getState }) => {
+      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
         const state = getState() as RootState;
 
         const tx = selectCryptoTxById(state, txId);
@@ -46,7 +47,7 @@ export const {
         }
 
         return { data: false };
-      },
+      }),
       onQueryStarted: async (
         { txId },
         { dispatch, getState, queryFulfilled },
@@ -67,9 +68,12 @@ export const {
             dispatch(setIsApproved({ isApproved, id }));
           } catch (exception) {
             if (isQueryReturnValue(exception)) {
-              const allowanceError = isMetamaskError(exception.error)
-                ? exception.error.message
-                : t('error.common');
+              const { error } = exception;
+
+              const allowanceError =
+                isMetamaskError(error) || error instanceof Error
+                  ? error.message
+                  : t('error.common');
 
               dispatch(setAllowanceError({ allowanceError, id: txId }));
             } else {

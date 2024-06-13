@@ -1,18 +1,23 @@
+import { t } from '@ankr.com/common';
 import Web3 from 'web3';
+import { Transaction } from 'web3-core';
 
 export interface IGetTxBlockConfirmationsParams {
-  txHash: string;
   web3: Web3;
+  tx: Transaction;
 }
 
 export const getTxBlockConfirmations = async ({
-  txHash,
+  tx: initialTx,
   web3,
 }: IGetTxBlockConfirmationsParams) => {
+  const txHash = initialTx.hash;
+
   const tx = await web3.eth.getTransaction(txHash);
 
+  // if transaction has turned to null it means that it was dropped or replaced
   if (!tx) {
-    return 0;
+    throw new Error(t('error.tx-replacement'));
   }
 
   const txReceipt = await web3.eth.getTransactionReceipt(txHash);

@@ -1,4 +1,5 @@
 import { EBlockchain } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { EMilliSeconds } from 'modules/common/constants/const';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
@@ -15,16 +16,33 @@ export interface IWaitForTxBlockConfirmationParams {
 // Reference: https://etherscan.io/chart/blocktime
 const fetchingInterval = 12 * EMilliSeconds.Second;
 
-export const waitForTxBlockConfirmation = ({
+export const waitForTxBlockConfirmation = async ({
   blocksToConfirm,
   network,
   txHash,
 }: IWaitForTxBlockConfirmationParams) => {
   const web3 = getWeb3Instance(network);
 
+  const tx = await web3.eth.getTransaction(txHash);
+
+  if (!tx) {
+    throw new Error(t('error.no-tx-by-tx-hash', { txHash }));
+  }
+
   return new Promise<boolean>((resolve, reject) => {
+    // to not wait for the first delay
+    getTxBlockConfirmations({ tx, web3 })
+      .then(confirmations => {
+        const isConfirmed = confirmations >= blocksToConfirm;
+
+        if (isConfirmed) {
+          resolve(isConfirmed);
+        }
+      })
+      .catch(error => reject(error));
+
     const intervalId = setInterval(() => {
-      getTxBlockConfirmations({ txHash, web3 })
+      getTxBlockConfirmations({ tx, web3 })
         .then(confirmations => {
           const isConfirmed = confirmations >= blocksToConfirm;
 

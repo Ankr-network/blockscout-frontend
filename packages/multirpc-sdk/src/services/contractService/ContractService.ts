@@ -22,10 +22,6 @@ export class ContractService {
     return this.PAYGContractManager.depositAnkr(amount, publicKey);
   }
 
-  getDepositAnkrToPAYGFee(amount: BigNumber) {
-    return this.PAYGContractManager.getDepositAnkrFee(amount);
-  }
-
   depositAnkrToPAYGForUser(
     amount: BigNumber,
     publicKey: string,

@@ -11,9 +11,9 @@ export interface IAnkrPAYGContractManagerConfig {
 
 export interface SendDepositTransactionForUserParams {
   depositValue: BigNumber;
+  expiresAfter: string;
   publicKey: string;
   targetAddress: string;
-  expiresAfter: string;
 }
 
 export interface SendDepositTokenTransactionForUserParams {

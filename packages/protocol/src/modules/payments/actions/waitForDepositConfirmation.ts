@@ -1,7 +1,10 @@
 import { CONFIRMATION_BLOCKS } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { isMetamaskError } from 'modules/common/utils/isMetamaskError';
+import { isQueryReturnValue } from 'store/utils/isQueryReturnValue';
 import { web3Api } from 'store/queries';
 
 import {
@@ -72,13 +75,19 @@ export const {
             const { data: isConfirmed = false } = await queryFulfilled;
 
             dispatch(setIsConfirmed({ isConfirmed, id }));
-          } catch (error) {
-            // TODO: handle properly
-            const depositError = JSON.stringify(error);
+          } catch (exception) {
+            if (isQueryReturnValue(exception)) {
+              const { error } = exception;
 
-            dispatch(setDepositError({ depositError, id }));
+              const depositError =
+                isMetamaskError(error) || error instanceof Error
+                  ? error.message
+                  : t('error.common');
 
-            throw error;
+              dispatch(setDepositError({ depositError, id: txId }));
+            } else {
+              throw exception;
+            }
           } finally {
             const isDepositConfirming = false;
 
