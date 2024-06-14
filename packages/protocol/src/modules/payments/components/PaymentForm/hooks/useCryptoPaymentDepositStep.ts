@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { ICryptoTransaction } from 'modules/payments/types';
+import { THandleNetworkSwitch } from 'modules/common/hooks/useNetworkGuard';
 import { defaultCryptoTx } from 'modules/payments/const';
 import {
   selectIsCryptoTxOngoing,
@@ -23,14 +24,22 @@ import { useCryptoPaymentSendAllowanceHandler } from './useCryptoPaymentSendAllo
 
 export interface IUseCryptoPaymentDepositStepProps {
   handleCryptoPaymentDepositDialogClose: () => void;
+  handleNetworkSwitch?: THandleNetworkSwitch;
+  handleResetTxId?: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
+  isNetworkSwitching?: boolean;
+  isNetworkWrong?: boolean;
   onDepositSuccess: () => void;
   tx: ICryptoTransaction | undefined;
 }
 
 export const useCryptoPaymentDepositStep = ({
   handleCryptoPaymentDepositDialogClose,
+  handleNetworkSwitch,
+  handleResetTxId,
   isCryptoPaymentDepositDialogOpened,
+  isNetworkSwitching,
+  isNetworkWrong,
   onDepositSuccess,
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentDepositStepProps) => {
@@ -95,20 +104,25 @@ export const useCryptoPaymentDepositStep = ({
 
   const { amountUsd } = useUsdAmountByCryptoAmount({ amount, currency });
 
-  const { handleResetDepositStep } = useCryptoPaymentDepositStepReset({
-    handleCryptoPaymentDepositDialogClose,
-    onDepositSuccess,
-    tx,
-  });
+  const { handleRemoveTx, handleResetDepositStep } =
+    useCryptoPaymentDepositStepReset({
+      handleCryptoPaymentDepositDialogClose,
+      handleResetTxId,
+      onDepositSuccess,
+      tx,
+    });
 
   const onClose = useCallback(() => {
+    handleResetDepositStep();
+
     if (!isDepositing && !isDepositConfirming) {
-      handleResetDepositStep();
+      handleRemoveTx();
     }
 
     handleCryptoPaymentDepositDialogClose();
   }, [
     handleCryptoPaymentDepositDialogClose,
+    handleRemoveTx,
     handleResetDepositStep,
     isDepositConfirming,
     isDepositing,
@@ -138,11 +152,14 @@ export const useCryptoPaymentDepositStep = ({
     handleDeposit,
     handleDiscardTx,
     handleFetchAllowance,
+    handleNetworkSwitch,
     handleResetAllowanceSending,
     handleSendAllowance,
     isAllowanceLoading,
     isAllowanceSent,
     isCryptoPaymentDepositDialogOpened,
+    isNetworkSwitching,
+    isNetworkWrong,
     isOngoingTx,
     network,
     onClose,

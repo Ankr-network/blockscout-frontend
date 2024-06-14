@@ -5,6 +5,7 @@ import { defaultCryptoTx } from 'modules/payments/const';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { setDepositError } from 'modules/payments/store/paymentsSlice';
 import { useAppDispatch } from 'store/useAppDispatch';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 import { useDeposit } from 'modules/payments/hooks/useDeposit';
 import { useWaitForDepositConfirmation } from 'modules/payments/hooks/useWaitForDepositConfirmation';
 
@@ -20,6 +21,8 @@ export const useCryptoPaymentDepositHandler = ({
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentDepositHandlerProps) => {
   const txId = tx.id;
+
+  const txIdRef = useAutoupdatedRef(txId);
 
   const { handleDeposit: deposit, handleResetDeposit: resetDeposit } =
     useDeposit({ tx });
@@ -39,7 +42,11 @@ export const useCryptoPaymentDepositHandler = ({
 
       if (isMutationSuccessful(confirmationResponse)) {
         handleCryptoPaymentDepositDialogClose();
-        handleDepositSuccess();
+
+        // if we don't have txId we shouldn't open success dialog
+        if (txIdRef.current) {
+          handleDepositSuccess();
+        }
       }
     }
   }, [
@@ -49,6 +56,7 @@ export const useCryptoPaymentDepositHandler = ({
     handleDepositSuccess,
     handleWaitForDepositConfirmation,
     txId,
+    txIdRef,
   ]);
 
   const handleResetDeposit = useCallback(() => {

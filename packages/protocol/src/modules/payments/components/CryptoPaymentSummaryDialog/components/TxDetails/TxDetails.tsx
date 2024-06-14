@@ -28,7 +28,7 @@ export interface ITxDetailsProps extends IUseTotalFeeDetails {
   isLoading: boolean;
   network: EBlockchain;
   networks: INetwork[];
-  onNetworkChange: (network: EBlockchain) => void;
+  onNetworkChange?: (network: EBlockchain) => void;
   oneTimeAmountProps: IOneTimeAmountProps;
   totalAmount: number;
 }

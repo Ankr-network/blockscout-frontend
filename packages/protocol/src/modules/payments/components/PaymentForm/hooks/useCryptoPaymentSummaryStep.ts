@@ -15,7 +15,7 @@ import { useCryptoPaymentSummaryDialog } from '../../CryptoPaymentSummaryDialog'
 import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 
 export interface IUseCryptoPaymentSummaryStepProps {
-  handleNetworkChange: (network: EBlockchain) => void;
+  handleNetworkChange?: (network: EBlockchain) => void;
   isAccountChangedOnDepositStep: boolean;
   isConfirming: boolean;
   networks: INetwork[];

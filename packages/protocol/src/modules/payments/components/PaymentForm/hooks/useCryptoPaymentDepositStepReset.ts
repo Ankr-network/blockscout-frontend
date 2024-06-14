@@ -10,12 +10,14 @@ import { useCryptoPaymentSendAllowanceHandler } from './useCryptoPaymentSendAllo
 
 export interface IUseCryptoPaymentDepositStepResetProps {
   handleCryptoPaymentDepositDialogClose: () => void;
+  handleResetTxId?: () => void;
   onDepositSuccess: () => void;
   tx: ICryptoTransaction;
 }
 
 export const useCryptoPaymentDepositStepReset = ({
   handleCryptoPaymentDepositDialogClose,
+  handleResetTxId,
   onDepositSuccess,
   tx,
 }: IUseCryptoPaymentDepositStepResetProps) => {
@@ -45,14 +47,19 @@ export const useCryptoPaymentDepositStepReset = ({
     handleResetAllowanceSending();
     handleResetDeposit();
 
-    dispatch(removeCryptoTx({ id: txId }));
+    // to generate a new txId to unbind the payment form from current tx and
+    // make it ready to create a new tx
+    handleResetTxId?.();
   }, [
-    dispatch,
     handleResetAllowanceFetching,
     handleResetAllowanceSending,
     handleResetDeposit,
-    txId,
+    handleResetTxId,
   ]);
 
-  return { handleResetDepositStep };
+  const handleRemoveTx = useCallback(() => {
+    dispatch(removeCryptoTx({ id: txId }));
+  }, [dispatch, txId]);
+
+  return { handleResetDepositStep, handleRemoveTx };
 };

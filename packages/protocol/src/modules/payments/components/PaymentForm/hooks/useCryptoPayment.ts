@@ -6,6 +6,7 @@ import { defaultCryptoTx } from 'modules/payments/const';
 import { useCryptoTx } from 'modules/payments/hooks/useCreateCryptoTx';
 import { useWeb3Service } from 'domains/auth/hooks/useWeb3Service';
 import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
+import { useNetworkGuard } from 'modules/common/hooks/useNetworkGuard';
 
 import { IOneTimeAmountProps } from '../components/OneTimeAmount';
 import { useCryptoPaymentFlow } from './useCryptoPaymentFlow';
@@ -33,9 +34,13 @@ export const useCryptoPayment = ({
 }: IUseOneTimeCryptoPaymentProps) => {
   const {
     handleCreateCryptoTx,
+    handleResetTxId,
     isCreating: isTxCreating,
     tx = { ...defaultCryptoTx, amount, currency, network },
   } = useCryptoTx({ amount, currency, network });
+
+  const { handleNetworkSwitch, isNetworkSwitching, isNetworkWrong } =
+    useNetworkGuard(network);
 
   const createCryptoTxRef = useAutoupdatedRef(handleCreateCryptoTx);
 
@@ -53,9 +58,13 @@ export const useCryptoPayment = ({
     setIsAccountChangedOnDepositStep,
   } = useCryptoPaymentFlow({
     handleNetworkChange,
-    tx,
+    handleNetworkSwitch,
+    handleResetTxId,
+    isNetworkSwitching,
+    isNetworkWrong,
     networks,
     oneTimeAmountProps,
+    tx,
   });
 
   const { handleCreateWeb3Service, isWeb3ServiceCreating } = useWeb3Service();

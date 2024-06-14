@@ -14,7 +14,7 @@ export interface IConfirmButtonProps {
   activeStep: ECryptoDepositStep;
   isDepositConfirming: boolean;
   isPending: boolean;
-  isWrongNetwork: boolean;
+  isNetworkWrong?: boolean;
   onClick: () => void;
   status: ECryptoDepositStepStatus;
 }
@@ -22,8 +22,8 @@ export interface IConfirmButtonProps {
 export const ConfirmButton = ({
   activeStep,
   isDepositConfirming,
+  isNetworkWrong,
   isPending,
-  isWrongNetwork,
   onClick: handleClick,
   status,
 }: IConfirmButtonProps) => {
@@ -53,10 +53,10 @@ export const ConfirmButton = ({
       >
         {renderButtonText({
           activeStep,
+          isDepositConfirming,
+          isNetworkWrong,
           isPending,
           status,
-          isWrongNetwork,
-          isDepositConfirming,
         })}
       </LoadingButton>
     </Tooltip>

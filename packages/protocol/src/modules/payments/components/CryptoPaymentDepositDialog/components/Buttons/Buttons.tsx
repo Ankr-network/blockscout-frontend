@@ -11,9 +11,9 @@ import { useButtonsStyles } from './useButtonsStyles';
 export interface IButtonsProps {
   activeStep: ECryptoDepositStep;
   isDepositConfirming: boolean;
+  isNetworkWrong?: boolean;
   isPending: boolean;
   isRevokeAllowanceLoading: boolean;
-  isWrongNetwork: boolean;
   onCheckAllowanceButtonClick: () => void;
   onConfirmButtonClick: () => void;
   onDiscardButtonClick: () => void;
@@ -24,9 +24,9 @@ export interface IButtonsProps {
 export const Buttons = ({
   activeStep,
   isDepositConfirming,
+  isNetworkWrong,
   isPending,
   isRevokeAllowanceLoading,
-  isWrongNetwork,
   onCheckAllowanceButtonClick,
   onConfirmButtonClick,
   onDiscardButtonClick,
@@ -54,8 +54,8 @@ export const Buttons = ({
       <ConfirmButton
         activeStep={activeStep}
         isDepositConfirming={isDepositConfirming}
+        isNetworkWrong={isNetworkWrong}
         isPending={isPending}
-        isWrongNetwork={isWrongNetwork}
         onClick={onConfirmButtonClick}
         status={status}
       />

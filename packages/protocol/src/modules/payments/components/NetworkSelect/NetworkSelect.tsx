@@ -14,7 +14,7 @@ import { useNetworkSelectStyles } from './useNetworkSelectStyles';
 export interface INetworkSelectProps {
   activeNetwork: EBlockchain;
   options: INetwork[];
-  onNetworkChange: (network: EBlockchain) => void;
+  onNetworkChange?: (network: EBlockchain) => void;
 }
 
 export const NetworkSelect = ({
@@ -26,7 +26,7 @@ export const NetworkSelect = ({
 
   const handleChangeNetwork = useCallback(
     (event: SelectChangeEvent<EBlockchain>) => {
-      onNetworkChange(event.target.value as EBlockchain);
+      onNetworkChange?.(event.target.value as EBlockchain);
     },
     [onNetworkChange],
   );

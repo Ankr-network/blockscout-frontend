@@ -9,7 +9,7 @@ export interface ICryptoPaymentSummaryDialogCommonProps {
   amount: number;
   currency: ECurrency;
   depositFeeDetails?: IFeeDetails;
-  handleNetworkChange: (network: EBlockchain) => void;
+  handleNetworkChange?: (network: EBlockchain) => void;
   hasEnoughTokenBalance: boolean;
   isAccountChangedOnDepositStep: boolean;
   isLoading: boolean;

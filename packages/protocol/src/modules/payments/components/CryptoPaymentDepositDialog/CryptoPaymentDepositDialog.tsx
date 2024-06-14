@@ -34,8 +34,8 @@ export const CryptoPaymentDepositDialog = ({
   erroredStep,
   isAllowanceLoading,
   isAllowanceSent,
+  isNetworkWrong,
   isPending,
-  isWrongNetwork,
   network,
   onCheckAllowanceButtonClick,
   onConfirmButtonClick,
@@ -92,7 +92,7 @@ export const CryptoPaymentDepositDialog = ({
         isDepositPending={isDepositPending}
         network={network}
       />
-      {isWrongNetwork && <SwitchNetworkBanner network={network} />}
+      {isNetworkWrong && <SwitchNetworkBanner network={network} />}
       {isDepositConfirming && (
         <WaitingBlockBanner blocks={confirmationBlocks} />
       )}
@@ -101,7 +101,7 @@ export const CryptoPaymentDepositDialog = ({
         isDepositConfirming={isDepositConfirming}
         isPending={isPending}
         isRevokeAllowanceLoading={isAllowanceLoading}
-        isWrongNetwork={isWrongNetwork}
+        isNetworkWrong={isNetworkWrong}
         onCheckAllowanceButtonClick={onCheckAllowanceButtonClick}
         onConfirmButtonClick={onConfirmButtonClick}
         onDiscardButtonClick={onDiscardButtonClick}

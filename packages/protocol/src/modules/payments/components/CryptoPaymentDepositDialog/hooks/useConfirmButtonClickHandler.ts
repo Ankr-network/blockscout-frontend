@@ -1,16 +1,16 @@
 import { EBlockchain, ethNetworkIdByBlockchainMap } from 'multirpc-sdk';
-import { EEthereumNetworkId } from '@ankr.com/provider';
 import { useCallback } from 'react';
 
 import { ECryptoDepositStepStatus } from 'modules/payments/types';
+import { THandleNetworkSwitch } from 'modules/common/hooks/useNetworkGuard';
 
 export interface IUseConfirmButtonClickHandlerProps {
   allowanceStepStatus: ECryptoDepositStepStatus;
   handleDeposit: () => void;
   handleFetchAllowance: () => Promise<void>;
   handleSendAllowance: () => Promise<void>;
-  handleSwitchNetwork: (network: EEthereumNetworkId) => void;
-  isWrongNetwork: boolean;
+  handleNetworkSwitch?: THandleNetworkSwitch;
+  isNetworkWrong?: boolean;
   network: EBlockchain;
 }
 
@@ -18,14 +18,14 @@ export const useConfirmButtonClickHandler = ({
   allowanceStepStatus,
   handleDeposit,
   handleFetchAllowance,
+  handleNetworkSwitch,
   handleSendAllowance,
-  handleSwitchNetwork,
-  isWrongNetwork,
+  isNetworkWrong,
   network,
 }: IUseConfirmButtonClickHandlerProps) => {
   const onConfirmButtonClick = useCallback(async () => {
-    if (isWrongNetwork) {
-      return handleSwitchNetwork(ethNetworkIdByBlockchainMap[network]);
+    if (isNetworkWrong) {
+      return handleNetworkSwitch?.(ethNetworkIdByBlockchainMap[network]);
     }
 
     const hasAllowanceInitializingStatus =
@@ -46,8 +46,8 @@ export const useConfirmButtonClickHandler = ({
     handleDeposit,
     handleFetchAllowance,
     handleSendAllowance,
-    handleSwitchNetwork,
-    isWrongNetwork,
+    handleNetworkSwitch,
+    isNetworkWrong,
     network,
   ]);
 

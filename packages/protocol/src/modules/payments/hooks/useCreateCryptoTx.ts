@@ -28,7 +28,7 @@ export const useCryptoTx = ({
   currency,
   network,
 }: IUseCryptoTxProps) => {
-  const [txId] = useState<string>(uuid());
+  const [txId, setTxId] = useState<string>(uuid());
 
   const { accountAddress } = useAccountAddress();
   const { paygContractAddress } = usePaygContractAddress({ currency, network });
@@ -93,11 +93,15 @@ export const useCryptoTx = ({
     walletAddress,
   ]);
 
+  const handleResetTxId = useCallback(() => {
+    setTxId(uuid());
+  }, []);
+
   const isCreating =
     isAllowanceFetching ||
     isNativeTokenPriceLoading ||
     isAllowanceFeeEstimating ||
     isDepositFeeEstimating;
 
-  return { handleCreateCryptoTx, isCreating, tx };
+  return { handleCreateCryptoTx, handleResetTxId, isCreating, tx };
 };

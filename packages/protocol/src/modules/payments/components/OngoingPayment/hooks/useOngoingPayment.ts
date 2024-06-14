@@ -34,10 +34,7 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     paymentType: EPaymentType.OneTime,
   });
 
-  const { handleNetworkChange, network, networks } = useNetwork({
-    currency,
-    initialNetwork,
-  });
+  const { network, networks } = useNetwork({ currency, initialNetwork });
 
   const minAmount = useMinAmount({ currency, network });
 
@@ -58,7 +55,6 @@ export const useOngoingPayment = ({ tx }: IUseOngoingPaymentProps) => {
     handleCryptoPaymentSuccessDialogOpen,
     isCryptoPaymentDepositDialogOpened,
   } = useCryptoPaymentFlow({
-    handleNetworkChange,
     networks,
     oneTimeAmountProps,
     tx,

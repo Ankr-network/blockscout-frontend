@@ -7,8 +7,8 @@ import {
   ECurrency,
   IFeeDetails,
 } from 'modules/payments/types';
+import { THandleNetworkSwitch } from 'modules/common/hooks/useNetworkGuard';
 import { defaultFeeDetails } from 'modules/payments/const';
-import { useNetworkGuard } from 'modules/common/hooks/useNetworkGuard';
 
 import { ICryptoPaymentDepositDialogProps } from '../types';
 import { getCompletedSteps } from '../utils/getCompletedSteps';
@@ -34,11 +34,14 @@ export interface IUseCryptoPaymentDepositDialogProps {
   handleDeposit: () => Promise<void>;
   handleDiscardTx: () => void;
   handleFetchAllowance: () => Promise<void>;
+  handleNetworkSwitch?: THandleNetworkSwitch;
   handleResetAllowanceSending: () => void;
   handleSendAllowance: () => Promise<void>;
   isAllowanceLoading: boolean;
   isAllowanceSent: boolean;
   isCryptoPaymentDepositDialogOpened: boolean;
+  isNetworkSwitching?: boolean;
+  isNetworkWrong?: boolean;
   isOngoingTx: boolean;
   network: EBlockchain;
   onClose: () => void;
@@ -62,25 +65,25 @@ export const useCryptoPaymentDepositDialog = ({
   handleDeposit,
   handleDiscardTx,
   handleFetchAllowance,
+  handleNetworkSwitch,
   handleSendAllowance,
   isAllowanceLoading,
   isAllowanceSent,
   isCryptoPaymentDepositDialogOpened,
+  isNetworkSwitching,
+  isNetworkWrong,
   isOngoingTx,
   network,
   onClose,
   step,
 }: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
-  const { handleSwitchNetwork, isSwitchNetworkLoading, isWrongNetwork } =
-    useNetworkGuard(network);
-
   const { onConfirmButtonClick } = useConfirmButtonClickHandler({
     allowanceStepStatus,
     handleDeposit,
     handleFetchAllowance,
+    handleNetworkSwitch,
     handleSendAllowance,
-    handleSwitchNetwork,
-    isWrongNetwork,
+    isNetworkWrong,
     network,
   });
 
@@ -113,10 +116,10 @@ export const useCryptoPaymentDepositDialog = ({
         allowanceStepStatus,
         depositStepStatus,
         isAllowanceLoading,
-        isSwitchNetworkLoading,
+        isNetworkSwitching,
         step,
       }),
-      isWrongNetwork,
+      isNetworkWrong,
       network,
       onCheckAllowanceButtonClick: handleFetchAllowance,
       onClose,
@@ -146,9 +149,9 @@ export const useCryptoPaymentDepositDialog = ({
       isAllowanceLoading,
       isAllowanceSent,
       isCryptoPaymentDepositDialogOpened,
+      isNetworkSwitching,
+      isNetworkWrong,
       isOngoingTx,
-      isSwitchNetworkLoading,
-      isWrongNetwork,
       network,
       onClose,
       onConfirmButtonClick,

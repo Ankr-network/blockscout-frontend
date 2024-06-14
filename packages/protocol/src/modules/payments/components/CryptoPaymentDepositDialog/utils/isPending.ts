@@ -7,7 +7,7 @@ export interface IIsPendingParams {
   allowanceStepStatus: ECryptoDepositStepStatus;
   depositStepStatus?: ECryptoDepositStepStatus;
   isAllowanceLoading: boolean;
-  isSwitchNetworkLoading: boolean;
+  isNetworkSwitching?: boolean;
   step: ECryptoDepositStep;
 }
 
@@ -15,10 +15,10 @@ export const isPending = ({
   allowanceStepStatus,
   depositStepStatus,
   isAllowanceLoading,
-  isSwitchNetworkLoading,
+  isNetworkSwitching,
   step,
 }: IIsPendingParams) => {
-  if (isSwitchNetworkLoading) {
+  if (isNetworkSwitching) {
     return true;
   }
 

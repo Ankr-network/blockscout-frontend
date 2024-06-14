@@ -2,6 +2,7 @@ import { EBlockchain } from 'multirpc-sdk';
 import { useCallback, useState } from 'react';
 
 import { ICryptoTransaction, INetwork } from 'modules/payments/types';
+import { THandleNetworkSwitch } from 'modules/common/hooks/useNetworkGuard';
 import {
   setAllowanceAmount,
   setIsApproved,
@@ -16,7 +17,11 @@ import { useCryptoPaymentSuccessStep } from './useCryptoPaymentSuccessStep';
 import { useCryptoPaymentSummaryStep } from './useCryptoPaymentSummaryStep';
 
 export interface IUseOneTimeCryptoPaymentProps {
-  handleNetworkChange: (network: EBlockchain) => void;
+  handleNetworkChange?: (network: EBlockchain) => void;
+  handleResetTxId?: () => void;
+  handleNetworkSwitch?: THandleNetworkSwitch;
+  isNetworkSwitching?: boolean;
+  isNetworkWrong?: boolean;
   networks: INetwork[];
   oneTimeAmountProps: IOneTimeAmountProps;
   tx: ICryptoTransaction;
@@ -28,6 +33,10 @@ export interface IHandleCryptoPaymentDepositDialogOpenParams {
 
 export const useCryptoPaymentFlow = ({
   handleNetworkChange,
+  handleNetworkSwitch,
+  handleResetTxId,
+  isNetworkSwitching,
+  isNetworkWrong,
   networks,
   oneTimeAmountProps,
   tx,
@@ -94,7 +103,11 @@ export const useCryptoPaymentFlow = ({
 
   const { cryptoPaymentDepositDialogProps } = useCryptoPaymentDepositStep({
     handleCryptoPaymentDepositDialogClose,
+    handleNetworkSwitch,
+    handleResetTxId,
     isCryptoPaymentDepositDialogOpened,
+    isNetworkSwitching,
+    isNetworkWrong,
     onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
     tx,
   });

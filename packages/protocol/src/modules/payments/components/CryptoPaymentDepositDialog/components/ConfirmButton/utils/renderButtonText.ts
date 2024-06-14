@@ -8,19 +8,19 @@ import {
 export interface IRenderButtonTextProps {
   activeStep: ECryptoDepositStep;
   isDepositConfirming: boolean;
+  isNetworkWrong?: boolean;
   isPending: boolean;
-  isWrongNetwork: boolean;
   status: ECryptoDepositStepStatus;
 }
 
 export const renderButtonText = ({
   activeStep,
   isDepositConfirming,
+  isNetworkWrong,
   isPending,
-  isWrongNetwork,
   status,
 }: IRenderButtonTextProps) => {
-  if (isWrongNetwork) {
+  if (isNetworkWrong) {
     return t(
       'account.crypto-payment-deposit-dialog.confirm-button.switch-network',
     );
