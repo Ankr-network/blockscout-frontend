@@ -61,8 +61,8 @@
     "hubspot": "Hubspot form. No such element {selector}",
     "common": "Oops! Something went wrong.",
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts.",
-    "tx-replacement": "Transaction was canceled or replaced",
-    "no-tx-by-tx-hash": "Failed to receive the transaction by hash ${txHash}. It might be canceled or replaced."
+    "tx-replacement": "The transaction has been cancelled or replaced",
+    "no-tx-by-tx-hash": "Failed to locate the transaction – It might have been cancelled or replaced."
   },
   "main-navigation": {
     "projects": "Projects",

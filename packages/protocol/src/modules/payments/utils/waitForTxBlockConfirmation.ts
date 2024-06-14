@@ -26,7 +26,7 @@ export const waitForTxBlockConfirmation = async ({
   const tx = await web3.eth.getTransaction(txHash);
 
   if (!tx) {
-    throw new Error(t('error.no-tx-by-tx-hash', { txHash }));
+    throw new Error(t('error.no-tx-by-tx-hash'));
   }
 
   return new Promise<boolean>((resolve, reject) => {
