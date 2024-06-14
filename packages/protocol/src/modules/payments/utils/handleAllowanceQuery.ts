@@ -18,6 +18,18 @@ export interface IHandleAllowanceQueryParams {
   txId: string;
 }
 
+const getAlowanceError = (error: unknown) => {
+  if (isMetamaskError(error)) {
+    return error.message;
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return t('error.common');
+};
+
 export const handleAllowanceQuery = async ({
   dispatch,
   queryFulfilled,
@@ -35,9 +47,7 @@ export const handleAllowanceQuery = async ({
     }
   } catch (exception) {
     if (isQueryReturnValue(exception)) {
-      const allowanceError = isMetamaskError(exception.error)
-        ? exception.error.message
-        : t('error.common');
+      const allowanceError = getAlowanceError(exception.error);
 
       dispatch(setAllowanceError({ allowanceError, id: txId }));
     } else {

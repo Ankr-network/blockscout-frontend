@@ -18,6 +18,18 @@ export interface IHandleDepositQueryParams {
   txId: string;
 }
 
+const getDepositError = (error: unknown) => {
+  if (isMetamaskError(error)) {
+    return error.message;
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return t('error.common');
+};
+
 export const handleDepositQuery = async ({
   dispatch,
   queryFulfilled,
@@ -35,9 +47,7 @@ export const handleDepositQuery = async ({
     }
   } catch (exception) {
     if (isQueryReturnValue(exception)) {
-      const depositError = isMetamaskError(exception.error)
-        ? exception.error.message
-        : t('error.common');
+      const depositError = getDepositError(exception.error);
 
       dispatch(setDepositError({ depositError, id: txId }));
     } else {
