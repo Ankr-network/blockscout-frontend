@@ -16,6 +16,7 @@ import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 
 export interface IUseCryptoPaymentSummaryStepProps {
   handleNetworkChange?: (network: EBlockchain) => void;
+  handleNetworkReset?: () => void;
   isAccountChangedOnDepositStep: boolean;
   isAllowanceFeeEstimating?: boolean;
   isConfirming: boolean;
@@ -30,6 +31,7 @@ export interface IUseCryptoPaymentSummaryStepProps {
 
 export const useCryptoPaymentSummaryStep = ({
   handleNetworkChange,
+  handleNetworkReset,
   isAccountChangedOnDepositStep,
   isAllowanceFeeEstimating = false,
   isConfirming,
@@ -92,8 +94,9 @@ export const useCryptoPaymentSummaryStep = ({
 
   const dispatch = useAppDispatch();
   const onClose = useCallback(() => {
+    handleNetworkReset?.();
     dispatch(removeCryptoTx({ id: txId }));
-  }, [dispatch, txId]);
+  }, [dispatch, handleNetworkReset, txId]);
 
   const [handleConnectWalletAccount, { isLoading: isWalletAccountConnecting }] =
     useConnectWalletAccountMutation();

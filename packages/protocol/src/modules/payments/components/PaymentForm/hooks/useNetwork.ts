@@ -1,5 +1,5 @@
 import { EBlockchain } from 'multirpc-sdk';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ANKR_PAYMENT_NETWORK } from 'modules/payments/const';
 import { ECurrency } from 'modules/payments/types';
@@ -21,5 +21,10 @@ export const useNetwork = ({
 
   const handleNetworkChange = setNetwork;
 
-  return { handleNetworkChange, network, networks };
+  const handleNetworkReset = useCallback(
+    () => setNetwork(initialNetwork),
+    [initialNetwork],
+  );
+
+  return { handleNetworkChange, handleNetworkReset, network, networks };
 };

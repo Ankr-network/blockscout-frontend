@@ -21,7 +21,8 @@ export const usePaymentForm = () => {
     paymentType,
   });
 
-  const { handleNetworkChange, network, networks } = useNetwork({ currency });
+  const { handleNetworkChange, handleNetworkReset, network, networks } =
+    useNetwork({ currency });
 
   const { recurringAmount, recurringAmountProps } = useRecurringAmount();
 
@@ -57,6 +58,7 @@ export const usePaymentForm = () => {
     amount: oneTimeAmount,
     currency,
     handleNetworkChange,
+    handleNetworkReset,
     network,
     networks,
     oneTimeAmountProps,

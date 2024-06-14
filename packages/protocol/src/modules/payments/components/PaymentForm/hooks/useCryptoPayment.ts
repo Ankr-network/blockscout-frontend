@@ -15,10 +15,11 @@ import { useHandleCurrencyChange } from './useHandleCurrencyChange';
 import { useHandleNetworkChange } from './useHandleNetworkChange';
 import { useHandleWalletAccountChange } from './useHandleWalletAccountChange';
 
-export interface IUseOneTimeCryptoPaymentProps {
+export interface IUseCryptoPaymentProps {
   amount: number;
   currency: ECurrency;
   handleNetworkChange: (network: EBlockchain) => void;
+  handleNetworkReset: () => void;
   network: EBlockchain;
   networks: INetwork[];
   oneTimeAmountProps: IOneTimeAmountProps;
@@ -28,10 +29,11 @@ export const useCryptoPayment = ({
   amount,
   currency,
   handleNetworkChange,
+  handleNetworkReset,
   network,
   networks,
   oneTimeAmountProps,
-}: IUseOneTimeCryptoPaymentProps) => {
+}: IUseCryptoPaymentProps) => {
   const {
     handleCreateCryptoTx,
     handleResetTxId,
@@ -61,6 +63,7 @@ export const useCryptoPayment = ({
     setIsAccountChangedOnDepositStep,
   } = useCryptoPaymentFlow({
     handleNetworkChange,
+    handleNetworkReset,
     handleNetworkSwitch,
     handleResetTxId,
     isAllowanceFeeEstimating,
