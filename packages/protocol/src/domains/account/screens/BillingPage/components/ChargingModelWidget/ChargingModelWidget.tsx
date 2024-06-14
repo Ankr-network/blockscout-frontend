@@ -82,11 +82,7 @@ export const ChargingModelWidget = ({
       <>
         {renderBalance(currentChargingModel)}
         <div className={classes.balanceProgressBar}>
-          <BalanceProgressBar
-            isNoticeHidden
-            chargingModel={type}
-            {...currentChargingModel}
-          />
+          <BalanceProgressBar chargingModel={type} {...currentChargingModel} />
         </div>
       </>
     );

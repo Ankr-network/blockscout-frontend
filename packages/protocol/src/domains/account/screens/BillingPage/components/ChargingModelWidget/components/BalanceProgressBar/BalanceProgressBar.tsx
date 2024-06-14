@@ -1,14 +1,11 @@
 import { ProgressBar } from 'modules/common/components/ProgressBar';
 import { EChargingModel } from 'modules/billing/types';
 
-import { LastPackageWarning } from '../../../LastPackageWarning';
-
 interface IBalanceProgressBarProps {
   chargingModel: EChargingModel;
   progressValue?: number;
   progressLabel?: string;
   maxLabel?: string;
-  isNoticeHidden?: boolean;
 }
 
 export const BalanceProgressBar = ({
@@ -16,7 +13,6 @@ export const BalanceProgressBar = ({
   progressValue,
   progressLabel,
   maxLabel,
-  isNoticeHidden,
 }: IBalanceProgressBarProps) => {
   switch (chargingModel) {
     case EChargingModel.Package:
@@ -28,7 +24,6 @@ export const BalanceProgressBar = ({
             progressLabel={progressLabel}
             maxLabel={maxLabel}
           />
-          {!isNoticeHidden && <LastPackageWarning />}
         </>
       );
 
