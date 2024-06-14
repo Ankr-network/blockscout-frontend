@@ -74,9 +74,9 @@ export const useCryptoTx = ({
         }),
       );
 
-      await fetchNativeTokenPriceRef.current();
-      await fetchEstimatedAllowanceFeeRef.current();
-      await fetchEstimatedDepositFeeRef.current();
+      fetchNativeTokenPriceRef.current();
+      fetchEstimatedAllowanceFeeRef.current();
+      fetchEstimatedDepositFeeRef.current();
     }
   }, [
     accountAddress,
@@ -103,5 +103,14 @@ export const useCryptoTx = ({
     isAllowanceFeeEstimating ||
     isDepositFeeEstimating;
 
-  return { handleCreateCryptoTx, handleResetTxId, isCreating, tx };
+  return {
+    handleCreateCryptoTx,
+    handleResetTxId,
+    isAllowanceFeeEstimating,
+    isAllowanceFetching,
+    isCreating,
+    isDepositFeeEstimating,
+    isNativeTokenPriceLoading,
+    tx,
+  };
 };

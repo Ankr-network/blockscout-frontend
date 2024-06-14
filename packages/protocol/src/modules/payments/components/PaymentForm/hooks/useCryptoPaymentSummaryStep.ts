@@ -17,7 +17,10 @@ import { useTotalCryptoAmount } from './useTotalCryptoAmount';
 export interface IUseCryptoPaymentSummaryStepProps {
   handleNetworkChange?: (network: EBlockchain) => void;
   isAccountChangedOnDepositStep: boolean;
+  isAllowanceFeeEstimating?: boolean;
   isConfirming: boolean;
+  isDepositFeeEstimating?: boolean;
+  isNativeTokenPriceLoading?: boolean;
   networks: INetwork[];
   onConfirmButtonClick: () => void;
   oneTimeAmountProps: IOneTimeAmountProps;
@@ -28,7 +31,10 @@ export interface IUseCryptoPaymentSummaryStepProps {
 export const useCryptoPaymentSummaryStep = ({
   handleNetworkChange,
   isAccountChangedOnDepositStep,
+  isAllowanceFeeEstimating = false,
   isConfirming,
+  isDepositFeeEstimating = false,
+  isNativeTokenPriceLoading = false,
   networks,
   onConfirmButtonClick,
   oneTimeAmountProps,
@@ -71,11 +77,16 @@ export const useCryptoPaymentSummaryStep = ({
     },
   );
 
-  const isLoading = isWalletBalanceLoading || isTotalAmountLoading;
+  const isLoading =
+    isWalletBalanceLoading ||
+    isTotalAmountLoading ||
+    isAllowanceFeeEstimating ||
+    isDepositFeeEstimating ||
+    isNativeTokenPriceLoading;
 
-  const onOpen = useCallback(async () => {
+  const onOpen = useCallback(() => {
     if (fromAddressRef.current) {
-      await fetchWalletBalanceRef.current();
+      fetchWalletBalanceRef.current();
     }
   }, [fetchWalletBalanceRef, fromAddressRef]);
 

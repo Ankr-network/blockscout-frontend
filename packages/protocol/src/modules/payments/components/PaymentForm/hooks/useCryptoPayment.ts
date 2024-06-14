@@ -35,7 +35,10 @@ export const useCryptoPayment = ({
   const {
     handleCreateCryptoTx,
     handleResetTxId,
+    isAllowanceFeeEstimating,
     isCreating: isTxCreating,
+    isDepositFeeEstimating,
+    isNativeTokenPriceLoading,
     tx = { ...defaultCryptoTx, amount, currency, network },
   } = useCryptoTx({ amount, currency, network });
 
@@ -60,6 +63,9 @@ export const useCryptoPayment = ({
     handleNetworkChange,
     handleNetworkSwitch,
     handleResetTxId,
+    isAllowanceFeeEstimating,
+    isDepositFeeEstimating,
+    isNativeTokenPriceLoading,
     isNetworkSwitching,
     isNetworkWrong,
     networks,
@@ -92,7 +98,7 @@ export const useCryptoPayment = ({
 
     await createCryptoTxRef.current();
 
-    await handleCryptoPaymentSummaryDialogOpen();
+    handleCryptoPaymentSummaryDialogOpen();
   }, [
     createCryptoTxRef,
     handleCreateWeb3Service,

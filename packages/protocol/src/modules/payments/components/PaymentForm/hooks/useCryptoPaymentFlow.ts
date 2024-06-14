@@ -18,8 +18,11 @@ import { useCryptoPaymentSummaryStep } from './useCryptoPaymentSummaryStep';
 
 export interface IUseOneTimeCryptoPaymentProps {
   handleNetworkChange?: (network: EBlockchain) => void;
-  handleResetTxId?: () => void;
   handleNetworkSwitch?: THandleNetworkSwitch;
+  handleResetTxId?: () => void;
+  isAllowanceFeeEstimating?: boolean;
+  isDepositFeeEstimating?: boolean;
+  isNativeTokenPriceLoading?: boolean;
   isNetworkSwitching?: boolean;
   isNetworkWrong?: boolean;
   networks: INetwork[];
@@ -35,6 +38,9 @@ export const useCryptoPaymentFlow = ({
   handleNetworkChange,
   handleNetworkSwitch,
   handleResetTxId,
+  isAllowanceFeeEstimating,
+  isDepositFeeEstimating,
+  isNativeTokenPriceLoading,
   isNetworkSwitching,
   isNetworkWrong,
   networks,
@@ -93,7 +99,10 @@ export const useCryptoPaymentFlow = ({
   } = useCryptoPaymentSummaryStep({
     handleNetworkChange,
     isAccountChangedOnDepositStep,
+    isAllowanceFeeEstimating,
     isConfirming: isAllowanceFetching,
+    isDepositFeeEstimating,
+    isNativeTokenPriceLoading,
     networks,
     onConfirmButtonClick: handleCryptoPaymentDepositDialogOpen,
     oneTimeAmountProps,

@@ -14,7 +14,7 @@ export interface IUseCryptoPaymentSummaryDialogProps
   onClose?: () => void;
   onConfirmButtonClick: () => void;
   onConnectButtonClick: () => Promise<void>;
-  onOpen?: () => Promise<void>;
+  onOpen?: () => void;
   setIsAccountChangedOnDepositStep: (isChanged: boolean) => void;
 }
 
@@ -42,8 +42,8 @@ export const useCryptoPaymentSummaryDialog = ({
 }: IUseCryptoPaymentSummaryDialogProps) => {
   const { isOpened, onClose: handleClose, onOpen } = useDialog();
 
-  const handleCryptoPaymentSummaryDialogOpen = useCallback(async () => {
-    await onOpenExternal?.();
+  const handleCryptoPaymentSummaryDialogOpen = useCallback(() => {
+    onOpenExternal?.();
 
     onOpen();
   }, [onOpen, onOpenExternal]);
