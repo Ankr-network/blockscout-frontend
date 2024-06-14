@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js';
 import { CONFIRMATION_BLOCKS, EBlockchain } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
+import { CONFIG } from 'modules/api/MultiService';
+import { DEFAULT_TOKEN_DECIMALS } from 'modules/common/constants/const';
 import { RootState } from 'store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
@@ -39,7 +41,7 @@ export const selectCryptoTxById = createSelector(
 );
 
 export const selectPaymentOptionsByNetworkAndCurrency = createSelector(
-  (_state: RootState, network?: EBlockchain, currency?: ECurrency) => ({
+  (_state: RootState, network: EBlockchain, currency: ECurrency) => ({
     currency,
     network,
   }),
@@ -54,14 +56,21 @@ export const selectPaymentOptionsByNetworkAndCurrency = createSelector(
       };
     }
 
+    if (currency === ECurrency.ANKR) {
+      return {
+        confirmationBlocksNumber: CONFIRMATION_BLOCKS,
+        depositContractAddress: CONFIG.payAsYouGoContractAddress,
+        tokenAddress: CONFIG.ankrTokenContractAddress,
+        tokenDecimals: DEFAULT_TOKEN_DECIMALS,
+      };
+    }
+
     const options = paymentOptions?.options ?? [];
     const paymentOption = options.find(option => option.blockchain === network);
 
     const tokens = paymentOption?.tokens;
     const confirmationBlocksNumber =
-      currency === ECurrency.ANKR
-        ? CONFIRMATION_BLOCKS
-        : paymentOption?.confirmation_blocks;
+      paymentOption?.confirmation_blocks || CONFIRMATION_BLOCKS;
     const depositContractAddress = paymentOption?.deposit_contract_address;
 
     const currentToken = tokens?.find(
