@@ -10,6 +10,10 @@ import {
   setBlockchainsWithUsage,
 } from '../../store/enterpriseSlice';
 
+export interface IFetchUsageStatsParams extends IUsageStatsParams {
+  shouldSetBlockchains: boolean;
+}
+
 export const {
   endpoints: { chainsFetchEnterpriseV2StatsTotal },
   useChainsFetchEnterpriseV2StatsTotalQuery,
@@ -18,18 +22,24 @@ export const {
   endpoints: build => ({
     chainsFetchEnterpriseV2StatsTotal: build.query<
       IUsageStats,
-      IUsageStatsParams
+      IFetchUsageStatsParams
     >({
-      queryFn: createNotifyingQueryFn(async params => {
-        const service = MultiService.getService();
-        const enterpriseGateway = service.getEnterpriseGateway();
+      queryFn: createNotifyingQueryFn(
+        async ({ shouldSetBlockchains = false, ...params }) => {
+          const service = MultiService.getService();
+          const enterpriseGateway = service.getEnterpriseGateway();
 
-        const data = await enterpriseGateway.getEnterpriseUsage(params);
+          const data = await enterpriseGateway.getEnterpriseUsage(params);
 
-        return { data };
-      }),
+          if (shouldSetBlockchains) {
+            // if the flag is presented, blockchains from this response should be saved to blockchains list in store
+          }
+
+          return { data };
+        },
+      ),
       onQueryStarted: async (
-        params,
+        { shouldSetBlockchains },
         { dispatch, getState, queryFulfilled },
       ) => {
         const { data } = await queryFulfilled;
@@ -42,7 +52,7 @@ export const {
           getState() as RootState,
         );
 
-        if (currentBlockchains.length) {
+        if (currentBlockchains.length && !shouldSetBlockchains) {
           return;
         }
 

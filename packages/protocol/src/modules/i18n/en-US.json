@@ -1795,7 +1795,6 @@
       },
       "package": {
         "title": "Package",
-        "package-notice": "This is your last Package. It will be automatically replaced by Deal upon the next subscription renewal.",
         "expired-notice": "You've used your last Package. We no longer support this option. Switch to Deal as replacement.",
         "learn-more": "Learn more"
       },
