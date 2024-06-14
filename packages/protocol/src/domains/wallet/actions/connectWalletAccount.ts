@@ -28,7 +28,7 @@ export const {
         const state = getState() as RootState;
 
         if (!hasMetamask()) {
-          return { error: t('error.no-metamask') };
+          throw new Error(t('error.no-metamask'));
         }
 
         const hasWeb3Service = selectHasWeb3Service(state);
