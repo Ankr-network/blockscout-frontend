@@ -81,11 +81,11 @@ export const useHandleWalletAccountChange = ({
     isCryptoPaymentDepositDialogOpened || isCryptoPaymentSummaryDialogOpened;
 
   useEffect(() => {
+    const isDepositStepPending =
+      depositStepStatus === ECryptoDepositStepStatus.Pending;
+
     if (walletAddress) {
       if (hasTx) {
-        const isDepositStepPending =
-          depositStepStatus === ECryptoDepositStepStatus.Pending;
-
         dispatch(setFromAddress({ from: walletAddress, id: txId }));
 
         // using fetch since paramters of the qieries has changed
@@ -96,27 +96,27 @@ export const useHandleWalletAccountChange = ({
         // wallet address change
         handleRefetchEstimatedAllowanceFee();
         handleRefetchEstimatedDepositFee();
-
-        // to go back to the summary step to re-init the payment flow
-        if (isCryptoPaymentDepositDialogOpened && !isDepositStepPending) {
-          setIsAccountChangedOnDepositStep(true);
-
-          handleCryptoPaymentDepositDialogClose();
-
-          handleResetAllowanceFetching();
-
-          // to reset allowance in the tx object
-          dispatch(setAllowanceAmount({ allowanceAmount: 0, id: txId }));
-          dispatch(setIsApproved({ isApproved: false, id: txId }));
-
-          handleCryptoPaymentSummaryDialogOpen();
-        } else {
-          setIsAccountChangedOnDepositStep(false);
-        }
       } else if (isPaymentFlowStarted) {
         handleFetchWalletbalance();
         handleCreateCryptoTx();
       }
+    }
+
+    // to go back to the summary step to re-init the payment flow
+    if (isCryptoPaymentDepositDialogOpened && !isDepositStepPending) {
+      setIsAccountChangedOnDepositStep(true);
+
+      handleCryptoPaymentDepositDialogClose();
+
+      handleResetAllowanceFetching();
+
+      // to reset allowance in the tx object
+      dispatch(setAllowanceAmount({ allowanceAmount: 0, id: txId }));
+      dispatch(setIsApproved({ isApproved: false, id: txId }));
+
+      handleCryptoPaymentSummaryDialogOpen();
+    } else {
+      setIsAccountChangedOnDepositStep(false);
     }
     // we should only track wallet address
     // eslint-disable-next-line react-hooks/exhaustive-deps
