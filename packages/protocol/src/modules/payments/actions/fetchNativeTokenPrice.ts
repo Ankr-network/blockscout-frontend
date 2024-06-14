@@ -11,6 +11,8 @@ import { web3Api } from 'store/queries';
 
 export interface IFetchNativeTokenPriceParams {
   network: EBlockchain;
+  // only needed to produce a unique cache key
+  requestId?: string;
 }
 
 // The endpoint name is listed in endpointsSerializedByParams constant

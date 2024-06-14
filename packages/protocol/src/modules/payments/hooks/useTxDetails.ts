@@ -36,11 +36,12 @@ export const useTxDetails = ({
   });
 
   const { isLoading: isNativeTokenPriceLoading, price: nativeTokenPrice } =
-    useNativeTokenPrice({ skipFetching, network });
+    useNativeTokenPrice({ network, requestId: txHash, skipFetching });
 
   const { isLoading: isTokenPriceLoading, price: tokenPrice } = useTokenPrice({
     currency,
     network,
+    requestId: txHash,
     skipFetching,
   });
 

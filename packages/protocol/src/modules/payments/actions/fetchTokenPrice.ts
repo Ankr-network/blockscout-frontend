@@ -17,6 +17,8 @@ import { selectPaymentOptionsByNetworkAndCurrency } from '../store/selectors';
 export interface IFetchTokenPriceParams {
   currency: ECurrency;
   network: EBlockchain;
+  // only needed to produce a unique cache key
+  requestId?: string;
 }
 
 // The endpoint name is listed in endpointsSerializedByParams constant
