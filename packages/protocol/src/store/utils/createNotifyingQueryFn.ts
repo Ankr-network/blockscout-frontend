@@ -9,6 +9,7 @@ import {
   selectUserGroupConfigByAddress,
 } from 'domains/userGroup/store';
 import { selectAuthData } from 'domains/auth/store/authSlice';
+import { RootState } from 'store/store';
 
 import { getAxiosAccountingErrorMessage } from './getAxiosAccountingErrorMessage';
 import { getParsedErrorMessage } from './getParsedErrorMessage';
@@ -18,7 +19,6 @@ import { isAxiosAccountingError } from './isAxiosAccountingError';
 import { isAxiosAuthError } from './isAxiosAuthError';
 import { isAxiosPermissionError } from './isAxiosPermissionError';
 import { isCustomError } from './isCustomError';
-import { RootState } from 'store/store';
 
 export const makeNotification = (
   error: unknown,
