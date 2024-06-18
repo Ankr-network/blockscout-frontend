@@ -8,11 +8,11 @@ import { useWalletAddress } from 'domains/wallet/hooks/useWalletAddress';
 import { ECurrency } from '../types';
 import { createCryptoTx } from '../store/paymentsSlice';
 import { useAccountAddress } from './useAccountAddress';
+import { useCryptoPaymentOptions } from './useCryptoPaymentOptions';
 import { useEstimatedAllowanceFee } from './useEstimatedAllowanceFee';
 import { useEstimatedDepositFee } from './useEstimatedDepositFee';
 import { useFetchAllowance } from './useFetchAllowance';
 import { useNativeTokenPrice } from './useNativeTokenPrice';
-import { usePaygContractAddress } from './usePaygContractAddress';
 import { useTxByTxId } from './useTxByTxId';
 
 export interface IUseCryptoTxProps {
@@ -31,7 +31,8 @@ export const useCryptoTx = ({
   const [txId, setTxId] = useState<string>(uuid());
 
   const { accountAddress } = useAccountAddress();
-  const { paygContractAddress } = usePaygContractAddress({ currency, network });
+  const { depositContractAddress: paygContractAddress } =
+    useCryptoPaymentOptions({ currency, network });
   const { tx } = useTxByTxId({ txId });
   const { walletAddress } = useWalletAddress();
 

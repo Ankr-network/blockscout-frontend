@@ -3,6 +3,7 @@ import {
   selectAllowanceStepStatus,
   selectCryptoDepositStep,
   selectDepositStepStatus,
+  selectIsCryptoTxOngoing,
 } from 'modules/payments/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
@@ -22,5 +23,9 @@ export const useCryptoPaymentDepositStepState = ({
     selectDepositStepStatus(state, txId),
   );
 
-  return { allowanceStepStatus, depositStepStatus, step };
+  const isOngoingTx = useAppSelector(state =>
+    selectIsCryptoTxOngoing(state, txId),
+  );
+
+  return { allowanceStepStatus, depositStepStatus, isOngoingTx, step };
 };
