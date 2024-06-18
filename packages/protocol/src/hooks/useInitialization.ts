@@ -16,6 +16,7 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { usePaymentOptions } from 'modules/payments/hooks/usePaymentOptions';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTeamsSettings';
+import { useShouldShowUserGroupDialogQuery } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actions/fetchGroupCreationAllowance';
 
 export const useInitialization = (isLoggedIn: boolean) => {
@@ -49,6 +50,8 @@ export const useInitialization = (isLoggedIn: boolean) => {
   useMyBundlesStatus({ skipFetching: skipFetchingBilling });
   useMySubscriptions({ skipFetching: skipFetchingBilling });
   useBundlePaymentPlans({ skipFetching: skipFetchingBilling });
+
+  useShouldShowUserGroupDialogQuery(undefined, { skip: !isLoggedIn });
 
   useCheckChangedSignupUserSettingsAndUpdate();
   useJwtManagerInitializer({ skipFetching: skipFetchingJwt });
