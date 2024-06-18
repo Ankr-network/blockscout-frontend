@@ -12,22 +12,22 @@ export interface IUseCryptoPaymentDepositStepResetProps {
   handleCryptoPaymentDepositDialogClose: () => void;
   handleNetworkReset?: () => void;
   handleResetTxId?: () => void;
-  onDepositSuccess: () => void;
+  handleCryptoPaymentSuccessDialogOpen: () => void;
   tx: ICryptoTransaction;
 }
 
 export const useCryptoPaymentDepositStepReset = ({
   handleCryptoPaymentDepositDialogClose,
+  handleCryptoPaymentSuccessDialogOpen,
   handleNetworkReset,
   handleResetTxId,
-  onDepositSuccess,
   tx,
 }: IUseCryptoPaymentDepositStepResetProps) => {
   const { currency, from, id: txId, network } = tx;
 
   const { handleResetDeposit } = useCryptoPaymentDepositHandler({
     handleCryptoPaymentDepositDialogClose,
-    onDepositSuccess,
+    handleCryptoPaymentSuccessDialogOpen,
     tx,
   });
 

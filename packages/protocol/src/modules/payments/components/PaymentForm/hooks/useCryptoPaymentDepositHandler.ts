@@ -11,13 +11,13 @@ import { useWaitForDepositConfirmation } from 'modules/payments/hooks/useWaitFor
 
 export interface IUseCryptoPaymentDepositHandlerProps {
   handleCryptoPaymentDepositDialogClose: () => void;
-  onDepositSuccess: () => void;
+  handleCryptoPaymentSuccessDialogOpen: () => void;
   tx: ICryptoTransaction | undefined;
 }
 
 export const useCryptoPaymentDepositHandler = ({
   handleCryptoPaymentDepositDialogClose,
-  onDepositSuccess: handleDepositSuccess,
+  handleCryptoPaymentSuccessDialogOpen,
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentDepositHandlerProps) => {
   const txId = tx.id;
@@ -43,9 +43,11 @@ export const useCryptoPaymentDepositHandler = ({
       if (isMutationSuccessful(confirmationResponse)) {
         handleCryptoPaymentDepositDialogClose();
 
-        // if we don't have txId we shouldn't open success dialog
-        if (txIdRef.current) {
-          handleDepositSuccess();
+        // if we don't have txId or the txId the deposit has been made with and
+        // the actual txId from the ref are not the same, we shouldn't open the
+        // success dialog
+        if (txIdRef.current && txId === txIdRef.current) {
+          handleCryptoPaymentSuccessDialogOpen();
         }
       }
     }
@@ -53,7 +55,7 @@ export const useCryptoPaymentDepositHandler = ({
     deposit,
     dispatch,
     handleCryptoPaymentDepositDialogClose,
-    handleDepositSuccess,
+    handleCryptoPaymentSuccessDialogOpen,
     handleWaitForDepositConfirmation,
     txId,
     txIdRef,

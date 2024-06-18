@@ -24,25 +24,25 @@ import { useCryptoPaymentSendAllowanceHandler } from './useCryptoPaymentSendAllo
 
 export interface IUseCryptoPaymentDepositStepProps {
   handleCryptoPaymentDepositDialogClose: () => void;
+  handleCryptoPaymentSuccessDialogOpen: () => void;
   handleNetworkReset?: () => void;
   handleNetworkSwitch?: THandleNetworkSwitch;
   handleResetTxId?: () => void;
   isCryptoPaymentDepositDialogOpened: boolean;
   isNetworkSwitching?: boolean;
   isNetworkWrong?: boolean;
-  onDepositSuccess: () => void;
   tx: ICryptoTransaction | undefined;
 }
 
 export const useCryptoPaymentDepositStep = ({
   handleCryptoPaymentDepositDialogClose,
+  handleCryptoPaymentSuccessDialogOpen,
   handleNetworkReset,
   handleNetworkSwitch,
   handleResetTxId,
   isCryptoPaymentDepositDialogOpened,
   isNetworkSwitching,
   isNetworkWrong,
-  onDepositSuccess,
   tx = defaultCryptoTx,
 }: IUseCryptoPaymentDepositStepProps) => {
   const {
@@ -77,7 +77,7 @@ export const useCryptoPaymentDepositStep = ({
 
   const { handleDeposit } = useCryptoPaymentDepositHandler({
     handleCryptoPaymentDepositDialogClose,
-    onDepositSuccess,
+    handleCryptoPaymentSuccessDialogOpen,
     tx,
   });
 
@@ -109,9 +109,9 @@ export const useCryptoPaymentDepositStep = ({
   const { handleRemoveTx, handleResetDepositStep } =
     useCryptoPaymentDepositStepReset({
       handleCryptoPaymentDepositDialogClose,
+      handleCryptoPaymentSuccessDialogOpen,
       handleNetworkReset,
       handleResetTxId,
-      onDepositSuccess,
       tx,
     });
 

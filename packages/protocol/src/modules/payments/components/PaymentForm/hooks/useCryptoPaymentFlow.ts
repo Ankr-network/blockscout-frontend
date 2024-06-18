@@ -115,13 +115,13 @@ export const useCryptoPaymentFlow = ({
 
   const { cryptoPaymentDepositDialogProps } = useCryptoPaymentDepositStep({
     handleCryptoPaymentDepositDialogClose,
+    handleCryptoPaymentSuccessDialogOpen,
     handleNetworkReset,
     handleNetworkSwitch,
     handleResetTxId,
     isCryptoPaymentDepositDialogOpened,
     isNetworkSwitching,
     isNetworkWrong,
-    onDepositSuccess: handleCryptoPaymentSuccessDialogOpen,
     tx,
   });
 
