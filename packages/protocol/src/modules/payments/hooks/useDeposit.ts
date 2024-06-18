@@ -1,7 +1,5 @@
 import { useCallback, useMemo } from 'react';
 
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-
 import { ECurrency, ICryptoTransaction } from '../types';
 import { useDepositAnkrForUserMutation } from '../actions/depositAnkrForUser';
 import { useDepositAnkrMutation } from '../actions/depositAnkr';
@@ -9,6 +7,7 @@ import { useDepositUsdcForUserMutation } from '../actions/depositUsdcForUser';
 import { useDepositUsdcMutation } from '../actions/depositUsdc';
 import { useDepositUsdtForUserMutation } from '../actions/depositUsdtForUser';
 import { useDepositUsdtMutation } from '../actions/depositUsdt';
+import { useShouldDepositForAnotherAccount } from './useShouldDepositForAnotherAccount';
 
 export interface IUseDepositProps {
   tx: ICryptoTransaction;
@@ -71,19 +70,20 @@ export const useDeposit = ({ tx }: IUseDepositProps) => {
       resetDepositUsdtForUser,
     ]);
 
-  const { selectedGroupAddress } = useSelectedUserGroup();
+  const { shouldDepositForAnotherAccount } =
+    useShouldDepositForAnotherAccount();
 
-  const handleResetDeposit = selectedGroupAddress
+  const handleResetDeposit = shouldDepositForAnotherAccount
     ? resetDepositForUser
     : resetDeposit;
 
   const handleDeposit = useCallback(() => {
-    if (selectedGroupAddress) {
+    if (shouldDepositForAnotherAccount) {
       return depositForUser({ txId });
     }
 
     return deposit({ txId });
-  }, [deposit, depositForUser, selectedGroupAddress, txId]);
+  }, [deposit, depositForUser, shouldDepositForAnotherAccount, txId]);
 
   return { handleDeposit, handleResetDeposit, isDepositing };
 };
