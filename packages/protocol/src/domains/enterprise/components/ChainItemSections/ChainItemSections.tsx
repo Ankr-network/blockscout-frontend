@@ -13,12 +13,12 @@ interface EnterpriseChainItemSectionsProps extends IChainItemTabsProps {
 }
 
 export const ChainItemSections = ({
-  chainType,
-  chainSubType,
+  apiKeys,
   chain,
+  chainSubType,
+  chainType,
   group,
   unfilteredGroup,
-  apiKeys,
 }: EnterpriseChainItemSectionsProps) => {
   const enterpriseUrl = useMemo(
     () => unfilteredGroup?.urls[0]?.enterprise,

@@ -31,15 +31,15 @@ const getValue = (timeframe: Timeframe) => {
 };
 
 export const {
-  useLazyChainsFetchUserRequestsQuery,
   endpoints: { chainsFetchUserRequests },
+  useLazyChainsFetchUserRequestsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchUserRequests: build.query<
       IRequestsBannerResponse,
       FetchUserRequestsParams
     >({
-      queryFn: async ({ timeframe, userToken, group }) => {
+      queryFn: async ({ group, timeframe, userToken }) => {
         const service = MultiService.getService();
 
         const result = await service.getAccountingGateway().getUserRequests({

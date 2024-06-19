@@ -19,7 +19,7 @@ export const {
         queryFn: async ({ totp }) => {
           const service = await MultiService.getService();
 
-          const { jwt_data: jwtData, is_encrypted: isEncrypted } = await service
+          const { is_encrypted: isEncrypted, jwt_data: jwtData } = await service
             .getAccountingGateway()
             .getOrCreateInstantJwt(totp);
 

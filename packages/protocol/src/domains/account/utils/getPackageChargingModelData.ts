@@ -31,8 +31,8 @@ interface IProgressLabelData {
 const PACKAGE_REQUESTS_LIMIT = 30000000;
 
 export const getPackageChargingModelData = ({
-  packageChargingModel,
   bundlePaymentPlans,
+  packageChargingModel,
 }: IGetPackageDataProps) => {
   const balanceInRequests = packageChargingModel.counters.reduce(
     (result, counter) => result + Number(counter.count) ?? 0,
@@ -125,8 +125,8 @@ const aggregatePackageModelsData = (
 };
 
 export const getAggregatedPackageModelsData = ({
-  packageChargingModels,
   bundlePaymentPlans,
+  packageChargingModels,
 }: IGetPackagesAggregatedDataProps) => {
   const mappedData = packageChargingModels.map(packageChargingModel =>
     getPackageChargingModelData({ packageChargingModel, bundlePaymentPlans }),

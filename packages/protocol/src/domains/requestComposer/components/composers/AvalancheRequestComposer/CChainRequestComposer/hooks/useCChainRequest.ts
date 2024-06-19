@@ -27,7 +27,7 @@ export const useCChainRequest = (): ComposerRequest<
   const [
     ,
     {
-      data: { response, error, time } = defaultData,
+      data: { error, response, time } = defaultData,
       isLoading,
       isUninitialized,
     },

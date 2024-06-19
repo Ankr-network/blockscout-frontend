@@ -18,8 +18,8 @@ export interface GuestTeamInvitationDialogProps
 
 export const GuestTeamInvitationDialog = ({
   email,
-  onClose: handleCloseDialog,
   handleSignIn,
+  onClose: handleCloseDialog,
   role,
   teamName,
   ...dialogProps

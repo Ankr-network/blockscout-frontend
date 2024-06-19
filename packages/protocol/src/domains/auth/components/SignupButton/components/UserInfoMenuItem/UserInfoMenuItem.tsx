@@ -16,12 +16,12 @@ interface UserInfoMenuItemProps {
 }
 
 export const UserInfoMenuItem = ({
-  isLoading,
-  signoutButton,
-  providers,
   icon,
-  title,
+  isLoading,
+  providers,
+  signoutButton,
   subtitle,
+  title,
 }: UserInfoMenuItemProps) => {
   const { classes } = useUserInfoMenuItemStyles();
 

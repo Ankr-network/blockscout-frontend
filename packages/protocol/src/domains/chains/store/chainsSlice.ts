@@ -54,4 +54,4 @@ export const selectBeacons = createSelector(
   ({ data: { chains = [] } = {} }) => getBeacons(chains),
 );
 
-export const { setOriginChainURL, resetOriginChainURL } = chainsSlice.actions;
+export const { resetOriginChainURL, setOriginChainURL } = chainsSlice.actions;

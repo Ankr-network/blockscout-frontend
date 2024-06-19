@@ -21,11 +21,11 @@ export const useEditProject = () => {
 
   const address = useAppSelector(selectCurrentAddress);
 
-  const { handleUpdateJwtToken, resetUpdateJwtToken, isLoading } =
+  const { handleUpdateJwtToken, isLoading, resetUpdateJwtToken } =
     useUpdateJwtToken();
 
   const handleUpdate = useCallback(
-    async ({ tokenIndex, name, oldName, description }: IUpdateArgs) => {
+    async ({ description, name, oldName, tokenIndex }: IUpdateArgs) => {
       const { error } = await handleUpdateJwtToken({
         tokenIndex,
         name,

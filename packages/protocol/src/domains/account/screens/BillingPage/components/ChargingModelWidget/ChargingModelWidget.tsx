@@ -1,35 +1,32 @@
-import { useCallback, useMemo } from 'react';
-import { t } from '@ankr.com/common';
 import { Button } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useCallback, useMemo } from 'react';
 
 import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { useAppSelector } from 'store/useAppSelector';
+import { EChargingModel, IChargingModelData } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 import {
   selectAccountChargingModels,
   selectActiveChargingModel,
 } from 'domains/account/store/selectors';
-import {
-  EChargingModel,
-  ECurrency,
-  IChargingModelData,
-} from 'modules/billing/types';
+import { useAppSelector } from 'store/useAppSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
+import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
+import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
 import { Balance } from './components/Balance';
+import { BalanceProgressBar } from './components/BalanceProgressBar';
+import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
 import { Header } from './components/Header';
 import { Widget } from '../Widget';
+import { intlRoot } from './const';
 import { useBalanceWidget } from './hooks/useBalanceWidget';
 import { useChargingModelWidgetStyles } from './ChargingModelWidgetStyles';
-import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
-import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
-import { BalanceProgressBar } from './components/BalanceProgressBar';
-import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
 import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
-import { intlRoot } from './const';
 
 export interface ChargingModelWidgetProps {
   className: string;

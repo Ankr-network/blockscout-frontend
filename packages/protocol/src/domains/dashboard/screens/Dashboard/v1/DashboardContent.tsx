@@ -19,7 +19,7 @@ import { DashboardWidgets as DashboardWidgetsV1 } from '../components/DashboardW
 import { selectChainsWithStats } from '../../../store/selectors/v1';
 
 export const DashboardContent = () => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   const {
     allChains,
@@ -32,14 +32,14 @@ export const DashboardContent = () => {
   const chainIds = useAppSelector(selectChainsWithStats);
 
   const {
-    selectedChainId,
-    handleChange,
-    renderValue,
-    options: chainSelectOptions,
-    showAdditionalSelect,
     chain,
-    unfilteredChain,
+    handleChange,
     isTestnetOnlyChainSelected,
+    options: chainSelectOptions,
+    renderValue,
+    selectedChainId,
+    showAdditionalSelect,
+    unfilteredChain,
   } = useChainsSelector({
     chains: rawChains,
     allChains,
@@ -47,18 +47,18 @@ export const DashboardContent = () => {
   });
 
   const {
-    statsChainId,
-    detailsChainId,
     chainProtocolContext,
-    chainType,
-    chainTypes,
-    selectType,
     chainSubType,
     chainSubTypes,
-    selectSubType,
-    groups,
+    chainType,
+    chainTypes,
+    detailsChainId,
     groupID,
+    groups,
     selectGroup,
+    selectSubType,
+    selectType,
+    statsChainId,
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,
@@ -67,7 +67,7 @@ export const DashboardContent = () => {
 
   const { classes } = useDashboardStyles();
 
-  const { options, handleSetOption, selectedOption } = useProjectSelect();
+  const { handleSetOption, options, selectedOption } = useProjectSelect();
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>

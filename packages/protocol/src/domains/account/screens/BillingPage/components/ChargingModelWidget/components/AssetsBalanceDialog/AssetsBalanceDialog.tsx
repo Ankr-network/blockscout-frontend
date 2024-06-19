@@ -13,9 +13,9 @@ interface IAssetsBalanceDialogProps {
 }
 
 export const AssetsBalanceDialog = ({
+  children,
   isOpened,
   onClose,
-  children,
 }: IAssetsBalanceDialogProps) => {
   const { classes } = useAssetsDialogStyles();
 

@@ -15,10 +15,10 @@ interface IMethodsTabsProps {
 }
 
 export const CChainMethodsTabs = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: IMethodsTabsProps) => {
   const [tabs, selectedTab] = useMethodsTabsUtils({
     group,

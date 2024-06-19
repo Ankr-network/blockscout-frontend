@@ -13,9 +13,9 @@ import { AddToWhitelistFormFields } from './AddToWhitelistFormUtils';
 export const useMainForm = (shouldSkipFormReset?: boolean) => {
   const {
     allSelectedChainIds: chainIds,
-    whitelistDialog,
     isValid,
     onChange,
+    whitelistDialog,
     whitelistItems,
   } = useProjectFormValues();
 

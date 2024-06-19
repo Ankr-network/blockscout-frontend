@@ -15,8 +15,8 @@ interface ILeaveTeamDialogProps extends IApiUserGroupParams {
 
 export const LeaveTeamDialog = ({
   group,
-  open,
   onClose,
+  open,
 }: ILeaveTeamDialogProps) => {
   const { handleLeaveTeam, isLeaving } = useLeaveTeamHandler({
     group,

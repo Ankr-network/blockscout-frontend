@@ -25,20 +25,20 @@ export interface SubscriptionEditorProps {
 
 export const SubscriptionEditor = ({
   amount,
+  customChargingModelName,
   isCanceling,
+  isDeprecatedModel,
   nextBillingDate,
   onCancel,
-  period,
   onOpenSuccessDialog,
-  customChargingModelName,
-  isDeprecatedModel,
+  period,
 }: SubscriptionEditorProps) => {
   const {
-    isOpened: isOpenedConfirmDialog,
-    onOpen: onOpenConfirmDialog,
-    onClose: onCloseConfirmDialog,
-    dialogTitle,
     dialogDescription,
+    dialogTitle,
+    isOpened: isOpenedConfirmDialog,
+    onClose: onCloseConfirmDialog,
+    onOpen: onOpenConfirmDialog,
   } = useConfirmCancelDialog({
     nextPaymentDate: nextBillingDate,
     customChargingModelName,

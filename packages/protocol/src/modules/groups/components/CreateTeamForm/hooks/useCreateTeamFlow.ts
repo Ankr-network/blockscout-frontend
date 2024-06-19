@@ -21,9 +21,9 @@ interface UseCreateTeamFlowParams {
 }
 
 export const useCreateTeamFlow = ({
+  isDataTransferEnabled,
   onOpenDataTransferDialog,
   teamNameValue,
-  isDataTransferEnabled,
 }: UseCreateTeamFlowParams) => {
   const { handleSignOut } = useAuth();
   const { push } = useHistory();

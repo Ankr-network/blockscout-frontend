@@ -41,9 +41,9 @@ export interface ILayoutProps {
 export const DefaultLayout = ({
   children,
   disableGutters = false,
-  hasNoReactSnap = false,
   hasError = false,
   hasGradient = false,
+  hasNoReactSnap = false,
   isChainItemPage,
   isDashboardPage = false,
 }: ILayoutProps) => {

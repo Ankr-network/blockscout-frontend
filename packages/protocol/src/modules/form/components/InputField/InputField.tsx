@@ -7,15 +7,15 @@ import { InputFieldProps } from './InputFieldTypes';
 import { getHelperText } from './InputFieldUtils';
 
 export const InputField = ({
-  hasError = hasErrorDefault,
-  input: { name, onBlur, onChange, value, type, placeholder },
-  isHelperTextVisible,
-  meta,
-  isLimitCounterVisible = false,
   InputProps = {},
-  multiline,
-  isRequired,
   autofocus,
+  hasError = hasErrorDefault,
+  input: { name, onBlur, onChange, placeholder, type, value },
+  isHelperTextVisible,
+  isLimitCounterVisible = false,
+  isRequired,
+  meta,
+  multiline,
   ...rest
 }: InputFieldProps) => {
   const { classes, cx } = useInputFieldStyles();

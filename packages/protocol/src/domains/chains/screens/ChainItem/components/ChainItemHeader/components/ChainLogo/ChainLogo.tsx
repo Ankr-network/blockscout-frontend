@@ -11,8 +11,8 @@ export interface ChainLogoProps {
 
 export const ChainLogo = ({
   chain: { id, name },
-  size,
   className,
+  size,
 }: ChainLogoProps) => {
   const { classes, cx } = useChainLogoStyles(size);
 

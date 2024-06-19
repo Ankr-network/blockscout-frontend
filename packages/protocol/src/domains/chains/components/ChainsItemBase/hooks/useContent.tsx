@@ -16,15 +16,15 @@ export const useContent = ({
   chainsItemLink,
   description,
   hasPremiumDialog,
+  hasTotalRequestsLabel,
   isArchive,
+  isComingSoon,
   isHighlighted,
   isLoading,
   name,
   period,
   timeframe,
   totalRequests,
-  isComingSoon,
-  hasTotalRequestsLabel,
 }: ContentParams) => {
   const isSui = useMemo(() => isSuiChain(chainId), [chainId]);
   const logoSrc = useChainIcon(chainId);

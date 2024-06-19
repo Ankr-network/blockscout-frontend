@@ -9,7 +9,7 @@ import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
 
 export const Chains = () => {
-  const { hasPrivateAccess, hasPremium, isFreePremium } = useAuth();
+  const { hasPremium, hasPrivateAccess, isFreePremium } = useAuth();
 
   useSetBreadcrumbs([
     {

@@ -15,10 +15,10 @@ export interface HeaderProps {
 }
 
 export const Header = ({
-  className,
-  currentChargingModelType,
   children,
+  className,
   currentChargingModel,
+  currentChargingModelType,
 }: HeaderProps) => {
   const { classes, cx } = useHeaderStyles();
 

@@ -11,15 +11,15 @@ interface DeleteJwtTokenParams {
 }
 
 export const {
-  useLazyDeleteJwtTokenQuery,
   endpoints: { deleteJwtToken },
+  useLazyDeleteJwtTokenQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     deleteJwtToken: build.query<null, TwoFAQueryFnParams<DeleteJwtTokenParams>>(
       {
         queryFn: createQueryFnWithErrorHandler({
           queryFn: async (
-            { params: { tokenIndex, group }, totp },
+            { params: { group, tokenIndex }, totp },
             { dispatch },
           ) => {
             const service = MultiService.getService().getAccountingGateway();

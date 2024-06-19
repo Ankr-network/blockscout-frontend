@@ -11,10 +11,10 @@ interface MenuItemProps {
 }
 
 export const MenuItem = ({
-  startIcon,
   children,
   disabled,
   onClick,
+  startIcon,
 }: MenuItemProps) => {
   const { classes } = useMenuButtonStyles({
     isOpened: undefined,

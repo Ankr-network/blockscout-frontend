@@ -9,12 +9,12 @@ import { useRequestsChart } from './hooks/useRequestsChart';
 import { useRequestsChartStyles } from './RequestsChartStyles';
 
 export const RequestsChart = ({
-  title,
   className,
   data,
+  isFlexibleHeight,
   isLoading,
   timeframe,
-  isFlexibleHeight,
+  title,
 }: RequestsChartProps) => {
   const { chartProps, hasChart, hasPlaceholder, hasPreloader } =
     useRequestsChart({ data, isLoading, timeframe, isFlexibleHeight });

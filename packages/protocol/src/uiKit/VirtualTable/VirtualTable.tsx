@@ -26,8 +26,8 @@ function VirtualTableInternal<T extends Record<string, any>>(
     minHeight,
     minWidth,
     moreBtnText,
-    preloader,
     onRowClick,
+    preloader,
   } = props;
   const { classes, cx } = useStyles();
   const { cache, ref, rows } = useTable();
@@ -55,7 +55,7 @@ function VirtualTableInternal<T extends Record<string, any>>(
 
     return (
       <WindowScroller ref={windowScrollerRef}>
-        {({ height, scrollTop, isScrolling, onChildScroll, registerChild }) => {
+        {({ height, isScrolling, onChildScroll, registerChild, scrollTop }) => {
           return (
             <AutoSizer disableHeight>
               {({ width }) => (
@@ -112,12 +112,12 @@ export function VirtualTable<T extends Record<string, any>>(
   props: VirtualTableProps<T>,
 ) {
   const {
+    cols,
+    loading,
     onChangePage,
     onSort,
-    rows,
-    cols,
     renderExpand,
-    loading,
+    rows,
     searchContent,
     searchKey,
   } = props;

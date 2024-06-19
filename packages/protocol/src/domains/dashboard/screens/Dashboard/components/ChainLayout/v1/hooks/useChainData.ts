@@ -18,8 +18,8 @@ import { ChainLayoutProps } from '../../types';
 import { useTop10Stats } from '../../../AllChainsLayout/v1/hooks/useTop10Stats';
 
 export const useChainData = ({
-  statsChainId,
   detailsChainId,
+  statsChainId,
   timeframe,
 }: ChainLayoutProps) => {
   const allTimeTotalRequestsNumber = useAppSelector(state =>

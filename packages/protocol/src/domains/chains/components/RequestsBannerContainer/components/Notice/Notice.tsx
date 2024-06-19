@@ -11,7 +11,7 @@ import { useNoticeStyles } from './useNoticeStyles';
 export const Notice = () => {
   const { classes } = useNoticeStyles(true);
 
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   return (
     <div className={classes.notice}>

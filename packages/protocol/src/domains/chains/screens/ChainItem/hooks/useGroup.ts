@@ -33,8 +33,8 @@ export interface GroupResult {
 
 export const useGroup = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   endpoints,
   netId,
   selectedGroupId,

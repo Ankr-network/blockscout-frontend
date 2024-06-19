@@ -24,19 +24,19 @@ interface IAddProjectDialogProps {
 
 export const AddProjectDialog = ({
   allowedAddProjectTokenIndex,
-  isOpen,
   handleClose,
+  isOpen,
 }: IAddProjectDialogProps) => {
   const { classes, cx } = useAddProjectDialogStyles();
 
   const {
+    addProjectStep,
+    handleCreate,
     isLoading,
     projectName,
+    setAddProjectStep,
     successProjectName,
     userEndpointToken,
-    handleCreate,
-    addProjectStep,
-    setAddProjectStep,
   } = useAddProject(allowedAddProjectTokenIndex);
 
   const handleCloseDialog = useCallback(() => {

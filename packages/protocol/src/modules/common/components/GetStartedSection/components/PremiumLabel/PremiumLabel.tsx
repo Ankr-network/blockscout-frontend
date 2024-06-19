@@ -10,9 +10,9 @@ export interface PremiumLabelProps {
 }
 
 export const PremiumLabel = ({
-  size = 's',
   className,
   label,
+  size = 's',
 }: PremiumLabelProps) => {
   const { classes, cx } = usePremiumLabelStyles(size);
 

@@ -12,8 +12,8 @@ interface MethodsSelectFieldProps {
 }
 
 export const MethodNameSelectField = ({
-  options,
   getMethodDescription,
+  options,
 }: MethodsSelectFieldProps) => {
   const { classes } = useMethodNameSelectFieldStyles();
 

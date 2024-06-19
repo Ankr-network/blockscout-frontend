@@ -9,7 +9,7 @@ import { useSelectedUserGroup } from './useSelectedUserGroup';
 let savedSelectedGroupAddress = '';
 
 export const useGroupJwtToken = () => {
-  const { selectedGroupJwt, selectedGroupAddress } = useSelectedUserGroup();
+  const { selectedGroupAddress, selectedGroupJwt } = useSelectedUserGroup();
 
   const [fetchGroupJwt, { isLoading: isLoadingGroupToken }] =
     useLazyUserGroupFetchGroupJwtQuery();

@@ -19,11 +19,11 @@ export interface IUserLabelProps {
 }
 
 export const UserLabel = ({
-  hasPremium = false,
-  hasStatusTransition = false,
   chargingModel,
   className: nestedClassName,
   hasEnterpriseStatus = false,
+  hasPremium = false,
+  hasStatusTransition = false,
   isLoading,
   size = 'medium',
 }: IUserLabelProps) => {

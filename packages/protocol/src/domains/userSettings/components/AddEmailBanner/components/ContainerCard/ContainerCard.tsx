@@ -8,7 +8,7 @@ interface IContainerCardProps {
   children: ReactNode;
 }
 
-export const ContainerCard = ({ title, children }: IContainerCardProps) => {
+export const ContainerCard = ({ children, title }: IContainerCardProps) => {
   const { classes } = useStyles();
 
   return (

@@ -10,8 +10,8 @@ export interface FetchPrivateChainsResult {
 }
 
 export const {
-  useLazyChainsFetchPrivateChainsQuery,
   endpoints: { chainsFetchPrivateChains },
+  useLazyChainsFetchPrivateChainsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPrivateChains: build.query<

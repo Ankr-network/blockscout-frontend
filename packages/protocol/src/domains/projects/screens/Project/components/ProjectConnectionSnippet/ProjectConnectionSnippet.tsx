@@ -9,11 +9,11 @@ interface ProjectConnectionSnippetProps extends ConnectionSnippetProps {
 }
 
 export const ProjectConnectionSnippet = ({
-  technology,
-  setTechnology,
   httpCode,
-  wssCode,
   isHidden,
+  setTechnology,
+  technology,
+  wssCode,
 }: ProjectConnectionSnippetProps) => {
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 

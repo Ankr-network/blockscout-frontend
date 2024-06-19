@@ -89,7 +89,7 @@ export const selectTopCountries = createSelector(selectUsageData, data => {
   const mappedCountries = {
     ...topCountryData,
     elements:
-      topCountryData?.elements?.map(({ name, count }) => ({
+      topCountryData?.elements?.map(({ count, name }) => ({
         name: mapRegionName(name),
         count,
       })) || null,
@@ -174,7 +174,7 @@ export const selectProjectsCallData = createSelector(
     );
 
     return (
-      projectsCallData?.elements?.map(({ name, count }) => {
+      projectsCallData?.elements?.map(({ count, name }) => {
         const projectName =
           projectsData?.find(({ enterprise_api_key }) => {
             const maskedApiKey = maskApiKey(enterprise_api_key);

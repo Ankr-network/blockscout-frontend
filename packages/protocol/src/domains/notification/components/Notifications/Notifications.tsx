@@ -19,16 +19,16 @@ interface IItemProps {
 
 function Item({ data, onClose }: IItemProps) {
   const {
+    isHTML,
     key,
-    type,
+    message,
+    onPrimaryButtonClick,
+    onSecondaryButtonClick,
     primaryButtonText,
     secondaryButtonText,
     severity,
-    message,
     title,
-    isHTML,
-    onPrimaryButtonClick,
-    onSecondaryButtonClick,
+    type,
   } = data;
 
   const handleClose = useCallback(() => {

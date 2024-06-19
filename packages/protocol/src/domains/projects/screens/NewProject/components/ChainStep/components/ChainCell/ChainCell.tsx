@@ -13,7 +13,7 @@ export const ChainCell = ({
   selectedProjectChainsIds,
   setSelectedChainsIds,
 }: ChainCellProps) => {
-  const { handleSelectChains, areAllChainsSelected } = useChainCell({
+  const { areAllChainsSelected, handleSelectChains } = useChainCell({
     allChains,
     chain,
     selectedProjectChainsIds,

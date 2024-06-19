@@ -33,7 +33,7 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
 
   const { project } = useSelectedProject();
 
-  const { projectStatus, isLoading: isLoadingStatus } = useProjectStatus();
+  const { isLoading: isLoadingStatus, projectStatus } = useProjectStatus();
 
   const isFrozen = projectStatus.frozen;
   const isSuspended = projectStatus.suspended;
@@ -52,8 +52,8 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
 
   const {
     isOpened: isFreezeAndUnfreezeProjectDialogOpened,
-    onOpen: onOpenFreezeAndUnfreezeProjectDialog,
     onClose: onCloseFreezeAndUnfreezeProjectDialog,
+    onOpen: onOpenFreezeAndUnfreezeProjectDialog,
   } = useDialog();
 
   const { push } = useHistory();

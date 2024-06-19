@@ -13,8 +13,8 @@ interface IRequestsBannerContainerProps {
 }
 
 export const RequestsBannerContainer = ({
-  total,
   timeframe,
+  total,
 }: IRequestsBannerContainerProps) => {
   const { userRequestsState } = useRequestsBanner(timeframe);
 

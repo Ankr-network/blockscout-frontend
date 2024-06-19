@@ -21,7 +21,7 @@ export const EnterpriseChainCard = ({
   hasPremium,
   ...props
 }: EnterpriseChainCardProps) => {
-  const { totalRequests, loading } = useEnterpriseChainsItem({ chain });
+  const { loading, totalRequests } = useEnterpriseChainsItem({ chain });
 
   const { totalRequestsStr } = useCommonChainsItemData(
     chain,

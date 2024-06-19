@@ -13,13 +13,13 @@ const isNotTendermintRpc = (chainId: ChainID) =>
 
 export const useAvailableIds = (endpoints: GroupedEndpoints) => {
   const {
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
     selectedBeaconMainnetIds,
     selectedBeaconTestnetIds,
+    selectedDevnetIds,
+    selectedMainnetIds,
     selectedOpnodeMainnetIds,
     selectedOpnodeTestnetIds,
+    selectedTestnetIds,
   } = useProjectFormValues();
 
   const allAvailableMainnetIds = endpoints.mainnet

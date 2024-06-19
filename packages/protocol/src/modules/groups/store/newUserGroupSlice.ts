@@ -36,8 +36,8 @@ export const newUserGroupSlice = createSlice({
 });
 
 export const {
-  setNewUserGroupData,
   resetNewUserGroupData,
-  setShouldContinueTeamCreationFlow,
   resetShouldContinueTeamCreationFlow,
+  setNewUserGroupData,
+  setShouldContinueTeamCreationFlow,
 } = newUserGroupSlice.actions;

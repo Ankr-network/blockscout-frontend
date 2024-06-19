@@ -14,9 +14,9 @@ interface PendingTeamMemberActionsProps {
 }
 
 export const PendingTeamMemberActions = ({
-  inviteUrl,
-  handleRevokeInvitation,
   handleResendInvite,
+  handleRevokeInvitation,
+  inviteUrl,
   isLoadingResendTeamInvite,
 }: PendingTeamMemberActionsProps) => {
   const { classes } = useTeamMemberActionsStyles();

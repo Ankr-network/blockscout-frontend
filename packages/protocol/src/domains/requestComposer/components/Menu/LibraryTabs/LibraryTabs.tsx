@@ -13,10 +13,10 @@ export interface ILibraryTabsProps {
 }
 
 export const LibraryTabs = ({
-  selectedTab,
-  tabs,
   className,
   orientation,
+  selectedTab,
+  tabs,
 }: ILibraryTabsProps) => {
   const { classes } = useTopUpTabsStyles();
 

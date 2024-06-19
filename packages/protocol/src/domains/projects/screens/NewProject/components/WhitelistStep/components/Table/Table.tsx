@@ -26,7 +26,7 @@ export const Table = ({ data, onWhitelistDialogOpen }: TableProps) => {
     <TableContainer className={classes.tableContainer} component="table">
       <TableHead>
         <TableRow>
-          {columns.map(({ render, headerName, ...column }) => (
+          {columns.map(({ headerName, render, ...column }) => (
             <TableCell
               key={column.field}
               className={cx(classes.headerCell, classes.cell)}
@@ -42,7 +42,7 @@ export const Table = ({ data, onWhitelistDialogOpen }: TableProps) => {
         {data.map((row, index) => (
           <TableRow key={index}>
             {columns.map((column, field) => {
-              const { render, align } = column;
+              const { align, render } = column;
 
               return (
                 <TableCell key={field} align={align} className={classes.cell}>

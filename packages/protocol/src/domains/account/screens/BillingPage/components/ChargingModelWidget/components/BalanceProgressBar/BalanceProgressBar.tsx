@@ -3,16 +3,16 @@ import { EChargingModel } from 'modules/billing/types';
 
 interface IBalanceProgressBarProps {
   chargingModel: EChargingModel;
-  progressValue?: number;
-  progressLabel?: string;
   maxLabel?: string;
+  progressLabel?: string;
+  progressValue?: number;
 }
 
 export const BalanceProgressBar = ({
   chargingModel,
-  progressValue,
-  progressLabel,
   maxLabel,
+  progressLabel,
+  progressValue,
 }: IBalanceProgressBarProps) => {
   switch (chargingModel) {
     case EChargingModel.Package:

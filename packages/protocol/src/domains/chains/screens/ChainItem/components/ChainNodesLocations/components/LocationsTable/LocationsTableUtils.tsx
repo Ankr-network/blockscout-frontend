@@ -16,7 +16,7 @@ export const getRows = (
   const nodes = nodesDetail[0]?.nodes;
 
   const formattedNodes = nodes.map((item: INodeDetailEntity) => {
-    const { location, isPremium } = item;
+    const { isPremium, location } = item;
 
     const { continent } = location;
 

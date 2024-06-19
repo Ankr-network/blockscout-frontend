@@ -22,7 +22,7 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
 
   const { hasPremium } = useAuth();
 
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   if (hasPremium || isEnterpriseClient) return null;
 

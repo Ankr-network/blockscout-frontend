@@ -16,7 +16,7 @@ export const PrivateChainCard = ({
   hasPremium,
   ...props
 }: PrivateChainCardProps) => {
-  const { totalRequests, loading } = usePrivateChainsItem({ chain });
+  const { loading, totalRequests } = usePrivateChainsItem({ chain });
 
   const { totalRequestsStr } = useCommonChainsItemData(
     chain,

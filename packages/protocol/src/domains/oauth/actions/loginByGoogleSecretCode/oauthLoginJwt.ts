@@ -92,7 +92,7 @@ export const {
 
           return { data: {} };
         },
-        errorHandler: (error, _args, { getState, dispatch }) => {
+        errorHandler: (error, _args, { dispatch, getState }) => {
           trackWeb2SignUpFailure(getTrackingParams(getState as GetState));
 
           dispatch(push(AccountRoutesConfig.accountDetails.generatePath()));
@@ -102,7 +102,7 @@ export const {
           };
         },
       }),
-      onQueryStarted: async (_arg, { getState, dispatch, queryFulfilled }) => {
+      onQueryStarted: async (_arg, { dispatch, getState, queryFulfilled }) => {
         await queryFulfilled;
 
         await dispatch(setGithubLoginNameAndEmail.initiate());

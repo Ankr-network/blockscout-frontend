@@ -31,12 +31,12 @@ interface GetWeb3TraceTemplateArguments {
 }
 
 const web3TraceTemplate = ({
-  rpcMethod,
-  methodCall,
   args,
   formatters,
-  varName,
+  methodCall,
+  rpcMethod,
   url,
+  varName,
 }: GetWeb3TraceTemplateArguments) => {
   return `const Web3 = require("web3");
 // OR import Web3 from 'web3';

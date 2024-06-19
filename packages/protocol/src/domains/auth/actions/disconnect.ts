@@ -10,8 +10,8 @@ import {
 import { resetWalleState } from 'domains/wallet/store/walletSlice';
 
 export const {
-  useLazyAuthDisconnectQuery,
   endpoints: { authDisconnect },
+  useLazyAuthDisconnectQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     authDisconnect: build.query<boolean, void>({

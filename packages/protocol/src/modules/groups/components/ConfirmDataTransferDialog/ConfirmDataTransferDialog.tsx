@@ -21,13 +21,13 @@ interface ConfirmDataTransferDialogProps {
 }
 
 export const ConfirmDataTransferDialog = ({
+  confirmInputError,
+  confirmInputValue,
+  isLoading = false,
   isOpened = false,
+  onChangeConfirmInputValue,
   onClose,
   onConfirmButtonClick,
-  confirmInputValue,
-  onChangeConfirmInputValue,
-  confirmInputError,
-  isLoading = false,
 }: ConfirmDataTransferDialogProps) => {
   const { classes } = useConfirmDataTransferDialogStyles();
 

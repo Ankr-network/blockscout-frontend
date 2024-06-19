@@ -20,8 +20,8 @@ interface ProjectTableColumnsProps {
 }
 
 export const useProjectsTable = ({
-  projectsData,
   onProjectDialogOpen,
+  projectsData,
 }: ProjectTableColumnsProps) => {
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 

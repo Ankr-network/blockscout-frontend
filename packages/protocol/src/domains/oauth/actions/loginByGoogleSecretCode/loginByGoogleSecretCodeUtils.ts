@@ -83,8 +83,8 @@ export const trackLoginSuccess = async ({
 
 export const bindAccountToLoggedInUser = async ({
   code,
-  state,
   provider,
+  state,
 }: OauthRedirectionURLState) => {
   const service = MultiService.getService();
 

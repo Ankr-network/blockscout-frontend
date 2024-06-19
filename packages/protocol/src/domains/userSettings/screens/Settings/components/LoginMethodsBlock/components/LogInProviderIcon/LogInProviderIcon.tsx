@@ -11,8 +11,8 @@ interface ILogInProviderIconProps {
 }
 
 export const LogInProviderIcon = ({
-  provider,
   className,
+  provider,
 }: ILogInProviderIconProps) => {
   const { classes, cx } = useLogInProviderIconStyles();
 

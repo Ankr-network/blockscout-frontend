@@ -6,8 +6,8 @@ import { DomainsForm } from './DomainsForm';
 import { DomainsFormContainerProps } from './DomainsFormTypes';
 
 export const DomainsFormContainer = ({
-  data,
   chainId,
+  data,
   jwtToken,
 }: DomainsFormContainerProps) => {
   const [editChainRestrictedDomains] =

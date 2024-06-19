@@ -12,7 +12,7 @@ export interface ConfigureButtonProps {
 }
 
 export const ConfigureButton = ({ isDisabled }: ConfigureButtonProps) => {
-  const { isOpened, handleClose, handleOpen } = useProjectSidebar();
+  const { handleClose, handleOpen, isOpened } = useProjectSidebar();
 
   const { classes } = useConfigureButtonStyles();
 

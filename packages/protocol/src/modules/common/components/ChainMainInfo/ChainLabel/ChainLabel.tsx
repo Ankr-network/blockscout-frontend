@@ -15,10 +15,10 @@ interface ArchiveLabelProps {
 
 export const ChainLabel = ({
   className = '',
-  label,
-  tooltip = '',
-  labelClassName,
   isStatusIndicatorVisible,
+  label,
+  labelClassName,
+  tooltip = '',
 }: ArchiveLabelProps) => {
   const { classes, cx } = useStyles();
 

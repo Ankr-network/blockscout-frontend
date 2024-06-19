@@ -16,11 +16,11 @@ export interface ISuccessStepProps {
 }
 
 export const SuccessStep = ({
+  onChangeEmail,
   onResendEmail,
   resendEmailData,
-  resendEmailLoading,
   resendEmailErrorMessage,
-  onChangeEmail,
+  resendEmailLoading,
 }: ISuccessStepProps) => {
   const { classes } = useStyles();
 

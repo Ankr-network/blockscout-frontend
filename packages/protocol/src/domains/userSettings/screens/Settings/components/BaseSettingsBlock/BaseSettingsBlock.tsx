@@ -9,8 +9,8 @@ interface IBaseSettingsBlockProps {
 }
 
 export const BaseSettingsBlock = ({
-  title,
   children,
+  title,
 }: IBaseSettingsBlockProps) => {
   const { classes } = useBaseSettingsBlockStyles();
 

@@ -1,55 +1,10 @@
-import { BalanceLevel, SubscriptionPrice } from 'multirpc-sdk';
+import { BalanceLevel } from 'multirpc-sdk';
 
 export enum EChargingModel {
   Free = 'FREE',
   PAYG = 'PAY_AS_YOU_GO',
   Package = 'PACKAGE',
   Deal = 'DEAL',
-}
-
-export enum ECryptoDepositStep {
-  Approval = 1,
-  Deposit,
-}
-
-export enum ECryptoDepositStepStatus {
-  Complete = 1,
-  Confirmation,
-  Error,
-  Pending,
-  ConfirmationBlocksWaiting,
-}
-
-export enum ECurrency {
-  ANKR = 'ANKR',
-  USD = 'USD',
-  USDT = 'USDT',
-  USDC = 'USDC',
-}
-
-export enum EOngoingPaymentStatus {
-  Error = 1,
-  Success,
-  Pending,
-  ConfirmationBlocksWaiting,
-}
-
-export enum EPaymentType {
-  OneTime = 'one-time',
-  Recurring = 'recurring',
-  Deal = 'deal',
-}
-
-export interface IAmount {
-  currency: ECurrency;
-  id: SubscriptionPrice['id'];
-  value: number;
-}
-
-export interface IFeeDetails {
-  feeCrypto: number;
-  feeUSD: number;
-  txURL?: string;
 }
 
 export interface IPackageBalance {

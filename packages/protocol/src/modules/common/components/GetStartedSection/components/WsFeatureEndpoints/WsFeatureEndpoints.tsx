@@ -19,14 +19,14 @@ interface IWsFeatureEndpointsProps {
 }
 
 export const WsFeatureEndpoints = ({
-  hasWSFeature,
-  wss,
-  title,
-  hasPremium,
   hasConnectWalletMessage,
+  hasPremium,
+  hasWSFeature,
   onCopyEndpoint,
+  title,
+  wss,
 }: IWsFeatureEndpointsProps) => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   const hasAccessToGroupWs = useGuardUserGroup({
     blockName: BlockWithPermission.UpgradePlan,

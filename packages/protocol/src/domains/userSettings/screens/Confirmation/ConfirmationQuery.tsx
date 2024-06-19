@@ -22,7 +22,7 @@ export const ConfirmationQuery = () => {
     getEmailBindings(undefined);
   });
 
-  const { email, code } = useLinkParams();
+  const { code, email } = useLinkParams();
 
   return (
     <Queries<IEmailResponse[]>
@@ -31,7 +31,7 @@ export const ConfirmationQuery = () => {
       queryStates={[emailBindingsState]}
     >
       {({ data }) => {
-        const { lastEmailUsed, pendingEmail, isEmailLinkExpired } =
+        const { isEmailLinkExpired, lastEmailUsed, pendingEmail } =
           makeEmailStatuses(data);
 
         if (lastEmailUsed !== email || !pendingEmail) {

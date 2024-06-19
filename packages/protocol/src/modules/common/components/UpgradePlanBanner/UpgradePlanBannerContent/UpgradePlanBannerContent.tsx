@@ -15,22 +15,22 @@ interface IBannerContentProps {
 }
 
 export const UpgradePlanBannerContent = ({
+  handleOpen,
   hasPremium,
   isAdvancedApi,
   isPublicUser,
-  handleOpen,
 }: IBannerContentProps) => {
   const { isLightTheme } = useThemes();
   const { classes } = useUpgradePlanBannerContentStyles(isLightTheme);
 
   const {
-    image,
-    planTitle,
-    planDescription,
-    proposalTitle,
-    proposalDescription,
     actionProps = {},
     actionText,
+    image,
+    planDescription,
+    planTitle,
+    proposalDescription,
+    proposalTitle,
   } = useMemo(
     () => getBannerContent(hasPremium, isAdvancedApi, isPublicUser),
     [hasPremium, isAdvancedApi, isPublicUser],

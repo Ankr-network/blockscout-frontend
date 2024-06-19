@@ -1,0 +1,113 @@
+import { t } from '@ankr.com/common';
+
+import { Dialog } from 'uiKit/Dialog';
+import {
+  ECryptoDepositStep,
+  ECryptoDepositStepStatus,
+} from 'modules/payments/types';
+
+import { Buttons } from './components/Buttons';
+import { Header } from './components/Header';
+import { ICryptoPaymentDepositDialogProps } from './types';
+import { PaymentDetails } from './components/PaymentDetails';
+import { Stepper } from './components/Stepper';
+import { SwitchNetworkBanner } from './components/SwitchNetworkBanner';
+import { WaitingBlockBanner } from './components/WaitingBlockBanner';
+import { useCryptoPaymentDepositDialogStyles } from './useCryptoPaymentDepositDialogStyles';
+
+export const CryptoPaymentDepositDialog = ({
+  activeStep,
+  allowance,
+  allowanceError,
+  allowanceFeeDetails,
+  allowanceStepStatus,
+  allowanceTxHash,
+  amount,
+  amountUsd,
+  completedSteps,
+  confirmationBlocks,
+  currency,
+  depositError,
+  depositFeeDetails,
+  depositStepStatus,
+  depositTxHash,
+  erroredStep,
+  isAllowanceLoading,
+  isAllowanceSent,
+  isNetworkWrong,
+  isPending,
+  network,
+  onCheckAllowanceButtonClick,
+  onConfirmButtonClick,
+  onDiscardButtonClick,
+  shouldRevokeAllowance,
+  status,
+  ...dialogProps
+}: ICryptoPaymentDepositDialogProps) => {
+  const { classes } = useCryptoPaymentDepositDialogStyles();
+
+  const isDeposit = activeStep === ECryptoDepositStep.Deposit;
+
+  const isDepositPending =
+    isDeposit && depositStepStatus === ECryptoDepositStepStatus.Pending;
+
+  const isDepositConfirming =
+    isDeposit && depositStepStatus === ECryptoDepositStepStatus.Confirming;
+
+  return (
+    <Dialog
+      {...dialogProps}
+      classes={classes}
+      title={t('account.crypto-payment-deposit-dialog.title')}
+      titleClassName={classes.title}
+    >
+      <Header
+        amount={amount}
+        amountUsd={amountUsd}
+        currency={currency}
+        network={network}
+      />
+      <Stepper
+        activeStep={activeStep}
+        className={classes.stepper}
+        completedSteps={completedSteps}
+        erroredStep={erroredStep}
+      />
+      <PaymentDetails
+        allowance={allowance}
+        allowanceError={allowanceError}
+        allowanceFeeDetails={allowanceFeeDetails}
+        allowanceStepStatus={allowanceStepStatus}
+        allowanceTxHash={allowanceTxHash}
+        amount={amount}
+        className={classes.paymentDetails}
+        currency={currency}
+        depositError={depositError}
+        depositFeeDetails={depositFeeDetails}
+        depositStepStatus={depositStepStatus}
+        depositTxHash={depositTxHash}
+        isAllowanceLoading={isAllowanceLoading}
+        isAllowanceSent={isAllowanceSent}
+        isDepositConfirming={isDepositConfirming}
+        isDepositPending={isDepositPending}
+        network={network}
+      />
+      {isNetworkWrong && <SwitchNetworkBanner network={network} />}
+      {isDepositConfirming && (
+        <WaitingBlockBanner blocks={confirmationBlocks} />
+      )}
+      <Buttons
+        activeStep={activeStep}
+        isDepositConfirming={isDepositConfirming}
+        isPending={isPending}
+        isRevokeAllowanceLoading={isAllowanceLoading}
+        isNetworkWrong={isNetworkWrong}
+        onCheckAllowanceButtonClick={onCheckAllowanceButtonClick}
+        onConfirmButtonClick={onConfirmButtonClick}
+        onDiscardButtonClick={onDiscardButtonClick}
+        shouldRevokeAllowance={shouldRevokeAllowance}
+        status={status}
+      />
+    </Dialog>
+  );
+};

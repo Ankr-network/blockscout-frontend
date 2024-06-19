@@ -12,8 +12,8 @@ import { LocationsTableContainer } from './components/LocationsTable/LocationsTa
 
 export const ChainNodesLocations = ({
   loading,
-  shouldShowRealNodesRatio,
   nodesDetail,
+  shouldShowRealNodesRatio,
 }: ChainNodesLocationsProps) => {
   const { classes, cx } = useChainNodesLocationsStyles();
   const { hasPremium } = useAuth();

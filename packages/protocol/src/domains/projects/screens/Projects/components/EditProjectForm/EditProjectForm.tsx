@@ -17,8 +17,8 @@ interface EditProjectFormProps {
 }
 
 export const EditProjectForm = ({
-  isLoading,
   handleSubmit,
+  isLoading,
 }: EditProjectFormProps) => {
   const { classes } = useEditProjectFormStyles();
 

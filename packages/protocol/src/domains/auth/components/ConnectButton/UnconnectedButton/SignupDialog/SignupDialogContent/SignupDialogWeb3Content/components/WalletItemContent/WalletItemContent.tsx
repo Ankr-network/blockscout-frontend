@@ -14,8 +14,8 @@ interface WalletItemContentProps {
 
 export const WalletItemContent = ({
   icon,
-  name,
   isInjected,
+  name,
 }: WalletItemContentProps) => {
   const isMobile = useIsSMDown();
 

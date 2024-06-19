@@ -12,9 +12,9 @@ interface IBlockNumberProps<T> {
 }
 
 export function BlockNumber<T>({
+  chainId,
   data,
   loading,
-  chainId,
 }: IBlockNumberProps<T>) {
   const { classes, cx } = useHeaderStyles(false);
 

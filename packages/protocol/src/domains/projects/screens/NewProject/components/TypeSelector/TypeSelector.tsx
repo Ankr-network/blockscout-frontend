@@ -49,17 +49,17 @@ const mapChainToNestedItem = ({ id, name }: Chain) => ({
 });
 
 export const TypeSelector = ({
+  beaconsMainnet,
+  beaconsTestnet,
   chainId,
   chainTypes,
   endpoints,
-  beaconsMainnet,
-  beaconsTestnet,
   opnodesMainnet,
   opnodesTestnet,
 }: ITypeSelectorProps) => {
   const { classes } = useTypeSelectorStyles();
 
-  const { onChange, isChecked, isIndeterminate } = useAllChainsSelection({
+  const { isChecked, isIndeterminate, onChange } = useAllChainsSelection({
     chainId,
     endpoints,
   });
@@ -85,7 +85,7 @@ export const TypeSelector = ({
         }
       />
 
-      {chainTypes.map(({ value, label }) => {
+      {chainTypes.map(({ label, value }) => {
         const chainType = value as ChainType;
         const currentTypeEndpoints = endpoints[chainType];
 

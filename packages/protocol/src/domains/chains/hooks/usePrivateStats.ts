@@ -29,7 +29,7 @@ export const usePrivateStats = ({
 
   const [
     fetchPrivateStats,
-    { data = {}, isLoading: arePrivateStatsLoading, error: privateStatsError },
+    { data = {}, error: privateStatsError, isLoading: arePrivateStatsLoading },
     reset,
   ] = useQueryEndpoint(chainsFetchPrivateStats);
 

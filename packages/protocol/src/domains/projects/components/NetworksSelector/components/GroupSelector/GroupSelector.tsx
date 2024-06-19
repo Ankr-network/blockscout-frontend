@@ -13,7 +13,7 @@ export const GroupSelector = (props: GroupSelectorProps) => {
   const { isSelected, onChange } = useGroupSelector(props);
 
   const {
-    group: { chainName, name, id },
+    group: { chainName, id, name },
   } = props;
 
   const isFlareTestnet =

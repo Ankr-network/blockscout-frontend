@@ -14,8 +14,8 @@ import { useRequestsMapStyles } from './useRequestsMapStyles';
 import { useIsRequestsMapVisible } from '../UsageDataSection/UsageDataSectionUtils';
 
 export const RequestsMap = ({
-  loading,
   countries,
+  loading,
   timeframe,
 }: RequestsMapProps) => {
   const { classes } = useRequestsMapStyles();

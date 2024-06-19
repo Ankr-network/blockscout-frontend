@@ -12,11 +12,11 @@ import { DefaultContent } from './DefaultContent';
 
 export const NegativeBalanceTermsOfServicesDialog = () => {
   const {
-    isOpened,
     dialogView,
-    isAcceptLoading,
-    handleTryAgain,
     handleCloseFailedDialog,
+    handleTryAgain,
+    isAcceptLoading,
+    isOpened,
   } = useNegativeBalanceTermsOfServicesDialog();
 
   const isFailed = dialogView === DialogView.failed;

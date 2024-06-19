@@ -20,7 +20,7 @@ export const { endpoints, useChainsFetchPublicChainsInfoQuery } =
       >({
         queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
           const [
-            { data: { chains = [], allChains = [] } = {} },
+            { data: { allChains = [], chains = [] } = {} },
             { data: nodes },
           ] = await Promise.all([
             dispatch(chainsFetchPublicChains.initiate()),

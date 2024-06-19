@@ -24,8 +24,8 @@ export interface IUpdateRoleMutationArgs extends IUpdateGroupMemberRoleParams {
 }
 
 export const {
-  useUpdateRoleMutation,
   endpoints: { updateRole },
+  useUpdateRoleMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     updateRole: build.mutation<
@@ -46,7 +46,7 @@ export const {
         return { data };
       }),
       onQueryStarted: async (
-        { role, email, userAddress },
+        { email, role, userAddress },
         { dispatch, queryFulfilled },
       ) => {
         await queryFulfilled;

@@ -43,25 +43,25 @@ interface ISelectorContentProps {
 }
 
 export const SelectorsContent = ({
-  projectOptions,
-  handleSetOption,
-  selectedOption,
-  selectedChainId,
-  handleChange,
-  renderValue,
   chainSelectOptions,
-  networksConfigurations,
   chainSubType,
   chainSubTypes,
-  selectSubType,
-  showAdditionalSelect,
   chainType,
   chainTypes,
-  selectType,
-  groups,
   groupID,
-  selectGroup,
+  groups,
+  handleChange,
+  handleSetOption,
   isTestnetOnlyChainSelected,
+  networksConfigurations,
+  projectOptions,
+  renderValue,
+  selectGroup,
+  selectSubType,
+  selectType,
+  selectedChainId,
+  selectedOption,
+  showAdditionalSelect,
 }: ISelectorContentProps) => {
   const { classes } = useDashboardStyles();
 

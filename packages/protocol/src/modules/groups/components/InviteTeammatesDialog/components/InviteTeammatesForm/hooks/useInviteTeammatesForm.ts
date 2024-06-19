@@ -39,7 +39,7 @@ export const useInviteTeammatesForm = ({
     value,
   } = useEmailsInput({ invitedEmails, onChange });
 
-  const { value: inviteeRole, onChange: onInviteeRoleChange } =
+  const { onChange: onInviteeRoleChange, value: inviteeRole } =
     useInviteeRoleSelector();
 
   const { onSuccess } = useSuccessCallback({ handleCloseDialog });

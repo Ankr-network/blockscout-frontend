@@ -39,7 +39,7 @@ export const HybridInfrastructure = ({
       spinner={<HybridInfrastructureSkeleton />}
     >
       {(
-        { data: { publicChains = [], privateChains = [] } = {} },
+        { data: { privateChains = [], publicChains = [] } = {} },
         { data: endpoints = {} },
       ) => {
         const privateChain = getChainById(privateChains, chainId);

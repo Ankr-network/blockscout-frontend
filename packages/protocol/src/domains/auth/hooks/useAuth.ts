@@ -57,14 +57,14 @@ export const useAuth = () => {
   const premiumStatus = useAppSelector(selectPremiumStatus);
 
   const {
-    loading: web3ConnectionLoading,
     handleDisconnect,
+    loading: web3ConnectionLoading,
     ...web3Rest
   } = useWeb3Connection();
 
   const {
-    loading: autologinLoading,
     handleSignOut: handleOauthSignOut,
+    loading: autologinLoading,
     ...oauthRest
   } = useOauth();
 

@@ -13,8 +13,8 @@ export interface FetchProjectWhitelistParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyFetchProjectWhitelistQuery,
   endpoints: { fetchProjectWhitelist },
+  useLazyFetchProjectWhitelistQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchProjectWhitelist: build.query<
@@ -22,7 +22,7 @@ export const {
       FetchProjectWhitelistParams
     >({
       providesTags: [RequestType.ProjectWhitelist],
-      queryFn: createNotifyingQueryFn(async ({ userEndpointToken, group }) => {
+      queryFn: createNotifyingQueryFn(async ({ group, userEndpointToken }) => {
         const service = MultiService.getService().getAccountingGateway();
 
         const whitelist = await service.getWhitelist({

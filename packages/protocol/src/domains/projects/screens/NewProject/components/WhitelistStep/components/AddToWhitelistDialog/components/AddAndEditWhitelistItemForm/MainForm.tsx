@@ -26,20 +26,20 @@ interface MainFormProps {
 }
 
 export const MainForm = ({
-  shouldSkipFormReset,
   handleSubmit,
+  shouldSkipFormReset,
 }: MainFormProps) => {
   const { classes, cx } = useAddAndEditWhitelistItemFormStyles();
 
   const {
     handleOnChange,
-    isTypeSelected,
-    selectedType,
-    isValid,
-    preparedChains,
-    isSmartContractAddressSelected,
     isAtLeastOneChainSelected,
     isFormFilled,
+    isSmartContractAddressSelected,
+    isTypeSelected,
+    isValid,
+    preparedChains,
+    selectedType,
     whitelistItems,
   } = useMainForm(shouldSkipFormReset);
 
@@ -79,7 +79,7 @@ export const MainForm = ({
       </Typography>
 
       <FormControl className={cx(classes.formWrapper, classes.inputWrapper)}>
-        {preparedChains.map(({ id: chainId, name, disabled }) => (
+        {preparedChains.map(({ disabled, id: chainId, name }) => (
           <Field
             name={AddToWhitelistFormFields.chains}
             key={chainId}

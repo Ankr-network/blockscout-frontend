@@ -55,7 +55,7 @@ export const useStakeBarChart = (
   }, [result.data, timeframe, currentTimeframe, updateListData]);
 
   const handleClickLegend = useCallback(
-    ({ value, color }: Payload) => {
+    ({ color, value }: Payload) => {
       if (value in selectedKey) {
         delete selectedKey[value];
       } else {

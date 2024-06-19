@@ -4,9 +4,9 @@ import { useAppSelector } from 'store/useAppSelector';
 export const useEnterpriseClientStatus = () => {
   const {
     data: isEnterpriseClient = false,
+    error,
     isLoading,
     isUninitialized,
-    error,
   } = useAppSelector(selectEnterpriseStatus);
 
   return {

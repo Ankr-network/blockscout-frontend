@@ -9,7 +9,7 @@ import { SidebarProps } from '../SideBar';
 export const MobileMenu = ({ ...props }: SidebarProps) => {
   const { classes } = useMobileMenuStyles();
 
-  const { anchorEl, isOpened, handleClick, handleClose } = useMobileMenu();
+  const { anchorEl, handleClick, handleClose, isOpened } = useMobileMenu();
 
   return (
     <>

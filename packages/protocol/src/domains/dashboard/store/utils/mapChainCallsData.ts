@@ -3,10 +3,10 @@ import { IBlockchainEntity, IUsageTop } from 'multirpc-sdk';
 import { ChainNamesMap } from './getChainNamesMap';
 
 export const mapChainCallsData = ({
-  chainCallsData,
-  totalRequestsNumber,
-  chainNamesMap,
   blockchains,
+  chainCallsData,
+  chainNamesMap,
+  totalRequestsNumber,
 }: {
   chainCallsData?: IUsageTop;
   totalRequestsNumber: number;

@@ -8,7 +8,7 @@ interface SignoutButtonProps {
   title: string;
 }
 
-export const SignoutButton = ({ title, onClick }: SignoutButtonProps) => {
+export const SignoutButton = ({ onClick, title }: SignoutButtonProps) => {
   const { classes } = useSignoutButtonStyles();
 
   return (

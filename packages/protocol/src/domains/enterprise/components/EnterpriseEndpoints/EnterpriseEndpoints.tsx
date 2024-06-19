@@ -22,8 +22,8 @@ interface EnterpriseEndpointsProps {
 }
 
 export const EnterpriseEndpoints = ({
-  group,
   chainType,
+  group,
   publicChain,
 }: EnterpriseEndpointsProps) => {
   const { hasConnectWalletMessage } = useAuth();

@@ -52,7 +52,7 @@ export const newProjectSlice = createSlice({
   initialState: initialNewProjectState,
   reducers: {
     setStepConfig: (state, action: PayloadAction<NewProjectConfigPayload>) => {
-      const { address, step, projectStepConfig, nextStep } = action.payload;
+      const { address, nextStep, projectStepConfig, step } = action.payload;
 
       if (!state[address]) {
         state[address] = {
@@ -75,4 +75,4 @@ export const newProjectSlice = createSlice({
   },
 });
 
-export const { setStepConfig, resetConfig } = newProjectSlice.actions;
+export const { resetConfig, setStepConfig } = newProjectSlice.actions;

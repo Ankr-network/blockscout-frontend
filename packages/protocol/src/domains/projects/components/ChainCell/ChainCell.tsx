@@ -17,11 +17,11 @@ export interface ChainCellProps {
 }
 
 export const ChainCell = ({
+  areAllChainsSelected,
   chain,
+  isCheckboxChecked,
   onChainSelect,
   selectedChainIds,
-  isCheckboxChecked,
-  areAllChainsSelected,
 }: ChainCellProps) => {
   const { id } = chain;
 

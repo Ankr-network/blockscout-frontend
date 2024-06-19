@@ -10,10 +10,10 @@ import {
 } from './FormAutoSubmit.types';
 
 const FormAutoSubmitFormSpy = ({
-  timeout,
   onSubmit,
-  values,
   showSubmitting,
+  timeout,
+  values,
 }: FormAutoSubmitFormSpyProps) => {
   const [lastSubmitValues, setLastSubmitValues] = useState(values);
   const [isSubmitting, setSubmitting] = useState(false);

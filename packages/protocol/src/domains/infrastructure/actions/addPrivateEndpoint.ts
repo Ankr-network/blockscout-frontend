@@ -8,8 +8,8 @@ import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from '../../../store/utils/createNotifyingQueryFn';
 
 export const {
-  useLazyInfrastructureApiAddPrivateEndpointQuery,
   endpoints: { infrastructureApiAddPrivateEndpoint },
+  useLazyInfrastructureApiAddPrivateEndpointQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureApiAddPrivateEndpoint: build.query<

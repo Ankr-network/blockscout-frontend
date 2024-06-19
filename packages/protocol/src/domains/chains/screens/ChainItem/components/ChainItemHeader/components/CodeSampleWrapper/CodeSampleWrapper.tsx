@@ -20,9 +20,9 @@ interface CodeSampleWrapperProps {
 
 export const CodeSampleWrapper = ({
   chain,
+  codeSampleWrapperClassName,
   header,
   url,
-  codeSampleWrapperClassName,
 }: CodeSampleWrapperProps) => {
   const { isLightTheme } = useThemes();
   const { classes, cx } = useStyles(isLightTheme);

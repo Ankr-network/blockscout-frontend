@@ -7,7 +7,7 @@ export interface TitleProps {
   className?: string;
 }
 
-export const Title = ({ className, children }: TitleProps) => {
+export const Title = ({ children, className }: TitleProps) => {
   const { classes, cx } = useTitleStyles();
 
   return (

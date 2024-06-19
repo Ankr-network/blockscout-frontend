@@ -47,7 +47,7 @@ class OnChangeState extends React.Component<Props, State> {
   }
 }
 
-export const OnChange = ({ name, children }: OnChangeProps) =>
+export const OnChange = ({ children, name }: OnChangeProps) =>
   React.createElement(Field, {
     name,
     subscription: { value: true },

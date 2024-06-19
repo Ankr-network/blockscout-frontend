@@ -12,9 +12,9 @@ interface ISuccessContentProps {
 }
 
 export const SuccessContent = ({
-  projectName,
   jwtToken,
   onClick,
+  projectName,
 }: ISuccessContentProps) => {
   const { classes } = useProjectDialogContentStyles();
 

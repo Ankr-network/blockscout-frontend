@@ -15,12 +15,12 @@ export const SignUpContent = ({
 
   const {
     currentState,
-    setWeb3State,
-    onGoogleButtonClick,
-    onGithubButtonClick,
     isLoading,
-    onDialogCloseClick,
     oauthLoginType,
+    onDialogCloseClick,
+    onGithubButtonClick,
+    onGoogleButtonClick,
+    setWeb3State,
   } = useSignupDialog({ hasOauthLogin, onClose, onOauthSignUp });
 
   return (

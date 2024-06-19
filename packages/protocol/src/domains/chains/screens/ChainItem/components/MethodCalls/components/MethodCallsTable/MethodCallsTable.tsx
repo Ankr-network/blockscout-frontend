@@ -66,7 +66,7 @@ export const MethodCallsTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map(({ method, count, total_cost }) => {
+          {data.map(({ count, method, total_cost }) => {
             return (
               <TableRow key={method}>
                 <TableCell className={classes.cell}>{method}</TableCell>

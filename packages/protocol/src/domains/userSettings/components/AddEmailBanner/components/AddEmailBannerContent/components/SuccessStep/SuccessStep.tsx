@@ -9,7 +9,7 @@ interface ISuccessStepProps {
   children: ReactNode;
 }
 
-export const SuccessStep = ({ email, children }: ISuccessStepProps) => {
+export const SuccessStep = ({ children, email }: ISuccessStepProps) => {
   const { classes } = useStyles();
 
   return (

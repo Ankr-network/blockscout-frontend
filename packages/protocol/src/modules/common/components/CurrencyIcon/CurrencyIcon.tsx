@@ -1,10 +1,10 @@
 import { ANKRLogo, USDCLogo, USDTLogo } from '@ankr.com/ui';
-import { useMemo } from 'react';
 import { EBlockchain } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
-import { ECurrency } from 'modules/billing/types';
-import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 import { ChainID } from 'modules/chains/types';
+import { ECurrency } from 'modules/payments/types';
+import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 import { useCurrencyIconStyles } from './useCurrencyIconStyles';
 
@@ -18,8 +18,8 @@ interface ICurrencyIconProps {
 
 export const CurrencyIcon = ({
   currency,
-  network,
   currencyClassName,
+  network,
   networkClassName,
   rootClassName,
 }: ICurrencyIconProps) => {

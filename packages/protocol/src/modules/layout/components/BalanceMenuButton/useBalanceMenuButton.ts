@@ -11,7 +11,7 @@ import { API_CREDITS_BALANCE_FIELD_NAME } from 'domains/account/screens/BillingP
 import { useMenu } from 'modules/common/hooks/useMenu';
 
 export const useBalanceMenuButton = () => {
-  const { hasStatusTransition, loading: isConnecting, isLoggedIn } = useAuth();
+  const { hasStatusTransition, isLoggedIn, loading: isConnecting } = useAuth();
 
   const isMyBundlesStatusLoading = useAppSelector(
     selectMyBundlesStatusInitLoading,

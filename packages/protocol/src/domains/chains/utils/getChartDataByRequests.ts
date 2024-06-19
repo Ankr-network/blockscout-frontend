@@ -1,7 +1,7 @@
 import { IChartData } from 'modules/common/components/Chart';
 import { Timeframe } from 'modules/chains/types';
 
-const { Hour, Day, Week, Month } = Timeframe;
+const { Day, Hour, Month, Week } = Timeframe;
 
 // offsets in ms
 const MINUTE = 60 * 1000;
@@ -49,7 +49,7 @@ export const getChartDataByRequests = ({
     })
     .sort((a, b) => a.time.getTime() - b.time.getTime())
     .map<IChartData>((row, index) => {
-      const { time, callsCount } = row;
+      const { callsCount, time } = row;
 
       if (isLoggedIn) {
         if (rows.length <= 1) {

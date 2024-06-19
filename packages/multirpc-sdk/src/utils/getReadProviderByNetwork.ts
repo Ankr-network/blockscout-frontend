@@ -1,6 +1,6 @@
 import { AvailableReadProviders } from '@ankr.com/provider';
 
-import { EBlockchain } from '../common/const';
+import { EBlockchain } from '../common';
 
 export const getReadProviderByNetwork = (
   network: EBlockchain,

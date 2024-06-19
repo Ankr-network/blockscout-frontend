@@ -60,7 +60,9 @@
     "two-fa": "Two factor authentication code is required",
     "hubspot": "Hubspot form. No such element {selector}",
     "common": "Oops! Something went wrong.",
-    "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts."
+    "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts.",
+    "tx-replacement": "The transaction has been cancelled or replaced",
+    "no-tx-by-tx-hash": "Failed to locate the transaction – It might have been cancelled or replaced."
   },
   "main-navigation": {
     "projects": "Projects",

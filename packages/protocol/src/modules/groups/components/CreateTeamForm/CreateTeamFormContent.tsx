@@ -19,14 +19,14 @@ interface CreateTeamFormContentProps {
 }
 
 export const CreateTeamFormContent = ({
-  teamNameValue,
   handleChange,
-  isDataTransferEnabled,
-  onDataTransferSwitchChange,
   handleCreateTeamFlow,
   isCreateTeamLoading,
+  isDataTransferEnabled,
+  onDataTransferSwitchChange,
+  teamNameValue,
 }: CreateTeamFormContentProps) => {
-  const { isLoggedIn, hasWeb3Connection } = useAuth();
+  const { hasWeb3Connection, isLoggedIn } = useAuth();
 
   // data transfer is not available for connected with metamask users (hasWeb3Connection)
   const isDataTransferAvailable = isLoggedIn && !hasWeb3Connection;

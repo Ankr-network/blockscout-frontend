@@ -60,7 +60,7 @@ export const useProjectsForm = () => {
 
   const hasProjectButton = (isLoaded && canAddProject) || canEditProject;
 
-  const { isTeamOnboardingDialogOpened, handleTeamOnboardingDialogClose } =
+  const { handleTeamOnboardingDialogClose, isTeamOnboardingDialogOpened } =
     useTeamsOnboarding();
 
   const redirectToBalance = useCallback(() => {

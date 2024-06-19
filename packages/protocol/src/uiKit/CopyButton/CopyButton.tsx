@@ -14,7 +14,7 @@ export interface CopyButtonProps {
   className?: string;
 }
 
-export const CopyButton = ({ text, size, className }: CopyButtonProps) => {
+export const CopyButton = ({ className, size, text }: CopyButtonProps) => {
   const { onCopy, tooltipProps } = useCopyButton();
 
   const { classes, cx } = useCopyButtonStyles();

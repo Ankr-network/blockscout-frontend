@@ -24,7 +24,7 @@ export const {
       invalidatesTags: [RequestType.WhitelistBlockchains],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
-          params: { userEndpointToken, group, blockchains },
+          params: { blockchains, group, userEndpointToken },
           totp,
         }) => {
           const service = MultiService.getService().getAccountingGateway();

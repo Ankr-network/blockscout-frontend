@@ -38,7 +38,7 @@ interface IUseAllChainsDataResult {
 export const useAllChainsData = (): IUseAllChainsDataResult => {
   const { isEnterpriseStatusLoading } = useEnterpriseClientStatus();
 
-  const [, { isLoading, isFetching }] =
+  const [, { isFetching, isLoading }] =
     useLazyChainsFetchEnterpriseV2StatsTotalQuery();
 
   const allTimeTotalRequestsNumber = useAppSelector(

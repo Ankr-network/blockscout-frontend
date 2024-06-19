@@ -46,21 +46,21 @@ export type MethodsSelectProps<T> = ConfiguredAutocomplete<T> & {
 };
 
 export function MethodsSelect<T>({
+  className,
+  error,
+  getOptionLabel,
+  helperText,
+
   label,
   name,
-  helperText,
-  error,
-
-  value,
+  noOptionsText,
   onChange,
   options,
-  noOptionsText,
   placeholder,
-  getOptionLabel,
 
   showExtra,
 
-  className,
+  value,
   ...otherProps
 }: MethodsSelectProps<T>) {
   const [open, setOpen] = useState(false);

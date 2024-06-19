@@ -14,9 +14,9 @@ interface IAddProjectContentProps {
 }
 
 export const AddProjectContent = ({
+  handleCreate,
   isLoading,
   projectName,
-  handleCreate,
 }: IAddProjectContentProps) => {
   const { classes } = useProjectDialogContentStyles();
 

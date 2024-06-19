@@ -1,6 +1,10 @@
 {
   "extends": "../../.common-eslintrc",
   "ignorePatterns": ["public/*.js"],
+  "plugins": ["sort-destructure-keys"],
+  "rules": {
+    "sort-destructure-keys/sort-destructure-keys": "error"
+  },
   "overrides": [
     {
       "files": ["**/*.ts?(x)"],

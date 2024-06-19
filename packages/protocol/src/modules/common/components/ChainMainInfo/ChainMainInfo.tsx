@@ -13,6 +13,7 @@ import { ChainMainInfoProps } from './ChainMainInfoTypes';
 export const ChainMainInfo = ({
   className = '',
   description,
+  hasTotalRequestsLabel = true,
   isHighlighted = false,
   isLoading,
   label,
@@ -20,7 +21,6 @@ export const ChainMainInfo = ({
   name,
   timeframe = Timeframe.Month,
   totalRequests = '',
-  hasTotalRequestsLabel = true,
 }: ChainMainInfoProps) => {
   const { themes } = useThemes();
 

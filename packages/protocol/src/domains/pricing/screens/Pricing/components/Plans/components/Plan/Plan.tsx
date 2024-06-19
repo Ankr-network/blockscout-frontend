@@ -20,10 +20,10 @@ interface PlanProps {
 }
 
 export const Plan = ({
-  onClick,
-  planName,
   isButtonDisabled,
   isCurrentPlan,
+  onClick,
+  planName,
 }: PlanProps) => {
   const { classes, cx } = usePlanStyles();
 

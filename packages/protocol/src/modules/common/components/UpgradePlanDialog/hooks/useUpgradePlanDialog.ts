@@ -17,8 +17,8 @@ export const useUpgradePlanDialog = ({
 }: UpgradePlanDialogHookParams = {}) => {
   const {
     isOpened,
-    onOpen: handleOpen,
     onClose: handleClose,
+    onOpen: handleOpen,
   } = useDialog(isInitallyOpened);
 
   const onOpen = handleOpen;

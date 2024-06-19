@@ -26,8 +26,8 @@ const isArbitrumTestnet = (chainId: ChainID) =>
 export const hasRequestComposer = ({
   chainId,
   group,
-  isChainProtocolSwitchEnabled,
   hasPrivateAccess,
+  isChainProtocolSwitchEnabled,
 }: HasRequestComposerParams) => {
   const { chains } = group;
 

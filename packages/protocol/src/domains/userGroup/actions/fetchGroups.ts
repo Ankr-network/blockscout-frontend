@@ -25,16 +25,16 @@ const getAuthAddress = (state: RootState) => {
 const mapUserGroup = (userGroup: IApiUserGroup, index: number): UserGroup => {
   const {
     address,
-    name,
-    user_role: role,
     comment,
     company_type: companyType,
+    invite_cnt: invitesCount,
     is_enterprise: isEnterprise,
     is_freemium: isFreemium,
     is_suspended: isSuspended,
-    members_limit: membersLimit,
     member_cnt: membersCount,
-    invite_cnt: invitesCount,
+    members_limit: membersLimit,
+    name,
+    user_role: role,
   } = userGroup;
 
   return {

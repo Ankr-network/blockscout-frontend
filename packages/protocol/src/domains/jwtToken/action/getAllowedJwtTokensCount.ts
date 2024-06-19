@@ -4,8 +4,8 @@ import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
 export const {
-  useLazyFetchAllowedJwtTokensCountQuery,
   endpoints: { fetchAllowedJwtTokensCount },
+  useLazyFetchAllowedJwtTokensCountQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllowedJwtTokensCount: build.query<number, IApiUserGroupParams>({

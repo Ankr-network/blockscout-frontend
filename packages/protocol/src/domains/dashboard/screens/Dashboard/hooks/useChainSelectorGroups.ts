@@ -17,27 +17,27 @@ interface IDashboardChainSelector {
 
 export const useChainSelectorGroups = ({
   chain,
-  unfilteredChain,
-  selectedType,
-  selectedGroupId,
   onBlockedTabClick,
+  selectedGroupId,
+  selectedType,
+  unfilteredChain,
 }: IDashboardChainSelector) => {
   const isFlare = chain.id === ChainID.FLARE;
 
   const {
     chainProtocolContext,
-    publicChain,
-    chainType,
     chainSubType,
     chainSubTypes,
-    selectSubType,
-    group,
-    groups,
-    groupID,
-    selectGroup,
+    chainType,
     chainTypes,
-    selectType,
     endpoints,
+    group,
+    groupID,
+    groups,
+    publicChain,
+    selectGroup,
+    selectSubType,
+    selectType,
   } = usePrivateChainItem({
     chain,
     unfilteredChain,

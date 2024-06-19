@@ -21,7 +21,7 @@ export const {
     chainsFetchPublicChain: build.query<IPublicChainItemDetails, string>({
       queryFn: createNotifyingQueryFn(async (chainId, { dispatch }) => {
         const [
-          { data: { chains = [], allChains = [] } = {} },
+          { data: { allChains = [], chains = [] } = {} },
           { data: nodes },
         ] = await Promise.all([
           dispatch(chainsFetchPublicChains.initiate()),

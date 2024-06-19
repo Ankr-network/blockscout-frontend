@@ -7,8 +7,8 @@ import { web3Api } from 'store/queries';
 import { infrastructureFetchEndpoints } from './fetchEndpoints';
 
 export const {
-  useLazyInfrastructureDeletePrivateEndpointQuery,
   endpoints: { infrastructureDeletePrivateEndpoint },
+  useLazyInfrastructureDeletePrivateEndpointQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureDeletePrivateEndpoint: build.query<boolean, string>({

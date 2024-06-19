@@ -15,12 +15,12 @@ interface ConnectButtonProps {
 }
 
 export const ConnectButton = ({
-  isMobile = false,
-  variant = 'text',
   buttonText,
+  className,
+  isMobile = false,
   onOpen,
   onSuccess,
-  className,
+  variant = 'text',
 }: ConnectButtonProps) => {
   const { hasWeb3Connection } = useAuth();
 

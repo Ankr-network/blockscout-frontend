@@ -18,7 +18,7 @@ export const RefreshButton = ({
   isRefreshing,
   onRefresh: refresh,
 }: RefreshButtonProps) => {
-  const { isCountdownRun, isCountdownEnded, onRefresh, seconds } =
+  const { isCountdownEnded, isCountdownRun, onRefresh, seconds } =
     useRefreshButton(refresh);
 
   const { classes } = useRefreshButtonStyles();

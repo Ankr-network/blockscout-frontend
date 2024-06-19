@@ -13,9 +13,9 @@ export interface SnippetsProps {
 }
 
 export const Snippets = ({
-  technology,
   hasFullWidthSnippets,
   httpCode,
+  technology,
   wssCode,
 }: SnippetsProps) => {
   const { classes, cx } = useStyles();

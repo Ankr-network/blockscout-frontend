@@ -11,10 +11,10 @@ type FilledTextFieldProps = TextFieldProps & UseFilledTextFieldStylesParams;
 export const FilledTextField = forwardRef(
   (
     {
-      noPlaceholderFade,
-
       InputProps,
+
       inputProps,
+      noPlaceholderFade,
       ...otherProps
     }: FilledTextFieldProps,
     ref,

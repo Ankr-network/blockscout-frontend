@@ -13,8 +13,8 @@ export interface NoDataGuardProps<Data> {
 export const NoDataGuard = <Data extends Array<any>>({
   children,
   data,
-  isLoading,
   isEmpty = (list: Data) => list.length === 0,
+  isLoading,
 }: NoDataGuardProps<Data>) => {
   const { classes } = useNoDataGuardStyles();
 

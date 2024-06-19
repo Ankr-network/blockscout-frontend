@@ -12,8 +12,8 @@ export interface SubscriptionProps {
 
 export const Subscription = ({
   onCancel,
-  subscription,
   onOpenSuccessDialog = () => {},
+  subscription,
 }: SubscriptionProps) => {
   const editorProps = useSubscription({ onCancel, subscription });
 

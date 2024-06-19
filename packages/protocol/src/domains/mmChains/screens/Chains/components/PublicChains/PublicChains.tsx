@@ -13,17 +13,17 @@ import { PublicChainItem } from './components/PublicChainItem';
 
 export const PublicChains = () => {
   const {
-    chains,
     allChains,
+    chains,
     loading,
+    searchContent,
+    setSearchContent,
     setSortType,
     sortType,
     timeframe,
-    searchContent,
-    setSearchContent,
   } = usePublicChainsData();
 
-  const { processedChains, chainsDictionary } = usePublicChains({
+  const { chainsDictionary, processedChains } = usePublicChains({
     allChains,
     chains: processTestnetOnlyChains(chains),
     sortType,

@@ -11,8 +11,8 @@ export interface IInformationProps {
 
 export const Information = ({
   timeframe,
-  totalRequests,
   timeframeClassName,
+  totalRequests,
 }: IInformationProps) => {
   if (!totalRequests) {
     return null;

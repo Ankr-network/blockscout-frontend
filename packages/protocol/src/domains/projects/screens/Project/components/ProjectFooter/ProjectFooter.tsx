@@ -19,7 +19,7 @@ export const ProjectFooter = ({ className }: ProjectFooterProps) => {
 
   const docsListItems = useMemo(
     () =>
-      docsLinks.map(({ href, children }) => (
+      docsLinks.map(({ children, href }) => (
         <NavLink
           key={href}
           className={cx(classes.link, classes.linkItem)}
@@ -32,7 +32,7 @@ export const ProjectFooter = ({ className }: ProjectFooterProps) => {
 
   const socialLinkItems = useMemo(
     () =>
-      socialLinks.map(({ href, children, startIcon }) => (
+      socialLinks.map(({ children, href, startIcon }) => (
         <NavLink
           key={href}
           className={cx(classes.link, classes.linkItem)}

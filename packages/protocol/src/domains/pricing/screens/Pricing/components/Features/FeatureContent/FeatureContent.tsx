@@ -46,7 +46,7 @@ export const FeatureItem = ({ index, rowIndex }: IFeatureItemProps) => {
   );
 };
 
-export const FeatureContent = ({ name, itemIndex }: IFeatureContentProps) => {
+export const FeatureContent = ({ itemIndex, name }: IFeatureContentProps) => {
   const { classes, cx } = useFeatureContentStyles();
 
   const renderRows = useCallback(

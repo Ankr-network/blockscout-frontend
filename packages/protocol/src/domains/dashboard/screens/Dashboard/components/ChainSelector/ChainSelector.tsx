@@ -23,13 +23,13 @@ interface IChainSelectorProps extends SelectMenuProps {
 }
 
 export const ChainSelector = ({
-  selectedChainId,
-  handleChange,
-  renderValue,
-  options,
-  menuProps,
-  classNameMenuItem,
   chains,
+  classNameMenuItem,
+  handleChange,
+  menuProps,
+  options,
+  renderValue,
+  selectedChainId,
 }: IChainSelectorProps) => {
   const { classes } = useChainSelectorStyles();
 

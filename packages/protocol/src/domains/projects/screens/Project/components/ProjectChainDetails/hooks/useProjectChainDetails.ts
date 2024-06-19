@@ -35,10 +35,10 @@ export const useProjectChainDetails = ({
   projectChain,
 }: UseProjectChainDetailsParams) => {
   const {
-    chainProtocolContext,
     chain: privateChain,
-    headerContent,
+    chainProtocolContext,
     group,
+    headerContent,
   } = usePrivateChainItem({
     additionalSelector: networksButton,
     chain: projectChain,

@@ -13,10 +13,10 @@ interface UseAvailableSubChainIdProps {
 }
 
 export const useAvailableSubChainId = ({
-  publicChain,
-  chainType,
   chainSubType,
+  chainType,
   group,
+  publicChain,
 }: UseAvailableSubChainIdProps) => {
   const subChainsList = useAppSelector(
     selectEnterpriseBlockchainsDependingOnSelectedApiKey,

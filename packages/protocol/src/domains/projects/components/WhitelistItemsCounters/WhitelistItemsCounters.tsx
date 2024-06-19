@@ -16,7 +16,7 @@ export const WhitelistItemsCounters = ({
   ipsCount,
   smartContractsCount,
 }: WhitelistItemsCountersProps) => {
-  const { cx, classes } = useWhitelistItemsCountersStyles();
+  const { classes, cx } = useWhitelistItemsCountersStyles();
 
   return (
     <div className={cx(classes.root, className)}>

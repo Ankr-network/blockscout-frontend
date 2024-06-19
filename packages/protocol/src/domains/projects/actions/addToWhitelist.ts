@@ -13,8 +13,8 @@ export interface AddToWhitelistParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyAddToWhitelistQuery,
   endpoints: { addToWhitelist },
+  useLazyAddToWhitelistQuery,
 } = projectApi.injectEndpoints({
   endpoints: build => ({
     addToWhitelist: build.query<null, TwoFAQueryFnParams<AddToWhitelistParams>>(
@@ -22,11 +22,11 @@ export const {
         queryFn: createQueryFnWithErrorHandler({
           queryFn: async ({
             params: {
-              userEndpointToken,
-              group,
               chainId,
               contractAddress,
+              group,
               type = UserEndpointTokenMode.ADDRESS,
+              userEndpointToken,
             },
             totp,
           }) => {

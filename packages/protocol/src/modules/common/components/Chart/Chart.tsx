@@ -41,15 +41,15 @@ const WIDTH = '99%';
 
 export const Chart = ({
   data,
+  hasHorizontalLines = true,
+  height = FIXED_HEIGHT,
+  isDisabledColor,
+  isFlexibleHeight,
+  loading,
   tooltipContent,
+  width = WIDTH,
   xAxisTickFormatter,
   yAxisTickFormatter = () => '',
-  loading,
-  height = FIXED_HEIGHT,
-  isFlexibleHeight,
-  hasHorizontalLines = true,
-  width = WIDTH,
-  isDisabledColor,
 }: IChartProps) => {
   const [ref, yAxisWidth] = useYAxisWidth();
 

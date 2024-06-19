@@ -27,9 +27,9 @@ export const AddAndEditWhitelistItemForm = ({
   const { change } = useForm();
 
   const {
+    indexOfEditingWhitelistItem = 0,
     isEditingWhitelistDialog,
     shouldSkipFormReset,
-    indexOfEditingWhitelistItem = 0,
     whitelistDialog,
     whitelistItems,
   } = useProjectFormValues();

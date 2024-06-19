@@ -18,16 +18,16 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
 
   const {
     allTimeTotalRequestsNumber,
+    chainCallsData,
     countries,
     ipRequests,
-    responses,
-    requestsChartData,
-    totalRequestsNumber,
     isLoadingTotalStats,
     monthlyStats,
-    chainCallsData,
     projectCallsData,
+    requestsChartData,
     responseError,
+    responses,
+    totalRequestsNumber,
   } = useAllChainsData();
 
   return (

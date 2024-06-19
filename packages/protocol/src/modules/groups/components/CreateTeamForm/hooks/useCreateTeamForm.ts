@@ -17,9 +17,9 @@ import { useCreateTeamFlow } from './useCreateTeamFlow';
 export interface CreateTeamFormProps extends UseTeamNameInputParams {}
 
 export const useCreateTeamForm = ({ teamName }: CreateTeamFormProps) => {
-  const { teamNameValue, handleChange } = useTeamNameInput({ teamName });
+  const { handleChange, teamNameValue } = useTeamNameInput({ teamName });
 
-  const { onDataTransferSwitchChange, isDataTransferEnabled } =
+  const { isDataTransferEnabled, onDataTransferSwitchChange } =
     useDataTransferSwitcher();
 
   const {
@@ -68,12 +68,12 @@ export const useCreateTeamForm = ({ teamName }: CreateTeamFormProps) => {
   );
 
   const {
-    confirmInputValue,
-    setConfirmInputValue,
-    onChangeConfirmInputValue,
-    handleConfirmDataTransfer,
     confirmInputError,
+    confirmInputValue,
+    handleConfirmDataTransfer,
+    onChangeConfirmInputValue,
     setConfirmInputError,
+    setConfirmInputValue,
   } = useConfirmDataTransferDialog({
     handleCreateTeamRequest,
     onCloseDataTransferDialog,

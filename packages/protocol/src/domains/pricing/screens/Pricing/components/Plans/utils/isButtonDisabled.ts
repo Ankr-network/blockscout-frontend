@@ -7,8 +7,8 @@ interface IsButtonDisabledArguments {
 }
 
 export const isButtonDisabled = ({
-  isFinanceRole,
   hasPremium,
+  isFinanceRole,
   planName,
 }: IsButtonDisabledArguments) => {
   const isFreePlanName = planName === EPlanList.Free;

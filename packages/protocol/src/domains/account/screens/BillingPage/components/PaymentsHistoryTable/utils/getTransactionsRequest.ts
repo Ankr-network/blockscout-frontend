@@ -17,10 +17,10 @@ export interface TransactionsRequestParams {
 
 export const getTransactionsRequest = ({
   deductionsCursor = 0,
+  myBundlesPaymentsCursor = 0,
   paymentType,
   timeframe,
   transactionsCursor = 0,
-  myBundlesPaymentsCursor = 0,
 }: TransactionsRequestParams): PaymentHistoryParams => ({
   ...getTimeframeBorders(timeframe),
   deductionsCursor,

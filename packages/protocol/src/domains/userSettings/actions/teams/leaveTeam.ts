@@ -27,7 +27,7 @@ export const {
       }),
       onQueryStarted: async (
         { group = '' },
-        { dispatch, queryFulfilled, getState },
+        { dispatch, getState, queryFulfilled },
       ) => {
         const userGroups = selectUserGroups(getState() as RootState);
         const currentGroup = userGroups.find(

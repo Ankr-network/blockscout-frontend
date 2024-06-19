@@ -10,7 +10,7 @@ const defaultData = {
 };
 
 export const usePublicChainsInfo = (): PublicChains => {
-  const { data: { chains, allChains } = defaultData, isLoading } =
+  const { data: { allChains, chains } = defaultData, isLoading } =
     useChainsFetchPublicChainsInfoQuery(undefined, {
       refetchOnMountOrArgChange: ACTION_TEN_MINUTES_CACHE,
     });

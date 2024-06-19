@@ -23,15 +23,15 @@ export interface IAddWhitelistMenuButtonProps {
 }
 
 export const AddWhitelistMenuButton = ({
+  className,
   isAddingDomainDisabled,
   isAddingIPDisabled,
   isAddingSmartContractDisabled,
   isSetupMode,
-  className,
   onWhitelistDialogOpen,
 }: IAddWhitelistMenuButtonProps) => {
   const { isLightTheme } = useThemes();
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
+  const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   const { change } = useForm();
 

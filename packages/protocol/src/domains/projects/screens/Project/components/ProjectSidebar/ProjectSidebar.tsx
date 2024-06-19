@@ -32,7 +32,7 @@ export const ProjectSidebar = ({
   ...headerProps
 }: ProjectSidebarProps) => {
   const {
-    classes: { paper, content },
+    classes: { content, paper },
   } = useProjectSidebarStyles();
 
   return (

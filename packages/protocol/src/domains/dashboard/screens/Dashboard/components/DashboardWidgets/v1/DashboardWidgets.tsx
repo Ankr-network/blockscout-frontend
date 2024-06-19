@@ -5,17 +5,17 @@ import { AllChainsLayout } from '../../AllChainsLayout/v1';
 import { useLastMonthStats } from '../../../v1/hooks/useLastMonthStats';
 
 interface IDashboardWidgetsProps {
-  timeframe: Timeframe;
-  statsChainId?: ChainID;
   detailsChainId?: ChainID;
   selectedChainId?: ChainID;
+  statsChainId?: ChainID;
+  timeframe: Timeframe;
 }
 
 export const DashboardWidgets = ({
-  timeframe,
-  statsChainId,
   detailsChainId,
   selectedChainId,
+  statsChainId,
+  timeframe,
 }: IDashboardWidgetsProps) => {
   useLastMonthStats(Boolean(selectedChainId));
 

@@ -30,12 +30,12 @@ interface TimeframeSectionProps {
 }
 
 export const EnterpriseUsageDataControls = ({
+  apiKeys,
+  handleSetOption,
+  options,
+  selectedOption,
   tabs,
   timeframe,
-  options,
-  handleSetOption,
-  selectedOption,
-  apiKeys,
 }: TimeframeSectionProps) => {
   const { classes } = useTimeframeSectionStyles();
 

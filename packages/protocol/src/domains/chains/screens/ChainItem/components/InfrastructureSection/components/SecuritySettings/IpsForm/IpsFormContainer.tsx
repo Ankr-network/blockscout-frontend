@@ -6,8 +6,8 @@ import { IpsForm } from './IpsForm';
 import { IpsFormContainerProps } from './IpsFormTypes';
 
 export const IpsFormContainer = ({
-  data,
   chainId,
+  data,
   jwtToken,
 }: IpsFormContainerProps) => {
   const [editChainRestrictedIps] =

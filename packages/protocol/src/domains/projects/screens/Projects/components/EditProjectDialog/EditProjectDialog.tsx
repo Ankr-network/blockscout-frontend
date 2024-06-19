@@ -16,8 +16,8 @@ interface EditProjectDialogProps {
 }
 
 export const EditProjectDialog = ({
-  isOpened,
   handleFormSubmit,
+  isOpened,
   onClose,
 }: EditProjectDialogProps) => {
   const { change } = useForm();

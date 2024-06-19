@@ -16,7 +16,7 @@ export const getInitialValues = (
 };
 
 export const formatDataForRequest = (data: UserEndpoint): IPrivateEndpoint => {
-  const { name: blockchain, scheme, requestUrl, id } = data;
+  const { id, name: blockchain, requestUrl, scheme } = data;
 
   return {
     id,

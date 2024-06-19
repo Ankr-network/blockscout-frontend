@@ -23,12 +23,12 @@ const chainTypesMap: Record<ChainType, keyof DecomposedChainIds> = {
 };
 
 export const getChainId = ({
-  publicChain,
-  chainType,
   chainSubType,
+  chainType,
   group,
-  withExceptions,
   keepEVMChainID,
+  publicChain,
+  withExceptions,
 }: ChainIdParams): ChainID => {
   const decomposed = decomposeChainIntoIds(
     publicChain,

@@ -6,7 +6,7 @@ import { LinkExpiredActionSlot } from './components/LinkExpiredActionSlot';
 import { useLinkExpiredCard } from './useLinkExpiredCard';
 
 export const LinkExpiredCard = () => {
-  const { email, actionProps } = useLinkExpiredCard();
+  const { actionProps, email } = useLinkExpiredCard();
 
   return (
     <InfoCard

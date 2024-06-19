@@ -12,7 +12,7 @@ export const MultiChainBenefits = () => {
 
   return (
     <Box className={classes.wrapper}>
-      {getContent().map(({ img, title, list, linkText, linkHref }) => {
+      {getContent().map(({ img, linkHref, linkText, list, title }) => {
         return (
           <Paper className={classes.apiWrapper} key={title}>
             <img className={classes.img} src={img} alt="" />

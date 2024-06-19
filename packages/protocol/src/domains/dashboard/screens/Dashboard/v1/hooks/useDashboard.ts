@@ -5,13 +5,13 @@ import { useChains } from './useChains';
 
 export const useDashboard = () => {
   const {
-    processedChains,
+    allChains,
     chains,
+    error,
+    isLoading,
+    processedChains,
     timeframe,
     timeframeTabs,
-    allChains,
-    isLoading,
-    error,
   } = useChains();
 
   useUserTotalStats();

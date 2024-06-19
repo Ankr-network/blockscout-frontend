@@ -21,15 +21,15 @@ interface LinkInputFieldProps {
 }
 
 export const LinkInputField = ({
-  name,
-  value,
-  onSubmit,
   chainId,
-  setIsReadOnly,
-  isReadOnly,
-  privateUrls,
   endpoints,
+  isReadOnly,
+  name,
+  onSubmit,
+  privateUrls,
   publicUrls,
+  setIsReadOnly,
+  value,
 }: LinkInputFieldProps) => {
   const form = useForm();
   const { classes } = useStyles();

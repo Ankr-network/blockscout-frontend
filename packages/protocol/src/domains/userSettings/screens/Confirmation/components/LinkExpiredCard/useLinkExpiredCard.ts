@@ -12,8 +12,8 @@ export const useLinkExpiredCard = () => {
     resendConfirmationCode,
     {
       data: resendEmailData,
-      isLoading: resendEmailLoading,
       error: resendEmailError,
+      isLoading: resendEmailLoading,
     },
   ] = useLazyUserSettingsResendConfirmationCodeQuery();
 

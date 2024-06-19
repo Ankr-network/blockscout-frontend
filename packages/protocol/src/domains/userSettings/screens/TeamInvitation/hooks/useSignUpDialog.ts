@@ -10,8 +10,8 @@ export interface IUseTeamInvitationSignInDialogProps {
 }
 
 export const useTeamInvitationSignInDialog = ({
-  onOpen,
   onClose,
+  onOpen,
 }: IUseTeamInvitationSignInDialogProps) => {
   const {
     isOpened: isSignInDialogOpened,

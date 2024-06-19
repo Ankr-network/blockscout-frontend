@@ -17,8 +17,8 @@ export type MainEndpointsHookParams = Omit<
 export const useMainEndpoints = ({
   feature = Feature.RPC,
   group,
-  hasPrivateAccess,
   hasPremium,
+  hasPrivateAccess,
   publicChain,
 }: MainEndpointsHookParams) => {
   const { urls } = group;

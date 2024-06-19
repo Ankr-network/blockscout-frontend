@@ -60,11 +60,11 @@ const defaultMyBundlesPaymentsRequest = (async () =>
 export const fetchPaymentHistory = async ({
   deductionsCursor,
   from,
+  group,
+  myBundlesPaymentsCursor,
   to,
   transactionsCursor,
-  myBundlesPaymentsCursor,
   types,
-  group,
 }: FetchPaymentHistoryParams): Promise<FetchedPaymentHistory> => {
   const service = MultiService.getService();
 

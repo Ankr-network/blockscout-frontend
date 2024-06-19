@@ -19,10 +19,10 @@ interface IDeleteProjectDialogProps {
 }
 
 export const DeleteProjectDialog = ({
-  tokenIndex,
+  onClose,
   onSuccess,
   open,
-  onClose,
+  tokenIndex,
 }: IDeleteProjectDialogProps) => {
   const { classes } = useDeleteProjectDialogStyles();
 
@@ -44,11 +44,11 @@ export const DeleteProjectDialog = ({
   );
 
   const {
-    isLoading,
-    title,
     deleteProjectStep,
-    setDeleteProjectStep,
     handleDelete,
+    isLoading,
+    setDeleteProjectStep,
+    title,
   } = useDeleteProject(tokenIndex, handleSuccess);
 
   const isFailedStep = useMemo(

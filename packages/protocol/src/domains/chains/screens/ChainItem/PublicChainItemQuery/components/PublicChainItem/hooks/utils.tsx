@@ -27,8 +27,8 @@ interface GetPublicChainTypeTabsParams {
 
 export const getPublicChainTypeTabs = ({
   endpoints,
-  isBlockedTestnet,
   isBlockedMainnet,
+  isBlockedTestnet,
   onBlockedTabClick,
 }: GetPublicChainTypeTabsParams): Tab<ChainType>[] => {
   return getChainTypeTabs()

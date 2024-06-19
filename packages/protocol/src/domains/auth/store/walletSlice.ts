@@ -37,4 +37,4 @@ export const selectWalletData: (state: RootState) => IWalletSlice = state => {
   return { address: '' };
 };
 
-export const { setWalletData, resetWalletData } = walletSlice.actions;
+export const { resetWalletData, setWalletData } = walletSlice.actions;

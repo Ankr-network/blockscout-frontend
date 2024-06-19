@@ -22,12 +22,12 @@ export interface ChainTypeParams {
 export const usePrivateChainType = ({
   chain,
   endpoints,
-  netId,
-  selectedType,
-  isBlockedTestnet,
   isBlockedMainnet,
+  isBlockedTestnet,
   isHiddenMainnet,
+  netId,
   onBlockedTabClick,
+  selectedType,
 }: ChainTypeParams): ChainTypeResult => {
   const tabs = useMemo(
     () =>

@@ -5,8 +5,8 @@ export interface CheckUpgradeBannerParams {
 }
 
 export const checkUpgradeBanner = ({
-  hasPrivateAccess,
   hasPremium,
+  hasPrivateAccess,
   isConnecting,
 }: CheckUpgradeBannerParams) =>
   !((hasPrivateAccess && hasPremium) || isConnecting);

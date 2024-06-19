@@ -13,11 +13,11 @@ interface ConfirmInputProps {
 }
 
 export const ConfirmInput = ({
+  error,
   label,
+  onChangeValue,
   placeholder,
   value,
-  error,
-  onChangeValue,
 }: ConfirmInputProps) => {
   const { classes } = useConfirmInputStyles();
 

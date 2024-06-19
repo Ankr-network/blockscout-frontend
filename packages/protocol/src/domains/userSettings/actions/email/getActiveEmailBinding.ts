@@ -9,8 +9,8 @@ import { web3Api } from 'store/queries';
 
 export const {
   endpoints: { userSettingsGetActiveEmailBinding },
-  useUserSettingsGetActiveEmailBindingQuery,
   useLazyUserSettingsGetActiveEmailBindingQuery,
+  useUserSettingsGetActiveEmailBindingQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsGetActiveEmailBinding: build.query<

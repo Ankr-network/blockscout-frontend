@@ -32,10 +32,10 @@ export const {
       {
         queryFn: createNotifyingQueryFn(
           async ({
+            gateway = getAccountingGateway(),
+            group,
             interval,
             userEndpointToken,
-            group,
-            gateway = getAccountingGateway(),
           }) => {
             const data = await (userEndpointToken &&
             userEndpointToken !== ALL_PROJECTS_VALUE

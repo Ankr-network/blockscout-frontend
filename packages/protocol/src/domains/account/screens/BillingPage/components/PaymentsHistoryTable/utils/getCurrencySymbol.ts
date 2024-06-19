@@ -16,12 +16,12 @@ interface IGetCurrencySymbolParams {
 }
 
 export const getCurrencySymbol = ({
-  network,
   creditAnkrAmount,
   creditUsdAmount,
   currencyAddress,
-  type,
+  network,
   paymentOptions,
+  type,
 }: IGetCurrencySymbolParams) => {
   if (isCreditAmount(type, creditAnkrAmount, creditUsdAmount)) {
     return '';

@@ -27,11 +27,11 @@ interface GetEmailBannerPropsArguments {
 }
 
 const getEmailBannerProps = ({
-  resetInviteEmail,
-  pendingEmail,
+  confirmedEmail,
   inviteEmail,
   isInviteEmailValid,
-  confirmedEmail,
+  pendingEmail,
+  resetInviteEmail,
 }: GetEmailBannerPropsArguments) => {
   if (pendingEmail) {
     return {
@@ -62,11 +62,11 @@ const getEmailBannerProps = ({
 };
 
 export const useEmailBannerProps = ({
-  resetInviteEmail,
-  pendingEmail,
+  confirmedEmail,
   inviteEmail,
   isInviteEmailValid,
-  confirmedEmail,
+  pendingEmail,
+  resetInviteEmail,
 }: EmailData) => {
   return useMemo(
     () =>

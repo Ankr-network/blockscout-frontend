@@ -11,11 +11,11 @@ interface IProgressBarProps {
 }
 
 export const ProgressBar = ({
-  progress,
-  max = 100,
-  progressLabel,
-  maxLabel,
   className,
+  max = 100,
+  maxLabel,
+  progress,
+  progressLabel,
 }: IProgressBarProps) => {
   const { classes } = useProgressBarStyles();
 

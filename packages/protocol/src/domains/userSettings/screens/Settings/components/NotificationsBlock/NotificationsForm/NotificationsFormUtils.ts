@@ -19,12 +19,12 @@ export const getInitialValues = (settings: INotificationsSettings) => {
 
   /* eslint-disable @typescript-eslint/naming-convention */
   const {
-    deposit,
-    marketing,
-    low_balance,
+    credit_alarm,
     credit_info,
     credit_warn,
-    credit_alarm,
+    deposit,
+    low_balance,
+    marketing,
   } = settings;
   /* eslint-disable @typescript-eslint/naming-convention */
 
@@ -45,11 +45,11 @@ export const prepareValuesForRequest = (
 
   const {
     balance,
-    marketing,
     lowBalance,
+    lowCreditsAlarm,
     lowCreditsInfo,
     lowCreditsWarn,
-    lowCreditsAlarm,
+    marketing,
   } = values;
 
   // marketing

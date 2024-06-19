@@ -15,7 +15,7 @@ interface WhitelistProps {
 }
 
 export const Whitelist = ({ className }: WhitelistProps) => {
-  const { domainsCount, ipsCount, smartContractsCount, isLoading } =
+  const { domainsCount, ipsCount, isLoading, smartContractsCount } =
     useWhitelistCounts();
 
   const { classes } = useWhitelistStyles();

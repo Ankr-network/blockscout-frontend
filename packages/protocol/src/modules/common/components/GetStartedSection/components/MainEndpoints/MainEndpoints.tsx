@@ -10,15 +10,15 @@ import { useMainEndpointsStyles } from './MainEndpointsStyles';
 import { renderFlareTitle } from './utils/renderFlareTitle';
 
 export const MainEndpoints = ({
+  chainSubType,
+  feature,
+  group,
   hasConnectWalletMessage,
   hasPremium,
-  onCopyEndpoint,
-  feature,
-  chainSubType,
-  group,
   hasPrivateAccess,
-  publicChain,
   isPremiumLabelHidden,
+  onCopyEndpoint,
+  publicChain,
 }: MainEndpointsProps) => {
   const { flattenURLs, hasFeature, hasPlaceholder, title } = useMainEndpoints({
     feature,

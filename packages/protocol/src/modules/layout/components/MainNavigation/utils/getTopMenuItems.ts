@@ -43,8 +43,8 @@ export const getTopMenuItems = ({
   isLoggedIn,
   isMobileSideBar,
   onDashboardClick,
-  onOpenUpgradePlanDialog,
   onOpenAccessDeniedDialog,
+  onOpenUpgradePlanDialog,
 }: MenuItemsParams): NavigationItem[] => {
   const items: NavigationItem[] = [
     {

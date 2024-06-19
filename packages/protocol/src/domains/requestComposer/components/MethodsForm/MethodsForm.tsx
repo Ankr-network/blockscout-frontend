@@ -13,11 +13,11 @@ interface MethodsFormProps {
 }
 
 export const MethodsForm = ({
-  methodNameSelectComponent,
   argumentsBlock,
-  isButtonDisabled,
-  sampleCodeComponent,
   formSpyComponent,
+  isButtonDisabled,
+  methodNameSelectComponent,
+  sampleCodeComponent,
 }: MethodsFormProps) => {
   const { classes } = useEVMMethodsFormStyles();
 

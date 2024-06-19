@@ -21,12 +21,12 @@ interface EnterpriseUseSectionsParams extends UseSectionsParams {
 }
 
 export const useSectionsTabs = ({
-  chainType,
-  chainSubType,
+  apiKeys,
   chain,
+  chainSubType,
+  chainType,
   group,
   publicUrl,
-  apiKeys,
 }: EnterpriseUseSectionsParams): SectionsBase => {
   const hasWssAccess = useMemo(() => hasWsFeature(chain), [chain]);
 

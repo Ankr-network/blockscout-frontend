@@ -24,13 +24,13 @@ export interface UseSectionsParams {
 }
 
 export const useAvailableSections = ({
-  chainType,
-  chainSubType,
   chain,
+  chainSubType,
+  chainType,
   group,
-  publicUrl,
   hasPrivateAccess,
   hasWssAccess,
+  publicUrl,
 }: UseSectionsParams) => {
   const { id: chainId } = chain;
   const { timeframe, timeframeTabs } = useTimeframe({

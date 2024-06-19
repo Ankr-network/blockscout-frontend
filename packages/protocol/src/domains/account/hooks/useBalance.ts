@@ -29,8 +29,8 @@ const defaultOptions: SubscriptionOptions = {
 };
 
 export const useBalance = ({
-  skipFetching = false,
   options = defaultOptions,
+  skipFetching = false,
 }: BalanceParams | void = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { isLoggedIn } = useAuth();

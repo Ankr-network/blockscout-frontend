@@ -12,8 +12,8 @@ export interface UseAddChainHandlerParams {
 }
 
 export const useAddChainsToProjectHandler = ({
-  onAddChainsSuccess,
   isSelectedAll,
+  onAddChainsSuccess,
   selectedProjectChainsPaths,
 }: UseAddChainHandlerParams) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();

@@ -23,9 +23,9 @@ const authoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 
 export const EditSubscriptionsDialog = ({
   isOpened,
+  onCancelSubscription,
   onClose,
   onOpenSuccessDialog,
-  onCancelSubscription,
   recurringPayments,
 }: IEditSubscriptionsDialogProps) => {
   const { classes } = useEditSubscriptionsDialogStyles();

@@ -25,19 +25,19 @@ export interface ICopyToClipIconProps {
 
 export const CopyToClipIcon = ({
   className,
+  contentClassName,
   copyText,
   hideIcon,
   isDisabled,
   message,
+  messageClassName,
   onClick,
   onCopy = () => {},
   size = 'm',
   text,
-  textLabel,
   textClassName,
-  contentClassName,
-  messageClassName,
   textColor = 'textSecondary',
+  textLabel,
 }: ICopyToClipIconProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
   const { classes, cx } = useStyles({ size, isDisabled });

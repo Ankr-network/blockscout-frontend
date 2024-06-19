@@ -6,7 +6,7 @@ import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenMa
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 export const useLastMonthStats = (isChainSelected: boolean) => {
-  const { gateway, isEnterpriseStatusLoading, isEnterpriseClient } =
+  const { gateway, isEnterpriseClient, isEnterpriseStatusLoading } =
     useMultiServiceGateway();
   const [fetch] = useLazyFetchLastMonthStatsQuery();
   const { selectedGroupAddress: group } = useSelectedUserGroup();

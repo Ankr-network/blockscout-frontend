@@ -3,7 +3,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import {
   IPaymentFormProps,
   PaymentForm,
-} from 'modules/billing/components/PaymentForm';
+} from 'modules/payments/components/PaymentForm';
 
 import { ChargingModelWidget } from '../ChargingModelWidget';
 import { RecurringPaymentsWidget } from '../RecurringPaymentsWidget';

@@ -12,9 +12,9 @@ export interface TimeframeSwitcherProps {
 type Props = TimeframeSwitcherProps;
 
 export const TimeframeSwitcher = ({
+  className,
   onSwitch,
   timeframe,
-  className,
 }: Props) => (
   <Switcher
     onClick={onSwitch}

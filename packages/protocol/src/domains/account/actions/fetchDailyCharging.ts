@@ -5,8 +5,8 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 export const {
-  useLazyAccountFetchDailyChargingQuery,
   endpoints: { accountFetchDailyCharging },
+  useLazyAccountFetchDailyChargingQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     accountFetchDailyCharging: build.query<

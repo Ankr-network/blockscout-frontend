@@ -31,13 +31,13 @@ export interface ProjectSelectProps extends SelectMenuProps {
 }
 
 export const ProjectSelect = ({
-  options,
-  handleSetOption,
-  selectedOption,
-  menuProps,
   classNameMenuItem,
-  selectProps,
+  handleSetOption,
+  menuProps,
   onSelectToken,
+  options,
+  selectProps,
+  selectedOption,
 }: ProjectSelectProps) => {
   const { classes } = useProjectSelectStyles();
 
@@ -84,7 +84,7 @@ export const ProjectSelect = ({
         size="medium"
         {...selectProps}
       >
-        {options.map(({ value, title, isDisabled }) => (
+        {options.map(({ isDisabled, title, value }) => (
           <MenuItem
             key={value}
             className={classNameMenuItem}

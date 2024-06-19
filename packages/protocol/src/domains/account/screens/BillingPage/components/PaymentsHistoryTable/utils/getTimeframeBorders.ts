@@ -10,7 +10,7 @@ import {
   YEAR_OFFSET,
 } from '../const';
 
-const { WEEK, MONTH, YEAR } = Timeframe;
+const { MONTH, WEEK, YEAR } = Timeframe;
 
 const offsetsMap: Record<Timeframe, number> = {
   [WEEK]: WEEK_OFFSET,

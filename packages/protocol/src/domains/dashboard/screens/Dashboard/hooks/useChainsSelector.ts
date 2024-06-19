@@ -19,12 +19,12 @@ interface IChainSelectorProps {
 }
 
 export const useChainsSelector = ({
-  chains,
   allChains,
   chainIdsWithStats,
+  chains,
   nestedSelectedChainId,
 }: IChainSelectorProps) => {
-  const { options, renderValue, defaultValue } = useChainSelector(
+  const { defaultValue, options, renderValue } = useChainSelector(
     chains,
     chainIdsWithStats,
   );

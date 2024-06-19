@@ -6,7 +6,7 @@ import { ITabProps } from 'modules/common/hooks/useTabs';
 
 import { useHarmonyApiVersionTabsStyles } from './useHarmonyApiVersionTabsStyles';
 
-export const HarmonyApiVersionTabs = ({ tabs, selectedTab }: ITabProps) => {
+export const HarmonyApiVersionTabs = ({ selectedTab, tabs }: ITabProps) => {
   const { classes } = useHarmonyApiVersionTabsStyles();
 
   return (

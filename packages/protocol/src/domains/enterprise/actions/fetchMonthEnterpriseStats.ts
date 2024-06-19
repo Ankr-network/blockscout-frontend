@@ -11,8 +11,8 @@ import { web3Api } from 'store/queries';
 import { getEnterpriseStats } from './utils';
 
 export const {
-  useLazyChainsFetchMonthEnterpriseStatsQuery,
   endpoints: { chainsFetchMonthEnterpriseStats },
+  useLazyChainsFetchMonthEnterpriseStatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchMonthEnterpriseStats: build.query<

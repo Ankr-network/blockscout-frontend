@@ -17,9 +17,9 @@ interface IFillStep {
 }
 
 export const FillStep = ({
+  formDisabled,
   handleSubmit,
   isSubmitButtonDisabled,
-  formDisabled,
 }: IFillStep) => {
   const { classes } = useStyles();
   const { isWalletConnected } = useAuth();

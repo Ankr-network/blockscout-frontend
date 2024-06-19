@@ -40,7 +40,7 @@ export const StakeBarChart = ({
     result.data && result.data.length,
   ]);
 
-  const { data, selectedKey, handleClickLegend } = useStakeBarChart(
+  const { data, handleClickLegend, selectedKey } = useStakeBarChart(
     result,
     timeframe,
   );
@@ -52,7 +52,7 @@ export const StakeBarChart = ({
       return (
         <div className={classes.legendRoot}>
           {payload.reverse().map((item: Payload) => {
-            const { value, color } = item;
+            const { color, value } = item;
 
             return (
               <Typography

@@ -47,7 +47,7 @@ export const selectHarmonyMethod = (state: RootState) =>
 
 export const {
   resetEVMMethod,
-  setEVMMethod,
   resetHarmonyMethod,
+  setEVMMethod,
   setHarmonyMethod,
 } = requestComposerSlice.actions;

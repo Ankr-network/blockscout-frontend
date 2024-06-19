@@ -13,9 +13,9 @@ interface ProjectDescriptionProps {
 }
 
 export const ProjectDescription = ({
-  projectDescriptionText,
   hasGroupAccess,
   onOpenProjectInfoDialog,
+  projectDescriptionText,
 }: ProjectDescriptionProps) => {
   const { classes } = useProjectHeaderStyles();
 

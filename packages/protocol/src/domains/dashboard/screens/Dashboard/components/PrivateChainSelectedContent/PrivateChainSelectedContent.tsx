@@ -25,14 +25,14 @@ export interface IPrivateChainSelectedContentProps extends SelectMenuProps {
 export const PrivateChainSelectedContent = ({
   chainType,
   chainTypes,
-  selectType,
-  groups,
+  classNameMenuItem,
   groupID,
-  selectGroup,
+  groups,
+  ignoreProtocol,
   isTestnetOnlyChain,
   menuProps,
-  classNameMenuItem,
-  ignoreProtocol,
+  selectGroup,
+  selectType,
 }: IPrivateChainSelectedContentProps) => {
   const { classes } = useChainSelectorContentStyles();
 

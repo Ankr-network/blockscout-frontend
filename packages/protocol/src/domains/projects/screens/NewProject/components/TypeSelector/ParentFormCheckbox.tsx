@@ -13,10 +13,10 @@ interface IParentFormCheckboxProps {
 const handleClickBubbling = (event: MouseEvent) => event.stopPropagation();
 
 export const ParentFormCheckbox = ({
-  parentLabel,
-  isParentIndeterminate,
   isParentChecked,
+  isParentIndeterminate,
   onSelectParent,
+  parentLabel,
 }: IParentFormCheckboxProps) => {
   const { classes, cx } = useTypeSelectorStyles();
 

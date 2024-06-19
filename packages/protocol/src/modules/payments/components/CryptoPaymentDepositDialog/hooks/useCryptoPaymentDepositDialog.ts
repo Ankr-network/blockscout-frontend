@@ -1,0 +1,161 @@
+import { EBlockchain } from 'multirpc-sdk';
+import { useMemo } from 'react';
+
+import {
+  ECryptoDepositStep,
+  ECryptoDepositStepStatus,
+  ECurrency,
+  IFeeDetails,
+} from 'modules/payments/types';
+import { THandleNetworkSwitch } from 'modules/common/hooks/useNetworkGuard';
+import { defaultFeeDetails } from 'modules/payments/const';
+
+import { ICryptoPaymentDepositDialogProps } from '../types';
+import { getCompletedSteps } from '../utils/getCompletedSteps';
+import { getErroredStep } from '../utils/getErroredStep';
+import { getStatus } from '../utils/getStatus';
+import { isPending } from '../utils/isPending';
+import { useConfirmButtonClickHandler } from './useConfirmButtonClickHandler';
+
+export interface IUseCryptoPaymentDepositDialogProps {
+  allowance: number;
+  allowanceError?: string;
+  allowanceFeeDetails?: IFeeDetails;
+  allowanceStepStatus: ECryptoDepositStepStatus;
+  allowanceTxHash?: string;
+  amount: number;
+  amountUsd: number;
+  confirmationBlocks: number;
+  currency: ECurrency;
+  depositError?: string;
+  depositFeeDetails?: IFeeDetails;
+  depositStepStatus?: ECryptoDepositStepStatus;
+  depositTxHash?: string;
+  handleDeposit: () => Promise<void>;
+  handleDiscardTx: () => void;
+  handleFetchAllowance: () => Promise<void>;
+  handleNetworkSwitch?: THandleNetworkSwitch;
+  handleResetAllowanceSending: () => void;
+  handleSendAllowance: () => Promise<void>;
+  isAllowanceLoading: boolean;
+  isAllowanceSent: boolean;
+  isCryptoPaymentDepositDialogOpened: boolean;
+  isNetworkSwitching?: boolean;
+  isNetworkWrong?: boolean;
+  isOngoingTx: boolean;
+  network: EBlockchain;
+  onClose: () => void;
+  step: ECryptoDepositStep;
+}
+
+export const useCryptoPaymentDepositDialog = ({
+  allowance,
+  allowanceError,
+  allowanceFeeDetails = defaultFeeDetails,
+  allowanceStepStatus,
+  allowanceTxHash,
+  amount,
+  amountUsd,
+  confirmationBlocks,
+  currency,
+  depositError,
+  depositFeeDetails = defaultFeeDetails,
+  depositStepStatus,
+  depositTxHash,
+  handleDeposit,
+  handleDiscardTx,
+  handleFetchAllowance,
+  handleNetworkSwitch,
+  handleSendAllowance,
+  isAllowanceLoading,
+  isAllowanceSent,
+  isCryptoPaymentDepositDialogOpened,
+  isNetworkSwitching,
+  isNetworkWrong,
+  isOngoingTx,
+  network,
+  onClose,
+  step,
+}: IUseCryptoPaymentDepositDialogProps): ICryptoPaymentDepositDialogProps => {
+  const { onConfirmButtonClick } = useConfirmButtonClickHandler({
+    allowanceStepStatus,
+    handleDeposit,
+    handleFetchAllowance,
+    handleNetworkSwitch,
+    handleSendAllowance,
+    isNetworkWrong,
+    network,
+  });
+
+  return useMemo(
+    (): ICryptoPaymentDepositDialogProps => ({
+      activeStep: step,
+      allowance,
+      allowanceError,
+      allowanceFeeDetails,
+      allowanceStepStatus,
+      allowanceTxHash,
+      amount,
+      amountUsd,
+      confirmationBlocks,
+      completedSteps: getCompletedSteps({
+        allowanceStepStatus,
+        depositStepStatus,
+        step,
+      }),
+      currency,
+      depositError,
+      depositFeeDetails,
+      depositStepStatus,
+      depositTxHash,
+      erroredStep: getErroredStep({ allowanceStepStatus }),
+      hasMinimizeIcon: isOngoingTx && !depositError,
+      isAllowanceLoading,
+      isAllowanceSent,
+      isPending: isPending({
+        allowanceStepStatus,
+        depositStepStatus,
+        isAllowanceLoading,
+        isNetworkSwitching,
+        step,
+      }),
+      isNetworkWrong,
+      network,
+      onCheckAllowanceButtonClick: handleFetchAllowance,
+      onClose,
+      onConfirmButtonClick,
+      onDiscardButtonClick: handleDiscardTx,
+      open: isCryptoPaymentDepositDialogOpened,
+      shouldRevokeAllowance:
+        currency === ECurrency.USDT && allowance !== 0 && allowance < amount,
+      status: getStatus({ allowanceStepStatus, depositStepStatus, step }),
+    }),
+    [
+      allowance,
+      allowanceError,
+      allowanceFeeDetails,
+      allowanceStepStatus,
+      allowanceTxHash,
+      amount,
+      amountUsd,
+      confirmationBlocks,
+      currency,
+      depositError,
+      depositFeeDetails,
+      depositStepStatus,
+      depositTxHash,
+      handleDiscardTx,
+      handleFetchAllowance,
+      isAllowanceLoading,
+      isAllowanceSent,
+      isCryptoPaymentDepositDialogOpened,
+      isNetworkSwitching,
+      isNetworkWrong,
+      isOngoingTx,
+      network,
+      onClose,
+      onConfirmButtonClick,
+      step,
+    ],
+  );
+};

@@ -22,7 +22,7 @@ export const useUpdateJwtToken = () => {
     useQueryEndpoint(updateJwtToken);
 
   const handleUpdateJwtToken = useCallback(
-    ({ tokenIndex, name, description }: UpdateJwtTokenParams) =>
+    ({ description, name, tokenIndex }: UpdateJwtTokenParams) =>
       updateJwtTokenQuery({
         tokenIndex,
         name,

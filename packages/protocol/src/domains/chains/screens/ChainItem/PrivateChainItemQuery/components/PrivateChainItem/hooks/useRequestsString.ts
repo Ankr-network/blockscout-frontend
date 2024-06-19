@@ -16,10 +16,10 @@ interface UseRequestsStringParams {
 
 export const useRequestsString = ({
   chain,
-  chainType,
-  chainSubType,
-  group,
   chainProtocolContext: { chainProtocol, isChainProtocolSwitchEnabled },
+  chainSubType,
+  chainType,
+  group,
   isChainRequestStatsVisible,
 }: UseRequestsStringParams) => {
   const subChainId = getStatsChainId({

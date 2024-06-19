@@ -9,8 +9,8 @@ interface IRates {
 }
 
 export const {
-  useCommonRatesQuery,
   endpoints: { commonRates },
+  useCommonRatesQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     commonRates: build.query<IRates, void>({

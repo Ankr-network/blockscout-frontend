@@ -1,11 +1,11 @@
 import { Web3Address } from 'multirpc-sdk';
 
+import { ECurrency } from 'modules/payments/types';
 import { MultiService } from 'modules/api/MultiService';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { RootState } from 'store';
 import { selectAuthData, setAuthData } from 'domains/auth/store/authSlice';
 import { web3Api } from 'store/queries';
-import { ECurrency } from 'modules/billing/types';
 
 import { accountFetchPublicKey } from '../fetchPublicKey';
 
@@ -15,15 +15,15 @@ export interface FetchLinkForCardPaymentParams {
 }
 
 export const {
-  useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery,
   endpoints: { usdTopUpFetchLinkForRecurrentCardPayment },
+  useLazyUsdTopUpFetchLinkForRecurrentCardPaymentQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     usdTopUpFetchLinkForRecurrentCardPayment: build.query<
       string,
       FetchLinkForCardPaymentParams
     >({
-      queryFn: async ({ id, groupAddress }, { dispatch, getState }) => {
+      queryFn: async ({ groupAddress, id }, { dispatch, getState }) => {
         const service = MultiService.getService();
         const { hasWeb3Connection } = selectAuthData(getState() as RootState);
 

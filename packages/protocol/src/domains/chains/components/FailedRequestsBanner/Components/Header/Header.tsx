@@ -16,11 +16,11 @@ interface IFailedRequestsHeaderProps {
 }
 
 export const Header = ({
-  switchValue,
-  total,
+  hasOffset,
   rate,
   rejectedRequestsCount,
-  hasOffset,
+  switchValue,
+  total,
 }: IFailedRequestsHeaderProps) => {
   const { classes, cx } = useHeaderStyles();
 

@@ -3,19 +3,19 @@ import { useContent } from './hooks/useContent';
 import { IUseAddEmailBannerCardProps } from './types';
 
 export const useAddEmailBanner = ({
+  fillStepContent,
+  formDisabled,
   initialContentState = AddEmailFormContentState.ADD_EMAIL,
   initialSubmittedData,
   resetInviteEmail,
-  formDisabled,
-  fillStepContent,
 }: IUseAddEmailBannerCardProps) => {
   const {
-    title,
     contentState,
+    onAddEmailSubmitSuccess,
+    onFormSubmit,
     setContentState,
     submittedEmail,
-    onFormSubmit,
-    onAddEmailSubmitSuccess,
+    title,
   } = useContent({
     initialContentState,
     initialSubmittedData,

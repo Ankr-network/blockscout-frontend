@@ -21,12 +21,12 @@ interface UseHandleClickArguments {
 }
 
 export const useHandleClick = ({
-  isLoggedIn,
-  isFinanceRole,
   hasPremium,
-  onOpenUpgradePlanDialog,
+  isFinanceRole,
+  isLoggedIn,
   onOpenSignupDialog,
   onOpenTopupDialog,
+  onOpenUpgradePlanDialog,
 }: UseHandleClickArguments) => {
   const history = useHistory();
   const dispatch = useDispatch();

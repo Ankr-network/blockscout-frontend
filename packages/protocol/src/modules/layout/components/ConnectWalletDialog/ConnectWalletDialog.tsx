@@ -16,10 +16,10 @@ interface ConnectWalletDialogProps {
 }
 
 export const ConnectWalletDialog = ({
-  isOpened,
   handleCloseDialog,
+  isOpened,
 }: ConnectWalletDialogProps) => {
-  const { isOpen, onClose, handleOpen } = useSignUpDialog();
+  const { handleOpen, isOpen, onClose } = useSignUpDialog();
 
   const { classes } = useConnectWaletDialogStyles();
 

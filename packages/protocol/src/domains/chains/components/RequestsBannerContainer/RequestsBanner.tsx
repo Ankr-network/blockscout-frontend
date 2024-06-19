@@ -17,11 +17,11 @@ interface IRequestsBannerProps {
 }
 
 export const RequestsBanner = ({
-  timeframe,
   data,
+  timeframe,
   total,
 }: IRequestsBannerProps) => {
-  const { cx, classes } = useRequestsBannerStyles();
+  const { classes, cx } = useRequestsBannerStyles();
 
   const upgradePlanPermission = BlockWithPermission.UpgradePlan;
   const hasUpgradePlanAccess = useGuardUserGroup({

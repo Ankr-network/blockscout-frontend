@@ -21,8 +21,8 @@ const getData = (data: InitTwoFAResponse): UserSettingsSetupTwoFAResult => {
 
 export const {
   endpoints: { userSettingsSetupTwoFA },
-  useUserSettingsSetupTwoFAQuery,
   useLazyUserSettingsSetupTwoFAQuery,
+  useUserSettingsSetupTwoFAQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsSetupTwoFA: build.query<UserSettingsSetupTwoFAResult, void>({

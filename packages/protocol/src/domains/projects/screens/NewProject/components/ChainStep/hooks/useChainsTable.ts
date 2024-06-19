@@ -78,7 +78,7 @@ export const useChainsTable = () => {
       .concat(allAvailableOpnodeTestnetIds);
   }, [projectChains]);
 
-  const { initiallySelectedChainIds, allSelectedChainIds, onChange } =
+  const { allSelectedChainIds, initiallySelectedChainIds, onChange } =
     useProjectFormValues(projectChains);
 
   const isAllChainsSelected = isEqual(
@@ -95,10 +95,10 @@ export const useChainsTable = () => {
   }, [isAllChainsSelected, onChange]);
 
   const {
+    isCurrentChainSelected,
+    onSaveSelectedChain,
     selectedProjectChainsIds,
     setSelectedProjectChainsIds,
-    onSaveSelectedChain,
-    isCurrentChainSelected,
   } = useSelectedProjectChain(initiallySelectedChainIds, currentModalChain);
 
   const handleOpenModal = useCallback(

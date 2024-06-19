@@ -19,15 +19,15 @@ export type BalanceMenuProps = Pick<MenuProps, 'anchorEl' | 'open'> &
 const buttonKey = 'header.balance-menu.billing-page-button';
 
 export const BalanceMenu = ({
-  currentChargingModel,
-  balance,
-  creditBalance,
-  usdBalance,
-  balanceInRequests,
-  isApiCreditsBalance,
   anchorEl,
-  open,
+  balance,
+  balanceInRequests,
+  creditBalance,
+  currentChargingModel,
+  isApiCreditsBalance,
   onClose,
+  open,
+  usdBalance,
 }: BalanceMenuProps) => {
   const { classes } = useBalanceMenuStyles();
 

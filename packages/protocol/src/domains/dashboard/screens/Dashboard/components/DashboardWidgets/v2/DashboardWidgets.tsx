@@ -17,10 +17,10 @@ interface IDashboardWidgetsProps {
 }
 
 export const DashboardWidgets = ({
-  timeframe,
-  statsChainId,
   detailsChainId,
   selectedProjectId,
+  statsChainId,
+  timeframe,
 }: IDashboardWidgetsProps) => {
   const isChainSelected = statsChainId && detailsChainId;
 

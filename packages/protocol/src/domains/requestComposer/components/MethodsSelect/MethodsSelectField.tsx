@@ -12,7 +12,7 @@ type MethodsSelectFieldProps<T> = Omit<
   FieldRenderProps<T>;
 
 export function MethodsSelectField<T>({
-  input: { name, value, onChange },
+  input: { name, onChange, value },
   meta,
   ...otherProps
 }: MethodsSelectFieldProps<T>) {

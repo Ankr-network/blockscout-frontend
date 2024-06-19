@@ -15,11 +15,11 @@ interface IConfirmStepProps {
 }
 
 export const ConfirmStep = ({
-  selectedUserEmail,
   inputError,
   inputValue,
-  userName,
   onChangeInputValue,
+  selectedUserEmail,
+  userName,
 }: IConfirmStepProps) => {
   const { classes } = useConfirmStepStyles();
 

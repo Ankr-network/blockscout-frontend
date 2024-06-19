@@ -1,13 +1,17 @@
+import BigNumber from 'bignumber.js';
 import { Contract, EventData } from 'web3-eth-contract';
-import { Web3KeyReadProvider } from '@ankr.com/provider';
 import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
+import { Web3KeyReadProvider } from '@ankr.com/provider';
 
-import { PrefixedHex, Web3Address } from '../common';
-import { IAnkrPAYGContractManagerConfig } from './types';
 import ABI_ANKR_TOKEN from './abi/AnkrToken.json';
 import ABI_PAY_AS_YOU_GO from './abi/PayAsYouGo.json';
+import { GAS_LIMIT } from './const';
+import { IAnkrPAYGContractManagerConfig } from './types';
+import { IAnkrToken } from './abi/IAnkrToken';
 import { IPayAsYouGoEvents } from './abi/IPayAsYouGo';
+import { PrefixedHex, Web3Address } from '../common';
 import { getPastEventsBlockchain } from './utils/getPastEventsBlockchain';
+import { roundDecimals } from '../utils';
 
 export class PAYGReadContractManager {
   protected readonly ankrTokenReadContract: Contract;
@@ -55,7 +59,7 @@ export class PAYGReadContractManager {
     });
   }
 
-  public async getAllLatestUserTierAssignedEventLogHashes(
+  async getAllLatestUserTierAssignedEventLogHashes(
     user: Web3Address,
     blockchain: TBlockchain
   ): Promise<string[] | false> {
@@ -70,7 +74,7 @@ export class PAYGReadContractManager {
     return tierAssignedEvents.map(item => item.transactionHash);
   }
 
-  public async getLatestUserTierAssignedEventLogHash(
+  async getLatestUserTierAssignedEventLogHash(
     user: Web3Address,
     blockchain: TBlockchain
   ): Promise<PrefixedHex | false> {
@@ -85,7 +89,7 @@ export class PAYGReadContractManager {
     return tierAssignedEvents[tierAssignedEvents.length - 1].transactionHash;
   }
 
-  public async getLatestLockedFundsEvents(
+  async getLatestLockedFundsEvents(
     user: Web3Address,
     blockchain: TBlockchain
   ): Promise<EventData[]> {
@@ -96,7 +100,7 @@ export class PAYGReadContractManager {
     );
   }
 
-  public async getLatestAllowanceEvents(
+  async getLatestAllowanceEvents(
     user: Web3Address,
   ): Promise<EventData[]> {
     const events = await this.ankrTokenReadContract.getPastEvents('Approval', {
@@ -112,5 +116,51 @@ export class PAYGReadContractManager {
       .sort((a, b) => a.blockNumber - b.blockNumber);
 
     return allowanceEvents;
+  }
+
+  async getBalance(accountAddress: Web3Address) {
+    return (this.ankrTokenReadContract.methods as IAnkrToken)
+      .balanceOf(accountAddress)
+      .call();
+  }
+
+  async getAllowance(accountAddress: Web3Address) {
+    const allowance = await (this.ankrTokenReadContract.methods as IAnkrToken)
+      .allowance(accountAddress, this.config.payAsYouGoContractAddress)
+      .call();
+
+    return allowance;
+  }
+
+  async estimateAllowanceFee(amount: BigNumber, from: Web3Address) {
+    const amountString = amount.toString(10);
+    const gas = Number(GAS_LIMIT);
+    const to = this.config.payAsYouGoContractAddress;
+
+    const gasAmount = await (this.ankrTokenReadContract.methods as IAnkrToken)
+      .approve(to, amountString)
+      .estimateGas({ from, gas });
+
+    const gasPrice = await this.keyReadProvider.getSafeGasPriceWei();
+
+    const feeWei = gasPrice.multipliedBy(gasAmount);
+
+    return this.keyReadProvider.getWeb3().utils.fromWei(feeWei.toString());
+  }
+
+  async estimateDepositFee(amount: BigNumber, from: Web3Address) {
+    const amountString = roundDecimals(amount).toString(10);
+    const gas = Number(GAS_LIMIT);
+    const to = this.config.payAsYouGoContractAddress;
+
+    const gasAmount = await (this.ankrTokenReadContract.methods as IAnkrToken)
+      .transfer(to, amountString)
+      .estimateGas({ from, gas });
+
+    const gasPrice = await this.keyReadProvider.getSafeGasPriceWei();
+
+    const feeWei = gasPrice.multipliedBy(gasAmount);
+
+    return this.keyReadProvider.getWeb3().utils.fromWei(feeWei.toString());
   }
 }

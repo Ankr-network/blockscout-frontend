@@ -18,7 +18,7 @@ export const useLinkExpiredDialog = ({
 }: IUseLinkExpiredDialogProps) => {
   const { push } = useHistory();
 
-  const { isLoggedIn, hasOauthLogin } = useAuth();
+  const { hasOauthLogin, isLoggedIn } = useAuth();
 
   const redirectToProjects = useCallback(
     () => push(ProjectsRoutesConfig.projects.generatePath()),

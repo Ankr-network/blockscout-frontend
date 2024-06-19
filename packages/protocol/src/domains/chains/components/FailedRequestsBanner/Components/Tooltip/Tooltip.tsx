@@ -6,12 +6,12 @@ import { useTooltipStyles } from '../../../RequestsBannerContainer/components/To
 
 export const intlFailedRequestsBannerRoot = 'failed-requests-banner';
 
-export const Tooltip = ({ active, payload, label }: ITooltipProps) => {
+export const Tooltip = ({ active, label, payload }: ITooltipProps) => {
   const { classes } = useTooltipStyles();
 
   if (!(active && payload?.length && label)) return null;
 
-  const { total, rejectedRequestsCount, name } = payload[0]?.payload ?? {};
+  const { name, rejectedRequestsCount, total } = payload[0]?.payload ?? {};
 
   return (
     <div className={classes.root}>

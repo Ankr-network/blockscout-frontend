@@ -85,13 +85,13 @@ const getOpnodeTestnetChains = (
   }) || [];
 
 export const getSelectedChains = ({
-  selectedMainnetChains,
-  selectedTestnetChains,
-  selectedDevnetChains,
   selectedBeaconMainnetChains,
   selectedBeaconTestnetChains,
+  selectedDevnetChains,
+  selectedMainnetChains,
   selectedOpnodeMainnetChains,
   selectedOpnodeTestnetChains,
+  selectedTestnetChains,
 }: {
   selectedMainnetChains: ProjectChainsType[];
   selectedTestnetChains: ProjectChainsType[];
@@ -118,26 +118,26 @@ export const getSelectedChains = ({
 };
 
 export const useProjectFormValues = (projectChains?: ProjectChainsType[]) => {
-  const { getState, change } = useForm<NewProjectFormValues>();
+  const { change, getState } = useForm<NewProjectFormValues>();
 
   const {
+    valid,
     values: {
-      projectName,
-      tokenIndex,
-      whitelistItems = [],
-      whitelistDialog,
+      isSelectedAll,
       planName,
       planPrice,
-      isSelectedAll,
-      selectedMainnetIds = [],
-      selectedTestnetIds = [],
-      selectedDevnetIds = [],
+      projectName,
       selectedBeaconMainnetIds = [],
       selectedBeaconTestnetIds = [],
+      selectedDevnetIds = [],
+      selectedMainnetIds = [],
       selectedOpnodeMainnetIds = [],
       selectedOpnodeTestnetIds = [],
+      selectedTestnetIds = [],
+      tokenIndex,
+      whitelistDialog,
+      whitelistItems = [],
     },
-    valid,
   } = getState();
 
   const allSelectedChainIds: ChainID[] = [

@@ -13,11 +13,11 @@ export interface ProjectChainsTableProps {
 }
 
 export const ProjectChainsTable = ({
-  selectAllSubChainPaths,
-  unSelectAllSubChainPaths,
-  setIsSelectedAll,
   searchContent,
+  selectAllSubChainPaths,
   selectedChainPaths,
+  setIsSelectedAll,
+  unSelectAllSubChainPaths,
 }: ProjectChainsTableProps) => {
   const columns = useProjectChainsTableColumns({
     selectAllSubChainPaths,
