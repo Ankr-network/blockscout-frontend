@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -25,7 +25,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     estimateDepositFeeUsdt: build.query<number, IEstimateDepositFeeUsdtParams>({
-      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ txId }, { getState }) => {
         const state = getState() as RootState;
 
         const tx = selectCryptoTxById(state, txId);

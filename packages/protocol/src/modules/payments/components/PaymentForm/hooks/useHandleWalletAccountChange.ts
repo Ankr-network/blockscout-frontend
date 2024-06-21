@@ -56,13 +56,13 @@ export const useHandleWalletAccountChange = ({
     skipFetching,
   });
 
-  const { handleRefetchEstimatedAllowanceFee } = useEstimatedAllowanceFee({
+  const { handleFetchEstimatedAllowanceFee } = useEstimatedAllowanceFee({
     currency,
     skipFetching,
     txId,
   });
 
-  const { handleRefetchEstimatedDepositFee } = useEstimatedDepositFee({
+  const { handleFetchEstimatedDepositFee } = useEstimatedDepositFee({
     currency,
     skipFetching,
     txId,
@@ -88,14 +88,9 @@ export const useHandleWalletAccountChange = ({
       if (hasTx) {
         dispatch(setFromAddress({ from: walletAddress, id: txId }));
 
-        // using fetch since paramters of the qieries has changed
-        // on wallet address change
         handleFetchWalletbalance();
-
-        // using refetch since parameters of the queries remains the same after
-        // wallet address change
-        handleRefetchEstimatedAllowanceFee();
-        handleRefetchEstimatedDepositFee();
+        handleFetchEstimatedAllowanceFee();
+        handleFetchEstimatedDepositFee();
       } else if (isPaymentFlowStarted) {
         handleFetchWalletbalance();
         handleCreateCryptoTx();

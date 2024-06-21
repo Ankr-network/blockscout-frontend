@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js';
 import { IWeb3SendResult } from '@ankr.com/provider';
 
 import { RootState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 import { handleDepositQuery } from '../utils/handleDepositQuery';
@@ -23,7 +23,7 @@ export const {
   endpoints: build => ({
     depositUsdc: build.mutation<IWeb3SendResult | null, IDepositUsdcParams>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({ params: { txId }, web3Service }, { getState }) => {
             const state = getState() as RootState;
 

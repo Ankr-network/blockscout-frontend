@@ -3,8 +3,8 @@ import { formatToWei } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 import { getWalletBalanceAnkr } from '../utils/getWalletBalanceAnkr';
@@ -27,7 +27,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     estimateDepositFeeAnkr: build.query<number, IEstimateDepositFeeAnkrParams>({
-      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ txId }, { getState }) => {
         const state = getState() as RootState;
 
         const tx = selectCryptoTxById(state, txId);

@@ -7,8 +7,8 @@ import {
 
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 import { ECurrency } from '../types';
@@ -32,7 +32,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllowanceUsdc: build.query<number, IFetchAllowanceUsdcParams>({
-      queryFn: createNotifyingQueryFn(
+      queryFn: createWeb3NotifyingQueryFn(
         async ({ address, network }, { getState }) => {
           const state = getState() as RootState;
 

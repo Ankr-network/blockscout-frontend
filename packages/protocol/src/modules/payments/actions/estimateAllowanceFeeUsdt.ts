@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 import { handleEstimateAllowanceFeeQuery } from '../utils/handleEstimateAllowanceFeeQuery';
@@ -31,7 +31,7 @@ export const {
       number,
       IEstimateAllowanceFeeUsdtParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ txId }, { getState }) => {
         const state = getState() as RootState;
 
         const tx = selectCryptoTxById(state, txId);

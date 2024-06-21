@@ -66,8 +66,6 @@ export const useHandleCurrencyChange = ({
     if (hasTx) {
       dispatch(setCurrency({ currency, id: txId }));
 
-      // using fetch since paramters of the qieries has changed
-      // on currency change
       handleFetchWalletbalance();
       handleFetchTokenPrice();
       handleFetchAllowance();

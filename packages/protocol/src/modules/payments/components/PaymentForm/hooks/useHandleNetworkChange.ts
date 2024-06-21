@@ -29,13 +29,13 @@ export const useHandleNetworkChange = ({
   const { hasTx, tx = defaultCryptoTx } = useTxByTxId({ txId });
   const { from } = tx;
 
-  const { handleRefetchEstimatedAllowanceFee } = useEstimatedAllowanceFee({
+  const { handleFetchEstimatedAllowanceFee } = useEstimatedAllowanceFee({
     currency,
     skipFetching,
     txId,
   });
 
-  const { handleRefetchEstimatedDepositFee } = useEstimatedDepositFee({
+  const { handleFetchEstimatedDepositFee } = useEstimatedDepositFee({
     currency,
     skipFetching,
     txId,
@@ -72,17 +72,12 @@ export const useHandleNetworkChange = ({
     if (hasTx) {
       dispatch(setNetwork({ network, id: txId }));
 
-      // using fetch since paramters of the qieries has changed
-      // on network change
       handleFetchWalletbalance();
       handleFetchTokenPrice();
       handleFetchNativeTokenPrice();
       handleFetchAllowance();
-
-      // using refetch since parameters of the queries remains the same
-      // on network change
-      handleRefetchEstimatedAllowanceFee();
-      handleRefetchEstimatedDepositFee();
+      handleFetchEstimatedAllowanceFee();
+      handleFetchEstimatedDepositFee();
     }
     // we should only track network
     // eslint-disable-next-line react-hooks/exhaustive-deps

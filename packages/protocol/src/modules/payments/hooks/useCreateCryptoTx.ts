@@ -75,9 +75,13 @@ export const useCryptoTx = ({
         }),
       );
 
-      fetchNativeTokenPriceRef.current();
-      fetchEstimatedAllowanceFeeRef.current();
-      fetchEstimatedDepositFeeRef.current();
+      // wrapped into a sefl executing function to ensure that native token
+      // price will be fetched before fetching estimated fees. It's important
+      (async () => {
+        await fetchNativeTokenPriceRef.current();
+        fetchEstimatedAllowanceFeeRef.current();
+        fetchEstimatedDepositFeeRef.current();
+      })();
     }
   }, [
     accountAddress,

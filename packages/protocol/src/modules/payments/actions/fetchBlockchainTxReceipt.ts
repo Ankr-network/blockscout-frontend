@@ -1,8 +1,8 @@
 import { EBlockchain } from 'multirpc-sdk';
 import { TransactionReceipt } from 'web3-core';
 
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { getWeb3Instance } from 'modules/api/utils/getWeb3Instance';
 import { web3Api } from 'store/queries';
 
@@ -24,7 +24,7 @@ export const {
       TransactionReceipt,
       IFetchBlockchainTxReceiptParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ network, txHash }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ network, txHash }) => {
         const web3 = getWeb3Instance(network);
 
         const data = await web3.eth.getTransactionReceipt(txHash);

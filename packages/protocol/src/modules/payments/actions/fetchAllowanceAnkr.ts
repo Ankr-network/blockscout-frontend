@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { formatFromWei } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
@@ -22,7 +22,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchAllowanceAnkr: build.query<number, IFetchAllowanceAnkrParams>({
-      queryFn: createNotifyingQueryFn(async ({ address }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ address }) => {
         const web3ReadService = await MultiService.getWeb3ReadService();
         const allowance = await web3ReadService
           .getContractService()
