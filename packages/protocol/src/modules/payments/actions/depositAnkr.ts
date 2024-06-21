@@ -4,8 +4,8 @@ import { formatToWei } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 import { accountFetchPublicKey } from 'domains/account/actions/fetchPublicKey';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQueryFnWithWeb3ServiceGuard } from 'store/utils/createQueryFnWithWeb3ServiceGuard';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 
 import { handleDepositQuery } from '../utils/handleDepositQuery';
@@ -22,7 +22,7 @@ export const {
   endpoints: build => ({
     depositAnkr: build.mutation<IWeb3SendResult | null, IDepositAnkrParams>({
       queryFn: createQueryFnWithWeb3ServiceGuard({
-        queryFn: createNotifyingQueryFn(
+        queryFn: createWeb3NotifyingQueryFn(
           async ({ params: { txId }, web3Service }, { dispatch, getState }) => {
             const state = getState() as RootState;
 

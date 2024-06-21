@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { RootState } from 'store';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createWeb3NotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { isMetamaskError } from 'modules/common/utils/isMetamaskError';
 import { isQueryReturnValue } from 'store/utils/isQueryReturnValue';
 import { web3Api } from 'store/queries';
@@ -28,7 +28,7 @@ export const {
       boolean,
       IWaitForAllowanceConfirmationParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ txId }, { getState }) => {
+      queryFn: createWeb3NotifyingQueryFn(async ({ txId }, { getState }) => {
         const state = getState() as RootState;
 
         const tx = selectCryptoTxById(state, txId);
