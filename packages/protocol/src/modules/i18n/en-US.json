@@ -1818,8 +1818,15 @@
         "recurring-description": "Cancel your ${amount, number, ::compact-short} recurring payment scheduled for {date, date, long}?"
       },
       "cancel-dialog": {
-        "title": "Payment cancelled",
-        "description": "Your recurring PAYG payment has been successfully cancelled",
+        "title": "Payment renewal cancelled",
+        "description": "Package's remaining requests are still available.",
+        "done-btn": "Done"
+      }
+    },
+    "package": {
+      "cancel-dialog": {
+        "title": "Package renewal cancelled",
+        "description": "Package's remaining requests are still available for you until spent before or expired on {date, date, long}.",
         "done-btn": "Done"
       }
     },

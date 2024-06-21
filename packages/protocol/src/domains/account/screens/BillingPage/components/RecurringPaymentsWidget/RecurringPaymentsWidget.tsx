@@ -38,6 +38,7 @@ export const RecurringPaymentsWidget = ({
   const {
     expirationDate,
     isDealCancelled,
+    isPackageCancelled,
     onCancelSubscription,
     recurringPayments,
   } = useEditSubscriptionsDialog(onEditDialogClose);
@@ -67,10 +68,11 @@ export const RecurringPaymentsWidget = ({
       />
 
       <DealRenewalCancelDialog
-        isOpened={isOpenedSuccessDialog}
-        onClose={onCloseSuccessDialog}
         expiresAt={expirationDate}
         isDeal={isDealCancelled}
+        isOpened={isOpenedSuccessDialog}
+        isPackage={isPackageCancelled}
+        onClose={onCloseSuccessDialog}
       />
     </>
   );

@@ -3,7 +3,6 @@ import {
   BundlePaymentPlan,
   BundleType,
   ISubscriptionsItem,
-  MyBundleStatus,
   MyBundleStatusCounter,
 } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
@@ -336,21 +335,10 @@ export const selectMyCurrentBundleRequestsUsed = createSelector(
 export const selectMyRecurringPayments = createSelector(
   selectMyBundles,
   selectMySubscriptions,
-  selectBundlePaymentPlans,
-  (bundles, subscriptions, bundlePaymentPlans) =>
-    [...subscriptions, ...bundles].sort((a, b) => {
-      const currentPlan = bundlePaymentPlans.find(plan => {
-        return plan.bundle.price_id === a.productPriceId;
-      });
-
-      const isPackageBundlePlan = isPackagePlan(currentPlan);
-
-      if (isPackageBundlePlan) {
-        return 1;
-      }
-
-      return +a.currentPeriodEnd - +b.currentPeriodEnd;
-    }),
+  (bundles, subscriptions) =>
+    [...subscriptions, ...bundles].sort(
+      (a, b) => Number(a.currentPeriodEnd) - Number(b.currentPeriodEnd),
+    ),
 );
 
 export const selectMyRecurringPaymentsWithoutPackage = createSelector(
@@ -472,30 +460,30 @@ export const selectHasActiveDeal = createSelector(
   },
 );
 
-export const selectPackageChargingModelData = createSelector(
+export const selectPackageChargingModelsData = createSelector(
   selectMyBundlesStatusState,
   selectBundlePaymentPlans,
-  (myByndlesStatus, bundlePaymentPlans) => {
-    /* Package charging model data (will be deprecated soon) */
-    const packageChargingModels: MyBundleStatus[] | undefined =
-      myByndlesStatus?.data?.filter(bundle => {
-        const hasQtyCounter = bundle.counters.find(
-          counter => counter.type === BundleType.QTY,
-        );
+  (myByndlesStatusState, bundlePaymentPlans) => {
+    const packageChargingModels = myByndlesStatusState.data?.filter(bundle => {
+      const hasQtyCounter = bundle.counters.find(
+        counter => counter.type === BundleType.QTY,
+      );
 
-        const hasCostCounter = bundle.counters.find(
-          counter => counter.type === BundleType.COST,
-        );
+      const hasCostCounter = bundle.counters.find(
+        counter => counter.type === BundleType.COST,
+      );
 
-        return hasQtyCounter && !hasCostCounter;
-      });
+      return hasQtyCounter && !hasCostCounter;
+    });
 
     const filteredByExpiration = packageChargingModels?.filter(
       bundle => new Date() < new Date(getDateFromUnixSeconds(bundle.expires)),
     );
 
+    filteredByExpiration?.sort((a, b) => a.expires - b.expires);
+
     if (!filteredByExpiration?.length) {
-      return undefined;
+      return [];
     }
 
     return getAggregatedPackageModelsData({
@@ -508,38 +496,23 @@ export const selectPackageChargingModelData = createSelector(
 export const selectAccountChargingModels = createSelector(
   selectPAYGChargingModelData,
   selectDealChargingModelData,
-  selectPackageChargingModelData,
+  selectPackageChargingModelsData,
   (
     paygChargingModelData,
     dealChargingModelData,
-    packageChargingModelData,
+    packageChargingModelsData,
   ): IChargingModelData[] => {
-    const chargingModels: IChargingModelData[] = [paygChargingModelData];
+    const chargingModels: IChargingModelData[] = [];
+
+    packageChargingModelsData.forEach(packageChargingModelData => {
+      chargingModels.push(packageChargingModelData);
+    });
 
     if (dealChargingModelData) {
-      const isExpired =
-        new Date() > getDateFromUnixSeconds(dealChargingModelData.expires);
-
-      const isUsed = dealChargingModelData.progressValue >= 100;
-
-      if (isExpired || isUsed) {
-        chargingModels.push(dealChargingModelData);
-      } else {
-        // if user has actual deal model, it should be shown first
-        chargingModels.unshift(dealChargingModelData);
-      }
+      chargingModels.push(dealChargingModelData);
     }
 
-    if (packageChargingModelData) {
-      const isUsed = packageChargingModelData.progressValue >= 100;
-
-      if (packageChargingModelData.isExpired || isUsed) {
-        chargingModels.push(packageChargingModelData);
-      } else {
-        // if user has actual package model, it should be shown first and have higher priority then deal model
-        chargingModels.unshift(packageChargingModelData);
-      }
-    }
+    chargingModels.push(paygChargingModelData);
 
     return chargingModels;
   },

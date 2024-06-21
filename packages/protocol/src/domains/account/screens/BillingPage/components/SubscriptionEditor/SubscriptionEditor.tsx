@@ -14,20 +14,18 @@ import { useSubscriptionEditorStyles } from './SubscriptionEditorStyles';
 
 export interface SubscriptionEditorProps {
   amount: string;
+  customChargingModelName?: string;
   isCanceling: boolean;
   nextBillingDate: string;
   onCancel: () => Promise<{ error: unknown } | { data: boolean }>;
   onOpenSuccessDialog: () => void;
   period: RecurrentInterval;
-  customChargingModelName?: string;
-  isDeprecatedModel?: boolean;
 }
 
 export const SubscriptionEditor = ({
   amount,
   customChargingModelName,
   isCanceling,
-  isDeprecatedModel,
   nextBillingDate,
   onCancel,
   onOpenSuccessDialog,
@@ -72,10 +70,7 @@ export const SubscriptionEditor = ({
         }
       />
 
-      <NextBillingDate
-        date={nextBillingDate}
-        isDeprecatedModel={isDeprecatedModel}
-      />
+      <NextBillingDate date={nextBillingDate} />
 
       <div className={classes.controls}>
         <Button

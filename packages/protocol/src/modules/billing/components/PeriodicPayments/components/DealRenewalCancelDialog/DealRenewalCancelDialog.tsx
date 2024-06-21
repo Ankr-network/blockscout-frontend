@@ -1,44 +1,31 @@
-import { t } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
-import { useMemo } from 'react';
+import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
 
-interface IDealRenewalCancelDialogProps {
-  isOpened?: boolean;
-  onClose: () => void;
+import { renderDescription } from './utils/renderDescription';
+import { renderTitle } from './utils/renderTitle';
+
+export interface IDealRenewalCancelDialogProps {
   expiresAt?: string;
-  isDeal?: boolean;
+  isDeal: boolean;
+  isOpened?: boolean;
+  isPackage: boolean;
+  onClose: () => void;
 }
 
 export const DealRenewalCancelDialog = ({
   expiresAt,
   isDeal,
   isOpened = false,
+  isPackage,
   onClose,
 }: IDealRenewalCancelDialogProps) => {
-  const renderDescription = useMemo(() => {
-    if (!isDeal) {
-      return t('account.periodic-payments.cancel-dialog.description');
-    }
-
-    if (expiresAt) {
-      return t('account.deal-renewal.cancel-dialog.description-with-date', {
-        date: expiresAt,
-      });
-    }
-
-    return t('account.deal-renewal.cancel-dialog.description-common');
-  }, [expiresAt, isDeal]);
-
   return (
     <Dialog onClose={onClose} open={isOpened} maxPxWidth={520}>
       <Typography variant="h6" align="center" mb={3}>
-        {isDeal
-          ? t('account.deal-renewal.cancel-dialog.title')
-          : t('account.periodic-payments.cancel-dialog.title')}
+        {renderTitle({ isDeal, isPackage })}
       </Typography>
-
       <Typography
         variant="body2"
         align="center"
@@ -46,9 +33,8 @@ export const DealRenewalCancelDialog = ({
         mb={8}
         color="textSecondary"
       >
-        {renderDescription}
+        {renderDescription({ expiresAt, isDeal, isPackage })}
       </Typography>
-
       <Button onClick={onClose} fullWidth>
         {t('account.deal-renewal.cancel-dialog.done-btn')}
       </Button>

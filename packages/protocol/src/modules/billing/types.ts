@@ -13,16 +13,17 @@ export interface IPackageBalance {
 }
 
 export interface IPackageChargingModelData {
-  type: EChargingModel.Package;
   balance: IPackageBalance;
+  expires: number;
   isExpired: boolean;
-  progressValue: number;
   progressLabel: string;
   progressLabelData: {
     usedCount: number;
     wholeAmountCount: number;
     usedPercent: number;
   };
+  progressValue: number;
+  type: EChargingModel.Package;
 }
 
 export interface IDealBalance extends IPackageBalance {

@@ -2,10 +2,11 @@ import { ISubscriptionsItem } from 'multirpc-sdk';
 
 import { SubscriptionEditor } from 'domains/account/screens/BillingPage/components/SubscriptionEditor';
 
+import { TCancelSubscriptionHandler } from '../../hooks/useEditSubscriptionsDialog';
 import { useSubscription } from './hooks/useSubscription';
 
 export interface SubscriptionProps {
-  onCancel: (expiresAt: string, isDeal: boolean) => void;
+  onCancel: TCancelSubscriptionHandler;
   subscription: ISubscriptionsItem;
   onOpenSuccessDialog?: () => void;
 }
