@@ -25,7 +25,7 @@ export const getRows = (
   const { id, name } = node;
 
   const nodes = node?.nodes.map((item: INodeDetailEntity) => {
-    const { scheme, location, height, weight, score } = item;
+    const { height, location, scheme, score, weight } = item;
 
     return {
       id,
@@ -82,7 +82,7 @@ export const useChainNodesTableTableColumns = () => {
           width: '40%',
           field: 'node',
           headerName: t('chain-item.nodes-table.head.node'),
-          render: ({ score, organization }) => {
+          render: ({ organization, score }) => {
             const nodeStatus = getStatusByNodeScore(score);
 
             return (
@@ -96,7 +96,7 @@ export const useChainNodesTableTableColumns = () => {
         {
           field: 'height',
           headerName: t('chain-item.nodes-table.head.height'),
-          render: ({ score, height }) => {
+          render: ({ height, score }) => {
             const nodeStatus = getStatusByNodeScore(score);
 
             return (
@@ -118,7 +118,7 @@ export const useChainNodesTableTableColumns = () => {
           width: '30%',
           field: 'location',
           headerName: t('chain-item.nodes-table.head.location'),
-          render: ({ country, continent }) => {
+          render: ({ continent, country }) => {
             return (
               country && (
                 <>

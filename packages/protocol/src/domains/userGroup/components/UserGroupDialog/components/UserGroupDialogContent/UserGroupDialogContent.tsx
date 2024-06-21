@@ -20,11 +20,11 @@ export const UserGroupDialogContent = ({
   const { classes } = useUserGroupDialogContentStyles();
 
   const {
-    selectedAddress,
-    shouldRemind,
     handleGroupSelect,
     handleRememberChoice,
     handleSetUserGroup: handleSave,
+    selectedAddress,
+    shouldRemind,
   } = useUserGroupSelect(groups, isLoading);
 
   return (

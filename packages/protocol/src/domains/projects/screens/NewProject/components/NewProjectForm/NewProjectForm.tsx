@@ -16,10 +16,10 @@ import { Header } from '../Header';
 import { useNewProjectFormStyles } from './useNewProjectFormStyles';
 
 export const NewProjectForm = ({
-  step,
-  onSubmit,
-  onBackClick,
   isLoading,
+  onBackClick,
+  onSubmit,
+  step,
 }: NewProjectFormProps) => {
   const { classes } = useNewProjectFormStyles();
   const { handleSubmit: handleFormSubmit } = useHandleSubmit(step, onSubmit);
@@ -33,13 +33,13 @@ export const NewProjectForm = ({
     }: FormRenderProps<NewProjectFormValues>) => {
       const {
         name,
-        selectedMainnetIds,
-        selectedTestnetIds,
-        selectedDevnetIds,
         selectedBeaconMainnetIds,
         selectedBeaconTestnetIds,
+        selectedDevnetIds,
+        selectedMainnetIds,
         selectedOpnodeMainnetIds,
         selectedOpnodeTestnetIds,
+        selectedTestnetIds,
         whitelistItems,
       } = getState().values || {};
 

@@ -18,11 +18,11 @@ interface TeamMemberActionsProps {
 }
 
 export const TeamMemberActions = ({
-  member,
-  membersCount,
-  handleTransferOwnership,
   handleLeaveTeam,
   handleRemoveUser,
+  handleTransferOwnership,
+  member,
+  membersCount,
 }: TeamMemberActionsProps) => {
   const { address: userAddress } = useAuth();
   const isCurrentUser =

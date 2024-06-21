@@ -12,9 +12,9 @@ interface AddressFieldsProps {
 }
 
 export const AddressFields = ({
-  title,
-  onButtonClick,
   name: fieldName,
+  onButtonClick,
+  title,
 }: AddressFieldsProps) => {
   const { classes } = useStyles();
 

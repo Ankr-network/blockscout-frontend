@@ -13,8 +13,8 @@ export interface UseGroupSelectorParams {
 
 export const useGroupSelector = ({
   group: { chains },
-  selectedSubchainPaths,
   handleUpdateNetworksPaths,
+  selectedSubchainPaths,
 }: UseGroupSelectorParams) => {
   const allGroupIds = useMemo(() => chains.map(chain => chain.id), [chains]);
 

@@ -14,7 +14,7 @@ interface ChainSelectProps {
 }
 
 export const ChainSelect = ({ chain, className }: ChainSelectProps) => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   return (
     <>

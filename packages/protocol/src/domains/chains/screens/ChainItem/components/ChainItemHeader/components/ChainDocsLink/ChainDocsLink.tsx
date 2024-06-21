@@ -17,10 +17,10 @@ export interface ChainDocsLinkProps {
 }
 
 export const ChainDocsLink = ({
-  id,
   className = '',
-  variant = 'outlined',
+  id,
   size = 'medium',
+  variant = 'outlined',
 }: ChainDocsLinkProps) => {
   const { classes } = useChainDocsLinkStyles();
 

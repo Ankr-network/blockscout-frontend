@@ -15,8 +15,8 @@ interface ChainSelectVisibilityHookProps {
 }
 
 export const useChainSelectVisibility = ({
-  chainTypes,
   chainType,
+  chainTypes,
   groups,
   isTestnetOnlyChain,
   selectType,

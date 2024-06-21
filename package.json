@@ -17,6 +17,7 @@
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-sort-destructure-keys": "^2.0.0",
     "hermione": "^8.0.4",
     "html-reporter": "^9.16.2",
     "husky": "^7.0.4",

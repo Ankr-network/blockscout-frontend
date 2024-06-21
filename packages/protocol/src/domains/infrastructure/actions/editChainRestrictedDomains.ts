@@ -17,8 +17,8 @@ export interface EditChainRestrictedDomainsParams {
 }
 
 export const {
-  useLazyInfrastructureEditChainRestrictedDomainsQuery,
   endpoints: { infrastructureEditChainRestrictedDomains },
+  useLazyInfrastructureEditChainRestrictedDomainsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureEditChainRestrictedDomains: build.query<

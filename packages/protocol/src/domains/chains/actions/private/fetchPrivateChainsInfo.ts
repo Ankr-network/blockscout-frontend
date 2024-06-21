@@ -17,8 +17,8 @@ interface Params {
 
 export const {
   endpoints: { chainsFetchPrivateChainsInfo },
-  useLazyChainsFetchPrivateChainsInfoQuery,
   useChainsFetchPrivateChainsInfoQuery,
+  useLazyChainsFetchPrivateChainsInfoQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPrivateChainsInfo: build.query<
@@ -28,7 +28,7 @@ export const {
       queryFn: createNotifyingQueryFn(
         async ({ userEndpointToken }, { dispatch }) => {
           const [
-            { data: { chains = [], allChains = [] } = {} },
+            { data: { allChains = [], chains = [] } = {} },
             { data: nodes },
           ] = await Promise.all([
             dispatch(chainsFetchPrivateChains.initiate(userEndpointToken)),

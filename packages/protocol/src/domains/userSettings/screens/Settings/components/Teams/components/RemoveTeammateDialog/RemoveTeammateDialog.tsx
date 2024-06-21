@@ -17,10 +17,10 @@ interface IRemoveTeammateDialogProps extends IDeleteGroupMemberParams {
 
 export const RemoveTeammateDialog = ({
   address,
-  group,
   email,
-  open,
+  group,
   onClose,
+  open,
 }: IRemoveTeammateDialogProps) => {
   const { classes } = useRemoveTeammateDialogStyles();
   const [removeTeammate, { isLoading }] = useRemoveTeammateMutation();

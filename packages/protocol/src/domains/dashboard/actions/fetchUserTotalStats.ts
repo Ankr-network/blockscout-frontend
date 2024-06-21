@@ -18,7 +18,7 @@ export const {
       FetchUserTotalStatsParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ group, gateway = getAccountingGateway() }) => {
+        async ({ gateway = getAccountingGateway(), group }) => {
           const data = await gateway.getUserTotalStats(group);
 
           return { data };

@@ -13,12 +13,12 @@ interface IChargingModelWidgetWrapperProps {
 }
 
 export const ChargingModelWidgetWrapper = ({
-  isCurrentModel = false,
   balance,
-  type,
-  progressValue,
-  progressLabel,
+  isCurrentModel = false,
   maxLabel,
+  progressLabel,
+  progressValue,
+  type,
 }: IChargingModelWidgetWrapperProps) => {
   return (
     <ChargingModelWidget isCurrentModel={isCurrentModel} chargingModel={type}>

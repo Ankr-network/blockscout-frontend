@@ -9,8 +9,8 @@ import { web3Api } from 'store/queries';
 import { fetchAllPaymentHistory } from '../utils/fetchAllPaymentHistory';
 
 export const {
-  useLazyAccountFetchExpenseChartDataQuery,
   endpoints: { accountFetchExpenseChartData },
+  useLazyAccountFetchExpenseChartDataQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     accountFetchExpenseChartData: build.query<Response, Request>({

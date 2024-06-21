@@ -21,14 +21,14 @@ export const useSubscription = ({
 }: SubscriptionParams) => {
   const [
     cancelSubscription,
-    { isLoading: isCancelingSubscription, error: cancelSubscriptionError },
+    { error: cancelSubscriptionError, isLoading: isCancelingSubscription },
   ] = useCancelSubscriptionMutation();
 
   const [
     cancelBundleSubscription,
     {
-      isLoading: isCancelingBundleSubscription,
       error: cancelBundleSubscriptionError,
+      isLoading: isCancelingBundleSubscription,
     },
   ] = useCancelBundleSubscriptionMutation();
 

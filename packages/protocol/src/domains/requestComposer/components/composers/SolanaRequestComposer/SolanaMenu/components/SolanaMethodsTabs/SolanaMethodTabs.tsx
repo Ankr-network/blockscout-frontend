@@ -15,10 +15,10 @@ export interface SolanaMethodsTabsProps {
 }
 
 export const SolanaMethodsTabs = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: SolanaMethodsTabsProps) => {
   const [tabs, selectedTab] = useMethodsTabs({ args, group, libraryID, title });
 

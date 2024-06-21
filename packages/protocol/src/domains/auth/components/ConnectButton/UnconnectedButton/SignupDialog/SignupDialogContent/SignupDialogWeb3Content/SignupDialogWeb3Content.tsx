@@ -15,11 +15,11 @@ import {
 import { WalletItemContent } from './components/WalletItemContent';
 
 export const SignupDialogWeb3Content = ({
-  onConnect,
   onClose,
+  onConnect,
 }: IConnectWalletsModalProps) => {
   const isMobile = useIsSMDown();
-  const { cx, classes } = useSignupDialogWeb3ContentStyles(isMobile);
+  const { classes, cx } = useSignupDialogWeb3ContentStyles(isMobile);
 
   const onWalletItemClick =
     ({ href, isInjected, walletId }: IOnWalletItemClickArgs) =>
@@ -44,15 +44,15 @@ export const SignupDialogWeb3Content = ({
           <Fragment key={uid(walletsGroup)}>
             {walletsGroup.map(walletItem => {
               const {
+                getTooltipMessage,
                 href,
                 icon,
+                isDisabled,
+                isFirstConnectWallet,
                 isHidden,
                 isInjected,
                 title,
                 walletId,
-                isDisabled,
-                getTooltipMessage,
-                isFirstConnectWallet,
               } = walletItem;
 
               if (isHidden) {

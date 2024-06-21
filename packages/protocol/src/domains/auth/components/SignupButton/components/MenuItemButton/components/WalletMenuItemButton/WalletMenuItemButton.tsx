@@ -9,8 +9,8 @@ interface WalletMenuItemButtonProps {
 }
 
 export const WalletMenuItemButton = ({
-  isLoading,
   address,
+  isLoading,
   onConnect,
 }: WalletMenuItemButtonProps) => {
   return (

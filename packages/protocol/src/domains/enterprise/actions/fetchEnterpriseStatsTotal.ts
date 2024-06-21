@@ -13,15 +13,15 @@ export interface FetchEnterpriseStatsTotalParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyChainsFetchEnterpriseStatsTotalQuery,
   endpoints: { chainsFetchEnterpriseStatsTotal },
+  useLazyChainsFetchEnterpriseStatsTotalQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchEnterpriseStatsTotal: build.query<
       PrivateStats,
       FetchEnterpriseStatsTotalParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ interval, group }) => {
+      queryFn: createNotifyingQueryFn(async ({ group, interval }) => {
         const service = MultiService.getService();
         const enterpriseGateway = service.getEnterpriseGateway();
 

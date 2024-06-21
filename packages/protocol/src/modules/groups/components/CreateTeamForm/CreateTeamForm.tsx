@@ -8,18 +8,18 @@ import {
 
 export const CreateTeamForm = ({ teamName }: CreateTeamFormProps) => {
   const {
-    teamNameValue,
+    confirmInputError,
+    confirmInputValue,
     handleChange,
-    isDataTransferEnabled,
-    onDataTransferSwitchChange,
+    handleConfirmDataTransfer,
     handleCreateTeamFlow,
     isCreateTeamLoading,
+    isDataTransferEnabled,
     isOpenedDataTransferDialog,
-    onCloseDataTransferDialog,
-    handleConfirmDataTransfer,
-    confirmInputValue,
     onChangeConfirmInputValue,
-    confirmInputError,
+    onCloseDataTransferDialog,
+    onDataTransferSwitchChange,
+    teamNameValue,
   } = useCreateTeamForm({ teamName });
 
   return (

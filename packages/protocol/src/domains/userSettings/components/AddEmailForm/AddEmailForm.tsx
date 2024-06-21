@@ -32,8 +32,8 @@ export interface IUseAddEmailFormProps {
 let shouldValidateSubmitError = false;
 
 export const AddEmailForm = ({
-  formDisabled,
   contentState,
+  formDisabled,
   onAddEmailSubmitSuccess,
   onFormStateChange,
   onFormSubmit,
@@ -76,9 +76,9 @@ export const AddEmailForm = ({
 
   const renderForm = useCallback(
     ({
-      validating,
-      hasValidationErrors,
       handleSubmit,
+      hasValidationErrors,
+      validating,
     }: FormRenderProps<IAddEmailFormData>) => {
       switch (contentState) {
         case AddEmailFormContentState.ADD_EMAIL:

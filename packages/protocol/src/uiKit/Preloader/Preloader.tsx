@@ -11,9 +11,9 @@ interface IPreloaderProps {
 const DEFAULT_SIZE = 5;
 
 export const Preloader = ({
-  size = DEFAULT_SIZE,
   centered = false,
   className = '',
+  size = DEFAULT_SIZE,
 }: IPreloaderProps) => {
   const { classes, cx } = useStyles({ size });
 

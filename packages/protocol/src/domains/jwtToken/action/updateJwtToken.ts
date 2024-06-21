@@ -15,13 +15,13 @@ interface IRequestParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyUpdateJwtTokenQuery,
   endpoints: { updateJwtToken },
+  useLazyUpdateJwtTokenQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     updateJwtToken: build.query<JwtManagerToken, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async ({ tokenIndex, name, description, group }) => {
+        queryFn: async ({ description, group, name, tokenIndex }) => {
           const service = MultiService.getService().getAccountingGateway();
 
           const jwtToken = await service.updateJwtToken(

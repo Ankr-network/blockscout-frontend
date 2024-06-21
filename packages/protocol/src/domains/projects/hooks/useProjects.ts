@@ -8,12 +8,12 @@ import { useProjectsDataParams } from './useProjectsDataParams';
 
 export const useProjects = () => {
   const {
-    jwtTokens,
-    enableAddProject: canAddProject,
     allowedAddProjectTokenIndex,
-    isLoading,
+    enableAddProject: canAddProject,
     isFetching,
     isLoaded,
+    isLoading,
+    jwtTokens,
   } = useJwtTokenManager();
 
   const {

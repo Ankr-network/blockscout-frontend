@@ -19,14 +19,14 @@ import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpris
 
 export const useEnterpriseUsageData = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   timeframe,
 }: UsageDataParams): UsageData => {
   const { loading: isConnecting } = useAuth();
 
-  const { isChainProtocolSwitchEnabled, chainProtocol } =
+  const { chainProtocol, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
 
   const chainId = getStatsChainId({
@@ -42,8 +42,8 @@ export const useEnterpriseUsageData = ({
 
   const {
     data,
-    isLoading: areEnterpriseStatsLoading,
     error: enterpriseStatsError,
+    isLoading: areEnterpriseStatsLoading,
   } = useAppSelector(selectEnterpriseStatsBySelectedApiKey);
 
   const enterpriseStats = useMemo(() => {

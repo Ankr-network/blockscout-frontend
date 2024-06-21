@@ -48,7 +48,7 @@ import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects
 
 /* eslint-disable max-lines-per-function */
 export const Routes = () => {
-  const { hasPremium, isLoggedIn, hasPrivateAccess } = useAuth();
+  const { hasPremium, hasPrivateAccess, isLoggedIn } = useAuth();
 
   const shouldRedirectToProjects = useShouldRedirectToProjects();
 

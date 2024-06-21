@@ -22,9 +22,9 @@ export const {
     fetchLastMonthStats: build.query<PrivateStats, FetchLastMonthStatsParams>({
       queryFn: createNotifyingQueryFn(
         async ({
+          gateway = getAccountingGateway(),
           group,
           userEndpointToken,
-          gateway = getAccountingGateway(),
         }) => {
           const data = userEndpointToken
             ? await gateway.getPrivateStatsByPremiumId(

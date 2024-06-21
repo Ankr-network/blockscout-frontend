@@ -6,21 +6,21 @@ export interface HandleSelectBlockchainParams {
 }
 
 const unselectBlockchain = ({
-  existingBlockchains,
   blockchain,
+  existingBlockchains,
 }: HandleSelectBlockchainParams) =>
   existingBlockchains.filter(
     existingBlockchain => existingBlockchain !== blockchain,
   );
 
 const selectBlockchain = ({
-  existingBlockchains,
   blockchain,
+  existingBlockchains,
 }: HandleSelectBlockchainParams) => [...existingBlockchains, blockchain];
 
 export const handleBlockchainSelection = ({
-  existingBlockchains,
   blockchain,
+  existingBlockchains,
 }: HandleSelectBlockchainParams) => {
   const isBlockchainSelected = existingBlockchains.includes(blockchain);
 

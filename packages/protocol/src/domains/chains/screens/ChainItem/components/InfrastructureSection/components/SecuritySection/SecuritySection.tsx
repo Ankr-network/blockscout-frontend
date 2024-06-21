@@ -6,7 +6,7 @@ import { SecuritySettingsSkeleton } from '../SecuritySettings/SecuritySettingsSk
 import { useSecuritySettings } from '../../../../hooks/useSecuritySettings';
 
 export const SecuritySection = ({ chainId }: { chainId: string }) => {
-  const { state, jwtToken } = useSecuritySettings(chainId);
+  const { jwtToken, state } = useSecuritySettings(chainId);
 
   return (
     <Queries<TSecuritySettings>

@@ -15,10 +15,10 @@ interface IBaseChainsHeader {
 }
 
 export const BaseChainsHeader = ({
-  sortType,
-  setSortType,
   searchContent,
   setSearchContent,
+  setSortType,
+  sortType,
 }: IBaseChainsHeader) => {
   const { classes } = useBaseChainsHeaderStyles();
 

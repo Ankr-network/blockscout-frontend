@@ -8,9 +8,9 @@ interface IsCurrentPlanButtonParams {
 }
 
 export const isCurrentPlanButton = ({
+  hasPremium,
   isFinanceRole,
   isLoggedIn,
-  hasPremium,
   planName,
 }: IsCurrentPlanButtonParams) => {
   if (isLoggedIn && !isFinanceRole) {

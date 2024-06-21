@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 
 import { ContentType, UpgradePlanDialogType } from '../types';
 import { checkContactSalesPopup } from '../utils/checkContactSalesPopup';
@@ -28,11 +28,11 @@ export const useUpgradePlanDialogState = ({
 }: UpgradePlanDialogStateParams) => {
   const {
     contentType,
+    setContactSales,
+    setContactSalesSuccess: onSubmitContactForm,
     setDefault,
     setSignUp,
     setTopUp,
-    setContactSales,
-    setContactSalesSuccess: onSubmitContactForm,
   } = useContentType({ defaultState });
   const isSignUp = contentType === ContentType.SIGN_UP;
 

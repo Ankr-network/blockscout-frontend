@@ -7,8 +7,8 @@ import { web3Api } from 'store/queries';
 import { MultiService } from '../../../modules/api/MultiService';
 
 export const {
-  useLazyInfrastructureFetchProviderQuery,
   endpoints: { infrastructureFetchProvider },
+  useLazyInfrastructureFetchProviderQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     infrastructureFetchProvider: build.query<IProvider, void>({

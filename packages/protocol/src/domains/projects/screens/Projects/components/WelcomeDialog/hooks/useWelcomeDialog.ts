@@ -6,9 +6,9 @@ import { useProjects } from 'domains/projects/hooks/useProjects';
 import { useWelcomeDialogSettings } from './useWelcomeDialogSettings';
 
 export const useWelcomeDialog = () => {
-  const { isOpened, onOpen, onClose } = useDialog();
-  const { wasWelcomeDialogShown, setSettings } = useWelcomeDialogSettings();
-  const { isLoadingAllWhitelists, allWhitelists } = useProjects();
+  const { isOpened, onClose, onOpen } = useDialog();
+  const { setSettings, wasWelcomeDialogShown } = useWelcomeDialogSettings();
+  const { allWhitelists, isLoadingAllWhitelists } = useProjects();
 
   useEffect(() => {
     const hasProjects =

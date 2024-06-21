@@ -19,7 +19,7 @@ type ChainsResult = Record<string, Chain[]>;
 
 const getExtensions = (chains: Chain[]) => {
   return chains.reduce<ChainsResult>((result, chain) => {
-    const { type, chainExtends } = chain;
+    const { chainExtends, type } = chain;
 
     if (type === BlockchainType.Extension && chainExtends) {
       result[chainExtends] = result[chainExtends]
@@ -67,9 +67,9 @@ interface GetExtendedChainsArguments {
 }
 
 const getExtendedChains = ({
+  beacons,
   chains,
   extensions,
-  beacons,
   opnodes,
 }: GetExtendedChainsArguments) => {
   return chains.reduce<Chain[]>((result, chain) => {
@@ -139,10 +139,10 @@ interface AddExtensionsArguments {
 }
 
 const addExtensions = ({
-  extendedChains,
-  testnets,
   devnets,
+  extendedChains,
   opnodes,
+  testnets,
 }: AddExtensionsArguments) => {
   return extendedChains.reduce<Chain[]>((result, chain) => {
     const { id, type } = chain;
@@ -204,11 +204,11 @@ const addPremiumOnly = (chains: Chain[]) => {
 };
 
 const getURLs = ({
+  enterpriseURLs,
+  enterpriseWsURLs,
   restURLs,
   rpcURLs,
   wsURLs,
-  enterpriseURLs,
-  enterpriseWsURLs,
 }: BlockchainUrls) => {
   const template = new Array(Math.max(restURLs.length, rpcURLs.length)).fill(
     '',
@@ -228,13 +228,13 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
     const { blockchain } = chain;
     const {
       coinName,
+      extends: chainExtends,
+      features,
       id,
       name,
-      extends: chainExtends,
-      type,
-      premiumOnly,
-      features,
       paths,
+      premiumOnly,
+      type,
     } = blockchain;
 
     const isComingSoon = features.includes(BlockchainFeature.ComingSoon);

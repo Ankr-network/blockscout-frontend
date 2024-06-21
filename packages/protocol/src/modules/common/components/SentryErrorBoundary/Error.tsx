@@ -16,12 +16,12 @@ interface IErrorProps {
 }
 
 export const Error = ({
-  title,
+  buttonHandler,
   buttonText,
   description,
-  buttonHandler,
-  toLocation = 'refresh',
   hasLayout = true,
+  title,
+  toLocation = 'refresh',
 }: IErrorProps) => {
   const { classes } = useErrorStyles();
   const history = useHistory();

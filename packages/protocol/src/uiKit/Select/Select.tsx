@@ -34,11 +34,11 @@ export interface ISelectProps extends Omit<SelectProps, 'variant'> {
 export const Select = ({
   MenuProps: { classes: menuClasses = {} } = {},
   children,
-  options,
-  helperText,
-  label,
   fullWidth = true,
+  helperText,
   iconClassName,
+  label,
+  options,
   rootClassName,
   ...restProps
 }: ISelectProps) => {

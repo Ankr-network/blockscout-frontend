@@ -14,8 +14,8 @@ interface AddNewEmailBindingParams {
 }
 
 export const {
-  useLazyUserSettingsAddNewEmailBindingQuery,
   endpoints: { userSettingsAddNewEmailBinding },
+  useLazyUserSettingsAddNewEmailBindingQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsAddNewEmailBinding: build.query<

@@ -11,10 +11,10 @@ export type TeamMenuProps = Pick<MenuProps, 'anchorEl' | 'open'> & {
 };
 
 export const TeamMenu = ({
-  onClose,
-  open,
   anchorEl,
+  onClose,
   onOpenRenameModal,
+  open,
 }: TeamMenuProps) => {
   const { classes } = useTeamMenuStyles();
 

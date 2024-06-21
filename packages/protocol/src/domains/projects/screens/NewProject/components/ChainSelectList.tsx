@@ -19,22 +19,22 @@ export const ChainSelectList = ({
   onOpenDialog,
 }: ChainSelectListProps) => {
   const {
-    id: chainId,
     beaconsMainnet,
     beaconsTestnet,
+    id: chainId,
     opnodesMainnet,
     opnodesTestnet,
   } = chain;
 
   const {
     chainProtocolContext,
-    chainTypes,
-    selectType,
-    groups,
-    isTestnetOnlyChainSelected: isTestnetOnlyChain,
     chainType,
+    chainTypes,
     endpoints,
+    groups,
     hasTypeSelector,
+    isTestnetOnlyChainSelected: isTestnetOnlyChain,
+    selectType,
   } = useChainsSelector(chainId, onOpenDialog);
 
   const isVisible =

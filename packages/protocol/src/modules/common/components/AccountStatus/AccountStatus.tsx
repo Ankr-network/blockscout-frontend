@@ -9,7 +9,7 @@ interface IAccountStatusProps {
 }
 
 export const AccountStatus = ({ className }: IAccountStatusProps) => {
-  const { loading, hasPremium, hasStatusTransition, isLoggedIn } = useAuth();
+  const { hasPremium, hasStatusTransition, isLoggedIn, loading } = useAuth();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();

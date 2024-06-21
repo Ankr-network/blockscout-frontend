@@ -6,9 +6,9 @@ interface ShouldShowConnectWalletButtoParams {
 }
 
 export const shouldShowConnectWalletButton = ({
-  hasWeb3Connection,
   hasOauthLogin,
   hasUserEndpointToken,
+  hasWeb3Connection,
   isUserAddress,
 }: ShouldShowConnectWalletButtoParams) => {
   if (!hasWeb3Connection && !hasOauthLogin) {

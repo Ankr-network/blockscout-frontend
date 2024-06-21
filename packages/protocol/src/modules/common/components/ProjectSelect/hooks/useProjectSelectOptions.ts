@@ -30,7 +30,7 @@ const getSelectItems = (
   jwtTokens: JwtManagerToken[],
   shouldDisablePrimaryProject?: boolean,
 ): SelectOption[] => {
-  const items = jwtTokens.map(({ userEndpointToken, index, name }) => {
+  const items = jwtTokens.map(({ index, name, userEndpointToken }) => {
     return {
       value: userEndpointToken,
       title: name || renderProjectName(index),

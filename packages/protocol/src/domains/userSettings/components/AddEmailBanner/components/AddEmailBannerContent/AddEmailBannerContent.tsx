@@ -21,12 +21,12 @@ export interface IAddEmailBannerContentProps {
 
 export const AddEmailBannerContent = ({
   contentState,
+  fillStepContent,
+  formDisabled,
+  onAddEmailSubmitSuccess,
   onFormStateChange,
   onFormSubmit,
-  onAddEmailSubmitSuccess,
   submittedEmail,
-  formDisabled,
-  fillStepContent,
 }: IAddEmailBannerContentProps) => {
   const addEmailForm = useMemo(
     () => (

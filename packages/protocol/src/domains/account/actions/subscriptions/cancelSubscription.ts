@@ -21,7 +21,7 @@ export const {
       TwoFAQueryFnParams<CancelSubscriptionParams>
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ params: { subscriptionId, group }, totp }) => {
+        async ({ params: { group, subscriptionId }, totp }) => {
           const api = MultiService.getService().getAccountingGateway();
 
           await api.cancelSubscription(
@@ -34,7 +34,7 @@ export const {
       ),
       onQueryStarted: async (
         { params: { subscriptionId } },
-        { dispatch, queryFulfilled, getState },
+        { dispatch, getState, queryFulfilled },
       ) => {
         const currentSubscriptions = selectMySubscriptions(
           getState() as RootState,

@@ -18,7 +18,7 @@ export const DataTransferSection = ({
   isDataTransferEnabled,
   onDataTransferSwitchChange,
 }: DataTransferSectionProps) => {
-  const { cx, classes } = useDataTransferSectionStyles();
+  const { classes, cx } = useDataTransferSectionStyles();
 
   return (
     <div className={classes.dataTransferSwitch}>

@@ -15,10 +15,10 @@ export type MenuButtonProps = Pick<
 };
 
 export const MenuButton = (props: MenuButtonProps) => {
-  const { open, onOpen, buttonProps = {}, ...menuProps } = props;
+  const { buttonProps = {}, onOpen, open, ...menuProps } = props;
   const { isLightTheme } = useThemes();
 
-  const { cx, classes } = useMenuButtonStyles({
+  const { classes, cx } = useMenuButtonStyles({
     isOpened: open,
     isLightTheme,
   });

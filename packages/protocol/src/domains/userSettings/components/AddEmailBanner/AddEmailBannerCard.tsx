@@ -4,7 +4,7 @@ import { IUseAddEmailBannerCardProps } from './types';
 import { useAddEmailBanner } from './useAddEmailBanner';
 
 export const AddEmailBannerCard = (props: IUseAddEmailBannerCardProps) => {
-  const { title, contentProps } = useAddEmailBanner(props);
+  const { contentProps, title } = useAddEmailBanner(props);
 
   return (
     <ContainerCard title={title}>

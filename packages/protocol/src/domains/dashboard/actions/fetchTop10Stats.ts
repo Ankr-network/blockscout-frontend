@@ -26,10 +26,10 @@ export const {
     fetchTop10Stats: build.query<Top10StatsResponse, Top10StatsRequest>({
       queryFn: createNotifyingQueryFn(
         async ({
-          intervalType,
           blockchain,
-          group,
           gateway = getAccountingGateway(),
+          group,
+          intervalType,
         }) => {
           /* backend does not support h1 and h24 interval for this endpoint */
           if (

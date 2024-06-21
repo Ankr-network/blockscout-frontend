@@ -25,14 +25,14 @@ interface TwoFASetupDialogProps {
 }
 
 export const TwoFASetupDialog = ({
-  open,
   onClose,
   onNext,
+  open,
 }: TwoFASetupDialogProps) => {
-  const { isQRCodeSetup, setQRCodeVariant, setManualVariant } =
+  const { isQRCodeSetup, setManualVariant, setQRCodeVariant } =
     useTwoFASetupVariant();
 
-  const { twoFAsetupDataState, fetch } = useTwoFASetupData(open);
+  const { fetch, twoFAsetupDataState } = useTwoFASetupData(open);
 
   const { classes } = useTwoFASetupDialogStyles();
 

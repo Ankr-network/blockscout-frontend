@@ -31,8 +31,8 @@ export const useJwtTokenManager = () => {
     fetchAllJwtTokenRequestsQuery,
     {
       data: { jwtTokens } = defaultData,
-      isLoading,
       isFetching,
+      isLoading,
       isUninitialized,
     },
   ] = useLazyFetchAllJwtTokenRequestsQuery();

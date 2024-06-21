@@ -23,11 +23,11 @@ interface IGroupSelectorProps extends SelectMenuProps {
 }
 
 export const GroupSelector = ({
+  classNameMenuItem,
   groupID,
   groups,
-  onGroupSelect,
   menuProps,
-  classNameMenuItem,
+  onGroupSelect,
 }: IGroupSelectorProps) => {
   const { classes, cx } = useGroupSelectorStyles();
 

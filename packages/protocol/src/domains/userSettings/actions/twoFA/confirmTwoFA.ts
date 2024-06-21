@@ -13,8 +13,8 @@ export interface IEnableTwoFAParams {
 
 export const {
   endpoints: { userSettingsConfirmTwoFA },
-  useUserSettingsConfirmTwoFAQuery,
   useLazyUserSettingsConfirmTwoFAQuery,
+  useUserSettingsConfirmTwoFAQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsConfirmTwoFA: build.query<

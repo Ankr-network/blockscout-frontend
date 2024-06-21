@@ -15,8 +15,8 @@ interface ConnectedButtonProps {
 
 export const ConnectedButton = ({ isMobile }: ConnectedButtonProps) => {
   const { classes } = useStyles(isMobile);
-  const { handleDisconnect, address, loading, walletMeta } = useAuth();
-  const { open, anchorEl, handleOpen, handleClose } = useMenu();
+  const { address, handleDisconnect, loading, walletMeta } = useAuth();
+  const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   const handleDisconnectButtonClick = useCallback(() => {
     handleClose();

@@ -7,7 +7,7 @@ export interface WidgetTitleProps {
   children: string;
 }
 
-export const WidgetTitle = ({ className, children }: WidgetTitleProps) => {
+export const WidgetTitle = ({ children, className }: WidgetTitleProps) => {
   const { classes, cx } = useWidgetTitleStyles();
 
   return (

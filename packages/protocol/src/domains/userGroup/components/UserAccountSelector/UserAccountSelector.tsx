@@ -4,7 +4,7 @@ import { GroupMenu } from './components/GroupMenu';
 import { GroupMenuButton } from './components/GroupMenuButton';
 
 export const UserAccountSelector = () => {
-  const { anchorEl, handleOpen, handleClose, open } = useMenu();
+  const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   return (
     <>

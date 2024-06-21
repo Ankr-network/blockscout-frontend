@@ -12,7 +12,7 @@ interface IChainsSortSelect {
   sortType?: SortType;
 }
 
-export const ChainsSortSelect = ({ sortType, onSelect }: IChainsSortSelect) => {
+export const ChainsSortSelect = ({ onSelect, sortType }: IChainsSortSelect) => {
   const options = useOptions();
 
   const onChange = useCallback(

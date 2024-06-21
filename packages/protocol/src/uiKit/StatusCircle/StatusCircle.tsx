@@ -5,9 +5,9 @@ import { useStyles } from './StatusCircleStyles';
 
 export const StatusCircle = ({
   className,
+  color,
   size = 'sm',
   status = 'info',
-  color,
   ...rest
 }: StatusCircleProps) => {
   const { classes, cx } = useStyles({ size, status });

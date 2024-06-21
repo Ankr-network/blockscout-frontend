@@ -15,10 +15,10 @@ interface IHarmonyMethodsTabsProps {
 }
 
 export const HarmonyMethodsTabs = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: IHarmonyMethodsTabsProps) => {
   const [tabs, selectedTab] = useMethodsTabsUtils({
     group,

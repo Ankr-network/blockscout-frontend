@@ -22,20 +22,20 @@ export interface Sections extends SectionsBase {
 }
 
 export const useSectionsTabs = ({
-  chainType,
-  chainSubType,
   chain,
+  chainSubType,
+  chainType,
   group,
-  publicUrl,
   hasPrivateAccess,
+  publicUrl,
 }: UseSectionsParams): Sections => {
   const {
-    getStartedSection,
     debugMenuSection,
-    usageDataSection,
+    getStartedSection,
     infrastructureSection,
     timeframe,
     timeframeTabs,
+    usageDataSection,
   } = useAvailableSections({
     chainType,
     chainSubType,

@@ -99,4 +99,4 @@ export const selectAuthData: (state: RootState) => IAuthSlice = (
   return {};
 };
 
-export const { setAuthData, resetAuthData } = authSlice.actions;
+export const { resetAuthData, setAuthData } = authSlice.actions;

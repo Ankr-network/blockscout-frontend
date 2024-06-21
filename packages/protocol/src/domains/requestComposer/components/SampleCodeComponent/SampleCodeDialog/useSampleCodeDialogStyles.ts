@@ -7,7 +7,7 @@ interface IProps {
 }
 
 export const useSampleCodeDialogStyles = makeStyles<IProps>()(
-  (theme: Theme, { isLightTheme, hasSmallFontSize }: IProps) => ({
+  (theme: Theme, { hasSmallFontSize, isLightTheme }: IProps) => ({
     paper: {
       width: '100%',
     },

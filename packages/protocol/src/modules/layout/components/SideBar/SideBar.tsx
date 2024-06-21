@@ -29,11 +29,11 @@ export const SideBar = ({
   const { classes, cx } = useStyles(isMobileSideBar);
   const {
     balance,
-    creditBalance,
-    usdBalance,
     balanceInRequests,
+    creditBalance,
     currentChargingModel,
     isApiCreditsBalance,
+    usdBalance,
   } = useBalanceMenuButton();
 
   const onDocsClick = useTrackDocs();

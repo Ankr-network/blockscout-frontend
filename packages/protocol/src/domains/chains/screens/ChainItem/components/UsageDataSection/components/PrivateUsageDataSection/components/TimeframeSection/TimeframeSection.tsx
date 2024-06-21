@@ -23,7 +23,7 @@ export const TimeframeSection = ({
 }: TimeframeSectionProps) => {
   const { classes } = useTimeframeSectionStyles();
 
-  const { options, handleSetOption, selectedOption } = useProjectSelect();
+  const { handleSetOption, options, selectedOption } = useProjectSelect();
 
   return (
     <Box className={classes.root}>

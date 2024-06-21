@@ -14,10 +14,10 @@ interface IChargingModelLabelParams {
 }
 
 export const ChargingModelLabel = ({
+  className,
   currentChargingModel,
   currentChargingModelType,
   size = 'medium',
-  className,
 }: IChargingModelLabelParams) => {
   const { shouldShowFreemium } = useFreemiumChargingModel(currentChargingModel);
 

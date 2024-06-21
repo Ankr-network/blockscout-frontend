@@ -24,7 +24,7 @@ export const PublicUsageSummary = ({
   timeframe,
   totalRequests,
 }: UsageSummaryProps) => {
-  const { total, average, cached } = useUsageSummary({
+  const { average, cached, total } = useUsageSummary({
     cachedRequests,
     timeframe,
     totalRequests,

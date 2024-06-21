@@ -18,8 +18,8 @@ interface TwoFAControlDialogDefaultProps {
 }
 
 export const TwoFAControlDialogDefault = ({
-  setSuccessView,
   setErrorView,
+  setSuccessView,
 }: TwoFAControlDialogDefaultProps) => {
   const [, { data: { status } = { status: TwoFAStatus.None } }] =
     useQueryEndpoint(userSettingsFetchTwoFAStatus);

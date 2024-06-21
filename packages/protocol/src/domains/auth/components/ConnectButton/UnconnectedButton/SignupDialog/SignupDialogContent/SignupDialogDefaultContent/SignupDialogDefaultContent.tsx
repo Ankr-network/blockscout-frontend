@@ -30,7 +30,7 @@ export const SignupDialogDefaultContent = ({
   const location = useLocation();
 
   const onSubmit = useCallback(
-    ({ loginType, hasMarketing }: SignupFormValues) => {
+    ({ hasMarketing, loginType }: SignupFormValues) => {
       handleSetSignupSettings(Boolean(hasMarketing));
 
       if (loginType === OauthLoginType.Google) {

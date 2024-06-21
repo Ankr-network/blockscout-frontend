@@ -32,10 +32,10 @@ type PublicChainItemParams = IPublicChainItemDetails & {
 
 export const usePublicChainItem = ({
   chain,
-  unfilteredChain: publicChain,
   isChainArchived,
-  onBlockedTabClick,
   isPremiumLabelHidden,
+  onBlockedTabClick,
+  unfilteredChain: publicChain,
 }: PublicChainItemParams): ChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
@@ -58,7 +58,7 @@ export const usePublicChainItem = ({
     netId,
   });
 
-  const { group, groups, groupID, groupTab, groupTabs, selectGroup } = useGroup(
+  const { group, groupID, groupTab, groupTabs, groups, selectGroup } = useGroup(
     {
       chain,
       chainType,

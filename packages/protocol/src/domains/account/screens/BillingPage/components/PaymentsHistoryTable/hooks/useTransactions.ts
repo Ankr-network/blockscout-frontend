@@ -23,8 +23,8 @@ export const useTransactions = ({
       data: {
         deductionsCursor,
         list: transactions,
-        transactionsCursor,
         myBundlesPaymentsCursor,
+        transactionsCursor,
       } = defaultData,
       isLoading,
     },

@@ -29,8 +29,8 @@ export const usePrivateChainsData = ({
   });
 
   const {
-    chains,
     allChains,
+    chains,
     isLoading: privateChainsLoading,
   } = usePrivateChainsInfo();
 

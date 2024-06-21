@@ -21,7 +21,7 @@ export const {
       TwoFAQueryFnParams<CancelBundleSubscriptionParams>
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ params: { subscriptionId, group }, totp }) => {
+        async ({ params: { group, subscriptionId }, totp }) => {
           const api = MultiService.getService().getAccountingGateway();
 
           await api.cancelBundleSubscription(subscriptionId, {
@@ -34,7 +34,7 @@ export const {
       ),
       onQueryStarted: async (
         { params: { subscriptionId } },
-        { dispatch, queryFulfilled, getState },
+        { dispatch, getState, queryFulfilled },
       ) => {
         const currentBundles = selectMyBundles(getState() as RootState);
         const bundlesWithoutCurrent = currentBundles.filter(

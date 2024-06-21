@@ -13,7 +13,7 @@ export const PublicChainItem = ({
   timeframe,
   ...props
 }: ChainsItemQueryProps) => {
-  const { totalRequests, loading } = usePublicChainsItem({
+  const { loading, totalRequests } = usePublicChainsItem({
     chain,
     timeframe,
   });

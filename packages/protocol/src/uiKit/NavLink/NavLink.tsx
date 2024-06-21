@@ -57,16 +57,16 @@ const getElement = (
 export const NavLink = forwardRef(
   (
     {
-      href,
-      variant = 'text',
       activeClassName,
       className,
       exactMatch = false,
+      href,
       isLoading,
-      onClick,
-      loader,
       isRouterLink,
+      loader,
+      onClick,
       routerLinkProps,
+      variant = 'text',
       ...props
     }: Props,
     ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>,

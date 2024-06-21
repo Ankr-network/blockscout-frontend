@@ -18,11 +18,11 @@ export interface ChainsParams {
 }
 
 export const usePublicChains = ({
-  chains,
   allChains,
+  chains,
+  searchContent,
   sortType,
   timeframe,
-  searchContent,
 }: ChainsParams) => {
   const { data, isLoading: arePublicStatsLoading } =
     useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);

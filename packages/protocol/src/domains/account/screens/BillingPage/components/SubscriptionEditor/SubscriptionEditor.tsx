@@ -11,7 +11,6 @@ import {
 import { NextBillingDate } from '../NextBillingDate';
 import { Price } from '../Price';
 import { useSubscriptionEditorStyles } from './SubscriptionEditorStyles';
-import { LastPackageWarning } from '../LastPackageWarning';
 
 export interface SubscriptionEditorProps {
   amount: string;
@@ -26,20 +25,20 @@ export interface SubscriptionEditorProps {
 
 export const SubscriptionEditor = ({
   amount,
+  customChargingModelName,
   isCanceling,
+  isDeprecatedModel,
   nextBillingDate,
   onCancel,
-  period,
   onOpenSuccessDialog,
-  customChargingModelName,
-  isDeprecatedModel,
+  period,
 }: SubscriptionEditorProps) => {
   const {
-    isOpened: isOpenedConfirmDialog,
-    onOpen: onOpenConfirmDialog,
-    onClose: onCloseConfirmDialog,
-    dialogTitle,
     dialogDescription,
+    dialogTitle,
+    isOpened: isOpenedConfirmDialog,
+    onClose: onCloseConfirmDialog,
+    onOpen: onOpenConfirmDialog,
   } = useConfirmCancelDialog({
     nextPaymentDate: nextBillingDate,
     customChargingModelName,
@@ -78,20 +77,16 @@ export const SubscriptionEditor = ({
         isDeprecatedModel={isDeprecatedModel}
       />
 
-      {isDeprecatedModel ? (
-        <LastPackageWarning />
-      ) : (
-        <div className={classes.controls}>
-          <Button
-            className={classes.cancelButton}
-            fullWidth
-            onClick={onOpenConfirmDialog}
-            variant="outlined"
-          >
-            {t('account.account-details.subscription-editor.cancel-button')}
-          </Button>
-        </div>
-      )}
+      <div className={classes.controls}>
+        <Button
+          className={classes.cancelButton}
+          fullWidth
+          onClick={onOpenConfirmDialog}
+          variant="outlined"
+        >
+          {t('account.account-details.subscription-editor.cancel-button')}
+        </Button>
+      </div>
 
       <ConfirmCancellationDialog
         onClose={onCloseConfirmDialog}

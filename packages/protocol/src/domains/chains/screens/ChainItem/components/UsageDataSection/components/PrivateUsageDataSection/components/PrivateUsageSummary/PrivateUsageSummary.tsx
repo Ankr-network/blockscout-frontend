@@ -20,13 +20,13 @@ const root = 'chain-item.usage-data.usage-summary';
 
 export const PrivateUsageSummary = ({
   className,
+  isCostHidden = false,
   loading,
   timeframe,
   totalCost,
   totalRequests,
-  isCostHidden = false,
 }: UsageSummaryProps) => {
-  const { total, average, cost } = useUsageSummary({
+  const { average, cost, total } = useUsageSummary({
     timeframe,
     totalCost,
     totalRequests,

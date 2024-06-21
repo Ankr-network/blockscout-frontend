@@ -19,8 +19,8 @@ export interface FetchLinkForCardPaymentParams {
 }
 
 export const {
-  useLazyUsdTopUpFetchLinkForOneTimePaymentQuery,
   endpoints: { usdTopUpFetchLinkForOneTimePayment },
+  useLazyUsdTopUpFetchLinkForOneTimePaymentQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     usdTopUpFetchLinkForOneTimePayment: build.query<

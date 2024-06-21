@@ -13,12 +13,12 @@ export enum DialogView {
 export const useNegativeBalanceTermsOfServicesDialog = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
 
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const {
+    acceptNegativeBalanceTermsOfServices,
     isAcceptLoading,
     shouldShowDialog,
-    acceptNegativeBalanceTermsOfServices,
   } = useNegativeBalanceTermsOfServices();
 
   const [dialogView, setDialogView] = useState(DialogView.default);

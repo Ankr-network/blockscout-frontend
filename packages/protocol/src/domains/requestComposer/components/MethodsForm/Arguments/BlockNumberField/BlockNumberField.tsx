@@ -17,8 +17,8 @@ interface BlockNumberFieldProps {
 
 export const BlockNumberField = ({
   helperText,
-  placeholder,
   name = '',
+  placeholder,
   type = 'text',
   validate: isValid = () => true,
 }: BlockNumberFieldProps) => {

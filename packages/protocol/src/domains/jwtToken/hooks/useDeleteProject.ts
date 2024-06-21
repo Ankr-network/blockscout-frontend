@@ -28,7 +28,7 @@ export const useDeleteProject = (
     event?: MouseEvent<HTMLButtonElement>,
   ) => void,
 ) => {
-  const { project, handleResetConfig } = useProjectConfig();
+  const { handleResetConfig, project } = useProjectConfig();
   const newProjectTokenIndex = project?.[NewProjectStep.General]?.tokenIndex;
   const shouldResetNewProject = tokenIndex === newProjectTokenIndex;
 

@@ -10,8 +10,8 @@ export interface FetchPublicChainsResult {
 }
 
 export const {
-  useLazyChainsFetchPublicChainsQuery,
   endpoints: { chainsFetchPublicChains },
+  useLazyChainsFetchPublicChainsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPublicChains: build.query<FetchPublicChainsResult, void>({

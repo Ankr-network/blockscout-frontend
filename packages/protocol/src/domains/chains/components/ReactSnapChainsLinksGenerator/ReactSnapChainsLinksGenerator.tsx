@@ -27,14 +27,14 @@ const SubChainLinksGenerator = ({
     <>
       {chains.map(
         ({
-          name,
-          id,
           beacons = [],
-          testnets = [],
           devnets = [],
-          extensions = [],
           extenders = [],
+          extensions = [],
+          id,
+          name,
           opnodes = [],
+          testnets = [],
         }) => {
           const subchains = flatProtocolSubchains([
             ...testnets,
@@ -79,13 +79,13 @@ export const ReactSnapChainsLinksGenerator = ({
     <>
       {chains.map(
         ({
-          name,
-          id,
           beacons = [],
-          testnets = [],
           devnets = [],
-          extensions = [],
           extenders = [],
+          extensions = [],
+          id,
+          name,
+          testnets = [],
         }) => (
           <Fragment key={name}>
             <NavLink

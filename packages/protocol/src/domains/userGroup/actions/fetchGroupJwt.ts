@@ -46,7 +46,7 @@ export const {
       },
       onQueryStarted: async (
         { group },
-        { dispatch, queryFulfilled, getState },
+        { dispatch, getState, queryFulfilled },
       ) => {
         const { data: groupJwt } = await queryFulfilled;
 

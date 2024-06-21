@@ -1,26 +1,26 @@
-import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 import { TBlockchain } from '@ankr.com/advanced-api/src/api/getLogs/types';
+import { Web3KeyReadProvider, Web3KeyWriteProvider } from '@ankr.com/provider';
 
 import {
-  IConfig,
-  JwtTokenFullData,
-  Web3Address,
-  Tier,
-  DATE_MULTIPLIER,
-  TContractAddresses,
-} from '../common';
-import { PAYGContractManager } from '../PAYGContract';
-import {
-  Web3TokenIssuerService,
+  ContractService,
   LoginSignService,
   TokenDecryptionService,
-  ContractService,
+  USDCContractService,
+  USDTContractService,
+  Web3TokenIssuerService,
 } from '../services';
-import { parseJwtToken } from './utils';
+import {
+  DATE_MULTIPLIER,
+  IConfig,
+  JwtTokenFullData,
+  TContractAddresses,
+  Tier,
+  Web3Address,
+} from '../common';
+import { PAYGContractManager } from '../PAYGContract';
 import { UsdtPAYGContractManager } from '../PAYGContract/UsdtPAYGContractManager';
 import { UsdcPAYGContractManager } from '../PAYGContract/UsdcPAYGContractManager';
-import { USDTContractService } from '../services/contractService/UsdtContractService';
-import { USDCContractService } from '../services/contractService/UsdcContractService';
+import { parseJwtToken } from './utils';
 
 export class MultiRpcWeb3Sdk {
   private PAYGContractManager?: PAYGContractManager;

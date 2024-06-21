@@ -51,10 +51,10 @@ export const useEditSmartContractSidebarProps = ({
 
   const {
     handleSelectBlockchain,
+    isValid: isSelectorValid,
     reset: resetSelectorState,
     selectedBlockchains,
     subchains,
-    isValid: isSelectorValid,
   } = useWhitelistItemChainsSelector(initiallySelectedBlockchains);
 
   const reset = useCallback(() => {

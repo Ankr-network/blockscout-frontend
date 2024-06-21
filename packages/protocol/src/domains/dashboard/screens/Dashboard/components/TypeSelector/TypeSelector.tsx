@@ -26,8 +26,8 @@ export const TypeSelector = ({
   chainType,
   chainTypes,
   classNameMenuItem,
-  menuProps,
   isMenuAlwaysVisible = false,
+  menuProps,
   onTypeSelect,
 }: ITypeSelectorProps) => {
   const { classes, cx } = useTypeSelectorStyles();

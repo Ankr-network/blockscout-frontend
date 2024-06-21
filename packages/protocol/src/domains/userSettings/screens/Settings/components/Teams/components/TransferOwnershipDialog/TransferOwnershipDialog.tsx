@@ -18,28 +18,28 @@ interface ITransferOwnershipDialogProps {
 }
 
 export const TransferOwnershipDialog = ({
-  members,
   group,
-  open,
+  members,
   onClose,
+  open,
 }: ITransferOwnershipDialogProps) => {
   const { classes } = useTransferOwnershipDialogStyles();
 
   const {
-    isSelectStep,
-    title,
-    submitButtonTitle,
-    isLoading,
-    selectedUser,
-    userOptions,
-    userName,
-    ownerInputError,
-    confirmInputValue,
     confirmInputError,
-    handleSubmit,
-    handleSelectUser,
-    onChangeConfirmInputValue,
+    confirmInputValue,
     handleCloseTransferOwnershipDialog,
+    handleSelectUser,
+    handleSubmit,
+    isLoading,
+    isSelectStep,
+    onChangeConfirmInputValue,
+    ownerInputError,
+    selectedUser,
+    submitButtonTitle,
+    title,
+    userName,
+    userOptions,
   } = useTransferOwnershipDialog({
     members,
     group,

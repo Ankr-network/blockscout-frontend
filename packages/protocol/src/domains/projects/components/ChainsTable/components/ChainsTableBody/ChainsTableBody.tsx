@@ -37,7 +37,7 @@ export const ChainsTableBody = ({
     <>
       <TableHead>
         <TableRow>
-          {columns.map(({ align, width, field, headerName }) => (
+          {columns.map(({ align, field, headerName, width }) => (
             <TableCell
               align={align}
               className={cx(cellClassName, classes.headerCell)}

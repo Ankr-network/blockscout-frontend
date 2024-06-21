@@ -9,7 +9,7 @@ interface HelperLinkProps {
   text: string;
 }
 
-export const HelperLink = ({ className, text, href }: HelperLinkProps) => {
+export const HelperLink = ({ className, href, text }: HelperLinkProps) => {
   const { classes, cx } = useHelperLinkStyles();
 
   return (

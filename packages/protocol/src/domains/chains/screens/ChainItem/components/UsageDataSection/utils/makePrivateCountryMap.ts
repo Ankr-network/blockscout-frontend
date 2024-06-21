@@ -5,7 +5,7 @@ import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeDat
 export const makePrivateCountryMap = (
   countries: PrivatStatTopCountry[] = [],
 ): CountryMap =>
-  countries.reduce((countryMap, { country, count }) => {
+  countries.reduce((countryMap, { count, country }) => {
     countryMap[country] = { country, requests: count };
 
     return countryMap;

@@ -12,8 +12,8 @@ export interface ProjectStatusLabelProps {
 }
 
 export const ProjectStatusLabel = ({
-  data,
   className,
+  data,
 }: ProjectStatusLabelProps) => {
   const { projectStatus } = useProjectStatusLabel(data);
 

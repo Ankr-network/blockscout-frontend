@@ -15,9 +15,9 @@ export interface UseProjectChainsTableColumnsParams {
 }
 
 export const useProjectChainsTableColumns = ({
+  selectAllSubChainPaths,
   selectedChainPaths,
   setIsSelectedAll,
-  selectAllSubChainPaths,
   unSelectAllSubChainPaths,
 }: UseProjectChainsTableColumnsParams) =>
   useMemo(
@@ -25,7 +25,7 @@ export const useProjectChainsTableColumns = ({
       {
         field: 'chain',
         headerName: 'Chains',
-        render: ({ chain, allChains }) => (
+        render: ({ allChains, chain }) => (
           <ProjectChainItemCellWrapper
             chain={chain}
             allChains={allChains}

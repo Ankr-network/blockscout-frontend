@@ -5,9 +5,9 @@ import { LoadableButtonLoader } from './LoadableButtonUtils';
 import { LoadableButtonProps } from './types';
 
 export const LoadableButton = <Element, Props>({
-  loading,
   children,
   loader: _loader,
+  loading,
   ...rest
 }: LoadableButtonProps<Element, Props>) => {
   const { classes, cx } = useStyles();

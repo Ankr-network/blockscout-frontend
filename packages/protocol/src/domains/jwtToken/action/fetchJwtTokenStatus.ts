@@ -11,15 +11,15 @@ interface FetchTokenStatusParams extends IApiUserGroupParams {
 }
 
 export const {
-  useLazyFetchJwtTokenStatusQuery,
   endpoints: { fetchJwtTokenStatus },
+  useLazyFetchJwtTokenStatusQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchJwtTokenStatus: build.query<
       GetUserEndpointTokenStatusResponse,
       FetchTokenStatusParams
     >({
-      queryFn: async ({ userEndpointToken, group }) => {
+      queryFn: async ({ group, userEndpointToken }) => {
         const service = MultiService.getService().getAccountingGateway();
 
         const status = await service.getUserEndpointTokenStatus({

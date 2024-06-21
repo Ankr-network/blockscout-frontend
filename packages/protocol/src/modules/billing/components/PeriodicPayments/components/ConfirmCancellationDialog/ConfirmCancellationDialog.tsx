@@ -17,12 +17,12 @@ interface IConfirmCancellationDialogProps {
 }
 
 export const ConfirmCancellationDialog = ({
+  description,
+  isLoading,
   isOpened,
   onClose,
   onConfirm,
   title,
-  description,
-  isLoading,
 }: IConfirmCancellationDialogProps) => {
   const { classes } = useConfirmCancellationDialogStyles();
 

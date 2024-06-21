@@ -15,11 +15,11 @@ export interface IUseTeamItemAsyncAccordionParams {
 }
 
 export const useTeamItemAsyncAccordion = ({
+  groupAddress,
+  groupDetailsError,
   isExpanded: isInitiallyExpanded = false,
   isExpanding: isInitiallyExpanding = false,
-  groupDetailsError,
   onExpand,
-  groupAddress,
 }: IUseTeamItemAsyncAccordionParams) => {
   const [isExpanded, setIsExpanded] = useState(isInitiallyExpanded);
   const [isExpanding, setIsExpanding] = useState(isInitiallyExpanding);

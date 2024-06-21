@@ -17,8 +17,8 @@ interface MobileHeaderProps {
 }
 
 export const MobileHeader = ({
-  className = '',
   chainsRoutes,
+  className = '',
   isEnterpriseClient,
   loading,
 }: MobileHeaderProps) => {

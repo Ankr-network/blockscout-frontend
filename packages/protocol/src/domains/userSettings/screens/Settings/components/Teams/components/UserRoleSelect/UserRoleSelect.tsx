@@ -15,11 +15,11 @@ interface IUserRoleSelectProps extends Omit<IUpdateRoleMutationArgs, 'role'> {
 
 export const UserRoleSelect = ({
   currentRole,
-  userAddress,
   email,
   group,
   isDisabled,
   isPlainTextView,
+  userAddress,
 }: IUserRoleSelectProps) => {
   const {
     anchorEl,

@@ -21,13 +21,13 @@ export const ProjectDetailsDialog = ({
   isOpened = false,
   onClose,
   onSuccess,
-  projectName,
   projectDescription,
   projectIndex,
+  projectName,
 }: ProjectDetailsDialogProps) => {
   const { classes } = useProjectDetailsDialogStyles();
 
-  const { isUpdateLoading, handleFormSubmit } = useProjectDetailsForm({
+  const { handleFormSubmit, isUpdateLoading } = useProjectDetailsForm({
     onSuccess,
     projectIndex,
     onClose,

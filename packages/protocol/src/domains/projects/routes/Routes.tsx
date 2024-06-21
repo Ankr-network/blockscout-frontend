@@ -61,7 +61,7 @@ export function ProjectsRoutes() {
     loading: isJwtManagerLoading,
   } = useJwtManager();
 
-  const { isFreePremium, isLoggedIn, loading, isPremiumStatusUninitialized } =
+  const { isFreePremium, isLoggedIn, isPremiumStatusUninitialized, loading } =
     useAuth();
 
   const isLoadingIsEnterpriseClient = useAppSelector(

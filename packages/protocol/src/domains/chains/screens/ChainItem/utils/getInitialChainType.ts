@@ -10,11 +10,11 @@ interface CheckSubnetsArguments {
 }
 
 const checkSubnets = ({
-  nets,
-  subnetTab,
-  netId,
   isMainnetPremiumOnly,
   isTestnetPremiumOnly,
+  netId,
+  nets,
+  subnetTab,
 }: CheckSubnetsArguments) => {
   const isSubnetTab = nets?.find(
     el =>
@@ -38,17 +38,17 @@ interface GetInitialChainTypeParams {
 
 export const getInitialChainType = ({
   chain,
-  netId,
+  isHiddenMainnet,
   isMainnetPremiumOnly,
   isTestnetPremiumOnly,
-  isHiddenMainnet,
+  netId,
   selectedType,
 }: GetInitialChainTypeParams): ChainType => {
   if (selectedType) {
     return selectedType;
   }
 
-  const { id, devnets = [], testnets = [] } = chain;
+  const { devnets = [], id, testnets = [] } = chain;
 
   if (isTestnetOnlyChain(id) || isHiddenMainnet) {
     return ChainType.Testnet;

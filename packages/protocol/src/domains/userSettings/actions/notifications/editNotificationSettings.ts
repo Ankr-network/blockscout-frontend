@@ -11,8 +11,8 @@ import {
 import { web3Api } from 'store/queries';
 
 export const {
-  useLazyUserSettingsEditNotificationSettingsQuery,
   endpoints: { userSettingsEditNotificationSettings },
+  useLazyUserSettingsEditNotificationSettingsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsEditNotificationSettings: build.query<

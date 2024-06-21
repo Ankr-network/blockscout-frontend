@@ -33,7 +33,7 @@ export const NotificationsFormContainer = ({
   );
 
   const renderForm = useCallback(
-    ({ handleSubmit, form }: FormRenderProps<NotificationsFormData>) => {
+    ({ form, handleSubmit }: FormRenderProps<NotificationsFormData>) => {
       return (
         <form onSubmit={handleSubmit}>
           <FormAutoSubmit

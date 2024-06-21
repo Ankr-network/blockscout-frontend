@@ -12,13 +12,13 @@ interface ChainItemHeaderProps {
 
 export const ChainItemHeader = ({
   chain,
-  headerContent,
   className,
   codeSampleWrapperClassName,
+  headerContent,
 }: ChainItemHeaderProps) => {
   const isMultiChain = chain.id === ChainID.MULTICHAIN;
 
-  const { cx, classes } = useChainItemHeaderStyles();
+  const { classes, cx } = useChainItemHeaderStyles();
 
   return (
     <>

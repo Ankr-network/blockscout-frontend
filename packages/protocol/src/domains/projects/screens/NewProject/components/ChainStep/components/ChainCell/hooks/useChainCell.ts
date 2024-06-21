@@ -22,8 +22,8 @@ export interface UseChainCellParams {
 
 // eslint-disable-next-line max-lines-per-function
 export const useChainCell = ({
-  chain,
   allChains,
+  chain,
   selectedProjectChainsIds,
   setSelectedChainsIds,
 }: UseChainCellParams) => {

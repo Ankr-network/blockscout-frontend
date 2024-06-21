@@ -6,7 +6,7 @@ import { useAddEmailBanner } from './useAddEmailBanner';
 
 export const AddEmailBannerDialog = (props: IUseAddEmailBannerDialogProps) => {
   const { isOpened, onClose } = props;
-  const { title, contentProps } = useAddEmailBanner(props);
+  const { contentProps, title } = useAddEmailBanner(props);
 
   return (
     <Dialog title={title} open={isOpened} onClose={onClose} maxPxWidth={618}>

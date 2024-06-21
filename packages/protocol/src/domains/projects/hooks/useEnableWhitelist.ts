@@ -49,13 +49,13 @@ const getProjectValues = (project: NewProjectType) => {
 
   const {
     isSelectedAll = false,
-    selectedMainnetIds = [],
-    selectedTestnetIds = [],
-    selectedDevnetIds = [],
-    selectedOpnodeMainnetIds = [],
-    selectedOpnodeTestnetIds = [],
     selectedBeaconMainnetIds = [],
     selectedBeaconTestnetIds = [],
+    selectedDevnetIds = [],
+    selectedMainnetIds = [],
+    selectedOpnodeMainnetIds = [],
+    selectedOpnodeTestnetIds = [],
+    selectedTestnetIds = [],
   } = project[NewProjectStep.Chains] || {};
 
   const chainIds = [
@@ -97,7 +97,7 @@ export const useEnableWhitelist = () => {
     { isLoading: isJwtTokenFreezeStatusLoading },
   ] = useLazyUpdateJwtTokenFreezeStatusQuery();
 
-  const { project = {}, handleResetConfig } = useProjectConfig();
+  const { handleResetConfig, project = {} } = useProjectConfig();
 
   const { chainIds, isSelectedAll, userEndpointToken, whitelistItems } =
     useMemo(() => getProjectValues(project), [project]);

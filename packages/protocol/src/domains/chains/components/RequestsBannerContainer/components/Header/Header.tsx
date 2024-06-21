@@ -13,9 +13,9 @@ interface IRequestsHeaderProps {
 }
 
 export const Header = ({
-  total,
-  timeframeValue,
   hasOffset,
+  timeframeValue,
+  total,
 }: IRequestsHeaderProps) => {
   const { classes, cx } = useHeaderStyles();
 

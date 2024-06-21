@@ -13,21 +13,21 @@ import { useChartTranslations } from '../../../useChartsTranslations';
 
 export const ChainLayout = ({
   detailsChainId,
+  selectedProjectId,
   statsChainId,
   timeframe,
-  selectedProjectId,
 }: ChainLayoutProps) => {
   const {
     allTimeTotalRequestsNumber,
+    blockHeight,
     countries,
     ipRequests,
-    requestsChartData,
-    totalRequestsNumber,
-    methodCalls,
-    responses,
     isLoadingTotalStats,
-    blockHeight,
+    methodCalls,
+    requestsChartData,
     responseError,
+    responses,
+    totalRequestsNumber,
   } = useChainData({
     statsChainId,
     detailsChainId,
@@ -35,7 +35,7 @@ export const ChainLayout = ({
     selectedProjectId,
   });
 
-  const { requestsChartTranslations, methodCallsChartTranslations } =
+  const { methodCallsChartTranslations, requestsChartTranslations } =
     useChartTranslations({
       timeframe,
       totalRequestsNumber,

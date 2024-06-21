@@ -15,7 +15,7 @@ interface IPrivateChainsProps {
 }
 
 export const PrivateChainsTop = ({ timeframe }: IPrivateChainsProps) => {
-  const { hasUserEndpointToken, hasPremium } = useAuth();
+  const { hasPremium, hasUserEndpointToken } = useAuth();
   const { isOpened, onClose, type } = useURLBasedUpgradePlanDialog();
 
   return (

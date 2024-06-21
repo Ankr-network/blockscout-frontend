@@ -27,7 +27,7 @@ export const {
       FetchTokenStatusResponse[],
       FetchTokenStatusParams
     >({
-      queryFn: async ({ projects, group }) => {
+      queryFn: async ({ group, projects }) => {
         const service = MultiService.getService().getAccountingGateway();
 
         const projectsStatuses = await Promise.all(

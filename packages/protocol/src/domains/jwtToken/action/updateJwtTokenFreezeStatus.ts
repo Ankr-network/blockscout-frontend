@@ -13,8 +13,8 @@ import { fetchAllJwtTokensStatuses } from './getAllJwtTokensStatuses';
 import { selectConfiguredProjectJwtTokens } from '../store/selectors';
 
 export const {
-  useLazyUpdateJwtTokenFreezeStatusQuery,
   endpoints: { updateJwtTokenFreezeStatus },
+  useLazyUpdateJwtTokenFreezeStatusQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     updateJwtTokenFreezeStatus: build.query<
@@ -23,7 +23,7 @@ export const {
         IUpdateJwtTokenFreezeStatusRequestParams
     >({
       queryFn: createQueryFnWithErrorHandler({
-        queryFn: async ({ token, group, freeze }) => {
+        queryFn: async ({ freeze, group, token }) => {
           const service = MultiService.getService().getAccountingGateway();
 
           await service.updateJwtTokenFreezeStatus(
@@ -44,7 +44,7 @@ export const {
       }),
       onQueryStarted: async (
         { group },
-        { dispatch, queryFulfilled, getState },
+        { dispatch, getState, queryFulfilled },
       ) => {
         await queryFulfilled;
 

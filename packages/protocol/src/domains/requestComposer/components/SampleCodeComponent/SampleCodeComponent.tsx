@@ -13,8 +13,8 @@ interface ISampleCodeComponentProps {
 }
 
 export function SampleCodeComponent({
-  methodName,
   children,
+  methodName,
 }: ISampleCodeComponentProps) {
   const { classes } = useSampleCodeComponentStyles();
 

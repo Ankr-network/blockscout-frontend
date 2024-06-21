@@ -17,11 +17,11 @@ export interface ChainsParams {
 }
 
 export const usePrivateChains = ({
-  chains,
   allChains,
-  sortType,
-  searchContent,
+  chains,
   includeMultichain = false,
+  searchContent,
+  sortType,
 }: ChainsParams) => {
   const [stats] = usePrivateStats();
 

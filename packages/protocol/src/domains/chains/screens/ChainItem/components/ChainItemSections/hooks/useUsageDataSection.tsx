@@ -29,8 +29,8 @@ export interface UsageDataSectionParams {
 
 export const useUsageDataSection = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   getSelectHandler,
   group,
   timeframe,

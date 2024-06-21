@@ -11,8 +11,8 @@ import { useStyles } from './SecuritySettingsStyles';
 import { SecuritySettingsProps } from './SecuritySettingsTypes';
 
 export const SecuritySettings = ({
-  data,
   chainId,
+  data,
   jwtToken,
 }: SecuritySettingsProps) => {
   const { classes } = useStyles();

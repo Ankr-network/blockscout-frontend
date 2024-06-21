@@ -18,10 +18,10 @@ interface UseMethodsTabsUtilsArguments {
 }
 
 export const useMethodsTabsUtils = ({
-  group,
-  title,
   args,
+  group,
   libraryID,
+  title,
 }: UseMethodsTabsUtilsArguments) => {
   const rawTabs: Tab<HarmonyLibraryID>[] = useLocaleMemo(
     () => [

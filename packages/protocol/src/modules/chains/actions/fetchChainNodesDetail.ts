@@ -20,8 +20,8 @@ const getNodesDetail = async () => {
 
 export const {
   endpoints: { chainsFetchChainNodesDetail },
-  useLazyChainsFetchChainNodesDetailQuery,
   useChainsFetchChainNodesDetailQuery,
+  useLazyChainsFetchChainNodesDetailQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchChainNodesDetail: build.query<

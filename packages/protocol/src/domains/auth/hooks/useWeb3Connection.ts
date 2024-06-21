@@ -7,7 +7,6 @@ import { authConnect } from '../actions/connect';
 import { authDisconnect } from '../actions/disconnect';
 import { authMakeAuthorization } from '../actions/connect/authMakeAuthorization';
 import { authConnectInitiator } from '../actions/connect/connectInitiator';
-import { authAutoConnect } from '../actions/connect/authAutoConnect';
 
 export const useWeb3Connection = () => {
   const [, { isLoading: isMakeAuthorizationLoading }] = useQueryEndpoint(
@@ -17,8 +16,6 @@ export const useWeb3Connection = () => {
 
   const [connect, { isLoading: isConnectInitiatorLoading }] =
     useQueryEndpoint(authConnectInitiator);
-  const [web3AutoConnect, { isLoading: isAuthAutoconnectLoading }] =
-    useQueryEndpoint(authAutoConnect);
   const [disconnect, { isLoading: isDisconnectLoading }] =
     useQueryEndpoint(authDisconnect);
 
@@ -27,18 +24,11 @@ export const useWeb3Connection = () => {
     [connect],
   );
 
-  const handleAutoconnect = useCallback(
-    (walletId = INJECTED_WALLET_ID) =>
-      web3AutoConnect({ params: { walletId } }),
-    [web3AutoConnect],
-  );
-
   const handleDisconnect = useCallback(() => {
     disconnect();
   }, [disconnect]);
 
   const loading =
-    isAuthAutoconnectLoading ||
     isAuthConnectLoading ||
     isMakeAuthorizationLoading ||
     isConnectInitiatorLoading ||
@@ -46,7 +36,6 @@ export const useWeb3Connection = () => {
 
   return {
     handleConnect,
-    handleAutoconnect,
     handleDisconnect,
     loading,
   };

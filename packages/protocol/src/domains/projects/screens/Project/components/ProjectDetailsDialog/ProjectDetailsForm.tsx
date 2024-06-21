@@ -26,16 +26,16 @@ interface ProjectDetailsFormProps {
 }
 
 export const ProjectDetailsForm = ({
-  projectName,
-  projectDescription,
-  isUpdateLoading,
   handleFormSubmit,
   isDescriptionFocusedByDefault,
+  isUpdateLoading,
+  projectDescription,
+  projectName,
 }: ProjectDetailsFormProps) => {
   const { classes } = useProjectDetailsDialogStyles();
 
   const renderForm = useCallback(
-    ({ handleSubmit, form }: FormRenderProps<ProjectDetailsFormValues>) => {
+    ({ form, handleSubmit }: FormRenderProps<ProjectDetailsFormValues>) => {
       const { name } = form.getState().values;
 
       const isNameFilled = Boolean(name);

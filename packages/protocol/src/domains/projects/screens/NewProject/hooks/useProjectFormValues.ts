@@ -54,9 +54,9 @@ export const getDevnetChains = (
   }) || [];
 
 export const getSelectedChains = ({
+  selectedDevnetChains,
   selectedMainnetChains,
   selectedTestnetChains,
-  selectedDevnetChains,
 }: {
   selectedMainnetChains: Chain[];
   selectedTestnetChains: Chain[];
@@ -77,24 +77,24 @@ export const getSelectedChains = ({
 // TODO: remove it. it's duplicate of another one useProjectFormValues in common hooks folder
 // https://ankrnetwork.atlassian.net/browse/MRPC-3652
 export const useProjectFormValues = (projectChains?: Chain[]) => {
-  const { getState, change } = useForm<NewProjectFormValues>();
+  const { change, getState } = useForm<NewProjectFormValues>();
 
   const {
+    valid,
     values: {
-      projectName = t('projects.new-project.project-name-fallback'),
-      whitelistItems = [],
-      whitelistDialog = initialDialogValues,
-      isEditingWhitelistDialog = false,
-      shouldSkipFormReset = false,
       indexOfEditingWhitelistItem = undefined,
-      planName,
+      isEditingWhitelistDialog = false,
       isSelectedAll = false,
+      planName,
       planPrice,
+      projectName = t('projects.new-project.project-name-fallback'),
+      selectedDevnetIds = [],
       selectedMainnetIds = [],
       selectedTestnetIds = [],
-      selectedDevnetIds = [],
+      shouldSkipFormReset = false,
+      whitelistDialog = initialDialogValues,
+      whitelistItems = [],
     },
-    valid,
   } = getState();
 
   const allSelectedChainIds = [

@@ -30,7 +30,7 @@ export const AccountList = ({
 
   return (
     <Box className={classes.root}>
-      {groups.map(({ address, name, role, index }) => (
+      {groups.map(({ address, index, name, role }) => (
         <AccountItem
           key={address}
           name={name}

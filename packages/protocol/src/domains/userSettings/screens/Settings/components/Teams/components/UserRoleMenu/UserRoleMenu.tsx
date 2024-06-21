@@ -26,14 +26,14 @@ export type GroupMenuProps = Pick<MenuProps, 'anchorEl' | 'open'> & {
 };
 
 export const UserRoleMenu = ({
-  selectedRole,
+  anchorEl,
   handleRoleChange,
+  handleUpdateRole,
   isButtonDisabled,
   isLoading,
-  handleUpdateRole,
   onClose,
   open,
-  anchorEl,
+  selectedRole,
 }: GroupMenuProps) => {
   const { classes } = useUserRoleMenuStyles();
 

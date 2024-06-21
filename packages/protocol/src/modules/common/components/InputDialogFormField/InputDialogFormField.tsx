@@ -21,18 +21,18 @@ export interface InputDialogFormFieldProps {
 }
 
 export const InputDialogFormField = ({
-  name,
-  placeholder,
-  maxLength = 128,
-  isMultiline,
-  isRequired,
-  shouldSkipPristineForValidation = false,
+  autofocus,
+  className,
   isDisabled,
   isHelperTextVisible = false,
   isLimitCounterVisible = false,
-  className,
+  isMultiline,
+  isRequired,
+  maxLength = 128,
+  name,
+  placeholder,
+  shouldSkipPristineForValidation = false,
   validate,
-  autofocus,
 }: InputDialogFormFieldProps) => {
   const { classes, cx } = useInputDialogFormStyles({ isMultiline });
 

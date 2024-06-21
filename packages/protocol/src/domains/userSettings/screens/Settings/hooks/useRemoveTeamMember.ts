@@ -4,7 +4,7 @@ import { Web3Address } from 'multirpc-sdk';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 export const useRemoveTeamMember = () => {
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const [teammateToRemoveAddress, setTeammateToRemoveAddress] = useState('');
   const [teammateToRemoveEmail, setTeammateToRemoveEmail] = useState('');

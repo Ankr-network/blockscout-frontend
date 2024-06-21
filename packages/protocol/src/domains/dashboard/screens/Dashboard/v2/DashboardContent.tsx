@@ -29,14 +29,14 @@ export const DashboardContent = () => {
   });
 
   const {
-    selectedChainId,
-    handleChange,
-    renderValue,
-    options: chainSelectOptions,
-    showAdditionalSelect,
     chain,
-    unfilteredChain,
+    handleChange,
     isTestnetOnlyChainSelected,
+    options: chainSelectOptions,
+    renderValue,
+    selectedChainId,
+    showAdditionalSelect,
+    unfilteredChain,
   } = useChainsSelector({
     chains: allChains,
     allChains,
@@ -44,18 +44,18 @@ export const DashboardContent = () => {
   });
 
   const {
-    statsChainId,
-    detailsChainId,
     chainProtocolContext,
-    chainType,
-    chainTypes,
-    selectType,
     chainSubType,
     chainSubTypes,
-    selectSubType,
-    groups,
+    chainType,
+    chainTypes,
+    detailsChainId,
     groupID,
+    groups,
     selectGroup,
+    selectSubType,
+    selectType,
+    statsChainId,
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
     unfilteredChain: unfilteredChain || fallbackChain,
@@ -66,7 +66,7 @@ export const DashboardContent = () => {
 
   const { apiKeys: enterpriseApiKeys } = useEnterpriseEndpoints();
 
-  const { options, handleSetOption, selectedOption, selectedProjectId } =
+  const { handleSetOption, options, selectedOption, selectedProjectId } =
     useEnterpriseApiKeySelect(enterpriseApiKeys);
 
   return (

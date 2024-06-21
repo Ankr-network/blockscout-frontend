@@ -17,7 +17,7 @@ const intl = 'projects.welcome-dialog';
 export const WelcomeDialog = () => {
   const { classes } = useWelcomeDialogStyles();
 
-  const { isOpened, handleCreateNewProjectClick, handleSkipClick } =
+  const { handleCreateNewProjectClick, handleSkipClick, isOpened } =
     useWelcomeDialog();
 
   const { openContactWidget } = useContactWidget();

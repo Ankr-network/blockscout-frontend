@@ -12,10 +12,10 @@ interface IGoogleProviderProps {
 }
 
 export const GoogleProvider = ({
-  isConnected,
-  shouldHideDisconnectButton,
-  shouldDisableConnectButton,
   address,
+  isConnected,
+  shouldDisableConnectButton,
+  shouldHideDisconnectButton,
 }: IGoogleProviderProps) => {
   const onGoogleLogin = useFetchGoogleLoginParams();
 

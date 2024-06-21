@@ -17,8 +17,8 @@ interface IRevokeInvitationDialogProps extends ICancelGroupInvitationParams {
 export const RevokeInvitationDialog = ({
   email,
   group,
-  open,
   onClose,
+  open,
 }: IRevokeInvitationDialogProps) => {
   const { classes } = useRevokeInvitationDialogStyles();
   const [revokeInvitation, { isLoading }] = useRevokeInvitationMutation();

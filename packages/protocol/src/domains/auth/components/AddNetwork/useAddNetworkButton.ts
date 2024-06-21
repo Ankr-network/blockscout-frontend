@@ -7,8 +7,8 @@ import { IUseAddNetworkButtonParams } from './types';
 
 export const useAddNetworkButton = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   isEnterprise,
 }: IUseAddNetworkButtonParams) => {

@@ -10,9 +10,9 @@ export interface UseDeclineTeamInvitationDialogParams
 }
 
 export const useDeclineTeamInvitationDialog = ({
-  open: isInitiallyOpen = false,
-  onOpen,
   onClose,
+  onOpen,
+  open: isInitiallyOpen = false,
   ...props
 }: UseDeclineTeamInvitationDialogParams) => {
   const {

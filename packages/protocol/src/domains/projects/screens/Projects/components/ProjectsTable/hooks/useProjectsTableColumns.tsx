@@ -58,7 +58,7 @@ export const useProjectsTableColumns = ({
             {t('projects.list-project.table.column-2')}
           </span>
         ),
-        render: ({ projectStatus, isLoading }) => {
+        render: ({ isLoading, projectStatus }) => {
           if (isLoading) {
             return <Skeleton width={70} height={22} variant="rounded" />;
           }
@@ -83,7 +83,7 @@ export const useProjectsTableColumns = ({
             {t('projects.list-project.table.column-3')}
           </span>
         ),
-        render: ({ whitelist = [], isLoading }) => (
+        render: ({ isLoading, whitelist = [] }) => (
           <WhitelistStatus isLoading={isLoading} whitelist={whitelist} />
         ),
         width: '20%',
@@ -129,7 +129,7 @@ export const useProjectsTableColumns = ({
             </Tooltip>
           </span>
         ),
-        render: ({ projectActivity, projectStatus, isLoading }) => {
+        render: ({ isLoading, projectActivity, projectStatus }) => {
           if (isLoading) {
             return <Skeleton width="100px" variant="text" />;
           }

@@ -27,8 +27,8 @@ export interface ChainOverviewProps {
 
 export const ChainOverview = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   isChainArchived,
   isEnterprise,
@@ -42,7 +42,7 @@ export const ChainOverview = ({
     [chain, group],
   );
 
-  const { name, coinName, id } = chain;
+  const { coinName, id, name } = chain;
 
   const hasMetamaskButton =
     chain &&

@@ -28,7 +28,7 @@ export const {
   endpoints: build => ({
     fetchAllJwtTokenRequests: build.query<IUserJwtToken, IRequestParams>({
       queryFn: createNotifyingQueryFn(
-        async ({ loading, group }, { getState }) => {
+        async ({ group, loading }, { getState }) => {
           if (loading) return { data: { jwtTokens: [] } };
 
           const accountingGateway =

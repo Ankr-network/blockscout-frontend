@@ -15,11 +15,11 @@ interface AddressInputFieldProps {
 }
 
 export const AddressInputField = ({
-  name,
-  validate,
-  onButtonClick,
   buttonText,
   isDisabled,
+  name,
+  onButtonClick,
+  validate,
 }: AddressInputFieldProps) => {
   const { classes } = useStyles();
 

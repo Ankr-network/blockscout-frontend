@@ -13,9 +13,9 @@ interface IChildrenFormCheckboxesProps {
 }
 
 export const ChildrenFormCheckboxes = ({
-  nestedItems,
   checkedItems,
   handleChangeItem,
+  nestedItems,
 }: IChildrenFormCheckboxesProps) => {
   const { classes, cx } = useTypeSelectorStyles();
   const { classes: classesTree } = useTreeStyles();

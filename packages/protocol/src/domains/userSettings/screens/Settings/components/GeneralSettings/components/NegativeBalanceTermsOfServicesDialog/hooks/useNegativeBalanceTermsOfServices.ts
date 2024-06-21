@@ -14,10 +14,10 @@ import { useAppSelector } from 'store/useAppSelector';
 import { selectJwtTokensLoadingState } from 'domains/jwtToken/store/selectors';
 
 export const useNegativeBalanceTermsOfServices = () => {
-  const { selectedGroupAddress: group, isLoadingGroups } =
+  const { isLoadingGroups, selectedGroupAddress: group } =
     useSelectedUserGroup();
 
-  const { isLoggedIn, hasPremium, loading: authLoading } = useAuth();
+  const { hasPremium, isLoggedIn, loading: authLoading } = useAuth();
 
   const hasGroupAccess = useGuardUserGroup({
     blockName: BlockWithPermission.TosStatus,
@@ -33,8 +33,8 @@ export const useNegativeBalanceTermsOfServices = () => {
     {
       data: { tosAccepted } = { tosAccepted: false },
       isError: isErrorTosAcceptStatus,
-      isLoading: isLoadingTosAcceptStatus,
       isFetching: isFetchingTosAcceptStatus,
+      isLoading: isLoadingTosAcceptStatus,
       isUninitialized: isUninitializedTosAcceptStatus,
     },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);

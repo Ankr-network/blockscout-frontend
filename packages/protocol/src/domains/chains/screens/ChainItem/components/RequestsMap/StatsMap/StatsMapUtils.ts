@@ -17,10 +17,10 @@ interface GetGeogrpahyStylesArguments {
 }
 
 export const getGeogrpahyStyles = ({
-  geo,
   data,
-  isLightTheme,
+  geo,
   hasHover,
+  isLightTheme,
 }: GetGeogrpahyStylesArguments) => {
   const countryColor = data.find(
     item => item.isoA2 === geo?.properties?.ISO_A2,

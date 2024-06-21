@@ -13,7 +13,7 @@ export const ChainsTableHead = ({
 }: ChainsTableHeadProps) => (
   <TableHead>
     <TableRow>
-      {columns.map(({ align, width, field, headerName }) => (
+      {columns.map(({ align, field, headerName, width }) => (
         <TableCell
           align={align}
           className={cellClassName}

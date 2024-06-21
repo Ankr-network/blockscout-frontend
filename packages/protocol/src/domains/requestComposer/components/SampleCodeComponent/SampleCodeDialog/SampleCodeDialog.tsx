@@ -15,10 +15,10 @@ interface ISampleCodeDialogProps {
 const MAX_TITLE_LENGTH_WITH_BIG_SIZE = 25;
 
 export const SampleCodeDialog = ({
-  title,
+  children,
   isOpen,
   onClose,
-  children,
+  title,
 }: ISampleCodeDialogProps) => {
   const { isLightTheme } = useThemes();
   const { classes } = useSampleCodeDialogStyles({

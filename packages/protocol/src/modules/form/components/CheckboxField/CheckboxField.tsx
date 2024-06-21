@@ -13,11 +13,11 @@ interface ISwitchFieldProps extends FieldRenderProps<HTMLElement> {
 }
 
 export const CheckboxField = ({
-  label,
+  className = '',
   input,
+  label,
   meta,
   shouldHideError,
-  className = '',
 }: ISwitchFieldProps & any) => {
   return (
     <>

@@ -14,9 +14,9 @@ export const useGradientedBorderStyles = makeStyles<GradientedBorderStyles>()(
     theme,
     {
       backgroundColor = theme.palette.common.white,
-      gradient = premiumColor,
       borderRadius = 0,
       borderWidth = 1,
+      gradient = premiumColor,
     },
   ) => ({
     root: {

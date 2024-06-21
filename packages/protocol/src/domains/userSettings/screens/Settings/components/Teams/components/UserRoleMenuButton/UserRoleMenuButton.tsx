@@ -16,9 +16,9 @@ export interface GroupMenuButtonProps {
 
 export const UserRoleMenuButton = ({
   currentRole,
+  isDisabled,
   isMenuOpen,
   onClick,
-  isDisabled,
 }: GroupMenuButtonProps) => {
   const { classes } = useUserRoleMenuButtonStyles(isMenuOpen);
 

@@ -17,14 +17,14 @@ interface RowInputFieldProps {
 }
 
 export const RowInputField = ({
-  requestUrl,
-  name,
   chainId,
+  endpoints,
   formEndpoint,
+  name,
   onSubmit,
   privateUrls,
   publicUrls,
-  endpoints,
+  requestUrl,
 }: RowInputFieldProps) => {
   const { classes } = useStyles();
   const [isReadOnly, setIsReadOnly] = useState<boolean>(true);

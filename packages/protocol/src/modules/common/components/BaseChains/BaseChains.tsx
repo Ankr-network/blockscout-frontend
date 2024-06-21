@@ -11,7 +11,7 @@ interface BaseChainsProps {
   children: ReactNode;
 }
 
-export const BaseChains = ({ top, loading, children }: BaseChainsProps) => {
+export const BaseChains = ({ children, loading, top }: BaseChainsProps) => {
   const { classes } = useBaseChainsStyles();
 
   return (

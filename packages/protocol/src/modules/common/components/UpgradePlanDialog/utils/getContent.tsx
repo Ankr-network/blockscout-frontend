@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
 
 import { AccountDetailsTopUp } from 'domains/account/screens/BillingPage/components/AccountDetailsTopUp';
-import { ECurrency } from 'modules/billing/types';
+import { ECurrency } from 'modules/payments/types';
 
 import { ContactSalesForm } from '../components/ContactSalesForm';
 import { ContentType, Plan } from '../types';
 import { DefaultContent } from '../components/DefaultContent';
 import { SignUpContent } from '../components/SignUpContent';
 
-const { DEFAULT, SIGN_UP, TOP_UP, CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS } =
+const { CONTACT_SALES_FORM, CONTACT_SALES_SUCCESS, DEFAULT, SIGN_UP, TOP_UP } =
   ContentType;
 
 export interface ContentParams {

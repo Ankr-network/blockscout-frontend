@@ -18,13 +18,13 @@ export interface CollapseProps {
 
 export const Collapse = ({
   className,
+  collapsedIcon = <ArrowDown />,
   content,
   header,
-  collapsedIcon = <ArrowDown />,
-  uncollapsedIcon,
   isCollapsed: isCollapsed_ = true,
   isCollapsible = true,
   onCollapse = () => {},
+  uncollapsedIcon,
 }: CollapseProps) => {
   const [isCollapsed, onClick] = useCollapse(
     isCollapsed_,

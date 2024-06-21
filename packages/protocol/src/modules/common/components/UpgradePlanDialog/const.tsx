@@ -16,7 +16,7 @@ const freePlan: Plan = {
   id: PlanID.Free,
   isHighlighted: false,
   prosCount: 3,
-  renderButton: ({ color, variant = 'contained', className }) => (
+  renderButton: ({ className, color, variant = 'contained' }) => (
     <NavLink
       color={color}
       variant={variant}
@@ -35,7 +35,7 @@ const premiumPlan: Plan = {
   id: PlanID.Premium,
   isHighlighted: true,
   prosCount: 5,
-  renderButton: ({ color, variant, onClick }) => (
+  renderButton: ({ color, onClick, variant }) => (
     <Button color={color} variant={variant} onClick={onClick}>
       {t(`${intlRoot}.${PlanID.Premium}.button`)}
     </Button>
@@ -47,7 +47,7 @@ const enterprisePlan: Plan = {
   id: PlanID.Enterprise,
   isHighlighted: false,
   prosCount: 3,
-  renderButton: ({ color, variant = 'outlined', className, onClick }) => (
+  renderButton: ({ className, color, onClick, variant = 'outlined' }) => (
     <Button
       color={color}
       variant={variant}
@@ -70,7 +70,7 @@ const defaultPremiumPlans: Plan[] = [
   {
     ...premiumPlan,
     isHighlighted: false,
-    renderButton: ({ color, variant = 'contained', className, onClick }) => (
+    renderButton: ({ className, color, onClick, variant = 'contained' }) => (
       <NavLink
         color={color}
         variant={variant}
@@ -94,7 +94,7 @@ const registerPlans: Plan[] = [
   {
     ...freePlan,
     isHighlighted: true,
-    renderButton: ({ variant = 'contained', onClick }) => (
+    renderButton: ({ onClick, variant = 'contained' }) => (
       <ConnectButton
         buttonText={t(`${intlRoot}.${PlanID.Free}.button-register`)}
         onOpen={onClick}
@@ -105,7 +105,7 @@ const registerPlans: Plan[] = [
   {
     ...premiumPlan,
     isHighlighted: false,
-    renderButton: ({ color, variant = 'outlined', onClick }) => (
+    renderButton: ({ color, onClick, variant = 'outlined' }) => (
       <Button color={color} variant={variant} onClick={onClick}>
         {t(`${intlRoot}.${PlanID.Premium}.button`)}
       </Button>
@@ -124,7 +124,7 @@ const enterprisePlans: Plan[] = [
   {
     ...premiumPlan,
     isHighlighted: false,
-    renderButton: ({ color, variant = 'contained', onClick }) => (
+    renderButton: ({ color, onClick, variant = 'contained' }) => (
       <Button color={color} variant={variant} onClick={onClick}>
         {t(`${intlRoot}.${PlanID.Premium}.button`)}
       </Button>

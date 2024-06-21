@@ -6,7 +6,7 @@ import { GroupTab } from '../components/GroupTab';
 
 export const getGroupTabs = (groups: EndpointGroup[]) => {
   return groups.map<Tab<ChainGroupID>>((group, index) => {
-    const { id, urlsCount, name, pluralName } = group;
+    const { id, name, pluralName, urlsCount } = group;
     const hasWs = chackHasWSFeature(group);
 
     return {

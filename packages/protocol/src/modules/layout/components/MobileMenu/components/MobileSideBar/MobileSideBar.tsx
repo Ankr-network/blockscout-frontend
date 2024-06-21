@@ -11,8 +11,8 @@ interface MobileSideBarProps extends SidebarProps {
   isOpened: boolean;
 }
 export const MobileSideBar = ({
-  onClose,
   isOpened,
+  onClose,
   ...props
 }: MobileSideBarProps) => {
   const { classes } = useMobileSideBarStyles();

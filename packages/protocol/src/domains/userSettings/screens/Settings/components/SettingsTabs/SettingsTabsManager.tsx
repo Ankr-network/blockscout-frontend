@@ -8,7 +8,7 @@ import { useSettingsTabsStyles } from './useSettingsTabsStyles';
 export const SettingsTabsManager = () => {
   const { classes } = useSettingsTabsStyles();
 
-  const { tabs, selectedTab } = useSettingsTabs();
+  const { selectedTab, tabs } = useSettingsTabs();
 
   const isCreateTeamButtonVisible =
     selectedTab?.id === ESettingsContentType.Teams;

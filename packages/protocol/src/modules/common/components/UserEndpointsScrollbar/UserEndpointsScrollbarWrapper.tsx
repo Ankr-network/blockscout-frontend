@@ -9,13 +9,13 @@ import {
 import { UserEndpointsScrollbar } from './UserEndpointsScrollbar';
 
 export const UserEndpointsScrollbarWrapper = ({
-  jwtTokens,
-  selectedProjectIndex,
-  handleSelectTokenIndex,
-  setOpenedProjectIndex,
-  onProjectOpen,
   children,
+  handleSelectTokenIndex,
   isLoading,
+  jwtTokens,
+  onProjectOpen,
+  selectedProjectIndex,
+  setOpenedProjectIndex,
 }: {
   jwtTokens: JwtManagerToken[];
   selectedProjectIndex: number;
@@ -31,7 +31,7 @@ export const UserEndpointsScrollbarWrapper = ({
         <UserEndpointCardSkeleton />
       ) : (
         jwtTokens.map(token => {
-          const { index, userEndpointToken, name } = token;
+          const { index, name, userEndpointToken } = token;
 
           return (
             <UserEndpointCard

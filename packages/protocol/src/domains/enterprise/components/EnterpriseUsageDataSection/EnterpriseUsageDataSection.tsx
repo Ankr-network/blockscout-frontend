@@ -28,15 +28,15 @@ interface EnterpriseUsageDataSectionProps {
 }
 
 export const EnterpriseUsageDataSection = ({
-  chain,
-  chainType,
-  chainSubType,
-  group,
-  timeframeTabs,
-  timeframe,
   apiKeys,
+  chain,
+  chainSubType,
+  chainType,
+  group,
+  timeframe,
+  timeframeTabs,
 }: EnterpriseUsageDataSectionProps) => {
-  const { options, handleSetOption, selectedOption } =
+  const { handleSetOption, options, selectedOption } =
     useEnterpriseApiKeySelect(apiKeys);
 
   const {

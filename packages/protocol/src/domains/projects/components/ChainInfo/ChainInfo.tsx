@@ -9,7 +9,7 @@ export interface ChainInfoProps {
 }
 
 export const ChainInfo = ({ chain, hasCoinName = true }: ChainInfoProps) => {
-  const { name, coinName } = chain;
+  const { coinName, name } = chain;
 
   return (
     <>

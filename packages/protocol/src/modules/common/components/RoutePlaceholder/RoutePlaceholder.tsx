@@ -22,15 +22,15 @@ export interface RoutePlaceholderProps extends RoutePlaceholderStylesProps {
 
 export const RoutePlaceholder = ({
   breadcrumbs,
-  title,
   shouldSkipRedirect,
+  title,
   ...stylesProps
 }: RoutePlaceholderProps) => {
   useSetBreadcrumbs([{ title: breadcrumbs }]);
 
   useRedirectToEnterpriseOnGroupChange(shouldSkipRedirect);
 
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   const { classes } = useRoutePlaceholderStyles(stylesProps);
 

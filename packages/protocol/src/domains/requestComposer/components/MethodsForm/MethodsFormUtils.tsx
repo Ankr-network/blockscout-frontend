@@ -31,12 +31,12 @@ export function getArgumentsBlock<S extends string, T extends string>(
   return methodArguments
     ?.map((argument: any, index: number) => {
       const {
-        type,
         description,
-        options,
         fieldName = getFieldName(index),
+        options,
         placeholder,
         subfields,
+        type,
         validate,
       } = argument;
 

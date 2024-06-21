@@ -9,11 +9,11 @@ interface IUseConfirmCancelDialogProps {
 }
 
 export const useConfirmCancelDialog = ({
+  customChargingModelName,
   nextPaymentDate,
   recurringAmount,
-  customChargingModelName,
 }: IUseConfirmCancelDialogProps) => {
-  const { isOpened, onOpen, onClose } = useDialog();
+  const { isOpened, onClose, onOpen } = useDialog();
 
   const dialogTitle = customChargingModelName
     ? t('account.periodic-payments.cancel.custom-title', {

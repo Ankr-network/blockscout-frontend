@@ -8,19 +8,19 @@ import { Tab } from './components/Tab';
 // and avoid jsx-parcer collisions
 export function TabsManager<TI = DefaultTabID>({
   additionalContent,
-  className = '',
-  selectedTab,
-  tabs,
-  title,
   allowSingleTab,
-  orientation = 'horizontal',
-  classNameTabsWrapper,
+  className = '',
   classNameTab,
   classNameTabsInner,
+  classNameTabsWrapper,
+  onScrollTabsInner,
+  orientation = 'horizontal',
   refTabsInner,
   refTabsScrollWrapper,
   scrollBackBtn,
-  onScrollTabsInner,
+  selectedTab,
+  tabs,
+  title,
 }: TabsManagerProps<TI>) {
   const { classes, cx } = useStyles({ orientation });
 

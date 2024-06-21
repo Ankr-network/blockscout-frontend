@@ -16,10 +16,10 @@ interface IPRCInfoFunProps {
 }
 
 export const RPCInfoFun = ({
+  chain,
   info,
   size = 'm',
   textColor = 'textSecondary',
-  chain,
 }: IPRCInfoFunProps) => {
   const { classes } = useRPCInfoFunStyle(size);
   const { loading } = useAuth();

@@ -10,12 +10,15 @@ import {
   EndpointDefinitions,
   QueryDefinition,
 } from '@reduxjs/toolkit/dist/query';
+import { PromiseWithKnownReason } from '@reduxjs/toolkit/dist/query/core/buildMiddleware/types';
+import { QueryFulfilledRejectionReason } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
 
 export type Definition<Args, Result> = QueryDefinition<
   Args,
   BaseQueryFn,
   string,
-  Result
+  Result,
+  'api' | 'projectApi'
 >;
 
 export type QueryEndpoint<Params, Result> = ApiEndpointQuery<
@@ -35,6 +38,11 @@ export type QueryReturn<Result> = QueryReturnValue<
   BaseQueryError<BaseQueryFn>
 >;
 
+export type TQueryFulfilled<Data> = PromiseWithKnownReason<
+  { data: Data; meta: object | undefined },
+  QueryFulfilledRejectionReason<BaseQueryFn>
+>;
+
 export type TwoFAQueryFnParams<Params> = Params extends void
   ? void | {
       params?: Params;
@@ -44,3 +52,7 @@ export type TwoFAQueryFnParams<Params> = Params extends void
       params: Params;
       totp?: string;
     };
+
+export interface IUseQueryProps {
+  skipFetching?: boolean;
+}

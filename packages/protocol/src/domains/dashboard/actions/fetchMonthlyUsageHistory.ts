@@ -39,10 +39,10 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(
         async ({
-          group,
-          token,
-          monthly = true,
           gateway = getAccountingGateway(),
+          group,
+          monthly = true,
+          token,
         }) => {
           const response = await gateway.getUserStatsByRange({
             group,

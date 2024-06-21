@@ -12,8 +12,8 @@ interface GetRequestsChartTranslationsProps {
 }
 
 export function getRequestsChartTranslations({
-  timeframe,
   allTimeTotalRequestsNumber,
+  timeframe,
   totalRequestsNumber,
 }: GetRequestsChartTranslationsProps) {
   return {
@@ -52,9 +52,9 @@ export function getMethodCallsChartTranslation() {
 interface UseChartTranslationsProps extends GetRequestsChartTranslationsProps {}
 
 export const useChartTranslations = ({
+  allTimeTotalRequestsNumber,
   timeframe,
   totalRequestsNumber,
-  allTimeTotalRequestsNumber,
 }: UseChartTranslationsProps) => {
   const requestsChartTranslations = useMemo(
     () =>

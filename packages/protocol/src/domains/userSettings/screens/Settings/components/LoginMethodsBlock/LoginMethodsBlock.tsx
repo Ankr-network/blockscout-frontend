@@ -8,12 +8,12 @@ import { Web3Provider } from './components/Web3Provider';
 
 export const LoginMethodsBlock = () => {
   const {
-    googleProvider,
     githubProvider,
-    walletAddress,
-    shouldHideGoogleDisconnectButton,
-    shouldHideGithubDisconnectButton,
+    googleProvider,
     shouldDisableConnectButton,
+    shouldHideGithubDisconnectButton,
+    shouldHideGoogleDisconnectButton,
+    walletAddress,
   } = useLoginMethodsBlock();
 
   return (

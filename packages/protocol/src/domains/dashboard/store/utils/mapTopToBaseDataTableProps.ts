@@ -6,7 +6,7 @@ export const mapTopToBaseDataTableProps = (
   topItem?: IUsageTop,
 ): BaseTableDataProps[] => {
   return (
-    topItem?.elements?.map(({ name, count }) => ({
+    topItem?.elements?.map(({ count, name }) => ({
       label: name,
       value: t('dashboard.top-countries.count', { count }),
     })) || []

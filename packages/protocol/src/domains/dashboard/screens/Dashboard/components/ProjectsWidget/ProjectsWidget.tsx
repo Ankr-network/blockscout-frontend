@@ -11,8 +11,8 @@ export interface ProjectsWidgetProps {
 }
 
 export const ProjectsWidget = ({
-  className,
   amount,
+  className,
   data,
   isLoading,
 }: ProjectsWidgetProps) => {

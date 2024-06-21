@@ -11,9 +11,9 @@ export interface IAnkrPAYGContractManagerConfig {
 
 export interface SendDepositTransactionForUserParams {
   depositValue: BigNumber;
+  expiresAfter: string;
   publicKey: string;
   targetAddress: string;
-  expiresAfter: string;
 }
 
 export interface SendDepositTokenTransactionForUserParams {
@@ -41,7 +41,6 @@ export interface DepositTokenForUserParams {
 export interface IThrowErrorIfValueIsGreaterThanBalanceParams {
   amount: BigNumber;
   network: EBlockchain;
-  tokenAddress: Web3Address;
 }
 
 export interface IThrowErrorIfDepositIsGreaterThanAllowanceParams {

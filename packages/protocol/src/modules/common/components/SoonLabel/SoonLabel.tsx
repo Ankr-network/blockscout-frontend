@@ -10,8 +10,8 @@ export interface SoonLabelProps {
 }
 
 export const SoonLabel = ({
-  component = 'div',
   className,
+  component = 'div',
   label,
 }: SoonLabelProps) => {
   const { classes, cx } = useSoonLabelStyles();

@@ -12,8 +12,8 @@ interface TeamNameInputProps {
 }
 
 export const TeamNameInput = ({
-  teamNameValue,
   handleChange,
+  teamNameValue,
 }: TeamNameInputProps) => {
   const { classes } = useTeamNameInputStyles();
 

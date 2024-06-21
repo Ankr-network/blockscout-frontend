@@ -22,12 +22,12 @@ export interface UsageDataParams {
 
 export const usePublicUsageData = ({
   chain,
-  chainType,
   chainSubType,
+  chainType,
   group,
   timeframe,
 }: UsageDataParams): UsageData => {
-  const { loading: isConnecting, isLoggedIn } = useAuth();
+  const { isLoggedIn, loading: isConnecting } = useAuth();
   const chainId = getChainId({
     publicChain: chain,
     chainType,

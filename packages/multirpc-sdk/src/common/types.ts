@@ -1,5 +1,30 @@
 import BigNumber from 'bignumber.js';
-import { EBlockchain } from './const';
+
+export enum EBlockchain {
+  arbitrum = 'arbitrum',
+  avalanche = 'avalanche',
+  base = 'base',
+  bsc = 'bsc',
+  eth = 'eth',
+  fantom = 'fantom',
+  flare = 'flare',
+  gnosis = 'gnosis',
+  linea = 'linea',
+  optimism = 'optimism',
+  polygon = 'polygon',
+  polygon_zkevm = 'polygon_zkevm',
+  rollux = 'rollux',
+  scroll = 'scroll',
+  syscoin = 'syscoin',
+  avalanche_fuji = 'avalanche_fuji',
+  eth_goerli = 'eth_goerli',
+  eth_holesky = 'eth_holesky',
+  optimism_testnet = 'optimism_testnet',
+  polygon_mumbai = 'polygon_mumbai',
+  arbitrum_sepolia = 'arbitrum_sepolia',
+  fantom_testnet = 'fantom_testnet',
+  bsc_testnet_chapel = 'bsc_testnet_chapel',
+}
 
 export type BigInt = string;
 export type UUID = string;
@@ -249,17 +274,31 @@ export interface IGetAllowanceValueParams {
 
 export interface IDepositStablecoinToPAYGForUserParams {
   amount: BigNumber;
-  tokenDecimals: number;
+  depositContractAddress: Web3Address;
+  network: EBlockchain;
   targetAddress: Web3Address;
   tokenAddress: Web3Address;
-  network: EBlockchain;
-  depositContractAddress: Web3Address;
+  tokenDecimals: number;
 }
 
 export interface IGetAllowanceFeeParams {
-  network: EBlockchain;
-  tokenAddress: Web3Address;
   amount: BigNumber;
   depositContractAddress: Web3Address;
+  network: EBlockchain;
+  tokenAddress: Web3Address;
+  tokenDecimals: number;
+}
+
+export interface IGetStablecoinAllowanceParams {
+  from: Web3Address;
+  network: EBlockchain;
+  to: Web3Address;
+}
+
+export interface IEstimateStablecoinFeeParams {
+  amount: BigNumber;
+  from: Web3Address;
+  network: EBlockchain;
+  to: Web3Address;
   tokenDecimals: number;
 }

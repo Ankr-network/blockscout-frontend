@@ -30,7 +30,7 @@ export const {
       }),
       onQueryStarted: async (
         { isPaginationRequest },
-        { dispatch, queryFulfilled, getCacheEntry },
+        { dispatch, getCacheEntry, queryFulfilled },
       ) => {
         if (isPaginationRequest) {
           const { data: { list: loaded = [] } = {}, endpointName } =
@@ -38,8 +38,8 @@ export const {
 
           const {
             data: {
-              list: loading = [],
               deductionsCursor,
+              list: loading = [],
               transactionsCursor,
             } = {},
           } = await queryFulfilled;

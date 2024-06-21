@@ -14,7 +14,7 @@ export interface ProjectChainsProps {
 export const ProjectChains = ({ className }: ProjectChainsProps) => {
   const { isLoading, selectedProjectChainsTabId } = useProjectChainsContext();
 
-  const { cx, classes } = useProjectEndpointsStyles();
+  const { classes, cx } = useProjectEndpointsStyles();
 
   return (
     <div className={cx(classes.root, className)}>

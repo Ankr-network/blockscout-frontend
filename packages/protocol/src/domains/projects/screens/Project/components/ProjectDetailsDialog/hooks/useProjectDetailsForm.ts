@@ -16,15 +16,15 @@ export interface ProjectDetailsBaseProps {
 }
 
 export const useProjectDetailsForm = ({
+  onClose,
   onSuccess,
   projectIndex,
-  onClose,
 }: ProjectDetailsBaseProps) => {
   const allProjects = useAppSelector(selectAllProjects);
 
   const dispatch = useDispatch();
 
-  const { isLoading: isUpdateLoading, handleUpdateProjectDetails } =
+  const { handleUpdateProjectDetails, isLoading: isUpdateLoading } =
     useUpdateJwtToken();
 
   const handleFormSubmit = useCallback(
@@ -52,7 +52,7 @@ export const useProjectDetailsForm = ({
       const isOnlyDescriptionChanged =
         !nameFieldState.modified && descriptionFieldState.modified;
 
-      const { name, description } = values;
+      const { description, name } = values;
 
       const resultName = name ?? '';
       const hasNameDuplication = allProjects.some(

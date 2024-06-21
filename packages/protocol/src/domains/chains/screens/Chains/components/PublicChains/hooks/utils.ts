@@ -69,8 +69,8 @@ const getSorter = (sortType: SortType, isLoading: boolean) => {
 
 export const sortPublicChains = ({
   chains: rawChains = [],
-  sortType,
   isLoading,
+  sortType,
 }: SortPublicChainsParams): Chain[] => {
   if (!Array.isArray(rawChains)) return [];
 

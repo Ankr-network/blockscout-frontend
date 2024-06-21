@@ -21,6 +21,8 @@ import { newProjectSlice, projectsSlice } from 'domains/projects/store';
 import { newUserGroupPersistConfig } from 'modules/groups/storage/newUserGroupPersistConfig';
 import { newUserGroupSlice } from 'modules/groups/store/newUserGroupSlice';
 import { notificationSlice } from 'domains/notification/store/notificationSlice';
+import { paymentsPersistConfig } from 'modules/payments/storage/paymentsPersistConfig';
+import { paymentsSlice } from 'modules/payments/store/paymentsSlice';
 import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistConfig';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
 import { themePersistConfig } from 'modules/layout/storage/themePersistConfig';
@@ -29,7 +31,6 @@ import { userGroupPersistConfig } from 'domains/userGroup/storage/userGroupPersi
 import { userGroupSlice } from 'domains/userGroup/store';
 import { userSettingsPersistConfig } from 'domains/userSettings/storage/userSettingsPersistConfig';
 import { userSettingsSlice } from 'domains/userSettings/store/userSettingsSlice';
-import { walletPersistConfig } from 'domains/wallet/storage/walletPersistConfig';
 import { walletSlice } from 'domains/wallet/store/walletSlice';
 
 import { authConnectInitiatorListenerMiddleware } from './middlewares/authConnectInitiatorListenerMiddleware';
@@ -44,7 +45,7 @@ const rootReducer = combineReducers({
   i18n: persistReducer(i18nPersistConfig, i18nSlice.reducer),
   theme: persistReducer(themePersistConfig, themeSlice.reducer),
   auth: persistReducer(authPersistConfig, authSlice.reducer),
-  wallet: persistReducer(walletPersistConfig, walletSlice.reducer),
+  wallet: walletSlice.reducer,
   jwtTokenManager: persistReducer(
     jwtTokenManagerPersistConfig,
     jwtTokenManagerSlice.reducer,
@@ -70,6 +71,7 @@ const rootReducer = combineReducers({
     newUserGroupPersistConfig,
     newUserGroupSlice.reducer,
   ),
+  payments: persistReducer(paymentsPersistConfig, paymentsSlice.reducer),
 });
 
 export const store = configureStore({
@@ -91,7 +93,11 @@ export const store = configureStore({
 export const persistor = persistStore(store);
 
 export type Store = typeof store;
-export type APIState = RTKQRootState<EndpointDefinitions, string, 'api'>;
+export type APIState = RTKQRootState<
+  EndpointDefinitions,
+  string,
+  'api' | 'projectApi'
+>;
 export type AppDispatch = typeof store.dispatch;
 export type GetState = typeof store.getState;
 export type RootState = ReturnType<typeof rootReducer>;

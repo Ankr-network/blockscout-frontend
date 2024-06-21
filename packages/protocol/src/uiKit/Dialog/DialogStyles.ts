@@ -18,7 +18,7 @@ interface IUseStylesProps {
 }
 
 export const useStyles = makeStyles<IUseStylesProps>()(
-  (theme, { dialogTitleColor, isHidden, maxPxWidth, isLightTheme }) => ({
+  (theme, { dialogTitleColor, isHidden, isLightTheme, maxPxWidth }) => ({
     root: {
       display: isHidden ? 'none' : undefined,
     },

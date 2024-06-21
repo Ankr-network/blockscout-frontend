@@ -8,8 +8,8 @@ export interface ChipProps {
   className?: string;
 }
 
-export const Chip = ({ label, onClick, className }: ChipProps) => {
-  const { cx, classes } = useChipStyles();
+export const Chip = ({ className, label, onClick }: ChipProps) => {
+  const { classes, cx } = useChipStyles();
 
   return (
     <MuiChip

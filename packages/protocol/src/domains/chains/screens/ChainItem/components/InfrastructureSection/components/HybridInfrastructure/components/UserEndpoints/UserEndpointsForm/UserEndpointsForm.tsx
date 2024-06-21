@@ -18,8 +18,8 @@ import { getInitialValues, getRpcLinks } from './UserEndpointsFormUtils';
 import { useStyles } from './UserEndpointsFormStyles';
 
 export const UserEndpointsForm = ({
-  endpoints,
   chainId,
+  endpoints,
   onSubmit: onUpdateEndpoint,
   privateUrls,
   publicUrls,

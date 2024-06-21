@@ -16,20 +16,20 @@ interface ShouldShowNegativeBalanceOfServiceDialogArguments {
 }
 
 export const shouldShowNegativeBalanceOfServiceDialog = ({
-  isLoggedIn,
   authLoading,
-  isLoadingTosAcceptStatus,
+  hasGroupAccess,
+  hasPremium,
+  isEnterpriseClient,
+  isEnterpriseStatusLoading,
+  isErrorTosAcceptStatus,
   isFetchingTosAcceptStatus,
+  isLoadingGroups,
+  isLoadingJwtTokens,
+  isLoadingTosAcceptStatus,
+  isLoggedIn,
   isUninitializedTosAcceptStatus,
   shouldShowUserGroupDialog,
   tosAccepted,
-  hasPremium,
-  hasGroupAccess,
-  isErrorTosAcceptStatus,
-  isEnterpriseClient,
-  isEnterpriseStatusLoading,
-  isLoadingGroups,
-  isLoadingJwtTokens,
 }: ShouldShowNegativeBalanceOfServiceDialogArguments) => {
   if (!isLoggedIn) return false;
 

@@ -5,7 +5,6 @@ import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { MultiService } from 'modules/api/MultiService';
 import { NewProjectStep } from 'domains/projects/types';
 import { RootState } from 'store';
-import { authAutoConnect } from 'domains/auth/actions/connect/authAutoConnect';
 import { authDisconnect } from 'domains/auth/actions/disconnect';
 import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
 import { createWeb3Service } from 'domains/auth/actions/connect/createWeb3Service';
@@ -19,7 +18,6 @@ import { is2FARejectedAction } from 'store/matchers/is2FARejectedAction';
 import { isAuthRejectedAction } from 'store/matchers/isAuthRejectedAction';
 import { isEventProvider } from 'store/utils/isEventProvider';
 import { isTeamInvitationPath } from 'domains/userSettings/utils/isTeamInvitationPath';
-import { oauthAutoLogin } from 'domains/oauth/actions/autoLogin';
 import { oauthLoginJwt } from 'domains/oauth/actions/loginByGoogleSecretCode/oauthLoginJwt';
 import { oauthSignout } from 'domains/oauth/actions/signout';
 import { resetConfig, selectNewProjectConfig } from 'domains/projects/store';
@@ -111,6 +109,7 @@ listenerMiddleware.startListening({
 
     dispatch(setWalletMeta(ethWeb3KeyProvider.getWalletMeta()));
     dispatch(setWalletAddress(ethWeb3KeyProvider.currentAccount));
+    dispatch(setNetworkId(ethWeb3KeyProvider.currentChain));
 
     if (isEventProvider(provider)) {
       const disconnectHandler = () => {
@@ -154,9 +153,7 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   matcher: isAnyOf(
     authMakeAuthorization.matchFulfilled,
-    authAutoConnect.matchFulfilled,
     oauthLoginJwt.matchFulfilled,
-    oauthAutoLogin.matchFulfilled,
   ),
   effect: async (_action, { dispatch }) => {
     dispatch(shouldShowUserGroupDialog.initiate());
@@ -196,7 +193,7 @@ listenerMiddleware.startListening({
         arg: { endpointName, originalArgs: params = {} },
       },
     },
-    { take, dispatch, getState },
+    { dispatch, getState, take },
   ) => {
     dispatch(setIsTwoFADialogOpened(true));
     // we need to use saved endpoint name for every iteration of listener

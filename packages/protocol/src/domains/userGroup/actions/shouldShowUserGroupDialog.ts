@@ -16,8 +16,8 @@ import { userGroupFetchGroups } from './fetchGroups';
 // TODO: move this logic to selectors: https://ankrnetwork.atlassian.net/browse/MRPC-4313
 export const {
   endpoints: { shouldShowUserGroupDialog },
-  useShouldShowUserGroupDialogQuery,
   useLazyShouldShowUserGroupDialogQuery,
+  useShouldShowUserGroupDialogQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     shouldShowUserGroupDialog: build.query<boolean, void>({
@@ -42,7 +42,7 @@ export const {
           hasWeb3Connection,
         } = selectAuthData(state);
 
-        const { shouldRemind, selectedGroupAddress } =
+        const { selectedGroupAddress, shouldRemind } =
           selectUserGroupConfigByAddress(state);
 
         if (!hasOauthLogin && !hasWeb3Connection) {

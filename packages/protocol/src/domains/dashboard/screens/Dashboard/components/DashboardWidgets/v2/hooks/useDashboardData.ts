@@ -17,9 +17,9 @@ interface IUseDashboardDataProps {
 }
 
 export const useDashboardData = ({
-  timeframe,
-  statsChainId,
   selectedProjectId,
+  statsChainId,
+  timeframe,
 }: IUseDashboardDataProps) => {
   const selectedProjectRef = useRef(selectedProjectId);
 

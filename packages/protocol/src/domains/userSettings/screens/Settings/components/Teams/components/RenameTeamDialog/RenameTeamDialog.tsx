@@ -19,12 +19,12 @@ export interface IRenameTeamDialogProps extends IRenameGroupParams {
 }
 
 export const RenameTeamDialog = ({
-  name,
   comment,
   company_type,
   group,
-  open,
+  name,
   onClose,
+  open,
 }: IRenameTeamDialogProps) => {
   const { classes } = useRenameTeamDialogStyles();
   const [inputValue, setInputValue] = useState(name);

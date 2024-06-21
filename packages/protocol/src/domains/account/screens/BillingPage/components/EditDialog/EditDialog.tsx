@@ -12,10 +12,10 @@ export interface EditDialogProps {
 }
 
 export const EditDialog = ({
+  children,
   isOpened = false,
   onClose,
   title,
-  children,
 }: EditDialogProps) => {
   const { classes } = useEditDialogStyles();
 

@@ -9,9 +9,9 @@ export interface LabelProps {
 }
 
 export const Label = ({
+  isStatusIndicatorVisible,
   label,
   tooltip,
-  isStatusIndicatorVisible,
 }: LabelProps) => {
   const { classes } = useLabelStyles();
 

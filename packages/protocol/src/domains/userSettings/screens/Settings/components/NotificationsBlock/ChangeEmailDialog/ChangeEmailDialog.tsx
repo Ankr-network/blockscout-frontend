@@ -15,8 +15,8 @@ interface IChangeEmailDialogProps {
 }
 
 export const ChangeEmailDialog = ({
-  open,
   onClose,
+  open,
 }: IChangeEmailDialogProps) => {
   const { contentState, email, formProps } = useChangeEmailDialog();
 

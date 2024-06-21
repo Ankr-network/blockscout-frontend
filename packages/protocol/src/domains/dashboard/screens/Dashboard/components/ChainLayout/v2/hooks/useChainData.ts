@@ -16,7 +16,7 @@ import { selectBlockHeight } from 'domains/dashboard/store/selectors/v1';
 import { ChainLayoutProps } from '../../types';
 
 export const useChainData = ({ detailsChainId }: ChainLayoutProps) => {
-  const [, { isLoading, isFetching }] =
+  const [, { isFetching, isLoading }] =
     useLazyChainsFetchEnterpriseV2StatsTotalQuery();
 
   const allTimeTotalRequestsNumber = useAppSelector(

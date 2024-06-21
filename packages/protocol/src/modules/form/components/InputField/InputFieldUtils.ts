@@ -4,11 +4,11 @@ import { getErrorText } from '../../utils/getErrorText';
 import { GetHelperStringArguments } from './InputFieldTypes';
 
 export const getHelperText = ({
-  value,
-  meta,
-  maxLength,
-  showLimitCounter,
   hasError,
+  maxLength,
+  meta,
+  showLimitCounter,
+  value,
 }: GetHelperStringArguments): string => {
   let helperTextString: string = getErrorText(meta, hasError);
 

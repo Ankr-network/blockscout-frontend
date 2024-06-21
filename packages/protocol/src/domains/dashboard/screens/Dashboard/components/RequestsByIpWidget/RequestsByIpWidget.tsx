@@ -18,7 +18,7 @@ export interface ViewProps {
 }
 
 export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
-  const { cx, classes } = useTableWidgetStyles();
+  const { classes, cx } = useTableWidgetStyles();
 
   const {
     classes: { container },
@@ -37,7 +37,7 @@ export const RequestsByIpWidget = ({ className, data }: RequestsByIpProps) => {
             <Typography variant="caption">{text('ip')}</Typography>
             <Typography variant="caption">{text('requests')}</Typography>
           </div>
-          {data.map(({ ip, count }) => (
+          {data.map(({ count, ip }) => (
             <div key={ip} className={classes.row}>
               <Typography className={classes.longText} variant="caption">
                 {ip}

@@ -4,6 +4,12 @@ import * as Sentry from '@sentry/react';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { extractMessage } from 'modules/common/utils/extractError';
 import { INotificationProps } from 'domains/notification/store/notificationSlice';
+import {
+  selectUserGroupConfig,
+  selectUserGroupConfigByAddress,
+} from 'domains/userGroup/store';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { RootState } from 'store/store';
 
 import { getAxiosAccountingErrorMessage } from './getAxiosAccountingErrorMessage';
 import { getParsedErrorMessage } from './getParsedErrorMessage';
@@ -62,7 +68,25 @@ export const createNotifyingQueryFn = queryFnWrapper({
 });
 
 export const createWeb3NotifyingQueryFn = queryFnWrapper({
-  onNotification({ api: { dispatch }, error }) {
+  onNotification({ api: { dispatch, getState }, error }) {
+    const groupsConfig = selectUserGroupConfig(getState() as RootState);
+    const groupConfig = selectUserGroupConfigByAddress(getState() as RootState);
+    const authData = selectAuthData(getState() as RootState);
+
+    Sentry.setContext('groupsConfig', groupsConfig);
+    Sentry.setContext('groupConfig', groupConfig);
+    Sentry.setContext('authData', {
+      authAddress: authData.authAddress,
+      authAddressType: authData.authAddressType,
+      email: authData.email,
+      hasOauthLogin: authData.hasOauthLogin,
+      hasWeb3Autoconnect: authData.hasWeb3Autoconnect,
+      hasWeb3Connection: authData.hasWeb3Connection,
+      isCardPayment: authData.isCardPayment,
+      isInstantJwtParticipant: authData.isInstantJwtParticipant,
+      loginName: authData.loginName,
+      oauthProviders: authData.oauthProviders,
+    });
     Sentry.captureException(error);
 
     if (shouldNotify(error)) {

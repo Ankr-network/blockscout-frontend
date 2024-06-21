@@ -14,10 +14,10 @@ interface IEndpointProps {
 }
 
 export const EndpointPlaceholder = ({
-  title,
   label,
-  onClick,
   labelClassName,
+  onClick,
+  title,
 }: IEndpointProps) => {
   const { classes } = useEndpointPlaceholderStyles();
 

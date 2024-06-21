@@ -15,8 +15,8 @@ export interface FetchEnterpriseStatsByApiKeyParams
 }
 
 export const {
-  useLazyChainsFetchEnterpriseStatsByApiKeyQuery,
   endpoints: { chainsFetchEnterpriseStatsByApiKey },
+  useLazyChainsFetchEnterpriseStatsByApiKeyQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchEnterpriseStatsByApiKey: build.query<
@@ -24,7 +24,7 @@ export const {
       FetchEnterpriseStatsByApiKeyParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ interval, userEndpointToken, group }) => {
+        async ({ group, interval, userEndpointToken }) => {
           const service = MultiService.getService();
           const enterpriseGateway = service.getEnterpriseGateway();
 

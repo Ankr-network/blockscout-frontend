@@ -4,7 +4,7 @@ import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { useMethodsTabsStyles } from './useMethodsTabsStyles';
 
-export const MethodsTabs = ({ tabs, selectedTab }: ITabProps) => {
+export const MethodsTabs = ({ selectedTab, tabs }: ITabProps) => {
   const { isLightTheme } = useThemes();
   const { classes } = useMethodsTabsStyles(isLightTheme);
 

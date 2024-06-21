@@ -14,7 +14,7 @@ import { Avatar } from '../../../Avatar';
 export const GroupItem = (props: GroupItemProps) => {
   const { isSelected, onClick } = useGroupItem(props);
   const {
-    group: { name, index, role },
+    group: { index, name, role },
   } = props;
 
   const { classes } = useGroupItemStyles();

@@ -17,23 +17,23 @@ export interface ITypeSelectorProps extends SelectMenuProps {
 
 // eslint-disable-next-line max-lines-per-function
 export const useAllChainsSelection = ({
-  allAvailableMainnetIds,
-  allAvailableTestnetIds,
-  allAvailableDevnetIds,
   allAvailableBeaconMainnetIds,
   allAvailableBeaconTestnetIds,
+  allAvailableDevnetIds,
+  allAvailableMainnetIds,
   allAvailableOpnodeMainnetIds,
   allAvailableOpnodeTestnetIds,
+  allAvailableTestnetIds,
 }: ITypeSelectorProps) => {
   const {
-    selectedMainnetIds,
-    selectedTestnetIds,
-    selectedDevnetIds,
+    onChange: onFormChange,
     selectedBeaconMainnetIds,
     selectedBeaconTestnetIds,
+    selectedDevnetIds,
+    selectedMainnetIds,
     selectedOpnodeMainnetIds,
     selectedOpnodeTestnetIds,
-    onChange: onFormChange,
+    selectedTestnetIds,
   } = useProjectFormValues();
 
   const handleSelectAll = useCallback(() => {

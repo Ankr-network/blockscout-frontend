@@ -16,16 +16,16 @@ export interface ChainItemProps {
 }
 
 export const PublicChainItem = ({ data }: ChainItemProps) => {
-  const { isOpened, onOpen, onClose } = useUpgradePlanDialog();
+  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
   const {
-    chainProtocolContext,
     chain,
-    chainType,
+    chainProtocolContext,
     chainSubType,
+    chainType,
     group,
-    unfilteredGroup,
     headerContent,
+    unfilteredGroup,
   } = usePublicChainItem({
     ...data,
     onBlockedTabClick: onOpen,

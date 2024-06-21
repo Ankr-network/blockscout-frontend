@@ -14,7 +14,7 @@ interface CreateTeamSectionProps extends UseTeamNameInputParams {}
 export const CreateTeamSection = ({ teamName }: CreateTeamSectionProps) => {
   const { classes } = useCreateTeamSectionStyles();
 
-  const { teamNameValue, handleChange } = useTeamNameInput({ teamName });
+  const { handleChange, teamNameValue } = useTeamNameInput({ teamName });
 
   return (
     <Paper className={classes.createTeamPaper}>

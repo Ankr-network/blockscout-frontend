@@ -14,10 +14,10 @@ interface ICopyToClipButtonProps {
 }
 
 export const CopyToClipButton = ({
-  text,
-  textMessage,
   buttonText,
   className,
+  text,
+  textMessage,
 }: ICopyToClipButtonProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
   const { classes, cx } = useStyles({ isCopied });

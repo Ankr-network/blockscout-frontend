@@ -13,10 +13,10 @@ interface IChainItemProps extends FieldRenderProps<ChainID> {
 }
 
 export const ChainItem = ({
-  label,
+  className = '',
   disabled,
   input,
-  className = '',
+  label,
 }: IChainItemProps) => {
   const isChecked = Boolean(input?.checked);
 

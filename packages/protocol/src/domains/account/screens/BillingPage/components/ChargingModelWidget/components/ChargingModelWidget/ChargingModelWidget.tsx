@@ -13,12 +13,12 @@ interface IChargingModelWidgetProps {
 }
 
 export const ChargingModelWidget = ({
-  isCurrentModel,
-  className,
   chargingModel,
   children,
+  className,
+  isCurrentModel,
 }: IChargingModelWidgetProps) => {
-  const { cx, classes } = useChargingModelWidgetStyles();
+  const { classes, cx } = useChargingModelWidgetStyles();
 
   return (
     <div

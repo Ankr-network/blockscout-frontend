@@ -18,9 +18,9 @@ interface FreezeAndUnfreezeProjectProps {
 
 export const useFreezeAndUnfreezeProject = ({
   isFreeze,
-  userEndpointToken,
-  projectName,
   onSuccess,
+  projectName,
+  userEndpointToken,
 }: FreezeAndUnfreezeProjectProps) => {
   const dispatch = useDispatch();
   const titleText = useMemo(

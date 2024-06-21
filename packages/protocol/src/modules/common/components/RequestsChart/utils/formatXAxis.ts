@@ -1,7 +1,7 @@
 import { Timeframe } from '../types';
 import { text } from './text';
 
-const { Hour, Day, Week, Month } = Timeframe;
+const { Day, Hour, Month, Week } = Timeframe;
 
 export const formatXAxis = (value: Date, timeframe: Timeframe) => {
   const date = text('date', { value });

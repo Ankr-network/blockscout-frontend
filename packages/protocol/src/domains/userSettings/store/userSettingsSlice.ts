@@ -69,8 +69,8 @@ export const selectSignupSettings = (state: RootState) =>
 
 export const {
   setIsTwoFADialogOpened,
-  setTwoFACode,
-  setTwoFAErrorMessage,
-  setTwoFAEndpoint,
   setSignupSettings,
+  setTwoFACode,
+  setTwoFAEndpoint,
+  setTwoFAErrorMessage,
 } = userSettingsSlice.actions;

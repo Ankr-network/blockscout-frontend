@@ -7,8 +7,8 @@ interface FilterEndpointsByChainSubTypeParams {
 }
 
 export const filterEndpointsByChainSubType = ({
-  groupEndpoints,
   chainSubType,
+  groupEndpoints,
 }: FilterEndpointsByChainSubTypeParams) => {
   return groupEndpoints.filter(endpoint => {
     if (chainSubType === ChainSubType.Athens3) {

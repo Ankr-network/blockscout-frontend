@@ -12,8 +12,8 @@ interface UpdateWhitelistModeParams {
 }
 
 export const {
-  useLazyUpdateWhitelistModeQuery,
   endpoints: { updateWhitelistMode },
+  useLazyUpdateWhitelistModeQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     updateWhitelistMode: build.query<
@@ -22,7 +22,7 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
-          params: { userEndpointToken, prohibitByDefault, groupAddress },
+          params: { groupAddress, prohibitByDefault, userEndpointToken },
           totp,
         }) => {
           const service = MultiService.getService().getAccountingGateway();
