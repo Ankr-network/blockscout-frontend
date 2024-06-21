@@ -85,27 +85,29 @@ export const TxDetails = ({
         hasPlaceholder={isLoading}
         placeholder={<OverlaySpinner size={58} />}
       >
-        <Placeholder
-          hasPlaceholder={hasConnectedAddress && !hasEnoughTokenBalance}
-          placeholder={<InsufficientBalanceAlert />}
-        >
-          <TxFees
-            allowanceFeeDetails={allowanceFeeDetails}
-            depositFeeDetails={depositFeeDetails}
-            isWalletConnected={hasConnectedAddress}
-            network={network}
-          />
-        </Placeholder>
+        <SeparatedList shouldRenderFirstDivider={false}>
+          <Placeholder
+            hasPlaceholder={hasConnectedAddress && !hasEnoughTokenBalance}
+            placeholder={<InsufficientBalanceAlert />}
+          >
+            <TxFees
+              allowanceFeeDetails={allowanceFeeDetails}
+              depositFeeDetails={depositFeeDetails}
+              isWalletConnected={hasConnectedAddress}
+              network={network}
+            />
+          </Placeholder>
+          {hasConnectedAddress && hasEnoughTokenBalance && (
+            <TotalPaymentInfo
+              amount={amount}
+              currency={currency}
+              feeDetails={totalFeeDetails}
+              network={network}
+              totalAmount={totalAmount}
+            />
+          )}
+        </SeparatedList>
       </Placeholder>
-      {hasConnectedAddress && hasEnoughTokenBalance && (
-        <TotalPaymentInfo
-          amount={amount}
-          currency={currency}
-          feeDetails={totalFeeDetails}
-          network={network}
-          totalAmount={totalAmount}
-        />
-      )}
     </SeparatedList>
   );
 };
