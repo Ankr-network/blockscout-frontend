@@ -1,6 +1,6 @@
-import { t } from '@ankr.com/common';
 import Web3 from 'web3';
 import { Transaction } from 'web3-core';
+import { t } from '@ankr.com/common';
 
 export interface IGetTxBlockConfirmationsParams {
   web3: Web3;
