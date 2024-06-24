@@ -9,6 +9,7 @@ import {
   IFeeDetails,
   TCryptoCurrency,
   TStablecoinCurrency,
+  EChargingModel,
 } from './types';
 
 export const ALLOWANCE_CONFIRMATION_BLOCKS = 1;
@@ -35,6 +36,21 @@ export const MIN_CRYPTO_FEE = 0.00001;
 
 export const PRICES_PER_REQUEST_URL =
   'https://www.ankr.com/docs/rpc-service/pricing';
+
+export const ONE_BUNDLE_ITEM_PRICE = 100000;
+
+export const API_CREDITS_COUNT_PER_500_USD_BUNDLE = 5_000_000_000;
+
+export const DEFAULT_SELECTED_RECURRING_USD_AMOUNT = 50;
+
+export const MINIMAL_DEAL_AMOUNT = 500;
+
+export const chargigModelTitlesMap: Record<EChargingModel, string> = {
+  [EChargingModel.Deal]: 'account.charging-model.deal.title',
+  [EChargingModel.Free]: 'account.charging-model.free.title',
+  [EChargingModel.PAYG]: 'account.charging-model.payg.title',
+  [EChargingModel.Package]: 'account.charging-model.package.title',
+};
 
 export const ANKR_PAYMENT_NETWORK = isMainnet
   ? EBlockchain.eth

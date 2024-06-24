@@ -2,16 +2,21 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { ECurrency, IAmount } from 'modules/payments/types';
-import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
+import { useAppSelector } from 'store/useAppSelector';
+import {
+  selectBundlePaymentPlansInitLoading,
+  selectDeal500BundlePaymentPlan,
+} from 'domains/account/store/selectors';
 
-import { IDealAmountProps } from '../DealAmount';
+import { IDeal500AmountProps } from '../Deal500Amount';
 
 const titleFallbackKey = 'account.payment-form.deal-proposal.title';
 
-export const useDealAmount = (): IDealAmountProps => {
-  const { deal500: deal500Plan, isLoadingInitially } = useBundlePaymentPlans({
-    skipFetching: true,
-  });
+export const useDeal500Amount = (): IDeal500AmountProps => {
+  const deal500Plan = useAppSelector(selectDeal500BundlePaymentPlan);
+  const isLoadingInitially = useAppSelector(
+    selectBundlePaymentPlansInitLoading,
+  );
 
   const title = deal500Plan?.bundle.name ?? t(titleFallbackKey);
 

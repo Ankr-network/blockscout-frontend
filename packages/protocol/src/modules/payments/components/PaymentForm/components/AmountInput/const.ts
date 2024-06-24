@@ -18,3 +18,6 @@ export const STABLECOINS_OPTIONS: ISelectStablecoinOption[] = [
 
 // If users make a payment in ANKR, they get 10% more requests
 export const ANKR_PROMO_EXTRA_REQUESTS_RATE = 1.1;
+
+// If users make a payment in a deal, they get 20% more requests
+export const DEAL_PROMO_EXTRA_REQUESTS_RATE = 1.2;

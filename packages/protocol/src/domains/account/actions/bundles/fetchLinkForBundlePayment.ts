@@ -9,6 +9,7 @@ export interface FetchLinkForBundlePaymentParams {
   group?: Web3Address;
   priceId: string;
   productId: string;
+  resubscribe: boolean;
 }
 
 export const {
@@ -21,13 +22,14 @@ export const {
       FetchLinkForBundlePaymentParams
     >({
       queryFn: createNotifyingQueryFn(
-        async ({ group, priceId, productId }, { dispatch }) => {
+        async ({ group, priceId, productId, resubscribe }, { dispatch }) => {
           const api = MultiService.getService().getAccountingGateway();
 
           const { url: data } = await api.getLinkForBundlePayment(
             {
               product_id: productId,
               product_price_id: priceId,
+              resubscribe,
             },
             { group },
           );

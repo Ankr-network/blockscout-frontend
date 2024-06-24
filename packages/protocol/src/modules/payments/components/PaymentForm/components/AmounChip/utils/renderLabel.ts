@@ -7,10 +7,12 @@ import { renderUSDPrice } from 'modules/payments/utils/renderUSDPrice';
 export interface IRenderLabelParams extends IAmount {
   isSelected?: boolean;
   shouldDisplayRequestsWhenSelected?: boolean;
+  extraRequestsRate?: number;
 }
 
 export const renderLabel = ({
   currency,
+  extraRequestsRate,
   isSelected,
   shouldDisplayRequestsWhenSelected,
   value,
@@ -21,7 +23,7 @@ export const renderLabel = ({
     const amount = renderUSDPrice(value);
 
     if (isSelected && shouldDisplayRequestsWhenSelected) {
-      const requests = getRequestsByUSDAmount(value);
+      const requests = getRequestsByUSDAmount(value, extraRequestsRate);
       const requestsAmount = renderRequestsAmount({
         isApproximate: true,
         requests,

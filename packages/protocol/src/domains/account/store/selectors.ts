@@ -11,9 +11,10 @@ import {
   EChargingModel,
   IChargingModelData,
   IPAYGChargingModelData,
-} from 'modules/billing/types';
-import { DEFAULT_SELECTED_RECURRING_USD_AMOUNT } from 'modules/billing/const';
-import { ECurrency, IAmount } from 'modules/payments/types';
+  ECurrency,
+  IAmount,
+} from 'modules/payments/types';
+import { DEFAULT_SELECTED_RECURRING_USD_AMOUNT } from 'modules/payments/const';
 import { RootState } from 'store';
 import { ZERO } from 'modules/common/constants/const';
 import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
@@ -23,7 +24,10 @@ import { fetchMyBundlesStatus } from 'domains/account/actions/bundles/fetchMyBun
 import { fetchMySubscriptions } from 'domains/account/actions/subscriptions/fetchMySubscriptions';
 import { fetchRates } from 'domains/account/actions/rate/fetchRates';
 import { fetchUSDSubscriptionPrices } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
-import { getAggregatedDealChargingModelData } from 'domains/account/utils/getDealChargingModelData';
+import {
+  getAggregatedDealChargingModelData,
+  getAggregatedDealChargingModelsData,
+} from 'domains/account/utils/getDealChargingModelData';
 import { getAggregatedPackageModelsData } from 'domains/account/utils/getPackageChargingModelData';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 import { isDealPlan } from 'domains/account/utils/isDealPlan';
@@ -58,7 +62,18 @@ export const selectBundlePaymentPlans = createSelector(
 
 export const selectDealPaymentPlans = createSelector(
   selectBundlePaymentPlans,
-  plans => plans.filter(isDealPlan),
+  plans =>
+    plans
+      .filter(isDealPlan)
+      .sort((a, b) => Number(a.price.amount) - Number(b.price.amount)),
+);
+
+export const selectDealAmounts = createSelector(selectDealPaymentPlans, plans =>
+  plans.map<IAmount>(plan => ({
+    id: plan.bundle.price_id,
+    value: Number(plan.price.amount),
+    currency: ECurrency.USD,
+  })),
 );
 
 export const selectFirstBundlePaymentPlan = createSelector(
@@ -71,14 +86,14 @@ export const selectFirstDealPaymentPlan = createSelector(
   ([plan]): BundlePaymentPlan | undefined => plan,
 );
 
+export const selectDeal500BundlePaymentPlan = createSelector(
+  selectDealPaymentPlans,
+  plans => plans.find(({ price }) => Number(price.amount) === 500),
+);
+
 export const selectBundlePaymentPlansLoading = createSelector(
   selectBundlePaymentPlansState,
   ({ isLoading }) => isLoading,
-);
-
-export const selectBundlePaymentPlansFetching = createSelector(
-  selectBundlePaymentPlansState,
-  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectBundlePaymentPlansInitLoading = createSelector(
@@ -249,7 +264,7 @@ export const selectHasMySubscriptions = createSelector(
   subscriptions => subscriptions.length > 0,
 );
 
-export const selectAllMySubcriptionsAmount = createSelector(
+export const selectAllMySubscriptionsAmount = createSelector(
   selectMySubscriptions,
   subscriptions =>
     subscriptions
@@ -433,14 +448,46 @@ export const selectDealChargingModelData = createSelector(
       );
 
       if (filteredByExpiration?.length > 0) {
+        const reversedDealChargingModelsData = [
+          ...filteredByExpiration,
+        ].reverse();
+
         return getAggregatedDealChargingModelData({
-          dealChargingModels: filteredByExpiration,
+          dealChargingModels: reversedDealChargingModelsData,
           bundlePaymentPlans,
         });
       }
     }
 
     return undefined;
+  },
+);
+
+export const selectDealChargingModelsData = createSelector(
+  selectMyBundlesStatusState,
+  selectBundlePaymentPlans,
+  (myByndlesStatus, bundlePaymentPlans) => {
+    /* Deal charging model data */
+    if (myByndlesStatus.data) {
+      const dealChargingModels = myByndlesStatus.data.filter(bundle => {
+        return bundle.counters.find(
+          counter => counter.type === BundleType.COST,
+        );
+      });
+
+      const filteredByExpiration = dealChargingModels.filter(
+        deal => new Date() < new Date(getDateFromUnixSeconds(deal.expires)),
+      );
+
+      if (filteredByExpiration?.length > 0) {
+        return getAggregatedDealChargingModelsData({
+          dealChargingModels: filteredByExpiration,
+          bundlePaymentPlans,
+        });
+      }
+    }
+
+    return [];
   },
 );
 
@@ -457,6 +504,34 @@ export const selectHasActiveDeal = createSelector(
     });
 
     return activeDeals.length > 0;
+  },
+);
+
+export const selectHighestRankDealPriceData = createSelector(
+  selectHasActiveDeal,
+  selectBundlePaymentPlans,
+  (hasActiveDeal, bundlePaymentPlans) => {
+    if (hasActiveDeal && bundlePaymentPlans.length) {
+      const mappedData = bundlePaymentPlans.map(
+        planData => +(planData?.price?.amount ?? 0),
+      );
+
+      return Math.max(...mappedData);
+    }
+
+    return undefined;
+  },
+);
+
+export const selectIsHighestDealPurchased = createSelector(
+  selectHighestRankDealPriceData,
+  selectMyCurrentBundle,
+  (highestDealPrice, myCurrentBundlePlan) => {
+    if (highestDealPrice && myCurrentBundlePlan) {
+      return +myCurrentBundlePlan.amount >= highestDealPrice;
+    }
+
+    return false;
   },
 );
 
@@ -495,11 +570,11 @@ export const selectPackageChargingModelsData = createSelector(
 
 export const selectAccountChargingModels = createSelector(
   selectPAYGChargingModelData,
-  selectDealChargingModelData,
+  selectDealChargingModelsData,
   selectPackageChargingModelsData,
   (
     paygChargingModelData,
-    dealChargingModelData,
+    dealChargingModelsData,
     packageChargingModelsData,
   ): IChargingModelData[] => {
     const chargingModels: IChargingModelData[] = [];
@@ -508,8 +583,24 @@ export const selectAccountChargingModels = createSelector(
       chargingModels.push(packageChargingModelData);
     });
 
-    if (dealChargingModelData) {
-      chargingModels.push(dealChargingModelData);
+    if (dealChargingModelsData.length) {
+      const reversedDealChargingModelsData = [
+        ...dealChargingModelsData,
+      ].reverse();
+
+      reversedDealChargingModelsData.forEach(dealChargingModelData => {
+        const isExpired =
+          new Date() > getDateFromUnixSeconds(dealChargingModelData.expires);
+
+        const isUsed = dealChargingModelData.progressValue >= 100;
+
+        if (isExpired || isUsed) {
+          chargingModels.push(dealChargingModelData);
+        } else {
+          // if user has actual deal model, it should be shown first
+          chargingModels.unshift(dealChargingModelData);
+        }
+      });
     }
 
     chargingModels.push(paygChargingModelData);

@@ -1,4 +1,4 @@
-import { EChargingModel } from 'modules/billing/types';
+import { EChargingModel } from 'modules/payments/types';
 
 import { ChargingModelWidget } from '../ChargingModelWidget';
 import { BalanceProgressBar } from '../BalanceProgressBar';

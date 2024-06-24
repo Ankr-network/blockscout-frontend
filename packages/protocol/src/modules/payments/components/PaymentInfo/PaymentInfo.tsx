@@ -11,14 +11,21 @@ export interface IPaymentInfoProps {
   amount: number;
   currency: ECurrency;
   paymentType: EPaymentType;
+  currentAmount?: number;
+  reqs?: number;
 }
 
 export const PaymentInfo = ({
   amount,
   currency,
+  currentAmount,
   paymentType,
+  reqs,
 }: IPaymentInfoProps) => {
   const { classes } = usePaymentInfoStyles();
+
+  const shouldHideDescription =
+    paymentType === EPaymentType.Deal && (!currentAmount || !amount || !reqs);
 
   return (
     <div className={classes.root}>
@@ -27,9 +34,16 @@ export const PaymentInfo = ({
           <PaymentTypeTitle isCapitalized isHTML paymentType={paymentType} />
           {renderPaymentSummaryAmount({ amount, currency })}
         </Typography>
-        <Typography className={classes.description} variant="body4">
-          {renderPaymentTypeDescription(paymentType)}
-        </Typography>
+        {!shouldHideDescription && (
+          <Typography className={classes.description} variant="body4">
+            {renderPaymentTypeDescription({
+              paymentType,
+              currentAmount,
+              newAmount: amount,
+              reqs,
+            })}
+          </Typography>
+        )}
       </>
     </div>
   );

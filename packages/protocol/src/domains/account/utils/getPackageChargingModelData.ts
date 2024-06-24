@@ -5,7 +5,7 @@ import {
   EChargingModel,
   IPackageBalance,
   IPackageChargingModelData,
-} from 'modules/billing/types';
+} from 'modules/payments/types';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 
 import { CREDITS_TO_REQUESTS_RATE, CREDITS_TO_USD_RATE } from '../store/const';

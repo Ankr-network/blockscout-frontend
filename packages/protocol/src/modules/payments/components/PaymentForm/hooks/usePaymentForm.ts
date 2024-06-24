@@ -1,8 +1,8 @@
 import { useEmailDialog } from 'domains/account/screens/BillingPage/hooks/useEmailDialog';
+import { useDealAmounts } from 'modules/payments/components/PaymentForm/components/DealAmounts';
 
 import { useCryptoPayment } from './useCryptoPayment';
 import { useCurrency } from './useCurrency';
-import { useDealAmount } from '../components/DealAmount';
 import { useDealPayment } from './useDealPayment';
 import { useMinAmount } from './useMinAmount';
 import { useNetwork } from './useNetwork';
@@ -34,10 +34,6 @@ export const usePaymentForm = () => {
     minAmount,
   });
 
-  const dealAmountProps = useDealAmount();
-
-  const { amount: dealAmount } = dealAmountProps;
-
   const {
     handleRecurrungPaymentSummaryDialogOpen,
     recurringPaymentSummaryDialogProps,
@@ -64,10 +60,14 @@ export const usePaymentForm = () => {
     oneTimeAmountProps,
   });
 
+  const dealAmountsProps = useDealAmounts();
+  const { amount: dealAmount } = dealAmountsProps;
+
   const {
     dealPaymentSummaryDialogProps,
     enterpriseDialogProps,
     handleDealPaymentSummaryDialogOpen,
+    onOpenEnterpriseDialog,
   } = useDealPayment({ amount: dealAmount });
 
   const {
@@ -104,7 +104,7 @@ export const usePaymentForm = () => {
     cryptoPaymentSummaryDialogProps,
     currency,
     currencyTabsProps,
-    dealAmountProps,
+    dealAmountsProps: { ...dealAmountsProps, onOpenEnterpriseDialog },
     emailData,
     emailDialogProps,
     enterpriseDialogProps,

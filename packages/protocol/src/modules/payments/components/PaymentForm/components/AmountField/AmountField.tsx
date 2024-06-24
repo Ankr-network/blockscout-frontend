@@ -1,12 +1,15 @@
 import { EPaymentType } from 'modules/payments/types';
+import {
+  DealAmounts,
+  IDealAmountsProps,
+} from 'modules/payments/components/PaymentForm/components/DealAmounts';
 
-import { DealAmount, IDealAmountProps } from '../DealAmount';
 import { IOneTimeAmountProps, OneTimeAmount } from '../OneTimeAmount';
 import { IRecurringAmountProps, RecurringAmount } from '../RecurringAmount';
 
 export interface IAmountFieldProps {
   className?: string;
-  dealAmountProps: IDealAmountProps;
+  dealAmountsProps: IDealAmountsProps;
   oneTimeAmountProps: IOneTimeAmountProps;
   paymentType: EPaymentType;
   recurringAmountProps: IRecurringAmountProps;
@@ -14,7 +17,7 @@ export interface IAmountFieldProps {
 
 export const AmountField = ({
   className,
-  dealAmountProps,
+  dealAmountsProps,
   oneTimeAmountProps,
   paymentType,
   recurringAmountProps,
@@ -27,5 +30,5 @@ export const AmountField = ({
     return <RecurringAmount className={className} {...recurringAmountProps} />;
   }
 
-  return <DealAmount className={className} {...dealAmountProps} />;
+  return <DealAmounts className={className} {...dealAmountsProps} />;
 };

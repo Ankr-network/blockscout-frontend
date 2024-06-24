@@ -1900,9 +1900,17 @@
       "deal": {
         "title": "{isCapitalized, select, true {D} other {d}}eal",
         "payment-summary-title": "Deal",
-        "payment-summary-description": "Monthly-repeating purchase of 6B API Credits with 30-days validity period",
+        "payment-summary-description": "Switches your current Deal subscription from {currentAmount}USD to {newAmount}USD option that provides {reqs, number, ::compact-short} monthly API Credits with 30-days validity period.",
+        "info-alert": "We recommend upgrading to a more powerful Deal option once you are close to depleting or have depleted your current subscription's monthly quota — the remaining API Credits won't carry over to your new Deal option.",
         "tooltip": "Subscription for 6B monthly API credits at 20% discount"
       }
+    },
+    "deal-amount": {
+      "monthly-credits": "Monthly API credits: {credits, number, ::compact-short}",
+      "node-aapi-reqs": "Both Node and Advanced API requests",
+      "chains": "55+ chains for Node API; 15 chains for Advanced API",
+      "contact-sales": "You're using our finest Deal option available. For a more powerful solution, ",
+      "contact-btn-text": "contact Sales"
     },
     "stripe-wordmark": {
       "label": "Powered by"
@@ -1993,7 +2001,8 @@
           "3": "Periodic payment"
         }
       },
-      "pay-button": "Pay"
+      "pay-button": "Pay",
+      "contact-sales-button": "Contact Sales"
     },
     "account-details": {
       "breadcrumbs": "Billing",

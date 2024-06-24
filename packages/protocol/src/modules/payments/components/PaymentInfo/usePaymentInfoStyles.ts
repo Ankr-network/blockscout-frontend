@@ -15,5 +15,6 @@ export const usePaymentInfoStyles = makeStyles()(theme => ({
   },
   description: {
     color: theme.palette.grey[600],
+    maxWidth: '320px',
   },
 }));

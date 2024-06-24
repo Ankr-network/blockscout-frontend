@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
-import { EChargingModel } from '../types';
-import { chargigModelTitlesMap } from '../const';
+import { chargigModelTitlesMap } from 'modules/payments/const';
+import { EChargingModel } from 'modules/payments/types';
 
 export const renderChargingModelTitle = (chargingModel: EChargingModel) =>
   t(chargigModelTitlesMap[chargingModel]);

@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 
-import { renderChargingModelTitle } from 'modules/billing/utils/renderChargingModelTitle';
-import { EChargingModel } from 'modules/billing/types';
+import { renderChargingModelTitle } from 'modules/payments/utils/renderChargingModelTitle';
+import { EChargingModel } from 'modules/payments/types';
 
 import { useChargingModelWidgetStyles } from './useChargingModelWidgetStyles';
 

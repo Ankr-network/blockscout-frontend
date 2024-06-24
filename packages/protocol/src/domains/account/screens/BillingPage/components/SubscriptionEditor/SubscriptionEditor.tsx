@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import {
   ConfirmCancellationDialog,
   useConfirmCancelDialog,
-} from 'modules/billing/components/PeriodicPayments/components/ConfirmCancellationDialog';
+} from 'modules/payments/components/PeriodicPayments/components/ConfirmCancellationDialog';
 
 import { NextBillingDate } from '../NextBillingDate';
 import { Price } from '../Price';

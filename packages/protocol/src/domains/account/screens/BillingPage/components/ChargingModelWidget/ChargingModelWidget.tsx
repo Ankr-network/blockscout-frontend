@@ -6,8 +6,11 @@ import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { EChargingModel, IChargingModelData } from 'modules/billing/types';
-import { ECurrency } from 'modules/payments/types';
+import {
+  EChargingModel,
+  IChargingModelData,
+  ECurrency,
+} from 'modules/payments/types';
 import {
   selectAccountChargingModels,
   selectActiveChargingModel,

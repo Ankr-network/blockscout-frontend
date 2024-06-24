@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { EChargingModel } from 'modules/billing/types';
+import { EChargingModel } from 'modules/payments/types';
 
 export const getLabel = (
   hasPremiumLabel: boolean,

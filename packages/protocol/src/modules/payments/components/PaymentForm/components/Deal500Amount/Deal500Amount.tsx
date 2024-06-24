@@ -5,9 +5,9 @@ import { t, tHTML } from '@ankr.com/common';
 import { IAmount } from 'modules/payments/types';
 import { PromoLabel } from 'modules/common/components/PromoLabel/PromoLabel';
 
-import { useDealAmountStyles } from './useDealAmountStyles';
+import { useDeal500AmountStyles } from './useDeal500AmountStyles';
 
-export interface IDealAmountProps {
+export interface IDeal500AmountProps {
   amount?: IAmount;
   className?: string;
   isLoading: boolean;
@@ -16,13 +16,13 @@ export interface IDealAmountProps {
 
 const amountKey = 'account.payment-form.deal-proposal.amount';
 
-export const DealAmount = ({
+export const Deal500Amount = ({
   amount,
   className,
   isLoading,
   title,
-}: IDealAmountProps) => {
-  const { classes, cx } = useDealAmountStyles();
+}: IDeal500AmountProps) => {
+  const { classes, cx } = useDeal500AmountStyles();
 
   if (isLoading) {
     return <OverlaySpinner />;

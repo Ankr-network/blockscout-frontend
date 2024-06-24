@@ -1,6 +1,6 @@
 import { RecurrentInterval } from 'multirpc-sdk';
 
-import { DealRenewalCancelDialog } from 'modules/billing/components/PeriodicPayments/components/DealRenewalCancelDialog';
+import { DealRenewalCancelDialog } from 'modules/payments/components/PeriodicPayments/components/DealRenewalCancelDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { EditSubscriptionsDialog } from '../EditSubscriptionsDialog';
