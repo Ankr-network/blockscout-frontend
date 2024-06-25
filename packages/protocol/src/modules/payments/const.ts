@@ -65,9 +65,8 @@ export const currencyLabelsMap: Record<ECurrency, string> = {
   [ECurrency.USDC]: 'account.currencies.usdc',
 };
 
-export const paymentTypeTooltipsMap: Record<TPaymentTypeExtended, string> = {
+export const paymentTypeTooltipsMap: Record<EPaymentType, string> = {
   [EPaymentType.Deal]: 'account.payment-types.deal.tooltip',
-  [DEAL_UPGRADE_PAYMENT_TYPE]: 'account.payment-types.deal-upgrade.tooltip',
   [EPaymentType.OneTime]: 'account.payment-types.one-time.tooltip',
   [EPaymentType.Recurring]: 'account.payment-types.recurring.tooltip',
 };
