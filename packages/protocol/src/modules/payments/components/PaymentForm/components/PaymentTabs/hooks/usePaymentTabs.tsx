@@ -4,9 +4,9 @@ import { t } from '@ankr.com/common';
 import { EPaymentType } from 'modules/payments/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { renderPaymentTypeTooltip } from 'modules/payments/utils/renderPaymentTypeTooltip';
+import { PaymentTypeTitle } from 'modules/payments/components/PaymentTypeTitle';
 
 import { PaymentTab } from '../../PaymentTab';
-import { PaymentTypeTitle } from '../../PaymentTypeTitle';
 
 export interface IUsePaymentTabsProps {
   initialTabID?: EPaymentType;

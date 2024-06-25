@@ -98,6 +98,11 @@ export enum EPaymentType {
   Deal = 'deal',
 }
 
+export const DEAL_UPGRADE_PAYMENT_TYPE = 'deal-upgrade';
+export type TDealUpgradePaymentType = typeof DEAL_UPGRADE_PAYMENT_TYPE;
+
+export type TPaymentTypeExtended = EPaymentType | TDealUpgradePaymentType;
+
 export enum EPaymentTypeExtension {
   DealUpgrade = 'deal-upgrade',
 }

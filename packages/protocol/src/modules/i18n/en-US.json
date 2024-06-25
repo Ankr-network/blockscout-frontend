@@ -1900,9 +1900,14 @@
       "deal": {
         "title": "{isCapitalized, select, true {D} other {d}}eal",
         "payment-summary-title": "Deal",
+        "payment-summary-description": "Monthly-repeating purchase of {reqs, number, ::compact-short} API Credits with 30-days validity period",
+        "tooltip": "Subscription with 20% extra API credits"
+      },
+      "deal-upgrade": {
+        "title": "{isCapitalized, select, true {D} other {d}}eal",
+        "payment-summary-title": "Deal Upgrade",
         "payment-summary-description": "Switches your current Deal subscription from {currentAmount}USD to {newAmount}USD option that provides {reqs, number, ::compact-short} monthly API Credits with 30-days validity period.",
-        "info-alert": "We recommend upgrading to a more powerful Deal option once you are close to depleting or have depleted your current subscription's monthly quota — the remaining API Credits won't carry over to your new Deal option.",
-        "tooltip": "Subscription for 6B monthly API credits at 20% discount"
+        "info-alert": "We recommend upgrading to a more powerful Deal option once you are close to depleting or have depleted your current subscription's monthly quota — the remaining API Credits won't carry over to your new Deal option."
       }
     },
     "deal-amount": {

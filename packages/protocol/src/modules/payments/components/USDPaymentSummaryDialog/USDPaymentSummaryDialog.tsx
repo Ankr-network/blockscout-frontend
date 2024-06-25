@@ -39,6 +39,7 @@ export const USDPaymentSummaryDialog = ({
   const { classes } = useUSDPaymentSummaryDialogStyles();
 
   const hasActiveDeal = useAppSelector(selectHasActiveDeal);
+  const hasDealInfoAlert = paymentType === EPaymentType.Deal && hasActiveDeal;
 
   return (
     <Dialog
@@ -60,9 +61,9 @@ export const USDPaymentSummaryDialog = ({
           currency={totalCurrency}
           totalAmount={totalAmount}
         />
-        {paymentType === EPaymentType.Deal && hasActiveDeal && (
+        {hasDealInfoAlert && (
           <InlineAlert severity="info" className={classes.paymentInlineAlert}>
-            {t('account.payment-types.deal.info-alert')}
+            {t('account.payment-types.deal-upgrade.info-alert')}
           </InlineAlert>
         )}
       </SeparatedList>
