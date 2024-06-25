@@ -4,7 +4,7 @@ import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
 import { ChargingModelLabel } from 'domains/account/screens/BillingPage/components/ChargingModelLabel/ChargingModelLabel';
-import { EChargingModel, IChargingModelData } from 'modules/billing/types';
+import { EChargingModel, IChargingModelData } from 'modules/payments/types';
 import { ProgressBar } from 'modules/common/components/ProgressBar';
 
 import { useBalanceMenuStyles } from './useBalanceMenuStyles';

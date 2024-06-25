@@ -1,4 +1,5 @@
 import { t, tHTML } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { EPaymentType } from 'modules/payments/types';
 import { PromoLabel } from 'modules/common/components/PromoLabel/PromoLabel';
@@ -19,9 +20,13 @@ export const PaymentTypeTitle = ({
 }: IRenderPaymentTypeTitleParams) => {
   const renderer = isHTML ? tHTML : t;
 
+  const renderTitle = useMemo(() => {
+    return renderer(paymentTypeTitlesMap[paymentType], { isCapitalized });
+  }, [isCapitalized, paymentType, renderer]);
+
   return (
     <>
-      {renderer(paymentTypeTitlesMap[paymentType], { isCapitalized })}
+      {renderTitle}
       {promo && <PromoLabel label={promo} />}
     </>
   );

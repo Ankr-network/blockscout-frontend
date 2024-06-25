@@ -1,5 +1,5 @@
-// @ts-nocheck
 import { useEffect, useMemo } from 'react';
+import { SubscriptionOptions } from '@reduxjs/toolkit/dist/query/core/apiState';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';

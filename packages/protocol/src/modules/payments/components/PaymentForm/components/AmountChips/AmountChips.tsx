@@ -11,18 +11,24 @@ export interface IAmountChipsProps extends IUseAmountChipsStylesProps {
   onAmountSelect?: (id: IAmount) => void;
   selectedAmountID?: IAmount['id'];
   shouldDisplayRequestsWhenSelected?: boolean;
+  currentAmount?: number;
   size?: IAmountChipProps['size'];
+  labelClassName?: string;
+  extraRequestsRate?: number;
 }
 
 export const AmountChips = ({
   amounts,
   columns,
+  currentAmount,
+  extraRequestsRate,
+  labelClassName,
   onAmountSelect,
   selectedAmountID,
   shouldDisplayRequestsWhenSelected,
   size,
 }: IAmountChipsProps) => {
-  const { classes } = useAmountChipsStyles({ columns });
+  const { classes, cx } = useAmountChipsStyles({ columns });
 
   return (
     <div className={classes.amountChipsRoot}>
@@ -33,14 +39,16 @@ export const AmountChips = ({
         return (
           <AmountChip
             {...amount}
-            className={classes.chip}
+            className={cx(classes.chip, labelClassName)}
             isSelected={isSelected}
+            currentAmount={currentAmount}
             key={id}
             onSelect={onAmountSelect}
             shouldDisplayRequestsWhenSelected={
               shouldDisplayRequestsWhenSelected
             }
             size={size}
+            extraRequestsRate={extraRequestsRate}
           />
         );
       })}

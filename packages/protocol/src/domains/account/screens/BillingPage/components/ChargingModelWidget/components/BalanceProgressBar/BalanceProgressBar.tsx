@@ -1,5 +1,5 @@
 import { ProgressBar } from 'modules/common/components/ProgressBar';
-import { EChargingModel } from 'modules/billing/types';
+import { EChargingModel } from 'modules/payments/types';
 
 interface IBalanceProgressBarProps {
   chargingModel: EChargingModel;
@@ -15,25 +15,14 @@ export const BalanceProgressBar = ({
   progressValue,
 }: IBalanceProgressBarProps) => {
   switch (chargingModel) {
+    case EChargingModel.Deal:
     case EChargingModel.Package:
       return (
-        <>
-          <ProgressBar
-            progress={progressValue}
-            max={100}
-            progressLabel={progressLabel}
-            maxLabel={maxLabel}
-          />
-        </>
-      );
-
-    case EChargingModel.Deal:
-      return (
         <ProgressBar
-          progress={progressValue}
           max={100}
-          progressLabel={progressLabel}
           maxLabel={maxLabel}
+          progress={progressValue}
+          progressLabel={progressLabel}
         />
       );
 

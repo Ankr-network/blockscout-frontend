@@ -4,11 +4,14 @@ import { ECurrency, EPaymentType, IAmount } from 'modules/payments/types';
 import {
   selectBundlePaymentPlans,
   selectHasActiveDeal,
+  selectIsHighestDealPurchased,
+  selectMyCurrentBundle,
 } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useLazyFetchLinkForBundlePaymentQuery } from 'domains/account/actions/bundles/fetchLinkForBundlePayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { getDealRequestsCountByUsdAmount } from 'modules/payments/utils/getDealRequestsCountByUsdAmount';
 
 import { IUSDPaymentSummaryDialogProps } from '../../USDPaymentSummaryDialog';
 
@@ -21,6 +24,7 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
   const amountValue = amount?.value ?? 0;
 
   const bundlePlans = useAppSelector(selectBundlePaymentPlans);
+  const hasActiveDeal = useAppSelector(selectHasActiveDeal);
 
   const { isOpened: open, onClose, onOpen } = useDialog();
 
@@ -44,17 +48,30 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
         bundle: { product_id: productId },
       } = bundlePayment;
 
-      const { data: url } = await fetchLink({ group, priceId, productId });
+      const { data: url } = await fetchLink({
+        group,
+        priceId,
+        productId,
+        resubscribe: hasActiveDeal,
+      });
 
       if (url) {
         window.location.href = url;
       }
     }
-  }, [bundlePlans, fetchLink, group, priceId]);
+  }, [bundlePlans, fetchLink, group, priceId, hasActiveDeal]);
+
+  const currentBundleApiCreditsCount =
+    getDealRequestsCountByUsdAmount(amountValue);
+
+  const currentPlan = useAppSelector(selectMyCurrentBundle);
+  const { amount: currentPlanAmount = 0 } = currentPlan ?? {};
 
   const dealPaymentSummaryDialogProps = useMemo<IUSDPaymentSummaryDialogProps>(
     () => ({
       amount: amountValue,
+      currentAmount: +currentPlanAmount,
+      reqs: currentBundleApiCreditsCount,
       currency: ECurrency.USD,
       isProceeding: isFetching,
       onCancelButtonClick: onClose,
@@ -65,18 +82,26 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
       totalAmount: amountValue,
       totalCurrency: ECurrency.USD,
     }),
-    [amountValue, isFetching, onClose, onProceedButtonClick, open],
+    [
+      amountValue,
+      isFetching,
+      onClose,
+      onProceedButtonClick,
+      open,
+      currentPlanAmount,
+      currentBundleApiCreditsCount,
+    ],
   );
 
-  const hasActiveDeal = useAppSelector(selectHasActiveDeal);
+  const isHighestDealPurchased = useAppSelector(selectIsHighestDealPurchased);
 
   const handleDealPaymentSummaryDialogOpen = useCallback(() => {
-    if (hasActiveDeal) {
+    if (isHighestDealPurchased) {
       onOpenEnterpriseDialog();
     } else {
       onOpen();
     }
-  }, [hasActiveDeal, onOpen, onOpenEnterpriseDialog]);
+  }, [isHighestDealPurchased, onOpen, onOpenEnterpriseDialog]);
 
   return {
     dealPaymentSummaryDialogProps,
@@ -84,6 +109,7 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
       open: openEnterpriseDialog,
       onClose: onCloseEnterpriseDialog,
     },
+    onOpenEnterpriseDialog,
     handleDealPaymentSummaryDialogOpen,
   };
 };

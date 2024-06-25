@@ -3,7 +3,6 @@ import {
   BundlePaymentPlan,
   BundleType,
   ISubscriptionsItem,
-  MyBundleStatus,
   MyBundleStatusCounter,
 } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
@@ -12,9 +11,10 @@ import {
   EChargingModel,
   IChargingModelData,
   IPAYGChargingModelData,
-} from 'modules/billing/types';
-import { DEFAULT_SELECTED_RECURRING_USD_AMOUNT } from 'modules/billing/const';
-import { ECurrency, IAmount } from 'modules/payments/types';
+  ECurrency,
+  IAmount,
+} from 'modules/payments/types';
+import { DEFAULT_SELECTED_RECURRING_USD_AMOUNT } from 'modules/payments/const';
 import { RootState } from 'store';
 import { ZERO } from 'modules/common/constants/const';
 import { fetchBalance } from 'domains/account/actions/balance/fetchBalance';
@@ -24,7 +24,10 @@ import { fetchMyBundlesStatus } from 'domains/account/actions/bundles/fetchMyBun
 import { fetchMySubscriptions } from 'domains/account/actions/subscriptions/fetchMySubscriptions';
 import { fetchRates } from 'domains/account/actions/rate/fetchRates';
 import { fetchUSDSubscriptionPrices } from 'domains/account/actions/usdTopUp/fetchUSDSubscriptionPrices';
-import { getAggregatedDealChargingModelData } from 'domains/account/utils/getDealChargingModelData';
+import {
+  getAggregatedDealChargingModelData,
+  getAggregatedDealChargingModelsData,
+} from 'domains/account/utils/getDealChargingModelData';
 import { getAggregatedPackageModelsData } from 'domains/account/utils/getPackageChargingModelData';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 import { isDealPlan } from 'domains/account/utils/isDealPlan';
@@ -59,7 +62,18 @@ export const selectBundlePaymentPlans = createSelector(
 
 export const selectDealPaymentPlans = createSelector(
   selectBundlePaymentPlans,
-  plans => plans.filter(isDealPlan),
+  plans =>
+    plans
+      .filter(isDealPlan)
+      .sort((a, b) => Number(a.price.amount) - Number(b.price.amount)),
+);
+
+export const selectDealAmounts = createSelector(selectDealPaymentPlans, plans =>
+  plans.map<IAmount>(plan => ({
+    id: plan.bundle.price_id,
+    value: Number(plan.price.amount),
+    currency: ECurrency.USD,
+  })),
 );
 
 export const selectFirstBundlePaymentPlan = createSelector(
@@ -72,14 +86,14 @@ export const selectFirstDealPaymentPlan = createSelector(
   ([plan]): BundlePaymentPlan | undefined => plan,
 );
 
+export const selectDeal500BundlePaymentPlan = createSelector(
+  selectDealPaymentPlans,
+  plans => plans.find(({ price }) => Number(price.amount) === 500),
+);
+
 export const selectBundlePaymentPlansLoading = createSelector(
   selectBundlePaymentPlansState,
   ({ isLoading }) => isLoading,
-);
-
-export const selectBundlePaymentPlansFetching = createSelector(
-  selectBundlePaymentPlansState,
-  ({ data, isLoading }) => isLoading && typeof data !== 'undefined',
 );
 
 export const selectBundlePaymentPlansInitLoading = createSelector(
@@ -250,7 +264,7 @@ export const selectHasMySubscriptions = createSelector(
   subscriptions => subscriptions.length > 0,
 );
 
-export const selectAllMySubcriptionsAmount = createSelector(
+export const selectAllMySubscriptionsAmount = createSelector(
   selectMySubscriptions,
   subscriptions =>
     subscriptions
@@ -336,21 +350,10 @@ export const selectMyCurrentBundleRequestsUsed = createSelector(
 export const selectMyRecurringPayments = createSelector(
   selectMyBundles,
   selectMySubscriptions,
-  selectBundlePaymentPlans,
-  (bundles, subscriptions, bundlePaymentPlans) =>
-    [...subscriptions, ...bundles].sort((a, b) => {
-      const currentPlan = bundlePaymentPlans.find(plan => {
-        return plan.bundle.price_id === a.productPriceId;
-      });
-
-      const isPackageBundlePlan = isPackagePlan(currentPlan);
-
-      if (isPackageBundlePlan) {
-        return 1;
-      }
-
-      return +a.currentPeriodEnd - +b.currentPeriodEnd;
-    }),
+  (bundles, subscriptions) =>
+    [...subscriptions, ...bundles].sort(
+      (a, b) => Number(a.currentPeriodEnd) - Number(b.currentPeriodEnd),
+    ),
 );
 
 export const selectMyRecurringPaymentsWithoutPackage = createSelector(
@@ -445,14 +448,46 @@ export const selectDealChargingModelData = createSelector(
       );
 
       if (filteredByExpiration?.length > 0) {
+        const reversedDealChargingModelsData = [
+          ...filteredByExpiration,
+        ].reverse();
+
         return getAggregatedDealChargingModelData({
-          dealChargingModels: filteredByExpiration,
+          dealChargingModels: reversedDealChargingModelsData,
           bundlePaymentPlans,
         });
       }
     }
 
     return undefined;
+  },
+);
+
+export const selectDealChargingModelsData = createSelector(
+  selectMyBundlesStatusState,
+  selectBundlePaymentPlans,
+  (myByndlesStatus, bundlePaymentPlans) => {
+    /* Deal charging model data */
+    if (myByndlesStatus.data) {
+      const dealChargingModels = myByndlesStatus.data.filter(bundle => {
+        return bundle.counters.find(
+          counter => counter.type === BundleType.COST,
+        );
+      });
+
+      const filteredByExpiration = dealChargingModels.filter(
+        deal => new Date() < new Date(getDateFromUnixSeconds(deal.expires)),
+      );
+
+      if (filteredByExpiration?.length > 0) {
+        return getAggregatedDealChargingModelsData({
+          dealChargingModels: filteredByExpiration,
+          bundlePaymentPlans,
+        });
+      }
+    }
+
+    return [];
   },
 );
 
@@ -472,30 +507,58 @@ export const selectHasActiveDeal = createSelector(
   },
 );
 
-export const selectPackageChargingModelData = createSelector(
+export const selectHighestRankDealPriceData = createSelector(
+  selectHasActiveDeal,
+  selectBundlePaymentPlans,
+  (hasActiveDeal, bundlePaymentPlans) => {
+    if (hasActiveDeal && bundlePaymentPlans.length) {
+      const mappedData = bundlePaymentPlans.map(
+        planData => +(planData?.price?.amount ?? 0),
+      );
+
+      return Math.max(...mappedData);
+    }
+
+    return undefined;
+  },
+);
+
+export const selectIsHighestDealPurchased = createSelector(
+  selectHighestRankDealPriceData,
+  selectMyCurrentBundle,
+  (highestDealPrice, myCurrentBundlePlan) => {
+    if (highestDealPrice && myCurrentBundlePlan) {
+      return +myCurrentBundlePlan.amount >= highestDealPrice;
+    }
+
+    return false;
+  },
+);
+
+export const selectPackageChargingModelsData = createSelector(
   selectMyBundlesStatusState,
   selectBundlePaymentPlans,
-  (myByndlesStatus, bundlePaymentPlans) => {
-    /* Package charging model data (will be deprecated soon) */
-    const packageChargingModels: MyBundleStatus[] | undefined =
-      myByndlesStatus?.data?.filter(bundle => {
-        const hasQtyCounter = bundle.counters.find(
-          counter => counter.type === BundleType.QTY,
-        );
+  (myByndlesStatusState, bundlePaymentPlans) => {
+    const packageChargingModels = myByndlesStatusState.data?.filter(bundle => {
+      const hasQtyCounter = bundle.counters.find(
+        counter => counter.type === BundleType.QTY,
+      );
 
-        const hasCostCounter = bundle.counters.find(
-          counter => counter.type === BundleType.COST,
-        );
+      const hasCostCounter = bundle.counters.find(
+        counter => counter.type === BundleType.COST,
+      );
 
-        return hasQtyCounter && !hasCostCounter;
-      });
+      return hasQtyCounter && !hasCostCounter;
+    });
 
     const filteredByExpiration = packageChargingModels?.filter(
       bundle => new Date() < new Date(getDateFromUnixSeconds(bundle.expires)),
     );
 
+    filteredByExpiration?.sort((a, b) => a.expires - b.expires);
+
     if (!filteredByExpiration?.length) {
-      return undefined;
+      return [];
     }
 
     return getAggregatedPackageModelsData({
@@ -507,39 +570,40 @@ export const selectPackageChargingModelData = createSelector(
 
 export const selectAccountChargingModels = createSelector(
   selectPAYGChargingModelData,
-  selectDealChargingModelData,
-  selectPackageChargingModelData,
+  selectDealChargingModelsData,
+  selectPackageChargingModelsData,
   (
     paygChargingModelData,
-    dealChargingModelData,
-    packageChargingModelData,
+    dealChargingModelsData,
+    packageChargingModelsData,
   ): IChargingModelData[] => {
-    const chargingModels: IChargingModelData[] = [paygChargingModelData];
+    const chargingModels: IChargingModelData[] = [];
 
-    if (dealChargingModelData) {
-      const isExpired =
-        new Date() > getDateFromUnixSeconds(dealChargingModelData.expires);
+    packageChargingModelsData.forEach(packageChargingModelData => {
+      chargingModels.push(packageChargingModelData);
+    });
 
-      const isUsed = dealChargingModelData.progressValue >= 100;
+    if (dealChargingModelsData.length) {
+      const reversedDealChargingModelsData = [
+        ...dealChargingModelsData,
+      ].reverse();
 
-      if (isExpired || isUsed) {
-        chargingModels.push(dealChargingModelData);
-      } else {
-        // if user has actual deal model, it should be shown first
-        chargingModels.unshift(dealChargingModelData);
-      }
+      reversedDealChargingModelsData.forEach(dealChargingModelData => {
+        const isExpired =
+          new Date() > getDateFromUnixSeconds(dealChargingModelData.expires);
+
+        const isUsed = dealChargingModelData.progressValue >= 100;
+
+        if (isExpired || isUsed) {
+          chargingModels.push(dealChargingModelData);
+        } else {
+          // if user has actual deal model, it should be shown first
+          chargingModels.unshift(dealChargingModelData);
+        }
+      });
     }
 
-    if (packageChargingModelData) {
-      const isUsed = packageChargingModelData.progressValue >= 100;
-
-      if (packageChargingModelData.isExpired || isUsed) {
-        chargingModels.push(packageChargingModelData);
-      } else {
-        // if user has actual package model, it should be shown first and have higher priority then deal model
-        chargingModels.unshift(packageChargingModelData);
-      }
-    }
+    chargingModels.push(paygChargingModelData);
 
     return chargingModels;
   },

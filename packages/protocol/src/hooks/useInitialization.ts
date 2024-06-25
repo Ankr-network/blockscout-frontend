@@ -4,7 +4,7 @@ import { removeAvoidGuestTeamInvitationDialog } from 'domains/userSettings/scree
 import { useAutologin } from 'hooks/useAutologin';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
-import { useBundlePaymentPlans } from 'domains/account/hooks/useBundlePaymentPlans';
+import { useBundlePaymentPlansRequest } from 'domains/account/hooks/useBundlePaymentPlansRequest';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
 import { useEnterpriseStatusFetch } from 'domains/auth/hooks/useEnterpriseStatus';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
@@ -49,7 +49,7 @@ export const useInitialization = (isLoggedIn: boolean) => {
   useMyBundles({ skipFetching: skipFetchingBilling });
   useMyBundlesStatus({ skipFetching: skipFetchingBilling });
   useMySubscriptions({ skipFetching: skipFetchingBilling });
-  useBundlePaymentPlans({ skipFetching: skipFetchingBilling });
+  useBundlePaymentPlansRequest({ skipFetching: skipFetchingBilling });
 
   useShouldShowUserGroupDialogQuery(undefined, { skip: !isLoggedIn });
 

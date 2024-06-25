@@ -49,4 +49,5 @@ export interface MyBundleStatusCounter {
 export interface GetLinkForBundlePaymentRequest {
   product_id: string;
   product_price_id: string;
+  resubscribe: boolean;
 }

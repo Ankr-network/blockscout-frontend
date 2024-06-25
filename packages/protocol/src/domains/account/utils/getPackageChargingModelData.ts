@@ -5,7 +5,8 @@ import {
   EChargingModel,
   IPackageBalance,
   IPackageChargingModelData,
-} from 'modules/billing/types';
+} from 'modules/payments/types';
+import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 
 import { CREDITS_TO_REQUESTS_RATE, CREDITS_TO_USD_RATE } from '../store/const';
 
@@ -63,21 +64,20 @@ export const getPackageChargingModelData = ({
   );
 
   const chargingModelPackage: IPackageChargingModelData = {
-    type: EChargingModel.Package,
     balance: {
       balanceInRequests,
       balanceUsd,
     },
-    progressValue: usedRequestsPercent,
-
+    expires: packageChargingModel.expires,
     isExpired: usedRequestsPercent >= 100,
     progressLabel,
-
     progressLabelData: {
       usedCount: usedRequestsCount,
       wholeAmountCount: wholeAmountOfRequests,
       usedPercent: usedRequestsPercent,
     },
+    progressValue: usedRequestsPercent,
+    type: EChargingModel.Package,
   };
 
   return chargingModelPackage;
@@ -115,16 +115,17 @@ const aggregatePackageModelsData = (
   const balance = calculateBalance(result.balance, current.balance);
 
   return {
-    type: EChargingModel.Package,
     balance,
-    progressValue: 0, // we are not aggregating this value here because need to summarize all usedCount and wholeAmountCount first
+    expires: result.expires || current.expires,
     isExpired: result.isExpired && current.isExpired,
-    progressLabelData,
     progressLabel: '',
+    progressLabelData,
+    progressValue: 0, // we are not aggregating this value here because need to summarize all usedCount and wholeAmountCount first
+    type: EChargingModel.Package,
   };
 };
 
-export const getAggregatedPackageModelsData = ({
+export const getAggregatedPackageModelData = ({
   bundlePaymentPlans,
   packageChargingModels,
 }: IGetPackagesAggregatedDataProps) => {
@@ -152,4 +153,40 @@ export const getAggregatedPackageModelsData = ({
       progressLabelData,
     ),
   };
+};
+
+export const getAggregatedPackageModelsData = ({
+  bundlePaymentPlans,
+  packageChargingModels,
+}: IGetPackagesAggregatedDataProps) => {
+  return packageChargingModels
+    .map(packageChargingModel =>
+      getPackageChargingModelData({
+        packageChargingModel,
+        bundlePaymentPlans,
+      }),
+    )
+    .map(packageChargingModel => {
+      const progressValue =
+        (packageChargingModel.progressLabelData.usedCount * 100) /
+        packageChargingModel.progressLabelData.wholeAmountCount;
+
+      const progressLabelData = {
+        ...packageChargingModel.progressLabelData,
+        usedPercent: progressValue,
+      };
+
+      return {
+        ...packageChargingModel,
+        maxLabel: t('account.account-details.balance-widget.expires', {
+          date: getDateFromUnixSeconds(packageChargingModel.expires),
+        }),
+        progressValue,
+        progressLabelData,
+        progressLabel: t(
+          'account.account-details.balance-widget.used-credits-label',
+          progressLabelData,
+        ),
+      };
+    });
 };

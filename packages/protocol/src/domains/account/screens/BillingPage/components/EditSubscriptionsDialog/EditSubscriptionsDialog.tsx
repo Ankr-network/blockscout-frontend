@@ -4,13 +4,14 @@ import { ISubscriptionsItem } from 'multirpc-sdk';
 
 import { EditDialog } from '../EditDialog';
 import { Subscription } from './components/Subscription';
+import { TCancelSubscriptionHandler } from './hooks/useEditSubscriptionsDialog';
 import { useEditSubscriptionsDialogStyles } from './EditSubscriptionsDialogStyles';
 
 interface IEditSubscriptionsDialogProps {
   isOpened?: boolean;
   onClose: () => void;
   onOpenSuccessDialog: () => void;
-  onCancelSubscription: (expiresAt: string, isDeal: boolean) => void;
+  onCancelSubscription: TCancelSubscriptionHandler;
   recurringPayments: ISubscriptionsItem[];
 }
 

@@ -9,6 +9,9 @@ import {
   IFeeDetails,
   TCryptoCurrency,
   TStablecoinCurrency,
+  EChargingModel,
+  DEAL_UPGRADE_PAYMENT_TYPE,
+  TPaymentTypeExtended,
 } from './types';
 
 export const ALLOWANCE_CONFIRMATION_BLOCKS = 1;
@@ -36,6 +39,21 @@ export const MIN_CRYPTO_FEE = 0.00001;
 export const PRICES_PER_REQUEST_URL =
   'https://www.ankr.com/docs/rpc-service/pricing';
 
+export const ONE_BUNDLE_ITEM_PRICE = 100000;
+
+export const API_CREDITS_COUNT_PER_500_USD_BUNDLE = 5_000_000_000;
+
+export const DEFAULT_SELECTED_RECURRING_USD_AMOUNT = 50;
+
+export const MINIMAL_DEAL_AMOUNT = 500;
+
+export const chargigModelTitlesMap: Record<EChargingModel, string> = {
+  [EChargingModel.Deal]: 'account.charging-model.deal.title',
+  [EChargingModel.Free]: 'account.charging-model.free.title',
+  [EChargingModel.PAYG]: 'account.charging-model.payg.title',
+  [EChargingModel.Package]: 'account.charging-model.package.title',
+};
+
 export const ANKR_PAYMENT_NETWORK = isMainnet
   ? EBlockchain.eth
   : EBlockchain.eth_holesky;
@@ -47,27 +65,34 @@ export const currencyLabelsMap: Record<ECurrency, string> = {
   [ECurrency.USDC]: 'account.currencies.usdc',
 };
 
-export const paymentTypeTooltipsMap: Record<EPaymentType, string> = {
+export const paymentTypeTooltipsMap: Record<TPaymentTypeExtended, string> = {
   [EPaymentType.Deal]: 'account.payment-types.deal.tooltip',
+  [DEAL_UPGRADE_PAYMENT_TYPE]: 'account.payment-types.deal-upgrade.tooltip',
   [EPaymentType.OneTime]: 'account.payment-types.one-time.tooltip',
   [EPaymentType.Recurring]: 'account.payment-types.recurring.tooltip',
 };
 
-export const paymentTypeTitlesMap: Record<EPaymentType, string> = {
+export const paymentTypeTitlesMap: Record<TPaymentTypeExtended, string> = {
   [EPaymentType.Deal]: 'account.payment-types.deal.payment-summary-title',
+  [DEAL_UPGRADE_PAYMENT_TYPE]:
+    'account.payment-types.deal-upgrade.payment-summary-title',
   [EPaymentType.OneTime]:
     'account.payment-types.one-time.payment-summary-title',
   [EPaymentType.Recurring]:
     'account.payment-types.recurring.payment-summary-title',
 };
 
-export const paymentTypeDescriptionsMap: Record<EPaymentType, string> = {
-  [EPaymentType.Deal]: 'account.payment-types.deal.payment-summary-description',
-  [EPaymentType.OneTime]:
-    'account.payment-types.one-time.payment-summary-description',
-  [EPaymentType.Recurring]:
-    'account.payment-types.recurring.payment-summary-description',
-};
+export const paymentTypeDescriptionsMap: Record<TPaymentTypeExtended, string> =
+  {
+    [EPaymentType.Deal]:
+      'account.payment-types.deal.payment-summary-description',
+    [DEAL_UPGRADE_PAYMENT_TYPE]:
+      'account.payment-types.deal-upgrade.payment-summary-description',
+    [EPaymentType.OneTime]:
+      'account.payment-types.one-time.payment-summary-description',
+    [EPaymentType.Recurring]:
+      'account.payment-types.recurring.payment-summary-description',
+  };
 
 export const stablecoinCurrencies: TStablecoinCurrency[] = [
   ECurrency.USDC,

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { EChargingModel, IChargingModelData } from 'modules/billing/types';
+import { EChargingModel, IChargingModelData } from 'modules/payments/types';
 import { UserLabel } from 'uiKit/UserLabel';
 
 import { PAYGLabel } from '../ChargingModelWidget/components/PAYGLabel';

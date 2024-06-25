@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 const MARKER_SIZE = 8;
 
-export const useDealAmountStyles = makeStyles()(theme => ({
+export const useDeal500AmountStyles = makeStyles()(theme => ({
   dealAmountRoot: {
     padding: theme.spacing(5),
     borderRadius: theme.spacing(5),

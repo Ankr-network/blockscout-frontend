@@ -1,4 +1,76 @@
-import { EBlockchain, SubscriptionPrice, Web3Address } from 'multirpc-sdk';
+import {
+  BalanceLevel,
+  EBlockchain,
+  SubscriptionPrice,
+  Web3Address,
+} from 'multirpc-sdk';
+
+export interface IPackageBalance {
+  balanceUsd: number;
+  balanceInRequests: number;
+}
+
+interface IProgressData {
+  usedCount: number;
+  wholeAmountCount: number;
+  usedPercent: number;
+}
+
+export interface IPackageChargingModelData {
+  balance: IPackageBalance;
+  expires: number;
+  isExpired: boolean;
+  progressLabel: string;
+  progressLabelData: IProgressData;
+  progressValue: number;
+  type: EChargingModel.Package;
+}
+
+export interface IDealBalance extends IPackageBalance {
+  balanceApiCredits: number;
+}
+
+export interface IPAYGChargingModelData {
+  type: EChargingModel.PAYG;
+  balance: IPAYGBalance;
+}
+
+export interface IFreeChargingModelData {
+  type: EChargingModel.Free;
+  balance: IPAYGBalance;
+}
+
+export type IChargingModelData =
+  | IFreeChargingModelData
+  | IPackageChargingModelData
+  | IDealChargingModelData
+  | IPAYGChargingModelData;
+
+export interface IPAYGBalance extends IDealBalance {
+  balanceLevel: BalanceLevel;
+  balanceAnkr: number;
+  balanceTotal: number;
+  balanceVoucher: number;
+  balanceWithoutVouchers: number;
+}
+
+export interface IDealChargingModelData {
+  type: EChargingModel.Deal;
+  balance: IDealBalance;
+  progressData: IProgressData;
+  progressValue: number;
+  progressLabel: string;
+  maxLabel: string;
+  expires: number; // format: unix seconds
+  price: number;
+}
+
+export enum EChargingModel {
+  Free = 'FREE',
+  PAYG = 'PAY_AS_YOU_GO',
+  Package = 'PACKAGE',
+  Deal = 'DEAL',
+}
 
 export enum ECryptoDepositStep {
   Allowance = 1,
@@ -24,6 +96,15 @@ export enum EPaymentType {
   OneTime = 'one-time',
   Recurring = 'recurring',
   Deal = 'deal',
+}
+
+export const DEAL_UPGRADE_PAYMENT_TYPE = 'deal-upgrade';
+export type TDealUpgradePaymentType = typeof DEAL_UPGRADE_PAYMENT_TYPE;
+
+export type TPaymentTypeExtended = EPaymentType | TDealUpgradePaymentType;
+
+export enum EPaymentTypeExtension {
+  DealUpgrade = 'deal-upgrade',
 }
 
 export type TStablecoinCurrency = ECurrency.USDC | ECurrency.USDT;

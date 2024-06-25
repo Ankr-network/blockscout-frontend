@@ -15,4 +15,7 @@ export const useUSDPaymentSummaryDialogStyles = makeStyles()(theme => ({
   buttons: {
     marginBottom: theme.spacing(4),
   },
+  paymentInlineAlert: {
+    alignItems: 'start',
+  },
 }));

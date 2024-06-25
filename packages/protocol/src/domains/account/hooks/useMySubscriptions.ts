@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import {
-  selectAllMySubcriptionsAmount,
+  selectAllMySubscriptionsAmount,
   selectHasMySubscriptions,
   selectMySubscriptions,
   selectMySubscriptionsFetching,
@@ -48,7 +48,7 @@ export const useMySubscriptions = ({
     return () => {};
   }, [fetch, group, shouldFetch]);
 
-  const allSubscriptionsAmount = useAppSelector(selectAllMySubcriptionsAmount);
+  const allSubscriptionsAmount = useAppSelector(selectAllMySubscriptionsAmount);
   const fetching = useAppSelector(selectMySubscriptionsFetching);
   const isSubscribed = useAppSelector(selectHasMySubscriptions);
   const loading = useAppSelector(selectMySubscriptionsLoading);

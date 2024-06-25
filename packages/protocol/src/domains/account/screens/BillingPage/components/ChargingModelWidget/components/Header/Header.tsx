@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
-import { EChargingModel, IChargingModelData } from 'modules/billing/types';
+import { EChargingModel, IChargingModelData } from 'modules/payments/types';
 import { ChargingModelLabel } from 'domains/account/screens/BillingPage/components/ChargingModelLabel';
 
 import { intlRoot } from '../../const';

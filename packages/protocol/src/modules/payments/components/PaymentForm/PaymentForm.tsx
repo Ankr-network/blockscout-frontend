@@ -10,6 +10,9 @@ import {
 } from 'domains/account/screens/BillingPage/TopUpEmailDialog';
 // TODO: move to the billing module
 import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
+import { IDealAmountsProps } from 'modules/payments/components/PaymentForm/components/DealAmounts';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectIsHighestDealPurchased } from 'domains/account/store/selectors';
 
 import { AmountField } from './components/AmountField';
 import {
@@ -25,7 +28,6 @@ import {
   ICryptoPaymentSummaryDialogProps,
 } from '../CryptoPaymentSummaryDialog';
 import { CurrencyTabs, ICurrencyTabsProps } from './components/CurrencyTabs';
-import { IDealAmountProps } from './components/DealAmount';
 import { IOneTimeAmountProps } from './components/OneTimeAmount';
 import { IPaymentTabsProps, PaymentTabs } from './components/PaymentTabs';
 import {
@@ -42,7 +44,7 @@ export interface IPaymentFormProps {
   cryptoPaymentSuccessDialogProps: ICryptoPaymentSuccessDialogProps;
   cryptoPaymentSummaryDialogProps: ICryptoPaymentSummaryDialogProps;
   currencyTabsProps: ICurrencyTabsProps;
-  dealAmountProps: IDealAmountProps;
+  dealAmountsProps: IDealAmountsProps;
   emailData: EmailData;
   emailDialogProps: TopUpEmailDialogProps['dialogProps'];
   enterpriseDialogProps: IDialogProps;
@@ -61,7 +63,7 @@ export const PaymentForm = ({
   cryptoPaymentSuccessDialogProps,
   cryptoPaymentSummaryDialogProps,
   currencyTabsProps,
-  dealAmountProps,
+  dealAmountsProps,
   emailData,
   emailDialogProps,
   enterpriseDialogProps,
@@ -75,6 +77,10 @@ export const PaymentForm = ({
 }: IPaymentFormProps) => {
   const { classes, cx } = usePaymentFormStyles();
 
+  const isHighestDealPurchased = useAppSelector(selectIsHighestDealPurchased);
+  const isContactSalesButton =
+    paymentType === EPaymentType.Deal && isHighestDealPurchased;
+
   return (
     <>
       <div className={cx(classes.paymentFormRoot, className)}>
@@ -85,7 +91,7 @@ export const PaymentForm = ({
         <CurrencyTabs className={classes.currencyTabs} {...currencyTabsProps} />
         <AmountField
           className={classes.amountField}
-          dealAmountProps={dealAmountProps}
+          dealAmountsProps={dealAmountsProps}
           oneTimeAmountProps={oneTimeAmountProps}
           paymentType={paymentType}
           recurringAmountProps={recurringAmountProps}
@@ -96,7 +102,9 @@ export const PaymentForm = ({
           onClick={handlePayButtonClick}
           size="large"
         >
-          {t('account.payment-form.pay-button')}
+          {isContactSalesButton
+            ? t('account.payment-form.contact-sales-button')
+            : t('account.payment-form.pay-button')}
         </LoadingButton>
       </div>
       {usdPaymentSummaryDialogProps && (

@@ -6,7 +6,7 @@ import { useCallback } from 'react';
 import {
   ConfirmCancellationDialog,
   useConfirmCancelDialog,
-} from 'modules/billing/components/PeriodicPayments/components/ConfirmCancellationDialog';
+} from 'modules/payments/components/PeriodicPayments/components/ConfirmCancellationDialog';
 
 import { NextBillingDate } from '../NextBillingDate';
 import { Price } from '../Price';
@@ -14,20 +14,18 @@ import { useSubscriptionEditorStyles } from './SubscriptionEditorStyles';
 
 export interface SubscriptionEditorProps {
   amount: string;
+  customChargingModelName?: string;
   isCanceling: boolean;
   nextBillingDate: string;
   onCancel: () => Promise<{ error: unknown } | { data: boolean }>;
   onOpenSuccessDialog: () => void;
   period: RecurrentInterval;
-  customChargingModelName?: string;
-  isDeprecatedModel?: boolean;
 }
 
 export const SubscriptionEditor = ({
   amount,
   customChargingModelName,
   isCanceling,
-  isDeprecatedModel,
   nextBillingDate,
   onCancel,
   onOpenSuccessDialog,
@@ -72,10 +70,7 @@ export const SubscriptionEditor = ({
         }
       />
 
-      <NextBillingDate
-        date={nextBillingDate}
-        isDeprecatedModel={isDeprecatedModel}
-      />
+      <NextBillingDate date={nextBillingDate} />
 
       <div className={classes.controls}>
         <Button

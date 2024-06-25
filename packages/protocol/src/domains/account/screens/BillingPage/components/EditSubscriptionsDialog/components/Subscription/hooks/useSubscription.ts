@@ -2,16 +2,18 @@ import { ISubscriptionsItem } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { useCancelSubscriptionMutation } from 'domains/account/actions/subscriptions/cancelSubscription';
-import { useCancelBundleSubscriptionMutation } from 'domains/account/actions/bundles/cancelBundleSubscription';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectBundlePaymentPlanByPriceId } from 'domains/account/store/selectors';
-import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
 import { isDealPlan } from 'domains/account/utils/isDealPlan';
+import { isPackagePlan } from 'domains/account/utils/isPackagePlan';
+import { selectBundlePaymentPlanByPriceId } from 'domains/account/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useCancelBundleSubscriptionMutation } from 'domains/account/actions/bundles/cancelBundleSubscription';
+import { useCancelSubscriptionMutation } from 'domains/account/actions/subscriptions/cancelSubscription';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+
+import { TCancelSubscriptionHandler } from '../../../hooks/useEditSubscriptionsDialog';
 
 export interface SubscriptionParams {
-  onCancel: (expiresAt: string, isDeal: boolean) => void;
+  onCancel: TCancelSubscriptionHandler;
   subscription: ISubscriptionsItem;
 }
 
@@ -46,7 +48,7 @@ export const useSubscription = ({
   } = subscription;
 
   const isDealBundle = Boolean(isDealPlan(currentBundleData));
-  const isPackageBundle = isPackagePlan(currentBundleData);
+  const isPackageBundle = Boolean(isPackagePlan(currentBundleData));
 
   const onCancel = useCallback(async () => {
     const cancelSubscriptionParams = {
@@ -62,7 +64,10 @@ export const useSubscription = ({
     }
 
     if (!cancelSubscriptionError && !cancelBundleSubscriptionError) {
-      onCancelSubscription(nextBillingDate, isDealBundle);
+      onCancelSubscription(nextBillingDate, {
+        isDeal: isDealBundle,
+        isPackage: isPackageBundle,
+      });
     }
 
     return response;
@@ -98,6 +103,5 @@ export const useSubscription = ({
     onCancel,
     period,
     customChargingModelName,
-    isDeprecatedModel: Boolean(isPackageBundle),
   };
 };

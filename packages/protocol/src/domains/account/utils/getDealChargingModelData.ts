@@ -1,7 +1,7 @@
 import { BundleType, BundlePaymentPlan, MyBundleStatus } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
-import { EChargingModel, IDealChargingModelData } from 'modules/billing/types';
+import { EChargingModel, IDealChargingModelData } from 'modules/payments/types';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 
 import { CREDITS_TO_REQUESTS_RATE, CREDITS_TO_USD_RATE } from '../store/const';
@@ -68,6 +68,7 @@ export const getDealChargingModelData = ({
     progressLabel,
     maxLabel,
     expires: dealChargingModel.expires,
+    price: +(relatedBundle?.price?.amount ?? 0),
   };
 
   return chargingModelDeal;
@@ -80,6 +81,7 @@ const aggregateDealData = (
   const { balance, expires, progressData } = dealData;
   const { balanceApiCredits, balanceInRequests, balanceUsd } = balance;
   const { usedCount, wholeAmountCount } = progressData;
+  const usedPercent = (usedCount * 100) / wholeAmountCount;
 
   acc.balance.balanceApiCredits += balanceApiCredits;
   acc.balance.balanceUsd += balanceUsd;
@@ -88,7 +90,7 @@ const aggregateDealData = (
   acc.progressData = {
     usedCount: acc.progressData.usedCount + usedCount,
     wholeAmountCount: acc.progressData.wholeAmountCount + wholeAmountCount,
-    usedPercent: 0, // this value can be calculated after aggregation
+    usedPercent: acc.progressData.usedPercent + usedPercent,
   };
 
   return acc;
@@ -132,4 +134,19 @@ export const getAggregatedDealChargingModelData = ({
       date: getDateFromUnixSeconds(aggregatedDealData.expires),
     }),
   };
+};
+
+export const getAggregatedDealChargingModelsData = ({
+  bundlePaymentPlans,
+  dealChargingModels,
+}: {
+  dealChargingModels: MyBundleStatus[];
+  bundlePaymentPlans: BundlePaymentPlan[];
+}): IDealChargingModelData[] => {
+  return dealChargingModels.map(dealChargingModel =>
+    getDealChargingModelData({
+      dealChargingModel,
+      bundlePaymentPlans,
+    }),
+  );
 };

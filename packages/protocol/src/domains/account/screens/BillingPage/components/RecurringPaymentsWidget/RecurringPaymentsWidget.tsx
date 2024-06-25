@@ -1,6 +1,6 @@
 import { RecurrentInterval } from 'multirpc-sdk';
 
-import { DealRenewalCancelDialog } from 'modules/billing/components/PeriodicPayments/components/DealRenewalCancelDialog';
+import { DealRenewalCancelDialog } from 'modules/payments/components/PeriodicPayments/components/DealRenewalCancelDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { EditSubscriptionsDialog } from '../EditSubscriptionsDialog';
@@ -38,6 +38,7 @@ export const RecurringPaymentsWidget = ({
   const {
     expirationDate,
     isDealCancelled,
+    isPackageCancelled,
     onCancelSubscription,
     recurringPayments,
   } = useEditSubscriptionsDialog(onEditDialogClose);
@@ -67,10 +68,11 @@ export const RecurringPaymentsWidget = ({
       />
 
       <DealRenewalCancelDialog
-        isOpened={isOpenedSuccessDialog}
-        onClose={onCloseSuccessDialog}
         expiresAt={expirationDate}
         isDeal={isDealCancelled}
+        isOpened={isOpenedSuccessDialog}
+        isPackage={isPackageCancelled}
+        onClose={onCloseSuccessDialog}
       />
     </>
   );

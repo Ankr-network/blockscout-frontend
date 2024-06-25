@@ -3,7 +3,7 @@ import { Briefcase } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { Skeleton, Typography } from '@mui/material';
 
-import { EChargingModel } from 'modules/billing/types';
+import { EChargingModel } from 'modules/payments/types';
 
 import { getLabel } from './UserLabelUtils';
 import { useUserLabelStyles } from './useUserLabelStyles';
