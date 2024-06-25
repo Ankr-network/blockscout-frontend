@@ -62,7 +62,7 @@ export const USDPaymentSummaryDialog = ({
         />
         {paymentType === EPaymentType.Deal && hasActiveDeal && (
           <InlineAlert severity="info" className={classes.paymentInlineAlert}>
-            {t('account.payment-types.deal.info-alert')}
+            {t('account.payment-types.deal-upgrade.info-alert')}
           </InlineAlert>
         )}
       </SeparatedList>

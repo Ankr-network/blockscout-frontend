@@ -1,11 +1,11 @@
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
 
-import { EPaymentType } from 'modules/payments/types';
+import { TPaymentTypeExtended } from 'modules/payments/types';
 import { paymentTypeDescriptionsMap } from 'modules/payments/const';
 
 interface IRenderPaymentTypeDescriptionParams {
-  paymentType: EPaymentType;
+  paymentType: TPaymentTypeExtended;
   currentAmount?: number;
   newAmount?: number;
   reqs?: number;

@@ -10,6 +10,8 @@ import {
   TCryptoCurrency,
   TStablecoinCurrency,
   EChargingModel,
+  DEAL_UPGRADE_PAYMENT_TYPE,
+  TPaymentTypeExtended,
 } from './types';
 
 export const ALLOWANCE_CONFIRMATION_BLOCKS = 1;
@@ -63,27 +65,34 @@ export const currencyLabelsMap: Record<ECurrency, string> = {
   [ECurrency.USDC]: 'account.currencies.usdc',
 };
 
-export const paymentTypeTooltipsMap: Record<EPaymentType, string> = {
+export const paymentTypeTooltipsMap: Record<TPaymentTypeExtended, string> = {
   [EPaymentType.Deal]: 'account.payment-types.deal.tooltip',
+  [DEAL_UPGRADE_PAYMENT_TYPE]: 'account.payment-types.deal-upgrade.tooltip',
   [EPaymentType.OneTime]: 'account.payment-types.one-time.tooltip',
   [EPaymentType.Recurring]: 'account.payment-types.recurring.tooltip',
 };
 
-export const paymentTypeTitlesMap: Record<EPaymentType, string> = {
+export const paymentTypeTitlesMap: Record<TPaymentTypeExtended, string> = {
   [EPaymentType.Deal]: 'account.payment-types.deal.payment-summary-title',
+  [DEAL_UPGRADE_PAYMENT_TYPE]:
+    'account.payment-types.deal-upgrade.payment-summary-title',
   [EPaymentType.OneTime]:
     'account.payment-types.one-time.payment-summary-title',
   [EPaymentType.Recurring]:
     'account.payment-types.recurring.payment-summary-title',
 };
 
-export const paymentTypeDescriptionsMap: Record<EPaymentType, string> = {
-  [EPaymentType.Deal]: 'account.payment-types.deal.payment-summary-description',
-  [EPaymentType.OneTime]:
-    'account.payment-types.one-time.payment-summary-description',
-  [EPaymentType.Recurring]:
-    'account.payment-types.recurring.payment-summary-description',
-};
+export const paymentTypeDescriptionsMap: Record<TPaymentTypeExtended, string> =
+  {
+    [EPaymentType.Deal]:
+      'account.payment-types.deal.payment-summary-description',
+    [DEAL_UPGRADE_PAYMENT_TYPE]:
+      'account.payment-types.deal-upgrade.payment-summary-description',
+    [EPaymentType.OneTime]:
+      'account.payment-types.one-time.payment-summary-description',
+    [EPaymentType.Recurring]:
+      'account.payment-types.recurring.payment-summary-description',
+  };
 
 export const stablecoinCurrencies: TStablecoinCurrency[] = [
   ECurrency.USDC,
