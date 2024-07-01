@@ -1,17 +1,15 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
-import { formatTokenAndDecryptJwt } from './getAllJwtTokenUtils';
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 
-interface IRequestParams extends IApiUserGroupParams {
-  tokenIndex: number;
-  name?: string;
+export interface IUpdateJwtTokenParams extends IApiUserGroupParams {
   description?: string;
+  name?: string;
+  tokenIndex: number;
 }
 
 export const {
@@ -19,31 +17,19 @@ export const {
   useLazyUpdateJwtTokenQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    updateJwtToken: build.query<JwtManagerToken, IRequestParams>({
+    updateJwtToken: build.query<boolean, IUpdateJwtTokenParams>({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ description, group, name, tokenIndex }) => {
           const service = MultiService.getService().getAccountingGateway();
 
-          const jwtToken = await service.updateJwtToken(
-            {
-              name,
-              description,
-            },
-            {
-              index: tokenIndex,
-              group,
-            },
+          await service.updateJwtToken(
+            { description, name },
+            { index: tokenIndex, group },
           );
 
-          const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
-
-          return { data: newDecryptedToken };
+          return { data: true };
         },
-        errorHandler: error => {
-          return {
-            error,
-          };
-        },
+        errorHandler: error => ({ error }),
       }),
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
