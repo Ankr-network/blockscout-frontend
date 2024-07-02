@@ -6,7 +6,7 @@ import { useSignupDialog } from './SignupDialogContent/hooks/useSignupDialog';
 
 export const SIGNUP_DIALOG_WIDTH = 620;
 
-interface SignupDialogProps {
+export interface ISignupDialogProps {
   description?: string;
   hasAutoAgreement?: boolean;
   hasOauthLogin?: boolean;
@@ -30,7 +30,7 @@ export const SignupDialog = ({
   shouldResetAuthDataForGoogleAuth = false,
   shouldSaveTeamInvitationLink,
   title,
-}: SignupDialogProps) => {
+}: ISignupDialogProps) => {
   const { classes } = useSignupDialogStyles();
   const {
     currentState,
