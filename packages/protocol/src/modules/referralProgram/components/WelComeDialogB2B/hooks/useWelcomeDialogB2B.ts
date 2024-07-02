@@ -36,12 +36,12 @@ export const useWelcomeDialogB2B = ({
         ? blockchainNamesMap[referralCode]
         : undefined,
       onCancelButtonClick,
-      onClose,
+      onClose: onCancelButtonClick,
       onSignInButtonClick,
       open: isOpened,
       topBannerUrl: referralCode ? topBannersMap[referralCode] : undefined,
     }),
-    [isOpened, onCancelButtonClick, onClose, onSignInButtonClick, referralCode],
+    [isOpened, onCancelButtonClick, onSignInButtonClick, referralCode],
   );
 
   return { handleWelcomeDialogB2BOpen, welcomeDialogB2BProps };

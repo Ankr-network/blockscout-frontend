@@ -12,5 +12,7 @@ export const useSignupDialogStyles = makeStyles()(theme => ({
   },
   paperRoot: {
     width: '100%',
+
+    borderRadius: 40,
   },
 }));

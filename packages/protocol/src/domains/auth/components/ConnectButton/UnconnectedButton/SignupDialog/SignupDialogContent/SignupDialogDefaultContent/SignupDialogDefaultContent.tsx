@@ -19,6 +19,7 @@ import {
 
 export const SignupDialogDefaultContent = ({
   description,
+  extraContent,
   hasAutoAgreement,
   hasOnlyGoogleAuth = false,
   onGithubButtonClick,
@@ -66,12 +67,13 @@ export const SignupDialogDefaultContent = ({
     ({ handleSubmit }) => (
       <DefaultContentForm
         description={description}
+        extraContent={extraContent}
         handleSubmit={handleSubmit}
         hasAutoAgreement={hasAutoAgreement}
         hasOnlyGoogleAuth={hasOnlyGoogleAuth}
       />
     ),
-    [description, hasAutoAgreement, hasOnlyGoogleAuth],
+    [description, hasAutoAgreement, hasOnlyGoogleAuth, extraContent],
   );
 
   return (

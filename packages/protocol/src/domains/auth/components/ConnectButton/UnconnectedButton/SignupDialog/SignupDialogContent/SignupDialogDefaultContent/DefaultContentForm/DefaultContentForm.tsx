@@ -4,23 +4,20 @@ import {
   Google as GoogleIcon,
   Warning as WarningIcon,
 } from '@ankr.com/ui';
+import { Field } from 'react-final-form';
+import { ReactNode } from 'react';
 import { t, tHTML } from '@ankr.com/common';
-import { Field, useForm } from 'react-final-form';
-import { useCallback } from 'react';
 
-import { ReactComponent as EthereumIcon } from 'uiKit/Icons/eth.svg';
 import { CheckboxField } from 'modules/form/components/CheckboxField';
+import { ReactComponent as EthereumIcon } from 'uiKit/Icons/eth.svg';
 
+import { SignupFormField } from '../SignupDialogDefaultContentTypes';
+import { useDefaultContentForm } from './hooks/useDefaultContentForm';
 import { useDefaultContentFormStyles } from './useDefaultContentFormStyles';
-import {
-  SignupDialogState,
-  SignupFormErrors,
-  SignupFormField,
-  OauthLoginType,
-} from '../SignupDialogDefaultContentTypes';
 
 interface DefaultContentFormProps {
   description?: string;
+  extraContent?: ReactNode;
   handleSubmit: () => void;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
@@ -28,27 +25,19 @@ interface DefaultContentFormProps {
 
 export const DefaultContentForm = ({
   description,
+  extraContent,
   handleSubmit,
   hasAutoAgreement = false,
   hasOnlyGoogleAuth = false,
 }: DefaultContentFormProps) => {
+  const {
+    setGithubLoginType,
+    setGoogleLoginType,
+    setWeb3LoginType,
+    termsError,
+  } = useDefaultContentForm();
+
   const { classes } = useDefaultContentFormStyles();
-
-  const { change, getState } = useForm();
-
-  const { hasTerms: termsError } = getState().errors as SignupFormErrors;
-
-  const setGoogleLoginType = useCallback(() => {
-    change(SignupFormField.loginType, OauthLoginType.Google);
-  }, [change]);
-
-  const setGithubLoginType = useCallback(() => {
-    change(SignupFormField.loginType, OauthLoginType.Github);
-  }, [change]);
-
-  const setWeb3LoginType = useCallback(() => {
-    change(SignupFormField.loginType, SignupDialogState.WEB3);
-  }, [change]);
 
   const agreementCheckboxes = (
     <div className={classes.checkboxes}>
@@ -149,6 +138,9 @@ export const DefaultContentForm = ({
           </Box>
         )}
         {hasAutoAgreement ? autoAgreementMessage : agreementCheckboxes}
+        {Boolean(extraContent) && (
+          <div className={classes.extraContent}>{extraContent}</div>
+        )}
       </form>
     </>
   );

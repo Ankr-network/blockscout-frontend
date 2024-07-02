@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
 import {
@@ -11,6 +11,7 @@ import { OauthLoadingState } from '../OauthLoadingState';
 interface SignupDialogProps {
   currentState: SignupDialogState;
   description?: string;
+  extraContent?: ReactNode;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
   isLoading: boolean;
@@ -26,6 +27,7 @@ interface SignupDialogProps {
 export const SignupDialogContent = ({
   currentState,
   description,
+  extraContent,
   hasAutoAgreement,
   hasOnlyGoogleAuth = false,
   isLoading,
@@ -41,6 +43,7 @@ export const SignupDialogContent = ({
     return (
       <SignupDialogDefaultContent
         description={description}
+        extraContent={extraContent}
         hasAutoAgreement={hasAutoAgreement}
         hasOnlyGoogleAuth={hasOnlyGoogleAuth}
         onGithubButtonClick={onGithubButtonClick}
@@ -51,6 +54,7 @@ export const SignupDialogContent = ({
     );
   }, [
     description,
+    extraContent,
     hasAutoAgreement,
     hasOnlyGoogleAuth,
     onGithubButtonClick,

@@ -67,8 +67,17 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     color: theme.palette.text.secondary,
   },
   agreementMessage: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
+
+    textAlign: 'center',
 
     color: theme.palette.text.primary,
+  },
+  extraContent: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    marginTop: theme.spacing(4),
   },
 }));

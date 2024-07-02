@@ -114,7 +114,7 @@
     }
   },
   "signup-modal": {
-    "title": "Sign in method",
+    "title": "Sign in",
     "title-gauth": "Sign in with Google",
     "google": {
       "title": "Google Authentication",
@@ -125,15 +125,15 @@
       "description": "Connection Process"
     },
     "web2": {
-      "google": "Continue with Google",
-      "github": "Continue with GitHub",
+      "google": "Google",
+      "github": "GitHub",
       "or": "or"
     },
     "web3": {
       "connect-wallet": "Wallet connecting",
       "wallet-install": "Install",
       "title": "Continue with Ethereum Wallet",
-      "button": "Continue with ETH Wallet",
+      "button": "Ethereum Wallet",
       "tooltip-message": "Wallet integration is being updated. For now, please connect an extension-based wallet.",
       "unconnect-meesage": "Wallet integration is currently being updated. In the meantime, please use the desktop version."
     },

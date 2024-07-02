@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum SignupDialogState {
   DEFAULT = 'DEFAULT',
   WEB3 = 'WEB3',
@@ -31,6 +33,7 @@ export interface SignupFormErrors {
 
 export interface SignupDialogDefaultContentProps {
   description?: string;
+  extraContent?: ReactNode;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
   onGithubButtonClick: () => void;
