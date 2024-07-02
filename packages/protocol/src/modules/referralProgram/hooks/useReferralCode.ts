@@ -8,7 +8,8 @@ export const useReferralCode = () => {
 
   const queryParams = new URLSearchParams(search);
 
-  const referralCode = queryParams.get(REFERRAL_CODE_QUERY_PARAM_NAME);
+  const referralCode =
+    queryParams.get(REFERRAL_CODE_QUERY_PARAM_NAME) ?? undefined;
 
   return { referralCode };
 };

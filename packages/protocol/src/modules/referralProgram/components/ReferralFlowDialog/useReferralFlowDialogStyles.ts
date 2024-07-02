@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useWelcomeDialogB2BStyles = makeStyles()(theme => ({
+export const useReferralFlowDialogStyles = makeStyles()(theme => ({
   paper: {
     width: 600,
     padding: 0,

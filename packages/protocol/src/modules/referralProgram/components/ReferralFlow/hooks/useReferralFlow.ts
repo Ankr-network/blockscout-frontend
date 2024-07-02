@@ -3,25 +3,29 @@ import { useCallback, useMemo } from 'react';
 import { ISignupDialogProps } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-import { IReferralFlowB2BProps } from '../ReferralFlowB2B';
+import { IReferralFlowProps } from '../ReferralFlow';
 import { renderBackButton } from '../utils/renderBackButton';
-import { useWelcomeDialogB2B } from '../../WelComeDialogB2B';
+import { useSuccessDialog } from '../../SuccessDialog';
+import { useWelcomeDialog } from '../../WelcomeDialog';
 
-export const useReferralFlowB2B = () => {
+export const useReferralFlow = () => {
   const {
     isOpened: isSignInDialogOpened,
     onClose: handleSignInDialogClose,
     onOpen: handlSignInDialogOpen,
   } = useDialog();
 
-  const { handleWelcomeDialogB2BOpen, welcomeDialogB2BProps } =
-    useWelcomeDialogB2B({ handlSignInDialogOpen });
+  const { successDialogProps } = useSuccessDialog();
+
+  const { handleWelcomeDialogOpen, welcomeDialogProps } = useWelcomeDialog({
+    handlSignInDialogOpen,
+  });
 
   const handleBackButtonClick = useCallback(() => {
     handleSignInDialogClose();
 
-    handleWelcomeDialogB2BOpen();
-  }, [handleSignInDialogClose, handleWelcomeDialogB2BOpen]);
+    handleWelcomeDialogOpen();
+  }, [handleSignInDialogClose, handleWelcomeDialogOpen]);
 
   const signInDialogProps = useMemo(
     (): ISignupDialogProps => ({
@@ -34,12 +38,13 @@ export const useReferralFlowB2B = () => {
   );
 
   const referralFlowProps = useMemo(
-    (): IReferralFlowB2BProps => ({
+    (): IReferralFlowProps => ({
       signInDialogProps,
-      welcomeDialogB2BProps,
+      welcomeDialogProps,
+      successDialogProps,
     }),
-    [signInDialogProps, welcomeDialogB2BProps],
+    [signInDialogProps, successDialogProps, welcomeDialogProps],
   );
 
-  return { handleWelcomeDialogB2BOpen, referralFlowProps };
+  return { handleWelcomeDialogOpen, referralFlowProps };
 };

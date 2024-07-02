@@ -4,17 +4,16 @@ import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeR
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
 
-import { IWelcomeDialogB2BProps } from '../WelcomeDialogB2B';
-import { blockchainNamesMap, topBannersMap } from '../const';
+import { IWelcomeDialogProps } from '../WelcomeDialog';
 
-export interface IUseWelcomeDialogB2B {
+export interface IUseWelcomeDialogProps {
   handlSignInDialogOpen: () => void;
 }
 
-export const useWelcomeDialogB2B = ({
+export const useWelcomeDialog = ({
   handlSignInDialogOpen,
-}: IUseWelcomeDialogB2B) => {
-  const { isOpened, onClose, onOpen: handleWelcomeDialogB2BOpen } = useDialog();
+}: IUseWelcomeDialogProps) => {
+  const { isOpened, onClose, onOpen: handleWelcomeDialogOpen } = useDialog();
 
   const { referralCode } = useReferralCode();
 
@@ -30,19 +29,16 @@ export const useWelcomeDialogB2B = ({
     onClose();
   }, [handlSignInDialogOpen, onClose]);
 
-  const welcomeDialogB2BProps = useMemo(
-    (): IWelcomeDialogB2BProps => ({
-      blockchainName: referralCode
-        ? blockchainNamesMap[referralCode]
-        : undefined,
+  const welcomeDialogProps = useMemo(
+    (): IWelcomeDialogProps => ({
       onCancelButtonClick,
       onClose: onCancelButtonClick,
       onSignInButtonClick,
       open: isOpened,
-      topBannerUrl: referralCode ? topBannersMap[referralCode] : undefined,
+      referralCode,
     }),
     [isOpened, onCancelButtonClick, onSignInButtonClick, referralCode],
   );
 
-  return { handleWelcomeDialogB2BOpen, welcomeDialogB2BProps };
+  return { handleWelcomeDialogOpen, welcomeDialogProps };
 };
