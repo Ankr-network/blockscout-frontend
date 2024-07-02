@@ -902,4 +902,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://ocean.ftnscan.com/'],
   },
+
+  [ChainID.GRAVITY]: {
+    chainId: 1625,
+    chainName: 'Gravity Mainnet',
+    nativeCurrency: {
+      name: 'G.',
+      symbol: 'G.',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.gravity.xyz/'],
+  },
 };

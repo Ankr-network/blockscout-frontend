@@ -81,6 +81,7 @@ import lineaIcon from './icons/linea.svg';
 import electroneumIcon from './icons/electroneum.svg';
 import lineaIconDark from './darkModeIcons/linea.svg';
 import stellarIcon from './icons/stellar.svg';
+import gravityIcon from './icons/gravity.svg';
 import stellarIconDark from './darkModeIcons/stellar.svg';
 import bitlayerIconDark from './darkModeIcons/bitlayer.svg';
 import syscoinIconDark from './darkModeIcons/syscoin.svg';
@@ -181,6 +182,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.GNOSIS_BEACON]: gnosisIcon,
   [ChainID.GNOSIS_TESTNET]: gnosisIcon,
   [ChainID.GNOSIS_TESTNET_BEACON]: gnosisIcon,
+  [ChainID.GRAVITY]: gravityIcon,
   [ChainID.HARMONY]: harmonyIcon,
   [ChainID.HORIZEN]: horizenIcon,
   [ChainID.HORIZEN_EVM]: horizenIcon,
