@@ -5,6 +5,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { IReferralFlowProps } from '../ReferralFlow';
 import { renderBackButton } from '../utils/renderBackButton';
+import { useIneligibleAccountDialog } from '../../IneligibleAccountDialog';
 import { useSuccessDialog } from '../../SuccessDialog';
 import { useWelcomeDialog } from '../../WelcomeDialog';
 
@@ -16,6 +17,10 @@ export const useReferralFlow = () => {
   } = useDialog();
 
   const { successDialogProps } = useSuccessDialog();
+
+  const { ineligibleAccountDialogProps } = useIneligibleAccountDialog({
+    handlSignInDialogOpen,
+  });
 
   const { handleWelcomeDialogOpen, welcomeDialogProps } = useWelcomeDialog({
     handlSignInDialogOpen,
@@ -39,11 +44,17 @@ export const useReferralFlow = () => {
 
   const referralFlowProps = useMemo(
     (): IReferralFlowProps => ({
+      ineligibleAccountDialogProps,
       signInDialogProps,
-      welcomeDialogProps,
       successDialogProps,
+      welcomeDialogProps,
     }),
-    [signInDialogProps, successDialogProps, welcomeDialogProps],
+    [
+      ineligibleAccountDialogProps,
+      signInDialogProps,
+      successDialogProps,
+      welcomeDialogProps,
+    ],
   );
 
   return { handleWelcomeDialogOpen, referralFlowProps };

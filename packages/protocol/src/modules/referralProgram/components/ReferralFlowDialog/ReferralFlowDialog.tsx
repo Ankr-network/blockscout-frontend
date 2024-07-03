@@ -1,9 +1,11 @@
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
 
-import { useReferralFlowDialogStyles } from './useReferralFlowDialogStyles';
 import { topBannersMap } from './const';
+import { useReferralFlowDialogStyles } from './useReferralFlowDialogStyles';
 
-export interface IReferralFlowDialogProps extends IDialogProps {
+export interface IReferralFlowDialogProps
+  extends Omit<IDialogProps, 'onClose'> {
+  onClose: () => void;
   referralCode: string | undefined;
 }
 

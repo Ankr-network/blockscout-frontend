@@ -1,22 +1,22 @@
 import { useCallback, useMemo } from 'react';
 
-import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
+import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 
-import { IWelcomeDialogProps } from '../WelcomeDialog';
+import { IIneligibleAccountDialogProps } from '../IneligibleAccountDialog';
 
-export interface IUseWelcomeDialogProps {
+export interface IUseIneligibleAccountDialogProps {
   handlSignInDialogOpen: () => void;
 }
 
-export const useWelcomeDialog = ({
+export const useIneligibleAccountDialog = ({
   handlSignInDialogOpen,
-}: IUseWelcomeDialogProps) => {
+}: IUseIneligibleAccountDialogProps) => {
   const {
     isOpened,
     onClose: handleClose,
-    onOpen: handleWelcomeDialogOpen,
+    onOpen: handleIneligibleAccountDialogOpen,
   } = useDialog();
 
   const { referralCode } = useReferralCode();
@@ -31,10 +31,10 @@ export const useWelcomeDialog = ({
     handlSignInDialogOpen();
 
     handleClose();
-  }, [handlSignInDialogOpen, handleClose]);
+  }, [handleClose, handlSignInDialogOpen]);
 
-  const welcomeDialogProps = useMemo(
-    (): IWelcomeDialogProps => ({
+  const ineligibleAccountDialogProps = useMemo(
+    (): IIneligibleAccountDialogProps => ({
       onClose,
       onSignInButtonClick,
       open: isOpened,
@@ -43,5 +43,5 @@ export const useWelcomeDialog = ({
     [isOpened, onClose, onSignInButtonClick, referralCode],
   );
 
-  return { handleWelcomeDialogOpen, welcomeDialogProps };
+  return { handleIneligibleAccountDialogOpen, ineligibleAccountDialogProps };
 };

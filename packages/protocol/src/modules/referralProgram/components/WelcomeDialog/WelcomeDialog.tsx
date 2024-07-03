@@ -8,25 +8,24 @@ import {
 } from '../ReferralFlowDialog';
 
 export interface IWelcomeDialogProps extends IReferralFlowDialogProps {
-  onCancelButtonClick: () => void;
   onSignInButtonClick: () => void;
 }
 
 export const WelcomeDialog = ({
-  onCancelButtonClick,
   onSignInButtonClick,
-  referralCode,
   ...dialogProps
 }: IWelcomeDialogProps) => {
+  const { onClose, referralCode } = dialogProps;
+
   const blockchainName = referralCode
     ? blockchainNamesMap[referralCode]
     : undefined;
 
   return (
-    <ReferralFlowDialog referralCode={referralCode} {...dialogProps}>
+    <ReferralFlowDialog {...dialogProps}>
       <Greeting blockchainName={blockchainName} />
       <Buttons
-        onCancelButtonClick={onCancelButtonClick}
+        onCancelButtonClick={onClose}
         onSignInButtonClick={onSignInButtonClick}
       />
     </ReferralFlowDialog>

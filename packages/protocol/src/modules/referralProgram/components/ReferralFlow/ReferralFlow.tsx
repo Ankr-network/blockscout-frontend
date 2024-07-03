@@ -3,16 +3,22 @@ import {
   SignupDialog,
 } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
-import { IWelcomeDialogProps, WelcomeDialog } from '../WelcomeDialog';
+import {
+  IIneligibleAccountDialogProps,
+  IneligibleAccountDialog,
+} from '../IneligibleAccountDialog';
 import { ISuccessDialogProps, SuccessDialog } from '../SuccessDialog';
+import { IWelcomeDialogProps, WelcomeDialog } from '../WelcomeDialog';
 
 export interface IReferralFlowProps {
+  ineligibleAccountDialogProps: IIneligibleAccountDialogProps;
   signInDialogProps: ISignupDialogProps;
   successDialogProps: ISuccessDialogProps;
   welcomeDialogProps: IWelcomeDialogProps;
 }
 
 export const ReferralFlow = ({
+  ineligibleAccountDialogProps,
   signInDialogProps,
   successDialogProps,
   welcomeDialogProps,
@@ -22,6 +28,7 @@ export const ReferralFlow = ({
       <WelcomeDialog {...welcomeDialogProps} />
       <SignupDialog {...signInDialogProps} />
       <SuccessDialog {...successDialogProps} />
+      <IneligibleAccountDialog {...ineligibleAccountDialogProps} />
     </>
   );
 };
