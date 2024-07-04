@@ -5,6 +5,7 @@ import { Chain, ChainID } from 'modules/chains/types';
 import { getCodeMrpc } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
 import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 const getIsHiddenMainnet = (projectChain: Chain) => {
   if (
@@ -26,14 +27,20 @@ const getIsHiddenMainnet = (projectChain: Chain) => {
 };
 
 export interface UseProjectChainDetailsParams {
-  networksButton: ReactNode;
+  networksButton?: ReactNode;
   projectChain: Chain;
+  isCompactView?: boolean;
+  onOpenCodeExample?: () => void;
 }
 
 export const useProjectChainDetails = ({
+  isCompactView,
   networksButton,
+  onOpenCodeExample,
   projectChain,
 }: UseProjectChainDetailsParams) => {
+  const { hasPremium } = useAuth();
+
   const {
     chain: privateChain,
     chainProtocolContext,
@@ -47,7 +54,8 @@ export const useProjectChainDetails = ({
     unfilteredChain: projectChain,
     isHiddenMainnet: getIsHiddenMainnet(projectChain),
     isPremiumLabelHidden: true,
-    isChainRequestStatsVisible: true,
+    isCompactView,
+    onOpenCodeExample,
   });
 
   const [technology, setTechnology] = useTechnology();
@@ -64,6 +72,6 @@ export const useProjectChainDetails = ({
     privateChain,
     setTechnology,
     technology,
-    wssCode,
+    wssCode: hasPremium ? wssCode : undefined,
   };
 };

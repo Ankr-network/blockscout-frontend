@@ -40,6 +40,7 @@ export const useGroupMenuButtonStyles = makeStyles<boolean>()(
 
       [theme.breakpoints.down('xs')]: {
         maxWidth: '50px',
+        display: 'none',
       },
     },
   }),

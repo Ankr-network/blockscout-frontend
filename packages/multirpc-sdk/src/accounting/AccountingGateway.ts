@@ -543,14 +543,8 @@ export class AccountingGateway {
   async updateJwtToken(
     body: IJwtTokenRequestBody,
     params: IJwtTokenRequestParams,
-  ): Promise<IJwtTokenResponse> {
-    const { data } = await this.api.patch<IJwtTokenResponse>(
-      `/api/v1/auth/jwt/additional`,
-      body,
-      { params },
-    );
-
-    return data;
+  ) {
+    await this.api.patch('/api/v1/auth/jwt/additional', body, { params });
   }
 
   async updateJwtTokenFreezeStatus(

@@ -1,13 +1,13 @@
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { t } from '@ankr.com/common';
+
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { EndpointsHeader } from '../EndpointsHeader';
 import { WSEndpoints } from '../WSEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';
+import { UpgradeToPremiumPlanDialog } from '../../../UpgradeToPremiumPlanDialog/UpgradeToPremiumPlanDialog';
 
 interface IWsFeatureEndpointsProps {
   title: string;
@@ -26,11 +26,15 @@ export const WsFeatureEndpoints = ({
   title,
   wss,
 }: IWsFeatureEndpointsProps) => {
-  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
-
   const hasAccessToGroupWs = useGuardUserGroup({
     blockName: BlockWithPermission.UpgradePlan,
   });
+
+  const {
+    isOpened: isPromoDialogOpened,
+    onClose: onPromoDialogClose,
+    onOpen: onPromoDialogOpen,
+  } = useDialog();
 
   if (!hasWSFeature || (!hasPremium && !hasAccessToGroupWs)) return null;
 
@@ -46,10 +50,14 @@ export const WsFeatureEndpoints = ({
       ) : (
         <>
           <EndpointPlaceholder
+            lockedLabel={t('chain-item.get-started.endpoints.lockedLabelWss')}
             title={<EndpointsHeader title={title} />}
-            onClick={onOpen}
+            onClick={onPromoDialogOpen}
           />
-          <UpgradePlanDialog open={isOpened} onClose={onClose} />
+          <UpgradeToPremiumPlanDialog
+            isPromoDialogOpened={isPromoDialogOpened}
+            onPromoDialogClose={onPromoDialogClose}
+          />
         </>
       )}
     </>

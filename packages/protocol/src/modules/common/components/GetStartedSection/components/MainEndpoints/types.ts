@@ -19,4 +19,5 @@ export interface MainEndpointsProps {
   onCopyEndpoint: EndpointProps['onCopy'];
   publicChain: Chain;
   isPremiumLabelHidden?: boolean;
+  isFreemiumLabelHidden?: boolean;
 }

@@ -108,6 +108,8 @@ export const chainGroups: ChainGroup[] = [
       ChainID.GNOSIS_TESTNET,
       ChainID.GNOSIS_TESTNET_BEACON,
 
+      ChainID.GRAVITY,
+
       ChainID.HARMONY,
 
       ChainID.IOTEX,
@@ -149,6 +151,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.XDC,
       ChainID.XDC_TESTNET,
 
+      ChainID.ZETACHAIN,
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
       ChainID.ZKSYNC_ERA,

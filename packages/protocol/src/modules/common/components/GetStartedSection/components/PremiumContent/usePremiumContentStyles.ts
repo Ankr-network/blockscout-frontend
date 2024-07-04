@@ -16,7 +16,7 @@ export const usePremiumContentStyles = makeStyles<boolean>()(
       },
     },
     content: {
-      padding: theme.spacing(6, 8),
+      padding: theme.spacing(5, 6),
       background: theme.palette.background.paper,
       borderRadius: theme.spacing(4.5),
       height: '100%',

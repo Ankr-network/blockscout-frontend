@@ -48,16 +48,20 @@ export const UpgradeAccountDialog = ({
           </Typography>
 
           <Typography className={classes.item}>
-            <Check size="xs" />
+            <Check size="s" />
             {tHTML('projects.upgrade-account-dialog.item-1')}
           </Typography>
           <Typography className={classes.item}>
-            <Check size="xs" />
+            <Check size="s" />
             {t('projects.upgrade-account-dialog.item-2')}
           </Typography>
           <Typography className={classes.item}>
-            <Check size="xs" />
+            <Check size="s" />
             {t('projects.upgrade-account-dialog.item-3')}
+          </Typography>
+          <Typography className={classes.item}>
+            <Check size="s" />
+            {t('projects.upgrade-account-dialog.item-4')}
           </Typography>
         </div>
 

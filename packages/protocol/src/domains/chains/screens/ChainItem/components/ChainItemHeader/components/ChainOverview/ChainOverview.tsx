@@ -1,12 +1,9 @@
-import { useMemo } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
+import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
-import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
@@ -22,7 +19,7 @@ export interface ChainOverviewProps {
   group: EndpointGroup;
   isChainArchived: boolean;
   isEnterprise: boolean;
-  isMetamaskButtonHidden?: boolean;
+  hasMetamaskButton?: boolean;
 }
 
 export const ChainOverview = ({
@@ -30,25 +27,13 @@ export const ChainOverview = ({
   chainSubType,
   chainType,
   group,
+  hasMetamaskButton,
   isChainArchived,
   isEnterprise,
-  isMetamaskButtonHidden,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
-  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
-
-  const isTronRestApi = useMemo(
-    () => chain.id === ChainID.TRON && group.id === TRON_RESET_API_GROUP_ID,
-    [chain, group],
-  );
 
   const { coinName, id, name } = chain;
-
-  const hasMetamaskButton =
-    chain &&
-    !isChainProtocolSwitchEnabled &&
-    !isTronRestApi &&
-    !isMetamaskButtonHidden;
 
   useOnMount(() => {
     const h1Tag = document.getElementById('chain-item-title');

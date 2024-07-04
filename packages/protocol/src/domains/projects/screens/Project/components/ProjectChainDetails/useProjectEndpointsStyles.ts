@@ -4,7 +4,6 @@ export const useProjectChainDetailsStyles = makeStyles()(theme => ({
   root: {
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
-    overflow: 'hidden',
     padding: 0,
     backgroundColor: theme.palette.background.paper,
   },
@@ -12,6 +11,10 @@ export const useProjectChainDetailsStyles = makeStyles()(theme => ({
   header: {
     borderRadius: 0,
     margin: 0,
+  },
+
+  noPadding: {
+    padding: 0,
   },
 
   codeSampleWrapper: {

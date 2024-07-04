@@ -84,13 +84,14 @@ export const useStyles = makeStyles<Props>()(
       },
     },
     sidebar: {
+      padding: theme.spacing(4),
       [theme.breakpoints.down('md')]: {
         display: 'none',
       },
     },
     mobileBreadcrumbs: {
       marginTop: SHOULD_SHOW_HEADER_BANNER ? theme.spacing(5) : 0,
-      marginBottom: theme.spacing(2 * 2.5),
+      marginBottom: theme.spacing(5),
       paddingLeft: 2,
 
       [theme.breakpoints.up('md')]: {

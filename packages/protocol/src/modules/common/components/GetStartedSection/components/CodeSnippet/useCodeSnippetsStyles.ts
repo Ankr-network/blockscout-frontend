@@ -6,7 +6,7 @@ interface ICodeSnippetStylesProps {
   isLightTheme: boolean;
 }
 
-export const useStyles = makeStyles<ICodeSnippetStylesProps>()(
+export const useCodeSnippetsStyles = makeStyles<ICodeSnippetStylesProps>()(
   (theme: Theme, props: ICodeSnippetStylesProps) => ({
     codeSnippet: {
       overflow: 'hidden',
@@ -32,7 +32,7 @@ export const useStyles = makeStyles<ICodeSnippetStylesProps>()(
       lineHeight: theme.spacing(2 * 2.5),
     },
     codeContainer: {
-      borderRadius: theme.spacing(2 * 3),
+      borderRadius: theme.spacing(4),
 
       backgroundColor: props.isLightTheme
         ? theme.palette.grey[800]
@@ -40,6 +40,18 @@ export const useStyles = makeStyles<ICodeSnippetStylesProps>()(
     },
     codeView: {
       maxHeight: props.isExpanded ? 'none' : theme.spacing(2 * 56.25),
+      position: 'relative',
+    },
+    copyButton: {
+      position: 'absolute',
+      right: theme.spacing(3),
+      top: theme.spacing(3),
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.secondary,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
     },
     code: {
       padding: theme.spacing(2 * 2.25, 2 * 5.25, 2 * 2.25),

@@ -1,7 +1,6 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useSnippetTechnologyTabsStyles = makeStyles()(theme => ({
   title: {
     marginRight: theme.spacing(8.75),
     color: theme.palette.text.primary,
@@ -18,12 +17,28 @@ export const useStyles = makeStyles()((theme: Theme) => ({
     },
   },
   classNameTabsInner: {
-    border: `2px solid ${theme.palette.divider}`,
-    backgroundColor: theme.palette.grey[100],
-    borderRadius: 11,
     marginTop: theme.spacing(3),
+  },
+  classNameTab: {
+    '& > div': {
+      boxShadow: 'none',
+      fontWeight: 700,
+
+      '&:hover': {
+        color: theme.palette.primary.main,
+      },
+    },
+
+    '&:nth-child(1)': {
+      '&>div': {
+        paddingLeft: 0,
+      },
+    },
   },
   classNameTabsWrapper: {
     display: 'block',
+    width: '100%',
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    paddingBottom: theme.spacing(1.5),
   },
 }));

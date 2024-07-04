@@ -9,23 +9,35 @@ import { useStyles } from './CopyCodeButtonStyles';
 import { root } from '../../const';
 
 export interface CopyCodeButtonProps {
+  className?: string;
   text?: string;
   code: string;
 }
 
 const copyCodeButton = `${root}.connection-snippet.copy-code-button`;
 
-export const CopyCodeButton = ({ code, text }: CopyCodeButtonProps) => {
+export const CopyCodeButton = ({
+  className,
+  code,
+  text,
+}: CopyCodeButtonProps) => {
   const [isCopied, setIsCopied] = useCopyToClip();
 
   const { classes } = useStyles();
 
   return (
-    <CopyToClipboard text={code} onCopy={setIsCopied}>
+    <CopyToClipboard
+      // className is not a valid prop for CopyToClipboard but it is used in the component
+      // @ts-ignore
+      className={className}
+      text={code}
+      onCopy={setIsCopied}
+    >
       <Button
         className={classes.copyCodeButton}
         startIcon={<Copy />}
         variant="outlined"
+        size="small"
       >
         {isCopied
           ? t(`${copyCodeButton}.copy-message`)

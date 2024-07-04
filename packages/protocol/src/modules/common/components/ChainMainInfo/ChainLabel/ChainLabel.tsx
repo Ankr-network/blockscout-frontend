@@ -26,7 +26,7 @@ export const ChainLabel = ({
     <div className={cx(classes.tool, className)}>
       <TooltipWrapper hasIcon={false} tooltipText={tooltip}>
         <Typography
-          className={cx(labelClassName, classes.label)}
+          className={cx(labelClassName, classes.chainLabel)}
           component="div"
           variant="body4"
           color="textSecondary"

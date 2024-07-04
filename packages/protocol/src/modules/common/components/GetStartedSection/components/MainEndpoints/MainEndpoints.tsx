@@ -1,5 +1,10 @@
+import { Typography } from '@mui/material';
+
 import { ChainID } from 'modules/chains/types';
 import { FLARE_TESTNETS_GROUPS_LIST } from 'modules/endpoints/types';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectHasFreemium } from 'domains/auth/store';
 
 import { Endpoint } from '../Endpoint';
 import { EndpointsHeader } from '../EndpointsHeader';
@@ -8,6 +13,7 @@ import { Placeholder } from './components/Placeholder';
 import { useMainEndpoints } from './hooks/useMainEndpoints';
 import { useMainEndpointsStyles } from './MainEndpointsStyles';
 import { renderFlareTitle } from './utils/renderFlareTitle';
+import { mainEndpointsTranslation } from './translation';
 
 export const MainEndpoints = ({
   chainSubType,
@@ -16,6 +22,7 @@ export const MainEndpoints = ({
   hasConnectWalletMessage,
   hasPremium,
   hasPrivateAccess,
+  isFreemiumLabelHidden,
   isPremiumLabelHidden,
   onCopyEndpoint,
   publicChain,
@@ -29,6 +36,8 @@ export const MainEndpoints = ({
     hasPremium,
   });
 
+  const isFreePremium = useAppSelector(selectHasFreemium);
+
   const { classes } = useMainEndpointsStyles();
 
   const endpointsHeader = (
@@ -38,6 +47,8 @@ export const MainEndpoints = ({
       title={title}
     />
   );
+
+  const { keys, t } = useTranslation(mainEndpointsTranslation);
 
   if (!hasFeature) {
     return null;
@@ -84,6 +95,11 @@ export const MainEndpoints = ({
           url={url!}
         />
       ))}
+      {isFreePremium && !isFreemiumLabelHidden && (
+        <Typography variant="body3" color="textSecondary">
+          {t(keys.premiumCaption)}
+        </Typography>
+      )}
     </div>
   );
 };

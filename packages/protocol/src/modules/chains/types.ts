@@ -159,6 +159,9 @@ export enum ChainID {
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',
   GNOSIS_TESTNET_BEACON = 'gnosis_testnet_beacon',
+
+  GRAVITY = 'gravity',
+
   HARMONY = 'harmony',
 
   HORIZEN = 'horizen',

@@ -34,6 +34,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     ...data,
     shouldExpandFlareTestnets: false,
     onBlockedTabClick: onOpen,
+    isGroupSelectorAutoWidth: true,
   });
 
   useRedirectToAdvancedApi();

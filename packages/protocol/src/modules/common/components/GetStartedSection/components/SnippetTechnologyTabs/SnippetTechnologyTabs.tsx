@@ -3,27 +3,36 @@ import { useTabs } from 'modules/common/hooks/useTabs';
 
 import { Technology } from '../../types';
 import { tabs, getTitle } from './const';
-import { useStyles } from './TabsStyles';
+import { useSnippetTechnologyTabsStyles } from './useSnippetTechnologyTabsStyles';
 
 export interface TabsProps {
   setTechnology: (technology: Technology) => void;
+  isTitleHidden?: boolean;
 }
 
-export const Tabs = ({ setTechnology }: TabsProps) => {
+export const SnippetTechnologyTabs = ({
+  isTitleHidden,
+  setTechnology,
+}: TabsProps) => {
   const [processedTabs, selectedTab] = useTabs({
     tabs,
     onTabSelect: setTechnology,
   });
 
-  const { classes } = useStyles();
+  const { classes } = useSnippetTechnologyTabsStyles();
 
   return (
     <TabsManager<Technology>
       selectedTab={selectedTab}
       tabs={processedTabs}
-      title={<div className={classes.title}>{getTitle()}</div>}
+      title={
+        isTitleHidden ? undefined : (
+          <div className={classes.title}>{getTitle()}</div>
+        )
+      }
       classNameTabsInner={classes.classNameTabsInner}
       classNameTabsWrapper={classes.classNameTabsWrapper}
+      classNameTab={classes.classNameTab}
     />
   );
 };

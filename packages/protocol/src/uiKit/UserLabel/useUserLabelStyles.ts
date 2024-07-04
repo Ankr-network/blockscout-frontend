@@ -1,6 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 import { isLightTheme, getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
+import { COLOR_PURPLE } from 'uiKit/Theme/const';
 
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
@@ -52,7 +53,7 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     borderRadius: 8,
   },
   package: {
-    color: '#AF52DE',
+    color: COLOR_PURPLE,
     backgroundColor: '#F3E5FA',
   },
   deal: {

@@ -6,12 +6,12 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { ECurrency } from 'modules/payments/types';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { Project } from 'domains/projects/utils/getAllProjects';
+import { UpgradeAccountDialog } from 'modules/common/components/UpgradeAccountDialog';
 
 import { AddProjectButton } from '../AddProjectButton';
 import { EditProjectDialog } from '../EditProjectDialog';
 import { ProjectHeader } from '../ProjectHeader';
 import { ProjectsTable } from '../ProjectsTable';
-import { UpgradeAccountDialog } from '../UpgradeAccountDialog';
 
 interface ProjectsFormContentProps {
   allProjects: Project[];

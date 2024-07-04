@@ -22,6 +22,7 @@ export interface Tab<TI = DefaultTabID> {
   isDisabled?: boolean;
   isHidden?: boolean;
   onSelect?: () => void;
+  name?: string;
   title?: ReactNode;
   tooltip?: string;
 }

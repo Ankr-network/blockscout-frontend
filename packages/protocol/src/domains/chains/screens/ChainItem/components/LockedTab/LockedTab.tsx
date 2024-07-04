@@ -12,8 +12,8 @@ export const LockedTab = ({ title }: LockedTabProps) => {
   const { classes } = useLockedTabStyles();
 
   return (
-    <div className={classes.root}>
-      <Lock className={classes.icon} />
+    <div className={classes.lockedTabRoot}>
+      <Lock className={classes.lockIcon} />
       <Typography className={classes.title}>{title}</Typography>
     </div>
   );

@@ -5,12 +5,13 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   tool: {
     display: 'flex',
   },
-  label: {
+  chainLabel: {
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(0.5, 2),
+    padding: theme.spacing(1, 2),
     borderRadius: 8,
+    lineHeight: 1,
   },
   circle: {
-    marginRight: theme.spacing(2 * 1),
+    marginRight: theme.spacing(2),
   },
 }));

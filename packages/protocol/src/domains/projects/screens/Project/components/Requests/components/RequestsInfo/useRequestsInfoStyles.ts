@@ -1,11 +1,12 @@
 import { makeStyles } from 'tss-react/mui';
 
 import { Sign } from 'modules/common/types/types';
+import { COLOR_PURPLE } from 'uiKit/Theme/const';
 
 export const useRequestsInfoStyles = makeStyles<Sign>()(
   (theme, relativeChangeSign) => {
     const persentColors = {
-      [-1]: theme.palette.error.main,
+      [-1]: COLOR_PURPLE,
       0: theme.palette.text.secondary,
       1: theme.palette.success.main,
     };

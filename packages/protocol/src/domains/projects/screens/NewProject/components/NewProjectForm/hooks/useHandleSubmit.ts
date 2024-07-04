@@ -98,16 +98,24 @@ export const useHandleSubmit = (
           }
           /* validation end */
 
-          const data = await (isExistedToken
-            ? handleUpdateToken(tokenIndex, name, description)
-            : handleCreateToken(tokenIndex, name, description));
+          if (isExistedToken) {
+            await handleUpdateToken(tokenIndex, name, description);
+
+            return onSubmit(step, {
+              description,
+              name,
+              tokenIndex,
+              userEndpointToken: sliceUserEndpointToken,
+            });
+          }
+
+          const token = await handleCreateToken(tokenIndex, name, description);
 
           return onSubmit(step, {
-            name,
             description,
+            name,
             tokenIndex,
-            userEndpointToken:
-              sliceUserEndpointToken || data?.userEndpointToken,
+            userEndpointToken: token?.userEndpointToken,
           });
         }
 

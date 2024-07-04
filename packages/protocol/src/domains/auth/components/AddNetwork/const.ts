@@ -176,6 +176,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://bscscan.com'],
+    searchKeys: ['bsc', 'binance'],
   },
 
   [ChainID.BSC_TESTNET_CHAPEL]: {
@@ -901,5 +902,16 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://ocean.ftnscan.com/'],
+  },
+
+  [ChainID.GRAVITY]: {
+    chainId: 1625,
+    chainName: 'Gravity Mainnet',
+    nativeCurrency: {
+      name: 'G.',
+      symbol: 'G.',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://explorer.gravity.xyz/'],
   },
 };

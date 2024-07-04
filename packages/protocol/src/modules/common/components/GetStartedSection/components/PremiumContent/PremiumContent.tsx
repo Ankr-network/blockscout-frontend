@@ -34,18 +34,22 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
             {t('chains.upgrade-premium.title')}
           </Typography>
           <Typography className={classes.item}>
-            <Check size="xs" />
+            <Check color="success" size="s" />
             {isMultiChain
               ? tHTML('chains.upgrade-premium.item-1-multichain')
               : tHTML('chains.upgrade-premium.item-1')}
           </Typography>
           <Typography className={classes.item}>
-            <Check size="xs" />
+            <Check color="success" size="s" />
             {t('chains.upgrade-premium.item-2')}
           </Typography>
           <Typography className={classes.item}>
-            <Check size="xs" />
+            <Check color="success" size="s" />
             {t('chains.upgrade-premium.item-3')}
+          </Typography>
+          <Typography className={classes.item}>
+            <Check color="success" size="s" />
+            {t('chains.upgrade-premium.item-4')}
           </Typography>
           <Button fullWidth className={classes.button} onClick={onOpen}>
             {t('chains.upgrade-premium.button')}
