@@ -3,6 +3,7 @@ import { Button, Typography } from '@mui/material';
 import { blockchainNamesMap } from 'modules/referralProgram/const';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
+import { Benefits } from '../Benefits';
 import {
   IReferralFlowDialogProps,
   ReferralFlowDialog,
@@ -31,10 +32,13 @@ export const SuccessDialog = ({
   return (
     <ReferralFlowDialog {...dialogProps}>
       <div className={classes.content}>
-        <Typography variant="h6">{t(keys.title)}</Typography>
+        <Typography variant="h6">
+          {t(keys.title, { blockchainName })}
+        </Typography>
         <Typography variant="body2">
           {tHTML(keys.description, { blockchainName })}
         </Typography>
+        <Benefits blockchainName={blockchainName} />
       </div>
       <Button
         color="primary"

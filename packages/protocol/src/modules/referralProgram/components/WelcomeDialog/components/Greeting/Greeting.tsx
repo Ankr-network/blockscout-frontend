@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 
+import { Benefits } from 'modules/referralProgram/components/Benefits';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { greetingTranslation } from './translation';
@@ -10,23 +11,22 @@ export interface IGreetingProps {
 }
 
 export const Greeting = ({ blockchainName }: IGreetingProps) => {
-  const { keys, t, tHTML } = useTranslation(greetingTranslation);
+  const { keys, t } = useTranslation(greetingTranslation);
 
   const { classes } = useGreetingStyles();
 
   return (
     <div className={classes.root}>
       <Typography className={classes.title} variant="h6">
-        {t(keys.title)}
+        {t(keys.title, { blockchainName })}
       </Typography>
       <Typography variant="body2">
         {t(keys.description, { blockchainName })}
       </Typography>
-      <Typography className={classes.benefits} component="ul" variant="body2">
-        <li>{tHTML(keys.apiCreditsBenefit, { blockchainName })}</li>
-        <li>{tHTML(keys.exclusiveAssetsBenefit, { blockchainName })}</li>
+      <Benefits blockchainName={blockchainName} />
+      <Typography variant="body2">
+        {t(keys.invitationToSignIn, { blockchainName })}
       </Typography>
-      <Typography variant="body2">{t(keys.invitationToSignIn)}</Typography>
     </div>
   );
 };

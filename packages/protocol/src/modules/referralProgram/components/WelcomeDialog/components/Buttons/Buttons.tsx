@@ -7,33 +7,33 @@ import { buttonsTranslation } from './translation';
 import { useButtonsStyles } from './useButtonsStyles';
 
 export interface IButtonsProps {
-  hasJoinButton?: boolean;
-  isJoining?: boolean;
+  hasActivateButton?: boolean;
+  isActivating?: boolean;
+  onActivateButtonClick: () => Promise<void>;
   onCancelButtonClick: () => void;
-  onJoinButtonClick: () => Promise<void>;
   onSignInButtonClick: () => void;
 }
 
 export const Buttons = ({
-  hasJoinButton,
-  isJoining,
+  hasActivateButton,
+  isActivating,
+  onActivateButtonClick,
   onCancelButtonClick,
-  onJoinButtonClick,
   onSignInButtonClick,
 }: IButtonsProps) => {
   const { keys, t } = useTranslation(buttonsTranslation);
 
   const { classes } = useButtonsStyles();
 
-  const joinButton = (
+  const activateButton = (
     <LoadingButton
       color="primary"
-      loading={isJoining}
-      onClick={onJoinButtonClick}
+      loading={isActivating}
+      onClick={onActivateButtonClick}
       size="large"
       variant="contained"
     >
-      {t(keys.joinButton)}
+      {t(keys.activateButton)}
     </LoadingButton>
   );
 
@@ -50,7 +50,7 @@ export const Buttons = ({
 
   return (
     <div className={classes.root}>
-      {hasJoinButton ? joinButton : signInButton}
+      {hasActivateButton ? activateButton : signInButton}
       <Button
         color="primary"
         onClick={onCancelButtonClick}

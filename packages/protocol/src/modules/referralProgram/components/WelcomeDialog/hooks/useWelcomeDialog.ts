@@ -44,12 +44,12 @@ export const useWelcomeDialog = ({
   const { referralCode: referralCodeFromUrl } = useReferralCode();
   const { isLoggedIn } = useAuth();
 
-  const [applyReferralCode, { isLoading: isJoining }] =
+  const [applyReferralCode, { isLoading: isActivating }] =
     useApplyReferralCodeMutation();
 
   const referralCode = referralCodeFromUrl || savedReferralCode;
 
-  const onJoinButtonClick = useCallback(async () => {
+  const onActivateButtonClick = useCallback(async () => {
     if (referralCode) {
       const response = await applyReferralCode({ code: referralCode });
 
@@ -72,20 +72,20 @@ export const useWelcomeDialog = ({
 
   const welcomeDialogProps = useMemo(
     (): IWelcomeDialogProps => ({
-      hasJoinButton: isLoggedIn,
-      isJoining,
+      hasActivateButton: isLoggedIn,
+      isActivating,
+      onActivateButtonClick,
       onClose,
-      onJoinButtonClick,
       onSignInButtonClick,
       open: isOpened,
       referralCode,
     }),
     [
-      isJoining,
+      isActivating,
       isLoggedIn,
       isOpened,
+      onActivateButtonClick,
       onClose,
-      onJoinButtonClick,
       onSignInButtonClick,
       referralCode,
     ],

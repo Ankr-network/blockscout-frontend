@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 
+import { blockchainNamesMap } from 'modules/referralProgram/const';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { Buttons } from './components/Buttons';
@@ -19,7 +20,11 @@ export const IneligibleAccountDialog = ({
   onSignInButtonClick,
   ...dialogProps
 }: IIneligibleAccountDialogProps) => {
-  const { onClose } = dialogProps;
+  const { onClose, referralCode } = dialogProps;
+
+  const blockchainName = referralCode
+    ? blockchainNamesMap[referralCode]
+    : undefined;
 
   const { keys, t } = useTranslation(ineligibleAccountDialogTranslation);
 
@@ -28,7 +33,9 @@ export const IneligibleAccountDialog = ({
   return (
     <ReferralFlowDialog {...dialogProps}>
       <div className={classes.content}>
-        <Typography variant="h6">{t(keys.title)}</Typography>
+        <Typography variant="h6">
+          {t(keys.title, { blockchainName })}
+        </Typography>
         <Typography variant="body2">{t(keys.description)}</Typography>
       </div>
       <Buttons

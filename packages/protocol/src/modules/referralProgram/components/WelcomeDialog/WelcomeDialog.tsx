@@ -8,16 +8,16 @@ import {
 } from '../ReferralFlowDialog';
 
 export interface IWelcomeDialogProps extends IReferralFlowDialogProps {
-  hasJoinButton?: boolean;
-  isJoining?: boolean;
-  onJoinButtonClick: () => Promise<void>;
+  hasActivateButton?: boolean;
+  isActivating?: boolean;
+  onActivateButtonClick: () => Promise<void>;
   onSignInButtonClick: () => void;
 }
 
 export const WelcomeDialog = ({
-  hasJoinButton,
-  isJoining,
-  onJoinButtonClick,
+  hasActivateButton,
+  isActivating,
+  onActivateButtonClick,
   onSignInButtonClick,
   ...dialogProps
 }: IWelcomeDialogProps) => {
@@ -31,10 +31,10 @@ export const WelcomeDialog = ({
     <ReferralFlowDialog {...dialogProps}>
       <Greeting blockchainName={blockchainName} />
       <Buttons
-        hasJoinButton={hasJoinButton}
-        isJoining={isJoining}
+        hasActivateButton={hasActivateButton}
+        isActivating={isActivating}
+        onActivateButtonClick={onActivateButtonClick}
         onCancelButtonClick={onClose}
-        onJoinButtonClick={onJoinButtonClick}
         onSignInButtonClick={onSignInButtonClick}
       />
     </ReferralFlowDialog>
