@@ -133,6 +133,7 @@ import {
   InviteGroupMemeberResult,
   RejectGroupInvitationParams,
 } from './groups';
+import { IApplyReferralCodeParams } from './referralProgram';
 import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
 
 export class AccountingGateway {
@@ -1116,5 +1117,9 @@ export class AccountingGateway {
 
   async rejectGroupInvitation(body: RejectGroupInvitationParams) {
     await this.api.post('/api/v1/auth/groups/invite/reject', body);
+  }
+
+  async applyReferralCode(params: IApplyReferralCodeParams) {
+    await this.api.post('/api/v1/auth/referral/apply', undefined, { params });
   }
 }

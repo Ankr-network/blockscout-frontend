@@ -12,11 +12,17 @@ export const PROJECTS_PATH = '/projects/';
 export const NEW_PROJECT_PATH = `${PROJECTS_PATH}new/`;
 export const PROJECT_PATH = `${PROJECTS_PATH}?${PROJECT_ID_QUERY}=:projectId`;
 
+export interface IGenerateProjectsPathParams {
+  search?: string;
+}
+
 export const ProjectsRoutesConfig = createRouteConfig(
   {
     projects: {
       path: PROJECTS_PATH,
-      generatePath: () => PROJECTS_PATH,
+      generatePath: ({
+        search = '',
+      }: IGenerateProjectsPathParams | void = {}) => PROJECTS_PATH + search,
       breadcrumbs: 'projects.breadcrumbs',
     },
     project: {

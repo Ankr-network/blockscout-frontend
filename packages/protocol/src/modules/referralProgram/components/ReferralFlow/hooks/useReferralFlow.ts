@@ -1,11 +1,12 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { ISignupDialogProps } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { IReferralFlowProps } from '../ReferralFlow';
-import { renderBackButton } from '../utils/renderBackButton';
 import { useIneligibleAccountDialog } from '../../IneligibleAccountDialog';
+import { useInitReferralFlowWithSavedCode } from './useInitReferralFlowWithSavedCode';
+import { useInitiReferralFlow } from './useInitReferralFlow';
+import { useSignInDialogProps } from './useSignInDialogProps';
 import { useSuccessDialog } from '../../SuccessDialog';
 import { useWelcomeDialog } from '../../WelcomeDialog';
 
@@ -13,34 +14,26 @@ export const useReferralFlow = () => {
   const {
     isOpened: isSignInDialogOpened,
     onClose: handleSignInDialogClose,
-    onOpen: handlSignInDialogOpen,
+    onOpen: handleSignInDialogOpen,
   } = useDialog();
 
-  const { successDialogProps } = useSuccessDialog();
+  const { handleSuccessDialogOpen, successDialogProps } = useSuccessDialog();
 
-  const { ineligibleAccountDialogProps } = useIneligibleAccountDialog({
-    handlSignInDialogOpen,
-  });
+  const { handleIneligibleAccountDialogOpen, ineligibleAccountDialogProps } =
+    useIneligibleAccountDialog({ handleSignInDialogOpen });
 
   const { handleWelcomeDialogOpen, welcomeDialogProps } = useWelcomeDialog({
-    handlSignInDialogOpen,
+    handleSignInDialogOpen,
+    handleSuccessDialogOpen,
   });
 
-  const handleBackButtonClick = useCallback(() => {
-    handleSignInDialogClose();
-
-    handleWelcomeDialogOpen();
-  }, [handleSignInDialogClose, handleWelcomeDialogOpen]);
-
-  const signInDialogProps = useMemo(
-    (): ISignupDialogProps => ({
-      extraContent: renderBackButton({ onClick: handleBackButtonClick }),
-      hasAutoAgreement: true,
-      isOpen: isSignInDialogOpened,
-      onClose: handleBackButtonClick,
-    }),
-    [handleBackButtonClick, isSignInDialogOpened],
-  );
+  const { signInDialogProps } = useSignInDialogProps({
+    handleIneligibleAccountDialogOpen,
+    handleSignInDialogClose,
+    handleSuccessDialogOpen,
+    handleWelcomeDialogOpen,
+    isSignInDialogOpened,
+  });
 
   const referralFlowProps = useMemo(
     (): IReferralFlowProps => ({
@@ -57,5 +50,16 @@ export const useReferralFlow = () => {
     ],
   );
 
-  return { handleWelcomeDialogOpen, referralFlowProps };
+  useInitiReferralFlow({
+    handleIneligibleAccountDialogOpen,
+    handleWelcomeDialogOpen,
+  });
+
+  // to init referral flow after oauth logging in
+  useInitReferralFlowWithSavedCode({
+    handleIneligibleAccountDialogOpen,
+    handleWelcomeDialogOpen,
+  });
+
+  return { referralFlowProps };
 };

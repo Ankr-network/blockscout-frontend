@@ -90,9 +90,8 @@ export const useSignupDialog = ({
 
     const { data: googleAuthUrl } = await handleFetchGoogleLoginParams();
 
-    redirectToOauth(googleAuthUrl);
-
     onOauthSignUp();
+    redirectToOauth(googleAuthUrl);
   }, [
     dispatch,
     shouldResetAuthDataForGoogleAuth,
@@ -106,8 +105,8 @@ export const useSignupDialog = ({
 
     const { data: oauthAuthUrl } = await handleFetchOauthLoginParams();
 
-    redirectToOauth(oauthAuthUrl);
     onOauthSignUp();
+    redirectToOauth(oauthAuthUrl);
   }, [handleFetchOauthLoginParams, redirectToOauth, onOauthSignUp]);
 
   return {

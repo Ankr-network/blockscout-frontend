@@ -1,17 +1,23 @@
 import { useCallback, useMemo } from 'react';
 
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
+import { useApplyReferralCodeMutation } from 'modules/referralProgram/actions/applyReferralCode';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
+import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 
 import { IWelcomeDialogProps } from '../WelcomeDialog';
 
 export interface IUseWelcomeDialogProps {
-  handlSignInDialogOpen: () => void;
+  handleSignInDialogOpen: () => void;
+  handleSuccessDialogOpen: () => void;
 }
 
 export const useWelcomeDialog = ({
-  handlSignInDialogOpen,
+  handleSignInDialogOpen,
+  handleSuccessDialogOpen,
 }: IUseWelcomeDialogProps) => {
   const {
     isOpened,
@@ -19,28 +25,70 @@ export const useWelcomeDialog = ({
     onOpen: handleWelcomeDialogOpen,
   } = useDialog();
 
-  const { referralCode } = useReferralCode();
+  const { handleRemoveSavedReferralCode, savedReferralCode } =
+    useSavedReferralCode();
 
   const onClose = useCallback(() => {
     removeReferralCodeFromUrl();
+    handleRemoveSavedReferralCode();
 
     handleClose();
-  }, [handleClose]);
+  }, [handleClose, handleRemoveSavedReferralCode]);
 
   const onSignInButtonClick = useCallback(() => {
-    handlSignInDialogOpen();
+    handleSignInDialogOpen();
 
     handleClose();
-  }, [handlSignInDialogOpen, handleClose]);
+  }, [handleClose, handleSignInDialogOpen]);
+
+  const { referralCode: referralCodeFromUrl } = useReferralCode();
+  const { isLoggedIn } = useAuth();
+
+  const [applyReferralCode, { isLoading: isJoining }] =
+    useApplyReferralCodeMutation();
+
+  const referralCode = referralCodeFromUrl || savedReferralCode;
+
+  const onJoinButtonClick = useCallback(async () => {
+    if (referralCode) {
+      const response = await applyReferralCode({ code: referralCode });
+
+      if (isMutationSuccessful(response)) {
+        handleSuccessDialogOpen();
+      } else {
+        removeReferralCodeFromUrl();
+        handleRemoveSavedReferralCode();
+      }
+
+      handleClose();
+    }
+  }, [
+    applyReferralCode,
+    handleClose,
+    handleRemoveSavedReferralCode,
+    handleSuccessDialogOpen,
+    referralCode,
+  ]);
 
   const welcomeDialogProps = useMemo(
     (): IWelcomeDialogProps => ({
+      hasJoinButton: isLoggedIn,
+      isJoining,
       onClose,
+      onJoinButtonClick,
       onSignInButtonClick,
       open: isOpened,
       referralCode,
     }),
-    [isOpened, onClose, onSignInButtonClick, referralCode],
+    [
+      isJoining,
+      isLoggedIn,
+      isOpened,
+      onClose,
+      onJoinButtonClick,
+      onSignInButtonClick,
+      referralCode,
+    ],
   );
 
   return { handleWelcomeDialogOpen, welcomeDialogProps };

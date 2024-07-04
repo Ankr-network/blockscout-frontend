@@ -16,6 +16,7 @@ export interface ISignupDialogProps {
   hasOnlyGoogleAuth?: boolean;
   isOpen: boolean;
   onClose: () => void;
+  onOauthSignIn?: () => void;
   onSuccess?: () => void;
   shouldResetAuthDataForGoogleAuth?: boolean;
   shouldSaveTeamInvitationLink?: boolean;
@@ -30,6 +31,7 @@ export const SignupDialog = ({
   hasOnlyGoogleAuth = false,
   isOpen = false,
   onClose,
+  onOauthSignIn,
   onSuccess,
   shouldResetAuthDataForGoogleAuth = false,
   shouldSaveTeamInvitationLink,
@@ -47,9 +49,10 @@ export const SignupDialog = ({
     onGoogleButtonClick,
     setWeb3State,
   } = useSignupDialog({
-    onClose,
     hasOauthLogin,
     hasOnlyGoogleAuth,
+    onClose,
+    onOauthSignUp: onOauthSignIn,
     shouldResetAuthDataForGoogleAuth,
     title,
   });

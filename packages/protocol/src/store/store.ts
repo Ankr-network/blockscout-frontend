@@ -24,6 +24,8 @@ import { notificationSlice } from 'domains/notification/store/notificationSlice'
 import { paymentsPersistConfig } from 'modules/payments/storage/paymentsPersistConfig';
 import { paymentsSlice } from 'modules/payments/store/paymentsSlice';
 import { projectsPersistConfig } from 'domains/projects/storage/projectsPersistConfig';
+import { referralProgramPersistConfig } from 'modules/referralProgram/storage/referralProgramPersistConfig';
+import { referralProgramSlice } from 'modules/referralProgram/store/referralProgramSlice';
 import { requestComposerSlice } from 'domains/requestComposer/store/requestComposerSlice';
 import { themePersistConfig } from 'modules/layout/storage/themePersistConfig';
 import { themeSlice } from 'modules/layout/store/themeSlice';
@@ -72,6 +74,10 @@ const rootReducer = combineReducers({
     newUserGroupSlice.reducer,
   ),
   payments: persistReducer(paymentsPersistConfig, paymentsSlice.reducer),
+  referralProgram: persistReducer(
+    referralProgramPersistConfig,
+    referralProgramSlice.reducer,
+  ),
 });
 
 export const store = configureStore({

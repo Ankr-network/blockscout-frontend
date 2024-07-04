@@ -1,17 +1,18 @@
 import { useCallback, useMemo } from 'react';
 
+import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
-import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
+import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 
 import { IIneligibleAccountDialogProps } from '../IneligibleAccountDialog';
 
 export interface IUseIneligibleAccountDialogProps {
-  handlSignInDialogOpen: () => void;
+  handleSignInDialogOpen: () => void;
 }
 
 export const useIneligibleAccountDialog = ({
-  handlSignInDialogOpen,
+  handleSignInDialogOpen,
 }: IUseIneligibleAccountDialogProps) => {
   const {
     isOpened,
@@ -19,19 +20,24 @@ export const useIneligibleAccountDialog = ({
     onOpen: handleIneligibleAccountDialogOpen,
   } = useDialog();
 
-  const { referralCode } = useReferralCode();
+  const { referralCode: referralCodeFromUrl } = useReferralCode();
+  const { handleRemoveSavedReferralCode, savedReferralCode } =
+    useSavedReferralCode();
 
   const onClose = useCallback(() => {
     removeReferralCodeFromUrl();
+    handleRemoveSavedReferralCode();
 
     handleClose();
-  }, [handleClose]);
+  }, [handleClose, handleRemoveSavedReferralCode]);
 
   const onSignInButtonClick = useCallback(() => {
-    handlSignInDialogOpen();
+    handleSignInDialogOpen();
 
     handleClose();
-  }, [handleClose, handlSignInDialogOpen]);
+  }, [handleClose, handleSignInDialogOpen]);
+
+  const referralCode = referralCodeFromUrl || savedReferralCode;
 
   const ineligibleAccountDialogProps = useMemo(
     (): IIneligibleAccountDialogProps => ({
