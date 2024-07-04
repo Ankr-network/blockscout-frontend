@@ -26,4 +26,7 @@ export const useChainItemHeaderContentStyles = makeStyles()(theme => ({
   multiChainContent: {
     width: '100%',
   },
+  noMargin: {
+    margin: 0,
+  },
 }));

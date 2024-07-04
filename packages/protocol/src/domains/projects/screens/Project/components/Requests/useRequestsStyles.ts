@@ -7,6 +7,7 @@ export const useRequestsStyles = makeStyles()(theme => ({
   },
   top: {
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     gap: theme.spacing(2),
   },

@@ -207,12 +207,13 @@
       "skip-button": "Skip for now"
     },
     "upgrade-account-dialog": {
-      "title": "Upgrade your account",
-      "description": "Getting an access to enhanced functionality upgrading your account<br />to Premium.",
-      "item-1": "Websockets",
-      "item-2": "Advanced developer API",
-      "item-3": "1,500 reqs/sec",
-      "see-plans": "See plans",
+      "title": "Upgrade to Premium to get access to extended chains list",
+      "description": "Simply top up your account to gain access to enhanced functionality and premium chain upgrades by upgrading your account to Premium.",
+      "item-1": "Extended chains list",
+      "item-2": "Websockets",
+      "item-3": "Advanced developer API",
+      "item-4": "1,500 reqs/sec",
+      "see-plans": "Upgrade",
       "cancel": "Cancel"
     },
     "edit-dialog": {
@@ -249,6 +250,8 @@
       "rename": "Rename",
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
+      "not-available": "Not available",
+      "premium-only": "Request statistics are available for Premium users",
       "resume-setup": "Resume setup",
       "requests": "Requests today",
       "count": "{value, number, ::compact-short}",
@@ -565,6 +568,8 @@
       "title": "Total requests",
       "analytics-button": "Analytics",
       "empty": "No data for statistics yet",
+      "freemium-message": "Unlock access to your personal statistics with <i>Premium</i>",
+      "freemium-button": "Upgrade",
       "relative-change": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::percent .0}",
       "relative-change-zero": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::compact-short}%"
     },
@@ -573,7 +578,16 @@
       "configure-button": "Configure"
     },
     "endpoints": {
-      "add-chains-button": "Add chains"
+      "title": "Chains",
+      "edit-chains-button": "Edit chains",
+      "add-chains-button": "Add chains",
+      "sort": {
+        "trending": "Trending",
+        "name-a-z": "Name: A – Z",
+        "name-z-a": "Name: Z – A",
+        "usage-high-low": "Usage: High – Low",
+        "usage-low-high": "Usage: Low – High"
+      }
     },
     "footer": {
       "title": "Learn more",
@@ -745,11 +759,12 @@
     "endpoints-and-more": "Endpoints & More",
     "premium-only": "Premium Only",
     "upgrade-premium": {
-      "title": "Premium",
-      "item-1": "<em>90,000</em> requests/min",
+      "title": "Unlock Premium features",
+      "item-1": "Higher rate limits",
       "item-1-multichain": "<em>1,000</em> requests/min",
-      "item-2": "WebSockets",
-      "item-3": "Archive calls and other features",
+      "item-2": "Node & Advanced API",
+      "item-3": "Multi-project stats",
+      "item-4": "Teams, Whitelists, and WSS",
       "button": "Upgrade"
     }
   },
@@ -1010,6 +1025,8 @@
         "websocket-title": "WSS Endpoint",
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
+        "lockedLabelHttps": "https://rpc.ankr.com/…",
+        "lockedLabelWss": "wss://rpc.ankr.com/…",
         "login-to-proceed": "Login to proceed"
       },
       "upgrade-banner": {
@@ -1023,7 +1040,7 @@
         },
         "copy-code-button": {
           "copy-message": "Copied!",
-          "label": "Copy code"
+          "label": "Copy"
         },
         "expand-button": {
           "label": "Show All"

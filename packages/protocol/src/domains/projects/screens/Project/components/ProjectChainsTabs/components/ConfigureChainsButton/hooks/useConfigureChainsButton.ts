@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useProjectSidebar } from 'domains/projects/screens/Project/components/ProjectSidebar';
 import { useProjectChainsPaths } from 'domains/projects/screens/Project/hooks/useProjectChainsPaths';
 
-export const useAddChainsButton = () => {
+export const useConfigureChainsButton = () => {
   const {
     handleClose,
     handleOpen: handleSidebarOpen,

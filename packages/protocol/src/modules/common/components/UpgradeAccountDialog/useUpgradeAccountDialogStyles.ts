@@ -44,8 +44,6 @@ export const useUpgradeAccountDialogStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(1),
 
     '& svg': {
-      height: 20,
-      width: 20,
       marginRight: theme.spacing(2),
       color: theme.palette.success.main,
     },

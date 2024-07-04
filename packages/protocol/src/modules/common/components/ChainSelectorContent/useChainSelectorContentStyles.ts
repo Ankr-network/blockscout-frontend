@@ -56,4 +56,12 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     fontWeight: 700,
     lineHeight: '135%',
   },
+  additionalContent: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+    gap: theme.spacing(3),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexGrow: 1,
+  },
 }));

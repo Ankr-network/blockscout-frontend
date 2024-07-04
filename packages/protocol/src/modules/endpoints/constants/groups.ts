@@ -151,6 +151,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.XDC,
       ChainID.XDC_TESTNET,
 
+      ChainID.ZETACHAIN,
       ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
 
       ChainID.ZKSYNC_ERA,

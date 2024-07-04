@@ -3,6 +3,8 @@ import { t } from '@ankr.com/common';
 
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { WhitelistItemsCounters } from 'domains/projects/components/WhitelistItemsCounters';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectHasFreemium } from 'domains/auth/store';
 
 import { ConfigureButton } from './components/ConfigureButton';
 import { PaperBlock } from '../PaperBlock';
@@ -15,6 +17,8 @@ interface WhitelistProps {
 }
 
 export const Whitelist = ({ className }: WhitelistProps) => {
+  const isFreemium = useAppSelector(selectHasFreemium);
+
   const { domainsCount, ipsCount, isLoading, smartContractsCount } =
     useWhitelistCounts();
 
@@ -23,10 +27,10 @@ export const Whitelist = ({ className }: WhitelistProps) => {
   return (
     <PaperBlock className={className}>
       <div className={classes.top}>
-        <Typography variant="subtitle2">
+        <Typography variant="subtitle2" color="textSecondary">
           {t('project.whitelist.title')}
         </Typography>
-        <ConfigureButton isDisabled={isLoading} />
+        <ConfigureButton isDisabled={isLoading || isFreemium} />
       </div>
       <Placeholder
         hasPlaceholder={isLoading}

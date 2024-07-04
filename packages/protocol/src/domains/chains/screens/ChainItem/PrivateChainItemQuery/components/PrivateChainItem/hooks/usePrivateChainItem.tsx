@@ -54,6 +54,8 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   isPremiumLabelHidden?: boolean;
   isChainRequestStatsVisible?: boolean;
   shouldExpandFlareTestnets?: boolean;
+  isCompactView?: boolean;
+  onOpenCodeExample?: () => void;
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -62,10 +64,12 @@ export const usePrivateChainItem = ({
   chain,
   isChainArchived,
   isChainRequestStatsVisible,
+  isCompactView,
   isGroupSelectorAutoWidth,
   isHiddenMainnet,
   isPremiumLabelHidden,
   onBlockedTabClick,
+  onOpenCodeExample,
   selectedGroupId,
   selectedType,
   shouldExpandFlareTestnets = false,
@@ -153,6 +157,8 @@ export const usePrivateChainItem = ({
         isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
         isPremiumLabelHidden={isPremiumLabelHidden}
         requestsString={isChainRequestStatsVisible ? requestsString : undefined}
+        isCompactView={isCompactView}
+        onOpenCodeExample={onOpenCodeExample}
       />
     ),
     [
@@ -175,8 +181,10 @@ export const usePrivateChainItem = ({
       selectGroup,
       isGroupSelectorAutoWidth,
       isPremiumLabelHidden,
-      requestsString,
       isChainRequestStatsVisible,
+      requestsString,
+      isCompactView,
+      onOpenCodeExample,
     ],
   );
 

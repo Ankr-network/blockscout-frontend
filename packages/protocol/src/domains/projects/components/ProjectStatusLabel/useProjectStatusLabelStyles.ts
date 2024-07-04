@@ -3,13 +3,14 @@ import { makeStyles } from 'tss-react/mui';
 
 import { ProjectStatusLabelType } from 'domains/projects/const';
 import { isLightTheme } from 'uiKit/Theme/themeUtils';
+import { COLOR_PURPLE } from 'uiKit/Theme/const';
 
 const getBackgroundColor = (type: ProjectStatusLabelType, theme: Theme) => {
   switch (type) {
     case ProjectStatusLabelType.Active:
       return isLightTheme(theme) ? '#3AC090' : '#4BC99B';
     case ProjectStatusLabelType.Frozen:
-      return isLightTheme(theme) ? '#AF52DE' : '#B967E2';
+      return isLightTheme(theme) ? COLOR_PURPLE : '#B967E2';
     case ProjectStatusLabelType.Suspended:
       return isLightTheme(theme) ? '#EEA941' : '#F0B358';
     default:

@@ -176,6 +176,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
       decimals: 18,
     },
     blockExplorerUrls: ['https://bscscan.com'],
+    searchKeys: ['bsc', 'binance'],
   },
 
   [ChainID.BSC_TESTNET_CHAPEL]: {

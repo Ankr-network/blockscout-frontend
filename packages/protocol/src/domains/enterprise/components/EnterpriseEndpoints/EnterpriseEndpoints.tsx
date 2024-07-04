@@ -43,6 +43,7 @@ export const EnterpriseEndpoints = ({
         hasPrivateAccess
         onCopyEndpoint={onCopyEndpoint}
         publicChain={publicChain}
+        isFreemiumLabelHidden
       />
       <WsFeatureEndpoints
         title={t(`${root}.endpoints.websocket-title`)}

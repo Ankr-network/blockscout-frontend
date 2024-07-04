@@ -1,4 +1,14 @@
 import { Chain } from 'modules/chains/types';
+import { NETWORK_INFO_MAP } from 'domains/auth/components/AddNetwork/const';
+
+const getFilteredChainsSearchKey = (
+  chain: Chain,
+  lowerCaseSearchContent: string,
+) => {
+  return NETWORK_INFO_MAP[chain.id]?.searchKeys?.some(key =>
+    key.toLowerCase().includes(lowerCaseSearchContent ?? ''),
+  );
+};
 
 export const getFilteredChainsByName = (
   chain: Chain,
@@ -49,7 +59,18 @@ export const getFilteredChainsByName = (
     ?.map(beacon => beacon.name.toLocaleLowerCase())
     .some(beacon => beacon.includes(lowerCaseSearchContent));
 
+  const doesExistCoinName = chain.coinName
+    .toLowerCase()
+    .includes(lowerCaseSearchContent ?? '');
+
+  const doesExistInSearchKeys = getFilteredChainsSearchKey(
+    chain,
+    lowerCaseSearchContent,
+  );
+
   return (
+    doesExistCoinName ||
+    doesExistInSearchKeys ||
     doesExistChainName ||
     doesExistTestnetName ||
     doesExistExtensionName ||

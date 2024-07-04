@@ -1,6 +1,6 @@
 import { TabsManager } from 'uiKit/TabsManager';
 
-import { AddChainsButton } from './components/AddChainsButton';
+import { ConfigureChainsButton } from './components/ConfigureChainsButton';
 import { useProjectChainsTabsScroll } from './hooks/useProjectChainsTabsScroll';
 import { useProjectChainsTabsStyles } from './useProjectChainsTabsStyles';
 import { useProjectChainsContext } from '../../hooks/useProjectChainsContext';
@@ -24,7 +24,7 @@ export const ProjectChainsTabs = () => {
       additionalContent={
         <>
           {scrollForwardBtn}
-          <AddChainsButton />
+          <ConfigureChainsButton />
         </>
       }
       allowSingleTab

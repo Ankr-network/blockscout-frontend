@@ -15,8 +15,8 @@ import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
 
-import { getStatsChainId } from '../../../ChainItemSections/utils/getStatsChainId';
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
 import { checkPrivateChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';

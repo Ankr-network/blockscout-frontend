@@ -1,14 +1,24 @@
-import { Button } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { AddChainsForm } from 'domains/projects/screens/Project/components/AddChainsForm';
 import { ProjectSidebar } from 'domains/projects/screens/Project/components/ProjectSidebar';
 
-import { useAddChainsButtonStyles } from './useAddChainsButtonStyles';
-import { useAddChainsButton } from './hooks/useAddChainsButton';
+import { useConfigureChainsButtonStyles } from './useConfigureChainsButtonStyles';
+import { useConfigureChainsButton } from './hooks/useConfigureChainsButton';
 
-export const AddChainsButton = () => {
+interface IConfigureChainsButtonProps {
+  classNames?: Record<string, string>;
+  buttonProps?: ButtonProps;
+  buttonText?: string;
+}
+
+export const ConfigureChainsButton = ({
+  buttonProps,
+  buttonText,
+  classNames,
+}: IConfigureChainsButtonProps) => {
   const {
     handleAddChainsToProject,
     handleSelectAllSubchainPaths,
@@ -19,19 +29,20 @@ export const AddChainsButton = () => {
     onSidebarClose,
     selectedProjectChainsPaths,
     setIsSelectedAll,
-  } = useAddChainsButton();
+  } = useConfigureChainsButton();
 
-  const { classes } = useAddChainsButtonStyles();
+  const { classes } = useConfigureChainsButtonStyles();
 
   return (
     <>
       <Button
-        classes={classes}
+        classes={classNames || classes}
         onClick={handleSidebarOpen}
         startIcon={<Plus />}
         variant="text"
+        {...buttonProps}
       >
-        {t('project.endpoints.add-chains-button')}
+        {buttonText || t('project.endpoints.add-chains-button')}
       </Button>
       <ProjectSidebar
         hasFooter

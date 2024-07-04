@@ -7,6 +7,7 @@ export const useWhitelistStyles = makeStyles()(theme => ({
   },
   top: {
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   counters: {

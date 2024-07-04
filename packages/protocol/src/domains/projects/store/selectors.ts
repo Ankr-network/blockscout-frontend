@@ -1,10 +1,11 @@
-// @ts-nocheck
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { EMilliSeconds } from 'modules/common/constants/const';
 import { RootState } from 'store';
 import { selectCurrentAddress } from 'domains/auth/store';
+import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
+import { ChainID } from 'modules/chains/types';
 
 import { NewProjectStep } from '../types';
 import { ProjectActivity } from './types';
@@ -17,6 +18,8 @@ import { fetchProjectWhitelist } from '../actions/fetchProjectWhitelist';
 import { filterTotalRequests } from './utils/filterTotalRequests';
 import { getRelativeChange } from './utils/getRelativeChange';
 import { sumTotalRequests } from './utils/sumTotalRequests';
+import { sumSubchainsTotalRequest } from './utils/sumSubchainsTotalRequest';
+import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
 
 const selectNewProject = (state: RootState) => state.newProject;
 
@@ -59,9 +62,29 @@ export const selectProjectChainsStatsFor1hState = createSelector(
   state => state,
 );
 
+export const selectAggregatedStatsByChainFor1hState = createSelector(
+  selectProjectChainsStatsFor1hState,
+  (state: RootState) => state,
+  (statsState, state) => {
+    const stats = statsState?.data?.stats ?? {};
+
+    return aggregatePrivateStatsByChain(state, stats);
+  },
+);
+
 export const selectProjectChainsStatsFor24hState = createSelector(
   fetchProjectChainsStatsFor24h.select(actionSelectParams),
   state => state,
+);
+
+export const selectAggregatedStatsByChainFor24hState = createSelector(
+  selectProjectChainsStatsFor24hState,
+  (state: RootState) => state,
+  (statsState, state) => {
+    const stats = statsState?.data?.stats ?? {};
+
+    return aggregatePrivateStatsByChain(state, stats);
+  },
 );
 
 export const selectProjectTotalRequestsForLastTwoHoursState = createSelector(
@@ -191,17 +214,21 @@ export const selectRelativeChangeForLastDay = createSelector(
 
 export const selectProjectTotalRequestsFor1hByChain = createSelector(
   selectProjectChainsStatsFor1hState,
-  (_state: RootState, chainId: string) => chainId,
-  ({ data }, chainId) => {
-    return data?.stats?.[chainId]?.total_requests ?? 0;
+  (state: RootState, chainId: ChainID) => ({ state, chainId }),
+  ({ data }, { chainId, state }) => {
+    const relatedPaths = selectAllPathsByChainId(state, chainId);
+
+    return sumSubchainsTotalRequest(relatedPaths, data);
   },
 );
 
 export const selectProjectTotalRequestsFor24hByChain = createSelector(
   selectProjectChainsStatsFor24hState,
-  (_state: RootState, chainId: string) => chainId,
-  ({ data }, chainId) => {
-    return data?.stats?.[chainId]?.total_requests ?? 0;
+  (state: RootState, chainId: ChainID) => ({ state, chainId }),
+  ({ data }, { chainId, state }) => {
+    const relatedPaths = selectAllPathsByChainId(state, chainId);
+
+    return sumSubchainsTotalRequest(relatedPaths, data);
   },
 );
 
