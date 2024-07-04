@@ -24,7 +24,6 @@ export const useReferralFlow = () => {
 
   const { handleWelcomeDialogOpen, welcomeDialogProps } = useWelcomeDialog({
     handleSignInDialogOpen,
-    handleSuccessDialogOpen,
   });
 
   const { signInDialogProps } = useSignInDialogProps({

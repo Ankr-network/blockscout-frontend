@@ -5,8 +5,9 @@ import {
   INotificationProps,
   notificationSlice,
 } from 'domains/notification/store/notificationSlice';
+import { EMilliSeconds } from 'modules/common/constants/const';
 
-const NOTIFICATION_AUTO_HIDE_DURATION = 2_000;
+const NOTIFICATION_AUTO_HIDE_DURATION = EMilliSeconds.Second * 5;
 
 export const notificationListenerMiddleware = createListenerMiddleware();
 

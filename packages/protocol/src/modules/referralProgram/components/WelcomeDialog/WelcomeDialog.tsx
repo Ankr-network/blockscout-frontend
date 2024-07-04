@@ -1,5 +1,3 @@
-import { blockchainNamesMap } from 'modules/referralProgram/const';
-
 import { Buttons } from './components/Buttons';
 import { Greeting } from './components/Greeting';
 import {
@@ -8,6 +6,7 @@ import {
 } from '../ReferralFlowDialog';
 
 export interface IWelcomeDialogProps extends IReferralFlowDialogProps {
+  blockchainName: string | undefined;
   hasActivateButton?: boolean;
   isActivating?: boolean;
   onActivateButtonClick: () => Promise<void>;
@@ -15,17 +14,14 @@ export interface IWelcomeDialogProps extends IReferralFlowDialogProps {
 }
 
 export const WelcomeDialog = ({
+  blockchainName,
   hasActivateButton,
   isActivating,
   onActivateButtonClick,
   onSignInButtonClick,
   ...dialogProps
 }: IWelcomeDialogProps) => {
-  const { onClose, referralCode } = dialogProps;
-
-  const blockchainName = referralCode
-    ? blockchainNamesMap[referralCode]
-    : undefined;
+  const { onClose } = dialogProps;
 
   return (
     <ReferralFlowDialog {...dialogProps}>
