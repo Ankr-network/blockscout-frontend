@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 
+import { getReferralCode } from 'modules/referralProgram/utils/getReferralCode';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 
 import { ISuccessDialogProps } from '../SuccessDialog';
@@ -14,7 +14,7 @@ export const useSuccessDialog = () => {
     onOpen: handleSuccessDialogOpen,
   } = useDialog();
 
-  const { referralCode: referralCodeFromUrl } = useReferralCode();
+  const { referralCode: referralCodeFromUrl } = getReferralCode();
   const { savedReferralCode } = useSavedReferralCode();
   const { handleRemoveSavedReferralCode } = useSavedReferralCode();
 

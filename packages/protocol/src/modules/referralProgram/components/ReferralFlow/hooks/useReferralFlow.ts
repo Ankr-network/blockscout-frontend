@@ -8,6 +8,7 @@ import { useInitReferralFlowWithSavedCode } from './useInitReferralFlowWithSaved
 import { useInitiReferralFlow } from './useInitReferralFlow';
 import { useSignInDialogProps } from './useSignInDialogProps';
 import { useSuccessDialog } from '../../SuccessDialog';
+import { useSwitchAccountDialog } from '../../SwitchAccountDialog';
 import { useWelcomeDialog } from '../../WelcomeDialog';
 
 export const useReferralFlow = () => {
@@ -26,6 +27,9 @@ export const useReferralFlow = () => {
     handleSignInDialogOpen,
   });
 
+  const { handleSwitchAccountDialogOpen, switchAccountDialogProps } =
+    useSwitchAccountDialog();
+
   const { signInDialogProps } = useSignInDialogProps({
     handleIneligibleAccountDialogOpen,
     handleSignInDialogClose,
@@ -39,24 +43,28 @@ export const useReferralFlow = () => {
       ineligibleAccountDialogProps,
       signInDialogProps,
       successDialogProps,
+      switchAccountDialogProps,
       welcomeDialogProps,
     }),
     [
       ineligibleAccountDialogProps,
       signInDialogProps,
       successDialogProps,
+      switchAccountDialogProps,
       welcomeDialogProps,
     ],
   );
 
   useInitiReferralFlow({
     handleIneligibleAccountDialogOpen,
+    handleSwitchAccountDialogOpen,
     handleWelcomeDialogOpen,
   });
 
   // to init referral flow after oauth logging in
   useInitReferralFlowWithSavedCode({
     handleIneligibleAccountDialogOpen,
+    handleSwitchAccountDialogOpen,
     handleWelcomeDialogOpen,
   });
 

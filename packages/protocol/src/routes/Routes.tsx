@@ -94,7 +94,7 @@ export const Routes = () => {
       />
       {shouldRedirectToProjects && (
         <Route exact path={INDEX_PATH}>
-          <Redirect to={ProjectsRoutesConfig.projects.path} />
+          <Redirect to={ProjectsRoutesConfig.projects.generatePath()} />
         </Route>
       )}
       <GuardAuthRoute

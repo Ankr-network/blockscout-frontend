@@ -23,6 +23,7 @@ import {
   selectIsPremiumStatusUninitialized,
   selectIsPremiumStatusLoaded,
   selectPremiumStatusLoadingInitially,
+  selectUserEndpointToken,
 } from 'domains/auth/store';
 import { selectAuthData } from 'domains/auth/store/authSlice';
 
@@ -55,6 +56,7 @@ export const useAuth = () => {
   const premiumUntil = useAppSelector(selectPremiumUntilDate);
   const address = useAppSelector(selectAddress);
   const premiumStatus = useAppSelector(selectPremiumStatus);
+  const userEndpointToken = useAppSelector(selectUserEndpointToken);
 
   const {
     handleDisconnect,
@@ -107,5 +109,6 @@ export const useAuth = () => {
     hasStatusTransition,
     hasConnectWalletMessage,
     premiumStatus,
+    userEndpointToken,
   };
 };

@@ -32,13 +32,13 @@ export const {
             .checkIsClient({ group });
 
           if (newUserGroupConfig) {
-            await dispatch(setUserGroupConfig(newUserGroupConfig));
+            dispatch(setUserGroupConfig(newUserGroupConfig));
           }
 
           return { data: isEnterpriseClient };
         } catch (error) {
           if (newUserGroupConfig) {
-            await dispatch(setUserGroupConfig(newUserGroupConfig));
+            dispatch(setUserGroupConfig(newUserGroupConfig));
           }
 
           return { data: false };

@@ -1,10 +1,7 @@
-import { getSearch } from 'connected-react-router';
 import { REFERRAL_CODE_QUERY_PARAM_NAME } from 'routes/constants';
 
-import { useAppSelector } from 'store/useAppSelector';
-
-export const useReferralCode = () => {
-  const search = useAppSelector(getSearch);
+export const getReferralCode = () => {
+  const { search } = window.location;
 
   const queryParams = new URLSearchParams(search);
 

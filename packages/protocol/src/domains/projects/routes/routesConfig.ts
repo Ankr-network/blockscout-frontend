@@ -1,3 +1,4 @@
+import { REFERRAL_CODE_QUERY_PARAM_NAME } from 'routes/constants';
 import { generatePath, useHistory } from 'react-router-dom';
 import { useCallback } from 'react';
 
@@ -12,17 +13,25 @@ export const PROJECTS_PATH = '/projects/';
 export const NEW_PROJECT_PATH = `${PROJECTS_PATH}new/`;
 export const PROJECT_PATH = `${PROJECTS_PATH}?${PROJECT_ID_QUERY}=:projectId`;
 
-export interface IGenerateProjectsPathParams {
-  search?: string;
-}
-
 export const ProjectsRoutesConfig = createRouteConfig(
   {
     projects: {
       path: PROJECTS_PATH,
-      generatePath: ({
-        search = '',
-      }: IGenerateProjectsPathParams | void = {}) => PROJECTS_PATH + search,
+      generatePath: () => {
+        const { search } = window.location;
+        const queryParams = new URLSearchParams(search);
+        const referralCode = queryParams.get(REFERRAL_CODE_QUERY_PARAM_NAME);
+
+        if (referralCode) {
+          const utmSearch = new URLSearchParams({
+            [REFERRAL_CODE_QUERY_PARAM_NAME]: referralCode,
+          }).toString();
+
+          return `${PROJECTS_PATH}?${utmSearch}`;
+        }
+
+        return PROJECTS_PATH;
+      },
       breadcrumbs: 'projects.breadcrumbs',
     },
     project: {

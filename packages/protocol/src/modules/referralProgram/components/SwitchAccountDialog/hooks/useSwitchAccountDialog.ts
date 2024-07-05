@@ -10,21 +10,16 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
-import { IIneligibleAccountDialogProps } from '../IneligibleAccountDialog';
+import { ISwitchAccountDialogProps } from '../SwitchAccountDialog';
+import { useSelectPersonalAccount } from './useSelectPersonalAccount';
 
 const { showNotification } = NotificationActions;
 
-export interface IUseIneligibleAccountDialogProps {
-  handleSignInDialogOpen: () => void;
-}
-
-export const useIneligibleAccountDialog = ({
-  handleSignInDialogOpen,
-}: IUseIneligibleAccountDialogProps) => {
+export const useSwitchAccountDialog = () => {
   const {
     isOpened,
     onClose: handleClose,
-    onOpen: handleIneligibleAccountDialogOpen,
+    onOpen: handleSwitchAccountDialogOpen,
   } = useDialog();
 
   const { referralCode: referralCodeFromUrl } = getReferralCode();
@@ -62,22 +57,33 @@ export const useIneligibleAccountDialog = ({
     t,
   ]);
 
-  const onSignInButtonClick = useCallback(() => {
-    handleSignInDialogOpen();
+  const { handleSelectPersonalAccount, isPersonalAccountSelecting } =
+    useSelectPersonalAccount();
+
+  const onSwitchButtonClick = useCallback(async () => {
+    await handleSelectPersonalAccount();
 
     handleClose();
-  }, [handleClose, handleSignInDialogOpen]);
+  }, [handleClose, handleSelectPersonalAccount]);
 
-  const ineligibleAccountDialogProps = useMemo(
-    (): IIneligibleAccountDialogProps => ({
+  const switchAccountDialogProps = useMemo(
+    (): ISwitchAccountDialogProps => ({
       blockchainName,
       onClose,
-      onSignInButtonClick,
+      onSwitchButtonClick,
       open: isOpened,
       referralCode,
+      isSwitching: isPersonalAccountSelecting,
     }),
-    [blockchainName, isOpened, onClose, onSignInButtonClick, referralCode],
+    [
+      blockchainName,
+      isOpened,
+      isPersonalAccountSelecting,
+      onClose,
+      onSwitchButtonClick,
+      referralCode,
+    ],
   );
 
-  return { handleIneligibleAccountDialogOpen, ineligibleAccountDialogProps };
+  return { handleSwitchAccountDialogOpen, switchAccountDialogProps };
 };

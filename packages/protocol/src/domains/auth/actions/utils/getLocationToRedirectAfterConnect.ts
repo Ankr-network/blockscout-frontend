@@ -32,9 +32,7 @@ export const getLocationToRedirectAfterConnect = ({
   }
 
   if (hasAccessToProjects) {
-    const { search } = window.location;
-
-    const projectsPath = ProjectsRoutesConfig.projects.generatePath({ search });
+    const projectsPath = ProjectsRoutesConfig.projects.generatePath();
 
     return projectsPath;
   }

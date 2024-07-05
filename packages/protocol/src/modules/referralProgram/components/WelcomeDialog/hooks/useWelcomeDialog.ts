@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { blockchainNamesMap } from 'modules/referralProgram/const';
+import { getReferralCode } from 'modules/referralProgram/utils/getReferralCode';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { referralProgramTranslation } from 'modules/referralProgram/translation';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
@@ -9,7 +10,6 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useApplyReferralCodeMutation } from 'modules/referralProgram/actions/applyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
@@ -30,7 +30,7 @@ export const useWelcomeDialog = ({
     onOpen: handleWelcomeDialogOpen,
   } = useDialog();
 
-  const { referralCode: referralCodeFromUrl } = useReferralCode();
+  const { referralCode: referralCodeFromUrl } = getReferralCode();
 
   const { handleRemoveSavedReferralCode, savedReferralCode } =
     useSavedReferralCode();

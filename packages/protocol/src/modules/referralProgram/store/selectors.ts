@@ -1,8 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
-import { selectAddress, selectHasFreemium } from 'domains/auth/store';
+import { selectAddress } from 'domains/auth/store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
+
+import { selectPersonalPremiumStatus } from '../actions/fetchPersonalPremiumStatus';
 
 export const selectReferralProgramState = (state: RootState) =>
   state.referralProgram;
@@ -13,15 +15,15 @@ export const selectReferralCode = createSelector(
 );
 
 export const selectIsAccountEligible = createSelector(
-  selectHasFreemium,
+  selectPersonalPremiumStatus,
   selectAddress,
   selectUserGroupConfigByAddress,
-  (hasFreemium, authAddress, groupConfig) => {
+  (premiumStatus, authAddress, groupConfig) => {
     const groupAddress = groupConfig.selectedGroupAddress;
 
     const isPersonalAccount =
       !groupAddress || authAddress.toLowerCase() === groupAddress.toLowerCase();
 
-    return isPersonalAccount && hasFreemium;
+    return isPersonalAccount && Boolean(premiumStatus?.isFreemium);
   },
 );
