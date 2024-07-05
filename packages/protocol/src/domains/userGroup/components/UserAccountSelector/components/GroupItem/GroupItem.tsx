@@ -1,6 +1,6 @@
 import { Button, MenuItem, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { getAvatarColor } from 'modules/groups/utils/getAvatarColor';
 import { getUserRoleName } from 'modules/groups/utils/getUserRoleName';

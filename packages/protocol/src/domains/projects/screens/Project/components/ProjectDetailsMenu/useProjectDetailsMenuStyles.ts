@@ -8,6 +8,11 @@ export const useProjectDetailsMenuStyles = makeStyles()(theme => ({
   isActive: {
     backgroundColor: theme.palette.grey[100],
   },
+  icon: {
+    '&&': {
+      color: theme.palette.text.secondary,
+    },
+  },
   btnMore: {
     backgroundColor: 'transparent',
     boxShadow: `0 0 0 2px ${theme.palette.background.default}`,

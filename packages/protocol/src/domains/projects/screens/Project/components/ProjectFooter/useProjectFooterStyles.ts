@@ -14,10 +14,9 @@ export const useProjectFooterStyles = makeStyles()(theme => ({
     width: '50%',
   },
   link: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    '&&': {
+      padding: 0,
+    },
     minWidth: 'auto',
     fontWeight: 500,
 

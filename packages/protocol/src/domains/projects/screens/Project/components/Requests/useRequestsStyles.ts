@@ -40,4 +40,9 @@ export const useRequestsStyles = makeStyles()(theme => ({
     height: 24,
     minHeight: 24,
   },
+  icon: {
+    '& > path': {
+      strokeWidth: 2,
+    },
+  },
 }));

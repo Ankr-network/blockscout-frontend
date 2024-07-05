@@ -33,7 +33,6 @@ export const EmailBlock = () => {
       </Typography>
 
       <IconButton
-        size="extraSmall"
         className={classes.iconButton}
         onClick={openChangeEmailDialog}
       >

@@ -6,7 +6,7 @@ import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { guardDialogSlice } from 'modules/guardDialog';
 
-import { getBottomMenuItems } from '../utils/getBottomMenuItems';
+import { getSecondMenuItems } from '../utils/getSecondMenuItems';
 import { getTopMenuItems } from '../utils/getTopMenuItems';
 
 export interface IUseMenuItemsProps {
@@ -15,7 +15,6 @@ export interface IUseMenuItemsProps {
   isMobileSideBar: boolean;
   loading: boolean;
   onAnalyticsClick: () => void;
-  onDocsClick: () => void;
 }
 
 export const useMenuItems = ({
@@ -24,7 +23,6 @@ export const useMenuItems = ({
   isMobileSideBar,
   loading,
   onAnalyticsClick,
-  onDocsClick,
 }: IUseMenuItemsProps) => {
   const { isFreePremium, isLoggedIn } = useAuth();
   const dispatch = useDispatch();
@@ -68,19 +66,18 @@ export const useMenuItems = ({
     ],
   );
 
-  const bottomMenuItems = useMemo(
+  const secondMenuItems = useMemo(
     () =>
-      getBottomMenuItems({
+      getSecondMenuItems({
         isLoggedIn,
         isEnterpriseClient,
-        onDocsClick,
         onOpenAccessDeniedDialog,
       }),
-    [isLoggedIn, isEnterpriseClient, onDocsClick, onOpenAccessDeniedDialog],
+    [isLoggedIn, isEnterpriseClient, onOpenAccessDeniedDialog],
   );
 
   return {
-    bottomMenuItems,
+    secondMenuItems,
     handleUpgradePlanDialogClose,
     isLoggedIn,
     isUpgradePlanDialogOpened,

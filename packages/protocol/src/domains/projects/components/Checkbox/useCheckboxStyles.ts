@@ -25,9 +25,6 @@ export const useCheckboxStyles = makeStyles<UseCheckboxStylesParams>()(
     },
     labelWrapper: {
       paddingLeft: theme.spacing(1.5),
-
-      fontSize: 16,
-      fontWeight: 700,
     },
   }),
 );

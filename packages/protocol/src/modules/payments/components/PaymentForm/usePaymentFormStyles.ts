@@ -1,8 +1,11 @@
 import { makeStyles } from 'tss-react/mui';
 
+const ROOT_PADDING_STEP = 8;
+
 export const usePaymentFormStyles = makeStyles()(theme => ({
   paymentFormRoot: {
-    padding: theme.spacing(8),
+    position: 'relative',
+    padding: theme.spacing(ROOT_PADDING_STEP),
 
     borderRadius: 20,
 

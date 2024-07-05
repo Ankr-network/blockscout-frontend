@@ -16,7 +16,10 @@ export const useProjectHeaderStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     color: theme.palette.primary.main,
-    padding: 0,
+
+    '&&': {
+      padding: 0,
+    },
 
     '&:hover': {
       color: theme.palette.text.primary,
@@ -28,13 +31,13 @@ export const useProjectHeaderStyles = makeStyles()(theme => ({
     },
   },
   linkOnBoarding: {
+    gap: 8,
     '&:before': {
       content: '""',
       width: 4,
       height: 4,
       borderRadius: '50%',
       backgroundColor: theme.palette.grey[500],
-      marginRight: theme.spacing(2),
     },
   },
 }));

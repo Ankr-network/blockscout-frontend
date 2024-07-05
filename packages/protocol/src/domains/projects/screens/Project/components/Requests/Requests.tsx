@@ -1,4 +1,4 @@
-import { NavBarDashboard } from '@ankr.com/ui';
+import { NavBarAnalytics } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
@@ -56,7 +56,7 @@ export const Requests = ({ className, isDisabled }: RequestsProps) => {
         </div>
 
         <NavLink
-          startIcon={<NavBarDashboard />}
+          startIcon={<NavBarAnalytics className={classes.icon} />}
           variant="outlined"
           className={classes.button}
           size="small"

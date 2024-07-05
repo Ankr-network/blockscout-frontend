@@ -6,7 +6,7 @@ export const useDealAmountsStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    marginBottom: theme.spacing(5),
+    marginBottom: theme.spacing(5.25),
   },
   dealAmountsFooter: {
     listStyleType: '"•"',

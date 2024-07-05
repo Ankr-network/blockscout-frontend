@@ -5,7 +5,7 @@ export const useMobileSideBarStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.background.paper,
     paddingTop: theme.spacing(4.5),
     width: 360,
-    height: '100%',
+    height: '100vh',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },

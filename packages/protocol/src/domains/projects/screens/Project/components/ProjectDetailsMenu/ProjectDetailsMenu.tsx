@@ -48,7 +48,7 @@ export const ProjectDetailsMenu = ({
       <MenuItem
         component={Button}
         onClick={openInfoDialog}
-        startIcon={<Edit />}
+        startIcon={<Edit className={classes.icon} />}
         variant="text"
         fullWidth
       >
@@ -58,7 +58,7 @@ export const ProjectDetailsMenu = ({
       <MenuItem
         component={Button}
         onClick={openDeleteDialog}
-        startIcon={<Delete />}
+        startIcon={<Delete className={classes.icon} />}
         variant="text"
         fullWidth
         disabled={isDeleteProjectDisabled}

@@ -5,9 +5,9 @@ import { commonShadow } from 'uiKit/Theme/themeUtils';
 export const useGroupMenuStyles = makeStyles()(theme => ({
   paper: {
     borderRadius: 17,
-    padding: theme.spacing(3),
+    padding: theme.spacing(6, 5),
     boxShadow: commonShadow,
-    maxWidth: 288,
+    maxWidth: 300,
   },
   divider: {
     margin: theme.spacing(3, 'auto', 0, 'auto'),
@@ -26,11 +26,15 @@ export const useGroupMenuStyles = makeStyles()(theme => ({
     gap: theme.spacing(),
   },
   list: {
-    padding: 0,
+    '&&&': {
+      padding: 0,
+    },
   },
   accountActions: {
     display: 'flex',
     flexDirection: 'column',
+    gap: 7,
+    marginTop: theme.spacing(3),
   },
   createTeamButtonWrapper: {
     display: 'flex',
@@ -43,7 +47,7 @@ export const useGroupMenuStyles = makeStyles()(theme => ({
   },
   accountMenuFooter: {
     borderTop: `1px solid ${theme.palette.grey[100]}`,
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(4),
     marginTop: theme.spacing(2),
   },
   actionButton: {
@@ -51,15 +55,18 @@ export const useGroupMenuStyles = makeStyles()(theme => ({
     fontSize: 14,
     fontWeight: 500,
     width: '100%',
+    gap: 16,
     '&&': {
-      padding: theme.spacing(0, 2),
+      padding: theme.spacing(0, 2, 0, 1.5),
     },
 
     '&:hover': {
-      backgroundColor: 'transparent',
+      backgroundColor: theme.palette.grey[100],
     },
   },
   signOutButton: {
+    width: 106,
+    padding: theme.spacing(0, 3, 0, 2),
     color: theme.palette.text.secondary,
   },
 }));

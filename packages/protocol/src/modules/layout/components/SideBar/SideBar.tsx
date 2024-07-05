@@ -1,5 +1,4 @@
 import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
-import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 import { AccountStatus } from 'modules/common/components/AccountStatus';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
@@ -36,7 +35,6 @@ export const SideBar = ({
     usdBalance,
   } = useBalanceMenuButton();
 
-  const onDocsClick = useTrackDocs();
   const onAnalyticsClick = useTrackAnalytics();
   const isXsDown = useIsXSDown();
 
@@ -60,7 +58,6 @@ export const SideBar = ({
         isEnterpriseClient={isEnterpriseClient}
         loading={loading}
         onAnalyticsClick={onAnalyticsClick}
-        onDocsClick={onDocsClick}
       />
     </aside>
   );

@@ -17,7 +17,7 @@ export const useBalanceMenuStyles = makeStyles()(theme => ({
   },
   root: {
     width: 300,
-    padding: theme.spacing(4),
+    padding: theme.spacing(6, 5),
   },
   header: {
     display: 'flex',
@@ -36,7 +36,7 @@ export const useBalanceMenuStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(4),
   },
   button: {
-    gap: 16,
+    gap: 4,
   },
   progressBar: {
     marginBottom: theme.spacing(4),
