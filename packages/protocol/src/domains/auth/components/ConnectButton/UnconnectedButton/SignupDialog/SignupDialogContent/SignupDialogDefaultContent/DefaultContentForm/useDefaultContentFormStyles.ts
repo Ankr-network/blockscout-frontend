@@ -72,6 +72,11 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     textAlign: 'center',
 
     color: theme.palette.text.primary,
+
+    a: {
+      textDecoration: 'underline',
+      textUnderlineOffset: '0.2em',
+    },
   },
   extraContent: {
     display: 'flex',
