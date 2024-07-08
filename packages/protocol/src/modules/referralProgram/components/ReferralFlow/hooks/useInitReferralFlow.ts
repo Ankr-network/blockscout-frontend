@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { getReferralCode } from 'modules/referralProgram/utils/getReferralCode';
+import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
 import { isXaiReferralCode } from 'modules/referralProgram/utils/isXaiReferralCode';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
@@ -13,12 +13,14 @@ export interface IUseInitReferralFlowProps {
   handleIneligibleAccountDialogOpen: () => void;
   handleSwitchAccountDialogOpen: () => void;
   handleWelcomeDialogOpen: () => void;
+  isBannerLoaded: boolean;
 }
 
 export const useInitiReferralFlow = ({
   handleIneligibleAccountDialogOpen,
   handleSwitchAccountDialogOpen,
   handleWelcomeDialogOpen,
+  isBannerLoaded,
 }: IUseInitReferralFlowProps) => {
   const { isLoggedIn } = useAuth();
   const { isPersonal } = useSelectedUserGroup();
@@ -29,14 +31,14 @@ export const useInitiReferralFlow = ({
 
   const isAccountEligible = useAppSelector(selectIsAccountEligible);
 
-  const { referralCode } = getReferralCode();
+  const { referralCode } = getReferralCodeFromUrl();
 
   const isPersonalPremiumStatusLoaded = personalPremiumStatus !== undefined;
   const isPersonalGroupFreemium = Boolean(personalPremiumStatus?.isFreemium);
   const isGroupSelected = Boolean(selectedGroupAddress);
 
   useEffect(() => {
-    if (isXaiReferralCode(referralCode)) {
+    if (isXaiReferralCode(referralCode) && isBannerLoaded) {
       if (isLoggedIn) {
         if (isPersonalPremiumStatusLoaded && isGroupSelected) {
           if (isAccountEligible) {
@@ -55,6 +57,7 @@ export const useInitiReferralFlow = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isAccountEligible,
+    isBannerLoaded,
     isGroupSelected,
     isPersonalGroupFreemium,
     isPersonalPremiumStatusLoaded,

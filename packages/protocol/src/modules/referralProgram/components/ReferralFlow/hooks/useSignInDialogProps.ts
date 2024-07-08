@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { ISignupDialogProps } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
-import { getReferralCode } from 'modules/referralProgram/utils/getReferralCode';
+import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
@@ -32,7 +32,7 @@ export const useSignInDialogProps = ({
 
   const { handleSaveReferralCode } = useSavedReferralCode();
 
-  const { referralCode } = getReferralCode();
+  const { referralCode } = getReferralCodeFromUrl();
   const { isLoggedIn } = useAuth();
 
   const onOauthSignIn = useCallback(() => {

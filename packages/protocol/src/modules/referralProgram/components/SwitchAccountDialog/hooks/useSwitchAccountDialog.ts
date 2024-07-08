@@ -1,8 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { blockchainNamesMap } from 'modules/referralProgram/const';
-import { getReferralCode } from 'modules/referralProgram/utils/getReferralCode';
 import { referralProgramTranslation } from 'modules/referralProgram/translation';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -15,21 +13,22 @@ import { useSelectPersonalAccount } from './useSelectPersonalAccount';
 
 const { showNotification } = NotificationActions;
 
-export const useSwitchAccountDialog = () => {
+export interface IUseSwitchAccountDialogProps {
+  banner: string | undefined;
+  blockchainName: string | undefined;
+}
+
+export const useSwitchAccountDialog = ({
+  banner,
+  blockchainName,
+}: IUseSwitchAccountDialogProps) => {
   const {
     isOpened,
     onClose: handleClose,
     onOpen: handleSwitchAccountDialogOpen,
   } = useDialog();
 
-  const { referralCode: referralCodeFromUrl } = getReferralCode();
-  const { handleRemoveSavedReferralCode, savedReferralCode } =
-    useSavedReferralCode();
-
-  const referralCode = referralCodeFromUrl || savedReferralCode;
-  const blockchainName = referralCode
-    ? blockchainNamesMap[referralCode]
-    : undefined;
+  const { handleRemoveSavedReferralCode } = useSavedReferralCode();
 
   const { keys, t } = useTranslation(referralProgramTranslation);
 
@@ -68,20 +67,20 @@ export const useSwitchAccountDialog = () => {
 
   const switchAccountDialogProps = useMemo(
     (): ISwitchAccountDialogProps => ({
+      banner,
       blockchainName,
       onClose,
       onSwitchButtonClick,
       open: isOpened,
-      referralCode,
       isSwitching: isPersonalAccountSelecting,
     }),
     [
+      banner,
       blockchainName,
       isOpened,
       isPersonalAccountSelecting,
       onClose,
       onSwitchButtonClick,
-      referralCode,
     ],
   );
 

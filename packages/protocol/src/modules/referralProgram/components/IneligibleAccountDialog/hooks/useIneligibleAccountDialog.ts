@@ -1,8 +1,6 @@
 import { useCallback, useMemo } from 'react';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { blockchainNamesMap } from 'modules/referralProgram/const';
-import { getReferralCode } from 'modules/referralProgram/utils/getReferralCode';
 import { referralProgramTranslation } from 'modules/referralProgram/translation';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { useAppDispatch } from 'store/useAppDispatch';
@@ -15,10 +13,14 @@ import { IIneligibleAccountDialogProps } from '../IneligibleAccountDialog';
 const { showNotification } = NotificationActions;
 
 export interface IUseIneligibleAccountDialogProps {
+  banner: string | undefined;
+  blockchainName: string | undefined;
   handleSignInDialogOpen: () => void;
 }
 
 export const useIneligibleAccountDialog = ({
+  banner,
+  blockchainName,
   handleSignInDialogOpen,
 }: IUseIneligibleAccountDialogProps) => {
   const {
@@ -27,14 +29,7 @@ export const useIneligibleAccountDialog = ({
     onOpen: handleIneligibleAccountDialogOpen,
   } = useDialog();
 
-  const { referralCode: referralCodeFromUrl } = getReferralCode();
-  const { handleRemoveSavedReferralCode, savedReferralCode } =
-    useSavedReferralCode();
-
-  const referralCode = referralCodeFromUrl || savedReferralCode;
-  const blockchainName = referralCode
-    ? blockchainNamesMap[referralCode]
-    : undefined;
+  const { handleRemoveSavedReferralCode } = useSavedReferralCode();
 
   const { keys, t } = useTranslation(referralProgramTranslation);
 
@@ -74,9 +69,9 @@ export const useIneligibleAccountDialog = ({
       onClose,
       onSignInButtonClick,
       open: isOpened,
-      referralCode,
+      banner,
     }),
-    [blockchainName, isOpened, onClose, onSignInButtonClick, referralCode],
+    [banner, blockchainName, isOpened, onClose, onSignInButtonClick],
   );
 
   return { handleIneligibleAccountDialogOpen, ineligibleAccountDialogProps };

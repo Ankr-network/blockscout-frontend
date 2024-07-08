@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useImagePreloader } from 'modules/common/hooks/useImagePreloader';
+import { useReferralProgram } from 'modules/referralProgram/hooks/useReferralProgram';
 
 import { IReferralFlowProps } from '../ReferralFlow';
 import { useIneligibleAccountDialog } from '../../IneligibleAccountDialog';
@@ -18,17 +20,30 @@ export const useReferralFlow = () => {
     onOpen: handleSignInDialogOpen,
   } = useDialog();
 
-  const { handleSuccessDialogOpen, successDialogProps } = useSuccessDialog();
+  const { banner, blockchainName } = useReferralProgram();
+
+  const { isLoaded: isBannerLoaded } = useImagePreloader({ src: banner });
+
+  const { handleSuccessDialogOpen, successDialogProps } = useSuccessDialog({
+    banner,
+    blockchainName,
+  });
 
   const { handleIneligibleAccountDialogOpen, ineligibleAccountDialogProps } =
-    useIneligibleAccountDialog({ handleSignInDialogOpen });
+    useIneligibleAccountDialog({
+      banner,
+      blockchainName,
+      handleSignInDialogOpen,
+    });
 
   const { handleWelcomeDialogOpen, welcomeDialogProps } = useWelcomeDialog({
+    banner,
+    blockchainName,
     handleSignInDialogOpen,
   });
 
   const { handleSwitchAccountDialogOpen, switchAccountDialogProps } =
-    useSwitchAccountDialog();
+    useSwitchAccountDialog({ banner, blockchainName });
 
   const { signInDialogProps } = useSignInDialogProps({
     handleIneligibleAccountDialogOpen,
@@ -59,6 +74,7 @@ export const useReferralFlow = () => {
     handleIneligibleAccountDialogOpen,
     handleSwitchAccountDialogOpen,
     handleWelcomeDialogOpen,
+    isBannerLoaded,
   });
 
   // to init referral flow after oauth logging in
@@ -66,6 +82,7 @@ export const useReferralFlow = () => {
     handleIneligibleAccountDialogOpen,
     handleSwitchAccountDialogOpen,
     handleWelcomeDialogOpen,
+    isBannerLoaded,
   });
 
   return { referralFlowProps };

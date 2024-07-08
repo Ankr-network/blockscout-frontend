@@ -1,21 +1,18 @@
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
 
-import { topBannersMap } from './const';
 import { useReferralFlowDialogStyles } from './useReferralFlowDialogStyles';
 
 export interface IReferralFlowDialogProps
   extends Omit<IDialogProps, 'onClose'> {
+  banner: string | undefined;
   onClose: () => void;
-  referralCode: string | undefined;
 }
 
 export const ReferralFlowDialog = ({
+  banner,
   children,
-  referralCode,
   ...dialogProps
 }: IReferralFlowDialogProps) => {
-  const bannerSrc = referralCode ? topBannersMap[referralCode] : undefined;
-
   const { classes } = useReferralFlowDialogStyles();
 
   return (
@@ -24,8 +21,8 @@ export const ReferralFlowDialog = ({
       classes={classes}
       closeButtonClassName={classes.closeButton}
       title={
-        bannerSrc && (
-          <img alt="Top banner" className={classes.topBanner} src={bannerSrc} />
+        banner && (
+          <img alt="Top banner" className={classes.topBanner} src={banner} />
         )
       }
       titleClassName={classes.dialogTitle}

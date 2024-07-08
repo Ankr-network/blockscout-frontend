@@ -1,6 +1,5 @@
 import { Button, Typography } from '@mui/material';
 
-import { blockchainNamesMap } from 'modules/referralProgram/const';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { Benefits } from '../Benefits';
@@ -12,19 +11,15 @@ import { successDialogTranslation } from './translation';
 import { useSuccessDialogStyles } from './useSuccessDialogStyles';
 
 export interface ISuccessDialogProps extends IReferralFlowDialogProps {
+  blockchainName: string | undefined;
   onDoneButtonClick: () => void;
 }
 
 export const SuccessDialog = ({
+  blockchainName,
   onDoneButtonClick,
   ...dialogProps
 }: ISuccessDialogProps) => {
-  const { referralCode } = dialogProps;
-
-  const blockchainName = referralCode
-    ? blockchainNamesMap[referralCode]
-    : undefined;
-
   const { keys, t, tHTML } = useTranslation(successDialogTranslation);
 
   const { classes } = useSuccessDialogStyles();

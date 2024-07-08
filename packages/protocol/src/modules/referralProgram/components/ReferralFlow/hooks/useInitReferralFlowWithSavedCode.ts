@@ -13,12 +13,14 @@ export interface IUseInitReferralFlowWithSavedCodeProps {
   handleIneligibleAccountDialogOpen: () => void;
   handleSwitchAccountDialogOpen: () => void;
   handleWelcomeDialogOpen: () => void;
+  isBannerLoaded: boolean;
 }
 
 export const useInitReferralFlowWithSavedCode = ({
   handleIneligibleAccountDialogOpen,
   handleSwitchAccountDialogOpen,
   handleWelcomeDialogOpen,
+  isBannerLoaded,
 }: IUseInitReferralFlowWithSavedCodeProps) => {
   const { isLoggedIn } = useAuth();
   const { selectedGroupAddress } = useUserGroupConfig();
@@ -35,7 +37,7 @@ export const useInitReferralFlowWithSavedCode = ({
   const isPersonalGroupFreemium = Boolean(personalPremiumStatus?.isFreemium);
 
   useEffect(() => {
-    if (isXaiReferralCode(savedReferralCode) && isLoggedIn) {
+    if (isXaiReferralCode(savedReferralCode) && isLoggedIn && isBannerLoaded) {
       if (isPersonalPremiumStatusLoaded && isGroupSelected) {
         if (isAccountEligible) {
           handleWelcomeDialogOpen();
@@ -50,6 +52,7 @@ export const useInitReferralFlowWithSavedCode = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isAccountEligible,
+    isBannerLoaded,
     isGroupSelected,
     isLoggedIn,
     isPersonal,
