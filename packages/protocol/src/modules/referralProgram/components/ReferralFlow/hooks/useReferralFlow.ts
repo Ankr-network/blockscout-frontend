@@ -80,8 +80,8 @@ export const useReferralFlow = () => {
   // to init referral flow after oauth logging in
   useInitReferralFlowWithSavedCode({
     handleIneligibleAccountDialogOpen,
+    handleSuccessDialogOpen,
     handleSwitchAccountDialogOpen,
-    handleWelcomeDialogOpen,
     isBannerLoaded,
   });
 

@@ -1,11 +1,10 @@
 import { useCallback, useMemo } from 'react';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { referralProgramTranslation } from 'modules/referralProgram/translation';
 import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useApplyReferralCodeMutation } from 'modules/referralProgram/actions/applyReferralCode';
+import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
@@ -71,38 +70,10 @@ export const useWelcomeDialog = ({
 
   const { isLoggedIn } = useAuth();
 
-  const [applyReferralCode, { isLoading: isActivating }] =
-    useApplyReferralCodeMutation();
-
-  const onActivateButtonClick = useCallback(async () => {
-    if (referralCode) {
-      const response = await applyReferralCode({ code: referralCode });
-
-      if (isMutationSuccessful(response)) {
-        dispatch(
-          showNotification({
-            message: t(keys.activationAcceptedMessage, { blockchainName }),
-            severity: 'success',
-            title: t(keys.activationAcceptedTitle, { blockchainName }),
-          }),
-        );
-      }
-
-      removeReferralCodeFromUrl();
-      handleRemoveSavedReferralCode();
-
-      handleClose();
-    }
-  }, [
-    applyReferralCode,
-    blockchainName,
-    dispatch,
-    handleClose,
-    handleRemoveSavedReferralCode,
-    keys,
-    referralCode,
-    t,
-  ]);
+  const {
+    handleApplyReferralCode: onActivateButtonClick,
+    isApplying: isActivating,
+  } = useApplyReferralCode({ referralCode, onSuccess: handleClose });
 
   const welcomeDialogProps = useMemo(
     (): IWelcomeDialogProps => ({

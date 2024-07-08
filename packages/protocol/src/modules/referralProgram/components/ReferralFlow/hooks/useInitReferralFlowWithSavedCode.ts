@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { isXaiReferralCode } from 'modules/referralProgram/utils/isXaiReferralCode';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePersonalPremiumStatus } from 'modules/referralProgram/hooks/usePersonalPremiumStatus';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
@@ -11,15 +12,15 @@ import { useUserGroupConfig } from 'domains/userGroup/hooks/useUserGroupConfig';
 
 export interface IUseInitReferralFlowWithSavedCodeProps {
   handleIneligibleAccountDialogOpen: () => void;
+  handleSuccessDialogOpen: () => void;
   handleSwitchAccountDialogOpen: () => void;
-  handleWelcomeDialogOpen: () => void;
   isBannerLoaded: boolean;
 }
 
 export const useInitReferralFlowWithSavedCode = ({
   handleIneligibleAccountDialogOpen,
+  handleSuccessDialogOpen,
   handleSwitchAccountDialogOpen,
-  handleWelcomeDialogOpen,
   isBannerLoaded,
 }: IUseInitReferralFlowWithSavedCodeProps) => {
   const { isLoggedIn } = useAuth();
@@ -29,6 +30,11 @@ export const useInitReferralFlowWithSavedCode = ({
     skipFetching: !isLoggedIn,
   });
   const { savedReferralCode } = useSavedReferralCode();
+  const { handleApplyReferralCode } = useApplyReferralCode({
+    hasSuccessNotification: false,
+    onSuccess: handleSuccessDialogOpen,
+    referralCode: savedReferralCode,
+  });
 
   const isAccountEligible = useAppSelector(selectIsAccountEligible);
 
@@ -40,7 +46,7 @@ export const useInitReferralFlowWithSavedCode = ({
     if (isXaiReferralCode(savedReferralCode) && isLoggedIn && isBannerLoaded) {
       if (isPersonalPremiumStatusLoaded && isGroupSelected) {
         if (isAccountEligible) {
-          handleWelcomeDialogOpen();
+          handleApplyReferralCode();
         } else if (!isPersonal && isPersonalGroupFreemium) {
           handleSwitchAccountDialogOpen();
         } else {
