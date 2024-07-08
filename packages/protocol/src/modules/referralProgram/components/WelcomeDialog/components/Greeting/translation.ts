@@ -8,7 +8,7 @@ export const greetingTranslation = {
       '1 month of free access for {blockchainName} interaction',
     invitationToSignIn: 'Sign in to start interacting with {blockchainName}.',
     rateLimitsBenefit: 'Freakishly high rate limits: 1500 requests per second',
-    title: `Welcome to Ankr's {blockchainName} Promo plan!`,
+    title: `Welcome to Ankr's {blockchainName} Promo plan`,
     usageStatsBenefit:
       'Usage stats dashboard / HTTPS & WSS / Standard-Trace-Debug calls',
   },
