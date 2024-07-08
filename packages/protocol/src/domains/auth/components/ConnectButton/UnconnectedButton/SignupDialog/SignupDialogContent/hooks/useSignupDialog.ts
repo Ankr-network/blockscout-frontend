@@ -18,7 +18,7 @@ interface SignupDialogHookProps {
   hasOnlyGoogleAuth?: boolean;
   shouldResetAuthDataForGoogleAuth?: boolean;
   onClose: () => void;
-  onOauthSignUp?: () => void;
+  onOauthSignUp?: () => void | Promise<void>;
   title?: string;
 }
 
@@ -26,7 +26,7 @@ export const useSignupDialog = ({
   hasOauthLogin,
   hasOnlyGoogleAuth,
   onClose,
-  onOauthSignUp = () => {},
+  onOauthSignUp = () => Promise.resolve(),
   shouldResetAuthDataForGoogleAuth,
   title,
 }: SignupDialogHookProps) => {
@@ -90,7 +90,7 @@ export const useSignupDialog = ({
 
     const { data: googleAuthUrl } = await handleFetchGoogleLoginParams();
 
-    onOauthSignUp();
+    await onOauthSignUp();
     redirectToOauth(googleAuthUrl);
   }, [
     dispatch,
@@ -105,7 +105,7 @@ export const useSignupDialog = ({
 
     const { data: oauthAuthUrl } = await handleFetchOauthLoginParams();
 
-    onOauthSignUp();
+    await onOauthSignUp();
     redirectToOauth(oauthAuthUrl);
   }, [handleFetchOauthLoginParams, redirectToOauth, onOauthSignUp]);
 

@@ -1,7 +1,6 @@
-import { MouseEvent } from 'react';
-import { t } from '@ankr.com/common';
 import { Button, Typography } from '@mui/material';
 import { LoadingButton } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
 import { useFreezeAndUnfreezeProject } from 'domains/jwtToken/hooks/useFreezeAndUnfreezeProject';
@@ -13,7 +12,7 @@ interface IFreezeAndUnfreezeProjectDialogProps {
   isFreeze: boolean;
   userEndpointToken: string;
   projectName: string;
-  onClose: (event?: MouseEvent<HTMLButtonElement>) => void;
+  onClose: () => void;
 }
 
 export const FreezeAndUnfreezeProjectDialog = ({

@@ -7,6 +7,7 @@ import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors
 import { useAppSelector } from 'store/useAppSelector';
 import { useApplyReferralCodeMutation } from 'modules/referralProgram/actions/applyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useLazyOauthSignoutQuery } from 'domains/oauth/actions/signout';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 
 import { renderBackButton } from '../utils/renderBackButton';
@@ -34,12 +35,15 @@ export const useSignInDialogProps = ({
 
   const { referralCode } = getReferralCodeFromUrl();
   const { isLoggedIn } = useAuth();
+  const [handleSignOut] = useLazyOauthSignoutQuery();
 
-  const onOauthSignIn = useCallback(() => {
+  const onOauthSignIn = useCallback(async () => {
+    await handleSignOut();
+
     if (referralCode) {
       handleSaveReferralCode(referralCode);
     }
-  }, [handleSaveReferralCode, referralCode]);
+  }, [handleSaveReferralCode, handleSignOut, referralCode]);
 
   const onWeb3SignInSuccess = useCallback(async () => {
     if (referralCode) {
@@ -61,9 +65,7 @@ export const useSignInDialogProps = ({
     handleSuccessDialogOpen,
   ]);
 
-  const onClose = useCallback(() => {
-    handleSignInDialogClose();
-
+  const handlePreviousDialogOpen = useCallback(() => {
     if (isLoggedIn) {
       if (!isAccountEligible) {
         return handleIneligibleAccountDialogOpen();
@@ -73,7 +75,6 @@ export const useSignInDialogProps = ({
     return handleWelcomeDialogOpen();
   }, [
     handleIneligibleAccountDialogOpen,
-    handleSignInDialogClose,
     handleWelcomeDialogOpen,
     isAccountEligible,
     isLoggedIn,
@@ -81,14 +82,26 @@ export const useSignInDialogProps = ({
 
   const signInDialogProps = useMemo(
     (): ISignupDialogProps => ({
-      extraContent: renderBackButton({ onClick: onClose }),
+      extraContent: renderBackButton({
+        onClick: () => {
+          handleSignInDialogClose();
+          handlePreviousDialogOpen();
+        },
+      }),
       hasAutoAgreement: true,
       isOpen: isSignInDialogOpened,
-      onClose,
+      onClose: handleSignInDialogClose,
+      onManualClose: handlePreviousDialogOpen,
       onOauthSignIn,
       onSuccess: onWeb3SignInSuccess,
     }),
-    [isSignInDialogOpened, onClose, onOauthSignIn, onWeb3SignInSuccess],
+    [
+      isSignInDialogOpened,
+      handleSignInDialogClose,
+      handlePreviousDialogOpen,
+      onOauthSignIn,
+      onWeb3SignInSuccess,
+    ],
   );
 
   return { signInDialogProps };

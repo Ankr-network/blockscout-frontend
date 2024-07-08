@@ -15,7 +15,7 @@ export interface DeclineTeamInvitationDialogProps extends IDialogProps {
 
 export const DeclineTeamInvitationDialog = ({
   isDeclining,
-  onClose: handleCloseDialog,
+  onClose: handleDialogClose,
   onDecline,
   teamName,
   ...dialogProps
@@ -26,7 +26,7 @@ export const DeclineTeamInvitationDialog = ({
     <Dialog
       {...dialogProps}
       classes={{ paper: classes.dialogPaper }}
-      onClose={handleCloseDialog}
+      onClose={handleDialogClose}
       title={
         <Typography variant="h6" component="p">
           {t('teams.decline-team-invitation-dialog.title')}
@@ -41,7 +41,7 @@ export const DeclineTeamInvitationDialog = ({
         isDeclining={isDeclining}
         onClick={onDecline}
       />
-      <CancelButton isDisabled={isDeclining} onClick={handleCloseDialog} />
+      <CancelButton isDisabled={isDeclining} onClick={handleDialogClose} />
     </Dialog>
   );
 };

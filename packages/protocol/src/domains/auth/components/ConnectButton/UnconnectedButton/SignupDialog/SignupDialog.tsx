@@ -16,7 +16,8 @@ export interface ISignupDialogProps {
   hasOnlyGoogleAuth?: boolean;
   isOpen: boolean;
   onClose: () => void;
-  onOauthSignIn?: () => void;
+  onManualClose?: () => void;
+  onOauthSignIn?: () => void | Promise<void>;
   onSuccess?: () => void;
   shouldResetAuthDataForGoogleAuth?: boolean;
   shouldSaveTeamInvitationLink?: boolean;
@@ -31,6 +32,7 @@ export const SignupDialog = ({
   hasOnlyGoogleAuth = false,
   isOpen = false,
   onClose,
+  onManualClose,
   onOauthSignIn,
   onSuccess,
   shouldResetAuthDataForGoogleAuth = false,
@@ -62,6 +64,7 @@ export const SignupDialog = ({
       closeButtonClassName={classes.closeButton}
       maxPxWidth={SIGNUP_DIALOG_WIDTH}
       onClose={onDialogCloseClick}
+      onManualClose={onManualClose}
       open={isOpen}
       paperClassName={classes.paperRoot}
       title={dialogTitle}

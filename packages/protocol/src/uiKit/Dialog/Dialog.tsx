@@ -2,26 +2,24 @@ import { Close, Minimize } from '@ankr.com/ui';
 import {
   Dialog as MuiDialog,
   DialogContent as MuiDialogContent,
-  DialogProps,
   DialogProps as MuiDialogProps,
+  DialogProps,
   DialogTitle as MuiDialogTitle,
   IconButton,
   Typography,
 } from '@mui/material';
 import {
-  MouseEvent,
+  MouseEventHandler,
   ReactNode,
   useCallback,
   useLayoutEffect,
-  useMemo,
   useState,
 } from 'react';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-import { DialogContext } from './DialogContext';
+import { DialogTitle, DialogTitleColor } from './types';
 import { useStyles } from './DialogStyles';
-import { DialogTitle, DialogTitleColor, IDialogContext } from './types';
 
 export type IDialogProps = Omit<
   MuiDialogProps,
@@ -35,7 +33,8 @@ export type IDialogProps = Omit<
   initialTitle?: string;
   isHidden?: boolean;
   maxPxWidth?: number;
-  onClose?: (event?: MouseEvent<HTMLButtonElement>) => void;
+  onClose?: () => void;
+  onManualClose?: () => void;
   paperClassName?: string;
   shouldHideCloseButton?: boolean;
   title?: ReactNode;
@@ -53,6 +52,7 @@ export const Dialog = ({
   isHidden = false,
   maxPxWidth,
   onClose,
+  onManualClose,
   paperClassName,
   shouldHideCloseButton = false,
   title,
@@ -66,23 +66,30 @@ export const Dialog = ({
     color: DialogTitleColor.Regular,
   });
 
-  const handleClose = useCallback(
-    (event?: MouseEvent<HTMLButtonElement>) => {
-      if (typeof onClose === 'function') {
-        onClose(event);
+  const handleClose = useCallback<Required<DialogProps>['onClose']>(
+    (_event, reason) => {
+      onClose?.();
+
+      const isBackdropClick = reason === 'backdropClick';
+      const isEscapeKeyDown = reason === 'escapeKeyDown';
+
+      if (isBackdropClick || isEscapeKeyDown) {
+        onManualClose?.();
       }
     },
-    [onClose],
+    [onClose, onManualClose],
   );
+
+  const onCloseIconClick = useCallback<
+    MouseEventHandler<HTMLButtonElement>
+  >(() => {
+    onClose?.();
+    onManualClose?.();
+  }, [onClose, onManualClose]);
 
   useLayoutEffect(() => {
     setDialogTitle({ title });
   }, [title]);
-
-  const value: IDialogContext = useMemo(
-    () => ({ dialogTitle, setDialogTitle, closeDialog: handleClose }),
-    [dialogTitle, handleClose],
-  );
 
   const { classes, cx } = useStyles({
     dialogTitleColor: dialogTitle.color || DialogTitleColor.Regular,
@@ -92,57 +99,51 @@ export const Dialog = ({
   });
 
   return (
-    <DialogContext.Provider value={value}>
-      <MuiDialog
-        PaperProps={{
-          classes: {
-            root: cx(classes.paper, paperClassName),
-          },
-        }}
-        BackdropProps={{
-          classes: {
-            root: classes.backdrop,
-          },
-        }}
-        {...props}
-        classes={{
-          ...props.classes,
-          root: cx(classes.root, props.classes?.root),
-        }}
-        onClose={
-          canCloseDialogByClickOutside
-            ? (handleClose as DialogProps['onClose'])
-            : undefined
-        }
+    <MuiDialog
+      PaperProps={{
+        classes: {
+          root: cx(classes.paper, paperClassName),
+        },
+      }}
+      BackdropProps={{
+        classes: {
+          root: classes.backdrop,
+        },
+      }}
+      {...props}
+      classes={{
+        ...props.classes,
+        root: cx(classes.root, props.classes?.root),
+      }}
+      onClose={canCloseDialogByClickOutside ? handleClose : undefined}
+    >
+      {(dialogTitle.title || !shouldHideCloseButton) && (
+        <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
+          {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
+            <Typography className={classes.titleText}>
+              {dialogTitle.title}
+            </Typography>
+          ) : (
+            dialogTitle.title
+          )}
+
+          {!shouldHideCloseButton && (
+            <IconButton
+              aria-label="close"
+              className={cx(classes.closeButton, closeButtonClassName)}
+              onClick={onCloseIconClick}
+            >
+              {hasMinimizeIcon ? <Minimize /> : <Close />}
+            </IconButton>
+          )}
+        </MuiDialogTitle>
+      )}
+
+      <MuiDialogContent
+        className={cx(classes.dialogContent, dialogContentClassName)}
       >
-        {(dialogTitle.title || !shouldHideCloseButton) && (
-          <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-            {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
-              <Typography className={classes.titleText}>
-                {dialogTitle.title}
-              </Typography>
-            ) : (
-              dialogTitle.title
-            )}
-
-            {!shouldHideCloseButton && (
-              <IconButton
-                aria-label="close"
-                className={cx(classes.closeButton, closeButtonClassName)}
-                onClick={handleClose}
-              >
-                {hasMinimizeIcon ? <Minimize /> : <Close />}
-              </IconButton>
-            )}
-          </MuiDialogTitle>
-        )}
-
-        <MuiDialogContent
-          className={cx(classes.dialogContent, dialogContentClassName)}
-        >
-          {children}
-        </MuiDialogContent>
-      </MuiDialog>
-    </DialogContext.Provider>
+        {children}
+      </MuiDialogContent>
+    </MuiDialog>
   );
 };

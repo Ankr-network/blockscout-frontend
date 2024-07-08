@@ -17,9 +17,9 @@ export const {
           .getAccountingGateway()
           .getGoogleLoginParams();
 
-        const googleAuthUrl = buildOauthRedirectionUrl(data);
+        // const googleAuthUrl = buildOauthRedirectionUrl(data);
 
-        window.location.replace(googleAuthUrl);
+        // window.location.replace(googleAuthUrl);
 
         return { data: buildOauthRedirectionUrl(data) };
       }),

@@ -8,6 +8,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePersonalPremiumStatus } from 'modules/referralProgram/hooks/usePersonalPremiumStatus';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUserGroupConfig } from 'domains/userGroup/hooks/useUserGroupConfig';
+import { oauthSignout } from 'domains/oauth/actions/signout';
 
 export interface IUseInitReferralFlowProps {
   handleIneligibleAccountDialogOpen: () => void;
@@ -29,6 +30,9 @@ export const useInitiReferralFlow = ({
   });
   const { selectedGroupAddress } = useUserGroupConfig();
 
+  const { isUninitialized: isSignOutNotStarted } = useAppSelector(
+    oauthSignout.select(),
+  );
   const isAccountEligible = useAppSelector(selectIsAccountEligible);
 
   const { referralCode } = getReferralCodeFromUrl();
@@ -38,7 +42,13 @@ export const useInitiReferralFlow = ({
   const isGroupSelected = Boolean(selectedGroupAddress);
 
   useEffect(() => {
-    if (isXaiReferralCode(referralCode) && isBannerLoaded) {
+    const shouldInitReferralFlow =
+      isXaiReferralCode(referralCode) &&
+      isBannerLoaded &&
+      // to prevent showing welcome dialog for a short time after signing out
+      isSignOutNotStarted;
+
+    if (shouldInitReferralFlow) {
       if (isLoggedIn) {
         if (isPersonalPremiumStatusLoaded && isGroupSelected) {
           if (isAccountEligible) {
@@ -61,6 +71,7 @@ export const useInitiReferralFlow = ({
     isGroupSelected,
     isPersonalGroupFreemium,
     isPersonalPremiumStatusLoaded,
+    isSignOutNotStarted,
     referralCode,
   ]);
 };

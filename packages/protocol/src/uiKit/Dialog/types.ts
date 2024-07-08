@@ -9,9 +9,3 @@ export type DialogTitle = {
   title?: ReactNode;
   color?: DialogTitleColor;
 };
-
-export interface IDialogContext {
-  dialogTitle: DialogTitle;
-  setDialogTitle: (title: DialogTitle) => void;
-  closeDialog?: () => void;
-}
