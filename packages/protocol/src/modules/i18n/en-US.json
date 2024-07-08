@@ -74,6 +74,11 @@
     "pricing": "Pricing",
     "docs": "Docs"
   },
+  "footer": {
+    "all-rights": "© {year} Ankr. All rights reserved.",
+    "terms": "Terms of service",
+    "privacy": "Privacy policy"
+  },
   "access-denied-dialog": {
     "title": "Access denied",
     "description": "Your access role grants you no access to the requested platform section. Contact the team Owner or Admin for the corresponding role. Learn more on <a href=\"{href}\" target=\"_blank\">access roles.</a>",

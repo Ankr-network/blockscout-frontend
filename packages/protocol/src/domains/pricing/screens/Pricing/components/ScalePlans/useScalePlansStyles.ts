@@ -11,7 +11,6 @@ export const useScalePlansStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.grey[100],
     borderRadius: 20,
     padding: theme.spacing(10),
-    marginBottom: theme.spacing(30),
 
     [theme.breakpoints.down(MAX_WIDTH)]: {
       marginTop: theme.spacing(20),

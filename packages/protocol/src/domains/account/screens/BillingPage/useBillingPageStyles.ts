@@ -9,10 +9,6 @@ export const useStyles = makeStyles()(theme => ({
     maxWidth: 1230,
     marginLeft: 'auto',
     marginRight: 'auto',
-
-    [theme.breakpoints.down('xs')]: {
-      paddingBottom: theme.spacing(7),
-    },
   },
   ongoingPayments: {
     marginTop: theme.spacing(10),

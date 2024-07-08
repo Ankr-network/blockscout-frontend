@@ -5,7 +5,6 @@ import { MAX_WIDTH_TO_WRAP_TIMERAME_TABS } from './const';
 
 export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
   root: {
-    marginBottom: theme.spacing(6),
     marginTop: theme.spacing(6),
   },
   tabs: {
