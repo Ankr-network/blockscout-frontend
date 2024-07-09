@@ -14,6 +14,7 @@ export interface IUseApplyReferralCodeProps {
   hasSuccessNotification?: boolean;
   onSuccess?: () => void;
   referralCode: string | undefined;
+  shouldRemoveSavedData?: boolean;
 }
 
 const { showNotification } = NotificationActions;
@@ -22,6 +23,7 @@ export const useApplyReferralCode = ({
   hasSuccessNotification = true,
   onSuccess,
   referralCode,
+  shouldRemoveSavedData = true,
 }: IUseApplyReferralCodeProps) => {
   const [applyReferralCode, { isLoading: isApplying }] =
     useApplyReferralCodeMutation();
@@ -38,20 +40,24 @@ export const useApplyReferralCode = ({
     if (referralCode) {
       const response = await applyReferralCode({ code: referralCode });
 
-      if (isMutationSuccessful(response) && hasSuccessNotification) {
-        dispatch(
-          showNotification({
-            message: t(keys.activationAcceptedMessage, { blockchainName }),
-            severity: 'success',
-            title: t(keys.activationAcceptedTitle, { blockchainName }),
-          }),
-        );
+      if (isMutationSuccessful(response)) {
+        if (hasSuccessNotification) {
+          dispatch(
+            showNotification({
+              message: t(keys.activationAcceptedMessage, { blockchainName }),
+              severity: 'success',
+              title: t(keys.activationAcceptedTitle, { blockchainName }),
+            }),
+          );
+        }
+
+        onSuccess?.();
       }
 
-      removeReferralCodeFromUrl();
-      handleRemoveSavedReferralCode();
-
-      onSuccess?.();
+      if (shouldRemoveSavedData) {
+        removeReferralCodeFromUrl();
+        handleRemoveSavedReferralCode();
+      }
     }
   }, [
     applyReferralCode,
@@ -62,6 +68,7 @@ export const useApplyReferralCode = ({
     keys,
     onSuccess,
     referralCode,
+    shouldRemoveSavedData,
     t,
   ]);
 

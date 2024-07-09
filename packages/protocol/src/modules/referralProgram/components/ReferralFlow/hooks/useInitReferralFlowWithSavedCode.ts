@@ -34,6 +34,8 @@ export const useInitReferralFlowWithSavedCode = ({
     hasSuccessNotification: false,
     onSuccess: handleSuccessDialogOpen,
     referralCode: savedReferralCode,
+    // needs to display Success dialog correctly
+    shouldRemoveSavedData: false,
   });
 
   const isAccountEligible = useAppSelector(selectIsAccountEligible);
