@@ -16,11 +16,19 @@ interface WhitelistProps {
   className?: string;
 }
 
+// freemium configuring was turned off in scope of project page redesign
+// but according to users complains we need to turn it on
+// details: https://ankrnetwork.atlassian.net/browse/MRPC-5067
+const IS_FREEMIUM_CONFIGURING_DISABLED = false;
+
 export const Whitelist = ({ className }: WhitelistProps) => {
   const isFreemium = useAppSelector(selectHasFreemium);
 
   const { domainsCount, ipsCount, isLoading, smartContractsCount } =
     useWhitelistCounts();
+
+  const isFreemiumConfiguringDisabled =
+    IS_FREEMIUM_CONFIGURING_DISABLED && isFreemium;
 
   const { classes } = useWhitelistStyles();
 
@@ -30,7 +38,9 @@ export const Whitelist = ({ className }: WhitelistProps) => {
         <Typography variant="subtitle2" color="textSecondary">
           {t('project.whitelist.title')}
         </Typography>
-        <ConfigureButton isDisabled={isLoading || isFreemium} />
+        <ConfigureButton
+          isDisabled={isLoading || isFreemiumConfiguringDisabled}
+        />
       </div>
       <Placeholder
         hasPlaceholder={isLoading}
