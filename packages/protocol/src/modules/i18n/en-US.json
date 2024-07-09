@@ -767,7 +767,7 @@
     "upgrade-premium": {
       "title": "Unlock Premium features",
       "title-aapi": "Premium Service Plan",
-      "description-aapi": "Get Premium to maximize your AAPI rate limits. <span id=\"sign-in\">Sign in</span> to start testing AAPI at lower speeds.",
+      "description-aapi": "Get Premium to maximize your AAPI rate limits.{hasSignInLine, select, true { <span id=\"sign-in\">Sign in</span> to start testing AAPI at lower speeds.} other {}}",
       "item-1": "Higher rate limits",
       "item-1-multichain": "<em>1,000</em> requests/min",
       "item-2": "Node & Advanced API",

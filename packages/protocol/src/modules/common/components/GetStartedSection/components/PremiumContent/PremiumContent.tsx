@@ -23,7 +23,7 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
-  const { hasOauthLogin, hasPremium } = useAuth();
+  const { hasOauthLogin, hasPremium, isLoggedIn } = useAuth();
 
   const {
     isOpened: isSignupDialogOpened,
@@ -54,7 +54,9 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
           </Typography>
           {isMultiChain ? (
             <Typography variant="body3" className={classes.item}>
-              {tHTML('chains.upgrade-premium.description-aapi')}
+              {tHTML('chains.upgrade-premium.description-aapi', {
+                hasSignInLine: !isLoggedIn,
+              })}
             </Typography>
           ) : (
             <>

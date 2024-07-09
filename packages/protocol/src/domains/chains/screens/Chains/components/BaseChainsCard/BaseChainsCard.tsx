@@ -57,7 +57,7 @@ export const BaseChainsCard = ({
         <div className={classes.info}>
           <Typography
             variant="subtitle1"
-            component="p"
+            component="div"
             className={classes.title}
           >
             {name}
