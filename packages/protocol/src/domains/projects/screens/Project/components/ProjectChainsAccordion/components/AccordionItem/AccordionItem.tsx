@@ -106,9 +106,10 @@ export const AccordionItem = ({
 
                     {chain.isArchive && (
                       <ChainLabel
-                        isCheckIconVisible
                         className={classes.chainArchiveLabel}
+                        isCheckIconVisible
                         label={t('chains.archive')}
+                        labelClassName={classes.chainArchiveLabelText}
                       />
                     )}
                   </Typography>
