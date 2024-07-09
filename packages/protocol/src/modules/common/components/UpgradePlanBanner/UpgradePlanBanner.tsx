@@ -37,7 +37,7 @@ export const UpgradePlanBanner = ({
     }
 
     if (!hasWeb3Connection) {
-      return ContentType.SIGN_UP;
+      return ContentType.DEFAULT;
     }
 
     if (!hasPrivateAccess) {

@@ -97,5 +97,16 @@ export const useBreadcrumbsStyles = makeStyles<boolean>()(
       overflow: 'hidden',
       textOverflow: 'ellipsis',
     },
+    wrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: theme.spacing(2.5),
+    },
+    chip: {
+      borderRadius: 8,
+      padding: theme.spacing(0.5, 2),
+      height: 24,
+      backgroundColor: theme.palette.background.paper,
+    },
   }),
 );

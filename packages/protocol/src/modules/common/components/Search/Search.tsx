@@ -40,16 +40,17 @@ export const Search = ({
       value={searchContent}
       onChange={handleChange}
       placeholder={t('common.search')}
+      size="small"
       InputProps={{
         className: cx(classes.root, className),
         startAdornment: (
-          <Icon>
+          <Icon className={classes.icon}>
             <SearchIcon className={classes.searchIcon} />
           </Icon>
         ),
         endAdornment: (
           <IconButton className={classes.iconButton} onClick={handleResetClick}>
-            <Close />
+            <Close className={classes.icon} />
           </IconButton>
         ),
       }}

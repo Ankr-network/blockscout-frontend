@@ -24,19 +24,20 @@ export const usePremiumContentStyles = makeStyles<boolean>()(
     title: {
       display: 'block',
       color: theme.palette.text.primary,
-      fontSize: 20,
       fontWeight: 700,
-      lineHeight: '28px',
       marginBottom: theme.spacing(4),
     },
     item: {
       display: 'flex',
       alignItems: 'center',
-      fontSize: 16,
-      lineHeight: '24px',
-      fontWeight: 400,
       color: theme.palette.grey[600],
       marginBottom: theme.spacing(1),
+
+      '& #sign-in': {
+        color: theme.palette.link.main,
+        textDecoration: 'underline',
+        cursor: 'pointer',
+      },
 
       '& svg': {
         marginRight: theme.spacing(2),
@@ -49,6 +50,11 @@ export const usePremiumContentStyles = makeStyles<boolean>()(
     },
     button: {
       marginTop: theme.spacing(3),
+    },
+    check: {
+      height: 20,
+      width: 20,
+      color: theme.palette.success.main,
     },
   }),
 );

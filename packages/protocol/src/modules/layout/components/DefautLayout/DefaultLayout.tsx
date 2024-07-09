@@ -37,6 +37,7 @@ export interface ILayoutProps {
   hasNoReactSnap?: boolean;
   hasError?: boolean;
   hasGradient?: boolean;
+  isChainsPublicPage?: boolean;
   isChainItemPage?: boolean;
   isDashboardPage?: boolean;
 }
@@ -48,6 +49,7 @@ export const DefaultLayout = ({
   hasGradient = false,
   hasNoReactSnap = false,
   isChainItemPage,
+  isChainsPublicPage,
   isDashboardPage = false,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
@@ -79,6 +81,7 @@ export const DefaultLayout = ({
                 [classes.dashboardHeader]: isDashboardPage,
               })}
               isChainItemPage={isChainItemPage}
+              isChainsPublicPage={isChainsPublicPage}
             />
           )}
           <MobileHeader
@@ -95,7 +98,7 @@ export const DefaultLayout = ({
           >
             <div className={classes.content}>
               <div className={classes.mobileBreadcrumbs}>
-                <Breadcrumbs />
+                <Breadcrumbs isChainsPublicPage={isChainsPublicPage} />
               </div>
               {hasNoReactSnap ? (
                 <NoReactSnap>{children}</NoReactSnap>

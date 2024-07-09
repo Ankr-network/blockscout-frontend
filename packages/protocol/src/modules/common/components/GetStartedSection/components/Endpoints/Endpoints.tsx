@@ -80,7 +80,6 @@ export const Endpoints = ({
       return (
         <EndpointPlaceholder
           label={placeholder}
-          labelClassName={classes.placeholderLabel}
           title={
             <EndpointsHeader
               title={t('chain-item.get-started.endpoints.title-multichain')}
@@ -123,7 +122,6 @@ export const Endpoints = ({
       </>
     );
   }, [
-    classes.placeholderLabel,
     group,
     hasComingSoonLabel,
     hasConnectWalletMessage,

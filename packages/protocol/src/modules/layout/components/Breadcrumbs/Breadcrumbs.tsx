@@ -7,11 +7,15 @@ import { useBreadcrumbsStyles } from './useBreadcrumbsStyles';
 
 export interface BreadcrumbsProps {
   isChainItemPage?: boolean;
+  isChainsPublicPage?: boolean;
 }
 
 const CHAIN_PAGE_CUSTOM_BREAKPOINT = 1050;
 
-export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({
+  isChainItemPage,
+  isChainsPublicPage,
+}: BreadcrumbsProps) => {
   const { classes } = useBreadcrumbsStyles();
 
   const { breadcrumbs } = useBreadcrumbs();
@@ -22,7 +26,11 @@ export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
 
   return (
     <>
-      <BreadcrumbsBase customBreakpoint={breakpoint} items={breadcrumbs} />
+      <BreadcrumbsBase
+        customBreakpoint={breakpoint}
+        items={breadcrumbs}
+        isPublic={isChainsPublicPage}
+      />
       {!isMdDown && <AccountStatus className={classes.accountStatus} />}
     </>
   );

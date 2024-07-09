@@ -24,7 +24,6 @@ export const ChainItemHeader = ({
     <>
       {isMultiChain ? (
         <CodeSampleWrapper
-          chain={chain}
           header={headerContent}
           url={chain.urls[0].rpc}
           codeSampleWrapperClassName={codeSampleWrapperClassName}

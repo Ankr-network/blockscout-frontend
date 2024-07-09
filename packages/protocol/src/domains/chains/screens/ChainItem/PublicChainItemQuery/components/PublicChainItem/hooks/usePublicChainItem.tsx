@@ -98,11 +98,13 @@ export const usePublicChainItem = ({
         isChainArchived={isChainArchived}
         selectGroup={selectGroup}
         isPremiumLabelHidden={isPremiumLabelHidden}
+        isPremiumChain={chain?.isMainnetPremiumOnly || isTestnetPremimumOnly}
       />
     ),
     [
       isMultiChain,
       isPremiumLabelHidden,
+      isTestnetPremimumOnly,
       chain,
       publicChain,
       chainType,

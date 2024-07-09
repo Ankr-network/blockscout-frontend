@@ -8,9 +8,9 @@ import { useEndpointPlaceholderStyles } from './useEndpointPlaceholderStyles';
 interface IEndpointProps {
   title: ReactNode;
   label?: string;
+  labelClassName?: string;
   lockedLabel?: string;
   onClick?: () => void;
-  labelClassName?: string;
 }
 
 export const EndpointPlaceholder = ({
