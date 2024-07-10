@@ -6,27 +6,21 @@ import {
 } from '@mui/material';
 import { ArrowDown } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import React, { useCallback, useState } from 'react';
 
-import { Chain, Timeframe } from 'modules/chains/types';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { ProjectChainDetails } from '../../../ProjectChainDetails';
 import { useProjectChainsAccordionStyles } from './useProjectChainsAccordionStyles';
-import { useChainRequests } from './hooks/useChainRequests';
 import { CodeExampleModal } from '../CodeExampleModal';
-
-interface IAccordionItemProps {
-  chain: Chain;
-  currentTab?: any;
-  isActive?: boolean;
-  timeframe: Timeframe;
-}
+import {
+  IAccordionItemProps,
+  useAccordionItem,
+  ANIMATION_DURATION,
+} from './hooks/useAccordionItem';
 
 export const AccordionItem = ({
   chain,
@@ -34,35 +28,26 @@ export const AccordionItem = ({
   isActive,
   timeframe,
 }: IAccordionItemProps) => {
-  const { hasPremium } = useAuth();
-
-  const { classes, cx } = useProjectChainsAccordionStyles();
-
-  const { requestsString } = useChainRequests(chain.id, timeframe);
-
-  const [isClosedManually, setIsClosedManually] = useState(false);
-
-  const handleSelect = useCallback(() => {
-    if (!isActive) {
-      currentTab?.onSelect();
-    }
-
-    if (isClosedManually) {
-      setIsClosedManually(false);
-
-      return;
-    }
-
-    if (isActive) {
-      setIsClosedManually(true);
-    }
-  }, [currentTab, isActive, isClosedManually]);
-
   const {
     isOpened: isOpenedCodeExample,
     onClose: onCloseCodeExample,
     onOpen: onOpenCodeExample,
   } = useDialog();
+
+  const {
+    elementId,
+    handleSelect,
+    hasPremium,
+    isClosedManually,
+    requestsString,
+  } = useAccordionItem({
+    chain,
+    currentTab,
+    isActive,
+    timeframe,
+  });
+
+  const { classes, cx } = useProjectChainsAccordionStyles();
 
   return (
     <>
@@ -72,6 +57,13 @@ export const AccordionItem = ({
         className={cx(classes.accordionRoot, {
           [classes.accordionRootActive]: isActive,
         })}
+        TransitionProps={{
+          timeout: {
+            appear: 0,
+            enter: ANIMATION_DURATION,
+            exit: 0,
+          },
+        }}
       >
         <AccordionSummary
           expandIcon={<ArrowDown />}
@@ -79,13 +71,11 @@ export const AccordionItem = ({
             [classes.accordionSummaryWrapperActive]: isActive,
           })}
           onClick={handleSelect}
+          id={elementId}
         >
           <div className={classes.accordionSummary}>
             <div className={classes.chainDescription}>
-              <ChainLogo
-                className={classes.accordionChainLogo}
-                chain={chain as Chain}
-              />
+              <ChainLogo className={classes.accordionChainLogo} chain={chain} />
               <div className={classes.accordionLabelWrapper}>
                 <div className={classes.accordionLabel}>
                   <Typography
