@@ -7,13 +7,17 @@ import {
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
+import { Dialogs } from 'modules/guardDialog';
+import {
+  ReferralFlow,
+  useReferralFlow,
+} from 'modules/referralProgram/components/ReferralFlow';
+import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { getMainTheme } from 'uiKit/Theme/mainTheme';
 import { historyInstance } from 'modules/common/utils/historyInstance';
-import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { useMetatags } from 'uiKit/utils/metatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { Dialogs } from 'modules/guardDialog';
 
 import { MaintenanceDialog } from '../MaintenanceDialog';
 import { useMaintenanceDialog } from '../MaintenanceDialog/useMaintenanceDialog';
@@ -32,6 +36,8 @@ export const AppBase = ({ children }: IAppBaseProps) => {
 
   const { isOpened, onClose } = useMaintenanceDialog();
 
+  const { referralFlowProps } = useReferralFlow();
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={currentTheme}>
@@ -42,6 +48,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
             context={ReactReduxContext}
           >
             {children}
+            <ReferralFlow {...referralFlowProps} />
           </ConnectedRouter>
           <Dialogs />
           <MaintenanceDialog isOpened={isOpened} onClose={onClose} />

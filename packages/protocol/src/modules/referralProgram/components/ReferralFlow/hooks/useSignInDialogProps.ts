@@ -2,10 +2,8 @@ import { useCallback, useMemo } from 'react';
 
 import { ISignupDialogProps } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
-import { removeReferralCodeFromUrl } from 'modules/referralProgram/utils/removeReferralCodeFromUrl';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { useApplyReferralCodeMutation } from 'modules/referralProgram/actions/applyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyOauthSignoutQuery } from 'domains/oauth/actions/signout';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
@@ -13,22 +11,20 @@ import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedRefe
 import { renderBackButton } from '../utils/renderBackButton';
 
 export interface IUseSignInDialogProps {
+  handleIneligibleAccountDialogOpen: () => void;
   handleSignInDialogClose: () => void;
   handleWelcomeDialogOpen: () => void;
-  handleSuccessDialogOpen: () => void;
-  handleIneligibleAccountDialogOpen: () => void;
   isSignInDialogOpened: boolean;
+  setHasLoggedIn: (hasLoggedIn: boolean) => void;
 }
 
 export const useSignInDialogProps = ({
   handleIneligibleAccountDialogOpen,
   handleSignInDialogClose,
-  handleSuccessDialogOpen,
   handleWelcomeDialogOpen,
   isSignInDialogOpened,
+  setHasLoggedIn,
 }: IUseSignInDialogProps) => {
-  const [applyReferralCode] = useApplyReferralCodeMutation();
-
   const isAccountEligible = useAppSelector(selectIsAccountEligible);
 
   const { handleSaveReferralCode } = useSavedReferralCode();
@@ -45,25 +41,10 @@ export const useSignInDialogProps = ({
     }
   }, [handleSaveReferralCode, handleSignOut, referralCode]);
 
-  const onWeb3SignInSuccess = useCallback(async () => {
-    if (referralCode) {
-      if (isAccountEligible) {
-        await applyReferralCode({ code: referralCode });
-
-        handleSuccessDialogOpen();
-
-        removeReferralCodeFromUrl();
-      } else {
-        handleIneligibleAccountDialogOpen();
-      }
-    }
-  }, [
-    applyReferralCode,
-    handleIneligibleAccountDialogOpen,
-    isAccountEligible,
-    referralCode,
-    handleSuccessDialogOpen,
-  ]);
+  const onWeb3SignInSuccess = useCallback(
+    () => setHasLoggedIn(true),
+    [setHasLoggedIn],
+  );
 
   const handlePreviousDialogOpen = useCallback(() => {
     if (isLoggedIn) {
@@ -96,9 +77,9 @@ export const useSignInDialogProps = ({
       onSuccess: onWeb3SignInSuccess,
     }),
     [
-      isSignInDialogOpened,
-      handleSignInDialogClose,
       handlePreviousDialogOpen,
+      handleSignInDialogClose,
+      isSignInDialogOpened,
       onOauthSignIn,
       onWeb3SignInSuccess,
     ],

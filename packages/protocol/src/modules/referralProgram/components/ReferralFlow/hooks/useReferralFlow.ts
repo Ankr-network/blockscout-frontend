@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useImagePreloader } from 'modules/common/hooks/useImagePreloader';
@@ -14,6 +14,8 @@ import { useSwitchAccountDialog } from '../../SwitchAccountDialog';
 import { useWelcomeDialog } from '../../WelcomeDialog';
 
 export const useReferralFlow = () => {
+  const [hasLoggedIn, setHasLoggedIn] = useState(false);
+
   const {
     isOpened: isSignInDialogOpened,
     onClose: handleSignInDialogClose,
@@ -48,9 +50,9 @@ export const useReferralFlow = () => {
   const { signInDialogProps } = useSignInDialogProps({
     handleIneligibleAccountDialogOpen,
     handleSignInDialogClose,
-    handleSuccessDialogOpen,
     handleWelcomeDialogOpen,
     isSignInDialogOpened,
+    setHasLoggedIn,
   });
 
   const referralFlowProps = useMemo(
@@ -72,8 +74,10 @@ export const useReferralFlow = () => {
 
   useInitiReferralFlow({
     handleIneligibleAccountDialogOpen,
+    handleSuccessDialogOpen,
     handleSwitchAccountDialogOpen,
     handleWelcomeDialogOpen,
+    hasLoggedIn,
     isBannerLoaded,
   });
 

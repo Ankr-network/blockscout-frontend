@@ -5,10 +5,6 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
-import {
-  ReferralFlow,
-  useReferralFlow,
-} from 'modules/referralProgram/components/ReferralFlow';
 import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -64,8 +60,6 @@ export const DefaultLayout = ({
   const chainsRoutes = usePublicChainsRoutes();
   const { isWeb3UserWithEmailBound } = useConnectWalletDialog();
 
-  const { referralFlowProps } = useReferralFlow();
-
   return (
     <>
       {SHOULD_SHOW_HEADER_BANNER && <HeaderBanner />}
@@ -111,7 +105,6 @@ export const DefaultLayout = ({
           <TwoFADialog />
           <NegativeBalanceTermsOfServicesDialog />
           <ConnectWalletDialog isOpened={isWeb3UserWithEmailBound} />
-          <ReferralFlow {...referralFlowProps} />
         </div>
       </div>
     </>

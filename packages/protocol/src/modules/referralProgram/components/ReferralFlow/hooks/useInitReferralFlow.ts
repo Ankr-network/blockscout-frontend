@@ -2,25 +2,30 @@ import { useEffect } from 'react';
 
 import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
 import { isXaiReferralCode } from 'modules/referralProgram/utils/isXaiReferralCode';
+import { oauthSignout } from 'domains/oauth/actions/signout';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePersonalPremiumStatus } from 'modules/referralProgram/hooks/usePersonalPremiumStatus';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUserGroupConfig } from 'domains/userGroup/hooks/useUserGroupConfig';
-import { oauthSignout } from 'domains/oauth/actions/signout';
 
 export interface IUseInitReferralFlowProps {
   handleIneligibleAccountDialogOpen: () => void;
+  handleSuccessDialogOpen: () => void;
   handleSwitchAccountDialogOpen: () => void;
   handleWelcomeDialogOpen: () => void;
+  hasLoggedIn: boolean;
   isBannerLoaded: boolean;
 }
 
 export const useInitiReferralFlow = ({
   handleIneligibleAccountDialogOpen,
+  handleSuccessDialogOpen,
   handleSwitchAccountDialogOpen,
   handleWelcomeDialogOpen,
+  hasLoggedIn,
   isBannerLoaded,
 }: IUseInitReferralFlowProps) => {
   const { isLoggedIn } = useAuth();
@@ -41,6 +46,14 @@ export const useInitiReferralFlow = ({
   const isPersonalGroupFreemium = Boolean(personalPremiumStatus?.isFreemium);
   const isGroupSelected = Boolean(selectedGroupAddress);
 
+  const { handleApplyReferralCode } = useApplyReferralCode({
+    hasSuccessNotification: false,
+    onSuccess: handleSuccessDialogOpen,
+    referralCode,
+    // needs to display Success dialog correctly
+    shouldRemoveSavedData: false,
+  });
+
   useEffect(() => {
     const shouldInitReferralFlow =
       isXaiReferralCode(referralCode) &&
@@ -48,11 +61,16 @@ export const useInitiReferralFlow = ({
       // to prevent showing welcome dialog for a short time after signing out
       isSignOutNotStarted;
 
+    // TODO: rethink this logcis to get rid of nested if's
     if (shouldInitReferralFlow) {
       if (isLoggedIn) {
         if (isPersonalPremiumStatusLoaded && isGroupSelected) {
           if (isAccountEligible) {
-            handleWelcomeDialogOpen();
+            if (hasLoggedIn) {
+              handleApplyReferralCode();
+            } else {
+              handleWelcomeDialogOpen();
+            }
           } else if (!isPersonal && isPersonalGroupFreemium) {
             handleSwitchAccountDialogOpen();
           } else {
