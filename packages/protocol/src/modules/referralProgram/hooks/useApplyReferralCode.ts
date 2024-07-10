@@ -12,6 +12,7 @@ import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 export interface IUseApplyReferralCodeProps {
   hasSuccessNotification?: boolean;
+  onError?: (error: unknown) => void;
   onSuccess?: () => void;
   referralCode: string | undefined;
   shouldRemoveSavedData?: boolean;
@@ -21,6 +22,7 @@ const { showNotification } = NotificationActions;
 
 export const useApplyReferralCode = ({
   hasSuccessNotification = true,
+  onError,
   onSuccess,
   referralCode,
   shouldRemoveSavedData = true,
@@ -52,6 +54,8 @@ export const useApplyReferralCode = ({
         }
 
         onSuccess?.();
+      } else {
+        onError?.(response.error);
       }
 
       if (shouldRemoveSavedData) {
@@ -66,6 +70,7 @@ export const useApplyReferralCode = ({
     handleRemoveSavedReferralCode,
     hasSuccessNotification,
     keys,
+    onError,
     onSuccess,
     referralCode,
     shouldRemoveSavedData,

@@ -73,7 +73,11 @@ export const useWelcomeDialog = ({
   const {
     handleApplyReferralCode: onActivateButtonClick,
     isApplying: isActivating,
-  } = useApplyReferralCode({ referralCode, onSuccess: handleClose });
+  } = useApplyReferralCode({
+    referralCode,
+    onSuccess: handleClose,
+    onError: handleClose,
+  });
 
   const welcomeDialogProps = useMemo(
     (): IWelcomeDialogProps => ({
