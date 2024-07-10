@@ -34,12 +34,14 @@ export const useSignInDialogProps = ({
   const [handleSignOut] = useLazyOauthSignoutQuery();
 
   const onOauthSignIn = useCallback(async () => {
-    await handleSignOut();
+    if (isLoggedIn) {
+      await handleSignOut();
+    }
 
     if (referralCode) {
       handleSaveReferralCode(referralCode);
     }
-  }, [handleSaveReferralCode, handleSignOut, referralCode]);
+  }, [handleSaveReferralCode, handleSignOut, isLoggedIn, referralCode]);
 
   const onWeb3SignInSuccess = useCallback(
     () => setHasLoggedIn(true),
