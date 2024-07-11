@@ -46,6 +46,8 @@ export const useSignupDialog = ({
 
   const [oauthLoginType, setOauthLoginType] = useState<OauthLoginType>();
 
+  const [isLoggingInViaOauth, setIsLoggingInViaOauth] = useState(false);
+
   useEffect(() => {
     if (hasOauthLogin) {
       setCurrentState(SignupDialogState.WEB3);
@@ -88,9 +90,12 @@ export const useSignupDialog = ({
       setAvoidGuestTeamInvitationDialog();
     }
 
+    setIsLoggingInViaOauth(true);
+
     const { data: googleAuthUrl } = await handleFetchGoogleLoginParams();
 
     await onOauthSignUp();
+
     redirectToOauth(googleAuthUrl);
   }, [
     dispatch,
@@ -103,9 +108,12 @@ export const useSignupDialog = ({
   const onGithubButtonClick = useCallback(async () => {
     setOauthLoginType(OauthLoginType.Github);
 
+    setIsLoggingInViaOauth(true);
+
     const { data: oauthAuthUrl } = await handleFetchOauthLoginParams();
 
     await onOauthSignUp();
+
     redirectToOauth(oauthAuthUrl);
   }, [handleFetchOauthLoginParams, redirectToOauth, onOauthSignUp]);
 
@@ -116,7 +124,9 @@ export const useSignupDialog = ({
     onGoogleButtonClick,
     onGithubButtonClick,
     isLoading:
-      isFetchGoogleLoginParamsLoading || isFetchOauthLoginParamsLoading,
+      isFetchGoogleLoginParamsLoading ||
+      isFetchOauthLoginParamsLoading ||
+      isLoggingInViaOauth,
     dialogTitle,
     onDialogCloseClick,
     oauthLoginType,

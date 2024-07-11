@@ -15,6 +15,7 @@ import { useWelcomeDialog } from '../../WelcomeDialog';
 
 export const useReferralFlow = () => {
   const [hasLoggedIn, setHasLoggedIn] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const {
     isOpened: isSignInDialogOpened,
@@ -53,6 +54,7 @@ export const useReferralFlow = () => {
     handleWelcomeDialogOpen,
     isSignInDialogOpened,
     setHasLoggedIn,
+    setIsLoggingOut,
   });
 
   const referralFlowProps = useMemo(
@@ -79,6 +81,7 @@ export const useReferralFlow = () => {
     handleWelcomeDialogOpen,
     hasLoggedIn,
     isBannerLoaded,
+    isLoggingOut,
   });
 
   // to init referral flow after oauth logging in

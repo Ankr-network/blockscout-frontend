@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 
 import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
 import {
@@ -39,29 +39,18 @@ export const SignupDialogContent = ({
   setWeb3State,
   shouldSaveTeamInvitationLink,
 }: SignupDialogProps) => {
-  const defaultStateComponent = useMemo(() => {
-    return (
-      <SignupDialogDefaultContent
-        description={description}
-        extraContent={extraContent}
-        hasAutoAgreement={hasAutoAgreement}
-        hasOnlyGoogleAuth={hasOnlyGoogleAuth}
-        onGithubButtonClick={onGithubButtonClick}
-        onGoogleButtonClick={onGoogleButtonClick}
-        setWeb3State={setWeb3State}
-        shouldSaveTeamInvitationLink={shouldSaveTeamInvitationLink}
-      />
-    );
-  }, [
-    description,
-    extraContent,
-    hasAutoAgreement,
-    hasOnlyGoogleAuth,
-    onGithubButtonClick,
-    onGoogleButtonClick,
-    setWeb3State,
-    shouldSaveTeamInvitationLink,
-  ]);
+  const defaultStateComponent = (
+    <SignupDialogDefaultContent
+      description={description}
+      extraContent={extraContent}
+      hasAutoAgreement={hasAutoAgreement}
+      hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+      onGithubButtonClick={onGithubButtonClick}
+      onGoogleButtonClick={onGoogleButtonClick}
+      setWeb3State={setWeb3State}
+      shouldSaveTeamInvitationLink={shouldSaveTeamInvitationLink}
+    />
+  );
 
   if (isLoading) return <OauthLoadingState loginType={oauthLoginType} />;
 

@@ -16,6 +16,7 @@ export interface IUseSignInDialogProps {
   handleWelcomeDialogOpen: () => void;
   isSignInDialogOpened: boolean;
   setHasLoggedIn: (hasLoggedIn: boolean) => void;
+  setIsLoggingOut: (isLoggingOut: boolean) => void;
 }
 
 export const useSignInDialogProps = ({
@@ -24,6 +25,7 @@ export const useSignInDialogProps = ({
   handleWelcomeDialogOpen,
   isSignInDialogOpened,
   setHasLoggedIn,
+  setIsLoggingOut,
 }: IUseSignInDialogProps) => {
   const isAccountEligible = useAppSelector(selectIsAccountEligible);
 
@@ -34,14 +36,13 @@ export const useSignInDialogProps = ({
   const [handleSignOut] = useLazyOauthSignoutQuery();
 
   const onOauthSignIn = useCallback(async () => {
-    if (isLoggedIn) {
-      await handleSignOut();
-    }
+    setIsLoggingOut(true);
+    await handleSignOut();
 
     if (referralCode) {
       handleSaveReferralCode(referralCode);
     }
-  }, [handleSaveReferralCode, handleSignOut, isLoggedIn, referralCode]);
+  }, [handleSaveReferralCode, handleSignOut, referralCode, setIsLoggingOut]);
 
   const onWeb3SignInSuccess = useCallback(
     () => setHasLoggedIn(true),
