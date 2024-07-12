@@ -159,6 +159,10 @@ export const usePrivateChainItem = ({
         requestsString={isChainRequestStatsVisible ? requestsString : undefined}
         isCompactView={isCompactView}
         onOpenCodeExample={onOpenCodeExample}
+        isPremiumChain={
+          !hasPremium &&
+          (chain?.isMainnetPremiumOnly || Boolean(isTestnetPremiumOnly))
+        }
       />
     ),
     [
@@ -175,12 +179,14 @@ export const usePrivateChainItem = ({
       groupTab,
       groupTabs,
       groups,
+      hasPremium,
       isChainArchived,
       isMultiChain,
       publicChain,
       selectGroup,
       isGroupSelectorAutoWidth,
       isPremiumLabelHidden,
+      isTestnetPremiumOnly,
       isChainRequestStatsVisible,
       requestsString,
       isCompactView,

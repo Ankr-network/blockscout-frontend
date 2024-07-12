@@ -32,7 +32,6 @@ export const useGetStartedSection = ({
       <GetStartedSection
         chainId={chainId}
         group={group}
-        hasUpgradeBanner={false}
         publicUrl={publicUrl}
         hasRequestComposer={false}
         technology={technology}

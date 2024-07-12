@@ -12,6 +12,7 @@ export const useEndpointPlaceholderStyles = makeStyles()(theme => ({
     alignItems: 'center',
     padding: theme.spacing(0, 2),
     backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.secondary,
     minHeight: 36,
     height: 40,
     borderRadius: theme.spacing(3.5),
@@ -37,5 +38,9 @@ export const useEndpointPlaceholderStyles = makeStyles()(theme => ({
   copyIcon: {
     color: theme.palette.text.secondary,
     marginLeft: 'auto',
+  },
+  icon: {
+    color: theme.palette.text.secondary,
+    marginRight: theme.spacing(1),
   },
 }));

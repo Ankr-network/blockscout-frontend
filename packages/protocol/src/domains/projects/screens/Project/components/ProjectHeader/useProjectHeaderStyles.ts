@@ -42,6 +42,5 @@ export const useProjectHeaderStyles = makeStyles()(theme => ({
   },
   editInfoBtn: {
     fontSize: 14,
-    borderRadius: theme.spacing(5),
   },
 }));

@@ -51,16 +51,13 @@ export const useStyles = makeStyles<Props>()(
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
-        paddingBottom: MOBILE_LAYOUT_PADDING,
       },
     },
     dashboardMain: {
       paddingTop: theme.spacing(21),
-      paddingBottom: theme.spacing(3),
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
-        paddingBottom: MOBILE_LAYOUT_PADDING,
       },
     },
     header: {
@@ -97,6 +94,9 @@ export const useStyles = makeStyles<Props>()(
       [theme.breakpoints.up('md')]: {
         display: 'none',
       },
+    },
+    content: {
+      height: '100%',
     },
   }),
 );

@@ -8,7 +8,7 @@ export const useBaseChainsHeaderStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: theme.spacing(7),
-    marginBottom: theme.spacing(7.5),
+    marginBottom: theme.spacing(4),
 
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',

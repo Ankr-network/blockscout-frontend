@@ -1,6 +1,7 @@
 import { Doc } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
+import { Typography } from '@mui/material';
 
 import { ChainID } from 'modules/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
@@ -45,7 +46,9 @@ export const ChainDocsLink = ({
       size={size}
       title={t('chain-item.header.docs')}
     >
-      {!isTextHidden && t('chain-item.header.docs')}
+      <Typography variant="button2">
+        {!isTextHidden && t('chain-item.header.docs')}
+      </Typography>
     </NavLink>
   );
 };

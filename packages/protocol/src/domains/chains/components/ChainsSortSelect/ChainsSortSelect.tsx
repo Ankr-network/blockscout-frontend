@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { SelectChangeEvent } from '@mui/material';
+import { MenuItem, SelectChangeEvent } from '@mui/material';
+import { Select } from '@ankr.com/ui';
 
-import { Select } from 'uiKit/Select';
 import { SortType } from 'modules/chains/types';
 
 import { useChainsSortSelectStyles } from './useChainsSortSelectStyles';
@@ -29,11 +29,20 @@ export const ChainsSortSelect = ({ onSelect, sortType }: IChainsSortSelect) => {
   return (
     <Select
       className={classes.root}
+      classes={{
+        root: classes.selectRoot,
+        select: classes.select,
+      }}
       fullWidth={false}
       onChange={onChange}
-      options={options}
       size="small"
       value={sortType}
-    />
+    >
+      {options.map(item => (
+        <MenuItem key={item.value} value={item.value}>
+          {item.label}
+        </MenuItem>
+      ))}
+    </Select>
   );
 };

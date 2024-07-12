@@ -7,6 +7,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 
 import { ChainDocsLink } from '../ChainDocsLink';
 import { ChainLogo } from '../ChainLogo';
@@ -20,6 +21,7 @@ export interface ChainOverviewProps {
   isChainArchived: boolean;
   isEnterprise: boolean;
   hasMetamaskButton?: boolean;
+  isPremiumChain?: boolean;
 }
 
 export const ChainOverview = ({
@@ -30,8 +32,9 @@ export const ChainOverview = ({
   hasMetamaskButton,
   isChainArchived,
   isEnterprise,
+  isPremiumChain = true,
 }: ChainOverviewProps) => {
-  const { classes } = useChainOverviewStyles();
+  const { classes, cx } = useChainOverviewStyles();
 
   const { coinName, id, name } = chain;
 
@@ -60,12 +63,25 @@ export const ChainOverview = ({
               />
             </h1>
 
-            {isChainArchived && (
-              <ChainLabel
-                label={t('chains.archive')}
-                labelClassName={classes.archiveLabel}
-              />
-            )}
+            <div className={classes.chips}>
+              {isPremiumChain && (
+                <div className={cx(isChainArchived && classes.dot)}>
+                  <PremiumLabel
+                    hasGradientBackground
+                    className={classes.premiumChip}
+                    label="Premium only"
+                  />
+                </div>
+              )}
+
+              {isChainArchived && (
+                <ChainLabel
+                  isCheckIconVisible
+                  label={t('chains.archive')}
+                  labelClassName={classes.archiveLabel}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className={classes.right}>

@@ -15,7 +15,7 @@ export const useStyles = makeStyles<Align>()((theme: Theme, align: Align) => ({
     flexDirection: 'column',
     alignItems: flexAlign[align],
     padding: theme.spacing(10),
-    borderRadius: 30,
+    borderRadius: 32,
     width: 600,
 
     [theme.breakpoints.down('xs')]: {

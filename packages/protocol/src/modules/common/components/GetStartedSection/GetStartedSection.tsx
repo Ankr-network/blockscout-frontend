@@ -11,13 +11,11 @@ import {
   ConnectionSnippetProps,
 } from './components/ConnectionSnippet';
 import { MultiChainBenefits } from './components/MultichainBenefits';
-import { UpgradeBanner } from './components/UpgradeBanner';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 
 export interface GetStartedSectionProps extends ConnectionSnippetProps {
   chainId: string;
   group: EndpointGroup;
-  hasUpgradeBanner: boolean;
   publicUrl: string;
   hasRequestComposer: boolean;
   hasWssAccess?: boolean;
@@ -27,7 +25,6 @@ export const GetStartedSection = ({
   chainId,
   group,
   hasRequestComposer,
-  hasUpgradeBanner,
   hasWssAccess,
   httpCode,
   publicUrl,
@@ -45,7 +42,6 @@ export const GetStartedSection = ({
   return (
     <div className={classes.getStartedSection}>
       {isMultiChain && <MultiChainBenefits />}
-      {hasUpgradeBanner && !isMultiChain && <UpgradeBanner />}
 
       {!isChainProtocolSwitchEnabled && isEvmBased && (
         <ConnectionSnippet

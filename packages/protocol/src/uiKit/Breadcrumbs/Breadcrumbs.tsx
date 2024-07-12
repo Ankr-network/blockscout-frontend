@@ -5,7 +5,8 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from '@ankr.com/ui';
+import { ArrowRight, Chip } from '@ankr.com/ui';
+import { t } from '@ankr.com/common';
 
 import { useHasBreakdown, useIsMDDown } from 'uiKit/Theme/useTheme';
 
@@ -14,6 +15,7 @@ import { useBreadcrumbsStyles } from './useBreadcrumbsStyles';
 
 export const Breadcrumbs = ({
   customBreakpoint = 0,
+  isPublic = false,
   items,
 }: BreadcrumbsProps) => {
   const isMDDown = useIsMDDown();
@@ -66,17 +68,30 @@ export const Breadcrumbs = ({
         }
 
         return (
-          <Typography
-            className={classes.item}
-            color="textPrimary"
-            variant="subtitle2"
-            key={title}
-            component="div"
-          >
-            <span className={classes.breadcrumbsTitle}>
-              {capitalize(title)}
-            </span>
-          </Typography>
+          <div className={classes.wrapper} key={title}>
+            <Typography
+              className={classes.item}
+              color="textPrimary"
+              variant="subtitle2"
+              component="div"
+            >
+              <span className={classes.breadcrumbsTitle}>
+                {capitalize(title)}
+              </span>
+            </Typography>
+            {isPublic && (
+              <Chip
+                className={classes.chip}
+                label={
+                  <Typography variant="body3" color="textSecondary">
+                    {t('chains.public')}
+                  </Typography>
+                }
+                variant="filled"
+                size="small"
+              />
+            )}
+          </div>
         );
       })}
     </BreadcrumbsBase>

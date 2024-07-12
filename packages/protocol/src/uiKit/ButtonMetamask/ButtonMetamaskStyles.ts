@@ -4,8 +4,8 @@ import { makeStyles } from 'tss-react/mui';
 export const useButtonMetamaskStyles = makeStyles<void, 'plusIconWrapper'>()(
   (theme: Theme, _params, classes) => ({
     button: {
-      width: 32,
-      minWidth: 32,
+      width: 38,
+      minWidth: 38,
 
       position: 'relative',
       overflow: 'visible',
@@ -29,7 +29,7 @@ export const useButtonMetamaskStyles = makeStyles<void, 'plusIconWrapper'>()(
 
     icon: {
       '&&': {
-        fontSize: 20,
+        fontSize: 24,
       },
     },
 

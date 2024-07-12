@@ -55,8 +55,13 @@ export const useProjectChainsAccordionStyles = makeStyles()(theme => ({
     alignItems: 'center',
   },
   chainArchiveLabel: {
-    lineHeight: 1,
     marginLeft: theme.spacing(2),
+
+    lineHeight: 1,
+  },
+  chainArchiveLabelText: {
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   accordionPremiumLabel: {
     marginLeft: theme.spacing(2),

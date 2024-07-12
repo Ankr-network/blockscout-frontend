@@ -88,12 +88,19 @@ export const MainEndpoints = ({
     <div className={classes.root}>
       {endpointsHeader}
       {flattenURLs.map(url => (
-        <Endpoint
-          hasConnectWalletMessage={hasConnectWalletMessage}
-          key={url}
-          onCopy={onCopyEndpoint}
-          url={url!}
-        />
+        <>
+          <Endpoint
+            hasConnectWalletMessage={hasConnectWalletMessage}
+            key={url}
+            onCopy={onCopyEndpoint}
+            url={url!}
+          />
+          {!hasPrivateAccess && (
+            <Typography variant="body3" color="textSecondary">
+              {t('chain-item.get-started.endpoints.rate-limits')}
+            </Typography>
+          )}
+        </>
       ))}
       {isFreePremium && !isFreemiumLabelHidden && (
         <Typography variant="body3" color="textSecondary">

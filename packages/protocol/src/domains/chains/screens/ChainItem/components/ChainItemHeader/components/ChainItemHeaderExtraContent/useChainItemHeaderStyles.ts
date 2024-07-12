@@ -22,9 +22,15 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
       backgroundColor: theme.palette.background.paper,
       height: 32,
       width: 32,
+      minWidth: 32,
       minHeight: 32,
       padding: 0,
       borderRadius: theme.spacing(3),
+
+      '& > svg': {
+        height: 20,
+        width: 20,
+      },
     },
     display: 'flex',
 
@@ -44,6 +50,7 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
     minWidth: 30,
     minHeight: 30,
     height: 30,
+    gap: 0,
     padding: theme.spacing(0, 1),
     '&&': {
       borderRadius: theme.spacing(3),

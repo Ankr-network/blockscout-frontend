@@ -13,7 +13,7 @@ export const useStyles = makeStyles<boolean>()(
     },
     header: {
       width: '50%',
-      padding: theme.spacing(2 * 3.75),
+      padding: theme.spacing(8),
       gap: theme.spacing(6),
       display: 'flex',
       flexDirection: 'column',
@@ -22,30 +22,10 @@ export const useStyles = makeStyles<boolean>()(
         width: '100%',
       },
     },
-    buttons: {
-      display: 'flex',
-      gap: theme.spacing(4),
-
-      [theme.breakpoints.down('md')]: {
-        gap: theme.spacing(2),
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-      },
-    },
-    btn: {
-      width: '100%',
-      whiteSpace: 'nowrap',
-      padding: theme.spacing(1),
-      '&&': {
-        boxShadow: 'none',
-        border: `2px solid ${
-          isLightTheme
-            ? theme.palette.secondary.light
-            : theme.palette.secondary.dark
-        }`,
-      },
+    copyButton: {
+      boxShadow: 'none',
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.text.secondary,
 
       '&:hover': {
         color: theme.palette.primary.main,
@@ -81,9 +61,14 @@ export const useStyles = makeStyles<boolean>()(
         display: 'none',
       },
     },
+    sandboxHeader: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
     tabsWrapper: {
       backgroundColor: isLightTheme
-        ? theme.palette.grey[900]
+        ? theme.palette.background.default
         : theme.palette.secondary.dark,
       padding: theme.spacing(0.75),
       borderRadius: 11,

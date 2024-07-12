@@ -4,8 +4,8 @@ import { makeStyles } from 'tss-react/mui';
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(2 * 1, 2 * 3),
-    marginBottom: theme.spacing(2 * 4),
+    padding: theme.spacing(2, 6),
+    marginBottom: theme.spacing(8),
 
     '& th, & td': {
       borderBottom: 'none',
@@ -23,7 +23,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   header: {
     fontSize: 16,
-    padding: theme.spacing(2 * 2, 0),
+    padding: theme.spacing(4, 0),
   },
 
   tableContainer: {
@@ -33,7 +33,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
 
   flag: {
-    marginBottom: theme.spacing(2 * 0.375),
+    marginBottom: theme.spacing(0.75),
   },
   preloader: {
     height: theme.spacing(14),

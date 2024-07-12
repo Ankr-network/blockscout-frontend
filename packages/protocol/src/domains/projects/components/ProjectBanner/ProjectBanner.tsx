@@ -1,53 +1,31 @@
-import { IconButton, Paper, Typography } from '@mui/material';
-import {
-  TriangleWarning as WarningIcon,
-  Close as CloseIcon,
-} from '@ankr.com/ui';
-import { ReactElement, useState } from 'react';
+import { Paper, Typography } from '@mui/material';
+import { TriangleWarning as WarningIcon } from '@ankr.com/ui';
+import { ReactElement } from 'react';
 
 import { useProjectBannerStyles } from './useProjectBannerStyles';
 
 interface ProjectBannerProps {
   message: string;
   className?: string;
-  hasCloseIcon?: boolean;
   button?: ReactElement;
 }
 
 export const ProjectBanner = ({
   button,
   className,
-  hasCloseIcon,
   message,
 }: ProjectBannerProps) => {
   const { classes, cx } = useProjectBannerStyles();
 
-  const [isHidden, setIsHidden] = useState(false);
-
-  const handleClose = () => {
-    setIsHidden(true);
-  };
-
-  if (isHidden) {
-    return null;
-  }
-
   return (
     <Paper className={cx(classes.root, className)}>
-      <WarningIcon className={classes.iconWarning} />
-      <Typography className={classes.message} variant="body3">
-        {message}
-      </Typography>
+      <div className={classes.wrapper}>
+        <WarningIcon className={classes.iconWarning} />
+        <Typography className={classes.message} variant="body3">
+          {message}
+        </Typography>
+      </div>
       {button && button}
-      {hasCloseIcon && (
-        <IconButton
-          aria-label="close"
-          className={cx(classes.closeButton)}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      )}
     </Paper>
   );
 };

@@ -1,35 +1,33 @@
-import { t } from '@ankr.com/common';
-import { Box, Button, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
 import { Timeframe, Chain } from 'modules/chains/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 import { NavLink } from 'uiKit/NavLink';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 
 import { useChainCardStyles } from './useChainCardStyles';
 import { Information } from './Information';
 
 export interface IBaseChainCardProps {
   timeframe: Timeframe;
-  buttonClassName?: string;
-  buttonText?: ReactNode;
   chain: Chain;
   className?: string;
   onClick?: () => void;
   totalRequests: string;
   loading: boolean;
   badge?: ReactNode;
+  isPremiumOnly?: boolean;
   hasTotalRequestsLabel?: boolean;
 }
 
 export const BaseChainsCard = ({
   badge,
-  buttonClassName,
-  buttonText,
   chain,
   className,
   hasTotalRequestsLabel = true,
+  isPremiumOnly = false,
   loading,
   onClick,
   timeframe,
@@ -55,16 +53,28 @@ export const BaseChainsCard = ({
   return (
     <Box className={cx(classes.root, className)} {...props}>
       <div className={classes.mainInfo}>
+        <img src={icon} className={classes.icon} alt={id} />
         <div className={classes.info}>
-          <Typography className={classes.title} component="p">
+          <Typography
+            variant="subtitle1"
+            component="div"
+            className={classes.title}
+          >
             {name}
+            {isPremiumOnly && (
+              <PremiumLabel
+                size="xs"
+                hasGradientBackground
+                className={classes.chip}
+                label="Premium only"
+              />
+            )}
           </Typography>
-          <Typography className={classes.subtitle}>
+          <Typography variant="body3" className={classes.subtitle}>
             {coinName.toUpperCase()}
           </Typography>
         </div>
         {badge && <div className={classes.badge}>{badge}</div>}
-        <img src={icon} className={classes.icon} alt={id} />
       </div>
       <div className={classes.secondInfo}>
         {hasTotalRequestsLabel && (
@@ -80,14 +90,6 @@ export const BaseChainsCard = ({
             )}
           </Typography>
         )}
-        <Button
-          className={cx(classes.button, buttonClassName)}
-          fullWidth
-          size="large"
-          variant="outlined"
-        >
-          {buttonText || t('chains.endpoints-and-more')}
-        </Button>
       </div>
     </Box>
   );

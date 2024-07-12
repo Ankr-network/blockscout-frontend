@@ -12,7 +12,6 @@ export const ComingSoonChainCard = (props: IBaseChainCardProps) => {
   return (
     <BaseChainsCard
       {...props}
-      buttonClassName={classes.button}
       className={classes.root}
       badge={
         <Box className={classes.badge}>

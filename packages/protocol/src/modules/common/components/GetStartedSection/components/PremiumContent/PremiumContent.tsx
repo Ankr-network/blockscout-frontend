@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
@@ -8,6 +9,8 @@ import {
 } from 'modules/common/components/UpgradePlanDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
 import { usePremiumContentStyles } from './usePremiumContentStyles';
 
@@ -20,7 +23,21 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
-  const { hasPremium } = useAuth();
+  const { hasOauthLogin, hasPremium, isLoggedIn } = useAuth();
+
+  const {
+    isOpened: isSignupDialogOpened,
+    onClose: onCloseSignupDialog,
+    onOpen: onOpenSignupDialog,
+  } = useDialog();
+
+  const element = document.getElementById('sign-in');
+
+  useEffect(() => {
+    if (element) {
+      element.onclick = onOpenSignupDialog;
+    }
+  }, [element, onOpenSignupDialog]);
 
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
@@ -30,33 +47,54 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
     <>
       <div className={classes.root}>
         <div className={classes.content}>
-          <Typography className={classes.title}>
-            {t('chains.upgrade-premium.title')}
-          </Typography>
-          <Typography className={classes.item}>
-            <Check color="success" size="s" />
+          <Typography variant="subtitle2" className={classes.title}>
             {isMultiChain
-              ? tHTML('chains.upgrade-premium.item-1-multichain')
-              : tHTML('chains.upgrade-premium.item-1')}
+              ? t('chains.upgrade-premium.title-aapi')
+              : t('chains.upgrade-premium.title')}
           </Typography>
-          <Typography className={classes.item}>
-            <Check color="success" size="s" />
-            {t('chains.upgrade-premium.item-2')}
-          </Typography>
-          <Typography className={classes.item}>
-            <Check color="success" size="s" />
-            {t('chains.upgrade-premium.item-3')}
-          </Typography>
-          <Typography className={classes.item}>
-            <Check color="success" size="s" />
-            {t('chains.upgrade-premium.item-4')}
-          </Typography>
+          {isMultiChain ? (
+            <Typography variant="body3" className={classes.item}>
+              {tHTML('chains.upgrade-premium.description-aapi', {
+                hasSignInLine: !isLoggedIn,
+              })}
+            </Typography>
+          ) : (
+            <>
+              <Typography variant="body3" className={classes.item}>
+                <Check color="success" size="s" />
+                {isMultiChain
+                  ? tHTML('chains.upgrade-premium.item-1-multichain')
+                  : tHTML('chains.upgrade-premium.item-1')}
+              </Typography>
+              <Typography variant="body3" className={classes.item}>
+                <Check color="success" size="s" />
+                {t('chains.upgrade-premium.item-2')}
+              </Typography>
+              <Typography variant="body3" className={classes.item}>
+                <Check color="success" size="s" />
+                {t('chains.upgrade-premium.item-3')}
+              </Typography>
+              <Typography variant="body3" className={classes.item}>
+                <Check color="success" size="s" />
+                {t('chains.upgrade-premium.item-4')}
+              </Typography>
+            </>
+          )}
           <Button fullWidth className={classes.button} onClick={onOpen}>
-            {t('chains.upgrade-premium.button')}
+            {isMultiChain
+              ? t('chains.upgrade-premium.button-aapi')
+              : t('chains.upgrade-premium.button')}
           </Button>
         </div>
       </div>
+
       <UpgradePlanDialog onClose={onClose} open={isOpened} />
+
+      <SignupDialog
+        isOpen={isSignupDialogOpened}
+        onClose={onCloseSignupDialog}
+        hasOauthLogin={hasOauthLogin}
+      />
     </>
   );
 };

@@ -16,6 +16,7 @@ import { ChainOverview } from './components/ChainOverview';
 import { ChainItemHeaderExtraContent } from './components/ChainItemHeaderExtraContent';
 import { useChainItemHeaderContent } from './hooks/useChainItemHeaderContent';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
+import { AdvancedApiLinks } from './components/AdvancedApiLinks';
 
 export interface ChainItemHeaderProps {
   additionalSelector?: ReactNode;
@@ -45,11 +46,13 @@ interface ChainItemHeaderContentProps extends OmittedProps {
   isProtocolSwitcherHidden?: boolean;
   isGroupSelectorAutoWidth?: boolean;
   isPremiumLabelHidden?: boolean;
+  isPremiumChain?: boolean;
   requestsString?: string;
   isCompactView?: boolean;
   onOpenCodeExample?: () => void;
 }
 
+/* eslint-disable max-lines-per-function */
 export const ChainItemHeaderContent = ({
   additionalSelector,
   chain,
@@ -70,6 +73,7 @@ export const ChainItemHeaderContent = ({
   isGroupSelectorAutoWidth,
   isMetamaskButtonHidden,
   isMultiChain,
+  isPremiumChain = false,
   isPremiumLabelHidden,
   isProtocolSwitcherHidden,
   onOpenCodeExample,
@@ -91,7 +95,10 @@ export const ChainItemHeaderContent = ({
   return (
     <>
       {isMultiChain ? (
-        <MultiChainOverview />
+        <>
+          <MultiChainOverview />
+          <AdvancedApiLinks />
+        </>
       ) : (
         <>
           {!isCompactView && (
@@ -103,6 +110,7 @@ export const ChainItemHeaderContent = ({
               isChainArchived={isChainArchived}
               isEnterprise={isEnterprise}
               hasMetamaskButton={hasMetamaskButton}
+              isPremiumChain={isPremiumChain}
             />
           )}
           <ChainSelectorContent

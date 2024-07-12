@@ -74,6 +74,11 @@
     "pricing": "Pricing",
     "docs": "Docs"
   },
+  "footer": {
+    "all-rights": "© {year} Ankr. All rights reserved.",
+    "terms": "Terms of service",
+    "privacy": "Privacy policy"
+  },
   "access-denied-dialog": {
     "title": "Access denied",
     "description": "Your access role grants you no access to the requested platform section. Contact the team Owner or Admin for the corresponding role. Learn more on <a href=\"{href}\" target=\"_blank\">access roles.</a>",
@@ -709,6 +714,7 @@
   "chains": {
     "select-all": "Select All",
     "breadcrumbs": "Endpoints",
+    "public": "Public",
     "user-free": "Free",
     "user-premium": "Premium",
     "user-enterprise": "Enterprise",
@@ -757,15 +763,18 @@
     },
     "for-premium-only": "For Premium only",
     "endpoints-and-more": "Endpoints & More",
-    "premium-only": "Premium Only",
+    "premium-only": "Premium only",
     "upgrade-premium": {
       "title": "Unlock Premium features",
+      "title-aapi": "Premium Service Plan",
+      "description-aapi": "Get Premium to maximize your AAPI rate limits.{hasSignInLine, select, true { <span id=\"sign-in\">Sign in</span> to start testing AAPI at lower speeds.} other {}}",
       "item-1": "Higher rate limits",
       "item-1-multichain": "<em>1,000</em> requests/min",
       "item-2": "Node & Advanced API",
       "item-3": "Multi-project stats",
       "item-4": "Teams, Whitelists, and WSS",
-      "button": "Upgrade"
+      "button": "Upgrade",
+      "button-aapi": "Get Premium"
     }
   },
   "enterprise": {
@@ -1026,6 +1035,7 @@
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
         "lockedLabelHttps": "https://rpc.ankr.com/…",
+        "rate-limits": "Endpoint’s rate limit is capped on Public.",
         "lockedLabelWss": "wss://rpc.ankr.com/…",
         "login-to-proceed": "Login to proceed"
       },
@@ -1117,8 +1127,12 @@
   "advanced-api": {
     "breadcrumbs": "Advanced API",
     "chain-overview": {
-      "title": "Single entry point",
-      "description": "Access optimized, indexed, and cached data for 15 Mainnet and 4 Testnet blockchain networks."
+      "title": "Advanced API",
+      "description": "A collection of RPC methods to address the most popular Web3 scenarios, query archive data at near-instant speeds, and interact with multiple chains in a single request.",
+      "supported-chains": "Chains supported",
+      "js-sdk": "JS SDK",
+      "python-sdk": "Python SDK",
+      "react-hooks": "React hooks"
     },
     "js-sdk": "JS SDK",
     "python-sdk": "Python SDK",
@@ -1160,22 +1174,9 @@
     "your-plan-badge": "Your plan",
     "action-text": "Upgrade",
     "public": {
-      "plan-title": "Public",
-      "plan-description": "You have <b>300</b> requests/min",
-      "proposal-title": "Free",
-      "proposal-description": "<b>1,000</b> requests/min.<br />Personal Endpoint and Prioritized traffic",
-      "action-text": "Upgrade",
-      "public": {
-        "title": "Public",
-        "your-plan": "Your plan",
-        "info": "You have <em>300</em> requests/min "
-      },
-      "free": {
-        "title": "Free",
-        "info-1": "<em>90,000</em> requests/min.",
-        "info-2": "WebSockets. Archive calls and others features."
-      },
-      "button": "Upgrade"
+      "title": "<span>Premium</span> Service Plan",
+      "description": "Ultimate number of blockchains, supercharged rate limits — x50 for Node API / x30 for Advanced API, 3 times more projects, multi-project statistics dashboard, WSS connection, and whitelists.",
+      "button": "Get Premium"
     },
     "free": {
       "plan-title": "Free",

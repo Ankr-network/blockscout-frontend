@@ -9,7 +9,9 @@ export const useGroupMenuButtonStyles = makeStyles<boolean>()(
       minWidth: 'unset',
       borderRadius: 16,
       color: theme.palette.text.primary,
-      backgroundColor: isOpen ? theme.palette.grey[200] : 'transparent',
+      backgroundColor: isOpen
+        ? theme.palette.grey[200]
+        : theme.palette.background.paper,
 
       '&:hover': {
         backgroundColor: theme.palette.grey[200],
@@ -27,7 +29,6 @@ export const useGroupMenuButtonStyles = makeStyles<boolean>()(
       },
     },
     groupName: {
-      fontWeight: 500,
       marginLeft: theme.spacing(2),
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',

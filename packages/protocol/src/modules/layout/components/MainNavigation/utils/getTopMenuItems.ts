@@ -1,7 +1,7 @@
 import {
   NavBarEndpoints,
   NavBarAdvancedApi,
-  NavBarDashboard,
+  NavBarAnalytics,
   NavBarEnterprise,
   NavBarProjects,
 } from '@ankr.com/ui';
@@ -22,7 +22,7 @@ import { track } from 'modules/analytics/mixpanel/utils/track';
 import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
-import { MenuItemsParams } from '../types';
+import { IMenuItemsParams } from '../types';
 
 const checkIsChainsRoute = (
   match: Match | null,
@@ -45,7 +45,7 @@ export const getTopMenuItems = ({
   onDashboardClick,
   onOpenAccessDeniedDialog,
   onOpenUpgradePlanDialog,
-}: MenuItemsParams): NavigationItem[] => {
+}: IMenuItemsParams): NavigationItem[] => {
   const items: NavigationItem[] = [
     {
       StartIcon: NavBarEndpoints,
@@ -57,14 +57,6 @@ export const getTopMenuItems = ({
       blockName: BlockWithPermission.CommonMenuItem,
     },
     {
-      isDisabled: isEnterpriseClient,
-      StartIcon: NavBarAdvancedApi,
-      href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
-      label: t('main-navigation.advanced-api'),
-      blockName: BlockWithPermission.AdvancedApiMenuItem,
-      onAccessDeniedClick: onOpenAccessDeniedDialog,
-    },
-    {
       StartIcon: NavBarProjects,
       href: ProjectsRoutesConfig.projects.generatePath(),
       isDisabled: isEnterpriseClient,
@@ -74,13 +66,21 @@ export const getTopMenuItems = ({
       onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {
-      StartIcon: NavBarDashboard,
+      StartIcon: NavBarAnalytics,
       href: DashboardRoutesConfig.dashboard.generatePath(),
       isDisabled: false,
       isHidden: isMobileSideBar,
       label: t('main-navigation.analytics'),
       blockName: BlockWithPermission.AnalyticsMenuItem,
       onClick: onDashboardClick,
+      onAccessDeniedClick: onOpenAccessDeniedDialog,
+    },
+    {
+      isDisabled: isEnterpriseClient,
+      StartIcon: NavBarAdvancedApi,
+      href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+      label: t('main-navigation.advanced-api'),
+      blockName: BlockWithPermission.AdvancedApiMenuItem,
       onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {

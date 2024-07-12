@@ -21,6 +21,7 @@ import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
 import { HeaderBanner } from '../HeaderBanner';
+import { Footer } from '../Footer';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -36,6 +37,7 @@ export interface ILayoutProps {
   hasNoReactSnap?: boolean;
   hasError?: boolean;
   hasGradient?: boolean;
+  isChainsPublicPage?: boolean;
   isChainItemPage?: boolean;
   isDashboardPage?: boolean;
 }
@@ -47,6 +49,7 @@ export const DefaultLayout = ({
   hasGradient = false,
   hasNoReactSnap = false,
   isChainItemPage,
+  isChainsPublicPage,
   isDashboardPage = false,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
@@ -78,6 +81,7 @@ export const DefaultLayout = ({
                 [classes.dashboardHeader]: isDashboardPage,
               })}
               isChainItemPage={isChainItemPage}
+              isChainsPublicPage={isChainsPublicPage}
             />
           )}
           <MobileHeader
@@ -92,11 +96,18 @@ export const DefaultLayout = ({
               [classes.dashboardMain]: isDashboardPage,
             })}
           >
-            <div className={classes.mobileBreadcrumbs}>
-              <Breadcrumbs />
+            <div className={classes.content}>
+              <div className={classes.mobileBreadcrumbs}>
+                <Breadcrumbs isChainsPublicPage={isChainsPublicPage} />
+              </div>
+              {hasNoReactSnap ? (
+                <NoReactSnap>{children}</NoReactSnap>
+              ) : (
+                children
+              )}
             </div>
-            {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
+          <Footer />
           {isLoggedIn && !isEnterpriseClient && (
             <GuardUserGroup blockName={BlockWithPermission.Billing}>
               <StatusTransitionDialog />
