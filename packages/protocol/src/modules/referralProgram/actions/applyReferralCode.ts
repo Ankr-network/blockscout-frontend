@@ -1,42 +1,53 @@
-import { AccountingErrorCode, IApplyReferralCodeParams } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
+import {
+  IApplyReferralCodeParams,
+  IApplyReferralCodeResult,
+} from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { isAxiosAccountingError } from 'store/utils/isAxiosAccountingError';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { web3Api } from 'store/queries';
+
+import { ApplyReferralCodeErrorCode } from '../const';
+import { handleApplyReferralCodeAccountingError } from './utils/handleApplyReferralCodeAccoutingError';
+import { handleApplyReferralCodeCustomError } from './utils/handleApplyReferralCodeCustomError';
 
 export const {
   endpoints: { applyReferralCode },
   useApplyReferralCodeMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    applyReferralCode: build.mutation<boolean, IApplyReferralCodeParams>({
-      queryFn: createNotifyingQueryFn(async params => {
-        const api = MultiService.getService().getAccountingGateway();
+    applyReferralCode: build.mutation<
+      IApplyReferralCodeResult,
+      IApplyReferralCodeParams
+    >({
+      queryFn: createNotifyingQueryFn(
+        createQueryFnWithErrorHandler({
+          queryFn: async params => {
+            const api = MultiService.getService().getAccountingGateway();
 
+            const data = await api.applyReferralCode(params);
+            const isPromo = Boolean(data.name);
+            const hasBonus = Boolean(data.custom_bonus);
+
+            const isReferralCodeExpired = isPromo && !hasBonus;
+
+            if (isReferralCodeExpired) {
+              return { error: new Error(ApplyReferralCodeErrorCode.EXPIRED) };
+            }
+
+            return { data };
+          },
+          errorHandler: handleApplyReferralCodeAccountingError,
+        }),
+      ),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
-          await api.applyReferralCode(params);
-
-          return { data: true };
+          await queryFulfilled;
         } catch (exception) {
-          if (isAxiosAccountingError(exception)) {
-            const error = exception.response?.data.error;
-
-            // to change error message
-            if (error?.code === AccountingErrorCode.NotFound) {
-              throw new Error(t('error.wrong-refresh-code'));
-            }
-
-            // to change error message
-            if (error?.code === AccountingErrorCode.AlreadyExists) {
-              throw new Error(t('error.referral-code-already-used'));
-            }
-          }
-
-          throw exception;
+          handleApplyReferralCodeCustomError({ dispatch, exception });
         }
-      }),
+      },
     }),
   }),
   overrideExisting: true,

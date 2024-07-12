@@ -64,7 +64,14 @@
     "tx-replacement": "The transaction has been cancelled or replaced",
     "no-tx-by-tx-hash": "Failed to locate the transaction – It might have been cancelled or replaced.",
     "wrong-refresh-code": "Wrong referral code",
-    "referral-code-already-used": "Referral code already used"
+    "referral-code-already-used": {
+      "title": "Referral link already used",
+      "message": "This referral link has already been used."
+    },
+    "referral-code-expired": {
+      "title": "Referral link expired",
+      "message": "The referral link's validity period has expired"
+    }
   },
   "main-navigation": {
     "projects": "Projects",
