@@ -3,21 +3,17 @@ import { makeStyles } from 'tss-react/mui';
 
 export const usePrimaryTabStyles = makeStyles<boolean>()(
   (theme: Theme, isSelected: boolean) => ({
-    chainItemTab: {
+    primaryTab: {
       overflow: 'visible',
-
       height: 'auto',
-      marginRight: theme.spacing(2 * 3.75),
+      marginRight: theme.spacing(7.5),
       padding: 0,
-
       transition: 'color .3s, background-color .3s',
-
       color: isSelected ? theme.palette.primary.main : theme.palette.grey[600],
       letterSpacing: '-0.01em',
-
       fontWeight: 700,
       fontSize: 27,
-      lineHeight: theme.spacing(2 * 4),
+      lineHeight: theme.spacing(8),
 
       '&:hover': {
         backgroundColor: 'transparent',
@@ -26,9 +22,8 @@ export const usePrimaryTabStyles = makeStyles<boolean>()(
       },
 
       [theme.breakpoints.down('xs')]: {
-        marginRight: theme.spacing(2 * 2),
-
-        fontSize: theme.spacing(2 * 2.5),
+        marginRight: theme.spacing(5),
+        fontSize: theme.spacing(5),
       },
     },
   }),

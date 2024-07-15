@@ -8,7 +8,7 @@ import { ArrowDown } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
+import { ChainLogo } from 'modules/chains/components/ChainLogo';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 import { useDialog } from 'modules/common/hooks/useDialog';

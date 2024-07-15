@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 
 import { Chain } from 'modules/chains/types';
-import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
+import { ChainLogo } from 'modules/chains/components/ChainLogo';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 

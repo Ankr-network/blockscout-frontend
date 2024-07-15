@@ -6,7 +6,7 @@ import { Dialog } from 'uiKit/Dialog';
 import { Chain } from 'modules/chains/types';
 import { evmGroups } from 'modules/endpoints/constants/evmGroups';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
-import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
+import { ChainLogo } from 'modules/chains/components/ChainLogo';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { useProjectChain } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChain';
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';

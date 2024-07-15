@@ -7,9 +7,9 @@ import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { PrimaryTab } from 'modules/common/components/PrimaryTab';
 
 import { DebugMenuSection } from '../../DebugMenuSection';
-import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { hasRequestComposer } from '../utils/hasRequestComposer';

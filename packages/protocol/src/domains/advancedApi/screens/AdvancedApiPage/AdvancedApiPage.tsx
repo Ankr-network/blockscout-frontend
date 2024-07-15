@@ -10,7 +10,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
-export const AdvancedApiDetails = () => {
+export const AdvancedApiPage = () => {
   const { hasPrivateAccess, loading } = useAuth();
 
   useSetBreadcrumbs([

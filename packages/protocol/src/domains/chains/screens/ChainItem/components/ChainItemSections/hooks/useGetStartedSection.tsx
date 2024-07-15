@@ -9,8 +9,8 @@ import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/
 import { GetStartedSection } from 'modules/common/components/GetStartedSection';
 import { getCodeMrpc } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
 import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
+import { PrimaryTab } from 'modules/common/components/PrimaryTab';
 
-import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { hasRequestComposer as hasRequestComposerFn } from '../utils/hasRequestComposer';

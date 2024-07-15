@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -11,6 +11,7 @@ import { SectionID } from './types';
 import { TimeframeTabs } from '../TimeframeTabs';
 import { useChainItemSectionsStyles } from './ChainItemSectionsStyles';
 import { useSectionsTabs } from './hooks/useSectionsTabs';
+import { AdvancedApiInfoTabs } from './components/AdvancedApiInfoTabs';
 
 export interface IChainItemTabsProps {
   chainType: ChainType;
@@ -67,15 +68,20 @@ export const ChainItemSections = ({
       />
     ) : undefined;
 
+  const isMultiChain = chain.id === ChainID.MULTICHAIN;
+
   return (
-    <div className={classes.root}>
-      <TabsManager
-        className={classes.tabs}
-        selectedTab={section}
-        tabs={sections}
-        additionalContent={additionalContent}
-        allowSingleTab
-      />
-    </div>
+    <>
+      {isMultiChain && <AdvancedApiInfoTabs />}
+      <div className={classes.chainItemSectionsRoot}>
+        <TabsManager
+          className={classes.chainItemSectionsTabs}
+          selectedTab={section}
+          tabs={sections}
+          additionalContent={additionalContent}
+          allowSingleTab
+        />
+      </div>
+    </>
   );
 };

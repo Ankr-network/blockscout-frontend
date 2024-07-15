@@ -8,9 +8,9 @@ import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
+import { ChainLogo } from 'modules/chains/components/ChainLogo';
 
 import { ChainDocsLink } from '../ChainDocsLink';
-import { ChainLogo } from '../ChainLogo';
 import { useChainOverviewStyles } from './ChainOverviewStyles';
 
 export interface ChainOverviewProps {
