@@ -63,7 +63,7 @@
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts.",
     "tx-replacement": "The transaction has been cancelled or replaced",
     "no-tx-by-tx-hash": "Failed to locate the transaction – It might have been cancelled or replaced.",
-    "wrong-refresh-code": "Wrong referral code",
+    "wrong-referral-code": "Wrong referral code",
     "referral-code-already-used": {
       "title": "Referral link already used",
       "message": "This referral link has already been used."

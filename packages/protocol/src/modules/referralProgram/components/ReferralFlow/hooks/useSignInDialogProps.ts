@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { ISignupDialogProps } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
@@ -32,7 +32,7 @@ export const useSignInDialogProps = ({
   const { handleSaveReferralCode } = useSavedReferralCode();
 
   const { referralCode } = getReferralCodeFromUrl();
-  const { isLoggedIn } = useAuth();
+  const { hasWeb3Connection, isLoggedIn } = useAuth();
   const [handleSignOut] = useLazyOauthSignoutQuery();
 
   const onOauthSignIn = useCallback(async () => {
@@ -43,6 +43,12 @@ export const useSignInDialogProps = ({
       handleSaveReferralCode(referralCode);
     }
   }, [handleSaveReferralCode, handleSignOut, referralCode, setIsLoggingOut]);
+
+  const onWeb3Connect = useCallback(async () => {
+    setIsLoggingOut(true);
+
+    await handleSignOut();
+  }, [handleSignOut, setIsLoggingOut]);
 
   const onWeb3SignInSuccess = useCallback(
     () => setHasLoggedIn(true),
@@ -78,15 +84,23 @@ export const useSignInDialogProps = ({
       onManualClose: handlePreviousDialogOpen,
       onOauthSignIn,
       onSuccess: onWeb3SignInSuccess,
+      onWeb3Connect,
     }),
     [
       handlePreviousDialogOpen,
       handleSignInDialogClose,
       isSignInDialogOpened,
       onOauthSignIn,
+      onWeb3Connect,
       onWeb3SignInSuccess,
     ],
   );
+
+  useEffect(() => {
+    if (hasWeb3Connection) {
+      setIsLoggingOut(false);
+    }
+  }, [setIsLoggingOut, hasWeb3Connection]);
 
   return { signInDialogProps };
 };

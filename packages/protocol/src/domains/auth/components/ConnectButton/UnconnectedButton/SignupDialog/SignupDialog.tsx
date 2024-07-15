@@ -19,6 +19,7 @@ export interface ISignupDialogProps {
   onManualClose?: () => void;
   onOauthSignIn?: () => void | Promise<void>;
   onSuccess?: () => void;
+  onWeb3Connect?: () => void | Promise<void>;
   shouldResetAuthDataForGoogleAuth?: boolean;
   shouldSaveTeamInvitationLink?: boolean;
   title?: string;
@@ -35,6 +36,7 @@ export const SignupDialog = ({
   onManualClose,
   onOauthSignIn,
   onSuccess,
+  onWeb3Connect,
   shouldResetAuthDataForGoogleAuth = false,
   shouldSaveTeamInvitationLink,
   title,
@@ -82,6 +84,7 @@ export const SignupDialog = ({
         onGithubButtonClick={onGithubButtonClick}
         onGoogleButtonClick={onGoogleButtonClick}
         onSuccess={onSuccess}
+        onWeb3Connect={onWeb3Connect}
         setWeb3State={setWeb3State}
         shouldSaveTeamInvitationLink={shouldSaveTeamInvitationLink}
       />

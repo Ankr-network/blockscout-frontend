@@ -20,6 +20,7 @@ interface SignupDialogProps {
   onGithubButtonClick: () => void;
   onGoogleButtonClick: () => void;
   onSuccess?: () => void;
+  onWeb3Connect?: () => void | Promise<void>;
   setWeb3State: () => void;
   shouldSaveTeamInvitationLink?: boolean;
 }
@@ -36,6 +37,7 @@ export const SignupDialogContent = ({
   onGithubButtonClick,
   onGoogleButtonClick,
   onSuccess,
+  onWeb3Connect,
   setWeb3State,
   shouldSaveTeamInvitationLink,
 }: SignupDialogProps) => {
@@ -63,6 +65,7 @@ export const SignupDialogContent = ({
       return (
         <SignupDialogWeb3Content
           onClose={onDialogClose}
+          onConnect={onWeb3Connect}
           onSuccess={onSuccess}
         />
       );

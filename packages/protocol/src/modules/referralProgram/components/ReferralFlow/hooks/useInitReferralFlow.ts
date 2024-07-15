@@ -29,7 +29,7 @@ export const useInitiReferralFlow = ({
   isBannerLoaded,
   isLoggingOut,
 }: IUseInitReferralFlowProps) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, loading } = useAuth();
   const { isPersonal } = useSelectedUserGroup();
   const { personalPremiumStatus } = usePersonalPremiumStatus({
     skipFetching: !isLoggedIn,
@@ -54,7 +54,7 @@ export const useInitiReferralFlow = ({
 
   useEffect(() => {
     // TODO: rethink this logcis to get rid of nested if's
-    if (!isLoggingOut) {
+    if (!isLoggingOut && !loading) {
       if (isXaiReferralCode(referralCode) && isBannerLoaded) {
         if (isLoggedIn) {
           if (isPersonalPremiumStatusLoaded && isGroupSelected) {
@@ -84,6 +84,7 @@ export const useInitiReferralFlow = ({
     isLoggingOut,
     isPersonalGroupFreemium,
     isPersonalPremiumStatusLoaded,
+    loading,
     referralCode,
   ]);
 };

@@ -17,7 +17,7 @@ export const {
   endpoints: build => ({
     oauthSignout: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
-        dispatch(authDisconnect.initiate());
+        await dispatch(authDisconnect.initiate());
 
         deleteAllCookies();
 

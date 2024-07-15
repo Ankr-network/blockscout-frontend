@@ -10,7 +10,7 @@ export const handleApplyReferralCodeAccountingError = (exception: unknown) => {
 
     // to change error message
     if (error?.code === AccountingErrorCode.NotFound) {
-      throw new Error(t('error.wrong-refresh-code'));
+      throw new Error(t('error.wrong-referral-code'));
     }
 
     if (error?.code === AccountingErrorCode.AlreadyExists) {
