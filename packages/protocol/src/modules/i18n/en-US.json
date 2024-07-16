@@ -938,6 +938,7 @@
     "tabs": {
       "debug-menu": "Debug Menu",
       "get-started": "Get Started",
+      "multi-chain-get-started": "Methods",
       "infrastructure": "Infrastructure",
       "usage-data": "Usage Data"
     },
@@ -1140,34 +1141,6 @@
       "ankr-js": "Ankr JS",
       "ankr-py": "Ankr Py",
       "shell": "Shell"
-    },
-    "benefits": {
-      "nft-api": {
-        "title": "NFT API",
-        "feature-1": "NFTs by owner",
-        "feature-2": "NFT metadata",
-        "feature-3": "NFT holders",
-        "linkText": "Code samples"
-      },
-      "query-api": {
-        "title": "Query API",
-        "feature-1": "Unlimited block range logs filtering",
-        "feature-2": "Transactions by address across 8 chains",
-        "feature-3": "Decoded events",
-        "feature-4": "Decoded contract calls",
-        "feature-5": "ENS and Unstoppable Domain support",
-        "linkText": "Code samples"
-      },
-      "token-api": {
-        "title": "Token API",
-        "feature-1": "Token balance across 8 chains",
-        "feature-2": "All ERC20 tokens with metadata",
-        "feature-3": "Token USD price",
-        "feature-4": "Token holders",
-        "feature-5": "Token's balance by wallet address",
-        "feature-6": "Transfers by wallet address",
-        "linkText": "Code samples"
-      }
     }
   },
   "banner": {

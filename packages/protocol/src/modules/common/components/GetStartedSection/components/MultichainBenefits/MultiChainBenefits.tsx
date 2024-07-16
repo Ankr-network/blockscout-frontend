@@ -1,52 +1,64 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
-import { ExternalLink } from '@ankr.com/ui';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-import { multiChainBenefitsStyles as useStyles } from './MultiChainBenefitsStyles';
-import { getContent } from './const';
+import { useBenefitsContent } from './useBenefitsContent';
+import { useMultiChainBenefitsStyles } from './useMultiChainBenefitsStyles';
 
 export const MultiChainBenefits = () => {
   const { isLightTheme } = useThemes();
-  const { classes } = useStyles(isLightTheme);
+  const { classes } = useMultiChainBenefitsStyles(isLightTheme);
+  const { content, keys, t } = useBenefitsContent();
 
   return (
-    <Box className={classes.wrapper}>
-      {getContent().map(({ img, linkHref, linkText, list, title }) => {
-        return (
-          <Paper className={classes.apiWrapper} key={title}>
-            <img className={classes.img} src={img} alt="" />
+    <>
+      <Typography variant="subtitle1" className={classes.title}>
+        {t(keys.title)}
+      </Typography>
+      <Box className={classes.wrapper}>
+        {content.map(
+          ({ description, img, linkHref, linkText, list, title }) => {
+            return (
+              <Paper className={classes.apiWrapper} key={title}>
+                <img className={classes.img} src={img} alt="" />
 
-            <Typography className={classes.apiTitle} variant="subtitle1">
-              {title}
-            </Typography>
-
-            <Box className={classes.apiFeaturesList}>
-              {list.map(item => {
-                return (
-                  <Typography
-                    variant="caption"
-                    className={classes.apiFeaturesItem}
-                    key={item}
-                  >
-                    {item}
+                <div className={classes.mainTextSection}>
+                  <Typography className={classes.apiTitle} variant="subtitle2">
+                    {title}
                   </Typography>
-                );
-              })}
-            </Box>
 
-            <Button
-              className={classes.apiLink}
-              variant="text"
-              endIcon={<ExternalLink />}
-              target="_blank"
-              href={linkHref}
-            >
-              {linkText}
-            </Button>
-          </Paper>
-        );
-      })}
-    </Box>
+                  <Typography
+                    className={classes.apiDescription}
+                    variant="body3"
+                    color="textSecondary"
+                  >
+                    {description}
+                  </Typography>
+                </div>
+
+                <Box className={classes.apiFeaturesList}>
+                  {list.map(item => {
+                    return (
+                      <code className={classes.apiFeaturesItem} key={item}>
+                        {item}
+                      </code>
+                    );
+                  })}
+                </Box>
+
+                <Button
+                  className={classes.apiLink}
+                  variant="text"
+                  target="_blank"
+                  href={linkHref}
+                >
+                  {linkText}
+                </Button>
+              </Paper>
+            );
+          },
+        )}
+      </Box>
+    </>
   );
 };

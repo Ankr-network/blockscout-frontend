@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
 
-import { ChainID } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
@@ -10,7 +9,6 @@ import {
   ConnectionSnippet,
   ConnectionSnippetProps,
 } from './components/ConnectionSnippet';
-import { MultiChainBenefits } from './components/MultichainBenefits';
 import { useGetStartedSectionStyles } from './GetStartedSectionStyles';
 
 export interface GetStartedSectionProps extends ConnectionSnippetProps {
@@ -32,7 +30,6 @@ export const GetStartedSection = ({
   technology,
   wssCode,
 }: GetStartedSectionProps) => {
-  const isMultiChain = chainId === ChainID.MULTICHAIN;
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
   const { classes } = useGetStartedSectionStyles();
@@ -41,8 +38,6 @@ export const GetStartedSection = ({
 
   return (
     <div className={classes.getStartedSection}>
-      {isMultiChain && <MultiChainBenefits />}
-
       {!isChainProtocolSwitchEnabled && isEvmBased && (
         <ConnectionSnippet
           technology={technology}

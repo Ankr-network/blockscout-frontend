@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Timeframe } from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 
