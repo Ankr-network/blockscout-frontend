@@ -1,25 +1,25 @@
 import { Box, Skeleton, Typography } from '@mui/material';
 import { ReactNode } from 'react';
 
-import { Timeframe, Chain } from 'modules/chains/types';
-import { useChainIcon } from 'uiKit/hooks/useChainIcon';
-import { NavLink } from 'uiKit/NavLink';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
+import { NavLink } from 'uiKit/NavLink';
+import { Timeframe, Chain } from 'modules/chains/types';
+import { Placeholder } from 'modules/common/components/Placeholder';
 
+import { BlockchainInfo } from './components/BlockchainInfo';
+import { Information } from './components/Information';
 import { useChainCardStyles } from './useChainCardStyles';
-import { Information } from './Information';
 
 export interface IBaseChainCardProps {
-  timeframe: Timeframe;
+  badge?: ReactNode;
   chain: Chain;
   className?: string;
-  onClick?: () => void;
-  totalRequests: string;
-  loading: boolean;
-  badge?: ReactNode;
-  isPremiumOnly?: boolean;
   hasTotalRequestsLabel?: boolean;
+  isPremiumOnly?: boolean;
+  loading: boolean;
+  onClick?: () => void;
+  timeframe: Timeframe;
+  totalRequests: string;
 }
 
 export const BaseChainsCard = ({
@@ -35,9 +35,7 @@ export const BaseChainsCard = ({
 }: IBaseChainCardProps) => {
   const { classes, cx } = useChainCardStyles();
 
-  const { coinName, id, name } = chain;
-
-  const icon = useChainIcon(id);
+  const { id } = chain;
 
   const isSimpleLinkCard = !onClick;
 
@@ -52,42 +50,24 @@ export const BaseChainsCard = ({
 
   return (
     <Box className={cx(classes.root, className)} {...props}>
-      <div className={classes.mainInfo}>
-        <img src={icon} className={classes.icon} alt={id} />
-        <div className={classes.info}>
-          <Typography
-            variant="subtitle1"
-            component="div"
-            className={classes.title}
-          >
-            {name}
-            {isPremiumOnly && (
-              <PremiumLabel
-                size="xs"
-                hasGradientBackground
-                className={classes.chip}
-                label="Premium only"
-              />
-            )}
-          </Typography>
-          <Typography variant="body3" className={classes.subtitle}>
-            {coinName.toUpperCase()}
-          </Typography>
-        </div>
-        {badge && <div className={classes.badge}>{badge}</div>}
-      </div>
+      <BlockchainInfo
+        badge={badge}
+        chain={chain}
+        isPremiumOnly={isPremiumOnly}
+      />
       <div className={classes.secondInfo}>
         {hasTotalRequestsLabel && (
           <Typography className={classes.information}>
-            {loading ? (
-              <Skeleton className={classes.skeleton} />
-            ) : (
+            <Placeholder
+              hasPlaceholder={loading}
+              placeholder={<Skeleton className={classes.skeleton} />}
+            >
               <Information
                 timeframe={timeframe}
                 totalRequests={totalRequests}
                 timeframeClassName={classes.timeSwitcher}
               />
-            )}
+            </Placeholder>
           </Typography>
         )}
       </div>
