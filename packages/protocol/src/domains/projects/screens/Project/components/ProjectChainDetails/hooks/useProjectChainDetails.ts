@@ -30,13 +30,11 @@ export interface UseProjectChainDetailsParams {
   networksButton?: ReactNode;
   projectChain: Chain;
   isCompactView?: boolean;
-  onOpenCodeExample?: () => void;
 }
 
 export const useProjectChainDetails = ({
   isCompactView,
   networksButton,
-  onOpenCodeExample,
   projectChain,
 }: UseProjectChainDetailsParams) => {
   const { hasPremium } = useAuth();
@@ -44,8 +42,18 @@ export const useProjectChainDetails = ({
   const {
     chain: privateChain,
     chainProtocolContext,
+    chainSubTypeTab,
+    chainSubTypeTabs,
+
+    chainTypeTab,
+    chainTypeTabs,
     group,
+    groupID,
+    groupTab,
+    groupTabs,
+    groups,
     headerContent,
+    selectGroup,
   } = usePrivateChainItem({
     additionalSelector: networksButton,
     chain: projectChain,
@@ -55,7 +63,6 @@ export const useProjectChainDetails = ({
     isHiddenMainnet: getIsHiddenMainnet(projectChain),
     isPremiumLabelHidden: true,
     isCompactView,
-    onOpenCodeExample,
   });
 
   const [technology, setTechnology] = useTechnology();
@@ -73,5 +80,15 @@ export const useProjectChainDetails = ({
     setTechnology,
     technology,
     wssCode: hasPremium ? wssCode : undefined,
+
+    chainSubTypeTab,
+    chainSubTypeTabs,
+    chainTypeTab,
+    chainTypeTabs,
+    groupID,
+    groupTab,
+    groupTabs,
+    groups,
+    selectGroup,
   };
 };

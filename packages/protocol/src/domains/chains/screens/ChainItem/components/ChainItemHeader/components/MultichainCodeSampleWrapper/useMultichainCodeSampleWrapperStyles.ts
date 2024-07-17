@@ -3,13 +3,14 @@ import { Theme } from '@mui/material/styles';
 
 const codeWrapperBackgroundDark = '#17191C';
 
-export const useStyles = makeStyles<boolean>()(
+export const useMultichainCodeSampleWrapperStyles = makeStyles<boolean>()(
   (theme: Theme, isLightTheme: boolean) => ({
     root: {
       display: 'flex',
       overflow: 'hidden',
       alignItems: 'center',
       backgroundImage: 'none',
+      marginTop: theme.spacing(4),
     },
     header: {
       width: '50%',
@@ -50,7 +51,6 @@ export const useStyles = makeStyles<boolean>()(
       background: isLightTheme
         ? theme.palette.text.primary
         : codeWrapperBackgroundDark,
-      width: '50%',
       padding: theme.spacing(6),
       alignSelf: 'stretch',
       fontSize: 12,

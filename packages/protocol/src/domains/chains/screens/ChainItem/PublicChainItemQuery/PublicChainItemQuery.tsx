@@ -1,6 +1,5 @@
 import { IPublicChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { ChainID } from 'modules/chains/types';
 
 import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { useStyles } from '../ChainItemStyles';
@@ -21,11 +20,7 @@ export const PublicChainItemQuery = ({ chainId, loading }: ChainItemProps) => {
       >
         {({ data, isLoading, isUninitialized }) => {
           if ((isLoading && isUninitialized) || !data) {
-            return (
-              <ChainItemSkeleton
-                withCodeSample={chainId === ChainID.MULTICHAIN}
-              />
-            );
+            return <ChainItemSkeleton />;
           }
 
           return <PublicChainItem data={data} />;

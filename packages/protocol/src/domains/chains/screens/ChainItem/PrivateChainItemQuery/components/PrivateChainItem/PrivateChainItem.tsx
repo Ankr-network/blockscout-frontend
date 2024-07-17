@@ -44,7 +44,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
-      <ChainItemHeader chain={chain} headerContent={headerContent} />
+      <ChainItemHeader headerContent={headerContent} />
       <ChainItemSections
         chainType={chainType}
         chainSubType={chainSubType}

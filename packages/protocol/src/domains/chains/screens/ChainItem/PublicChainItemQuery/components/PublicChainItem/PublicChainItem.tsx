@@ -8,6 +8,8 @@ import {
   UpgradePlanDialog,
   useUpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
+import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
+import { isMultichain } from 'modules/chains/utils/isMultichain';
 
 import { usePublicChainItem } from './hooks/usePublicChainItem';
 
@@ -36,16 +38,19 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
   useChainItemBreadcrumbs(chain.name);
 
   return (
-    <ChainProtocolContext.Provider value={chainProtocolContext}>
-      <ChainItemHeader chain={chain} headerContent={headerContent} />
-      <ChainItemSections
-        chainType={chainType}
-        chainSubType={chainSubType}
-        chain={data.chain}
-        group={group}
-        unfilteredGroup={unfilteredGroup}
-      />
-      <UpgradePlanDialog open={isOpened} onClose={onClose} />
-    </ChainProtocolContext.Provider>
+    <>
+      {isMultichain(chain.id) && <UpgradePlanBanner isPublicUser />}
+      <ChainProtocolContext.Provider value={chainProtocolContext}>
+        <ChainItemHeader headerContent={headerContent} />
+        <ChainItemSections
+          chainType={chainType}
+          chainSubType={chainSubType}
+          chain={data.chain}
+          group={group}
+          unfilteredGroup={unfilteredGroup}
+        />
+        <UpgradePlanDialog open={isOpened} onClose={onClose} />
+      </ChainProtocolContext.Provider>
+    </>
   );
 };

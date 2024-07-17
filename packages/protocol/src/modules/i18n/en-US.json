@@ -1128,8 +1128,6 @@
   "advanced-api": {
     "breadcrumbs": "Advanced API",
     "chain-overview": {
-      "title": "Advanced API",
-      "description": "A collection of RPC methods to address the most popular Web3 scenarios, query archive data at near-instant speeds, and interact with multiple chains in a single request.",
       "supported-chains": "Chains supported",
       "js-sdk": "JS SDK",
       "python-sdk": "Python SDK",

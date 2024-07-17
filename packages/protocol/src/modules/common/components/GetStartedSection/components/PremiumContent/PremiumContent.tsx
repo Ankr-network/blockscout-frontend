@@ -19,7 +19,7 @@ interface IPremiumContentProps {
 }
 
 export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
-  const { classes } = usePremiumContentStyles(isMultiChain);
+  const { classes } = usePremiumContentStyles();
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 

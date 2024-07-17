@@ -55,7 +55,7 @@ export const tabs: Tab<CodeType>[] = [
   },
 ];
 
-export const getSnippetByCodeType = (codeType: CodeType, url?: string) => {
+export const getAAPISnippetByCodeType = (codeType: CodeType, url?: string) => {
   switch (codeType) {
     default:
     case CodeType.ANKRJS:

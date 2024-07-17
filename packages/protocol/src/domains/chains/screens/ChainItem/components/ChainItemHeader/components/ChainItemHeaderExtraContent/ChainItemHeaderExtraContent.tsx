@@ -4,11 +4,12 @@ import { useMemo } from 'react';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
+import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { isEVMBased } from 'domains/chains/utils/isEVMBased';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectSubChainIdsByChainId } from 'modules/chains/store/selectors';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { ChainDocsLink } from '../ChainDocsLink';
 import { chainItemHeaderExtraContentTranslation } from './translation';
@@ -35,6 +36,8 @@ export const ChainItemHeaderExtraContent = ({
   isEnterprise,
   onOpenCodeExample,
 }: IChainItemHeaderExtraContentProps) => {
+  const { isLoggedIn } = useAuth();
+
   const { keys, t } = useTranslation(chainItemHeaderExtraContentTranslation);
 
   const { classes } = useChainItemHeaderExtraContentStyles();
@@ -45,25 +48,34 @@ export const ChainItemHeaderExtraContent = ({
     selectSubChainIdsByChainId(state, id),
   );
 
-  const hasEvmCompatibleSubChains = useMemo(
-    () => allSubChainIds.some(isEVMBased),
-    [allSubChainIds],
-  );
+  const hasEvmCompatibleSubChains = useMemo(() => {
+    if (id === ChainID.MULTICHAIN) {
+      return true;
+    }
+
+    return allSubChainIds.some(isEVMBased);
+  }, [allSubChainIds, id]);
 
   if (!isCompactView) return null;
 
   return (
     <div className={classes.extraContent}>
-      <Button
-        onClick={onOpenCodeExample}
-        variant="outlined"
-        size="small"
-        className={classes.codeExampleButton}
-        disabled={!hasEvmCompatibleSubChains}
-      >
-        <Code />
-        {t(keys.codeExample)}
-      </Button>
+      {/* TODO: display button for public chains that are allowed to use for not logged in users */}
+      {isLoggedIn && (
+        <Button
+          onClick={onOpenCodeExample}
+          variant="outlined"
+          size="small"
+          className={classes.codeExampleButton}
+          disabled={
+            !hasEvmCompatibleSubChains ||
+            typeof onOpenCodeExample === 'undefined'
+          }
+        >
+          <Code />
+          {t(keys.codeExample)}
+        </Button>
+      )}
 
       <ChainDocsLink
         id={id}
