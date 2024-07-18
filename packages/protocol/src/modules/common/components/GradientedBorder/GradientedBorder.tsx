@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ElementType, ReactNode } from 'react';
 
 import {
   GradientedBorderStyles,
@@ -6,12 +6,14 @@ import {
 } from './GradientedBorderStyles';
 
 export interface GradientedBorderProps {
+  Component?: ElementType<{ className?: string }>;
   children: ReactNode;
   hasBorder?: boolean;
   styles?: GradientedBorderStyles;
 }
 
 export const GradientedBorder = ({
+  Component = 'div',
   children,
   hasBorder = true,
   styles = {},
@@ -23,8 +25,8 @@ export const GradientedBorder = ({
   }
 
   return (
-    <div className={classes.root}>
+    <Component className={classes.root}>
       <div className={classes.content}>{children}</div>
-    </div>
+    </Component>
   );
 };

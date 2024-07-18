@@ -7,6 +7,7 @@ import { Timeframe, Chain } from 'modules/chains/types';
 import { Placeholder } from 'modules/common/components/Placeholder';
 
 import { BlockchainInfo } from './components/BlockchainInfo';
+import { ChainCardShadow } from '../ChainCardShadow';
 import { Information } from './components/Information';
 import { useChainCardStyles } from './useChainCardStyles';
 
@@ -14,6 +15,7 @@ export interface IBaseChainCardProps {
   badge?: ReactNode;
   chain: Chain;
   className?: string;
+  hasShadow?: boolean;
   hasTotalRequestsLabel?: boolean;
   isPremiumOnly?: boolean;
   loading: boolean;
@@ -26,6 +28,7 @@ export const BaseChainsCard = ({
   badge,
   chain,
   className,
+  hasShadow = true,
   hasTotalRequestsLabel = true,
   isPremiumOnly = false,
   loading,
@@ -48,8 +51,10 @@ export const BaseChainsCard = ({
         onClick,
       };
 
+  const Component = hasShadow ? ChainCardShadow : Box;
+
   return (
-    <Box className={cx(classes.root, className)} {...props}>
+    <Component className={cx(classes.root, className)} {...props}>
       <BlockchainInfo
         badge={badge}
         chain={chain}
@@ -71,6 +76,6 @@ export const BaseChainsCard = ({
           </Typography>
         )}
       </div>
-    </Box>
+    </Component>
   );
 };
