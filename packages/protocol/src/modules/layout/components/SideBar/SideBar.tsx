@@ -1,12 +1,13 @@
-import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
-import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 import { AccountStatus } from 'modules/common/components/AccountStatus';
+import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
+import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
 
-import { useStyles } from './SideBarStyles';
-import { MainNavigation } from '../MainNavigation';
 import { BalanceMenuContent } from '../BalanceMenu';
+import { MainNavigation } from '../MainNavigation';
 import { useBalanceMenuButton } from '../BalanceMenuButton/useBalanceMenuButton';
+import { useStyles } from './SideBarStyles';
 
 export interface SidebarProps {
   chainsRoutes: string[];
@@ -41,7 +42,9 @@ export const SideBar = ({
   return (
     <aside className={cx(classes.root, className)}>
       {hasMenu && <GlobalMenuWrapper />}
-      {isXsDown && <AccountStatus className={classes.accountStatus} />}
+      {isXsDown && !isReactSnap && (
+        <AccountStatus className={classes.accountStatus} isOnWhiteBackground />
+      )}
       <div className={classes.balanceRoot}>
         <BalanceMenuContent
           currentChargingModel={currentChargingModel}

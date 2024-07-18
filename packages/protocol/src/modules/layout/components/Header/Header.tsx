@@ -9,23 +9,15 @@ import { useStyles } from './useStyles';
 interface HeaderProps {
   className?: string;
   isChainItemPage?: boolean;
-  isChainsPublicPage?: boolean;
 }
 
-export const Header = ({
-  className = '',
-  isChainItemPage,
-  isChainsPublicPage,
-}: HeaderProps) => {
+export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
   const { classes, cx } = useStyles();
 
   return (
     <header className={cx(classes.root, className)}>
       <Container className={classes.container}>
-        <Breadcrumbs
-          isChainItemPage={isChainItemPage}
-          isChainsPublicPage={isChainsPublicPage}
-        />
+        <Breadcrumbs isChainItemPage={isChainItemPage} />
         <div className={classes.right}>
           <NoReactSnap>
             <div className={classes.buttons}>

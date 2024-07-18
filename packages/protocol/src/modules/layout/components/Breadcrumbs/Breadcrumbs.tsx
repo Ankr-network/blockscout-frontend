@@ -1,21 +1,17 @@
+import { AccountStatus } from 'modules/common/components/AccountStatus/AccountStatus';
 import { Breadcrumbs as BreadcrumbsBase } from 'uiKit/Breadcrumbs';
 import { useIsMDDown } from 'uiKit/Theme/useTheme';
-import { AccountStatus } from 'modules/common/components/AccountStatus/AccountStatus';
 
 import { useBreadcrumbs } from '../BreadcrumbsProvider';
 import { useBreadcrumbsStyles } from './useBreadcrumbsStyles';
 
 export interface BreadcrumbsProps {
   isChainItemPage?: boolean;
-  isChainsPublicPage?: boolean;
 }
 
 const CHAIN_PAGE_CUSTOM_BREAKPOINT = 1050;
 
-export const Breadcrumbs = ({
-  isChainItemPage,
-  isChainsPublicPage,
-}: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ isChainItemPage }: BreadcrumbsProps) => {
   const { classes } = useBreadcrumbsStyles();
 
   const { breadcrumbs } = useBreadcrumbs();
@@ -26,11 +22,7 @@ export const Breadcrumbs = ({
 
   return (
     <>
-      <BreadcrumbsBase
-        customBreakpoint={breakpoint}
-        items={breadcrumbs}
-        isPublic={isChainsPublicPage}
-      />
+      <BreadcrumbsBase customBreakpoint={breakpoint} items={breadcrumbs} />
       {!isMdDown && <AccountStatus className={classes.accountStatus} />}
     </>
   );

@@ -1,14 +1,20 @@
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { UserLabel } from 'uiKit/UserLabel';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { UserLabel } from 'uiKit/UserLabel';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+
+import { PublicBadge } from '../PublicBadge';
 
 interface IAccountStatusProps {
   className?: string;
+  isOnWhiteBackground?: boolean;
 }
 
-export const AccountStatus = ({ className }: IAccountStatusProps) => {
+export const AccountStatus = ({
+  className,
+  isOnWhiteBackground,
+}: IAccountStatusProps) => {
   const { hasPremium, hasStatusTransition, isLoggedIn, loading } = useAuth();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
@@ -18,7 +24,16 @@ export const AccountStatus = ({ className }: IAccountStatusProps) => {
     blockName: BlockWithPermission.AccountStatus,
   });
 
-  if (!isLoggedIn || !hasAccessToAccountStatus) {
+  if (!isLoggedIn) {
+    return (
+      <PublicBadge
+        className={className}
+        isOnWhiteBackground={isOnWhiteBackground}
+      />
+    );
+  }
+
+  if (!hasAccessToAccountStatus) {
     return null;
   }
 
