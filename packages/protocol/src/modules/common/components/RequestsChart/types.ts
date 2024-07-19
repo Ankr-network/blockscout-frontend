@@ -7,7 +7,7 @@ export interface RequestsChartProps {
   data: IChartData[];
   isLoading?: boolean;
   timeframe: Timeframe;
-  title: ReactNode;
+  title?: ReactNode;
   isFlexibleHeight?: boolean;
 }
 

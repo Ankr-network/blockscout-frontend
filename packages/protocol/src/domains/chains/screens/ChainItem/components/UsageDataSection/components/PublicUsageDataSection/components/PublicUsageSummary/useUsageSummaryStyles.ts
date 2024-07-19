@@ -6,11 +6,13 @@ export const useUsageSummaryStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     width: '100%',
     gap: theme.spacing(2 * 3.75),
-    margin: theme.spacing(2 * 1.5, 0),
+
+    [theme.breakpoints.down('lg')]: {
+      gap: theme.spacing(4),
+    },
 
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
-      gap: theme.spacing(2 * 2),
     },
   },
   stat: {

@@ -5,7 +5,8 @@ export const useItemHeaderStyles = makeStyles()((theme: Theme) => ({
   itemHeader: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(2 * 1),
+    gap: theme.spacing(2),
+    marginBottom: theme.spacing(3),
   },
   title: {
     color: theme.palette.text.primary,
@@ -23,9 +24,9 @@ export const useItemHeaderStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
 
-    padding: theme.spacing(2 * 0.25, 2 * 1),
+    padding: theme.spacing(2 * 0.25, 2),
 
-    borderRadius: theme.spacing(2 * 1),
+    borderRadius: theme.spacing(2),
 
     background: theme.palette.background.default,
 

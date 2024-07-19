@@ -1,34 +1,27 @@
 import BigNumber from 'bignumber.js';
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
 
-import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
 import { Timeframe } from 'modules/chains/types';
 
 import { UsageData } from '../../types';
 import { makePrivateCountryMap } from '../../utils/makePrivateCountryMap';
-
-const SHOULD_SHOW_ONLY_PREMIUM_30D_COUNTRIES = true;
 
 export interface UsageDataParams {
   isConnecting: boolean;
   arePrivateStatsLoading: boolean;
   privateStatsError: any;
   privateStats?: PrivateStat;
-  day30PrivateStats?: PrivateStat;
   timeframe: Timeframe;
   userTopRequests: PrivateStatTopRequests[];
-  userTopRequestsIp: UserRequestsByIpData[];
 }
 
 export const getPrivateUsageData = ({
   arePrivateStatsLoading,
-  day30PrivateStats,
   isConnecting,
   privateStats,
   privateStatsError,
   timeframe,
   userTopRequests,
-  userTopRequestsIp,
 }: UsageDataParams): UsageData => {
   const {
     countries_count: { top_countries: privateCountries = [] } = {},
@@ -37,16 +30,8 @@ export const getPrivateUsageData = ({
     total_requests: privateTotalRequests = 0,
   } = privateStats || {};
 
-  const {
-    countries_count: { top_countries: day30PrivateCountries = [] } = {},
-  } = day30PrivateStats || {};
-
   const privateUsageData: UsageData = {
-    countries: makePrivateCountryMap(
-      SHOULD_SHOW_ONLY_PREMIUM_30D_COUNTRIES
-        ? day30PrivateCountries
-        : privateCountries,
-    ),
+    countries: makePrivateCountryMap(privateCountries),
     error: privateStatsError,
     isConnecting,
     loading: arePrivateStatsLoading || isConnecting,
@@ -59,7 +44,6 @@ export const getPrivateUsageData = ({
       ),
     ),
     userTopRequests,
-    userTopRequestsIp,
   };
 
   return privateUsageData;

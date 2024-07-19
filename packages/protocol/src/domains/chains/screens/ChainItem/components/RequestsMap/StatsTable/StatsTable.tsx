@@ -12,15 +12,19 @@ import {
   TableHead,
 } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { palette as PALETTE } from '@ankr.com/ui';
+import { NoDataCoinStack, palette as PALETTE } from '@ankr.com/ui';
 
 import { StatusCircle } from 'uiKit/StatusCircle';
 
-import { useStyles } from './useStyles';
+import { useStatsTableStyles } from './useStatsTableStyles';
 import { StatsTableProps } from './StatsTableTypes';
 
-export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
-  const { classes, cx } = useStyles();
+export const StatsTable = ({
+  data,
+  isUnsupportedTimeframe,
+  selectedCountry,
+}: StatsTableProps) => {
+  const { classes, cx } = useStatsTableStyles();
 
   return (
     <div className={classes.root}>
@@ -83,6 +87,23 @@ export const StatsTable = ({ data, selectedCountry }: StatsTableProps) => {
             })}
           </TableBody>
         </Box>
+        {data.length === 0 && (
+          <div className={classes.noData}>
+            <NoDataCoinStack />
+            <Typography
+              variant="body3"
+              color="textSecondary"
+              align="center"
+              maxWidth={200}
+            >
+              {t(
+                isUnsupportedTimeframe
+                  ? 'projects.list-project.unsupported-timeframe'
+                  : 'projects.list-project.no-requests-yet',
+              )}
+            </Typography>
+          </div>
+        )}
       </TableContainer>
     </div>
   );

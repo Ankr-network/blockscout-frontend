@@ -255,6 +255,7 @@
       "rename": "Rename",
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
+      "unsupported-timeframe": "No data for selected timeframe. Please change timeframe to 7d or 30d.",
       "not-available": "Not available",
       "premium-only": "Request statistics are available for Premium users",
       "resume-setup": "Resume setup",
@@ -686,11 +687,7 @@
   "requests-chart": {
     "date": "{value, date, medium}",
     "time": "{value, time, short}",
-    "calls-count": "{value, number, ::compact-short}",
-    "placeholder": {
-      "title": "Send your request",
-      "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
-    }
+    "calls-count": "{value, number, ::compact-short}"
   },
   "failed-requests-banner": {
     "title": "Requests",

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Skeleton } from '@mui/material';
 
-import { useStatStyles } from './StatStyles';
+import { useStatStyles } from './useStatStyles';
 
 export interface StatProps {
   className?: string;

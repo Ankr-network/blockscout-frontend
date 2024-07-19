@@ -19,6 +19,7 @@ export const getLinkStyles = (theme: Theme) => ({
 
 export const useAdvancedApiInfoTabsStyles = makeStyles()(theme => ({
   advancedApiInfoTabsPaper: {
+    backgroundImage: 'none',
     padding: theme.spacing(6, 8),
     minHeight: 264,
   },

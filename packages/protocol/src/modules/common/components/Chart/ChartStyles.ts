@@ -7,6 +7,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   chart: {
     '& .recharts-cartesian-axis-tick-value': {
+      fontWeight: 500,
       fontSize: 12,
       color: theme.palette.text.primary,
     },

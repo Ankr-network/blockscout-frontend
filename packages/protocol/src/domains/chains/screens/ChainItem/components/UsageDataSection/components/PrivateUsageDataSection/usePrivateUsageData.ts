@@ -9,9 +9,7 @@ import {
 } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useMonthPrivateStats } from 'domains/chains/hooks/useMonthPrivateStats';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
@@ -88,23 +86,12 @@ export const usePrivateUsageData = ({
     privateCheckedChainId,
   );
 
-  const [{ stats: day30PrivateStats = {} }, areDay30PrivateStatsLoading] =
-    useMonthPrivateStats();
-
-  const userTopRequestsIp = useUserRequestsByIp({
-    day30PrivateStats,
-    chainId: privateCheckedChainId,
-  });
-
   return getPrivateUsageData({
     isConnecting,
-    arePrivateStatsLoading:
-      arePrivateStatsLoading || areDay30PrivateStatsLoading,
+    arePrivateStatsLoading,
     privateStatsError,
     privateStats: privateStats[privateCheckedChainId],
-    day30PrivateStats: day30PrivateStats[privateCheckedChainId], // TODO: remove upon backend support for other timeframes
     timeframe,
     userTopRequests,
-    userTopRequestsIp,
   });
 };

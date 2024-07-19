@@ -22,6 +22,7 @@ export const useMultiChainBenefitsStyles = makeStyles<boolean>()(
       padding: theme.spacing(8),
       width: '33%',
       borderRadius: theme.spacing(5),
+      backgroundImage: 'none',
 
       [theme.breakpoints.down('md')]: {
         width: '100%',

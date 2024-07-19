@@ -6,14 +6,11 @@ import { TabsManager } from 'uiKit/TabsManager';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { getPublicUrl } from 'domains/chains/utils/chainsUtils';
-import { isMultichain } from 'modules/chains/utils/isMultichain';
-import { MultiChainBenefits } from 'modules/common/components/GetStartedSection/components/MultichainBenefits';
 
 import { SectionID } from './types';
 import { TimeframeTabs } from '../TimeframeTabs';
 import { useChainItemSectionsStyles } from './ChainItemSectionsStyles';
 import { useSectionsTabs } from './hooks/useSectionsTabs';
-import { AdvancedApiInfoTabs } from './components/AdvancedApiInfoTabs';
 
 export interface IChainItemTabsProps {
   chainType: ChainType;
@@ -49,15 +46,6 @@ export const ChainItemSections = ({
   });
 
   const { classes } = useChainItemSectionsStyles();
-
-  if (isMultichain(chain.id)) {
-    return (
-      <>
-        <AdvancedApiInfoTabs />
-        <MultiChainBenefits />
-      </>
-    );
-  }
 
   const { chains } = group;
 
