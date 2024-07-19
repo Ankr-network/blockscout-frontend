@@ -6,7 +6,6 @@ import { useCallback, useState } from 'react';
 import {
   ContentType,
   UpgradePlanDialog,
-  UpgradePlanDialogType,
 } from 'modules/common/components/UpgradePlanDialog';
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
 import image from 'modules/common/assets/performance-upgrade.png';
@@ -36,7 +35,6 @@ export const TimeToUpgradeDialog = ({ onClose, open }: IDialogProps) => {
       <UpgradePlanDialog
         onClose={onCloseContactSalesPopup}
         open={isContactSalesPopup}
-        type={UpgradePlanDialogType.Enterprise}
         defaultState={ContentType.CONTACT_SALES_FORM}
       />
     );

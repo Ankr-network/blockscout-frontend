@@ -2,10 +2,7 @@ import { t } from '@ankr.com/common';
 import { Divider, Link } from '@mui/material';
 
 import { Navigation } from 'modules/common/components/Navigation';
-import {
-  UpgradePlanDialog,
-  UpgradePlanDialogType,
-} from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
 import { DOCS_URL } from 'modules/layout/const';
 
@@ -49,10 +46,9 @@ export const MainNavigation = (props: IMainNavigationProps) => {
       >
         {t('main-navigation.docs')}
       </Link>
-      <UpgradePlanDialog
+      <PlansDialog
         onClose={handleUpgradePlanDialogClose}
         open={isUpgradePlanDialogOpened}
-        type={UpgradePlanDialogType.Enterprise}
       />
     </div>
   );

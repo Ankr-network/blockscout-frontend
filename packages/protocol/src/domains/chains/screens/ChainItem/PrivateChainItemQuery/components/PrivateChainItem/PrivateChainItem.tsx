@@ -2,15 +2,13 @@ import { t } from '@ankr.com/common';
 
 import { H1Tag } from 'uiKit/H1Tag';
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
 import { ChainItemSections } from 'domains/chains/screens/ChainItem/components/ChainItemSections';
 import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainItem/hooks/useRedirectToAdvancedApi';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 
@@ -52,7 +50,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
         group={group}
         unfilteredGroup={unfilteredGroup}
       />
-      <UpgradePlanDialog open={isOpened} onClose={onClose} />
+      <PlansDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

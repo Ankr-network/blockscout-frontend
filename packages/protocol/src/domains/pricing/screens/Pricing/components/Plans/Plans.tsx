@@ -46,6 +46,7 @@ export const Plans = () => {
     onOpenUpgradePlanDialog,
     onOpenSignupDialog,
     onOpenTopupDialog,
+    onClose,
   });
 
   return (

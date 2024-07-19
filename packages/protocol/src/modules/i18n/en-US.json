@@ -832,7 +832,7 @@
     }
   },
   "chain-item-dialog": {
-    "title": "Plans that scale with you.",
+    "title": "Plans that scale with you",
     "free": {
       "title": "Free",
       "description": "Smaller projects and individual developers can receive the best rates of any free tier in the industry.",
@@ -1190,21 +1190,21 @@
         "title": "Freemium",
         "price": "<em>$0</em>forever free",
         "info-1": "<em>30</em> requests per second",
-        "info-2": "<em>40+</em> chains",
+        "info-2": "<em>50+</em> chains",
         "info-3": "<em>10</em> regions",
         "info-4": "Community support",
-        "button": "Start for Free"
+        "button": "Start for free"
       },
       "premium": {
         "title": "Premium",
         "tip": "PAY-AS-YOU-GO",
         "price": "<em>$10</em> per 100M credits",
         "info-1": "<em>1500</em> requests per second",
-        "info-2": "<em>45+</em> chains",
+        "info-2": "<em>55+</em> chains",
         "info-3": "<em>40</em> regions",
         "info-4": "Support portal",
         "info-5": "No commitment",
-        "button": "Get Started"
+        "button": "Get started"
       },
       "enterprise": {
         "title": "Enterprise",

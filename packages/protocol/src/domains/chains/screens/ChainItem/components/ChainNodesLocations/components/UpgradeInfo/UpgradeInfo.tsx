@@ -2,10 +2,8 @@ import { Button, Typography } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 import { ArrowRightSmall } from '@ankr.com/ui';
 
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 import { useUpgradeInfoStyls } from './useUpgradeInfoStyles';
 
@@ -30,7 +28,7 @@ export const UpgradeInfo = () => {
           {t('chain-item.locations.upgrade')} <ArrowRightSmall />
         </Button>
       </div>
-      <UpgradePlanDialog onClose={onClose} open={isOpened} />
+      <PlansDialog onClose={onClose} open={isOpened} />
     </div>
   );
 };

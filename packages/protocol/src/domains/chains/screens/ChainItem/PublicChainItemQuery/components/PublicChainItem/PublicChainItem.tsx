@@ -4,10 +4,8 @@ import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants
 import { IPublicChainItemDetails } from 'domains/chains/actions/public/fetchPublicChain';
 import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainItem/hooks/useRedirectToAdvancedApi';
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
 
@@ -49,7 +47,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
           group={group}
           unfilteredGroup={unfilteredGroup}
         />
-        <UpgradePlanDialog open={isOpened} onClose={onClose} />
+        <PlansDialog open={isOpened} onClose={onClose} />
       </ChainProtocolContext.Provider>
     </>
   );

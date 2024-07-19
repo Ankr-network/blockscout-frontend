@@ -1,11 +1,7 @@
-import {
-  ContentType,
-  UpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { ECurrency } from 'modules/payments/types';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { Project } from 'domains/projects/utils/getAllProjects';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { UpgradeAccountDialog } from 'modules/common/components/UpgradeAccountDialog';
 
 import { AddProjectButton } from '../AddProjectButton';
@@ -74,12 +70,7 @@ export const ProjectsFormContent = ({
         handleClose={onUpgradeAccountDialogClose}
       />
 
-      <UpgradePlanDialog
-        currency={ECurrency.USD}
-        defaultState={ContentType.DEFAULT}
-        onClose={onPlansDialogClose}
-        open={isPlansDialogOpened}
-      />
+      <PlansDialog onClose={onPlansDialogClose} open={isPlansDialogOpened} />
 
       <EditProjectDialog
         isOpened={isEditDialogOpened}

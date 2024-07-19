@@ -5,12 +5,12 @@ import { DIALOG_BREAKDOWN } from './const';
 const Y_SCALE_BREAKDOWN = 770;
 const scaleMedia = `@media (max-height: ${Y_SCALE_BREAKDOWN}px)`;
 
-interface UpgradePlanDialogStylesParams {
+interface IUpgradePlanDialogStylesParams {
   windowHeight: number;
 }
 
 export const useUpgradePlanDialogStyles =
-  makeStyles<UpgradePlanDialogStylesParams>()((theme, { windowHeight }) => ({
+  makeStyles<IUpgradePlanDialogStylesParams>()((theme, { windowHeight }) => ({
     paperRoot: {
       margin: 0,
       width: '100%',

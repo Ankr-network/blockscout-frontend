@@ -5,10 +5,8 @@ import { RequestsBannerContainer } from 'domains/chains/components/RequestsBanne
 import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import {
-  UpgradePlanDialog,
-  useURLBasedUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 interface IPrivateChainsProps {
   timeframe: Timeframe;
@@ -16,7 +14,7 @@ interface IPrivateChainsProps {
 
 export const PrivateChainsTop = ({ timeframe }: IPrivateChainsProps) => {
   const { hasPremium, hasUserEndpointToken } = useAuth();
-  const { isOpened, onClose, type } = useURLBasedUpgradePlanDialog();
+  const { isOpened, onClose } = useUpgradePlanDialog();
 
   return (
     <>
@@ -27,7 +25,7 @@ export const PrivateChainsTop = ({ timeframe }: IPrivateChainsProps) => {
         </GuardUserGroup>
       )}
       <JwtTokenManager />
-      <UpgradePlanDialog onClose={onClose} open={isOpened} type={type} />
+      <PlansDialog onClose={onClose} open={isOpened} />
     </>
   );
 };

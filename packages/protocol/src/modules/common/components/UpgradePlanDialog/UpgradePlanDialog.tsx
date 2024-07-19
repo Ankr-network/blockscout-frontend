@@ -1,31 +1,24 @@
 import { Dialog } from 'uiKit/Dialog';
-import { ECurrency } from 'modules/payments/types';
 import { useWindowHeight } from 'hooks/useWindowHeight';
 
-import { ContentType, UpgradePlanDialogType } from './types';
+import { ContentType } from './types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
-import { useUpgradePlanDialogStyles } from './UpgradePlanDialogStyles';
+import { useUpgradePlanDialogStyles } from './useUpgradePlanDialogStyles';
 
-export interface UpgradePlanDialogProps {
-  currency?: ECurrency;
-  defaultState?: ContentType;
+export interface IUpgradePlanDialogProps {
+  defaultState: ContentType;
   onClose: () => void;
   open: boolean;
-  type?: UpgradePlanDialogType;
 }
 
 export const UpgradePlanDialog = ({
-  currency,
   defaultState,
   onClose,
   open,
-  type = UpgradePlanDialogType.Default,
-}: UpgradePlanDialogProps) => {
+}: IUpgradePlanDialogProps) => {
   const { dialogProps, isContactSalesPopup } = useUpgradePlanDialogState({
-    currency,
     defaultState,
     onClose,
-    type,
   });
 
   const windowHeight = useWindowHeight();
