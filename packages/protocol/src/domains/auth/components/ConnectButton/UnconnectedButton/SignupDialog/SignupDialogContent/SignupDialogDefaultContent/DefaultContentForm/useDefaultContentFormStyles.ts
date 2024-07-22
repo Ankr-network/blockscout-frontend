@@ -2,45 +2,17 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useDefaultContentFormStyles = makeStyles()(theme => ({
   form: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(4),
+
     marginTop: theme.spacing(6),
   },
-  button: {
-    color: theme.palette.text.primary,
-    marginBottom: theme.spacing(3),
-
-    '&.Mui-disabled': {
-      background: 'transparent',
-
-      svg: {
-        opacity: 0.5,
-      },
-    },
-  },
-
-  or: {
-    fontWeight: 400,
-    textAlign: 'center',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(4),
-  },
-
   label: {
     '& a, & b': {
       fontWeight: 500,
       color: theme.palette.text.primary,
     },
-  },
-  error: {
-    fontWeight: 500,
-    color: theme.palette.error.main,
-    display: 'inline-flex',
-    alignItems: 'center',
-    position: 'relative',
-    left: -2,
-    marginBottom: theme.spacing(3),
-  },
-  icon: {
-    marginRight: theme.spacing(2),
   },
   formLabel: {
     alignItems: 'flex-start',
@@ -57,12 +29,6 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     marginTop: theme.spacing(1),
   },
 
-  loginIcon: {
-    '&&': {
-      fontSize: 24,
-      color: theme.palette.text.primary,
-    },
-  },
   description: {
     color: theme.palette.text.secondary,
   },
@@ -82,7 +48,5 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-
-    marginTop: theme.spacing(4),
   },
 }));

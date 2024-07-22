@@ -9,6 +9,7 @@ import {
 import { OauthLoadingState } from '../OauthLoadingState';
 
 interface SignupDialogProps {
+  canProcessReferralCode?: boolean;
   currentState: SignupDialogState;
   description?: string;
   extraContent?: ReactNode;
@@ -26,6 +27,7 @@ interface SignupDialogProps {
 }
 
 export const SignupDialogContent = ({
+  canProcessReferralCode,
   currentState,
   description,
   extraContent,
@@ -43,6 +45,7 @@ export const SignupDialogContent = ({
 }: SignupDialogProps) => {
   const defaultStateComponent = (
     <SignupDialogDefaultContent
+      canProcessReferralCode={canProcessReferralCode}
       description={description}
       extraContent={extraContent}
       hasAutoAgreement={hasAutoAgreement}

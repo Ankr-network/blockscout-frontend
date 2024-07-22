@@ -32,6 +32,7 @@ export interface SignupFormErrors {
 }
 
 export interface SignupDialogDefaultContentProps {
+  canProcessReferralCode?: boolean;
   description?: string;
   extraContent?: ReactNode;
   hasAutoAgreement?: boolean;

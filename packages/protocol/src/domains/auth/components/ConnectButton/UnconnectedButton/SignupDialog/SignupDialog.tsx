@@ -9,6 +9,7 @@ import { useSignupDialog } from './SignupDialogContent/hooks/useSignupDialog';
 export const SIGNUP_DIALOG_WIDTH = 600;
 
 export interface ISignupDialogProps {
+  canProcessReferralCode?: boolean;
   description?: string;
   extraContent?: ReactNode;
   hasAutoAgreement?: boolean;
@@ -26,6 +27,7 @@ export interface ISignupDialogProps {
 }
 
 export const SignupDialog = ({
+  canProcessReferralCode,
   description,
   extraContent,
   hasAutoAgreement,
@@ -46,6 +48,7 @@ export const SignupDialog = ({
     currentState,
     dialogTitle,
     handleClose,
+    handleManualClose,
     isLoading,
     oauthLoginType,
     onDialogCloseClick,
@@ -56,6 +59,7 @@ export const SignupDialog = ({
     hasOauthLogin,
     hasOnlyGoogleAuth,
     onClose,
+    onManualClose,
     onOauthSignUp: onOauthSignIn,
     shouldResetAuthDataForGoogleAuth,
     title,
@@ -66,13 +70,14 @@ export const SignupDialog = ({
       closeButtonClassName={classes.closeButton}
       maxPxWidth={SIGNUP_DIALOG_WIDTH}
       onClose={onDialogCloseClick}
-      onManualClose={onManualClose}
+      onManualClose={handleManualClose}
       open={isOpen}
       paperClassName={classes.paperRoot}
       title={dialogTitle}
       titleClassName={classes.dialogTitle}
     >
       <SignupDialogContent
+        canProcessReferralCode={canProcessReferralCode}
         currentState={currentState}
         description={description}
         extraContent={extraContent}

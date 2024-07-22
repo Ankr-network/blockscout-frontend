@@ -72,6 +72,7 @@ export const useSignInDialogProps = ({
 
   const signInDialogProps = useMemo(
     (): ISignupDialogProps => ({
+      canProcessReferralCode: true,
       extraContent: renderBackButton({
         onClick: () => {
           handleSignInDialogClose();

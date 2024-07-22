@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { resetAuthData } from 'domains/auth/store/authSlice';
+import { setAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 import { useGoogleLoginParams } from 'domains/oauth/hooks/useGoogleLoginParams';
 import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
-import { setAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
+import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 
 import {
   SignupDialogState,
@@ -16,9 +17,10 @@ import { useDialogTitle } from './useDialogTitle';
 interface SignupDialogHookProps {
   hasOauthLogin?: boolean;
   hasOnlyGoogleAuth?: boolean;
-  shouldResetAuthDataForGoogleAuth?: boolean;
   onClose: () => void;
+  onManualClose?: () => void;
   onOauthSignUp?: () => void | Promise<void>;
+  shouldResetAuthDataForGoogleAuth?: boolean;
   title?: string;
 }
 
@@ -26,6 +28,7 @@ export const useSignupDialog = ({
   hasOauthLogin,
   hasOnlyGoogleAuth,
   onClose,
+  onManualClose,
   onOauthSignUp = () => Promise.resolve(),
   shouldResetAuthDataForGoogleAuth,
   title,
@@ -117,9 +120,18 @@ export const useSignupDialog = ({
     redirectToOauth(oauthAuthUrl);
   }, [handleFetchOauthLoginParams, redirectToOauth, onOauthSignUp]);
 
+  const { handleRemoveSavedReferralCode } = useSavedReferralCode();
+
+  const handleManualClose = useCallback(() => {
+    onManualClose?.();
+
+    handleRemoveSavedReferralCode();
+  }, [onManualClose, handleRemoveSavedReferralCode]);
+
   return {
     currentState,
     handleClose,
+    handleManualClose,
     setWeb3State: () => setCurrentState(SignupDialogState.WEB3),
     onGoogleButtonClick,
     onGithubButtonClick,
