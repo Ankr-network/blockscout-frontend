@@ -10,7 +10,7 @@ export const useChainsItemBaseStyles = makeStyles<boolean>()(
       height: '100%',
       padding: theme.spacing(5),
 
-      borderRadius: 18,
+      borderRadius: 32,
       border: isHighlighted
         ? `2px solid ${theme.palette.primary.main}`
         : undefined,

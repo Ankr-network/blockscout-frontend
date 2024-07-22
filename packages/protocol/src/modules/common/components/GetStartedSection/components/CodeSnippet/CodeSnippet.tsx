@@ -7,7 +7,7 @@ import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { CopyCodeButton } from '../CopyCodeButton';
 import { ExpandButton } from '../ExpandButton';
 import { useExpander } from './hooks/useExpander';
-import { useStyles } from './CodeSnippetStyles';
+import { useCodeSnippetsStyles } from './useCodeSnippetsStyles';
 import {
   getCodeSnippetTitle,
   overridenThumbStyle,
@@ -24,7 +24,7 @@ export const CodeSnippet = ({ code, language, type }: CodeSnippetProps) => {
 
   const [isExpanded, expand] = useExpander(code);
 
-  const { classes } = useStyles({ isExpanded, isLightTheme });
+  const { classes } = useCodeSnippetsStyles({ isExpanded, isLightTheme });
 
   const renderView = useCallback(
     ({ style }: ViewProps) => (
@@ -42,7 +42,6 @@ export const CodeSnippet = ({ code, language, type }: CodeSnippetProps) => {
     <div className={classes.codeSnippet}>
       <div className={classes.header}>
         <div className={classes.title}>{title}</div>
-        <CopyCodeButton code={code} />
       </div>
       <Scrollbars
         className={classes.codeContainer}
@@ -50,6 +49,7 @@ export const CodeSnippet = ({ code, language, type }: CodeSnippetProps) => {
         renderView={renderView}
         style={{ height: undefined }}
       >
+        <CopyCodeButton className={classes.copyButton} code={code} />
         <CodeHighlighter
           className={classes.code}
           code={code}

@@ -1,14 +1,11 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-import { MAX_WIDTH_TO_WRAP_TIMERAME_TABS } from './const';
-
 export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
-  root: {
-    marginBottom: theme.spacing(6),
+  chainItemSectionsRoot: {
     marginTop: theme.spacing(6),
   },
-  tabs: {
+  chainItemSectionsTabs: {
     minHeight: 44,
     overflowX: 'scroll',
 
@@ -21,9 +18,7 @@ export const useChainItemSectionsStyles = makeStyles()((theme: Theme) => ({
   },
   timeframe: {
     '&&': {
-      [theme.breakpoints.down(MAX_WIDTH_TO_WRAP_TIMERAME_TABS)]: {
-        display: 'none',
-      },
+      display: 'none',
     },
   },
 }));

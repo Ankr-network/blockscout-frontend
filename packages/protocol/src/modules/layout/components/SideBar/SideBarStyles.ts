@@ -18,7 +18,9 @@ export const useStyles = makeStyles<boolean>()((theme, isMobileSideBar) => ({
     top: !isMobileSideBar && SHOULD_SHOW_HEADER_BANNER ? 40 : 0,
 
     width: isMobileSideBar ? '100%' : SIDEBAR_WIDTH,
-    height: isMobileSideBar ? `calc(100% - ${MOBILE_HEADER_HEIGHT}px)` : '100%',
+    height: isMobileSideBar
+      ? `calc(100% - ${MOBILE_HEADER_HEIGHT}px)`
+      : `calc(100vh - ${SHOULD_SHOW_HEADER_BANNER ? '40px' : '0px'})`,
     padding: isMobileSideBar
       ? theme.spacing(8, 4, 0, 4)
       : theme.spacing(8, 4, 4, 4),

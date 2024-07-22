@@ -34,6 +34,7 @@ export const useProjectData = () => {
 
   const { projectId: userEndpointToken } =
     ProjectsRoutesConfig.project.useParams();
+
   const chains = useAppSelector(state =>
     selectConfiguredBlockchainsForToken(state, userEndpointToken),
   );

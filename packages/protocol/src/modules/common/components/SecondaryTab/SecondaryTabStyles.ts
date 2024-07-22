@@ -51,19 +51,19 @@ export const useSecondaryTabStyles = makeStyles<SecondaryTabStylesParams>()(
         minWidth: 'auto',
       },
       [TabSize.Smallest]: {
-        height: 36,
-        padding: theme.spacing(0.5, 2),
+        height: 28,
+        padding: theme.spacing(0.5, 3),
         minWidth: 'auto',
         minHeight: 'unset',
-
-        borderRadius: 12,
-
         fontWeight: 500,
         fontSize: 14,
 
+        '&&&': {
+          borderRadius: 8,
+        },
+
         [`&.${buttonBaseClasses.disabled}`]: {
           color: theme.palette.text.disabled,
-
           backgroundColor: 'transparent',
         },
       },

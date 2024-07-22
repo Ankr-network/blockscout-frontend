@@ -5,6 +5,7 @@ export interface RequestsMapProps {
   loading: boolean;
   countries?: CountryMap;
   timeframe: Timeframe;
+  isTitleHidden?: boolean;
 }
 
 export interface RequestsCountry {

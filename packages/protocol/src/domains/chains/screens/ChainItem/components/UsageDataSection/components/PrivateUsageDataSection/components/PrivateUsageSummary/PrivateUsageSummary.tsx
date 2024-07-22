@@ -3,8 +3,8 @@ import { t } from '@ankr.com/common';
 
 import { Timeframe } from 'modules/chains/types';
 
-import { Stat } from './components/Stat';
-import { useUsageSummaryStyles } from './PrivateUsageSummaryStyles';
+import { Stat } from '../../../PublicUsageDataSection/components/PublicUsageSummary/components/Stat';
+import { useUsageSummaryStyles } from '../../../PublicUsageDataSection/components/PublicUsageSummary/useUsageSummaryStyles';
 import { useUsageSummary } from './PrivateUsageSummaryUtils';
 
 export interface UsageSummaryProps {

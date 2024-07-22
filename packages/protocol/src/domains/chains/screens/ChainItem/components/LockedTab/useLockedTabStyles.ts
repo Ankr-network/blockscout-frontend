@@ -1,23 +1,18 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { premiumText } from 'uiKit/Theme/themeUtils';
-
 export const useLockedTabStyles = makeStyles()(theme => ({
-  root: {
+  lockedTabRoot: {
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing(1),
+    gap: theme.spacing(1.5),
+    color: theme.palette.text.disabled,
   },
-  icon: {
-    '&&': {
-      color: '#EE6E36',
-    },
+  lockIcon: {
+    width: 20,
+    height: 20,
   },
   title: {
     fontSize: 14,
     fontWeight: 600,
-    background: premiumText,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
   },
 }));

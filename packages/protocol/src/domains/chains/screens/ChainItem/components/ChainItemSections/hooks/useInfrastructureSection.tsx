@@ -6,9 +6,9 @@ import { ChainID, Chain, ChainType, ChainSubType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { PrimaryTab } from 'modules/common/components/PrimaryTab';
 
 import { InfrastructureSection } from '../../InfrastructureSection';
-import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 

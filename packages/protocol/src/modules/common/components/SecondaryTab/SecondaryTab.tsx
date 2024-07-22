@@ -35,6 +35,7 @@ export const SecondaryTab = ({
 
   return (
     <Button
+      component="h3"
       className={cx(classes.secondaryTab, className)}
       disabled={disabled}
       endIcon={endIcon}

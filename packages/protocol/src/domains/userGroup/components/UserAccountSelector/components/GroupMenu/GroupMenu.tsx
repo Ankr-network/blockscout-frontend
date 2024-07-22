@@ -81,7 +81,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
       <PersonalAccountInfo onAccountButtonClick={handleGoToSettings} />
       <hr className={classes.divider} />
       <div className={classes.accountsList}>
-        <Typography variant="subtitle3" pl={3}>
+        <Typography variant="subtitle3" pl={2}>
           {t('account-menu.accounts')}
         </Typography>
         <Placeholder
@@ -101,6 +101,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
             <Button
               className={classes.actionButton}
               variant="text"
+              size="small"
               startIcon={<Gear />}
               to={UserSettingsRoutesConfig.settings.generatePath(
                 ESettingsContentType.Teams,
@@ -114,6 +115,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
             <Button
               className={classes.actionButton}
               variant="text"
+              size="small"
               startIcon={<Plus />}
               disabled={!isGroupsCreationAllowed}
               component={Link}
@@ -135,7 +137,7 @@ export const GroupMenu = (props: GroupMenuProps) => {
           startIcon={<Logout />}
           onClick={handleSignOut}
           variant="text"
-          size="medium"
+          size="small"
         >
           {t('account-menu.sign-out')}
         </Button>

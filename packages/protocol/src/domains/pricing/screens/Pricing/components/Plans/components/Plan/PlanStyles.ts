@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 import { premiumGradient } from 'uiKit/Theme/themeUtils';
 
-const INFO_ICON_HEIGHT = 24;
+const INFO_ICON_HEIGHT = 20;
 
 /* eslint-disable max-lines-per-function */
 export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
@@ -11,10 +11,11 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
       position: 'relative',
       padding: theme.spacing(0.5),
       borderRadius: 42,
+      height: '100%',
     },
     root: {
       background: theme.palette.background.paper,
-      padding: theme.spacing(7.5),
+      padding: theme.spacing(6),
       borderRadius: 16,
       height: '100%',
       display: 'flex',
@@ -22,7 +23,7 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
       justifyContent: 'space-between',
     },
     header: {
-      height: 130,
+      height: 120,
     },
     tip: {
       textTransform: 'uppercase',
@@ -97,6 +98,7 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
       color: theme.palette.background.default,
       height: 2,
       marginBottom: theme.spacing(6),
+      borderBottomWidth: 2,
     },
     list: {
       [theme.breakpoints.down('md')]: {
@@ -105,11 +107,11 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
       },
     },
     info: {
-      color: theme.palette.text.primary,
+      color: theme.palette.grey[900],
       display: 'flex',
       alignItems: 'flex-start',
-      marginBottom: theme.spacing(2),
-      fontSize: 18,
+      marginBottom: theme.spacing(3),
+      fontSize: 16,
       lineHeight: `${INFO_ICON_HEIGHT}px`,
 
       [theme.breakpoints.down('md')]: {
@@ -137,20 +139,6 @@ export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
     },
     enterpriseIcon: {
       color: '#F5841F', // there is no such color in current uikit
-    },
-    button: {
-      fontSize: 20,
-      lineHeight: '28px',
-      height: theme.spacing(15),
-      borderRadius: 20,
-      marginTop: theme.spacing(16),
-
-      [theme.breakpoints.down('md')]: {
-        marginTop: theme.spacing(6),
-      },
-    },
-    freeButton: {
-      color: theme.palette.text.secondary,
     },
   }),
 );

@@ -8,15 +8,12 @@ export const useSampleCodeStyles = makeStyles<boolean>()(
     },
     copyButton: {
       position: 'absolute',
-      width: 110,
-      height: 44,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       top: -66,
-      right: theme.spacing(2 * 2.75),
+      right: theme.spacing(5.5),
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(2 * 0.75, 2 * 1.5),
       borderRadius: 11,
       [theme.breakpoints.down(540)]: {
         position: 'relative',
@@ -33,7 +30,7 @@ export const useSampleCodeStyles = makeStyles<boolean>()(
     code: {
       counterReset: 'step',
       counterIncrement: 'step 0',
-      padding: theme.spacing(2 * 0, 2 * 5.25, 2 * 2.25, 2 * 2.75),
+      padding: theme.spacing(0, 10.5, 4.5, 5.5),
       margin: 0,
       marginLeft: '5em',
 

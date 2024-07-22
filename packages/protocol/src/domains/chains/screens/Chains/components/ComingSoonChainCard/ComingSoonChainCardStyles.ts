@@ -5,9 +5,6 @@ export const useComingSoonChainCardStyles = makeStyles()(theme => ({
     backgroundColor: theme.palette.background.default,
     border: `2px solid ${theme.palette.grey['200']}`,
   },
-  button: {
-    backgroundColor: theme.palette.background.paper,
-  },
   badge: {
     borderRadius: 8,
     padding: theme.spacing(0.5, 2),

@@ -2,7 +2,7 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useGroupSelectorStyles = makeStyles()(theme => ({
   root: {
-    '&&&': {
+    '&&': {
       width: 'fit-content',
       height: 32,
 

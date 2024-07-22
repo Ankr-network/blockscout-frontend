@@ -16,6 +16,9 @@ import {
   GroupedEndpoints,
 } from 'modules/endpoints/types';
 import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderContent';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { CodeExampleModal } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/CodeExampleModal';
+import { Tab } from 'modules/common/hooks/useTabs';
 
 import {
   getPrivateChainSubTypeSelector,
@@ -44,6 +47,13 @@ interface PrivateChainItem extends ChainItem {
   groups: EndpointGroup[];
   groupID: ChainGroupID;
   selectGroup: (id: ChainGroupID) => void;
+
+  chainSubTypeTab?: Tab<ChainSubType>;
+  chainSubTypeTabs: Tab<ChainSubType>[];
+  chainTypeTab?: Tab<ChainType>;
+  chainTypeTabs: Tab<ChainType>[];
+  groupTab?: Tab<ChainGroupID>;
+  groupTabs: Tab<ChainGroupID>[];
 }
 
 type PrivateChainItemParams = IPrivateChainItemDetails & {
@@ -54,6 +64,7 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   isPremiumLabelHidden?: boolean;
   isChainRequestStatsVisible?: boolean;
   shouldExpandFlareTestnets?: boolean;
+  isCompactView?: boolean;
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -62,6 +73,7 @@ export const usePrivateChainItem = ({
   chain,
   isChainArchived,
   isChainRequestStatsVisible,
+  isCompactView,
   isGroupSelectorAutoWidth,
   isHiddenMainnet,
   isPremiumLabelHidden,
@@ -71,6 +83,12 @@ export const usePrivateChainItem = ({
   shouldExpandFlareTestnets = false,
   unfilteredChain: publicChain,
 }: PrivateChainItemParams): PrivateChainItem => {
+  const {
+    isOpened: isOpenedCodeExample,
+    onClose: onCloseCodeExample,
+    onOpen: onOpenCodeExample,
+  } = useDialog();
+
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
@@ -132,28 +150,43 @@ export const usePrivateChainItem = ({
 
   const headerContent = useMemo(
     () => (
-      <ChainItemHeaderContent
-        additionalSelector={additionalSelector}
-        chain={chain}
-        chainSubType={chainSubType}
-        chainSubTypeTab={chainSubTypeTab}
-        chainSubTypeTabs={chainSubTypeTabs}
-        chainType={chainType}
-        chainTypeTab={chainTypeTab}
-        chainTypeTabs={chainTypeTabs}
-        group={group}
-        groupID={groupID}
-        groupTab={groupTab}
-        groupTabs={groupTabs}
-        groups={groups}
-        isChainArchived={isChainArchived}
-        isMultiChain={isMultiChain}
-        publicChain={publicChain}
-        selectGroup={selectGroup}
-        isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
-        isPremiumLabelHidden={isPremiumLabelHidden}
-        requestsString={isChainRequestStatsVisible ? requestsString : undefined}
-      />
+      <>
+        <ChainItemHeaderContent
+          additionalSelector={additionalSelector}
+          chain={chain}
+          chainSubType={chainSubType}
+          chainSubTypeTab={chainSubTypeTab}
+          chainSubTypeTabs={chainSubTypeTabs}
+          chainType={chainType}
+          chainTypeTab={chainTypeTab}
+          chainTypeTabs={chainTypeTabs}
+          group={group}
+          groupID={groupID}
+          groupTab={groupTab}
+          groupTabs={groupTabs}
+          groups={groups}
+          isChainArchived={isChainArchived}
+          isMultiChain={isMultiChain}
+          publicChain={publicChain}
+          selectGroup={selectGroup}
+          isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
+          isPremiumLabelHidden={isPremiumLabelHidden}
+          requestsString={
+            isChainRequestStatsVisible ? requestsString : undefined
+          }
+          isCompactView={isCompactView}
+          onOpenCodeExample={onOpenCodeExample}
+          isPremiumChain={
+            !hasPremium &&
+            (chain?.isMainnetPremiumOnly || Boolean(isTestnetPremiumOnly))
+          }
+        />
+        <CodeExampleModal
+          isOpenedCodeExample={isOpenedCodeExample}
+          onCloseCodeExample={onCloseCodeExample}
+          chain={chain}
+        />
+      </>
     ),
     [
       additionalSelector,
@@ -175,8 +208,14 @@ export const usePrivateChainItem = ({
       selectGroup,
       isGroupSelectorAutoWidth,
       isPremiumLabelHidden,
-      requestsString,
       isChainRequestStatsVisible,
+      requestsString,
+      isCompactView,
+      onOpenCodeExample,
+      hasPremium,
+      isTestnetPremiumOnly,
+      isOpenedCodeExample,
+      onCloseCodeExample,
     ],
   );
 
@@ -199,5 +238,12 @@ export const usePrivateChainItem = ({
     groups,
     groupID,
     selectGroup,
+
+    chainSubTypeTab,
+    chainSubTypeTabs,
+    chainTypeTab,
+    chainTypeTabs,
+    groupTab,
+    groupTabs,
   };
 };

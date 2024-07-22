@@ -1,6 +1,6 @@
+import { AccountStatus } from 'modules/common/components/AccountStatus/AccountStatus';
 import { Breadcrumbs as BreadcrumbsBase } from 'uiKit/Breadcrumbs';
 import { useIsMDDown } from 'uiKit/Theme/useTheme';
-import { AccountStatus } from 'modules/common/components/AccountStatus/AccountStatus';
 
 import { useBreadcrumbs } from '../BreadcrumbsProvider';
 import { useBreadcrumbsStyles } from './useBreadcrumbsStyles';

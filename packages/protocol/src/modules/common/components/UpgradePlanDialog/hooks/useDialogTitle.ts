@@ -18,7 +18,6 @@ const getTitle = (type: ContentType) => {
     case ContentType.TOP_UP:
       return t('account.account-details.top-up.title');
 
-    case ContentType.DEFAULT:
     default:
       return '';
   }
@@ -27,10 +26,7 @@ const getTitle = (type: ContentType) => {
 export const useDialogTitle = (contentType: ContentType) => {
   const [title, setTitle] = useState(getTitle(contentType));
 
-  const resetTitle = useCallback(
-    () => setTitle(getTitle(ContentType.DEFAULT)),
-    [],
-  );
+  const resetTitle = useCallback(() => setTitle(''), []);
 
   useEffect(() => {
     setTitle(getTitle(contentType));

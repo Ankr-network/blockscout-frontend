@@ -141,7 +141,11 @@ export function MethodsSelect<T>({
 
   return (
     <Box className={className}>
-      {label && <InputLabel className={classes.label}>{label}</InputLabel>}
+      {label && (
+        <InputLabel className={classes.label} component="h2">
+          {label}
+        </InputLabel>
+      )}
 
       <Autocomplete
         fullWidth

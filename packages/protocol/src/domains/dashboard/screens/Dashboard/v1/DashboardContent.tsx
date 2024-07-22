@@ -1,13 +1,11 @@
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 import { useChainsSelector } from '../hooks/useChainsSelector';
 import { useChainSelectorGroups } from '../hooks/useChainSelectorGroups';
@@ -110,7 +108,7 @@ export const DashboardContent = () => {
           selectedChainId={selectedChainId}
         />
       </div>
-      <UpgradePlanDialog open={isOpened} onClose={onClose} />
+      <PlansDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
   );
 };

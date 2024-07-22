@@ -1,3 +1,4 @@
+import { ArrowRight } from '@ankr.com/ui';
 import {
   Breadcrumbs as BreadcrumbsBase,
   Typography,
@@ -5,7 +6,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from '@ankr.com/ui';
 
 import { useHasBreakdown, useIsMDDown } from 'uiKit/Theme/useTheme';
 
@@ -69,9 +69,9 @@ export const Breadcrumbs = ({
           <Typography
             className={classes.item}
             color="textPrimary"
-            variant="subtitle2"
-            key={title}
             component="div"
+            key={title}
+            variant="subtitle2"
           >
             <span className={classes.breadcrumbsTitle}>
               {capitalize(title)}

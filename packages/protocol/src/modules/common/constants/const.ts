@@ -26,6 +26,7 @@ export enum EMilliSeconds {
 
 export const TWITTER_COLOR = '#479AE9';
 export const DISCORD_COLOR = '#5865F2';
+
 export const ANKR_DOCS_LINK = 'https://www.ankr.com/docs/';
 export const ANKR_DOCS_PROJECTS_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/projects/';
@@ -44,6 +45,23 @@ export const ANKR_DOCS_INVITE_TEAMMATE_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/team-accounts/#invite-teammates';
 export const ANKR_DOCS_TEAM_ACCESS_ROLES_LINK =
   'https://www.ankr.com/docs/rpc-service/getting-started/team-accounts/#edit-access-roles';
+export const ANKR_TERMS_OF_SERVICE_LINK = 'https://www.ankr.com/terms/';
+export const ANKR_PRIVACY_POLICY_LINK = 'https://www.ankr.com/privacy-policy/';
+
+export const AAPI_PYTHON_SDK = 'https://pypi.org/project/ankr-sdk/';
+export const AAPI_JS_SDK = 'https://www.npmjs.com/package/@ankr.com/ankr.js';
+export const AAPI_OVERVIEW_LINK =
+  'https://www.ankr.com/docs/advanced-api/overview/';
+export const AAPI_CHAINS_LINK =
+  'https://www.ankr.com/docs/advanced-api/overview/#chains-supported';
+export const AAPI_REACT_HOOKS_LINK =
+  'https://www.ankr.com/docs/advanced-api/react-hooks/';
+
+export const AAPI_ABOUT_LINK =
+  'https://www.ankr.com/remote-procedure-call/advanced-api/';
+
+export const AAPI_SUPPORTED_METHODS_LINK =
+  'https://www.ankr.com/docs/advanced-api/overview/#aapi-methods-supported/';
 
 export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';
 

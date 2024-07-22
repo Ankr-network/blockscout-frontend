@@ -4,6 +4,7 @@ import { EndpointGroup } from 'modules/endpoints/types';
 
 export type NetworkInfo = Omit<IChainParams, 'rpcUrls' | 'chainId'> & {
   chainId: number;
+  searchKeys?: string[];
 };
 
 export interface IUseAddNetworkButtonParams {

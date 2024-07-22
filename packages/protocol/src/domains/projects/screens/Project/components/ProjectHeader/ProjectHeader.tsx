@@ -99,7 +99,7 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
               className={classes.freezeButton}
               disabled={isSuspended}
               startIcon={isFrozen ? <Unfreeze /> : <Freeze />}
-              variant={isFrozen ? 'contained' : 'outlined'}
+              variant="contained"
               onClick={onOpenFreezeAndUnfreezeProjectDialog}
             >
               {isFrozen
@@ -108,13 +108,12 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
             </Button>
           )}
           <Button
+            className={classes.docsButton}
             startIcon={<Doc />}
             href={ANKR_DOCS_PROJECTS_LINK}
             variant="outlined"
             target="_blank"
-          >
-            {t('project.header.docs-btn')}
-          </Button>
+          />
           {hasGroupAccess && (
             <ProjectDetailsMenu
               openProjectInfoDialog={onOpenProjectInfoDialog}

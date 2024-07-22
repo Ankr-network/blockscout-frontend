@@ -7,6 +7,7 @@ export const useRequestsStyles = makeStyles()(theme => ({
   },
   top: {
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     gap: theme.spacing(2),
   },
@@ -38,5 +39,10 @@ export const useRequestsStyles = makeStyles()(theme => ({
   tab: {
     height: 24,
     minHeight: 24,
+  },
+  icon: {
+    '& > path': {
+      strokeWidth: 2,
+    },
   },
 }));

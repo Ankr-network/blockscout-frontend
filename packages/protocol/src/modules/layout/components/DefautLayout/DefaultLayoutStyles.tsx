@@ -51,16 +51,13 @@ export const useStyles = makeStyles<Props>()(
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
-        paddingBottom: MOBILE_LAYOUT_PADDING,
       },
     },
     dashboardMain: {
       paddingTop: theme.spacing(21),
-      paddingBottom: theme.spacing(3),
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
-        paddingBottom: MOBILE_LAYOUT_PADDING,
       },
     },
     header: {
@@ -84,18 +81,22 @@ export const useStyles = makeStyles<Props>()(
       },
     },
     sidebar: {
+      padding: theme.spacing(4),
       [theme.breakpoints.down('md')]: {
         display: 'none',
       },
     },
     mobileBreadcrumbs: {
       marginTop: SHOULD_SHOW_HEADER_BANNER ? theme.spacing(5) : 0,
-      marginBottom: theme.spacing(2 * 2.5),
+      marginBottom: theme.spacing(5),
       paddingLeft: 2,
 
       [theme.breakpoints.up('md')]: {
         display: 'none',
       },
+    },
+    content: {
+      height: '100%',
     },
   }),
 );

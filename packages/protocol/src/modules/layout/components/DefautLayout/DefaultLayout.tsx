@@ -21,6 +21,7 @@ import { StatusTransitionDialog } from '../StatusTransitionDialog';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
 import { HeaderBanner } from '../HeaderBanner';
+import { Footer } from '../Footer';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -92,11 +93,18 @@ export const DefaultLayout = ({
               [classes.dashboardMain]: isDashboardPage,
             })}
           >
-            <div className={classes.mobileBreadcrumbs}>
-              <Breadcrumbs />
+            <div className={classes.content}>
+              <div className={classes.mobileBreadcrumbs}>
+                <Breadcrumbs />
+              </div>
+              {hasNoReactSnap ? (
+                <NoReactSnap>{children}</NoReactSnap>
+              ) : (
+                children
+              )}
             </div>
-            {hasNoReactSnap ? <NoReactSnap>{children}</NoReactSnap> : children}
           </Container>
+          <Footer />
           {isLoggedIn && !isEnterpriseClient && (
             <GuardUserGroup blockName={BlockWithPermission.Billing}>
               <StatusTransitionDialog />

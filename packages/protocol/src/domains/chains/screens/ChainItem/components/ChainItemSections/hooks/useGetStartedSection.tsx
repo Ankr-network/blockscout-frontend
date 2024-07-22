@@ -9,11 +9,10 @@ import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/
 import { GetStartedSection } from 'modules/common/components/GetStartedSection';
 import { getCodeMrpc } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
 import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
+import { PrimaryTab } from 'modules/common/components/PrimaryTab';
 
-import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
-import { checkUpgradeBanner } from '../utils/checkUpgradeBanner';
 import { hasRequestComposer as hasRequestComposerFn } from '../utils/hasRequestComposer';
 
 export interface GetStartedSectionParams {
@@ -30,12 +29,7 @@ export const useGetStartedSection = ({
   group,
   publicUrl,
 }: GetStartedSectionParams) => {
-  const { hasPremium, hasPrivateAccess, loading: isConnecting } = useAuth();
-
-  const hasUpgradeBanner = useMemo(
-    () => checkUpgradeBanner({ hasPrivateAccess, hasPremium, isConnecting }),
-    [hasPrivateAccess, isConnecting, hasPremium],
-  );
+  const { hasPremium, hasPrivateAccess } = useAuth();
 
   const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
 
@@ -53,7 +47,7 @@ export const useGetStartedSection = ({
       hasPrivateAccess,
     });
 
-    const isVisible = hasUpgradeBanner || hasRequestComposer;
+    const isVisible = hasRequestComposer;
 
     if (!isVisible) {
       return undefined;
@@ -65,7 +59,6 @@ export const useGetStartedSection = ({
         <GetStartedSection
           chainId={chainId}
           group={group}
-          hasUpgradeBanner={hasUpgradeBanner}
           publicUrl={publicUrl}
           hasRequestComposer={hasRequestComposer}
           technology={technology}
@@ -88,7 +81,6 @@ export const useGetStartedSection = ({
     group,
     isChainProtocolSwitchEnabled,
     hasPrivateAccess,
-    hasUpgradeBanner,
     publicUrl,
     technology,
     setTechnology,

@@ -159,6 +159,9 @@ export enum ChainID {
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',
   GNOSIS_TESTNET_BEACON = 'gnosis_testnet_beacon',
+
+  GRAVITY = 'gravity',
+
   HARMONY = 'harmony',
 
   HORIZEN = 'horizen',
@@ -322,3 +325,32 @@ export const FLARE_CHAINS = [
   ChainID.FLARE_X,
   ...FLARE_TESTNETS,
 ];
+
+export const ADVANCED_API_CHAINS = {
+  mainnets: [
+    ChainID.AVALANCHE,
+    ChainID.ARBITRUM,
+    ChainID.BASE,
+    ChainID.BSC,
+    ChainID.ETH,
+    ChainID.FANTOM,
+    ChainID.FLARE,
+    ChainID.GNOSIS,
+    ChainID.LINEA,
+    ChainID.OPTIMISM,
+    ChainID.POLYGON,
+    ChainID.POLYGON_ZKEVM,
+    ChainID.ROLLUX,
+    ChainID.SCROLL,
+    ChainID.STELLAR,
+    ChainID.SYSCOIN,
+  ],
+  testnets: [
+    ChainID.AVALANCHE_FUJI,
+    ChainID.POLYGON_AMOY,
+    ChainID.BASE_SEPOLIA,
+    ChainID.ETH_HOLESKY,
+    ChainID.ETH_SEPOLIA,
+    ChainID.OPTIMISM_TESTNET,
+  ],
+};

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Timeframe } from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 
@@ -19,6 +18,11 @@ export interface Sections extends SectionsBase {
   timeframe: Timeframe;
   timeframeTabs: Tab<Timeframe>[];
   hasPrivateAccess?: boolean;
+
+  getStartedSection?: Tab<SectionID>;
+  debugMenuSection?: Tab<SectionID>;
+  usageDataSection?: Tab<SectionID> | null;
+  infrastructureSection?: Tab<SectionID>;
 }
 
 export const useSectionsTabs = ({
@@ -62,5 +66,14 @@ export const useSectionsTabs = ({
     tabs,
   });
 
-  return { section, sections, timeframe, timeframeTabs };
+  return {
+    section,
+    sections,
+    timeframe,
+    timeframeTabs,
+    getStartedSection,
+    debugMenuSection,
+    usageDataSection,
+    infrastructureSection,
+  };
 };

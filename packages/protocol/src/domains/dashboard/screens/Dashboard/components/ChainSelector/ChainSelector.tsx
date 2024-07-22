@@ -9,7 +9,7 @@ import {
 import { ISelectOption } from 'uiKit/Select';
 import { Chain, ChainID } from 'modules/chains/types';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
-import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
+import { ChainLogo } from 'modules/chains/components/ChainLogo';
 
 import { useChainSelectorStyles } from './useChainSelectorStyles';
 import { useSelectorVisibility } from './useSelectorVisibility';

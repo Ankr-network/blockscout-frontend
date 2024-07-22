@@ -1,42 +1,48 @@
 import { ReactNode } from 'react';
+import { Box, Typography } from '@mui/material';
+import { Copy, Lock } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { Box } from '@mui/material';
 
-import { root } from '../../const';
-import { PremiumLabel } from '../PremiumLabel';
 import { useEndpointPlaceholderStyles } from './useEndpointPlaceholderStyles';
 
 interface IEndpointProps {
   title: ReactNode;
   label?: string;
-  onClick?: () => void;
   labelClassName?: string;
+  lockedLabel?: string;
+  onClick?: () => void;
 }
 
 export const EndpointPlaceholder = ({
   label,
   labelClassName,
+  lockedLabel = t('chain-item.get-started.endpoints.lockedLabelWss'),
   onClick,
   title,
 }: IEndpointProps) => {
-  const { classes } = useEndpointPlaceholderStyles();
+  const { classes, cx } = useEndpointPlaceholderStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.endpointPlaceholderRoot}>
       {title}
       <Box
         role="button"
         tabIndex={0}
-        className={classes.container}
+        className={classes.endpointPlaceholderContainer}
         onClick={onClick}
         sx={{
           cursor: onClick ? 'pointer' : 'auto',
         }}
       >
-        <PremiumLabel
-          label={label || t(`${root}.endpoints.upgrade-now`)}
-          className={labelClassName}
-        />
+        <div className={cx(classes.placeholderContent, labelClassName)}>
+          {label || (
+            <>
+              <Lock className={classes.endpointPlaceholderLockIcon} />
+              <Typography variant="body2">{lockedLabel}</Typography>
+              <Copy className={classes.copyIcon} />
+            </>
+          )}
+        </div>
       </Box>
     </div>
   );

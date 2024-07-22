@@ -11,10 +11,14 @@ export const useEmailBlockStyles = makeStyles()(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  iconButton: {
-    color: theme.palette.text.secondary,
-  },
+  iconButton: {},
   icon: {
-    strokeWidth: 1.5,
+    color: theme.palette.grey[600],
+    height: 24,
+    width: 24,
+
+    '& > path': {
+      strokeWidth: 1.5,
+    },
   },
 }));

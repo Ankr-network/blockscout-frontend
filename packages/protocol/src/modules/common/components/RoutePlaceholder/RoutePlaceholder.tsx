@@ -1,10 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
@@ -13,6 +10,7 @@ import {
   RoutePlaceholderStylesProps,
   useRoutePlaceholderStyles,
 } from './RoutePlaceholderStyles';
+import { PlansDialog } from '../PlansDialog';
 
 export interface RoutePlaceholderProps extends RoutePlaceholderStylesProps {
   breadcrumbs: string;
@@ -53,7 +51,7 @@ export const RoutePlaceholder = ({
           {t('route-placeholder.button')}
         </Button>
       </div>
-      <UpgradePlanDialog onClose={onClose} open={isOpened} />
+      <PlansDialog onClose={onClose} open={isOpened} />
     </div>
   );
 };

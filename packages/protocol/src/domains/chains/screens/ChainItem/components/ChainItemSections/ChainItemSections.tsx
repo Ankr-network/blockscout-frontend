@@ -46,6 +46,7 @@ export const ChainItemSections = ({
   });
 
   const { classes } = useChainItemSectionsStyles();
+
   const { chains } = group;
 
   const isMainnetComingSoon =
@@ -68,9 +69,9 @@ export const ChainItemSections = ({
     ) : undefined;
 
   return (
-    <div className={classes.root}>
+    <div className={classes.chainItemSectionsRoot}>
       <TabsManager
-        className={classes.tabs}
+        className={classes.chainItemSectionsTabs}
         selectedTab={section}
         tabs={sections}
         additionalContent={additionalContent}

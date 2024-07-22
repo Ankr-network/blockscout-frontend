@@ -1,3 +1,5 @@
+import { Paper } from '@mui/material';
+
 import {
   Chain,
   ChainSubType,
@@ -7,7 +9,6 @@ import {
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { MethodCalls } from 'domains/chains/screens/ChainItem/components/MethodCalls';
 import { RequestsChart } from 'domains/chains/screens/ChainItem/components/RequestsChart';
 import { PrivateUsageSummary } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/components/PrivateUsageSummary';
 import { useDataUsageSectionStyles } from 'domains/chains/screens/ChainItem/components/UsageDataSection/UsageDataSectionStyles';
@@ -16,6 +17,7 @@ import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selecto
 import { EnterpriseUsageDataControls } from '../EnterpriseUsageDataControls';
 import { useEnterpriseUsageData } from './useEnterpriseUsageData';
 import { useEnterpriseApiKeySelect } from '../EnterpriseApiKeysSelect/useEnterpriseApiKeySelect';
+import { ItemHeader } from '../../../chains/screens/ChainItem/components/ItemHeader';
 
 interface EnterpriseUsageDataSectionProps {
   chain: Chain;
@@ -39,20 +41,14 @@ export const EnterpriseUsageDataSection = ({
   const { handleSetOption, options, selectedOption } =
     useEnterpriseApiKeySelect(apiKeys);
 
-  const {
-    error,
-    isConnecting,
-    loading,
-    totalRequests,
-    totalRequestsHistory,
-    userTopRequests,
-  } = useEnterpriseUsageData({
-    chain,
-    chainType,
-    chainSubType,
-    group,
-    timeframe,
-  });
+  const { error, isConnecting, loading, totalRequests, totalRequestsHistory } =
+    useEnterpriseUsageData({
+      chain,
+      chainType,
+      chainSubType,
+      group,
+      timeframe,
+    });
 
   const { classes } = useDataUsageSectionStyles();
 
@@ -72,30 +68,35 @@ export const EnterpriseUsageDataSection = ({
             selectedOption={selectedOption}
             apiKeys={apiKeys}
           />
-          <div className={classes.row}>
-            <PrivateUsageSummary
+          <Paper className={classes.statisticsPaper}>
+            <ItemHeader
+              isLabelHidden
+              timeframe={timeframe}
+              title="Network usage"
+            />
+            <div className={classes.row}>
+              <PrivateUsageSummary
+                loading={loading}
+                timeframe={timeframe}
+                totalRequests={totalRequests}
+                isCostHidden
+              />
+            </div>
+            <ItemHeader
+              className={classes.statisticsItemTitle}
+              isLabelHidden
+              timeframe={timeframe}
+              title="Total requests"
+            />
+            <RequestsChart
+              isConnecting={isConnecting}
+              isLoggedIn
               loading={loading}
               timeframe={timeframe}
-              totalRequests={totalRequests}
-              isCostHidden
+              totalRequestsHistory={totalRequestsHistory}
+              isFlexibleHeight={false}
             />
-          </div>
-          <RequestsChart
-            isConnecting={isConnecting}
-            isLoggedIn
-            loading={loading}
-            timeframe={timeframe}
-            totalRequestsHistory={totalRequestsHistory}
-            isFlexibleHeight={false}
-          />
-          {userTopRequests && (
-            <MethodCalls
-              data={userTopRequests}
-              loading={loading}
-              timeframe={timeframe}
-              isCostHidden
-            />
-          )}
+          </Paper>
         </>
       )}
     </div>

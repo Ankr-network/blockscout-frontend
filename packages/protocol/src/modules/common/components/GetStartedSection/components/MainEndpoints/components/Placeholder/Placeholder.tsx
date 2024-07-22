@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
+import { t } from '@ankr.com/common';
 
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { EndpointPlaceholder } from '../../../EndpointPlaceholder';
 
@@ -12,12 +11,20 @@ export interface PlaceholderProps {
 }
 
 export const Placeholder = ({ title }: PlaceholderProps) => {
-  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
+  const {
+    isOpened: isPromoDialogOpened,
+    onClose: onPromoDialogClose,
+    onOpen: onPromoDialogOpen,
+  } = useDialog();
 
   return (
     <>
-      <EndpointPlaceholder title={title} onClick={onOpen} />
-      <UpgradePlanDialog open={isOpened} onClose={onClose} />
+      <EndpointPlaceholder
+        title={title}
+        onClick={onPromoDialogOpen}
+        lockedLabel={t('chain-item.get-started.endpoints.lockedLabelHttps')}
+      />
+      <PlansDialog open={isPromoDialogOpened} onClose={onPromoDialogClose} />
     </>
   );
 };

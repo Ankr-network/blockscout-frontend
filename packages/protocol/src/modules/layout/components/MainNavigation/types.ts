@@ -1,4 +1,4 @@
-export interface MenuItemsParams {
+export interface IMenuItemsParams {
   chainsRoutes: string[];
   hasProjects: boolean;
   isEnterpriseClient: boolean;
@@ -9,9 +9,8 @@ export interface MenuItemsParams {
   onOpenAccessDeniedDialog: () => void;
 }
 
-export interface BottomMenuItemsParams {
+export interface ISecondMenuItemsParams {
   isLoggedIn: boolean;
   isEnterpriseClient: boolean;
-  onDocsClick: () => void;
   onOpenAccessDeniedDialog: () => void;
 }

@@ -22,7 +22,7 @@ export const TimeframeTabs = ({
   tabs,
   timeframe,
 }: TimeframeTabsProps) => {
-  const { classes, cx } = useTimeframeTabsStyles();
+  const { classes, cx } = useTimeframeTabsStyles(size);
 
   return (
     <div className={cx(className, classes.timeframeTabs)}>

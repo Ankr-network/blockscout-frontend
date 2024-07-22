@@ -1,8 +1,12 @@
 import { Theme } from '@mui/material';
 
-export type FontSize = 's' | 'm' | 'l';
+export type FontSize = 'xs' | 's' | 'm' | 'l';
 
 export const getFontSize = (size: FontSize, theme: Theme) => {
+  if (size === 'xs') {
+    return theme.spacing(3);
+  }
+
   if (size === 's') {
     return theme.spacing(3.5);
   }

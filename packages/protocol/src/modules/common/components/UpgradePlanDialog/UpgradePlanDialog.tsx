@@ -1,52 +1,48 @@
 import { Dialog } from 'uiKit/Dialog';
-import { ECurrency } from 'modules/payments/types';
 import { useWindowHeight } from 'hooks/useWindowHeight';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
-import { ContentType, UpgradePlanDialogType } from './types';
+import { ContentType } from './types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
-import { useUpgradePlanDialogStyles } from './UpgradePlanDialogStyles';
+import { useUpgradePlanDialogStyles } from './useUpgradePlanDialogStyles';
 
-export interface UpgradePlanDialogProps {
-  currency?: ECurrency;
-  defaultState?: ContentType;
+export interface IUpgradePlanDialogProps {
+  defaultState: ContentType;
   onClose: () => void;
   open: boolean;
-  type?: UpgradePlanDialogType;
 }
 
 export const UpgradePlanDialog = ({
-  currency,
   defaultState,
   onClose,
   open,
-  type = UpgradePlanDialogType.Default,
-}: UpgradePlanDialogProps) => {
+}: IUpgradePlanDialogProps) => {
   const { dialogProps, isContactSalesPopup } = useUpgradePlanDialogState({
-    currency,
     defaultState,
     onClose,
-    type,
   });
 
   const windowHeight = useWindowHeight();
   const { classes, cx } = useUpgradePlanDialogStyles({ windowHeight });
 
   return (
-    <Dialog
-      className={classes.root}
-      maxPxWidth={620}
-      classes={{
-        container: classes.dialogContainer,
-      }}
-      open={open}
-      paperClassName={cx(classes.paperRoot, {
-        [classes.dialogContainerWhite]: isContactSalesPopup,
-      })}
-      titleClassName={cx(classes.title, {
-        [classes.dialogTitleBlack]: isContactSalesPopup,
-      })}
-      keepMounted
-      {...dialogProps}
-    />
+    <NoReactSnap>
+      <Dialog
+        className={classes.root}
+        maxPxWidth={620}
+        classes={{
+          container: classes.dialogContainer,
+        }}
+        open={open}
+        paperClassName={cx(classes.paperRoot, {
+          [classes.dialogContainerWhite]: isContactSalesPopup,
+        })}
+        titleClassName={cx(classes.title, {
+          [classes.dialogTitleBlack]: isContactSalesPopup,
+        })}
+        keepMounted
+        {...dialogProps}
+      />
+    </NoReactSnap>
   );
 };

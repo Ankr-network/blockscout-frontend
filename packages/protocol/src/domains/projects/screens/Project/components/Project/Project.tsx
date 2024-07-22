@@ -3,6 +3,7 @@ import { t } from '@ankr.com/common';
 import { ProjectChainsContext } from 'domains/projects/screens/Project/constants';
 import { useProjectChains } from 'domains/projects/screens/Project/hooks/useProjectChains';
 import { useRedirectToProjectsListPageOnGroupChange } from 'domains/projects/screens/Project/hooks/useRedirectToProjectsListPageOnGroupChange';
+import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
 
 import { ProjectChains } from '../ProjectChains';
 import { ProjectFooter } from '../ProjectFooter';
@@ -11,7 +12,6 @@ import { Requests } from '../Requests';
 import { Whitelist } from '../Whitelist';
 import { useProjectStyles } from './useProjectStyles';
 import { useProjectStatus } from '../../hooks/useProjectStatus';
-import { ProjectBanner } from '../../../../components/ProjectBanner';
 import { useProjectStatsInitialization } from '../../hooks/useProjectStatsInitialization';
 
 export const Project = () => {

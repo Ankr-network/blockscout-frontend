@@ -83,6 +83,11 @@
     "pricing": "Pricing",
     "docs": "Docs"
   },
+  "footer": {
+    "all-rights": "© {year} Ankr. All rights reserved.",
+    "terms": "Terms of service",
+    "privacy": "Privacy policy"
+  },
   "access-denied-dialog": {
     "title": "Access denied",
     "description": "Your access role grants you no access to the requested platform section. Contact the team Owner or Admin for the corresponding role. Learn more on <a href=\"{href}\" target=\"_blank\">access roles.</a>",
@@ -216,12 +221,13 @@
       "skip-button": "Skip for now"
     },
     "upgrade-account-dialog": {
-      "title": "Upgrade your account",
-      "description": "Getting an access to enhanced functionality upgrading your account<br />to Premium.",
-      "item-1": "Websockets",
-      "item-2": "Advanced developer API",
-      "item-3": "1,500 reqs/sec",
-      "see-plans": "See plans",
+      "title": "Upgrade to Premium to get access to extended chains list",
+      "description": "Simply top up your account to gain access to enhanced functionality and premium chain upgrades by upgrading your account to Premium.",
+      "item-1": "Extended chains list",
+      "item-2": "Websockets",
+      "item-3": "Advanced developer API",
+      "item-4": "1,500 reqs/sec",
+      "see-plans": "Upgrade",
       "cancel": "Cancel"
     },
     "edit-dialog": {
@@ -258,6 +264,9 @@
       "rename": "Rename",
       "delete": "Delete",
       "no-requests-yet": "No requests yet",
+      "unsupported-timeframe": "No data for selected timeframe. Please change timeframe to 7d or 30d.",
+      "not-available": "Not available",
+      "premium-only": "Request statistics are available for Premium users",
       "resume-setup": "Resume setup",
       "requests": "Requests today",
       "count": "{value, number, ::compact-short}",
@@ -574,6 +583,8 @@
       "title": "Total requests",
       "analytics-button": "Analytics",
       "empty": "No data for statistics yet",
+      "freemium-message": "Unlock access to your personal statistics with <i>Premium</i>",
+      "freemium-button": "Upgrade",
       "relative-change": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::percent .0}",
       "relative-change-zero": "{relativeChangeSign, plural, =0 {} =1 {+} =-1 {}}{relativeChange, number, ::compact-short}%"
     },
@@ -582,7 +593,16 @@
       "configure-button": "Configure"
     },
     "endpoints": {
-      "add-chains-button": "Add chains"
+      "title": "Chains",
+      "edit-chains-button": "Edit chains",
+      "add-chains-button": "Add chains",
+      "sort": {
+        "trending": "Trending",
+        "name-a-z": "Name: A – Z",
+        "name-z-a": "Name: Z – A",
+        "usage-high-low": "Usage: High – Low",
+        "usage-low-high": "Usage: Low – High"
+      }
     },
     "footer": {
       "title": "Learn more",
@@ -676,11 +696,7 @@
   "requests-chart": {
     "date": "{value, date, medium}",
     "time": "{value, time, short}",
-    "calls-count": "{value, number, ::compact-short}",
-    "placeholder": {
-      "title": "Send your request",
-      "subtitle": "Once you start sending requests, your data will be available here. Depending on your usage, you may not have data to show for the past 24 hours or 7 days. This will be populated only if you've made requests in those timeframes."
-    }
+    "calls-count": "{value, number, ::compact-short}"
   },
   "failed-requests-banner": {
     "title": "Requests",
@@ -704,6 +720,7 @@
   "chains": {
     "select-all": "Select All",
     "breadcrumbs": "Endpoints",
+    "public": "Public",
     "user-free": "Free",
     "user-premium": "Premium",
     "user-enterprise": "Enterprise",
@@ -752,14 +769,18 @@
     },
     "for-premium-only": "For Premium only",
     "endpoints-and-more": "Endpoints & More",
-    "premium-only": "Premium Only",
+    "premium-only": "Premium only",
     "upgrade-premium": {
-      "title": "Premium",
-      "item-1": "<em>90,000</em> requests/min",
+      "title": "Unlock Premium features",
+      "title-aapi": "Premium Service Plan",
+      "description-aapi": "Get Premium to maximize your AAPI rate limits.{hasSignInLine, select, true { <span id=\"sign-in\">Sign in</span> to start testing AAPI at lower speeds.} other {}}",
+      "item-1": "Higher rate limits",
       "item-1-multichain": "<em>1,000</em> requests/min",
-      "item-2": "WebSockets",
-      "item-3": "Archive calls and other features",
-      "button": "Upgrade"
+      "item-2": "Node & Advanced API",
+      "item-3": "Multi-project stats",
+      "item-4": "Teams, Whitelists, and WSS",
+      "button": "Upgrade",
+      "button-aapi": "Get Premium"
     }
   },
   "enterprise": {
@@ -817,7 +838,7 @@
     }
   },
   "chain-item-dialog": {
-    "title": "Plans that scale with you.",
+    "title": "Plans that scale with you",
     "free": {
       "title": "Free",
       "description": "Smaller projects and individual developers can receive the best rates of any free tier in the industry.",
@@ -923,6 +944,7 @@
     "tabs": {
       "debug-menu": "Debug Menu",
       "get-started": "Get Started",
+      "multi-chain-get-started": "Methods",
       "infrastructure": "Infrastructure",
       "usage-data": "Usage Data"
     },
@@ -1019,6 +1041,9 @@
         "websocket-title": "WSS Endpoint",
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
+        "lockedLabelHttps": "https://rpc.ankr.com/…",
+        "rate-limits": "Endpoint’s rate limit is capped on Public.",
+        "lockedLabelWss": "wss://rpc.ankr.com/…",
         "login-to-proceed": "Login to proceed"
       },
       "upgrade-banner": {
@@ -1032,7 +1057,7 @@
         },
         "copy-code-button": {
           "copy-message": "Copied!",
-          "label": "Copy code"
+          "label": "Copy"
         },
         "expand-button": {
           "label": "Show All"
@@ -1109,8 +1134,10 @@
   "advanced-api": {
     "breadcrumbs": "Advanced API",
     "chain-overview": {
-      "title": "Single entry point",
-      "description": "Access optimized, indexed, and cached data for 15 Mainnet and 4 Testnet blockchain networks."
+      "supported-chains": "Chains supported",
+      "js-sdk": "JS SDK",
+      "python-sdk": "Python SDK",
+      "react-hooks": "React hooks"
     },
     "js-sdk": "JS SDK",
     "python-sdk": "Python SDK",
@@ -1118,56 +1145,15 @@
       "ankr-js": "Ankr JS",
       "ankr-py": "Ankr Py",
       "shell": "Shell"
-    },
-    "benefits": {
-      "nft-api": {
-        "title": "NFT API",
-        "feature-1": "NFTs by owner",
-        "feature-2": "NFT metadata",
-        "feature-3": "NFT holders",
-        "linkText": "Code samples"
-      },
-      "query-api": {
-        "title": "Query API",
-        "feature-1": "Unlimited block range logs filtering",
-        "feature-2": "Transactions by address across 8 chains",
-        "feature-3": "Decoded events",
-        "feature-4": "Decoded contract calls",
-        "feature-5": "ENS and Unstoppable Domain support",
-        "linkText": "Code samples"
-      },
-      "token-api": {
-        "title": "Token API",
-        "feature-1": "Token balance across 8 chains",
-        "feature-2": "All ERC20 tokens with metadata",
-        "feature-3": "Token USD price",
-        "feature-4": "Token holders",
-        "feature-5": "Token's balance by wallet address",
-        "feature-6": "Transfers by wallet address",
-        "linkText": "Code samples"
-      }
     }
   },
   "banner": {
     "your-plan-badge": "Your plan",
     "action-text": "Upgrade",
     "public": {
-      "plan-title": "Public",
-      "plan-description": "You have <b>300</b> requests/min",
-      "proposal-title": "Free",
-      "proposal-description": "<b>1,000</b> requests/min.<br />Personal Endpoint and Prioritized traffic",
-      "action-text": "Upgrade",
-      "public": {
-        "title": "Public",
-        "your-plan": "Your plan",
-        "info": "You have <em>300</em> requests/min "
-      },
-      "free": {
-        "title": "Free",
-        "info-1": "<em>90,000</em> requests/min.",
-        "info-2": "WebSockets. Archive calls and others features."
-      },
-      "button": "Upgrade"
+      "title": "<span>Premium</span> Service Plan",
+      "description": "Ultimate number of blockchains, supercharged rate limits — x50 for Node API / x30 for Advanced API, 3 times more projects, multi-project statistics dashboard, WSS connection, and whitelists.",
+      "button": "Get Premium"
     },
     "free": {
       "plan-title": "Free",
@@ -1210,21 +1196,21 @@
         "title": "Freemium",
         "price": "<em>$0</em>forever free",
         "info-1": "<em>30</em> requests per second",
-        "info-2": "<em>40+</em> chains",
+        "info-2": "<em>50+</em> chains",
         "info-3": "<em>10</em> regions",
         "info-4": "Community support",
-        "button": "Start for Free"
+        "button": "Start for free"
       },
       "premium": {
         "title": "Premium",
         "tip": "PAY-AS-YOU-GO",
         "price": "<em>$10</em> per 100M credits",
         "info-1": "<em>1500</em> requests per second",
-        "info-2": "<em>45+</em> chains",
+        "info-2": "<em>55+</em> chains",
         "info-3": "<em>40</em> regions",
         "info-4": "Support portal",
         "info-5": "No commitment",
-        "button": "Get Started"
+        "button": "Get started"
       },
       "enterprise": {
         "title": "Enterprise",

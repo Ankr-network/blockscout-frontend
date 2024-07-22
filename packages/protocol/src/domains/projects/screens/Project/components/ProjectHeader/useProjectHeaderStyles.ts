@@ -36,8 +36,11 @@ export const useProjectHeaderStyles = makeStyles()(theme => ({
       } 0px 0px 0px 2px`,
     },
   },
+  docsButton: {
+    minWidth: 'auto',
+    padding: theme.spacing(0, 2),
+  },
   editInfoBtn: {
     fontSize: 14,
-    borderRadius: theme.spacing(5),
   },
 }));

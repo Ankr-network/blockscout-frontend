@@ -32,7 +32,7 @@ export const GroupMenuButton = ({
       variant="text"
     >
       <SelectedGroupAvatar />
-      <Typography className={classes.groupName} variant="body4">
+      <Typography className={classes.groupName} variant="button3">
         {isPersonalAccount ? t('teams.personal-account') : group?.name}
       </Typography>
     </Button>

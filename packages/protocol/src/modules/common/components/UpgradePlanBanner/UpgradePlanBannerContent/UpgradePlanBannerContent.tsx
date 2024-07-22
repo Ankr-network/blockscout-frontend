@@ -6,6 +6,7 @@ import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { useUpgradePlanBannerContentStyles } from './useUpgradePlanBannerContentStyles';
 import { getBannerContent } from '../utils';
+import { UpgradePublicBanner } from '../UpgradePublicBanner';
 
 interface IBannerContentProps {
   hasPremium: boolean;
@@ -32,9 +33,13 @@ export const UpgradePlanBannerContent = ({
     proposalDescription,
     proposalTitle,
   } = useMemo(
-    () => getBannerContent(hasPremium, isAdvancedApi, isPublicUser),
-    [hasPremium, isAdvancedApi, isPublicUser],
+    () => getBannerContent(hasPremium, isAdvancedApi),
+    [hasPremium, isAdvancedApi],
   );
+
+  if (isPublicUser) {
+    return <UpgradePublicBanner onGetPremiumButtonClick={handleOpen} />;
+  }
 
   return (
     <Paper className={classes.wrapper}>

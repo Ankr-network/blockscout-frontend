@@ -9,3 +9,5 @@ export const BREAKPOINTS = {
     WXGAPlus: 1600,
   },
 };
+
+export const COLOR_PURPLE = '#AF52DE';

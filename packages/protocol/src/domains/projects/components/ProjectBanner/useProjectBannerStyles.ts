@@ -12,6 +12,11 @@ export const useProjectBannerStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gap: theme.spacing(2),
   },
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+  },
   iconWarning: {
     color: isLightTheme(theme)
       ? theme.palette.warning.main

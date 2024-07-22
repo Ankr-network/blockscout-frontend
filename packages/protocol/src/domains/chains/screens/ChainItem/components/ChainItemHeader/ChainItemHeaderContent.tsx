@@ -1,23 +1,22 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 import { Typography } from '@mui/material';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { Endpoints } from 'modules/common/components/GetStartedSection/components/Endpoints';
 import { PremiumContent } from 'modules/common/components/GetStartedSection/components/PremiumContent';
-import { getEndpointsGroup } from 'domains/chains/screens/ChainItem/utils/getEndpointsGroup';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { EnterpriseEndpoints } from 'domains/enterprise/components/EnterpriseEndpoints';
 
 import { MultiChainOverview } from './components/MultichainOverview';
 import { ChainOverview } from './components/ChainOverview';
+import { ChainItemHeaderExtraContent } from './components/ChainItemHeaderExtraContent';
+import { useChainItemHeaderContent } from './hooks/useChainItemHeaderContent';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
-import { useChainItemPlaceholder } from './useChainItemPlaceholder';
-import { hasGroupSelector as checkHasGroupSelector } from './utils/hasGroupSelector';
+import { AdvancedApiLinks } from './components/AdvancedApiLinks';
 
 export interface ChainItemHeaderProps {
   additionalSelector?: ReactNode;
@@ -47,9 +46,13 @@ interface ChainItemHeaderContentProps extends OmittedProps {
   isProtocolSwitcherHidden?: boolean;
   isGroupSelectorAutoWidth?: boolean;
   isPremiumLabelHidden?: boolean;
+  isPremiumChain?: boolean;
   requestsString?: string;
+  isCompactView?: boolean;
+  onOpenCodeExample?: () => void;
 }
 
+/* eslint-disable max-lines-per-function */
 export const ChainItemHeaderContent = ({
   additionalSelector,
   chain,
@@ -65,45 +68,68 @@ export const ChainItemHeaderContent = ({
   groupTabs,
   groups,
   isChainArchived,
+  isCompactView,
   isEnterprise = false,
   isGroupSelectorAutoWidth,
   isMetamaskButtonHidden,
   isMultiChain,
+  isPremiumChain = false,
   isPremiumLabelHidden,
   isProtocolSwitcherHidden,
+  onOpenCodeExample,
   publicChain,
   requestsString,
   selectGroup,
 }: ChainItemHeaderContentProps) => {
-  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
-
-  const endpointsGroup = useMemo(
-    () => getEndpointsGroup({ group, isChainProtocolSwitchEnabled }),
-    [group, isChainProtocolSwitchEnabled],
-  );
+  const { endpointsGroup, hasGroupSelector, hasMetamaskButton, placeholder } =
+    useChainItemHeaderContent({
+      group,
+      isMultiChain,
+      chain,
+      groupID,
+      isMetamaskButtonHidden,
+    });
 
   const { classes } = useChainItemHeaderContentStyles();
-  const { placeholder } = useChainItemPlaceholder(isMultiChain);
-  const hasGroupSelector = useMemo(
-    () => checkHasGroupSelector(chain.id, groupID),
-    [chain.id, groupID],
-  );
+
+  const shouldHideEndpoints = isMultiChain && !isCompactView;
 
   return (
     <>
       {isMultiChain ? (
-        <MultiChainOverview />
+        <>
+          <MultiChainOverview
+            hasLogo={!isCompactView}
+            hasDescription={isCompactView}
+          />
+          <div className={classes.multichainLinksWrapper}>
+            <AdvancedApiLinks />
+            <ChainItemHeaderExtraContent
+              chain={chain}
+              chainSubType={chainSubType}
+              chainType={chainType}
+              group={group}
+              isCompactView
+              isEnterprise={isEnterprise}
+              hasMetamaskButton={hasMetamaskButton}
+              onOpenCodeExample={onOpenCodeExample}
+            />
+          </div>
+        </>
       ) : (
         <>
-          <ChainOverview
-            chain={chain}
-            chainType={chainType}
-            chainSubType={chainSubType}
-            group={group}
-            isChainArchived={isChainArchived}
-            isEnterprise={isEnterprise}
-            isMetamaskButtonHidden={isMetamaskButtonHidden}
-          />
+          {!isCompactView && (
+            <ChainOverview
+              chain={chain}
+              chainType={chainType}
+              chainSubType={chainSubType}
+              group={group}
+              isChainArchived={isChainArchived}
+              isEnterprise={isEnterprise}
+              hasMetamaskButton={hasMetamaskButton}
+              isPremiumChain={isPremiumChain}
+            />
+          )}
           <ChainSelectorContent
             additionalSelector={additionalSelector}
             chainSubTypeTab={chainSubTypeTab}
@@ -118,6 +144,19 @@ export const ChainItemHeaderContent = ({
             isProtocolSwitcherHidden={isProtocolSwitcherHidden}
             selectGroup={selectGroup}
             isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
+            className={isCompactView ? classes.noMargin : undefined}
+            extraContent={
+              <ChainItemHeaderExtraContent
+                chain={chain}
+                chainSubType={chainSubType}
+                chainType={chainType}
+                group={group}
+                isCompactView={isCompactView}
+                isEnterprise={isEnterprise}
+                hasMetamaskButton={hasMetamaskButton}
+                onOpenCodeExample={onOpenCodeExample}
+              />
+            }
           />
         </>
       )}
@@ -131,26 +170,28 @@ export const ChainItemHeaderContent = ({
           {requestsString}
         </Typography>
       )}
-      <div className={!isMultiChain ? classes.content : undefined}>
-        {isEnterprise ? (
-          <EnterpriseEndpoints
-            publicChain={publicChain}
-            chainType={chainType}
-            group={endpointsGroup}
-          />
-        ) : (
-          <Endpoints
-            publicChain={publicChain}
-            chainType={chainType}
-            group={endpointsGroup}
-            placeholder={placeholder}
-            isPremiumLabelHidden={isPremiumLabelHidden}
-          />
-        )}
-        <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
-          <PremiumContent isMultiChain={isMultiChain} />
-        </GuardUserGroup>
-      </div>
+      {!shouldHideEndpoints && (
+        <div className={classes.content}>
+          {isEnterprise ? (
+            <EnterpriseEndpoints
+              publicChain={publicChain}
+              chainType={chainType}
+              group={endpointsGroup}
+            />
+          ) : (
+            <Endpoints
+              publicChain={publicChain}
+              chainType={chainType}
+              group={endpointsGroup}
+              placeholder={placeholder}
+              isPremiumLabelHidden={isPremiumLabelHidden}
+            />
+          )}
+          <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
+            <PremiumContent isMultiChain={isMultiChain} />
+          </GuardUserGroup>
+        </div>
+      )}
     </>
   );
 };

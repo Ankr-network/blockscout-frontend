@@ -1,10 +1,10 @@
-import { Divider } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { Divider, Link } from '@mui/material';
 
 import { Navigation } from 'modules/common/components/Navigation';
-import {
-  UpgradePlanDialog,
-  UpgradePlanDialogType,
-} from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
+import { useTrackDocs } from 'modules/layout/hooks/useTrackDocs';
+import { DOCS_URL } from 'modules/layout/const';
 
 import { IUseMenuItemsProps, useMenuItems } from './hooks/useMenuItems';
 import { MainNavigationSkeleton } from './MainNavigationSkeletion';
@@ -16,12 +16,14 @@ export const MainNavigation = (props: IMainNavigationProps) => {
   const { isMobileSideBar, loading } = props;
 
   const {
-    bottomMenuItems,
     handleUpgradePlanDialogClose,
     isLoggedIn,
     isUpgradePlanDialogOpened,
+    secondMenuItems,
     topMenuItems,
   } = useMenuItems(props);
+
+  const onDocsClick = useTrackDocs();
 
   const { classes } = useMainNavigationStyles();
 
@@ -31,13 +33,22 @@ export const MainNavigation = (props: IMainNavigationProps) => {
 
   return (
     <div className={classes.root}>
-      <Navigation items={topMenuItems} isMobileSideBar={isMobileSideBar} />
-      <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
-      <Navigation items={bottomMenuItems} isMobileSideBar={isMobileSideBar} />
-      <UpgradePlanDialog
+      <div>
+        <Navigation items={topMenuItems} isMobileSideBar={isMobileSideBar} />
+        <Divider className={classes.divider} />
+        <Navigation items={secondMenuItems} isMobileSideBar={isMobileSideBar} />
+      </div>
+      <Link
+        href={DOCS_URL}
+        target="_blank"
+        className={classes.link}
+        onClick={onDocsClick}
+      >
+        {t('main-navigation.docs')}
+      </Link>
+      <PlansDialog
         onClose={handleUpgradePlanDialogClose}
         open={isUpgradePlanDialogOpened}
-        type={UpgradePlanDialogType.Enterprise}
       />
     </div>
   );

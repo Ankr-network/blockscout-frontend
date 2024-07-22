@@ -6,11 +6,7 @@ import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import {
-  EChargingModel,
-  IChargingModelData,
-  ECurrency,
-} from 'modules/payments/types';
+import { EChargingModel, IChargingModelData } from 'modules/payments/types';
 import {
   selectAccountChargingModels,
   selectActiveChargingModel,
@@ -128,7 +124,6 @@ export const ChargingModelWidget = ({
       </Widget>
 
       <UpgradePlanDialog
-        currency={ECurrency.USD}
         defaultState={ContentType.TOP_UP}
         onClose={onUpgradeDialogClose}
         open={isUpgradeDialogOpened}

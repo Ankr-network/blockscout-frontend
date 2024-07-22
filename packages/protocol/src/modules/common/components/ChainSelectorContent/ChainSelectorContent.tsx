@@ -23,6 +23,8 @@ interface IChainSelectorContentProps {
   isProtocolSwitcherHidden?: boolean;
   selectGroup: (id: ChainGroupID) => void;
   isGroupSelectorAutoWidth?: boolean;
+  className?: string;
+  extraContent?: ReactNode;
 }
 
 const MIN_GROUP_ITEMS = 2;
@@ -34,6 +36,8 @@ export const ChainSelectorContent = ({
   chainSubTypeTabs,
   chainTypeTab,
   chainTypeTabs,
+  className,
+  extraContent,
   groupID,
   groupTab,
   groupTabs,
@@ -45,7 +49,7 @@ export const ChainSelectorContent = ({
 }: IChainSelectorContentProps) => {
   const isMobile = useIsSMDown();
 
-  const { classes } = useChainSelectorContentStyles();
+  const { classes, cx } = useChainSelectorContentStyles();
 
   const hasEnoughGroups = groupTabs.length >= MIN_GROUP_ITEMS;
   const hasEnoughSubTypes =
@@ -58,7 +62,7 @@ export const ChainSelectorContent = ({
     (!withGroupSelector && hasEnoughGroups) || hasGroupSelector;
 
   return (
-    <div className={classes.controls}>
+    <div className={cx(classes.controls, className)}>
       <SecondaryTabs
         className={classes.chainTypeTabs}
         selectedTab={chainTypeTab}
@@ -88,7 +92,10 @@ export const ChainSelectorContent = ({
         }
       />
       {!isProtocolSwitcherHidden && <ChainProtocolSwitch />}
-      {additionalSelector}
+      <div className={classes.additionalContent}>
+        {additionalSelector}
+        {extraContent}
+      </div>
     </div>
   );
 };

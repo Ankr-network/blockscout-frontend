@@ -6,7 +6,7 @@ export const useLastUserRequestsStyles = makeStyles()(theme => ({
 
     minWidth: '65%',
 
-    borderRadius: 24,
+    borderRadius: 20,
 
     backgroundColor: theme.palette.background.paper,
 

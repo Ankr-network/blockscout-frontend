@@ -1,4 +1,4 @@
-import { Dashboard } from '@ankr.com/ui';
+import { NavBarAnalytics } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
@@ -6,11 +6,13 @@ import { DashboardRoutesConfig } from 'domains/dashboard/routes';
 import { NavLink } from 'uiKit/NavLink';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectHasFreemium } from 'domains/auth/store';
 
 import { PaperBlock } from '../PaperBlock';
 import { RequestsInfo } from './components/RequestsInfo';
-import { useRequests } from '../../hooks/useRequests';
 import { useRequestsStyles } from './useRequestsStyles';
+import { useRequests } from '../../hooks/useRequests';
 
 interface RequestsProps {
   className?: string;
@@ -18,7 +20,7 @@ interface RequestsProps {
 }
 
 export const Requests = ({ className, isDisabled }: RequestsProps) => {
-  const { classes } = useRequestsStyles();
+  const isFreemium = useAppSelector(selectHasFreemium);
 
   const {
     isLoading,
@@ -29,24 +31,32 @@ export const Requests = ({ className, isDisabled }: RequestsProps) => {
     timeframeTabs,
   } = useRequests();
 
+  const { classes } = useRequestsStyles();
+
   return (
     <PaperBlock className={className}>
       <div className={classes.top}>
         <div className={classes.left}>
-          <Typography variant="subtitle3" className={classes.title}>
+          <Typography
+            variant="subtitle3"
+            className={classes.title}
+            color="textSecondary"
+          >
             {t('project.total-requests.title')}
           </Typography>
-          <TimeframeTabs
-            className={classes.timeframe}
-            tabClassName={classes.tab}
-            tabs={timeframeTabs}
-            timeframe={timeframe}
-            size={TabSize.ExtraSmall}
-          />
+          {!isFreemium && (
+            <TimeframeTabs
+              className={classes.timeframe}
+              tabClassName={classes.tab}
+              tabs={timeframeTabs}
+              timeframe={timeframe}
+              size={TabSize.ExtraSmall}
+            />
+          )}
         </div>
 
         <NavLink
-          startIcon={<Dashboard />}
+          startIcon={<NavBarAnalytics className={classes.icon} />}
           variant="outlined"
           className={classes.button}
           size="small"

@@ -2,11 +2,12 @@ import { makeStyles } from 'tss-react/mui';
 
 export const useActionButtonStyles = makeStyles()(theme => ({
   button: {
-    fontSize: 20,
-    lineHeight: '28px',
-    height: theme.spacing(15),
-    borderRadius: 20,
-    marginTop: theme.spacing(16),
+    fontSize: 16,
+    fontWeight: 600,
+    lineHeight: '24px',
+    height: theme.spacing(12),
+    borderRadius: 16,
+    marginTop: theme.spacing(12),
 
     [theme.breakpoints.down('md')]: {
       marginTop: theme.spacing(6),

@@ -49,9 +49,9 @@ export const ChainItemSections = ({
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.chainItemSectionsRoot}>
       <TabsManager
-        className={classes.tabs}
+        className={classes.chainItemSectionsTabs}
         selectedTab={section}
         tabs={sections}
         allowSingleTab

@@ -28,9 +28,9 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   addNetworkButton: {
     '&&': {
       backgroundColor: theme.palette.background.paper,
-      height: 32,
-      width: 32,
-      minHeight: 32,
+      height: 40,
+      width: 40,
+      minHeight: 40,
       padding: 0,
       borderRadius: theme.spacing(3),
     },
@@ -48,7 +48,7 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   },
   right: {
     display: 'flex',
-    gap: theme.spacing(2),
+    gap: theme.spacing(3),
 
     [theme.breakpoints.down('xs')]: {
       marginTop: theme.spacing(9),
@@ -58,7 +58,7 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   top: {
     display: 'flex',
     alignItems: 'center',
-    margin: 0,
+    margin: theme.spacing(0, 0, 1, 0),
   },
 
   coinName: {
@@ -80,9 +80,34 @@ export const useChainOverviewStyles = makeStyles()((theme: Theme) => ({
   },
 
   docsLink: {
-    height: 30,
-    minHeight: 30,
+    margin: theme.spacing(0.5, 0, 0, 0),
+    height: 36,
+    minHeight: 36,
     borderRadius: theme.spacing(3),
-    padding: theme.spacing(0, 3),
+    padding: theme.spacing(2, 4, 2, 3),
+    gap: 8,
+  },
+
+  chips: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
+  premiumChip: {
+    height: 24,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  dot: {
+    display: 'flex',
+    alignItems: 'center',
+    '&::after': {
+      marginLeft: theme.spacing(1),
+      content: '""',
+      width: 2,
+      height: 2,
+      borderRadius: '50%',
+      backgroundColor: theme.palette.text.secondary,
+    },
   },
 }));
