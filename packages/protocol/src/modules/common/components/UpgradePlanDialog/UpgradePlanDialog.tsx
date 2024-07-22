@@ -1,5 +1,6 @@
 import { Dialog } from 'uiKit/Dialog';
 import { useWindowHeight } from 'hooks/useWindowHeight';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 import { ContentType } from './types';
 import { useUpgradePlanDialogState } from './hooks/useUpgradePlanDialogState';
@@ -25,21 +26,23 @@ export const UpgradePlanDialog = ({
   const { classes, cx } = useUpgradePlanDialogStyles({ windowHeight });
 
   return (
-    <Dialog
-      className={classes.root}
-      maxPxWidth={620}
-      classes={{
-        container: classes.dialogContainer,
-      }}
-      open={open}
-      paperClassName={cx(classes.paperRoot, {
-        [classes.dialogContainerWhite]: isContactSalesPopup,
-      })}
-      titleClassName={cx(classes.title, {
-        [classes.dialogTitleBlack]: isContactSalesPopup,
-      })}
-      keepMounted
-      {...dialogProps}
-    />
+    <NoReactSnap>
+      <Dialog
+        className={classes.root}
+        maxPxWidth={620}
+        classes={{
+          container: classes.dialogContainer,
+        }}
+        open={open}
+        paperClassName={cx(classes.paperRoot, {
+          [classes.dialogContainerWhite]: isContactSalesPopup,
+        })}
+        titleClassName={cx(classes.title, {
+          [classes.dialogTitleBlack]: isContactSalesPopup,
+        })}
+        keepMounted
+        {...dialogProps}
+      />
+    </NoReactSnap>
   );
 };

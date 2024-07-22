@@ -6,7 +6,6 @@ import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 import { ChainLogo } from 'modules/chains/components/ChainLogo';
 
@@ -37,14 +36,6 @@ export const ChainOverview = ({
   const { classes, cx } = useChainOverviewStyles();
 
   const { coinName, id, name } = chain;
-
-  useOnMount(() => {
-    const h1Tag = document.getElementById('chain-item-title');
-
-    if (h1Tag) {
-      h1Tag.innerHTML = name;
-    }
-  });
 
   return (
     <div>

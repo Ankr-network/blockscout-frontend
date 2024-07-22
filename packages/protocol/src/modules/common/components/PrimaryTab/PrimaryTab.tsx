@@ -16,7 +16,11 @@ export const PrimaryTab = ({
   const { classes, cx } = usePrimaryTabStyles(isSelected);
 
   return (
-    <Button className={cx(classes.primaryTab, className)} variant="outlined">
+    <Button
+      component="h2"
+      className={cx(classes.primaryTab, className)}
+      variant="outlined"
+    >
       {label}
     </Button>
   );

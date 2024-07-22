@@ -18,15 +18,17 @@ export const ChainItem = () => {
   useRedirectToEnterpriseOnGroupChange();
 
   return (
-    <NoReactSnap>
+    <>
       {chainId === ChainID.ZKSYNC_ERA && (
-        <ChainItemBanner message={tHTML('chain-item.banner-zksync_era')} />
+        <NoReactSnap>
+          <ChainItemBanner message={tHTML('chain-item.banner-zksync_era')} />
+        </NoReactSnap>
       )}
       {hasPrivateAccess ? (
         <PrivateChainItemQuery chainId={chainId} />
       ) : (
         <PublicChainItemQuery chainId={chainId} loading={loading} />
       )}
-    </NoReactSnap>
+    </>
   );
 };

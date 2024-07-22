@@ -63,7 +63,7 @@ export const useMethodsSelectStyles = makeStyles<Params>()(
         height: 40,
         display: 'flex',
         justifyContent: 'space-between',
-        padding: theme.spacing(2 * 0, 2 * 1.5),
+        padding: theme.spacing(0, 2 * 1.5),
         borderRadius: 14,
         transition: 'all 70ms ease-in-out',
       },
@@ -95,7 +95,7 @@ export const useMethodsSelectStyles = makeStyles<Params>()(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: theme.spacing(2 * 0, 2 * 1.5),
+      padding: theme.spacing(0, 2 * 1.5),
     },
 
     iconButton: {
@@ -105,7 +105,7 @@ export const useMethodsSelectStyles = makeStyles<Params>()(
     },
 
     textFieldInput: {
-      paddingRight: theme.spacing(2 * 1),
+      paddingRight: theme.spacing(2),
 
       [`& #${iconId}`]: {
         transition: `all 140ms ease-in`,

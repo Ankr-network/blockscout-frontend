@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+
 import { PremiumLabel } from '../PremiumLabel';
 import { useEndpointsHeaderStyles } from './EndpointsHeaderStyles';
 
@@ -15,9 +17,9 @@ export const EndpointsHeader = ({
   const { classes } = useEndpointsHeaderStyles();
 
   return (
-    <div className={classes.endpointsHeader}>
+    <Box className={classes.endpointsHeader} component="h2">
       {title}
       {hasPremium && !isPremiumLabelHidden && <PremiumLabel />}
-    </div>
+    </Box>
   );
 };
