@@ -56,7 +56,7 @@ export const PublicUsageDataSection = ({
   return (
     <div className={classes.usageDataSection}>
       <div className={classes.usageSectionTitle}>
-        <Typography variant="subtitle1">t(keys.statistics)</Typography>
+        <Typography variant="subtitle1">{t(keys.statistics)}</Typography>
         {!error && (
           <TimeframeSection
             tabs={timeframeTabs}
