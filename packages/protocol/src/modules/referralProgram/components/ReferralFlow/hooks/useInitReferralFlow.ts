@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
-import { isXaiReferralCode } from 'modules/referralProgram/utils/isXaiReferralCode';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
@@ -55,7 +54,7 @@ export const useInitiReferralFlow = ({
   useEffect(() => {
     // TODO: rethink this logcis to get rid of nested if's
     if (!isLoggingOut && !loading) {
-      if (isXaiReferralCode(referralCode) && isBannerLoaded) {
+      if (referralCode && isBannerLoaded) {
         if (isLoggedIn) {
           if (isPersonalPremiumStatusLoaded && isGroupSelected) {
             if (isAccountEligible) {

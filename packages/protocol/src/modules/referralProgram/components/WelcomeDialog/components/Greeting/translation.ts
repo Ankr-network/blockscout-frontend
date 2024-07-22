@@ -1,15 +1,31 @@
 import { Locale } from 'modules/i18n';
 
+const brandedLoggedIn = {
+  description: `You've come to Ankr's Web3 API platform through a B2B referral. This makes you eligible to use our B2B-exclusive Promo service plan featuring the following perks:`,
+  invitationToSignIn: 'Activate to start interacting with {blockchainName}.',
+  title: `Welcome to Ankr's Promo plan`,
+};
+
+const unbrandedLoggedIn = {
+  description: `You've come to Ankr's Web3 API platform through a referral. This makes you eligible for a 20% increase on your first deposit if you choose to go Premium with us.`,
+  invitationToSignIn: '',
+  title: 'Referral activation',
+};
+
 export const greetingTranslation = {
   [Locale.en]: {
-    apiCreditsBenefit: '10 billion API Credits (= 50 million requests)',
-    description: `You've come to Ankr's Web3 API platform through a {blockchainName} referral. This makes you eligible to use our {blockchainName}-exclusive Promo service plan featuring the following perks:`,
-    freeAccessBenefit:
-      '1 month of free access for {blockchainName} interaction',
-    invitationToSignIn: 'Sign in to start interacting with {blockchainName}.',
-    rateLimitsBenefit: 'Freakishly high rate limits: 1500 requests per second',
-    title: `Welcome to Ankr's {blockchainName} Promo plan`,
-    usageStatsBenefit:
-      'Usage stats dashboard / HTTPS & WSS / Standard-Trace-Debug calls',
+    brandedLoggedIn,
+    brandedLoggedOut: {
+      description: brandedLoggedIn.description,
+      invitationToSignIn: 'Sign in to start interacting with {blockchainName}.',
+      title: brandedLoggedIn.title,
+    },
+    unbrandedLoggedIn,
+    unbrandedLoggedOut: {
+      description: unbrandedLoggedIn.description,
+      invitationToSignIn:
+        'Sign in to start testing premium features with Freemium.',
+      title: 'Welcome to Web3 API platform',
+    },
   },
 };

@@ -23,7 +23,12 @@ export const IneligibleAccountDialog = ({
 }: IIneligibleAccountDialogProps) => {
   const { onClose } = dialogProps;
 
-  const { keys, t } = useTranslation(ineligibleAccountDialogTranslation);
+  const {
+    keys: { branded, unbranded },
+    t,
+  } = useTranslation(ineligibleAccountDialogTranslation);
+
+  const keys = blockchainName ? branded : unbranded;
 
   const { classes } = useIneligibleAccountDialogStyles();
 

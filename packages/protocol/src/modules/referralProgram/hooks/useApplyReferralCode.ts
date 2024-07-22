@@ -32,9 +32,14 @@ export const useApplyReferralCode = ({
 
   const { handleRemoveSavedReferralCode } = useSavedReferralCode();
 
-  const { keys, t } = useTranslation(referralProgramTranslation);
-
   const { blockchainName } = useReferralProgram();
+
+  const {
+    keys: { branded, unbranded },
+    t,
+  } = useTranslation(referralProgramTranslation);
+
+  const keys = blockchainName ? branded : unbranded;
 
   const dispatch = useAppDispatch();
 
@@ -43,12 +48,20 @@ export const useApplyReferralCode = ({
       const response = await applyReferralCode({ code: referralCode });
 
       if (isMutationSuccessful(response)) {
+        const isBranded = Boolean(blockchainName);
+
         if (hasSuccessNotification) {
           dispatch(
             showNotification({
-              message: t(keys.activationAcceptedMessage, { blockchainName }),
+              message: t(keys.activationAcceptedMessage, {
+                blockchainName,
+                isBranded,
+              }),
               severity: 'success',
-              title: t(keys.activationAcceptedTitle, { blockchainName }),
+              title: t(keys.activationAcceptedTitle, {
+                blockchainName,
+                isBranded,
+              }),
             }),
           );
         }

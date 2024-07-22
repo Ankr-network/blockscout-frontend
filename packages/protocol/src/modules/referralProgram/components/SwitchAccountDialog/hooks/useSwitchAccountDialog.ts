@@ -30,7 +30,11 @@ export const useSwitchAccountDialog = ({
 
   const { handleRemoveSavedReferralCode } = useSavedReferralCode();
 
-  const { keys, t } = useTranslation(referralProgramTranslation);
+  const {
+    keys: { branded, unbranded },
+    t,
+  } = useTranslation(referralProgramTranslation);
+  const keys = blockchainName ? branded : unbranded;
 
   const dispatch = useAppDispatch();
 
@@ -44,7 +48,10 @@ export const useSwitchAccountDialog = ({
       showNotification({
         message: t(keys.activationRejectedErrorMessage),
         severity: 'error',
-        title: t(keys.activationRejectedErrorTitle, { blockchainName }),
+        title: t(keys.activationRejectedErrorTitle, {
+          blockchainName,
+          isBranded: Boolean(blockchainName),
+        }),
       }),
     );
   }, [

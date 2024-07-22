@@ -1,21 +1,19 @@
 import { useMemo } from 'react';
 
-import { blockchainNamesMap, referralProgramBannersMap } from '../const';
+import { getReferralProgramBanner } from '../utils/getReferralProgramBanner';
+import { getReferralProgramBlockchainName } from '../utils/getReferralProgramBlockchainName';
 import { useReferralCode } from './useReferralCode';
 
 export const useReferralProgram = () => {
   const { referralCode } = useReferralCode();
 
-  const [blockchainName, banner] = useMemo(() => {
-    if (referralCode) {
-      return [
-        blockchainNamesMap[referralCode],
-        referralProgramBannersMap[referralCode],
-      ];
-    }
-
-    return [undefined, undefined];
-  }, [referralCode]);
+  const [blockchainName, banner] = useMemo(
+    () => [
+      getReferralProgramBlockchainName(referralCode),
+      getReferralProgramBanner(referralCode),
+    ],
+    [referralCode],
+  );
 
   return { banner, blockchainName, referralCode };
 };

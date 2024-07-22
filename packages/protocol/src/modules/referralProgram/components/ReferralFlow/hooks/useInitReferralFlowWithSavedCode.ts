@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import { isXaiReferralCode } from 'modules/referralProgram/utils/isXaiReferralCode';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
@@ -45,7 +44,7 @@ export const useInitReferralFlowWithSavedCode = ({
   const isPersonalGroupFreemium = Boolean(personalPremiumStatus?.isFreemium);
 
   useEffect(() => {
-    if (isXaiReferralCode(savedReferralCode) && isLoggedIn && isBannerLoaded) {
+    if (savedReferralCode && isLoggedIn && isBannerLoaded) {
       if (isPersonalPremiumStatusLoaded && isGroupSelected) {
         if (isAccountEligible) {
           handleApplyReferralCode();

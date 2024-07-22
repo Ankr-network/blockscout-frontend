@@ -20,7 +20,13 @@ export const SuccessDialog = ({
   onDoneButtonClick,
   ...dialogProps
 }: ISuccessDialogProps) => {
-  const { keys, t, tHTML } = useTranslation(successDialogTranslation);
+  const {
+    keys: { branded, unbranded },
+    t,
+    tHTML,
+  } = useTranslation(successDialogTranslation);
+
+  const keys = blockchainName ? branded : unbranded;
 
   const { classes } = useSuccessDialogStyles();
 
@@ -33,7 +39,7 @@ export const SuccessDialog = ({
         <Typography variant="body2">
           {tHTML(keys.description, { blockchainName })}
         </Typography>
-        <Benefits blockchainName={blockchainName} />
+        {blockchainName && <Benefits blockchainName={blockchainName} />}
       </div>
       <Button
         color="primary"

@@ -24,7 +24,12 @@ export const SwitchAccountDialog = ({
 }: ISwitchAccountDialogProps) => {
   const { onClose } = dialogProps;
 
-  const { keys, t } = useTranslation(switchAccountDialogTranslation);
+  const {
+    keys: { branded, unbranded },
+    t,
+  } = useTranslation(switchAccountDialogTranslation);
+
+  const keys = blockchainName ? branded : unbranded;
 
   const { classes } = useSwitchAccountDialogStyles();
 
