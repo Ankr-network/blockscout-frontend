@@ -1,3 +1,5 @@
+import { isReactSnap } from './isReactSnap';
+
 export interface IPreloadImageParams {
   src: string;
 }
@@ -7,8 +9,11 @@ export const preloadImage = ({ src }: IPreloadImageParams) => {
     const image = new Image();
 
     image.onload = () => resolve(image);
-    image.onerror = () => reject(src);
-    image.onabort = () => reject(src);
+
+    if (!isReactSnap) {
+      image.onerror = () => reject(src);
+      image.onabort = () => reject(src);
+    }
 
     image.src = src;
   });
