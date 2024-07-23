@@ -95,7 +95,7 @@ export const MainEndpoints = ({
             onCopy={onCopyEndpoint}
             url={url!}
           />
-          {!hasPrivateAccess && (
+          {!isFreePremium && !hasPrivateAccess && (
             <Typography variant="body3" color="textSecondary">
               {t('chain-item.get-started.endpoints.rate-limits')}
             </Typography>

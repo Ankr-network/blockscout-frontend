@@ -24,7 +24,7 @@ export const UpgradePublicBanner = ({
           >
             {tHTML('banner.public.title')}
           </Typography>
-          <Typography variant="body3">
+          <Typography variant="body3" className={classes.typography}>
             {t('banner.public.description')}
           </Typography>
         </div>

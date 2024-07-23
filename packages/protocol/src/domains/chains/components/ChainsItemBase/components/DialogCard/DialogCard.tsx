@@ -1,9 +1,7 @@
 import { ReactNode } from 'react';
 
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 export interface DialogCardProps {
   children: ReactNode;
@@ -18,7 +16,7 @@ export const DialogCard = ({ children, className }: DialogCardProps) => {
       <div className={className} onClick={onOpen} role="button" tabIndex={0}>
         {children}
       </div>
-      <UpgradePlanDialog onClose={onClose} open={isOpened} />
+      <PlansDialog onClose={onClose} open={isOpened} />
     </>
   );
 };

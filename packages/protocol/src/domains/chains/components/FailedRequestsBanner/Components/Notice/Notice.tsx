@@ -1,10 +1,8 @@
 import { Button } from '@mui/material';
 import { t, tHTML } from '@ankr.com/common';
 
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 import { intlFailedRequestsBannerRoot } from '../Tooltip';
 import { useNoticeStyles } from './useNoticeStyles';
@@ -27,7 +25,7 @@ export const Notice = () => {
           {t(`${intlFailedRequestsBannerRoot}.notice-button`)}
         </Button>
       </div>
-      <UpgradePlanDialog open={isOpened} onClose={onClose} />
+      <PlansDialog open={isOpened} onClose={onClose} />
     </div>
   );
 };

@@ -157,7 +157,7 @@ export const Routes = () => {
         exact
         path={ChainsRoutesConfig.chains.path}
         render={() => (
-          <DefaultLayout isChainsPublicPage={!isLoggedIn}>
+          <DefaultLayout>
             <ChainsRoutes />
           </DefaultLayout>
         )}
@@ -252,7 +252,7 @@ export const Routes = () => {
             shouldRedirect
             blockName={BlockWithPermission.ChainItem}
           >
-            <DefaultLayout isChainItemPage isChainsPublicPage={!isLoggedIn}>
+            <DefaultLayout isChainItemPage>
               <ChainDetailsRoutes />
             </DefaultLayout>
           </GuardUserGroup>

@@ -2,11 +2,11 @@ import { OverlaySpinner } from '@ankr.com/ui';
 
 import { Chart } from 'modules/common/components/Chart';
 
-import { Placeholder } from './components/Placeholder';
 import { RequestsChartProps } from './types';
 import { Tooltip } from './components/Tooltip';
 import { useRequestsChart } from './hooks/useRequestsChart';
 import { useRequestsChartStyles } from './RequestsChartStyles';
+import { getEmptyChartData } from './utils/getEmptyChartDataByTimeframe';
 
 export const RequestsChart = ({
   className,
@@ -26,7 +26,13 @@ export const RequestsChart = ({
       {title}
       <div className={classes.content}>
         {hasPreloader && <OverlaySpinner />}
-        {hasPlaceholder && <Placeholder />}
+        {hasPlaceholder && (
+          <Chart
+            {...chartProps}
+            {...getEmptyChartData(timeframe)}
+            tooltipContent={<Tooltip />}
+          />
+        )}
         {hasChart && <Chart {...chartProps} tooltipContent={<Tooltip />} />}
       </div>
     </div>

@@ -7,5 +7,4 @@ export interface BreadcrumbItem {
 export interface BreadcrumbsProps {
   customBreakpoint?: number;
   items: BreadcrumbItem[];
-  isPublic?: boolean;
 }

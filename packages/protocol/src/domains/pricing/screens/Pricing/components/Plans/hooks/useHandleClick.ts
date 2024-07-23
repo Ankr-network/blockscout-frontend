@@ -15,18 +15,22 @@ interface UseHandleClickArguments {
   isLoggedIn: boolean;
   isFinanceRole: boolean;
   hasPremium: boolean;
+  shouldCloseForFree?: boolean;
   onOpenUpgradePlanDialog: () => void;
   onOpenSignupDialog: () => void;
   onOpenTopupDialog: () => void;
+  onClose: () => void;
 }
 
 export const useHandleClick = ({
   hasPremium,
   isFinanceRole,
   isLoggedIn,
+  onClose,
   onOpenSignupDialog,
   onOpenTopupDialog,
   onOpenUpgradePlanDialog,
+  shouldCloseForFree = false,
 }: UseHandleClickArguments) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -44,6 +48,10 @@ export const useHandleClick = ({
       }
 
       if (isFreePlanName) {
+        if (shouldCloseForFree) {
+          onClose();
+        }
+
         const localtion = isLoggedIn
           ? ProjectsRoutesConfig.projects.generatePath()
           : ChainsRoutesConfig.chains.generatePath({ isLoggedIn });
@@ -83,6 +91,8 @@ export const useHandleClick = ({
       onOpenSignupDialog,
       onOpenTopupDialog,
       dispatch,
+      shouldCloseForFree,
+      onClose,
     ],
   );
 };

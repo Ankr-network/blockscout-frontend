@@ -3,12 +3,10 @@ import { Button, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
 
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
@@ -19,7 +17,7 @@ interface IPremiumContentProps {
 }
 
 export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
-  const { classes } = usePremiumContentStyles(isMultiChain);
+  const { classes } = usePremiumContentStyles();
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
@@ -88,7 +86,7 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
         </div>
       </div>
 
-      <UpgradePlanDialog onClose={onClose} open={isOpened} />
+      <PlansDialog onClose={onClose} open={isOpened} />
 
       <SignupDialog
         isOpen={isSignupDialogOpened}

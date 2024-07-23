@@ -5,7 +5,7 @@ import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 import { SIDEBAR_WIDTH } from '../SideBar';
 
-export const HEADER_HEIGHT = 121;
+export const HEADER_HEIGHT = 90;
 
 export const useStyles = makeStyles()((theme: Theme) => ({
   root: {

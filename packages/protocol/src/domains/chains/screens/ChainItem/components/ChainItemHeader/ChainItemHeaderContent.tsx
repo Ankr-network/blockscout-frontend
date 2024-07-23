@@ -92,12 +92,29 @@ export const ChainItemHeaderContent = ({
 
   const { classes } = useChainItemHeaderContentStyles();
 
+  const shouldHideEndpoints = isMultiChain && !isCompactView;
+
   return (
     <>
       {isMultiChain ? (
         <>
-          <MultiChainOverview />
-          <AdvancedApiLinks />
+          <MultiChainOverview
+            hasLogo={!isCompactView}
+            hasDescription={isCompactView}
+          />
+          <div className={classes.multichainLinksWrapper}>
+            <AdvancedApiLinks />
+            <ChainItemHeaderExtraContent
+              chain={chain}
+              chainSubType={chainSubType}
+              chainType={chainType}
+              group={group}
+              isCompactView
+              isEnterprise={isEnterprise}
+              hasMetamaskButton={hasMetamaskButton}
+              onOpenCodeExample={onOpenCodeExample}
+            />
+          </div>
         </>
       ) : (
         <>
@@ -153,26 +170,28 @@ export const ChainItemHeaderContent = ({
           {requestsString}
         </Typography>
       )}
-      <div className={!isMultiChain ? classes.content : undefined}>
-        {isEnterprise ? (
-          <EnterpriseEndpoints
-            publicChain={publicChain}
-            chainType={chainType}
-            group={endpointsGroup}
-          />
-        ) : (
-          <Endpoints
-            publicChain={publicChain}
-            chainType={chainType}
-            group={endpointsGroup}
-            placeholder={placeholder}
-            isPremiumLabelHidden={isPremiumLabelHidden}
-          />
-        )}
-        <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
-          <PremiumContent isMultiChain={isMultiChain} />
-        </GuardUserGroup>
-      </div>
+      {!shouldHideEndpoints && (
+        <div className={classes.content}>
+          {isEnterprise ? (
+            <EnterpriseEndpoints
+              publicChain={publicChain}
+              chainType={chainType}
+              group={endpointsGroup}
+            />
+          ) : (
+            <Endpoints
+              publicChain={publicChain}
+              chainType={chainType}
+              group={endpointsGroup}
+              placeholder={placeholder}
+              isPremiumLabelHidden={isPremiumLabelHidden}
+            />
+          )}
+          <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
+            <PremiumContent isMultiChain={isMultiChain} />
+          </GuardUserGroup>
+        </div>
+      )}
     </>
   );
 };

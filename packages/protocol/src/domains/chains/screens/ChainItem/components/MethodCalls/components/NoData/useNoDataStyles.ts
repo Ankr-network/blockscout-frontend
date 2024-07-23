@@ -8,7 +8,7 @@ export const useNoDataStyles = makeStyles()((theme: Theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    lineHeight: theme.spacing(2 * 3),
+    lineHeight: theme.spacing(6),
     fontWeight: 400,
     color: theme.palette.grey[600],
   },

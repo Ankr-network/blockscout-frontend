@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { PrimaryTab } from 'domains/chains/screens/ChainItem/components/PrimaryTab';
+import { PrimaryTab } from 'modules/common/components/PrimaryTab';
 import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItemSections/types';
 import { UsageDataSectionParams } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useUsageDataSection';
 import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';

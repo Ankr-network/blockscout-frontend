@@ -4,16 +4,12 @@ import { trackUpgradePlanModalClose } from 'modules/analytics/mixpanel/trackUpgr
 import { trackUpgradePlanModalOpen } from 'modules/analytics/mixpanel/trackUpgradePlanModalOpen';
 import { useDialog } from 'modules/common/hooks/useDialog';
 
-import { UpgradePlanDialogType } from '../types';
-
 export interface UpgradePlanDialogHookParams {
   isOpened?: boolean;
-  type?: UpgradePlanDialogType;
 }
 
 export const useUpgradePlanDialog = ({
   isOpened: isInitallyOpened = false,
-  type = UpgradePlanDialogType.Default,
 }: UpgradePlanDialogHookParams = {}) => {
   const {
     isOpened,
@@ -26,8 +22,8 @@ export const useUpgradePlanDialog = ({
   const onClose = useCallback(() => {
     handleClose();
 
-    trackUpgradePlanModalClose(type);
-  }, [handleClose, type]);
+    trackUpgradePlanModalClose();
+  }, [handleClose]);
 
   useEffect(() => {
     if (!isOpened && isInitallyOpened) {
@@ -38,7 +34,7 @@ export const useUpgradePlanDialog = ({
 
   useEffect(() => {
     if (isOpened) {
-      trackUpgradePlanModalOpen(type);
+      trackUpgradePlanModalOpen();
     }
     // We must send the mixpanel event only if isOpened variable has changed
     // eslint-disable-next-line react-hooks/exhaustive-deps

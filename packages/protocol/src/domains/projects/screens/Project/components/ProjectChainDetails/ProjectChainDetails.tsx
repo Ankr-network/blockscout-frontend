@@ -8,22 +8,18 @@ import { useProjectChainDetailsStyles } from './useProjectEndpointsStyles';
 
 interface IProjectChainDetailsProps {
   isCompactView?: boolean;
-  onOpenCodeExample?: () => void;
 }
 
 export const ProjectChainDetails = ({
   isCompactView,
-  onOpenCodeExample,
 }: IProjectChainDetailsProps) => {
   const { projectChain } = useProjectChain();
 
-  const { chainProtocolContext, headerContent, privateChain } =
-    useProjectChainDetails({
-      networksButton: <NetworksButton />,
-      projectChain,
-      isCompactView,
-      onOpenCodeExample,
-    });
+  const { chainProtocolContext, headerContent } = useProjectChainDetails({
+    networksButton: <NetworksButton />,
+    projectChain,
+    isCompactView,
+  });
 
   const { classes, cx } = useProjectChainDetailsStyles();
 
@@ -31,10 +27,8 @@ export const ProjectChainDetails = ({
     <div className={classes.root}>
       <ChainProtocolContext.Provider value={chainProtocolContext}>
         <ChainItemHeader
-          chain={privateChain}
           headerContent={headerContent}
           className={cx(classes.header, { [classes.noPadding]: isCompactView })}
-          codeSampleWrapperClassName={classes.codeSampleWrapper}
         />
       </ChainProtocolContext.Provider>
     </div>

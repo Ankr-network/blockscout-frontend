@@ -8,14 +8,12 @@ import { ArrowDown } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { ChainLogo } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainLogo';
+import { ChainLogo } from 'modules/chains/components/ChainLogo';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
-import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { ProjectChainDetails } from '../../../ProjectChainDetails';
 import { useProjectChainsAccordionStyles } from './useProjectChainsAccordionStyles';
-import { CodeExampleModal } from '../CodeExampleModal';
 import {
   IAccordionItemProps,
   useAccordionItem,
@@ -28,12 +26,6 @@ export const AccordionItem = ({
   isActive,
   timeframe,
 }: IAccordionItemProps) => {
-  const {
-    isOpened: isOpenedCodeExample,
-    onClose: onCloseCodeExample,
-    onOpen: onOpenCodeExample,
-  } = useDialog();
-
   const {
     elementId,
     handleSelect,
@@ -124,20 +116,9 @@ export const AccordionItem = ({
         </AccordionSummary>
 
         <AccordionDetails className={classes.accordionDetails}>
-          {isActive && (
-            <ProjectChainDetails
-              isCompactView
-              onOpenCodeExample={onOpenCodeExample}
-            />
-          )}
+          {isActive && <ProjectChainDetails isCompactView />}
         </AccordionDetails>
       </Accordion>
-
-      <CodeExampleModal
-        onOpenCodeExample={onOpenCodeExample}
-        isOpenedCodeExample={isOpenedCodeExample}
-        onCloseCodeExample={onCloseCodeExample}
-      />
     </>
   );
 };

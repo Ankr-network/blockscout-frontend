@@ -24,4 +24,12 @@ export const useMultichainOverviewStyles = makeStyles()(theme => ({
   text: {
     color: theme.palette.text.primary,
   },
+  multichainDescriptionTitle: {
+    display: 'flex',
+    marginBottom: theme.spacing(3),
+  },
+  multichainDescription: {
+    display: 'flex',
+    maxWidth: 430,
+  },
 }));

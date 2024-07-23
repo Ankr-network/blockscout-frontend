@@ -2,10 +2,13 @@ import { alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 export const useAdvancedApiLinksStyles = makeStyles()(theme => ({
-  root: {
+  advancedApiLinksRoot: {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  hasMargin: {
+    marginBottom: theme.spacing(6),
   },
   links: {
     display: 'flex',

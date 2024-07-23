@@ -17,13 +17,17 @@ interface PlanProps {
   onClick: () => void;
   isButtonDisabled: boolean;
   isCurrentPlan: boolean;
+  rootClassname?: string;
+  headerClassname?: string;
 }
 
 export const Plan = ({
+  headerClassname,
   isButtonDisabled,
   isCurrentPlan,
   onClick,
   planName,
+  rootClassname,
 }: PlanProps) => {
   const { classes, cx } = usePlanStyles();
 
@@ -35,12 +39,16 @@ export const Plan = ({
 
   return (
     <div
-      className={cx(classes.container, {
-        [classes.premium]: isPremiumPlan,
-        [classes.enterprise]: isEnterprisePlan,
-      })}
+      className={cx(
+        classes.container,
+        {
+          [classes.premium]: isPremiumPlan,
+          [classes.enterprise]: isEnterprisePlan,
+        },
+        rootClassname,
+      )}
     >
-      <div className={classes.root}>
+      <div className={cx(classes.root, rootClassname)}>
         <div>
           <div className={classes.header}>
             {TIP_LIST.includes(planName) && (
@@ -48,7 +56,7 @@ export const Plan = ({
                 {t(`${INTL_PLANS_ROOT}.${planName}.tip`)}
               </div>
             )}
-            <div className={classes.row}>
+            <div className={cx(classes.row, headerClassname)}>
               <Typography
                 variant="h4"
                 className={cx(

@@ -6,9 +6,7 @@ import { AdvancedApiRoutesConfig } from './routesConfig';
 
 const LoadableAdvancedApiContainer: LoadableComponent<any> = loadable(
   async () =>
-    import('../screens/AdvancedApiDetails').then(
-      module => module.AdvancedApiDetails,
-    ),
+    import('../screens/AdvancedApiPage').then(module => module.AdvancedApiPage),
   {
     fallback: <OverlaySpinner />,
   },

@@ -14,6 +14,8 @@ export const useBlockchainIconStyles = makeStyles()(theme => ({
     width: theme.spacing(8),
     height: theme.spacing(8),
     marginLeft: theme.spacing(-2),
+    backgroundColor: theme.palette.common.white,
+    borderRadius: '50%',
   },
   more: {
     color: theme.palette.text.secondary,

@@ -1,23 +1,14 @@
 import { RequestsChartSkeleton } from 'modules/common/components/RequestsChart/RequestsChartSkeleton';
 
 import { ChainItemHeaderSkeleton } from '../ChainItemHeader/components/ChainItemHeaderSkeleton';
-import { ChainItemWithCodeSampleSkeleton } from '../ChainItemWithCodeSampleSkeleton';
 import { useChainItemSkeletonStyles } from './useChainItemSkeletonStyles';
 
-export const ChainItemSkeleton = ({
-  withCodeSample,
-}: {
-  withCodeSample?: boolean;
-}) => {
+export const ChainItemSkeleton = () => {
   const { classes } = useChainItemSkeletonStyles();
 
   return (
     <div className={classes.root}>
-      {withCodeSample ? (
-        <ChainItemWithCodeSampleSkeleton />
-      ) : (
-        <ChainItemHeaderSkeleton />
-      )}
+      <ChainItemHeaderSkeleton />
       <RequestsChartSkeleton />
     </div>
   );

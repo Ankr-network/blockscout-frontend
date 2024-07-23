@@ -15,6 +15,8 @@ export const useCodeExampleModalStyles = makeStyles()(theme => ({
     padding: theme.spacing(3, 5),
   },
   codeExampleModalChainLogo: {
+    backgroundColor: theme.palette.common.white,
+    borderRadius: '50%',
     width: 32,
     height: 32,
     marginRight: theme.spacing(3),

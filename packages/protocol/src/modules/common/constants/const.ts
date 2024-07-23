@@ -57,6 +57,12 @@ export const AAPI_CHAINS_LINK =
 export const AAPI_REACT_HOOKS_LINK =
   'https://www.ankr.com/docs/advanced-api/react-hooks/';
 
+export const AAPI_ABOUT_LINK =
+  'https://www.ankr.com/remote-procedure-call/advanced-api/';
+
+export const AAPI_SUPPORTED_METHODS_LINK =
+  'https://www.ankr.com/docs/advanced-api/overview/#aapi-methods-supported/';
+
 export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';
 
 export const ACTION_TEN_MINUTES_CACHE = 6000;

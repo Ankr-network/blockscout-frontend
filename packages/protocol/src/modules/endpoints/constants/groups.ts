@@ -3,6 +3,9 @@ import { t } from '@ankr.com/common';
 import { Chain, ChainID } from 'modules/chains/types';
 
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
+import { isMainnet } from '../../common/constants/const';
+
+const ENABLE_NOT_STABLE_NETWORKS = isMainnet;
 
 const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
@@ -139,7 +142,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.ROLLUX,
       ChainID.ROLLUX_TESTNET,
 
-      ChainID.MANTLE,
+      ...(ENABLE_NOT_STABLE_NETWORKS ? [ChainID.MANTLE] : []),
 
       ChainID.TAIKO,
       ChainID.TAIKO_HEKLA,
@@ -152,7 +155,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.XDC_TESTNET,
 
       ChainID.ZETACHAIN,
-      ChainID.ZETACHAIN_EVM_ATHENS_TESTNET,
+      ...(ENABLE_NOT_STABLE_NETWORKS
+        ? [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]
+        : []),
 
       ChainID.ZKSYNC_ERA,
 
@@ -376,7 +381,10 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.KAVA_EVM,
     name: 'EVM JSON-RPC',
     pluralName: 'EVM JSON-RPC',
-    chains: [ChainID.KAVA_EVM, ChainID.KAVA_EVM_TESTNET],
+    chains: [
+      ChainID.KAVA_EVM,
+      ...(ENABLE_NOT_STABLE_NETWORKS ? [ChainID.KAVA_EVM_TESTNET] : []),
+    ],
   },
   {
     id: ChainGroupID.KAVA_TENDERMINT_REST,

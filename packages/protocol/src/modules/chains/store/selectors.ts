@@ -260,3 +260,14 @@ export const selectChainPathsByIds = createSelector(
     );
   },
 );
+
+export const selectSubchainBySubchainId = createSelector(
+  (_state: RootState, chainId: ChainID) => chainId,
+  selectBlockchains,
+  (chainId, { data: blockchains = [] }) => {
+    return blockchains.find(
+      blockchain =>
+        blockchain.id === chainId || blockchain.paths?.includes(chainId),
+    );
+  },
+);

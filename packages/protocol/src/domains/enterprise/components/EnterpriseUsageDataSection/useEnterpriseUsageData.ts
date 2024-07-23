@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useUserRequestsByIp } from 'domains/chains/hooks/useUserRequestsByIp';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
 import {
@@ -14,7 +13,6 @@ import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToInte
 import { getPrivateUsageData } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/PrivateUsageDataSectionUtils';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectEnterpriseStatsBySelectedApiKey } from 'domains/enterprise/store/selectors';
-import { useMonthEnterpriseStats } from 'domains/enterprise/hooks/useMonthEnterpriseStats';
 import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';
 
 export const useEnterpriseUsageData = ({
@@ -60,38 +58,24 @@ export const useEnterpriseUsageData = ({
     enterpriseCheckedChainId,
   );
 
-  const [{ stats: day30EnterpriseStats = {} }, areDay30PrivateStatsLoading] =
-    useMonthEnterpriseStats();
-
-  const userTopRequestsIp = useUserRequestsByIp({
-    day30PrivateStats: day30EnterpriseStats,
-    chainId: enterpriseCheckedChainId,
-  });
-
   const enterpriseUsageData = useMemo(
     () =>
       getPrivateUsageData({
         isConnecting,
-        arePrivateStatsLoading:
-          areEnterpriseStatsLoading || areDay30PrivateStatsLoading,
+        arePrivateStatsLoading: areEnterpriseStatsLoading,
         privateStatsError: enterpriseStatsError,
         privateStats: enterpriseStats[enterpriseCheckedChainId],
-        day30PrivateStats: day30EnterpriseStats[enterpriseCheckedChainId], // TODO: remove upon backend support for other timeframes
         timeframe,
         userTopRequests,
-        userTopRequestsIp,
       }),
     [
       isConnecting,
       areEnterpriseStatsLoading,
-      areDay30PrivateStatsLoading,
       enterpriseStatsError,
       enterpriseStats,
       enterpriseCheckedChainId,
-      day30EnterpriseStats,
       timeframe,
       userTopRequests,
-      userTopRequestsIp,
     ],
   );
 

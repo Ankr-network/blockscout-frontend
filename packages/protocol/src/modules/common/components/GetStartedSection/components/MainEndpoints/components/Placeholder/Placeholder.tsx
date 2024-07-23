@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { t } from '@ankr.com/common';
 
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { UpgradeToPremiumPlanDialog } from 'modules/common/components/UpgradeToPremiumPlanDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { EndpointPlaceholder } from '../../../EndpointPlaceholder';
 

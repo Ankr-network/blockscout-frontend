@@ -10,7 +10,7 @@ export const useChainItemHeaderSkeletonStyles = makeStyles()(
 
       padding: theme.spacing(2 * 3.75),
 
-      borderRadius: theme.spacing(2 * 3.75),
+      borderRadius: theme.spacing(5),
 
       backgroundColor: theme.palette.background.paper,
     },

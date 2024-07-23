@@ -11,8 +11,9 @@ import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { PrimaryTab } from 'modules/common/components/PrimaryTab';
+import { NoReactSnap } from 'uiKit/NoReactSnap';
 
-import { PrimaryTab } from '../../PrimaryTab';
 import { SectionID } from '../types';
 import { TabSelectHandlerGetter } from './useTabSelectHandlerGetter';
 import { UsageDataSection } from '../../UsageDataSection';
@@ -46,15 +47,17 @@ export const useUsageDataSection = ({
     return {
       id: SectionID.UsageData,
       content: (
-        <UsageDataSection
-          chain={chain}
-          chainType={chainType}
-          chainSubType={chainSubType}
-          group={group}
-          timeframe={timeframe}
-          timeframeTabs={timeframeTabs}
-          hasPrivateAccess={hasPrivateAccess || isEnterpriseClient}
-        />
+        <NoReactSnap>
+          <UsageDataSection
+            chain={chain}
+            chainType={chainType}
+            chainSubType={chainSubType}
+            group={group}
+            timeframe={timeframe}
+            timeframeTabs={timeframeTabs}
+            hasPrivateAccess={hasPrivateAccess || isEnterpriseClient}
+          />
+        </NoReactSnap>
       ),
       onSelect: getSelectHandler(SectionID.UsageData),
       title: (isSelected: boolean) => (

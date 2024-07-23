@@ -4,10 +4,8 @@ import { NoDataCoinStack } from '@ankr.com/ui';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { selectHasFreemium } from 'domains/auth/store';
-import {
-  UpgradePlanDialog,
-  useUpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
+import { PlansDialog } from 'modules/common/components/PlansDialog';
 
 import { useEmptyLayoutStyles } from './EmptyRequestsStyles';
 
@@ -39,7 +37,7 @@ export const EmptyRequests = () => {
             {t('project.total-requests.freemium-button')}
           </Button>
         </Box>
-        <UpgradePlanDialog onClose={onClose} open={isOpened} />
+        <PlansDialog onClose={onClose} open={isOpened} />
       </>
     );
   }

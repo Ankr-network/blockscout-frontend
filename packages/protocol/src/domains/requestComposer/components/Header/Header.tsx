@@ -16,7 +16,7 @@ export const Header = ({ chainName, children, hasTitle }: IHeaderProps) => {
   return (
     <div className={classes.root}>
       {hasTitle && (
-        <Typography className={classes.title}>
+        <Typography className={classes.title} component="h2">
           {t('request-composer.header.title')}
         </Typography>
       )}

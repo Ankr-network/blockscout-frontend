@@ -1,13 +1,11 @@
-import { IconButton, Link } from '@mui/material';
+import { Link } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { Doc } from '@ankr.com/ui';
 
 import {
   AAPI_CHAINS_LINK,
   AAPI_JS_SDK,
   AAPI_PYTHON_SDK,
   AAPI_REACT_HOOKS_LINK,
-  AAPI_OVERVIEW_LINK,
 } from 'modules/common/constants/const';
 
 import { useAdvancedApiLinksStyles } from './useAdvancedApiLinksStyles';
@@ -16,7 +14,7 @@ export const AdvancedApiLinks = () => {
   const { classes } = useAdvancedApiLinksStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.advancedApiLinksRoot}>
       <div className={classes.links}>
         <Link
           target="_blank"
@@ -51,14 +49,6 @@ export const AdvancedApiLinks = () => {
           {t('advanced-api.chain-overview.react-hooks')}
         </Link>
       </div>
-      <IconButton
-        component={Link}
-        href={AAPI_OVERVIEW_LINK}
-        target="_blank"
-        className={classes.iconRoot}
-      >
-        <Doc className={classes.icon} />
-      </IconButton>
     </div>
   );
 };

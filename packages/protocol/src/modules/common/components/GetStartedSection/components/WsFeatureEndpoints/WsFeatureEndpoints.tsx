@@ -3,11 +3,11 @@ import { t } from '@ankr.com/common';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { UpgradeToPremiumPlanDialog } from 'modules/common/components/UpgradeToPremiumPlanDialog';
 
 import { EndpointsHeader } from '../EndpointsHeader';
 import { WSEndpoints } from '../WSEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';
-import { UpgradeToPremiumPlanDialog } from '../../../UpgradeToPremiumPlanDialog/UpgradeToPremiumPlanDialog';
 
 interface IWsFeatureEndpointsProps {
   title: string;

@@ -6,31 +6,24 @@ export const useRequestsMapStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    gap: theme.spacing(2 * 3.75),
-
-    padding: theme.spacing(2 * 3.75),
-
-    borderRadius: theme.spacing(2 * 3),
-
+    gap: theme.spacing(7.5),
+    padding: theme.spacing(7.5),
+    borderRadius: theme.spacing(5),
     background: theme.palette.background.paper,
+    border: `1px solid ${theme.palette.divider}`,
 
     [theme.breakpoints.down('md')]: {
-      gap: theme.spacing(2 * 2),
+      gap: theme.spacing(4),
     },
 
     [theme.breakpoints.down('xs')]: {
-      gap: theme.spacing(2 * 2),
-
-      padding: theme.spacing(2 * 2.5),
-
-      borderRadius: theme.spacing(2 * 2.5),
+      padding: theme.spacing(5),
     },
   },
   title: {
     color: theme.palette.text.primary,
-
     fontWeight: 700,
-    fontSize: theme.spacing(2 * 2.5),
+    fontSize: theme.spacing(5),
     lineHeight: theme.spacing(2 * 3.5),
   },
 
