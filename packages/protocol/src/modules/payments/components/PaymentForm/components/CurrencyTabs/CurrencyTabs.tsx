@@ -21,7 +21,7 @@ export const CurrencyTabs = ({
 
   return (
     <div className={cx(classes.currencyTabsRoot, className)}>
-      <Typography variant="subtitle2">
+      <Typography variant="subtitle2" color="textPrimary">
         {t('account.payment-form.currency-tabs-title')}
       </Typography>
       <TabsManager
