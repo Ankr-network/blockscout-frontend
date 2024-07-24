@@ -1,21 +1,9 @@
 import commonBanner from 'modules/referralProgram/assets/common-banner.png';
-import xaiBanner from 'modules/referralProgram/assets/xai-banner.png';
 
-import { XAI_REFERRAL_CODE } from '../const';
+import { getReferralProgram } from './getReferralProgram';
 
-type BannerUrl = string;
-type ReferralCode = string;
+export const getReferralProgramBanner = (referralCode: string | undefined) => {
+  const referralProgram = getReferralProgram(referralCode);
 
-const referralProgramBannersMap: Record<ReferralCode, BannerUrl> = {
-  [XAI_REFERRAL_CODE]: xaiBanner,
-};
-
-export const getReferralProgramBanner = (
-  referralCode: ReferralCode | undefined,
-) => {
-  if (referralCode) {
-    return referralProgramBannersMap[referralCode] ?? commonBanner;
-  }
-
-  return commonBanner;
+  return referralProgram?.banner ?? commonBanner;
 };

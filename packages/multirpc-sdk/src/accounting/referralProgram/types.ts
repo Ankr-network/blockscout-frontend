@@ -14,3 +14,18 @@ export interface IApplyReferralCodeResult {
   // usually "OK"
   result: string;
 }
+
+export interface IGetReferrerParams extends IApiUserGroupParams {}
+
+export interface IReferrer {
+  address: string; // masked
+  joined_at: number; // timestamp in ms
+  referral_code: string;
+  referral_code_name?: string; // optional
+  user: string; // email, masked
+  user_provider: string;
+}
+
+export interface IGetReferrerResponse {
+  referrer: IReferrer;
+}

@@ -16,6 +16,7 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { usePaymentOptions } from 'modules/payments/hooks/usePaymentOptions';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
 import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTeamsSettings';
+import { useReferrer } from 'modules/referralProgram/hooks/useReferrer';
 import { useShouldShowUserGroupDialogQuery } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actions/fetchGroupCreationAllowance';
 
@@ -67,6 +68,8 @@ export const useInitialization = (isLoggedIn: boolean) => {
   usePaymentOptions({ skipFetching: !isLoggedIn });
 
   useRedirectToTeamsSettings();
+
+  useReferrer({ skipFetching: !isLoggedIn });
 
   useOnMount(() => {
     removeAvoidGuestTeamInvitationDialog();

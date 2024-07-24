@@ -133,7 +133,12 @@ import {
   InviteGroupMemeberResult,
   RejectGroupInvitationParams,
 } from './groups';
-import { IApplyReferralCodeParams, IApplyReferralCodeResult } from './referralProgram';
+import {
+  IApplyReferralCodeParams,
+  IApplyReferralCodeResult,
+  IGetReferrerParams,
+  IGetReferrerResponse,
+} from './referralProgram';
 import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
 
 export class AccountingGateway {
@@ -1127,5 +1132,14 @@ export class AccountingGateway {
     );
 
     return data;
+  }
+
+  async getReferrer(params?: IGetReferrerParams) {
+    const { data } = await this.api.get<IGetReferrerResponse>(
+      '/api/v1/auth/referral/referrer',
+      { params },
+    );
+
+    return data.referrer;
   }
 }

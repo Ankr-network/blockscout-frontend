@@ -1,20 +1,22 @@
-import { useMemo } from 'react';
 import { Briefcase } from '@ankr.com/ui';
-import { t } from '@ankr.com/common';
 import { Skeleton, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { EChargingModel } from 'modules/payments/types';
+import { PromoBadge } from 'modules/common/components/PromoBadge';
 
 import { getLabel } from './UserLabelUtils';
 import { useUserLabelStyles } from './useUserLabelStyles';
 
 export interface IUserLabelProps {
-  hasPremium?: boolean;
-  hasStatusTransition?: boolean;
   chargingModel?: EChargingModel;
   className?: string;
   hasEnterpriseStatus?: boolean;
+  hasPremium?: boolean;
+  hasStatusTransition?: boolean;
   isLoading?: boolean;
+  isPromo?: boolean;
   size: 'small' | 'medium' | 'large';
 }
 
@@ -25,6 +27,7 @@ export const UserLabel = ({
   hasPremium = false,
   hasStatusTransition = false,
   isLoading,
+  isPromo,
   size = 'medium',
 }: IUserLabelProps) => {
   const { classes, cx } = useUserLabelStyles();
@@ -60,6 +63,10 @@ export const UserLabel = ({
         height={24}
       />
     );
+  }
+
+  if (isPromo) {
+    return <PromoBadge className={nestedClassName} />;
   }
 
   const isSmall = size === 'small';
