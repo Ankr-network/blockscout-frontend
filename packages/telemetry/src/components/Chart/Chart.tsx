@@ -19,6 +19,7 @@ export interface IChartData {
   time: Date;
   value?: string | number;
   extraValue?: string | number;
+  shouldShowZeroValues?: boolean;
 }
 
 export interface IChartProps {

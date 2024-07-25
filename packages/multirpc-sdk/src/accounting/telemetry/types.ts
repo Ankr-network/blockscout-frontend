@@ -53,7 +53,9 @@ export type StatsByRangeResponse = Record<string, number>;
 
 export enum PrivateStatsInterval {
   HOUR = 'h1',
+  TWO_HOURS = 'h2',
   DAY = 'h24',
+  TWO_DAYS = 'd2',
   WEEK = 'd7',
   MONTH = 'd30',
 }

@@ -85,55 +85,53 @@ export const PrivateUsageDataSection = ({
           <QueryError error={error} />
         </div>
       ) : (
-        <>
-          <Paper className={classes.statisticsPaper}>
-            <ItemHeader
-              isLabelHidden
-              timeframe={timeframe}
-              title={t(keys.networkUsage)}
-            />
-            <div className={classes.row}>
-              <PrivateUsageSummary
-                loading={loading}
-                timeframe={timeframe}
-                totalCost={totalCost}
-                totalRequests={totalRequests}
-                isCostHidden
-              />
-              {IS_LAST_USER_REQUESTS_BLOCK_ENABLED && <LastUserRequests />}
-            </div>
-            <ItemHeader
-              className={classes.statisticsItemTitle}
-              isLabelHidden
-              timeframe={timeframe}
-              title={t(keys.totalRequests)}
-            />
-            <RequestsChart
-              isConnecting={isConnecting}
-              isLoggedIn
+        <Paper className={classes.statisticsPaper}>
+          <ItemHeader
+            isLabelHidden
+            timeframe={timeframe}
+            title={t(keys.networkUsage)}
+          />
+          <div className={classes.row}>
+            <PrivateUsageSummary
               loading={loading}
               timeframe={timeframe}
-              totalRequestsHistory={totalRequestsHistory}
-              isFlexibleHeight={false}
+              totalCost={totalCost}
+              totalRequests={totalRequests}
+              isCostHidden
             />
-            {!shouldHideIpsAndRequestsMap && (
-              <>
-                <ItemHeader
-                  className={classes.statisticsItemTitle}
-                  isLabelHidden
-                  timeframe={timeframe}
-                  title={t(keys.top10Countries)}
-                />
-                <RequestsMap
-                  isTitleHidden
-                  loading={loading}
-                  countries={countries}
-                  timeframe={timeframe}
-                />
-              </>
-            )}
-          </Paper>
-        </>
+            {IS_LAST_USER_REQUESTS_BLOCK_ENABLED && <LastUserRequests />}
+          </div>
+          <ItemHeader
+            className={classes.statisticsItemTitle}
+            isLabelHidden
+            timeframe={timeframe}
+            title={t(keys.totalRequests)}
+          />
+          <RequestsChart
+            isConnecting={isConnecting}
+            isLoggedIn
+            loading={loading}
+            timeframe={timeframe}
+            totalRequestsHistory={totalRequestsHistory}
+            isFlexibleHeight={false}
+          />
+          {!shouldHideIpsAndRequestsMap && (
+            <>
+              <ItemHeader
+                className={classes.statisticsItemTitle}
+                isLabelHidden
+                timeframe={timeframe}
+                title={t(keys.top10Countries)}
+              />
+              <RequestsMap
+                isTitleHidden
+                loading={loading}
+                countries={countries}
+                timeframe={timeframe}
+              />
+            </>
+          )}
+        </Paper>
       )}
     </div>
   );

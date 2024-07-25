@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
 
 import { Timeframe } from 'modules/chains/types';
+import { mapUsageDataForChartWidget } from 'modules/chains/utils/mapUsageDataForChartWidget';
 
 import { UsageData } from '../../types';
 import { makePrivateCountryMap } from '../../utils/makePrivateCountryMap';
@@ -38,10 +39,8 @@ export const getPrivateUsageData = ({
     timeframe,
     totalCost,
     totalRequests: new BigNumber(privateTotalRequests),
-    totalRequestsHistory: Object.fromEntries(
-      Object.entries(privateTotalRequestsHistory).map(
-        ([timestamp, { count }]) => [timestamp, count],
-      ),
+    totalRequestsHistory: mapUsageDataForChartWidget(
+      privateTotalRequestsHistory,
     ),
     userTopRequests,
   };

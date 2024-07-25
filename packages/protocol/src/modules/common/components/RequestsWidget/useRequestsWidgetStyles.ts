@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useRequestsStyles = makeStyles()(theme => ({
+export const useRequestsWidgetStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -26,7 +26,6 @@ export const useRequestsStyles = makeStyles()(theme => ({
     height: 30,
     minHeight: 30,
   },
-
   timeframe: {
     marginLeft: 'auto',
     height: 28,
@@ -35,7 +34,6 @@ export const useRequestsStyles = makeStyles()(theme => ({
       borderRadius: 10,
     },
   },
-
   tab: {
     height: 24,
     minHeight: 24,
