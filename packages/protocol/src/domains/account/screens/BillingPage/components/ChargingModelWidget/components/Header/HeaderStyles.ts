@@ -6,4 +6,8 @@ export const useHeaderStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gap: theme.spacing(2.5),
   },
+  badges: {
+    display: 'flex',
+    gap: theme.spacing(1),
+  },
 }));

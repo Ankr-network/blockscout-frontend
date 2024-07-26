@@ -1,6 +1,6 @@
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { UserLabel } from 'uiKit/UserLabel';
-import { selectIsPromo } from 'modules/referralProgram/store/selectors';
+import { selectHasPromoBundle } from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
@@ -17,7 +17,7 @@ export const AccountStatus = ({
   className,
   isOnWhiteBackground,
 }: IAccountStatusProps) => {
-  const isPromo = useAppSelector(selectIsPromo);
+  const hasPromoBundle = useAppSelector(selectHasPromoBundle);
   const { hasPremium, hasStatusTransition, isLoggedIn, loading } = useAuth();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
@@ -47,7 +47,7 @@ export const AccountStatus = ({
       hasPremium={hasPremium}
       hasStatusTransition={hasStatusTransition}
       isLoading={loading || isEnterpriseStatusLoading}
-      isPromo={isPromo}
+      isPromo={hasPromoBundle}
       size="medium"
     />
   );

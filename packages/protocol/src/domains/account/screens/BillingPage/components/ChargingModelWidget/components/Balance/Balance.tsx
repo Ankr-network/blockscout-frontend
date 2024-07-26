@@ -1,49 +1,56 @@
 import { Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
 
 import { BalanceTooltip } from 'domains/account/components/BalanceTooltip';
 
-import { intlRoot } from '../../const';
+import { renderCreditBalance } from '../../utils/renderCreditBalance';
+import { renderRequestsBalance } from '../../utils/renderRequestsBalance';
+import { renderUsdBalance } from '../../utils/renderUsdBalance';
 import { useBalanceStyles } from './BalanceStyles';
 
 export interface BalanceProps {
   balanceInRequests: number;
   className?: string;
   creditBalance?: number;
+  hasUsdBalance?: boolean;
+  isRequestsBalanceApproximate?: boolean;
   shouldUseRequests: boolean;
   usdBalance: number;
 }
 
-const creditIntlKey = `${intlRoot}.credit-balance`;
-const requestsIntlKey = `${intlRoot}.requests-balance`;
-const usdIntlKey = `${intlRoot}.usd-balance`;
-const reqIntlKey = `${intlRoot}.req-balance`;
-
 export const Balance = ({
-  balanceInRequests,
+  balanceInRequests: requestsBalance,
   className,
-  creditBalance,
+  creditBalance = 0,
+  hasUsdBalance = true,
+  isRequestsBalanceApproximate = true,
   shouldUseRequests,
   usdBalance,
 }: BalanceProps) => {
   const { classes, cx } = useBalanceStyles();
 
-  const [balance, balanceKey] = shouldUseRequests
-    ? [balanceInRequests, requestsIntlKey]
-    : [creditBalance ?? 0, creditIntlKey];
+  const [balance, balanceString] = shouldUseRequests
+    ? [requestsBalance, renderRequestsBalance({ requestsBalance })]
+    : [creditBalance, renderCreditBalance({ creditBalance })];
 
   return (
     <BalanceTooltip balance={balance}>
       <div className={cx(classes.root, className)}>
         <Typography className={classes.creditBalance} variant="h6">
-          {t(balanceKey, { balance })}
+          {balanceString}
         </Typography>
-        <Typography className={classes.usdBalance} variant="body2">
-          {t(usdIntlKey, { balance: usdBalance })}
-        </Typography>
+        {hasUsdBalance && (
+          <Typography className={classes.usdBalance} variant="body2">
+            {renderUsdBalance({ isApproximate: true, usdBalance })}
+          </Typography>
+        )}
         {Boolean(creditBalance) && (
           <Typography className={classes.usdBalance} variant="body2">
-            {t(reqIntlKey, { balance: balanceInRequests })}
+            {renderRequestsBalance({
+              isApproximate: isRequestsBalanceApproximate,
+              isShortened: true,
+              prefix: hasUsdBalance ? ' / ' : undefined,
+              requestsBalance,
+            })}
           </Typography>
         )}
       </div>

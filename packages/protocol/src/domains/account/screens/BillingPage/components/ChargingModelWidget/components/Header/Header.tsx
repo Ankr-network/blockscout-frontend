@@ -1,8 +1,11 @@
 import { t } from '@ankr.com/common';
 
-import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
-import { EChargingModel, IChargingModelData } from 'modules/payments/types';
 import { ChargingModelLabel } from 'domains/account/screens/BillingPage/components/ChargingModelLabel';
+import { EChargingModel, IChargingModelData } from 'modules/payments/types';
+import { PromoBadge } from 'modules/common/components/PromoBadge';
+import { WidgetTitle } from 'domains/account/screens/BillingPage/components/WidgetTitle';
+import { selectHasPromoBundle } from 'modules/referralProgram/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { intlRoot } from '../../const';
 import { useHeaderStyles } from './HeaderStyles';
@@ -20,16 +23,21 @@ export const Header = ({
   currentChargingModel,
   currentChargingModelType,
 }: HeaderProps) => {
+  const hasPromoBundle = useAppSelector(selectHasPromoBundle);
+
   const { classes, cx } = useHeaderStyles();
 
   return (
     <div className={cx(classes.root, className)}>
       <WidgetTitle>{t(`${intlRoot}.title`)}</WidgetTitle>
-      <ChargingModelLabel
-        currentChargingModel={currentChargingModel}
-        currentChargingModelType={currentChargingModelType}
-        size="large"
-      />
+      <div className={classes.badges}>
+        <ChargingModelLabel
+          currentChargingModel={currentChargingModel}
+          currentChargingModelType={currentChargingModelType}
+          size="medium"
+        />
+        {hasPromoBundle && <PromoBadge />}
+      </div>
       {children}
     </div>
   );

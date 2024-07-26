@@ -1,28 +1,32 @@
 import { Button } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { useCallback, useMemo } from 'react';
 
 import {
   ContentType,
   UpgradePlanDialog,
 } from 'modules/common/components/UpgradePlanDialog';
-import { EChargingModel, IChargingModelData } from 'modules/payments/types';
+import { EChargingModel } from 'modules/payments/types';
 import {
   selectAccountChargingModels,
   selectActiveChargingModel,
 } from 'domains/account/store/selectors';
+import {
+  selectHasPromoBundle,
+  selectPromoChargingModel,
+} from 'modules/referralProgram/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
-import { API_CREDITS_BALANCE_FIELD_NAME } from '../../const';
 import { AssetsBalanceDialog } from './components/AssetsBalanceDialog';
 import { Balance } from './components/Balance';
-import { BalanceProgressBar } from './components/BalanceProgressBar';
+import { ChargingModelBalance } from './components/ChargingModelBalance';
 import { ChargingModelWidgetWrapper } from './components/ChargingModelWidgetWrapper';
 import { Header } from './components/Header';
+import { PromoBalance } from './components/PromoBalance';
 import { Widget } from '../Widget';
 import { intlRoot } from './const';
+import { renderBalance } from './utils/renderBalance';
 import { useBalanceWidget } from './hooks/useBalanceWidget';
 import { useChargingModelWidgetStyles } from './ChargingModelWidgetStyles';
 import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
@@ -48,62 +52,29 @@ export const ChargingModelWidget = ({
 
   const { shouldShowFreemium } = useFreemiumChargingModel(currentChargingModel);
 
-  const renderBalance = useCallback(
-    (chargingModel: IChargingModelData) => {
-      const { balance: balancesData, type } = chargingModel;
+  const hasPromoBundle = useAppSelector(selectHasPromoBundle);
+  const promoChargingModel = useAppSelector(selectPromoChargingModel);
 
-      const isPackage = type === EChargingModel.Package;
-      const creditBalance =
-        API_CREDITS_BALANCE_FIELD_NAME in balancesData
-          ? balancesData.balanceApiCredits
-          : undefined;
-
-      return (
-        <Balance
-          balanceInRequests={balancesData.balanceInRequests}
-          className={classes.balance}
-          creditBalance={creditBalance}
-          shouldUseRequests={isPackage}
-          usdBalance={balancesData.balanceUsd}
-        />
-      );
-    },
-    [classes.balance],
+  const assetsButton = (
+    <Button
+      className={classes.assetsBtn}
+      variant="outlined"
+      onClick={onOpenBalanceDialog}
+      disabled={
+        currentChargingModel.type === EChargingModel.Free || shouldShowFreemium
+      }
+    >
+      {t(`${intlRoot}.assets-balance-button`)}
+    </Button>
   );
 
-  const currentPlanBalance = useMemo(() => {
-    const { type } = currentChargingModel;
+  console.log({ promoChargingModel });
 
-    return (
-      <>
-        {renderBalance(currentChargingModel)}
-        <div className={classes.balanceProgressBar}>
-          <BalanceProgressBar chargingModel={type} {...currentChargingModel} />
-        </div>
-      </>
-    );
-  }, [classes.balanceProgressBar, currentChargingModel, renderBalance]);
-
-  const assetsBtn = useMemo(() => {
-    return (
-      <Button
-        className={classes.assetsBtn}
-        variant="outlined"
-        onClick={onOpenBalanceDialog}
-        disabled={
-          currentChargingModel.type === EChargingModel.Free ||
-          shouldShowFreemium
-        }
-      >
-        {t(`${intlRoot}.assets-balance-button`)}
-      </Button>
-    );
-  }, [
-    classes.assetsBtn,
-    currentChargingModel.type,
-    onOpenBalanceDialog,
-    shouldShowFreemium,
-  ]);
+  const balanceElement = hasPromoBundle ? (
+    <PromoBalance />
+  ) : (
+    <ChargingModelBalance className={classes.balance} />
+  );
 
   return (
     <>
@@ -117,27 +88,46 @@ export const ChargingModelWidget = ({
           currentChargingModelType={currentChargingModel.type}
           currentChargingModel={currentChargingModel}
         >
-          {!isMobile && assetsBtn}
+          {!isMobile && assetsButton}
         </Header>
-        {currentPlanBalance}
-        {isMobile && assetsBtn}
+        {balanceElement}
+        {isMobile && assetsButton}
       </Widget>
-
       <UpgradePlanDialog
         defaultState={ContentType.TOP_UP}
         onClose={onUpgradeDialogClose}
         open={isUpgradeDialogOpened}
       />
-
       <AssetsBalanceDialog isOpened={isOpened} onClose={onClose}>
+        {hasPromoBundle && promoChargingModel && (
+          <ChargingModelWidgetWrapper
+            {...promoChargingModel}
+            balance={
+              <Balance
+                balanceInRequests={promoChargingModel.balance.balanceInRequests}
+                className={classes.balance}
+                creditBalance={promoChargingModel.balance.balanceApiCredits}
+                hasUsdBalance={false}
+                isRequestsBalanceApproximate={false}
+                shouldUseRequests={false}
+                usdBalance={0}
+              />
+            }
+            isCurrentModel
+            isPromo
+          />
+        )}
         {chargingModels.map((chargingModel, index) => {
-          const balance = renderBalance(chargingModel);
+          const balance = renderBalance({
+            chargingModel,
+            className: classes.balance,
+          });
 
           return (
             <ChargingModelWidgetWrapper
               {...chargingModel}
               key={index}
-              isCurrentModel={index === 0}
+              isCurrentModel={index === 0 && !hasPromoBundle}
               balance={balance}
             />
           );

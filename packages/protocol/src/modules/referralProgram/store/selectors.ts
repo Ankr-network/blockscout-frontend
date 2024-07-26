@@ -1,8 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { RootState } from 'store';
+import { getDealChargingModelData } from 'domains/account/utils/getDealChargingModelData';
 import { selectAddress } from 'domains/auth/store';
-import { selectMyBundlesStatus } from 'domains/account/store/selectors';
+import {
+  selectBundlePaymentPlans,
+  selectMyBundlesStatus,
+} from 'domains/account/store/selectors';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
 import { getReferralProgram } from '../utils/getReferralProgram';
@@ -31,7 +36,7 @@ export const selectIsAccountEligible = createSelector(
   },
 );
 
-export const selectIsPromo = createSelector(
+export const selectPromoBundle = createSelector(
   selectReferrer,
   selectMyBundlesStatus,
   (referrer, myBundles) => {
@@ -46,9 +51,35 @@ export const selectIsPromo = createSelector(
         bundle => bundle.bundleId === bundleId,
       );
 
-      return Boolean(promoBundle);
+      return promoBundle;
     }
 
-    return false;
+    return undefined;
+  },
+);
+
+export const selectPromoChargingModel = createSelector(
+  selectPromoBundle,
+  selectBundlePaymentPlans,
+  (dealChargingModel, bundlePaymentPlans) => {
+    if (dealChargingModel) {
+      return getDealChargingModelData({
+        bundlePaymentPlans,
+        dealChargingModel,
+      });
+    }
+
+    return undefined;
+  },
+);
+
+export const selectHasPromoBundle = createSelector(
+  selectPromoBundle,
+  promoBundle => {
+    const expiresMs = (promoBundle?.expires ?? 0) * EMilliSeconds.Second;
+
+    const isPromoBundleExpired = new Date() > new Date(expiresMs);
+
+    return !isPromoBundleExpired;
   },
 );

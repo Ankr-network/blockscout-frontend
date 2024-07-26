@@ -1,6 +1,7 @@
 import { BundleType, BundlePaymentPlan, MyBundleStatus } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
+import { B2B_REFERRAL_PROGRAMS } from 'modules/referralProgram/const';
 import { EChargingModel, IDealChargingModelData } from 'modules/payments/types';
 import { getDateFromUnixSeconds } from 'modules/common/utils/getDateFromUnixSeconds';
 
@@ -56,8 +57,12 @@ export const getDealChargingModelData = ({
     date: getDateFromUnixSeconds(dealChargingModel.expires),
   });
 
+  const isPromo = B2B_REFERRAL_PROGRAMS.some(
+    ({ bundleId }) => bundleId === dealChargingModel.bundleId,
+  );
+
   const chargingModelDeal: IDealChargingModelData = {
-    type: EChargingModel.Deal,
+    type: isPromo ? EChargingModel.Promo : EChargingModel.Deal,
     balance: {
       balanceApiCredits,
       balanceUsd,
@@ -69,6 +74,7 @@ export const getDealChargingModelData = ({
     maxLabel,
     expires: dealChargingModel.expires,
     price: +(relatedBundle?.price?.amount ?? 0),
+    isPromo,
   };
 
   return chargingModelDeal;

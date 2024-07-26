@@ -483,7 +483,7 @@ export const selectDealChargingModelsData = createSelector(
         return getAggregatedDealChargingModelsData({
           dealChargingModels: filteredByExpiration,
           bundlePaymentPlans,
-        });
+        }).filter(({ isPromo }) => !isPromo);
       }
     }
 
