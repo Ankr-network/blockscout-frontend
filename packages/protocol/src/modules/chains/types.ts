@@ -110,6 +110,7 @@ export enum ChainID {
   B2_HABITAT_TESTNET = 'b2_habitat_testnet',
   BTTC = 'bttc',
   BTC = 'btc',
+  BTC_TESTNET = 'btc_signet',
   BITLAYER = 'bitlayer',
   BITLAYER_TESTNET = 'bitlayer_testnet',
   CELO = 'celo',

@@ -25,7 +25,11 @@ export const ChainLogo = ({
   return (
     <img
       alt={`${name} logo`}
-      className={cx(classes.chainLogo, className)}
+      className={cx(
+        classes.chainLogo,
+        classes[id as keyof typeof classes],
+        className,
+      )}
       src={icon}
     />
   );

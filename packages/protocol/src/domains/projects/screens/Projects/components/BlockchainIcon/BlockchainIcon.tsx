@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { getBlockchainsUrls } from 'uiKit/utils/getTokenIcon';
+import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
 import { useBlockchainIconStyles } from './useBlockchainIconStyles';
@@ -24,15 +24,23 @@ export const BlockchainIcon = ({
 
   const { isLightTheme } = useThemes();
 
-  const blockchainUrls = useMemo(
-    () => getBlockchainsUrls(blockchains, isLightTheme),
-    [blockchains, isLightTheme],
-  );
+  const blockchainsMapped = useMemo(() => {
+    const allBlockchains = blockchains.map(blockchain => ({
+      id: blockchain,
+      src: getChainIcon(blockchain, isLightTheme),
+    }));
+
+    // we are filtering similar blockchain icons here to avoid duplicates for mainnet and testnet
+    return allBlockchains.filter(
+      (blockchain, index, self) =>
+        index === self.findIndex(({ src }) => src === blockchain.src),
+    );
+  }, [blockchains, isLightTheme]);
 
   const additionalBlockchainsCount =
-    blockchainUrls.length - MAX_VISIBLE_ICONS_COUNT;
+    blockchainsMapped.length - MAX_VISIBLE_ICONS_COUNT;
 
-  const visibleChains = blockchainUrls.slice(0, MAX_VISIBLE_ICONS_COUNT);
+  const visibleChains = blockchainsMapped.slice(0, MAX_VISIBLE_ICONS_COUNT);
 
   return (
     <div
@@ -40,15 +48,15 @@ export const BlockchainIcon = ({
         [classes.noPaddingLeft]: isPaddingLeftIgnored,
       })}
     >
-      {visibleChains.map(src => (
+      {visibleChains.map(({ id, src }) => (
         <img
-          key={src}
-          className={classes.icon}
+          key={id}
+          className={cx(classes.icon, classes[id as keyof typeof classes])}
           src={src}
           alt="blockchain icon"
         />
       ))}
-      {blockchainUrls.length > MAX_VISIBLE_ICONS_COUNT && (
+      {blockchainsMapped.length > MAX_VISIBLE_ICONS_COUNT && (
         <Typography className={classes.more} variant="caption">
           {t(moreLabelKey, { additionalBlockchainsCount })}
         </Typography>
