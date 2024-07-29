@@ -9,6 +9,7 @@ import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpr
 import { PrivateChainItemQuery } from './PrivateChainItemQuery';
 import { PublicChainItemQuery } from './PublicChainItemQuery';
 import { ChainItemBanner } from './components/ChainItemBanner';
+import { ChainItemSkeleton } from './components/ChainItemSkeleton';
 
 export const ChainItem = () => {
   const { chainId } = ChainsRoutesConfig.chainDetails.useParams();
@@ -16,6 +17,10 @@ export const ChainItem = () => {
   const { hasPrivateAccess, loading } = useAuth();
 
   useRedirectToEnterpriseOnGroupChange();
+
+  if (loading) {
+    return <ChainItemSkeleton />;
+  }
 
   return (
     <>
