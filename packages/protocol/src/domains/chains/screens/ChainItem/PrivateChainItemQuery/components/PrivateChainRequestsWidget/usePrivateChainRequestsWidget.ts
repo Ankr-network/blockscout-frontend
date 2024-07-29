@@ -38,12 +38,22 @@ export const usePrivateChainRequestsWidget = ({
     timeframes: [Timeframe.Hour, Timeframe.Day],
   });
 
-  const [fetchLast1hStats, { data: data1hStats, isLoading: isLoading1hStats }] =
-    useLazyFetchChainsStatsForLast1hQuery();
+  const [
+    fetchLast1hStats,
+    {
+      data: data1hStats,
+      isFetching: isFetchingLoading1hStats,
+      isLoading: isLoading1hStats,
+    },
+  ] = useLazyFetchChainsStatsForLast1hQuery();
 
   const [
     fetchLastDayStats,
-    { data: dataDayStats, isLoading: isLoadingDayStats },
+    {
+      data: dataDayStats,
+      isFetching: isFetchingLoadingDayStats,
+      isLoading: isLoadingDayStats,
+    },
   ] = useLazyFetchChainStatsForLast24hQuery();
 
   useEffect(() => {
@@ -100,7 +110,11 @@ export const usePrivateChainRequestsWidget = ({
 
   return {
     requestsChartData,
-    isLoading: isLoading1hStats || isLoadingDayStats,
+    isLoading:
+      isLoading1hStats ||
+      isLoadingDayStats ||
+      isFetchingLoading1hStats ||
+      isFetchingLoadingDayStats,
     requestsCount,
     timeframe,
     timeframeTabs,
