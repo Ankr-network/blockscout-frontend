@@ -68,8 +68,6 @@ export const ChargingModelWidget = ({
     </Button>
   );
 
-  console.log({ promoChargingModel });
-
   const balanceElement = hasPromoBundle ? (
     <PromoBalance />
   ) : (

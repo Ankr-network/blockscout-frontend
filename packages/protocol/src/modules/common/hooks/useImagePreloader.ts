@@ -1,15 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { IPreloadImageParams, preloadImage } from '../utils/preloadImage';
 
-export interface IUseImagePreloaderProps extends Partial<IPreloadImageParams> {}
+export interface IUseImagePreloaderProps extends Partial<IPreloadImageParams> {
+  hasManualPreloading?: boolean;
+}
 
-export const useImagePreloader = ({ src }: IUseImagePreloaderProps) => {
+export const useImagePreloader = ({
+  hasManualPreloading = false,
+  src,
+}: IUseImagePreloaderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
+  const handleImagePreload = useCallback(async () => {
     if (src) {
+      setIsLoading(true);
+
+      await preloadImage({ src });
+
+      setIsLoading(false);
+      setIsLoaded(true);
+    }
+  }, [src]);
+
+  useEffect(() => {
+    if (src && !hasManualPreloading) {
       let isAborted = false;
 
       setIsLoading(true);
@@ -26,7 +42,7 @@ export const useImagePreloader = ({ src }: IUseImagePreloaderProps) => {
     }
 
     return () => {};
-  }, [src]);
+  }, [hasManualPreloading, src]);
 
-  return { isLoaded, isLoading };
+  return { handleImagePreload, isLoaded, isLoading };
 };
