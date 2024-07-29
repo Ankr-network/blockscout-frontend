@@ -22,6 +22,7 @@ export const Greeting = ({ blockchainName }: IGreetingProps) => {
       unbrandedLoggedOut,
     },
     t,
+    tHTML,
   } = useTranslation(greetingTranslation);
 
   const [loggedInKeys, loggedOutKeys] = blockchainName
@@ -30,8 +31,6 @@ export const Greeting = ({ blockchainName }: IGreetingProps) => {
 
   const keys = isLoggedIn ? loggedInKeys : loggedOutKeys;
 
-  const shouldRenderInivtation = Boolean(blockchainName) || !isLoggedIn;
-
   const { classes } = useGreetingStyles();
 
   return (
@@ -39,13 +38,13 @@ export const Greeting = ({ blockchainName }: IGreetingProps) => {
       <Typography className={classes.title} variant="h6">
         {t(keys.title)}
       </Typography>
-      <Typography variant="body2">{t(keys.description)}</Typography>
+      <Typography variant="body2">
+        {tHTML(keys.description, { blockchainName })}
+      </Typography>
       {blockchainName && <Benefits blockchainName={blockchainName} />}
-      {shouldRenderInivtation && (
-        <Typography variant="body2">
-          {t(keys.invitationToSignIn, { blockchainName })}
-        </Typography>
-      )}
+      <Typography variant="body2">
+        {tHTML(keys.invitationToSignIn, { blockchainName })}
+      </Typography>
     </div>
   );
 };

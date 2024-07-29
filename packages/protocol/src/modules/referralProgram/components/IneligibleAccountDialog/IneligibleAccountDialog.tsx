@@ -3,6 +3,7 @@ import { Typography } from '@mui/material';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { Buttons } from './components/Buttons';
+import { FailedBanner } from '../FailedBanner';
 import {
   IReferralFlowDialogProps,
   ReferralFlowDialog,
@@ -33,7 +34,7 @@ export const IneligibleAccountDialog = ({
   const { classes } = useIneligibleAccountDialogStyles();
 
   return (
-    <ReferralFlowDialog {...dialogProps}>
+    <ReferralFlowDialog {...dialogProps} title={<FailedBanner />}>
       <div className={classes.content}>
         <Typography variant="h6">
           {t(keys.title, { blockchainName })}

@@ -27,6 +27,7 @@ export const WelcomeDialog = ({
     <ReferralFlowDialog {...dialogProps}>
       <Greeting blockchainName={blockchainName} />
       <Buttons
+        blockchainName={blockchainName}
         hasActivateButton={hasActivateButton}
         isActivating={isActivating}
         onActivateButtonClick={onActivateButtonClick}

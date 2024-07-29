@@ -10,12 +10,12 @@ export interface IBenefitsProps {
 }
 
 export const Benefits = ({ blockchainName }: IBenefitsProps) => {
-  const { keys, t } = useTranslation(benefitsTranslation);
+  const { keys, t, tHTML } = useTranslation(benefitsTranslation);
   const { classes } = useBenefitsStyles();
 
   return (
     <Typography className={classes.root} component="ul" variant="body2">
-      <li>{t(keys.freeAccess, { blockchainName })}</li>
+      <li>{tHTML(keys.freeAccess, { blockchainName })}</li>
       <li>{t(keys.apiCredits)}</li>
       <li>{t(keys.rateLimits)}</li>
       <li>{t(keys.usageStats)}</li>

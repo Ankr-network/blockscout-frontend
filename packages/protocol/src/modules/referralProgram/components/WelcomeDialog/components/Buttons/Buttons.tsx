@@ -7,6 +7,7 @@ import { buttonsTranslation } from './translation';
 import { useButtonsStyles } from './useButtonsStyles';
 
 export interface IButtonsProps {
+  blockchainName?: string;
   hasActivateButton?: boolean;
   isActivating?: boolean;
   onActivateButtonClick: () => Promise<void>;
@@ -15,13 +16,19 @@ export interface IButtonsProps {
 }
 
 export const Buttons = ({
+  blockchainName,
   hasActivateButton,
   isActivating,
   onActivateButtonClick,
   onCancelButtonClick,
   onSignInButtonClick,
 }: IButtonsProps) => {
-  const { keys, t } = useTranslation(buttonsTranslation);
+  const {
+    keys: { branded, unbranded },
+    t,
+  } = useTranslation(buttonsTranslation);
+
+  const keys = blockchainName ? branded : unbranded;
 
   const { classes } = useButtonsStyles();
 
