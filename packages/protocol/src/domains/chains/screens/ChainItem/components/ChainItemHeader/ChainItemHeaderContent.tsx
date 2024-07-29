@@ -103,7 +103,7 @@ export const ChainItemHeaderContent = ({
             hasDescription={isCompactView}
           />
           <div className={classes.multichainLinksWrapper}>
-            <AdvancedApiLinks />
+            <AdvancedApiLinks hasSupportedChainsLink={isCompactView} />
             <ChainItemHeaderExtraContent
               chain={chain}
               chainSubType={chainSubType}
