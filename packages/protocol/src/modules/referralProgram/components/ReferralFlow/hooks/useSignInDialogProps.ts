@@ -79,7 +79,6 @@ export const useSignInDialogProps = ({
           handlePreviousDialogOpen();
         },
       }),
-      hasAutoAgreement: true,
       isOpen: isSignInDialogOpened,
       onClose: handleSignInDialogClose,
       onManualClose: handlePreviousDialogOpen,

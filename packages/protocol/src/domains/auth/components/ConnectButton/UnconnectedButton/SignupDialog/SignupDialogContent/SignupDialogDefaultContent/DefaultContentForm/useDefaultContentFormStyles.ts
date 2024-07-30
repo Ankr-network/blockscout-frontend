@@ -9,9 +9,10 @@ export const useDefaultContentFormStyles = makeStyles()(theme => ({
     marginTop: theme.spacing(6),
   },
   label: {
-    '& a, & b': {
-      fontWeight: 500,
-      color: theme.palette.text.primary,
+    a: {
+      textDecoration: 'underline',
+
+      color: theme.palette.link.main,
     },
   },
   formLabel: {

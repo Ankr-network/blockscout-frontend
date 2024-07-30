@@ -51,28 +51,28 @@ export const DefaultContentForm = ({
   const agreementCheckboxes = (
     <div className={classes.checkboxes}>
       <Field
-        component={CheckboxField}
-        name={SignupFormField.hasTerms}
-        type="checkbox"
-        shouldHideError
         className={classes.formLabel}
-        subscription={{ value: true }}
+        component={CheckboxField}
         label={
-          <Typography variant="subtitle3" className={classes.label}>
+          <Typography className={classes.label} variant="body3">
             {tHTML('signup-modal.form.terms-of-service')}
           </Typography>
         }
+        name={SignupFormField.hasTerms}
+        shouldHideError
+        subscription={{ value: true }}
+        type="checkbox"
       />
       <Field
-        component={CheckboxField}
-        name={SignupFormField.hasMarketing}
-        type="checkbox"
         className={classes.formLabel}
+        component={CheckboxField}
         label={
-          <Typography variant="subtitle3" className={classes.label}>
+          <Typography className={classes.label} variant="body3">
             {tHTML('signup-modal.form.marketing-emails')}
           </Typography>
         }
+        name={SignupFormField.hasMarketing}
+        type="checkbox"
       />
     </div>
   );
