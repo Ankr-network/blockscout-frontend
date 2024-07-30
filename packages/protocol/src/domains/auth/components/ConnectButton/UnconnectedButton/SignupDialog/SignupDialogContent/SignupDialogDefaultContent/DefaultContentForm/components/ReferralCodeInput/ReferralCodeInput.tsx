@@ -4,6 +4,7 @@ import { TextField } from '@ankr.com/ui';
 import { useReferralCodeInputStyles } from './useReferralCodeInputStyles';
 
 export interface IReferralCodeInputProps {
+  error?: string;
   isDisabled?: boolean;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -11,6 +12,7 @@ export interface IReferralCodeInputProps {
 }
 
 export const ReferralCodeInput = ({
+  error,
   isDisabled,
   onBlur,
   onChange,
@@ -23,7 +25,9 @@ export const ReferralCodeInput = ({
       InputProps={{ classes }}
       autoFocus
       disabled={isDisabled}
-      onBlur={onBlur}
+      error={Boolean(error)}
+      helperText={error}
+      onBlurCapture={onBlur}
       onChange={onChange}
       value={value}
     />

@@ -1,14 +1,12 @@
 import { useCallback, useMemo } from 'react';
 
-import { isAlphanumeric } from 'modules/common/utils/isAlphanumeric';
 import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useImagePreloader } from 'modules/common/hooks/useImagePreloader';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { useValidateReferralCode } from 'modules/referralProgram/hooks/useValidateReferralCode';
 
 import { IReferralCodeDialogProps } from '../ReferralCodeDialog';
 import { IReferralCodeInputProps } from '../../ReferralCodeInput';
-import { referralCodeDialogTranslation } from '../translation';
 
 export interface IUseReferralCodeDialogProps {
   appliedReferralCode?: string;
@@ -58,17 +56,22 @@ export const useReferralCodeDialog = ({
       shouldRemoveSavedData: false,
     });
 
-  const { keys, t } = useTranslation(referralCodeDialogTranslation);
+  const { validateReferralCode } = useValidateReferralCode();
 
-  const handleApplyReferralCode = useCallback(async () => {
-    if (referralCode) {
-      if (isAlphanumeric(referralCode)) {
-        setReferralCodeError(t(keys.invalidReferralCode));
-      } else {
-        await applyReferralCode();
-      }
+  const handleApplyReferralCode = useCallback(() => {
+    const error = validateReferralCode(referralCode);
+
+    if (error) {
+      return setReferralCodeError(error);
     }
-  }, [applyReferralCode, keys, referralCode, setReferralCodeError, t]);
+
+    return applyReferralCode();
+  }, [
+    applyReferralCode,
+    referralCode,
+    setReferralCodeError,
+    validateReferralCode,
+  ]);
 
   const onClose = useCallback(() => {
     handleClose();

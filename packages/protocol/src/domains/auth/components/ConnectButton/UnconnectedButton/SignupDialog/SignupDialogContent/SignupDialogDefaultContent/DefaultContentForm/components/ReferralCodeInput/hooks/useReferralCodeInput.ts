@@ -1,5 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useValidateReferralCode } from 'modules/referralProgram/hooks/useValidateReferralCode';
+
 import { IReferralCodeInputProps } from '../ReferralCodeInput';
 
 export interface IUseReferralCodeInputProps {
@@ -15,24 +17,42 @@ export const useReferralCodeInput = ({
 }: IUseReferralCodeInputProps | void = {}) => {
   const [value, setValue] = useState(initialValue);
 
-  const onBlur = useCallback(
-    () => onBlurExternal?.(value),
-    [onBlurExternal, value],
-  );
+  const { validateReferralCode } = useValidateReferralCode();
 
-  const onChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => setValue(event.target.value),
-    [],
-  );
+  const [error, setError] = useState<string>();
 
-  const handleReset = useCallback(() => setValue(initialValue), [initialValue]);
+  const onBlur = useCallback(() => {
+    const errorMessage = validateReferralCode(value);
+
+    if (errorMessage) {
+      setError(errorMessage);
+    }
+
+    onBlurExternal?.(value);
+  }, [onBlurExternal, validateReferralCode, value]);
+
+  const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    setError(undefined);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setValue(initialValue);
+    setError(undefined);
+  }, [initialValue]);
 
   const referralCodeInputProps = useMemo(
-    (): IReferralCodeInputProps => ({ isDisabled, onBlur, onChange, value }),
-    [isDisabled, onBlur, onChange, value],
+    (): IReferralCodeInputProps => ({
+      error,
+      isDisabled,
+      onBlur,
+      onChange,
+      value,
+    }),
+    [error, isDisabled, onBlur, onChange, value],
   );
 
   useEffect(() => setValue(initialValue), [initialValue]);
 
-  return { handleReset, referralCodeInputProps };
+  return { handleReset, referralCodeInputProps, setError };
 };

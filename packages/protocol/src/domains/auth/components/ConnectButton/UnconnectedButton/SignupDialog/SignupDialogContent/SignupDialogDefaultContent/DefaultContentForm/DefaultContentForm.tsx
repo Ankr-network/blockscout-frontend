@@ -42,6 +42,9 @@ export const DefaultContentForm = ({
   } = useDefaultContentForm();
 
   const referralCodeBoxProps = useReferralCodeBox();
+  const {
+    inputProps: { error: referralCodeError },
+  } = referralCodeBoxProps;
 
   const { classes } = useDefaultContentFormStyles();
 
@@ -84,7 +87,7 @@ export const DefaultContentForm = ({
     </Typography>
   );
 
-  const hasError = Boolean(termsError);
+  const hasError = Boolean(termsError || referralCodeError);
 
   return (
     <>

@@ -7,8 +7,8 @@ import { useOAuthButtonsStyles } from './useOAuthButtonsStyles';
 export interface IOAuthButtonsProps {
   hasError?: boolean;
   hasGoogleAuthOnly?: boolean;
-  onGithubButtonClick: () => void;
-  onGoogleButtonClick: () => void;
+  onGithubButtonClick?: () => void;
+  onGoogleButtonClick?: () => void;
 }
 
 export const OAuthButtons = ({

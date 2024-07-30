@@ -18,5 +18,8 @@ export const referralProgramTranslation = {
       activationRejectedErrorMessage:
         'No worries, you can activate it later via the same referral link.',
     },
+    invalidReferralCodeError:
+      'Use only case-sensitive alphanumeric characters (A-Z, a-z, 0-9)',
+    noReferralCodeError: 'Referral code required',
   },
 };

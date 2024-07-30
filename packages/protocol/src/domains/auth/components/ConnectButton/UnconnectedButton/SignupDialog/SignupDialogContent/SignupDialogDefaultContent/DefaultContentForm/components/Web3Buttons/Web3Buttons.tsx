@@ -7,7 +7,7 @@ import { useWeb3ButtonsStyles } from './useWeb3ButtonsStyles';
 
 export interface IWeb3ButtonsProps {
   hasError?: boolean;
-  onEthButtonClick: () => void;
+  onEthButtonClick?: () => void;
 }
 
 export const Web3Buttons = ({
@@ -23,7 +23,7 @@ export const Web3Buttons = ({
       fullWidth
       onClick={onEthButtonClick}
       startIcon={<EthereumIcon />}
-      type="submit"
+      // type="submit"
       variant="outlined"
     >
       {t('signup-modal.web3.button')}
