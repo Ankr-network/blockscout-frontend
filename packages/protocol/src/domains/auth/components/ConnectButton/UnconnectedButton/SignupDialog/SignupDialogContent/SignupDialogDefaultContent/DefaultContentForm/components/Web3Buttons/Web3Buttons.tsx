@@ -23,7 +23,7 @@ export const Web3Buttons = ({
       fullWidth
       onClick={onEthButtonClick}
       startIcon={<EthereumIcon />}
-      // type="submit"
+      type="submit"
       variant="outlined"
     >
       {t('signup-modal.web3.button')}
