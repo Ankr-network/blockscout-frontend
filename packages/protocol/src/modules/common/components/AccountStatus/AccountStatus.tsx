@@ -5,6 +5,8 @@ import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
+import { useReferrer } from 'modules/referralProgram/hooks/useReferrer';
 
 import { PublicBadge } from '../PublicBadge';
 
@@ -18,10 +20,18 @@ export const AccountStatus = ({
   isOnWhiteBackground,
 }: IAccountStatusProps) => {
   const hasPromoBundle = useAppSelector(selectHasPromoBundle);
-  const { hasPremium, hasStatusTransition, isLoggedIn, loading } = useAuth();
+  const {
+    hasPremium,
+    hasStatusTransition,
+    isLoggedIn,
+    loading: isAuthDataLoading,
+  } = useAuth();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
+
+  const { isLoading: isReferrerLoading } = useReferrer();
+  const { initLoading: isMyBundlesStatusLoading } = useMyBundlesStatus();
 
   const hasAccessToAccountStatus = useGuardUserGroup({
     blockName: BlockWithPermission.AccountStatus,
@@ -40,13 +50,19 @@ export const AccountStatus = ({
     return null;
   }
 
+  const isStatusDataLoading =
+    isAuthDataLoading ||
+    isEnterpriseStatusLoading ||
+    isReferrerLoading ||
+    isMyBundlesStatusLoading;
+
   return (
     <UserLabel
       className={className}
       hasEnterpriseStatus={isEnterpriseClient}
       hasPremium={hasPremium}
       hasStatusTransition={hasStatusTransition}
-      isLoading={loading || isEnterpriseStatusLoading}
+      isLoading={isStatusDataLoading}
       isPromo={hasPromoBundle}
       size="medium"
     />
