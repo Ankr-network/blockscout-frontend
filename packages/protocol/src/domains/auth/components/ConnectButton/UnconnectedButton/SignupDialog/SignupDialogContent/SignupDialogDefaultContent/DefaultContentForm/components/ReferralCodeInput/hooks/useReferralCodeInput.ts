@@ -1,4 +1,11 @@
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { useValidateReferralCode } from 'modules/referralProgram/hooks/useValidateReferralCode';
 
@@ -41,15 +48,22 @@ export const useReferralCodeInput = ({
     setError(undefined);
   }, [initialValue]);
 
+  const onKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  }, []);
+
   const referralCodeInputProps = useMemo(
     (): IReferralCodeInputProps => ({
       error,
       isDisabled,
       onBlur,
       onChange,
+      onKeyDown,
       value,
     }),
-    [error, isDisabled, onBlur, onChange, value],
+    [error, isDisabled, onBlur, onChange, onKeyDown, value],
   );
 
   useEffect(() => setValue(initialValue), [initialValue]);

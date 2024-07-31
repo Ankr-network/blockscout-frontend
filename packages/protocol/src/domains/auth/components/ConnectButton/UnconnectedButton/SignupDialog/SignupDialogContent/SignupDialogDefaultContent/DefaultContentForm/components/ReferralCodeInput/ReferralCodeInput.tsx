@@ -1,4 +1,8 @@
-import { ChangeEventHandler, FocusEventHandler } from 'react';
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  KeyboardEventHandler,
+} from 'react';
 import { TextField } from '@ankr.com/ui';
 
 import { useReferralCodeInputStyles } from './useReferralCodeInputStyles';
@@ -8,6 +12,7 @@ export interface IReferralCodeInputProps {
   isDisabled?: boolean;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
   value?: string;
 }
 
@@ -16,6 +21,7 @@ export const ReferralCodeInput = ({
   isDisabled,
   onBlur,
   onChange,
+  onKeyDown,
   value,
 }: IReferralCodeInputProps) => {
   const { classes } = useReferralCodeInputStyles();
@@ -29,6 +35,7 @@ export const ReferralCodeInput = ({
       helperText={error}
       onBlurCapture={onBlur}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       value={value}
     />
   );
