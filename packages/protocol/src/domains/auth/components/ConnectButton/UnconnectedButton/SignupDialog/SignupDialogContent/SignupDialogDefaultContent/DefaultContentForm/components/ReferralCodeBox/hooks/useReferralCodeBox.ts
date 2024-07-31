@@ -1,25 +1,25 @@
 import { useCallback } from 'react';
 
-import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
+import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
 
 import { IReferralCodeBoxProps } from '../ReferralCodeBox';
 import { useReferralCodeCheckbox } from '../../ReferralCodeCheckbox';
 import { useReferralCodeInput } from '../../ReferralCodeInput';
 
 export const useReferralCodeBox = (): IReferralCodeBoxProps => {
-  const { referralCode: referralCodeFromUrl } = getReferralCodeFromUrl();
+  const { referralCode } = useReferralCode();
 
-  const hasReferralCodeInUrl = Boolean(referralCodeFromUrl);
+  const hasReferralCode = Boolean(referralCode);
 
   const { handleRemoveSavedReferralCode, handleSaveReferralCode } =
     useSavedReferralCode();
 
   const { handleReset, referralCodeInputProps: inputProps } =
     useReferralCodeInput({
-      isDisabled: hasReferralCodeInUrl,
+      isDisabled: hasReferralCode,
       onBlur: handleSaveReferralCode,
-      value: referralCodeFromUrl,
+      value: referralCode,
     });
 
   const onChange = useCallback(
@@ -34,7 +34,7 @@ export const useReferralCodeBox = (): IReferralCodeBoxProps => {
   );
 
   const checkboxProps = useReferralCodeCheckbox({
-    isChecked: hasReferralCodeInUrl,
+    isChecked: hasReferralCode,
     onChange,
   });
 
