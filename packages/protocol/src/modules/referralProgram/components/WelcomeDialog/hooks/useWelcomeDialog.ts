@@ -7,6 +7,7 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useRedirectToBilling } from 'modules/referralProgram/hooks/useRedirectToBilling';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
@@ -77,13 +78,19 @@ export const useWelcomeDialog = ({
   }, [handleClose, handleSignInDialogOpen]);
 
   const { isLoggedIn } = useAuth();
+  const { redirectToBilling } = useRedirectToBilling();
+
+  const onSuccess = useCallback(() => {
+    handleClose();
+    redirectToBilling();
+  }, [handleClose, redirectToBilling]);
 
   const {
     handleApplyReferralCode: onActivateButtonClick,
     isApplying: isActivating,
   } = useApplyReferralCode({
     referralCode,
-    onSuccess: handleClose,
+    onSuccess,
     onError: handleClose,
   });
 

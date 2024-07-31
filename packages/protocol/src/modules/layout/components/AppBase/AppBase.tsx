@@ -26,6 +26,14 @@ interface IAppBaseProps {
   children: ReactNode;
 }
 
+// the wrapper is needed only to make sure that useReferralFlow hooks is called
+// inside ConnectedRouter component
+const ReferralFlowContainer = () => {
+  const { referralFlowProps } = useReferralFlow();
+
+  return <ReferralFlow {...referralFlowProps} />;
+};
+
 export const AppBase = ({ children }: IAppBaseProps) => {
   const chainsRoutes = usePublicChainsRoutes();
 
@@ -35,8 +43,6 @@ export const AppBase = ({ children }: IAppBaseProps) => {
   useMetatags(historyInstance.location.pathname, chainsRoutes, currentTheme);
 
   const { isOpened, onClose } = useMaintenanceDialog();
-
-  const { referralFlowProps } = useReferralFlow();
 
   return (
     <StyledEngineProvider injectFirst>
@@ -48,7 +54,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
             context={ReactReduxContext}
           >
             {children}
-            <ReferralFlow {...referralFlowProps} />
+            <ReferralFlowContainer />
           </ConnectedRouter>
           <Dialogs />
           <MaintenanceDialog isOpened={isOpened} onClose={onClose} />
