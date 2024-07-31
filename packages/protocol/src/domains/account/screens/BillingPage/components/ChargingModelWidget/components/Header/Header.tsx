@@ -31,12 +31,12 @@ export const Header = ({
     <div className={cx(classes.root, className)}>
       <WidgetTitle>{t(`${intlRoot}.title`)}</WidgetTitle>
       <div className={classes.badges}>
+        {hasPromoBundle && <PromoBadge />}
         <ChargingModelLabel
           currentChargingModel={currentChargingModel}
           currentChargingModelType={currentChargingModelType}
           size="medium"
         />
-        {hasPromoBundle && <PromoBadge />}
       </div>
       {children}
     </div>

@@ -121,7 +121,7 @@
       "form-below": "Use the form below to pay"
     },
     "balance-menu": {
-      "title": "Charging model",
+      "title": "Charging",
       "billing-page-button": "Go to Billing page",
       "usd-balance": "${balance}",
       "req-balance": " / ≈{balance, number, ::compact-short} reqs"
@@ -2046,7 +2046,7 @@
         "more-button": "+{subscriptionsCount} more"
       },
       "balance-widget": {
-        "title": "Charging model",
+        "title": "Charging",
         "payg-label": "Pay-as-you-go",
         "credit-balance": "{balance, number, ::compact-short} API Credits",
         "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
@@ -2054,7 +2054,7 @@
         "requests-balance": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}",
         "expires": "Expires: {date, date, long}",
         "plural": "s",
-        "assets-balance-button": "Assets balance",
+        "assets-balance-button": "Balances",
         "assets-balance-dialog": {
           "title": "Balances",
           "description": "USD/Crypto payments are deposited as API credits into your account balance, which is divided into groups — Pay-as-you-go, Deal, Package, and Promo — based on the charging model for API calls."
