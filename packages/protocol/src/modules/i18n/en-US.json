@@ -720,7 +720,9 @@
     "more-details": "More",
     "links": {
       "public": "{number} public links",
-      "private": "{number} private links"
+      "private": "{number} private links",
+      "blockbook": "Blockbook API",
+      "blockbook-description": "High-performance RESTful API to interact with indexed Bitcoin data."
     },
     "integrate-button": "How to integrate",
     "requests": "{value} reqs",

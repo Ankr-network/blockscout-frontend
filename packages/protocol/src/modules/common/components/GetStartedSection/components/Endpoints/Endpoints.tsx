@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainType } from 'modules/chains/types';
+import { Chain, ChainID, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
@@ -14,6 +14,7 @@ import { WsFeatureEndpoints } from '../WsFeatureEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { useWsFeatureEndpoints } from '../WsFeatureEndpoints/useWsFeatureEndpoints';
+import { BitcoinBlockBookEndpoint } from '../BitcoinBlockBookEndpoint';
 
 export interface EndpointsProps {
   publicChain: Chain;
@@ -46,6 +47,10 @@ export const Endpoints = ({
   placeholder,
   publicChain,
 }: EndpointsProps) => {
+  const isBitcoinMainnet =
+    publicChain.id === ChainID.BTC &&
+    group.chains.map(chain => chain.id).includes(ChainID.BTC);
+
   const { classes } = useEndpointsStyles();
 
   const { hasConnectWalletMessage, hasPremium, hasPrivateAccess } = useAuth();
@@ -101,6 +106,11 @@ export const Endpoints = ({
           publicChain={publicChain}
           isPremiumLabelHidden={isPremiumLabelHidden}
         />
+        {isBitcoinMainnet && (
+          <BitcoinBlockBookEndpoint
+            isPremiumLabelHidden={isPremiumLabelHidden}
+          />
+        )}
         <MainEndpoints
           feature={Feature.REST}
           group={group}
@@ -131,6 +141,7 @@ export const Endpoints = ({
     onCopyEndpoint,
     placeholder,
     publicChain,
+    isBitcoinMainnet,
     wss,
     isPremiumLabelHidden,
   ]);

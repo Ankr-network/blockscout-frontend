@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
-import { Typography } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { Chain } from 'modules/chains/types';
+import { Chain, ChainID } from 'modules/chains/types';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
@@ -20,9 +21,11 @@ export const BlockchainInfo = ({
 }: IBlockchainInfoProps) => {
   const { coinName, id, name } = chain;
 
+  const isBitcoin = chain.id === ChainID.BTC;
+
   const icon = useChainIcon(id);
 
-  const { classes } = useBlockchainInfoStyles();
+  const { classes, cx } = useBlockchainInfoStyles();
 
   return (
     <div className={classes.root}>
@@ -43,9 +46,24 @@ export const BlockchainInfo = ({
             />
           )}
         </Typography>
-        <Typography className={classes.coin} variant="body3">
-          {coinName.toUpperCase()}
-        </Typography>
+        <div className={classes.subinfo}>
+          <Typography
+            className={cx(classes.coin, isBitcoin && classes.separator)}
+            variant="body3"
+          >
+            {coinName.toUpperCase()}
+          </Typography>
+          {isBitcoin && (
+            <Tooltip
+              placement="top"
+              title={t('chains.links.blockbook-description')}
+            >
+              <Typography variant="body3" className={classes.blockbook}>
+                {t('chains.links.blockbook')}
+              </Typography>
+            </Tooltip>
+          )}
+        </div>
       </div>
       {badge && <div className={classes.badge}>{badge}</div>}
     </div>
