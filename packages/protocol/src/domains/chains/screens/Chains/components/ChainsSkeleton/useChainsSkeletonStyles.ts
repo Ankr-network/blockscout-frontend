@@ -34,7 +34,7 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gridTemplateColumns: 'repeat(3, 1fr)',
     gap: theme.spacing(7),
-    marginBottom: theme.spacing(7.5),
+    marginBottom: theme.spacing(4),
 
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: 'repeat(2, 1fr)',
@@ -50,8 +50,8 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
     },
   },
   sort: {
-    width: theme.spacing(71.5),
-    height: theme.spacing(12),
+    width: theme.spacing(37.5),
+    height: theme.spacing(8),
     borderRadius: 17,
     backgroundColor: theme.palette.background.paper,
 
@@ -63,8 +63,8 @@ export const useChainsSkeletonStyles = makeStyles()(theme => ({
     },
   },
   search: {
-    width: theme.spacing(89),
-    height: theme.spacing(12),
+    width: '100%',
+    height: theme.spacing(8),
     borderRadius: 17,
     backgroundColor: theme.palette.background.paper,
   },

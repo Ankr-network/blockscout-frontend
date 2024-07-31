@@ -12,4 +12,8 @@ export const useEndpointsHeaderStyles = makeStyles()((theme: Theme) => ({
     lineHeight: theme.spacing(6),
     margin: 0,
   },
+  tooltipIcon: {
+    color: theme.palette.text.secondary,
+    fontSize: 20,
+  },
 }));

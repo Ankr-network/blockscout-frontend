@@ -21,6 +21,8 @@ export const useSearchStyles = makeStyles<boolean>()(
       color: theme.palette.grey[500],
     },
     iconButton: {
+      height: 32,
+      width: 32,
       border: 'none',
       visibility: hasSearchContent ? 'visible' : 'hidden',
     },
