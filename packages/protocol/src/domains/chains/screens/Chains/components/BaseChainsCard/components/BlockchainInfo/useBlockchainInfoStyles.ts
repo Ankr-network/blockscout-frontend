@@ -32,13 +32,30 @@ export const useBlockchainInfoStyles = makeStyles()(theme => ({
   coin: {
     display: 'block',
 
-    marginBottom: theme.spacing(1.5),
-
     color: theme.palette.text.secondary,
   },
   badge: {
     position: 'absolute',
     right: 0,
     top: 0,
+  },
+  subinfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    marginBottom: theme.spacing(1.5),
+  },
+  separator: {
+    '&:after': {
+      content: "' • '",
+      color: theme.palette.text.secondary,
+    },
+  },
+  blockbook: {
+    borderBottom: `1px dashed ${theme.palette.primary.main}`,
+
+    '&&': {
+      color: theme.palette.primary.main,
+    },
   },
 }));
