@@ -52,7 +52,7 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
     chainSubType,
     chain,
     group,
-    publicUrl: getPublicUrl(rpcUrl),
+    publicUrl: rpcUrl ? getPublicUrl(rpcUrl) : rpcUrl,
     hasPrivateAccess: false,
   });
 

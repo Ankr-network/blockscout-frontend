@@ -30,7 +30,9 @@ export const AccountStatus = ({
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
-  const { isLoading: isReferrerLoading } = useReferrer();
+  const { isLoading: isReferrerLoading } = useReferrer({
+    skipFetching: !isLoggedIn,
+  });
   const { initLoading: isMyBundlesStatusLoading } = useMyBundlesStatus();
 
   const hasAccessToAccountStatus = useGuardUserGroup({

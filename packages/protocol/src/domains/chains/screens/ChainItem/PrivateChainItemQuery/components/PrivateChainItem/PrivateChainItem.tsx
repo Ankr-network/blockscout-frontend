@@ -59,7 +59,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     chainSubType,
     chain,
     group,
-    publicUrl: isLoggedIn ? getPublicUrl(rpcUrl) : rpcUrl,
+    publicUrl: isLoggedIn && rpcUrl ? getPublicUrl(rpcUrl) : rpcUrl,
     hasPrivateAccess,
   });
 

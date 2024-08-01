@@ -41,7 +41,7 @@ export const ChainItemSections = ({
     chainSubType,
     chain,
     group,
-    publicUrl: isLoggedIn ? getPublicUrl(rpcUrl) : rpcUrl,
+    publicUrl: isLoggedIn && rpcUrl ? getPublicUrl(rpcUrl) : rpcUrl,
     hasPrivateAccess,
   });
 
