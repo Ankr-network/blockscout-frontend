@@ -8,7 +8,7 @@ import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
 import { ProjectChains } from '../ProjectChains';
 import { ProjectFooter } from '../ProjectFooter';
 import { ProjectHeader } from '../ProjectHeader';
-import { Requests } from '../Requests';
+import { ProjectRequests } from '../Requests';
 import { Whitelist } from '../Whitelist';
 import { useProjectStyles } from './useProjectStyles';
 import { useProjectStatus } from '../../hooks/useProjectStatus';
@@ -37,7 +37,7 @@ export const Project = () => {
           />
         )}
         <ProjectHeader className={classes.header} />
-        <Requests
+        <ProjectRequests
           isDisabled={isFrozen || isSuspended}
           className={classes.requests}
         />

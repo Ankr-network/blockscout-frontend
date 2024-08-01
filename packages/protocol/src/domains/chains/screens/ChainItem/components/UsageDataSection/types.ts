@@ -24,7 +24,7 @@ export interface UsageData {
   totalCached?: BigNumber;
   totalCost?: number;
   totalRequests: BigNumber;
-  totalRequestsHistory: Record<string, number>;
+  totalRequestsHistory?: Record<string, number>;
   userTopRequests?: PrivateStatTopRequests[];
   userTopRequestsIp?: UserRequestsByIpData[];
   isLoggedIn?: boolean;

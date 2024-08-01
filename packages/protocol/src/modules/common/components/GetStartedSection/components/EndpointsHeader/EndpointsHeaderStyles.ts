@@ -6,11 +6,14 @@ export const useEndpointsHeaderStyles = makeStyles()((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(2),
-
     color: theme.palette.text.primary,
-
     fontWeight: 700,
-    fontSize: theme.spacing(2 * 2),
-    lineHeight: theme.spacing(2 * 3),
+    fontSize: theme.spacing(4),
+    lineHeight: theme.spacing(6),
+    margin: 0,
+  },
+  tooltipIcon: {
+    color: theme.palette.text.secondary,
+    fontSize: 20,
   },
 }));

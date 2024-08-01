@@ -1,4 +1,5 @@
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
 import {
   ChainID,
@@ -14,6 +15,8 @@ import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenMa
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
+import { useTop10Stats } from 'domains/dashboard/screens/Dashboard/components/AllChainsLayout/v1/hooks/useTop10Stats';
+import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
 import { checkPrivateChainsAndGetChainId } from '../../const';
@@ -81,17 +84,36 @@ export const usePrivateUsageData = ({
     userEndpointToken: selectedProjectEndpointToken,
   });
 
+  const { top10Data } = useTop10Stats(timeframe, privateCheckedChainId);
+
   const userTopRequests = getUserTopRequest(
     privateStats,
     privateCheckedChainId,
   );
 
-  return getPrivateUsageData({
-    isConnecting,
-    arePrivateStatsLoading,
-    privateStatsError,
-    privateStats: privateStats[privateCheckedChainId],
-    timeframe,
-    userTopRequests,
-  });
+  const countries: CountryMap = useMemo(() => {
+    if (!top10Data?.countries) {
+      return {};
+    }
+
+    return top10Data.countries.reduce(
+      (acc, { key: country, value: requests }) => ({
+        ...acc,
+        [country]: { country, requests },
+      }),
+      {},
+    );
+  }, [top10Data]);
+
+  return {
+    ...getPrivateUsageData({
+      isConnecting,
+      arePrivateStatsLoading,
+      privateStatsError,
+      privateStats: privateStats[privateCheckedChainId],
+      timeframe,
+      userTopRequests,
+    }),
+    countries,
+  };
 };

@@ -15,6 +15,8 @@ interface RequestsInfoProps {
   relativeChange?: number;
   totalRequestsCount: number;
   isDisabled?: boolean;
+  width?: string | number;
+  shouldShowZeroValues?: boolean;
 }
 
 export const RequestsInfo = ({
@@ -22,7 +24,9 @@ export const RequestsInfo = ({
   isDisabled,
   isLoading,
   relativeChange,
+  shouldShowZeroValues,
   totalRequestsCount,
+  width = 220,
 }: RequestsInfoProps) => {
   const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
 
@@ -35,16 +39,19 @@ export const RequestsInfo = ({
       xAxisTickFormatter: () => '',
       yAxisTickFormatter: () => '',
       height: 52,
-      width: 220,
+      width,
       isDisabledColor: isDisabled,
     }),
-    [data, isDisabled],
+    [data, isDisabled, width],
   );
 
-  const nonEmptyData = useMemo(
-    () => data.filter(({ value }) => Boolean(value)),
-    [data],
-  );
+  const nonEmptyData = useMemo(() => {
+    if (shouldShowZeroValues) {
+      return data;
+    }
+
+    return data.filter(({ value }) => Boolean(value));
+  }, [data, shouldShowZeroValues]);
 
   const intlKey =
     relativeChange === 0
@@ -57,11 +64,18 @@ export const RequestsInfo = ({
         <div className={classes.requestsCount}>
           <Typography
             variant="h6"
-            className={cx(classes.count, {
+            className={cx(classes.requestsCountValue, {
               [classes.disabled]: isDisabled,
             })}
           >
             {formatLongNumber(totalRequestsCount)}
+            <Typography
+              variant="body3"
+              color="textSecondary"
+              className={classes.requestsLabel}
+            >
+              {t('projects.list-project.requests-label')}
+            </Typography>
           </Typography>
           {typeof relativeChange !== 'undefined' && (
             <Typography

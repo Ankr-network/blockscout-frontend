@@ -19,8 +19,7 @@ export const useBenefitsContent = () => {
         t(keys.nftApi.feature3),
       ],
       linkText: t(keys.nftApi.linkText),
-      linkHref:
-        'https://www.ankr.com/docs/advanced-api/specification/#tag/NFT-API',
+      linkHref: 'https://www.ankr.com/docs/advanced-api/nft-methods/',
     },
     {
       img: imgQuery,
@@ -32,8 +31,7 @@ export const useBenefitsContent = () => {
         t(keys.queryApi.feature3),
       ],
       linkText: t(keys.queryApi.linkText),
-      linkHref:
-        'https://www.ankr.com/docs/advanced-api/specification/#tag/Query-API',
+      linkHref: 'https://www.ankr.com/docs/advanced-api/query-methods/',
     },
     {
       img: imgToken,
@@ -45,8 +43,7 @@ export const useBenefitsContent = () => {
         t(keys.tokenApi.feature3),
       ],
       linkText: t(keys.tokenApi.linkText),
-      linkHref:
-        'https://www.ankr.com/docs/advanced-api/specification/#tag/Token-API',
+      linkHref: 'https://www.ankr.com/docs/advanced-api/token-methods/',
     },
   ];
 

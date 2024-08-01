@@ -1,7 +1,8 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
+import { darken } from '@mui/material';
 
-import { premiumGradient } from 'uiKit/Theme/themeUtils';
+import { isLightTheme, premiumGradient } from 'uiKit/Theme/themeUtils';
 
 import bg from '../assets/public-bg.png';
 
@@ -36,6 +37,7 @@ export const useUpgradePublicBannerStyles = makeStyles()((theme: Theme) => ({
   },
   title: {
     marginBottom: theme.spacing(1),
+    color: '#356DF3',
 
     '& > span > span': {
       fontWeight: 700,
@@ -44,6 +46,9 @@ export const useUpgradePublicBannerStyles = makeStyles()((theme: Theme) => ({
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
     },
+  },
+  typography: {
+    color: '#1F2226',
   },
   image: {
     position: 'absolute',
@@ -55,9 +60,11 @@ export const useUpgradePublicBannerStyles = makeStyles()((theme: Theme) => ({
   },
   button: {
     minWidth: 132,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.common.white,
     '&:hover': {
-      backgroundColor: theme.palette.grey[100],
+      backgroundColor: isLightTheme(theme)
+        ? theme.palette.grey[100]
+        : darken(theme.palette.common.white, 0.1),
     },
   },
   buttonText: {

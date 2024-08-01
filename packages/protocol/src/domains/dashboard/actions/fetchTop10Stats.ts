@@ -33,8 +33,8 @@ export const {
         }) => {
           /* backend does not support h1 and h24 interval for this endpoint */
           if (
-            intervalType === PrivateStatsInterval.HOUR ||
-            intervalType === PrivateStatsInterval.DAY
+            intervalType !== PrivateStatsInterval.WEEK &&
+            intervalType !== PrivateStatsInterval.MONTH
           ) {
             return { data: emptyResponse };
           }
