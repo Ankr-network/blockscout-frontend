@@ -8,6 +8,7 @@ import {
 } from '../ReferralCodeDialog';
 import { ISuccessDialogProps, SuccessDialog } from '../SuccessDialog';
 import { referralCodeButtonTranslation } from './translation';
+import { useReferralCodeButtonStyles } from './useReferralCodeButtonStyles';
 
 export interface IReferralCodeButtonProps {
   handleReferralCodeDialogOpen: () => void;
@@ -20,11 +21,13 @@ export const ReferralCodeButton = ({
   referralCodeDialogProps,
   successDialogProps,
 }: IReferralCodeButtonProps) => {
+  const { classes } = useReferralCodeButtonStyles();
   const { keys, t } = useTranslation(referralCodeButtonTranslation);
 
   return (
     <>
       <Button
+        className={classes.root}
         onClick={handleReferralCodeDialogOpen}
         size="small"
         variant="text"

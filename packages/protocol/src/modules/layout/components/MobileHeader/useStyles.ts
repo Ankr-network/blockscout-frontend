@@ -39,6 +39,7 @@ export const useStyles = makeStyles()((theme: Theme) => ({
   },
   buttons: {
     display: 'flex',
+    alignItems: 'center',
     gap: theme.spacing(2),
   },
 
