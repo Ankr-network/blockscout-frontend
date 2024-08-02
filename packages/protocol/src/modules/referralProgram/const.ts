@@ -15,4 +15,10 @@ export const B2B_REFERRAL_PROGRAMS: IB2BReferralProgram[] = [
     bundleId: 'e2f9411b-ad39-4a7f-9095-cc55ca7cc8ec',
     referralCode: '5MhwK32c55',
   },
+  {
+    banner: xaiBanner,
+    blockchainName: 'Expired',
+    bundleId: 'e2f9411b-ad39-4a7f-9095-cc55ca7cc8ec',
+    referralCode: '7MhwK32c77',
+  },
 ];
