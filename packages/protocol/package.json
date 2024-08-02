@@ -161,8 +161,6 @@
     "include": [
       "/dashboard/",
       "/account/",
-      "/account/topup/",
-      "/account/withdraw/",
       "/account/success/",
       "/account/failure/",
       "/settings/",

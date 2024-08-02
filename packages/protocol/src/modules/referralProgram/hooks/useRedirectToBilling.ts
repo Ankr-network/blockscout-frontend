@@ -6,9 +6,10 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 const billingPageUrl = AccountRoutesConfig.accountDetails.generatePath();
 
 export const useRedirectToBilling = () => {
-  const { push } = useHistory();
+  const history = useHistory();
+  const push = history?.push;
 
-  const redirectToBilling = useCallback(() => push(billingPageUrl), [push]);
+  const redirectToBilling = useCallback(() => push?.(billingPageUrl), [push]);
 
   return { redirectToBilling };
 };
