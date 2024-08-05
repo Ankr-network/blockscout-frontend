@@ -458,4 +458,16 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'Turing',
     chains: [ChainID.AVAIL_TURING_TESTNET],
   },
+  {
+    id: ChainGroupID.ALLORA_REST,
+    name: 'Rest',
+    pluralName: 'Rest',
+    chains: [ChainID.ALLORA_TESTNET_REST],
+  },
+  {
+    id: ChainGroupID.ALLORA_RPC,
+    name: 'RPC',
+    pluralName: 'RPC',
+    chains: [ChainID.ALLORA_TESTNET_RPC],
+  },
 ];
