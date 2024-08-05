@@ -1,5 +1,7 @@
 import { Locale } from 'modules/i18n';
 
+import { MAX_REFERRAL_CODE_LENGTH, MIN_REFERRAL_CODE_LENGTH } from './const';
+
 export const referralProgramTranslation = {
   [Locale.en]: {
     branded: {
@@ -21,5 +23,7 @@ export const referralProgramTranslation = {
     invalidReferralCodeError:
       'Use only case-sensitive alphanumeric characters (A-Z, a-z, 0-9)',
     noReferralCodeError: 'Referral code required',
+    shortReferralCodeError: `Min length — ${MIN_REFERRAL_CODE_LENGTH} characters`,
+    longReferralCodeError: `Max length — ${MAX_REFERRAL_CODE_LENGTH} characters`,
   },
 };

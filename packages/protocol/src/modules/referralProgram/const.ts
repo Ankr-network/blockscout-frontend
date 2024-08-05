@@ -8,6 +8,9 @@ export enum ApplyReferralCodeErrorCode {
   NOT_FOUND = 'not-found',
 }
 
+export const MIN_REFERRAL_CODE_LENGTH = 3;
+export const MAX_REFERRAL_CODE_LENGTH = 32;
+
 export const B2B_REFERRAL_PROGRAMS: IB2BReferralProgram[] = [
   {
     banner: xaiBanner,
