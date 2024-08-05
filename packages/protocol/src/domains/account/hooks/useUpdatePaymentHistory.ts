@@ -6,7 +6,7 @@ import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
-import { accountFetchPaymentHistory } from '../actions/fetchTransactions';
+import { fetchPaymentHistory } from '../actions/fetchPaymentHistory';
 import { getTransactionsRequest } from '../screens/BillingPage/components/PaymentsHistoryTable/utils/getTransactionsRequest';
 import { useBalance } from './useBalance';
 
@@ -17,9 +17,7 @@ export const useUpdatePaymentHistory = (
   paymentType: PaymentType,
 ) => {
   const { ankrBalance } = useBalance({ skipFetching: true });
-  const [fetchTransactions, , reset] = useQueryEndpoint(
-    accountFetchPaymentHistory,
-  );
+  const [fetchTransactions, , reset] = useQueryEndpoint(fetchPaymentHistory);
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 

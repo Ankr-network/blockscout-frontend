@@ -8,6 +8,7 @@ import {
   selectBundlePaymentPlans,
   selectMyBundlesStatus,
 } from 'domains/account/store/selectors';
+import { selectIsDepositMade } from 'domains/account/actions/checkDeposit';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
 import { getReferralProgram } from '../utils/getReferralProgram';
@@ -81,5 +82,15 @@ export const selectHasPromoBundle = createSelector(
     const isPromoBundleExpired = new Date() > new Date(expiresMs);
 
     return !isPromoBundleExpired;
+  },
+);
+
+export const selectHasReferralBonusBanner = createSelector(
+  selectReferrer,
+  selectIsDepositMade,
+  (referrer, isDepositMade = false) => {
+    const hasReferrer = Boolean(referrer);
+
+    return hasReferrer && !isDepositMade;
   },
 );
