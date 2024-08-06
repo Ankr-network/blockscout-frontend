@@ -69,7 +69,11 @@ export const buildPublicUrls = ({
       blockchain.paths = avalancheEvmItem?.paths ?? [];
     }
 
-    if (id === 'tron' || id === 'gnosis_beacon') {
+    if (
+      id === 'tron' || 
+      id === 'gnosis_beacon' ||
+      id === 'allora_testnet-rest'
+    ) {
       blockchain.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
     }
 

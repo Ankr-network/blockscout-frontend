@@ -460,14 +460,14 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.ALLORA_REST,
-    name: 'Rest',
-    pluralName: 'Rest',
+    name: 'Allora testnet REST',
+    pluralName: 'Allora testnet REST',
     chains: [ChainID.ALLORA_TESTNET_REST],
   },
   {
     id: ChainGroupID.ALLORA_RPC,
-    name: 'RPC',
-    pluralName: 'RPC',
+    name: 'Allora testnet RPC',
+    pluralName: 'Allora testnet RPC',
     chains: [ChainID.ALLORA_TESTNET_RPC],
   },
 ];
