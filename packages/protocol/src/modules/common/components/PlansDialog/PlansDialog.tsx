@@ -121,9 +121,10 @@ export const PlansDialog = ({ onClose, open }: IPlansDialogProps) => {
         />
       </NoReactSnap>
       <SignupDialog
+        canProcessReferralCode
+        hasOauthLogin={hasOauthLogin}
         isOpen={isSignupDialogOpened}
         onClose={onCloseSignupDialog}
-        hasOauthLogin={hasOauthLogin}
       />
     </Dialog>
   );
