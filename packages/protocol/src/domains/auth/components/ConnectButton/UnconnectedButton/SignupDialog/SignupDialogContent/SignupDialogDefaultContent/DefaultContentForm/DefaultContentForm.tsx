@@ -24,6 +24,7 @@ export interface IDefaultContentFormProps {
   handleSubmit: () => void;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
+  isReferralCodeBoxDisabled?: boolean;
 }
 
 export const DefaultContentForm = ({
@@ -33,6 +34,7 @@ export const DefaultContentForm = ({
   handleSubmit,
   hasAutoAgreement = false,
   hasOnlyGoogleAuth = false,
+  isReferralCodeBoxDisabled = false,
 }: IDefaultContentFormProps) => {
   const {
     setGithubLoginType,
@@ -41,7 +43,10 @@ export const DefaultContentForm = ({
     termsError,
   } = useDefaultContentForm();
 
-  const referralCodeBoxProps = useReferralCodeBox();
+  const referralCodeBoxProps = useReferralCodeBox({
+    isDisabled: isReferralCodeBoxDisabled,
+  });
+
   const {
     inputProps: { error: referralCodeError },
   } = referralCodeBoxProps;

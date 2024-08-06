@@ -1,16 +1,18 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { IReferralCodeCheckboxProps } from '../ReferralCodeCheckbox';
 
 export interface IUseReferralCodeCheckboxProps {
   isChecked?: boolean;
   onChange?: (isChecked: boolean) => void;
+  isDisabled?: boolean;
 }
 
 export const useReferralCodeCheckbox = ({
   isChecked: isInitiallyChecked = false,
+  isDisabled,
   onChange: onChangeExternal,
-}: IUseReferralCodeCheckboxProps | void = {}): IReferralCodeCheckboxProps => {
+}: IUseReferralCodeCheckboxProps = {}) => {
   const [isChecked, setIsChecked] = useState(isInitiallyChecked);
 
   const onChange = useCallback(() => {
@@ -21,5 +23,10 @@ export const useReferralCodeCheckbox = ({
 
   useEffect(() => setIsChecked(isInitiallyChecked), [isInitiallyChecked]);
 
-  return { isChecked, onChange };
+  const referralCodeCheckboxProps = useMemo(
+    (): IReferralCodeCheckboxProps => ({ isChecked, isDisabled, onChange }),
+    [isChecked, isDisabled, onChange],
+  );
+
+  return { referralCodeCheckboxProps };
 };

@@ -7,7 +7,13 @@ import { IReferralCodeBoxProps } from '../ReferralCodeBox';
 import { useReferralCodeCheckbox } from '../../ReferralCodeCheckbox';
 import { useReferralCodeInput } from '../../ReferralCodeInput';
 
-export const useReferralCodeBox = (): IReferralCodeBoxProps => {
+export interface IUseReferralCodeBoxProps {
+  isDisabled?: boolean;
+}
+
+export const useReferralCodeBox = ({
+  isDisabled,
+}: IUseReferralCodeBoxProps = {}): IReferralCodeBoxProps => {
   const { referralCode } = useReferralCode();
 
   const hasReferralCode = Boolean(referralCode);
@@ -17,7 +23,7 @@ export const useReferralCodeBox = (): IReferralCodeBoxProps => {
 
   const { handleReset, referralCodeInputProps: inputProps } =
     useReferralCodeInput({
-      isDisabled: hasReferralCode,
+      isDisabled,
       onBlur: handleSaveReferralCode,
       value: referralCode,
     });
@@ -33,8 +39,9 @@ export const useReferralCodeBox = (): IReferralCodeBoxProps => {
     [handleRemoveSavedReferralCode, handleReset],
   );
 
-  const checkboxProps = useReferralCodeCheckbox({
+  const { referralCodeCheckboxProps: checkboxProps } = useReferralCodeCheckbox({
     isChecked: hasReferralCode,
+    isDisabled,
     onChange,
   });
 

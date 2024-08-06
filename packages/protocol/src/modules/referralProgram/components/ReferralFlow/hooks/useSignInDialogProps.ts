@@ -80,6 +80,7 @@ export const useSignInDialogProps = ({
         },
       }),
       isOpen: isSignInDialogOpened,
+      isReferralCodeBoxDisabled: true,
       onClose: handleSignInDialogClose,
       onManualClose: handlePreviousDialogOpen,
       onOauthSignIn,

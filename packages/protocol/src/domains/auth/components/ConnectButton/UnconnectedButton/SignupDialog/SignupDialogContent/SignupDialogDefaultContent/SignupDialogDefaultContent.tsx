@@ -23,6 +23,7 @@ export const SignupDialogDefaultContent = ({
   extraContent,
   hasAutoAgreement,
   hasOnlyGoogleAuth = false,
+  isReferralCodeBoxDisabled,
   onGithubButtonClick,
   onGoogleButtonClick,
   setWeb3State,
@@ -73,6 +74,7 @@ export const SignupDialogDefaultContent = ({
         handleSubmit={handleSubmit}
         hasAutoAgreement={hasAutoAgreement}
         hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+        isReferralCodeBoxDisabled={isReferralCodeBoxDisabled}
       />
     ),
     [
@@ -81,6 +83,7 @@ export const SignupDialogDefaultContent = ({
       extraContent,
       hasAutoAgreement,
       hasOnlyGoogleAuth,
+      isReferralCodeBoxDisabled,
     ],
   );
 

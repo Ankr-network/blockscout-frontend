@@ -8,6 +8,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePersonalPremiumStatus } from 'modules/referralProgram/hooks/usePersonalPremiumStatus';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUserGroupConfig } from 'domains/userGroup/hooks/useUserGroupConfig';
+import { useValidateReferralCode } from 'modules/referralProgram/hooks/useValidateReferralCode';
 
 export interface IUseInitReferralFlowProps {
   handleIneligibleAccountDialogOpen: () => void;
@@ -51,10 +52,14 @@ export const useInitiReferralFlow = ({
     shouldRemoveSavedData: false,
   });
 
+  const { validateReferralCode } = useValidateReferralCode();
+
   useEffect(() => {
     // TODO: rethink this logcis to get rid of nested if's
     if (!isLoggingOut && !loading) {
-      if (referralCode && isBannerLoaded) {
+      const error = validateReferralCode(referralCode);
+
+      if (!error && isBannerLoaded) {
         if (isLoggedIn) {
           if (isPersonalPremiumStatusLoaded && isGroupSelected) {
             if (isAccountEligible) {

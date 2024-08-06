@@ -16,6 +16,7 @@ export interface ISignupDialogProps {
   hasOauthLogin?: boolean;
   hasOnlyGoogleAuth?: boolean;
   isOpen: boolean;
+  isReferralCodeBoxDisabled?: boolean;
   onClose: () => void;
   onManualClose?: () => void;
   onOauthSignIn?: () => void | Promise<void>;
@@ -34,6 +35,7 @@ export const SignupDialog = ({
   hasOauthLogin,
   hasOnlyGoogleAuth = false,
   isOpen = false,
+  isReferralCodeBoxDisabled,
   onClose,
   onManualClose,
   onOauthSignIn,
@@ -84,6 +86,7 @@ export const SignupDialog = ({
         hasAutoAgreement={hasAutoAgreement}
         hasOnlyGoogleAuth={hasOnlyGoogleAuth}
         isLoading={isLoading}
+        isReferralCodeBoxDisabled={isReferralCodeBoxDisabled}
         oauthLoginType={oauthLoginType}
         onDialogClose={handleClose}
         onGithubButtonClick={onGithubButtonClick}

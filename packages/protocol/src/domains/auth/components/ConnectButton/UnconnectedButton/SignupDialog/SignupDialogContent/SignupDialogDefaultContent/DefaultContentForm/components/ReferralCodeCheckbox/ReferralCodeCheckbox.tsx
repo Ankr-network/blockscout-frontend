@@ -7,11 +7,13 @@ import { useReferralCodeCheckboxStyles } from './useReferralCodeCheckboxStyles';
 
 export interface IReferralCodeCheckboxProps {
   isChecked: boolean;
+  isDisabled?: boolean;
   onChange: () => void;
 }
 
 export const ReferralCodeCheckbox = ({
   isChecked,
+  isDisabled,
   onChange,
 }: IReferralCodeCheckboxProps) => {
   const { keys, t } = useTranslation(referralCodeCheckboxTranslation);
@@ -21,7 +23,13 @@ export const ReferralCodeCheckbox = ({
   return (
     <FormControlLabel
       classes={classes}
-      control={<Checkbox checked={isChecked} onChange={onChange} />}
+      control={
+        <Checkbox
+          checked={isChecked}
+          onChange={onChange}
+          disabled={isDisabled}
+        />
+      }
       label={t(keys.label)}
       slotProps={{ typography: { variant: 'body2' } }}
     />

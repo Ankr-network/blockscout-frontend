@@ -8,6 +8,7 @@ import { usePersonalPremiumStatus } from 'modules/referralProgram/hooks/usePerso
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUserGroupConfig } from 'domains/userGroup/hooks/useUserGroupConfig';
+import { useValidateReferralCode } from 'modules/referralProgram/hooks/useValidateReferralCode';
 
 export interface IUseInitReferralFlowWithSavedCodeProps {
   handleIneligibleAccountDialogOpen: () => void;
@@ -43,8 +44,12 @@ export const useInitReferralFlowWithSavedCode = ({
   const isPersonalPremiumStatusLoaded = personalPremiumStatus !== undefined;
   const isPersonalGroupFreemium = Boolean(personalPremiumStatus?.isFreemium);
 
+  const { validateReferralCode } = useValidateReferralCode();
+
   useEffect(() => {
-    if (savedReferralCode && isLoggedIn && isBannerLoaded) {
+    const error = validateReferralCode(savedReferralCode);
+
+    if (!error && isLoggedIn && isBannerLoaded) {
       if (isPersonalPremiumStatusLoaded && isGroupSelected) {
         if (isAccountEligible) {
           handleApplyReferralCode();

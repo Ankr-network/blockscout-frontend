@@ -37,6 +37,7 @@ export interface SignupDialogDefaultContentProps {
   extraContent?: ReactNode;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
+  isReferralCodeBoxDisabled?: boolean;
   onGithubButtonClick: () => void;
   onGoogleButtonClick: () => void;
   setWeb3State: () => void;
