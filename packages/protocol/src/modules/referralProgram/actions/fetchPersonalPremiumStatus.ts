@@ -28,30 +28,20 @@ export const {
         const userEndpointToken = selectUserEndpointToken(state);
 
         if (userEndpointToken) {
-          const workerApi = MultiService.getService().getWorkerGateway();
+          const api = MultiService.getService().getAccountingGateway();
 
-          try {
-            const data = await workerApi.getPremiumStatus(userEndpointToken);
+          const status = await api.getUserEndpointTokenStatus({
+            token: userEndpointToken,
+          });
 
-            return { data };
-          } catch (exception) {
-            const accountingApi =
-              MultiService.getService().getAccountingGateway();
+          const data: GetPremiumStatusResult = {
+            isFreemium: status.freemium,
+            status: status.freemium
+              ? PremiumStatus.INACTIVE
+              : PremiumStatus.ACTIVE,
+          };
 
-            // try to fetch premium status using additional endpoint
-            const status = await accountingApi.getUserEndpointTokenStatus({
-              token: userEndpointToken,
-            });
-
-            const data: GetPremiumStatusResult = {
-              isFreemium: status.freemium,
-              status: status.freemium
-                ? PremiumStatus.INACTIVE
-                : PremiumStatus.ACTIVE,
-            };
-
-            return { data };
-          }
+          return { data };
         }
 
         return { data: null };
