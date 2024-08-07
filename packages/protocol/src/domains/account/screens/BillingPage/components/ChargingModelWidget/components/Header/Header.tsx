@@ -35,6 +35,7 @@ export const Header = ({
         <ChargingModelLabel
           currentChargingModel={currentChargingModel}
           currentChargingModelType={currentChargingModelType}
+          hasPromoBundle={hasPromoBundle}
           size="medium"
         />
       </div>

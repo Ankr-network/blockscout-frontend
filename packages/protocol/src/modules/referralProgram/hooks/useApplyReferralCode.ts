@@ -10,6 +10,8 @@ import { useReferralProgram } from 'modules/referralProgram/hooks/useReferralPro
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
+import { useReferrer } from './useReferrer';
+
 export interface IUseApplyReferralCodeProps {
   hasSuccessNotification?: boolean;
   onError?: (error: unknown) => void;
@@ -29,6 +31,8 @@ export const useApplyReferralCode = ({
 }: IUseApplyReferralCodeProps) => {
   const [applyReferralCode, { isLoading: isApplying }] =
     useApplyReferralCodeMutation();
+
+  const { handleFetchReferrer } = useReferrer({ skipFetching: true });
 
   const { handleRemoveSavedReferralCode } = useSavedReferralCode();
 
@@ -66,6 +70,8 @@ export const useApplyReferralCode = ({
           );
         }
 
+        await handleFetchReferrer();
+
         onSuccess?.();
       } else {
         onError?.(response.error);
@@ -80,6 +86,7 @@ export const useApplyReferralCode = ({
     applyReferralCode,
     blockchainName,
     dispatch,
+    handleFetchReferrer,
     handleRemoveSavedReferralCode,
     hasSuccessNotification,
     keys,

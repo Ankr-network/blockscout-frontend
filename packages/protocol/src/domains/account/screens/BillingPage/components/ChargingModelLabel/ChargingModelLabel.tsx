@@ -7,16 +7,18 @@ import { PAYGLabel } from '../ChargingModelWidget/components/PAYGLabel';
 import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
 
 interface IChargingModelLabelParams {
+  className?: string;
   currentChargingModel: IChargingModelData;
   currentChargingModelType: EChargingModel;
+  hasPromoBundle?: boolean;
   size: 'small' | 'medium' | 'large';
-  className?: string;
 }
 
 export const ChargingModelLabel = ({
   className,
   currentChargingModel,
   currentChargingModelType,
+  hasPromoBundle,
   size = 'medium',
 }: IChargingModelLabelParams) => {
   const { shouldShowFreemium } = useFreemiumChargingModel(currentChargingModel);
@@ -34,7 +36,7 @@ export const ChargingModelLabel = ({
     );
   }, [className, size]);
 
-  if (shouldShowFreemium) {
+  if (shouldShowFreemium && !hasPromoBundle) {
     return freeLabel;
   }
 
