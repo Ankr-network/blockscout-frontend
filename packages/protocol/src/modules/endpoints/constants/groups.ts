@@ -36,6 +36,7 @@ export const tendermintRpcChains = [
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
   ChainID.SEI_RPC,
   ChainID.SEI_RPC_TESTNET,
+  ChainID.ALLORA_TESTNET_RPC,
 ];
 
 export const kavaTendermintRpcChains = [
@@ -53,6 +54,7 @@ export const tendermintRestChains = [
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
   ChainID.SEI_REST,
   ChainID.SEI_REST_TESTNET,
+  ChainID.ALLORA_TESTNET_REST,
 ];
 
 export const chainGroups: ChainGroup[] = [
@@ -457,17 +459,5 @@ export const chainGroups: ChainGroup[] = [
     name: 'Turing',
     pluralName: 'Turing',
     chains: [ChainID.AVAIL_TURING_TESTNET],
-  },
-  {
-    id: ChainGroupID.ALLORA_REST,
-    name: 'Allora testnet REST',
-    pluralName: 'Allora testnet REST',
-    chains: [ChainID.ALLORA_TESTNET_REST],
-  },
-  {
-    id: ChainGroupID.ALLORA_RPC,
-    name: 'Allora testnet RPC',
-    pluralName: 'Allora testnet RPC',
-    chains: [ChainID.ALLORA_TESTNET_RPC],
   },
 ];

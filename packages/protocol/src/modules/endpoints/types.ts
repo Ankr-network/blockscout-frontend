@@ -50,8 +50,6 @@ export enum ChainGroupID {
   FLARE_SONGBIRD = 'flare-songbird',
   GOLDBERG = 'goldberg',
   TURING = 'turing',
-  ALLORA_REST = 'allora-rest',
-  ALLORA_RPC = 'allora-rpc',
 
   FALLBACK = 'FALLBACK',
 }
