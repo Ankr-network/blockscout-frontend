@@ -38,6 +38,10 @@ export const getCustomLabelForChainsCornerCases = ({
     if (chainId === ChainID.SECRET_REST) {
       return 'Secret Network Tendermint';
     }
+
+    if (chainId === ChainID.ALLORA_TESTNET_REST) {
+      return 'Allora Testnet Tendermint';
+    }
   }
 
   if (chainId === ChainID.KAVA_TENDERMINT_REST) {
