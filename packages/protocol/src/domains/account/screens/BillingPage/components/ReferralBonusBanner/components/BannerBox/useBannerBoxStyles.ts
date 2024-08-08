@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
-import background from './assets/background.png';
-import coins from './assets/coins.png';
+import background from '../../assets/background.png';
+import coins from '../../assets/coins.png';
 
 export const useBannerBoxStyles = makeStyles()(theme => ({
   root: {
