@@ -6,6 +6,8 @@ import { selectAddress } from 'domains/auth/store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import { web3Api } from 'store/queries';
 
+import { selectHasActiveDeal } from '../store/selectors';
+
 export const {
   endpoints: { checkDeposit },
   useCheckDepositQuery,
@@ -14,9 +16,16 @@ export const {
   endpoints: build => ({
     checkDeposit: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
+        const state = getState() as RootState;
+
+        const hasActiveDeal = selectHasActiveDeal(state);
+
+        if (hasActiveDeal) {
+          return { data: hasActiveDeal };
+        }
+
         const api = MultiService.getService().getAccountingGateway();
 
-        const state = getState() as RootState;
         const authAddress = selectAddress(state);
         const groupConfig = selectUserGroupConfigByAddress(state);
         const group =
@@ -34,7 +43,11 @@ export const {
 
         const isDepositMade = (history.transactions?.length ?? 0) > 0;
 
-        return { data: isDepositMade };
+        if (isDepositMade) {
+          return { data: isDepositMade };
+        }
+
+        return { data: false };
       }),
     }),
   }),
