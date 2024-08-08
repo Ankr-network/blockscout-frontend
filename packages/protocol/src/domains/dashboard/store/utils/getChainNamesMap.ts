@@ -47,6 +47,7 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
     if (checkedID === ChainID.ALLORA_TESTNET) {
       result[checkedID] = 'Allora Testnet Tendermint';
     }
+
     return result;
   }, {});
 };
