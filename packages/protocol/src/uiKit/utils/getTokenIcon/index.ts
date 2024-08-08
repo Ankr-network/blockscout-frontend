@@ -1,5 +1,7 @@
 import { ChainID } from 'modules/chains/types';
 
+import alloraIcon from './icons/allora.svg';
+import alloraIconDark from './darkModeIcons/allora.svg';
 import aptosIcon from './icons/aptos.svg';
 import arbitrumIcon from './icons/arbitrum.svg';
 import arbitrumNovaIcon from './icons/arbitrum-nova.svg';
@@ -95,6 +97,10 @@ import telosIconDark from './darkModeIcons/telos.svg';
 import electroneumIconDark from './darkModeIcons/electroneum.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
+  [ChainID.ALLORA]: alloraIcon,
+  [ChainID.ALLORA_TESTNET]: alloraIcon,
+  [ChainID.ALLORA_TESTNET_REST]: alloraIcon,
+  [ChainID.ALLORA_TESTNET_RPC]: alloraIcon,
   [ChainID.APTOS]: aptosIcon,
   [ChainID.ARBITRUM]: arbitrumIcon,
   [ChainID.ARBITRUM_TESTNET]: arbitrumIcon,
@@ -300,6 +306,10 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   ...chainIcons,
+  [ChainID.ALLORA]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET_REST]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET_RPC]: alloraIconDark,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
   [ChainID.BERACHAIN]: berachainIconDark,
   [ChainID.BERACHAIN_TESTNET]: berachainIconDark,
