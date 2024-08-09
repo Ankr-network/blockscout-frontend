@@ -14,7 +14,7 @@ export const referralProgramTranslation = {
     },
     unbranded: {
       activationAcceptedMessage:
-        'You can claim a 20% bonus on the first deposit within 30 days of activation.',
+        'You can claim a 20% bonus on the first deposit.',
       activationAcceptedTitle: 'Referral activated',
       activationRejectedErrorTitle: 'Referral: activation rejected',
       activationRejectedErrorMessage:

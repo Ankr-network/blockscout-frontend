@@ -8,7 +8,7 @@ export const successDialogTranslation = {
       title: '{blockchainName} Promo plan: activated',
     },
     unbranded: {
-      description: `You've successfully activated the referral. You can claim a 20% bonus on the first deposit within 30 days of activation.`,
+      description: `You've successfully activated the referral. You can claim a 20% bonus on the first deposit.`,
       doneButton: 'Done',
       title: 'Referral activated',
     },
