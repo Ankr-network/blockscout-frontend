@@ -16,6 +16,8 @@ export enum RequestType {
 // Please keep in mind that if the name of an endpoint has changed,
 // this list should also be updated
 const endpointsSerializedByParams = [
+  'checkDealDeposit',
+  'checkPAYGDeposit',
   'estimateAllowanceFeeAnkr',
   'estimateAllowanceFeeUsdc',
   'estimateAllowanceFeeUsdt',

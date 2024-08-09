@@ -6,10 +6,10 @@ import { getDealChargingModelData } from 'domains/account/utils/getDealChargingM
 import { selectAddress } from 'domains/auth/store';
 import {
   selectBundlePaymentPlans,
-  selectHasActiveDeal,
   selectMyBundlesStatus,
 } from 'domains/account/store/selectors';
-import { selectIsPAYGDepositMade } from 'domains/account/actions/checkPAYGDeposit';
+import { selectIsDealDepositMadeState } from 'domains/account/actions/checkDealDeposit';
+import { selectIsPAYGDepositMadeState } from 'domains/account/actions/checkPAYGDeposit';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
 import { getReferralProgram } from '../utils/getReferralProgram';
@@ -88,10 +88,34 @@ export const selectHasPromoBundle = createSelector(
 
 export const selectHasReferralBonusBanner = createSelector(
   selectReferrer,
-  selectIsPAYGDepositMade,
-  selectHasActiveDeal,
-  (referrer, isPAYGDepositMade = false, isDealDepositMade) => {
+  selectIsPAYGDepositMadeState,
+  selectIsDealDepositMadeState,
+  (
+    referrer,
+    {
+      data: isPAYGDepositMade,
+      isLoading: isPAYGDepositMadeLoading,
+      isUninitialized: isPAYGDepositMadeUninitialized,
+    },
+    {
+      data: isDealDepositMade,
+      isLoading: isDealDepositMadeLoading,
+      isUninitialized: isDealDepositMadeUninitialized,
+    },
+  ) => {
     const hasReferrer = Boolean(referrer);
+
+    if (!hasReferrer) {
+      return false;
+    }
+
+    const isUninitialized =
+      isPAYGDepositMadeUninitialized || isDealDepositMadeUninitialized;
+    const isLoading = isPAYGDepositMadeLoading || isDealDepositMadeLoading;
+
+    if (isUninitialized || isLoading) {
+      return false;
+    }
 
     const isDepositMade = isPAYGDepositMade || isDealDepositMade;
 

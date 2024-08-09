@@ -6,7 +6,7 @@ import { selectAddress } from 'domains/auth/store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import { web3Api } from 'store/queries';
 
-export interface ICheckPAYGDepositParams {
+export interface ICheckDealDepositParams {
   from: number;
 }
 
@@ -14,12 +14,12 @@ export interface ICheckPAYGDepositParams {
 // in packages/protocol/src/store/queries/index.ts file.
 // If the name has changed it should be refelected there as well.
 export const {
-  endpoints: { checkPAYGDeposit },
-  useCheckPAYGDepositQuery,
-  useLazyCheckPAYGDepositQuery,
+  endpoints: { checkDealDeposit },
+  useCheckDealDepositQuery,
+  useLazyCheckDealDepositQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    checkPAYGDeposit: build.query<boolean, ICheckPAYGDepositParams>({
+    checkDealDeposit: build.query<boolean, ICheckDealDepositParams>({
       queryFn: createNotifyingQueryFn(async ({ from }, { getState }) => {
         const state = getState() as RootState;
 
@@ -32,16 +32,13 @@ export const {
             ? undefined
             : groupConfig?.selectedGroupAddress;
 
-        const history = await api.getPaymentHistory({
+        const { bundles } = await api.getMyBundlesPaymentsHistory({
           from,
           group,
           limit: 1,
-          order: 'desc',
-          order_by: 'timestamp',
-          type: ['TRANSACTION_TYPE_DEPOSIT'],
         });
 
-        const isDepositMade = (history.transactions?.length ?? 0) > 0;
+        const isDepositMade = (bundles?.length ?? 0) > 0;
 
         return { data: isDepositMade };
       }),
@@ -50,7 +47,7 @@ export const {
 });
 
 export const {
-  selectDataCachedByParams: selectIsPAYGDepositMade,
-  selectLoadingCachedByParams: selectIsPAYGDepositMadeLoading,
-  selectStateCachedByParams: selectIsPAYGDepositMadeState,
-} = createQuerySelectors({ endpoint: checkPAYGDeposit });
+  selectDataCachedByParams: selectIsDealDepositMade,
+  selectLoadingCachedByParams: selectIsDealDepositMadeLoading,
+  selectStateCachedByParams: selectIsDealDepositMadeState,
+} = createQuerySelectors({ endpoint: checkDealDeposit });
