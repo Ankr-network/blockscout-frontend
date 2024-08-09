@@ -11,4 +11,12 @@ export const useAssetsDialogStyles = makeStyles()(theme => ({
       color: theme.palette.text.secondary,
     },
   },
+  link: {
+    '&&': {
+      color: theme.palette.link.main,
+
+      textDecoration: 'underline',
+      textUnderlineOffset: 3,
+    },
+  },
 }));

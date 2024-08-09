@@ -2060,7 +2060,7 @@
         "assets-balance-button": "Balances",
         "assets-balance-dialog": {
           "title": "Balances",
-          "description": "USD/Crypto payments are deposited as API credits into your account balance, which is divided into groups — Pay-as-you-go, Deal, Package, and Promo — based on the charging model for API calls."
+          "description": "USD/Crypto payments are deposited as API credits into your account balance, which is divided into groups — Pay-as-you-go, Deal, Package, and Promo — based on the charging model for API calls. "
         }
       },
       "plan-widget": {
