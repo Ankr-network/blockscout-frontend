@@ -3,24 +3,24 @@ import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
 
 import {
-  selectIsDepositMade,
-  selectIsDepositMadeLoading,
-  useCheckDepositQuery,
-  useLazyCheckDepositQuery,
-} from '../actions/checkDeposit';
+  selectIsPAYGDepositMade,
+  selectIsPAYGDepositMadeLoading,
+  useCheckPAYGDepositQuery,
+  useLazyCheckPAYGDepositQuery,
+} from '../actions/checkPAYGDeposit';
 
 export interface IUseCheckDeposit extends IUseQueryProps {}
 
 export const useCheckDeposit = ({
   skipFetching = false,
 }: IUseCheckDeposit = {}) => {
-  useCheckDepositQuery(getQueryParams({ params: undefined, skipFetching }));
+  useCheckPAYGDepositQuery(getQueryParams({ params: undefined, skipFetching }));
 
-  const [handleCheckDeposit] = useLazyCheckDepositQuery();
+  const [handleCheckPAYGDeposit] = useLazyCheckPAYGDepositQuery();
 
-  const isDepositMade = useAppSelector(selectIsDepositMade);
+  const isPAYGDepositMade = useAppSelector(selectIsPAYGDepositMade);
 
-  const isLoading = useAppSelector(selectIsDepositMadeLoading);
+  const isLoading = useAppSelector(selectIsPAYGDepositMadeLoading);
 
-  return { handleCheckDeposit, isDepositMade, isLoading };
+  return { handleCheckPAYGDeposit, isPAYGDepositMade, isLoading };
 };

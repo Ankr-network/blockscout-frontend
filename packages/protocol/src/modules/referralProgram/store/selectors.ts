@@ -6,9 +6,10 @@ import { getDealChargingModelData } from 'domains/account/utils/getDealChargingM
 import { selectAddress } from 'domains/auth/store';
 import {
   selectBundlePaymentPlans,
+  selectHasActiveDeal,
   selectMyBundlesStatus,
 } from 'domains/account/store/selectors';
-import { selectIsDepositMade } from 'domains/account/actions/checkDeposit';
+import { selectIsPAYGDepositMade } from 'domains/account/actions/checkPAYGDeposit';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
 import { getReferralProgram } from '../utils/getReferralProgram';
@@ -87,9 +88,12 @@ export const selectHasPromoBundle = createSelector(
 
 export const selectHasReferralBonusBanner = createSelector(
   selectReferrer,
-  selectIsDepositMade,
-  (referrer, isDepositMade = false) => {
+  selectIsPAYGDepositMade,
+  selectHasActiveDeal,
+  (referrer, isPAYGDepositMade = false, isDealDepositMade) => {
     const hasReferrer = Boolean(referrer);
+
+    const isDepositMade = isPAYGDepositMade || isDealDepositMade;
 
     return hasReferrer && !isDepositMade;
   },

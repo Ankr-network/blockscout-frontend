@@ -6,23 +6,15 @@ import { selectAddress } from 'domains/auth/store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import { web3Api } from 'store/queries';
 
-import { selectHasActiveDeal } from '../store/selectors';
-
 export const {
-  endpoints: { checkDeposit },
-  useCheckDepositQuery,
-  useLazyCheckDepositQuery,
+  endpoints: { checkPAYGDeposit },
+  useCheckPAYGDepositQuery,
+  useLazyCheckPAYGDepositQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    checkDeposit: build.query<boolean, void>({
+    checkPAYGDeposit: build.query<boolean, void>({
       queryFn: createNotifyingQueryFn(async (_, { getState }) => {
         const state = getState() as RootState;
-
-        const hasActiveDeal = selectHasActiveDeal(state);
-
-        if (hasActiveDeal) {
-          return { data: hasActiveDeal };
-        }
 
         const api = MultiService.getService().getAccountingGateway();
 
@@ -43,18 +35,14 @@ export const {
 
         const isDepositMade = (history.transactions?.length ?? 0) > 0;
 
-        if (isDepositMade) {
-          return { data: isDepositMade };
-        }
-
-        return { data: false };
+        return { data: isDepositMade };
       }),
     }),
   }),
 });
 
 export const {
-  selectData: selectIsDepositMade,
-  selectLoading: selectIsDepositMadeLoading,
-  selectState: selectIsDepositMadeState,
-} = createQuerySelectors({ endpoint: checkDeposit });
+  selectData: selectIsPAYGDepositMade,
+  selectLoading: selectIsPAYGDepositMadeLoading,
+  selectState: selectIsPAYGDepositMadeState,
+} = createQuerySelectors({ endpoint: checkPAYGDeposit });
