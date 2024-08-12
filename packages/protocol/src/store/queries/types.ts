@@ -56,6 +56,7 @@ export type TwoFAQueryFnParams<Params> = Params extends void
 
 export interface IUseQueryProps {
   skipFetching?: boolean;
+  pollingInterval?: number;
 }
 
 export interface IHandledQueryError {

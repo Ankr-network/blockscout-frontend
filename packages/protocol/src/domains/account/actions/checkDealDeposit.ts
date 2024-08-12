@@ -6,6 +6,8 @@ import { selectAddress } from 'domains/auth/store';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import { web3Api } from 'store/queries';
 
+import { filterBonusBundles } from '../utils/filterBonusBundles';
+
 export interface ICheckDealDepositParams {
   from: number;
 }
@@ -35,10 +37,10 @@ export const {
         const { bundles } = await api.getMyBundlesPaymentsHistory({
           from,
           group,
-          limit: 1,
+          limit: 2, // taking 2 to filter possible referral bonus bundle
         });
 
-        const isDepositMade = (bundles?.length ?? 0) > 0;
+        const isDepositMade = filterBonusBundles(bundles).length > 0;
 
         return { data: isDepositMade };
       }),

@@ -15,10 +15,13 @@ export interface IUseCheckPAYGDeposit
     IUseQueryProps {}
 
 export const useCheckDealDeposit = ({
+  pollingInterval,
   skipFetching = false,
   ...params
 }: IUseCheckPAYGDeposit) => {
-  useCheckDealDepositQuery(getQueryParams({ params, skipFetching }));
+  useCheckDealDepositQuery(getQueryParams({ params, skipFetching }), {
+    pollingInterval,
+  });
 
   const [handleCheckDealDeposit] = useLazyCheckDealDepositQuery();
 
