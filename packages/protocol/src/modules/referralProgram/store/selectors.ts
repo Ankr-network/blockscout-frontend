@@ -24,18 +24,24 @@ export const selectReferralCode = createSelector(
   state => state.referralCode,
 );
 
-export const selectIsAccountEligible = createSelector(
-  selectPersonalPremiumStatus,
+export const selectIsPresonalAccount = createSelector(
   selectAddress,
   selectUserGroupConfigByAddress,
-  (premiumStatus, authAddress, groupConfig) => {
+  (authAddress, groupConfig) => {
     const groupAddress = groupConfig.selectedGroupAddress;
 
     const isPersonalAccount =
       !groupAddress || authAddress.toLowerCase() === groupAddress.toLowerCase();
-
-    return isPersonalAccount && Boolean(premiumStatus?.isFreemium);
+    
+    return isPersonalAccount;
   },
+);
+
+export const selectIsAccountEligible = createSelector(
+  selectPersonalPremiumStatus,
+  selectIsPresonalAccount,
+  (premiumStatus, isPersonalAccount) =>
+    isPersonalAccount && Boolean(premiumStatus?.isFreemium),
 );
 
 export const selectPromoBundle = createSelector(
@@ -88,10 +94,12 @@ export const selectHasPromoBundle = createSelector(
 
 export const selectHasReferralBonusBanner = createSelector(
   selectReferrer,
+  selectIsPresonalAccount,
   selectIsPAYGDepositMadeState,
   selectIsDealDepositMadeState,
   (
     referrer,
+    isPersonalAccount,
     {
       data: isPAYGDepositMade,
       isLoading: isPAYGDepositMadeLoading,
@@ -102,10 +110,11 @@ export const selectHasReferralBonusBanner = createSelector(
       isLoading: isDealDepositMadeLoading,
       isUninitialized: isDealDepositMadeUninitialized,
     },
+    // eslint-disable-next-line max-params
   ) => {
     const hasReferrer = Boolean(referrer);
 
-    if (!hasReferrer) {
+    if (!hasReferrer || !isPersonalAccount) {
       return false;
     }
 

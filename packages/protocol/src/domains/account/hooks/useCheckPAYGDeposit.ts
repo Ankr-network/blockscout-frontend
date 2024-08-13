@@ -1,6 +1,9 @@
+import { useMemo } from 'react';
+
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import {
   ICheckPAYGDepositParams,
@@ -17,8 +20,12 @@ export interface IUseCheckPAYGDeposit
 export const useCheckPAYGDeposit = ({
   pollingInterval,
   skipFetching = false,
-  ...params
+  ...rest
 }: IUseCheckPAYGDeposit) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const params = useMemo(() => ({ ...rest, group }), [group, rest])
+
   useCheckPAYGDepositQuery(getQueryParams({ params, skipFetching }), {
     pollingInterval,
   });

@@ -1,14 +1,13 @@
+import { IApiUserGroupParams } from 'multirpc-sdk';
+
 import { MultiService } from 'modules/api/MultiService';
-import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
-import { selectAddress } from 'domains/auth/store';
-import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 import { web3Api } from 'store/queries';
 
 import { filterBonusBundles } from '../utils/filterBonusBundles';
 
-export interface ICheckDealDepositParams {
+export interface ICheckDealDepositParams extends IApiUserGroupParams {
   from: number;
 }
 
@@ -22,17 +21,8 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     checkDealDeposit: build.query<boolean, ICheckDealDepositParams>({
-      queryFn: createNotifyingQueryFn(async ({ from }, { getState }) => {
-        const state = getState() as RootState;
-
+      queryFn: createNotifyingQueryFn(async ({ from, group }) => {
         const api = MultiService.getService().getAccountingGateway();
-
-        const authAddress = selectAddress(state);
-        const groupConfig = selectUserGroupConfigByAddress(state);
-        const group =
-          authAddress === groupConfig?.selectedGroupAddress
-            ? undefined
-            : groupConfig?.selectedGroupAddress;
 
         const { bundles } = await api.getMyBundlesPaymentsHistory({
           from,
