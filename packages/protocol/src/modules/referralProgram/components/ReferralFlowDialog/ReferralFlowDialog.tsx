@@ -22,7 +22,12 @@ export const ReferralFlowDialog = ({
   const title =
     externalTitle ||
     (banner && (
-      <img alt="Top banner" className={classes.topBanner} src={banner} />
+      <img
+        alt="Top banner"
+        className={classes.topBanner}
+        height="280"
+        src={banner}
+      />
     ));
 
   return (
