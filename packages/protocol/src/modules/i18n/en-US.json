@@ -159,6 +159,9 @@
       "auto-agreement-message": "By continuing you agree to our <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>."
     }
   },
+  "referral": {
+    "breadcrumbs": "Referral"
+  },
   "projects": {
     "onboarding": {
       "stepper": "{currentStepNumber} of {stepsCount}",
