@@ -10,6 +10,8 @@ import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
+import { useHasReferralCodeButton } from './hooks/useHasReferralCodeButton';
+
 interface HeaderContentProps {
   type?: Header;
 }
@@ -26,10 +28,13 @@ export const HeaderContent = ({
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const { referralCodeButtonProps } = useReferralCodeButton();
+  const { hasReferralCodeButton } = useHasReferralCodeButton();
 
   return (
     <>
-      {isLoggedIn && <ReferralCodeButton {...referralCodeButtonProps} />}
+      {hasReferralCodeButton && (
+        <ReferralCodeButton {...referralCodeButtonProps} />
+      )}
       {(isDefaultType || isSidebarType) && <UserGroupDialog />}
 
       {!isMobileType && isLoggedIn && !isEnterpriseClient && (
