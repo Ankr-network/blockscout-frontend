@@ -1,11 +1,12 @@
-import { NavBarPricing, NavBarBilling, NavBarSettings } from '@ankr.com/ui';
+import { NavBarPricing, NavBarBilling, NavBarSettings, ReferralIcon } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import { referralRoutesConfig } from 'domains/referral/routes';
 
 import { ISecondMenuItemsParams } from '../types';
 
@@ -17,18 +18,18 @@ export const getSecondMenuItems = ({
   const items: NavigationItem[] = [
     {
       StartIcon: NavBarPricing,
+      blockName: BlockWithPermission.CommonMenuItem,
       href: PricingRoutesConfig.pricing.generatePath(),
       isDisabled: isEnterpriseClient,
       label: t('main-navigation.pricing'),
-      blockName: BlockWithPermission.CommonMenuItem,
     },
     {
       StartIcon: NavBarBilling,
+      blockName: BlockWithPermission.Billing,
       href: AccountRoutesConfig.accountDetails.generatePath(),
       isDisabled: isEnterpriseClient,
       isHidden: !isLoggedIn,
       label: t('main-navigation.billing'),
-      blockName: BlockWithPermission.Billing,
       onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {
@@ -39,6 +40,13 @@ export const getSecondMenuItems = ({
       label: t('main-navigation.settings'),
       blockName: BlockWithPermission.CommonMenuItem,
       onAccessDeniedClick: onOpenAccessDeniedDialog,
+    },
+    {
+      StartIcon: ReferralIcon,
+      blockName: BlockWithPermission.CommonMenuItem,
+      href: referralRoutesConfig.referral.generatePath(),
+      isHidden: !isLoggedIn,
+      label: t('main-navigation.referral'),
     },
   ];
 

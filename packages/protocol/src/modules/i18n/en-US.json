@@ -82,7 +82,8 @@
     "billing": "Billing",
     "pricing": "Pricing",
     "settings": "Settings",
-    "docs": "Docs"
+    "docs": "Docs",
+    "referral": "Referral"
   },
   "footer": {
     "all-rights": "© {year} Ankr. All rights reserved.",
