@@ -18,7 +18,6 @@ import { MultiChainBenefits } from 'modules/common/components/GetStartedSection/
 import { AdvancedApiInfoTabs } from 'domains/chains/screens/ChainItem/components/ChainItemSections/components/AdvancedApiInfoTabs';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
 
-import { PrivateChainRequestsWidget } from '../PrivateChainRequestsWidget';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 
 export interface ChainItemProps {
@@ -70,12 +69,6 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
       <ChainItemHeader headerContent={headerContent} />
-      <PrivateChainRequestsWidget
-        chain={chain}
-        chainType={chainType}
-        chainSubType={chainSubType}
-        group={group}
-      />
       {isMultichain(chain.id) && (
         <>
           <AdvancedApiInfoTabs />
