@@ -1,4 +1,5 @@
 import { Typography } from '@mui/material';
+import { Fragment } from 'react';
 
 import { ChainID } from 'modules/chains/types';
 import { FLARE_TESTNETS_GROUPS_LIST } from 'modules/endpoints/types';
@@ -76,7 +77,7 @@ export const MainEndpoints = ({
               hasConnectWalletMessage={hasConnectWalletMessage}
               key={url}
               onCopy={onCopyEndpoint}
-              url={url!}
+              url={url}
             />
           </div>
         ))}
@@ -88,19 +89,18 @@ export const MainEndpoints = ({
     <div className={classes.root}>
       {endpointsHeader}
       {flattenURLs.map(url => (
-        <>
+        <Fragment key={url}>
           <Endpoint
             hasConnectWalletMessage={hasConnectWalletMessage}
-            key={url}
             onCopy={onCopyEndpoint}
-            url={url!}
+            url={url}
           />
           {!isFreePremium && !hasPrivateAccess && (
             <Typography variant="body3" color="textSecondary">
               {t('chain-item.get-started.endpoints.rate-limits')}
             </Typography>
           )}
-        </>
+        </Fragment>
       ))}
       {isFreePremium && !isFreemiumLabelHidden && (
         <Typography variant="body3" color="textSecondary">

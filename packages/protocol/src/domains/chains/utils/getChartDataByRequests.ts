@@ -1,5 +1,8 @@
+import { PrivateStatTimestamp } from 'multirpc-sdk';
+
 import { IChartData } from 'modules/common/components/Chart';
 import { Timeframe } from 'modules/chains/types';
+import { getEmptyChartData } from 'modules/common/components/RequestsChart/utils/getEmptyChartDataByTimeframe';
 
 const { Day, Hour, Month, Week } = Timeframe;
 
@@ -19,16 +22,24 @@ const offsetsMap: Record<Timeframe, number> = {
 
 export interface GetChartDataByRequestsParams {
   isLoggedIn?: boolean;
-  requests?: Record<string, number>;
+  requests?: Record<PrivateStatTimestamp, number>;
+  shouldShowZeroValues?: boolean;
   timeframe: Timeframe;
 }
 
 export const getChartDataByRequests = ({
   isLoggedIn,
   requests,
+  shouldShowZeroValues,
   timeframe,
 }: GetChartDataByRequestsParams) => {
-  if (!requests) return [];
+  if (!requests) {
+    if (shouldShowZeroValues) {
+      return getEmptyChartData(timeframe).data;
+    }
+
+    return [];
+  }
 
   const rows = Object.entries(requests);
 

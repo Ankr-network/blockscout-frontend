@@ -17,6 +17,7 @@ export interface GetStartedSectionProps extends ConnectionSnippetProps {
   publicUrl: string;
   hasRequestComposer: boolean;
   hasWssAccess?: boolean;
+  isCodeSnippetHidden?: boolean;
 }
 
 export const GetStartedSection = ({
@@ -25,6 +26,7 @@ export const GetStartedSection = ({
   hasRequestComposer,
   hasWssAccess,
   httpCode,
+  isCodeSnippetHidden,
   publicUrl,
   setTechnology,
   technology,
@@ -38,7 +40,7 @@ export const GetStartedSection = ({
 
   return (
     <div className={classes.getStartedSection}>
-      {!isChainProtocolSwitchEnabled && isEvmBased && (
+      {!isChainProtocolSwitchEnabled && isEvmBased && !isCodeSnippetHidden && (
         <ConnectionSnippet
           technology={technology}
           setTechnology={setTechnology}

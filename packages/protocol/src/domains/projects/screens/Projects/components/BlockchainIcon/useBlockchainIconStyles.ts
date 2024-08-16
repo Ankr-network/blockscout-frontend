@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { ChainID } from 'modules/chains/types';
+
 export const useBlockchainIconStyles = makeStyles()(theme => ({
   root: {
     display: 'flex',
@@ -14,8 +16,10 @@ export const useBlockchainIconStyles = makeStyles()(theme => ({
     width: theme.spacing(8),
     height: theme.spacing(8),
     marginLeft: theme.spacing(-2),
-    backgroundColor: theme.palette.common.white,
     borderRadius: '50%',
+  },
+  [ChainID.MULTICHAIN]: {
+    backgroundColor: theme.palette.common.white,
   },
   more: {
     color: theme.palette.text.secondary,

@@ -9,4 +9,5 @@ export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.KAVA,
   ChainID.STELLAR,
   ChainID.AVAIL,
+  ChainID.ALLORA,
 ];

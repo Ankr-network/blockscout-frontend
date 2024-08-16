@@ -10,20 +10,28 @@ import {
 
 import { useAdvancedApiLinksStyles } from './useAdvancedApiLinksStyles';
 
-export const AdvancedApiLinks = () => {
+interface IAdvancedApiLinksProps {
+  hasSupportedChainsLink?: boolean;
+}
+
+export const AdvancedApiLinks = ({
+  hasSupportedChainsLink,
+}: IAdvancedApiLinksProps) => {
   const { classes } = useAdvancedApiLinksStyles();
 
   return (
     <div className={classes.advancedApiLinksRoot}>
       <div className={classes.links}>
-        <Link
-          target="_blank"
-          variant="body3"
-          className={classes.link}
-          href={AAPI_CHAINS_LINK}
-        >
-          {t('advanced-api.chain-overview.supported-chains')}
-        </Link>
+        {hasSupportedChainsLink && (
+          <Link
+            target="_blank"
+            variant="body3"
+            className={classes.link}
+            href={AAPI_CHAINS_LINK}
+          >
+            {t('advanced-api.chain-overview.supported-chains')}
+          </Link>
+        )}
         <Link
           target="_blank"
           variant="body3"

@@ -32,7 +32,7 @@ export const useAvailableSections = ({
   hasWssAccess,
   publicUrl,
 }: UseSectionsParams) => {
-  const { id: chainId } = chain;
+  const { id: chainId, premiumOnly: isPremiumOnly } = chain;
   const { timeframe, timeframeTabs } = useTimeframe({
     initialTimeframe: hasPrivateAccess ? Timeframe.Day : Timeframe.Month,
   });
@@ -45,6 +45,7 @@ export const useAvailableSections = ({
     group,
     publicUrl,
     hasWssAccess,
+    isPremiumOnly,
   });
 
   const debugMenuSection = useDebugMenuSection({

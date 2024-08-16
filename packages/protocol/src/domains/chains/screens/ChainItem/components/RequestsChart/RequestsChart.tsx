@@ -1,7 +1,7 @@
 import { RequestsChart as RequestChartBase } from 'modules/common/components/RequestsChart';
+import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 
 import { RequestsChartProps } from './types';
-import { useChartData } from './hooks/useChartData';
 
 export const RequestsChart = ({
   isConnecting,
@@ -11,7 +11,11 @@ export const RequestsChart = ({
   timeframe,
   totalRequestsHistory,
 }: RequestsChartProps) => {
-  const data = useChartData({ isLoggedIn, timeframe, totalRequestsHistory });
+  const data = getChartDataByRequests({
+    isLoggedIn,
+    timeframe,
+    requests: totalRequestsHistory,
+  });
 
   return (
     <RequestChartBase

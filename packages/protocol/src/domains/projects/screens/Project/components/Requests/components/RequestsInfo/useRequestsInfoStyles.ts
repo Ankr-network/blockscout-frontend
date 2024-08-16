@@ -24,8 +24,13 @@ export const useRequestsInfoStyles = makeStyles<Sign>()(
         gap: theme.spacing(0.5),
       },
 
-      count: {
+      requestsCountValue: {
         letterSpacing: '-0.84px',
+        display: 'flex',
+      },
+
+      requestsLabel: {
+        paddingLeft: theme.spacing(2),
       },
 
       percent: {
@@ -35,6 +40,7 @@ export const useRequestsInfoStyles = makeStyles<Sign>()(
 
       requestsChart: {
         marginRight: theme.spacing(10),
+        width: '50%',
       },
 
       disabled: {

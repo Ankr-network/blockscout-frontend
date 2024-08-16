@@ -36,13 +36,13 @@ export const ChainItemHeaderExtraContent = ({
   isEnterprise,
   onOpenCodeExample,
 }: IChainItemHeaderExtraContentProps) => {
-  const { isLoggedIn } = useAuth();
+  const { hasPremium, isLoggedIn } = useAuth();
 
   const { keys, t } = useTranslation(chainItemHeaderExtraContentTranslation);
 
   const { classes } = useChainItemHeaderExtraContentStyles();
 
-  const { id } = chain;
+  const { id, premiumOnly } = chain;
 
   const allSubChainIds = useAppSelector(state =>
     selectSubChainIdsByChainId(state, id),
@@ -69,7 +69,8 @@ export const ChainItemHeaderExtraContent = ({
           className={classes.codeExampleButton}
           disabled={
             !hasEvmCompatibleSubChains ||
-            typeof onOpenCodeExample === 'undefined'
+            typeof onOpenCodeExample === 'undefined' ||
+            (premiumOnly && !hasPremium)
           }
         >
           <Code />

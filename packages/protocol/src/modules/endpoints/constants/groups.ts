@@ -36,6 +36,7 @@ export const tendermintRpcChains = [
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
   ChainID.SEI_RPC,
   ChainID.SEI_RPC_TESTNET,
+  ChainID.ALLORA_TESTNET_RPC,
 ];
 
 export const kavaTendermintRpcChains = [
@@ -53,6 +54,7 @@ export const tendermintRestChains = [
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
   ChainID.SEI_REST,
   ChainID.SEI_REST_TESTNET,
+  ChainID.ALLORA_TESTNET_REST,
 ];
 
 export const chainGroups: ChainGroup[] = [

@@ -21,12 +21,14 @@ export interface GetStartedSectionParams {
   group: EndpointGroup;
   publicUrl: string;
   hasWssAccess?: boolean;
+  isPremiumOnly?: boolean;
 }
 
 export const useGetStartedSection = ({
   chainId,
   getSelectHandler,
   group,
+  isPremiumOnly,
   publicUrl,
 }: GetStartedSectionParams) => {
   const { hasPremium, hasPrivateAccess } = useAuth();
@@ -66,6 +68,7 @@ export const useGetStartedSection = ({
           httpCode={httpCode}
           wssCode={wssCode}
           hasWssAccess={hasPremium}
+          isCodeSnippetHidden={isPremiumOnly && !hasPremium}
         />
       ),
       onSelect: getSelectHandler(SectionID.GetStarted),
@@ -86,7 +89,8 @@ export const useGetStartedSection = ({
     setTechnology,
     httpCode,
     wssCode,
-    getSelectHandler,
     hasPremium,
+    isPremiumOnly,
+    getSelectHandler,
   ]);
 };

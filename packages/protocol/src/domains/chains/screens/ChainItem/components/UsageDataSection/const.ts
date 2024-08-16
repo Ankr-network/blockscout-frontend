@@ -5,6 +5,9 @@ export const POLL_INTERVAL = 60_000;
 type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 
 const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
+  [ChainID.ALLORA_TESTNET_REST]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_RPC]: ChainID.ALLORA_TESTNET,
+
   [ChainID.SECRET_REST]: ChainID.SECRET,
   [ChainID.SECRET_RPC]: ChainID.SECRET,
   [ChainID.SECRET_COSMOS]: ChainID.SECRET,
@@ -72,6 +75,9 @@ export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
 
 // chain ids for private stats differ from regular chain ids
 const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
+  [ChainID.ALLORA_TESTNET_REST]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_RPC]: ChainID.ALLORA_TESTNET,
+
   [ChainID.SECRET_REST]: ChainID.SECRET,
   [ChainID.SECRET_RPC]: ChainID.SECRET,
   [ChainID.SECRET_COSMOS_GRPC_WEB]: ChainID.SECRET_COSMOS,

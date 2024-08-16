@@ -49,6 +49,7 @@ export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
   }, [top10Data?.ips]);
 
   return {
+    top10Data,
     countries,
     ipRequests,
   };
