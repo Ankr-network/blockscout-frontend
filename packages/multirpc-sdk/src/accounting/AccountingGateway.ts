@@ -136,6 +136,12 @@ import {
 import {
   IApplyReferralCodeParams,
   IApplyReferralCodeResult,
+  ICreateReferralCodeParams,
+  ICreateReferralCodeResult,
+  IGetReferralCodesParams,
+  IGetReferralCodesResult,
+  IGetReferralLinkByCodesResult,
+  IGetReferralLinksByCodesParams,
   IGetReferrerParams,
   IGetReferrerResponse,
 } from './referralProgram';
@@ -1141,5 +1147,39 @@ export class AccountingGateway {
     );
 
     return data.referrer;
+  }
+
+  async createReferralCode(params?: ICreateReferralCodeParams) {
+    const { data } = await this.api.post<ICreateReferralCodeResult>(
+      '/api/v1/auth/referral/create',
+      { params },
+    );
+
+    return data.referralCode;
+  }
+
+  async getReferralCodes(params?: IGetReferralCodesParams) {
+    const { data } = await this.api.get<IGetReferralCodesResult>(
+      '/api/v1/auth/referral/codes',
+      { params },
+    );
+
+    return data.referralCodes;
+  }
+
+  async getReferralLinksByCodes({
+    codes: code,
+    group,
+  }: IGetReferralLinksByCodesParams) {
+    const { data } = await this.api.get<IGetReferralLinkByCodesResult>(
+      '/api/v1/auth/referral/urlsWithCode',
+      {
+        params: { code, group },
+        paramsSerializer: (params: IGetReferralLinksByCodesParams) =>
+          stringify(params, { indices: false }),
+      },
+    );
+
+    return data.referral_urls;
   }
 }

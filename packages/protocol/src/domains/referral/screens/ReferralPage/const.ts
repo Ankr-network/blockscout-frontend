@@ -1,0 +1,1 @@
+export const MAX_REFERRAL_PAGE_WIDTH = 1230;

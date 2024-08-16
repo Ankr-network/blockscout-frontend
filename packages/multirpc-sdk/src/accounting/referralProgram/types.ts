@@ -29,3 +29,28 @@ export interface IReferrer {
 export interface IGetReferrerResponse {
   referrer: IReferrer;
 }
+
+export interface ICreateReferralCodeParams extends IApiUserGroupParams {}
+
+export interface ICreateReferralCodeResult {
+  referralCode: string;
+}
+
+export interface IGetReferralCodesParams extends IApiUserGroupParams {}
+
+export interface IGetReferralCodesResult {
+  referralCodes: string[];
+}
+
+export interface IGetReferralLinksByCodesParams extends IApiUserGroupParams {
+  codes: string[];
+}
+
+type ReferralCode = string;
+type ReferralLink = string;
+
+export interface IReferralLinks extends Record<ReferralCode, ReferralLink> {}
+
+export interface IGetReferralLinkByCodesResult {
+  referral_urls: IReferralLinks;
+}
