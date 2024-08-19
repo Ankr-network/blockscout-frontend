@@ -24,6 +24,8 @@ export const useValieBoxStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(1, 2, 1, 3),
+
+      borderRadius: 12,
     },
   },
 }));

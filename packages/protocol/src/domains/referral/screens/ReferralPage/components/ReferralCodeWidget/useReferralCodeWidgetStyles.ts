@@ -12,8 +12,6 @@ export const useReferralCodeWidgetStyles = makeStyles()(theme => ({
     height: 236,
     padding: theme.spacing(8),
 
-    borderRadius: 20,
-
     backgroundColor: alpha(theme.palette.background.default, 0.8),
     backdropFilter: 'blur(15px)',
 
@@ -22,9 +20,6 @@ export const useReferralCodeWidgetStyles = makeStyles()(theme => ({
 
       width: '100%',
       height: 'auto',
-      padding: theme.spacing(4),
-
-      borderRadius: 12,
 
       backgroundColor: theme.palette.background.paper,
       backdropFilter: 'none',

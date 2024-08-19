@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { ValueBox } from './components/ValueBox';
+import { Widget } from '../Widget';
 import { referralCodeWidgetTranslation } from './translation';
 import { useReferralCodeWidgetStyles } from './useReferralCodeWidgetStyles';
 
@@ -27,7 +27,7 @@ export const ReferralCodeWidget = ({
   const { keys, t } = useTranslation(referralCodeWidgetTranslation);
 
   return (
-    <Box className={cx(classes.root, className)}>
+    <Widget className={cx(classes.root, className)}>
       <Placeholder hasPlaceholder={isLoading} placeholder={<OverlaySpinner />}>
         <ValueBox
           copyValue={link}
@@ -36,6 +36,6 @@ export const ReferralCodeWidget = ({
         />
         <ValueBox title={t(keys.referralCodeTitle)} value={code} />
       </Placeholder>
-    </Box>
+    </Widget>
   );
 };
