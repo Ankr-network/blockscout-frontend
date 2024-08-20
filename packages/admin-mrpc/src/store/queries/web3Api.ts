@@ -2,6 +2,9 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const AuthCacheTags = {
   emailData: 'emailData',
+  twoFAData: 'twoFAData',
+  referralCoderData: 'referralCoderData',
+  userBundlesData: 'userBundlesData',
 };
 
 export const web3Api = createApi({

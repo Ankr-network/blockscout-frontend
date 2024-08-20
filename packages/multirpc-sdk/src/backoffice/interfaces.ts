@@ -65,6 +65,14 @@ import {
   IAddressBindingsResponse,
   IAddressBindingsRequest,
   IGetExternalEmailResponse,
+  ITwoFAStatusResponse,
+  IBundlesResponse,
+  IRevokeBundleResponseItem,
+  IReferralCodeItem,
+  INewReferralCodeResponse,
+  INewReferralCodeRequest,
+  IDeleteReferralCodeResponse,
+  IBundlesStatusesResponse,
 } from './types';
 import { IBlockchainEntity } from '../common';
 
@@ -192,4 +200,20 @@ export interface IBackofficeGateway {
   getAddressBindings(params: IAddressBindingsRequest): Promise<IAddressBindingsResponse>;
 
   getUsetEmail(): Promise<IGetExternalEmailResponse>;
+
+  disableTwoFA(address: string): Promise<void>;
+
+  getTwoFAStatus(address: string): Promise<ITwoFAStatusResponse>;
+
+  getUserBundles(address: string, statuses?: string[]): Promise<IBundlesResponse>;
+
+  getUserBundlesStatuses(address: string): Promise<IBundlesStatusesResponse>;
+
+  revokeUserBundle(address: string, paymentId: string): Promise<IRevokeBundleResponseItem[]>;
+
+  getUserReferralCodes(address?: string, include_bonus?: boolean, include_deleted?: boolean): Promise<IReferralCodeItem[]>;
+
+  createNewReferralCode(params?: INewReferralCodeRequest): Promise<INewReferralCodeResponse>;
+
+  deleteReferralCode(code: string): Promise<IDeleteReferralCodeResponse>;
 }

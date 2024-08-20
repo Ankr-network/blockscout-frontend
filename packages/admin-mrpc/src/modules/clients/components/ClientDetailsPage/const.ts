@@ -12,6 +12,8 @@ export const timeframeTextMap: Record<
   [PrivateStatsInterval.MONTH]: 'last 30 days',
   [CustomRange.current]: 'current month',
   [CustomRange.previous]: 'previous month',
+  [PrivateStatsInterval.TWO_HOURS]: '2 hours',
+  [PrivateStatsInterval.TWO_DAYS]: '2 days',
 };
 
 export const NOT_FOUND_TEXT = 'Not found';

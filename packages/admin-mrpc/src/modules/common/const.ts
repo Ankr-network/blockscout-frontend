@@ -12,3 +12,5 @@ export const AUTH_REDIRECT_URL = `${window.origin}/clients`;
 // because there is a whitelist on backend which does not accept localhost
 // then after login with google stage url should be changed to localhost:3000 manually in order to login in local environment
 // export const AUTH_REDIRECT_URL = `https://multirpc-backoffice-stage.dccn.ankr.com/clients`;
+
+export const ACTION_TEN_MINUTES_CACHE = 10_000;
