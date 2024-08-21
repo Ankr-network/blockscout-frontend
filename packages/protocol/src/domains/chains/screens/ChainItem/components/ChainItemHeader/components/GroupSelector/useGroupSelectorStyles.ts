@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useGroupSelectorStyles = makeStyles()(theme => ({
-  root: {
+  groupSelectorRoot: {
     '&&': {
       width: 'fit-content',
       height: 32,
@@ -9,6 +9,10 @@ export const useGroupSelectorStyles = makeStyles()(theme => ({
       backgroundColor: theme.palette.background.default,
 
       boxShadow: 'none',
+
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
 
     '& div': {

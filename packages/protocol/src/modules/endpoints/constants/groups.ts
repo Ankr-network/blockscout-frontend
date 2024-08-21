@@ -7,7 +7,7 @@ import { isMainnet } from '../../common/constants/const';
 
 const ENABLE_NOT_STABLE_NETWORKS = isMainnet;
 
-const getName = (key: string, isPlural?: boolean) =>
+export const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
     plurals: isPlural ? 1 : 0,
   });

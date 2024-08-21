@@ -22,8 +22,8 @@ export interface ProjectsDataParams {
 }
 
 export interface UseProjectsDataParams {
-  jwts: JwtManagerToken[];
-  jwtsFetching: boolean;
+  jwts?: JwtManagerToken[];
+  jwtsFetching?: boolean;
 }
 
 export const useProjectsDataParams = ({
@@ -36,7 +36,7 @@ export const useProjectsDataParams = ({
 
   const projectsDataParams = useMemo(
     (): ProjectsDataParams => {
-      const hasTokens = jwts.length > 0;
+      const hasTokens = jwts && jwts.length > 0;
       const hasTokensChanged = isEqual(jwts, jwtsRef.current);
 
       const skipFetching = !hasTokens || jwtsFetching || hasTokensChanged;

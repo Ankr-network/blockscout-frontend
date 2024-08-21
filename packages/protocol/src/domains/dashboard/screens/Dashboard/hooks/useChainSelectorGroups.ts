@@ -41,7 +41,6 @@ export const useChainSelectorGroups = ({
   } = usePrivateChainItem({
     chain,
     unfilteredChain,
-    isChainArchived: false,
     selectedType,
     selectedGroupId,
     shouldExpandFlareTestnets: isFlare,

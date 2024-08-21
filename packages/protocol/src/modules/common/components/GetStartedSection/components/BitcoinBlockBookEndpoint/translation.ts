@@ -5,7 +5,5 @@ export const blockbookTranslation = {
     label: 'BTC Blockbook',
     tooltip:
       'High-performance RESTful API to interact with indexed Bitcoin data.',
-    description: 'Endpoint’s rate limit is capped on Public.',
-    premiumCaption: 'Endpoint’s rate limit is capped on Freemium.',
   },
 };

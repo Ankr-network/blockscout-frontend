@@ -16,6 +16,7 @@ export interface ChainTypeParams {
   isBlockedTestnet: boolean;
   isBlockedMainnet?: boolean;
   isHiddenMainnet?: boolean;
+  isChainSwitcherBlockingIgnored?: boolean;
   onBlockedTabClick?: () => void;
 }
 
@@ -24,6 +25,7 @@ export const usePrivateChainType = ({
   endpoints,
   isBlockedMainnet,
   isBlockedTestnet,
+  isChainSwitcherBlockingIgnored,
   isHiddenMainnet,
   netId,
   onBlockedTabClick,
@@ -37,6 +39,7 @@ export const usePrivateChainType = ({
         isBlockedMainnet,
         isHiddenMainnet,
         onBlockedTabClick,
+        isChainSwitcherBlockingIgnored,
       }),
     [
       endpoints,
@@ -44,6 +47,7 @@ export const usePrivateChainType = ({
       isBlockedMainnet,
       isHiddenMainnet,
       onBlockedTabClick,
+      isChainSwitcherBlockingIgnored,
     ],
   );
 

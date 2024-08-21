@@ -1,7 +1,7 @@
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
 import { Queries } from 'modules/common/components/Queries/Queries';
-import { JwtTokenManager } from 'domains/jwtToken/components/JwtTokenManager';
 import { ExpiredTokenBanner } from 'domains/auth/components/ExpiredTokenBanner';
+import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 
 import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
 import { useStyles } from '../ChainItemStyles';
@@ -13,10 +13,15 @@ export const PrivateChainItemQuery = ({ chainId }: ChainItemProps) => {
   const { classes } = useStyles();
   const fetchChainState = usePrivateChainItemQuery(chainId);
 
+  const {
+    isLoading: isLoadingTokenManager,
+    jwtTokens,
+    shouldShowTokenManager,
+  } = useJwtTokenManager();
+
   return (
     <div className={classes.root}>
       <ExpiredTokenBanner />
-      <JwtTokenManager />
       <Queries<IPrivateChainItemDetails>
         isPreloadDisabled
         queryStates={[fetchChainState]}
@@ -26,7 +31,14 @@ export const PrivateChainItemQuery = ({ chainId }: ChainItemProps) => {
             return <ChainItemSkeleton />;
           }
 
-          return <PrivateChainItem data={data} />;
+          return (
+            <PrivateChainItem
+              data={data}
+              isLoadingTokenManager={isLoadingTokenManager}
+              jwtTokens={jwtTokens}
+              shouldShowTokenManager={shouldShowTokenManager}
+            />
+          );
         }}
       </Queries>
     </div>

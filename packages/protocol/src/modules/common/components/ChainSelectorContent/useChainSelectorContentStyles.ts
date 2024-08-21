@@ -7,16 +7,21 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     display: 'flex',
     gap: theme.spacing(3),
     alignItems: 'center',
-    paddingBottom: theme.spacing(4),
-    borderBottom: `1px solid ${theme.palette.background.default}`,
     marginTop: theme.spacing(10),
     flexWrap: 'wrap',
 
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      gap: theme.spacing(7.5),
+      marginTop: theme.spacing(4),
     },
+  },
+  labels: {
+    marginTop: theme.spacing(4),
+  },
+  chainSeletorWrapper: {
+    display: 'flex',
+    gap: theme.spacing(3),
+    alignItems: 'center',
+    marginRight: 'auto',
   },
   selectors: {
     display: 'flex',
@@ -37,6 +42,14 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
       },
     },
   },
+  groupSelectorAndProtocolSwitcherWrapper: {
+    display: 'flex',
+    gap: theme.spacing(3),
+  },
+  groupSelectorInner: {
+    paddingLeft: 0,
+    paddingRight: theme.spacing(3),
+  },
   groupSelector: {
     '&&': {
       div: {
@@ -45,6 +58,14 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
 
       [theme.breakpoints.down('sm')]: {
         display: 'flex',
+        width: '100%',
+      },
+    },
+  },
+  groupSelectorInput: {
+    '&&': {
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
       },
     },
   },
@@ -62,6 +83,10 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexGrow: 1,
+  },
+  subchainLabelsWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: theme.spacing(2),
   },
 }));

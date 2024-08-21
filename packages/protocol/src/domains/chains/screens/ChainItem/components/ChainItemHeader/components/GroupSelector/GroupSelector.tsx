@@ -14,11 +14,13 @@ export interface GroupSelectorProps {
   groups: EndpointGroup[];
   onGroupSelect: (id: ChainGroupID) => void;
   rootClassName?: string;
+  classNameInput?: string;
   visible?: boolean;
 }
 
 export const GroupSelector = ({
   className,
+  classNameInput,
   fullWidth,
   groupID,
   groups,
@@ -47,9 +49,9 @@ export const GroupSelector = ({
         },
       }}
       rootClassName={rootClassName}
-      className={cx(className, classes.root)}
+      className={cx(className, classes.groupSelectorRoot)}
       classes={{
-        select: classes.select,
+        select: cx(classes.select, classNameInput),
       }}
       fullWidth={fullWidth}
       iconClassName={classes.selectIcon}

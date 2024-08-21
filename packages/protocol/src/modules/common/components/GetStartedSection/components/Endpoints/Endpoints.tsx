@@ -21,7 +21,6 @@ export interface EndpointsProps {
   chainType: ChainType;
   group: EndpointGroup;
   placeholder?: string;
-  isPremiumLabelHidden?: boolean;
 }
 
 const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
@@ -43,7 +42,6 @@ const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
 export const Endpoints = ({
   chainType,
   group,
-  isPremiumLabelHidden,
   placeholder,
   publicChain,
 }: EndpointsProps) => {
@@ -104,13 +102,8 @@ export const Endpoints = ({
           hasPrivateAccess={hasPrivateAccess}
           onCopyEndpoint={onCopyEndpoint}
           publicChain={publicChain}
-          isPremiumLabelHidden={isPremiumLabelHidden}
         />
-        {isBitcoinMainnet && (
-          <BitcoinBlockBookEndpoint
-            isPremiumLabelHidden={isPremiumLabelHidden}
-          />
-        )}
+        {isBitcoinMainnet && <BitcoinBlockBookEndpoint />}
         <MainEndpoints
           feature={Feature.REST}
           group={group}
@@ -119,7 +112,6 @@ export const Endpoints = ({
           hasPrivateAccess={hasPrivateAccess}
           onCopyEndpoint={onCopyEndpoint}
           publicChain={publicChain}
-          isPremiumLabelHidden={isPremiumLabelHidden}
         />
         <WsFeatureEndpoints
           title={t(`${root}.endpoints.websocket-title`)}
@@ -143,7 +135,6 @@ export const Endpoints = ({
     publicChain,
     isBitcoinMainnet,
     wss,
-    isPremiumLabelHidden,
   ]);
 
   return <Box className={classes.endpointsList}>{renderContent}</Box>;

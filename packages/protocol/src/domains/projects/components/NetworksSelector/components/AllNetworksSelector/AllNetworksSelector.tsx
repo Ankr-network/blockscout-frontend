@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
 
-import { Checkbox } from 'domains/projects/components/Checkbox';
+import { Checkbox } from 'modules/common/components/Checkbox';
 
 import {
   UseAllNetworksSelectorParams,

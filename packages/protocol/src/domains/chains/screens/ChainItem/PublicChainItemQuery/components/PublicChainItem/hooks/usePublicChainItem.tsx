@@ -10,9 +10,12 @@ import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChai
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderContent';
+import { getChainLabels } from 'modules/chains/utils/getChainLabels';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { CodeExampleModal } from 'modules/chains/components/CodeExampleModal';
 
-import { usePublicChainType } from './usePublicChainType';
 import { useIsTestnetPremimumOnly } from './utils';
+import { usePublicChainType } from './usePublicChainType';
 
 export interface ChainItem {
   chainProtocolContext: ChainProtocolContextValue;
@@ -27,16 +30,19 @@ export interface ChainItem {
 
 type PublicChainItemParams = IPublicChainItemDetails & {
   onBlockedTabClick: () => void;
-  isPremiumLabelHidden?: boolean;
 };
 
 export const usePublicChainItem = ({
   chain,
-  isChainArchived,
-  isPremiumLabelHidden,
   onBlockedTabClick,
   unfilteredChain: publicChain,
 }: PublicChainItemParams): ChainItem => {
+  const {
+    isOpened: isOpenedCodeExample,
+    onClose: onCloseCodeExample,
+    onOpen: onOpenCodeExample,
+  } = useDialog();
+
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
     publicChain,
@@ -78,39 +84,44 @@ export const usePublicChainItem = ({
     publicGroups.find(gr => gr.id === groupID) ||
     getFallbackEndpointGroup(chain.name);
 
+  const subchainLabels = getChainLabels(chain, chainTypeTabs);
+
   const headerContent = useMemo(
     () => (
-      <ChainItemHeaderContent
-        isMultiChain={isMultiChain}
-        chain={chain}
-        publicChain={publicChain}
-        chainType={chainType}
-        chainTypeTabs={chainTypeTabs}
-        chainTypeTab={chainTypeTab}
-        chainSubType={chainSubType}
-        chainSubTypeTab={chainSubTypeTab}
-        chainSubTypeTabs={chainSubTypeTabs}
-        group={group}
-        groups={groups}
-        groupID={groupID}
-        groupTabs={groupTabs}
-        groupTab={groupTab}
-        isChainArchived={isChainArchived}
-        selectGroup={selectGroup}
-        isPremiumLabelHidden={isPremiumLabelHidden}
-        isPremiumChain={chain?.isMainnetPremiumOnly || isTestnetPremimumOnly}
-      />
+      <>
+        <ChainItemHeaderContent
+          isMultiChain={isMultiChain}
+          chain={chain}
+          publicChain={publicChain}
+          chainType={chainType}
+          chainTypeTabs={chainTypeTabs}
+          chainTypeTab={chainTypeTab}
+          chainSubTypeTab={chainSubTypeTab}
+          chainSubTypeTabs={chainSubTypeTabs}
+          group={group}
+          groups={groups}
+          groupID={groupID}
+          groupTabs={groupTabs}
+          groupTab={groupTab}
+          selectGroup={selectGroup}
+          subchainLabels={subchainLabels}
+          isCodeExampleHidden={false}
+          onOpenCodeExample={onOpenCodeExample}
+        />
+        <CodeExampleModal
+          isOpenedCodeExample={isOpenedCodeExample}
+          onCloseCodeExample={onCloseCodeExample}
+          chain={chain}
+        />
+      </>
     ),
     [
       isMultiChain,
-      isPremiumLabelHidden,
-      isTestnetPremimumOnly,
       chain,
       publicChain,
       chainType,
       chainTypeTabs,
       chainTypeTab,
-      chainSubType,
       chainSubTypeTab,
       chainSubTypeTabs,
       group,
@@ -118,8 +129,11 @@ export const usePublicChainItem = ({
       groupID,
       groupTabs,
       groupTab,
-      isChainArchived,
       selectGroup,
+      subchainLabels,
+      onOpenCodeExample,
+      isOpenedCodeExample,
+      onCloseCodeExample,
     ],
   );
 

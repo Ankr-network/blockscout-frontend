@@ -21,10 +21,6 @@ export const useProjectRequestsActivityStyles = makeStyles<Sign>()(
         color: theme.palette.grey[600],
       },
       count: {
-        margin: theme.spacing(0, 2),
-
-        color: theme.palette.grey[900],
-
         fontWeight: 400,
         lineHeight: '140%',
       },

@@ -1,6 +1,10 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useMultichainOverviewStyles = makeStyles()(theme => ({
+  multichainHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   title: {
     display: 'flex',
     alignItems: 'center',

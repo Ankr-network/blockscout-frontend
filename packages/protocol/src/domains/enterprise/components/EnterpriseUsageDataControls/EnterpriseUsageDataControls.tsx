@@ -5,7 +5,7 @@ import { Timeframe } from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import { TabSize } from 'modules/common/components/SecondaryTab';
-import { useTimeframeSectionStyles } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/components/TimeframeSection/useTimeframeSectionStyles';
+import { useTimeframeSectionStyles } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/TimeframeSection/useTimeframeSectionStyles';
 import {
   ProjectSelect,
   SelectOption,

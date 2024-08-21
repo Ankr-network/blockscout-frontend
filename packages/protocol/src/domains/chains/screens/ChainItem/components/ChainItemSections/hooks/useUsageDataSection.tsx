@@ -30,14 +30,11 @@ export interface UsageDataSectionParams {
 
 export const useUsageDataSection = ({
   chain,
-  chainSubType,
-  chainType,
   getSelectHandler,
-  group,
   timeframe,
   timeframeTabs,
 }: UsageDataSectionParams) => {
-  const { hasPremium, hasPrivateAccess, isLoggedIn } = useAuth();
+  const { hasPremium, isLoggedIn } = useAuth();
   const { isEnterpriseClient } = useEnterpriseClientStatus();
   const shouldHideUsageData = !hasPremium && isLoggedIn && !isEnterpriseClient;
 
@@ -50,12 +47,8 @@ export const useUsageDataSection = ({
         <NoReactSnap>
           <UsageDataSection
             chain={chain}
-            chainType={chainType}
-            chainSubType={chainSubType}
-            group={group}
             timeframe={timeframe}
             timeframeTabs={timeframeTabs}
-            hasPrivateAccess={hasPrivateAccess || isEnterpriseClient}
           />
         </NoReactSnap>
       ),
@@ -67,16 +60,5 @@ export const useUsageDataSection = ({
         />
       ),
     };
-  }, [
-    shouldHideUsageData,
-    chain,
-    chainType,
-    chainSubType,
-    group,
-    timeframe,
-    timeframeTabs,
-    hasPrivateAccess,
-    isEnterpriseClient,
-    getSelectHandler,
-  ]);
+  }, [shouldHideUsageData, chain, timeframe, timeframeTabs, getSelectHandler]);
 };

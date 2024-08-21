@@ -1,7 +1,7 @@
 import { ArrowDown } from '@ankr.com/ui';
 import { Accordion, AccordionSummary } from '@mui/material';
 
-import { Checkbox } from 'domains/projects/components/Checkbox';
+import { Checkbox } from 'modules/common/components/Checkbox';
 
 import { GroupsSelector } from '../GroupsSelector';
 import { NetworkName } from '../../types';

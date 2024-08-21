@@ -1,0 +1,20 @@
+import { Chain } from 'modules/chains/types';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useCodeExampleStatus } from 'domains/chains/screens/ChainItem/components/ChainProjectsSection/useCodeExampleStatus';
+
+export const useChainItemHeaderExtraContent = (
+  chain: Chain,
+  onOpenCodeExample?: () => void,
+) => {
+  const { isLoggedIn } = useAuth();
+
+  const { isCodeExampleDisabled } = useCodeExampleStatus(
+    chain,
+    onOpenCodeExample,
+  );
+
+  return {
+    isLoggedIn,
+    isCodeExampleDisabled,
+  };
+};

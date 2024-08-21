@@ -21,10 +21,10 @@ const getBackgroundColor = (type: ProjectStatusLabelType, theme: Theme) => {
 export const useProjectStatusLabelStyles = makeStyles<ProjectStatusLabelType>()(
   (theme, type) => ({
     projectStatusLabel: {
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: 500,
       color: 'white',
-      padding: theme.spacing(1, 2),
+      padding: theme.spacing(0.6, 1.2),
       backgroundColor: getBackgroundColor(type, theme),
       borderRadius: theme.spacing(2),
       whiteSpace: 'nowrap',

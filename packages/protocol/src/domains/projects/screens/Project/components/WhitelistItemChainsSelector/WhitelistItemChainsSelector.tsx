@@ -1,6 +1,6 @@
 import { Chain } from 'modules/chains/types';
 import { WhitelistItemChainsSelectorTitle } from 'domains/projects/components/WhitelistItemChainsSelectorTitle';
-import { isEVMBased } from 'domains/chains/utils/isEVMBased';
+import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 
 import { SubchainCheckbox } from './components/SubchainCheckbox';
 import { useWhitelistItemChainsSelectorStyles } from './useWhitelistItemChainsSelectorStyles';

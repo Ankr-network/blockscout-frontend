@@ -1,4 +1,5 @@
 import { Tooltip, Typography } from '@mui/material';
+import { useCallback } from 'react';
 
 import { useTooltip } from 'modules/common/components/TextTooltip';
 
@@ -25,11 +26,19 @@ export function Tab<TI>({
 
   const tooltipProps = useTooltip();
 
+  const onSelectTab = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.stopPropagation();
+      onSelect?.();
+    },
+    [onSelect],
+  );
+
   const tabBody = (
     <div
       className={cx(classes.tabRoot, className)}
       id={id.toString()}
-      onClick={isDisabled ? undefined : onSelect}
+      onClick={isDisabled ? undefined : onSelectTab}
       role="tab"
       tabIndex={index}
     >

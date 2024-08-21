@@ -11,7 +11,6 @@ import { chainsFetchPublicChains } from './fetchPublicChains';
 export interface IPublicChainItemDetails {
   chain: Chain;
   unfilteredChain: Chain;
-  isChainArchived: boolean;
 }
 
 export const {

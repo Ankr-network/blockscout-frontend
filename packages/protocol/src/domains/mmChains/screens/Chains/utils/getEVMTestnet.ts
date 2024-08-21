@@ -1,5 +1,5 @@
 import { flatChains } from 'modules/endpoints/utils/flatChains';
-import { isEVMBased } from 'domains/chains/utils/isEVMBased';
+import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 import { Chain } from 'modules/chains/types';
 
 export const getEVMTestnet = (testnets: Chain[]) =>

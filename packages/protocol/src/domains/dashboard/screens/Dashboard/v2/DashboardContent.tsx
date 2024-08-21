@@ -1,7 +1,7 @@
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
-import { useEnterpriseEndpoints } from 'domains/enterprise/screens/Chains/UserEndpointsWrapper/useEnterpriseEndpoints';
+import { useEnterpriseEndpoints } from 'domains/enterprise/screens/EnterpriseChainsListPage/UserEndpointsWrapper/useEnterpriseEndpoints';
 import { useEnterpriseApiKeySelect } from 'domains/enterprise/components/EnterpriseApiKeysSelect/useEnterpriseApiKeySelect';
 import { ChainID, Timeframe } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';

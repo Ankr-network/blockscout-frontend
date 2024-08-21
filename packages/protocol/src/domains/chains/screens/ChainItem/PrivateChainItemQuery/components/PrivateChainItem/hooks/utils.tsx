@@ -14,6 +14,7 @@ interface GetPrivateChainTypeTabsParams {
   isBlockedTestnet: boolean;
   isBlockedMainnet?: boolean;
   isHiddenMainnet?: boolean;
+  isChainSwitcherBlockingIgnored?: boolean;
   onBlockedTabClick?: () => void;
 }
 
@@ -21,6 +22,7 @@ export const getPrivateChainTypeTabs = ({
   endpoints,
   isBlockedMainnet,
   isBlockedTestnet,
+  isChainSwitcherBlockingIgnored,
   isHiddenMainnet,
   onBlockedTabClick,
 }: GetPrivateChainTypeTabsParams): Tab<Type>[] =>
@@ -29,7 +31,8 @@ export const getPrivateChainTypeTabs = ({
     .map<Tab<Type>>(({ id, title }, index, list) => {
       const blockedTestnet = isBlockedTestnet && id === Type.Testnet;
       const blockedMainnet = isBlockedMainnet && id === Type.Mainnet;
-      const isBlocked = blockedTestnet || blockedMainnet;
+      const isBlocked =
+        !isChainSwitcherBlockingIgnored && (blockedTestnet || blockedMainnet);
       const isHidden = isHiddenMainnet && id === Type.Mainnet;
 
       return {

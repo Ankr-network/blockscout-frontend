@@ -4,6 +4,7 @@ import { ProjectChainsContext } from 'domains/projects/screens/Project/constants
 import { useProjectChains } from 'domains/projects/screens/Project/hooks/useProjectChains';
 import { useRedirectToProjectsListPageOnGroupChange } from 'domains/projects/screens/Project/hooks/useRedirectToProjectsListPageOnGroupChange';
 import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 import { ProjectChains } from '../ProjectChains';
 import { ProjectFooter } from '../ProjectFooter';
@@ -19,7 +20,10 @@ export const Project = () => {
 
   useRedirectToProjectsListPageOnGroupChange();
 
-  useProjectStatsInitialization();
+  const { projectId: userEndpointToken } =
+    ProjectsRoutesConfig.project.useParams();
+
+  useProjectStatsInitialization({ userEndpointToken });
 
   const projectChainsData = useProjectChains();
 
@@ -42,7 +46,10 @@ export const Project = () => {
           className={classes.requests}
         />
         <Whitelist className={classes.whitelist} />
-        <ProjectChains className={classes.endpoints} />
+        <ProjectChains
+          className={classes.endpoints}
+          userEndpointToken={userEndpointToken}
+        />
         <ProjectFooter className={classes.footer} />
       </div>
     </ProjectChainsContext.Provider>

@@ -5,14 +5,20 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { EnterpriseRoutesConfig } from './routesConfig';
 
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
-  async () => import('../screens/Chains').then(module => module.Chains),
+  async () =>
+    import('../screens/EnterpriseChainsListPage').then(
+      module => module.EnterpriseChainsListPage,
+    ),
   {
     fallback: <OverlaySpinner />,
   },
 );
 
 const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
-  async () => import('../screens/ChainItem').then(module => module.ChainItem),
+  async () =>
+    import('../screens/EnterpriseChainItemPage').then(
+      module => module.EnterpriseChainItemPage,
+    ),
   {
     fallback: <OverlaySpinner />,
   },

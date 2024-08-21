@@ -17,15 +17,15 @@ import {
 } from 'modules/endpoints/types';
 import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderContent';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { CodeExampleModal } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/CodeExampleModal';
+import { CodeExampleModal } from 'modules/chains/components/CodeExampleModal';
 import { Tab } from 'modules/common/hooks/useTabs';
+import { getChainLabels } from 'modules/chains/utils/getChainLabels';
 
 import {
   getPrivateChainSubTypeSelector,
   getPrivateChainTypeSelector,
 } from './utils';
 import { usePrivateChainType } from './usePrivateChainType';
-import { useRequestsString } from './useRequestsString';
 
 export interface ChainTypeItem {
   value: ChainType;
@@ -47,7 +47,6 @@ interface PrivateChainItem extends ChainItem {
   groups: EndpointGroup[];
   groupID: ChainGroupID;
   selectGroup: (id: ChainGroupID) => void;
-
   chainSubTypeTab?: Tab<ChainSubType>;
   chainSubTypeTabs: Tab<ChainSubType>[];
   chainTypeTab?: Tab<ChainType>;
@@ -61,26 +60,33 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   onBlockedTabClick?: () => void;
   isGroupSelectorAutoWidth?: boolean;
   isHiddenMainnet?: boolean;
-  isPremiumLabelHidden?: boolean;
-  isChainRequestStatsVisible?: boolean;
   shouldExpandFlareTestnets?: boolean;
   isCompactView?: boolean;
+  shouldHideEndpoints?: boolean;
+  isCodeExampleHidden?: boolean;
+  addToProjectButton?: ReactNode;
+  isProtocolSwitcherHidden?: boolean;
+  shouldMergeTendermintGroups?: boolean;
+  isChainSwitcherBlockingIgnored?: boolean;
 };
 
 // eslint-disable-next-line max-lines-per-function
 export const usePrivateChainItem = ({
+  addToProjectButton,
   additionalSelector,
   chain,
-  isChainArchived,
-  isChainRequestStatsVisible,
+  isChainSwitcherBlockingIgnored,
+  isCodeExampleHidden,
   isCompactView,
   isGroupSelectorAutoWidth,
   isHiddenMainnet,
-  isPremiumLabelHidden,
+  isProtocolSwitcherHidden,
   onBlockedTabClick,
   selectedGroupId,
   selectedType,
   shouldExpandFlareTestnets = false,
+  shouldHideEndpoints,
+  shouldMergeTendermintGroups,
   unfilteredChain: publicChain,
 }: PrivateChainItemParams): PrivateChainItem => {
   const {
@@ -109,6 +115,7 @@ export const usePrivateChainItem = ({
       isHiddenMainnet,
       selectedType,
       onBlockedTabClick,
+      isChainSwitcherBlockingIgnored,
     });
 
   const { chainSubType, chainSubTypeTab, chainSubTypeTabs, selectSubType } =
@@ -125,18 +132,11 @@ export const usePrivateChainItem = ({
       endpoints,
       netId,
       selectedGroupId,
+      shouldMergeTendermintGroups,
     },
   );
-  const chainProtocolContext = useChainProtocol({ group, netId });
 
-  const { requestsString } = useRequestsString({
-    chain,
-    chainType,
-    chainSubType,
-    group,
-    chainProtocolContext,
-    isChainRequestStatsVisible,
-  });
+  const chainProtocolContext = useChainProtocol({ group, netId });
 
   const publicGroups = publicEndpoints[chainType];
 
@@ -148,13 +148,14 @@ export const usePrivateChainItem = ({
   const chainSubTypes = getPrivateChainSubTypeSelector();
   const isMultiChain = chain.id === ChainID.MULTICHAIN;
 
+  const subchainLabels = getChainLabels(chain, chainTypeTabs);
+
   const headerContent = useMemo(
     () => (
       <>
         <ChainItemHeaderContent
           additionalSelector={additionalSelector}
           chain={chain}
-          chainSubType={chainSubType}
           chainSubTypeTab={chainSubTypeTab}
           chainSubTypeTabs={chainSubTypeTabs}
           chainType={chainType}
@@ -165,21 +166,19 @@ export const usePrivateChainItem = ({
           groupTab={groupTab}
           groupTabs={groupTabs}
           groups={groups}
-          isChainArchived={isChainArchived}
           isMultiChain={isMultiChain}
           publicChain={publicChain}
           selectGroup={selectGroup}
           isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
-          isPremiumLabelHidden={isPremiumLabelHidden}
-          requestsString={
-            isChainRequestStatsVisible ? requestsString : undefined
-          }
           isCompactView={isCompactView}
           onOpenCodeExample={onOpenCodeExample}
-          isPremiumChain={
-            !hasPremium &&
-            (chain?.isMainnetPremiumOnly || Boolean(isTestnetPremiumOnly))
-          }
+          shouldHideEndpoints={shouldHideEndpoints}
+          addToProjectButton={addToProjectButton}
+          isCodeExampleHidden={isCodeExampleHidden}
+          isProtocolSwitcherHidden={isProtocolSwitcherHidden}
+          isSubchainSelectorHidden={!isCompactView}
+          subchainLabels={subchainLabels}
+          hasSelectorForMetamaskButton
         />
         <CodeExampleModal
           isOpenedCodeExample={isOpenedCodeExample}
@@ -191,7 +190,6 @@ export const usePrivateChainItem = ({
     [
       additionalSelector,
       chain,
-      chainSubType,
       chainSubTypeTab,
       chainSubTypeTabs,
       chainType,
@@ -202,20 +200,19 @@ export const usePrivateChainItem = ({
       groupTab,
       groupTabs,
       groups,
-      isChainArchived,
       isMultiChain,
       publicChain,
       selectGroup,
       isGroupSelectorAutoWidth,
-      isPremiumLabelHidden,
-      isChainRequestStatsVisible,
-      requestsString,
       isCompactView,
       onOpenCodeExample,
-      hasPremium,
-      isTestnetPremiumOnly,
+      shouldHideEndpoints,
+      addToProjectButton,
+      isCodeExampleHidden,
       isOpenedCodeExample,
       onCloseCodeExample,
+      isProtocolSwitcherHidden,
+      subchainLabels,
     ],
   );
 
@@ -229,7 +226,6 @@ export const usePrivateChainItem = ({
     name,
     unfilteredGroup,
     headerContent,
-
     chainTypes,
     selectType,
     chainSubTypes,
@@ -238,7 +234,6 @@ export const usePrivateChainItem = ({
     groups,
     groupID,
     selectGroup,
-
     chainSubTypeTab,
     chainSubTypeTabs,
     chainTypeTab,

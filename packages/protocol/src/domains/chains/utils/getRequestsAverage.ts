@@ -18,7 +18,18 @@ const timeframeToSecondsMap: Record<Timeframe, number> = {
 export const getRequestsAverage = (
   requests: BigNumber = new BigNumber(0),
   timeframe: Timeframe,
-) =>
-  requests.isEqualTo(0)
-    ? '0'
-    : requests.div(timeframeToSecondsMap[timeframe]).toFormat(5);
+) => {
+  if (requests.isEqualTo(0)) {
+    return '0';
+  }
+
+  const requestsPerSecond = requests.div(timeframeToSecondsMap[timeframe]);
+
+  let decimalPlaces = 1;
+
+  if (requestsPerSecond.isLessThan(1)) {
+    decimalPlaces = 5;
+  }
+
+  return requestsPerSecond.toFormat(decimalPlaces);
+};
