@@ -115,33 +115,35 @@ export const Dialog = ({
             : undefined
         }
       >
-        {(dialogTitle.title || !shouldHideCloseButton) && (
-          <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-            {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
-              <Typography className={classes.titleText}>
-                {dialogTitle.title}
-              </Typography>
-            ) : (
-              dialogTitle.title
-            )}
+        <div tabIndex={0} role="button" onClick={e => e.stopPropagation()}>
+          {(dialogTitle.title || !shouldHideCloseButton) && (
+            <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
+              {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
+                <Typography className={classes.titleText}>
+                  {dialogTitle.title}
+                </Typography>
+              ) : (
+                dialogTitle.title
+              )}
 
-            {!shouldHideCloseButton && (
-              <IconButton
-                aria-label="close"
-                className={cx(classes.closeButton, closeButtonClassName)}
-                onClick={handleClose}
-              >
-                {hasMinimizeIcon ? <Minimize /> : <Close />}
-              </IconButton>
-            )}
-          </MuiDialogTitle>
-        )}
+              {!shouldHideCloseButton && (
+                <IconButton
+                  aria-label="close"
+                  className={cx(classes.closeButton, closeButtonClassName)}
+                  onClick={handleClose}
+                >
+                  {hasMinimizeIcon ? <Minimize /> : <Close />}
+                </IconButton>
+              )}
+            </MuiDialogTitle>
+          )}
 
-        <MuiDialogContent
-          className={cx(classes.dialogContent, dialogContentClassName)}
-        >
-          {children}
-        </MuiDialogContent>
+          <MuiDialogContent
+            className={cx(classes.dialogContent, dialogContentClassName)}
+          >
+            {children}
+          </MuiDialogContent>
+        </div>
       </MuiDialog>
     </DialogContext.Provider>
   );

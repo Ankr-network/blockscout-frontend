@@ -16,6 +16,7 @@ import {
 } from 'multirpc-sdk';
 import { OverlaySpinner as Spinner } from '@ankr.com/ui';
 
+import { LoadableButton } from 'uiKit/LoadableButton';
 import { ButtonCopy } from 'uiKit/ButtonCopy/ButtonCopy';
 import { ClientMapped } from 'modules/clients/store/clientsSlice';
 import { IGetUserTotalMapped } from 'modules/clients/actions/fetchUserTotal';
@@ -34,6 +35,8 @@ import { useClientAddresses } from './useClientAddresses';
 import { ClientUserGroups } from './ClientUserGroups';
 import { useClientBalances } from './useClientBalances';
 import { NOT_FOUND_TEXT } from '../const';
+import { ClientReferralCodes } from './ClientReferralCodes';
+import { ClientBundles } from './ClientBundles';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -62,10 +65,16 @@ export const ClientInfo = ({
     isLoadingEditProfile,
     handleBlurCommentInput,
     handleKeyDownInputComment,
+    handleDisable2FA,
+    isDisable2FALoading,
     userName,
     revenueData,
     isLoadingRevenue,
     isFetchingRevenue,
+    is2FAEnabled,
+    referralCodes,
+    userActiveBundles,
+    userBundlesStatuses,
   } = useClientInfo({ address });
 
   const { userAddressesData, isLoadingUserAddresses, isErrorUserAddresses } =
@@ -268,6 +277,17 @@ export const ClientInfo = ({
             valueToCopy={address}
             disabled={isCurrentClientLoading}
           />
+          {is2FAEnabled && (
+            <LoadableButton
+              sx={{ mb: 4, ml: 4 }}
+              loading={isDisable2FALoading}
+              variant="contained"
+              color="secondary"
+              onClick={handleDisable2FA}
+            >
+              Disable 2fa
+            </LoadableButton>
+          )}
         </>
       )}
       <br />
@@ -324,6 +344,16 @@ export const ClientInfo = ({
       <ClientUserGroups
         userGroups={userGroups}
         isLoadingUserGroups={isLoadingUserGroups}
+      />
+
+      <ClientReferralCodes
+        currentClient={currentClient}
+        referralCodes={referralCodes}
+      />
+
+      <ClientBundles
+        activeBundles={userActiveBundles}
+        bundlesStatuses={userBundlesStatuses}
       />
     </>
   );

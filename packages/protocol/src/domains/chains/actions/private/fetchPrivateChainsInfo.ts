@@ -2,7 +2,7 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { Chain } from 'modules/chains/types';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
-import { getAddIsArchiveCB } from 'modules/chains/utils/addIsArchive';
+import { getAddIsArchiveCB } from 'modules/chains/utils/isArchive';
 
 import { chainsFetchPrivateChains } from './fetchPrivateChains';
 

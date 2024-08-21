@@ -32,53 +32,10 @@ export const useProjectChainsAccordionStyles = makeStyles()(theme => ({
     width: '100%',
   },
   chainDescription: {
-    display: 'flex',
-    alignItems: 'center',
     width: '40%',
   },
   chainRequestsInfo: {
     width: '60%',
-  },
-  accordionChainLogo: {
-    width: 32,
-    height: 32,
-    marginRight: theme.spacing(3),
-  },
-  accordionLabelWrapper: {},
-  accordionLabel: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 0,
-  },
-  chainNameWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  chainArchiveLabel: {
-    marginLeft: theme.spacing(2),
-
-    lineHeight: 1,
-  },
-  chainArchiveLabelText: {
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-  accordionPremiumLabel: {
-    marginLeft: theme.spacing(2),
-    display: 'flex',
-    alignItems: 'center',
-  },
-  coinName: {
-    display: 'flex',
-
-    '& span': {
-      fontWeight: 500,
-    },
-  },
-  chainLabelBottom: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: theme.spacing(0.5),
   },
   accordionDetails: {
     padding: 0,

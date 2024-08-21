@@ -1,17 +1,24 @@
 import { DownTriangle, UpperTriangle } from '@ankr.com/ui';
-import { Typography } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { ProjectActivity } from 'domains/projects/store';
 import { Sign } from 'modules/common/types/types';
+import { formatLongNumber } from 'modules/common/utils/formatNumber';
 
 import { useProjectRequestsActivityStyles } from './useProjectRequestsActivityStyles';
 
-export interface ProjectRequestsActivityProps extends ProjectActivity {}
+export interface ProjectRequestsActivityProps extends ProjectActivity {
+  isLoading?: boolean;
+  isDisabled?: boolean;
+}
 
 export const ProjectRequestsActivity = ({
-  lastDayTotalRequestsCount,
+  isDisabled,
+  isLoading,
   relativeChange,
+  totalRequestsCount,
 }: ProjectRequestsActivityProps) => {
   const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
 
@@ -28,11 +35,41 @@ export const ProjectRequestsActivity = ({
       ? 'projects.list-project.relative-change-zero'
       : 'projects.list-project.relative-change';
 
+  const totalRequests = useMemo(() => {
+    if (totalRequestsCount === 0) {
+      return (
+        <Typography
+          className={classes.count}
+          variant="body4"
+          color="textSecondary"
+        >
+          {t('projects.list-project.no-requests-yet')}
+        </Typography>
+      );
+    }
+
+    const requestsCountString = t('projects.list-project.count', {
+      value: formatLongNumber(totalRequestsCount),
+    });
+
+    return (
+      <Typography
+        className={classes.count}
+        variant="body4"
+        color={isDisabled ? 'textSecondary' : 'textPrimary'}
+      >
+        {requestsCountString}
+      </Typography>
+    );
+  }, [classes.count, isDisabled, totalRequestsCount]);
+
+  if (isLoading) {
+    return <Skeleton width={60} />;
+  }
+
   return (
     <div className={classes.root}>
-      <Typography className={classes.count} variant="subtitle3">
-        {t('projects.list-project.count', { value: lastDayTotalRequestsCount })}
-      </Typography>
+      {totalRequests}
       {typeof relativeChange !== 'undefined' && (
         <Typography className={classes.percent} variant="subtitle3">
           {t(intlKey, { relativeChange, relativeChangeSign })}

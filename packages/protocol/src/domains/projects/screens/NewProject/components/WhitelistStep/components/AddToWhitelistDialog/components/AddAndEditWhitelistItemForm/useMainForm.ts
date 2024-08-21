@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 
 import { getChainName as getFallbackChainsName } from 'uiKit/utils/metatags';
 import { getChainName } from 'domains/projects/utils/getChainName';
-import { isEVMBased } from 'domains/chains/utils/isEVMBased';
+import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 import { selectBlockchains } from 'modules/chains/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';

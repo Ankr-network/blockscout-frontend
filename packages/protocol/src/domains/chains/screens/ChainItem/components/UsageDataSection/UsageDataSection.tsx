@@ -1,32 +1,47 @@
-import {
-  Chain,
-  ChainSubType,
-  ChainType,
-  Timeframe,
-} from 'modules/chains/types';
+import { Timeframe } from 'modules/chains/types';
+import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { EndpointGroup } from 'modules/endpoints/types';
 
 import { PrivateUsageDataSection } from './components/PrivateUsageDataSection';
-import { PublicUsageDataSection } from './components/PublicUsageDataSection';
+import {
+  PublicUsageDataSection,
+  PublicUsageDataSectionProps,
+} from './components/PublicUsageDataSection';
 
-export interface UsageDataSectionProps {
-  chain: Chain;
-  chainType: ChainType;
-  chainSubType?: ChainSubType;
-  group: EndpointGroup;
-  timeframe: Timeframe;
-  timeframeTabs: Tab<Timeframe>[];
-  hasPrivateAccess?: boolean;
+export interface UsageDataSectionProps
+  extends Omit<PublicUsageDataSectionProps, 'timeframe' | 'timeframeTabs'> {
+  timeframe?: Timeframe;
+  timeframeTabs?: Tab<Timeframe>[];
 }
 
 export const UsageDataSection = ({
-  hasPrivateAccess,
+  timeframe: nestedTimeframe,
+  timeframeTabs: nestedTimeframeTabs,
   ...others
 }: UsageDataSectionProps) => {
-  return hasPrivateAccess ? (
-    <PrivateUsageDataSection {...others} />
+  const { hasPrivateAccess } = useAuth();
+
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
+  const showPrivateChain = hasPrivateAccess || isEnterpriseClient;
+
+  const { timeframe, timeframeTabs } = useTimeframe({
+    initialTimeframe: showPrivateChain ? Timeframe.Day : Timeframe.Month,
+  });
+
+  return showPrivateChain ? (
+    <PrivateUsageDataSection
+      {...others}
+      timeframe={nestedTimeframe || timeframe}
+      timeframeTabs={nestedTimeframeTabs || timeframeTabs}
+    />
   ) : (
-    <PublicUsageDataSection {...others} />
+    <PublicUsageDataSection
+      {...others}
+      timeframe={nestedTimeframe || timeframe}
+      timeframeTabs={nestedTimeframeTabs || timeframeTabs}
+    />
   );
 };

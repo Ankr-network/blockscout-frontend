@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 
 import { canAddItemsToWhitelist } from 'domains/projects/utils/canAddItemsToWhitelist';
 import { flatChains } from 'modules/chains/utils/flatChains';
-import { isEVMBased } from 'domains/chains/utils/isEVMBased';
+import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 import { useProjectChainsContext } from 'domains/projects/screens/Project/hooks/useProjectChainsContext';
 import { whitelistTypeLabelMap } from 'domains/projects/const';
 

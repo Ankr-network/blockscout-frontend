@@ -26,7 +26,7 @@ export const ChainRequestsLabel = ({
   return (
     <div className={className}>
       <Typography
-        className={cx(descriptionClassName, classes.subtitle)}
+        className={cx(classes.subtitle, descriptionClassName)}
         color={descriptionColor}
         noWrap
         variant="subtitle2"

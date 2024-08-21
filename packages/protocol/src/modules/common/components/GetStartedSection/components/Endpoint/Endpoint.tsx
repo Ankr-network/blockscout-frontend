@@ -63,6 +63,7 @@ export const Endpoint = ({
   return (
     <>
       <CopyToClipIcon
+        contentClassName={classes.copyToClipContent}
         className={classes.copyToClip}
         hideIcon={hasConnectWalletMessage}
         message={t('common.copy-message')}

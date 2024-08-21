@@ -8,7 +8,7 @@ interface ButtonMetamaskProps {
   className?: string;
   isDisabled?: boolean;
   label?: ReactNode;
-  onClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   size?: 'large' | 'medium' | 'small';
 }
 

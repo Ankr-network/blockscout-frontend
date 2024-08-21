@@ -8,8 +8,9 @@ import { SecondaryTabs } from 'modules/common/components/SecondaryTabs';
 import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { SubchainLabels } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/SubchainLabels';
 
-interface IChainSelectorContentProps {
+export interface IChainSelectorContentProps {
   additionalSelector?: ReactNode;
   chainSubTypeTab?: Tab<ChainSubType>;
   chainSubTypeTabs: Tab<ChainSubType>[];
@@ -24,7 +25,11 @@ interface IChainSelectorContentProps {
   selectGroup: (id: ChainGroupID) => void;
   isGroupSelectorAutoWidth?: boolean;
   className?: string;
+  classNameSelector?: string;
   extraContent?: ReactNode;
+  isSubchainSelectorHidden?: boolean;
+  isSecondLevelSelectorsHidden?: boolean;
+  subchainLabels?: string[];
 }
 
 const MIN_GROUP_ITEMS = 2;
@@ -37,6 +42,7 @@ export const ChainSelectorContent = ({
   chainTypeTab,
   chainTypeTabs,
   className,
+  classNameSelector,
   extraContent,
   groupID,
   groupTab,
@@ -45,7 +51,10 @@ export const ChainSelectorContent = ({
   hasGroupSelector,
   isGroupSelectorAutoWidth = false,
   isProtocolSwitcherHidden,
+  isSecondLevelSelectorsHidden,
+  isSubchainSelectorHidden,
   selectGroup,
+  subchainLabels,
 }: IChainSelectorContentProps) => {
   const isMobile = useIsSMDown();
 
@@ -61,41 +70,75 @@ export const ChainSelectorContent = ({
   const withGroupTabs =
     (!withGroupSelector && hasEnoughGroups) || hasGroupSelector;
 
+  const hasSubchainLabels =
+    isSubchainSelectorHidden && subchainLabels && subchainLabels?.length >= 1;
+
+  const hasAdditionalContent =
+    additionalSelector || extraContent || hasSubchainLabels;
+
   return (
-    <div className={cx(classes.controls, className)}>
-      <SecondaryTabs
-        className={classes.chainTypeTabs}
-        selectedTab={chainTypeTab}
-        tabs={chainTypeTabs}
-        visible
-      />
-      <SecondaryTabs
-        className={classes.chainTypeTabs}
-        selectedTab={chainSubTypeTab}
-        tabs={chainSubTypeTabs}
-        visible={hasEnoughSubTypes}
-      />
-      <SecondaryTabs
-        className={classes.groupTabs}
-        selectedTab={groupTab}
-        tabs={groupTabs}
-        visible={withGroupTabs}
-      />
-      <GroupSelector
-        fullWidth={!isGroupSelectorAutoWidth}
-        groupID={groupID}
-        groups={groups}
-        onGroupSelect={selectGroup}
-        rootClassName={classes.groupSelector}
-        visible={
-          (withGroupSelector || withMobileGroupSelector) && groups.length > 0
-        }
-      />
-      {!isProtocolSwitcherHidden && <ChainProtocolSwitch />}
-      <div className={classes.additionalContent}>
-        {additionalSelector}
-        {extraContent}
-      </div>
+    <div
+      className={cx(
+        {
+          [classes.controls]: !isSubchainSelectorHidden,
+          [classes.labels]: isSubchainSelectorHidden,
+        },
+        className,
+      )}
+    >
+      {!isSubchainSelectorHidden && (
+        <div className={cx(classes.chainSeletorWrapper, classNameSelector)}>
+          <SecondaryTabs
+            className={classes.chainTypeTabs}
+            selectedTab={chainTypeTab}
+            tabs={chainTypeTabs}
+            visible
+          />
+          {!isSecondLevelSelectorsHidden && (
+            <>
+              <SecondaryTabs
+                className={classes.chainTypeTabs}
+                selectedTab={chainSubTypeTab}
+                tabs={chainSubTypeTabs}
+                visible={hasEnoughSubTypes}
+              />
+              <SecondaryTabs
+                className={classes.groupTabs}
+                selectedTab={groupTab}
+                tabs={groupTabs}
+                visible={withGroupTabs}
+              />
+              <div className={classes.groupSelectorAndProtocolSwitcherWrapper}>
+                <GroupSelector
+                  fullWidth={!isGroupSelectorAutoWidth || isMobile}
+                  groupID={groupID}
+                  groups={groups}
+                  onGroupSelect={selectGroup}
+                  className={classes.groupSelectorInner}
+                  rootClassName={classes.groupSelector}
+                  classNameInput={classes.groupSelectorInput}
+                  visible={
+                    (withGroupSelector || withMobileGroupSelector) &&
+                    groups.length > 0
+                  }
+                />
+                {!isProtocolSwitcherHidden && <ChainProtocolSwitch />}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+      {hasAdditionalContent && (
+        <div className={classes.additionalContent}>
+          {hasSubchainLabels && (
+            <div className={classes.subchainLabelsWrapper}>
+              <SubchainLabels labels={subchainLabels} />
+            </div>
+          )}
+          {additionalSelector}
+          {extraContent}
+        </div>
+      )}
     </div>
   );
 };

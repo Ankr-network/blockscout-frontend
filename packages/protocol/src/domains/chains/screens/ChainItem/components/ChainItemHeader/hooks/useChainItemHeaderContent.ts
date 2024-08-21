@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import { Chain, ChainID } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { getEndpointsGroup } from 'domains/chains/screens/ChainItem/utils/getEndpointsGroup';
+import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 
 import { useChainItemPlaceholder } from '../useChainItemPlaceholder';
 import { hasGroupSelector as checkHasGroupSelector } from '../utils/hasGroupSelector';
@@ -15,17 +15,17 @@ interface IUseChainItemHeaderContentProps {
   groupID: ChainGroupID;
   isMetamaskButtonHidden?: boolean;
   isMultiChain: boolean;
+  isChainProtocolSwitchEnabled: boolean;
 }
 
 export const useChainItemHeaderContent = ({
   chain,
   group,
   groupID,
+  isChainProtocolSwitchEnabled,
   isMetamaskButtonHidden,
   isMultiChain,
 }: IUseChainItemHeaderContentProps) => {
-  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
-
   const endpointsGroup = useMemo(
     () => getEndpointsGroup({ group, isChainProtocolSwitchEnabled }),
     [group, isChainProtocolSwitchEnabled],
@@ -43,9 +43,8 @@ export const useChainItemHeaderContent = ({
   );
 
   const hasMetamaskButton =
-    chain &&
+    (isEVMBased(chain.id) || !isTronRestApi) &&
     !isChainProtocolSwitchEnabled &&
-    !isTronRestApi &&
     !isMetamaskButtonHidden;
 
   return {

@@ -1,6 +1,3 @@
-import { Typography } from '@mui/material';
-
-import { selectHasFreemium } from 'domains/auth/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { ChainID } from 'modules/chains/types';
@@ -24,23 +21,15 @@ const buildRpcUrl = (
     .replace('{user}', userEndpointToken);
 };
 
-interface IBitcoinBlockBookEndpointProps {
-  isPremiumLabelHidden?: boolean;
-}
-
-export const BitcoinBlockBookEndpoint = ({
-  isPremiumLabelHidden,
-}: IBitcoinBlockBookEndpointProps) => {
+export const BitcoinBlockBookEndpoint = () => {
   const { classes } = useBitcoinBlockBookEndpointStyles();
 
-  const { hasConnectWalletMessage, hasPremium, hasPrivateAccess, isLoggedIn } =
-    useAuth();
+  const { hasConnectWalletMessage, isLoggedIn } = useAuth();
 
   const { keys, t } = useTranslation(blockbookTranslation);
 
   const userEndpointToken = useUserEndpointToken();
 
-  const isFreePremium = useAppSelector(selectHasFreemium);
   const allChains = useAppSelector(selectBlockchainsData);
 
   const chain = allChains?.find(x => x.id === ChainID.BTC_BLOCKBOOK);
@@ -60,28 +49,13 @@ export const BitcoinBlockBookEndpoint = ({
 
   return (
     <div className={classes.root}>
-      <EndpointsHeader
-        isPremiumLabelHidden={isPremiumLabelHidden}
-        hasPremium={hasPremium}
-        tooltipText={t(keys.tooltip)}
-        title={t(keys.label)}
-      />
+      <EndpointsHeader tooltipText={t(keys.tooltip)} title={t(keys.label)} />
       <Endpoint
         hasConnectWalletMessage={hasConnectWalletMessage}
         key={formattedUrl}
         onCopy={undefined}
         url={formattedUrl}
       />
-      {!isFreePremium && !hasPrivateAccess && (
-        <Typography variant="body3" color="textSecondary">
-          {t(keys.description)}
-        </Typography>
-      )}
-      {isFreePremium && (
-        <Typography variant="body3" color="textSecondary">
-          {t(keys.premiumCaption)}
-        </Typography>
-      )}
     </div>
   );
 };

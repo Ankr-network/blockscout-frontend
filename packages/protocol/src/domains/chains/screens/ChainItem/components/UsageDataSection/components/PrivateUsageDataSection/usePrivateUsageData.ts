@@ -11,16 +11,16 @@ import {
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
 import { useTop10Stats } from 'domains/dashboard/screens/Dashboard/components/AllChainsLayout/v1/hooks/useTop10Stats';
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
+import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
 
 import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
 import { checkPrivateChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
+import { ChainProtocol } from '../../../../constants/ChainProtocolContext';
 
 export interface UsageDataParams {
   chain: Chain;
@@ -28,6 +28,8 @@ export interface UsageDataParams {
   chainSubType?: ChainSubType;
   group: EndpointGroup;
   timeframe: Timeframe;
+  chainProtocol?: ChainProtocol;
+  isChainProtocolSwitchEnabled?: boolean;
 }
 
 export const getUserTopRequest = (
@@ -52,15 +54,14 @@ export const getUserTopRequest = (
 
 export const usePrivateUsageData = ({
   chain,
+  chainProtocol,
   chainSubType,
   chainType,
   group,
+  isChainProtocolSwitchEnabled,
   timeframe,
 }: UsageDataParams): UsageData => {
   const { loading: isConnecting } = useAuth();
-
-  const { chainProtocol, isChainProtocolSwitchEnabled } =
-    useChainProtocolContext();
 
   const chainId = getStatsChainId({
     publicChain: chain,
@@ -73,15 +74,13 @@ export const usePrivateUsageData = ({
 
   const privateCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
-  const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
-
   const {
     arePrivateStatsLoading,
     data: { stats: privateStats = {} },
     privateStatsError,
   } = usePrivateStats({
     interval: timeframeToIntervalMap[timeframe],
-    userEndpointToken: selectedProjectEndpointToken,
+    userEndpointToken: ALL_PROJECTS_VALUE,
   });
 
   const { top10Data } = useTop10Stats(timeframe, privateCheckedChainId);

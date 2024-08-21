@@ -7,7 +7,7 @@ import { AccordionItem } from './components/AccordionItem/AccordionItem';
 import {
   IProjectChainsAccordionProps,
   useProjectChainsAccordion,
-} from './useProjectChainsAccordion';
+} from './hooks/useProjectChainsAccordion';
 import { projectChainsAccordion } from './translation';
 import { useProjectChainsAccordionStyles } from './useProjectChainsAccordionStyles';
 
@@ -23,7 +23,7 @@ export const ProjectChainsAccordion = (props: IProjectChainsAccordionProps) => {
     visibleChains,
   } = useProjectChainsAccordion(props);
 
-  const { timeframe } = props;
+  const { timeframe, userEndpointToken } = props;
 
   const { keys, t } = useTranslation(projectChainsAccordion);
 
@@ -49,6 +49,7 @@ export const ProjectChainsAccordion = (props: IProjectChainsAccordionProps) => {
             currentTab={currentTab}
             isActive={isActive}
             timeframe={timeframe}
+            userEndpointToken={userEndpointToken}
           />
         );
       })}

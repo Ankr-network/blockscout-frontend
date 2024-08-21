@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
 import { Chain } from 'modules/chains/types';
-import { Checkbox } from 'domains/projects/components/Checkbox';
+import { Checkbox } from 'modules/common/components/Checkbox';
 import { clearPathPrefix } from 'modules/chains/utils/clearPathPrefix';
 import { getChainName } from 'domains/projects/utils/getChainName';
 

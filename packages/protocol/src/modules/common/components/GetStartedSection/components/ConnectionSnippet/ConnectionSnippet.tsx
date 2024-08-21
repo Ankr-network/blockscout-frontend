@@ -29,7 +29,12 @@ export const ConnectionSnippet = ({
   const { classes, cx } = useStyles();
 
   return (
-    <div className={cx(classes.connectionSnippet, className)}>
+    <div
+      className={cx(classes.connectionSnippet, className)}
+      tabIndex={0}
+      role="button"
+      onClick={e => e.stopPropagation()}
+    >
       <SnippetTechnologyTabs
         setTechnology={setTechnology}
         isTitleHidden={isTitleHidden}

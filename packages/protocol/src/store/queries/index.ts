@@ -32,6 +32,10 @@ const endpointsSerializedByParams = [
   'fetchWalletBalanceAnkr',
   'fetchWalletBalanceUsdc',
   'fetchWalletBalanceUsdt',
+
+  /* stats */
+  'fetchProjectChainsStatsFor1h',
+  'fetchProjectChainsStatsFor24h',
 ];
 
 const sortQueryArgsKeys = (queryArgs: unknown) => {

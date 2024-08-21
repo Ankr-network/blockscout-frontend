@@ -8,7 +8,7 @@ import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selecto
 
 import { useEnterpriseChainDetails } from './useEnterpriseChainDetails';
 import { ChainItemSections } from '../ChainItemSections';
-import { useEnterpriseChainItemBreadcrumbs } from '../../screens/ChainItem/useEnterpriseChainItemBreadcrumbs';
+import { useEnterpriseChainItemBreadcrumbs } from '../../screens/EnterpriseChainItemPage/useEnterpriseChainItemBreadcrumbs';
 
 export interface ChainItemProps {
   data: IPrivateChainItemDetails;

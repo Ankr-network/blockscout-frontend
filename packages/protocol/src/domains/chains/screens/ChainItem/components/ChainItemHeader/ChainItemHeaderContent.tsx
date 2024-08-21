@@ -1,5 +1,4 @@
-import { ReactNode } from 'react';
-import { Typography } from '@mui/material';
+import { ReactNode, useMemo } from 'react';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -17,11 +16,11 @@ import { ChainItemHeaderExtraContent } from './components/ChainItemHeaderExtraCo
 import { useChainItemHeaderContent } from './hooks/useChainItemHeaderContent';
 import { useChainItemHeaderContentStyles } from './ChainItemHeaderStyles';
 import { AdvancedApiLinks } from './components/AdvancedApiLinks';
+import { useChainProtocolContext } from '../../hooks/useChainProtocolContext';
 
 export interface ChainItemHeaderProps {
   additionalSelector?: ReactNode;
   chain: Chain;
-  chainSubType?: ChainSubType;
   chainSubTypeTab?: Tab<ChainSubType>;
   chainSubTypeTabs: Tab<ChainSubType>[];
   chainType: ChainType;
@@ -32,31 +31,31 @@ export interface ChainItemHeaderProps {
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
   groups: EndpointGroup[];
-  isChainArchived: boolean;
   publicChain: Chain;
   selectGroup: (id: ChainGroupID) => void;
 }
 
-type OmittedProps = Omit<ChainItemHeaderProps, 'toggleBeacon'>;
-
-interface ChainItemHeaderContentProps extends OmittedProps {
+interface ChainItemHeaderContentProps extends ChainItemHeaderProps {
   isEnterprise?: boolean;
   isMetamaskButtonHidden?: boolean;
   isMultiChain: boolean;
   isProtocolSwitcherHidden?: boolean;
   isGroupSelectorAutoWidth?: boolean;
-  isPremiumLabelHidden?: boolean;
-  isPremiumChain?: boolean;
-  requestsString?: string;
   isCompactView?: boolean;
   onOpenCodeExample?: () => void;
+  shouldHideEndpoints?: boolean;
+  addToProjectButton?: ReactNode;
+  isCodeExampleHidden?: boolean;
+  isSubchainSelectorHidden?: boolean;
+  hasSelectorForMetamaskButton?: boolean;
+  subchainLabels?: string[];
 }
 
 /* eslint-disable max-lines-per-function */
 export const ChainItemHeaderContent = ({
+  addToProjectButton,
   additionalSelector,
   chain,
-  chainSubType,
   chainSubTypeTab,
   chainSubTypeTabs,
   chainType,
@@ -67,20 +66,23 @@ export const ChainItemHeaderContent = ({
   groupTab,
   groupTabs,
   groups,
-  isChainArchived,
+  hasSelectorForMetamaskButton,
+  isCodeExampleHidden,
   isCompactView,
   isEnterprise = false,
   isGroupSelectorAutoWidth,
   isMetamaskButtonHidden,
   isMultiChain,
-  isPremiumChain = false,
-  isPremiumLabelHidden,
   isProtocolSwitcherHidden,
+  isSubchainSelectorHidden,
   onOpenCodeExample,
   publicChain,
-  requestsString,
   selectGroup,
+  shouldHideEndpoints: shouldHideEndpointsProp,
+  subchainLabels,
 }: ChainItemHeaderContentProps) => {
+  const { isChainProtocolSwitchEnabled } = useChainProtocolContext();
+
   const { endpointsGroup, hasGroupSelector, hasMetamaskButton, placeholder } =
     useChainItemHeaderContent({
       group,
@@ -88,11 +90,33 @@ export const ChainItemHeaderContent = ({
       chain,
       groupID,
       isMetamaskButtonHidden,
+      isChainProtocolSwitchEnabled,
     });
 
   const { classes } = useChainItemHeaderContentStyles();
 
-  const shouldHideEndpoints = isMultiChain && !isCompactView;
+  const shouldHideEndpoints =
+    (isMultiChain && !isCompactView) || shouldHideEndpointsProp;
+
+  const extraContent = useMemo(() => {
+    return (
+      <ChainItemHeaderExtraContent
+        chain={chain}
+        hasMetamaskButton={hasMetamaskButton}
+        onOpenCodeExample={onOpenCodeExample}
+        isCodeExampleHidden={isCodeExampleHidden}
+        hasSelectorForMetamaskButton={hasSelectorForMetamaskButton}
+        isEnterprise={isEnterprise}
+      />
+    );
+  }, [
+    chain,
+    hasMetamaskButton,
+    hasSelectorForMetamaskButton,
+    isCodeExampleHidden,
+    isEnterprise,
+    onOpenCodeExample,
+  ]);
 
   return (
     <>
@@ -101,18 +125,16 @@ export const ChainItemHeaderContent = ({
           <MultiChainOverview
             hasLogo={!isCompactView}
             hasDescription={isCompactView}
+            addToProjectButton={addToProjectButton}
           />
           <div className={classes.multichainLinksWrapper}>
             <AdvancedApiLinks hasSupportedChainsLink={isCompactView} />
             <ChainItemHeaderExtraContent
               chain={chain}
-              chainSubType={chainSubType}
-              chainType={chainType}
-              group={group}
-              isCompactView
               isEnterprise={isEnterprise}
               hasMetamaskButton={hasMetamaskButton}
               onOpenCodeExample={onOpenCodeExample}
+              isCodeExampleHidden={isCodeExampleHidden}
             />
           </div>
         </>
@@ -121,13 +143,7 @@ export const ChainItemHeaderContent = ({
           {!isCompactView && (
             <ChainOverview
               chain={chain}
-              chainType={chainType}
-              chainSubType={chainSubType}
-              group={group}
-              isChainArchived={isChainArchived}
-              isEnterprise={isEnterprise}
-              hasMetamaskButton={hasMetamaskButton}
-              isPremiumChain={isPremiumChain}
+              addToProjectButton={addToProjectButton}
             />
           )}
           <ChainSelectorContent
@@ -145,48 +161,28 @@ export const ChainItemHeaderContent = ({
             selectGroup={selectGroup}
             isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
             className={isCompactView ? classes.noMargin : undefined}
-            extraContent={
-              <ChainItemHeaderExtraContent
-                chain={chain}
-                chainSubType={chainSubType}
-                chainType={chainType}
-                group={group}
-                isCompactView={isCompactView}
-                isEnterprise={isEnterprise}
-                hasMetamaskButton={hasMetamaskButton}
-                onOpenCodeExample={onOpenCodeExample}
-              />
-            }
+            isSubchainSelectorHidden={isSubchainSelectorHidden}
+            extraContent={extraContent}
+            subchainLabels={subchainLabels}
+            classNameSelector={classes.chainHeaderSelector}
           />
         </>
       )}
-      {requestsString && (
-        <Typography
-          sx={{ mt: 3 }}
-          variant="body3"
-          color="textSecondary"
-          component="p"
-        >
-          {requestsString}
-        </Typography>
-      )}
       {!shouldHideEndpoints && (
         <div className={classes.content}>
-          {isEnterprise ? (
+          {isEnterprise && (
             <EnterpriseEndpoints
               publicChain={publicChain}
               chainType={chainType}
               group={endpointsGroup}
             />
-          ) : (
-            <Endpoints
-              publicChain={publicChain}
-              chainType={chainType}
-              group={endpointsGroup}
-              placeholder={placeholder}
-              isPremiumLabelHidden={isPremiumLabelHidden}
-            />
           )}
+          <Endpoints
+            publicChain={isEnterprise ? chain : publicChain}
+            chainType={chainType}
+            group={endpointsGroup}
+            placeholder={placeholder}
+          />
           <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
             <PremiumContent isMultiChain={isMultiChain} />
           </GuardUserGroup>

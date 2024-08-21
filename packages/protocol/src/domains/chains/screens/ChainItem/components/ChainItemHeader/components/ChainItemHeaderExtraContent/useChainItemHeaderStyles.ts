@@ -3,15 +3,10 @@ import { makeStyles } from 'tss-react/mui';
 export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
   extraContent: {
     paddingRight: theme.spacing(0.5),
-    marginLeft: 'auto',
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(2),
     overflow: 'visible',
-
-    [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(9),
-    },
   },
   codeExampleButton: {
     minHeight: 30,

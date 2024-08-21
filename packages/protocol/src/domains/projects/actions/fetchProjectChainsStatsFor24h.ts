@@ -9,6 +9,7 @@ import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { Gateway } from 'domains/dashboard/types';
+import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -17,10 +18,11 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-export type FetchProjectChainsStatsFor24hParams = IApiUserGroupParams &
-  Gateway & {
-    token: string;
-  };
+export interface IFetchProjectChainsStatsFor24hParams
+  extends IApiUserGroupParams,
+    Gateway {
+  token: string;
+}
 
 export const {
   endpoints: { fetchProjectChainsStatsFor24h },
@@ -29,7 +31,7 @@ export const {
   endpoints: build => ({
     fetchProjectChainsStatsFor24h: build.query<
       PrivateStats,
-      FetchProjectChainsStatsFor24hParams
+      IFetchProjectChainsStatsFor24hParams
     >({
       queryFn: createNotifyingQueryFn(
         async ({ gateway = getAccountingGateway(), group, token }) => {
@@ -44,4 +46,12 @@ export const {
       ),
     }),
   }),
+});
+
+export const {
+  selectDataCachedByParams: selectDataForLastDay,
+  selectLoadingCachedByParams: selectLoading,
+  selectStateCachedByParams: selectStateForLastDayChainsStats,
+} = createQuerySelectors({
+  endpoint: fetchProjectChainsStatsFor24h,
 });

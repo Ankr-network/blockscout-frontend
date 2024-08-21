@@ -44,4 +44,13 @@ export const useChainItemHeaderContentStyles = makeStyles()(theme => ({
       },
     },
   },
+  chainHeaderSelector: {
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      flexDirection: 'column',
+      '& div': {
+        width: '100%',
+      },
+    },
+  },
 }));

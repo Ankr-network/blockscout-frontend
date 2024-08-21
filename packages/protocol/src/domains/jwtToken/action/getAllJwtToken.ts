@@ -23,6 +23,7 @@ export interface IRequestParams extends IApiUserGroupParams {
 
 export const {
   endpoints: { fetchAllJwtTokenRequests },
+  useFetchAllJwtTokenRequestsQuery,
   useLazyFetchAllJwtTokenRequestsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({

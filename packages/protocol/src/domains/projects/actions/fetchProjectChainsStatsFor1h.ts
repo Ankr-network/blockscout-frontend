@@ -9,6 +9,7 @@ import { getAccountingGateway } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { Gateway } from 'domains/dashboard/types';
+import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -17,11 +18,15 @@ const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   };
 };
 
-export type FetchProjectChainsStatsFor1hParams = IApiUserGroupParams &
-  Gateway & {
-    token: string;
-  };
+export interface IFetchProjectChainsStatsFor1hParams
+  extends IApiUserGroupParams,
+    Gateway {
+  token: string;
+}
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchProjectChainsStatsFor1h },
   useFetchProjectChainsStatsFor1hQuery,
@@ -29,7 +34,7 @@ export const {
   endpoints: build => ({
     fetchProjectChainsStatsFor1h: build.query<
       PrivateStats,
-      FetchProjectChainsStatsFor1hParams
+      IFetchProjectChainsStatsFor1hParams
     >({
       queryFn: createNotifyingQueryFn(
         async ({ gateway = getAccountingGateway(), group, token }) => {
@@ -44,4 +49,12 @@ export const {
       ),
     }),
   }),
+});
+
+export const {
+  selectDataCachedByParams: selectDataForLastHour,
+  selectLoadingCachedByParams: selectLoading,
+  selectStateCachedByParams: selectStateForLastHourChainsStats,
+} = createQuerySelectors({
+  endpoint: fetchProjectChainsStatsFor1h,
 });

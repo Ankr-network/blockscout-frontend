@@ -66,7 +66,7 @@
   },
   "main-navigation": {
     "projects": "Projects",
-    "analytics": "Analytics",
+    "analytics": "Statistics",
     "enterprise": "Enterprise",
     "advanced-api": "Advanced API",
     "endpoints": "Endpoints",
@@ -573,7 +573,7 @@
     },
     "total-requests": {
       "title": "Total requests",
-      "analytics-button": "Analytics",
+      "analytics-button": "Statistics",
       "empty": "No data for statistics yet",
       "freemium-message": "Unlock access to your personal statistics with <i>Premium</i>",
       "freemium-button": "Upgrade",
@@ -1036,7 +1036,6 @@
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
         "lockedLabelHttps": "https://rpc.ankr.com/…",
-        "rate-limits": "Endpoint’s rate limit is capped on Public.",
         "lockedLabelWss": "wss://rpc.ankr.com/…",
         "login-to-proceed": "Login to proceed"
       },
@@ -1123,7 +1122,7 @@
     }
   },
   "main-analytics": {
-    "breadcrumbs": "Analytics"
+    "breadcrumbs": "Statistics"
   },
   "advanced-api": {
     "breadcrumbs": "Advanced API",

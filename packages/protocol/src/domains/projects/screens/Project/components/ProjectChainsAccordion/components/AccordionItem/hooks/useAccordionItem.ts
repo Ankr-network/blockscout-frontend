@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { MOBILE_HEADER_HEIGHT } from 'modules/layout/components/MobileHeader';
 import { Chain, Timeframe } from 'modules/chains/types';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useChainRequests } from './useChainRequests';
 
@@ -11,6 +10,7 @@ export interface IAccordionItemProps {
   currentTab?: any;
   isActive?: boolean;
   timeframe: Timeframe;
+  userEndpointToken?: string;
 }
 
 export const ANIMATION_DURATION = 500;
@@ -20,10 +20,13 @@ export const useAccordionItem = ({
   currentTab,
   isActive,
   timeframe,
+  userEndpointToken,
 }: IAccordionItemProps) => {
-  const { hasPremium } = useAuth();
-
-  const { requestsString } = useChainRequests(chain.id, timeframe);
+  const { requestsString } = useChainRequests(
+    chain.id,
+    timeframe,
+    userEndpointToken,
+  );
 
   const [isClosedManually, setIsClosedManually] = useState(false);
 
@@ -64,7 +67,6 @@ export const useAccordionItem = ({
   }, [currentTab, handleScrollToChain, isActive, isClosedManually]);
 
   return {
-    hasPremium,
     requestsString,
     isClosedManually,
     elementId,

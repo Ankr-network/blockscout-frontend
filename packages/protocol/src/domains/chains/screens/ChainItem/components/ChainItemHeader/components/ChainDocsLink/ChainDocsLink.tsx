@@ -36,6 +36,10 @@ export const ChainDocsLink = ({
     [id, isChainProtocolSwitchEnabled, chainProtocol],
   );
 
+  if (!link) {
+    return null;
+  }
+
   return (
     <NavLink
       className={className}

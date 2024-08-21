@@ -52,7 +52,6 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
 // eslint-disable-next-line max-lines-per-function
 export const useEnterpriseChainDetails = ({
   chain,
-  isChainArchived,
   onBlockedTabClick,
   selectedGroupId,
   selectedType,
@@ -134,7 +133,6 @@ export const useEnterpriseChainDetails = ({
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
-        chainSubType={chainSubType}
         chainSubTypeTab={chainSubTypeTab}
         chainSubTypeTabs={chainSubTypeTabs}
         group={group}
@@ -142,11 +140,11 @@ export const useEnterpriseChainDetails = ({
         groupID={groupID}
         groupTabs={groupTabs}
         groupTab={groupTab}
-        isChainArchived={isChainArchived}
         selectGroup={selectGroup}
         isProtocolSwitcherHidden
         isEnterprise
         isMetamaskButtonHidden={isMetamaskButtonHidden}
+        isCodeExampleHidden
       />
     ),
     [
@@ -156,7 +154,6 @@ export const useEnterpriseChainDetails = ({
       chainType,
       chainTypeTabs,
       chainTypeTab,
-      chainSubType,
       chainSubTypeTab,
       chainSubTypeTabs,
       group,
@@ -164,7 +161,6 @@ export const useEnterpriseChainDetails = ({
       groupID,
       groupTabs,
       groupTab,
-      isChainArchived,
       selectGroup,
       isMetamaskButtonHidden,
     ],
