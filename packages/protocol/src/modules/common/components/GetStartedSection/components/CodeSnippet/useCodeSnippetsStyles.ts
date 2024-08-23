@@ -60,11 +60,6 @@ export const useCodeSnippetsStyles = makeStyles<ICodeSnippetStylesProps>()(
 
       whiteSpace: 'pre-wrap',
       wordBreak: 'break-word',
-
-      [theme.breakpoints.down('sm')]: {
-        whiteSpace: 'pre',
-        wordBreak: 'normal',
-      },
     },
     expandButton: {
       marginTop: theme.spacing(2 * 2),

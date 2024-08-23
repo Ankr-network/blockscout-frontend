@@ -10,7 +10,6 @@ import { usePrivateChainItemQuery } from './PrivateChainItemQueryUtils';
 import { ChainItemProps } from '../ChainItemTypes';
 
 export const PrivateChainItemQuery = ({ chainId }: ChainItemProps) => {
-  const { classes } = useStyles();
   const fetchChainState = usePrivateChainItemQuery(chainId);
 
   const {
@@ -19,28 +18,32 @@ export const PrivateChainItemQuery = ({ chainId }: ChainItemProps) => {
     shouldShowTokenManager,
   } = useJwtTokenManager();
 
-  return (
-    <div className={classes.root}>
-      <ExpiredTokenBanner />
-      <Queries<IPrivateChainItemDetails>
-        isPreloadDisabled
-        queryStates={[fetchChainState]}
-      >
-        {({ data, isLoading, isUninitialized }) => {
-          if ((isLoading && isUninitialized) || !data) {
-            return <ChainItemSkeleton />;
-          }
+  const { classes } = useStyles();
 
-          return (
-            <PrivateChainItem
-              data={data}
-              isLoadingTokenManager={isLoadingTokenManager}
-              jwtTokens={jwtTokens}
-              shouldShowTokenManager={shouldShowTokenManager}
-            />
-          );
-        }}
-      </Queries>
-    </div>
+  return (
+    <>
+      <div className={classes.root}>
+        <ExpiredTokenBanner />
+        <Queries<IPrivateChainItemDetails>
+          isPreloadDisabled
+          queryStates={[fetchChainState]}
+        >
+          {({ data, isLoading, isUninitialized }) => {
+            if ((isLoading && isUninitialized) || !data) {
+              return <ChainItemSkeleton />;
+            }
+
+            return (
+              <PrivateChainItem
+                data={data}
+                isLoadingTokenManager={isLoadingTokenManager}
+                jwtTokens={jwtTokens}
+                shouldShowTokenManager={shouldShowTokenManager}
+              />
+            );
+          }}
+        </Queries>
+      </div>
+    </>
   );
 };

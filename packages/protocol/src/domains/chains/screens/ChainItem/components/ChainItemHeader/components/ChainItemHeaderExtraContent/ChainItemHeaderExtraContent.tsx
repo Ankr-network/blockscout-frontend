@@ -4,6 +4,7 @@ import { Code } from '@ankr.com/ui';
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
 import { Chain } from 'modules/chains/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
 
 import { ChainDocsLink } from '../ChainDocsLink';
 import { chainItemHeaderExtraContentTranslation } from './translation';
@@ -39,23 +40,20 @@ export const ChainItemHeaderExtraContent = ({
   return (
     <div className={classes.extraContent}>
       {!isCodeExampleHidden && (
-        <Button
-          onClick={onOpenCodeExample}
-          variant="outlined"
-          size="small"
-          className={classes.codeExampleButton}
-          disabled={isCodeExampleDisabled}
-        >
-          <Code />
-          {t(keys.codeExample)}
-        </Button>
+        <GuardResolution protectedResolution="xsDown">
+          <Button
+            onClick={onOpenCodeExample}
+            variant="outlined"
+            size="small"
+            className={classes.codeExampleButton}
+            disabled={isCodeExampleDisabled}
+          >
+            <Code />
+            {t(keys.codeExample)}
+          </Button>
+        </GuardResolution>
       )}
-      <ChainDocsLink
-        id={chain.id}
-        size="small"
-        className={classes.docsLink}
-        isTextHidden
-      />
+      <ChainDocsLink id={chain.id} size="small" className={classes.docsLink} />
       {(hasMetamaskButton || hasSelectorForMetamaskButton) && (
         <AddNetworkButton
           className={classes.addNetworkButton}

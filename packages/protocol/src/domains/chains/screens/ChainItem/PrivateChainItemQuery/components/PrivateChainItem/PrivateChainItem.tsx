@@ -19,6 +19,7 @@ import { ChainProjectsSection } from 'domains/chains/screens/ChainItem/component
 import { ChainProjectsDialog } from 'domains/chains/screens/ChainItem/components/ChainProjectsDialog';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
 
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { privateChainItemTranslation } from './translation';
@@ -51,19 +52,21 @@ export const PrivateChainItem = ({
   const { keys, t } = useTranslation(privateChainItemTranslation);
 
   const addToProjectButton = (
-    <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
-      <Button
-        size="medium"
-        variant="outlined"
-        onClick={onOpenAddToProjectsDialog}
-        startIcon={<Plus />}
-        sx={{
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {t(keys.addToProject)}
-      </Button>
-    </GuardUserGroup>
+    <GuardResolution protectedResolution="smDown">
+      <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
+        <Button
+          size="medium"
+          variant="outlined"
+          onClick={onOpenAddToProjectsDialog}
+          startIcon={<Plus />}
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {t(keys.addToProject)}
+        </Button>
+      </GuardUserGroup>
+    </GuardResolution>
   );
 
   const { chain, headerContent, name } = usePrivateChainItem({

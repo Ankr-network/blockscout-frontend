@@ -34,6 +34,7 @@ export const useMultiChainBenefitsStyles = makeStyles<boolean>()(
 
       [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',
+        padding: theme.spacing(5.5, 4),
       },
     },
     img: {

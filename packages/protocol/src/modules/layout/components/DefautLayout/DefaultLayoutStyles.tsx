@@ -48,6 +48,8 @@ export const useStyles = makeStyles<Props>()(
       position: 'relative',
       paddingTop: HEADER_HEIGHT,
       paddingBottom: 2 * MOBILE_LAYOUT_PADDING,
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(4),
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,

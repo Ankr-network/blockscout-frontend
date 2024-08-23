@@ -12,6 +12,8 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(4),
+      flexDirection: 'column-reverse',
+      alignItems: 'flex-start',
     },
   },
   labels: {
@@ -22,6 +24,10 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
     marginRight: 'auto',
+
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+    },
   },
   selectors: {
     display: 'flex',
@@ -83,6 +89,12 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
     justifyContent: 'space-between',
+
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column-reverse',
+      alignItems: 'flex-start',
+      width: '100%',
+    },
   },
   subchainLabelsWrapper: {
     display: 'flex',

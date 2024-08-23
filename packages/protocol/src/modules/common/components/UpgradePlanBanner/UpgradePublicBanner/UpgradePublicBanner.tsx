@@ -13,9 +13,9 @@ export const UpgradePublicBanner = ({
   const { classes } = useUpgradePublicBannerStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.upgradeBannerRoot}>
       <div className={classes.image} />
-      <div className={classes.content}>
+      <div className={classes.upgradeBannerContent}>
         <div className={classes.textRoot}>
           <Typography
             component="p"

@@ -7,10 +7,18 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gap: theme.spacing(2),
     overflow: 'visible',
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   codeExampleButton: {
     minHeight: 30,
     height: 30,
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   addNetworkButton: {
     '&&': {
@@ -46,9 +54,14 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
     minHeight: 30,
     height: 30,
     gap: 0,
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 2),
     '&&': {
       borderRadius: theme.spacing(3),
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      display: 'inline-flex',
     },
   },
 }));

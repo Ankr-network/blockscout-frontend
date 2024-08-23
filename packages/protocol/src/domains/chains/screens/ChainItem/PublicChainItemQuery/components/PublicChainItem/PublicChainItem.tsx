@@ -5,7 +5,6 @@ import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/
 import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainItem/hooks/useRedirectToAdvancedApi';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
-import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
 import { MultiChainBenefits } from 'modules/common/components/GetStartedSection/components/MultichainBenefits';
 
@@ -31,7 +30,6 @@ export const PublicChainItem = ({ data }: ChainItemProps) => {
 
   return (
     <>
-      {isMultichain(chain.id) && <UpgradePlanBanner isPublicUser />}
       <ChainProtocolContext.Provider value={chainProtocolContext}>
         <ChainItemHeader headerContent={headerContent} />
         {isMultichain(chain.id) && (

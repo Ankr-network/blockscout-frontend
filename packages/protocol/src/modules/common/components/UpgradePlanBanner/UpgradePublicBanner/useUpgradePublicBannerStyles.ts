@@ -3,18 +3,21 @@ import { makeStyles } from 'tss-react/mui';
 import { darken } from '@mui/material';
 
 import { isLightTheme, premiumGradient } from 'uiKit/Theme/themeUtils';
+import { CONTENT_WIDTH } from 'modules/layout/components/DefautLayout';
 
 import bg from '../assets/public-bg.png';
 
 export const useUpgradePublicBannerStyles = makeStyles()((theme: Theme) => ({
-  root: {
+  upgradeBannerRoot: {
     padding: 0,
     minHeight: 120,
     overflow: 'hidden',
     position: 'relative',
     borderRadius: 30,
+    maxWidth: CONTENT_WIDTH,
+    margin: 'auto',
   },
-  content: {
+  upgradeBannerContent: {
     height: '100%',
     position: 'relative',
     padding: theme.spacing(7.5),
@@ -28,6 +31,10 @@ export const useUpgradePublicBannerStyles = makeStyles()((theme: Theme) => ({
       flexDirection: 'column',
       alignItems: 'flex-start',
       gap: theme.spacing(7.5),
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
     },
   },
   textRoot: {

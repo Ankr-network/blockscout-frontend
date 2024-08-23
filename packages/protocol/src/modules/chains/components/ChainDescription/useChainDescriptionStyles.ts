@@ -39,6 +39,7 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       fontSize: 14,
+      lineHeight: 1,
     },
   },
   coinNameSmall: {

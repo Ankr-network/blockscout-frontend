@@ -5,6 +5,10 @@ export const useDataUsageSectionStyles = makeStyles()((theme: Theme) => ({
   statisticsPaper: {
     padding: theme.spacing(8),
     background: theme.palette.background.paper,
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   statisticsItemTitle: {
     display: 'flex',

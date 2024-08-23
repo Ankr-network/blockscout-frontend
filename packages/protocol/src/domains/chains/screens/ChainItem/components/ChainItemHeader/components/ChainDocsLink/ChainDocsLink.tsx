@@ -50,7 +50,7 @@ export const ChainDocsLink = ({
       size={size}
       title={t('chain-item.header.docs')}
     >
-      <Typography variant="button2">
+      <Typography variant="body3" className={classes.docsText}>
         {!isTextHidden && t('chain-item.header.docs')}
       </Typography>
     </NavLink>
