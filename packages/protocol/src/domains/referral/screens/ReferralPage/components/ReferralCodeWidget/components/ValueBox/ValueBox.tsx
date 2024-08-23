@@ -1,5 +1,6 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 
+import { Placeholder } from 'modules/common/components/Placeholder';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 import { CopyButton } from '../CopyButton';
@@ -7,11 +8,13 @@ import { useValieBoxStyles } from './useValueBoxStyles';
 
 export interface IValueBoxProps {
   copyValue?: string;
+  isLoading?: boolean;
   title: string;
   value: string;
 }
 
 export const ValueBox = ({
+  isLoading = false,
   title,
   value,
   copyValue = value,
@@ -26,14 +29,21 @@ export const ValueBox = ({
   return (
     <div className={classes.root}>
       <Typography variant={titleVariant}>{title}</Typography>
-      <Typography
-        className={classes.box}
-        component={Box}
-        variant={valueVariant}
+      <Placeholder
+        hasPlaceholder={isLoading}
+        placeholder={
+          <Skeleton className={classes.skeleton} variant="rectangular" />
+        }
       >
-        {value}
-        <CopyButton size={copyButtonSize} text={copyValue} />
-      </Typography>
+        <Typography
+          className={classes.box}
+          component={Box}
+          variant={valueVariant}
+        >
+          {value}
+          <CopyButton size={copyButtonSize} text={copyValue} />
+        </Typography>
+      </Placeholder>
     </div>
   );
 };

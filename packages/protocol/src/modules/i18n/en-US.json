@@ -160,6 +160,11 @@
       "auto-agreement-message": "By continuing you agree to our <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>."
     }
   },
+  "balance": {
+    "credits": "{balance, number, ::compact-short} API Credits",
+    "usd": "{isApproximate, select, true {≈} other {}}{balance, number, USD}",
+    "requests": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}"
+  },
   "referral": {
     "breadcrumbs": "Referral"
   },
@@ -2054,11 +2059,7 @@
       },
       "balance-widget": {
         "title": "Charging",
-        "payg-label": "Pay-as-you-go",
-        "credit-balance": "{balance, number, ::compact-short} API Credits",
         "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
-        "usd-balance": "{isApproximate, select, true {≈} other {}}{balance, number, USD}",
-        "requests-balance": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}",
         "expires": "Expires: {date, date, long}",
         "plural": "s",
         "assets-balance-button": "Balances",

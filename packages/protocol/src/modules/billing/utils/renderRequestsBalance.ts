@@ -1,9 +1,5 @@
 import { t } from '@ankr.com/common';
 
-import { intlRoot } from '../const';
-
-const requestsIntlKey = `${intlRoot}.requests-balance`;
-
 export interface IRenderRequestsBalanceParams {
   isApproximate?: boolean;
   isShortened?: boolean;
@@ -17,4 +13,4 @@ export const renderRequestsBalance = ({
   prefix,
   requestsBalance: balance,
 }: IRenderRequestsBalanceParams) =>
-  t(requestsIntlKey, { balance, isApproximate, isShortened, prefix });
+  t('balance.requests', { balance, isApproximate, isShortened, prefix });

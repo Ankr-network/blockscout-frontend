@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
 import { EChargingModel, IChargingModelData } from 'modules/payments/types';
+import { PAYGLabel } from 'modules/common/components/PAYGLabel';
 import { UserLabel } from 'uiKit/UserLabel';
 
-import { PAYGLabel } from '../ChargingModelWidget/components/PAYGLabel';
 import { useFreemiumChargingModel } from '../../hooks/useFreemiumChargingModel';
 
 interface IChargingModelLabelParams {

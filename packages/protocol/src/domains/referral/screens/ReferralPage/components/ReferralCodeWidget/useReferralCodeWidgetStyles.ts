@@ -1,7 +1,9 @@
 import { alpha } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
-export const useReferralCodeWidgetStyles = makeStyles()(theme => ({
+const name = 'ReferralCodeWidget';
+
+export const useReferralCodeWidgetStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

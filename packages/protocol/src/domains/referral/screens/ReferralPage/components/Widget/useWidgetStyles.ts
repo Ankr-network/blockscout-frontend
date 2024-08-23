@@ -1,6 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useWidgetStyles = makeStyles()(theme => ({
+const name = 'Widget';
+
+export const useWidgetStyles = makeStyles({ name })(theme => ({
   root: {
     padding: theme.spacing(8),
 

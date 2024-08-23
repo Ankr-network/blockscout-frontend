@@ -33,3 +33,12 @@ export interface IMetamaskError {
   message: string;
   data?: unknown;
 }
+
+export type TPrimitive =
+  | bigint
+  | boolean
+  | null
+  | number
+  | string
+  | symbol
+  | undefined;

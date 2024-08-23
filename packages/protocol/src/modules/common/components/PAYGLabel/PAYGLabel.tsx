@@ -1,18 +1,16 @@
 import { Typography, TypographyOwnProps } from '@mui/material';
-import { t } from '@ankr.com/common';
 
-import { GradientedText } from 'modules/common/components/GradientedText';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
-import { intlRoot } from '../../const';
-import { usePAYGLabelStyles } from './PAYGLabelStyles';
-
-const intlKey = `${intlRoot}.payg-label`;
+import { GradientedText } from '../GradientedText';
+import { paygLabelTranslation } from './translation';
+import { usePAYGLabelStyles } from './usePAYGLabelStyles';
 
 type Size = 'small' | 'medium' | 'large';
 
-interface IPAYGLabelProps {
+export interface IPAYGLabelProps {
   className?: string;
-  size: Size;
+  size?: Size;
 }
 
 const variantsMap: Record<Size, TypographyOwnProps['variant']> = {
@@ -23,16 +21,19 @@ const variantsMap: Record<Size, TypographyOwnProps['variant']> = {
 
 export const PAYGLabel = ({ className, size = 'medium' }: IPAYGLabelProps) => {
   const { classes, cx } = usePAYGLabelStyles();
+  const { keys, t } = useTranslation(paygLabelTranslation);
 
   return (
     <Typography
       className={cx(classes.root, className, {
         [classes.smallRoot]: size === 'small',
         [classes.mediumRoot]: size === 'medium',
+        [classes.largeRoot]: size === 'large',
       })}
+      component="div"
       variant={variantsMap[size]}
     >
-      <GradientedText>{t(intlKey)}</GradientedText>
+      <GradientedText>{t(keys.label)}</GradientedText>
     </Typography>
   );
 };

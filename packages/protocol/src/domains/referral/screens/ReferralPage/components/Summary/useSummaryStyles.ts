@@ -1,6 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useSummaryStyles = makeStyles()(theme => ({
+const name = 'Summary';
+
+export const useSummaryStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -16,11 +18,15 @@ export const useSummaryStyles = makeStyles()(theme => ({
     gap: theme.spacing(2),
 
     color: theme.palette.text.secondary,
+
+    textWrap: 'nowrap',
   },
   icon: {
     color: theme.palette.text.secondary,
   },
   content: {
+    width: 'fit-content',
+
     color: theme.palette.primary.main,
 
     letterSpacing: '-0.03em',
@@ -31,5 +37,8 @@ export const useSummaryStyles = makeStyles()(theme => ({
       fontSize: 24,
       lineHeight: 1.15,
     },
+  },
+  skeleton: {
+    width: 100,
   },
 }));

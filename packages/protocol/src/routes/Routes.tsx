@@ -75,11 +75,11 @@ export const Routes = () => {
         )}
       />
 
-      <Route
+      <GuardAuthRoute
         exact
         path={REFERRAL_PATHS}
         render={() => (
-          <DefaultLayout hasNoReactSnap>
+          <DefaultLayout>
             <ReferralRoutes />
           </DefaultLayout>
         )}

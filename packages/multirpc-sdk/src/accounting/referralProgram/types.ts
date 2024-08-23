@@ -54,3 +54,26 @@ export interface IReferralLinks extends Record<ReferralCode, ReferralLink> {}
 export interface IGetReferralLinkByCodesResult {
   referral_urls: IReferralLinks;
 }
+
+export interface IGetRewardBalanceParams extends IApiUserGroupParams {}
+
+export interface IGetRewardBalanceResult {
+  creditBalance: string;
+  totalRewards: string;
+}
+
+export interface IGetReferralsCountParams extends IApiUserGroupParams {}
+
+export interface IGetReferralsCountResult {
+  active: number;
+  total: number;
+}
+
+export enum EConvertReferralRewardType {
+  BalanceTopUp = 'balance_topup',
+}
+
+export interface IConvertReferralRewardParams {
+  amount: string;
+  type: EConvertReferralRewardType;
+}

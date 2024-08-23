@@ -2,7 +2,9 @@ import { makeStyles } from 'tss-react/mui';
 
 import topBanner from 'domains/referral/assets/top-banner.png';
 
-export const useTopBannerStyles = makeStyles()(theme => ({
+const name = 'TopBanner';
+
+export const useTopBannerStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',

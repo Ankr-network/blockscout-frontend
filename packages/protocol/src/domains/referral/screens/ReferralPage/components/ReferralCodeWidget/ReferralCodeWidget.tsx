@@ -1,6 +1,3 @@
-import { OverlaySpinner } from '@ankr.com/ui';
-
-import { Placeholder } from 'modules/common/components/Placeholder';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { ValueBox } from './components/ValueBox';
@@ -28,14 +25,17 @@ export const ReferralCodeWidget = ({
 
   return (
     <Widget className={cx(classes.root, className)}>
-      <Placeholder hasPlaceholder={isLoading} placeholder={<OverlaySpinner />}>
-        <ValueBox
-          copyValue={link}
-          title={t(keys.referralLinkTitle)}
-          value={truncatedLink}
-        />
-        <ValueBox title={t(keys.referralCodeTitle)} value={code} />
-      </Placeholder>
+      <ValueBox
+        copyValue={link}
+        title={t(keys.referralLinkTitle)}
+        value={truncatedLink}
+        isLoading={isLoading}
+      />
+      <ValueBox
+        title={t(keys.referralCodeTitle)}
+        value={code}
+        isLoading={isLoading}
+      />
     </Widget>
   );
 };

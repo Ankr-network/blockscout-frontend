@@ -15,4 +15,16 @@ export const usePAYGLabelStyles = makeStyles()(theme => ({
     padding: theme.spacing(0.5, 2),
     borderRadius: 8,
   },
+  largeRoot: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: 'fit-content',
+    height: 32,
+
+    padding: theme.spacing(0, 3),
+
+    borderRadius: 12,
+  },
 }));

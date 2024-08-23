@@ -1,6 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useValieBoxStyles = makeStyles()(theme => ({
+const name = 'ValueBox';
+
+export const useValieBoxStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -24,6 +26,17 @@ export const useValieBoxStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(1, 2, 1, 3),
+
+      borderRadius: 12,
+    },
+  },
+  skeleton: {
+    height: 48,
+
+    borderRadius: theme.shape.borderRadius,
+
+    [theme.breakpoints.down('sm')]: {
+      height: 32,
 
       borderRadius: 12,
     },

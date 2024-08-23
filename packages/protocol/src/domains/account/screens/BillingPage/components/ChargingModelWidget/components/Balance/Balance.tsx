@@ -1,10 +1,10 @@
 import { Typography } from '@mui/material';
 
 import { BalanceTooltip } from 'domains/account/components/BalanceTooltip';
+import { renderCreditBalance } from 'modules/billing/utils/renderCreditBalance';
+import { renderRequestsBalance } from 'modules/billing/utils/renderRequestsBalance';
+import { renderUsdBalance } from 'modules/billing/utils/renderUsdBalance';
 
-import { renderCreditBalance } from '../../utils/renderCreditBalance';
-import { renderRequestsBalance } from '../../utils/renderRequestsBalance';
-import { renderUsdBalance } from '../../utils/renderUsdBalance';
 import { useBalanceStyles } from './BalanceStyles';
 
 export interface BalanceProps {

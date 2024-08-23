@@ -1,14 +1,10 @@
 import { t } from '@ankr.com/common';
 
-import { intlRoot } from '../const';
-
 export interface IRenderUsdBalanceProps {
   hasZeroDecimals?: boolean;
   isApproximate?: boolean;
   usdBalance: number;
 }
-
-const usdIntlKey = `${intlRoot}.usd-balance`;
 
 export const renderUsdBalance = ({
   hasZeroDecimals = true,
@@ -19,5 +15,5 @@ export const renderUsdBalance = ({
     return '$0';
   }
 
-  return t(usdIntlKey, { balance, isApproximate });
+  return t('balance.usd', { balance, isApproximate });
 };

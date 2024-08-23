@@ -136,14 +136,19 @@ import {
 import {
   IApplyReferralCodeParams,
   IApplyReferralCodeResult,
+  IConvertReferralRewardParams,
   ICreateReferralCodeParams,
   ICreateReferralCodeResult,
   IGetReferralCodesParams,
   IGetReferralCodesResult,
   IGetReferralLinkByCodesResult,
   IGetReferralLinksByCodesParams,
+  IGetReferralsCountParams,
+  IGetReferralsCountResult,
   IGetReferrerParams,
   IGetReferrerResponse,
+  IGetRewardBalanceParams,
+  IGetRewardBalanceResult,
 } from './referralProgram';
 import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
 
@@ -1181,5 +1186,30 @@ export class AccountingGateway {
     );
 
     return data.referral_urls;
+  }
+
+  async getRewardBalance(params?: IGetRewardBalanceParams) {
+    const { data } = await this.api.get<IGetRewardBalanceResult>(
+      '/api/v1/auth/referral/reward/balance',
+      { params },
+    );
+
+    return data;
+  }
+
+  async getReferralsCount(params?: IGetReferralsCountParams) {
+    const { data } = await this.api.get<IGetReferralsCountResult>(
+      '/api/v1/auth/referral/referrals/count',
+      { params },
+    );
+
+    return data;
+  }
+
+  async convertReferralReward(body: IConvertReferralRewardParams) {
+    await this.api.post(
+      '/api/v1/auth/referral/reward/convert',
+      body,
+    );
   }
 }
