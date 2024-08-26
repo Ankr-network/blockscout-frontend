@@ -115,10 +115,23 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getTransactions(
     params: ITransactionsRequest,
   ): Promise<ITransactionsResponse> {
+    const formattedParams = new URLSearchParams();
+
+    formattedParams.append('address', params.address)
+    if (params.blockchain) {
+      formattedParams.append('blockchain', params.blockchain)
+    }
+    formattedParams.append('cursor', params.cursor.toString())
+    formattedParams.append('limit', params.limit.toString())
+    if (params.order_by) {
+      formattedParams.append('order_by', params.order_by)
+    }
+    params.types?.forEach(x => formattedParams.append('type', x))
+
     const { data: response } = await this.api.get<ITransactionsResponse>(
       '/transactions',
       {
-        params,
+        params: formattedParams,
       },
     );
 

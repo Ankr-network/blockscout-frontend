@@ -1,9 +1,14 @@
-import { Web3Address } from 'multirpc-sdk';
+import { TPaymentHistoryEntityType, Web3Address } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
 
 import { useLazyFetchUserTransactionsQuery } from 'modules/clients/actions/fetchUserTransactions';
 
-export const useTransactions = ({ address }: { address: Web3Address }) => {
+interface IUseTransactionsParams {
+  address: Web3Address;
+  types?: TPaymentHistoryEntityType[];
+}
+
+export const useTransactions = ({ address, types }: IUseTransactionsParams) => {
   const [isFirstLoading, setIsFirstLoading] = useState(true);
 
   const [
@@ -17,15 +22,16 @@ export const useTransactions = ({ address }: { address: Web3Address }) => {
 
   useEffect(() => {
     setIsFirstLoading(true);
-  }, [address, setIsFirstLoading]);
+  }, [address, types, setIsFirstLoading]);
 
   useEffect(() => {
-    fetchTransactions({ address }).then(() => setIsFirstLoading(false));
-  }, [address, fetchTransactions]);
+    fetchTransactions({ address, types }).then(() => setIsFirstLoading(false));
+  }, [address, types, fetchTransactions]);
 
   const loadMore = useCallback(
-    () => fetchTransactions({ address, cursor: transactionsData?.cursor }),
-    [address, fetchTransactions, transactionsData?.cursor],
+    () =>
+      fetchTransactions({ address, types, cursor: transactionsData?.cursor }),
+    [address, types, fetchTransactions, transactionsData?.cursor],
   );
 
   return {

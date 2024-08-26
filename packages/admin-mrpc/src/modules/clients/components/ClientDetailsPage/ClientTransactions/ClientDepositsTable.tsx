@@ -22,25 +22,62 @@ interface IClientTransactionsTable {
   address: Web3Address;
 }
 
-export const ClientTransactionsTable = ({
-  address,
-}: IClientTransactionsTable) => {
+export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
   const {
     loadMore,
     isLoadingTransactions,
     isFetchingTransactions,
     transactionsData,
-  } = useTransactions({ address });
+  } = useTransactions({
+    address,
+    types: [
+      'TRANSACTION_TYPE_UNKNOWN',
+      'TRANSACTION_TYPE_DEPOSIT',
+      'TRANSACTION_TYPE_WITHDRAW',
+      'TRANSACTION_TYPE_BONUS',
+      'TRANSACTION_TYPE_COMPENSATION',
+      'TRANSACTION_TYPE_VOUCHER_TOPUP',
+      'TRANSACTION_TYPE_VOUCHER_ADJUST',
+      'TRANSACTION_TYPE_WITHDRAW_INIT',
+      'TRANSACTION_TYPE_WITHDRAW_ADJUST',
+    ],
+  });
+
+  const transactionsArray =
+    transactionsData?.transactions.filter(
+      x => x.type !== 'TRANSACTION_TYPE_DEDUCTION',
+    ) ?? [];
+
+  const rendetLoadMoreButton = () => {
+    if (transactionsData?.cursor && transactionsData?.cursor > 0) {
+      return (
+        <LoadingButton
+          sx={{ margin: '20px auto' }}
+          size="medium"
+          fullWidth
+          color="secondary"
+          onClick={loadMore}
+          loading={isFetchingTransactions}
+        >
+          Load more
+        </LoadingButton>
+      );
+    }
+
+    return null;
+  };
 
   if (isLoadingTransactions) {
     return <OverlaySpinner size={50} />;
   }
 
-  if (
-    transactionsData?.transactions &&
-    transactionsData.transactions.length <= 0
-  ) {
-    return <>Not found</>;
+  if (transactionsArray.length <= 0) {
+    return (
+      <>
+        Not found
+        {rendetLoadMoreButton()}
+      </>
+    );
   }
 
   return (
@@ -69,7 +106,7 @@ export const ClientTransactionsTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {transactionsData?.transactions.map(tx => (
+          {transactionsArray.map(tx => (
             <TableRow key={tx.timestamp}>
               <TableCell>{formatNumber(tx.amount)}</TableCell>
               <TableCell>{renderBalance(tx.amountAnkr)}</TableCell>
@@ -82,18 +119,7 @@ export const ClientTransactionsTable = ({
         </TableBody>
       </Table>
 
-      {transactionsData?.cursor && transactionsData?.cursor > 0 && (
-        <LoadingButton
-          sx={{ margin: '20px auto' }}
-          size="medium"
-          fullWidth
-          color="secondary"
-          onClick={loadMore}
-          loading={isFetchingTransactions}
-        >
-          Load more
-        </LoadingButton>
-      )}
+      {rendetLoadMoreButton()}
     </TableContainer>
   );
 };

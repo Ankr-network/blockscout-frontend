@@ -6,10 +6,17 @@ import { LoadableButton } from 'uiKit/LoadableButton';
 
 interface IReferralCodeItemProps {
   data: IBundleDataEntity;
+  bundleStatus: IBundleStatusEntity;
   paymentId?: string;
+  expires: number;
 }
 
-const BundleItem = ({ data, paymentId }: IReferralCodeItemProps) => {
+const BundleItem = ({
+  data,
+  bundleStatus,
+  paymentId,
+  expires,
+}: IReferralCodeItemProps) => {
   const [deleteBundle, { isLoading }] = useRevokeUserBundleMutation();
 
   return (
@@ -18,14 +25,25 @@ const BundleItem = ({ data, paymentId }: IReferralCodeItemProps) => {
       <br />
       <Typography variant="body2">ID: {data.bundle_id}</Typography>
       <br />
+      <Typography variant="body2">
+        Expires: {new Date(expires * 1_000).toLocaleString()}
+      </Typography>
+      <br />
       <Typography variant="body2">Limits:</Typography>
       <ul>
-        {data.limits.map(limit => (
-          <li key={limit.blockchain_paths}>
-            <div>chain: {limit.blockchain_paths}</div>
-            <div>limit: {limit.limit}</div>
-          </li>
-        ))}
+        {data.limits.map(limit => {
+          const usage = bundleStatus.counters.find(
+            x => x.blockchainPaths === limit.blockchain_paths,
+          );
+
+          return (
+            <li key={limit.blockchain_paths}>
+              <div>chain: {limit.blockchain_paths}</div>
+              <div>limit: {limit.limit}</div>
+              {usage && <div>usage: {usage.usagePercentage}%</div>}
+            </li>
+          );
+        })}
       </ul>
       {paymentId && (
         <LoadableButton
@@ -66,12 +84,22 @@ export const ClientBundles = ({
       </Typography>
       <ul>
         {activeBundles.map(x => {
-          const paymentId = bundlesStatuses.find(
+          const bundleStatus = bundlesStatuses.find(
             y => y.bundleId === x.bundle_id,
-          )?.paymentId;
+          );
+
+          const paymentId = bundleStatus?.paymentId;
+
+          if (!bundleStatus) return null;
 
           return (
-            <BundleItem key={x.bundle_id} data={x} paymentId={paymentId} />
+            <BundleItem
+              key={x.bundle_id}
+              data={x}
+              bundleStatus={bundleStatus}
+              paymentId={paymentId}
+              expires={bundleStatus.expires}
+            />
           );
         })}
       </ul>
