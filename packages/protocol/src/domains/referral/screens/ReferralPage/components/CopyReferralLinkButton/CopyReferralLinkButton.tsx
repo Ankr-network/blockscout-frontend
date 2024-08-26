@@ -10,19 +10,25 @@ import { copyReferralLinkButtonTranslation } from './translation';
 import { useCopyReferralLinkButtonStyles } from './useCopyReferralLinkButtonStyles';
 import { useReferralLink } from './hooks/useReferralLink';
 
-export const CopyReferralLinkButton = () => {
+export interface ICopyReferralLinkButtonProps {
+  className?: string;
+}
+
+export const CopyReferralLinkButton = ({
+  className,
+}: ICopyReferralLinkButtonProps) => {
   const { onCopy, tooltipProps } = useCopyButton();
 
   const { link } = useReferralLink();
 
-  const { classes } = useCopyReferralLinkButtonStyles();
+  const { classes, cx } = useCopyReferralLinkButtonStyles();
   const { keys, t } = useTranslation(copyReferralLinkButtonTranslation);
 
   return (
     <CopyToClipboard onCopy={onCopy} text={link}>
       <TextTooltip {...tooltipProps} title={t(keys.copied)}>
         <Button
-          className={classes.root}
+          className={cx(classes.root, className)}
           color="primary"
           size="small"
           startIcon={<Copy size={20} />}
