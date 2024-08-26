@@ -2,31 +2,25 @@ import { Chip } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
-import {
-  IUsePublicBadgeStylesProps,
-  usePublicBadgeStyles,
-} from './usePublicBadgeStyles';
+import { usePublicBadgeStyles } from './usePublicBadgeStyles';
 
-export interface IPublicBadgeProps extends IUsePublicBadgeStylesProps {
+export interface IPublicBadgeProps {
   className?: string;
 }
 
-export const PublicBadge = ({
-  className,
-  isOnWhiteBackground = false,
-}: IPublicBadgeProps | void = {}) => {
-  const { classes, cx } = usePublicBadgeStyles({ isOnWhiteBackground });
+export const PublicBadge = ({ className }: IPublicBadgeProps) => {
+  const { classes, cx } = usePublicBadgeStyles();
 
   return (
     <Chip
-      className={cx(classes.root, className)}
+      className={cx(classes.publicBadge, className)}
       label={
         <Typography variant="body3" color="textSecondary">
           {t('chains.public')}
         </Typography>
       }
       size="small"
-      variant={isOnWhiteBackground ? 'outlined' : 'filled'}
+      variant="filled"
       color="secondary"
     />
   );
