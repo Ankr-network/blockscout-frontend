@@ -9,8 +9,10 @@ export const useInviteWidgetStyles = makeStyles({ name })(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    gap: theme.spacing(2),
+    flex: 1,
 
-    height: 248,
+    minHeight: 248,
 
     [theme.breakpoints.down('sm')]: {
       position: 'static',
@@ -19,6 +21,8 @@ export const useInviteWidgetStyles = makeStyles({ name })(theme => ({
     },
   },
   header: {
+    zIndex: 1,
+
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(3),
@@ -51,11 +55,13 @@ export const useInviteWidgetStyles = makeStyles({ name })(theme => ({
     width: 140,
     height: 140,
 
-    [theme.breakpoints.down('sm')]: {
-      position: 'static',
-
+    [theme.breakpoints.down(1330)]: {
       width: 80,
       height: 80,
+    },
+
+    [theme.breakpoints.down('sm')]: {
+      position: 'static',
     },
   },
 }));

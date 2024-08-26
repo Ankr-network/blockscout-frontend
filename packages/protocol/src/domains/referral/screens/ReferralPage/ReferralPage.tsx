@@ -1,3 +1,4 @@
+import { InviteWidgets } from './components/InviteWidgets';
 import { SummaryWidgets } from './components/SummaryWidgets';
 import { TopBanner } from './components/TopBanner';
 import { useReferralPageStyles } from './useReferralPageStyles';
@@ -9,6 +10,7 @@ export const ReferralPage = () => {
     <div className={classes.referralPageRoot}>
       <TopBanner />
       <SummaryWidgets />
+      <InviteWidgets />
     </div>
   );
 };
