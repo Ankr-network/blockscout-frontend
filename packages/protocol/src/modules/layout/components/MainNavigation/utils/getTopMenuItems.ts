@@ -1,5 +1,5 @@
 import {
-  NavBarEndpoints,
+  NavBarChainsList,
   NavBarAdvancedApi,
   NavBarAnalytics,
   NavBarEnterprise,
@@ -48,13 +48,15 @@ export const getTopMenuItems = ({
 }: IMenuItemsParams): NavigationItem[] => {
   const items: NavigationItem[] = [
     {
-      StartIcon: NavBarEndpoints,
+      StartIcon: NavBarChainsList,
       href: ChainsRoutesConfig.chains.generatePath({ isLoggedIn }),
       isActive: (match, location) =>
         checkIsChainsRoute(match, location, chainsRoutes),
-      isHidden: isLoggedIn && !isMobileSideBar,
-      label: t('main-navigation.endpoints'),
-      blockName: BlockWithPermission.CommonMenuItem,
+      isDisabled: isEnterpriseClient,
+      isHidden: false,
+      label: t('main-navigation.chains-list'),
+      blockName: BlockWithPermission.ChainItem,
+      onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {
       StartIcon: NavBarProjects,
@@ -66,6 +68,14 @@ export const getTopMenuItems = ({
       onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {
+      isDisabled: isEnterpriseClient,
+      StartIcon: NavBarAdvancedApi,
+      href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
+      label: t('main-navigation.advanced-api'),
+      blockName: BlockWithPermission.AdvancedApiMenuItem,
+      onAccessDeniedClick: onOpenAccessDeniedDialog,
+    },
+    {
       StartIcon: NavBarAnalytics,
       href: DashboardRoutesConfig.dashboard.generatePath(),
       isDisabled: false,
@@ -73,14 +83,6 @@ export const getTopMenuItems = ({
       label: t('main-navigation.analytics'),
       blockName: BlockWithPermission.AnalyticsMenuItem,
       onClick: onDashboardClick,
-      onAccessDeniedClick: onOpenAccessDeniedDialog,
-    },
-    {
-      isDisabled: isEnterpriseClient,
-      StartIcon: NavBarAdvancedApi,
-      href: AdvancedApiRoutesConfig.advancedApi.generatePath(),
-      label: t('main-navigation.advanced-api'),
-      blockName: BlockWithPermission.AdvancedApiMenuItem,
       onAccessDeniedClick: onOpenAccessDeniedDialog,
     },
     {

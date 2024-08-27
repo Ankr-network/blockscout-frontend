@@ -9,7 +9,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
 
-export const Chains = () => {
+export const ChainsListPage = () => {
   const { hasPrivateAccess } = useAuth();
   const { deprecatedIsFinanceRole } = usePermissionsAndRole();
 

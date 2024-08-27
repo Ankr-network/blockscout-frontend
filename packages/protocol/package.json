@@ -30,7 +30,7 @@
     "@ankr.com/cross-navigation": "^2.0.5",
     "@ankr.com/provider": "^4.20.0",
     "@ankr.com/telemetry": "*",
-    "@ankr.com/ui": "^0.13.50",
+    "@ankr.com/ui": "^0.13.57",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",

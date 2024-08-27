@@ -8,7 +8,7 @@ import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap'
 import {
   formatRequestsCount,
   sortPublicChains,
-} from 'domains/chains/screens/Chains/components/PublicChains/hooks/utils';
+} from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/utils';
 
 import { useProjectChainsContext } from '../../../hooks/useProjectChainsContext';
 import { useChainStats } from './useChainStats';

@@ -12,8 +12,8 @@ import { ChainsList } from 'modules/common/components/ChainsList';
 import { Timeframe } from 'modules/chains/types';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
-import { sortPrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/utils';
-import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
+import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
+import { useSortType } from 'domains/chains/screens/ChainsListPage/hooks/useSortType';
 
 import { EnterpriseChainCard } from '../EnterpriseChainCard';
 

@@ -5,7 +5,8 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { ChainsRoutesConfig } from './routesConfig';
 
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
-  async () => import('../screens/Chains').then(module => module.Chains),
+  async () =>
+    import('../screens/ChainsListPage').then(module => module.ChainsListPage),
   {
     fallback: <OverlaySpinner />,
   },

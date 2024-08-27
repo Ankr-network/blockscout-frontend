@@ -8,7 +8,7 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(2),
     overflow: 'visible',
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
   },
@@ -16,7 +16,7 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
     minHeight: 30,
     height: 30,
     whiteSpace: 'nowrap',
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
   },
@@ -59,7 +59,7 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
       borderRadius: theme.spacing(3),
     },
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       width: '100%',
       display: 'inline-flex',
     },

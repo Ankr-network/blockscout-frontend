@@ -1,4 +1,4 @@
-import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
+import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
 import { Timeframe, Chain } from 'modules/chains/types';
 
 import { usePublicChainsItem } from './hooks/usePublicChainsItem';

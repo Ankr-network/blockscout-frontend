@@ -1,11 +1,11 @@
-import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
-import { ComingSoonChainCard } from 'domains/chains/screens/Chains/components/ComingSoonChainCard';
-import { PremiumOnlyChainCard } from 'domains/chains/screens/Chains/components/PremiumOnlyChainCard';
+import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
+import { ComingSoonChainCard } from 'domains/chains/screens/ChainsListPage/components/ComingSoonChainCard';
+import { PremiumOnlyChainCard } from 'domains/chains/screens/ChainsListPage/components/PremiumOnlyChainCard';
 import {
   BaseChainsCard,
   IBaseChainCardProps,
-} from 'domains/chains/screens/Chains/components/BaseChainsCard';
-import { IChainCardProps } from 'domains/chains/screens/Chains/components/PublicChains/components/PublicChainCard';
+} from 'domains/chains/screens/ChainsListPage/components/BaseChainsCard';
+import { IChainCardProps } from 'domains/chains/screens/ChainsListPage/components/PublicChains/components/PublicChainCard';
 import { useChainItemClickHandler } from 'modules/common/hooks/useChainItemClickHandler';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 
