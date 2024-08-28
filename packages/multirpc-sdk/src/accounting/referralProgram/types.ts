@@ -77,3 +77,24 @@ export interface IConvertReferralRewardParams {
   amount: string;
   type: EConvertReferralRewardType;
 }
+
+export interface IGetRewardTxsParams extends IApiUserGroupParams {
+  from?: number;
+  to?: number;
+}
+
+export enum ERewardTxType {
+  Conversion = 'CONVERSION',
+  Reward = 'REWARD',
+}
+
+export interface IRewardTx {
+  amount: number;
+  referral: string;
+  timestamp: number;
+  type: ERewardTxType;
+}
+
+export interface IGetRewardTxsResponse {
+  transactions: IRewardTx[];
+}

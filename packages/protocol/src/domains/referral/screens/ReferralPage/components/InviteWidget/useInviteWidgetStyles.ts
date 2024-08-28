@@ -5,6 +5,7 @@ const name = 'InviteWidget';
 export const useInviteWidgetStyles = makeStyles({ name })(theme => ({
   root: {
     position: 'relative',
+    zIndex: 0,
 
     display: 'flex',
     flexDirection: 'column',

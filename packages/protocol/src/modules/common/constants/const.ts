@@ -22,6 +22,7 @@ export enum EMilliSeconds {
   Day = Hour * 24,
   Week = Day * 7,
   Month = Day * 30,
+  Year = Day * 365,
 }
 
 export const TWITTER_COLOR = '#479AE9';

@@ -40,7 +40,11 @@ export const useSectionStyles = makeStyles<IUseSectionStylesProps>({ name })(
         lineHeight: 1.15,
       },
     },
-    actions: {},
+    actions: {
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
+    },
     content: {},
   }),
 );

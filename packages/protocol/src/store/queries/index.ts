@@ -37,6 +37,7 @@ const endpointsSerializedByParams = [
   'fetchReferralsCount',
   'fetchReferrer',
   'fetchRewardBalance',
+  'fetchRewardTxs',
   'fetchTokenPrice',
   'fetchWalletBalanceAnkr',
   'fetchWalletBalanceUsdc',

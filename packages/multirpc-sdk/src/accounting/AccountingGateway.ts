@@ -149,6 +149,8 @@ import {
   IGetReferrerResponse,
   IGetRewardBalanceParams,
   IGetRewardBalanceResult,
+  IGetRewardTxsParams,
+  IGetRewardTxsResponse,
 } from './referralProgram';
 import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
 
@@ -1211,5 +1213,14 @@ export class AccountingGateway {
       '/api/v1/auth/referral/reward/convert',
       body,
     );
+  }
+
+  async getRewardTxs(params?: IGetRewardTxsParams) {
+    const { data: { transactions }} = await this.api.get<IGetRewardTxsResponse>(
+      '/api/v1/auth/referral/reward/txs',
+      { params },
+    );
+
+    return transactions;
   }
 }
