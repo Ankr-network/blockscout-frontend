@@ -162,7 +162,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.B2]: b2Icon,
   [ChainID.B2_HABITAT_TESTNET]: b2Icon,
+  [ChainID.BTC_MAINNET]: btcIcon,
   [ChainID.BTC]: btcIcon,
+  [ChainID.BTC_BLOCKBOOK]: btcIcon,
   [ChainID.BTC_SIGNET]: btcIcon,
   [ChainID.BTTC]: bttcIcon,
   [ChainID.BITLAYER]: bitlayerIcon,

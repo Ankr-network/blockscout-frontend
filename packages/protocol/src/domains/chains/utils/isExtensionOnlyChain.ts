@@ -8,6 +8,7 @@ const extensionOnlyChain: ChainID[] = [
   ChainID.AVAIL,
   ChainID.ALLORA,
   ChainID.ALLORA_TESTNET,
+  ChainID.BTC,
 ];
 
 export const isExtensionOnlyChain = (chainId: ChainID) =>

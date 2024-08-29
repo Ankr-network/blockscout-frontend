@@ -68,6 +68,9 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.FLARE_SONGBIRD_C]: ChainID.FLARE_SONGBIRD,
   [ChainID.FLARE_SONGBIRD_P]: ChainID.FLARE_SONGBIRD,
   [ChainID.FLARE_SONGBIRD_X]: ChainID.FLARE_SONGBIRD,
+
+  [ChainID.BTC_MAINNET]: ChainID.BTC,
+  [ChainID.BTC_BLOCKBOOK]: ChainID.BTC,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -131,6 +134,8 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.FLARE_COSTON2_EVM]: ChainID.FLARE_COSTON2,
 
   [ChainID.FLARE_SONGBIRD_EVM]: ChainID.FLARE_SONGBIRD,
+
+  [ChainID.BTC_MAINNET]: ChainID.BTC,
 };
 
 export const checkPrivateChainsAndGetChainId = (

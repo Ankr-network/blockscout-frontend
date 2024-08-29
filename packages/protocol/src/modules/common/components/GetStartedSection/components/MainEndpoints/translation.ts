@@ -1,9 +1,8 @@
 import { Locale } from 'modules/i18n';
 
-export const blockbookTranslation = {
+export const mainEndpointsTranslation = {
   [Locale.en]: {
-    label: 'BTC Blockbook',
-    tooltip:
+    blockbookTooltip:
       'High-performance RESTful API to interact with indexed Bitcoin data.',
   },
 };

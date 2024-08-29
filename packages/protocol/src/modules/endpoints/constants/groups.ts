@@ -460,4 +460,16 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'Turing',
     chains: [ChainID.AVAIL_TURING_TESTNET],
   },
+  {
+    id: ChainGroupID.BTC,
+    name: 'BTC',
+    pluralName: 'BTC',
+    chains: [ChainID.BTC_MAINNET],
+  },
+  {
+    id: ChainGroupID.BTC_BLOCKBOOK,
+    name: 'Blockbook',
+    pluralName: 'Blockbook',
+    chains: [ChainID.BTC_BLOCKBOOK],
+  },
 ];

@@ -1,5 +1,5 @@
 import { ChainsConfig } from './types';
-import { IBlockchainEntity, BlockchainFeature } from '../../common';
+import { IBlockchainEntity, BlockchainFeature, BlockchainType } from '../../common';
 import {
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,
@@ -70,9 +70,10 @@ export const buildPublicUrls = ({
     }
 
     if (
-      id === 'tron' || 
+      id === 'tron' ||
       id === 'gnosis_beacon' ||
-      id === 'allora_testnet-rest'
+      id === 'allora_testnet-rest' ||
+      id === 'btc_blockbook'
     ) {
       blockchain.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
     }
