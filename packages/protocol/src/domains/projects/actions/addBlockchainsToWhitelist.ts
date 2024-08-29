@@ -5,6 +5,12 @@ import { RequestType, web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 
+function prepareChains(chain: string) {
+  if (chain === 'btc_mainnet') return 'btc';
+
+  return chain;
+}
+
 export interface AddBlockchainsToWhitelistParams extends IApiUserGroupParams {
   userEndpointToken: string;
   blockchains: BlockchainID[];
@@ -29,8 +35,10 @@ export const {
         }) => {
           const service = MultiService.getService().getAccountingGateway();
 
+          const preparedChains = blockchains.map(prepareChains);
+
           await service.addBlockchainsToWhitelist(
-            blockchains,
+            preparedChains,
             {
               token: userEndpointToken,
               group,

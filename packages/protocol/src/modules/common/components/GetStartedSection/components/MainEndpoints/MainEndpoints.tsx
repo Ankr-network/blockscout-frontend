@@ -1,7 +1,11 @@
 import { Fragment } from 'react';
 
 import { ChainID } from 'modules/chains/types';
-import { FLARE_TESTNETS_GROUPS_LIST } from 'modules/endpoints/types';
+import {
+  ChainGroupID,
+  FLARE_TESTNETS_GROUPS_LIST,
+} from 'modules/endpoints/types';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { Endpoint } from '../Endpoint';
 import { EndpointsHeader } from '../EndpointsHeader';
@@ -10,6 +14,7 @@ import { Placeholder } from './components/Placeholder';
 import { useMainEndpoints } from './hooks/useMainEndpoints';
 import { useMainEndpointsStyles } from './MainEndpointsStyles';
 import { renderFlareTitle } from './utils/renderFlareTitle';
+import { mainEndpointsTranslation } from './translation';
 
 export const MainEndpoints = ({
   chainSubType,
@@ -31,8 +36,16 @@ export const MainEndpoints = ({
   });
 
   const { classes } = useMainEndpointsStyles();
+  const { keys, t } = useTranslation(mainEndpointsTranslation);
 
-  const endpointsHeader = <EndpointsHeader title={title} />;
+  const headerTooltip =
+    group.id === ChainGroupID.BTC_BLOCKBOOK
+      ? t(keys.blockbookTooltip)
+      : undefined;
+
+  const endpointsHeader = (
+    <EndpointsHeader title={title} tooltipText={headerTooltip} />
+  );
 
   if (!hasFeature) {
     return null;

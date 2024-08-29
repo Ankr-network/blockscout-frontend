@@ -23,7 +23,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isSei = SEI_IDS.includes(id);
   const isKava = ENABLED_KAVA_IDS.includes(id);
   const isStellar = STELLAR_IDS.includes(id);
-  const isAlloraTestnet = id === 'allora_testnet-rest'
+  const isAlloraTestnet = id === 'allora_testnet-rest';
+  const isBlockbook = id === 'btc_blockbook';
 
   return (
     isTron ||
@@ -37,7 +38,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isSei ||
     isKava ||
     isStellar ||
-    isAlloraTestnet
+    isAlloraTestnet ||
+    isBlockbook
   );
 };
 

@@ -113,6 +113,7 @@ export enum ChainID {
   B2 = 'b2',
   B2_HABITAT_TESTNET = 'b2_habitat_testnet',
   BTTC = 'bttc',
+  BTC_MAINNET = 'btc_mainnet',
   BTC = 'btc',
   BTC_SIGNET = 'btc_signet',
   BTC_BLOCKBOOK = 'btc_blockbook',

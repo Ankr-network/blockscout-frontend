@@ -10,4 +10,5 @@ export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.STELLAR,
   ChainID.AVAIL,
   ChainID.ALLORA,
+  ChainID.BTC,
 ];

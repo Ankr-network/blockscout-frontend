@@ -50,6 +50,8 @@ export enum ChainGroupID {
   FLARE_SONGBIRD = 'flare-songbird',
   GOLDBERG = 'goldberg',
   TURING = 'turing',
+  BTC = 'btc',
+  BTC_BLOCKBOOK = 'btc_blockbook',
 
   FALLBACK = 'FALLBACK',
 }
