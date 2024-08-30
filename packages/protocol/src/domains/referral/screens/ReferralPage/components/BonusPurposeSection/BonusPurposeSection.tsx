@@ -1,19 +1,19 @@
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import {
-  BonusHistoryTable,
-  useBonusHistoryTable,
-} from './components/BonusHistoryTable';
+  BonusPurposeTable,
+  useBonusPurposeTable,
+} from './components/BonusPurposeTable';
 import { Section } from '../Section';
 import { TimePeriodFilter, useTimePeriodFilter } from '../TimePeriodFilter';
 import { bonusHistorySectionTranslation } from './translation';
-import { useBonusHistorySectionStyles } from './useBonusHistorySectionStyles';
+import { useBonusPurposeSectionStyles } from './useBonusPurposeSectionStyles';
 
-export const BonusHistorySection = () => {
+export const BonusPurposeSection = () => {
   const { timePeriod, timePeriodFilterProps } = useTimePeriodFilter();
-  const { bonusHistoryTableProps } = useBonusHistoryTable({ timePeriod });
+  const { bonusPurposeTableProps } = useBonusPurposeTable({ timePeriod });
 
-  const { classes } = useBonusHistorySectionStyles();
+  const { classes } = useBonusPurposeSectionStyles();
   const { keys, t } = useTranslation(bonusHistorySectionTranslation);
 
   return (
@@ -26,7 +26,7 @@ export const BonusHistorySection = () => {
       }
       title={t(keys.title)}
     >
-      <BonusHistoryTable {...bonusHistoryTableProps} />
+      <BonusPurposeTable {...bonusPurposeTableProps} />
     </Section>
   );
 };

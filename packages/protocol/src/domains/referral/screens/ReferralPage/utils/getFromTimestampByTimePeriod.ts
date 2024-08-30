@@ -1,5 +1,6 @@
-import { ETimePeriod } from 'domains/referral/screens/ReferralPage/types';
 import { EMilliSeconds } from 'modules/common/constants/const';
+
+import { ETimePeriod } from '../types';
 
 const timePeriodsMap: Record<ETimePeriod, number> = {
   [ETimePeriod.LastWeek]: EMilliSeconds.Week,

@@ -5,16 +5,16 @@ import { ETimePeriod } from 'domains/referral/screens/ReferralPage/types';
 import { getFromTimestampByTimePeriod } from 'domains/referral/screens/ReferralPage/utils/getFromTimestampByTimePeriod';
 import { useRewardTxs } from 'modules/referralProgram/hooks/useRewardTxs';
 
-import { IBonusHistoryTableProps } from '../BonusHistoryTable';
+import { IBonusPurposeTableProps } from '../BonusPurposeTable';
 import { useColumns } from './useColumns';
 
-export interface IUseBonusHistoryTableProps {
+export interface IUseBonusPurposeTableProps {
   timePeriod: ETimePeriod;
 }
 
-export const useBonusHistoryTable = ({
+export const useBonusPurposeTable = ({
   timePeriod,
-}: IUseBonusHistoryTableProps) => {
+}: IUseBonusPurposeTableProps) => {
   const from = useMemo(
     () => getFromTimestampByTimePeriod(timePeriod),
     [timePeriod],
@@ -25,14 +25,14 @@ export const useBonusHistoryTable = ({
   const { columns } = useColumns();
 
   const txs = useMemo(
-    () => rewardTxs.filter(tx => tx.type === ERewardTxType.Reward),
+    () => rewardTxs.filter(tx => tx.type === ERewardTxType.Conversion),
     [rewardTxs],
   );
 
-  const bonusHistoryTableProps = useMemo(
-    (): IBonusHistoryTableProps => ({ columns, isLoading, txs }),
+  const bonusPurposeTableProps = useMemo(
+    (): IBonusPurposeTableProps => ({ columns, isLoading, txs }),
     [columns, isLoading, txs],
   );
 
-  return { bonusHistoryTableProps };
+  return { bonusPurposeTableProps };
 };

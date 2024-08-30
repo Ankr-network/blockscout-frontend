@@ -1,4 +1,5 @@
 import { BonusHistorySection } from './components/BonusHistorySection';
+import { BonusPurposeSection } from './components/BonusPurposeSection';
 import { InviteWidgets } from './components/InviteWidgets';
 import { SummaryWidgets } from './components/SummaryWidgets';
 import { TopBanner } from './components/TopBanner';
@@ -13,6 +14,7 @@ export const ReferralPage = () => {
       <SummaryWidgets />
       <InviteWidgets />
       <BonusHistorySection />
+      <BonusPurposeSection />
     </div>
   );
 };

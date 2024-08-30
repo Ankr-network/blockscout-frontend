@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
 import { NoDataCoinStack } from '@ankr.com/ui';
 
-import { CopyReferralLinkButton } from '../CopyReferralLinkButton';
+import { CopyReferralLinkButton } from 'domains/referral/screens/ReferralPage/components/CopyReferralLinkButton';
+
 import { useTablePlaceholderStyles } from './useTablePlaceholderStyles';
 
 export interface ITablePlaceholderProps {

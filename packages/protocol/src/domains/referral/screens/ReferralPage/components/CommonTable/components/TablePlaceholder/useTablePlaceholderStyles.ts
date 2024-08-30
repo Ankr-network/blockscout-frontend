@@ -20,6 +20,10 @@ export const useTablePlaceholderStyles = makeStyles({ name })(theme => ({
   },
   text: {
     marginTop: theme.spacing(1),
+
+    textAlign: 'center',
+    textWrap: 'wrap',
+
     color: theme.palette.text.secondary,
   },
   copyLinkButton: {

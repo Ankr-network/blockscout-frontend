@@ -14,7 +14,7 @@ export const useTimePeriodFilterStyles = makeStyles({ name })(theme => ({
     },
   },
   select: {
-    '&&&&': {
+    '&&&&&': {
       padding: theme.spacing(0, 5, 0, 0),
 
       color: theme.palette.text.primary,
