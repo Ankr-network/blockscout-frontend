@@ -1,7 +1,7 @@
 import { MenuItem, Select } from '@mui/material';
 import { ArrowDown } from '@ankr.com/ui';
 
-import { ETimePeriod } from 'domains/referral/screens/ReferralPage/types';
+import { ERewardTxsPeriod } from 'modules/referralProgram/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { OnChange } from './types';
@@ -12,7 +12,7 @@ import { useTimePeriodFilterStyles } from './useTimePeriodFilterStyles';
 export interface ITimePeriodFilterProps {
   className?: string;
   onChange: OnChange;
-  period: ETimePeriod;
+  period: ERewardTxsPeriod;
 }
 
 export const TimePeriodFilter = ({

@@ -8,3 +8,10 @@ export interface IB2BReferralProgram {
   bundleId: string;
   referralCode: string;
 }
+
+export enum ERewardTxsPeriod {
+  AllTime = 'AllTime',
+  LastMonth = 'LastMonth',
+  LastWeek = 'LastWeek',
+  LastYear = 'LastYear',
+}

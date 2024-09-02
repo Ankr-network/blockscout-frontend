@@ -1,5 +1,5 @@
 import { SelectProps } from '@mui/material';
 
-import { ETimePeriod } from 'domains/referral/screens/ReferralPage';
+import { ERewardTxsPeriod } from 'modules/referralProgram/types';
 
-export type OnChange = NonNullable<SelectProps<ETimePeriod>['onChange']>;
+export type OnChange = NonNullable<SelectProps<ERewardTxsPeriod>['onChange']>;

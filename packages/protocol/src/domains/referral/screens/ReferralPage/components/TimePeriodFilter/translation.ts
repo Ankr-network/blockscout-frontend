@@ -1,11 +1,11 @@
-import { ETimePeriod } from 'domains/referral/screens/ReferralPage/types';
+import { ERewardTxsPeriod } from 'modules/referralProgram/types';
 import { Locale } from 'modules/i18n';
 
 export const timePeriodFilterTranslation = {
   [Locale.en]: {
-    [ETimePeriod.AllTime]: 'All time',
-    [ETimePeriod.LastWeek]: 'Last week',
-    [ETimePeriod.LastMonth]: 'Last month',
-    [ETimePeriod.LastYear]: 'Last year',
+    [ERewardTxsPeriod.AllTime]: 'All time',
+    [ERewardTxsPeriod.LastWeek]: 'Last week',
+    [ERewardTxsPeriod.LastMonth]: 'Last month',
+    [ERewardTxsPeriod.LastYear]: 'Last year',
   },
 };

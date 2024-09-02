@@ -1,8 +1,8 @@
-import { ETimePeriod } from 'domains/referral/screens/ReferralPage/types';
+import { ERewardTxsPeriod } from 'modules/referralProgram/types';
 
 export const periods = [
-  ETimePeriod.AllTime,
-  ETimePeriod.LastWeek,
-  ETimePeriod.LastMonth,
-  ETimePeriod.LastYear,
+  ERewardTxsPeriod.AllTime,
+  ERewardTxsPeriod.LastWeek,
+  ERewardTxsPeriod.LastMonth,
+  ERewardTxsPeriod.LastYear,
 ];

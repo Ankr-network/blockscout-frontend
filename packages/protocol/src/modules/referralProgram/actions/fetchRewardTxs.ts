@@ -4,7 +4,13 @@ import { MultiService } from 'modules/api/MultiService';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
-export interface IFetchRewardTxsParams extends IGetRewardTxsParams {}
+import { ERewardTxsPeriod } from '../types';
+import { getFromTimestampByTimePeriod } from '../utils/getFromTimestampByTimePeriod';
+
+export interface IFetchRewardTxsParams
+  extends Omit<IGetRewardTxsParams, 'from'> {
+  period?: ERewardTxsPeriod;
+}
 
 // The endpoint name is listed in endpointsSerializedByParams constant
 // in packages/protocol/src/store/queries/index.ts file.
@@ -16,9 +22,11 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchRewardTxs: build.query<IRewardTx[], IFetchRewardTxsParams>({
-      queryFn: async params => {
+      queryFn: async ({ period, ...params }) => {
+        const from = period ? getFromTimestampByTimePeriod(period) : undefined;
+
         const api = MultiService.getService().getAccountingGateway();
-        const data = await api.getRewardTxs(params);
+        const data = await api.getRewardTxs({ from, ...params });
 
         return { data };
       },

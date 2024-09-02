@@ -1,26 +1,26 @@
 import { ERewardTxType } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { ETimePeriod } from 'domains/referral/screens/ReferralPage/types';
-import { getFromTimestampByTimePeriod } from 'domains/referral/screens/ReferralPage/utils/getFromTimestampByTimePeriod';
+import { ERewardTxsPeriod } from 'modules/referralProgram/types';
 import { useRewardTxs } from 'modules/referralProgram/hooks/useRewardTxs';
 
 import { IBonusHistoryTableProps } from '../BonusHistoryTable';
 import { useColumns } from './useColumns';
 
 export interface IUseBonusHistoryTableProps {
-  timePeriod: ETimePeriod;
+  timePeriod: ERewardTxsPeriod;
 }
 
 export const useBonusHistoryTable = ({
   timePeriod,
 }: IUseBonusHistoryTableProps) => {
-  const from = useMemo(
-    () => getFromTimestampByTimePeriod(timePeriod),
-    [timePeriod],
-  );
+  const {
+    isLoaded: rewardTxsLoaded,
+    isLoading: rewardTxsLoading,
+    rewardTxs,
+  } = useRewardTxs({ period: timePeriod });
 
-  const { isLoading, rewardTxs } = useRewardTxs({ from });
+  const isLoading = rewardTxsLoading && !rewardTxsLoaded;
 
   const { columns } = useColumns();
 

@@ -17,14 +17,14 @@ export interface IUseRewardTxsProps
     IFetchRewardTxsParams {}
 
 export const useRewardTxs = ({
-  from,
   group,
+  period,
   skipFetching = false,
   to,
 }: IUseRewardTxsProps = {}) => {
   const params = useMemo(
-    (): IFetchRewardTxsParams => ({ from, group, to }),
-    [from, group, to],
+    (): IFetchRewardTxsParams => ({ group, period, to }),
+    [group, period, to],
   );
 
   useFetchRewardTxsQuery(getQueryParams({ params, skipFetching }));
@@ -41,6 +41,7 @@ export const useRewardTxs = ({
   const isLoading = useAppSelector(state =>
     selectRewardTxsLoading(state, params),
   );
+  const isLoaded = rewardTxs.length > 0;
 
-  return { handleFetchRewardTxs, isLoading, rewardTxs };
+  return { handleFetchRewardTxs, isLoaded, isLoading, rewardTxs };
 };
