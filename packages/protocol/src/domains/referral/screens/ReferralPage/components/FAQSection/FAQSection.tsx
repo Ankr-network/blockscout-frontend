@@ -1,3 +1,4 @@
+import { Locale } from 'modules/i18n';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { FAQAccordion } from './components/FAQAccordion';
@@ -8,7 +9,7 @@ import { Widget } from '../Widget';
 import { faqSectionTranslation } from './translation';
 import { useFAQSectionStyles } from './useFAQSectionStyles';
 
-type Key = keyof Omit<typeof faqSectionTranslation['en-US'], 'title'>;
+type Key = keyof Omit<typeof faqSectionTranslation[Locale.en], 'title'>;
 
 const order: Key[] = [
   'definition',

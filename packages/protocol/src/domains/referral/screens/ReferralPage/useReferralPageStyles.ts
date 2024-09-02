@@ -5,7 +5,7 @@ import { MAX_REFERRAL_PAGE_WIDTH } from './const';
 const name = 'ReferralPage';
 
 export const useReferralPageStyles = makeStyles({ name })(theme => ({
-  referralPageRoot: {
+  root: {
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(10),
