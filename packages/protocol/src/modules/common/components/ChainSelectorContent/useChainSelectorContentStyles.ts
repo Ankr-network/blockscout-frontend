@@ -7,15 +7,26 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     display: 'flex',
     gap: theme.spacing(3),
     alignItems: 'center',
-    paddingBottom: theme.spacing(4),
-    borderBottom: `1px solid ${theme.palette.background.default}`,
     marginTop: theme.spacing(10),
     flexWrap: 'wrap',
 
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
+    [theme.breakpoints.down('xs')]: {
+      marginTop: theme.spacing(4),
+      flexDirection: 'column-reverse',
       alignItems: 'flex-start',
-      gap: theme.spacing(7.5),
+    },
+  },
+  labels: {
+    marginTop: theme.spacing(4),
+  },
+  chainSeletorWrapper: {
+    display: 'flex',
+    gap: theme.spacing(3),
+    alignItems: 'center',
+    marginRight: 'auto',
+
+    [theme.breakpoints.down('xs')]: {
+      flexWrap: 'wrap',
     },
   },
   selectors: {
@@ -32,10 +43,18 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     '&&': {
       borderRadius: TAB_BORDER_RADIUS,
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         display: 'none !important',
       },
     },
+  },
+  groupSelectorAndProtocolSwitcherWrapper: {
+    display: 'flex',
+    gap: theme.spacing(3),
+  },
+  groupSelectorInner: {
+    paddingLeft: 0,
+    paddingRight: theme.spacing(3),
   },
   groupSelector: {
     '&&': {
@@ -43,8 +62,16 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
         borderRadius: 11,
       },
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         display: 'flex',
+        width: '100%',
+      },
+    },
+  },
+  groupSelectorInput: {
+    '&&': {
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
       },
     },
   },
@@ -62,6 +89,16 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexGrow: 1,
+
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column-reverse',
+      alignItems: 'flex-start',
+      width: '100%',
+    },
+  },
+  subchainLabelsWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: theme.spacing(2),
   },
 }));

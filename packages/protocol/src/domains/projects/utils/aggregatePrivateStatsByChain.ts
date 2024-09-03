@@ -1,4 +1,4 @@
-import { PrivateStatsInternal } from 'multirpc-sdk';
+import { PrivateStats } from 'multirpc-sdk';
 
 import { RootState } from 'store';
 import {
@@ -8,11 +8,15 @@ import {
 } from 'modules/chains/store/selectors';
 import { ChainID } from 'modules/chains/types';
 
+import { sumSubchainsTotalRequest } from '../store/utils/sumSubchainsTotalRequest';
+
 export const aggregatePrivateStatsByChain = (
   state: RootState,
-  stats: PrivateStatsInternal,
-) => {
-  const mappedData = Object.keys(stats).reduce((acc, chainPath) => {
+  data?: PrivateStats,
+): Record<ChainID, number> => {
+  if (!data?.stats) return {} as Record<ChainID, number>;
+
+  const mappedData = Object.keys(data?.stats).reduce((acc, chainPath) => {
     const [currentChainId] = selectChainIdsByPaths(state, [chainPath]);
     const currentChainMainId = selectBlockchainBySubchainId(
       state,
@@ -23,13 +27,9 @@ export const aggregatePrivateStatsByChain = (
 
     const subchainPaths = selectAllPathsByChainId(state, currentChainMainId);
 
-    const aggregatedStatsByChain = subchainPaths.reduce(
-      (aggregatedStats, path) => {
-        const currentSubchainIdStats = Number(stats[path]?.total_requests ?? 0);
-
-        return aggregatedStats + currentSubchainIdStats;
-      },
-      0,
+    const aggregatedStatsByChain = sumSubchainsTotalRequest(
+      subchainPaths,
+      data,
     );
 
     return {

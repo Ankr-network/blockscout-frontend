@@ -20,6 +20,7 @@ export const usePersonalAccountButtonStyles = makeStyles()(theme => ({
   accountInfo: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'flex-start',
     gap: theme.spacing(0.5),
   },
   accountSettings: {

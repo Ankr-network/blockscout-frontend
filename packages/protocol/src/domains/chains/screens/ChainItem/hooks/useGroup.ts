@@ -9,6 +9,7 @@ import {
   GroupedEndpoints,
 } from 'modules/endpoints/types';
 import { getGroupIdByChainId } from 'modules/endpoints/utils/getGroupByChainId';
+import { mergeTendermintsGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTendermintsGroups';
 
 import { getGroupTabs } from '../utils/getGroupTabs';
 import { filterEndpointsByChainSubType } from '../utils/filterEndpointsByChainSubType';
@@ -20,6 +21,7 @@ export interface GroupParams {
   endpoints: GroupedEndpoints;
   netId?: ChainID;
   selectedGroupId?: ChainGroupID;
+  shouldMergeTendermintGroups?: boolean;
 }
 
 export interface GroupResult {
@@ -38,13 +40,22 @@ export const useGroup = ({
   endpoints,
   netId,
   selectedGroupId,
+  shouldMergeTendermintGroups,
 }: GroupParams): GroupResult => {
   const groupEndpoints = endpoints[chainType];
 
-  const groups = filterEndpointsByChainSubType({
+  const initialGroups = filterEndpointsByChainSubType({
     groupEndpoints,
     chainSubType,
   });
+
+  const groups = useMemo(() => {
+    if (shouldMergeTendermintGroups) {
+      return mergeTendermintsGroups(initialGroups);
+    }
+
+    return initialGroups;
+  }, [initialGroups, shouldMergeTendermintGroups]);
 
   const tabs = useMemo(() => getGroupTabs(groups), [groups]);
 

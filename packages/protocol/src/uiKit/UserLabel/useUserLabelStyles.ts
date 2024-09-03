@@ -1,7 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
 import { isLightTheme, getPremiumColorGradient } from 'uiKit/Theme/themeUtils';
-import { COLOR_PURPLE } from 'uiKit/Theme/const';
+import { COLOR_FREEMIUM, COLOR_PURPLE } from 'uiKit/Theme/const';
 
 export const useUserLabelStyles = makeStyles()(theme => ({
   root: {
@@ -9,15 +9,11 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     display: 'flex',
     alignItems: 'center',
   },
-  free: {
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.background.default,
+  freemium: {
+    color: theme.palette.common.white,
+    backgroundColor: COLOR_FREEMIUM,
     padding: theme.spacing(0.5, 2),
     borderRadius: 8,
-
-    [theme.breakpoints.down('md')]: {
-      backgroundColor: theme.palette.background.default,
-    },
   },
   premium: {
     color: theme.palette.common.white,
@@ -57,7 +53,7 @@ export const useUserLabelStyles = makeStyles()(theme => ({
     backgroundColor: '#F3E5FA',
   },
   deal: {
-    color: '#5856D6',
+    color: COLOR_FREEMIUM,
     backgroundColor: '#E6E6F9',
   },
   small: {

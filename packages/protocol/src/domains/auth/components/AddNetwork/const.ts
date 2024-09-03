@@ -727,7 +727,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
 
   [ChainID.ZETACHAIN_EVM_ATHENS_TESTNET]: ZETACHAIN,
 
-  [ChainID.TRON]: TRON_CHAIN_JSON_RPC,
+  [ChainID.TRON]: undefined,
 
   [ChainID.TRON_JSON_RPC]: TRON_CHAIN_JSON_RPC,
 

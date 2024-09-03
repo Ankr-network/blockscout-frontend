@@ -6,7 +6,7 @@ import { chainsFetchBlockchains } from 'modules/chains/actions/fetchBlockchains'
 import { ChainID, ChainPath } from 'modules/chains/types';
 import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
-import { getAddIsArchiveCB } from 'modules/chains/utils/addIsArchive';
+import { getAddIsArchiveCB } from 'modules/chains/utils/isArchive';
 import { getUniqueArray } from 'modules/common/utils/getUniqueArray';
 
 import { getSubchainIds } from '../utils/getSubchainIds';
@@ -30,7 +30,7 @@ export const selectBlockchainsLoadingStatus = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-const selectNodesDetails = createSelector(
+export const selectNodesDetails = createSelector(
   chainsFetchChainNodesDetail.select(),
   nodes => nodes,
 );
@@ -92,6 +92,19 @@ export const selectBlockchainBySubchainId = createSelector(
     });
 
     return blockchainFoundBySubchainId;
+  },
+);
+
+export const selectPublicChainById = createSelector(
+  (state: RootState, chainId: ChainID) => ({
+    state,
+    chainId,
+  }),
+  selectConfiguredBlockchains,
+  ({ chainId, state }, blockchains) => {
+    const mainChain = selectBlockchainBySubchainId(state, chainId);
+
+    return blockchains?.find(chain => chain?.id === mainChain?.id);
   },
 );
 

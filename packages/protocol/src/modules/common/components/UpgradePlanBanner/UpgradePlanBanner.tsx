@@ -27,13 +27,13 @@ export const UpgradePlanBanner = ({
 
   // Upgrade plan banner should be hidden for premium and enterprise users on chains page
   // as we are now showing them the request banner with the same call to action
-  if ((hasPremium && !isAdvancedApi) || isEnterpriseClient) return null;
+  if (hasPremium || isEnterpriseClient) return null;
 
   if (loading) return <BannerSkeleton />;
 
   return (
     <GuardUserGroup blockName={BlockWithPermission.UpgradePlan}>
-      <Box sx={{ mb: 10 }}>
+      <Box sx={{ mb: 8 }}>
         <UpgradePlanBannerContent
           hasPremium={hasPremium}
           handleOpen={onOpen}

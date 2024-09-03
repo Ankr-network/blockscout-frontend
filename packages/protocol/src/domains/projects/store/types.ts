@@ -95,6 +95,6 @@ export type NewProjectSlice = Record<Address, NewProjectConfig>;
 export interface ProjectActivity {
   hasData: boolean;
   isEmpty: boolean;
-  lastDayTotalRequestsCount: number;
+  totalRequestsCount: number;
   relativeChange?: number;
 }

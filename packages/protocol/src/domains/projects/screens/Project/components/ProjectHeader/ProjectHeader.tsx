@@ -113,7 +113,9 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
             href={ANKR_DOCS_PROJECTS_LINK}
             variant="outlined"
             target="_blank"
-          />
+          >
+            {t('project.header.docs-btn')}
+          </Button>
           {hasGroupAccess && (
             <ProjectDetailsMenu
               openProjectInfoDialog={onOpenProjectInfoDialog}

@@ -1,4 +1,8 @@
-import { ITransactionsEntity, Web3Address } from 'multirpc-sdk';
+import {
+  ITransactionsEntity,
+  TPaymentHistoryEntityType,
+  Web3Address,
+} from 'multirpc-sdk';
 
 import { web3Api } from 'store/queries/web3Api';
 import { MultiService } from 'modules/api/MultiService';
@@ -10,6 +14,7 @@ interface IRequestParams {
   cursor?: number;
   limit?: number;
   blockchain?: string;
+  types?: TPaymentHistoryEntityType[];
   order_by?: string;
 }
 
@@ -32,7 +37,7 @@ export const {
 
     return {
       fetchUserTransactions: build.query<IRequestResponse, IRequestParams>({
-        queryFn: async ({ address, cursor = 0, limit = 100 }) => {
+        queryFn: async ({ address, types, cursor = 0, limit = 20 }) => {
           if (cursor === 0) {
             transactionsCollection = [];
           }
@@ -47,6 +52,7 @@ export const {
               cursor,
               address,
               limit,
+              types,
             });
 
           if (cursor === 0) {

@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 
-import { Chain, ChainID, ChainType } from 'modules/chains/types';
+import { Chain, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
@@ -14,14 +14,12 @@ import { WsFeatureEndpoints } from '../WsFeatureEndpoints';
 import { EndpointPlaceholder } from '../EndpointPlaceholder';
 import { EndpointsHeader } from '../EndpointsHeader';
 import { useWsFeatureEndpoints } from '../WsFeatureEndpoints/useWsFeatureEndpoints';
-import { BitcoinBlockBookEndpoint } from '../BitcoinBlockBookEndpoint';
 
 export interface EndpointsProps {
   publicChain: Chain;
   chainType: ChainType;
   group: EndpointGroup;
   placeholder?: string;
-  isPremiumLabelHidden?: boolean;
 }
 
 const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
@@ -43,14 +41,9 @@ const checkComingSoonLabel = (publicChain: Chain, chainType: ChainType) => {
 export const Endpoints = ({
   chainType,
   group,
-  isPremiumLabelHidden,
   placeholder,
   publicChain,
 }: EndpointsProps) => {
-  const isBitcoinMainnet =
-    publicChain.id === ChainID.BTC &&
-    group.chains.map(chain => chain.id).includes(ChainID.BTC);
-
   const { classes } = useEndpointsStyles();
 
   const { hasConnectWalletMessage, hasPremium, hasPrivateAccess } = useAuth();
@@ -104,13 +97,7 @@ export const Endpoints = ({
           hasPrivateAccess={hasPrivateAccess}
           onCopyEndpoint={onCopyEndpoint}
           publicChain={publicChain}
-          isPremiumLabelHidden={isPremiumLabelHidden}
         />
-        {isBitcoinMainnet && (
-          <BitcoinBlockBookEndpoint
-            isPremiumLabelHidden={isPremiumLabelHidden}
-          />
-        )}
         <MainEndpoints
           feature={Feature.REST}
           group={group}
@@ -119,7 +106,6 @@ export const Endpoints = ({
           hasPrivateAccess={hasPrivateAccess}
           onCopyEndpoint={onCopyEndpoint}
           publicChain={publicChain}
-          isPremiumLabelHidden={isPremiumLabelHidden}
         />
         <WsFeatureEndpoints
           title={t(`${root}.endpoints.websocket-title`)}
@@ -141,9 +127,7 @@ export const Endpoints = ({
     onCopyEndpoint,
     placeholder,
     publicChain,
-    isBitcoinMainnet,
     wss,
-    isPremiumLabelHidden,
   ]);
 
   return <Box className={classes.endpointsList}>{renderContent}</Box>;

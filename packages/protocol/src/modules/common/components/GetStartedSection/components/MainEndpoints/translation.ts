@@ -2,6 +2,7 @@ import { Locale } from 'modules/i18n';
 
 export const mainEndpointsTranslation = {
   [Locale.en]: {
-    premiumCaption: 'Endpoint’s rate limit is capped on Freemium.',
+    blockbookTooltip:
+      'High-performance RESTful API to interact with indexed Bitcoin data.',
   },
 };

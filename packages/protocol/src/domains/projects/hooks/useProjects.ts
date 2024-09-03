@@ -1,3 +1,5 @@
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+
 import { useFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 
@@ -6,7 +8,7 @@ import { useFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 import { useFetchWhitelistsBlockchainsQuery } from '../actions/fetchWhitelistsBlockchains';
 import { useProjectsDataParams } from './useProjectsDataParams';
 
-export const useProjects = () => {
+export const useProjects = (skipWhitelistsFetching?: boolean) => {
   const {
     allowedAddProjectTokenIndex,
     enableAddProject: canAddProject,
@@ -24,7 +26,9 @@ export const useProjects = () => {
   } = useProjectsDataParams({ jwts: jwtTokens, jwtsFetching: isFetching });
 
   const { data: allWhitelists, isLoading: isLoadingAllWhitelists } =
-    useFetchAllWhitelistsQuery(allWhitelistsParams);
+    useFetchAllWhitelistsQuery(
+      skipWhitelistsFetching ? skipToken : allWhitelistsParams,
+    );
 
   const {
     data: allWhitelistsBlockchains,

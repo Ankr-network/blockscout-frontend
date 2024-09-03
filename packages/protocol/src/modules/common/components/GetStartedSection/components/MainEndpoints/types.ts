@@ -18,6 +18,4 @@ export interface MainEndpointsProps {
   hasPrivateAccess: boolean;
   onCopyEndpoint: EndpointProps['onCopy'];
   publicChain: Chain;
-  isPremiumLabelHidden?: boolean;
-  isFreemiumLabelHidden?: boolean;
 }

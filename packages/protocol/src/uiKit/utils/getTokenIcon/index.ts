@@ -1,5 +1,7 @@
 import { ChainID } from 'modules/chains/types';
 
+import alloraIcon from './icons/allora.svg';
+import alloraIconDark from './darkModeIcons/allora.svg';
 import aptosIcon from './icons/aptos.svg';
 import arbitrumIcon from './icons/arbitrum.svg';
 import arbitrumNovaIcon from './icons/arbitrum-nova.svg';
@@ -95,6 +97,11 @@ import telosIconDark from './darkModeIcons/telos.svg';
 import electroneumIconDark from './darkModeIcons/electroneum.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
+  [ChainID.ALLORA]: alloraIcon,
+  [ChainID.ALLORA_TESTNET]: alloraIcon,
+  [ChainID.ALLORA_TESTNET_REST]: alloraIcon,
+  [ChainID.ALLORA_TESTNET_RPC]: alloraIcon,
+  [ChainID.ALLORA_TESTNET_COSMOS_REST]: alloraIcon,
   [ChainID.APTOS]: aptosIcon,
   [ChainID.ARBITRUM]: arbitrumIcon,
   [ChainID.ARBITRUM_TESTNET]: arbitrumIcon,
@@ -156,7 +163,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
   [ChainID.B2]: b2Icon,
   [ChainID.B2_HABITAT_TESTNET]: b2Icon,
+  [ChainID.BTC_MAINNET]: btcIcon,
   [ChainID.BTC]: btcIcon,
+  [ChainID.BTC_BLOCKBOOK]: btcIcon,
   [ChainID.BTC_SIGNET]: btcIcon,
   [ChainID.BTTC]: bttcIcon,
   [ChainID.BITLAYER]: bitlayerIcon,
@@ -300,6 +309,11 @@ const chainIcons: Partial<Record<ChainID, string>> = {
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   ...chainIcons,
+  [ChainID.ALLORA]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET_REST]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET_RPC]: alloraIconDark,
+  [ChainID.ALLORA_TESTNET_COSMOS_REST]: alloraIconDark,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
   [ChainID.BERACHAIN]: berachainIconDark,
   [ChainID.BERACHAIN_TESTNET]: berachainIconDark,
@@ -382,6 +396,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
 };
 
 const chainNameIcons: Record<string, string> = {
+  allora_cosmos_testnet: alloraIcon,
   zetachain_testnet: zetachainIcon,
   zetachain_evm_testnet: zetachainIcon,
   zetachain_tendermint_testnet: zetachainIcon,
@@ -416,6 +431,7 @@ const chainNameIcons: Record<string, string> = {
 
 const darkChainNameIcons: Record<string, string> = {
   ...chainNameIcons,
+  allora_cosmos_testnet: alloraIconDark,
   tenet_evm: tenetIconDark,
   berachain_guarded_testnet_evm: berachainIconDark,
   stellar_horizon: stellarIconDark,

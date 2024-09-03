@@ -1,11 +1,11 @@
-import { Typography } from '@mui/material';
 import { Fragment } from 'react';
 
 import { ChainID } from 'modules/chains/types';
-import { FLARE_TESTNETS_GROUPS_LIST } from 'modules/endpoints/types';
+import {
+  ChainGroupID,
+  FLARE_TESTNETS_GROUPS_LIST,
+} from 'modules/endpoints/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectHasFreemium } from 'domains/auth/store';
 
 import { Endpoint } from '../Endpoint';
 import { EndpointsHeader } from '../EndpointsHeader';
@@ -23,8 +23,6 @@ export const MainEndpoints = ({
   hasConnectWalletMessage,
   hasPremium,
   hasPrivateAccess,
-  isFreemiumLabelHidden,
-  isPremiumLabelHidden,
   onCopyEndpoint,
   publicChain,
 }: MainEndpointsProps) => {
@@ -37,19 +35,17 @@ export const MainEndpoints = ({
     hasPremium,
   });
 
-  const isFreePremium = useAppSelector(selectHasFreemium);
-
   const { classes } = useMainEndpointsStyles();
+  const { keys, t } = useTranslation(mainEndpointsTranslation);
+
+  const headerTooltip =
+    group.id === ChainGroupID.BTC_BLOCKBOOK
+      ? t(keys.blockbookTooltip)
+      : undefined;
 
   const endpointsHeader = (
-    <EndpointsHeader
-      isPremiumLabelHidden={isPremiumLabelHidden}
-      hasPremium={hasPremium}
-      title={title}
-    />
+    <EndpointsHeader title={title} tooltipText={headerTooltip} />
   );
-
-  const { keys, t } = useTranslation(mainEndpointsTranslation);
 
   if (!hasFeature) {
     return null;
@@ -68,11 +64,7 @@ export const MainEndpoints = ({
       <>
         {flattenURLs.map(url => (
           <div className={classes.root} key={url}>
-            <EndpointsHeader
-              isPremiumLabelHidden={isPremiumLabelHidden}
-              hasPremium={hasPremium}
-              title={renderFlareTitle(url)}
-            />
+            <EndpointsHeader title={renderFlareTitle(url)} />
             <Endpoint
               hasConnectWalletMessage={hasConnectWalletMessage}
               key={url}
@@ -95,18 +87,8 @@ export const MainEndpoints = ({
             onCopy={onCopyEndpoint}
             url={url}
           />
-          {!isFreePremium && !hasPrivateAccess && (
-            <Typography variant="body3" color="textSecondary">
-              {t('chain-item.get-started.endpoints.rate-limits')}
-            </Typography>
-          )}
         </Fragment>
       ))}
-      {isFreePremium && !isFreemiumLabelHidden && (
-        <Typography variant="body3" color="textSecondary">
-          {t(keys.premiumCaption)}
-        </Typography>
-      )}
     </div>
   );
 };

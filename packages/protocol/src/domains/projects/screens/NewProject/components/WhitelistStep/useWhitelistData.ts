@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { AddToWhitelistFormData } from 'domains/projects/store';
 import { ChainID } from 'modules/chains/types';
 import { canAddItemsToWhitelist } from 'domains/projects/utils/canAddItemsToWhitelist';
-import { isEVMBased } from 'domains/chains/utils/isEVMBased';
+import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 
 import { useProjectFormValues } from '../../hooks/useProjectFormValues';
 

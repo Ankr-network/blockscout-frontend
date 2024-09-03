@@ -1,6 +1,7 @@
 import { ChainsConfig } from './types';
 import { BlockchainFeature, IBlockchainEntity } from '../../common';
 import {
+  ALLORA_IDS,
   APTOS_IDS,
   ENABLED_KAVA_IDS,
   ENABLED_SECRET_NETWORK_IDS,
@@ -23,6 +24,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isSei = SEI_IDS.includes(id);
   const isKava = ENABLED_KAVA_IDS.includes(id);
   const isStellar = STELLAR_IDS.includes(id);
+  const isAlloraTestnet = ALLORA_IDS.includes(id);
+  const isBlockbook = id === 'btc_blockbook';
 
   return (
     isTron ||
@@ -35,7 +38,9 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isZetaChain ||
     isSei ||
     isKava ||
-    isStellar
+    isStellar ||
+    isAlloraTestnet ||
+    isBlockbook
   );
 };
 
@@ -127,31 +132,31 @@ export const buildPrivateUrls = ({
 
     const rpcURLs: string[] = hasRPC
       ? getUrls({
-        paths,
-        privateUrl: privateRpcUrl,
-        userEndpointToken,
-        isAptos,
-      })
+          paths,
+          privateUrl: privateRpcUrl,
+          userEndpointToken,
+          isAptos,
+        })
       : [];
 
     const wsURLs: string[] = hasWS
       ? getUrls({
-        paths,
-        privateUrl: privateWsUrl,
-        userEndpointToken,
-        isAptos,
-      })
+          paths,
+          privateUrl: privateWsUrl,
+          userEndpointToken,
+          isAptos,
+        })
       : [];
 
     const hasREST = blockchain.features.includes(BlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({
-        paths,
-        privateUrl: privateRpcUrl,
-        userEndpointToken,
-        isAptos,
-      })
+          paths,
+          privateUrl: privateRpcUrl,
+          userEndpointToken,
+          isAptos,
+        })
       : [];
 
     const enterpriseURLs: string[] = getUrls({
@@ -168,7 +173,14 @@ export const buildPrivateUrls = ({
       isAptos,
     });
 
-    result[id] = { blockchain, rpcURLs, wsURLs, restURLs, enterpriseURLs, enterpriseWsURLs };
+    result[id] = {
+      blockchain,
+      rpcURLs,
+      wsURLs,
+      restURLs,
+      enterpriseURLs,
+      enterpriseWsURLs,
+    };
 
     return result;
   }, {});

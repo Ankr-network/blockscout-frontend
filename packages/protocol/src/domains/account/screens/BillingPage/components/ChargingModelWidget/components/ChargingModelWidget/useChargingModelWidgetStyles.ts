@@ -18,6 +18,10 @@ export const useChargingModelWidgetStyles =
         flexDirection: 'column',
         gap: theme.spacing(3),
 
+        [theme.breakpoints.down('xs')]: {
+          padding: theme.spacing(5.5, 4),
+        },
+
         '&:first-of-type': {
           marginTop: theme.spacing(8),
         },

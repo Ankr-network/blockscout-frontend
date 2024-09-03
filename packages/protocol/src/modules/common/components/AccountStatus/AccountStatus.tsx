@@ -12,13 +12,9 @@ import { PublicBadge } from '../PublicBadge';
 
 interface IAccountStatusProps {
   className?: string;
-  isOnWhiteBackground?: boolean;
 }
 
-export const AccountStatus = ({
-  className,
-  isOnWhiteBackground,
-}: IAccountStatusProps) => {
+export const AccountStatus = ({ className }: IAccountStatusProps) => {
   const hasPromoBundle = useAppSelector(selectHasPromoBundle);
   const {
     hasPremium,
@@ -40,12 +36,7 @@ export const AccountStatus = ({
   });
 
   if (!isLoggedIn) {
-    return (
-      <PublicBadge
-        className={className}
-        isOnWhiteBackground={isOnWhiteBackground}
-      />
-    );
+    return <PublicBadge className={className} />;
   }
 
   if (!hasAccessToAccountStatus) {

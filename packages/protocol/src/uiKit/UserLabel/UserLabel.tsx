@@ -38,7 +38,7 @@ export const UserLabel = ({
     classes.root,
     {
       [classes.premium]: hasPremium,
-      [classes.free]: !hasPremium,
+      [classes.freemium]: !hasPremium,
       [classes.transition]: hasStatusTransition,
       [classes.enterprise]: hasEnterpriseStatus,
       [classes.package]: chargingModel === EChargingModel.Package,

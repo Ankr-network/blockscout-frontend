@@ -1,6 +1,6 @@
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
-import { usePrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/usePrivateChains';
+import { usePrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/usePrivateChains';
 import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';

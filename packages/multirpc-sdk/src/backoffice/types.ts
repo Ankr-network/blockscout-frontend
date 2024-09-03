@@ -6,6 +6,7 @@ import {
   PrivateStatsInterval,
   IEthUserAddressWithDeprecatedPublicKey,
   EmailConfirmationStatus,
+  ELimitType,
 } from '../accounting';
 import { Network, Web3Address, BlockchainID } from '../common';
 
@@ -26,6 +27,7 @@ export interface ITransactionsRequest {
   blockchain?: string;
   cursor: number;
   limit: number;
+  types?: TPaymentHistoryEntityType[];
   order_by?: string;
 }
 
@@ -501,4 +503,101 @@ export interface IAddressBindingsResponse {
 
 export interface IGetExternalEmailResponse {
   external_email: string;
+}
+
+interface TwoFAData {
+  type: string;
+  status: 'none' | 'pending' | 'enabled';
+}
+
+export interface ITwoFAStatusResponse {
+  '2FAs': TwoFAData[];
+}
+
+interface ILimitEntity {
+  blockchain_paths: string;
+  limit?: number;
+  type: ELimitType;
+}
+
+export interface IBundleDataEntity {
+  name: string;
+  acvite: boolean;
+  bundle_id: string;
+  product_id: string;
+  price_id: string;
+  limits: ILimitEntity[];
+  immutable_limits: [];
+  duration: number;
+  created_at: number;
+  updated_at: number;
+}
+
+export interface IBundlesResponse {
+  bundles: IBundleDataEntity[];
+}
+
+interface IBudleStatusCursor {
+  blockchainPaths: string;
+  allowance: number;
+  count: number;
+  type: string;
+  usagePercentage: number;
+}
+
+export interface IBundleStatusEntity {
+  counters: IBudleStatusCursor[];
+  expires: number;
+  bundleId: string;
+  paymentId: string;
+  maxUsagePercentage: number;
+}
+
+export interface IBundlesStatusesResponse {
+  bundles: IBundleStatusEntity[];
+}
+
+export interface IRevokeBundleResponseItem {
+  action: string;
+  code: number;
+  message: string;
+}
+
+interface IReferralCodeBonus {
+  valid_from?: number;
+  valid_until?: number;
+  bundle_id?: string;
+  voucher?: {
+    currency: string;
+    amount: string;
+    expires_at: number;
+  }
+}
+
+interface IReferralCodeDetails {
+  code: string;
+  referrer: string;
+  bonus: IReferralCodeBonus;
+  created_at: number;
+  deleted_at?: number;
+}
+
+export interface IReferralCodeItem {
+  code: string;
+  name?: string;
+  details: IReferralCodeDetails[];
+}
+
+export interface INewReferralCodeRequest {
+  address: string;
+  name: string;
+  bonus?: IReferralCodeBonus;
+}
+
+export interface INewReferralCodeResponse {
+  code: string;
+}
+
+export interface IDeleteReferralCodeResponse {
+  success: boolean;
 }

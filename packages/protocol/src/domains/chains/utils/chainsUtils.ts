@@ -3,7 +3,12 @@ import { ChainID } from 'modules/chains/types';
 export const getPublicUrl = (url: string) =>
   url.substring(0, url.lastIndexOf('/'));
 
-const CHAINS_WITH_SUBNETS = [ChainID.SECRET, ChainID.AVALANCHE, ChainID.FLARE];
+const CHAINS_WITH_SUBNETS = [
+  ChainID.SECRET,
+  ChainID.AVALANCHE,
+  ChainID.FLARE,
+  ChainID.BTC,
+];
 
 export const checkChainWithSubnetsAndGetChainId = (chainId?: ChainID) => {
   if (!chainId) return chainId;

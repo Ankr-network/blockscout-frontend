@@ -7,7 +7,7 @@ import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateCha
 import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
-const getIsHiddenMainnet = (projectChain: Chain) => {
+export const getIsHiddenMainnet = (projectChain: Chain) => {
   if (
     projectChain.id === ChainID.AVALANCHE ||
     projectChain.id === ChainID.HORIZEN ||
@@ -17,6 +17,7 @@ const getIsHiddenMainnet = (projectChain: Chain) => {
     projectChain.id === ChainID.FLARE ||
     projectChain.id === ChainID.KAVA ||
     projectChain.id === ChainID.STELLAR ||
+    projectChain.id === ChainID.BTC ||
     projectChain.beacons?.length ||
     projectChain.opnodes?.length
   ) {
@@ -30,21 +31,26 @@ export interface UseProjectChainDetailsParams {
   networksButton?: ReactNode;
   projectChain: Chain;
   isCompactView?: boolean;
+  shouldMergeTendermintGroups?: boolean;
+  isChainSwitcherBlockingIgnored?: boolean;
 }
 
 export const useProjectChainDetails = ({
+  isChainSwitcherBlockingIgnored,
   isCompactView,
   networksButton,
   projectChain,
+  shouldMergeTendermintGroups,
 }: UseProjectChainDetailsParams) => {
   const { hasPremium } = useAuth();
 
   const {
     chain: privateChain,
     chainProtocolContext,
+    chainSubType,
     chainSubTypeTab,
     chainSubTypeTabs,
-
+    chainType,
     chainTypeTab,
     chainTypeTabs,
     group,
@@ -57,12 +63,12 @@ export const useProjectChainDetails = ({
   } = usePrivateChainItem({
     additionalSelector: networksButton,
     chain: projectChain,
-    isChainArchived: Boolean(projectChain.isArchive),
     isGroupSelectorAutoWidth: true,
     unfilteredChain: projectChain,
     isHiddenMainnet: getIsHiddenMainnet(projectChain),
-    isPremiumLabelHidden: true,
     isCompactView,
+    shouldMergeTendermintGroups,
+    isChainSwitcherBlockingIgnored,
   });
 
   const [technology, setTechnology] = useTechnology();
@@ -80,7 +86,6 @@ export const useProjectChainDetails = ({
     setTechnology,
     technology,
     wssCode: hasPremium ? wssCode : undefined,
-
     chainSubTypeTab,
     chainSubTypeTabs,
     chainTypeTab,
@@ -90,5 +95,8 @@ export const useProjectChainDetails = ({
     groupTabs,
     groups,
     selectGroup,
+    chainSubType,
+    chainType,
+    group,
   };
 };

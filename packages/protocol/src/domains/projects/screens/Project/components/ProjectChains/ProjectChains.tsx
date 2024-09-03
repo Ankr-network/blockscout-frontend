@@ -18,13 +18,17 @@ import { ProjectChainsAccordion } from '../ProjectChainsAccordion';
 import { useAddChainsButtonStyles } from './useAddChainsButtonStyles';
 import { SearchInput } from './components/SearchInput';
 import { SortSelect } from './components/SortSelect';
-import { useProjectChainsAccordion } from '../ProjectChainsAccordion/useProjectChainsAccordion';
+import { useProjectChainsAccordion } from '../ProjectChainsAccordion/hooks/useProjectChainsAccordion';
 
 export interface ProjectChainsProps {
   className?: string;
+  userEndpointToken?: string;
 }
 
-export const ProjectChains = ({ className }: ProjectChainsProps) => {
+export const ProjectChains = ({
+  className,
+  userEndpointToken,
+}: ProjectChainsProps) => {
   const { timeframe, timeframeTabs } = useTimeframe({
     initialTimeframe: Timeframe.Day,
     timeframes: USAGE_SHORT_TIMEFRAME_LIST,
@@ -43,8 +47,9 @@ export const ProjectChains = ({ className }: ProjectChainsProps) => {
       searchValue,
       sortType,
       timeframe,
+      userEndpointToken,
     }),
-    [searchValue, sortType, timeframe],
+    [searchValue, sortType, timeframe, userEndpointToken],
   );
 
   const { isLoading, visibleChains } = useProjectChainsAccordion(

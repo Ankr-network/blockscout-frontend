@@ -9,6 +9,10 @@ export const useWidgetStyles = makeStyles()(theme => ({
     borderRadius: 30,
 
     backgroundColor: theme.palette.background.paper,
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   content: {
     height: '100%',

@@ -1,7 +1,7 @@
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { BaseChains } from 'modules/common/components/BaseChains';
-import { usePublicChainsData } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChainsData';
-import { usePublicChains } from 'domains/chains/screens/Chains/components/PublicChains/hooks/usePublicChains';
+import { usePublicChainsData } from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/usePublicChainsData';
+import { usePublicChains } from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/usePublicChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { PERIOD } from 'domains/chains/components/ChainsList/ChainsListUtils';
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';

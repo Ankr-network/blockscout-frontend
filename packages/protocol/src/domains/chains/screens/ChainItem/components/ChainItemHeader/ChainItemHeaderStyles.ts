@@ -6,6 +6,10 @@ export const useChainItemHeaderStyles = makeStyles()(theme => ({
     padding: theme.spacing(6, 8),
     borderRadius: theme.spacing(5),
     background: theme.palette.background.paper,
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
 }));
 
@@ -41,6 +45,15 @@ export const useChainItemHeaderContentStyles = makeStyles()(theme => ({
 
       '& > div': {
         margin: 0,
+      },
+    },
+  },
+  chainHeaderSelector: {
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      flexDirection: 'column',
+      '& div': {
+        width: '100%',
       },
     },
   },

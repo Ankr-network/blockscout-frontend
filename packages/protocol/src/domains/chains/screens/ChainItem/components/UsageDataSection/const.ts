@@ -5,6 +5,10 @@ export const POLL_INTERVAL = 60_000;
 type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 
 const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
+  [ChainID.ALLORA_TESTNET_REST]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_RPC]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_COSMOS_REST]: ChainID.ALLORA_TESTNET,
+
   [ChainID.SECRET_REST]: ChainID.SECRET,
   [ChainID.SECRET_RPC]: ChainID.SECRET,
   [ChainID.SECRET_COSMOS]: ChainID.SECRET,
@@ -65,6 +69,9 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.FLARE_SONGBIRD_C]: ChainID.FLARE_SONGBIRD,
   [ChainID.FLARE_SONGBIRD_P]: ChainID.FLARE_SONGBIRD,
   [ChainID.FLARE_SONGBIRD_X]: ChainID.FLARE_SONGBIRD,
+
+  [ChainID.BTC_MAINNET]: ChainID.BTC,
+  [ChainID.BTC_BLOCKBOOK]: ChainID.BTC,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -72,6 +79,10 @@ export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
 
 // chain ids for private stats differ from regular chain ids
 const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
+  [ChainID.ALLORA_TESTNET_REST]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_RPC]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_COSMOS_REST]: 'allora_cosmos_testnet' as ChainID,
+
   [ChainID.SECRET_REST]: ChainID.SECRET,
   [ChainID.SECRET_RPC]: ChainID.SECRET,
   [ChainID.SECRET_COSMOS_GRPC_WEB]: ChainID.SECRET_COSMOS,
@@ -125,6 +136,8 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.FLARE_COSTON2_EVM]: ChainID.FLARE_COSTON2,
 
   [ChainID.FLARE_SONGBIRD_EVM]: ChainID.FLARE_SONGBIRD,
+
+  [ChainID.BTC_MAINNET]: ChainID.BTC,
 };
 
 export const checkPrivateChainsAndGetChainId = (

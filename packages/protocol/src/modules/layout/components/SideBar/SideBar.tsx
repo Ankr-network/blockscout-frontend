@@ -43,7 +43,7 @@ export const SideBar = ({
     <aside className={cx(classes.root, className)}>
       {hasMenu && <GlobalMenuWrapper />}
       {isXsDown && !isReactSnap && (
-        <AccountStatus className={classes.accountStatus} isOnWhiteBackground />
+        <AccountStatus className={classes.accountStatus} />
       )}
       <div className={classes.balanceRoot}>
         <BalanceMenuContent

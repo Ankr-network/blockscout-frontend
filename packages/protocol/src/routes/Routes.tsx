@@ -158,7 +158,12 @@ export const Routes = () => {
         path={ChainsRoutesConfig.chains.path}
         render={() => (
           <DefaultLayout>
-            <ChainsRoutes />
+            <GuardUserGroup
+              shouldRedirect
+              blockName={BlockWithPermission.ChainItem}
+            >
+              <ChainsRoutes />
+            </GuardUserGroup>
           </DefaultLayout>
         )}
       />

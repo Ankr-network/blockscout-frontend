@@ -11,6 +11,7 @@ export const useMultiChainBenefitsStyles = makeStyles<boolean>()(
     wrapper: {
       display: 'flex',
       gap: theme.spacing(7.5),
+      marginBottom: theme.spacing(6),
 
       [theme.breakpoints.down('md')]: {
         flexDirection: 'column',
@@ -33,6 +34,7 @@ export const useMultiChainBenefitsStyles = makeStyles<boolean>()(
 
       [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',
+        padding: theme.spacing(5.5, 4),
       },
     },
     img: {

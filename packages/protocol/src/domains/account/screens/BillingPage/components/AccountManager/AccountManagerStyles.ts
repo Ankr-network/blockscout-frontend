@@ -27,15 +27,27 @@ export const useAccountManagerStyles = makeStyles()(theme => ({
   },
   balance: {
     gridArea: 'balance',
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   subscriptions: {
     gridArea: 'subscriptions',
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   paymentForm: {
     gridArea: 'payment-form',
 
     background: theme.palette.background.paper,
     padding: theme.spacing(6, 8),
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   currentPlan: {
     gridArea: 'current-plan',

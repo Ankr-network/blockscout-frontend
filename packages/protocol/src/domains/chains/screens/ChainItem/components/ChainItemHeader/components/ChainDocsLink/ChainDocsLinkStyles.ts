@@ -10,4 +10,8 @@ export const useChainDocsLinkStyles = makeStyles()(theme => ({
       fontSize: 24,
     },
   },
+  docsText: {
+    marginLeft: theme.spacing(1),
+    fontWeight: 500,
+  },
 }));

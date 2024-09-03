@@ -2,8 +2,8 @@ import {
   ChainsItemBase,
   ChainsItemQueryProps,
 } from 'domains/chains/components/ChainsItemBase';
-import { usePrivateChainsItem } from 'domains/chains/screens/Chains/components/PrivateChains/components/PrivateChainCard/hooks/usePrivateChainsItem';
-import { useCommonChainsItemData } from 'domains/chains/screens/Chains/hooks/useCommonChainsItemData';
+import { usePrivateChainsItem } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/components/PrivateChainCard/hooks/usePrivateChainsItem';
+import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
 
 import { ChainItemLink } from '../../../ChainItem/ChainItemLink';
 

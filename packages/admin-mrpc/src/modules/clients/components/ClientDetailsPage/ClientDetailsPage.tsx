@@ -1,7 +1,10 @@
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { PrivateStatsInterval } from 'multirpc-sdk';
 
-import { ClientTransactionsTable } from './ClientTransactions';
+import {
+  ClientDeductionsTable,
+  ClientDepositsTable,
+} from './ClientTransactions';
 import { ClientInfo } from './ClientInfo';
 import { ClientUsageTable } from './ClientUsageTable';
 import { CustomRange, useClientDetailsPage } from './useClientDetailsPage';
@@ -92,7 +95,8 @@ export const ClientDetailsPage = () => {
             }}
           >
             <Tab className={classes.tab} disableRipple label="Usage" />
-            <Tab className={classes.tab} disableRipple label="Billing" />
+            <Tab className={classes.tab} disableRipple label="Deductions" />
+            <Tab className={classes.tab} disableRipple label="Deposits" />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -111,7 +115,10 @@ export const ClientDetailsPage = () => {
           />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <ClientTransactionsTable address={address} />
+          <ClientDeductionsTable address={address} />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <ClientDepositsTable address={address} />
         </TabPanel>
       </>
     </>

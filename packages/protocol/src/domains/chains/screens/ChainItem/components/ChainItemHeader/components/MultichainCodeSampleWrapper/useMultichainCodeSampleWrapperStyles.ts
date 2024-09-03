@@ -57,7 +57,7 @@ export const useMultichainCodeSampleWrapperStyles = makeStyles<boolean>()(
       minHeight: '466px',
       lineBreak: 'anywhere',
 
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('xs')]: {
         display: 'none',
       },
     },

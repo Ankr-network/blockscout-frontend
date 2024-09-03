@@ -7,7 +7,7 @@ import { isMainnet } from '../../common/constants/const';
 
 const ENABLE_NOT_STABLE_NETWORKS = isMainnet;
 
-const getName = (key: string, isPlural?: boolean) =>
+export const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
     plurals: isPlural ? 1 : 0,
   });
@@ -36,6 +36,7 @@ export const tendermintRpcChains = [
   ChainID.ZETACHAIN_TENDERMINT_RPC_ATHENS_TESTNET,
   ChainID.SEI_RPC,
   ChainID.SEI_RPC_TESTNET,
+  ChainID.ALLORA_TESTNET_RPC,
 ];
 
 export const kavaTendermintRpcChains = [
@@ -53,6 +54,7 @@ export const tendermintRestChains = [
   ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
   ChainID.SEI_REST,
   ChainID.SEI_REST_TESTNET,
+  ChainID.ALLORA_TESTNET_REST,
 ];
 
 export const chainGroups: ChainGroup[] = [
@@ -333,6 +335,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.SEI_COSMOS_REST_TESTNET,
       ChainID.SECRET_COSMOS_REST,
       ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
+      ChainID.ALLORA_TESTNET_COSMOS_REST,
     ],
   },
   {
@@ -457,5 +460,17 @@ export const chainGroups: ChainGroup[] = [
     name: 'Turing',
     pluralName: 'Turing',
     chains: [ChainID.AVAIL_TURING_TESTNET],
+  },
+  {
+    id: ChainGroupID.BTC,
+    name: 'BTC',
+    pluralName: 'BTC',
+    chains: [ChainID.BTC_MAINNET],
+  },
+  {
+    id: ChainGroupID.BTC_BLOCKBOOK,
+    name: 'Blockbook',
+    pluralName: 'Blockbook',
+    chains: [ChainID.BTC_BLOCKBOOK],
   },
 ];

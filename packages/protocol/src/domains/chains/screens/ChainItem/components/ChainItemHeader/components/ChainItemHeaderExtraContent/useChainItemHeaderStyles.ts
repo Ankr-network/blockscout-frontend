@@ -3,19 +3,22 @@ import { makeStyles } from 'tss-react/mui';
 export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
   extraContent: {
     paddingRight: theme.spacing(0.5),
-    marginLeft: 'auto',
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing(2),
     overflow: 'visible',
 
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(9),
+      width: '100%',
     },
   },
   codeExampleButton: {
     minHeight: 30,
     height: 30,
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   addNetworkButton: {
     '&&': {
@@ -51,9 +54,14 @@ export const useChainItemHeaderExtraContentStyles = makeStyles()(theme => ({
     minHeight: 30,
     height: 30,
     gap: 0,
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0, 2),
     '&&': {
       borderRadius: theme.spacing(3),
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      display: 'inline-flex',
     },
   },
 }));

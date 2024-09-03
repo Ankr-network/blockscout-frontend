@@ -6,7 +6,7 @@ import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainI
 import { Timeframe } from 'modules/chains/types';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
-import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
+import { useSortType } from 'domains/chains/screens/ChainsListPage/hooks/useSortType';
 
 interface UsePrivateChainsDataParams {
   ignoreJwtManager?: boolean;

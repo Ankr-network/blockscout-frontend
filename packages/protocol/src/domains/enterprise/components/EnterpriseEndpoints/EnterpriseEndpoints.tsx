@@ -39,11 +39,10 @@ export const EnterpriseEndpoints = ({
         feature={Feature.ENTERPRISE}
         group={group}
         hasConnectWalletMessage={hasConnectWalletMessage}
-        hasPremium={false}
+        hasPremium
         hasPrivateAccess
         onCopyEndpoint={onCopyEndpoint}
         publicChain={publicChain}
-        isFreemiumLabelHidden
       />
       <WsFeatureEndpoints
         title={t(`${root}.endpoints.websocket-title`)}

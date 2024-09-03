@@ -11,4 +11,9 @@ export const useEndpointStyles = makeStyles()(theme => ({
 
     boxShadow: 'none',
   },
+  copyToClipContent: {
+    span: {
+      color: theme.palette.text.primary,
+    },
+  },
 }));

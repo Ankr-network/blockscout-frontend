@@ -75,12 +75,13 @@
   },
   "main-navigation": {
     "projects": "Projects",
-    "analytics": "Analytics",
+    "analytics": "Statistics",
     "enterprise": "Enterprise",
     "advanced-api": "Advanced API",
-    "endpoints": "Endpoints",
+    "chains-list": "Chains List",
     "billing": "Billing",
     "pricing": "Pricing",
+    "settings": "Settings",
     "docs": "Docs"
   },
   "footer": {
@@ -94,7 +95,7 @@
     "done": "Done"
   },
   "account-menu": {
-    "personal-account-settings": "Personal account settings",
+    "personal-account-settings": "Settings",
     "accounts": "Accounts",
     "manage-teams-button": "Manage team accounts",
     "create-team-button": "Create team account",
@@ -582,7 +583,7 @@
     },
     "total-requests": {
       "title": "Total requests",
-      "analytics-button": "Analytics",
+      "analytics-button": "Statistics",
       "empty": "No data for statistics yet",
       "freemium-message": "Unlock access to your personal statistics with <i>Premium</i>",
       "freemium-button": "Upgrade",
@@ -720,9 +721,9 @@
   },
   "chains": {
     "select-all": "Select All",
-    "breadcrumbs": "Endpoints",
+    "breadcrumbs": "Chains list",
     "public": "Public",
-    "user-free": "Free",
+    "user-free": "Freemium",
     "user-premium": "Premium",
     "user-enterprise": "Enterprise",
     "title": "Select Chain",
@@ -1045,7 +1046,6 @@
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
         "lockedLabelHttps": "https://rpc.ankr.com/…",
-        "rate-limits": "Endpoint’s rate limit is capped on Public.",
         "lockedLabelWss": "wss://rpc.ankr.com/…",
         "login-to-proceed": "Login to proceed"
       },
@@ -1132,7 +1132,7 @@
     }
   },
   "main-analytics": {
-    "breadcrumbs": "Analytics"
+    "breadcrumbs": "Statistics"
   },
   "advanced-api": {
     "breadcrumbs": "Advanced API",

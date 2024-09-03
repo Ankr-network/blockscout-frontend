@@ -11,3 +11,7 @@ export const BREAKPOINTS = {
 };
 
 export const COLOR_PURPLE = '#AF52DE';
+
+export const COLOR_SURFACE_PURPLE_LIGHT = '#F3E5FA'; // promo label background
+
+export const COLOR_FREEMIUM = '#5856D6';

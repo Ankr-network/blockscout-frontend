@@ -45,11 +45,6 @@ export const useSampleCodeStyles = makeStyles<boolean>()(
         position: 'absolute',
         left: '-3em',
       },
-
-      [theme.breakpoints.down('sm')]: {
-        whiteSpace: 'pre',
-        wordBreak: 'normal',
-      },
     },
   }),
 );

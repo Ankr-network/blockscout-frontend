@@ -69,6 +69,14 @@ import {
   ICounterRequest,
   ICountersEntity,
   IGetExternalEmailResponse,
+  ITwoFAStatusResponse,
+  IBundlesResponse,
+  IRevokeBundleResponseItem,
+  IReferralCodeItem,
+  INewReferralCodeRequest,
+  INewReferralCodeResponse,
+  IDeleteReferralCodeResponse,
+  IBundlesStatusesResponse,
 } from './types';
 import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
 
@@ -107,10 +115,23 @@ export class BackofficeGateway implements IBackofficeGateway {
   async getTransactions(
     params: ITransactionsRequest,
   ): Promise<ITransactionsResponse> {
+    const formattedParams = new URLSearchParams();
+
+    formattedParams.append('address', params.address)
+    if (params.blockchain) {
+      formattedParams.append('blockchain', params.blockchain)
+    }
+    formattedParams.append('cursor', params.cursor.toString())
+    formattedParams.append('limit', params.limit.toString())
+    if (params.order_by) {
+      formattedParams.append('order_by', params.order_by)
+    }
+    params.types?.forEach(x => formattedParams.append('type', x))
+
     const { data: response } = await this.api.get<ITransactionsResponse>(
       '/transactions',
       {
-        params,
+        params: formattedParams,
       },
     );
 
@@ -540,6 +561,117 @@ export class BackofficeGateway implements IBackofficeGateway {
 
   async getUsetEmail(): Promise<IGetExternalEmailResponse> {
     const { data } = await this.api.get<IGetExternalEmailResponse>('/externalEmail');
+
+    return data;
+  }
+
+  async disableTwoFA(address: string) {
+    const { data: response } = await this.api.post<void>(
+      '/2fa/clear',
+      undefined,
+      {
+        params: {
+          address,
+        },
+      },
+    );
+
+    return response;
+  }
+
+  async getTwoFAStatus(address: string): Promise<ITwoFAStatusResponse> {
+    const { data } = await this.api.get<ITwoFAStatusResponse>(
+      '/2fa/status',
+      {
+        params: {
+          address,
+        },
+      }
+    );
+
+    return data;
+  }
+
+  async getUserBundles(address: string, statuses: string[]): Promise<IBundlesResponse> {
+    const { data } = await this.api.get<IBundlesResponse>(
+      '/bundles',
+      {
+        params: {
+          address,
+          statuses,
+        },
+      }
+    );
+
+    return data;
+  }
+
+  async revokeUserBundle(address: string, paymentId: string): Promise<IRevokeBundleResponseItem[]> {
+    const { data: response } = await this.api.post<IRevokeBundleResponseItem[]>(
+      '/users/bundles/revoke',
+      {
+        address,
+        paymentId,
+      },
+    );
+
+    return response;
+  }
+
+  async getUserBundlesStatuses(address: string): Promise<IBundlesStatusesResponse> {
+    const { data } = await this.api.get<IBundlesStatusesResponse>(
+      '/users/bundles/status',
+      {
+        params: {
+          address,
+        },
+      }
+    );
+
+    return data;
+  }
+
+  async getUserReferralCodes(
+    address?: string,
+    include_bonus?: boolean,
+    include_deleted?: boolean,
+  ): Promise<IReferralCodeItem[]> {
+    const { data } = await this.api.get<IReferralCodeItem[]>(
+      '/referral/codes',
+      {
+        params: {
+          address,
+          include_bonus,
+          include_deleted,
+        },
+      }
+    );
+
+    return data;
+  }
+
+  async createNewReferralCode(
+    params?: INewReferralCodeRequest,
+  ): Promise<INewReferralCodeResponse> {
+    const { data: response } = await this.api.post<INewReferralCodeResponse>(
+      '/referral/codes/new',
+      {
+        ...params,
+      },
+    );
+
+    return response;
+  }
+
+  async deleteReferralCode(code: string): Promise<IDeleteReferralCodeResponse> {
+    const { data } = await this.api.delete<IDeleteReferralCodeResponse>(
+      '/referral/codes',
+      {
+        params: {
+          code,
+        },
+      },
+    );
 
     return data;
   }

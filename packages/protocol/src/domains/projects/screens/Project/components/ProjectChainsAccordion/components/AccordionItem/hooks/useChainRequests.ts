@@ -9,14 +9,31 @@ import {
   selectProjectTotalRequestsFor24hByChain,
 } from 'domains/projects/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useProjectStatsParams } from 'modules/stats/hooks/useProjectStatsParams';
+import { IFetchProjectChainsStatsFor1hParams } from 'domains/projects/actions/fetchProjectChainsStatsFor1h';
+import { IFetchProjectChainsStatsFor24hParams } from 'domains/projects/actions/fetchProjectChainsStatsFor24h';
 
-export const useChainRequests = (chainId: ChainID, timeframe: Timeframe) => {
+export const useChainRequests = (
+  chainId: ChainID,
+  timeframe: Timeframe,
+  userEndpointToken?: string,
+) => {
+  const { statsParams } = useProjectStatsParams(userEndpointToken);
+
   const lastHourRequests = useAppSelector(state =>
-    selectProjectTotalRequestsFor1hByChain(state, chainId),
+    selectProjectTotalRequestsFor1hByChain(
+      state,
+      chainId,
+      statsParams as IFetchProjectChainsStatsFor1hParams,
+    ),
   );
 
   const lastDayRequests = useAppSelector(state =>
-    selectProjectTotalRequestsFor24hByChain(state, chainId),
+    selectProjectTotalRequestsFor24hByChain(
+      state,
+      chainId,
+      statsParams as IFetchProjectChainsStatsFor24hParams,
+    ),
   );
 
   const { hasPremium } = useAuth();
