@@ -1,4 +1,5 @@
 import { CREDIT_TYPE } from './getPaymentHistoryItemDirection';
+import { isRewardConversionReason } from './isRewardConversionReason';
 
 export const hasCreditAmount = (
   creditAnkrAmount: string,
@@ -14,11 +15,12 @@ export const isCreditAmount = (
   hasCreditAmount(creditAnkrAmount, creditUsdAmount);
 
 interface GetAmountArguments {
-  type: string;
-  creditAnkrAmount: string;
-  creditUsdAmount: string;
   amountAnkr: string;
   amountUsd: string;
+  creditAnkrAmount: string;
+  creditUsdAmount: string;
+  reason: string;
+  type: string;
 }
 
 export const getAmount = ({
@@ -26,8 +28,13 @@ export const getAmount = ({
   amountUsd,
   creditAnkrAmount,
   creditUsdAmount,
+  reason,
   type,
 }: GetAmountArguments) => {
+  if (isRewardConversionReason(reason)) {
+    return '-';
+  }
+
   if (isCreditAmount(type, creditAnkrAmount, creditUsdAmount)) {
     return '';
   }

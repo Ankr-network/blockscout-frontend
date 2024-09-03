@@ -2135,7 +2135,8 @@
         "package": "Package payment",
         "payg": "PAYG payment",
         "voucher": "Voucher operations",
-        "deduction": "Daily charge"
+        "deduction": "Daily charge",
+        "reward-conversion": "Bonus PAYG top-up"
       },
       "time-type": {
         "week": "Past week",
