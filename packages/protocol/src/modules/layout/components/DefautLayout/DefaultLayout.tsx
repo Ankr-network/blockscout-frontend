@@ -22,6 +22,7 @@ import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
 import { HeaderBanner } from '../HeaderBanner';
 import { Footer } from '../Footer';
+import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 
 export const CONTENT_WIDTH = 1120;
 
@@ -52,9 +53,12 @@ export const DefaultLayout = ({
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
+  const bannerHeight = useHeaderBannerHeight();
+
   const { classes, cx } = useStyles({
     hasGradient: hasGradient || hasError,
     isLightTheme,
+    bannerHeight,
   });
   const { isLoggedIn, loading } = useAuth();
   const { isEnterpriseClient } = useEnterpriseClientStatus();

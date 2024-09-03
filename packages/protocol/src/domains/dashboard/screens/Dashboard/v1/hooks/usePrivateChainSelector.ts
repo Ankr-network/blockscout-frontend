@@ -2,9 +2,11 @@ import { useMemo } from 'react';
 import { MenuProps } from '@mui/material';
 
 import { useDashboardStyles } from 'domains/dashboard/screens/Dashboard/useDashboardStyles';
+import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 export const usePrivateChainSelector = () => {
-  const { classes } = useDashboardStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes } = useDashboardStyles(bannerHeight);
 
   const menuProps: Partial<MenuProps> = useMemo(
     () => ({

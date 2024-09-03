@@ -8,6 +8,7 @@ import { useAppSelector } from 'store/useAppSelector';
 import { emptyFn } from 'modules/common/utils/emptyFn';
 import { selectConfiguredBlockchains } from 'modules/chains/store/selectors';
 import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { useChainsSelector } from '../hooks/useChainsSelector';
 import { useChainSelectorGroups } from '../hooks/useChainSelectorGroups';
@@ -62,7 +63,8 @@ export const DashboardContent = () => {
     onBlockedTabClick: emptyFn,
   });
 
-  const { classes } = useDashboardStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes } = useDashboardStyles(bannerHeight);
 
   const { apiKeys: enterpriseApiKeys } = useEnterpriseEndpoints();
 

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { HEADER_BANNER_ID } from 'modules/layout/const';
 
 import { MaintenanceDialog } from '../MaintenanceDialog';
 import { useHeaderBannerStyles } from './useHeaderBannerStyles';
@@ -25,7 +26,7 @@ export const HeaderBanner = () => {
 
   return (
     <>
-      <div className={classes.root}>
+      <div className={classes.root} id={HEADER_BANNER_ID}>
         <Typography variant="body3" className={classes.text}>
           {tHTML(keys.text)}
         </Typography>
