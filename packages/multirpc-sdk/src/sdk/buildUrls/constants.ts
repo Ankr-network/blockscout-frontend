@@ -45,6 +45,9 @@ export const KAVA_IDS = [
   'kava-tendermint-rpc-testnet',
 ];
 
+// Allora ids which have different public and private endpoints
+export const ALLORA_IDS = ['allora_testnet-rest', 'allora_testnet-cosmos-rest'];
+
 export const blockchainNameTemplate = '{blockchain}';
 
 export const userNameTemplate = '{user}';

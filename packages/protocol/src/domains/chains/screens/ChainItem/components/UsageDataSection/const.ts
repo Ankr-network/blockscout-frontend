@@ -7,6 +7,7 @@ type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.ALLORA_TESTNET_REST]: ChainID.ALLORA_TESTNET,
   [ChainID.ALLORA_TESTNET_RPC]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_COSMOS_REST]: ChainID.ALLORA_TESTNET,
 
   [ChainID.SECRET_REST]: ChainID.SECRET,
   [ChainID.SECRET_RPC]: ChainID.SECRET,
@@ -80,6 +81,7 @@ export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
 const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.ALLORA_TESTNET_REST]: ChainID.ALLORA_TESTNET,
   [ChainID.ALLORA_TESTNET_RPC]: ChainID.ALLORA_TESTNET,
+  [ChainID.ALLORA_TESTNET_COSMOS_REST]: 'allora_cosmos_testnet' as ChainID,
 
   [ChainID.SECRET_REST]: ChainID.SECRET,
   [ChainID.SECRET_RPC]: ChainID.SECRET,
