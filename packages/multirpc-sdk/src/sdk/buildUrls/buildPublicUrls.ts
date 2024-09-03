@@ -1,6 +1,11 @@
 import { ChainsConfig } from './types';
-import { IBlockchainEntity, BlockchainFeature, BlockchainType } from '../../common';
 import {
+  IBlockchainEntity,
+  BlockchainFeature,
+  BlockchainType,
+} from '../../common';
+import {
+  ALLORA_IDS,
   APTOS_IDS,
   ENABLED_SECRET_NETWORK_IDS,
   ENABLED_ZETACHAIN_IDS,
@@ -72,7 +77,7 @@ export const buildPublicUrls = ({
     if (
       id === 'tron' ||
       id === 'gnosis_beacon' ||
-      id === 'allora_testnet-rest' ||
+      ALLORA_IDS.includes(id) ||
       id === 'btc_blockbook'
     ) {
       blockchain.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
@@ -94,7 +99,11 @@ export const buildPublicUrls = ({
       blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
     }
 
-    if (SEI_IDS.includes(id) || STELLAR_IDS.includes(id) || KAVA_IDS.includes(id)) {
+    if (
+      SEI_IDS.includes(id) ||
+      STELLAR_IDS.includes(id) ||
+      KAVA_IDS.includes(id)
+    ) {
       blockchain.paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
     }
 

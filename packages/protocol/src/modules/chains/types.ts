@@ -72,6 +72,7 @@ export enum ChainID {
   ALLORA_TESTNET = 'allora_testnet',
   ALLORA_TESTNET_REST = 'allora_testnet-rest',
   ALLORA_TESTNET_RPC = 'allora_testnet-rpc',
+  ALLORA_TESTNET_COSMOS_REST = 'allora_testnet-cosmos-rest',
   APTOS = 'aptos',
   ARBITRUM = 'arbitrum',
   ARBITRUM_TESTNET = 'arbitrum_testnet',

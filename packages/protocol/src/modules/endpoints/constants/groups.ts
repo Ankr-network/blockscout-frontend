@@ -335,6 +335,7 @@ export const chainGroups: ChainGroup[] = [
       ChainID.SEI_COSMOS_REST_TESTNET,
       ChainID.SECRET_COSMOS_REST,
       ChainID.ZETACHAIN_COSMOS_REST_ATHENS_TESTNET,
+      ChainID.ALLORA_TESTNET_COSMOS_REST,
     ],
   },
   {
