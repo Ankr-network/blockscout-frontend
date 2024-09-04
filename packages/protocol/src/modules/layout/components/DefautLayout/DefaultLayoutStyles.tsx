@@ -55,6 +55,10 @@ export const useStyles = makeStyles<Props>()(
         marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
       },
 
+      [theme.breakpoints.up('md')]: {
+        marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
+      },
+
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
       },
