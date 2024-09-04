@@ -1,18 +1,17 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 export const MOBILE_HEADER_HEIGHT = 64;
 
-export const useStyles = makeStyles()((theme: Theme) => ({
+export const useStyles = makeStyles<number>()((theme, bannerHeight) => ({
   root: {
     position: 'fixed',
     width: '100%',
     backgroundColor: theme.palette.background.paper,
     zIndex: 2,
     padding: theme.spacing(2.5, 0),
-    top: SHOULD_SHOW_HEADER_BANNER ? 40 : 0,
+    top: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
   },
 
   container: {

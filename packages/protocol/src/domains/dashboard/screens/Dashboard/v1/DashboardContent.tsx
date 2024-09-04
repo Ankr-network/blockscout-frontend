@@ -6,6 +6,7 @@ import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/
 import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
+import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { useChainsSelector } from '../hooks/useChainsSelector';
 import { useChainSelectorGroups } from '../hooks/useChainSelectorGroups';
@@ -63,7 +64,8 @@ export const DashboardContent = () => {
     onBlockedTabClick: onOpen,
   });
 
-  const { classes } = useDashboardStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes } = useDashboardStyles(bannerHeight);
 
   const { handleSetOption, options, selectedOption } = useProjectSelect();
 

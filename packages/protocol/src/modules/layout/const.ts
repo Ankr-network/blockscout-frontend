@@ -8,5 +8,6 @@ export enum Header {
   Mobile = 'mobile',
 }
 
-export const SHOULD_SHOW_HEADER_BANNER = false;
+export const HEADER_BANNER_ID = 'header-banner-element';
+export const SHOULD_SHOW_HEADER_BANNER = true;
 export const SHOULD_SHOW_NOTIFICATION_DIALOG = false;

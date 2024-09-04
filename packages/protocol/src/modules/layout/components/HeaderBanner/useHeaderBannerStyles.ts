@@ -6,15 +6,22 @@ export const useHeaderBannerStyles = makeStyles()(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: 40,
+    minHeight: 40,
+    height: 'content-fit',
     backgroundColor: theme.palette.primary.main,
     position: 'fixed',
     top: 0,
     zIndex: 4,
+
+    padding: theme.spacing(3, 7, 4, 3),
+
+    [theme.breakpoints.up('md')]: {
+      padding: theme.spacing(2.5, 2.5),
+    },
   },
   text: {
     color: theme.palette.common.white,
-    textAlign: 'center',
+    textAlign: 'left',
 
     '& > span > a': {
       color: theme.palette.common.white,

@@ -8,6 +8,7 @@ import { BalanceMenuContent } from '../BalanceMenu';
 import { MainNavigation } from '../MainNavigation';
 import { useBalanceMenuButton } from '../BalanceMenuButton/useBalanceMenuButton';
 import { useStyles } from './SideBarStyles';
+import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 
 export interface SidebarProps {
   chainsRoutes: string[];
@@ -26,7 +27,8 @@ export const SideBar = ({
   isMobileSideBar = false,
   loading,
 }: SidebarProps) => {
-  const { classes, cx } = useStyles(isMobileSideBar);
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes, cx } = useStyles({ isMobileSideBar, bannerHeight });
   const {
     balance,
     balanceInRequests,
