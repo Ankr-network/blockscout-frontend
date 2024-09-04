@@ -1,12 +1,11 @@
-import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { Chain } from 'modules/chains/types';
+import { selectPublicBlockchains } from 'modules/chains/store/selectors';
+import { RootState } from 'store';
 
 export interface FetchPublicChainsResult {
   chains: Chain[];
-  allChains: Chain[];
 }
 
 export const {
@@ -15,17 +14,12 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     chainsFetchPublicChains: build.query<FetchPublicChainsResult, void>({
-      queryFn: createNotifyingQueryFn(async () => {
-        const service = MultiService.getService();
-
-        const chains = await service.getPublicGateway().getBlockchains();
-
-        const formattedPublicChains = service.formatPublicEndpoints(chains);
+      queryFn: createNotifyingQueryFn(async (_params, { getState }) => {
+        const chains = selectPublicBlockchains(getState() as RootState);
 
         return {
           data: {
-            chains: formatChainsConfigToChains(formattedPublicChains),
-            allChains: formatChainsConfigToChains(formattedPublicChains),
+            chains,
           },
         };
       }),

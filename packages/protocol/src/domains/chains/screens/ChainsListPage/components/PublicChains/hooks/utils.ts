@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { ChainID, SortType, Chain } from 'modules/chains/types';
+import { ChainID, ESortChainsType, Chain } from 'modules/chains/types';
 import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 
 import { SortPublicChainsParams } from '../PublicChainsTypes';
@@ -55,8 +55,8 @@ export const chainsUsageSorter = (a: Chain, b: Chain) => {
   return CHAIN_IDS_BY_USAGE.indexOf(a?.id) - CHAIN_IDS_BY_USAGE.indexOf(b?.id);
 };
 
-const getSorter = (sortType: SortType, isLoading: boolean) => {
-  if (sortType === SortType.Usage) {
+const getSorter = (sortType: ESortChainsType, isLoading: boolean) => {
+  if (sortType === ESortChainsType.UsageHighLow) {
     if (isLoading) {
       return chainsUsageSorter;
     }

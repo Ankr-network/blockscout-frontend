@@ -22,12 +22,12 @@ export const selectBlockchains = createSelector(
 
 export const selectBlockchainsData = createSelector(
   selectBlockchains,
-  ({ data }) => data,
+  ({ data = [] }) => data,
 );
 
 export const selectBlockchainsLoadingStatus = createSelector(
   chainsFetchBlockchains.select(),
-  ({ isLoading }) => isLoading,
+  ({ isLoading, isUninitialized }) => isLoading || isUninitialized,
 );
 
 export const selectNodesDetails = createSelector(
@@ -40,16 +40,14 @@ export const selectNodesDetailsLoadingStatus = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectConfiguredBlockchains = createSelector(
+export const selectPublicBlockchains = createSelector(
   selectBlockchains,
   selectNodesDetails,
   ({ data: blockchains = [] }, { data: nodes }) => {
     const addIsArchive = getAddIsArchiveCB(nodes);
 
-    const publicChains = MultiService.getService().formatPrivateEndpoints(
-      blockchains,
-      '',
-    );
+    const publicChains =
+      MultiService.getService().formatPublicEndpoints(blockchains);
 
     return formatChainsConfigToChains(publicChains).map(addIsArchive);
   },
@@ -72,7 +70,7 @@ export const selectConfiguredBlockchainsForToken = createSelector(
 );
 
 export const selectBlockchainBySubchainId = createSelector(
-  selectConfiguredBlockchains,
+  selectPublicBlockchains,
   (_state: RootState, chainId: ChainID) => chainId,
   (blockchains, chainId) => {
     const blockchainFoundByMainId = blockchains?.find(
@@ -100,7 +98,7 @@ export const selectPublicChainById = createSelector(
     state,
     chainId,
   }),
-  selectConfiguredBlockchains,
+  selectPublicBlockchains,
   ({ chainId, state }, blockchains) => {
     const mainChain = selectBlockchainBySubchainId(state, chainId);
 
@@ -108,8 +106,25 @@ export const selectPublicChainById = createSelector(
   },
 );
 
+export const selectPrivateChainById = createSelector(
+  (state: RootState, chainId: ChainID, userEndpointToken?: string) => ({
+    state,
+    chainId,
+    userEndpointToken,
+  }),
+  ({ chainId, state, userEndpointToken }) => {
+    const blockchains = selectConfiguredBlockchainsForToken(
+      state,
+      userEndpointToken,
+    );
+    const mainChain = selectBlockchainBySubchainId(state, chainId);
+
+    return blockchains?.find(chain => chain?.id === mainChain?.id);
+  },
+);
+
 export const selectSubChainIdsByChainId = createSelector(
-  selectConfiguredBlockchains,
+  selectPublicBlockchains,
   (_state: RootState, chainId: ChainID) => chainId,
   (blockchains, chainId) => {
     const currentChain = blockchains?.find(
@@ -125,7 +140,7 @@ export const selectSubChainIdsByChainId = createSelector(
 );
 
 export const selectAllSubChainIdsWithPathByChainId = createSelector(
-  selectConfiguredBlockchains,
+  selectPublicBlockchains,
   (_state: RootState, chainId: ChainID) => chainId,
   (blockchains, chainId) => {
     const currentChain = blockchains?.find(
@@ -166,7 +181,7 @@ export const selectAllChainsPaths = createSelector(
 );
 
 export const selectAllPathsByChainId = createSelector(
-  selectConfiguredBlockchains,
+  selectPublicBlockchains,
   (_state: RootState, chainId: ChainID) => chainId,
   selectAllChainsPaths,
   (blockchains, chainId, allChainsPaths = []) => {
@@ -223,7 +238,7 @@ export const selectSubChainIdByPath = createSelector(
 );
 
 export const selectChainById = createSelector(
-  selectConfiguredBlockchains,
+  selectPublicBlockchains,
   (_state: RootState, chainId: ChainID) => chainId,
   (blockchains, chainId) => {
     return blockchains?.find(

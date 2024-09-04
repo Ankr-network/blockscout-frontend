@@ -1,6 +1,7 @@
 import { IJwtTokenResponse } from 'multirpc-sdk';
 
 import { decryptJwt } from 'domains/auth/actions/instantJwt/utils/decryptJwt';
+import { DEFAULT_PROJECT_NAME } from 'modules/projects/const';
 
 import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
@@ -41,7 +42,7 @@ export const formatTokenAndDecryptJwt = async (
     return {
       id: index.toString(),
       index,
-      name,
+      name: name || DEFAULT_PROJECT_NAME,
       description,
       userEndpointToken: primaryUserEndpointToken,
       jwtData,

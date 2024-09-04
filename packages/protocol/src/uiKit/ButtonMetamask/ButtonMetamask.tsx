@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import { Button } from '@mui/material';
 import { MetaMaskWallet } from '@ankr.com/ui';
 
@@ -21,12 +21,20 @@ export const ButtonMetamask = ({
 }: ButtonMetamaskProps) => {
   const { classes, cx } = useButtonMetamaskStyles();
 
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      event.preventDefault();
+      onClick?.(event);
+    },
+    [onClick],
+  );
+
   return (
     <Button
       disabled={isDisabled}
       className={cx(classes.button, className)}
       size={size}
-      onClick={onClick}
+      onClick={handleClick}
     >
       <MetaMaskWallet className={classes.icon} />
       {label}

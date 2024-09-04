@@ -1,11 +1,11 @@
 import { RootState } from 'store';
-import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { Chain } from 'modules/chains/types';
-
-import { chainsFetchPublicChains } from '../public/fetchPublicChains';
+import {
+  selectConfiguredBlockchainsForToken,
+  selectPublicBlockchains,
+} from 'modules/chains/store/selectors';
 
 export interface PremiumFeatures {
   privateChainDetails?: Chain;
@@ -29,31 +29,13 @@ export const {
     >({
       queryFn: createNotifyingQueryFn(
         async ({ chainId, userEndpointToken }, { getState }) => {
-          const publicService = MultiService.getService();
+          const publicChains = selectPublicBlockchains(
+            getState() as RootState,
+          ).filter(({ premiumOnly }) => !premiumOnly);
 
-          let { data: { chains: publicChains = [] } = {} } =
-            chainsFetchPublicChains.select()(getState() as RootState);
-
-          const blockchains = await publicService
-            .getPublicGateway()
-            .getBlockchains();
-
-          if (!publicChains) {
-            const formattedPublicChains =
-              await publicService.formatPublicEndpoints(blockchains);
-
-            publicChains = formatChainsConfigToChains(
-              formattedPublicChains,
-            ).filter(({ premiumOnly }) => !premiumOnly);
-          }
-
-          const formattedPrivateChains = publicService.formatPrivateEndpoints(
-            blockchains,
+          const privateChains = selectConfiguredBlockchainsForToken(
+            getState() as RootState,
             userEndpointToken,
-          );
-
-          const privateChains = formatChainsConfigToChains(
-            formattedPrivateChains,
           );
 
           const privateChainDetails = privateChains.find(

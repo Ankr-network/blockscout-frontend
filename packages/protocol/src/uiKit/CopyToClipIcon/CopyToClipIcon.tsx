@@ -64,8 +64,8 @@ export const CopyToClipIcon = ({
       tabIndex={0}
       /* stop propagation for click event to avoid parent element click */
       onClick={event => {
-        event.preventDefault();
         event.stopPropagation();
+        event.preventDefault();
       }}
       className={cx(classes.container, className)}
     >

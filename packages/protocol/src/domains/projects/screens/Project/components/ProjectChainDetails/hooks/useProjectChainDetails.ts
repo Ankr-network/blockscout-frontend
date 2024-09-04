@@ -64,7 +64,6 @@ export const useProjectChainDetails = ({
     additionalSelector: networksButton,
     chain: projectChain,
     isGroupSelectorAutoWidth: true,
-    unfilteredChain: projectChain,
     isHiddenMainnet: getIsHiddenMainnet(projectChain),
     isCompactView,
     shouldMergeTendermintGroups,

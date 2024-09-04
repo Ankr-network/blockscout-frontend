@@ -31,28 +31,4 @@ export const useProjectEndpointsStyles = makeStyles()(theme => ({
     paddingTop: theme.spacing(5),
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  searchInputField: {
-    width: 280,
-    height: 32,
-    borderRadius: 3,
-    '& input': {
-      fontSize: 14,
-    },
-  },
-  searchIcon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(1),
-    pointerEvents: 'none',
-  },
-  sortSelectRoot: {
-    height: 32,
-  },
-  sortIcon: {
-    color: theme.palette.text.secondary,
-    marginRight: theme.spacing(2),
-  },
-  sortValue: {
-    display: 'flex',
-    alignItems: 'center',
-  },
 }));

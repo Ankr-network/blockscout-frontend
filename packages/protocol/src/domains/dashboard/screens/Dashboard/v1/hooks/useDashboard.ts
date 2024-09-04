@@ -5,7 +5,6 @@ import { useChains } from './useChains';
 
 export const useDashboard = () => {
   const {
-    allChains,
     chains,
     error,
     isLoading,
@@ -22,7 +21,6 @@ export const useDashboard = () => {
     rawChains: chains,
     timeframe,
     timeframeTabs,
-    allChains,
     isLoading,
     error,
   };

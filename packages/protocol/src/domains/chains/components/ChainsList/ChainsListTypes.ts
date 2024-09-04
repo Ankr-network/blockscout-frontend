@@ -1,8 +1,8 @@
-import { Chain, ChainID, SortType } from 'modules/chains/types';
+import { Chain, ChainID, ESortChainsType } from 'modules/chains/types';
 
 export interface SortChainsParams {
   chains: Chain[];
-  sortType: SortType;
+  sortType: ESortChainsType;
 }
 
 export type ChainMap = Partial<Record<ChainID, Chain>>;

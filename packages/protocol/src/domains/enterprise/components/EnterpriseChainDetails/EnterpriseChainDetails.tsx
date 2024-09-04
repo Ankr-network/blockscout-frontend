@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 
 import { H1Tag } from 'uiKit/H1Tag';
-import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';

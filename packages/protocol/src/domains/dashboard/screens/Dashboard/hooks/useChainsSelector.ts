@@ -13,13 +13,11 @@ import {
 
 interface IChainSelectorProps {
   chains: Chain[];
-  allChains: Chain[];
   chainIdsWithStats: ChainID[];
   nestedSelectedChainId?: ChainID;
 }
 
 export const useChainsSelector = ({
-  allChains,
   chainIdsWithStats,
   chains,
   nestedSelectedChainId,
@@ -50,14 +48,7 @@ export const useChainsSelector = ({
     [chains, chainId],
   );
 
-  const unfilteredChain = useMemo(
-    () => allChains.find(item => item.id === chainId),
-    [allChains, chainId],
-  );
-
-  const showAdditionalSelect = Boolean(
-    chainId !== ALL_CHAINS_VALUE && chain && unfilteredChain,
-  );
+  const showAdditionalSelect = Boolean(chainId !== ALL_CHAINS_VALUE && chain);
 
   const isTestnetOnlyChainSelected = Boolean(
     chainId && isTestnetOnlyChain(chainId),
@@ -70,7 +61,6 @@ export const useChainsSelector = ({
     options,
     showAdditionalSelect,
     chain,
-    unfilteredChain,
     isTestnetOnlyChainSelected,
   };
 };

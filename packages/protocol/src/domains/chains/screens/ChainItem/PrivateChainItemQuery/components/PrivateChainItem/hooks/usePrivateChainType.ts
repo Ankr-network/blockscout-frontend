@@ -4,7 +4,7 @@ import { ChainType, Chain } from 'modules/chains/types';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useTabs } from 'modules/common/hooks/useTabs';
 import { getInitialChainType } from 'domains/chains/screens/ChainItem/utils/getInitialChainType';
-import { ChainTypeResult } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainType';
+import { ChainTypeResult } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper/components/PublicChainItem/hooks/usePublicChainType';
 
 import { getPrivateChainTypeTabs } from './utils';
 

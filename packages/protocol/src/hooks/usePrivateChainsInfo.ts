@@ -1,28 +1,17 @@
-import { useLayoutEffect } from 'react';
-
-import { useLazyChainsFetchPrivateChainsInfoQuery } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { useUserEndpointToken } from 'domains/chains/hooks/useUserEndpointToken';
+import {
+  selectBlockchainsLoadingStatus,
+  selectConfiguredBlockchainsForToken,
+} from 'modules/chains/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
-const defaultData = {
-  chains: [],
-  allChains: [],
-};
-
-export const usePrivateChainsInfo = (skipFetching?: boolean) => {
+export const usePrivateChainsInfo = () => {
   const userEndpointToken = useUserEndpointToken();
 
-  const [
-    fetchPrivateChainsInfo,
-    { data: { allChains, chains } = defaultData, isLoading, isUninitialized },
-  ] = useLazyChainsFetchPrivateChainsInfoQuery();
+  const chains = useAppSelector(state =>
+    selectConfiguredBlockchainsForToken(state, userEndpointToken),
+  );
+  const isLoading = useAppSelector(selectBlockchainsLoadingStatus);
 
-  useLayoutEffect(() => {
-    if (!skipFetching) {
-      fetchPrivateChainsInfo({
-        userEndpointToken,
-      });
-    }
-  }, [fetchPrivateChainsInfo, userEndpointToken, skipFetching]);
-
-  return { chains, allChains, isLoading, isUninitialized };
+  return { chains, isLoading };
 };

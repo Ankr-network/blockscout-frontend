@@ -1,38 +1,40 @@
 import { Box, Skeleton, Typography } from '@mui/material';
-import { ReactNode } from 'react';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'uiKit/NavLink';
 import { Timeframe, Chain } from 'modules/chains/types';
 import { Placeholder } from 'modules/common/components/Placeholder';
+import { ChainDescription } from 'modules/chains/components/ChainDescription';
+import { isMultichain } from 'modules/chains/utils/isMultichain';
 
-import { BlockchainInfo } from './components/BlockchainInfo';
 import { ChainCardShadow } from '../ChainCardShadow';
 import { Information } from './components/Information';
 import { useChainCardStyles } from './useChainCardStyles';
 
 export interface IBaseChainCardProps {
-  badge?: ReactNode;
   chain: Chain;
   className?: string;
   hasShadow?: boolean;
   hasTotalRequestsLabel?: boolean;
-  isPremiumOnly?: boolean;
   loading: boolean;
   onClick?: () => void;
   timeframe: Timeframe;
   totalRequests: string;
+  isRequestsDisabled?: boolean;
+  actions?: React.ReactNode;
+  shouldShowDashInsteadOfRequestsString?: boolean;
 }
 
 export const BaseChainsCard = ({
-  badge,
+  actions,
   chain,
   className,
   hasShadow = true,
   hasTotalRequestsLabel = true,
-  isPremiumOnly = false,
+  isRequestsDisabled,
   loading,
   onClick,
+  shouldShowDashInsteadOfRequestsString,
   timeframe,
   totalRequests,
 }: IBaseChainCardProps) => {
@@ -54,11 +56,21 @@ export const BaseChainsCard = ({
   const Component = hasShadow ? ChainCardShadow : Box;
 
   return (
-    <Component className={cx(classes.root, className)} {...props}>
-      <BlockchainInfo
-        badge={badge}
+    <Component
+      className={cx(
+        classes.baseChainCardRoot,
+        {
+          [classes.multichainCard]: isMultichain(id),
+        },
+        className,
+      )}
+      {...props}
+    >
+      <ChainDescription
         chain={chain}
-        isPremiumOnly={isPremiumOnly}
+        logoSize={48}
+        isCompactView
+        className={classes.baseChainCardDescription}
       />
       <div className={classes.secondInfo}>
         {hasTotalRequestsLabel && (
@@ -68,14 +80,18 @@ export const BaseChainsCard = ({
               placeholder={<Skeleton className={classes.skeleton} />}
             >
               <Information
+                shouldShowDashInsteadOfRequestsString={
+                  shouldShowDashInsteadOfRequestsString
+                }
                 timeframe={timeframe}
                 totalRequests={totalRequests}
-                timeframeClassName={classes.timeSwitcher}
+                isRequestsDisabled={isRequestsDisabled}
               />
             </Placeholder>
           </Typography>
         )}
       </div>
+      {actions}
     </Component>
   );
 };

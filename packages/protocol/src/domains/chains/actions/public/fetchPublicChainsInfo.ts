@@ -1,10 +1,8 @@
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 import { Chain } from 'modules/chains/types';
-import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
-import { getAddIsArchiveCB } from 'modules/chains/utils/isArchive';
-
-import { chainsFetchPublicChains } from './fetchPublicChains';
+import { selectPublicBlockchains } from 'modules/chains/store/selectors';
+import { RootState } from 'store';
 
 export interface IFetchPublicChainsInfoResult {
   chains: Chain[];
@@ -18,21 +16,13 @@ export const { endpoints, useChainsFetchPublicChainsInfoQuery } =
         IFetchPublicChainsInfoResult,
         void
       >({
-        queryFn: createNotifyingQueryFn(async (_args, { dispatch }) => {
-          const [
-            { data: { allChains = [], chains = [] } = {} },
-            { data: nodes },
-          ] = await Promise.all([
-            dispatch(chainsFetchPublicChains.initiate()),
-            dispatch(chainsFetchChainNodesDetail.initiate()),
-          ]);
-
-          const addIsArchive = getAddIsArchiveCB(nodes);
+        queryFn: createNotifyingQueryFn(async (_args, { getState }) => {
+          const chains = selectPublicBlockchains(getState() as RootState);
 
           return {
             data: {
-              chains: chains.map(addIsArchive),
-              allChains: allChains.map(addIsArchive),
+              chains,
+              allChains: chains,
             },
           };
         }),

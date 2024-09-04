@@ -21,7 +21,11 @@ export const BaseChains = ({ children, loading, top }: BaseChainsProps) => {
   return (
     <Box className={classes.baseChainsRoot}>
       {top}
-      <Typography variant="h5" className={classes.baseChainsTitle}>
+      <Typography
+        color="textPrimary"
+        variant="h5"
+        className={classes.baseChainsTitle}
+      >
         {t(keys.title)}
       </Typography>
       {loading ? <ChainsSkeleton /> : <>{children}</>}

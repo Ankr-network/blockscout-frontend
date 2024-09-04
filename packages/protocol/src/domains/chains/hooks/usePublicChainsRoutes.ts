@@ -1,18 +1,8 @@
-import { useEffect } from 'react';
-
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-
-import { chainsFetchPublicChains } from '../actions/public/fetchPublicChains';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectPublicBlockchains } from 'modules/chains/store/selectors';
 
 export const usePublicChainsRoutes = () => {
-  const [fetchPublicChains, { data: { chains = [] } = {}, isUninitialized }] =
-    useQueryEndpoint(chainsFetchPublicChains);
-
-  useEffect(() => {
-    if (isUninitialized) {
-      fetchPublicChains();
-    }
-  }, [fetchPublicChains, isUninitialized]);
+  const chains = useAppSelector(selectPublicBlockchains);
 
   return chains.map(item => item?.id);
 };
