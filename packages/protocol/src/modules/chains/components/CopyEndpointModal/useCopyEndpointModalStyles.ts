@@ -17,16 +17,22 @@ export const useCopyEndpointModalStyles = makeStyles()(theme => ({
     paddingRight: theme.spacing(3),
   },
   projectSelector: {
+    maxWidth: '100%',
     marginBottom: theme.spacing(3),
     '&': {
       borderRadius: 11,
     },
-    div: { boxShadow: 'none' },
+    div: {
+      boxShadow: 'none',
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
   },
   projectTabContent: {
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
-    maxWidth: 150,
+    maxWidth: '100%',
     overflow: 'hidden',
     lineHeight: '22px',
   },
