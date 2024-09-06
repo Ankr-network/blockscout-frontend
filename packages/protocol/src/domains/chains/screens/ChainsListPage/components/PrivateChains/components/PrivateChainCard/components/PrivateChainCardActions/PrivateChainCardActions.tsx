@@ -72,10 +72,13 @@ export const PrivateChainCardActions = ({
     [chainProjects, selectedProjectIndex],
   );
 
-  const projectChain = useMemo(
-    () => filterChainByPaths({ chain, paths: chainPaths }),
-    [chain, chainPaths],
-  );
+  const projectChain = useMemo(() => {
+    if (chainPaths.length === 0) {
+      return chain;
+    }
+
+    return filterChainByPaths({ chain, paths: chainPaths });
+  }, [chain, chainPaths]);
 
   return (
     <GuardUserGroup blockName={BlockWithPermission.ChainItem}>
