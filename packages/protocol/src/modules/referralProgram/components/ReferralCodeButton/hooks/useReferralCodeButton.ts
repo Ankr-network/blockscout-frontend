@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 
+import { useHasReferralCodeButton } from 'modules/referralProgram/hooks/useHasReferralCodeButton';
 import { useReferralProgram } from 'modules/referralProgram/hooks/useReferralProgram';
 import { useReferrer } from 'modules/referralProgram/hooks/useReferrer';
 
@@ -38,6 +39,8 @@ export const useReferralCodeButton = () => {
       setReferralCodeError,
     });
 
+  const { hasReferralCodeButton } = useHasReferralCodeButton();
+
   const referralCodeButtonProps = useMemo(
     (): IReferralCodeButtonProps => ({
       handleReferralCodeDialogOpen,
@@ -47,5 +50,5 @@ export const useReferralCodeButton = () => {
     [handleReferralCodeDialogOpen, referralCodeDialogProps, successDialogProps],
   );
 
-  return { referralCodeButtonProps };
+  return { hasReferralCodeButton, referralCodeButtonProps };
 };

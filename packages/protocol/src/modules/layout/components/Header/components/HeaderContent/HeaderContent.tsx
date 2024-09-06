@@ -9,8 +9,7 @@ import { UserAccountSelector } from 'domains/userGroup/components/UserAccountSel
 import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-
-import { useHasReferralCodeButton } from './hooks/useHasReferralCodeButton';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 interface HeaderContentProps {
   type?: Header;
@@ -27,12 +26,14 @@ export const HeaderContent = ({
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
-  const { referralCodeButtonProps } = useReferralCodeButton();
-  const { hasReferralCodeButton } = useHasReferralCodeButton();
+  const isMobile = useIsSMDown();
+
+  const { hasReferralCodeButton, referralCodeButtonProps } =
+    useReferralCodeButton();
 
   return (
     <>
-      {hasReferralCodeButton && (
+      {!isMobile && hasReferralCodeButton && (
         <ReferralCodeButton {...referralCodeButtonProps} />
       )}
       {(isDefaultType || isSidebarType) && <UserGroupDialog />}
