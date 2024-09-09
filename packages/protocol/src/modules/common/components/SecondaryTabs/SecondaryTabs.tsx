@@ -21,7 +21,7 @@ export function SecondaryTabs<TabID>({
   return visible ? (
     <TabsManager
       allowSingleTab
-      className={cx(className, classes.secondaryTabs)}
+      className={cx(classes.secondaryTabs, className)}
       selectedTab={selectedTab}
       tabs={tabs}
     />

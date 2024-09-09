@@ -13,7 +13,10 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { ANIMATION_DURATION } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/AccordionItem/hooks/useAccordionItem';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
+import {
+  selectAllPathsByChainId,
+  selectPrivateChainById,
+} from 'modules/chains/store/selectors';
 import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
 
 import { useChainProjectRequestsData } from './useChainProjectRequestsData';
@@ -33,12 +36,17 @@ export interface IChainProjectItemProps
 }
 
 export const useChainProjectItem = ({
-  chain,
+  chain: nestedChain,
   jwtTokens,
   onOpenAddToProjectsDialog,
   timeframe,
   userEndpointToken,
 }: ChainProjectItemHookProps & Pick<JwtManagerToken, 'userEndpointToken'>) => {
+  const chain =
+    useAppSelector(state =>
+      selectPrivateChainById(state, nestedChain.id, userEndpointToken),
+    ) || nestedChain;
+
   const { id } = chain;
 
   const allProjects = useAppSelector(selectAllProjects);
