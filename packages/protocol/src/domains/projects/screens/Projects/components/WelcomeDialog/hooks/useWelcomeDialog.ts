@@ -8,7 +8,9 @@ import { useWelcomeDialogSettings } from './useWelcomeDialogSettings';
 export const useWelcomeDialog = () => {
   const { isOpened, onClose, onOpen } = useDialog();
   const { setSettings, wasWelcomeDialogShown } = useWelcomeDialogSettings();
-  const { allWhitelists, isLoadingAllWhitelists } = useProjects();
+  const { allWhitelists, isLoadingAllWhitelists } = useProjects({
+    skipFetchingProjects: false,
+  });
 
   useEffect(() => {
     const hasProjects =

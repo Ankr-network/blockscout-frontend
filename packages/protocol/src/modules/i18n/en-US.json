@@ -69,9 +69,10 @@
     "analytics": "Statistics",
     "enterprise": "Enterprise",
     "advanced-api": "Advanced API",
-    "endpoints": "Endpoints",
+    "chains-list": "Chains List",
     "billing": "Billing",
     "pricing": "Pricing",
+    "settings": "Settings",
     "docs": "Docs"
   },
   "footer": {
@@ -85,7 +86,7 @@
     "done": "Done"
   },
   "account-menu": {
-    "personal-account-settings": "Personal account settings",
+    "personal-account-settings": "Settings",
     "accounts": "Accounts",
     "manage-teams-button": "Manage team accounts",
     "create-team-button": "Create team account",
@@ -711,9 +712,9 @@
   },
   "chains": {
     "select-all": "Select All",
-    "breadcrumbs": "Endpoints",
+    "breadcrumbs": "Chains list",
     "public": "Public",
-    "user-free": "Free",
+    "user-free": "Freemium",
     "user-premium": "Premium",
     "user-enterprise": "Enterprise",
     "title": "Select Chain",

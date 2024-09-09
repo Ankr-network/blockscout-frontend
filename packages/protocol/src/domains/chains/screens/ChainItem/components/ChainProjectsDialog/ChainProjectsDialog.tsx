@@ -1,11 +1,9 @@
 import { Button, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Plus, LoadingButton } from '@ankr.com/ui';
+import { LoadingButton } from '@ankr.com/ui';
 
 import { Dialog } from 'uiKit/Dialog';
 import { Chain } from 'modules/chains/types';
 import { ChainDescription } from 'modules/chains/components/ChainDescription';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { Checkbox } from 'modules/common/components/Checkbox';
@@ -30,12 +28,14 @@ export const ChainProjectsDialog = ({
     allProjects,
     handleAllChange,
     handleProjectChange,
-    hasProjectButton,
     isAllSelected,
     isLoadingAddChainsToProject,
     onConfirm,
     selectedProjects,
-  } = useChainProjectsDialog(chain, onCloseAddToProjectsDialog);
+  } = useChainProjectsDialog({
+    chain,
+    onCloseAddToProjectsDialog,
+  });
 
   const { classes } = useChainProjectsDialogStyles();
 
@@ -94,20 +94,6 @@ export const ChainProjectsDialog = ({
             </div>
           );
         })}
-        {hasProjectButton && (
-          <GuardUserGroup blockName={BlockWithPermission.JwtManagerWrite}>
-            <Button
-              className={classes.addToProjectsDialogButton}
-              component={Link}
-              to={ProjectsRoutesConfig.newProject.generatePath()}
-              variant="text"
-              color="secondary"
-              startIcon={<Plus />}
-            >
-              {t(keys.createNewProject)}
-            </Button>
-          </GuardUserGroup>
-        )}
         <div className={classes.chainProjectsActions}>
           <LoadingButton
             size="large"

@@ -1,32 +1,50 @@
 import { Button } from '@mui/material';
 import React, { useCallback, useMemo } from 'react';
+import { Copy } from '@ankr.com/ui';
+import { useDispatch } from 'react-redux';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Dialog } from 'uiKit/Dialog';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { useChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/hooks/useChainItemHeaderContent';
 import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
-import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { Endpoints } from 'modules/common/components/GetStartedSection/components/Endpoints';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import {
+  JwtManagerToken,
+  setSelectedTokenIndex,
+} from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { Chain } from 'modules/chains/types';
 import { ANIMATION_DURATION } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/AccordionItem/hooks/useAccordionItem';
 import { getIsHiddenMainnet } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
+import { isMultichain } from 'modules/chains/utils/isMultichain';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectCurrentAddress } from 'domains/auth/store';
 
-import { endpointModalTranslation } from './translation';
 import { useCopyEndpointModalStyles } from './useCopyEndpointModalStyles';
-import { isMultichain } from '../../utils/isMultichain';
+import { endpointModalTranslation } from './translation';
+import { TokenSelector } from './components/TokenSelector/TokenSelector';
 
 interface ICopyEndpointModalProps {
   chain: Chain;
   userEndpointToken: string;
   jwtTokens: JwtManagerToken[];
+  buttonProps?: React.ComponentProps<typeof Button>;
+  isProtocolSwitcherHidden?: boolean;
+  buttonClassName?: string;
+  isIconButton?: boolean;
+  hasProjectSelector?: boolean;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const CopyEndpointModal = ({
+  buttonClassName,
+  buttonProps,
   chain,
+  hasProjectSelector,
+  isIconButton,
+  isProtocolSwitcherHidden = false,
   jwtTokens,
   userEndpointToken,
 }: ICopyEndpointModalProps) => {
@@ -48,8 +66,7 @@ export const CopyEndpointModal = ({
   } = usePrivateChainItem({
     chain,
     isGroupSelectorAutoWidth: true,
-    unfilteredChain: chain,
-    isProtocolSwitcherHidden: false,
+    isProtocolSwitcherHidden,
     isHiddenMainnet: getIsHiddenMainnet(chain),
   });
 
@@ -63,7 +80,16 @@ export const CopyEndpointModal = ({
     isChainProtocolSwitchEnabled,
   });
 
-  const { handleSelectTokenIndex } = useSelectTokenIndex();
+  const dispatch = useDispatch();
+
+  const address = useAppSelector(selectCurrentAddress);
+
+  const handleSelectTokenIndex = useCallback(
+    (newIndex: number) => {
+      dispatch(setSelectedTokenIndex({ tokenIndex: newIndex, address }));
+    },
+    [address, dispatch],
+  );
 
   const currentProjectIndex = useMemo(
     () =>
@@ -75,6 +101,7 @@ export const CopyEndpointModal = ({
   const onClickEndpointButton = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event?.stopPropagation();
+      event?.preventDefault();
       handleSelectTokenIndex(currentProjectIndex);
       setTimeout(onOpen, ANIMATION_DURATION);
     },
@@ -91,16 +118,17 @@ export const CopyEndpointModal = ({
 
   const { keys, t } = useTranslation(endpointModalTranslation);
 
-  const { classes } = useCopyEndpointModalStyles();
+  const { classes, cx } = useCopyEndpointModalStyles();
 
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <Button
         size="small"
-        onClick={onClickEndpointButton}
-        className={classes.copyEndpointButton}
+        className={cx(classes.copyEndpointButton, buttonClassName)}
+        {...buttonProps}
+        onClick={buttonProps?.onClick || onClickEndpointButton}
       >
-        {t(keys.copyEndpoint)}
+        {isIconButton ? <Copy /> : t(keys.copyEndpoint)}
       </Button>
       <Dialog
         open={isOpened}
@@ -108,28 +136,42 @@ export const CopyEndpointModal = ({
         title={t(keys.copyEndpoint)}
         paperClassName={classes.endpointsDialog}
       >
-        <ChainSelectorContent
-          className={classes.chainSelectorControls}
-          chainSubTypeTab={chainSubTypeTab}
-          chainSubTypeTabs={chainSubTypeTabs}
-          chainTypeTab={chainTypeTab}
-          chainTypeTabs={chainTypeTabs}
-          groupID={groupID}
-          groupTab={groupTab}
-          groupTabs={groupTabs}
-          groups={groups}
-          hasGroupSelector={false}
-          selectGroup={selectGroup}
-          isGroupSelectorAutoWidth={false}
-          isSubchainSelectorHidden={isMultichain(chain.id)}
-        />
+        <div
+          role="button"
+          tabIndex={-1}
+          /* stop propagation for click event to avoid parent element click */
+          onClick={e => e.stopPropagation()}
+        >
+          {hasProjectSelector && (
+            <TokenSelector
+              jwtTokens={jwtTokens}
+              currentProjectIndex={currentProjectIndex}
+            />
+          )}
 
-        <Endpoints
-          publicChain={chain}
-          chainType={chainType}
-          group={endpointsGroup}
-          placeholder={placeholder}
-        />
+          <ChainSelectorContent
+            className={classes.chainSelectorControls}
+            chainSubTypeTab={chainSubTypeTab}
+            chainSubTypeTabs={chainSubTypeTabs}
+            chainTypeTab={chainTypeTab}
+            chainTypeTabs={chainTypeTabs}
+            groupID={groupID}
+            groupTab={groupTab}
+            groupTabs={groupTabs}
+            groups={groups}
+            hasGroupSelector={false}
+            selectGroup={selectGroup}
+            isGroupSelectorAutoWidth={false}
+            isSubchainSelectorHidden={isMultichain(chain.id)}
+          />
+
+          <Endpoints
+            publicChain={chain}
+            chainType={chainType}
+            group={endpointsGroup}
+            placeholder={placeholder}
+          />
+        </div>
       </Dialog>
     </ChainProtocolContext.Provider>
   );

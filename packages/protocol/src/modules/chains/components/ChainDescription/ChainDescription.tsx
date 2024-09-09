@@ -4,12 +4,12 @@ import { t } from '@ankr.com/common';
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
 import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
-import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectNodesDetails } from 'modules/chains/store/selectors';
 import { Chain } from 'modules/chains/types';
 import { checkIsArchive } from 'modules/chains/utils/isArchive';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { ChainLogo } from '../ChainLogo';
 import { useChainDescriptionStyles } from './useChainDescriptionStyles';
@@ -30,20 +30,18 @@ export const ChainDescription = ({
   subchainLabels,
 }: IChainDescriptionProps) => {
   const { hasPremium } = useAuth();
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
 
-  const { coinName, id, isMainnetPremiumOnly, name } = chain;
+  const { coinName, id, name } = chain;
 
   const { data: nodes = [] } = useAppSelector(selectNodesDetails);
 
   const isArchive = checkIsArchive(nodes, id);
 
-  const isTestnetPremiumOnly = useIsTestnetPremimumOnly(chain);
-
-  const isPremiumChain = isTestnetPremiumOnly || isMainnetPremiumOnly;
-
   const hasChainLabels = subchainLabels && subchainLabels?.length > 0;
 
-  const hasPremiumLabel = isPremiumChain && !hasPremium;
+  const hasPremiumLabel =
+    chain.premiumOnly && !hasPremium && !isEnterpriseClient;
 
   const hasLabels = hasPremiumLabel || isArchive || hasChainLabels;
 

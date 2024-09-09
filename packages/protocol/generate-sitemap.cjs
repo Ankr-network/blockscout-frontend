@@ -9,7 +9,6 @@ const PRIVATE_ROUTES = [
   /^\/account/,
   /^\/projects/,
   /^\/settings/,
-  /^\/mm/,
   /^\/multichain/,
   /^\/oauth/,
 ];

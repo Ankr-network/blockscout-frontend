@@ -8,13 +8,9 @@ import { PublicBadge } from '../PublicBadge';
 
 interface IAccountStatusProps {
   className?: string;
-  isOnWhiteBackground?: boolean;
 }
 
-export const AccountStatus = ({
-  className,
-  isOnWhiteBackground,
-}: IAccountStatusProps) => {
+export const AccountStatus = ({ className }: IAccountStatusProps) => {
   const { hasPremium, hasStatusTransition, isLoggedIn, loading } = useAuth();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
@@ -25,12 +21,7 @@ export const AccountStatus = ({
   });
 
   if (!isLoggedIn) {
-    return (
-      <PublicBadge
-        className={className}
-        isOnWhiteBackground={isOnWhiteBackground}
-      />
-    );
+    return <PublicBadge className={className} />;
   }
 
   if (!hasAccessToAccountStatus) {

@@ -6,7 +6,7 @@ import { useEnterpriseApiKeySelect } from 'domains/enterprise/components/Enterpr
 import { ChainID, Timeframe } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
 import { emptyFn } from 'modules/common/utils/emptyFn';
-import { selectConfiguredBlockchains } from 'modules/chains/store/selectors';
+import { selectPublicBlockchains } from 'modules/chains/store/selectors';
 import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
 import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
@@ -19,7 +19,7 @@ import { DashboardWidgets } from '../components/DashboardWidgets/v2';
 import { selectEnterpriseBlockchainsDependingOnSelectedApiKeyWithUsage } from '../../../store/selectors/v2';
 
 export const DashboardContent = () => {
-  const allChains = useAppSelector(selectConfiguredBlockchains);
+  const allChains = useAppSelector(selectPublicBlockchains);
 
   const chainIds = useAppSelector(
     selectEnterpriseBlockchainsDependingOnSelectedApiKeyWithUsage,
@@ -37,10 +37,8 @@ export const DashboardContent = () => {
     renderValue,
     selectedChainId,
     showAdditionalSelect,
-    unfilteredChain,
   } = useChainsSelector({
     chains: allChains,
-    allChains,
     chainIdsWithStats: chainIds as ChainID[],
   });
 
@@ -59,7 +57,6 @@ export const DashboardContent = () => {
     statsChainId,
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
-    unfilteredChain: unfilteredChain || fallbackChain,
     onBlockedTabClick: emptyFn,
   });
 

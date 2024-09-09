@@ -52,7 +52,7 @@ export const BaseNavButton = ({
       <Button
         {...getExternalButtonProps(item)}
         className={cx(
-          classes.link,
+          classes.navBarLink,
           isComingSoon && classes.comingSoon,
           isDisabled && classes.disabled,
           isNew && classes.newLinkWrapper,
@@ -75,7 +75,7 @@ export const BaseNavButton = ({
       <Button
         {...getNotLinkButtonProps(item, hasAccess)}
         className={cx(
-          classes.link,
+          classes.navBarLink,
           isComingSoon && classes.comingSoon,
           isDisabled && classes.disabled,
         )}
@@ -91,7 +91,7 @@ export const BaseNavButton = ({
     <Button
       {...getCommonButtonProps(item, classes.activeLink)}
       className={cx(
-        classes.link,
+        classes.navBarLink,
         isComingSoon && classes.comingSoon,
         isDisabled && classes.disabled,
         isNew && classes.newLinkWrapper,

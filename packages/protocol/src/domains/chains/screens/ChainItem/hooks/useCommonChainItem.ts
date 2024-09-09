@@ -8,13 +8,11 @@ import { useNetId } from './useNetId';
 
 export interface ICommonChainItemParams {
   chain: Chain;
-  publicChain: Chain;
   shouldExpandFlareTestnets?: boolean;
 }
 
 export const useCommonChainItem = ({
   chain,
-  publicChain,
   shouldExpandFlareTestnets = false,
 }: ICommonChainItemParams) => {
   const chainId = chain.id;
@@ -25,7 +23,6 @@ export const useCommonChainItem = ({
 
   return {
     chain,
-    publicChain,
     name,
     endpoints,
     netId,

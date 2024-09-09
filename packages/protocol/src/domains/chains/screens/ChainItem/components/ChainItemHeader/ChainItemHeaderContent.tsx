@@ -31,7 +31,6 @@ export interface ChainItemHeaderProps {
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
   groups: EndpointGroup[];
-  publicChain: Chain;
   selectGroup: (id: ChainGroupID) => void;
 }
 
@@ -76,7 +75,6 @@ export const ChainItemHeaderContent = ({
   isProtocolSwitcherHidden,
   isSubchainSelectorHidden,
   onOpenCodeExample,
-  publicChain,
   selectGroup,
   shouldHideEndpoints: shouldHideEndpointsProp,
   subchainLabels,
@@ -172,13 +170,13 @@ export const ChainItemHeaderContent = ({
         <div className={classes.content}>
           {isEnterprise && (
             <EnterpriseEndpoints
-              publicChain={publicChain}
+              publicChain={chain}
               chainType={chainType}
               group={endpointsGroup}
             />
           )}
           <Endpoints
-            publicChain={isEnterprise ? chain : publicChain}
+            publicChain={chain}
             chainType={chainType}
             group={endpointsGroup}
             placeholder={placeholder}

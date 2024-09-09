@@ -1,13 +1,12 @@
 import { ReactNode, useMemo } from 'react';
 
-import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
-import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
+import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
-import { useIsTestnetPremimumOnly } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/utils';
+import { ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 import {
@@ -20,6 +19,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { CodeExampleModal } from 'modules/chains/components/CodeExampleModal';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { getChainLabels } from 'modules/chains/utils/getChainLabels';
+import { isTestnetPremiumOnly } from 'modules/chains/utils/isTestnetPremiumOnly';
 
 import {
   getPrivateChainSubTypeSelector,
@@ -43,7 +43,6 @@ interface PrivateChainItem extends ChainItem {
   chainSubTypes: ChainSubTypeItem[];
   selectSubType: (id: ChainSubType) => void;
   endpoints: GroupedEndpoints;
-  publicChain: Chain;
   groups: EndpointGroup[];
   groupID: ChainGroupID;
   selectGroup: (id: ChainGroupID) => void;
@@ -87,7 +86,6 @@ export const usePrivateChainItem = ({
   shouldExpandFlareTestnets = false,
   shouldHideEndpoints,
   shouldMergeTendermintGroups,
-  unfilteredChain: publicChain,
 }: PrivateChainItemParams): PrivateChainItem => {
   const {
     isOpened: isOpenedCodeExample,
@@ -97,20 +95,17 @@ export const usePrivateChainItem = ({
 
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
-    publicChain,
     shouldExpandFlareTestnets,
   });
 
   const { hasPremium } = useAuth();
-
-  const isTestnetPremiumOnly = useIsTestnetPremimumOnly(chain);
 
   const { chainType, chainTypeTab, chainTypeTabs, selectType } =
     usePrivateChainType({
       chain,
       endpoints,
       netId,
-      isBlockedTestnet: !hasPremium && Boolean(isTestnetPremiumOnly),
+      isBlockedTestnet: !hasPremium && isTestnetPremiumOnly(chain),
       isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
       isHiddenMainnet,
       selectedType,
@@ -167,7 +162,6 @@ export const usePrivateChainItem = ({
           groupTabs={groupTabs}
           groups={groups}
           isMultiChain={isMultiChain}
-          publicChain={publicChain}
           selectGroup={selectGroup}
           isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
           isCompactView={isCompactView}
@@ -201,7 +195,6 @@ export const usePrivateChainItem = ({
       groupTabs,
       groups,
       isMultiChain,
-      publicChain,
       selectGroup,
       isGroupSelectorAutoWidth,
       isCompactView,
@@ -219,7 +212,6 @@ export const usePrivateChainItem = ({
   return {
     chainProtocolContext,
     chain,
-    publicChain,
     chainType,
     chainSubType,
     group,

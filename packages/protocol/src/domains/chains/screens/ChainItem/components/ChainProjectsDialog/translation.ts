@@ -6,7 +6,6 @@ export const chainProjectItemTranslation = {
     selectProjects: 'Select projects for chain interaction',
     selectAll: 'Select all',
     projects: 'Projects',
-    createNewProject: 'Create new project',
     confirm: 'Confirm',
     cancel: 'Cancel',
     defaultName: 'Default',

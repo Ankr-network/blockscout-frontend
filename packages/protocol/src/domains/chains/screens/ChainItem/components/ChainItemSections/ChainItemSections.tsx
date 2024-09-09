@@ -9,6 +9,7 @@ import { getPublicUrl } from 'domains/chains/utils/chainsUtils';
 
 import { SectionID } from './types';
 import { TimeframeTabs } from '../TimeframeTabs';
+import { FAQ } from '../FAQ';
 import { useChainItemSectionsStyles } from './ChainItemSectionsStyles';
 import { useSectionsTabs } from './hooks/useSectionsTabs';
 
@@ -77,6 +78,7 @@ export const ChainItemSections = ({
         additionalContent={additionalContent}
         allowSingleTab
       />
+      <FAQ chainId={chain.id} />
     </div>
   );
 };

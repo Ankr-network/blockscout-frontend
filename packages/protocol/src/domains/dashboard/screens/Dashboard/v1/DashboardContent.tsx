@@ -20,13 +20,8 @@ import { selectChainsWithStats } from '../../../store/selectors/v1';
 export const DashboardContent = () => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
-  const {
-    allChains,
-    networksConfigurations,
-    rawChains,
-    timeframe,
-    timeframeTabs,
-  } = useDashboard();
+  const { networksConfigurations, rawChains, timeframe, timeframeTabs } =
+    useDashboard();
 
   const chainIds = useAppSelector(selectChainsWithStats);
 
@@ -38,10 +33,8 @@ export const DashboardContent = () => {
     renderValue,
     selectedChainId,
     showAdditionalSelect,
-    unfilteredChain,
   } = useChainsSelector({
     chains: rawChains,
-    allChains,
     chainIdsWithStats: chainIds as ChainID[],
   });
 
@@ -60,7 +53,6 @@ export const DashboardContent = () => {
     statsChainId,
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
-    unfilteredChain: unfilteredChain || fallbackChain,
     onBlockedTabClick: onOpen,
   });
 

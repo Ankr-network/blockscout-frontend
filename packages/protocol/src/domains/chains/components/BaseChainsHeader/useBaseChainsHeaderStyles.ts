@@ -26,9 +26,15 @@ export const useBaseChainsHeaderStyles = makeStyles()(theme => ({
   first: {
     gridColumnStart: 1,
     gridColumnEnd: 3,
+    display: 'flex',
+    gap: theme.spacing(3),
 
     [theme.breakpoints.down('lg')]: {
       gridColumnEnd: 2,
     },
+  },
+  chainsSortSelect: {
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: 12,
   },
 }));

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useAppSelector } from 'store/useAppSelector';
@@ -9,18 +9,18 @@ import {
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ChainsList } from 'modules/common/components/ChainsList';
-import { Timeframe } from 'modules/chains/types';
+import { ESortChainsType, Timeframe } from 'modules/chains/types';
+import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
-import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
-import { sortPrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/utils';
-import { useSortType } from 'domains/chains/screens/Chains/hooks/useSortType';
 
 import { EnterpriseChainCard } from '../EnterpriseChainCard';
 
 export const EnterpriseChainsList = () => {
   const { chains, isLoading } = useAppSelector(selectEnterpriseChains);
 
-  const [sortType, setSortType] = useSortType();
+  const [sortType, setSortType] = useState<ESortChainsType>(
+    ESortChainsType.UsageHighLow,
+  );
 
   const [searchContent, setSearchContent] = useSearch();
 
@@ -28,17 +28,13 @@ export const EnterpriseChainsList = () => {
     selectEnterpriseStatsBySelectedApiKey,
   );
 
-  const processedChains = useMemo(
-    () =>
-      sortPrivateChains({
-        chains,
-        sortType,
-        stats,
-      })
-        .filter(item => getFilteredChainsByName(item, searchContent))
-        .filter(excludeMultiChain),
-    [stats, chains, sortType, searchContent],
-  );
+  const { processedChains } = useChainsSorting({
+    chains: chains.filter(excludeMultiChain),
+    searchContent,
+    sortType,
+    timeframe: Timeframe.Day,
+    privateStats: stats,
+  });
 
   return (
     <BaseChains loading={isLoading}>

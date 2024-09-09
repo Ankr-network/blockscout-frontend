@@ -6,6 +6,10 @@ export const useChainItemHeaderStyles = makeStyles()(theme => ({
     padding: theme.spacing(6, 8),
     borderRadius: theme.spacing(5),
     background: theme.palette.background.paper,
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
 }));
 

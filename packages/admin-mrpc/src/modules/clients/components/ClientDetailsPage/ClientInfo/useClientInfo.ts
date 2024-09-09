@@ -37,6 +37,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {
     data: twoFAStatusData = { '2FAs': [] },
     isFetching: is2FAStatusFetching,
+    refetch: refetch2FAStatus,
   } = useFetch2FAStatusQuery(
     { address },
     {
@@ -47,6 +48,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {
     data: userBundles = { bundles: [] },
     isFetching: isUserBundlesFetching,
+    refetch: refetchUserBundles,
   } = useFetchUserBundlesQuery(
     {
       address,
@@ -60,6 +62,7 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   const {
     data: userBundlesStatuses = { bundles: [] },
     isFetching: isUserBundlesStatusesFetching,
+    refetch: refetchUserBundlesStatuses,
   } = useFetchUserBundlesStatusesQuery(
     {
       address,
@@ -94,8 +97,19 @@ export const useClientInfo = ({ address }: { address: Web3Address }) => {
   useEffect(() => {
     refetchRevenue();
     fetchProfileData({ address });
+    refetchUserBundles();
+    refetchUserBundlesStatuses();
+    refetch2FAStatus();
     setCommentInputValue(profileData?.user?.comment);
-  }, [address, profileData?.user?.comment, fetchProfileData, refetchRevenue]);
+  }, [
+    address,
+    profileData?.user?.comment,
+    fetchProfileData,
+    refetchRevenue,
+    refetch2FAStatus,
+    refetchUserBundles,
+    refetchUserBundlesStatuses,
+  ]);
 
   useEffect(() => {
     if (profileData?.user?.comment) {

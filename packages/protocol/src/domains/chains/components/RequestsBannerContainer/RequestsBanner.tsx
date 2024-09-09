@@ -2,12 +2,12 @@ import { Timeframe } from 'modules/chains/types';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 
 import { useFailedRequestsBannerStyles as useRequestsBannerStyles } from '../FailedRequestsBanner/useFailedRequestsBannerStyles';
 import { Notice } from './components/Notice';
 import { Header } from './components/Header';
 import { RequestsChartWrapper } from './components/RequestsChartWrapper';
-import { getValue } from '../TimeframeSwitcher/const';
 import { useGuardUserGroup } from '../../../userGroup/hooks/useGuardUserGroup';
 
 interface IRequestsBannerProps {
@@ -33,7 +33,7 @@ export const RequestsBanner = ({
   return (
     <div className={classes.root}>
       <Header
-        timeframeValue={getValue(timeframe)}
+        timeframeValue={getTimeframeValue(timeframe)}
         total={total}
         hasOffset={hasUpgradePlanAccess}
       />

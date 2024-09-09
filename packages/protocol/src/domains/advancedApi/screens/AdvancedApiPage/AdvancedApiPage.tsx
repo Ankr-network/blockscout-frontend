@@ -4,14 +4,15 @@ import { t } from '@ankr.com/common';
 import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { CONTAINER_STYLES } from 'modules/layout/components/DefautLayout';
 import { ChainID } from 'modules/chains/types';
-import { PrivateChainItemQuery } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery';
-import { PublicChainItemQuery } from 'domains/chains/screens/ChainItem/PublicChainItemQuery';
+import { PrivateChainItemWrapper } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery';
+import { PublicChainItemWrapper } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
+import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 
 export const AdvancedApiPage = () => {
-  const { hasPrivateAccess, loading } = useAuth();
+  const { hasPremium, hasPrivateAccess, loading } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -23,10 +24,17 @@ export const AdvancedApiPage = () => {
 
   return (
     <Box sx={CONTAINER_STYLES}>
+      {!hasPremium && <UpgradePlanBanner isPublicUser />}
       {hasPrivateAccess ? (
-        <PrivateChainItemQuery chainId={ChainID.MULTICHAIN} loading={loading} />
+        <PrivateChainItemWrapper
+          chainId={ChainID.MULTICHAIN}
+          loading={loading}
+        />
       ) : (
-        <PublicChainItemQuery chainId={ChainID.MULTICHAIN} loading={loading} />
+        <PublicChainItemWrapper
+          chainId={ChainID.MULTICHAIN}
+          loading={loading}
+        />
       )}
     </Box>
   );

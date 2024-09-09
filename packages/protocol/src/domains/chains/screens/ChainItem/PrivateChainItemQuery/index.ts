@@ -1,1 +1,1 @@
-export * from './PrivateChainItemQuery';
+export * from './PrivateChainItemWrapper';

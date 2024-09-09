@@ -2,10 +2,10 @@ import { WhitelistItem } from 'multirpc-sdk';
 import { useLayoutEffect, useMemo } from 'react';
 
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { SortType } from 'modules/chains/types';
+import { ESortChainsType } from 'modules/chains/types';
 import { fetchProjectWhitelist } from 'domains/projects/actions/fetchProjectWhitelist';
 import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/selectors';
-import { sortPrivateChains } from 'domains/chains/screens/Chains/components/PrivateChains/hooks/utils';
+import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
 import { useAppSelector } from 'store/useAppSelector';
 import { useProjectWhitelist } from 'domains/projects/screens/Project/hooks/useProjectWhitelist';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
@@ -45,7 +45,7 @@ export const useProjectData = () => {
     () =>
       sortPrivateChains({
         chains,
-        sortType: SortType.Usage,
+        sortType: ESortChainsType.UsageHighLow,
         stats,
       }),
     [stats, chains],

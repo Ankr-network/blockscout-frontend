@@ -1,7 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { useProjects } from 'domains/projects/hooks/useProjects';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { Chain } from 'modules/chains/types';
@@ -12,15 +10,16 @@ import {
   selectAllPathsByChainId,
 } from 'modules/chains/store/selectors';
 
-// eslint-disable-next-line max-lines-per-function
-export const useChainProjectsDialog = (
-  chain: Chain,
-  onCloseAddToProjectsDialog: () => void,
-) => {
-  const { canEditProject } = useProjectConfig();
-  const { canAddProject, isLoaded } = useProjects(true);
-  const hasProjectButton = (isLoaded && canAddProject) || canEditProject;
+interface IUseChainProjectsDialogProps {
+  chain: Chain;
+  onCloseAddToProjectsDialog: () => void;
+}
 
+// eslint-disable-next-line max-lines-per-function
+export const useChainProjectsDialog = ({
+  chain,
+  onCloseAddToProjectsDialog,
+}: IUseChainProjectsDialogProps) => {
   const allProjects = useAppSelector(selectAllProjects);
 
   const chainPaths = useAppSelector(state =>
@@ -50,10 +49,6 @@ export const useChainProjectsDialog = (
   const [selectedProjects, setSelectedProjects] = useState(
     initiallySelectedProjects,
   );
-
-  useEffect(() => {
-    setSelectedProjects(initiallySelectedProjects);
-  }, [initiallySelectedProjects]);
 
   const isAllSelected = allProjects.every(project =>
     selectedProjects.includes(project.userEndpointToken),
@@ -161,7 +156,6 @@ export const useChainProjectsDialog = (
     allProjects,
     selectedProjects,
     handleProjectChange,
-    hasProjectButton,
     onConfirm,
     isLoadingAddChainsToProject,
   };

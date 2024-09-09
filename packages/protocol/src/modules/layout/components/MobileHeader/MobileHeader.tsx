@@ -32,12 +32,7 @@ export const MobileHeader = ({
     <header className={cx(classes.root, className)}>
       <Container className={classes.container} maxWidth={false}>
         <GlobalMenuWrapper />
-        {!isXsDown && (
-          <AccountStatus
-            className={classes.accountStatus}
-            isOnWhiteBackground
-          />
-        )}
+        {!isXsDown && <AccountStatus className={classes.accountStatus} />}
         <div className={classes.buttons}>
           <HeaderContent type={Header.Mobile} />
           <MobileMenu

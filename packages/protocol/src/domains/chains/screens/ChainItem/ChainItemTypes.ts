@@ -1,4 +1,6 @@
+import { ChainID } from 'modules/chains/types';
+
 export interface ChainItemProps {
-  chainId: string;
+  chainId: ChainID;
   loading?: boolean;
 }

@@ -12,6 +12,10 @@ export const useOngoingPaymentStyles = makeStyles()(theme => ({
       flexDirection: 'column',
       gap: theme.spacing(4),
     },
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   amount: {
     display: 'flex',

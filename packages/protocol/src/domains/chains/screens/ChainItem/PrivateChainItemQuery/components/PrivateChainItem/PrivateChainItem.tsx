@@ -9,7 +9,7 @@ import { isMultichain } from 'modules/chains/utils/isMultichain';
 import { MultiChainBenefits } from 'modules/common/components/GetStartedSection/components/MultichainBenefits';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
 import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/useChainItemBreadcrumbs';
 import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainItem/hooks/useRedirectToAdvancedApi';
@@ -17,25 +17,24 @@ import { UsageDataSection } from 'domains/chains/screens/ChainItem/components/Us
 import { AdvancedApiInfoTabs } from 'domains/chains/screens/ChainItem/components/ChainItemSections/components/AdvancedApiInfoTabs';
 import { ChainProjectsSection } from 'domains/chains/screens/ChainItem/components/ChainProjectsSection';
 import { ChainProjectsDialog } from 'domains/chains/screens/ChainItem/components/ChainProjectsDialog';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
+import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 import { privateChainItemTranslation } from './translation';
 
 export interface ChainItemProps {
   data: IPrivateChainItemDetails;
-  isLoadingTokenManager: boolean;
-  jwtTokens: JwtManagerToken[];
-  shouldShowTokenManager: boolean;
 }
 
-export const PrivateChainItem = ({
-  data,
-  isLoadingTokenManager,
-  jwtTokens,
-  shouldShowTokenManager,
-}: ChainItemProps) => {
+export const PrivateChainItem = ({ data }: ChainItemProps) => {
+  const {
+    isLoading: isLoadingTokenManager,
+    jwtTokens,
+    shouldShowTokenManager,
+  } = useJwtTokenManager();
+
   const {
     isOpened: isOpenedPlansDialog,
     onClose: onClosePlansDialog,
@@ -51,19 +50,21 @@ export const PrivateChainItem = ({
   const { keys, t } = useTranslation(privateChainItemTranslation);
 
   const addToProjectButton = (
-    <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
-      <Button
-        size="medium"
-        variant="outlined"
-        onClick={onOpenAddToProjectsDialog}
-        startIcon={<Plus />}
-        sx={{
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {t(keys.addToProject)}
-      </Button>
-    </GuardUserGroup>
+    <GuardResolution protectedResolution="smDown">
+      <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
+        <Button
+          size="medium"
+          variant="outlined"
+          onClick={onOpenAddToProjectsDialog}
+          startIcon={<Plus />}
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {t(keys.addToProject)}
+        </Button>
+      </GuardUserGroup>
+    </GuardResolution>
   );
 
   const { chain, headerContent, name } = usePrivateChainItem({

@@ -2,7 +2,6 @@ import { ChainsConfig } from './types';
 import {
   IBlockchainEntity,
   BlockchainFeature,
-  BlockchainType,
 } from '../../common';
 import {
   ALLORA_IDS,
@@ -69,9 +68,10 @@ export const buildPublicUrls = ({
 
   return blockchains.reduce<ChainsConfig>((result, blockchain) => {
     const { id } = blockchain;
+    const blockchainCopy = { ...blockchain }; // Create a shallow copy of the blockchain object
 
     if (id === 'avalanche') {
-      blockchain.paths = avalancheEvmItem?.paths ?? [];
+      blockchainCopy.paths = avalancheEvmItem?.paths ?? [];
     }
 
     if (
@@ -80,23 +80,27 @@ export const buildPublicUrls = ({
       ALLORA_IDS.includes(id) ||
       id === 'btc_blockbook'
     ) {
-      blockchain.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
+      blockchainCopy.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
     }
 
     if (APTOS_IDS.includes(id)) {
-      blockchain.paths = blockchain?.paths ? [`${blockchain.paths[0]}/v1`] : [];
+      blockchainCopy.paths = blockchain?.paths
+        ? [`${blockchain.paths[0]}/v1`]
+        : [];
     }
 
     if (ENABLED_SECRET_NETWORK_IDS.includes(id)) {
       const secretItem = secretItemsMap[id];
 
-      blockchain.paths = secretItem?.paths ? [secretItem.paths[0]] : [];
+      blockchainCopy.paths = secretItem?.paths ? [secretItem.paths[0]] : [];
     }
 
     if (ENABLED_ZETACHAIN_IDS.includes(id)) {
       const zetaChainItem = zetaChainItemsMap[id];
 
-      blockchain.paths = zetaChainItem?.paths ? [zetaChainItem.paths[0]] : [];
+      blockchainCopy.paths = zetaChainItem?.paths
+        ? [zetaChainItem.paths[0]]
+        : [];
     }
 
     if (
@@ -104,7 +108,7 @@ export const buildPublicUrls = ({
       STELLAR_IDS.includes(id) ||
       KAVA_IDS.includes(id)
     ) {
-      blockchain.paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
+      blockchainCopy.paths = blockchain.paths?.[0] ? [blockchain.paths[0]] : [];
     }
 
     const hasRPC =
@@ -113,27 +117,29 @@ export const buildPublicUrls = ({
       blockchain.features.includes(BlockchainFeature.GRPC);
 
     const rpcURLs: string[] = hasRPC
-      ? blockchain?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) || []
+      ? blockchainCopy?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) ||
+        []
       : [];
 
     const enterpriseURLs: string[] =
-      blockchain?.paths?.map(path =>
+      blockchainCopy?.paths?.map(path =>
         buildEnterpriseRpcUrl(publicEnterpriseRpcUrl, path),
       ) || [];
 
     const enterpriseWsURLs: string[] =
-      blockchain?.paths?.map(path =>
+      blockchainCopy?.paths?.map(path =>
         buildEnterpriseRpcUrl(enterpriseWsUrl, path),
       ) || [];
 
     const hasREST = blockchain.features.includes(BlockchainFeature.REST);
 
     const restURLs = hasREST
-      ? blockchain?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) || []
+      ? blockchainCopy?.paths?.map(path => buildRpcUrl(publicRpcUrl, path)) ||
+        []
       : [];
 
     result[id] = {
-      blockchain,
+      blockchain: blockchainCopy,
       rpcURLs,
       wsURLs: [],
       restURLs,

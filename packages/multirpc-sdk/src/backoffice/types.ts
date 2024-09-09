@@ -27,6 +27,7 @@ export interface ITransactionsRequest {
   blockchain?: string;
   cursor: number;
   limit: number;
+  types?: TPaymentHistoryEntityType[];
   order_by?: string;
 }
 

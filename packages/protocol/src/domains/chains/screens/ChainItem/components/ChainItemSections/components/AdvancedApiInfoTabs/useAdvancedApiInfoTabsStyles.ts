@@ -22,6 +22,10 @@ export const useAdvancedApiInfoTabsStyles = makeStyles()(theme => ({
     backgroundImage: 'none',
     padding: theme.spacing(6, 8),
     minHeight: 264,
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(5.5, 4),
+    },
   },
   advancedApiInfoTabs: {
     borderBottom: `1px solid ${theme.palette.divider}`,

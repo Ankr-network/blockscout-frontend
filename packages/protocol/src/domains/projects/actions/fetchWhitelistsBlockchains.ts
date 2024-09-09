@@ -7,7 +7,9 @@ import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 export interface MappedWhitelistBlockchainsResponse {
   userEndpointToken: string;
+  projectName: string;
   blockchains: BlockchainID[];
+  index: number;
 }
 
 export interface FetchWhitelistsBlockchainsParams extends IApiUserGroupParams {
@@ -32,10 +34,12 @@ export const {
           projects.map(async projectItem => {
             return {
               userEndpointToken: projectItem.userEndpointToken,
+              projectName: projectItem.name,
               blockchains: await service.getWhitelistBlockchains({
                 token: projectItem.userEndpointToken,
                 group,
               }),
+              index: projectItem.index,
             };
           }),
         );

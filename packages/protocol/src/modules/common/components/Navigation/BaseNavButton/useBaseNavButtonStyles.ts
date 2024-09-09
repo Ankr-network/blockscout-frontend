@@ -10,9 +10,8 @@ interface IBaseNavButtonProps {
 }
 
 export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
-  // eslint-disable-next-line max-lines-per-function
   (theme, { isLightTheme, isMobileSideBar }) => ({
-    link: {
+    navBarLink: {
       width: '100%',
       height: 48,
       color: theme.palette.grey[600],

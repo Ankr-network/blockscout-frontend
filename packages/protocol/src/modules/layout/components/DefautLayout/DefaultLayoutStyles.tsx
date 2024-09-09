@@ -48,6 +48,12 @@ export const useStyles = makeStyles<Props>()(
       position: 'relative',
       paddingTop: HEADER_HEIGHT,
       paddingBottom: 2 * MOBILE_LAYOUT_PADDING,
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(4),
+
+      [theme.breakpoints.up('md')]: {
+        marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
+      },
 
       [theme.breakpoints.up('md')]: {
         marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,

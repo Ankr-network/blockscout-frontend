@@ -10,6 +10,7 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    overflow: 'hidden',
   },
   top: {
     display: 'flex',
@@ -18,6 +19,9 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
   },
   topWithMargin: {
     marginBottom: theme.spacing(2.5),
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 0,
+    },
   },
   chainName: {
     fontSize: 28,
@@ -39,6 +43,7 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
 
     [theme.breakpoints.down('sm')]: {
       fontSize: 14,
+      lineHeight: 1,
     },
   },
   coinNameSmall: {
@@ -58,12 +63,17 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
     alignItems: 'center',
     gap: theme.spacing(1),
     marginTop: theme.spacing(1),
-    flexWrap: 'wrap',
   },
   premiumChip: {
     height: 20,
     display: 'flex',
     alignItems: 'center',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    span: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
   },
   dot: {
     display: 'flex',
