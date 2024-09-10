@@ -13,6 +13,7 @@ import { useReferralCodeButtonStyles } from './useReferralCodeButtonStyles';
 export interface IReferralCodeButtonProps {
   className?: string;
   handleReferralCodeDialogOpen: () => void;
+  isVisible?: boolean;
   referralCodeDialogProps: IReferralCodeDialogProps;
   successDialogProps: ISuccessDialogProps;
 }
@@ -20,6 +21,7 @@ export interface IReferralCodeButtonProps {
 export const ReferralCodeButton = ({
   className,
   handleReferralCodeDialogOpen,
+  isVisible,
   referralCodeDialogProps,
   successDialogProps,
 }: IReferralCodeButtonProps) => {
@@ -28,14 +30,16 @@ export const ReferralCodeButton = ({
 
   return (
     <>
-      <Button
-        className={cx(classes.root, className)}
-        onClick={handleReferralCodeDialogOpen}
-        size="small"
-        variant="text"
-      >
-        {t(keys.label)}
-      </Button>
+      {isVisible && (
+        <Button
+          className={cx(classes.root, className)}
+          onClick={handleReferralCodeDialogOpen}
+          size="small"
+          variant="text"
+        >
+          {t(keys.label)}
+        </Button>
+      )}
       <ReferralCodeDialog {...referralCodeDialogProps} />
       <SuccessDialog {...successDialogProps} />
     </>

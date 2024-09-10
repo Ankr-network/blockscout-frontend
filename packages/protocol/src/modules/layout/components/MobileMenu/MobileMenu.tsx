@@ -1,10 +1,10 @@
 import { Drawer, IconButton } from '@mui/material';
 import { MenuBurger } from '@ankr.com/ui';
 
-import { useMobileMenuStyles } from './useMobileMenuStyles';
-import { useMobileMenu } from './hooks/useMobileMenu';
 import { MobileSideBar } from './components/MobileSideBar';
 import { SidebarProps } from '../SideBar';
+import { useMobileMenu } from './hooks/useMobileMenu';
+import { useMobileMenuStyles } from './useMobileMenuStyles';
 
 export const MobileMenu = ({ ...props }: SidebarProps) => {
   const { classes } = useMobileMenuStyles();
@@ -18,10 +18,11 @@ export const MobileMenu = ({ ...props }: SidebarProps) => {
       </IconButton>
       <Drawer
         classes={{ paper: classes.paper }}
-        transitionDuration={125}
         disableEnforceFocus
-        open={isOpened}
+        keepMounted
         onClose={handleClose}
+        open={isOpened}
+        transitionDuration={125}
       >
         <MobileSideBar {...props} isOpened={isOpened} onClose={handleClose} />
       </Drawer>

@@ -12,6 +12,7 @@ import { useStyles } from './SideBarStyles';
 export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
+  handleSidebarClose?: () => void;
   hasMenu: boolean;
   isEnterpriseClient: boolean;
   isMobileSideBar?: boolean;
@@ -21,6 +22,7 @@ export interface SidebarProps {
 export const SideBar = ({
   chainsRoutes,
   className = '',
+  handleSidebarClose,
   hasMenu,
   isEnterpriseClient,
   isMobileSideBar = false,
@@ -57,8 +59,9 @@ export const SideBar = ({
       </div>
       <MainNavigation
         chainsRoutes={chainsRoutes}
-        isMobileSideBar={isMobileSideBar}
+        handleSidebarClose={handleSidebarClose}
         isEnterpriseClient={isEnterpriseClient}
+        isMobileSideBar={isMobileSideBar}
         loading={loading}
         onAnalyticsClick={onAnalyticsClick}
       />

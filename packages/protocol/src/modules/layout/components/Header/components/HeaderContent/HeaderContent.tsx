@@ -28,14 +28,11 @@ export const HeaderContent = ({
 
   const isMobile = useIsSMDown();
 
-  const { hasReferralCodeButton, referralCodeButtonProps } =
-    useReferralCodeButton();
+  const { referralCodeButtonProps } = useReferralCodeButton();
 
   return (
     <>
-      {!isMobile && hasReferralCodeButton && (
-        <ReferralCodeButton {...referralCodeButtonProps} />
-      )}
+      {!isMobile && <ReferralCodeButton {...referralCodeButtonProps} />}
       {(isDefaultType || isSidebarType) && <UserGroupDialog />}
 
       {!isMobileType && isLoggedIn && !isEnterpriseClient && (

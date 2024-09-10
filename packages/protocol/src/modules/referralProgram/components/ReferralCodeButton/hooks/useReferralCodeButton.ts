@@ -9,7 +9,13 @@ import { useReferralCodeDialog } from '../../ReferralCodeDialog';
 import { useReferralCodeInput } from '../../ReferralCodeInput';
 import { useSuccessDialog } from '../../SuccessDialog';
 
-export const useReferralCodeButton = () => {
+export interface IUseReferralCodeButtonProps {
+  onReferralCodeDialogOpen?: () => void;
+}
+
+export const useReferralCodeButton = ({
+  onReferralCodeDialogOpen,
+}: IUseReferralCodeButtonProps = {}) => {
   const { referrer } = useReferrer({ skipFetching: true });
   const [referralCodeError, setReferralCodeError] = useState<string>();
 
@@ -35,6 +41,7 @@ export const useReferralCodeButton = () => {
       banner,
       handleReset,
       handleSuccessDialogOpen,
+      onOpen: onReferralCodeDialogOpen,
       referralCodeInputProps,
       setReferralCodeError,
     });
@@ -44,10 +51,16 @@ export const useReferralCodeButton = () => {
   const referralCodeButtonProps = useMemo(
     (): IReferralCodeButtonProps => ({
       handleReferralCodeDialogOpen,
+      isVisible: hasReferralCodeButton,
       referralCodeDialogProps,
       successDialogProps,
     }),
-    [handleReferralCodeDialogOpen, referralCodeDialogProps, successDialogProps],
+    [
+      handleReferralCodeDialogOpen,
+      referralCodeDialogProps,
+      hasReferralCodeButton,
+      successDialogProps,
+    ],
   );
 
   return { hasReferralCodeButton, referralCodeButtonProps };

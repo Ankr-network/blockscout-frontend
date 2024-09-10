@@ -13,6 +13,7 @@ export interface IUseReferralCodeDialogProps {
   banner: string;
   handleReset: () => void;
   handleSuccessDialogOpen: () => void;
+  onOpen?: () => void;
   referralCodeInputProps: IReferralCodeInputProps;
   setReferralCodeError: (error?: string) => void;
 }
@@ -22,14 +23,16 @@ export const useReferralCodeDialog = ({
   banner,
   handleReset,
   handleSuccessDialogOpen,
+  onOpen,
   referralCodeInputProps,
   setReferralCodeError,
 }: IUseReferralCodeDialogProps) => {
-  const {
-    isOpened,
-    onClose: handleClose,
-    onOpen: handleReferralCodeDialogOpen,
-  } = useDialog();
+  const { isOpened, onClose: handleClose, onOpen: handleOpen } = useDialog();
+
+  const handleReferralCodeDialogOpen = useCallback(() => {
+    onOpen?.();
+    handleOpen();
+  }, [handleOpen, onOpen]);
 
   const { value: referralCode } = referralCodeInputProps;
 

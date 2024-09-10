@@ -11,9 +11,14 @@ import { IUseMenuItemsProps, useMenuItems } from './hooks/useMenuItems';
 import { MainNavigationSkeleton } from './MainNavigationSkeletion';
 import { useMainNavigationStyles } from './useMainNavigationStyles';
 
-export interface IMainNavigationProps extends IUseMenuItemsProps {}
+export interface IMainNavigationProps extends IUseMenuItemsProps {
+  handleSidebarClose?: () => void;
+}
 
-export const MainNavigation = (props: IMainNavigationProps) => {
+export const MainNavigation = ({
+  handleSidebarClose,
+  ...props
+}: IMainNavigationProps) => {
   const { isMobileSideBar, loading } = props;
 
   const {
@@ -38,7 +43,10 @@ export const MainNavigation = (props: IMainNavigationProps) => {
         <Navigation items={topMenuItems} isMobileSideBar={isMobileSideBar} />
         <Divider className={classes.divider} />
         <Navigation items={secondMenuItems} isMobileSideBar={isMobileSideBar} />
-        <AdditionalOptions className={classes.additionalOptions} />
+        <AdditionalOptions
+          className={classes.additionalOptions}
+          handleSidebarClose={handleSidebarClose}
+        />
       </div>
       <Link
         href={DOCS_URL}

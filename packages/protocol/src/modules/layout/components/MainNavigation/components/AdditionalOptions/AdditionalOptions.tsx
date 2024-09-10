@@ -10,29 +10,40 @@ import { useAdditionalOptionsStyles } from './useAdditionalOptionsStyles';
 
 export interface IAdditionalOptionsProps {
   className?: string;
+  handleSidebarClose?: () => void;
 }
 
-export const AdditionalOptions = ({ className }: IAdditionalOptionsProps) => {
+export const AdditionalOptions = ({
+  className,
+  handleSidebarClose,
+}: IAdditionalOptionsProps) => {
   const isMobilde = useIsSMDown();
 
   const { hasReferralCodeButton, referralCodeButtonProps } =
-    useReferralCodeButton();
-
-  const hasAdditionalOptions = isMobilde && hasReferralCodeButton;
+    useReferralCodeButton({ onReferralCodeDialogOpen: handleSidebarClose });
 
   const { classes, cx } = useAdditionalOptionsStyles();
 
-  if (!hasAdditionalOptions) {
+  const referralCodeButton = (
+    <ReferralCodeButton
+      className={classes.referralCodeButton}
+      {...referralCodeButtonProps}
+    />
+  );
+
+  if (!isMobilde) {
     return null;
+  }
+
+  if (!hasReferralCodeButton) {
+    // The button should not be unmounted to keep the dialogs inside mounted
+    return referralCodeButton;
   }
 
   return (
     <div className={cx(classes.root, className)}>
       <Divider />
-      <ReferralCodeButton
-        className={classes.referralCodeButton}
-        {...referralCodeButtonProps}
-      />
+      {referralCodeButton}
     </div>
   );
 };
