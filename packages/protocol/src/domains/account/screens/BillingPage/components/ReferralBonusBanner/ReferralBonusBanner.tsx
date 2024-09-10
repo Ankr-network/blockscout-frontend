@@ -1,6 +1,7 @@
 import { Typography } from '@mui/material';
 
 import { GradientedText } from 'modules/common/components/GradientedText';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { BannerBox } from './components/BannerBox';
@@ -15,6 +16,7 @@ export interface IReferralBonusBannerProps {
 export const ReferralBonusBanner = ({
   className,
 }: IReferralBonusBannerProps) => {
+  const isMobile = useIsXSDown();
   const { areAssestsLoaded } = useAssestsPreloader();
   const { classes, cx } = useReferralBonusBannerStyles();
   const { keys, t } = useTranslation(referralBonusBannerTranslation);
@@ -28,7 +30,7 @@ export const ReferralBonusBanner = ({
 
   return (
     <BannerBox className={cx(classes.root, className)}>
-      <Typography variant="subtitle1">
+      <Typography variant={isMobile ? 'subtitle2' : 'subtitle1'}>
         {titleStart}
         <GradientedText>{premiumLabel}</GradientedText>
         {titleEnd}

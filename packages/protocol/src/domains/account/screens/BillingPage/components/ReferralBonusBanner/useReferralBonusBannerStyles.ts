@@ -1,6 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useReferralBonusBannerStyles = makeStyles()(theme => ({
+const name = 'ReferralBonusBanner';
+
+export const useReferralBonusBannerStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -10,5 +12,9 @@ export const useReferralBonusBannerStyles = makeStyles()(theme => ({
   },
   description: {
     whiteSpace: 'pre-wrap',
+
+    [theme.breakpoints.down('sm')]: {
+      whiteSpace: 'normal',
+    },
   },
 }));

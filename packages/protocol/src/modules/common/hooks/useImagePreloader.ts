@@ -11,7 +11,7 @@ export const useImagePreloader = ({
   src,
 }: IUseImagePreloaderProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(!src ?? false);
 
   const handleImagePreload = useCallback(async () => {
     if (src) {
@@ -25,6 +25,12 @@ export const useImagePreloader = ({
   }, [src]);
 
   useEffect(() => {
+    if (!src) {
+      setIsLoaded(true);
+
+      return () => {};
+    }
+
     if (src && !hasManualPreloading) {
       let isAborted = false;
 
