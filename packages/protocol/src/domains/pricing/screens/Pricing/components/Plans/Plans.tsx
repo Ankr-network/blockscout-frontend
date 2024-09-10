@@ -82,9 +82,10 @@ export const Plans = () => {
         open={isOpened}
       />
       <SignupDialog
+        canProcessReferralCode
+        hasOauthLogin={hasOauthLogin}
         isOpen={isSignupDialogOpened}
         onClose={onCloseSignupDialog}
-        hasOauthLogin={hasOauthLogin}
       />
     </Box>
   );
