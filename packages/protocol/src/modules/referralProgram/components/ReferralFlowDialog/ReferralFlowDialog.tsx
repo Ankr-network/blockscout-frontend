@@ -25,8 +25,8 @@ export const ReferralFlowDialog = ({
       <img
         alt="Top banner"
         className={classes.topBanner}
-        height="280"
         src={banner}
+        width="100%"
       />
     ));
 

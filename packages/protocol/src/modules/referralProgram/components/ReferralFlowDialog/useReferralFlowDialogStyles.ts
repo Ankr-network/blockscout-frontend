@@ -6,6 +6,10 @@ export const useReferralFlowDialogStyles = makeStyles()(theme => ({
     padding: 0,
 
     borderRadius: 40,
+
+    [`${theme.breakpoints.down('sm')}`]: {
+      padding: 0,
+    },
   },
   closeButton: {
     top: 40,
