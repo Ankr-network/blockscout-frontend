@@ -121,8 +121,13 @@ export const selectHasReferralBonusBanner = createSelector(
     const isUninitialized =
       isPAYGDepositMadeUninitialized || isDealDepositMadeUninitialized;
     const isLoading = isPAYGDepositMadeLoading || isDealDepositMadeLoading;
+    const hasData =
+      typeof isPAYGDepositMade !== 'undefined' &&
+      typeof isDealDepositMade !== 'undefined';
+    
+    const isLoadingInitially = !hasData && isLoading
 
-    if (isUninitialized || isLoading) {
+    if (isUninitialized || isLoadingInitially) {
       return false;
     }
 
