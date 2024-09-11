@@ -29,9 +29,12 @@ export const useInitReferralFlowWithSavedCode = ({
   const { personalPremiumStatus } = usePersonalPremiumStatus({
     skipFetching: !isLoggedIn,
   });
-  const { savedReferralCode } = useSavedReferralCode();
+  const { handleRemoveSavedReferralCode, savedReferralCode } =
+    useSavedReferralCode();
+
   const { handleApplyReferralCode } = useApplyReferralCode({
     hasSuccessNotification: false,
+    onError: handleRemoveSavedReferralCode,
     onSuccess: handleSuccessDialogOpen,
     referralCode: savedReferralCode,
     // needs to display Success dialog correctly
