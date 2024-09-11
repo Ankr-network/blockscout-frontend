@@ -1,15 +1,15 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useChargingModelWidgetStyles = makeStyles()(theme => ({
+const name = 'ChargingModelWidget';
+
+export const useChargingModelWidgetStyles = makeStyles({ name })(theme => ({
   root: {},
   content: {},
   header: {
-    marginBottom: theme.spacing(10),
+    marginBottom: theme.spacing(8),
 
     [theme.breakpoints.down('xs')]: {
-      '&&&': {
-        marginBottom: theme.spacing(8),
-      },
+      marginBottom: theme.spacing(6),
     },
   },
   balance: {},
@@ -25,7 +25,8 @@ export const useChargingModelWidgetStyles = makeStyles()(theme => ({
     whiteSpace: 'nowrap',
 
     [theme.breakpoints.down('xs')]: {
-      marginTop: theme.spacing(4),
+      marginTop: theme.spacing(6),
+
       width: '100%',
     },
   },

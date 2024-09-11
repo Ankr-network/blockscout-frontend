@@ -33,6 +33,7 @@ export const PromoBalance = () => {
         title={t(keys.promoTitle)}
       />
       <BalanceRow
+        className={classes.currentBalance}
         creditBalance={creditBalance}
         requestsBalance={currentChargingModelBalance.balanceInRequests}
         title={renderChargingModelTitle(currentChargingModel.type)}
