@@ -43,6 +43,7 @@ export const useReferralFlow = () => {
     banner,
     blockchainName,
     handleSignInDialogOpen,
+    handleSuccessDialogOpen,
   });
 
   const { handleSwitchAccountDialogOpen, switchAccountDialogProps } =

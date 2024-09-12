@@ -7,7 +7,6 @@ import { useAppDispatch } from 'store/useAppDispatch';
 import { useApplyReferralCode } from 'modules/referralProgram/hooks/useApplyReferralCode';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useRedirectToBilling } from 'modules/referralProgram/hooks/useRedirectToBilling';
 import { useReferralCode } from 'modules/referralProgram/hooks/useReferralCode';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
@@ -18,6 +17,7 @@ export interface IUseWelcomeDialogProps {
   banner: string | undefined;
   blockchainName: string | undefined;
   handleSignInDialogOpen: () => void;
+  handleSuccessDialogOpen: () => void;
 }
 
 const { showNotification } = NotificationActions;
@@ -26,6 +26,7 @@ export const useWelcomeDialog = ({
   banner,
   blockchainName,
   handleSignInDialogOpen,
+  handleSuccessDialogOpen,
 }: IUseWelcomeDialogProps) => {
   const {
     isOpened,
@@ -78,17 +79,17 @@ export const useWelcomeDialog = ({
   }, [handleClose, handleSignInDialogOpen]);
 
   const { isLoggedIn } = useAuth();
-  const { redirectToBilling } = useRedirectToBilling();
 
   const onSuccess = useCallback(() => {
     handleClose();
-    redirectToBilling();
-  }, [handleClose, redirectToBilling]);
+    handleSuccessDialogOpen();
+  }, [handleClose, handleSuccessDialogOpen]);
 
   const {
     handleApplyReferralCode: onActivateButtonClick,
     isApplying: isActivating,
   } = useApplyReferralCode({
+    hasSuccessNotification: false,
     referralCode,
     onSuccess,
     onError: handleClose,
