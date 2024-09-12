@@ -9,14 +9,12 @@ export interface DialogPropsParams {
   contentType: ContentType;
   defaultState?: ContentType;
   onClose: () => void;
-  onSubmitContactForm: () => void;
 }
 
 export const useDialogProps = ({
   contentType,
   defaultState,
   onClose,
-  onSubmitContactForm,
 }: DialogPropsParams): Omit<IDialogProps, 'open'> => {
   const { resetTitle, title } = useDialogTitle(defaultState || contentType);
 
@@ -24,7 +22,6 @@ export const useDialogProps = ({
     children: getContent({
       contentType: defaultState ?? contentType,
       onClose,
-      onSubmitContactForm,
       resetTitle,
     }),
     maxPxWidth: SIGNUP_DIALOG_WIDTH,

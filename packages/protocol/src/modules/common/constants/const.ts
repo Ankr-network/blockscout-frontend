@@ -71,3 +71,6 @@ export const CHARGING_MODEL_DEAL_DOCS_LINK =
   'https://www.ankr.com/docs/rpc-service/service-plans/#deal';
 
 export const INTEGER_REGEX = /[^0-9]/;
+
+export const SALES_TEAM_CONTACT =
+  'https://meetings-eu1.hubspot.com/arsalan-evini';

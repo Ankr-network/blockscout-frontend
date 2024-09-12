@@ -24,11 +24,6 @@ export const Plans = () => {
 
   const { hasOauthLogin, hasPremium, isLoggedIn } = useAuth();
   const {
-    isOpened,
-    onClose,
-    onOpen: onOpenUpgradePlanDialog,
-  } = useUpgradePlanDialog();
-  const {
     isOpened: isTopupOpened,
     onClose: onCloseTopup,
     onOpen: onOpenTopupDialog,
@@ -43,10 +38,8 @@ export const Plans = () => {
     isLoggedIn,
     isFinanceRole: deprecatedIsFinanceRole,
     hasPremium,
-    onOpenUpgradePlanDialog,
     onOpenSignupDialog,
     onOpenTopupDialog,
-    onClose,
   });
 
   return (
@@ -76,11 +69,6 @@ export const Plans = () => {
           open={isTopupOpened}
         />
       )}
-      <UpgradePlanDialog
-        defaultState={ContentType.CONTACT_SALES_FORM}
-        onClose={onClose}
-        open={isOpened}
-      />
       <SignupDialog
         isOpen={isSignupDialogOpened}
         onClose={onCloseSignupDialog}

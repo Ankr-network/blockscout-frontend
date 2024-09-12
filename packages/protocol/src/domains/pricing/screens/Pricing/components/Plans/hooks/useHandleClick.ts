@@ -8,6 +8,7 @@ import { TopUpOrigin } from 'domains/account/types';
 import { PATH_ACCOUNT } from 'domains/account/Routes';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
+import { SALES_TEAM_CONTACT } from 'modules/common/constants/const';
 
 import { EPlanList } from '../PlansUtils';
 
@@ -15,22 +16,16 @@ interface UseHandleClickArguments {
   isLoggedIn: boolean;
   isFinanceRole: boolean;
   hasPremium: boolean;
-  shouldCloseForFree?: boolean;
-  onOpenUpgradePlanDialog: () => void;
   onOpenSignupDialog: () => void;
   onOpenTopupDialog: () => void;
-  onClose: () => void;
 }
 
 export const useHandleClick = ({
   hasPremium,
   isFinanceRole,
   isLoggedIn,
-  onClose,
   onOpenSignupDialog,
   onOpenTopupDialog,
-  onOpenUpgradePlanDialog,
-  shouldCloseForFree = false,
 }: UseHandleClickArguments) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -48,10 +43,6 @@ export const useHandleClick = ({
       }
 
       if (isFreePlanName) {
-        if (shouldCloseForFree) {
-          onClose();
-        }
-
         const localtion = isLoggedIn
           ? ProjectsRoutesConfig.projects.generatePath()
           : ChainsRoutesConfig.chains.generatePath({ isLoggedIn });
@@ -62,7 +53,7 @@ export const useHandleClick = ({
       }
 
       if (isEnterprisePlanName) {
-        onOpenUpgradePlanDialog();
+        window.open(SALES_TEAM_CONTACT, '_blank');
 
         return;
       }
@@ -87,12 +78,9 @@ export const useHandleClick = ({
       isLoggedIn,
       hasPremium,
       history,
-      onOpenUpgradePlanDialog,
       onOpenSignupDialog,
       onOpenTopupDialog,
       dispatch,
-      shouldCloseForFree,
-      onClose,
     ],
   );
 };

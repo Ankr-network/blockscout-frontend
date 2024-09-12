@@ -12,7 +12,6 @@ import { useWindowHeight } from 'hooks/useWindowHeight';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useHandleClick } from 'domains/pricing/screens/Pricing/components/Plans/hooks/useHandleClick';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 
 import {
   useUpgradePlanDialog,
@@ -34,11 +33,6 @@ export const PlansDialog = ({ onClose, open }: IPlansDialogProps) => {
 
   const { hasOauthLogin, hasPremium, isLoggedIn } = useAuth();
   const {
-    isOpened: isUpgradePlanDialogOpened,
-    onClose: onCloseUpgradePlanDialog,
-    onOpen: onOpenUpgradePlanDialog,
-  } = useUpgradePlanDialog();
-  const {
     isOpened: isTopupOpened,
     onClose: onCloseTopup,
     onOpen: onOpenTopupDialog,
@@ -53,11 +47,8 @@ export const PlansDialog = ({ onClose, open }: IPlansDialogProps) => {
     isLoggedIn,
     isFinanceRole: deprecatedIsFinanceRole,
     hasPremium,
-    shouldCloseForFree: true,
-    onOpenUpgradePlanDialog,
     onOpenSignupDialog,
     onOpenTopupDialog,
-    onClose,
   });
 
   return (
@@ -113,13 +104,6 @@ export const PlansDialog = ({ onClose, open }: IPlansDialogProps) => {
           open={isTopupOpened}
         />
       )}
-      <NoReactSnap>
-        <UpgradePlanDialog
-          defaultState={ContentType.CONTACT_SALES_FORM}
-          onClose={onCloseUpgradePlanDialog}
-          open={isUpgradePlanDialogOpened}
-        />
-      </NoReactSnap>
       <SignupDialog
         isOpen={isSignupDialogOpened}
         onClose={onCloseSignupDialog}

@@ -1,44 +1,15 @@
 import { Button, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { useCallback, useState } from 'react';
 
-import {
-  ContentType,
-  UpgradePlanDialog,
-} from 'modules/common/components/UpgradePlanDialog';
 import { Dialog, IDialogProps } from 'uiKit/Dialog';
 import image from 'modules/common/assets/performance-upgrade.png';
+import { SALES_TEAM_CONTACT } from 'modules/common/constants/const';
 
 import { useTimeToUpgradeDialogStyles } from './useTimeToUpgradeDialogStyles';
 
 export const TimeToUpgradeDialog = ({ onClose, open }: IDialogProps) => {
   const { classes } = useTimeToUpgradeDialogStyles();
-
-  const [isContactSalesPopup, setIsContactSalesPopup] = useState(false);
-
-  const enterpriseUpgradeHandler = useCallback(() => {
-    if (onClose) {
-      onClose();
-    }
-
-    setIsContactSalesPopup(true);
-  }, [onClose]);
-
-  const onCloseContactSalesPopup = useCallback(
-    () => setIsContactSalesPopup(false),
-    [],
-  );
-
-  if (isContactSalesPopup) {
-    return (
-      <UpgradePlanDialog
-        onClose={onCloseContactSalesPopup}
-        open={isContactSalesPopup}
-        defaultState={ContentType.CONTACT_SALES_FORM}
-      />
-    );
-  }
 
   return (
     <Dialog
@@ -83,7 +54,8 @@ export const TimeToUpgradeDialog = ({ onClose, open }: IDialogProps) => {
         <Button
           fullWidth
           className={classes.timeToUpgradeBtn}
-          onClick={enterpriseUpgradeHandler}
+          target="_blank"
+          href={SALES_TEAM_CONTACT}
         >
           {t('enterprise.time-to-upgrade-dialog.button-contact')}
         </Button>

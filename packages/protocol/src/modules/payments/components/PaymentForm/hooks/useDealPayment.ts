@@ -12,6 +12,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { useLazyFetchLinkForBundlePaymentQuery } from 'domains/account/actions/bundles/fetchLinkForBundlePayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { getDealRequestsCountByUsdAmount } from 'modules/payments/utils/getDealRequestsCountByUsdAmount';
+import { SALES_TEAM_CONTACT } from 'modules/common/constants/const';
 
 import { IUSDPaymentSummaryDialogProps } from '../../USDPaymentSummaryDialog';
 
@@ -28,11 +29,8 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
 
   const { isOpened: open, onClose, onOpen } = useDialog();
 
-  const {
-    isOpened: openEnterpriseDialog,
-    onClose: onCloseEnterpriseDialog,
-    onOpen: onOpenEnterpriseDialog,
-  } = useDialog();
+  const { isOpened: openEnterpriseDialog, onClose: onCloseEnterpriseDialog } =
+    useDialog();
 
   const [fetchLink, { isFetching }] = useLazyFetchLinkForBundlePaymentQuery();
 
@@ -97,11 +95,11 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
 
   const handleDealPaymentSummaryDialogOpen = useCallback(() => {
     if (isHighestDealPurchased) {
-      onOpenEnterpriseDialog();
+      window.open(SALES_TEAM_CONTACT, '_blank');
     } else {
       onOpen();
     }
-  }, [isHighestDealPurchased, onOpen, onOpenEnterpriseDialog]);
+  }, [isHighestDealPurchased, onOpen]);
 
   return {
     dealPaymentSummaryDialogProps,
@@ -109,7 +107,6 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
       open: openEnterpriseDialog,
       onClose: onCloseEnterpriseDialog,
     },
-    onOpenEnterpriseDialog,
     handleDealPaymentSummaryDialogOpen,
   };
 };

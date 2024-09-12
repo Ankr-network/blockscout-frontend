@@ -58,7 +58,6 @@
     "permission": "You do not have enough permissions to get all the data",
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
-    "hubspot": "Hubspot form. No such element {selector}",
     "common": "Oops! Something went wrong.",
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts.",
     "tx-replacement": "The transaction has been cancelled or replaced",
@@ -1177,10 +1176,6 @@
       "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
       "action-text": "Request"
     }
-  },
-  "contact-sales-form": {
-    "title": "Fill the form",
-    "success": "Thank You"
   },
   "plan": {
     "breadcrumbs": "Pricing",

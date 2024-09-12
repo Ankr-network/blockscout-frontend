@@ -15,6 +15,7 @@ import {
 import { AmountHeader } from 'modules/payments/components/PaymentForm/components/AmountHeader';
 import { MINIMAL_DEAL_AMOUNT } from 'modules/payments/const';
 import { getDealRequestsCountByUsdAmount } from 'modules/payments/utils/getDealRequestsCountByUsdAmount';
+import { SALES_TEAM_CONTACT } from 'modules/common/constants/const';
 
 import { useDealAmountsStyles } from './useDealAmountsStyles';
 import { DEAL_PROMO_EXTRA_REQUESTS_RATE } from '../AmountInput/const';
@@ -23,7 +24,6 @@ export interface IDealAmountsProps
   extends Omit<IAmountChipsProps, 'columns' | 'rows'> {
   className?: string;
   isLoading: boolean;
-  onOpenEnterpriseDialog?: () => void;
 }
 
 export const DealAmounts = ({
@@ -31,7 +31,6 @@ export const DealAmounts = ({
   className,
   isLoading,
   onAmountSelect,
-  onOpenEnterpriseDialog,
   selectedAmountID,
 }: IDealAmountsProps) => {
   const { classes, cx } = useDealAmountsStyles();
@@ -76,7 +75,8 @@ export const DealAmounts = ({
           <Typography component="p" color="textSecondary" variant="body3">
             {tHTML('account.deal-amount.contact-sales')}
             <Link
-              onClick={onOpenEnterpriseDialog}
+              target="_blank"
+              href={SALES_TEAM_CONTACT}
               className={classes.contactSalesLink}
             >
               {t('account.deal-amount.contact-btn-text')}
