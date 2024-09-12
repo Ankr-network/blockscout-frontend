@@ -13,9 +13,12 @@ export enum ChainSubType {
   Athens3 = 'athens3',
 }
 
-export enum SortType {
-  Name = 'name',
-  Usage = 'usage',
+export enum ESortChainsType {
+  Trending = 'trending',
+  NameAZ = 'name-a-z',
+  NameZA = 'name-z-a',
+  UsageHighLow = 'usage-high-low',
+  UsageLowHigh = 'usage-low-high',
 }
 
 export enum Timeframe {

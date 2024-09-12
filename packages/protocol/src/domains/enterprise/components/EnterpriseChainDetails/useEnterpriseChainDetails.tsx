@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 
-import { IPrivateChainItemDetails } from 'domains/chains/actions/private/fetchPrivateChain';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
-import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemQuery/components/PublicChainItem/hooks/usePublicChainItem';
+import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
+import { ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 import {
   ChainGroupID,
@@ -39,7 +39,6 @@ interface PrivateChainItem extends ChainItem {
   chainSubTypes: ChainSubTypeItem[];
   selectSubType: (id: ChainSubType) => void;
   endpoints: GroupedEndpoints;
-  publicChain: Chain;
   groups: EndpointGroup[];
   groupID: ChainGroupID;
   selectGroup: (id: ChainGroupID) => void;
@@ -49,17 +48,14 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   onBlockedTabClick: () => void;
 };
 
-// eslint-disable-next-line max-lines-per-function
 export const useEnterpriseChainDetails = ({
   chain,
   onBlockedTabClick,
   selectedGroupId,
   selectedType,
-  unfilteredChain: publicChain,
 }: PrivateChainItemParams): PrivateChainItem => {
   const { endpoints, name, netId, publicEndpoints } = useCommonChainItem({
     chain,
-    publicChain,
   });
 
   const { chainType, chainTypeTab, chainTypeTabs, selectType } =
@@ -104,7 +100,7 @@ export const useEnterpriseChainDetails = ({
   const chainTypes = getPrivateChainTypeSelector(endpoints);
   const chainSubTypes = getPrivateChainSubTypeSelector();
   const subChainId = getChainId({
-    publicChain,
+    publicChain: chain,
     chainType,
     chainSubType,
     group,
@@ -129,7 +125,6 @@ export const useEnterpriseChainDetails = ({
       <ChainItemHeaderContent
         isMultiChain={isMultiChain}
         chain={chain}
-        publicChain={publicChain}
         chainType={chainType}
         chainTypeTabs={chainTypeTabs}
         chainTypeTab={chainTypeTab}
@@ -150,7 +145,6 @@ export const useEnterpriseChainDetails = ({
     [
       isMultiChain,
       chain,
-      publicChain,
       chainType,
       chainTypeTabs,
       chainTypeTab,
@@ -181,7 +175,6 @@ export const useEnterpriseChainDetails = ({
     chainSubTypes,
     selectSubType,
     endpoints,
-    publicChain,
     groups,
     groupID,
     selectGroup,

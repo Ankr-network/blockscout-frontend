@@ -8,7 +8,15 @@ import { useFetchAllWhitelistsQuery } from '../actions/fetchAllWhitelists';
 import { useFetchWhitelistsBlockchainsQuery } from '../actions/fetchWhitelistsBlockchains';
 import { useProjectsDataParams } from './useProjectsDataParams';
 
-export const useProjects = (skipWhitelistsFetching?: boolean) => {
+interface IUseProjectsProps {
+  skipWhitelistsFetching?: boolean;
+  skipFetchingProjects?: boolean;
+}
+
+export const useProjects = ({
+  skipFetchingProjects,
+  skipWhitelistsFetching,
+}: IUseProjectsProps) => {
   const {
     allowedAddProjectTokenIndex,
     enableAddProject: canAddProject,
@@ -27,17 +35,25 @@ export const useProjects = (skipWhitelistsFetching?: boolean) => {
 
   const { data: allWhitelists, isLoading: isLoadingAllWhitelists } =
     useFetchAllWhitelistsQuery(
-      skipWhitelistsFetching ? skipToken : allWhitelistsParams,
+      skipWhitelistsFetching || skipFetchingProjects
+        ? skipToken
+        : allWhitelistsParams,
     );
 
   const {
     data: allWhitelistsBlockchains,
     isLoading: isLoadingAllWhitelistsBlockchains,
-  } = useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams);
+  } = useFetchWhitelistsBlockchainsQuery(
+    skipFetchingProjects ? skipToken : allWhitelistsBlockchainsParams,
+  );
 
-  useFetchAllJwtTokensStatusesQuery(statusesParams);
+  useFetchAllJwtTokensStatusesQuery(
+    skipFetchingProjects ? skipToken : statusesParams,
+  );
 
-  useFetchAllProjectsTotalRequestsForLastTwoDaysQuery(allTotalRequestsParams);
+  useFetchAllProjectsTotalRequestsForLastTwoDaysQuery(
+    skipFetchingProjects ? skipToken : allTotalRequestsParams,
+  );
 
   return {
     allWhitelists,

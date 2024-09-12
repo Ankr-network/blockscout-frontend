@@ -10,7 +10,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     marginTop: theme.spacing(10),
     flexWrap: 'wrap',
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(4),
       flexDirection: 'column-reverse',
       alignItems: 'flex-start',
@@ -24,10 +24,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     gap: theme.spacing(3),
     alignItems: 'center',
     marginRight: 'auto',
-
-    [theme.breakpoints.down('xs')]: {
-      flexWrap: 'wrap',
-    },
+    flexWrap: 'wrap',
   },
   selectors: {
     display: 'flex',
@@ -43,7 +40,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     '&&': {
       borderRadius: TAB_BORDER_RADIUS,
 
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         display: 'none !important',
       },
     },
@@ -62,7 +59,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
         borderRadius: 11,
       },
 
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         display: 'flex',
         width: '100%',
       },
@@ -70,7 +67,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
   },
   groupSelectorInput: {
     '&&': {
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         width: '100%',
       },
     },
@@ -90,7 +87,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down('sm')]: {
       flexDirection: 'column-reverse',
       alignItems: 'flex-start',
       width: '100%',

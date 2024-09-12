@@ -5,7 +5,7 @@ import { dialogHeaderGradient } from 'uiKit/Theme/themeUtils';
 export const useMaintenanceDialogStyles = makeStyles()(theme => ({
   root: {
     width: 600,
-    height: 630,
+    height: 920,
 
     /* hiding scrollbar styles: */
     MsOverflowStyle: 'none',
@@ -31,7 +31,12 @@ export const useMaintenanceDialogStyles = makeStyles()(theme => ({
     },
   },
   content: {
-    marginTop: theme.spacing(52),
+    marginTop: theme.spacing(55),
+
+    '& ul': {
+      paddingInlineStart: 20,
+      margin: 0,
+    },
   },
   imageWrapper: {
     position: 'absolute',

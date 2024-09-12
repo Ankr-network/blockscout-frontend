@@ -11,6 +11,7 @@ import {
   ChainSubTypeItem,
   ChainTypeItem,
 } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { ChainSelector } from '../ChainSelector';
 import { SubTypeSelector } from '../SubTypeSelector';
@@ -63,7 +64,8 @@ export const SelectorsContent = ({
   selectedOption,
   showAdditionalSelect,
 }: ISelectorContentProps) => {
-  const { classes } = useDashboardStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes } = useDashboardStyles(bannerHeight);
 
   const { classNameMenuItem, menuProps } = usePrivateChainSelector();
 

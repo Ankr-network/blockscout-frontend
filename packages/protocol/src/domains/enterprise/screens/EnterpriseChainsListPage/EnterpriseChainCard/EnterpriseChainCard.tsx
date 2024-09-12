@@ -1,6 +1,4 @@
 import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
-import { ComingSoonChainCard } from 'domains/chains/screens/ChainsListPage/components/ComingSoonChainCard';
-import { PremiumOnlyChainCard } from 'domains/chains/screens/ChainsListPage/components/PremiumOnlyChainCard';
 import {
   BaseChainsCard,
   IBaseChainCardProps,
@@ -11,7 +9,8 @@ import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 
 import { useEnterpriseChainsItem } from './hooks/useEnterpriseChainsItem';
 
-interface EnterpriseChainCardProps extends IChainCardProps {
+interface EnterpriseChainCardProps
+  extends Omit<IChainCardProps, 'onOpenUpgradeModal'> {
   hasPremium: boolean;
   hasTotalRequestsLabel?: boolean;
 }
@@ -29,8 +28,6 @@ export const EnterpriseChainCard = ({
     true,
   );
 
-  const { isComingSoon, premiumOnly } = chain;
-
   const cardProps: IBaseChainCardProps = {
     chain,
     loading,
@@ -41,14 +38,6 @@ export const EnterpriseChainCard = ({
   const enterpriseChainDetailsPath =
     EnterpriseRoutesConfig.chainDetails.generatePath(chain.id);
   const onCardClick = useChainItemClickHandler(enterpriseChainDetailsPath);
-
-  if (isComingSoon) {
-    return <ComingSoonChainCard {...cardProps} onClick={onCardClick} />;
-  }
-
-  if (premiumOnly && !hasPremium) {
-    return <PremiumOnlyChainCard {...cardProps} onClick={onCardClick} />;
-  }
 
   return <BaseChainsCard {...cardProps} onClick={onCardClick} />;
 };

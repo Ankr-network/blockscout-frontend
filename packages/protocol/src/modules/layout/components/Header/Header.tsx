@@ -5,6 +5,7 @@ import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Breadcrumbs } from '../Breadcrumbs';
 import { HeaderContent } from './components/HeaderContent';
 import { useStyles } from './useStyles';
+import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 
 interface HeaderProps {
   className?: string;
@@ -12,7 +13,8 @@ interface HeaderProps {
 }
 
 export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
-  const { classes, cx } = useStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes, cx } = useStyles(bannerHeight);
 
   return (
     <header className={cx(classes.root, className)}>

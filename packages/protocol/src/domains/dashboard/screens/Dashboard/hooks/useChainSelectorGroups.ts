@@ -9,7 +9,7 @@ import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClien
 
 interface IDashboardChainSelector {
   chain: Chain;
-  unfilteredChain: Chain;
+
   selectedType?: ChainType;
   selectedGroupId?: ChainGroupID;
   onBlockedTabClick: () => void;
@@ -20,7 +20,6 @@ export const useChainSelectorGroups = ({
   onBlockedTabClick,
   selectedGroupId,
   selectedType,
-  unfilteredChain,
 }: IDashboardChainSelector) => {
   const isFlare = chain.id === ChainID.FLARE;
 
@@ -34,13 +33,11 @@ export const useChainSelectorGroups = ({
     group,
     groupID,
     groups,
-    publicChain,
     selectGroup,
     selectSubType,
     selectType,
   } = usePrivateChainItem({
     chain,
-    unfilteredChain,
     selectedType,
     selectedGroupId,
     shouldExpandFlareTestnets: isFlare,
@@ -50,7 +47,7 @@ export const useChainSelectorGroups = ({
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const mappedChainId = getStatsChainId({
-    publicChain,
+    publicChain: chain,
     chainType,
     chainSubType,
     group,

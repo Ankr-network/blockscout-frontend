@@ -27,7 +27,9 @@ export const useProjectsForm = () => {
   const { push } = useHistory();
 
   const { canEditProject } = useProjectConfig();
-  const { canAddProject, isLoaded } = useProjects();
+  const { canAddProject, isLoaded } = useProjects({
+    skipFetchingProjects: false,
+  });
 
   const allProjects = useAppSelector(selectAllProjects);
 

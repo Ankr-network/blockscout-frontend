@@ -36,11 +36,3 @@ export type ProjectChainsType = MainChainType & {
   opnodesMainnet?: MainChainType[];
   opnodesTestnet?: MainChainType[];
 };
-
-export enum ESortChainsType {
-  Trending = 'trending',
-  NameAZ = 'name-a-z',
-  NameZA = 'name-z-a',
-  UsageHighLow = 'usage-high-low',
-  UsageLowHigh = 'usage-low-high',
-}

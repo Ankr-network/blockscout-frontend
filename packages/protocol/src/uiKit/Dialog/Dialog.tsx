@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import {
+  MouseEvent,
   MouseEventHandler,
   ReactNode,
   useCallback,
@@ -37,6 +38,7 @@ export type IDialogProps = Omit<
   onManualClose?: () => void;
   paperClassName?: string;
   shouldHideCloseButton?: boolean;
+  shouldStopPropagationOnClose?: boolean;
   title?: ReactNode;
   titleClassName?: string;
 };
@@ -55,6 +57,7 @@ export const Dialog = ({
   onManualClose,
   paperClassName,
   shouldHideCloseButton = false,
+  shouldStopPropagationOnClose,
   title,
   titleClassName,
   ...props
@@ -67,7 +70,11 @@ export const Dialog = ({
   });
 
   const handleClose = useCallback<Required<DialogProps>['onClose']>(
-    (_event, reason) => {
+    (event, reason) => {
+      if (shouldStopPropagationOnClose) {
+        (event as MouseEvent<HTMLButtonElement>).stopPropagation();
+      }
+
       onClose?.();
 
       const isBackdropClick = reason === 'backdropClick';
@@ -77,7 +84,7 @@ export const Dialog = ({
         onManualClose?.();
       }
     },
-    [onClose, onManualClose],
+    [onClose, onManualClose, shouldStopPropagationOnClose],
   );
 
   const onCloseIconClick = useCallback<

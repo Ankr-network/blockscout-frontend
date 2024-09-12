@@ -3,12 +3,17 @@ import { ReactNode } from 'react';
 import { useStyles } from './ChainTypeStyles';
 
 export interface ChainTypeTabProps {
+  className?: string;
   content: ReactNode;
   isSelected?: boolean;
 }
 
-export const ChainTypeTab = ({ content, isSelected }: ChainTypeTabProps) => {
-  const { classes } = useStyles(!!isSelected);
+export const ChainTypeTab = ({
+  className,
+  content,
+  isSelected,
+}: ChainTypeTabProps) => {
+  const { classes, cx } = useStyles(!!isSelected);
 
-  return <div className={classes.root}>{content}</div>;
+  return <div className={cx(classes.root, className)}>{content}</div>;
 };

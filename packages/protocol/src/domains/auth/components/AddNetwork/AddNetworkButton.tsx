@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { Button } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
 
@@ -18,6 +18,7 @@ import {
   selectBlockchainBySubchainId,
   selectPublicChainById,
 } from 'modules/chains/store/selectors';
+import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
 
 import { useAddNetworkButton } from './useAddNetworkButton';
 import { useNetworksButtonTranslations } from './translation';
@@ -68,7 +69,6 @@ export const AddNetworkButton = ({
   } = usePrivateChainItem({
     chain: isEnterprise ? chain : publicChain,
     isGroupSelectorAutoWidth: true,
-    unfilteredChain: publicChain,
   });
 
   const handleButtonClick = useAddNetworkButton({
@@ -98,48 +98,51 @@ export const AddNetworkButton = ({
     : Fragment;
 
   return (
-    <WrapperComponent value={chainProtocolContext}>
-      <ButtonMetamask
-        className={className}
-        isDisabled={loading}
-        label={label}
-        onClick={hasChainSelector ? onOpen : handleButtonClick}
-        size={size}
-      />
+    <GuardResolution protectedResolution="mdDown">
+      <WrapperComponent value={chainProtocolContext}>
+        <ButtonMetamask
+          className={className}
+          isDisabled={loading}
+          label={label}
+          onClick={hasChainSelector ? onOpen : handleButtonClick}
+          size={size}
+        />
 
-      {hasChainSelector && (
-        <Dialog
-          open={isOpened}
-          onClose={onClose}
-          title={t(keys.selectNetwork)}
-          paperClassName={classes.addNetworkDialog}
-        >
-          <ChainSelectorContent
-            className={classes.addNetworkChainSelector}
-            chainSubTypeTab={chainSubTypeTab}
-            chainSubTypeTabs={chainSubTypeTabs}
-            chainTypeTab={chainTypeTab}
-            chainTypeTabs={chainTypeTabs}
-            groupID={groupID}
-            groupTab={groupTab}
-            groupTabs={groupTabs}
-            groups={groups}
-            hasGroupSelector={false}
-            selectGroup={selectGroup}
-            isProtocolSwitcherHidden
-            isGroupSelectorAutoWidth={false}
-            isSubchainSelectorHidden={isMultichain(chain.id)}
-          />
-
-          <Button
-            disabled={!handleButtonClick}
-            onClick={handleButtonClick}
-            startIcon={<Plus />}
+        {hasChainSelector && (
+          <Dialog
+            open={isOpened}
+            onClose={onClose}
+            title={t(keys.selectNetwork)}
+            paperClassName={classes.addNetworkDialog}
+            shouldStopPropagationOnClose
           >
-            {t(keys.addNetwork)}
-          </Button>
-        </Dialog>
-      )}
-    </WrapperComponent>
+            <ChainSelectorContent
+              className={classes.addNetworkChainSelector}
+              chainSubTypeTab={chainSubTypeTab}
+              chainSubTypeTabs={chainSubTypeTabs}
+              chainTypeTab={chainTypeTab}
+              chainTypeTabs={chainTypeTabs}
+              groupID={groupID}
+              groupTab={groupTab}
+              groupTabs={groupTabs}
+              groups={groups}
+              hasGroupSelector={false}
+              selectGroup={selectGroup}
+              isProtocolSwitcherHidden
+              isGroupSelectorAutoWidth={false}
+              isSubchainSelectorHidden={isMultichain(chain.id)}
+            />
+
+            <Button
+              disabled={!handleButtonClick}
+              onClick={handleButtonClick}
+              startIcon={<Plus />}
+            >
+              {t(keys.addNetwork)}
+            </Button>
+          </Dialog>
+        )}
+      </WrapperComponent>
+    </GuardResolution>
   );
 };

@@ -6,6 +6,7 @@ import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/
 import { useAppSelector } from 'store/useAppSelector';
 import { ChainID } from 'modules/chains/types';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
+import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { useChainsSelector } from '../hooks/useChainsSelector';
 import { useChainSelectorGroups } from '../hooks/useChainSelectorGroups';
@@ -19,13 +20,8 @@ import { selectChainsWithStats } from '../../../store/selectors/v1';
 export const DashboardContent = () => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
-  const {
-    allChains,
-    networksConfigurations,
-    rawChains,
-    timeframe,
-    timeframeTabs,
-  } = useDashboard();
+  const { networksConfigurations, rawChains, timeframe, timeframeTabs } =
+    useDashboard();
 
   const chainIds = useAppSelector(selectChainsWithStats);
 
@@ -37,10 +33,8 @@ export const DashboardContent = () => {
     renderValue,
     selectedChainId,
     showAdditionalSelect,
-    unfilteredChain,
   } = useChainsSelector({
     chains: rawChains,
-    allChains,
     chainIdsWithStats: chainIds as ChainID[],
   });
 
@@ -59,11 +53,11 @@ export const DashboardContent = () => {
     statsChainId,
   } = useChainSelectorGroups({
     chain: chain || fallbackChain,
-    unfilteredChain: unfilteredChain || fallbackChain,
     onBlockedTabClick: onOpen,
   });
 
-  const { classes } = useDashboardStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes } = useDashboardStyles(bannerHeight);
 
   const { handleSetOption, options, selectedOption } = useProjectSelect();
 

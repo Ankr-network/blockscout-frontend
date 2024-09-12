@@ -1,7 +1,6 @@
 import { Switcher } from 'modules/common/components/Switcher';
 import { Timeframe } from 'modules/chains/types';
-
-import { getValue } from './const';
+import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 
 export interface TimeframeSwitcherProps {
   onSwitch?: () => void;
@@ -18,7 +17,7 @@ export const TimeframeSwitcher = ({
 }: Props) => (
   <Switcher
     onClick={onSwitch}
-    value={getValue(timeframe)}
+    value={getTimeframeValue(timeframe)}
     className={className}
   />
 );

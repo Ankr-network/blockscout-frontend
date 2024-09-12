@@ -7,8 +7,8 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 
-import { PrivateChainItemQuery } from './PrivateChainItemQuery';
-import { PublicChainItemQuery } from './PublicChainItemQuery';
+import { PrivateChainItemWrapper } from './PrivateChainItemQuery';
+import { PublicChainItemWrapper } from './PublicChainItemWrapper';
 import { ChainItemBanner } from './components/ChainItemBanner';
 import { ChainItemSkeleton } from './components/ChainItemSkeleton';
 
@@ -34,9 +34,12 @@ export const ChainItem = () => {
         </NoReactSnap>
       )}
       {hasPrivateAccess ? (
-        <PrivateChainItemQuery chainId={chainId} />
+        <PrivateChainItemWrapper chainId={chainId as ChainID} />
       ) : (
-        <PublicChainItemQuery chainId={chainId} loading={loading} />
+        <PublicChainItemWrapper
+          chainId={chainId as ChainID}
+          loading={loading}
+        />
       )}
     </>
   );

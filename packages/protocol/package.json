@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/Web3APIApplication",
-  "version": "1.74.1b",
+  "version": "1.74.2",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -30,7 +30,7 @@
     "@ankr.com/cross-navigation": "^2.0.5",
     "@ankr.com/provider": "^4.20.0",
     "@ankr.com/telemetry": "*",
-    "@ankr.com/ui": "^0.13.50",
+    "@ankr.com/ui": "^0.13.59",
     "@ankr.com/utils": "^1.1.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -169,7 +169,6 @@
       "/teams/new/",
       "/oauth/",
       "/enterprise/",
-      "/mm/",
       "/projects/",
       "/projects/new/"
     ],

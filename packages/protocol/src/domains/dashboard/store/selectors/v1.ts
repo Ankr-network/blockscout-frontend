@@ -7,7 +7,6 @@ import {
 } from 'domains/chains/actions/private/fetchPrivateStats';
 import { RootState } from 'store';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
-import { chainsFetchPrivateChainsInfo } from 'domains/chains/actions/private/fetchPrivateChainsInfo';
 import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
 import { maskText } from 'modules/common/utils/maskText';
 import { selectSelectedProject } from 'domains/jwtToken/store/selectors';
@@ -15,6 +14,7 @@ import { fetchLastMonthStats } from 'modules/stats/actions/fetchLastMonthStats';
 import { aggregateRequests } from 'modules/stats/utils/aggregateRequests';
 import { getAllChainsRequests } from 'modules/stats/utils/getAllChainsRequests';
 import { mapCountsToEntries } from 'modules/stats/utils/mapCountsToEntries';
+import { selectPublicBlockchains } from 'modules/chains/store/selectors';
 
 import { ChainCalls } from '../../screens/Dashboard/types';
 import { aggregateIPRequests } from '../utils/aggregateIPRequests';
@@ -104,8 +104,8 @@ export const selectMethodCallsByChainID = createSelector(
 );
 
 export const selectChainNamesMap = createSelector(
-  chainsFetchPrivateChainsInfo.select({}),
-  ({ data }) => getChainNamesMap(data?.allChains),
+  selectPublicBlockchains,
+  blockchains => getChainNamesMap(blockchains),
 );
 
 export const selectChainCalls = createSelector(

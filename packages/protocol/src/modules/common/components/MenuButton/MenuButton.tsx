@@ -7,15 +7,22 @@ import { useMenuButtonStyles } from './useMenuButtonStyles';
 
 export type MenuButtonProps = Pick<
   MenuProps,
-  'children' | 'anchorEl' | 'open'
+  'children' | 'anchorEl' | 'open' | 'classes'
 > & {
   onOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
   buttonProps?: ButtonProps;
   onClose: () => void;
+  iconMoreClassName?: string;
 };
 
 export const MenuButton = (props: MenuButtonProps) => {
-  const { buttonProps = {}, onOpen, open, ...menuProps } = props;
+  const {
+    buttonProps = {},
+    iconMoreClassName,
+    onOpen,
+    open,
+    ...menuProps
+  } = props;
   const { isLightTheme } = useThemes();
 
   const { classes, cx } = useMenuButtonStyles({
@@ -30,7 +37,7 @@ export const MenuButton = (props: MenuButtonProps) => {
         className={cx(classes.menuButton, buttonProps.className)}
         onClick={onOpen}
       >
-        <More />
+        <More className={iconMoreClassName} />
       </ButtonBase>
 
       <Menu

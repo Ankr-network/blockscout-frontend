@@ -1,24 +1,36 @@
 import { makeStyles } from 'tss-react/mui';
+import { lighten } from '@mui/material';
 
 import { isLightTheme } from 'uiKit/Theme/themeUtils';
 
 export const useChainCardStyles = makeStyles()(theme => ({
-  root: {
+  baseChainCardRoot: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     '&&': {
       padding: theme.spacing(6),
     },
     backgroundColor: theme.palette.background.paper,
-    borderRadius: 32,
-    minHeight: 180,
+    borderRadius: 12,
+    minHeight: 200,
     cursor: 'pointer',
     position: 'relative',
     overflow: 'hidden',
+    maxWidth: '100%',
 
     '&:hover': {
       backgroundColor: theme.palette.background.paper,
+    },
+  },
+  multichainCard: {
+    border: `2px solid ${lighten(theme.palette.primary.main, 0.5)}`,
+  },
+  baseChainCardDescription: {
+    maxWidth: '100%',
+    '& > div': {
+      gap: theme.spacing(1.5),
     },
   },
   secondInfo: {
@@ -26,35 +38,20 @@ export const useChainCardStyles = makeStyles()(theme => ({
   },
   information: {
     color: theme.palette.grey[isLightTheme(theme) ? 800 : 500],
-    display: 'inline-block',
+    display: 'inline-flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
     fontSize: 14,
     lineHeight: '20.02px',
     fontWeight: 400,
-    position: 'absolute',
-    width: 200,
-    bottom: theme.spacing(5),
+    width: 150,
     transition: 'bottom 0.5s ease 0s',
     '&& button': {
       boxShadow: 'none',
     },
 
     [theme.breakpoints.down('md')]: {
-      position: 'static',
       marginBottom: theme.spacing(2),
-    },
-  },
-  timeSwitcher: {
-    marginLeft: theme.spacing(1.5),
-
-    '&&&': {
-      fontSize: 12,
-      borderRadius: 8,
-      padding: theme.spacing(0.5, 2),
-      border: `2px solid ${theme.palette.background.default}`,
-    },
-    '&:hover': {
-      color: theme.palette.grey[600],
-      backgroundColor: 'inherit',
     },
   },
   skeleton: {

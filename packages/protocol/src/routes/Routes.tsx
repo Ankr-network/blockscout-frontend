@@ -17,12 +17,8 @@ import {
 } from 'domains/chains/routes';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
 import { DefaultLayout } from 'modules/layout/components/DefautLayout';
-import {
-  GuardAuthRoute,
-  GuardPremiumEndpointRoute,
-} from 'domains/auth/components/GuardAuthRoute';
+import { GuardAuthRoute } from 'domains/auth/components/GuardAuthRoute';
 import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
-import { MMChainsRoutes, MMChainsRoutesConfig } from 'domains/mmChains/routes';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
@@ -201,20 +197,6 @@ export const Routes = () => {
           />
         )}
       />
-      <Route
-        exact
-        path={[MMChainsRoutesConfig.mmChains.path]}
-        render={() => (
-          <GuardUserGroup
-            shouldRedirect
-            blockName={BlockWithPermission.UsageData}
-          >
-            <DefaultLayout>
-              <MMChainsRoutes />
-            </DefaultLayout>
-          </GuardUserGroup>
-        )}
-      />
 
       <Route
         exact
@@ -249,7 +231,7 @@ export const Routes = () => {
           </GuardAuthEnterpriseRoute>
         )}
       />
-      <GuardPremiumEndpointRoute
+      <Route
         exact
         path={[ChainsRoutesConfig.chainDetails.path]}
         render={() => (

@@ -132,10 +132,10 @@
   dependencies:
     tss-react "^4.9.2"
 
-"@ankr.com/ui@^0.13.50":
-  version "0.13.58"
-  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.13.58.tgz#507d1e6c73342d45c91f8d433143b408cfc24e62"
-  integrity sha512-5HA/xLsOX6RLQM/rDJIwHNgzEcHMdw3uQFulvm50ZJq8tlabWeKTU/5aWu9LpZHdvpEudUNBHH/6oGsLSWfdcw==
+"@ankr.com/ui@^0.13.59":
+  version "0.13.59"
+  resolved "https://registry.yarnpkg.com/@ankr.com/ui/-/ui-0.13.59.tgz#dff9c429806cd6735cc8bce130b5725b260fedc2"
+  integrity sha512-PAbi6ccLzcXESxK8zKps25daXKxBihiATkq68PU+FVw0N71K7G3fuZuK0qVSKGAHseMXt4nal1MLsFBeHx67/w==
 
 "@ankr.com/utils@^1.1.1":
   version "1.1.1"

@@ -8,6 +8,7 @@ import { useIsXSDown } from 'uiKit/Theme/useTheme';
 import { HeaderContent } from '../Header/components/HeaderContent';
 import { MobileMenu } from '../MobileMenu';
 import { useStyles } from './useStyles';
+import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 
 interface MobileHeaderProps {
   className?: string;
@@ -22,7 +23,8 @@ export const MobileHeader = ({
   isEnterpriseClient,
   loading,
 }: MobileHeaderProps) => {
-  const { classes, cx } = useStyles();
+  const bannerHeight = useHeaderBannerHeight();
+  const { classes, cx } = useStyles(bannerHeight);
 
   const isXsDown = useIsXSDown();
 

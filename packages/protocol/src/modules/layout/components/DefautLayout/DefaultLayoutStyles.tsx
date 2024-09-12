@@ -1,4 +1,3 @@
-import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
 import { premiumBackground } from 'uiKit/Theme/themeUtils';
@@ -13,10 +12,11 @@ export const MOBILE_LAYOUT_PADDING = 30;
 interface Props {
   hasGradient?: boolean;
   isLightTheme: boolean;
+  bannerHeight: number;
 }
 
 export const useStyles = makeStyles<Props>()(
-  (theme: Theme, { hasGradient, isLightTheme }: Props) => ({
+  (theme, { bannerHeight, hasGradient, isLightTheme }) => ({
     root: {
       display: 'flex',
       minWidth: 375,
@@ -50,6 +50,14 @@ export const useStyles = makeStyles<Props>()(
       paddingBottom: 2 * MOBILE_LAYOUT_PADDING,
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4),
+
+      [theme.breakpoints.up('md')]: {
+        marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
+      },
+
+      [theme.breakpoints.up('md')]: {
+        marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
+      },
 
       [theme.breakpoints.down('md')]: {
         paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
@@ -89,7 +97,7 @@ export const useStyles = makeStyles<Props>()(
       },
     },
     mobileBreadcrumbs: {
-      marginTop: SHOULD_SHOW_HEADER_BANNER ? theme.spacing(5) : 0,
+      marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
       marginBottom: theme.spacing(5),
       paddingLeft: 2,
 

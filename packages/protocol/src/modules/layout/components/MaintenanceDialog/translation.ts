@@ -2,8 +2,8 @@ import { Locale } from 'modules/i18n';
 
 export const maintenanceDialogTranslation = {
   [Locale.en]: {
-    title: 'Upcoming maintenance',
+    title: 'Transitioning to ultimate performance',
     description:
-      'We have some planned maintenance work coming this Monday, June 3. It <strong>won’t</strong> impact interacting with Web3 API, but it <strong>will</strong> impact logging into your account, accessing Statistics, or working with<br />Billing.<br /><br />The sad part is that some of your Statistics data for the maintenance period will be lost. We’re truly sorry but can’t do anything about it — be strong.<br /><br />Before Monday, ensure you have enough API Credits in your account to sustain your uninterrupted calls during the maintenance hours.',
+      'We’re excited to announce that September 9th marks a significant milestone in Ankr’s continuous effort to enhance our infrastructure operating system, ensuring the ultimate performance that accommodates even the most ambitious scaling forecasts for our Web3 API platform growth.<br /><br />We’re upgrading the web performance components to our custom Ankr-made solution designed to offer the highest standards through the following means:<br /><br /><ul><li>Precise control over the load-balancing algorithm.</li><li>Efficient chain-specific parameter fine-tuning.</li><li>Flexible request and redirect intervals.</li><li>Enhanced 24/7 node-monitoring system.</li></ul><br />We have specifically tailored our solution to meet the highest demands of our Enterprise customers, and it has already been battle-tested for over a year on the majority of our traffic.<br /><br />We’re now enabling this enhanced infrastructure operating system to serve all traffic for our Public and Premium customers. And to mark this event, we’re offering our Premium users a <strong>week of free service starting September 9th.</strong>',
   },
 };

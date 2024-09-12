@@ -2,8 +2,7 @@ import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 import { Chain } from 'modules/chains/types';
-
-import { chainsFetchPublicChains } from '../actions/public/fetchPublicChains';
+import { selectPublicBlockchains } from 'modules/chains/store/selectors';
 
 export interface ChainsSliceInitialState {
   originURL?: string;
@@ -49,9 +48,8 @@ const getBeacons = (chains: Chain[] = []): Chain[] =>
     ],
   );
 
-export const selectBeacons = createSelector(
-  chainsFetchPublicChains.select(),
-  ({ data: { chains = [] } = {} }) => getBeacons(chains),
+export const selectBeacons = createSelector(selectPublicBlockchains, chains =>
+  getBeacons(chains),
 );
 
 export const { resetOriginChainURL, setOriginChainURL } = chainsSlice.actions;

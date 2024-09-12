@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { SortType, Timeframe } from 'modules/chains/types';
-import { ESortChainsType } from 'domains/projects/types';
+import { Timeframe, ESortChainsType } from 'modules/chains/types';
 import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
@@ -49,7 +48,7 @@ export const useProjectChainsAccordion = ({
   const sortedChainsByPublicUsage = useMemo(() => {
     return sortPublicChains({
       chains: formatRequestsCount(filteredChains, data),
-      sortType: SortType.Usage,
+      sortType: ESortChainsType.UsageHighLow,
       isLoading: arePublicStatsLoading,
     });
   }, [arePublicStatsLoading, data, filteredChains]);
