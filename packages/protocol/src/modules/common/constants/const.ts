@@ -63,7 +63,7 @@ export const AAPI_ABOUT_LINK =
 export const AAPI_SUPPORTED_METHODS_LINK =
   'https://www.ankr.com/docs/advanced-api/overview/#aapi-methods-supported/';
 
-export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';
+export const TEAM_INVITE_LINK_SEARCH_KEY = 'teamInviteLink';
 
 export const ACTION_TEN_MINUTES_CACHE = 6000;
 

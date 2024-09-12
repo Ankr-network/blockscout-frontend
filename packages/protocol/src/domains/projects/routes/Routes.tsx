@@ -53,7 +53,6 @@ const { useParams } = ProjectsRoutesConfig.project;
 
 export function ProjectsRoutes() {
   useRedirectForSmallDevices();
-  useRedirectToInviteLink();
 
   const {
     hasReadAccess: hasJwtManagerReadAccess,
@@ -84,6 +83,8 @@ export function ProjectsRoutes() {
     isJwtManagerLoading ||
     loading ||
     (hasAccessToPremiumStatus && isPremiumStatusUninitialized && isLoggedIn);
+
+  useRedirectToInviteLink({ shouldSkipRedirect: shouldShowSpinner });
 
   if (shouldShowSpinner) {
     return <OverlaySpinner />;
