@@ -9,6 +9,7 @@
     {
       "files": ["**/*.ts?(x)"],
       "rules": {
+        "space-before-blocks": ["warn"],
         "import/order": [
           "warn",
           {
