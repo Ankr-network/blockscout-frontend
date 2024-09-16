@@ -2076,9 +2076,9 @@
       "expense-chart": {
         "title": "Expense Chart",
         "timeframes": {
-          "week": "Past week",
-          "month": "Past month",
-          "year": "Past year"
+          "week": "Last week",
+          "month": "Last month",
+          "year": "Last year"
         },
         "chart": {
           "short-date": "{value, time, ::dMMM}",
@@ -2117,9 +2117,9 @@
         "deduction": "Daily charge"
       },
       "time-type": {
-        "week": "Past week",
-        "month": "Past month",
-        "year": "Past year"
+        "week": "Last week",
+        "month": "Last month",
+        "year": "Last year"
       },
       "details": "Details"
     },
