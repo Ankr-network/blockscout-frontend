@@ -93,8 +93,7 @@ export const ChainItemHeaderContent = ({
 
   const { classes } = useChainItemHeaderContentStyles();
 
-  const shouldHideEndpoints =
-    (isMultiChain && !isCompactView) || shouldHideEndpointsProp;
+  const shouldHideEndpoints = shouldHideEndpointsProp;
 
   const extraContent = useMemo(() => {
     return (

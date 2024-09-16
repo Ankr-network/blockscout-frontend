@@ -166,7 +166,9 @@ export const usePrivateChainItem = ({
           isGroupSelectorAutoWidth={isGroupSelectorAutoWidth}
           isCompactView={isCompactView}
           onOpenCodeExample={onOpenCodeExample}
-          shouldHideEndpoints={shouldHideEndpoints}
+          shouldHideEndpoints={
+            shouldHideEndpoints || (isMultiChain && !isCompactView)
+          }
           addToProjectButton={addToProjectButton}
           isCodeExampleHidden={isCodeExampleHidden}
           isProtocolSwitcherHidden={isProtocolSwitcherHidden}

@@ -9,10 +9,9 @@ import { PublicChainItemWrapper } from 'domains/chains/screens/ChainItem/PublicC
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
-import { UpgradePlanBanner } from 'modules/common/components/UpgradePlanBanner';
 
 export const AdvancedApiPage = () => {
-  const { hasPremium, hasPrivateAccess, loading } = useAuth();
+  const { hasPrivateAccess, loading } = useAuth();
 
   useSetBreadcrumbs([
     {
@@ -24,7 +23,6 @@ export const AdvancedApiPage = () => {
 
   return (
     <Box sx={CONTAINER_STYLES}>
-      {!hasPremium && <UpgradePlanBanner isPublicUser />}
       {hasPrivateAccess ? (
         <PrivateChainItemWrapper
           chainId={ChainID.MULTICHAIN}

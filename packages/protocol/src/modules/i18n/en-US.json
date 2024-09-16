@@ -1036,8 +1036,7 @@
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
         "lockedLabelHttps": "https://rpc.ankr.com/…",
-        "lockedLabelWss": "wss://rpc.ankr.com/…",
-        "login-to-proceed": "Login to proceed"
+        "lockedLabelWss": "wss://rpc.ankr.com/…"
       },
       "upgrade-banner": {
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",

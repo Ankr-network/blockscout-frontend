@@ -6,6 +6,8 @@ import { Chain, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';
+import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { Feature, MainEndpoints } from '../MainEndpoints';
 import { root } from '../../const';
@@ -46,6 +48,8 @@ export const Endpoints = ({
 }: EndpointsProps) => {
   const { classes } = useEndpointsStyles();
 
+  const { hasOauthLogin } = useAuth();
+
   const { hasConnectWalletMessage, hasPremium, hasPrivateAccess } = useAuth();
 
   const onCopyEndpoint = useCopyEndpointHandler(chainType);
@@ -56,6 +60,12 @@ export const Endpoints = ({
   );
 
   const { hasWSFeature, wss } = useWsFeatureEndpoints(group);
+
+  const {
+    isOpened: isLoginOpened,
+    onClose: onCloseLogin,
+    onOpen: onOpenLogin,
+  } = useDialog();
 
   const renderContent = useMemo(() => {
     if (hasComingSoonLabel) {
@@ -74,10 +84,12 @@ export const Endpoints = ({
       );
     }
 
+    // Multichain placeholder
     if (placeholder) {
       return (
         <EndpointPlaceholder
-          label={placeholder}
+          onClick={onOpenLogin}
+          lockedLabel={placeholder}
           title={
             <EndpointsHeader
               title={t('chain-item.get-started.endpoints.title-multichain')}
@@ -125,10 +137,22 @@ export const Endpoints = ({
     hasPrivateAccess,
     hasWSFeature,
     onCopyEndpoint,
+    onOpenLogin,
     placeholder,
     publicChain,
     wss,
   ]);
 
-  return <Box className={classes.endpointsList}>{renderContent}</Box>;
+  return (
+    <>
+      <Box className={classes.endpointsList}>{renderContent}</Box>
+      {isLoginOpened && (
+        <SignupDialog
+          onClose={onCloseLogin}
+          isOpen={isLoginOpened}
+          hasOauthLogin={hasOauthLogin}
+        />
+      )}
+    </>
+  );
 };
