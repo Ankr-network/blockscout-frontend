@@ -77,7 +77,7 @@
   },
   "footer": {
     "all-rights": "© {year} Ankr. All rights reserved.",
-    "terms": "Terms of service",
+    "terms": "Terms of use",
     "privacy": "Privacy policy"
   },
   "access-denied-dialog": {
@@ -144,7 +144,7 @@
       "unconnect-meesage": "Wallet integration is currently being updated. In the meantime, please use the desktop version."
     },
     "form": {
-      "terms-of-service": "I agree to <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">Ankr's terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>",
+      "terms-of-service": "I agree to <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">Ankr's terms of use</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>",
       "marketing-emails": "I agree to receive marketing communications from Ankr",
       "no-terms-error": "To continue, you must agree with our Terms of Service and Privacy Policy",
       "auto-agreement-message": "By continuing you agree to our <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>."
