@@ -9,6 +9,7 @@ import {
   sortPublicChains,
 } from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/utils';
 import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 
 export interface ChainsParams {
   chains: Chain[];
@@ -26,7 +27,9 @@ export const useChainsSorting = ({
 }: ChainsParams) => {
   const filteredBySearchChains = useMemo(
     () =>
-      chains.filter(item => item.name.toLowerCase().includes(searchContent)),
+      chains?.filter(chain =>
+        getFilteredChainsByName(chain, searchContent.toLowerCase()),
+      ),
     [chains, searchContent],
   );
 
