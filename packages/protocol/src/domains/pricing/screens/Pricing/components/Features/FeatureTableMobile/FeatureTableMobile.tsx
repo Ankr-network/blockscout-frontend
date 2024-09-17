@@ -9,10 +9,10 @@ import {
 import { useFeatureTableMobileStyles } from './useFeatureTableMobileStyles';
 
 export const FeatureTableMobile = () => {
-  const { classes } = useFeatureTableMobileStyles();
+  const { classes, cx } = useFeatureTableMobileStyles();
 
   return (
-    <div>
+    <div className={classes.root}>
       <Typography variant="h6" className={classes.title}>
         {t(`${INTL_PLAN_COMPARISON_ROOT}.title`)}
       </Typography>
@@ -22,6 +22,9 @@ export const FeatureTableMobile = () => {
             key={`column-${rowIndex + 1}`}
             name={name}
             itemIndex={rowIndex}
+            className={cx(
+              rowIndex === PLAN_COMPARISON.length - 1 && classes.lastItem,
+            )}
           />
         ))}
       </div>

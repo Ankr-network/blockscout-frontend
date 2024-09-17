@@ -1,71 +1,180 @@
 import { Button } from '@mui/material';
-import { t } from '@ankr.com/common';
 import { Check } from '@ankr.com/ui';
 
-import { useActionButtonStyles } from './useActionButtonStyles';
-import { INTL_PLANS_ROOT, EPlanList } from '../../PlansUtils';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
-export interface IActionButtonProps {
-  planName: EPlanList;
-  isButtonDisabled: boolean;
-  isCurrentPlan: boolean;
-  onClick: () => void;
+import { useActionButtonStyles } from './useActionButtonStyles';
+import { plansTranslation } from '../../plansTranslation';
+import { IUseActionButtonProps, useActionButton } from './useActionButton';
+
+export interface IActionButtonProps extends IUseActionButtonProps {
+  isCurrentShortText?: boolean;
+  className?: string;
 }
 
+/* eslint-disable max-lines-per-function */
 export const ActionButton = ({
-  isButtonDisabled,
-  isCurrentPlan,
-  onClick,
+  className,
+  clickCallback,
+  isCurrentShortText = false,
   planName,
 }: IActionButtonProps) => {
   const { classes, cx } = useActionButtonStyles();
 
-  const isFreePlan = planName === EPlanList.Free;
-  const isPremiumPlan = planName === EPlanList.Premium;
+  const { keys, t } = useTranslation(plansTranslation);
 
-  if (isCurrentPlan && isFreePlan) {
+  const {
+    billingPageRedirect,
+    chainsPageRedirect,
+    isButtonDisabledValue,
+    isCurrentPlan,
+    isDealPlan,
+    // isDeveloperRole,
+    isFreePlan,
+    isLoggedIn,
+    isPAYGPlan,
+    openSignupDialog,
+    openTopUpDialog,
+    renderDialogs,
+    shouldShowFreemium,
+  } = useActionButton({ planName, clickCallback });
+
+  const currentPlanText = t(
+    isCurrentShortText ? keys.shortCurrentPlan : keys.currentPlan,
+  );
+
+  if (isFreePlan && isLoggedIn) {
+    return (
+      <>
+        <Button
+          fullWidth
+          disabled
+          className={cx(
+            classes.button,
+            classes.currentPlanButton,
+            classes.freeButton,
+            className,
+          )}
+          variant="outlined"
+          startIcon={shouldShowFreemium && <Check />}
+        >
+          {shouldShowFreemium ? currentPlanText : t(keys.startFree)}
+        </Button>
+      </>
+    );
+  }
+
+  if (isFreePlan && !isLoggedIn) {
     return (
       <Button
         fullWidth
-        disabled
         className={cx(
           classes.button,
           classes.currentPlanButton,
           classes.freeButton,
+          className,
         )}
-        onClick={onClick}
+        onClick={chainsPageRedirect}
         variant="outlined"
-        startIcon={<Check />}
       >
-        {t(`${INTL_PLANS_ROOT}.current-plan`)}
+        {t(keys.startFree)}
       </Button>
     );
   }
 
-  if (isCurrentPlan && isPremiumPlan) {
+  if (isPAYGPlan && !isLoggedIn) {
     return (
-      <Button
-        fullWidth
-        disabled
-        className={cx(classes.button, classes.currentPlanButton)}
-        onClick={onClick}
-        variant="contained"
-        startIcon={<Check />}
-      >
-        {t(`${INTL_PLANS_ROOT}.current-plan`)}
-      </Button>
+      <>
+        <Button
+          fullWidth
+          className={cx(
+            classes.button,
+            isFreePlan && classes.freeButton,
+            className,
+          )}
+          onClick={openSignupDialog}
+          variant={isFreePlan ? 'outlined' : 'contained'}
+          disabled={isButtonDisabledValue}
+        >
+          {t(keys.start)}
+        </Button>
+        {renderDialogs()}
+      </>
+    );
+  }
+
+  if (isPAYGPlan && isLoggedIn) {
+    return (
+      <>
+        <Button
+          fullWidth
+          className={cx(
+            classes.button,
+            isFreePlan && classes.freeButton,
+            className,
+          )}
+          onClick={shouldShowFreemium ? openTopUpDialog : billingPageRedirect}
+          variant={isFreePlan ? 'outlined' : 'contained'}
+          disabled={isButtonDisabledValue}
+        >
+          {t(keys.start)}
+        </Button>
+        {renderDialogs()}
+      </>
+    );
+  }
+
+  if (isDealPlan && !isLoggedIn) {
+    return (
+      <>
+        <Button
+          fullWidth
+          className={cx(
+            classes.button,
+            isFreePlan && classes.freeButton,
+            className,
+          )}
+          onClick={openSignupDialog}
+          variant={isFreePlan ? 'outlined' : 'contained'}
+          disabled={isButtonDisabledValue}
+        >
+          {t(keys.start)}
+        </Button>
+        {renderDialogs()}
+      </>
+    );
+  }
+
+  if (isDealPlan && isLoggedIn && !isCurrentPlan) {
+    return (
+      <>
+        <Button
+          fullWidth
+          className={cx(
+            classes.button,
+            isFreePlan && classes.freeButton,
+            className,
+          )}
+          onClick={shouldShowFreemium ? openTopUpDialog : billingPageRedirect}
+          variant={isFreePlan ? 'outlined' : 'contained'}
+          disabled={isButtonDisabledValue}
+        >
+          {t(keys.start)}
+        </Button>
+        {renderDialogs()}
+      </>
     );
   }
 
   return (
     <Button
       fullWidth
-      className={cx(classes.button, isFreePlan && classes.freeButton)}
-      onClick={onClick}
-      variant={isFreePlan ? 'outlined' : 'contained'}
-      disabled={isButtonDisabled}
+      disabled
+      className={cx(classes.button, classes.currentPlanButton, className)}
+      variant="contained"
+      startIcon={<Check />}
     >
-      {t(`${INTL_PLANS_ROOT}.${planName}.button`)}
+      {currentPlanText}
     </Button>
   );
 };

@@ -1,22 +1,25 @@
-import { EPlanList } from '../PlansUtils';
+import { EChargingModel } from 'modules/payments/types';
+
+import { EGeneralPlanList } from '../PlansUtils';
 
 interface IsCurrentPlanButtonParams {
-  isFinanceRole: boolean;
   isLoggedIn: boolean;
-  hasPremium: boolean;
-  planName: EPlanList;
+  chargingType: EChargingModel;
+  planName: EGeneralPlanList;
 }
 
 export const isCurrentPlanButton = ({
-  hasPremium,
-  isFinanceRole,
+  chargingType,
   isLoggedIn,
   planName,
 }: IsCurrentPlanButtonParams) => {
-  if (isLoggedIn && !isFinanceRole) {
+  if (isLoggedIn) {
     return (
-      (hasPremium && planName === EPlanList.Premium) ||
-      (!hasPremium && planName === EPlanList.Free)
+      (chargingType === EChargingModel.PAYG &&
+        planName === EGeneralPlanList.PayAsYouGo) ||
+      (chargingType === EChargingModel.Deal &&
+        (planName === EGeneralPlanList.Deal ||
+          planName === EGeneralPlanList.PayAsYouGo))
     );
   }
 

@@ -1,16 +1,17 @@
 import { Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
 
-import { INTL_ROOT } from '../../../../const';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+
 import { useBlockStyles } from './useBlockStyles';
-
-const intl = `${INTL_ROOT}.scale-plan`;
+import { scalePlansTranslation } from '../../scalePlansTranslation';
 
 const ROW_COUNTS = 3;
 const COLUMN_COUNTS = 3;
 
 export const Block = () => {
   const { classes } = useBlockStyles();
+
+  const { keys, t } = useTranslation(scalePlansTranslation);
 
   return (
     <div className={classes.block}>
@@ -21,7 +22,7 @@ export const Block = () => {
             variant="subtitle2"
             className={classes.headerItem}
           >
-            {t(`${intl}.header-${index + 1}`)}
+            {t(`${keys}.header${index + 1}`)}
           </Typography>
         ))}
       </div>
@@ -33,7 +34,7 @@ export const Block = () => {
               key={`column-${columnIndex + 1}`}
               className={classes.cell}
             >
-              {t(`${intl}.row-${rowIndex + 1}-column-${columnIndex + 1}`)}
+              {t(`${keys}.row${rowIndex + 1}Column${columnIndex + 1}`)}
             </Typography>
           ))}
         </div>

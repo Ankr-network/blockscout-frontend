@@ -19,16 +19,14 @@ export const usePlansDialogStyles = makeStyles<IPlansDialogStylesParams>()(
     },
     itemWrapper: {
       border: `4px solid ${theme.palette.divider}`,
-      borderRadius: 32,
-    },
-    entreprise: {
-      borderColor: theme.palette.primary.main,
+      borderRadius: 18,
     },
     container: {
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',
       columnGap: theme.spacing(7),
       rowGap: theme.spacing(7),
+      marginBottom: theme.spacing(2),
       minHeight: 470,
 
       [theme.breakpoints.down(DIALOG_BREAKDOWN)]: {
@@ -75,7 +73,7 @@ export const usePlansDialogStyles = makeStyles<IPlansDialogStylesParams>()(
     },
     planRoot: {
       '&&&': {
-        borderRadius: 32,
+        // borderRadius: 32,
       },
     },
     header: {

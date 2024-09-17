@@ -1,12 +1,14 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { getPremiumColorGradient, isLightTheme } from 'uiKit/Theme/themeUtils';
+import { isLightTheme } from 'uiKit/Theme/themeUtils';
 
 export const useFeatureTableStyles = makeStyles()(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    borderRadius: theme.spacing(7.5),
+    borderRadius: 18,
     padding: theme.spacing(7.5),
+    maxWidth: 1240,
+    width: '100%',
   },
   table: {
     borderCollapse: 'collapse',
@@ -36,6 +38,10 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
   },
   rowWithoutBorder: {
     borderBottom: 'none',
+
+    '& td': {
+      borderBottom: 'none',
+    },
   },
   sectionTitle: {
     color: theme.palette.primary.main,
@@ -54,22 +60,18 @@ export const useFeatureTableStyles = makeStyles()(theme => ({
     [`& tr:first-of-type th`]: {
       color: theme.palette.text.primary,
       marginBottom: theme.spacing(1),
-
-      [`&.premium`]: {
-        background: getPremiumColorGradient(theme),
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        WebkitBoxDecorationBreak: 'clone',
-      },
-
-      [`&.enterprise`]: {
-        color: theme.palette.primary.main,
-      },
     },
 
     [`& tr:last-of-type th`]: {
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
     },
+  },
+  headerCell: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing(1.5),
   },
   row: {
     '& td': {
