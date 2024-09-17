@@ -11,7 +11,7 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { referralRoutesConfig } from 'domains/referrals/routes';
+import { referralsRoutesConfig } from 'domains/referrals/routes';
 
 import { ISecondMenuItemsParams } from '../types';
 
@@ -49,7 +49,7 @@ export const getSecondMenuItems = ({
     {
       StartIcon: ReferralIcon,
       blockName: BlockWithPermission.CommonMenuItem,
-      href: referralRoutesConfig.referral.generatePath(),
+      href: referralsRoutesConfig.referrals.generatePath(),
       isHidden: !isLoggedIn,
       label: t('main-navigation.referrals'),
     },

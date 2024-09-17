@@ -1,16 +1,16 @@
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 
-export const REFERRAL_PATH = '/referral/';
+export const REFERRALS_PATH = '/referrals/';
 
-export const REFERRAL_PATHS = [REFERRAL_PATH];
+export const REFERRALS_PATHS = [REFERRALS_PATH];
 
-export const referralRoutesConfig = createRouteConfig(
+export const referralsRoutesConfig = createRouteConfig(
   {
-    referral: {
-      path: REFERRAL_PATH,
-      generatePath: () => REFERRAL_PATH,
-      breadcrumbs: 'referral.breadcrumbs',
+    referrals: {
+      path: REFERRALS_PATH,
+      generatePath: () => REFERRALS_PATH,
+      breadcrumbs: 'referrals.breadcrumbs',
     },
   },
-  REFERRAL_PATH,
+  REFERRALS_PATH,
 );

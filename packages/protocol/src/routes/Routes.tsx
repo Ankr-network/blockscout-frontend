@@ -38,7 +38,7 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { GuardTeamInvitationRoute } from 'domains/userSettings/components/GuardTeamInvitationRoute';
 import { TeamsRoutes, TeamsRoutesConfig } from 'domains/teams/Routes';
-import { REFERRAL_PATHS, ReferralsRoutes } from 'domains/referrals/routes';
+import { REFERRALS_PATHS, ReferralsRoutes } from 'domains/referrals/routes';
 
 import { INDEX_PATH } from './constants';
 import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
@@ -77,7 +77,7 @@ export const Routes = () => {
 
       <GuardAuthRoute
         exact
-        path={REFERRAL_PATHS}
+        path={REFERRALS_PATHS}
         render={() => (
           <DefaultLayout>
             <ReferralsRoutes />

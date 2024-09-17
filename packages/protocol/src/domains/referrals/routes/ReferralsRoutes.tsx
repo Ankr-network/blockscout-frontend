@@ -5,7 +5,7 @@ import { Route } from 'react-router-dom';
 import topBanner from 'domains/referrals/assets/top-banner.png';
 import { preloadImage } from 'modules/common/utils/preloadImage';
 
-import { referralRoutesConfig } from './const';
+import { referralsRoutesConfig } from './const';
 
 const ReferralsPage = loadable(
   async () => {
@@ -23,7 +23,7 @@ export const ReferralsRoutes = () => {
     <Route
       component={ReferralsPage}
       exact
-      path={referralRoutesConfig.referral.path}
+      path={referralsRoutesConfig.referrals.path}
     />
   );
 };

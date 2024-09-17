@@ -163,8 +163,8 @@
     "usd": "{isApproximate, select, true {≈} other {}}{balance, number, USD}",
     "requests": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}"
   },
-  "referral": {
-    "breadcrumbs": "Referral"
+  "referrals": {
+    "breadcrumbs": "Referrals"
   },
   "projects": {
     "onboarding": {
