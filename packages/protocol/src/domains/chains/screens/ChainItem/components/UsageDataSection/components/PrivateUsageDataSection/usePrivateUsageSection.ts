@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { Chain, Timeframe } from 'modules/chains/types';
 import { IChainSelectorContentProps } from 'modules/common/components/ChainSelectorContent';
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { mergeTendermintsGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTendermintsGroups';
 
 import { usePrivateUsageData } from './usePrivateUsageData';
@@ -48,11 +47,6 @@ export const usePrivateUsageSection = (chain: Chain, timeframe: Timeframe) => {
       chainProtocolContext.isChainProtocolSwitchEnabled,
   });
 
-  const { selectedProjectEndpointToken, shouldShowTokenManager } =
-    useTokenManagerConfigSelector();
-  const shouldHideIpsAndRequestsMap =
-    shouldShowTokenManager && selectedProjectEndpointToken;
-
   const mergedGroups = useMemo(() => mergeTendermintsGroups(groups), [groups]);
 
   const chainSelectorProps: IChainSelectorContentProps = {
@@ -77,7 +71,6 @@ export const usePrivateUsageSection = (chain: Chain, timeframe: Timeframe) => {
     error,
     isConnecting,
     loading,
-    shouldHideIpsAndRequestsMap,
     totalCost,
     totalRequests,
     totalRequestsHistory,
