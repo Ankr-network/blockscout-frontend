@@ -26,7 +26,7 @@ import { getTxCurrency } from '../utils/getTxCurrency';
 import { isRewardConversionReason } from '../utils/isRewardConversionReason';
 import { useTransactionsDownloader } from './useTransactionsDownloader';
 
-const getTypeString = (type: PaymentType, reason: string) => {
+const getTypeString = (type: PaymentType, reason?: string) => {
   const isReferralReward = isRewardConversionReason(reason);
 
   if (isReferralReward) {

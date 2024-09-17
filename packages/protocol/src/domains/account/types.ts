@@ -25,7 +25,7 @@ export interface IPaymentHistoryTableEntity {
   creditVoucherAmount: string;
   currencyAddress?: Address;
   network?: EBlockchain;
-  reason: string;
+  reason?: string;
   timestamp: string;
   txHash?: string;
   type: PaymentType;

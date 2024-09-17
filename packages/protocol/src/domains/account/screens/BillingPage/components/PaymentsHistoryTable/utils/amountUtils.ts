@@ -19,7 +19,7 @@ interface GetAmountArguments {
   amountUsd: string;
   creditAnkrAmount: string;
   creditUsdAmount: string;
-  reason: string;
+  reason?: string;
   type: string;
 }
 
