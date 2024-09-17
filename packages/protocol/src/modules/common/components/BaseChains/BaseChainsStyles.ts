@@ -8,5 +8,9 @@ export const useBaseChainsStyles = makeStyles()(theme => ({
   },
   baseChainsTitle: {
     marginBottom: theme.spacing(8),
+
+    [theme.breakpoints.down('sm')]: {
+      fontSize:theme.spacing(7),
+    },
   },
 }));

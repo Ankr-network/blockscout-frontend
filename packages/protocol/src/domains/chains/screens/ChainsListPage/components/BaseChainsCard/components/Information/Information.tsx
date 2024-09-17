@@ -12,10 +12,12 @@ export interface IInformationProps {
   totalRequests: string;
   isRequestsDisabled?: boolean;
   shouldShowDashInsteadOfRequestsString?: boolean;
+  isTitleHidden?: boolean;
 }
 
 export const Information = ({
   isRequestsDisabled,
+  isTitleHidden,
   shouldShowDashInsteadOfRequestsString,
   timeframe,
   totalRequests,
@@ -51,11 +53,13 @@ export const Information = ({
 
   return (
     <>
-      <Typography color="textSecondary" variant="body4" component="p">
-        {t(keys.requestsTitle, {
-          value: getTimeframeValue(timeframe),
-        })}
-      </Typography>
+      {!isTitleHidden && (
+        <Typography color="textSecondary" variant="body4" component="p">
+          {t(keys.requestsTitle, {
+            value: getTimeframeValue(timeframe),
+          })}
+        </Typography>
+      )}
       <Typography
         variant="body3"
         color={

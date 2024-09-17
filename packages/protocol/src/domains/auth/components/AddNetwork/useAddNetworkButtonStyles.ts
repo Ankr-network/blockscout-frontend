@@ -8,4 +8,11 @@ export const useAddNetworkButtonStyles = makeStyles()(theme => ({
   addNetworkDialog: {
     minWidth: 400,
   },
+  placeholder: {
+    width: 38,
+
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
+  },
 }));

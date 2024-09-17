@@ -10,12 +10,14 @@ import { selectNodesDetails } from 'modules/chains/store/selectors';
 import { Chain } from 'modules/chains/types';
 import { checkIsArchive } from 'modules/chains/utils/isArchive';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { ChainLogo } from '../ChainLogo';
 import { useChainDescriptionStyles } from './useChainDescriptionStyles';
 
 interface IChainDescriptionProps {
   className?: string;
+  classNameChainName?: string;
   chain: Chain;
   logoSize?: number;
   subchainLabels?: string[];
@@ -25,6 +27,7 @@ interface IChainDescriptionProps {
 export const ChainDescription = ({
   chain,
   className,
+  classNameChainName,
   isCompactView,
   logoSize,
   subchainLabels,
@@ -45,6 +48,8 @@ export const ChainDescription = ({
 
   const hasLabels = hasPremiumLabel || isArchive || hasChainLabels;
 
+  const isXsDown = useIsXSDown();
+
   const { classes, cx } = useChainDescriptionStyles();
 
   return (
@@ -59,9 +64,13 @@ export const ChainDescription = ({
           <Typography
             variant="subtitle1"
             color="textPrimary"
-            className={cx(classes.chainName, {
-              [classes.chainNameSmall]: isCompactView,
-            })}
+            className={cx(
+              classes.chainName,
+              {
+                [classes.chainNameSmall]: isCompactView,
+              },
+              classNameChainName,
+            )}
           >
             {name}
           </Typography>
@@ -79,7 +88,7 @@ export const ChainDescription = ({
             {isArchive && (
               <div className={cx(hasPremiumLabel && classes.dot)}>
                 <ChainLabel
-                  isCheckIconVisible
+                  isCheckIconVisible={!isXsDown}
                   label={t('chains.archive')}
                   labelClassName={classes.archiveLabel}
                 />

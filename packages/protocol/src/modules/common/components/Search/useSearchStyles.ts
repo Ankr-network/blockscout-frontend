@@ -27,8 +27,6 @@ export const useSearchStyles = makeStyles<boolean>()(
       visibility: hasSearchContent ? 'visible' : 'hidden',
     },
     icon: {
-      height: 20,
-      width: 20,
       '& > svg': {
         height: 20,
         width: 20,

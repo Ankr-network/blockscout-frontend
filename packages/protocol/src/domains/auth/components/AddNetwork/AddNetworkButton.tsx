@@ -1,5 +1,5 @@
 import React, { Fragment, ReactNode, useCallback } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
 
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
@@ -18,7 +18,7 @@ import {
   selectBlockchainBySubchainId,
   selectPublicChainById,
 } from 'modules/chains/store/selectors';
-import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
+import { GuardResolution } from 'modules/common/components/GuardResolution';
 
 import { useAddNetworkButton } from './useAddNetworkButton';
 import { useNetworksButtonTranslations } from './translation';
@@ -31,12 +31,14 @@ interface IAddNetworkProps {
   size?: 'large' | 'medium' | 'small';
   isEnterprise?: boolean;
   hasChainSelector?: boolean;
+  hasPlaceholder?: boolean;
 }
 
 export const AddNetworkButton = ({
   chain,
   className,
   hasChainSelector,
+  hasPlaceholder,
   isEnterprise,
   label,
   size,
@@ -98,6 +100,10 @@ export const AddNetworkButton = ({
   );
 
   if (shouldHideButton) {
+    if (hasPlaceholder) {
+      return <Box className={classes.placeholder} />;
+    }
+
     return null;
   }
 
