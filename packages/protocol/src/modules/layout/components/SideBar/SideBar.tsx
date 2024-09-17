@@ -32,7 +32,6 @@ export const SideBar = ({
   const bannerHeight = useHeaderBannerHeight();
   const { classes, cx } = useStyles({ isMobileSideBar, bannerHeight });
   const {
-    balance,
     balanceInRequests,
     creditBalance,
     currentChargingModel,
@@ -51,12 +50,11 @@ export const SideBar = ({
       )}
       <div className={classes.balanceRoot}>
         <BalanceMenuContent
-          currentChargingModel={currentChargingModel}
-          balance={balance}
-          creditBalance={creditBalance}
-          usdBalance={usdBalance}
           balanceInRequests={balanceInRequests}
+          creditBalance={creditBalance}
+          currentChargingModel={currentChargingModel}
           isApiCreditsBalance={isApiCreditsBalance}
+          usdBalance={usdBalance}
         />
       </div>
       <MainNavigation

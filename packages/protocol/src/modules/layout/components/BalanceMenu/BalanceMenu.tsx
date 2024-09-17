@@ -20,7 +20,6 @@ const buttonKey = 'header.balance-menu.billing-page-button';
 
 export const BalanceMenu = ({
   anchorEl,
-  balance,
   balanceInRequests,
   creditBalance,
   currentChargingModel,
@@ -55,12 +54,11 @@ export const BalanceMenu = ({
     >
       <div className={classes.root}>
         <BalanceMenuContent
-          currentChargingModel={currentChargingModel}
-          balance={balance}
-          creditBalance={creditBalance}
-          usdBalance={usdBalance}
           balanceInRequests={balanceInRequests}
+          creditBalance={creditBalance}
+          currentChargingModel={currentChargingModel}
           isApiCreditsBalance={isApiCreditsBalance}
+          usdBalance={usdBalance}
         />
 
         <Button

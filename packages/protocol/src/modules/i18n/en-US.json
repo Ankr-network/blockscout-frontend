@@ -124,9 +124,7 @@
     },
     "balance-menu": {
       "title": "Charging",
-      "billing-page-button": "Go to Billing page",
-      "usd-balance": "${balance}",
-      "req-balance": " / ≈{balance, number, ::compact-short} reqs"
+      "billing-page-button": "Go to Billing page"
     }
   },
   "signup-modal": {
