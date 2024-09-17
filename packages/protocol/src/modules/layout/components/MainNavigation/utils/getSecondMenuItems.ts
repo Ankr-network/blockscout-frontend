@@ -1,4 +1,9 @@
-import { NavBarPricing, NavBarBilling, NavBarSettings, ReferralIcon } from '@ankr.com/ui';
+import {
+  NavBarPricing,
+  NavBarBilling,
+  NavBarSettings,
+  ReferralIcon,
+} from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
 import { AccountRoutesConfig } from 'domains/account/Routes';
@@ -6,7 +11,7 @@ import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { NavigationItem } from 'modules/common/components/Navigation/BaseNavButton';
 import { PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { referralRoutesConfig } from 'domains/referral/routes';
+import { referralRoutesConfig } from 'domains/referrals/routes';
 
 import { ISecondMenuItemsParams } from '../types';
 
@@ -46,7 +51,7 @@ export const getSecondMenuItems = ({
       blockName: BlockWithPermission.CommonMenuItem,
       href: referralRoutesConfig.referral.generatePath(),
       isHidden: !isLoggedIn,
-      label: t('main-navigation.referral'),
+      label: t('main-navigation.referrals'),
     },
   ];
 
