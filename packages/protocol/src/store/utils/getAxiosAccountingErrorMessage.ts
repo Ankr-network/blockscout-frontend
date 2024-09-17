@@ -7,5 +7,5 @@ export const getAxiosAccountingErrorMessage = (
   axiosAccountError: AxiosError<AccountingErrorResponse>,
 ) =>
   capitalize(
-    axiosAccountError.response?.data.error.message ?? t('error.unexpected'),
+    axiosAccountError.response?.data.error.message || t('error.unexpected'),
   );

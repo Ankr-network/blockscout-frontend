@@ -8,7 +8,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider
 
 export const useEnterpriseChainItemBreadcrumbs = (chainName: string) => {
   const chainsOriginURL =
-    useSelector(selectChainsOriginURL) ?? EnterpriseRoutesConfig.chains.path;
+    useSelector(selectChainsOriginURL) || EnterpriseRoutesConfig.chains.path;
 
   const routeTitle = {
     title: chainName,

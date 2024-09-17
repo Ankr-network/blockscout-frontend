@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IWorkerGlobalStatus } from 'multirpc-sdk';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { web3Api } from 'store/queries';
 
 export interface StandaloneStatsParams {

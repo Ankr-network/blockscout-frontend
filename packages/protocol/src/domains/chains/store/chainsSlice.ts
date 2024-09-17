@@ -1,7 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { Chain } from '@ankr.com/chains-list';
 
 import { RootState } from 'store';
-import { Chain } from 'modules/chains/types';
 import { selectPublicBlockchains } from 'modules/chains/store/selectors';
 
 export interface ChainsSliceInitialState {

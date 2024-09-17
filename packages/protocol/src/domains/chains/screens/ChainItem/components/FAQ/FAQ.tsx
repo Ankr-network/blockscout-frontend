@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { uid } from 'react-uid';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { ChainID } from 'modules/chains/types';
 
 import { Question } from './components/Question/Question';
 import { faqTranslation } from './translation';

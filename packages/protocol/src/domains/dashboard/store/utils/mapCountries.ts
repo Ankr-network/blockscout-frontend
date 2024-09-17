@@ -8,9 +8,9 @@ export const mapRegionName = (key: string): string => {
   let regionName = '';
 
   try {
-    regionName = regionNames.of(key) ?? '';
+    regionName = regionNames.of(key) || '';
   } catch {
-    regionName = key ?? t('dashboard.top-countries.unknown');
+    regionName = key || t('dashboard.top-countries.unknown');
   }
 
   return regionName;

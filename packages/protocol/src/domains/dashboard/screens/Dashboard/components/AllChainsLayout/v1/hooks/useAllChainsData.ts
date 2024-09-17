@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
   selectAllTimeTotalRequestsNumber,

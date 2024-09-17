@@ -1,4 +1,5 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
+
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 import { selectIsLightTheme } from 'modules/layout/store/themeSlice';
 import { useAppSelector } from 'store/useAppSelector';

@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { getChainName } from 'uiKit/utils/metatags';
-import { Chain } from 'modules/chains/types';
 
 import { useNetId } from './useNetId';
 

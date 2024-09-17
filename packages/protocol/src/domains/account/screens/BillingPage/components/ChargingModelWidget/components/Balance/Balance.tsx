@@ -30,7 +30,7 @@ export const Balance = ({
 
   const [balance, balanceKey] = shouldUseRequests
     ? [balanceInRequests, requestsIntlKey]
-    : [creditBalance ?? 0, creditIntlKey];
+    : [creditBalance || 0, creditIntlKey];
 
   return (
     <BalanceTooltip balance={balance}>

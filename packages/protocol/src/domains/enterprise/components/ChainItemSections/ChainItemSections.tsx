@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { ChainType } from '@ankr.com/chains-list';
 
-import { ChainType } from 'modules/chains/types';
 import { TabsManager } from 'uiKit/TabsManager';
 import { useChainItemSectionsStyles } from 'domains/chains/screens/ChainItem/components/ChainItemSections/ChainItemSectionsStyles';
 import { IChainItemTabsProps } from 'domains/chains/screens/ChainItem/components/ChainItemSections';

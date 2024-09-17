@@ -20,9 +20,9 @@ export const InputField = ({
 }: InputFieldProps) => {
   const { classes, cx } = useInputFieldStyles();
 
-  const maxLength: number | null = rest.inputProps?.maxLength ?? null;
+  const maxLength: number | null = rest.inputProps?.maxLength || null;
 
-  const inputClasses = InputProps.classes ?? {};
+  const inputClasses = InputProps.classes || {};
 
   const helperText = useMemo(() => {
     const text = getHelperText({

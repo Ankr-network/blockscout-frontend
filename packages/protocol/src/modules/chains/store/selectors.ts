@@ -1,10 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
+import {
+  formatChainsConfigToChains,
+  ChainID,
+  ChainPath,
+} from '@ankr.com/chains-list';
 
 import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { chainsFetchBlockchains } from 'modules/chains/actions/fetchBlockchains';
-import { ChainID, ChainPath } from 'modules/chains/types';
-import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
 import { getAddIsArchiveCB } from 'modules/chains/utils/isArchive';
 import { getUniqueArray } from 'modules/common/utils/getUniqueArray';

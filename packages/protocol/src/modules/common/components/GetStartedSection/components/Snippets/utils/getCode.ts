@@ -1,5 +1,6 @@
+import { ChainURL } from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
-import { ChainURL } from 'modules/chains/types';
 
 import { Technology } from '../../../types';
 import { templatesMap, urlPlaceHolder } from '../const';

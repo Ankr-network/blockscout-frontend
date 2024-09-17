@@ -1,4 +1,5 @@
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
+
 import { WhitelistItemChainsSelectorTitle } from 'domains/projects/components/WhitelistItemChainsSelectorTitle';
 import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 

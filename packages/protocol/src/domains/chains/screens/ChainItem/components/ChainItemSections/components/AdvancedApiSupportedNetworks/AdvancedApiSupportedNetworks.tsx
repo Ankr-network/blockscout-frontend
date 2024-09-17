@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
+import { ADVANCED_API_CHAINS } from '@ankr.com/chains-list';
 
-import { ADVANCED_API_CHAINS } from 'modules/chains/types';
 import { ChainItem } from 'modules/chains/components/ChainItem';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 

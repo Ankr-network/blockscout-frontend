@@ -1,6 +1,6 @@
 import { AccordionDetails, Box } from '@mui/material';
+import { ChainPath } from '@ankr.com/chains-list';
 
-import { ChainPath } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useTreeStyles } from 'modules/common/styles/useTreeStyles';
 

@@ -34,7 +34,7 @@ export interface TabsParams<TI = DefaultTabID> {
 }
 
 const getSelectedTabID = <TI>(tabs: Tab<TI>[], initialTabID?: TabID<TI>) =>
-  initialTabID ?? tabs.find(({ isDisabled }) => !isDisabled)?.id;
+  initialTabID || tabs.find(({ isDisabled }) => !isDisabled)?.id;
 
 export type Tabs<TI = DefaultTabID> = [
   Tab<TI>[],

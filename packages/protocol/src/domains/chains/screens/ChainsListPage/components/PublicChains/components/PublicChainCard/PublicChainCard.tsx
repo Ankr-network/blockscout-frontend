@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { Lock } from '@ankr.com/ui';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
 
 import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
-import { Chain, Timeframe } from 'modules/chains/types';
 import { CopyEndpointModal } from 'modules/chains/components/CopyEndpointModal';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';

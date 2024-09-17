@@ -73,7 +73,7 @@ export const MethodCallsTable = ({
                 <TableCell className={classes.cell}>{count}</TableCell>
                 {!isCostHidden && (
                   <TableCell className={classes.cell}>
-                    {total_cost ?? 0}
+                    {total_cost || 0}
                   </TableCell>
                 )}
                 <TableCell className={classes.cell}>

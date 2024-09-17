@@ -1,5 +1,6 @@
+import { ChainID } from '@ankr.com/chains-list';
+
 import { chainGroups } from 'modules/endpoints/constants/groups';
-import { ChainID } from 'modules/chains/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
 import { isBeacon, isOpnode } from '../../../domains/chains/utils/isBeacon';

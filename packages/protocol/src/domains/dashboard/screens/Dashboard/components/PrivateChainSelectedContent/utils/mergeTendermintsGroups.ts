@@ -27,12 +27,12 @@ export const mergeTendermintsGroups = (groups: EndpointGroup[]) => {
             name: 'Tendermint',
             pluralName: 'Tendermint',
             urls: [
-              ...(tendermintRpc?.urls ?? []),
-              ...(tendermintRest?.urls ?? []),
+              ...(tendermintRpc?.urls || []),
+              ...(tendermintRest?.urls || []),
             ],
             urlsCount:
-              (tendermintRpc?.urlsCount ?? 0) +
-              (tendermintRest?.urlsCount ?? 0),
+              (tendermintRpc?.urlsCount || 0) +
+              (tendermintRest?.urlsCount || 0),
           };
         }
 

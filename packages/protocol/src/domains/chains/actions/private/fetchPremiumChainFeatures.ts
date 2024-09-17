@@ -1,7 +1,8 @@
+import { Chain } from '@ankr.com/chains-list';
+
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { Chain } from 'modules/chains/types';
 import {
   selectConfiguredBlockchainsForToken,
   selectPublicBlockchains,

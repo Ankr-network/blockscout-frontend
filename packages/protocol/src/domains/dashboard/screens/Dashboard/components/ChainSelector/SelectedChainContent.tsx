@@ -1,4 +1,5 @@
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
+
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 
 import { SelectedContent } from './SelectedContent';

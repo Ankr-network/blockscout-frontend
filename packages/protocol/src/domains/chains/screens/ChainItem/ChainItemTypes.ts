@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 export interface ChainItemProps {
   chainId: ChainID;

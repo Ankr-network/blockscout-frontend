@@ -20,7 +20,7 @@ export const getDealChargingModelData = ({
       dealChargingModel.counters?.find(
         counter => counter.type === BundleType.COST,
       )?.count,
-    ) ?? 0;
+    ) || 0;
 
   const balanceUsd = balanceApiCredits / CREDITS_TO_USD_RATE;
   const balanceInRequests = balanceApiCredits / CREDITS_TO_REQUESTS_RATE;
@@ -68,7 +68,7 @@ export const getDealChargingModelData = ({
     progressLabel,
     maxLabel,
     expires: dealChargingModel.expires,
-    price: +(relatedBundle?.price?.amount ?? 0),
+    price: +(relatedBundle?.price?.amount || 0),
   };
 
   return chargingModelDeal;

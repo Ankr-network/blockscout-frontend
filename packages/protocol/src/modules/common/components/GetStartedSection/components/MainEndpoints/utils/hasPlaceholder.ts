@@ -1,6 +1,4 @@
-import { BlockchainType } from 'multirpc-sdk';
-
-import { Chain } from 'modules/chains/types';
+import { EBlockchainType, Chain } from '@ankr.com/chains-list';
 
 export const hasPlaceholder = (
   subchain?: Chain,
@@ -9,7 +7,8 @@ export const hasPlaceholder = (
   if (hasPrivateAccess) return false;
 
   const isMainnetForPremiumOnly =
-    subchain?.type === BlockchainType.Mainnet && subchain?.isMainnetPremiumOnly;
+    subchain?.type === EBlockchainType.Mainnet &&
+    subchain?.isMainnetPremiumOnly;
 
   const isPremiumOnly = Boolean(subchain?.premiumOnly);
 

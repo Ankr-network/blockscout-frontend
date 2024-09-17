@@ -1,4 +1,5 @@
-import { Chain, ChainType } from 'modules/chains/types';
+import { Chain, ChainType } from '@ankr.com/chains-list';
+
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 
 interface CheckSubnetsArguments {

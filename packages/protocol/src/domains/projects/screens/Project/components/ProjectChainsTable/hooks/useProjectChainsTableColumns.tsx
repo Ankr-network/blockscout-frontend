@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
+import { ChainPath } from '@ankr.com/chains-list';
 
 import { ArchiveMethodsCell } from 'domains/projects/components/ArchiveMethodsCell';
 import { ArchiveMethodsCellHeader } from 'domains/projects/components/ArchiveMethodsCellHeader';
-import { ChainPath } from 'modules/chains/types';
 import { ChainsTableColumn } from 'domains/projects/components/ChainsTable';
 
 import { ProjectChainItemCellWrapper } from '../../ProjectChainItemColumnWrapper';

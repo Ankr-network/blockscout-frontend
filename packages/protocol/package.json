@@ -26,12 +26,16 @@
   "homepage": "/rpc",
   "dependencies": {
     "@ankr.com/assets": "^0.0.6",
+    "@ankr.com/chains-list": "*",
     "@ankr.com/common": "*",
     "@ankr.com/cross-navigation": "^2.0.5",
     "@ankr.com/provider": "^4.20.0",
     "@ankr.com/telemetry": "*",
     "@ankr.com/ui": "^0.13.60",
     "@ankr.com/utils": "^1.1.1",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-syntax-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.24.7",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@loadable/component": "^5.14.1",
@@ -141,20 +145,11 @@
       "eslint"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not ie <= 99",
-      "not android <= 4.4.4",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "reactSnap": {
     "concurrency": 4,
     "puppeteerArgs": [

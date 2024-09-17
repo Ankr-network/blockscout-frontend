@@ -32,7 +32,7 @@ export const getRows = (
     const { continent, isPremium } = node;
     const continetScoreItem = {
       continent,
-      isPremium: isPremium ?? false,
+      isPremium: isPremium || false,
       freeCount: PREMIUM_MULTIPLIER,
       premiumCount: PREMIUM_MULTIPLIER,
       freePercent: '0',
@@ -51,7 +51,7 @@ export const getRows = (
 
       existContinentScoreItem.premiumCount += PREMIUM_MULTIPLIER;
 
-      existContinentScoreItem.isPremium = isPremium ?? false;
+      existContinentScoreItem.isPremium = isPremium || false;
     } else {
       continentsScore.push(continetScoreItem);
     }

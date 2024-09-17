@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
-
-import { Chain, ChainID } from 'modules/chains/types';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { ChainGroup, ChainGroupID, EndpointGroup } from '../types';
 import { isMainnet } from '../../common/constants/const';

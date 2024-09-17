@@ -1,4 +1,5 @@
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
+
 import { USAGE_FULL_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 import { useSwitcher } from 'modules/common/hooks/useSwitcher';
 

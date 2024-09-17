@@ -79,7 +79,7 @@ export const {
               NotificationActions.showNotification({
                 message: t(
                   `user-settings.login-methods.notifications.${
-                    provider ?? OauthLoginProvider.Google
+                    provider || OauthLoginProvider.Google
                   }-connected`,
                 ),
                 severity: 'success',

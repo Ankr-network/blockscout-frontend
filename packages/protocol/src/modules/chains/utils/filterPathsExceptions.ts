@@ -1,4 +1,4 @@
-import { ChainID, ChainPath } from '../types';
+import { ChainID, ChainPath } from '@ankr.com/chains-list';
 
 const PATHS_EXCEPTIONS = [
   ChainID.HORIZEN,

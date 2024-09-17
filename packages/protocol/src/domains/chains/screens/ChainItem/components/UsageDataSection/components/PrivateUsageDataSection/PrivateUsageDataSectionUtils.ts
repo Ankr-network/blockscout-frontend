@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { mapUsageDataForChartWidget } from 'modules/chains/utils/mapUsageDataForChartWidget';
 
 import { UsageData } from '../../types';

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { useOnScreen } from 'modules/common/hooks/useOnScreen';
 

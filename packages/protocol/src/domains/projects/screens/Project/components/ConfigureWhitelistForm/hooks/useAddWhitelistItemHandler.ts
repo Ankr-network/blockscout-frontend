@@ -1,7 +1,7 @@
 import { UserEndpointTokenMode, WhitelistItem } from 'multirpc-sdk';
 import { useMemo } from 'react';
+import { ChainPath } from '@ankr.com/chains-list';
 
-import { ChainPath } from 'modules/chains/types';
 import { useReplaceWhitelistHandler } from 'domains/projects/hooks/useReplaceWhitelistHandler';
 
 export interface UseAddWhitelistItemHandlerParams {

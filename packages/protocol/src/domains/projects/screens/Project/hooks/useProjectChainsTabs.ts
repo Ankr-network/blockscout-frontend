@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
-import { Chain } from 'modules/chains/types';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useTabs } from 'modules/common/hooks/useTabs';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';

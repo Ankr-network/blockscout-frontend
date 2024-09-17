@@ -1,4 +1,5 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
+
 import { GetState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';

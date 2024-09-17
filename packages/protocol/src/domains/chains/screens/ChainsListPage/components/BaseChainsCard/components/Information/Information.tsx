@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { useCallback } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 

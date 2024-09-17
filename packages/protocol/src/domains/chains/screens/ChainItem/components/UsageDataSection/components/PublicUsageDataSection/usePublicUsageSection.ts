@@ -1,6 +1,7 @@
+import { Chain, Timeframe } from '@ankr.com/chains-list';
+
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
 import { IChainSelectorContentProps } from 'modules/common/components/ChainSelectorContent';
-import { Chain, Timeframe } from 'modules/chains/types';
 
 import { usePublicUsageData } from './usePublicUsageData';
 

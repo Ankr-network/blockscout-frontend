@@ -1,4 +1,5 @@
 import { PrivateStats } from 'multirpc-sdk';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { RootState } from 'store';
 import {
@@ -6,7 +7,6 @@ import {
   selectBlockchainBySubchainId,
   selectChainIdsByPaths,
 } from 'modules/chains/store/selectors';
-import { ChainID } from 'modules/chains/types';
 
 import { sumSubchainsTotalRequest } from '../store/utils/sumSubchainsTotalRequest';
 

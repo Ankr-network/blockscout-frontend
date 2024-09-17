@@ -1,4 +1,5 @@
-import { ChainType as Type } from 'modules/chains/types';
+import { ChainType as Type } from '@ankr.com/chains-list';
+
 import { ChainTypeTab } from 'domains/chains/screens/ChainItem/components/ChainTypeTab';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
@@ -41,7 +42,7 @@ export const getPrivateChainTypeTabs = ({
           const label = isBlocked ? (
             <LockedTab title={title} />
           ) : (
-            title?.toString() ?? ''
+            title?.toString() || ''
           );
 
           return (

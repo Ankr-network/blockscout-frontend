@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { Chain } from '@ankr.com/chains-list';
 
 import { ChainRequestsLabel } from 'domains/chains/components/ChainRequestsLabel';
 import { PremiumLabel } from 'modules/common/components/GetStartedSection/components/PremiumLabel';
@@ -7,7 +8,6 @@ import { ChainLabel } from 'modules/common/components/ChainMainInfo/ChainLabel';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectNodesDetails } from 'modules/chains/store/selectors';
-import { Chain } from 'modules/chains/types';
 import { checkIsArchive } from 'modules/chains/utils/isArchive';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';

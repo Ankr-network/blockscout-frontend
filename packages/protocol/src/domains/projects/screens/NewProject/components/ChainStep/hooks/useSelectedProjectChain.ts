@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-
-import { Chain, ChainID } from 'modules/chains/types';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 export const useSelectedProjectChain = (
   initiallySelectedChainIds: ChainID[],

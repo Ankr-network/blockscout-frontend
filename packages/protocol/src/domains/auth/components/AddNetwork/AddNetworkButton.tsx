@@ -1,9 +1,9 @@
 import React, { Fragment, ReactNode, useCallback } from 'react';
 import { Box, Button } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
+import { Chain } from '@ankr.com/chains-list';
 
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
-import { Chain } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { useDialog } from 'modules/common/hooks/useDialog';

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-
-import { ChainPath } from 'modules/chains/types';
+import { ChainPath } from '@ankr.com/chains-list';
 
 import { updateSelectedPaths } from './useSelectedProjectChainsPaths';
 import { useProjectChainsContext } from './useProjectChainsContext';

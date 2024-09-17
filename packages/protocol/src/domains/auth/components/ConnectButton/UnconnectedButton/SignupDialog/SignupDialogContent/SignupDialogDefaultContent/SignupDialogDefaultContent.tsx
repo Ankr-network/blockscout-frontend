@@ -34,7 +34,7 @@ export const SignupDialogDefaultContent = ({
       handleSetSignupSettings(Boolean(hasMarketing));
 
       if (loginType === OauthLoginType.Google) {
-        const isTeamInvitation = isTeamInvitationQuery(location?.search ?? '');
+        const isTeamInvitation = isTeamInvitationQuery(location?.search || '');
 
         if (isTeamInvitation && shouldSaveTeamInvitationLink) {
           window.localStorage.setItem(

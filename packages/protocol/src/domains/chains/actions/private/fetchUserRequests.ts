@@ -1,4 +1,5 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import {
   handleData,
@@ -6,7 +7,6 @@ import {
 } from 'domains/chains/utils/requestsBannerUtils';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { Timeframe } from 'modules/chains/types';
 
 interface FetchUserRequestsParams extends IApiUserGroupParams {
   timeframe: Timeframe;

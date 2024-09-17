@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
 import React from 'react';
 import { t } from '@ankr.com/common';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { Dialog } from 'uiKit/Dialog';
-import { Chain, ChainID } from 'modules/chains/types';
 import { evmGroups } from 'modules/endpoints/constants/evmGroups';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { ChainLogo } from 'modules/chains/components/ChainLogo';

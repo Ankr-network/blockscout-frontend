@@ -4,8 +4,7 @@ import { CSVLink } from 'react-csv';
 import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { Download } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { ItemHeader } from '../../../ItemHeader';
 import { useHeaderStyles } from './useHeaderStyles';

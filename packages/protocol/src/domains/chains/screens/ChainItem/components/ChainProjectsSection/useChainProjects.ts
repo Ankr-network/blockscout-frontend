@@ -1,4 +1,5 @@
-import { Chain, Timeframe } from 'modules/chains/types';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
+
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useProjectsDataParams } from 'domains/projects/hooks/useProjectsDataParams';
 import { useFetchWhitelistsBlockchainsQuery } from 'domains/projects/actions/fetchWhitelistsBlockchains';

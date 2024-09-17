@@ -10,7 +10,7 @@ export const useBaseChainsStyles = makeStyles()(theme => ({
     marginBottom: theme.spacing(8),
 
     [theme.breakpoints.down('sm')]: {
-      fontSize:theme.spacing(7),
+      fontSize: theme.spacing(7),
     },
   },
 }));

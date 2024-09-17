@@ -1,4 +1,5 @@
-import { ChainID, Chain, ChainType, ChainSubType } from 'modules/chains/types';
+import { ChainID, Chain, ChainType, ChainSubType } from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
 import {
   decomposeChainIntoIds,

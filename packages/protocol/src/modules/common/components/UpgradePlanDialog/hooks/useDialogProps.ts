@@ -20,7 +20,7 @@ export const useDialogProps = ({
 
   return {
     children: getContent({
-      contentType: defaultState ?? contentType,
+      contentType: defaultState || contentType,
       onClose,
       resetTitle,
     }),

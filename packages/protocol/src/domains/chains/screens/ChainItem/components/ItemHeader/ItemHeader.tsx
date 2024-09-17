@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { Typography } from '@mui/material';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { useItemHeaderStyles } from './useItemHeaderStyles';
 import { getLabelByTimeframe } from '../UsageDataSection/UsageDataSectionUtils';

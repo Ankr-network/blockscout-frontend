@@ -1,6 +1,6 @@
 import { tHTML } from '@ankr.com/common';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { useAuth } from 'domains/auth/hooks/useAuth';

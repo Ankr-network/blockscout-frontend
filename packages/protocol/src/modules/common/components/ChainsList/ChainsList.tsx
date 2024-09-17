@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { useChainListStyles } from 'domains/chains/components/ChainsList/useChainListStyles';
 import { EChainView } from 'domains/chains/screens/ChainsListPage/components/ChainViewSelector';
-import { Timeframe } from 'modules/chains/types';
 import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 
 import { NoResult } from '../NoResult';

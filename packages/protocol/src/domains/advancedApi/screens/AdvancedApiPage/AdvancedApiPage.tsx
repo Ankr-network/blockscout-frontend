@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { CONTAINER_STYLES } from 'modules/layout/components/DefautLayout';
-import { ChainID } from 'modules/chains/types';
 import { PrivateChainItemWrapper } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery';
 import { PublicChainItemWrapper } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper';
 import { useAuth } from 'domains/auth/hooks/useAuth';

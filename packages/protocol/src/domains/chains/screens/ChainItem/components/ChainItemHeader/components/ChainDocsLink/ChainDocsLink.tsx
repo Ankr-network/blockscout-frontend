@@ -2,8 +2,8 @@ import { Doc } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 import { Typography } from '@mui/material';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 import { NavLink } from 'uiKit/NavLink';
 

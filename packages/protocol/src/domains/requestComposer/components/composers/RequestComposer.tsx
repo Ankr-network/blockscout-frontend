@@ -1,4 +1,5 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
+
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 
 import { AvalancheRequestComposer } from './AvalancheRequestComposer';

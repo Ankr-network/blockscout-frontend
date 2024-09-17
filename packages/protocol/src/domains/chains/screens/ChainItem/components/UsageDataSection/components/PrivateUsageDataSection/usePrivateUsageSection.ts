@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
 
-import { Chain, Timeframe } from 'modules/chains/types';
 import { IChainSelectorContentProps } from 'modules/common/components/ChainSelectorContent';
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
 import { mergeTendermintsGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTendermintsGroups';

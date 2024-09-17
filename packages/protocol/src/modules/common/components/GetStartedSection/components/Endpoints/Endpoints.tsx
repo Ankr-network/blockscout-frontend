@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
+import { Chain, ChainType } from '@ankr.com/chains-list';
 
-import { Chain, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCopyEndpointHandler } from 'domains/chains/hooks/useCopyEndpointHandler';

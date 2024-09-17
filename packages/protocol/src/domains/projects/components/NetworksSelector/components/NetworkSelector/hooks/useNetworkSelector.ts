@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
+import { ChainPath } from '@ankr.com/chains-list';
 
-import { ChainPath } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectChainPathsByIds } from 'modules/chains/store/selectors';

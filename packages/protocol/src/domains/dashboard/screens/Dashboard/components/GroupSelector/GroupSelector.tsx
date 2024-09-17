@@ -6,11 +6,11 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
+import { FLARE_TESTNETS } from '@ankr.com/chains-list';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { getOptionsByTabs } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/GroupSelector/utils/getOptionsByTabs';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
-import { FLARE_TESTNETS } from 'modules/chains/types';
 
 import { useGroupSelector } from './hooks/useGroupSelector';
 import { useGroupSelectorStyles } from './useGroupSelectorStyles';

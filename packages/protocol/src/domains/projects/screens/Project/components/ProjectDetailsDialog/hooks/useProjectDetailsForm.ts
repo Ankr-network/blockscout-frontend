@@ -54,7 +54,7 @@ export const useProjectDetailsForm = ({
 
       const { description, name } = values;
 
-      const resultName = name ?? '';
+      const resultName = name || '';
       const hasNameDuplication = allProjects.some(
         project => project.name === resultName,
       );
@@ -79,7 +79,7 @@ export const useProjectDetailsForm = ({
       await handleUpdateProjectDetails(
         projectIndex,
         resultName,
-        description ?? '',
+        description || '',
       );
       if (onSuccess) {
         onSuccess();

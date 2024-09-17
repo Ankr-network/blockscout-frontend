@@ -1,6 +1,5 @@
-import { IBlockchainEntity } from 'multirpc-sdk';
+import { IBlockchainEntity, ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { getUniqueArray } from 'modules/common/utils/getUniqueArray';
 
 export interface GetChainIdsByPathsParams {

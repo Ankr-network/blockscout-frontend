@@ -1,6 +1,7 @@
+import { Timeframe } from '@ankr.com/chains-list';
+
 import { SecondaryTab, TabSize } from 'modules/common/components/SecondaryTab';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { Timeframe } from 'modules/chains/types';
 
 import { useTimeframeTabsStyles } from './TimeframeTabsStyles';
 import { getLabelByTimeframe } from '../UsageDataSection/UsageDataSectionUtils';

@@ -1,4 +1,5 @@
-import { BlockchainID, IBlockchainEntity } from 'multirpc-sdk';
+import { BlockchainID } from 'multirpc-sdk';
+import { IBlockchainEntity } from '@ankr.com/chains-list';
 
 export const getSubchainIds = (
   blockchains: IBlockchainEntity[],

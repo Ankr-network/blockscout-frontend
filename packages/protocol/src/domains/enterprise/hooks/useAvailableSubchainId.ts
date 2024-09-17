@@ -1,7 +1,8 @@
+import { Chain, ChainSubType, ChainType } from '@ankr.com/chains-list';
+
 import { useAppSelector } from 'store/useAppSelector';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
-import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 
 import { selectEnterpriseBlockchainsDependingOnSelectedApiKey } from '../store/selectors';
 

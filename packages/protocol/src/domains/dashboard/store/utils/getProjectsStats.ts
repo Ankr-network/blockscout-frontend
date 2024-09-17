@@ -7,6 +7,6 @@ export const getProjectsStats = (projects: AllProjectsStats[], total: number) =>
   projects
     .map<ProjectsStats>(({ index, name, stats }) => ({
       name: name || renderProjectName(index),
-      value: (stats?.total_requests ?? 0) / (total || 1),
+      value: (stats?.total_requests || 0) / (total || 1),
     }))
     .filter(({ value }) => value);

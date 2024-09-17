@@ -1,4 +1,4 @@
-import { Chain, ChainPath } from 'modules/chains/types';
+import { Chain, ChainPath } from '@ankr.com/chains-list';
 
 import { hasAllowedPaths } from './hasAllowedPaths';
 import { clearPathPrefix } from './clearPathPrefix';

@@ -5,9 +5,9 @@ import {
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { ISelectOption } from 'uiKit/Select';
-import { Chain, ChainID } from 'modules/chains/types';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { ChainLogo } from 'modules/chains/components/ChainLogo';
 

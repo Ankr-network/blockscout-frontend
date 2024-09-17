@@ -1,4 +1,5 @@
-import { ESortChainsType } from 'modules/chains/types';
+import { ESortChainsType } from '@ankr.com/chains-list';
+
 import { Search } from 'modules/common/components/Search';
 import { ChainsSortSelect } from 'modules/chains/components/ChainsSortSelect';
 import { Tab } from 'modules/common/hooks/useTabs';

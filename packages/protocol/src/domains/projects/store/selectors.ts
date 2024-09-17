@@ -1,11 +1,11 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { EMilliSeconds } from 'modules/common/constants/const';
 import { RootState } from 'store';
 import { selectCurrentAddress } from 'domains/auth/store';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
-import { ChainID } from 'modules/chains/types';
 
 import { NewProjectStep } from '../types';
 import { ProjectActivity } from './types';
@@ -54,7 +54,7 @@ export const selectProjectWhitelistState = createSelector(
 
 export const selectProjectWhitelist = createSelector(
   selectProjectWhitelistState,
-  ({ data }) => data?.lists ?? [],
+  ({ data }) => data?.lists || [],
 );
 
 export const selectProjectWhitelistByType = createSelector(

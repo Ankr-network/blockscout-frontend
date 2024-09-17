@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import React, { useCallback, useMemo } from 'react';
 import { Copy } from '@ankr.com/ui';
 import { useDispatch } from 'react-redux';
+import { Chain } from '@ankr.com/chains-list';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Dialog } from 'uiKit/Dialog';
@@ -15,7 +16,6 @@ import {
   JwtManagerToken,
   setSelectedTokenIndex,
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { Chain } from 'modules/chains/types';
 import { ANIMATION_DURATION } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/AccordionItem/hooks/useAccordionItem';
 import { getIsHiddenMainnet } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
 import { isMultichain } from 'modules/chains/utils/isMultichain';

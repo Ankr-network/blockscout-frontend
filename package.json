@@ -8,11 +8,9 @@
     "build": "turbo run build",
     "types": "turbo run types"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
@@ -30,6 +28,6 @@
     "@types/react-dom": "^17.0.0",
     "react-error-overlay": "6.0.9"
   },
-  "packageManager": "yarn@1.18.0",
+  "packageManager": "yarn@1.22.22",
   "dependencies": {}
 }

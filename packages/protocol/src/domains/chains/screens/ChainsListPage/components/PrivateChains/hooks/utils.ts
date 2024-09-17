@@ -1,4 +1,4 @@
-import { Chain, ESortChainsType } from 'modules/chains/types';
+import { Chain, ESortChainsType } from '@ankr.com/chains-list';
 
 import { SortPrivateChainsParams } from '../PrivateChainsTypes';
 import { aggregateTotalRequestsNumber } from '../utils/aggregateTotalRequestsNumber';

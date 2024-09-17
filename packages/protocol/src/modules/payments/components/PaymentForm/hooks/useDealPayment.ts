@@ -22,7 +22,7 @@ export interface IUseDealPaymentProps {
 
 export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
   const priceId = amount?.id;
-  const amountValue = amount?.value ?? 0;
+  const amountValue = amount?.value || 0;
 
   const bundlePlans = useAppSelector(selectBundlePaymentPlans);
   const hasActiveDeal = useAppSelector(selectHasActiveDeal);
@@ -63,7 +63,7 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
     getDealRequestsCountByUsdAmount(amountValue);
 
   const currentPlan = useAppSelector(selectMyCurrentBundle);
-  const { amount: currentPlanAmount = 0 } = currentPlan ?? {};
+  const { amount: currentPlanAmount = 0 } = currentPlan || {};
 
   const dealPaymentSummaryDialogProps = useMemo<IUSDPaymentSummaryDialogProps>(
     () => ({

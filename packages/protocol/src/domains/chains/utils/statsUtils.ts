@@ -21,5 +21,5 @@ export const STANDALONE_CHAINS =
   API_ENV === 'prod' ? PROD_STANDALONE_CHAINS : STAGING_STANDALONE_CHAINS;
 
 export const getStandaloneUrl = (chainId: string) => {
-  return STANDALONE_CHAINS[chainId] ?? '';
+  return STANDALONE_CHAINS[chainId] || '';
 };

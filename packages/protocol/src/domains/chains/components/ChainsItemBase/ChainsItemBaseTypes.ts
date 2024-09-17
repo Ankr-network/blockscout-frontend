@@ -1,4 +1,4 @@
-import { Chain, ChainID, ChainURL, Timeframe } from 'modules/chains/types';
+import { Chain, ChainID, ChainURL, Timeframe } from '@ankr.com/chains-list';
 
 export interface ChainsItemQueryProps {
   chain: Chain;

@@ -1,19 +1,15 @@
 import {
-  BlockchainFeature,
-  BlockchainType,
   BlockchainUrls,
   ChainsConfig,
-} from 'multirpc-sdk';
+  EBlockchainFeature,
+  EBlockchainType,
+} from '../common';
 
-import {
-  ChainID,
-  GroupedBlockchainType,
-  Chain,
-  ChainURL,
-} from 'modules/chains/types';
-import { mappingChainName } from 'domains/auth/utils/mappingchainName';
-
+import { ChainID, GroupedBlockchainType, Chain, ChainURL } from '../types';
+import { mapChainName } from './mapChainName';
 import { isEvmExtension } from './isEvmExtension';
+import { isTestnetPremiumOnly } from './isTestnetPremiumOnly';
+import { isDevnetPremiumOnly } from './isDevnetPremiumOnly';
 
 type ChainsResult = Record<string, Chain[]>;
 
@@ -21,7 +17,7 @@ const getExtensions = (chains: Chain[]) => {
   return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
-    if (type === BlockchainType.Extension && chainExtends) {
+    if (type === EBlockchainType.Extension && chainExtends) {
       result[chainExtends] = result[chainExtends]
         ? [...result[chainExtends], chain]
         : [chain];
@@ -31,11 +27,11 @@ const getExtensions = (chains: Chain[]) => {
   }, {});
 };
 
-export const getBeacons = (chains: Chain[]) => {
+const getBeacons = (chains: Chain[]) => {
   return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
-    if (type === BlockchainType.Beacon && chainExtends) {
+    if (type === EBlockchainType.Beacon && chainExtends) {
       result[chainExtends] = result[chainExtends]
         ? [...result[chainExtends], chain]
         : [chain];
@@ -45,11 +41,11 @@ export const getBeacons = (chains: Chain[]) => {
   }, {});
 };
 
-export const getOpnodes = (chains: Chain[]) => {
+const getOpnodes = (chains: Chain[]) => {
   return chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
-    if (type === BlockchainType.Opnode && chainExtends) {
+    if (type === EBlockchainType.Opnode && chainExtends) {
       result[chainExtends] = result[chainExtends]
         ? [...result[chainExtends], chain]
         : [chain];
@@ -76,9 +72,9 @@ const getExtendedChains = ({
     const { id, type } = chain;
 
     if (
-      type !== BlockchainType.Extension &&
-      type !== BlockchainType.Beacon &&
-      type !== BlockchainType.Opnode
+      type !== EBlockchainType.Extension &&
+      type !== EBlockchainType.Beacon &&
+      type !== EBlockchainType.Opnode
     ) {
       const evmExtension = (extensions[id] || []).find(extension =>
         isEvmExtension(extension.id),
@@ -103,11 +99,11 @@ const getExtendedChains = ({
   }, []);
 };
 
-export const getTestnets = (extendedChains: Chain[]) => {
+const getTestnets = (extendedChains: Chain[]) => {
   return extendedChains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
-    if (type === BlockchainType.Testnet && chainExtends) {
+    if (type === EBlockchainType.Testnet && chainExtends) {
       result[chainExtends] = result[chainExtends]
         ? [...result[chainExtends], chain]
         : [chain];
@@ -117,11 +113,11 @@ export const getTestnets = (extendedChains: Chain[]) => {
   }, {});
 };
 
-export const getDevnets = (extendedChains: Chain[]) => {
+const getDevnets = (extendedChains: Chain[]) => {
   return extendedChains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends, type } = chain;
 
-    if (type === BlockchainType.Devnet && chainExtends) {
+    if (type === EBlockchainType.Devnet && chainExtends) {
       result[chainExtends] = result[chainExtends]
         ? [...result[chainExtends], chain]
         : [chain];
@@ -147,7 +143,7 @@ const addExtensions = ({
   return extendedChains.reduce<Chain[]>((result, chain) => {
     const { id, type } = chain;
 
-    if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
+    if (type !== EBlockchainType.Testnet && type !== EBlockchainType.Devnet) {
       result.push({
         ...chain,
         testnets: testnets[id],
@@ -160,7 +156,7 @@ const addExtensions = ({
   }, []);
 };
 
-export const addExtenders = (chains: Chain[]) => {
+const addExtenders = (chains: Chain[]) => {
   const extenders = chains.reduce<ChainsResult>((result, chain) => {
     const { chainExtends } = chain;
 
@@ -189,15 +185,13 @@ export const addExtenders = (chains: Chain[]) => {
 
 const addPremiumOnly = (chains: Chain[]) => {
   chains.forEach(item => {
-    const isAllTestnetsForPremium =
-      item.testnets?.every(el => el.premiumOnly) ?? true;
-    const isAllDevnetsForPremium =
-      item.devnets?.every(el => el.premiumOnly) ?? true;
+    const hasTestnets = item.testnets && item.testnets.length > 0;
+    const protectedTestnets = hasTestnets ? isTestnetPremiumOnly(item) : true;
+    const hasDevnets = item.devnets && item.devnets.length > 0;
+    const protectedDevnets = hasDevnets ? isDevnetPremiumOnly(item) : true;
 
     item.premiumOnly =
-      item.isMainnetPremiumOnly &&
-      isAllTestnetsForPremium &&
-      isAllDevnetsForPremium;
+      item.isMainnetPremiumOnly && protectedTestnets && protectedDevnets;
   });
 
   return chains;
@@ -237,28 +231,28 @@ const getApiChains = (data: ChainsConfig, availableChainIds?: string[]) => {
       type,
     } = blockchain;
 
-    const isComingSoon = features.includes(BlockchainFeature.ComingSoon);
+    const isComingSoon = features.includes(EBlockchainFeature.ComingSoon);
 
     const hasEnterpriseFeature = availableChainIds?.includes(id);
-    const hasWSFeature = features.includes(BlockchainFeature.WS);
+    const hasWSFeature = features.includes(EBlockchainFeature.WS);
 
     return {
       coinName,
       chainExtends,
       id: id as ChainID,
-      name: mappingChainName(id as ChainID, name),
+      name: mapChainName(id as ChainID, name),
       type,
       premiumOnly,
       urls: getURLs(chain),
-      hasRESTFeature: features.includes(BlockchainFeature.REST),
+      hasRESTFeature: features.includes(EBlockchainFeature.REST),
       hasRPCFeature:
-        features.includes(BlockchainFeature.RPC) ||
-        features.includes(BlockchainFeature.GRPC),
+        features.includes(EBlockchainFeature.RPC) ||
+        features.includes(EBlockchainFeature.GRPC),
       hasWSFeature,
       hasEnterpriseFeature,
       isComingSoon,
-      isMainnetComingSoon: type === BlockchainType.Mainnet && isComingSoon,
-      isMainnetPremiumOnly: type === BlockchainType.Mainnet && premiumOnly,
+      isMainnetComingSoon: type === EBlockchainType.Mainnet && isComingSoon,
+      isMainnetPremiumOnly: type === EBlockchainType.Mainnet && premiumOnly,
       paths,
     } as Chain;
   });

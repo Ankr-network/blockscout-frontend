@@ -1,8 +1,8 @@
 import { Box, Skeleton, Typography } from '@mui/material';
+import { Timeframe, Chain } from '@ankr.com/chains-list';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'uiKit/NavLink';
-import { Timeframe, Chain } from 'modules/chains/types';
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { ChainDescription } from 'modules/chains/components/ChainDescription';
 import { isMultichain } from 'modules/chains/utils/isMultichain';

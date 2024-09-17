@@ -24,7 +24,7 @@ export const createQuerySelectors = <Params, Result>({
 
   const selectDataWithFallbackCachedByParams = createSelector(
     (state: RootState, params: Params) => endpoint.select(params)(state),
-    ({ data }) => (data ?? fallback) as Result,
+    ({ data }) => (data || fallback) as Result,
   );
 
   const selectLoadingCachedByParams = createSelector(
@@ -38,7 +38,7 @@ export const createQuerySelectors = <Params, Result>({
 
   const selectDataWithFallback = createSelector(
     selectData,
-    data => (data ?? fallback) as Result,
+    data => (data || fallback) as Result,
   );
 
   const selectLoading = createSelector(

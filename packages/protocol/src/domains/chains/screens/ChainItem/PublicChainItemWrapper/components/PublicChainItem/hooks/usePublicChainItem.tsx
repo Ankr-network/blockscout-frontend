@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
+import {
+  Chain,
+  ChainID,
+  ChainSubType,
+  ChainType,
+  isTestnetPremiumOnly,
+} from '@ankr.com/chains-list';
 
 import { ChainProtocolContextValue } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
-import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { EndpointGroup } from 'modules/endpoints/types';
@@ -12,7 +18,6 @@ import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/compone
 import { getChainLabels } from 'modules/chains/utils/getChainLabels';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { CodeExampleModal } from 'modules/chains/components/CodeExampleModal';
-import { isTestnetPremiumOnly } from 'modules/chains/utils/isTestnetPremiumOnly';
 
 import { usePublicChainType } from './usePublicChainType';
 

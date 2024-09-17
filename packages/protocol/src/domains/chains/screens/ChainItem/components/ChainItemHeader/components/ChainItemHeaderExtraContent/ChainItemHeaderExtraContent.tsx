@@ -1,8 +1,8 @@
 import { Button } from '@mui/material';
 import { Code } from '@ankr.com/ui';
+import { Chain } from '@ankr.com/chains-list';
 
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { Chain } from 'modules/chains/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { GuardResolution } from 'modules/common/components/GuardResolution';
 

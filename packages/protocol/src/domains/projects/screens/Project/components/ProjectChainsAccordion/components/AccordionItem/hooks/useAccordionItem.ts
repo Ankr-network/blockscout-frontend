@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
 
 import { MOBILE_HEADER_HEIGHT } from 'modules/layout/components/MobileHeader';
-import { Chain, Timeframe } from 'modules/chains/types';
 
 import { useChainRequests } from './useChainRequests';
 

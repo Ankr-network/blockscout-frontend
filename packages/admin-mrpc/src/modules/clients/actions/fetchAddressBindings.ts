@@ -25,7 +25,7 @@ export const {
           });
 
         const actionData = {
-          data: bindingAddressesResponse.tokens ?? [],
+          data: bindingAddressesResponse.tokens || [],
         };
 
         return actionData;

@@ -1,5 +1,6 @@
+import { Timeframe } from '@ankr.com/chains-list';
+
 import { Switcher } from 'modules/common/components/Switcher';
-import { Timeframe } from 'modules/chains/types';
 import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 
 export interface TimeframeSwitcherProps {

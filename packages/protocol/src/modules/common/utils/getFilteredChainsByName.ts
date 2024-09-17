@@ -1,4 +1,5 @@
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
+
 import { NETWORK_INFO_MAP } from 'domains/auth/components/AddNetwork/const';
 
 const getFilteredChainsSearchKey = (
@@ -6,7 +7,7 @@ const getFilteredChainsSearchKey = (
   lowerCaseSearchContent: string,
 ) => {
   return NETWORK_INFO_MAP[chain.id]?.searchKeys?.some(key =>
-    key.toLowerCase().includes(lowerCaseSearchContent ?? ''),
+    key.toLowerCase().includes(lowerCaseSearchContent || ''),
   );
 };
 
@@ -61,7 +62,7 @@ export const getFilteredChainsByName = (
 
   const doesExistCoinName = chain.coinName
     .toLowerCase()
-    .includes(lowerCaseSearchContent ?? '');
+    .includes(lowerCaseSearchContent || '');
 
   const doesExistInSearchKeys = getFilteredChainsSearchKey(
     chain,

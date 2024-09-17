@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '../types';
 
 export const BSC_CHAIN_NAME = 'BNB Smart Chain';
 
@@ -10,7 +10,7 @@ export const NEAR_CHAIN_NAME = 'NEAR';
 
 export const TRON_CHAIN_NAME = 'TRON';
 
-export const mappingChainName = (chainId: ChainID, chainName: string) => {
+export const mapChainName = (chainId: ChainID, chainName: string) => {
   if (chainId === ChainID.NEAR) {
     return NEAR_CHAIN_NAME;
   }

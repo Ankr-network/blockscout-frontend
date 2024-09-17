@@ -1,4 +1,4 @@
-import { ChainURL } from 'modules/chains/types';
+import { ChainURL } from '@ankr.com/chains-list';
 
 export interface FlattenURLsParams {
   urlKey: keyof ChainURL;

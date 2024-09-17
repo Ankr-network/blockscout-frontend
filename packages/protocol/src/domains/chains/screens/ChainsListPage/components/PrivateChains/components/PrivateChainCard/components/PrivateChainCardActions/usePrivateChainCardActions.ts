@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
-import { Chain } from 'modules/chains/types';
 import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { hasEvmSubchains } from 'modules/chains/utils/hasEvmSubchains';

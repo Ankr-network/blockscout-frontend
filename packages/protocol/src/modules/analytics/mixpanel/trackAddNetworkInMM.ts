@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { AddNetworkInMMEventProps } from './types';
 import { MixpanelEvent } from './const';

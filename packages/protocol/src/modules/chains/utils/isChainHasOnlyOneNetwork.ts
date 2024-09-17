@@ -1,5 +1,6 @@
+import { Chain } from '@ankr.com/chains-list';
+
 import { flatChain } from './flatChain';
-import { Chain } from '../types';
 
 export const isChainHasOnlyOneNetwork = (chain: Chain) => {
   return (

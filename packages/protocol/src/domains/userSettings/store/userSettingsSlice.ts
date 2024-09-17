@@ -59,13 +59,13 @@ export const selectTwoFAErrorMessage = (state: RootState) =>
   state.userSettings.errorMessage;
 
 export const selectTwoFACode = (state: RootState) =>
-  state.userSettings.twoFACode ?? '';
+  state.userSettings.twoFACode || '';
 
 export const selectTwoFAEndpoint = (state: RootState) =>
   state.userSettings.endpoint;
 
 export const selectSignupSettings = (state: RootState) =>
-  state.userSettings.signupSettings ?? {};
+  state.userSettings.signupSettings || {};
 
 export const {
   setIsTwoFADialogOpened,

@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
-import { IBlockchainEntity } from 'multirpc-sdk';
+
+import { IBlockchainEntity } from './common';
 
 export type ChainPath = string;
 

@@ -1,6 +1,7 @@
+import { FLARE_TESTNETS } from '@ankr.com/chains-list';
+
 import { Checkbox } from 'modules/common/components/Checkbox';
 import { FLARE_TESTNETS_GROUPS_LIST } from 'modules/endpoints/types';
-import { FLARE_TESTNETS } from 'modules/chains/types';
 
 import {
   UseGroupSelectorParams,

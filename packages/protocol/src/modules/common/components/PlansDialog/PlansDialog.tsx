@@ -38,11 +38,12 @@ export const PlansDialog = ({ onClose, open }: IPlansDialogProps) => {
       </Typography>
       <div className={classes.container}>
         {Object.values(EGeneralPlanList).map(planName => (
-          <div
-            key={`item-${planName}`}
-            className={classes.itemWrapper}
-          >
-            <Plan clickCallback={onClose} planName={planName} rootClassname={classes.planRoot} />
+          <div key={`item-${planName}`} className={classes.itemWrapper}>
+            <Plan
+              clickCallback={onClose}
+              planName={planName}
+              rootClassname={classes.planRoot}
+            />
           </div>
         ))}
       </div>

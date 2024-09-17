@@ -41,7 +41,7 @@ export const DealAmounts = ({
   );
 
   const currentPlan = useAppSelector(selectMyCurrentBundle);
-  const { amount: currentPlanAmount = 0 } = currentPlan ?? {};
+  const { amount: currentPlanAmount = 0 } = currentPlan || {};
 
   const dealAmountsAvailableForUpgrade = useMemo(() => {
     if (currentPlanAmount === undefined) return amounts;

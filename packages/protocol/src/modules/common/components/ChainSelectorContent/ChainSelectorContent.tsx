@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
+import { ChainSubType, ChainType } from '@ankr.com/chains-list';
 
-import { ChainSubType, ChainType } from 'modules/chains/types';
 import { GroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/GroupSelector';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';

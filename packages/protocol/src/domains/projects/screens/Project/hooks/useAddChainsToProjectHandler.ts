@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
+import { ChainPath } from '@ankr.com/chains-list';
 
-import { ChainPath } from 'modules/chains/types';
 import { useAddBlockchainsToWhitelistMutation } from 'domains/projects/actions/addBlockchainsToWhitelist';
 import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';

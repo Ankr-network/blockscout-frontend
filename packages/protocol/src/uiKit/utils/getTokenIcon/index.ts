@@ -1,4 +1,4 @@
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import alloraIcon from './icons/allora.svg';
 import alloraIconDark from './darkModeIcons/allora.svg';

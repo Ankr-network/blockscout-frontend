@@ -1,4 +1,5 @@
-import { ChainID, Timeframe } from 'modules/chains/types';
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
+
 import { useProjectStatsInitialization } from 'domains/projects/screens/Project/hooks/useProjectStatsInitialization';
 import { useAppSelector } from 'store/useAppSelector';
 import {

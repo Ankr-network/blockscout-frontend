@@ -1,6 +1,5 @@
 import { BlockchainID } from 'multirpc-sdk';
-
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
 
 import { getProjectPathsByChains } from './getProjectPathsByChains';
 
