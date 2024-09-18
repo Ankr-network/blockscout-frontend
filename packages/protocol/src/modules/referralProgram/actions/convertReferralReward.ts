@@ -13,7 +13,7 @@ export const {
       boolean,
       IConvertReferralRewardParams
     >({
-      invalidatesTags: [RequestType.RewardBalance],
+      invalidatesTags: [RequestType.RewardBalance, RequestType.RewardTxs],
       queryFn: createNotifyingQueryFn(async params => {
         const api = MultiService.getService().getAccountingGateway();
 

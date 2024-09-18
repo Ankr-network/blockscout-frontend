@@ -1,8 +1,8 @@
 import { IGetRewardTxsParams, IRewardTx } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { RequestType, web3Api } from 'store/queries';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
-import { web3Api } from 'store/queries';
 
 import { ERewardTxsPeriod } from '../types';
 import { getFromTimestampByTimePeriod } from '../utils/getFromTimestampByTimePeriod';
@@ -22,6 +22,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchRewardTxs: build.query<IRewardTx[], IFetchRewardTxsParams>({
+      providesTags: [RequestType.RewardTxs],
       queryFn: async ({ period, ...params }) => {
         const from = period ? getFromTimestampByTimePeriod(period) : undefined;
 

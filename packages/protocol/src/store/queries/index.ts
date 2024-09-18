@@ -9,6 +9,7 @@ export enum RequestType {
   'ProjectWhitelist' = 'ProjectWhitelist',
   'ReferralCodes' = 'ReferralCodes',
   'RewardBalance' = 'RewardBalance',
+  'RewardTxs' = 'RewardTxs',
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
   'WhitelistBlockchains' = 'WhitelistBlockchains',
