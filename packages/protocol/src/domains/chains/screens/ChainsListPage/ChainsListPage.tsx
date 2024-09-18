@@ -7,6 +7,7 @@ import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider
 
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
+import { useChainViewSelector } from './components/ChainViewSelector';
 
 export const ChainsListPage = () => {
   const { hasPrivateAccess } = useAuth();
@@ -19,9 +20,21 @@ export const ChainsListPage = () => {
     },
   ]);
 
+  const { chainsViewTabs, selectedChainsViewTab } = useChainViewSelector();
+
   if (hasPrivateAccess) {
-    return <PrivateChains />;
+    return (
+      <PrivateChains
+        chainsViewTabs={chainsViewTabs}
+        selectedChainsViewTab={selectedChainsViewTab}
+      />
+    );
   }
 
-  return <PublicChains />;
+  return (
+    <PublicChains
+      chainsViewTabs={chainsViewTabs}
+      selectedChainsViewTab={selectedChainsViewTab}
+    />
+  );
 };

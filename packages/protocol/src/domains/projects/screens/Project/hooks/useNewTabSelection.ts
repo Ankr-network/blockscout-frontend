@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 
 export interface UseNewTabSelectionParams {

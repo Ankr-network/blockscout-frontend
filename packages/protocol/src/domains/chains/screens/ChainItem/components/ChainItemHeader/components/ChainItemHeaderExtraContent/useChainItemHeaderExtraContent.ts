@@ -1,4 +1,5 @@
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
+
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCodeExampleStatus } from 'domains/chains/screens/ChainItem/components/ChainProjectsSection/useCodeExampleStatus';
 

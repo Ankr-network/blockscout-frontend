@@ -1,6 +1,5 @@
-import { BlockchainID, IBlockchainEntity } from 'multirpc-sdk';
-
-import { ChainID } from 'modules/chains/types';
+import { BlockchainID } from 'multirpc-sdk';
+import { IBlockchainEntity, ChainID } from '@ankr.com/chains-list';
 
 type BlockchainsMap = Record<string, IBlockchainEntity>;
 

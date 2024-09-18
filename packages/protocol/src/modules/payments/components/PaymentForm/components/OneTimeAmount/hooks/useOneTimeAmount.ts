@@ -43,7 +43,7 @@ export const useOneTimeAmount = ({
 
   useEffect(() => {
     resetInputError();
-    setSelectedAmountID(id => selectedByChipAmountID ?? id);
+    setSelectedAmountID(id => selectedByChipAmountID || id);
   }, [selectedByChipAmountID, setSelectedAmountID, resetInputError]);
 
   const oneTimeAmountProps = useMemo<IOneTimeAmountProps>(

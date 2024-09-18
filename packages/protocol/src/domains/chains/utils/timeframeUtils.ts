@@ -6,8 +6,7 @@ import {
   getTime,
   getYear,
 } from 'date-fns';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 export const ONE_MINUTE_LIFETIME = 60 * 1000;
 export const ONE_HOUR_LIFETIME = 60 * ONE_MINUTE_LIFETIME;

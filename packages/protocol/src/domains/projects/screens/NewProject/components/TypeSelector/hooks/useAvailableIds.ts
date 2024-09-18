@@ -1,3 +1,5 @@
+import { ChainID } from '@ankr.com/chains-list';
+
 import {
   kavaTendermintRpcChains,
   tendermintRpcChains,
@@ -5,7 +7,6 @@ import {
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
-import { ChainID } from 'modules/chains/types';
 
 const isNotTendermintRpc = (chainId: ChainID) =>
   !tendermintRpcChains.includes(chainId) &&

@@ -14,7 +14,7 @@ import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
     ...data,
-    totalRequests: data?.total_requests ?? 0,
+    totalRequests: data?.total_requests || 0,
   };
 };
 

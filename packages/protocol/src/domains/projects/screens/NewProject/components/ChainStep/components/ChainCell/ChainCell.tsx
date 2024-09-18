@@ -1,5 +1,6 @@
+import { Chain } from '@ankr.com/chains-list';
+
 import { ChainCell as ChainCellBase } from 'domains/projects/components/ChainCell';
-import { Chain } from 'modules/chains/types';
 
 import { UseChainCellParams, useChainCell } from './hooks/useChainCell';
 

@@ -2,12 +2,12 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
-import { ChainID } from 'modules/chains/types';
 import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';

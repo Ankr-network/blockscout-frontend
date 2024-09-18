@@ -33,7 +33,6 @@ export const PrivateUsageDataSection = ({
     error,
     isConnecting,
     loading,
-    shouldHideIpsAndRequestsMap,
     totalCost,
     totalRequests,
     totalRequestsHistory,
@@ -87,22 +86,18 @@ export const PrivateUsageDataSection = ({
               totalRequestsHistory={totalRequestsHistory}
               isFlexibleHeight={false}
             />
-            {!shouldHideIpsAndRequestsMap && (
-              <>
-                <ItemHeader
-                  className={classes.statisticsItemTitle}
-                  isLabelHidden
-                  timeframe={timeframe}
-                  title={t(keys.top10Countries)}
-                />
-                <RequestsMap
-                  isTitleHidden
-                  loading={loading}
-                  countries={countries}
-                  timeframe={timeframe}
-                />
-              </>
-            )}
+            <ItemHeader
+              className={classes.statisticsItemTitle}
+              isLabelHidden
+              timeframe={timeframe}
+              title={t(keys.top10Countries)}
+            />
+            <RequestsMap
+              isTitleHidden
+              loading={loading}
+              countries={countries}
+              timeframe={timeframe}
+            />
           </Paper>
         )}
       </div>

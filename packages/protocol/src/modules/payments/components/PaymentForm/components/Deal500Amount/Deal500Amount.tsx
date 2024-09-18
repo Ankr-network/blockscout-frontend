@@ -50,7 +50,7 @@ export const Deal500Amount = ({
           variant="subtitle2"
           component="p"
         >
-          {tHTML(amountKey, { amount: amount?.value ?? 0 })}
+          {tHTML(amountKey, { amount: amount?.value || 0 })}
         </Typography>
       </div>
       <ul className={classes.dealAmountList}>

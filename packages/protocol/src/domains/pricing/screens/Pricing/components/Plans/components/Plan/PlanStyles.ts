@@ -1,144 +1,114 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { premiumGradient } from 'uiKit/Theme/themeUtils';
+import { isLightTheme } from 'uiKit/Theme/themeUtils';
 
 const INFO_ICON_HEIGHT = 20;
 
-/* eslint-disable max-lines-per-function */
-export const usePlanStyles = makeStyles<void, 'tip' | 'root'>()(
-  (theme, _params, classes) => ({
-    container: {
-      position: 'relative',
-      padding: theme.spacing(0.5),
-      borderRadius: 42,
-      height: '100%',
-    },
-    root: {
-      background: theme.palette.background.paper,
-      padding: theme.spacing(6),
-      borderRadius: 16,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-    },
-    header: {
-      height: 120,
-    },
-    tip: {
-      textTransform: 'uppercase',
-      color: theme.palette.common.white,
-      fontSize: 10,
-      lineHeight: '135%',
-      fontWeight: 500,
-      marginBottom: theme.spacing(2.5),
-      borderRadius: 5,
-      padding: theme.spacing(0.5, 1, 0.5, 1.25),
-      width: 'fit-content',
-    },
+export const usePlanStyles = makeStyles()(theme => ({
+  container: {
+    padding: theme.spacing(0.5),
+    borderRadius: 42,
+    height: '100%',
 
-    premium: {
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: 550,
+    },
+  },
+  root: {
+    background: theme.palette.background.paper,
+    padding: theme.spacing(5.25),
+    borderRadius: 18,
+    height: '100%',
+    position: 'relative',
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
+      : theme.palette.common.white,
+  },
+  header: {
+    height: 220,
+  },
+  tip: {
+    textTransform: 'uppercase',
+    color: theme.palette.common.white,
+    fontSize: 10,
+    lineHeight: '135%',
+    fontWeight: 500,
+    marginBottom: theme.spacing(2.5),
+    borderRadius: 5,
+    padding: theme.spacing(0.5, 1, 0.5, 1.25),
+    width: 'fit-content',
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: 600,
+    lineHeight: '140%',
+    letterSpacing: '0.01em',
+  },
+  labelWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    height: 20,
+    gap: theme.spacing(1.5),
+    marginBottom: theme.spacing(4.5),
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 500,
+    lineHeight: '110%',
+    letterSpacing: '-0.04em',
+  },
+  subtitle: {
+    color: theme.palette.text.secondary,
+    marginBottom: theme.spacing(10.5),
+  },
+  discount: {
+    position: 'absolute',
+    width: 96,
+    top: -24,
+    right: 0,
+  },
+  price: {
+    display: 'block',
+    marginBottom: theme.spacing(4.5),
+    fontWeight: 600,
+    fontSize: 14,
+    lineHeight: '140%',
+    letterSpacing: '0.01em',
+
+    '& em': {
       color: theme.palette.text.primary,
-
-      [`& .${classes.root}`]: {
-        height: '100%',
-        borderRadius: 18,
-      },
-
-      [`& .${classes.tip}`]: {
-        background: premiumGradient,
-      },
+      fontStyle: 'normal',
+      fontSize: 32,
+      fontWeight: 600,
+      lineHeight: '105%',
+      letterSpacing: '-0.04em',
     },
 
-    enterprise: {
-      [`& .${classes.tip}`]: {
-        color: theme.palette.background.paper,
-        backgroundColor: theme.palette.grey[900],
-      },
-    },
-
-    row: {
-      [theme.breakpoints.down('md')]: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-      },
-    },
-    title: {
-      color: theme.palette.text.primary,
-      marginBottom: theme.spacing(2),
-    },
-    premiumTitle: {
-      background: premiumGradient,
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-    },
-    freeTitle: {
-      paddingTop: theme.spacing(7),
+    '& #secondary': {
       color: theme.palette.text.secondary,
+      fontWeight: 400,
     },
-    price: {
-      display: 'block',
-      color: theme.palette.text.secondary,
-      marginBottom: theme.spacing(3),
-
-      '& em': {
-        color: theme.palette.text.primary,
-        fontStyle: 'normal',
-        marginRight: theme.spacing(2),
-      },
-    },
-    divider: {
-      color: theme.palette.background.default,
-      height: 2,
-      marginBottom: theme.spacing(6),
-      borderBottomWidth: 2,
-    },
-    list: {
-      [theme.breakpoints.down('md')]: {
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-    },
-    info: {
-      color: theme.palette.grey[900],
-      display: 'flex',
-      alignItems: 'flex-start',
-      marginBottom: theme.spacing(3),
-      fontSize: 16,
-      lineHeight: `${INFO_ICON_HEIGHT}px`,
-
-      [theme.breakpoints.down('md')]: {
-        width: '50%',
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        width: '100%',
-      },
-
-      '& em': {
-        fontStyle: 'normal',
-        fontWeight: 700,
-      },
-    },
-    infoIcon: {
-      height: INFO_ICON_HEIGHT,
-      marginRight: theme.spacing(1.5),
-    },
-    freeIcon: {
-      color: theme.palette.text.secondary,
-    },
-    premiumIcon: {
-      color: theme.palette.purple.main,
-    },
-    enterpriseIcon: {
-      color: '#F5841F', // there is no such color in current uikit
-    },
-  }),
-);
+  },
+  divider: {
+    color: theme.palette.background.default,
+    height: 2,
+    marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(4.5),
+    borderBottomWidth: 2,
+  },
+  list: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+  },
+  item: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  icon: {
+    height: INFO_ICON_HEIGHT,
+    width: INFO_ICON_HEIGHT,
+    marginRight: theme.spacing(2),
+    color: theme.palette.grey[600],
+  },
+}));

@@ -1,8 +1,8 @@
 import { ANKRLogo, USDCLogo, USDTLogo } from '@ankr.com/ui';
 import { EBlockchain } from 'multirpc-sdk';
 import { useMemo } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { ECurrency } from 'modules/payments/types';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';
 

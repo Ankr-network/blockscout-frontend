@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { Timeframe } from 'modules/chains/types';
 
 import { RequestsMapProps } from './RequestsMapTypes';
 import { getMarkerPointsAndStats } from './RequestsMapUtils';

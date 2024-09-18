@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
 
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { Chain, Timeframe } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import {
@@ -82,7 +82,7 @@ export const useChainProjectItem = ({
   const { blockchains = [] } =
     allProjects.find(
       project => project.userEndpointToken === userEndpointToken,
-    ) ?? {};
+    ) || {};
 
   const allChainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),

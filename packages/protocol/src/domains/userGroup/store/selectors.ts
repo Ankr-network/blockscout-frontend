@@ -22,7 +22,7 @@ export const selectUserGroupJwt = (state: RootState) =>
 export const selectUserGroupConfigByAddress = createSelector(
   selectAuthData,
   selectUserGroupConfig,
-  ({ authAddress = '' }, userGroupConfig) => userGroupConfig[authAddress] ?? {},
+  ({ authAddress = '' }, userGroupConfig) => userGroupConfig[authAddress] || {},
 );
 
 export const selectUserGroupLoading = createSelector(
@@ -142,5 +142,5 @@ export const selectSelectedUserGroupIndex = createSelector(
   selectSelectedUserGroup,
   selectUserGroups,
   (selectedGroup, groups) =>
-    groups.findIndex(group => group.address === selectedGroup?.address) ?? 0,
+    groups.findIndex(group => group.address === selectedGroup?.address) || 0,
 );

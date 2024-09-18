@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { Chain } from 'modules/chains/types';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import { NavLink } from 'uiKit/NavLink';
 
@@ -13,8 +13,8 @@ interface ISubChainLinksGeneratorProps
 const flatProtocolSubchains = (chains: Chain[]) =>
   chains.reduce<Chain[]>((acc, cur) => {
     acc.push(cur);
-    acc.concat(cur.beacons ?? []);
-    acc.concat(cur.opnodes ?? []);
+    acc.concat(cur.beacons || []);
+    acc.concat(cur.opnodes || []);
 
     return acc;
   }, []);

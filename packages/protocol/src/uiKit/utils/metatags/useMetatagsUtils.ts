@@ -1,11 +1,12 @@
 import { capitalize } from '@mui/material';
-
-import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import {
   BSC_CHAIN_NAME,
-  mappingChainName,
-} from 'domains/auth/utils/mappingchainName';
-import { Chain, ChainID } from 'modules/chains/types';
+  mapChainName,
+  Chain,
+  ChainID,
+} from '@ankr.com/chains-list';
+
+import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { isBeacon } from 'domains/chains/utils/isBeacon';
 
 const renderPrefix = (name: ChainID) => {
@@ -59,7 +60,7 @@ const renderSeiName = (chainId: ChainID) => {
     [ChainID.SEI_RPC_TESTNET]: 'Sei Tendermint JSON-RPC Testnet',
   };
 
-  return namesMap[chainId] ?? name;
+  return namesMap[chainId] || name;
 };
 
 const renderETHName = (chainId: ChainID) => {
@@ -164,7 +165,7 @@ const renderHecoName = (chainId: ChainID) => {
 export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   let name = capitalize(chainId);
 
-  name = mappingChainName(chainId, name);
+  name = mapChainName(chainId, name);
 
   if (chainId === ChainID.ZKSYNC_ERA) {
     name = 'zkSync Era';
@@ -245,7 +246,7 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
   if (isBeacon(chainId)) {
     const beacon = beacons.find(({ id }) => id === chainId);
 
-    name = beacon?.name ?? name;
+    name = beacon?.name || name;
   }
 
   return name;

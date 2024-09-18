@@ -1,13 +1,13 @@
 import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
 import { useMemo } from 'react';
-
 import {
   ChainID,
   Chain,
   ChainType,
   Timeframe,
   ChainSubType,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';

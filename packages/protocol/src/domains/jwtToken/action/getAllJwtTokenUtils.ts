@@ -19,7 +19,7 @@ export const getUserEndpointToken = async (
   const jwtTokenData = await decryptJwt(jwtData, isEncrypted);
 
   const userEndpointToken =
-    jwtTokenData?.workerTokenData?.userEndpointToken ?? '';
+    jwtTokenData?.workerTokenData?.userEndpointToken || '';
 
   DECRYPTED_TOKENS[jwtData] = userEndpointToken;
 

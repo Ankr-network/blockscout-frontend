@@ -1,7 +1,7 @@
 import { generatePath, useHistory } from 'react-router-dom';
 import { useCallback } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
 
@@ -27,9 +27,9 @@ export const ProjectsRoutesConfig = createRouteConfig(
         const history = useHistory();
         const query = useQueryParams();
 
-        const projectId = query.get(PROJECT_ID_QUERY) ?? undefined;
+        const projectId = query.get(PROJECT_ID_QUERY) || undefined;
         const chainId =
-          (query.get(CHAIN_ID_QUERY) as ChainID | undefined) ?? undefined;
+          (query.get(CHAIN_ID_QUERY) as ChainID | undefined) || undefined;
 
         const setChainId = useCallback(
           (id: ChainID) => {

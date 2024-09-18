@@ -1,6 +1,5 @@
 import { PieChartData } from '@ankr.com/telemetry';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { ChainCalls } from '../../../types';
 import { text } from './text';

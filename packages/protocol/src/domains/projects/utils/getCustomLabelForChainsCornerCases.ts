@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
+import { ChainID, ZETACHAIN_ATHENS3_CHAINS } from '@ankr.com/chains-list';
 
-import { ChainID, ZETACHAIN_ATHENS3_CHAINS } from 'modules/chains/types';
 import { tendermintRestChains } from 'modules/endpoints/constants/groups';
 import { renderNervosName } from 'uiKit/utils/metatags';
 

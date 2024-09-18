@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
+import { Chain, ChainSubType, ChainType } from '@ankr.com/chains-list';
 
-import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
-import { ChainID } from 'modules/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 

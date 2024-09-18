@@ -1,5 +1,6 @@
+import { ZETACHAIN_ATHENS3_CHAINS, ChainSubType } from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
-import { ZETACHAIN_ATHENS3_CHAINS, ChainSubType } from 'modules/chains/types';
 
 interface FilterEndpointsByChainSubTypeParams {
   groupEndpoints: EndpointGroup[];

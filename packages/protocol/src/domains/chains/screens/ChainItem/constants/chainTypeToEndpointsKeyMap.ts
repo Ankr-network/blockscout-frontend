@@ -1,4 +1,5 @@
-import { ChainType } from 'modules/chains/types';
+import { ChainType } from '@ankr.com/chains-list';
+
 import { GroupedEndpoints } from 'modules/endpoints/types';
 
 type Map = Record<ChainType, keyof GroupedEndpoints>;

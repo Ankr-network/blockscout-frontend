@@ -11,7 +11,7 @@ export const useChainItemBreadcrumbs = (chainName: string) => {
   const { isLoggedIn } = useAuth();
 
   const chainsOriginURL =
-    useSelector(selectChainsOriginURL) ??
+    useSelector(selectChainsOriginURL) ||
     ChainsRoutesConfig.chains.generatePath({ isLoggedIn });
 
   const routeTitle = {

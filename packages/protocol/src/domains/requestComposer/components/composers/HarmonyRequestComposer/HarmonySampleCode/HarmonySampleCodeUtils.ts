@@ -22,7 +22,7 @@ const formatUnfilledParameter = (args: any[], argList?: IHarmonyArg[]) => {
       } else if (type === ArgumentType.number) {
         args[index] = 0;
       } else {
-        args[index] = defaultValue ?? '';
+        args[index] = defaultValue || '';
       }
     }
   });

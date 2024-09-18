@@ -20,7 +20,7 @@ export const ProjectRequestsActivity = ({
   relativeChange,
   totalRequestsCount,
 }: ProjectRequestsActivityProps) => {
-  const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
+  const relativeChangeSign = Math.sign(relativeChange || 0) as Sign;
 
   const { classes } = useProjectRequestsActivityStyles(relativeChangeSign);
 

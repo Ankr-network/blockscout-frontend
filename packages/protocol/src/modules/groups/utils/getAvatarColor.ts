@@ -8,4 +8,4 @@ const AVATAR_COLORS = [
 ];
 
 export const getAvatarColor = (index: number) =>
-  AVATAR_COLORS[index] ?? AVATAR_COLORS[0];
+  AVATAR_COLORS[index] || AVATAR_COLORS[0];

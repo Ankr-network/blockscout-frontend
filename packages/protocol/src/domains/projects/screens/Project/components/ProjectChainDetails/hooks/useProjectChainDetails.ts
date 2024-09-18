@@ -1,6 +1,6 @@
 import { ReactNode, useMemo } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 // TODO: move to some common place https://ankrnetwork.atlassian.net/browse/MRPC-3911
 import { getCodeMrpc } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';
 import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';

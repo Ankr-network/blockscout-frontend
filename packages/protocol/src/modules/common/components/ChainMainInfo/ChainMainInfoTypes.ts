@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 export interface ChainMainInfoProps {
   className?: string;

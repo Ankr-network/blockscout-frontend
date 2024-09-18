@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
 import { TypographyOwnProps } from '@mui/material/Typography/Typography';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { getChainName } from 'uiKit/utils/metatags';
 import { ChainLogo } from 'modules/chains/components/ChainLogo';
-import { Chain, ChainID } from 'modules/chains/types';
 
 import { useChainItemStyles } from './useChainItemStyles';
 

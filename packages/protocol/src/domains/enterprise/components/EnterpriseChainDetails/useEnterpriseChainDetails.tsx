@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { ChainID, ChainSubType, ChainType } from '@ankr.com/chains-list';
 
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
@@ -6,7 +7,6 @@ import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
 import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper/components/PublicChainItem/hooks/usePublicChainItem';
 import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
 import {
   ChainGroupID,

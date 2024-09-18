@@ -1,11 +1,11 @@
 import { useEffect, useMemo } from 'react';
-
 import {
   Chain,
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import { useLazyFetchChainsStatsForLast1hQuery } from 'domains/chains/actions/private/fetchChainsStatsForLast1h';

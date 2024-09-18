@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
 import { TabSize } from 'modules/common/components/SecondaryTab';

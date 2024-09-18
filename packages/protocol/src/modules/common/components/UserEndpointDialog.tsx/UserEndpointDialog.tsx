@@ -81,7 +81,7 @@ export const UserEndpointDialog = ({
             text={
               shouldConnectWallet
                 ? t('chains.connect-wallet')
-                : endpointToken ?? ''
+                : endpointToken || ''
             }
             textColor="textPrimary"
             onClick={shouldConnectWallet ? handleLoginDialogOpen : undefined}

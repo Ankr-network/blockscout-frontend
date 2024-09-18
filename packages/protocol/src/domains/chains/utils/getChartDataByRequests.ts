@@ -1,7 +1,7 @@
 import { PrivateStatTimestamp } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { IChartData } from 'modules/common/components/Chart';
-import { Timeframe } from 'modules/chains/types';
 import { getEmptyChartData } from 'modules/common/components/RequestsChart/utils/getEmptyChartDataByTimeframe';
 
 const { Day, Hour, Month, Week } = Timeframe;

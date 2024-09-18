@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { useGroupedEndpoints } from 'modules/endpoints/hooks/useGrouppedEndpoints';
 import { ChainGroupID } from 'modules/endpoints/types';
 

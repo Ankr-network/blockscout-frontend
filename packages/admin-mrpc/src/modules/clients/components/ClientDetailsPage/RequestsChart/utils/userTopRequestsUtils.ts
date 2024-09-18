@@ -174,7 +174,7 @@ export const formatChartData = (
   const listData = (total?.top_requests || [])?.map(
     (item: PrivateStatTopRequests) => item.method,
   );
-  const otherMethods = total?.others_info?.type_count ?? 0;
+  const otherMethods = total?.others_info?.type_count || 0;
   let otherMethodName = '';
 
   if (otherMethods > 0) {

@@ -22,7 +22,7 @@ export const {
         });
 
         return {
-          data: response ?? [],
+          data: response || [],
         };
       },
     }),

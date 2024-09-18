@@ -7,6 +7,9 @@ export const usePublicChainsItemStyles = makeStyles()(theme => ({
     gap: theme.spacing(2),
     width: '100%',
   },
+  publicChainActionsListView: {
+    justifyContent: 'flex-end',
+  },
   publicChainCopyEndpointButton: {
     minHeight: 30,
     height: 30,
@@ -17,5 +20,8 @@ export const usePublicChainsItemStyles = makeStyles()(theme => ({
       width: 20,
       height: 20,
     },
+  },
+  publicChainCopyEndpointButtonListView: {
+    width: 'auto',
   },
 }));

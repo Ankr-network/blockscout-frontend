@@ -25,7 +25,7 @@ export const useCryptoPaymentSuccessStep = ({
     depositTxHash,
     id: txId,
     network = ANKR_PAYMENT_NETWORK,
-  } = tx ?? {};
+  } = tx || {};
 
   const dispatch = useAppDispatch();
 

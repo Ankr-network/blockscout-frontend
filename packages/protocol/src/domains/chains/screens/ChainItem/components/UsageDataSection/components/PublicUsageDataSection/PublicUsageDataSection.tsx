@@ -1,7 +1,7 @@
 import { Paper } from '@mui/material';
 import React from 'react';
+import { Chain, ChainID, Timeframe } from '@ankr.com/chains-list';
 
-import { Chain, ChainID, Timeframe } from 'modules/chains/types';
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { isMultichain } from 'modules/chains/utils/isMultichain';

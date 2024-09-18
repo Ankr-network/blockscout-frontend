@@ -22,7 +22,7 @@ export const useDealAmounts = () => {
 
   const amounts = useAppSelector(selectDealAmounts);
   const currentPlan = useAppSelector(selectMyCurrentBundle);
-  const { amount: currentPlanAmount = 0 } = currentPlan ?? {};
+  const { amount: currentPlanAmount = 0 } = currentPlan || {};
 
   const defaultAmount = useMemo(() => {
     let nextDealPriceIndex =

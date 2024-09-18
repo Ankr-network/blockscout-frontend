@@ -5,18 +5,16 @@ export const useActionButtonStyles = makeStyles()(theme => ({
     fontSize: 16,
     fontWeight: 600,
     lineHeight: '24px',
-    height: theme.spacing(12),
-    borderRadius: 16,
-    marginTop: theme.spacing(12),
-
-    [theme.breakpoints.down('md')]: {
-      marginTop: theme.spacing(6),
-    },
+    height: theme.spacing(10),
+    borderRadius: 8,
   },
   currentPlanButton: {
     color: theme.palette.grey[400],
   },
   freeButton: {
-    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.primary.main,
+    '&&': {
+      backgroundColor: theme.palette.background.paper,
+    },
   },
 }));

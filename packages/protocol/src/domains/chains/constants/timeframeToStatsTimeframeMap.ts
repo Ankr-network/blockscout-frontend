@@ -1,6 +1,5 @@
 import { Timeframe as StatsTimeframe } from 'multirpc-sdk';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 export const timeframeToStatsTimeframe: Record<Timeframe, StatsTimeframe> = {
   [Timeframe.Hour]: '1h',

@@ -12,8 +12,12 @@ import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 
 import { usePublicChainsData } from './hooks/usePublicChainsData';
 import { PublicChainCard } from './components/PublicChainCard';
+import { IChainsViewProps } from './PublicChainsTypes';
 
-export const PublicChains = () => {
+export const PublicChains = ({
+  chainsViewTabs,
+  selectedChainsViewTab,
+}: IChainsViewProps) => {
   const {
     chains,
     loading,
@@ -57,8 +61,16 @@ export const PublicChains = () => {
               setSortType={setSortType}
               searchContent={searchContent}
               setSearchContent={setSearchContent}
+              chainsViewTabs={chainsViewTabs}
+              selectedChainsViewTab={selectedChainsViewTab}
             />
-            <ChainsList chains={processedChains} isLoading={loading}>
+            <ChainsList
+              chains={processedChains}
+              isLoading={loading}
+              view={selectedChainsViewTab?.id}
+              timeframe={timeframe}
+              isPublicLayout
+            >
               {processedChains.map(item => {
                 const { id } = item;
 
@@ -69,6 +81,7 @@ export const PublicChains = () => {
                     timeframe={timeframe}
                     onOpenLoginModal={onOpenLogin}
                     onOpenUpgradeModal={onPromoDialogOpen}
+                    view={selectedChainsViewTab?.id}
                   />
                 );
               })}

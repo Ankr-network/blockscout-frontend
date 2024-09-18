@@ -12,7 +12,7 @@ export const GuardTeamInvitationRoute = (
 ) => {
   const { location } = props;
 
-  const isTeamInvitation = isTeamInvitationQuery(location?.search ?? '');
+  const isTeamInvitation = isTeamInvitationQuery(location?.search || '');
 
   if (isTeamInvitation) {
     return (

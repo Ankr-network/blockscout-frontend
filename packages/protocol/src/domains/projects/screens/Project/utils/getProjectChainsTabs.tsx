@@ -1,4 +1,5 @@
-import { Chain, ChainID } from 'modules/chains/types';
+import { Chain, ChainID } from '@ankr.com/chains-list';
+
 import { Tab } from 'modules/common/hooks/useTabs';
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 

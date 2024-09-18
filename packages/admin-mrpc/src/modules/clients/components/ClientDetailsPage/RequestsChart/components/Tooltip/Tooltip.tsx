@@ -25,7 +25,7 @@ export const Tooltip = ({ active, payload }: TooltipProps) => {
     <div className={classes.root}>
       <div className={classes.row}>
         <Typography variant="body2" className={classes.value}>
-          {formatNumber((item.value || item.extraValue) ?? 0)}
+          {formatNumber(item.value || item.extraValue || 0)}
         </Typography>
       </div>
       <div className={classes.row}>

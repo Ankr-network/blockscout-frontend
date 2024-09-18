@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import {
   FetchPrivateStatsParams as PrivateStatsParams,
   chainsFetchPrivateStats,
@@ -90,12 +90,12 @@ export const selectTotalRequestsByChainID = createSelector(
 
 export const selectTotalRequestsNumber = createSelector(
   selectStatsData,
-  stats => stats.totalRequests ?? 0,
+  stats => stats.totalRequests || 0,
 );
 
 export const selectTotalRequestsNumberByChainID = createSelector(
   selectChainStats,
-  stats => stats?.total_requests ?? 0,
+  stats => stats?.total_requests || 0,
 );
 
 export const selectMethodCallsByChainID = createSelector(
@@ -114,7 +114,7 @@ export const selectChainCalls = createSelector(
   (stats, map) =>
     Object.entries(stats).map<ChainCalls>(([chainID, stat]) => ({
       name: map[chainID],
-      calls: stat?.total_requests ?? 0,
+      calls: stat?.total_requests || 0,
     })),
 );
 
@@ -216,8 +216,8 @@ export const selectAllTimeTotalRequestsNumber = createSelector(
   (_state: RootState, chainID?: ChainID) => chainID,
   (data, chainID) =>
     chainID && data?.blockchains
-      ? data?.blockchains[chainID]?.total_count ?? 0
-      : data?.total_count ?? 0,
+      ? data?.blockchains[chainID]?.total_count || 0
+      : data?.total_count || 0,
 );
 
 export const selectTotalStatsLoading = createSelector(

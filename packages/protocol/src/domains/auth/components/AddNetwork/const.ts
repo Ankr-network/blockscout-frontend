@@ -1,8 +1,8 @@
 import {
+  ChainID,
   BSC_CHAIN_NAME,
   TRON_CHAIN_NAME,
-} from 'domains/auth/utils/mappingchainName';
-import { ChainID } from 'modules/chains/types';
+} from '@ankr.com/chains-list';
 
 import { NetworkInfo } from './types';
 

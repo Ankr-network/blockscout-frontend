@@ -1,10 +1,11 @@
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   Chain,
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
 

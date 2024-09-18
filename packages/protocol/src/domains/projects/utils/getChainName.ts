@@ -1,6 +1,5 @@
-import { IBlockchainEntity } from 'multirpc-sdk';
+import { IBlockchainEntity, ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { getChainName as getFallbackChainsName } from 'uiKit/utils/metatags';
 
 import { getChainLabel } from './getChainLabel';

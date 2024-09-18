@@ -1,4 +1,5 @@
-import { Chain, ChainID, ChainSubType } from 'modules/chains/types';
+import { Chain, ChainID, ChainSubType } from '@ankr.com/chains-list';
+
 import { Tab } from 'modules/common/hooks/useTabs';
 
 import { ChainTypeTab } from '../components/ChainTypeTab';

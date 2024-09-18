@@ -1,4 +1,5 @@
-import { IBlockchainEntity, IUsageTop } from 'multirpc-sdk';
+import { IUsageTop } from 'multirpc-sdk';
+import { IBlockchainEntity } from '@ankr.com/chains-list';
 
 import { ChainNamesMap } from './getChainNamesMap';
 

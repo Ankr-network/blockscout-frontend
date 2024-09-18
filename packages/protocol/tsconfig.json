@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDirs": ["."],
-    "target": "es5",
+    "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "downlevelIteration": true,
     "allowJs": true,
@@ -21,6 +21,5 @@
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src", "src/typings/**/*.d.ts"],
-  "files": ["src/index.tsx"],
-  "exclude": ["node_modules"]
+  "files": ["src/index.tsx"]
 }

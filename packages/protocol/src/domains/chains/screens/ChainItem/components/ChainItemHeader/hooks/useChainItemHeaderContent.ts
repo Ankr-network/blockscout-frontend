@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { TRON_RESET_API_GROUP_ID } from 'domains/auth/components/AddNetwork/const';
 import { getEndpointsGroup } from 'domains/chains/screens/ChainItem/utils/getEndpointsGroup';

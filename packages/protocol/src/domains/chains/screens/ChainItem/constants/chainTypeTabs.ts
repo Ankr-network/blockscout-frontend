@@ -1,6 +1,6 @@
 import { t } from '@ankr.com/common';
+import { ChainSubType, ChainType } from '@ankr.com/chains-list';
 
-import { ChainSubType, ChainType } from 'modules/chains/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 
 export const getChainTypeTabs = (): Tab<ChainType>[] => [

@@ -78,7 +78,7 @@ export const getMainTheme = (themes: Themes): Theme => {
           ...baseTheme.components?.MuiButton?.styleOverrides,
           root: {
             // @ts-ignore
-            ...(baseTheme?.components?.MuiButton?.styleOverrides?.root ?? {}),
+            ...(baseTheme?.components?.MuiButton?.styleOverrides?.root || {}),
             whiteSpace: 'nowrap',
           },
         },

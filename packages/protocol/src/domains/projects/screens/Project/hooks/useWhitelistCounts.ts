@@ -9,7 +9,7 @@ const defaultWhitelist: WhitelistItem[] = [];
 export const useWhitelistCounts = () => {
   const { data, isLoading } = useProjectWhitelist(true);
 
-  const whitelist = data?.lists ?? defaultWhitelist;
+  const whitelist = data?.lists || defaultWhitelist;
 
   const whitelistsCounts = useMemo(
     () => getWhitelistCounts(whitelist),

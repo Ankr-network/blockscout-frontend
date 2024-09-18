@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { v4 } from 'uuid';
+import { IBlockchainEntity } from '@ankr.com/chains-list';
 
 import { IBackofficeGateway } from './interfaces';
 import {
@@ -78,7 +79,7 @@ import {
   IDeleteReferralCodeResponse,
   IBundlesStatusesResponse,
 } from './types';
-import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity } from '../common';
+import { AXIOS_DEFAULT_CONFIG } from '../common';
 
 export class BackofficeGateway implements IBackofficeGateway {
   public api: AxiosInstance;
@@ -121,11 +122,13 @@ export class BackofficeGateway implements IBackofficeGateway {
     if (params.blockchain) {
       formattedParams.append('blockchain', params.blockchain)
     }
+
     formattedParams.append('cursor', params.cursor.toString())
     formattedParams.append('limit', params.limit.toString())
     if (params.order_by) {
       formattedParams.append('order_by', params.order_by)
     }
+
     params.types?.forEach(x => formattedParams.append('type', x))
 
     const { data: response } = await this.api.get<ITransactionsResponse>(

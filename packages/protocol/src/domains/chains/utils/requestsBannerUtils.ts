@@ -1,8 +1,7 @@
 import { UserRequest, UserRequestsResponse } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
 import { format } from 'date-fns';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { getCurrentTimestamp } from './timeframeUtils';
 

@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useCallback } from 'react';
 import { IconButton } from '@mui/material';
 import { Edit } from '@ankr.com/ui';
+import { Chain, ChainBadge, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainBadge, ChainID } from 'modules/chains/types';
 import { getCustomLabelForChainsCornerCases } from 'domains/projects/utils/getCustomLabelForChainsCornerCases';
 
 import { useNetworkBadges } from './useNetworkBadges';

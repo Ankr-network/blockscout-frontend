@@ -48,7 +48,7 @@ export const {
 
           const price = await getTokenPriceByChainId(chainId, tokenAddress);
 
-          return { data: price ?? ZERO_STRING };
+          return { data: price || ZERO_STRING };
         },
       ),
     }),

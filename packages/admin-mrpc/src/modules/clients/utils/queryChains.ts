@@ -1,19 +1,14 @@
 import BigNumber from 'bignumber.js';
 import {
-  BlockchainType,
+  EBlockchainType,
   BlockchainUrls,
   ChainsConfig,
   IBlockchainEntity,
-} from 'multirpc-sdk';
+} from '@ankr.com/chains-list';
 
 import { getChainIcon } from 'uiKit/utils/getTokenIcon';
 
 import { ChainID } from '../types';
-
-export interface IFetchChainsResponseData {
-  chains: ChainsConfig;
-  allChains: ChainsConfig;
-}
 
 export interface IApiChainURL {
   rpc: string;
@@ -65,7 +60,7 @@ export const filterMapChains = (
     (result, chain) => {
       const { type, chainExtends } = chain;
 
-      if (type === BlockchainType.Extension && chainExtends) {
+      if (type === EBlockchainType.Extension && chainExtends) {
         result[chainExtends] = result[chainExtends]
           ? [...result[chainExtends], chain]
           : [chain];
@@ -79,7 +74,7 @@ export const filterMapChains = (
   const extendedChains = chains.reduce<IApiChain[]>((result, chain) => {
     const { id, type } = chain;
 
-    if (type !== BlockchainType.Extension) {
+    if (type !== EBlockchainType.Extension) {
       const evmExtension = (extensions[id] || []).find(extension =>
         extension.id.includes('evm'),
       );
@@ -104,7 +99,7 @@ export const filterMapChains = (
     (result, chain) => {
       const { chainExtends, type } = chain;
 
-      if (type === BlockchainType.Testnet && chainExtends) {
+      if (type === EBlockchainType.Testnet && chainExtends) {
         result[chainExtends] = result[chainExtends]
           ? [...result[chainExtends], chain]
           : [chain];
@@ -119,7 +114,7 @@ export const filterMapChains = (
     (result, chain) => {
       const { chainExtends, type } = chain;
 
-      if (type === BlockchainType.Devnet && chainExtends) {
+      if (type === EBlockchainType.Devnet && chainExtends) {
         result[chainExtends] = result[chainExtends]
           ? [...result[chainExtends], chain]
           : [chain];
@@ -134,7 +129,7 @@ export const filterMapChains = (
     (result, chain) => {
       const { id, type } = chain;
 
-      if (type !== BlockchainType.Testnet && type !== BlockchainType.Devnet) {
+      if (type !== EBlockchainType.Testnet && type !== EBlockchainType.Devnet) {
         result.push({
           ...chain,
           testnets: testnets[id],

@@ -1,6 +1,10 @@
-import { BlockchainFeature, BlockchainType } from 'multirpc-sdk';
-
-import { Chain, ChainID, Timeframe } from 'modules/chains/types';
+import {
+  EBlockchainFeature,
+  EBlockchainType,
+  Chain,
+  ChainID,
+  Timeframe,
+} from '@ankr.com/chains-list';
 
 export const timeframesMap: Record<Timeframe, string> = {
   [Timeframe.Day]: 'day',
@@ -26,6 +30,6 @@ export const fallbackChain: Chain = {
   hasEnterpriseFeature: false,
   coinName: '',
   name: 'fakeChain',
-  type: BlockchainType.Mainnet,
-  features: [BlockchainFeature.RPC],
+  type: EBlockchainType.Mainnet,
+  features: [EBlockchainFeature.RPC],
 };

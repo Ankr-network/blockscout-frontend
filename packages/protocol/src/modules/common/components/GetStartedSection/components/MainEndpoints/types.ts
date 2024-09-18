@@ -1,5 +1,6 @@
+import { Chain, ChainSubType } from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
-import { Chain, ChainSubType } from 'modules/chains/types';
 
 import { EndpointProps } from '../Endpoint';
 

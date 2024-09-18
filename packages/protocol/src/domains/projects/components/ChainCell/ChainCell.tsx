@@ -1,7 +1,7 @@
 import { Box, Checkbox } from '@mui/material';
 import { MouseEvent, useCallback, useMemo } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { ChainInfo } from 'domains/projects/components/ChainInfo';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';

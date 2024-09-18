@@ -1,6 +1,6 @@
 import { Timeframe } from 'multirpc-sdk';
+import { ChainID, Chain } from '@ankr.com/chains-list';
 
-import { ChainID, Chain } from 'modules/chains/types';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
 

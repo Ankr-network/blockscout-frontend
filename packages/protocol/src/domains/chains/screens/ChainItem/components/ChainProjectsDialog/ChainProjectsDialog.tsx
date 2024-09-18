@@ -1,8 +1,8 @@
 import { Button, Typography } from '@mui/material';
 import { LoadingButton } from '@ankr.com/ui';
+import { Chain } from '@ankr.com/chains-list';
 
 import { Dialog } from 'uiKit/Dialog';
-import { Chain } from 'modules/chains/types';
 import { ChainDescription } from 'modules/chains/components/ChainDescription';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';

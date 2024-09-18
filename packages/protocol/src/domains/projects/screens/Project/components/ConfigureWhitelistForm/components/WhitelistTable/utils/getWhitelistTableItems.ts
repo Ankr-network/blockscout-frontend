@@ -1,6 +1,5 @@
 import { UserEndpointTokenMode, WhitelistItem } from 'multirpc-sdk';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { WhitelistTableItem } from '../types';
 import { filterWhitelistByType } from './filterWhitelistByType';

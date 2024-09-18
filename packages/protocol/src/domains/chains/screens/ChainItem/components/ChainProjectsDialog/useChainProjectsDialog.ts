@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
 import { useAppSelector } from 'store/useAppSelector';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { Chain } from 'modules/chains/types';
 import { useAddBlockchainsToWhitelistMutation } from 'domains/projects/actions/addBlockchainsToWhitelist';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import {

@@ -33,8 +33,18 @@ export const useBaseChainsHeaderStyles = makeStyles()(theme => ({
       gridColumnEnd: 2,
     },
   },
+  chainsListSearch: {
+    height: 40,
+    [theme.breakpoints.down('sm')]: {
+      height: 30,
+    },
+  },
   chainsSortSelect: {
+    height: 40,
     backgroundColor: theme.palette.background.paper,
     borderRadius: 12,
+    [theme.breakpoints.down('sm')]: {
+      height: 30,
+    },
   },
 }));

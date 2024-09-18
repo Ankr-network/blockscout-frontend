@@ -1,103 +1,66 @@
+import { t } from '@ankr.com/common';
 import { Divider, Typography } from '@mui/material';
-import { t, tHTML } from '@ankr.com/common';
 
-import {
-  FREE_INFO_COUNT,
-  INFO_COUNT,
-  INTL_PLANS_ROOT,
-  EPlanList,
-  TIP_LIST,
-} from '../../PlansUtils';
+import { EGeneralPlanList } from '../../PlansUtils';
 import { usePlanStyles } from './PlanStyles';
-import { getPlanDetailsIcon } from './utils';
-import { ActionButton } from '../ActionButton';
+import { ActionButton, IUseActionButtonProps } from '../ActionButton';
+import { usePlan } from './hooks/usePlan';
+import { EPlanLabel, PlanLabel } from '../../../PlanLabel';
+import discountImage from '../../assets/discount.png';
 
-interface PlanProps {
-  planName: EPlanList;
-  onClick: () => void;
-  isButtonDisabled: boolean;
-  isCurrentPlan: boolean;
+interface PlanProps extends IUseActionButtonProps {
   rootClassname?: string;
-  headerClassname?: string;
 }
 
-export const Plan = ({
-  headerClassname,
-  isButtonDisabled,
-  isCurrentPlan,
-  onClick,
-  planName,
-  rootClassname,
-}: PlanProps) => {
+export const Plan = ({ clickCallback, planName, rootClassname }: PlanProps) => {
   const { classes, cx } = usePlanStyles();
 
-  const isFreePlan = planName === EPlanList.Free;
-  const isPremiumPlan = planName === EPlanList.Premium;
-  const isEnterprisePlan = planName === EPlanList.Enterprise;
+  const config = usePlan(planName);
 
-  const infoCount = isFreePlan ? FREE_INFO_COUNT : INFO_COUNT;
+  const isPayAsYouGoPlan = planName === EGeneralPlanList.PayAsYouGo;
+  const isDealPlan = planName === EGeneralPlanList.Deal;
 
   return (
-    <div
-      className={cx(
-        classes.container,
-        {
-          [classes.premium]: isPremiumPlan,
-          [classes.enterprise]: isEnterprisePlan,
-        },
-        rootClassname,
-      )}
-    >
+    <div className={cx(classes.container, rootClassname)}>
       <div className={cx(classes.root, rootClassname)}>
-        <div>
-          <div className={classes.header}>
-            {TIP_LIST.includes(planName) && (
-              <div className={cx(classes.tip)}>
-                {t(`${INTL_PLANS_ROOT}.${planName}.tip`)}
-              </div>
-            )}
-            <div className={cx(classes.row, headerClassname)}>
-              <Typography
-                variant="h4"
-                className={cx(
-                  classes.title,
-                  isPremiumPlan && classes.premiumTitle,
-                  isFreePlan && classes.freeTitle,
-                )}
-              >
-                {t(`${INTL_PLANS_ROOT}.${planName}.title`)}
-              </Typography>
-              <Typography variant="subtitle1" className={classes.price}>
-                {tHTML(`${INTL_PLANS_ROOT}.${planName}.price`)}
-              </Typography>
-            </div>
-          </div>
-          <Divider className={classes.divider} />
-          <div className={classes.list}>
-            {new Array(infoCount).fill('').map((_, index) => (
-              <Typography key={`info-${index + 1}`} className={classes.info}>
-                {getPlanDetailsIcon(
-                  index,
-                  isPremiumPlan,
-                  cx(
-                    classes.infoIcon,
-                    isFreePlan && classes.freeIcon,
-                    isPremiumPlan && classes.premiumIcon,
-                    isEnterprisePlan && classes.enterpriseIcon,
-                  ),
-                )}
-                {tHTML(`${INTL_PLANS_ROOT}.${planName}.info-${index + 1}`)}
-              </Typography>
-            ))}
-          </div>
+        <div className={classes.labelWrapper}>
+          <Typography className={classes.label}>{config.label}</Typography>
+          {(isPayAsYouGoPlan || isDealPlan) && (
+            <PlanLabel plan={EPlanLabel.PREMIUM} />
+          )}
         </div>
+        <Typography className={classes.title} component="p">
+          {t(config.title1)}
+        </Typography>
+        <Typography
+          className={cx(classes.title, classes.subtitle)}
+          component="p"
+        >
+          {config.title2}
+        </Typography>
 
-        <ActionButton
-          planName={planName}
-          isButtonDisabled={isButtonDisabled}
-          isCurrentPlan={isCurrentPlan}
-          onClick={onClick}
-        />
+        {config.isDiscount && (
+          <img
+            alt={config.sale}
+            src={discountImage}
+            className={classes.discount}
+          />
+        )}
+
+        <Typography className={classes.price}>{config.price}</Typography>
+
+        <ActionButton planName={planName} clickCallback={clickCallback} />
+
+        <Divider className={classes.divider} />
+
+        <div className={classes.list}>
+          {config.features.map(feature => (
+            <div className={classes.item} key={feature.title}>
+              <feature.icon className={classes.icon} />
+              {feature.title}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

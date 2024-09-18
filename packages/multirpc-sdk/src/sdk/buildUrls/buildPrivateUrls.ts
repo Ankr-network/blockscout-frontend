@@ -1,6 +1,7 @@
-import { ChainsConfig } from './types';
-import { BlockchainFeature, IBlockchainEntity } from '../../common';
 import {
+  IBlockchainEntity,
+  EBlockchainFeature,
+  ChainsConfig,
   ALLORA_IDS,
   APTOS_IDS,
   ENABLED_KAVA_IDS,
@@ -10,7 +11,7 @@ import {
   STELLAR_IDS,
   blockchainNameTemplate,
   userNameTemplate,
-} from './constants';
+} from '@ankr.com/chains-list';
 
 const shouldUsePremiumHttpUrl = (id: string) => {
   const isTron = id === 'tron';
@@ -47,7 +48,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
 const isBeacon = (id: string) => id.includes('beacon');
 
 const getPaths = (blockchain: IBlockchainEntity) => {
-  let paths = blockchain?.paths ?? [];
+  let paths = blockchain?.paths || [];
 
   if (shouldUsePremiumHttpUrl(blockchain.id)) {
     paths = blockchain?.paths ? [blockchain.paths[1]] : [];
@@ -121,10 +122,10 @@ export const buildPrivateUrls = ({
   return [...blockchains].reduce<ChainsConfig>((result, blockchain) => {
     const { id } = blockchain;
     const hasRPC =
-      blockchain.features.includes(BlockchainFeature.RPC) ||
-      blockchain.features.includes(BlockchainFeature.ComingSoon) ||
-      blockchain.features.includes(BlockchainFeature.GRPC);
-    const hasWS = blockchain.features.includes(BlockchainFeature.WS);
+      blockchain.features.includes(EBlockchainFeature.RPC) ||
+      blockchain.features.includes(EBlockchainFeature.ComingSoon) ||
+      blockchain.features.includes(EBlockchainFeature.GRPC);
+    const hasWS = blockchain.features.includes(EBlockchainFeature.WS);
 
     const paths = getPaths(blockchain);
 
@@ -148,7 +149,7 @@ export const buildPrivateUrls = ({
         })
       : [];
 
-    const hasREST = blockchain.features.includes(BlockchainFeature.REST);
+    const hasREST = blockchain.features.includes(EBlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({

@@ -1,6 +1,6 @@
 import { PrivateStatsInternal } from 'multirpc-sdk';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
 export interface AggregateTotalRequestsNumberParams {
@@ -13,6 +13,6 @@ export const aggregateTotalRequestsNumber = ({
   stats = {},
 }: AggregateTotalRequestsNumberParams) =>
   [...new Set(ids.map(id => checkPrivateChainsAndGetChainId(id)))].reduce(
-    (result, id) => result + (stats[id]?.total_requests ?? 0),
+    (result, id) => result + (stats[id]?.total_requests || 0),
     0,
   );

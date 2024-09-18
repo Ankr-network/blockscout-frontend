@@ -5,7 +5,7 @@ import { DEAL_PROMO_EXTRA_REQUESTS_RATE } from '../components/PaymentForm/compon
 
 export const getDealRequestsCountByUsdAmount = (amount?: number) => {
   const currentBundleRequestsCount = getRequestsByUSDAmount(
-    amount ?? 0,
+    amount || 0,
     DEAL_PROMO_EXTRA_REQUESTS_RATE,
   );
 

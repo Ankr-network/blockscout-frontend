@@ -1,6 +1,9 @@
 import { makeStyles } from 'tss-react/mui';
 
 export const useFeatureTableMobileStyles = makeStyles()(theme => ({
+  root: {
+    width: '100%',
+  },
   title: {
     textAlign: 'center',
     fontSize: 24,
@@ -12,5 +15,8 @@ export const useFeatureTableMobileStyles = makeStyles()(theme => ({
   content: {
     backgroundColor: theme.palette.background.paper,
     borderRadius: 30,
+  },
+  lastItem: {
+    borderTop: 'none',
   },
 }));

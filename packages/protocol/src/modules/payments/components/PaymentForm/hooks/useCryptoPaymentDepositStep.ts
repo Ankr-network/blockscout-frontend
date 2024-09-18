@@ -115,7 +115,7 @@ export const useCryptoPaymentDepositStep = ({
     allowance,
     allowanceError,
     allowanceFeeDetails:
-      allowanceFeeDetailsPaid ?? allowanceFeeDetailsEstimated,
+      allowanceFeeDetailsPaid || allowanceFeeDetailsEstimated,
     allowanceStepStatus,
     allowanceTxHash,
     amount,
@@ -123,7 +123,7 @@ export const useCryptoPaymentDepositStep = ({
     confirmationBlocks,
     currency,
     depositError,
-    depositFeeDetails: depositFeeDetailsPaid ?? depositFeeDetailsEstimated,
+    depositFeeDetails: depositFeeDetailsPaid || depositFeeDetailsEstimated,
     depositStepStatus,
     depositTxHash,
     handleDeposit,

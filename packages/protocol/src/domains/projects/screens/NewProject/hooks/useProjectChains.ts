@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import {
   tendermintRpcChains,
   chainGroups,

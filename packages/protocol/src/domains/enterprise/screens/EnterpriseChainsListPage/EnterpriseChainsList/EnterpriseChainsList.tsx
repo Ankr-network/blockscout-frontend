@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ESortChainsType, Timeframe } from '@ankr.com/chains-list';
 
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useAppSelector } from 'store/useAppSelector';
@@ -9,7 +10,6 @@ import {
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ChainsList } from 'modules/common/components/ChainsList';
-import { ESortChainsType, Timeframe } from 'modules/chains/types';
 import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 

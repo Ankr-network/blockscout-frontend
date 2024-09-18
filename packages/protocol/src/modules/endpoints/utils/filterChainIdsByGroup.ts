@@ -1,4 +1,4 @@
-import { ChainID, FLARE_TESTNETS } from 'modules/chains/types';
+import { ChainID, FLARE_TESTNETS } from '@ankr.com/chains-list';
 
 import { ChainGroupID } from '../types';
 import { getGroupById } from './getGroupById';

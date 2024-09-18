@@ -1,12 +1,16 @@
 import { capitalize } from '@mui/material';
 import { t } from '@ankr.com/common';
-import { BlockchainType } from 'multirpc-sdk';
+import {
+  EBlockchainType,
+  Chain,
+  ChainID,
+  ChainType,
+} from '@ankr.com/chains-list';
 
 import { chainGroups, getName } from 'modules/endpoints/constants/groups';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainProtocol } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 
-import { Chain, ChainID, ChainType } from '../types';
 import { flatChain } from './flatChain';
 
 const EXCLUDED_GROUPS = [
@@ -48,9 +52,9 @@ export const getChainLabels = (
   // collect subchain labels
   const labels = subchains.map(subchain => {
     const shouldIgnoreTestnetGroup =
-      isOnlyOneTestnet && subchain.type === BlockchainType.Testnet;
+      isOnlyOneTestnet && subchain.type === EBlockchainType.Testnet;
     const shouldIgnoreDevnetGroup =
-      isOnlyOneDevnet && subchain.type === BlockchainType.Devnet;
+      isOnlyOneDevnet && subchain.type === EBlockchainType.Devnet;
     const shouldIgnoreLabel =
       shouldIgnoreTestnetGroup ||
       shouldIgnoreDevnetGroup ||

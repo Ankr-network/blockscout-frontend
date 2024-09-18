@@ -28,7 +28,7 @@ export const RequestsInfo = ({
   totalRequestsCount,
   width = 220,
 }: RequestsInfoProps) => {
-  const relativeChangeSign = Math.sign(relativeChange ?? 0) as Sign;
+  const relativeChangeSign = Math.sign(relativeChange || 0) as Sign;
 
   const { classes, cx } = useRequestsInfoStyles(relativeChangeSign);
 

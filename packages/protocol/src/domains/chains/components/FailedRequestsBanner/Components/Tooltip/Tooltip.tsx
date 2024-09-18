@@ -11,7 +11,7 @@ export const Tooltip = ({ active, label, payload }: ITooltipProps) => {
 
   if (!(active && payload?.length && label)) return null;
 
-  const { name, rejectedRequestsCount, total } = payload[0]?.payload ?? {};
+  const { name, rejectedRequestsCount, total } = payload[0]?.payload || {};
 
   return (
     <div className={classes.root}>

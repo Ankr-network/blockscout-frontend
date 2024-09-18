@@ -2,8 +2,8 @@ import { MenuItem, SelectChangeEvent, Typography } from '@mui/material';
 import { FilterAlt, Select } from '@ankr.com/ui';
 import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
+import { ESortChainsType } from '@ankr.com/chains-list';
 
-import { ESortChainsType } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useChainsSortSelectStyles } from './useChainsSortSelectStyles';

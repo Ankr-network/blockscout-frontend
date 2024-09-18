@@ -1,4 +1,5 @@
-import { Chain, ChainID } from 'modules/chains/types';
+import { Chain, ChainID } from '@ankr.com/chains-list';
+
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
 
 export type ChainNamesMap = Record<string, string>;
@@ -6,11 +7,11 @@ export type ChainNamesMap = Record<string, string>;
 const flatChains = (chains: Chain[]): Chain[] =>
   chains.flatMap(chain => [
     chain,
-    ...flatChains(chain.extenders ?? []),
-    ...flatChains(chain.extensions ?? []),
-    ...flatChains(chain.opnodes ?? []),
-    ...flatChains(chain.testnets ?? []),
-    ...flatChains(chain.devnets ?? []),
+    ...flatChains(chain.extenders || []),
+    ...flatChains(chain.extensions || []),
+    ...flatChains(chain.opnodes || []),
+    ...flatChains(chain.testnets || []),
+    ...flatChains(chain.devnets || []),
   ]);
 
 export const getChainNamesMap = (chains: Chain[] = []) => {

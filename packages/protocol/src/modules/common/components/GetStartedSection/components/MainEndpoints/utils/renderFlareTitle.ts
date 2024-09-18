@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { root } from '../../../const';
 

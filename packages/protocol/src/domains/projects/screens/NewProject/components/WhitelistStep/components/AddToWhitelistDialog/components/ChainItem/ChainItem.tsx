@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import { FormControlLabel, Typography, Checkbox } from '@mui/material';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { useChainItemStyles } from './useChainItemStyles';
 

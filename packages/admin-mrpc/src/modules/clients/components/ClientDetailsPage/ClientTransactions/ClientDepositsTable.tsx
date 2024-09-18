@@ -46,7 +46,7 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
   const transactionsArray =
     transactionsData?.transactions.filter(
       x => x.type !== 'TRANSACTION_TYPE_DEDUCTION',
-    ) ?? [];
+    ) || [];
 
   const rendetLoadMoreButton = () => {
     if (transactionsData?.cursor && transactionsData?.cursor > 0) {
