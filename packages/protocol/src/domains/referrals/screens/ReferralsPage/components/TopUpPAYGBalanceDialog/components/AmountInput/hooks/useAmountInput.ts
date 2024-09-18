@@ -77,5 +77,5 @@ export const useAmountInput = () => {
     ],
   );
 
-  return { amount, amountInputProps, reset, setError, validateAmount };
+  return { amount, amountInputProps, error, reset };
 };

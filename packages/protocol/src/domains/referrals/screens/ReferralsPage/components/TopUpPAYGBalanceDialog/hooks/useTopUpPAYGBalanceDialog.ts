@@ -18,9 +18,8 @@ export const useTopUpPAYGBalanceDialog = () => {
   const {
     amount,
     amountInputProps,
+    error,
     reset: resetAmountInput,
-    setError: setInputError,
-    validateAmount,
   } = useAmountInput();
   const { paygAccountCardProps } = usePAYGAccountCard();
   const { showFailureAlert, showSuccessAlert } = useNotifications({ amount });
@@ -32,11 +31,10 @@ export const useTopUpPAYGBalanceDialog = () => {
 
   const { buttonsProps } = useButtons({
     amount,
+    error,
     handleCloseDialog: onClose,
     onError: showFailureAlert,
     onSuccess: showSuccessAlert,
-    setInputError,
-    validateAmount,
   });
 
   const topUpPAYGBalanceDialogProps = useMemo(

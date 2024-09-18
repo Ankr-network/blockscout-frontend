@@ -6,20 +6,18 @@ import { useConvertReferralRewardMutation } from 'modules/referralProgram/action
 
 export interface IUseButtonsProps {
   amount?: number;
+  error?: string;
   handleCloseDialog: () => void;
   onError: () => void;
   onSuccess: () => void;
-  setInputError: (error: string) => void;
-  validateAmount: (amount: string) => string | undefined;
 }
 
 export const useButtons = ({
   amount,
+  error,
   handleCloseDialog,
   onError,
   onSuccess,
-  setInputError,
-  validateAmount,
 }: IUseButtonsProps) => {
   const [handleConvertReward, { isLoading: isConverting }] =
     useConvertReferralRewardMutation();
@@ -27,32 +25,27 @@ export const useButtons = ({
   const onConfirmButtonClick = useCallback(async () => {
     const amountString = amount?.toString() ?? '';
 
-    const amountError = validateAmount(amountString);
+    if (!error) {
+      const response = await handleConvertReward({
+        amount: amountString,
+        type: EConvertReferralRewardType.BalanceTopUp,
+      });
 
-    if (amountError) {
-      return setInputError(amountError);
+      if (isMutationSuccessful(response)) {
+        onSuccess();
+      } else {
+        onError();
+      }
+
+      handleCloseDialog();
     }
-
-    const response = await handleConvertReward({
-      amount: amountString,
-      type: EConvertReferralRewardType.BalanceTopUp,
-    });
-
-    if (isMutationSuccessful(response)) {
-      onSuccess();
-    } else {
-      onError();
-    }
-
-    return handleCloseDialog();
   }, [
     amount,
+    error,
     handleCloseDialog,
     handleConvertReward,
     onError,
     onSuccess,
-    setInputError,
-    validateAmount,
   ]);
 
   const onCancelButtonClick = handleCloseDialog;
