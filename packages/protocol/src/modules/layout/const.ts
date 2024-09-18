@@ -9,5 +9,5 @@ export enum Header {
 }
 
 export const HEADER_BANNER_ID = 'header-banner-element';
-export const SHOULD_SHOW_HEADER_BANNER = true;
+export const SHOULD_SHOW_HEADER_BANNER = false;
 export const SHOULD_SHOW_NOTIFICATION_DIALOG = false;
