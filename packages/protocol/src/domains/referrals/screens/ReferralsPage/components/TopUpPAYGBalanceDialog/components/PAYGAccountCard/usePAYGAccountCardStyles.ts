@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { isLightTheme } from 'uiKit/Theme/themeUtils';
+
 const name = 'PAYGAccountCard';
 
 export const usePAYGAccountCardStyles = makeStyles({ name })(theme => ({
@@ -28,7 +30,9 @@ export const usePAYGAccountCardStyles = makeStyles({ name })(theme => ({
     gap: theme.spacing(1),
   },
   credits: {
-    color: theme.palette.text.primary,
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
+      : theme.palette.background.paper,
   },
   requests: {
     color: theme.palette.text.secondary,
