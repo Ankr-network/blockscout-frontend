@@ -41,6 +41,7 @@ yarn workspace @ankr.com/Web3APIApplication start:stage:turbo
 ## Adding a new chain
 
 ### Any new chain
+- add chainId to packages/chains-list/src/types.ts
 - add icon packages/protocol/src/uiKit/utils/getTokenIcon/index.ts
 - add chainId to group packages/protocol/src/modules/endpoints/constants/groups.ts
 - check existed group with similar functionality packages/protocol/src/modules/endpoints/constants/groups.ts
