@@ -12,7 +12,7 @@ export const usePlansStyles = makeStyles<void>()(theme => ({
       "enterprise enterprise enterprise"
     `,
     gap: theme.spacing(5),
-    margin: `${theme.spacing(30)} auto`,
+    margin: `${theme.spacing(10.5)} auto ${theme.spacing(22.5)} auto`,
 
     [theme.breakpoints.down('md')]: {
       gridTemplateColumns: '1fr',
