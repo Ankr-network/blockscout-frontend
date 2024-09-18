@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material/styles';
 import { makeStyles } from 'tss-react/mui';
 
-import { MOBILE_LAYOUT_PADDING } from 'modules/layout/components/DefautLayout/DefaultLayoutStyles';
+import { TOP_PADDING } from 'modules/layout/components/DefautLayout/DefaultLayoutStyles';
 import { HEADER_HEIGHT } from 'modules/layout/components/Header';
 import { MOBILE_HEADER_HEIGHT } from 'modules/layout/components/MobileHeader';
 import { premiumBackground } from 'uiKit/Theme/themeUtils';
@@ -14,7 +14,7 @@ export const usePricingStyles = makeStyles<boolean>()(
       position: 'relative',
 
       [theme.breakpoints.down('sm')]: {
-        marginTop: -(MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING),
+        marginTop: -(MOBILE_HEADER_HEIGHT + TOP_PADDING),
       },
     },
     content: {

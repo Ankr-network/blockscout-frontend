@@ -79,7 +79,7 @@ export const Routes = () => {
         exact
         path={REFERRALS_PATHS}
         render={() => (
-          <DefaultLayout>
+          <DefaultLayout isReferralsPage>
             <ReferralsRoutes />
           </DefaultLayout>
         )}
