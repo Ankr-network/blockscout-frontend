@@ -10,7 +10,7 @@ import { ISelectOption } from 'uiKit/Select';
 import {
   ChainSubTypeItem,
   ChainTypeItem,
-} from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+} from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { ChainSelector } from '../ChainSelector';

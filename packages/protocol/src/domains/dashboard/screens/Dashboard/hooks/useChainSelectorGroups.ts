@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { Chain, ChainID, ChainType } from '@ankr.com/chains-list';
 
-import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
-import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
-import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
+import { usePrivateChainItem } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+import { getStatsChainId } from 'domains/chains/screens/ChainPage/components/ChainItemSections/utils/getStatsChainId';
+import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
 import { ChainGroupID } from 'modules/endpoints/types';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 

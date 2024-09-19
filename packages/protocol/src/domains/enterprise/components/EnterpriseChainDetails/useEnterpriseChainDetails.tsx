@@ -2,24 +2,24 @@ import { useMemo } from 'react';
 import { ChainID, ChainSubType, ChainType } from '@ankr.com/chains-list';
 
 import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
-import { useGroup } from 'domains/chains/screens/ChainItem/hooks/useGroup';
+import { useGroup } from 'domains/chains/screens/ChainPage/hooks/useGroup';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
-import { useCommonChainItem } from 'domains/chains/screens/ChainItem/hooks/useCommonChainItem';
-import { ChainItem } from 'domains/chains/screens/ChainItem/PublicChainItemWrapper/components/PublicChainItem/hooks/usePublicChainItem';
-import { useChainProtocol } from 'domains/chains/screens/ChainItem/hooks/useChainProtocol';
-import { useChainSubType } from 'domains/chains/screens/ChainItem/hooks/useChainSubType';
+import { useCommonChainItem } from 'domains/chains/screens/ChainPage/hooks/useCommonChainItem';
+import { ChainItem } from 'domains/chains/screens/ChainPage/PublicChainItemWrapper/components/PublicChainItem/hooks/usePublicChainItem';
+import { useChainProtocol } from 'domains/chains/screens/ChainPage/hooks/useChainProtocol';
+import { useChainSubType } from 'domains/chains/screens/ChainPage/hooks/useChainSubType';
 import {
   ChainGroupID,
   EndpointGroup,
   GroupedEndpoints,
 } from 'modules/endpoints/types';
-import { ChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/ChainItemHeaderContent';
-import { usePrivateChainType } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainType';
+import { ChainItemHeaderContent } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/ChainItemHeaderContent';
+import { usePrivateChainType } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainType';
 import {
   getPrivateChainSubTypeSelector,
   getPrivateChainTypeSelector,
-} from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/utils';
-import { ChainTypeItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+} from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/utils';
+import { ChainTypeItem } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { useAppSelector } from 'store/useAppSelector';
 import { getChainId } from 'modules/chains/utils/getChainId';
 import { getSubchainIds } from 'domains/enterprise/utils/getSubchainIds';

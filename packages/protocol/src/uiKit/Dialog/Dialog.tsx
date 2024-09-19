@@ -119,7 +119,11 @@ export const Dialog = ({
           {(dialogTitle.title || !shouldHideCloseButton) && (
             <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
               {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
-                <Typography className={classes.titleText}>
+                <Typography
+                  className={cx(classes.titleText, {
+                    [classes.titleWithPaddingRight]: !shouldHideCloseButton,
+                  })}
+                >
                   {dialogTitle.title}
                 </Typography>
               ) : (

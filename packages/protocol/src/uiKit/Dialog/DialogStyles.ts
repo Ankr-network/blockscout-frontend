@@ -77,8 +77,12 @@ export const useStyles = makeStyles<IUseStylesProps>()(
 
       [theme.breakpoints.down('xs')]: {
         minHeight: 32,
-        fontSize: 27,
+        fontSize: 20,
       },
+    },
+
+    titleWithPaddingRight: {
+      paddingRight: '35px',
     },
 
     dialogContent: {

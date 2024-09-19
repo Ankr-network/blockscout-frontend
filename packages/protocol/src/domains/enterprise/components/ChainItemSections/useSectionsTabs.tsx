@@ -5,11 +5,11 @@ import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import {
   useAvailableSections,
   UseSectionsParams,
-} from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useAvailableSections';
-import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItemSections/types';
-import { useInitialSection } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useInitialSection';
-import { useRedirect } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useRedirect';
-import { SectionsBase } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useSectionsTabs';
+} from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useAvailableSections';
+import { SectionID } from 'domains/chains/screens/ChainPage/components/ChainItemSections/types';
+import { useInitialSection } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useInitialSection';
+import { useRedirect } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useRedirect';
+import { SectionsBase } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useSectionsTabs';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
 import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 

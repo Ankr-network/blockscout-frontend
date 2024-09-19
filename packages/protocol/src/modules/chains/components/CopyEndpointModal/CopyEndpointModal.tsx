@@ -6,9 +6,9 @@ import { Chain } from '@ankr.com/chains-list';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { Dialog } from 'uiKit/Dialog';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
-import { useChainItemHeaderContent } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/hooks/useChainItemHeaderContent';
-import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
+import { useChainItemHeaderContent } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/hooks/useChainItemHeaderContent';
+import { usePrivateChainItem } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { Endpoints } from 'modules/common/components/GetStartedSection/components/Endpoints';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';

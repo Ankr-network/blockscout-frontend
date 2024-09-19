@@ -7,10 +7,10 @@ import { Dialog } from 'uiKit/Dialog';
 import { evmGroups } from 'modules/endpoints/constants/evmGroups';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { ChainLogo } from 'modules/chains/components/ChainLogo';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
 import { ProjectConnectionSnippet } from 'domains/projects/screens/Project/components/ProjectConnectionSnippet';
-import { MultichainCodeSampleWrapper } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MultichainCodeSampleWrapper';
+import { MultichainCodeSampleWrapper } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/components/MultichainCodeSampleWrapper';
 
 import { useCodeExampleModalStyles } from './useCodeExampleModalStyles';
 

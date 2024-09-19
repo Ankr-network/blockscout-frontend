@@ -9,7 +9,7 @@ import {
 
 import { chainGroups, getName } from 'modules/endpoints/constants/groups';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { ChainProtocol } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainProtocol } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 
 import { flatChain } from './flatChain';
 

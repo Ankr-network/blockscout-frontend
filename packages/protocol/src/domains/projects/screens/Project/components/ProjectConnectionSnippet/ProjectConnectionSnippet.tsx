@@ -5,7 +5,7 @@ import {
   ConnectionSnippet,
   ConnectionSnippetProps,
 } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainPage/hooks/useChainProtocolContext';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { useProjectConnectionSnippetStyles } from './useProjectConnectionSnippetStyles';

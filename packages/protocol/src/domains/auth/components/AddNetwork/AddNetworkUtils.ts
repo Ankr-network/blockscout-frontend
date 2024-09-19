@@ -11,7 +11,7 @@ import {
 import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
-import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';
+import { getChainById } from 'domains/chains/screens/ChainPage/utils/getChainById';
 
 import { IChainParams } from '../../actions/addNetwork';
 import { NETWORK_INFO_MAP } from './const';
