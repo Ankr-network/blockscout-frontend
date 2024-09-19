@@ -1,6 +1,6 @@
 import { EPrivateStatsInterval } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { EMilliSeconds } from 'modules/common/constants/const';
 
 export const mapTimeframeToRequestParams = (timeframe: Timeframe) => {

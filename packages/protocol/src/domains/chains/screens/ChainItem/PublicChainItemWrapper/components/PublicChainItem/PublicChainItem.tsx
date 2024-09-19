@@ -1,3 +1,5 @@
+import { Chain } from '@ankr.com/chains-list';
+
 import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
 import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainItem/hooks/useChainItemBreadcrumbs';
@@ -6,7 +8,6 @@ import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialo
 import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
 import { MultiChainBenefits } from 'modules/common/components/GetStartedSection/components/MultichainBenefits';
-import { Chain } from 'modules/chains/types';
 
 import { usePublicChainItem } from './hooks/usePublicChainItem';
 import { AdvancedApiInfoTabs } from '../../../components/ChainItemSections/components/AdvancedApiInfoTabs';

@@ -15,10 +15,10 @@ const calculateTotalValues = (
 ): IWorkerGlobalStatus => {
   const totalRequests = calculateTotalRequests(
     rpcStats.totalRequests,
-    standaloneStats?.totalRequests ?? 0,
+    standaloneStats?.totalRequests || 0,
   );
 
-  const totalCached = new BigNumber(standaloneStats.totalCached ?? 0)
+  const totalCached = new BigNumber(standaloneStats.totalCached || 0)
     .plus(rpcStats.totalCached)
     .toNumber();
 
@@ -33,7 +33,7 @@ const calculateRequests = (
   totalStats: IWorkerGlobalStatus,
   standaloneStats: IWorkerGlobalStatus,
 ) => {
-  const standaloneRequestsHistory = standaloneStats.totalRequestsHistory ?? {};
+  const standaloneRequestsHistory = standaloneStats.totalRequestsHistory || {};
 
   Object.keys(totalStats.totalRequestsHistory).forEach((timestamp: string) => {
     const standaloneRequestsHistoryTimestamp =
@@ -45,7 +45,7 @@ const calculateRequests = (
       );
 
       totalStats.totalRequestsHistory[timestamp] = totalStatsKeyValue
-        .plus(standaloneRequestsHistoryTimestamp ?? 0)
+        .plus(standaloneRequestsHistoryTimestamp || 0)
         .toNumber();
     }
   });
@@ -57,7 +57,7 @@ const calculateCountriesStats = (
   totalStats: IWorkerGlobalStatus,
   standaloneStats: IWorkerGlobalStatus,
 ) => {
-  const standaloneCountries = standaloneStats.countries ?? {};
+  const standaloneCountries = standaloneStats.countries || {};
 
   Object.keys(totalStats.countries).forEach((countryId: string) => {
     const standaloneCountry = standaloneCountries[countryId];
@@ -68,13 +68,13 @@ const calculateCountriesStats = (
       );
 
       totalStats.countries[countryId].requests = countryRequestsValue
-        .plus(standaloneCountry?.requests ?? 0)
+        .plus(standaloneCountry?.requests || 0)
         .toNumber();
     }
   });
 
   Object.keys(standaloneCountries).forEach((countryId: string) => {
-    const standaloneCountry = standaloneCountries[countryId] ?? {};
+    const standaloneCountry = standaloneCountries[countryId] || {};
 
     if (!totalStats.countries[countryId]) {
       const requests = new BigNumber(standaloneCountry.requests).toNumber();

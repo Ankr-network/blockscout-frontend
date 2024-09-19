@@ -1,7 +1,6 @@
 import loadable, { LoadableComponent } from '@loadable/component';
-import { ExtractRouteParams } from 'react-router';
 import { OverlaySpinner } from '@ankr.com/ui';
-import { Route, generatePath } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
 import { useQueryParams } from 'modules/common/hooks/useQueryParams';
@@ -42,10 +41,9 @@ export const UserSettingsRoutesConfig = createRouteConfig(
     teamInvitation: {
       path: PATH_TEAM_INVITATION,
       generatePath: (params: TeamInvitationQueryParams) =>
-        generatePath(
-          PATH_TEAM_INVITATION,
-          params as unknown as ExtractRouteParams<string>,
-        ),
+        `${PATH_TEAM_INVITATION}?${new URLSearchParams({
+          ...params,
+        }).toString()}`,
       useQuery: () => {
         const search = useQueryParams();
         const entries = search.entries();

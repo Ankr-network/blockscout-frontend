@@ -1,8 +1,13 @@
-import { BlockchainType } from 'multirpc-sdk';
+import {
+  EBlockchainType,
+  ChainID,
+  Chain,
+  ChainType,
+  ChainSubType,
+} from '@ankr.com/chains-list';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { ChainID, Chain, ChainType, ChainSubType } from 'modules/chains/types';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -29,7 +34,7 @@ export const useInfrastructureSection = ({
 }: InfrastructureSectionParams) => {
   const { hasPrivateAccess } = useAuth();
 
-  const isNotCustomizedChain = chain.type !== BlockchainType.Customized;
+  const isNotCustomizedChain = chain.type !== EBlockchainType.Customized;
   const isVisible =
     hasPrivateAccess || isNotCustomizedChain || chain.id === ChainID.MULTICHAIN;
 

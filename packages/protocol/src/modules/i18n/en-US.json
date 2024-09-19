@@ -58,7 +58,6 @@
     "permission": "You do not have enough permissions to get all the data",
     "group-role-restricted": "This content is not available with your role. <br/>Please contact your group admin",
     "two-fa": "Two factor authentication code is required",
-    "hubspot": "Hubspot form. No such element {selector}",
     "common": "Oops! Something went wrong.",
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts.",
     "tx-replacement": "The transaction has been cancelled or replaced",
@@ -86,7 +85,7 @@
   },
   "footer": {
     "all-rights": "© {year} Ankr. All rights reserved.",
-    "terms": "Terms of service",
+    "terms": "Terms of use",
     "privacy": "Privacy policy"
   },
   "access-denied-dialog": {
@@ -1046,8 +1045,7 @@
         "network-postfix": "{name} by Ankr Web3 API",
         "upgrade-now": "Upgrade Now",
         "lockedLabelHttps": "https://rpc.ankr.com/…",
-        "lockedLabelWss": "wss://rpc.ankr.com/…",
-        "login-to-proceed": "Login to proceed"
+        "lockedLabelWss": "wss://rpc.ankr.com/…"
       },
       "upgrade-banner": {
         "message": "Faster global infrastructure, WebSockets capability, Dedicated endpoints, Prioritized requests during peak traffic, No request rate limits, & much more.",
@@ -1155,7 +1153,7 @@
     "action-text": "Upgrade",
     "public": {
       "title": "<span>Premium</span> Service Plan",
-      "description": "Ultimate number of blockchains, supercharged rate limits — x50 for Node API / x30 for Advanced API, 3 times more projects, multi-project statistics dashboard, WSS connection, and whitelists.",
+      "description": "Ultimate number of blockchains, superior rate limits — x50 for Node API / x30 for Advanced API, 3 times more projects, multi-project statistics dashboard, WSS connection, and whitelists.",
       "button": "Get Premium"
     },
     "free": {
@@ -1186,10 +1184,6 @@
       "proposal-description": "Have special requirements? Everything is possible with Ankr Enterprise!",
       "action-text": "Request"
     }
-  },
-  "contact-sales-form": {
-    "title": "Fill the form",
-    "success": "Thank You"
   },
   "plan": {
     "breadcrumbs": "Pricing",
@@ -1228,51 +1222,56 @@
       }
     },
     "plan-comparison": {
-      "title": "Service plans comparison",
+      "title": "Service plans comparison.",
       "public": {
-        "title": "Public",
-        "summary": "Free",
-        "text-1": "40+",
-        "text-3": "20 requests/sec",
-        "text-4": " ",
-        "text-5": " ",
-        "text-6": "Low",
-        "text-8": "HTTPS",
-        "text-13": "Community support"
-      },
-      "personal-free": {
         "title": "Freemium",
-        "summary": "Sign in",
-        "text-1": "40+",
-        "text-3": "30 requests/sec",
-        "text-4": "30 requests/min",
+        "text-1": "50+",
+        "text-3": "30 reqs/sec",
+        "text-4": "30 reqs/sec",
         "text-5": "1",
         "text-6": "Low",
-        "text-8": "HTTPS",
-        "text-13": "Community support"
+        "text-7": "HTTPS",
+        "text-12": "Community support",
+        "text-23": "$0"
       },
-      "premium": {
-        "title": "Premium",
-        "summary": "Pay-as-you-go",
-        "text-1": "45+",
-        "text-3": "1,500 requests/sec",
-        "text-4": "1000 requests/min",
+      "pay-as-you-go": {
+        "title": "Pay-as-You-go",
+        "text-1": "55+",
+        "text-3": "1,500 reqs/sec",
+        "text-4": "1,000 reqs/sec",
         "text-5": "3",
         "text-6": "Low",
-        "text-8": "HTTPS/WSS",
-        "text-13": "Priority portal support"
+        "text-7": "HTTPS/WSS",
+        "text-12": "Priority portal support",
+        "text-21": "USD/Crypto",
+        "text-22": "One-time/recurring",
+        "text-23": "Starts from $10"
+      },
+      "deal": {
+        "title": "Deal",
+        "text-1": "55+",
+        "text-3": "1,500 reqs/sec",
+        "text-4": "1,000 reqs/sec",
+        "text-5": "3",
+        "text-6": "Low",
+        "text-7": "HTTPS/WSS",
+        "text-12": "Priority portal support",
+        "text-21": "USD",
+        "text-22": "Monthly subscription",
+        "text-23": "$500–$3,000"
       },
       "enterprise": {
         "title": "Enterprise",
         "text-1": "Custom",
-        "summary": "Custom",
         "text-3": "Custom",
         "text-4": "Custom",
         "text-5": "Custom",
         "text-6": "Custom",
-        "text-7": "Custom",
-        "text-8": "HTTPS/WSS",
-        "text-13": "Custom"
+        "text-7": "HTTPS/WSS",
+        "text-12": "Custom",
+        "text-21": "Custom",
+        "text-22": "Custom",
+        "text-23": "Custom"
       },
       "features": "Features",
       "name-1": "Chains",
@@ -1281,22 +1280,27 @@
       "name-4": "Advanced API",
       "name-5": "Projects (personal API tokens)",
       "name-6": "Multi-project statistics",
-      "name-7": "Team accounts",
-      "name-8": "Connection",
-      "name-9": "Whitelists (IP, domain, smart contract)",
-      "name-10": "Personal account manager",
-      "name-11": "Engineering team support",
-      "name-12": "Dedicated infrastructure",
-      "name-13": "Support",
+      "name-7": "Connection",
+      "name-8": "Whitelists (IP, domain, smart contract)",
+      "name-9": "Personal account manager",
+      "name-10": "Engineering team support",
+      "name-11": "Dedicated infrastructure",
+      "name-12": "Support",
       "products": "Products",
-      "name-14": "Node API",
-      "name-15": "Standard",
-      "name-16": "Trace",
-      "name-17": "Debug",
-      "name-18": "Advanced API",
-      "name-19": "Query",
-      "name-20": "Token",
-      "name-21": "NFT"
+      "name-13": "Node API",
+      "name-14": "Standard",
+      "name-15": "Trace",
+      "name-16": "Debug",
+      "name-17": "Advanced API",
+      "name-18": "Query",
+      "name-19": "Token",
+      "name-20": "NFT",
+      "pricing": "Pricing",
+      "name-21": "Payment options",
+      "name-22": "Billing",
+      "name-23": "Price",
+      "name-24": " ",
+      "contact-sales": "Contact Sales"
     },
     "scale-plan": {
       "title": "Pay just for the requests you make.",
@@ -2092,9 +2096,9 @@
       "expense-chart": {
         "title": "Expense Chart",
         "timeframes": {
-          "week": "Past week",
-          "month": "Past month",
-          "year": "Past year"
+          "week": "Last week",
+          "month": "Last month",
+          "year": "Last year"
         },
         "chart": {
           "short-date": "{value, time, ::dMMM}",
@@ -2133,9 +2137,9 @@
         "deduction": "Daily charge"
       },
       "time-type": {
-        "week": "Past week",
-        "month": "Past month",
-        "year": "Past year"
+        "week": "Last week",
+        "month": "Last month",
+        "year": "Last year"
       },
       "details": "Details"
     },

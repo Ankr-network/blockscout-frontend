@@ -146,14 +146,14 @@ export const fetchPaymentHistory = async ({
       type: isTypeDeal
         ? 'TRANSACTION_TYPE_DEAL_DEPOSIT'
         : 'TRANSACTION_TYPE_PACKAGE_DEPOSIT',
-      amountUsd: priceData?.price.amount ?? '',
+      amountUsd: priceData?.price.amount || '',
       amountAnkr: '',
       amount: '0',
       creditAnkrAmount: '',
       creditUsdAmount:
         priceData?.bundle.limits
           .find(limit => limit.limit)
-          ?.limit?.toString() ?? '',
+          ?.limit?.toString() || '',
       creditVoucherAmount: '',
       txHash: undefined,
     };

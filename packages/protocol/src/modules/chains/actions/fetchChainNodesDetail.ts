@@ -1,9 +1,9 @@
 import { INodesDetailEntity } from 'multirpc-sdk';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { ChainID } from 'modules/chains/types';
 import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
 
 let cachedNodeDetails: INodesDetailEntity[] | null = null;

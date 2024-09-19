@@ -1,3 +1,5 @@
+import { IBlockchainEntity } from '@ankr.com/chains-list';
+
 import {
   ICreateTestClientRequest,
   ICreateTestClientResponse,
@@ -74,7 +76,6 @@ import {
   IDeleteReferralCodeResponse,
   IBundlesStatusesResponse,
 } from './types';
-import { IBlockchainEntity } from '../common';
 
 export interface IBackofficeGateway {
   addToken(token: string): void;

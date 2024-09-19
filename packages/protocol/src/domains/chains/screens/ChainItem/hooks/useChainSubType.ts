@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-
 import {
   Chain,
   ChainID,
   ZETACHAIN_ATHENS3_CHAINS,
   ChainSubType,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 
 import { getChainSubTypeTabs } from '../utils/getChainSubTypeTabs';

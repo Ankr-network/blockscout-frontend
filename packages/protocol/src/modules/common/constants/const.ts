@@ -63,7 +63,7 @@ export const AAPI_ABOUT_LINK =
 export const AAPI_SUPPORTED_METHODS_LINK =
   'https://www.ankr.com/docs/advanced-api/overview/#aapi-methods-supported/';
 
-export const TEAM_INVITE_LINK_KEY = 'teamInviteLink';
+export const TEAM_INVITE_LINK_SEARCH_KEY = 'teamInviteLink';
 
 export const ACTION_TEN_MINUTES_CACHE = 6000;
 
@@ -71,3 +71,6 @@ export const CHARGING_MODEL_DEAL_DOCS_LINK =
   'https://www.ankr.com/docs/rpc-service/service-plans/#deal';
 
 export const INTEGER_REGEX = /[^0-9]/;
+
+export const SALES_TEAM_CONTACT =
+  'https://meetings-eu1.hubspot.com/arsalan-evini';

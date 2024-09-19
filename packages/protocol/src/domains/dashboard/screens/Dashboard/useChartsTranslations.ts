@@ -1,7 +1,6 @@
 import { t, tHTML } from '@ankr.com/common';
 import { useMemo } from 'react';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { timeframesMap } from './const';
 

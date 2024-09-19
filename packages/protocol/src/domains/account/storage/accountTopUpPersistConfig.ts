@@ -12,7 +12,7 @@ export const accountTopUpPersistConfig = {
           ? state[address]
           : {
               ...state[address],
-              amount: new BigNumber(state[address]?.amount ?? 0),
+              amount: new BigNumber(state[address]?.amount || 0),
             };
     });
 

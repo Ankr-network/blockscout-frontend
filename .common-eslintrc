@@ -1,7 +1,9 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "eslint-plugin-typescript",
+    "import",
+    "@typescript-eslint",
+    "@typescript-eslint/eslint-plugin",
     "jsx-a11y",
     "react",
     "react-hooks"
@@ -63,6 +65,10 @@
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-throw-literal": "off",
     "@typescript-eslint/no-useless-constructor": "off",
+    "@typescript-eslint/no-duplicate-enum-values": ["off"],
+    "@typescript-eslint/no-unsafe-declaration-merging": ["off"],
+    "@typescript-eslint/space-before-blocks": ["off"],
+    "@typescript-eslint/default-param-last": "off",
     "import/no-extraneous-dependencies": [
       "warn",
       {
@@ -89,6 +95,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react/no-array-index-key": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/no-autofocus": "off",
     "react/jsx-curly-newline": "off",
     "class-methods-use-this": "off",
     "import/no-unresolved": "off",

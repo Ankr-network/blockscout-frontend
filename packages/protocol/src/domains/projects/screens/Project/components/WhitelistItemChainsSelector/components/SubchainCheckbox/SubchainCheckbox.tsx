@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
-import { Chain } from 'modules/chains/types';
 import { Checkbox } from 'modules/common/components/Checkbox';
 import { clearPathPrefix } from 'modules/chains/utils/clearPathPrefix';
 import { getChainName } from 'domains/projects/utils/getChainName';
@@ -19,7 +19,7 @@ export const SubchainCheckbox = ({
   subchain,
 }: SubchainCheckboxProps) => {
   const { paths = [] } = subchain;
-  const subchainPath = clearPathPrefix(paths[0] ?? '');
+  const subchainPath = clearPathPrefix(paths[0] || '');
 
   const isChecked = useMemo(
     () => selectedBlockchains.includes(subchainPath),

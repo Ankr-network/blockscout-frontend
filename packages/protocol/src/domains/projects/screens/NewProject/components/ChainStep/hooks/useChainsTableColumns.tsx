@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction, useMemo } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { ArchiveMethodsCell } from 'domains/projects/components/ArchiveMethodsCell';
 import { ArchiveMethodsCellHeader } from 'domains/projects/components/ArchiveMethodsCellHeader';
-import { Chain, ChainID } from 'modules/chains/types';
 import { ChainsTableColumn } from 'domains/projects/components/ChainsTable';
 
 import { ChainCell } from '../components/ChainCell';

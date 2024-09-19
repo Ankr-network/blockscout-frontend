@@ -1,7 +1,6 @@
 import { Paper, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
 
 import { ChainInfo } from '../ChainInfo';
 import { useSelectChainCardStyles } from './useSelectedChainCardStyles';

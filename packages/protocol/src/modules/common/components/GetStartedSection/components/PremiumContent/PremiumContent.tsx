@@ -3,14 +3,13 @@ import { Button, Typography } from '@mui/material';
 import { Check } from '@ankr.com/ui';
 import { t, tHTML } from '@ankr.com/common';
 
-import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
 import { usePremiumContentStyles } from './usePremiumContentStyles';
+import { UpgradeToPremiumPlanDialog } from '../../../UpgradeToPremiumPlanDialog';
 
 interface IPremiumContentProps {
   isMultiChain: boolean;
@@ -37,7 +36,11 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
     }
   }, [element, onOpenSignupDialog]);
 
-  const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
+  const {
+    isOpened: isPromoDialogOpened,
+    onClose: onPromoDialogClose,
+    onOpen: onPromoDialogOpen,
+  } = useDialog();
 
   if (hasPremium || isEnterpriseClient) return null;
 
@@ -78,7 +81,11 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
               </Typography>
             </>
           )}
-          <Button fullWidth className={classes.button} onClick={onOpen}>
+          <Button
+            fullWidth
+            className={classes.button}
+            onClick={onPromoDialogOpen}
+          >
             {isMultiChain
               ? t('chains.upgrade-premium.button-aapi')
               : t('chains.upgrade-premium.button')}
@@ -86,7 +93,10 @@ export const PremiumContent = ({ isMultiChain }: IPremiumContentProps) => {
         </div>
       </div>
 
-      <PlansDialog onClose={onClose} open={isOpened} />
+      <UpgradeToPremiumPlanDialog
+        isPromoDialogOpened={isPromoDialogOpened}
+        onPromoDialogClose={onPromoDialogClose}
+      />
 
       <SignupDialog
         isOpen={isSignupDialogOpened}

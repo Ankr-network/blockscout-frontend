@@ -3,7 +3,8 @@ import {
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
 
 import { useTimeframe } from './useTimeframe';

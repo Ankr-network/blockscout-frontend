@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { formatTotalRequests } from 'domains/chains/utils//formatTotalRequests';
 import { getRequestsAverage } from 'domains/chains/utils/getRequestsAverage';
 

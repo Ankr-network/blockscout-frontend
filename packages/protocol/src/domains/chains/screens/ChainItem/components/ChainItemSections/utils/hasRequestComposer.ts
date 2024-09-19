@@ -1,6 +1,5 @@
-import { BlockchainType } from 'multirpc-sdk';
+import { EBlockchainType, ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { isGroupSolanaBased } from 'modules/endpoints/utils/isGroupSolanaBased';
@@ -32,7 +31,7 @@ export const hasRequestComposer = ({
   const { chains } = group;
 
   const isMainnetForPremiumOnly =
-    chains[0]?.type === BlockchainType.Mainnet &&
+    chains[0]?.type === EBlockchainType.Mainnet &&
     chains[0]?.isMainnetPremiumOnly;
 
   const isSolana = isGroupSolanaBased(group.id);

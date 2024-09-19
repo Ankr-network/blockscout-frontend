@@ -45,7 +45,7 @@ export const TopCountriesWidget = ({
             let regionName = '';
 
             try {
-              regionName = regionNames.of(country) ?? '';
+              regionName = regionNames.of(country) || '';
             } catch {
               regionName = country;
             }

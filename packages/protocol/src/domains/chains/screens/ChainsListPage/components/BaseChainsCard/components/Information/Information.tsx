@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import { useCallback } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 
@@ -12,10 +12,12 @@ export interface IInformationProps {
   totalRequests: string;
   isRequestsDisabled?: boolean;
   shouldShowDashInsteadOfRequestsString?: boolean;
+  isTitleHidden?: boolean;
 }
 
 export const Information = ({
   isRequestsDisabled,
+  isTitleHidden,
   shouldShowDashInsteadOfRequestsString,
   timeframe,
   totalRequests,
@@ -51,11 +53,13 @@ export const Information = ({
 
   return (
     <>
-      <Typography color="textSecondary" variant="body4" component="p">
-        {t(keys.requestsTitle, {
-          value: getTimeframeValue(timeframe),
-        })}
-      </Typography>
+      {!isTitleHidden && (
+        <Typography color="textSecondary" variant="body4" component="p">
+          {t(keys.requestsTitle, {
+            value: getTimeframeValue(timeframe),
+          })}
+        </Typography>
+      )}
       <Typography
         variant="body3"
         color={

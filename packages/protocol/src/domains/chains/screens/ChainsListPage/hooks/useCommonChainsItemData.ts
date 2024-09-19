@@ -1,9 +1,7 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
 import BigNumber from 'bignumber.js';
-import { BlockchainType } from 'multirpc-sdk';
-
-import { Chain, ChainURL } from 'modules/chains/types';
+import { EBlockchainType, Chain, ChainURL } from '@ankr.com/chains-list';
 
 export const getUrls = (chain: Chain) => {
   return [
@@ -20,11 +18,11 @@ export const getDummyMessage = (hasPrivateAccess: boolean, length: number) => {
 };
 
 export const isHighlightedChain = (chain: Chain) => {
-  return chain.type === BlockchainType.Customized;
+  return chain.type === EBlockchainType.Customized;
 };
 
 export const formatTotalRequests = (totalRequests: BigNumber) => {
-  return totalRequests.toString() ?? '';
+  return totalRequests.toString() || '';
 };
 
 export const useCommonChainsItemData = (

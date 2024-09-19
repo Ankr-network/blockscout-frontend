@@ -1,4 +1,4 @@
-import { Chain, ChainURL } from 'modules/chains/types';
+import { Chain, ChainURL } from '@ankr.com/chains-list';
 
 import { Feature } from '../types';
 

@@ -7,7 +7,7 @@ export const useChainItemPlaceholder = (isMultiChain: boolean) => {
 
   const hasPlaceholder = !isLoggedIn && isMultiChain;
   const placeholder = hasPlaceholder
-    ? t('chain-item.get-started.endpoints.login-to-proceed')
+    ? t('chain-item.get-started.endpoints.lockedLabelHttps')
     : undefined;
 
   return {

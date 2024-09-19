@@ -6,7 +6,7 @@ export const usePaymentType = () => {
   const paymentTabsProps = usePaymentTabs();
 
   const paymentType =
-    paymentTabsProps.selectedTab?.id ?? EPaymentType.Recurring;
+    paymentTabsProps.selectedTab?.id || EPaymentType.Recurring;
 
   return { paymentTabsProps, paymentType };
 };

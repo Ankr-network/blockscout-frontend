@@ -69,7 +69,7 @@ export const jwtTokenManagerSlice = createSlice({
 export const selectTokenManagerConfig = (
   state: RootState,
   currentAccount = '',
-) => state.jwtTokenManager[currentAccount] ?? {};
+) => state.jwtTokenManager[currentAccount] || {};
 
 export const { setSelectedProjectEndpointToken, setSelectedTokenIndex } =
   jwtTokenManagerSlice.actions;

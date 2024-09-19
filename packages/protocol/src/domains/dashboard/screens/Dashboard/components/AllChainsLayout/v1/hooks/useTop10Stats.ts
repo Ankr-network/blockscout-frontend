@@ -2,8 +2,8 @@ import { useEffect, useMemo } from 'react';
 import { Top10StatItem } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { BaseTableData } from '@ankr.com/telemetry';
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
-import { ChainID, Timeframe } from 'modules/chains/types';
 import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';

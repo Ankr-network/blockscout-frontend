@@ -1,8 +1,8 @@
 import { WhitelistItem } from 'multirpc-sdk';
 import { useLayoutEffect, useMemo } from 'react';
+import { ESortChainsType } from '@ankr.com/chains-list';
 
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { ESortChainsType } from 'modules/chains/types';
 import { fetchProjectWhitelist } from 'domains/projects/actions/fetchProjectWhitelist';
 import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/selectors';
 import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
@@ -25,7 +25,7 @@ export const useProjectData = () => {
   // in order to trigger refetch data on different projects pages
   useLayoutEffect(reset, [reset]);
 
-  const whitelist = projectWhitelistData?.lists ?? defaultWhitelist;
+  const whitelist = projectWhitelistData?.lists || defaultWhitelist;
 
   const {
     blockchains: projectBlockchains,

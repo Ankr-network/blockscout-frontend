@@ -13,7 +13,7 @@ export interface IUseRecurringPaymentProps {
 
 export const useRecurringPayment = ({ amount }: IUseRecurringPaymentProps) => {
   const id = amount?.id;
-  const amountValue = amount?.value ?? 0;
+  const amountValue = amount?.value || 0;
 
   const { isOpened: open, onClose, onOpen } = useDialog();
 

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { ChainID, ChainType, Chain, ChainSubType } from '@ankr.com/chains-list';
 
-import { ChainID, ChainType, Chain, ChainSubType } from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { getFallbackEndpointGroup } from 'modules/endpoints/constants/groups';
 import {
@@ -63,7 +63,7 @@ export const useGroup = ({
     initialTabID: selectedGroupId || getGroupIdByChainId(netId),
     tabs,
   });
-  const groupID = groupTab?.id ?? ChainGroupID.FALLBACK;
+  const groupID = groupTab?.id || ChainGroupID.FALLBACK;
   const group =
     groups.find(gr => gr.id === groupID) ||
     getFallbackEndpointGroup(chain.name);

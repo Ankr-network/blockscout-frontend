@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { fallbackChain } from 'domains/dashboard/screens/Dashboard/const';
 
 import { ChainsTableColumn } from '../../types';

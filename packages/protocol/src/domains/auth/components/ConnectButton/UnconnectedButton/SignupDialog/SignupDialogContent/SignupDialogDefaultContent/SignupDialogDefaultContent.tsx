@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useLocation } from 'react-router';
 
 import { isTeamInvitationQuery } from 'domains/userSettings/utils/isTeamInvitationQuery';
-import { TEAM_INVITE_LINK_KEY } from 'modules/common/constants/const';
+import { TEAM_INVITE_LINK_SEARCH_KEY } from 'modules/common/constants/const';
 
 import {
   useSetSignupSettings,
@@ -37,12 +37,12 @@ export const SignupDialogDefaultContent = ({
       handleSetSignupSettings(Boolean(hasMarketing));
 
       if (loginType === OauthLoginType.Google) {
-        const isTeamInvitation = isTeamInvitationQuery(location?.search ?? '');
+        const isTeamInvitation = isTeamInvitationQuery(location?.search || '');
 
         if (isTeamInvitation && shouldSaveTeamInvitationLink) {
           window.localStorage.setItem(
-            TEAM_INVITE_LINK_KEY,
-            window.location.href,
+            TEAM_INVITE_LINK_SEARCH_KEY,
+            window.location.search,
           );
         }
 

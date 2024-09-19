@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { t } from '@ankr.com/common';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { Stat } from '../../../PublicUsageDataSection/components/PublicUsageSummary/components/Stat';
 import { useUsageSummaryStyles } from '../../../PublicUsageDataSection/components/PublicUsageSummary/useUsageSummaryStyles';

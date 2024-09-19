@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
+import { ChainType } from '@ankr.com/chains-list';
 
-import { ChainType } from 'modules/chains/types';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
 // TODO: we need to remove it to some chains common folder
 import { ChainTypeItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';

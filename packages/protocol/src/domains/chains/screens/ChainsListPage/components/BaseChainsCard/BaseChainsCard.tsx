@@ -1,15 +1,18 @@
 import { Box, Skeleton, Typography } from '@mui/material';
+import { Timeframe, Chain } from '@ankr.com/chains-list';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { NavLink } from 'uiKit/NavLink';
-import { Timeframe, Chain } from 'modules/chains/types';
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { ChainDescription } from 'modules/chains/components/ChainDescription';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
+import { GuardResolution } from 'modules/common/components/GuardResolution';
+import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { ChainCardShadow } from '../ChainCardShadow';
 import { Information } from './components/Information';
 import { useChainCardStyles } from './useChainCardStyles';
+import { EChainView } from '../ChainViewSelector';
 
 export interface IBaseChainCardProps {
   chain: Chain;
@@ -23,6 +26,8 @@ export interface IBaseChainCardProps {
   isRequestsDisabled?: boolean;
   actions?: React.ReactNode;
   shouldShowDashInsteadOfRequestsString?: boolean;
+  view?: EChainView;
+  isPublicLayout?: boolean;
 }
 
 export const BaseChainsCard = ({
@@ -31,14 +36,16 @@ export const BaseChainsCard = ({
   className,
   hasShadow = true,
   hasTotalRequestsLabel = true,
+  isPublicLayout = false,
   isRequestsDisabled,
   loading,
   onClick,
   shouldShowDashInsteadOfRequestsString,
   timeframe,
   totalRequests,
+  view = EChainView.Cards,
 }: IBaseChainCardProps) => {
-  const { classes, cx } = useChainCardStyles();
+  const { classes, cx } = useChainCardStyles(isPublicLayout);
 
   const { id } = chain;
 
@@ -53,7 +60,13 @@ export const BaseChainsCard = ({
         onClick,
       };
 
+  const isXsDown = useIsXSDown();
+
   const Component = hasShadow ? ChainCardShadow : Box;
+
+  const isListView = view === EChainView.List;
+
+  const desktopLogoSize = isListView ? 40 : 48;
 
   return (
     <Component
@@ -61,6 +74,7 @@ export const BaseChainsCard = ({
         classes.baseChainCardRoot,
         {
           [classes.multichainCard]: isMultichain(id),
+          [classes.baseChainCardListView]: isListView,
         },
         className,
       )}
@@ -68,11 +82,18 @@ export const BaseChainsCard = ({
     >
       <ChainDescription
         chain={chain}
-        logoSize={48}
+        logoSize={isXsDown ? 24 : desktopLogoSize}
         isCompactView
-        className={classes.baseChainCardDescription}
+        className={cx(classes.baseChainCardDescription, {
+          [classes.baseChainCardDescriptionListView]: isListView,
+        })}
+        classNameChainName={classes.baseChainCardChainName}
       />
-      <div className={classes.secondInfo}>
+      <div
+        className={cx(classes.secondInfo, {
+          [classes.secondInfoListView]: isListView,
+        })}
+      >
         {hasTotalRequestsLabel && (
           <Typography className={classes.information}>
             <Placeholder
@@ -86,12 +107,21 @@ export const BaseChainsCard = ({
                 timeframe={timeframe}
                 totalRequests={totalRequests}
                 isRequestsDisabled={isRequestsDisabled}
+                isTitleHidden={isListView}
               />
             </Placeholder>
           </Typography>
         )}
       </div>
-      {actions}
+      <GuardResolution protectedResolution="smDown">
+        <div
+          className={cx(classes.chainCardActions, {
+            [classes.chainCardActionsListView]: isListView,
+          })}
+        >
+          {actions}
+        </div>
+      </GuardResolution>
     </Component>
   );
 };

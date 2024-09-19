@@ -1,11 +1,11 @@
 import { Paper } from '@mui/material';
-
 import {
   Chain,
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';

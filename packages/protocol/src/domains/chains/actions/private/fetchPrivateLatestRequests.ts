@@ -1,8 +1,8 @@
 import { LatestRequest, Web3Address } from 'multirpc-sdk';
+import { Chain } from '@ankr.com/chains-list';
 
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
-import { Chain } from 'modules/chains/types';
 
 export interface IFetchPrivateChainsInfoResult {
   chains: Chain[];

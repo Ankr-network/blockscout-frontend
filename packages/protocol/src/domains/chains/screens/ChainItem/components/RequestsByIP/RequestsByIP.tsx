@@ -2,9 +2,9 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useCallback, useMemo } from 'react';
 import { OverlaySpinner } from '@ankr.com/ui';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
-import { Timeframe } from 'modules/chains/types';
 import { formatNumber } from 'modules/common/components/StakeBarChart/StakeBarChartUtils';
 
 import { ItemHeader } from '../ItemHeader';

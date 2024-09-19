@@ -21,6 +21,6 @@ export const getCommonButtonProps = (
   key: label,
   onClick,
   title: label,
-  to: href ?? '',
+  to: href || '',
   variant: 'text',
 });

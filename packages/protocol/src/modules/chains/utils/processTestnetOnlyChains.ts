@@ -1,12 +1,13 @@
+import { Chain } from '@ankr.com/chains-list';
+
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
-import { Chain } from 'modules/chains/types';
 
 import { getEVMTestnet } from './getEVMTestnet';
 
 const addEVMUrls = (chain: Chain): Chain => {
   const { testnets = [] } = chain;
 
-  const { urls } = getEVMTestnet(testnets) ?? chain;
+  const { urls } = getEVMTestnet(testnets) || chain;
 
   return { ...chain, urls };
 };

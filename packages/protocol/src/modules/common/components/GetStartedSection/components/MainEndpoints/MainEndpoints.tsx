@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import {
   ChainGroupID,
   FLARE_TESTNETS_GROUPS_LIST,

@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { PrivateStatTopRequests } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
 import { UserRequestsByIpData } from 'domains/chains/hooks/useUserRequestsByIp';
-import { Timeframe } from 'modules/chains/types';
 
 export interface PublicStats {
   countries: CountryMap;

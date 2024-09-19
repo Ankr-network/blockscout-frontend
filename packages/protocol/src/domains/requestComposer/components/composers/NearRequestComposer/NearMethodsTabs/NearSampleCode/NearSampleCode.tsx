@@ -23,7 +23,7 @@ export const NearSampleCode = ({
   title,
 }: ISampleCodeProps) => {
   const httpUrl = useMemo(() => group.urls[0].rpc, [group]);
-  const wssUrl = useMemo(() => group.urls[0]?.ws ?? '', [group]);
+  const wssUrl = useMemo(() => group.urls[0]?.ws || '', [group]);
 
   const code = useMemo(
     () =>

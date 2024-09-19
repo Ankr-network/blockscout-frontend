@@ -1,4 +1,5 @@
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
+
 import { flatChain } from 'modules/chains/utils/flatChain';
 
 export const getChainIDs = (chain: Chain) => {

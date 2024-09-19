@@ -1,6 +1,6 @@
 import { OverlaySpinner } from '@ankr.com/ui';
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
-import { ChainID, Timeframe } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectIsUsageLoading } from 'domains/dashboard/store/selectors/v2';
 import { selectEnterpriseEndpointsLoading } from 'domains/enterprise/store/selectors';

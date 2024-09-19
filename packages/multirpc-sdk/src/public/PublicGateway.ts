@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
+import { IBlockchainEntity } from '@ankr.com/chains-list';
 
-import { AXIOS_DEFAULT_CONFIG, IBlockchainEntity, Timeframe } from '../common';
+import { AXIOS_DEFAULT_CONFIG, Timeframe } from '../common';
 import {
   Config,
   INodesDetailEntity,

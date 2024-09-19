@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Chain, ChainID, ChainType } from '@ankr.com/chains-list';
 
-import { Chain, ChainID, ChainType } from 'modules/chains/types';
 import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
@@ -9,7 +9,6 @@ import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClien
 
 interface IDashboardChainSelector {
   chain: Chain;
-
   selectedType?: ChainType;
   selectedGroupId?: ChainGroupID;
   onBlockedTabClick: () => void;

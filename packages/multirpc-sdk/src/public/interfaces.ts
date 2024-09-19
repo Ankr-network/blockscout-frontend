@@ -1,5 +1,6 @@
+import { IBlockchainEntity } from '@ankr.com/chains-list';
 
-import { IBlockchainEntity, Timeframe } from '../common';
+import { Timeframe } from '../common';
 import {
   IRate,
   IWorkerGlobalStatus,

@@ -24,7 +24,7 @@ export const {
         });
 
         return {
-          data: data?.result.oauthCompleteUrl ?? '',
+          data: data?.result.oauthCompleteUrl || '',
         };
       },
     }),

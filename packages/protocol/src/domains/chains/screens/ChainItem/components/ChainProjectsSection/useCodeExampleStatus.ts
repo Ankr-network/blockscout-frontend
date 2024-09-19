@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectSubChainIdsByChainId } from 'modules/chains/store/selectors';
 import { isEVMBased } from 'modules/chains/utils/isEVMBased';

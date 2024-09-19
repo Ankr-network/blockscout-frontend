@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
 import { Endpoints } from 'domains/infrastructure/actions/fetchEndpoints';
-import { Chain } from 'modules/chains/types';
 
 import { UserEndpoints } from '../UserEndpoints';
 import { getUrls } from './EndpointUtils';

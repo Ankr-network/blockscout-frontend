@@ -1,4 +1,4 @@
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 export interface RequestsChartProps {
   isConnecting: boolean;

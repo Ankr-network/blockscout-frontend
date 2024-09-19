@@ -1,46 +1,27 @@
 import { Typography } from '@mui/material';
-import { t } from '@ankr.com/common';
-import { Success } from '@ankr.com/ui';
 
-import { INTL_ROOT } from '../../const';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+
 import { useScalePlansStyles } from './useScalePlansStyles';
-import { Block } from './components/Block';
-
-const intl = `${INTL_ROOT}.scale-plan`;
-
-const ROW_COUNTS = 4;
+import { scalePlansTranslation } from './scalePlansTranslation';
+import { HttpsBlock } from './HttpsBlock';
+import { WssBlock } from './WssBlock';
 
 export const ScalePlans = () => {
   const { classes } = useScalePlansStyles();
 
+  const { keys, t, tHTML } = useTranslation(scalePlansTranslation);
+
   return (
     <div className={classes.root}>
-      <Typography variant="subtitle3" component="p" className={classes.pay}>
-        {t(`${intl}.pay-as-you-go`)}
-      </Typography>
       <Typography variant="h4" className={classes.title}>
-        {t(`${intl}.title`)}
+        {t(keys.title)}
       </Typography>
-      <Typography variant="body2" component="p" className={classes.description}>
-        {t(`${intl}.description`)}
+      <Typography variant="body2" component="p" className={classes.subtitle}>
+        {tHTML(keys.subtitle)}
       </Typography>
-      <div className={classes.content}>
-        <div className={classes.list}>
-          {new Array(ROW_COUNTS).fill('').map((_, index) => (
-            <Typography
-              variant="subtitle1"
-              className={classes.item}
-              key={`column-${index + 1}`}
-            >
-              <div className={classes.check}>
-                <Success />
-              </div>
-              {t(`${intl}.item-${index + 1}`)}
-            </Typography>
-          ))}
-        </div>
-        <Block />
-      </div>
+      <HttpsBlock />
+      <WssBlock />
     </div>
   );
 };

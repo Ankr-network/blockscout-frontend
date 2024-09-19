@@ -14,6 +14,7 @@ import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
 import { ChainProjectsProps } from './components/ChainProjects';
 import { PrivateChainCardActions } from './components/PrivateChainCardActions';
+import { EChainView } from '../../../ChainViewSelector';
 
 interface PrivateChainCardProps extends IChainCardProps, ChainProjectsProps {
   hasPremium: boolean;
@@ -22,6 +23,7 @@ interface PrivateChainCardProps extends IChainCardProps, ChainProjectsProps {
   isLoadingProjects: boolean;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const PrivateChainCard = ({
   allWhitelistsBlockchains,
   chain,
@@ -29,6 +31,7 @@ export const PrivateChainCard = ({
   isLoadingProjects,
   jwtTokens,
   timeframe,
+  view = EChainView.Cards,
 }: PrivateChainCardProps) => {
   const { loading, totalRequests } = usePrivateChainsItem({ chain });
 
@@ -95,6 +98,8 @@ export const PrivateChainCard = ({
 
   const cardProps: IBaseChainCardProps = useMemo(
     () => ({
+      isPublicLayout: false,
+      view,
       chain,
       loading,
       totalRequests: totalRequestsStr,
@@ -115,10 +120,12 @@ export const PrivateChainCard = ({
           onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
           open={open}
           isChainProjectsEmpty={isChainProjectsEmpty}
+          isCardView={view === EChainView.Cards}
         />
       ),
     }),
     [
+      view,
       chain,
       loading,
       totalRequests,

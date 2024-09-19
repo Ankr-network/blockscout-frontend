@@ -5,7 +5,7 @@ export const useAccountAddress = () => {
   const { selectedGroupAddress } = useSelectedUserGroup();
   const { authAddress } = useAuth();
 
-  const accountAddress = selectedGroupAddress ?? authAddress!;
+  const accountAddress = selectedGroupAddress || authAddress!;
 
   return { accountAddress };
 };

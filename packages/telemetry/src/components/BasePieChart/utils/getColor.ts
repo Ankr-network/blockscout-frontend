@@ -24,5 +24,5 @@ export const getColor = (
     return COLOR_OTHER;
   }
 
-  return COLORS[index] ?? getColor(index - COLORS.length);
+  return COLORS[index] || getColor(index - COLORS.length);
 };

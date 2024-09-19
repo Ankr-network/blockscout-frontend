@@ -17,13 +17,13 @@ export const UpgradePlanDialog = ({
   onClose,
   open,
 }: IUpgradePlanDialogProps) => {
-  const { dialogProps, isContactSalesPopup } = useUpgradePlanDialogState({
+  const { dialogProps } = useUpgradePlanDialogState({
     defaultState,
     onClose,
   });
 
   const windowHeight = useWindowHeight();
-  const { classes, cx } = useUpgradePlanDialogStyles({ windowHeight });
+  const { classes } = useUpgradePlanDialogStyles({ windowHeight });
 
   return (
     <NoReactSnap>
@@ -34,12 +34,6 @@ export const UpgradePlanDialog = ({
           container: classes.dialogContainer,
         }}
         open={open}
-        paperClassName={cx(classes.paperRoot, {
-          [classes.dialogContainerWhite]: isContactSalesPopup,
-        })}
-        titleClassName={cx(classes.title, {
-          [classes.dialogTitleBlack]: isContactSalesPopup,
-        })}
         keepMounted
         {...dialogProps}
       />

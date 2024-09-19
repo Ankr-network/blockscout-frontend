@@ -35,7 +35,7 @@ export type PrefixedHex = string;
 export type TContractAddresses = {
   depositContractAddress: Web3Address;
   tokenAddress: Web3Address;
-}
+};
 
 export type Network =
   | 'solana'
@@ -205,36 +205,6 @@ export interface IConfig {
 
 export type Environment = 'staging' | 'prod';
 
-export enum BlockchainFeature {
-  RPC = 'rpc',
-  WS = 'ws',
-  ComingSoon = 'coming soon',
-  REST = 'rest',
-  GRPC = 'grpc',
-}
-
-export enum BlockchainType {
-  Mainnet = 'mainnet',
-  Extension = 'extension',
-  Testnet = 'testnet',
-  Devnet = 'devnet',
-  Customized = 'customized',
-  Beacon = 'beacon',
-  Opnode = 'opnode',
-}
-
-export interface IBlockchainEntity {
-  id: string;
-  coinName: string;
-  name: string;
-  premiumOnly?: boolean;
-  type: BlockchainType;
-
-  extends?: string;
-  features: BlockchainFeature[];
-  paths?: string[];
-}
-
 export type BlockchainID = string;
 
 export type Timeframe = '1h' | '24h' | '7d' | '30d';
@@ -263,7 +233,7 @@ export interface IGetDepositStablecoinToPAYGFeeParams {
   tokenAddress: Web3Address;
   amount: BigNumber;
   depositContractAddress: Web3Address;
-  tokenDecimals: number
+  tokenDecimals: number;
 }
 
 export interface IGetAllowanceValueParams {

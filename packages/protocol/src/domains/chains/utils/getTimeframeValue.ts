@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 const timeframes = 'chains.timeframes';
 

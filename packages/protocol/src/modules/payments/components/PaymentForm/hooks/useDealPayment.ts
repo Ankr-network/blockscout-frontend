@@ -12,6 +12,7 @@ import { useDialog } from 'modules/common/hooks/useDialog';
 import { useLazyFetchLinkForBundlePaymentQuery } from 'domains/account/actions/bundles/fetchLinkForBundlePayment';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { getDealRequestsCountByUsdAmount } from 'modules/payments/utils/getDealRequestsCountByUsdAmount';
+import { SALES_TEAM_CONTACT } from 'modules/common/constants/const';
 
 import { IUSDPaymentSummaryDialogProps } from '../../USDPaymentSummaryDialog';
 
@@ -21,18 +22,15 @@ export interface IUseDealPaymentProps {
 
 export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
   const priceId = amount?.id;
-  const amountValue = amount?.value ?? 0;
+  const amountValue = amount?.value || 0;
 
   const bundlePlans = useAppSelector(selectBundlePaymentPlans);
   const hasActiveDeal = useAppSelector(selectHasActiveDeal);
 
   const { isOpened: open, onClose, onOpen } = useDialog();
 
-  const {
-    isOpened: openEnterpriseDialog,
-    onClose: onCloseEnterpriseDialog,
-    onOpen: onOpenEnterpriseDialog,
-  } = useDialog();
+  const { isOpened: openEnterpriseDialog, onClose: onCloseEnterpriseDialog } =
+    useDialog();
 
   const [fetchLink, { isFetching }] = useLazyFetchLinkForBundlePaymentQuery();
 
@@ -65,7 +63,7 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
     getDealRequestsCountByUsdAmount(amountValue);
 
   const currentPlan = useAppSelector(selectMyCurrentBundle);
-  const { amount: currentPlanAmount = 0 } = currentPlan ?? {};
+  const { amount: currentPlanAmount = 0 } = currentPlan || {};
 
   const dealPaymentSummaryDialogProps = useMemo<IUSDPaymentSummaryDialogProps>(
     () => ({
@@ -97,11 +95,11 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
 
   const handleDealPaymentSummaryDialogOpen = useCallback(() => {
     if (isHighestDealPurchased) {
-      onOpenEnterpriseDialog();
+      window.open(SALES_TEAM_CONTACT, '_blank');
     } else {
       onOpen();
     }
-  }, [isHighestDealPurchased, onOpen, onOpenEnterpriseDialog]);
+  }, [isHighestDealPurchased, onOpen]);
 
   return {
     dealPaymentSummaryDialogProps,
@@ -109,7 +107,6 @@ export const useDealPayment = ({ amount }: IUseDealPaymentProps) => {
       open: openEnterpriseDialog,
       onClose: onCloseEnterpriseDialog,
     },
-    onOpenEnterpriseDialog,
     handleDealPaymentSummaryDialogOpen,
   };
 };

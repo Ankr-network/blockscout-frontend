@@ -1,4 +1,9 @@
-import { ChainID, Chain, ChainURL, FLARE_TESTNETS } from 'modules/chains/types';
+import {
+  ChainID,
+  Chain,
+  ChainURL,
+  FLARE_TESTNETS,
+} from '@ankr.com/chains-list';
 
 import { getFallbackEndpointGroup } from '../constants/groups';
 import {

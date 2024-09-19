@@ -1,4 +1,4 @@
-import { ChainType } from 'modules/chains/types';
+import { ChainType } from '@ankr.com/chains-list';
 
 import { EndpointType } from '../const';
 

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { ETelemetryTopOf } from 'multirpc-sdk';
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useLazyChainsFetchEnterpriseV2StatsTotalQuery } from 'domains/enterprise/actions/v2/fetchEnterpriseStatsTotal';
-import { ChainID, Timeframe } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectEnterpriseEndpointsLoading } from 'domains/enterprise/store/selectors';
 

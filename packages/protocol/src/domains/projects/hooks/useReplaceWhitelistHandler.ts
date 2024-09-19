@@ -23,7 +23,7 @@ const getReplaceWhitelistBody = (whitelist: WhitelistItem[]) =>
       result[type] = {
         ...result[type],
         [item.blockchain]: [
-          ...new Set([...(result[type][item.blockchain] ?? []), ...item.list]),
+          ...new Set([...(result[type][item.blockchain] || []), ...item.list]),
         ],
       };
 

@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
-
-import { Chain, ChainID } from 'modules/chains/types';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { SelectedContent } from '../SelectedContent';
 import { SelectedChainContent } from '../SelectedChainContent';

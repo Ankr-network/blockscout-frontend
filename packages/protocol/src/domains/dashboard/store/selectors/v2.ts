@@ -3,9 +3,9 @@ import { ETelemetryTopOf } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { IChartData } from '@ankr.com/telemetry';
 import { secondsToMilliseconds } from 'date-fns';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { RootState } from 'store';
-import { ChainID } from 'modules/chains/types';
 import {
   chainsFetchEnterpriseV2StatsTotal,
   IFetchUsageStatsParams,

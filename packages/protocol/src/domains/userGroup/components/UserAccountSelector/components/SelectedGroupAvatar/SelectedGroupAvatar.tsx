@@ -15,7 +15,7 @@ export const SelectedGroupAvatar = () => {
     <Avatar
       avatarColor={getAvatarColor(group?.index || index)}
       className={classes.avatar}
-      name={group?.name ?? t('teams.personal-account')[0]}
+      name={group?.name || t('teams.personal-account')[0]}
     />
   );
 };

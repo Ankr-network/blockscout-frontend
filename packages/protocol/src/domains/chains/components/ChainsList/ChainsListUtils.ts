@@ -1,6 +1,4 @@
-import { BlockchainType } from 'multirpc-sdk';
-
-import { Chain } from 'modules/chains/types';
+import { EBlockchainType, Chain } from '@ankr.com/chains-list';
 
 import { ChainMap } from './ChainsListTypes';
 
@@ -9,7 +7,7 @@ export const PERIOD = '24h';
 export const extractCustomizedChains = (chains: Chain[]) => {
   return chains.reduce<[Chain[], Chain[]]>(
     (acc, chain) => {
-      if (chain.type === BlockchainType.Customized) {
+      if (chain.type === EBlockchainType.Customized) {
         acc[1].push(chain);
       } else {
         acc[0].push(chain);

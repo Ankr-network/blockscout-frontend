@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { TypographyTypeMap, Typography } from '@mui/material';
 import { MetaMaskWallet } from '@ankr.com/ui';
+import { Chain } from '@ankr.com/chains-list';
 
 import { useAddNetworkButton } from 'domains/auth/components/AddNetwork/useAddNetworkButton';
-import { Chain } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useRPCInfoFunStyle } from './useRPCInfoFunStyle';

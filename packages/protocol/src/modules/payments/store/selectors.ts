@@ -65,7 +65,7 @@ export const selectPaymentOptionsByNetworkAndCurrency = createSelector(
       };
     }
 
-    const options = paymentOptions?.options ?? [];
+    const options = paymentOptions?.options || [];
     const paymentOption = options.find(option => option.blockchain === network);
 
     const tokens = paymentOption?.tokens;
@@ -123,7 +123,7 @@ export const selectNetworks = createSelector(
       return [{ blockchain: ANKR_PAYMENT_NETWORK }];
     }
 
-    const paymentOptions = paymentOptionsResult?.options ?? [];
+    const paymentOptions = paymentOptionsResult?.options || [];
 
     return paymentOptions
       .filter(({ tokens }) =>

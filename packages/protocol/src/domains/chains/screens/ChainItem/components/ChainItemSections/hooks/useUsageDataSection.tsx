@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
-
 import {
   Chain,
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { useAuth } from 'domains/auth/hooks/useAuth';

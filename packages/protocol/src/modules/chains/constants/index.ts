@@ -1,4 +1,4 @@
-import { ChainID } from '../types';
+import { ChainID } from '@ankr.com/chains-list';
 
 export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.BERACHAIN,

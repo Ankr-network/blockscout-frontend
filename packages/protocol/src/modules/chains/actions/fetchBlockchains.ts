@@ -1,4 +1,4 @@
-import { IBlockchainEntity } from 'multirpc-sdk';
+import { IBlockchainEntity } from '@ankr.com/chains-list';
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';

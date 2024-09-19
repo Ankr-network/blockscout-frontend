@@ -57,6 +57,14 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
     fontWeight: 400,
     fontSize: theme.spacing(3.5),
     lineHeight: theme.spacing(5),
+
+    [theme.breakpoints.down('xs')]: {
+      height: 16,
+      padding: theme.spacing(1),
+      fontSize: 9,
+      lineHeight: 1,
+      borderRadius: 4,
+    },
   },
   chips: {
     display: 'flex',
@@ -70,9 +78,21 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
     alignItems: 'center',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+
+    [theme.breakpoints.down('xs')]: {
+      padding: theme.spacing(1),
+      height: 16,
+      borderRadius: 4,
+    },
+
     span: {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
+      [theme.breakpoints.down('xs')]: {
+        padding: 0,
+        fontSize: 9,
+        lineHeight: 1,
+      },
     },
   },
   dot: {

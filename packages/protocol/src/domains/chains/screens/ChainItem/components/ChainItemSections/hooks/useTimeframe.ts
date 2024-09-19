@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import { USAGE_FULL_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 
@@ -28,5 +28,5 @@ export const useTimeframe = ({
     tabs,
   });
 
-  return { timeframe: timeframeTab?.id ?? tabs[0].id, timeframeTabs };
+  return { timeframe: timeframeTab?.id || tabs[0].id, timeframeTabs };
 };

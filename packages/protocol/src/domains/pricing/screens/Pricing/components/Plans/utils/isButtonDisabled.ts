@@ -1,17 +1,23 @@
-import { EPlanList } from '../PlansUtils';
+import { EGeneralPlanList } from '../PlansUtils';
 
 interface IsButtonDisabledArguments {
-  isFinanceRole: boolean;
   hasPremium: boolean;
-  planName: EPlanList;
+  isLoggedIn: boolean;
+  isDeveloperRole: boolean;
+  planName: EGeneralPlanList;
 }
 
 export const isButtonDisabled = ({
   hasPremium,
-  isFinanceRole,
+  isDeveloperRole,
+  isLoggedIn,
   planName,
 }: IsButtonDisabledArguments) => {
-  const isFreePlanName = planName === EPlanList.Free;
+  if (!isLoggedIn) return false;
 
-  return isFreePlanName && (isFinanceRole || hasPremium);
+  const isFreePlanName = planName === EGeneralPlanList.Free;
+
+  if (isDeveloperRole && !isFreePlanName) return true;
+
+  return isFreePlanName && hasPremium;
 };

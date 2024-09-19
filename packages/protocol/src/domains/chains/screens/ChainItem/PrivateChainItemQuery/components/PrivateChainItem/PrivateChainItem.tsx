@@ -18,7 +18,7 @@ import { AdvancedApiInfoTabs } from 'domains/chains/screens/ChainItem/components
 import { ChainProjectsSection } from 'domains/chains/screens/ChainItem/components/ChainProjectsSection';
 import { ChainProjectsDialog } from 'domains/chains/screens/ChainItem/components/ChainProjectsDialog';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
+import { GuardResolution } from 'modules/common/components/GuardResolution';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';

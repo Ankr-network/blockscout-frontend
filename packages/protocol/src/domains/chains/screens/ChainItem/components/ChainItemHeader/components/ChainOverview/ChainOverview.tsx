@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
+import { Chain } from '@ankr.com/chains-list';
 
-import { Chain } from 'modules/chains/types';
 import { ChainDescription } from 'modules/chains/components/ChainDescription';
 
 import { useChainOverviewStyles } from './ChainOverviewStyles';

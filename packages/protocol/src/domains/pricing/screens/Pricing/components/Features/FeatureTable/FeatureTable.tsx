@@ -10,15 +10,19 @@ import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 
 import {
-  FEATURE_TABLE_ROW,
+  FEATURE_TABLE_COLUMNS,
   FIRST_ROWS_INDEXES,
   INTL_PLAN_COMPARISON_ROOT,
   PLAN_COMPARISON,
+  ROWS_COUNT,
   SECOND_ROWS_INDEXES,
   SUB_ROW_NUMBERS,
+  THIRD_ROWS_INDEXES,
+  getPlanLabelByName,
 } from './FeatureTableUtils';
 import { useFeatureTableStyles } from './useFeatureTableStyles';
 import { FeatureItem } from '../FeatureContent';
+import { PlanLabel } from '../../PlanLabel';
 
 export const FeatureTable = () => {
   const { classes, cx } = useFeatureTableStyles();
@@ -27,9 +31,13 @@ export const FeatureTable = () => {
     (rows: number[]) => {
       return rows.map(rowIndex => {
         const isRowSubtitle = SUB_ROW_NUMBERS.includes(rowIndex);
+        const isLastRow = rowIndex === ROWS_COUNT;
 
         return (
-          <TableRow key={`column-${rowIndex}`} className={classes.row}>
+          <TableRow
+            key={`column-${rowIndex}`}
+            className={cx(classes.row, isLastRow && classes.rowWithoutBorder)}
+          >
             <TableCell className={classes.name}>
               <Typography
                 variant="subtitle2"
@@ -41,7 +49,7 @@ export const FeatureTable = () => {
                 {t(`${INTL_PLAN_COMPARISON_ROOT}.name-${rowIndex}`)}
               </Typography>
             </TableCell>
-            {FEATURE_TABLE_ROW.map(index => (
+            {FEATURE_TABLE_COLUMNS.map(index => (
               <TableCell key={`column-${rowIndex}-row-${index + 1}`}>
                 {FeatureItem({ index, rowIndex })}
               </TableCell>
@@ -55,7 +63,7 @@ export const FeatureTable = () => {
 
   return (
     <>
-      <Typography variant="h3" className={classes.title}>
+      <Typography variant="h4" className={classes.title}>
         {t(`${INTL_PLAN_COMPARISON_ROOT}.title`)}
       </Typography>
       <div className={classes.root}>
@@ -65,19 +73,12 @@ export const FeatureTable = () => {
               <TableCell />
               {PLAN_COMPARISON.map(name => (
                 <TableCell key={`title-${name}`} className={name}>
-                  <Typography variant="subtitle1">
-                    {t(`${INTL_PLAN_COMPARISON_ROOT}.${name}.title`)}
-                  </Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell />
-              {PLAN_COMPARISON.map(name => (
-                <TableCell key={`summary-${name}`}>
-                  <Typography variant="body2">
-                    {t(`${INTL_PLAN_COMPARISON_ROOT}.${name}.summary`)}
-                  </Typography>
+                  <div className={classes.headerCell}>
+                    <Typography variant="subtitle2">
+                      {t(`${INTL_PLAN_COMPARISON_ROOT}.${name}.title`)}
+                    </Typography>
+                    <PlanLabel plan={getPlanLabelByName(name)} />
+                  </div>
                 </TableCell>
               ))}
             </TableRow>
@@ -96,8 +97,16 @@ export const FeatureTable = () => {
                 {t(`${INTL_PLAN_COMPARISON_ROOT}.products`)}
               </Typography>
             </TableRow>
+            {renderBodyRows(SECOND_ROWS_INDEXES)}
+            <TableRow
+              className={cx(classes.subtitleRow, classes.rowWithoutBorder)}
+            >
+              <Typography variant="h6" className={classes.sectionTitle}>
+                {t(`${INTL_PLAN_COMPARISON_ROOT}.pricing`)}
+              </Typography>
+            </TableRow>
+            {renderBodyRows(THIRD_ROWS_INDEXES)}
           </TableBody>
-          {renderBodyRows(SECOND_ROWS_INDEXES)}
         </Table>
       </div>
     </>

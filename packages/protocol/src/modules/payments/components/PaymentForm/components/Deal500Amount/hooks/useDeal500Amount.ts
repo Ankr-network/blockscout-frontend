@@ -18,7 +18,7 @@ export const useDeal500Amount = (): IDeal500AmountProps => {
     selectBundlePaymentPlansInitLoading,
   );
 
-  const title = deal500Plan?.bundle.name ?? t(titleFallbackKey);
+  const title = deal500Plan?.bundle.name || t(titleFallbackKey);
 
   const amount = useMemo<IAmount | undefined>(() => {
     if (deal500Plan) {

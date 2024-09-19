@@ -1,8 +1,8 @@
 import { ReactNode, useMemo } from 'react';
+import { Chain, ChainSubType, ChainType } from '@ankr.com/chains-list';
 
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { Tab } from 'modules/common/hooks/useTabs';
-import { Chain, ChainSubType, ChainType } from 'modules/chains/types';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { Endpoints } from 'modules/common/components/GetStartedSection/components/Endpoints';
@@ -93,8 +93,7 @@ export const ChainItemHeaderContent = ({
 
   const { classes } = useChainItemHeaderContentStyles();
 
-  const shouldHideEndpoints =
-    (isMultiChain && !isCompactView) || shouldHideEndpointsProp;
+  const shouldHideEndpoints = shouldHideEndpointsProp;
 
   const extraContent = useMemo(() => {
     return (

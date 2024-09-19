@@ -54,7 +54,7 @@ export const MainForm = ({
     <form onSubmit={handleSubmit}>
       <OnChange name={AddToWhitelistFormFields.type}>{handleOnChange}</OnChange>
       <WhitelistItemsCounter
-        type={selectedType ?? UserEndpointTokenMode.REFERER}
+        type={selectedType || UserEndpointTokenMode.REFERER}
         className={classes.counter}
         count={whitelistCount}
       />

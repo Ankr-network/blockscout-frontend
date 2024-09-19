@@ -51,8 +51,8 @@ export const useTxDetails = ({
     isNativeTokenPriceLoading ||
     isTokenPriceLoading;
 
-  const fromAddress = blockchainTxData?.tx.from ?? '';
-  const toAddress = blockchainTxData?.tx.to ?? '';
+  const fromAddress = blockchainTxData?.tx.from || '';
+  const toAddress = blockchainTxData?.tx.to || '';
   const txDate = blockchainTxData?.timestamp
     ? getDateFromUnixSeconds(blockchainTxData.timestamp)
     : undefined;

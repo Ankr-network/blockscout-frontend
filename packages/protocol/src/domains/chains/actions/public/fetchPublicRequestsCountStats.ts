@@ -1,8 +1,8 @@
 import { Timeframe } from 'multirpc-sdk';
 import BigNumber from 'bignumber.js';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { AppDispatch } from 'store';
-import { ChainID } from 'modules/chains/types';
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
@@ -61,7 +61,7 @@ export const { useChainsFetchPublicRequestsCountStatsQuery } =
             const standaloneStats = results.map(item => {
               return {
                 chainId: item.data?.chainId,
-                requests: item.data?.data?.totalRequests ?? 0,
+                requests: item.data?.data?.totalRequests || 0,
               };
             });
 
@@ -72,7 +72,7 @@ export const { useChainsFetchPublicRequestsCountStatsQuery } =
                 );
 
                 const totalRequests = new BigNumber(totalRequestsData[key])
-                  .plus(standaloneData?.requests ?? 0)
+                  .plus(standaloneData?.requests || 0)
                   .toString();
 
                 totalRequestsData[key] = totalRequests;

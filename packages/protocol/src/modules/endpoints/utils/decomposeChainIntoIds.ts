@@ -1,4 +1,4 @@
-import { ChainID, Chain } from 'modules/chains/types';
+import { ChainID, Chain } from '@ankr.com/chains-list';
 
 import { flatChains } from './flatChains';
 

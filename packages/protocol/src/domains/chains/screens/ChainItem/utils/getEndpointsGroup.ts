@@ -15,5 +15,5 @@ export const getEndpointsGroup = ({
     return group;
   }
 
-  return getBeaconOrOpnodeGroup(group) ?? group;
+  return getBeaconOrOpnodeGroup(group) || group;
 };

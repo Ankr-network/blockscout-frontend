@@ -6,8 +6,8 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from '@mui/material';
+import { ChainType } from '@ankr.com/chains-list';
 
-import { ChainType } from 'modules/chains/types';
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 

@@ -2,7 +2,7 @@ import { t } from '@ankr.com/common';
 import { PrivateStat } from 'multirpc-sdk';
 
 export const aggregateMethodCallsRequests = (stats?: PrivateStat) => {
-  let methodCalls = stats?.total.top_requests ?? [];
+  let methodCalls = stats?.total.top_requests || [];
 
   if (!stats || !methodCalls?.length) {
     return [];

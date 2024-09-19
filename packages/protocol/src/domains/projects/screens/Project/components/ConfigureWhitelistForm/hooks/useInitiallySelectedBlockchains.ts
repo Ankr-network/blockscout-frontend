@@ -1,7 +1,6 @@
 import { WhitelistItem } from 'multirpc-sdk';
 import { useMemo } from 'react';
-
-import { ChainPath } from 'modules/chains/types';
+import { ChainPath } from '@ankr.com/chains-list';
 
 export interface UseInitiallySelectedBlockchainsParams {
   value: string;

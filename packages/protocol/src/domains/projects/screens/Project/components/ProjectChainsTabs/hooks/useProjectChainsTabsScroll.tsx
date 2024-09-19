@@ -1,7 +1,6 @@
 import { ArrowLeftSmall, ArrowRightSmall } from '@ankr.com/ui';
 import { useCallback, useEffect, useRef, useState } from 'react';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { ScrollButton } from '../components/ScrollButton';
 import { useProjectChainsTabsStyles } from '../useProjectChainsTabsStyles';

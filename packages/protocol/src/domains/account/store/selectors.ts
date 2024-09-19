@@ -55,7 +55,7 @@ export const selectBundlePaymentPlans = createSelector(
       ...bundle,
       price: {
         ...bundle.price,
-        amount: (Number(bundle.price.amount) ?? 0).toString(),
+        amount: (Number(bundle.price.amount) || 0).toString(),
       },
     })),
 );
@@ -231,7 +231,7 @@ export const selectBalanceLevel = createSelector(
 
 export const selectHasZeroBalance = createSelector(
   selectTotalBalance,
-  balance => new BigNumber(balance).isZero() ?? true,
+  balance => new BigNumber(balance).isZero() || true,
 );
 
 export const selectMySubscriptionsState = createSelector(
@@ -256,7 +256,7 @@ export const selectMySubscriptionsInitLoading = createSelector(
 
 export const selectMySubscriptions = createSelector(
   selectMySubscriptionsState,
-  ({ data }) => data?.items ?? [],
+  ({ data }) => data?.items || [],
 );
 
 export const selectHasMySubscriptions = createSelector(
@@ -314,7 +314,7 @@ export const selectMyCurrentBundleStatuses = createSelector(
 export const selectMyCurrentBundleAllBlockChainsLimit = createSelector(
   selectMyCurrentBundlePlan,
   plan => {
-    const limits = plan?.bundle.limits ?? [];
+    const limits = plan?.bundle.limits || [];
     const limit = limits.find(
       ({ blockchain_paths }) => blockchain_paths === ALL_BLOCKCHAINS_PATH,
     )?.limit;
@@ -337,7 +337,7 @@ export const selectMyCurrentBundleRequestsUsed = createSelector(
       );
 
     const requestsLeft = counters.reduce(
-      (result, { count }) => result + Number(count) ?? 0,
+      (result, { count }) => result + Number(count) || 0,
       0,
     );
 
@@ -513,7 +513,7 @@ export const selectHighestRankDealPriceData = createSelector(
   (hasActiveDeal, bundlePaymentPlans) => {
     if (hasActiveDeal && bundlePaymentPlans.length) {
       const mappedData = bundlePaymentPlans.map(
-        planData => +(planData?.price?.amount ?? 0),
+        planData => +(planData?.price?.amount || 0),
       );
 
       return Math.max(...mappedData);

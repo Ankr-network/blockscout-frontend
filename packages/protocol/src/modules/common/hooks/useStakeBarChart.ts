@@ -1,8 +1,7 @@
 import { PrivateStatTopRequestsData } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 
@@ -59,7 +58,7 @@ export const useStakeBarChart = (
       if (value in selectedKey) {
         delete selectedKey[value];
       } else {
-        selectedKey[value] = color ?? COLOR_LIST[0];
+        selectedKey[value] = color || COLOR_LIST[0];
       }
 
       setSelectedKey(selectedKey);

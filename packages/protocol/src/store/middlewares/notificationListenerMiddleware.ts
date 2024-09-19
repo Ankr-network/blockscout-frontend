@@ -32,7 +32,7 @@ notificationListenerMiddleware.startListening({
           dispatch(
             notificationSlice.actions.hideNotification(notification.key),
           ),
-        autoHideDuration ?? NOTIFICATION_AUTO_HIDE_DURATION,
+        autoHideDuration || NOTIFICATION_AUTO_HIDE_DURATION,
       );
     }
   },

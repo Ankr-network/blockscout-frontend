@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { useForm } from 'react-final-form';
+import { ChainID, ChainType } from '@ankr.com/chains-list';
 
-import { ChainID, ChainType } from 'modules/chains/types';
 import { ChainStepFields } from 'domains/projects/store';
 import {
   ProjectChainType,

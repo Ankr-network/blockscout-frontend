@@ -28,7 +28,7 @@ export const ProviderAddress = ({
     provider === OauthLoginProvider.Email ? shrinkAddress(address) : address;
 
   const secondaryName = nickName;
-  const primaryName = addressValue ?? nickName;
+  const primaryName = addressValue || nickName;
 
   const shouldShowSecondaryName =
     Boolean(secondaryName) && secondaryName !== primaryName;

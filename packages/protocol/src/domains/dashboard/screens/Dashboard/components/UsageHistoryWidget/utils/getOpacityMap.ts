@@ -8,7 +8,7 @@ export const getOpacityMap = (data: UsageHistoryData[]) =>
     .map(({ calls }) => calls)
     .sort((a, b) => b - a)
     .reduce<Record<number, number>>((map, calls, index) => {
-      map[calls] = TOP_OPACITIES[index] ?? DEFAULT_OPACITY;
+      map[calls] = TOP_OPACITIES[index] || DEFAULT_OPACITY;
 
       return map;
     }, {});

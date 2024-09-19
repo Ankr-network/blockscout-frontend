@@ -1,4 +1,5 @@
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
+
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 
 import { SectionID } from '../types';

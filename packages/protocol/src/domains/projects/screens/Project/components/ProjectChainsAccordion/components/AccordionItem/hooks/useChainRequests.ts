@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
 import { formatLongNumber } from 'modules/common/utils/formatNumber';
-import { ChainID, Timeframe } from 'modules/chains/types';
 import { useAppSelector } from 'store/useAppSelector';
 import {
   selectProjectTotalRequestsFor1hByChain,

@@ -1,4 +1,4 @@
-import { ChainID, Timeframe } from 'modules/chains/types';
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
 import { ChainLayout } from '../../ChainLayout/v1';
 import { AllChainsLayout } from '../../AllChainsLayout/v1';

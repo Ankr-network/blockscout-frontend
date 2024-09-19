@@ -1,4 +1,4 @@
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { Header } from './components/Header';
 import { Stats } from './components/Stats';

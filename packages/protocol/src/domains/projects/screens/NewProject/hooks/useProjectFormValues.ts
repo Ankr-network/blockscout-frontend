@@ -1,7 +1,7 @@
 import { useForm } from 'react-final-form';
 import { t } from '@ankr.com/common';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { initialDialogValues } from 'domains/projects/store';
 

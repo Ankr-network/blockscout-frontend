@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { PrivateStatsInternal } from 'multirpc-sdk';
+import { Chain, ESortChainsType, Timeframe } from '@ankr.com/chains-list';
 
-import { Chain, ESortChainsType, Timeframe } from 'modules/chains/types';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import {
@@ -9,6 +9,7 @@ import {
   sortPublicChains,
 } from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/utils';
 import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 
 export interface ChainsParams {
   chains: Chain[];
@@ -26,7 +27,9 @@ export const useChainsSorting = ({
 }: ChainsParams) => {
   const filteredBySearchChains = useMemo(
     () =>
-      chains.filter(item => item.name.toLowerCase().includes(searchContent)),
+      chains?.filter(chain =>
+        getFilteredChainsByName(chain, searchContent.toLowerCase()),
+      ),
     [chains, searchContent],
   );
 

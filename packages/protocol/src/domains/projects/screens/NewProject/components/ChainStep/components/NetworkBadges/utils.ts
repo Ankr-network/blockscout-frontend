@@ -1,4 +1,4 @@
-import { Chain, ChainBadge, ChainID } from 'modules/chains/types';
+import { Chain, ChainBadge, ChainID } from '@ankr.com/chains-list';
 
 export const getChainsBadges = (
   chains: Chain[],

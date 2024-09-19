@@ -1,6 +1,7 @@
+import { Timeframe } from '@ankr.com/chains-list';
+
 import { Queries } from 'modules/common/components/Queries/Queries';
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
-import { Timeframe } from 'modules/chains/types';
 
 import { useRequestsBanner } from '../../hooks/useRequestsBanner';
 import { DEFAULT_EMPTY_DATA } from './const';

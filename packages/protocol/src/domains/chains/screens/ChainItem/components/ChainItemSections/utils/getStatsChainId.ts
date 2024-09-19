@@ -1,5 +1,6 @@
+import { ChainID } from '@ankr.com/chains-list';
+
 import { EndpointGroup } from 'modules/endpoints/types';
-import { ChainID } from 'modules/chains/types';
 import { ChainIdParams, getChainId } from 'modules/chains/utils/getChainId';
 
 import { ChainProtocol } from '../../../constants/ChainProtocolContext';
@@ -48,7 +49,7 @@ export const getStatsChainId = ({
   });
 
   if (isChainProtocolSwitchEnabled) {
-    return getProtocolChainId(group, chainProtocol) ?? chainId;
+    return getProtocolChainId(group, chainProtocol) || chainId;
   }
 
   return chainId;

@@ -1,3 +1,5 @@
+import { ChainID } from '@ankr.com/chains-list';
+
 import { NewProjectStep } from 'domains/projects/types';
 import {
   ChainStepFields,
@@ -8,7 +10,6 @@ import {
   AddToWhitelistFormData,
   GeneralStepFields,
 } from 'domains/projects/store';
-import { ChainID } from 'modules/chains/types';
 
 export interface NewProjectFormProps {
   step: NewProjectStep;

@@ -13,6 +13,7 @@ import { WidgetTitle } from 'domains/account/screens/BillingPage/components/Widg
 import { IDealAmountsProps } from 'modules/payments/components/PaymentForm/components/DealAmounts';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectIsHighestDealPurchased } from 'domains/account/store/selectors';
+import { SALES_TEAM_CONTACT } from 'modules/common/constants/const';
 
 import { AmountField } from './components/AmountField';
 import {
@@ -99,8 +100,9 @@ export const PaymentForm = ({
         <LoadingButton
           fullWidth
           loading={isPayButtonLoading}
-          onClick={handlePayButtonClick}
+          onClick={isContactSalesButton ? undefined : handlePayButtonClick}
           size="large"
+          href={isContactSalesButton ? SALES_TEAM_CONTACT : undefined}
         >
           {isContactSalesButton
             ? t('account.payment-form.contact-sales-button')

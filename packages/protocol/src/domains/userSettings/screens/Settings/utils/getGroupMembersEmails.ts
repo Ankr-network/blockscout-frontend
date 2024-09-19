@@ -7,8 +7,8 @@ export interface IGetGroupMemberEmailsParams {
 export const getGroupMembersEmails = ({
   groupDetails,
 }: IGetGroupMemberEmailsParams) => {
-  const members = groupDetails?.members ?? [];
-  const invitees = groupDetails?.invitations ?? [];
+  const members = groupDetails?.members || [];
+  const invitees = groupDetails?.invitations || [];
 
   const membersEmails = members.map(member => member.email);
   const inviteesEmails = invitees.map(invitee => invitee.email);
