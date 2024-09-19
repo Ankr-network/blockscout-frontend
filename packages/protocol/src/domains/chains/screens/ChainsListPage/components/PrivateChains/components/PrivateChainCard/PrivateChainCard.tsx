@@ -7,7 +7,7 @@ import { useAppSelector } from 'store/useAppSelector';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { ChainProjectsDialog } from 'domains/chains/screens/ChainItem/components/ChainProjectsDialog';
+import { ChainProjectsDialog } from 'domains/chains/screens/ChainPage/components/ChainProjectsDialog';
 
 import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';

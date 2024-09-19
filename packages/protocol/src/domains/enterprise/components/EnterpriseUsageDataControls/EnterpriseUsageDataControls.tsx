@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { Timeframe } from '@ankr.com/chains-list';
 
 import { Tab } from 'modules/common/hooks/useTabs';
-import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
+import { TimeframeTabs } from 'domains/chains/screens/ChainPage/components/TimeframeTabs';
 import { TabSize } from 'modules/common/components/SecondaryTab';
-import { useTimeframeSectionStyles } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/TimeframeSection/useTimeframeSectionStyles';
+import { useTimeframeSectionStyles } from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/TimeframeSection/useTimeframeSectionStyles';
 import {
   ProjectSelect,
   SelectOption,

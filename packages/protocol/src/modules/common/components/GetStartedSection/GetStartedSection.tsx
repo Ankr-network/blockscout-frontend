@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { RequestComposer } from 'domains/requestComposer/components/composers';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainPage/hooks/useChainProtocolContext';
 
 import {
   ConnectionSnippet,

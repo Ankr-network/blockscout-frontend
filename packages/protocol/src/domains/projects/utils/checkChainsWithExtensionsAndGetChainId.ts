@@ -1,6 +1,6 @@
 import { ChainID } from '@ankr.com/chains-list';
 
-import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
+import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
 
 /* this mapping helps to get the correct id for using in requests for some chains with extensions */
 export const checkChainsWithExtensionsAndGetChainId = (chainId: ChainID) => {

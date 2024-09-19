@@ -5,9 +5,9 @@ import { Chain } from '@ankr.com/chains-list';
 
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+import { usePrivateChainItem } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
 import { Dialog } from 'uiKit/Dialog';

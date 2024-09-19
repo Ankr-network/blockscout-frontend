@@ -6,6 +6,10 @@ export const useCodeExampleModalStyles = makeStyles()(theme => ({
   },
   snippetsDialogTitle: {
     marginBottom: theme.spacing(8),
+
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: theme.spacing(4),
+    },
   },
   chainDescription: {
     backgroundColor: theme.palette.background.default,

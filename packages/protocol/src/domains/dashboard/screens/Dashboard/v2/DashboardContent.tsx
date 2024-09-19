@@ -1,14 +1,14 @@
 import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
 import { TabSize } from 'modules/common/components/SecondaryTab';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
-import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
+import { TimeframeTabs } from 'domains/chains/screens/ChainPage/components/TimeframeTabs';
 import { useEnterpriseEndpoints } from 'domains/enterprise/screens/EnterpriseChainsListPage/UserEndpointsWrapper/useEnterpriseEndpoints';
 import { useEnterpriseApiKeySelect } from 'domains/enterprise/components/EnterpriseApiKeysSelect/useEnterpriseApiKeySelect';
 import { useAppSelector } from 'store/useAppSelector';
 import { emptyFn } from 'modules/common/utils/emptyFn';
 import { selectPublicBlockchains } from 'modules/chains/store/selectors';
-import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { useChainsSelector } from '../hooks/useChainsSelector';

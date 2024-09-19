@@ -4,7 +4,7 @@ import { NavBarAnalytics } from '@ankr.com/ui';
 import { IChartData, Timeframe } from '@ankr.com/telemetry';
 
 import { NavLink } from 'uiKit/NavLink';
-import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
+import { TimeframeTabs } from 'domains/chains/screens/ChainPage/components/TimeframeTabs';
 import { PaperBlock } from 'domains/projects/screens/Project/components/PaperBlock';
 import { useRequestsWidgetStyles } from 'modules/common/components/RequestsWidget/useRequestsWidgetStyles';
 import { DashboardRoutesConfig } from 'domains/dashboard/routes';

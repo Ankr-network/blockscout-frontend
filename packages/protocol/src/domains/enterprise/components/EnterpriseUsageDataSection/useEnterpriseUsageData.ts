@@ -1,16 +1,16 @@
 import { useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
-import { getStatsChainId } from 'domains/chains/screens/ChainItem/components/ChainItemSections/utils/getStatsChainId';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainPage/hooks/useChainProtocolContext';
+import { getStatsChainId } from 'domains/chains/screens/ChainPage/components/ChainItemSections/utils/getStatsChainId';
 import {
   getUserTopRequest,
   UsageDataParams,
-} from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/usePrivateUsageData';
-import { UsageData } from 'domains/chains/screens/ChainItem/components/UsageDataSection/types';
-import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainItem/components/UsageDataSection/const';
+} from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/usePrivateUsageData';
+import { UsageData } from 'domains/chains/screens/ChainPage/components/UsageDataSection/types';
+import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { getPrivateUsageData } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/PrivateUsageDataSectionUtils';
+import { getPrivateUsageData } from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/PrivateUsageDataSectionUtils';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectEnterpriseStatsBySelectedApiKey } from 'domains/enterprise/store/selectors';
 import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';

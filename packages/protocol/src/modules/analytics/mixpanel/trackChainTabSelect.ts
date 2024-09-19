@@ -1,4 +1,4 @@
-import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItemSections/types';
+import { SectionID } from 'domains/chains/screens/ChainPage/components/ChainItemSections/types';
 
 import { ChainTabSelectEventProps } from './types';
 import { MixpanelEvent } from './const';
