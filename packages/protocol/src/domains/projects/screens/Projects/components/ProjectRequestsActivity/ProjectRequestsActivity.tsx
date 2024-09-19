@@ -5,7 +5,6 @@ import { useMemo } from 'react';
 
 import { ProjectActivity } from 'domains/projects/store';
 import { Sign } from 'modules/common/types/types';
-import { formatLongNumber } from 'modules/common/utils/formatNumber';
 
 import { useProjectRequestsActivityStyles } from './useProjectRequestsActivityStyles';
 
@@ -49,7 +48,7 @@ export const ProjectRequestsActivity = ({
     }
 
     const requestsCountString = t('projects.list-project.count', {
-      value: formatLongNumber(totalRequestsCount),
+      value: totalRequestsCount,
     });
 
     return (
