@@ -49,11 +49,12 @@ export const CodeExampleModal = ({
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <Dialog
-        paperClassName={classes.snippetsDialogPaper}
-        titleClassName={classes.snippetsDialogTitle}
-        title={t('chain-item.get-started.connection-snippet.title')}
-        open={isOpenedCodeExample}
         onClose={onCloseCodeExample}
+        open={isOpenedCodeExample}
+        paperClassName={classes.snippetsDialogPaper}
+        shouldStopPropagationOnClose
+        title={t('chain-item.get-started.connection-snippet.title')}
+        titleClassName={classes.snippetsDialogTitle}
       >
         <div className={classes.chainDescription}>
           <ChainLogo

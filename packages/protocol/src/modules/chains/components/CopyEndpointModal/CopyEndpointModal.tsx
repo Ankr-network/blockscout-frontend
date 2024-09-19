@@ -48,7 +48,7 @@ export const CopyEndpointModal = ({
   jwtTokens,
   userEndpointToken,
 }: ICopyEndpointModalProps) => {
-  const { isOpened, onClose, onOpen } = useDialog();
+  const { isOpened, onClose: onClickCloseButton, onOpen } = useDialog();
 
   const {
     chainProtocolContext,
@@ -108,14 +108,6 @@ export const CopyEndpointModal = ({
     [currentProjectIndex, handleSelectTokenIndex, onOpen],
   );
 
-  const onClickCloseButton = useCallback(
-    (event?: React.MouseEvent<HTMLButtonElement>) => {
-      event?.stopPropagation();
-      onClose();
-    },
-    [onClose],
-  );
-
   const { keys, t } = useTranslation(endpointModalTranslation);
 
   const { classes, cx } = useCopyEndpointModalStyles();
@@ -131,10 +123,11 @@ export const CopyEndpointModal = ({
         {isIconButton ? <Copy /> : t(keys.copyEndpoint)}
       </Button>
       <Dialog
-        open={isOpened}
         onClose={onClickCloseButton}
-        title={t(keys.copyEndpoint)}
+        open={isOpened}
         paperClassName={classes.endpointsDialog}
+        shouldStopPropagationOnClose
+        title={t(keys.copyEndpoint)}
       >
         <div
           role="button"

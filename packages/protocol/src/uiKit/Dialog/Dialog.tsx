@@ -87,12 +87,17 @@ export const Dialog = ({
     [onClose, onManualClose, shouldStopPropagationOnClose],
   );
 
-  const onCloseIconClick = useCallback<
-    MouseEventHandler<HTMLButtonElement>
-  >(() => {
-    onClose?.();
-    onManualClose?.();
-  }, [onClose, onManualClose]);
+  const onCloseIconClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    event => {
+      if (shouldStopPropagationOnClose) {
+        event.stopPropagation();
+      }
+
+      onClose?.();
+      onManualClose?.();
+    },
+    [onClose, onManualClose, shouldStopPropagationOnClose],
+  );
 
   useLayoutEffect(() => {
     setDialogTitle({ title });
