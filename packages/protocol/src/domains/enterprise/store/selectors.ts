@@ -52,10 +52,10 @@ export const selectEnterpriseEndpointsLoading = createSelector(
   ({ isLoading }) => isLoading,
 );
 
-export const selectEnterpriseEndpointsError = createSelector<
-  any, // should be typeof selectEnterpriseEndpoints, but it is readonly. so just declared any to describe the return type
-  Error | undefined
->(selectEnterpriseEndpoints, ({ error }: { error?: Error }) => error);
+export const selectEnterpriseEndpointsError = createSelector(
+  selectEnterpriseEndpoints,
+  ({ error }) => error as Error,
+);
 
 export const selectEnterpriseApiKeysAsJwtManagerTokens = createSelector(
   selectEnterpriseEndpoints,
