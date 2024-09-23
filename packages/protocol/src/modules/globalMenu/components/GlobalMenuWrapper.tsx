@@ -16,6 +16,7 @@ export const GlobalMenuWrapper = () => {
         logo: globalMenuClasses.globalMenuLogo,
       }}
       logoType={LogoType.Web3API}
+      isNavMenuHidden
     />
   );
 };

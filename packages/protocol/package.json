@@ -28,7 +28,7 @@
     "@ankr.com/assets": "^0.0.6",
     "@ankr.com/chains-list": "*",
     "@ankr.com/common": "*",
-    "@ankr.com/cross-navigation": "^2.0.5",
+    "@ankr.com/cross-navigation": "^2.0.13",
     "@ankr.com/provider": "^4.20.0",
     "@ankr.com/telemetry": "*",
     "@ankr.com/ui": "^0.13.60",
