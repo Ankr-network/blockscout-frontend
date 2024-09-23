@@ -1,6 +1,6 @@
 import { RestrictedDomains } from 'multirpc-sdk';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { GetState } from 'store';
 import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';

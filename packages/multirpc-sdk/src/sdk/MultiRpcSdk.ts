@@ -1,5 +1,7 @@
+import { ChainsConfig, IBlockchainEntity } from '@ankr.com/chains-list';
+
 import { AccountingGateway } from '../accounting';
-import { IConfig, IBlockchainEntity } from '../common';
+import { IConfig } from '../common';
 import {
   IPublicGateway,
   PublicGateway,
@@ -8,7 +10,7 @@ import {
 import { EnterpriseGateway } from '../enterprise';
 import { RpcGateway } from '../rpc';
 import { WorkerGateway } from '../worker';
-import { ChainsConfig, buildPrivateUrls, buildPublicUrls } from './buildUrls';
+import { buildPrivateUrls, buildPublicUrls } from './buildUrls';
 
 export class MultiRpcSdk {
   private publicGateway?: IPublicGateway;

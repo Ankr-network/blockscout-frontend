@@ -7,7 +7,7 @@ export const methodsSelectOptions = (
   prefix?: HarmonyApiVersionPrefix,
 ): MethodOption[] =>
   Object.values(HarmonyMethod)
-    .filter(item => item.indexOf(prefix ?? '') > -1)
+    .filter(item => item.indexOf(prefix || '') > -1)
     .map(name => ({
       label: name,
       value: name,

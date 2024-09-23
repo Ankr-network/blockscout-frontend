@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import { Timeframe } from 'modules/chains/types';
 import { USAGE_SHORT_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
@@ -14,7 +14,7 @@ import {
   selectRelativeChangeForLastHour,
 } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
-import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 
 export const useRequests = () => {
   const { timeframe, timeframeTabs } = useTimeframe({

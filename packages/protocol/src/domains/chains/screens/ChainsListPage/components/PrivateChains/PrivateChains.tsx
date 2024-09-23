@@ -12,8 +12,12 @@ import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 
 import { PrivateChainsTop } from './PrivateChainsTop';
 import { PrivateChainCard } from './components/PrivateChainCard';
+import { IChainsViewProps } from '../PublicChains/PublicChainsTypes';
 
-export const PrivateChains = () => {
+export const PrivateChains = ({
+  chainsViewTabs,
+  selectedChainsViewTab,
+}: IChainsViewProps) => {
   const { hasPremium } = useAuth();
 
   const {
@@ -67,8 +71,15 @@ export const PrivateChains = () => {
             setSortType={setSortType}
             searchContent={searchContent}
             setSearchContent={setSearchContent}
+            chainsViewTabs={chainsViewTabs}
+            selectedChainsViewTab={selectedChainsViewTab}
           />
-          <ChainsList chains={processedChains} isLoading={loading}>
+          <ChainsList
+            chains={processedChains}
+            isLoading={loading}
+            view={selectedChainsViewTab?.id}
+            timeframe={timeframe}
+          >
             {processedChains.map(item => {
               const { id } = item;
 
@@ -86,6 +97,7 @@ export const PrivateChains = () => {
                   }
                   allWhitelistsBlockchains={allWhitelistsBlockchains}
                   jwtTokens={jwtTokens}
+                  view={selectedChainsViewTab?.id}
                 />
               );
             })}

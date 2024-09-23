@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { ESortChainsType, Timeframe } from '@ankr.com/chains-list';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
-import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
-import { ESortChainsType, Timeframe } from 'modules/chains/types';
+import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
 

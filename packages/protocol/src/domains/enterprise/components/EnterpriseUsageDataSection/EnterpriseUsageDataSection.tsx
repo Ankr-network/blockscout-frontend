@@ -1,23 +1,23 @@
 import { Paper } from '@mui/material';
-
 import {
   Chain,
   ChainSubType,
   ChainType,
   Timeframe,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
 import { QueryError } from 'modules/common/components/QueryError/QueryError';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { RequestsChart } from 'domains/chains/screens/ChainItem/components/RequestsChart';
-import { PrivateUsageSummary } from 'domains/chains/screens/ChainItem/components/UsageDataSection/components/PrivateUsageDataSection/components/PrivateUsageSummary';
-import { useDataUsageSectionStyles } from 'domains/chains/screens/ChainItem/components/UsageDataSection/UsageDataSectionStyles';
+import { RequestsChart } from 'domains/chains/screens/ChainPage/components/RequestsChart';
+import { PrivateUsageSummary } from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/components/PrivateUsageSummary';
+import { useDataUsageSectionStyles } from 'domains/chains/screens/ChainPage/components/UsageDataSection/UsageDataSectionStyles';
 import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { EnterpriseUsageDataControls } from '../EnterpriseUsageDataControls';
 import { useEnterpriseUsageData } from './useEnterpriseUsageData';
 import { useEnterpriseApiKeySelect } from '../EnterpriseApiKeysSelect/useEnterpriseApiKeySelect';
-import { ItemHeader } from '../../../chains/screens/ChainItem/components/ItemHeader';
+import { ItemHeader } from '../../../chains/screens/ChainPage/components/ItemHeader';
 
 interface EnterpriseUsageDataSectionProps {
   chain: Chain;

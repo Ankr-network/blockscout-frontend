@@ -39,7 +39,7 @@ export const useAddProject = (tokenIndex: number) => {
           index: data?.index,
         }),
       );
-      setUserEndpointToken(data?.userEndpointToken ?? '');
+      setUserEndpointToken(data?.userEndpointToken || '');
       setAddProjectStep(AddProjectStep.success);
     }
 

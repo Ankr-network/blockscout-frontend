@@ -5,8 +5,8 @@ import {
   Typography,
 } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { Chain, ChainID, ChainType } from '@ankr.com/chains-list';
 
-import { Chain, ChainID, ChainType } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import {
   ProjectChainType,

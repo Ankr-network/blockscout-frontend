@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-
-import { ChainPath } from 'modules/chains/types';
+import { ChainPath } from '@ankr.com/chains-list';
 
 import { handleBlockchainSelection } from '../utils/handleBlockchainSelection';
 import { useSubchains } from './useSubchains';

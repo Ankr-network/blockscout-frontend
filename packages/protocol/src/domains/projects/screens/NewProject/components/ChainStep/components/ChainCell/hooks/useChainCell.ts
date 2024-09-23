@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { ProjectChain } from 'domains/projects/screens/NewProject/hooks/useProjectChains';
 import { isExtensionOnlyChain } from 'domains/chains/utils/isExtensionOnlyChain';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
@@ -104,17 +104,17 @@ export const useChainCell = ({
 
   const singleChainIds = useMemo(
     () => ({
-      allAvailableMainnetIds: chain.mainnets?.map(chainIdMapper) ?? [],
-      allAvailableTestnetIds: chain.testnets?.map(chainIdMapper) ?? [],
-      allAvailableDevnetIds: chain.devnets?.map(chainIdMapper) ?? [],
+      allAvailableMainnetIds: chain.mainnets?.map(chainIdMapper) || [],
+      allAvailableTestnetIds: chain.testnets?.map(chainIdMapper) || [],
+      allAvailableDevnetIds: chain.devnets?.map(chainIdMapper) || [],
       allAvailableBeaconMainnetIds:
-        chain.beaconsMainnet?.map(chainIdMapper) ?? [],
+        chain.beaconsMainnet?.map(chainIdMapper) || [],
       allAvailableBeaconTestnetIds:
-        chain.beaconsTestnet?.map(chainIdMapper) ?? [],
+        chain.beaconsTestnet?.map(chainIdMapper) || [],
       allAvailableOpnodeMainnetIds:
-        chain.opnodesMainnet?.map(chainIdMapper) ?? [],
+        chain.opnodesMainnet?.map(chainIdMapper) || [],
       allAvailableOpnodeTestnetIds:
-        chain.opnodesTestnet?.map(chainIdMapper) ?? [],
+        chain.opnodesTestnet?.map(chainIdMapper) || [],
     }),
     [chain],
   );
@@ -136,13 +136,13 @@ export const useChainCell = ({
   );
 
   const handleSelectChains = useCallback(() => {
-    const chainIds = (chain?.mainnets ?? [])
-      .concat(chain?.testnets ?? [])
-      .concat(chain?.devnets ?? [])
-      .concat(chain?.beaconsMainnet ?? [])
-      .concat(chain?.beaconsTestnet ?? [])
-      .concat(chain?.opnodesMainnet ?? [])
-      .concat(chain?.opnodesTestnet ?? [])
+    const chainIds = (chain?.mainnets || [])
+      .concat(chain?.testnets || [])
+      .concat(chain?.devnets || [])
+      .concat(chain?.beaconsMainnet || [])
+      .concat(chain?.beaconsTestnet || [])
+      .concat(chain?.opnodesMainnet || [])
+      .concat(chain?.opnodesTestnet || [])
       .map(chainIdMapper);
 
     if (isChainWithoutMainnet) {

@@ -8,9 +8,9 @@ const joinCountries = (
   { count, country, total_cost }: PrivatStatTopCountry,
   topCountry?: PrivatStatTopCountry,
 ): PrivatStatTopCountry => ({
-  count: (topCountry?.count ?? 0) + (count ?? 0),
+  count: (topCountry?.count || 0) + (count || 0),
   country,
-  total_cost: (topCountry?.total_cost ?? 0) + (total_cost ?? 0),
+  total_cost: (topCountry?.total_cost || 0) + (total_cost || 0),
 });
 
 export const aggregateTopCountries = (countries: PrivatStatTopCountry[]) =>

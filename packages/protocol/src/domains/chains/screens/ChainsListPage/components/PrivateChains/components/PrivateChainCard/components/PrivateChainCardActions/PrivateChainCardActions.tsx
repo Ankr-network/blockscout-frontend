@@ -1,84 +1,48 @@
-import { Button, MenuItem } from '@mui/material';
+import { Box, Button, MenuItem } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
-import React, { useCallback, useMemo } from 'react';
 
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { CopyEndpointModal } from 'modules/chains/components/CopyEndpointModal';
 import { MenuButton } from 'modules/common/components/MenuButton';
 import { AddNetworkButton } from 'domains/auth/components/AddNetwork';
-import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
+import { GuardResolution } from 'modules/common/components/GuardResolution';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
-import { Chain } from 'modules/chains/types';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { hasEvmSubchains } from 'modules/chains/utils/hasEvmSubchains';
-import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 import { ChainProjects } from '../ChainProjects';
 import { usePrivateChainsItemStyles } from '../../usePrivateChainsItemStyles';
 import { privateChainCardActionsTranslation } from './translation';
+import {
+  IPrivateChainCardActionsProps,
+  usePrivateChainCardActions,
+} from './usePrivateChainCardActions';
 
-interface IPrivateChainCardActionsProps {
-  anchorEl: null | HTMLElement;
-  chain: Chain;
-  chainProjects?: MappedWhitelistBlockchainsResponse[];
-  filteredJwtTokens: JwtManagerToken[];
-  handleClose: () => void;
-  handleOpenChainMenu: (event: React.MouseEvent<HTMLElement>) => void;
-  isEndpointLocked: boolean;
-  isLoadingProjects: boolean;
-  onOpenAddToProjectsDialog: () => void;
-  open: boolean;
-  isChainProjectsEmpty?: boolean;
-}
+export const PrivateChainCardActions = (
+  props: IPrivateChainCardActionsProps,
+) => {
+  const {
+    handleOpenAddToProjectsDialog,
+    isAddToMetamaskButtonVisible,
+    isEndpointLocked,
+    isLoadingProjects,
+    open,
+    projectChain,
+  } = usePrivateChainCardActions(props);
 
-export const PrivateChainCardActions = ({
-  anchorEl,
-  chain,
-  chainProjects,
-  filteredJwtTokens,
-  handleClose,
-  handleOpenChainMenu,
-  isChainProjectsEmpty,
-  isEndpointLocked,
-  isLoadingProjects,
-  onOpenAddToProjectsDialog,
-  open,
-}: IPrivateChainCardActionsProps) => {
+  const {
+    anchorEl,
+    chain,
+    chainProjects,
+    filteredJwtTokens,
+    handleClose,
+    handleOpenChainMenu,
+    isCardView,
+    isChainProjectsEmpty,
+  } = props;
+
   const { classes, cx } = usePrivateChainsItemStyles();
 
-  const handleOpenAddToProjectsDialog = useCallback(
-    e => {
-      e.stopPropagation();
-      e.preventDefault();
-      onOpenAddToProjectsDialog();
-      handleClose();
-    },
-    [handleClose, onOpenAddToProjectsDialog],
-  );
-
   const { keys, t } = useTranslation(privateChainCardActionsTranslation);
-
-  const isAddToMetamaskButtonVisible = hasEvmSubchains(chain);
-
-  const { tokenIndex: selectedProjectIndex } = useTokenManagerConfigSelector();
-
-  const chainPaths = useMemo(
-    () =>
-      chainProjects?.find(project => project.index === selectedProjectIndex)
-        ?.blockchains ?? [],
-    [chainProjects, selectedProjectIndex],
-  );
-
-  const projectChain = useMemo(() => {
-    if (chainPaths.length === 0) {
-      return chain;
-    }
-
-    return filterChainByPaths({ chain, paths: chainPaths });
-  }, [chain, chainPaths]);
 
   return (
     <GuardUserGroup blockName={BlockWithPermission.ChainItem}>
@@ -95,21 +59,26 @@ export const PrivateChainCardActions = ({
             buttonProps={{
               variant: 'outlined',
             }}
-            buttonClassName={classes.privateChainCopyEndpointButton}
-            isIconButton
+            buttonClassName={cx(classes.privateChainCopyEndpointButton, {
+              [classes.privateActionsButtonLarge]: !isCardView,
+            })}
+            isIconButton={isCardView}
             hasProjectSelector={filteredJwtTokens.length > 1}
           />
         )}
         {isChainProjectsEmpty && (
           <Button
-            className={classes.addToProjectButtonEmptyState}
+            className={cx(classes.addToProjectButtonEmptyState, {
+              [classes.privateActionsButtonLarge]: !isCardView,
+            })}
             variant="outlined"
             size="small"
             onClick={handleOpenAddToProjectsDialog}
             startIcon={<Plus />}
+            children={isCardView ? null : t(keys.addToProjectButton)}
           />
         )}
-        {(isAddToMetamaskButtonVisible || !isChainProjectsEmpty) && (
+        {isAddToMetamaskButtonVisible || !isChainProjectsEmpty ? (
           <MenuButton
             anchorEl={anchorEl}
             open={open}
@@ -151,6 +120,12 @@ export const PrivateChainCardActions = ({
               </GuardResolution>
             )}
           </MenuButton>
+        ) : (
+          <Box
+            className={cx(classes.menuButtonPlaceholder, {
+              [classes.menuButtonPlaceholderHidden]: isCardView,
+            })}
+          />
         )}
       </div>
     </GuardUserGroup>

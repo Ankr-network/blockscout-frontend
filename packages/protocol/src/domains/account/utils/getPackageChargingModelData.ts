@@ -36,7 +36,7 @@ export const getPackageChargingModelData = ({
   packageChargingModel,
 }: IGetPackageDataProps) => {
   const balanceInRequests = packageChargingModel.counters.reduce(
-    (result, counter) => result + Number(counter.count) ?? 0,
+    (result, counter) => result + Number(counter.count) || 0,
     0,
   );
 

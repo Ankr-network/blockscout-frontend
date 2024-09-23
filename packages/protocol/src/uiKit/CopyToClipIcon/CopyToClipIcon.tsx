@@ -85,7 +85,7 @@ export const CopyToClipIcon = ({
               className={cx(classes.text, textClassName)}
               color={textColor}
             >
-              {textLabel ?? text}
+              {textLabel || text}
             </Typography>
             <div className={classes.copy}>
               {!hideIcon && <Copy className={classes.copyIcon} />}

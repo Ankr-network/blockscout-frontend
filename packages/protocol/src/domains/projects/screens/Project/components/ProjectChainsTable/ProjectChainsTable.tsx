@@ -1,4 +1,5 @@
-import { ChainPath } from 'modules/chains/types';
+import { ChainPath } from '@ankr.com/chains-list';
+
 import { ChainsTable } from 'domains/projects/components/ChainsTable';
 
 import { useChains } from './hooks/useChains';

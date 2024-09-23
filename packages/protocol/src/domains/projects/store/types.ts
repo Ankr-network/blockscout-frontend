@@ -1,7 +1,6 @@
 import { Address } from '@ankr.com/provider';
 import { UserEndpointTokenMode } from 'multirpc-sdk';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { NewProjectStep } from '../types';
 

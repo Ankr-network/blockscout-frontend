@@ -19,7 +19,7 @@ export const usePricingStyles = makeStyles<boolean>()(
     },
     content: {
       paddingTop: theme.spacing(32),
-      maxWidth: 1100,
+      maxWidth: 1240,
       margin: '0 auto',
 
       [theme.breakpoints.down('md')]: {

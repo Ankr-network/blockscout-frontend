@@ -44,7 +44,7 @@ export const {
             selectPaymentOptionsByNetworkAndCurrency(state, network, currency);
 
           const blocksToConfirm =
-            confirmationBlocksNumber ?? CONFIRMATION_BLOCKS;
+            confirmationBlocksNumber || CONFIRMATION_BLOCKS;
 
           const isConfirmed = await waitForTxBlockConfirmation({
             blocksToConfirm,

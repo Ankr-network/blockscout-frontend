@@ -1,6 +1,5 @@
 import { PrivateStatsInterval, PublicStatsInterval } from 'multirpc-sdk';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 const { Day, Hour, Month, Week } = Timeframe;
 

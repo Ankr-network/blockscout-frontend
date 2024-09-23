@@ -1,4 +1,4 @@
-import { ChainPath } from 'modules/chains/types';
+import { ChainPath } from '@ankr.com/chains-list';
 
 export interface HandleSelectBlockchainParams {
   existingBlockchains: ChainPath[];

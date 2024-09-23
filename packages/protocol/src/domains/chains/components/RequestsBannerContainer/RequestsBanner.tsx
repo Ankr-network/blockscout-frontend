@@ -1,4 +1,5 @@
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
+
 import { IRequestsBannerResponse } from 'domains/chains/utils/requestsBannerUtils';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';

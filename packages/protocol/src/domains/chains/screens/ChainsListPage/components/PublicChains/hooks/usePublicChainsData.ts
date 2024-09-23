@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ESortChainsType } from '@ankr.com/chains-list';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
@@ -9,7 +10,6 @@ import {
   selectBlockchainsLoadingStatus,
   selectPublicBlockchains,
 } from 'modules/chains/store/selectors';
-import { ESortChainsType } from 'modules/chains/types';
 
 import { useTimeframe } from '../../../hooks/useTimeframe';
 

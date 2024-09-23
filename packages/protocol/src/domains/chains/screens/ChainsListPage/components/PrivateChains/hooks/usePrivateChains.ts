@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { ESortChainsType, Chain } from '@ankr.com/chains-list';
 
-import { ESortChainsType, Chain } from 'modules/chains/types';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
 import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 

@@ -5,5 +5,5 @@ import { getOptionLabel } from './getOptionLabel';
 
 export const getOption = (item: ABIItem): ISelectOption => ({
   label: getOptionLabel(item),
-  value: item.name ?? '',
+  value: item.name || '',
 });

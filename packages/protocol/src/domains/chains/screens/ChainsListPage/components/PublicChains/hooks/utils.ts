@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { ChainID, ESortChainsType, Chain } from '@ankr.com/chains-list';
 
-import { ChainID, ESortChainsType, Chain } from 'modules/chains/types';
 import { extractCustomizedChains } from 'domains/chains/components/ChainsList/ChainsListUtils';
 
 import { SortPublicChainsParams } from '../PublicChainsTypes';
@@ -90,7 +90,7 @@ export const formatRequestsCount = (
 
     return {
       ...item,
-      totalRequests: new BigNumber(data?.[id] ?? 0),
+      totalRequests: new BigNumber(data?.[id] || 0),
     };
   });
 };

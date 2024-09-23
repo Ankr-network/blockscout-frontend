@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-final-form';
 import isEqual from 'lodash.isequal';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
-import { Chain, ChainID } from 'modules/chains/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 import { ChainStepFields } from 'domains/projects/store';
 

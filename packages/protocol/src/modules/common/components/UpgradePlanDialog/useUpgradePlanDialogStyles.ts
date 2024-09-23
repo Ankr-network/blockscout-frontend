@@ -48,24 +48,4 @@ export const useUpgradePlanDialogStyles =
 
       fontSize: 28,
     },
-
-    /* fix for contact form (embedded hubspot widget) */
-    dialogContainerWhite: {
-      maxWidth: 600,
-      backgroundColor: theme.palette.common.white,
-      color: theme.palette.common.black,
-      fill: theme.palette.common.black,
-
-      '& button': {
-        '&:hover': {
-          backgroundColor: 'lightgray',
-        },
-      },
-      '& svg': {
-        color: theme.palette.common.black,
-      },
-    },
-    dialogTitleBlack: {
-      color: theme.palette.common.black,
-    },
   }));

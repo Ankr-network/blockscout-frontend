@@ -1,4 +1,4 @@
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
 
 export const flatChains = ({
   extenders = [],

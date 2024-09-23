@@ -12,7 +12,7 @@ import { web3Api } from 'store/queries';
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
     ...data,
-    totalRequests: data?.total_requests ?? 0,
+    totalRequests: data?.total_requests || 0,
   };
 };
 

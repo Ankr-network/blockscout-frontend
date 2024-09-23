@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 import {
   IChainParams,

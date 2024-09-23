@@ -2,8 +2,8 @@ import { EBlockchain } from 'multirpc-sdk';
 import { MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { INetwork } from 'modules/payments/types';
 import { networkNameByPathMap } from 'modules/payments/const';
 import { useChainIcon } from 'uiKit/hooks/useChainIcon';

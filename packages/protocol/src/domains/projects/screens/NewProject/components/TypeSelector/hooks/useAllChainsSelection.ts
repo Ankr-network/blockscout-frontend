@@ -1,10 +1,10 @@
 import { ChangeEvent, useCallback } from 'react';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { ISelectOption } from 'uiKit/Select';
 import { SelectMenuProps } from 'modules/common/components/ProjectSelect/ProjectSelect';
 import { GroupedEndpoints } from 'modules/endpoints/types';
 import { ChainStepFields } from 'domains/projects/store';
-import { Chain, ChainID } from 'modules/chains/types';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { useAvailableIds } from './useAvailableIds';

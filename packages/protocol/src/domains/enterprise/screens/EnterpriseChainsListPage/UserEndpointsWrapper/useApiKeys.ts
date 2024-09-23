@@ -1,7 +1,6 @@
-import { IBlockchainEntity } from 'multirpc-sdk';
+import { IBlockchainEntity, Chain } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
-import { Chain } from 'modules/chains/types';
 import { selectBlockchains } from 'modules/chains/store/selectors';
 import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';

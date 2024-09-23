@@ -1,6 +1,5 @@
 import { TableContainer } from '@mui/material';
-
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
 
 import { ChainsTableBody } from './components/ChainsTableBody';
 import { ChainsTableColumn } from './types';

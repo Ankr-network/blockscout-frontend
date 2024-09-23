@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { PrivateStatTopRequestsData } from 'multirpc-sdk';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { NUMBER_OF_SHOW_X_TICK } from '../StakeBarChartUtils';
 

@@ -23,6 +23,10 @@ export const usePrivateChainsItemStyles = makeStyles()(theme => ({
     height: 30,
     width: 32,
   },
+  privateActionsButtonLarge: {
+    width: 'auto',
+    whiteSpace: 'nowrap',
+  },
   chainCardMenuPaper: {
     backgroundImage: 'none',
   },
@@ -96,9 +100,15 @@ export const usePrivateChainsItemStyles = makeStyles()(theme => ({
   },
   addToProjectButtonEmptyState: {
     minWidth: 'auto',
-    height: 28,
-    minHeight: 28,
+    height: 30,
+    minHeight: 30,
     width: 30,
     borderRadius: 11,
+  },
+  menuButtonPlaceholder: {
+    width: 30,
+  },
+  menuButtonPlaceholderHidden: {
+    display: 'none',
   },
 }));

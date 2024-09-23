@@ -1,4 +1,4 @@
-import { Chain, ChainID, ESortChainsType } from 'modules/chains/types';
+import { Chain, ChainID, ESortChainsType } from '@ankr.com/chains-list';
 
 export interface SortChainsParams {
   chains: Chain[];

@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
 
 import { chainGroups } from '../constants/groups';
 import { GroupedEndpoints } from '../types';

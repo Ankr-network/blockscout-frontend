@@ -67,7 +67,6 @@ export const usePaymentForm = () => {
     dealPaymentSummaryDialogProps,
     enterpriseDialogProps,
     handleDealPaymentSummaryDialogOpen,
-    onOpenEnterpriseDialog,
   } = useDealPayment({ amount: dealAmount });
 
   const {
@@ -104,7 +103,7 @@ export const usePaymentForm = () => {
     cryptoPaymentSummaryDialogProps,
     currency,
     currencyTabsProps,
-    dealAmountsProps: { ...dealAmountsProps, onOpenEnterpriseDialog },
+    dealAmountsProps,
     emailData,
     emailDialogProps,
     enterpriseDialogProps,

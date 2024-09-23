@@ -1,5 +1,6 @@
+import { ChainID, Timeframe } from '@ankr.com/chains-list';
+
 import { useAppSelector } from 'store/useAppSelector';
-import { ChainID, Timeframe } from 'modules/chains/types';
 import {
   selectAggregatedStatsByChainFor1hState,
   selectAggregatedStatsByChainFor24hState,

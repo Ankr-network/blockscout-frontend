@@ -1,8 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { isLightTheme } from 'uiKit/Theme/themeUtils';
-
-import { ChainID } from '../../types';
 
 export const useChainLogoStyles = makeStyles<number | undefined>()(
   (theme, size?: number) => {

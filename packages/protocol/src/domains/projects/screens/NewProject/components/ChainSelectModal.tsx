@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
+import { Chain } from '@ankr.com/chains-list';
 
-import { Chain } from 'modules/chains/types';
 import { SelectedChainCard } from 'domains/projects/components/SelectedChainCard';
 
 import { ChainSelect } from './ChainStep/ChainSelect';

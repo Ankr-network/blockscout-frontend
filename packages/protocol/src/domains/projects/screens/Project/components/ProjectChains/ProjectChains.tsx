@@ -2,12 +2,12 @@ import { Edit, OverlaySpinner } from '@ankr.com/ui';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useMemo, useState } from 'react';
+import { Timeframe, ESortChainsType } from '@ankr.com/chains-list';
 
 import { Placeholder } from 'modules/common/components/Placeholder';
-import { Timeframe, ESortChainsType } from 'modules/chains/types';
 import { TabSize } from 'modules/common/components/SecondaryTab';
-import { TimeframeTabs } from 'domains/chains/screens/ChainItem/components/TimeframeTabs';
-import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { TimeframeTabs } from 'domains/chains/screens/ChainPage/components/TimeframeTabs';
+import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 import { USAGE_SHORT_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 import { SearchInput } from 'modules/chains/components/SearchInput';
 import { ChainsSortSelect } from 'modules/chains/components/ChainsSortSelect';

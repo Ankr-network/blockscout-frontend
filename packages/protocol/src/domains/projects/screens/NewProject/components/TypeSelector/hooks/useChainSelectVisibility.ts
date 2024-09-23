@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
+import { ChainType } from '@ankr.com/chains-list';
 
-import { ChainType } from 'modules/chains/types';
-import { useChainProtocolContext } from 'domains/chains/screens/ChainItem/hooks/useChainProtocolContext';
+import { useChainProtocolContext } from 'domains/chains/screens/ChainPage/hooks/useChainProtocolContext';
 // TODO: we need to remove it to some chains common folder
-import { ChainTypeItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+import { ChainTypeItem } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { EndpointGroup } from 'modules/endpoints/types';
 
 interface ChainSelectVisibilityHookProps {

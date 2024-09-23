@@ -11,6 +11,7 @@ on:
         options:
           - common
           - telemetry
+          - chains-list
 
 jobs:
   publish:
@@ -35,9 +36,9 @@ jobs:
       - name: Publish
         working-directory: ./packages/${{ github.event.inputs.package }}/
         run: |
-          npm config set access public
-          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPMJS_TOKEN }}
+          npm config set access public -ws=false -iwr 
+          npm config set //registry.npmjs.org/:_authToken ${{ secrets.NPMJS_TOKEN }} -ws=false -iwr 
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
-          npm run build
+          npm run build:turbo
           npm publish

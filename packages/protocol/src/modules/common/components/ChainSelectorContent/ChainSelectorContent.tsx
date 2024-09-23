@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
+import { ChainSubType, ChainType } from '@ankr.com/chains-list';
 
-import { ChainSubType, ChainType } from 'modules/chains/types';
-import { GroupSelector } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/GroupSelector';
+import { GroupSelector } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/components/GroupSelector';
 import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { SecondaryTabs } from 'modules/common/components/SecondaryTabs';
-import { ChainProtocolSwitch } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/ChainProtocolSwitch';
+import { ChainProtocolSwitch } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/components/ChainProtocolSwitch';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
-import { SubchainLabels } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/SubchainLabels';
+import { SubchainLabels } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/components/SubchainLabels';
 
 export interface IChainSelectorContentProps {
   additionalSelector?: ReactNode;

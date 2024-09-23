@@ -1,17 +1,17 @@
 import { t } from '@ankr.com/common';
 import { PrefixedHex } from 'multirpc-sdk';
-
-import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
 import {
   ChainID,
   Chain,
   ChainURL,
   ChainType,
   ChainSubType,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
+
+import { flatNetworkURLs } from 'domains/auth/utils/flatNetworkURLs';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
-import { getChainById } from 'domains/chains/screens/ChainItem/utils/getChainById';
+import { getChainById } from 'domains/chains/screens/ChainPage/utils/getChainById';
 
 import { IChainParams } from '../../actions/addNetwork';
 import { NETWORK_INFO_MAP } from './const';

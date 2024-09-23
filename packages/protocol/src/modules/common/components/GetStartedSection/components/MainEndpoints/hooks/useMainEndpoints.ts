@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { getSubChainFromGroup } from 'domains/chains/utils/getSubChainFromGroup';
 
 import { Feature, MainEndpointsProps } from '../types';

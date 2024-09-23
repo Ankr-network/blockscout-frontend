@@ -1,16 +1,16 @@
 import { SelectChangeEvent } from '@mui/material';
+import { Chain, ChainID, ChainSubType, ChainType } from '@ankr.com/chains-list';
 
 import {
   ProjectSelect,
   SelectOption,
 } from 'modules/common/components/ProjectSelect';
-import { Chain, ChainID, ChainSubType, ChainType } from 'modules/chains/types';
 import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { ISelectOption } from 'uiKit/Select';
 import {
   ChainSubTypeItem,
   ChainTypeItem,
-} from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+} from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 
 import { ChainSelector } from '../ChainSelector';

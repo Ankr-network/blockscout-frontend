@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
 
-import { Chain, Timeframe } from 'modules/chains/types';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 
@@ -18,7 +18,7 @@ export const usePublicChainsItem = ({
     useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
 
   return {
-    totalRequests: new BigNumber(data?.[id] ?? 0),
+    totalRequests: new BigNumber(data?.[id] || 0),
     loading: arePublicStatsLoading,
   };
 };

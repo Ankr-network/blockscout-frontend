@@ -54,7 +54,7 @@ export const userGroupSlice = createSlice({
       state,
       action: PayloadAction<Address | undefined>,
     ) => {
-      const address = action.payload ?? '';
+      const address = action.payload || '';
       const config = state.userGroupConfig[address];
 
       if (config) {
@@ -69,7 +69,7 @@ export const userGroupSlice = createSlice({
       }
     },
     resetUserGroupJwt: (state, action: PayloadAction<Address | undefined>) => {
-      const address = action.payload ?? '';
+      const address = action.payload || '';
       const token = state.userGroupJwt[address];
 
       if (token) {

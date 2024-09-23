@@ -1,5 +1,5 @@
-import { ChainItemHeader } from 'domains/chains/screens/ChainItem/components/ChainItemHeader';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainItemHeader } from 'domains/chains/screens/ChainPage/components/ChainItemHeader';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 
 import { NetworksButton } from '../NetworksButton';
 import { useProjectChain } from './hooks/useProjectChain';

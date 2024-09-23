@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 

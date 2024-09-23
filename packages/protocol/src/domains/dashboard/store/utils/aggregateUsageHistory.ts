@@ -12,7 +12,7 @@ export const aggregateUsageHistory = (requests: Requests) => {
         month: 'long',
       });
 
-      result[month] = (result[month] ?? 0) + count;
+      result[month] = (result[month] || 0) + count;
 
       return result;
     }, {});

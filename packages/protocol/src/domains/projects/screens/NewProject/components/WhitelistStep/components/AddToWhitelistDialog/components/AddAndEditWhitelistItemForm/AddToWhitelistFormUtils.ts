@@ -40,7 +40,7 @@ export const getValidation = (type?: UserEndpointTokenMode) => {
         if (
           (
             (allValues as NewProjectType[NewProjectStep.Whitelist])
-              ?.whitelistItems ?? []
+              ?.whitelistItems || []
           )
             .map(item => item.value)
             .includes(value)
@@ -56,7 +56,7 @@ export const getValidation = (type?: UserEndpointTokenMode) => {
         if (
           (
             (allValues as NewProjectType[NewProjectStep.Whitelist])
-              ?.whitelistItems ?? []
+              ?.whitelistItems || []
           )
             .map(item => item.value)
             .includes(value)
@@ -72,7 +72,7 @@ export const getValidation = (type?: UserEndpointTokenMode) => {
         if (
           (
             (allValues as NewProjectType[NewProjectStep.Whitelist])
-              ?.whitelistItems ?? []
+              ?.whitelistItems || []
           )
             .map(item => item.value)
             .includes(value)

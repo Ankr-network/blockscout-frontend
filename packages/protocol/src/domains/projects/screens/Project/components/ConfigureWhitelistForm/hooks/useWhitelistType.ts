@@ -11,7 +11,7 @@ export const useWhitelistType = () => {
     useTabs<UserEndpointTokenMode>({ tabs });
 
   const whitelistType =
-    selectedWhitelistTypeTab?.id ?? UserEndpointTokenMode.ALL;
+    selectedWhitelistTypeTab?.id || UserEndpointTokenMode.ALL;
 
   return {
     selectWhitelistTypeTab,

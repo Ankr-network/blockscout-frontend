@@ -1,13 +1,13 @@
 import { Fragment, ReactNode } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
+import { Chain } from '@ankr.com/chains-list';
 
 import { ButtonMetamask } from 'uiKit/ButtonMetamask';
-import { Chain } from 'modules/chains/types';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { usePrivateChainItem } from 'domains/chains/screens/ChainItem/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
+import { usePrivateChainItem } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainItem';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
 import { Dialog } from 'uiKit/Dialog';
@@ -18,7 +18,7 @@ import {
   selectBlockchainBySubchainId,
   selectPublicChainById,
 } from 'modules/chains/store/selectors';
-import { GuardResolution } from 'modules/common/components/GuardResolution/GuardResolution';
+import { GuardResolution } from 'modules/common/components/GuardResolution';
 
 import { useAddNetworkButton } from './useAddNetworkButton';
 import { useNetworksButtonTranslations } from './translation';
@@ -31,12 +31,14 @@ interface IAddNetworkProps {
   size?: 'large' | 'medium' | 'small';
   isEnterprise?: boolean;
   hasChainSelector?: boolean;
+  hasPlaceholder?: boolean;
 }
 
 export const AddNetworkButton = ({
   chain,
   className,
   hasChainSelector,
+  hasPlaceholder,
   isEnterprise,
   label,
   size,
@@ -90,6 +92,10 @@ export const AddNetworkButton = ({
     (!handleButtonClick && !hasChainSelector) || !hasEvmSubchains(chain);
 
   if (shouldHideButton) {
+    if (hasPlaceholder) {
+      return <Box className={classes.placeholder} />;
+    }
+
     return null;
   }
 

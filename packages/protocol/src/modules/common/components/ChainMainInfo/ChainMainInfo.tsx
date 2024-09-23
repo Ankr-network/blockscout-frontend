@@ -1,11 +1,11 @@
 import { Skeleton, Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { Switcher } from 'modules/common/components/Switcher';
-import { Timeframe } from 'modules/chains/types';
-import { getLabelByTimeframe } from 'domains/chains/screens/ChainItem/components/UsageDataSection/UsageDataSectionUtils';
+import { getLabelByTimeframe } from 'domains/chains/screens/ChainPage/components/UsageDataSection/UsageDataSectionUtils';
 
 import { useStyles } from './ChainMainInfoStyles';
 import { ChainMainInfoProps } from './ChainMainInfoTypes';

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 export const useTimeframe = (timeframe_: Timeframe, depends: any[]) => {
   const [timeframe, setTimeframe] = useState(timeframe_);

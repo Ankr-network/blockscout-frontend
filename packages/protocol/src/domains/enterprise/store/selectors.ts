@@ -1,10 +1,13 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { EnterpriseClientEndpoint } from 'multirpc-sdk/src/enterprise/types';
+import {
+  formatChainsConfigToChains,
+  ChainSubType,
+  ZETACHAIN_ATHENS3_CHAINS,
+} from '@ankr.com/chains-list';
 
-import { ChainSubType, ZETACHAIN_ATHENS3_CHAINS } from 'modules/chains/types';
 import { MultiService } from 'modules/api/MultiService';
 import { selectBlockchains } from 'modules/chains/store/selectors';
-import { formatChainsConfigToChains } from 'domains/chains/utils/formatChainsConfigToChains';
 import { selectAddress } from 'domains/auth/store';
 import { selectJwtTokenManager } from 'domains/jwtToken/store/selectors';
 import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
@@ -54,7 +57,7 @@ export const selectEnterpriseEndpointsLoading = createSelector(
 
 export const selectEnterpriseEndpointsError = createSelector(
   selectEnterpriseEndpoints,
-  ({ error }) => error as Error,
+  ({ error }) => error as Error | undefined,
 );
 
 export const selectEnterpriseApiKeysAsJwtManagerTokens = createSelector(

@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { TableCellProps } from '@mui/material';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 export interface WhitelistTableItem {
   address: string;

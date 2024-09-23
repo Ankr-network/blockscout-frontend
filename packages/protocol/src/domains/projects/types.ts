@@ -1,4 +1,4 @@
-import { Chain as MainChainType, ChainType } from 'modules/chains/types';
+import { Chain as MainChainType, ChainType } from '@ankr.com/chains-list';
 
 export enum NewProjectStep {
   General,

@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
-
-import { Chain, ChainPath } from 'modules/chains/types';
+import { Chain, ChainPath } from '@ankr.com/chains-list';
 
 import { AllNetworksSelector } from './components/AllNetworksSelector';
 import { NetworkSelector } from './components/NetworkSelector';

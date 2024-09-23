@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
+import { ChainPath } from '@ankr.com/chains-list';
 
-import { ChainPath } from 'modules/chains/types';
 import { getUniqueArray } from 'modules/common/utils/getUniqueArray';
 
 import { useProjectChainsContext } from './useProjectChainsContext';

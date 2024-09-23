@@ -2,7 +2,7 @@ import {
   ChainID,
   ZETACHAIN_ATHENS3_CHAINS,
   ChainSubType,
-} from 'modules/chains/types';
+} from '@ankr.com/chains-list';
 
 export const filterChainsBySubType = (
   chainIds: ChainID[],

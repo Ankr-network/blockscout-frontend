@@ -62,7 +62,7 @@ export const ProjectSelect = ({
         className={classes.value}
         noWrap
       >
-        {options?.find(item => item.value === value)?.title ?? value}
+        {options?.find(item => item.value === value)?.title || value}
       </Typography>
     ),
     [classes.value, options],

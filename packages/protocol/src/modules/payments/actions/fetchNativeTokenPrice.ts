@@ -30,7 +30,7 @@ export const {
 
         const price = await getTokenPriceByChainId(chainId);
 
-        return { data: price ?? ZERO_STRING };
+        return { data: price || ZERO_STRING };
       }),
     }),
   }),

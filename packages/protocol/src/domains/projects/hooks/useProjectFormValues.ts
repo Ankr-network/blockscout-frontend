@@ -1,6 +1,6 @@
 import { useForm } from 'react-final-form';
+import { ChainID } from '@ankr.com/chains-list';
 
-import { ChainID } from 'modules/chains/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { ProjectChainsType } from 'domains/projects/types';
 

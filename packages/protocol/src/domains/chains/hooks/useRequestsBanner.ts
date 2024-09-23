@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyChainsFetchUserRequestsQuery } from 'domains/chains/actions/private/fetchUserRequests';
-import { Timeframe } from 'modules/chains/types';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 

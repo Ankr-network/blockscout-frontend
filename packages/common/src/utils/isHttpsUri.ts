@@ -24,7 +24,7 @@ function is_iri(value: string) {
   let out = '';
 
   // from RFC 3986
-  splitted = splitUri(value) ?? [];
+  splitted = splitUri(value) || [];
   scheme = splitted[1];
   authority = splitted[2];
   path = splitted[3];
@@ -79,7 +79,7 @@ export const isHttpsUri = (value: string) => {
   let out = '';
 
   // from RFC 3986
-  splitted = splitUri(value) ?? [];
+  splitted = splitUri(value) || [];
   scheme = splitted[1];
   authority = splitted[2];
   path = splitted[3];

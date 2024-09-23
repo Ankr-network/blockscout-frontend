@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
-
-import { Chain } from 'modules/chains/types';
+import { Chain } from '@ankr.com/chains-list';
 
 import { useApiKeys } from './useApiKeys';
 

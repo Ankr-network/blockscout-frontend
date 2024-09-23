@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo } from 'react';
+import { Chain, ChainPath } from '@ankr.com/chains-list';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
   selectAllPathsByChainId,
   selectChainIdsByPaths,
 } from 'modules/chains/store/selectors';
-import { Chain, ChainPath } from 'modules/chains/types';
 import { ChainCell } from 'domains/projects/components/ChainCell';
 import { getSubchainIds } from 'modules/chains/utils/getSubchainIds';
 

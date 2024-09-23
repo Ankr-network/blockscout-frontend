@@ -24,7 +24,7 @@ export const useTokenManagerConfigSelector = () => {
     ...config,
     selectedProjectEndpointToken,
     address,
-    tokenIndex: config.tokenIndex ?? PRIMARY_TOKEN_INDEX,
+    tokenIndex: config.tokenIndex || PRIMARY_TOKEN_INDEX,
     shouldShowTokenManager,
   };
 };

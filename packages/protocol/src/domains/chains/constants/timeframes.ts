@@ -1,4 +1,4 @@
-import { Timeframe } from 'modules/chains/types';
+import { Timeframe } from '@ankr.com/chains-list';
 
 export const USAGE_SHORT_TIMEFRAME_LIST = [Timeframe.Hour, Timeframe.Day];
 

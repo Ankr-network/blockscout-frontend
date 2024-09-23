@@ -39,7 +39,7 @@ export const useSubmit = ({
 
       const { name, tokenIndex } = values;
 
-      const resultName = name ?? '';
+      const resultName = name || '';
       const hasNameDuplication = allProjects.some(
         project => project.name === resultName,
       );

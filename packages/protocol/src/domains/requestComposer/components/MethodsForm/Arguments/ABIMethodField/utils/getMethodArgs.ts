@@ -6,4 +6,4 @@ export interface MethodParams {
 }
 
 export const getMethodArgs = ({ abi = [], methodName }: MethodParams) =>
-  abi.find(({ name }) => name === methodName)?.inputs ?? [];
+  abi.find(({ name }) => name === methodName)?.inputs || [];

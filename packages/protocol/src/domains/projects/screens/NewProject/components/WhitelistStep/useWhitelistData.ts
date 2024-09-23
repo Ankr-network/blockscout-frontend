@@ -1,8 +1,8 @@
 import { WhitelistItem } from 'multirpc-sdk';
 import { useMemo } from 'react';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { AddToWhitelistFormData } from 'domains/projects/store';
-import { ChainID } from 'modules/chains/types';
 import { canAddItemsToWhitelist } from 'domains/projects/utils/canAddItemsToWhitelist';
 import { isEVMBased } from 'modules/chains/utils/isEVMBased';
 

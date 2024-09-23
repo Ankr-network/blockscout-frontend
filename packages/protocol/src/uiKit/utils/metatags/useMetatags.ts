@@ -1,11 +1,11 @@
 import { Theme } from '@mui/material';
 import { useEffect } from 'react';
 import { INDEX_PATH } from 'routes/constants';
+import { ChainID } from '@ankr.com/chains-list';
 
 import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
-import { ChainID } from 'modules/chains/types';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { getChainName } from './useMetatagsUtils';

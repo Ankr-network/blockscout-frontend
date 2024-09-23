@@ -52,8 +52,8 @@ export const Checkbox = ({
   return (
     <FormControlLabel
       classes={{
-        root: cx(classes.root, { [classesTree.treeItem]: hasTreeView }),
-        label: classes.label,
+        root: cx(classes.checkboxRoot, { [classesTree.treeItem]: hasTreeView }),
+        label: classes.checkboxLabel,
       }}
       label={
         <Typography

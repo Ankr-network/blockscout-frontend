@@ -1,6 +1,5 @@
 import { makeStyles } from 'tss-react/mui';
-
-import { ChainID } from 'modules/chains/types';
+import { ChainID } from '@ankr.com/chains-list';
 
 export const useBlockchainIconStyles = makeStyles()(theme => ({
   root: {

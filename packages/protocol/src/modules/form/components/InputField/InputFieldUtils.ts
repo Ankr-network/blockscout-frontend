@@ -14,7 +14,7 @@ export const getHelperText = ({
 
   if (showLimitCounter && maxLength && !hasError(meta)) {
     helperTextString = t('form.limit-counter', {
-      value: value.length ?? 0,
+      value: value.length || 0,
       maxLimit: maxLength,
     });
   }

@@ -14,7 +14,7 @@ export const {
         async ({ gateway = getAccountingGateway(), group, interval }) => {
           const data = await gateway.getPrivateStats(interval, group);
 
-          return { data: data?.total_requests ?? 0 };
+          return { data: data?.total_requests || 0 };
         },
       ),
     }),

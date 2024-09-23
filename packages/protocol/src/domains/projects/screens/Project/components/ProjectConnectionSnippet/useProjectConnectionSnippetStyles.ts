@@ -9,6 +9,10 @@ export const useProjectConnectionSnippetStyles = makeStyles()(theme => ({
     alignItems: 'center',
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
+
+    [theme.breakpoints.down('xs')]: {
+      margin: 0,
+    },
   },
   noItemsIcon: {
     color: theme.palette.text.secondary,

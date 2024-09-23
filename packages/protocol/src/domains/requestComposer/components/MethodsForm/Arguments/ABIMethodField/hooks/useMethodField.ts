@@ -31,7 +31,7 @@ export const useMethodField = ({
   const [abi, setABI] = useState<ABI>();
 
   const field: Field | undefined = useMemo(() => {
-    const options = getABIFunctions(abi ?? []).map(getOption);
+    const options = getABIFunctions(abi || []).map(getOption);
     const isValid = isABIFieldValid && options.length > 0;
 
     return isValid

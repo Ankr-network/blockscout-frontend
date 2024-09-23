@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
+import { Timeframe, ESortChainsType } from '@ankr.com/chains-list';
 
-import { Timeframe, ESortChainsType } from 'modules/chains/types';
 import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
 import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
@@ -71,7 +71,7 @@ export const useProjectChainsAccordion = ({
     if (sortType === ESortChainsType.UsageHighLow) {
       if (requestsData) {
         return [...filteredChains].sort(
-          (a, b) => (requestsData[b.id] ?? 0) - (requestsData[a.id] ?? 0),
+          (a, b) => (requestsData[b.id] || 0) - (requestsData[a.id] || 0),
         );
       }
     }
@@ -79,7 +79,7 @@ export const useProjectChainsAccordion = ({
     if (sortType === ESortChainsType.UsageLowHigh) {
       if (requestsData) {
         return [...filteredChains].sort(
-          (a, b) => (requestsData[a.id] ?? 0) - (requestsData[b.id] ?? 0),
+          (a, b) => (requestsData[a.id] || 0) - (requestsData[b.id] || 0),
         );
       }
     }
