@@ -1,9 +1,9 @@
 import { t } from '@ankr.com/common';
 import { Timeframe } from '@ankr.com/chains-list';
 
-const timeframes = 'chains.timeframes';
+const timeframes = 'chains.timeframes-string';
 
-export const getTimeframeValue = (timeframe?: Timeframe) => {
+export const getTimeframeString = (timeframe: Timeframe) => {
   switch (timeframe) {
     case Timeframe.Hour:
       return t(`${timeframes}.hour`);

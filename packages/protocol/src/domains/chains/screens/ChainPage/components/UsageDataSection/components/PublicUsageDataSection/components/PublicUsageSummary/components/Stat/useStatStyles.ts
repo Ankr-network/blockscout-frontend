@@ -29,6 +29,10 @@ export const useStatStyles = makeStyles()((theme: Theme) => ({
     fontWeight: 500,
     fontSize: 12,
   },
+  tooltipTitle: {
+    cursor: 'help',
+    borderBottom: `1px dashed ${theme.palette.grey[600]}`,
+  },
   value: {
     color: theme.palette.text.primary,
     fontWeight: 700,

@@ -9,10 +9,12 @@ import { UpgradeToPremiumPlanDialog } from 'modules/common/components/UpgradeToP
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { usePublicChainsData } from './hooks/usePublicChainsData';
 import { PublicChainCard } from './components/PublicChainCard';
 import { IChainsViewProps } from './PublicChainsTypes';
+import { publicChainsTranslation } from './translation';
 
 export const PublicChains = ({
   chainsViewTabs,
@@ -49,6 +51,8 @@ export const PublicChains = ({
     onOpen: onPromoDialogOpen,
   } = useDialog();
 
+  const { keys, t } = useTranslation(publicChainsTranslation);
+
   return (
     <>
       <BaseChains loading={loading} top={<UpgradePlanBanner isPublicUser />}>
@@ -70,6 +74,7 @@ export const PublicChains = ({
               view={selectedChainsViewTab?.id}
               timeframe={timeframe}
               isPublicLayout
+              tooltipText={t(keys.requestsTooltip)}
             >
               {processedChains.map(item => {
                 const { id } = item;

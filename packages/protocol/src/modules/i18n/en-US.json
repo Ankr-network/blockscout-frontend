@@ -742,6 +742,12 @@
       "month": "30d",
       "week": "7d"
     },
+    "timeframes-string": {
+      "hour": "1 hour",
+      "day": "24 hours",
+      "month": "30 days",
+      "week": "7 days"
+    },
     "private-stats": {
       "title": "Your stats",
       "stats": {
@@ -1089,6 +1095,8 @@
     "usage-data": {
       "usage-summary": {
         "total": "Total Requests",
+        "tooltipPublic": "All users' requests for the last {timeframe}",
+        "tooltipPrivate": "Your requests for the last {timeframe}",
         "average": "Average Req/Sec",
         "cached": {
           "title": "Cached Requests",

@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js';
 import { t } from '@ankr.com/common';
 import { Timeframe } from '@ankr.com/chains-list';
 
+import { getTimeframeString } from 'domains/chains/utils/getTimeframeString';
+
 import { Stat } from './components/Stat';
 import { useUsageSummaryStyles } from './useUsageSummaryStyles';
 import { useUsageSummary } from './PublicUsageSummaryUtils';
@@ -35,7 +37,14 @@ export const PublicUsageSummary = ({
 
   return (
     <div className={cx(className, classes.usageSummary)}>
-      <Stat loading={loading} title={t(`${root}.total`)} value={total} />
+      <Stat
+        tooltipText={t(`${root}.tooltipPublic`, {
+          timeframe: getTimeframeString(timeframe),
+        })}
+        loading={loading}
+        title={t(`${root}.total`)}
+        value={total}
+      />
       <Stat loading={loading} title={t(`${root}.average`)} value={average} />
       {!isCachedRequestsHidden && (
         <Stat

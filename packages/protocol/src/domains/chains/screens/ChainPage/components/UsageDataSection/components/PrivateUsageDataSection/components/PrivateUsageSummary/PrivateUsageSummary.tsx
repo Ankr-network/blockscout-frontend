@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js';
 import { t } from '@ankr.com/common';
 import { Timeframe } from '@ankr.com/chains-list';
 
+import { getTimeframeString } from 'domains/chains/utils/getTimeframeString';
+
 import { Stat } from '../../../PublicUsageDataSection/components/PublicUsageSummary/components/Stat';
 import { useUsageSummaryStyles } from '../../../PublicUsageDataSection/components/PublicUsageSummary/useUsageSummaryStyles';
 import { useUsageSummary } from './PrivateUsageSummaryUtils';
@@ -35,7 +37,14 @@ export const PrivateUsageSummary = ({
 
   return (
     <div className={cx(className, classes.usageSummary)}>
-      <Stat loading={loading} title={t(`${root}.total`)} value={total} />
+      <Stat
+        tooltipText={t(`${root}.tooltipPrivate`, {
+          timeframe: getTimeframeString(timeframe),
+        })}
+        loading={loading}
+        title={t(`${root}.total`)}
+        value={total}
+      />
       <Stat loading={loading} title={t(`${root}.average`)} value={average} />
       {!isCostHidden && (
         <Stat loading={loading} title={t(`${root}.cost.title`)} value={cost} />

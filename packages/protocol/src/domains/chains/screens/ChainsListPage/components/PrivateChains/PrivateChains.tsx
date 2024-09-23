@@ -9,10 +9,12 @@ import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { useProjectsDataParams } from 'domains/projects/hooks/useProjectsDataParams';
 import { useFetchWhitelistsBlockchainsQuery } from 'domains/projects/actions/fetchWhitelistsBlockchains';
 import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { PrivateChainsTop } from './PrivateChainsTop';
 import { PrivateChainCard } from './components/PrivateChainCard';
 import { IChainsViewProps } from '../PublicChains/PublicChainsTypes';
+import { privateChainsTranslation } from './translation';
 
 export const PrivateChains = ({
   chainsViewTabs,
@@ -62,6 +64,8 @@ export const PrivateChains = ({
     isUninitialized: isUninitializedAllWhitelistsBlockchains,
   } = useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams);
 
+  const { keys, t } = useTranslation(privateChainsTranslation);
+
   return (
     <>
       <BaseChains top={<PrivateChainsTop />} loading={loading}>
@@ -79,6 +83,7 @@ export const PrivateChains = ({
             isLoading={loading}
             view={selectedChainsViewTab?.id}
             timeframe={timeframe}
+            tooltipText={t(keys.requestsTooltip)}
           >
             {processedChains.map(item => {
               const { id } = item;
