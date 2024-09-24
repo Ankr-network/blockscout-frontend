@@ -45,6 +45,7 @@
     "@ankr.com/staking-sdk": "^1.2.5",
     "@ankr.com/ui": "^0.12.1",
     "@ankr.com/utils": "^1.1.1",
+    "@ankr.com/chains-list": "*",
     "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
