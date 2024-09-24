@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 
-import { renderCreditBalance } from 'domains/account/screens/BillingPage/components/ChargingModelWidget/utils/renderCreditBalance';
-import { renderRequestsBalance } from 'domains/account/screens/BillingPage/components/ChargingModelWidget/utils/renderRequestsBalance';
-import { renderUsdBalance } from 'domains/account/screens/BillingPage/components/ChargingModelWidget/utils/renderUsdBalance';
+import { renderCreditBalance } from 'modules/billing/utils/renderCreditBalance';
+import { renderRequestsBalance } from 'modules/billing/utils/renderRequestsBalance';
+import { renderUsdBalance } from 'modules/billing/utils/renderUsdBalance';
 
 import { useBalanceRowStyles } from './useBalanceRowStyles';
 

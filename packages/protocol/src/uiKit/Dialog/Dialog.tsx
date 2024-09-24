@@ -87,12 +87,17 @@ export const Dialog = ({
     [onClose, onManualClose, shouldStopPropagationOnClose],
   );
 
-  const onCloseIconClick = useCallback<
-    MouseEventHandler<HTMLButtonElement>
-  >(() => {
-    onClose?.();
-    onManualClose?.();
-  }, [onClose, onManualClose]);
+  const onCloseIconClick = useCallback<MouseEventHandler<HTMLButtonElement>>(
+    event => {
+      if (shouldStopPropagationOnClose) {
+        event.stopPropagation();
+      }
+
+      onClose?.();
+      onManualClose?.();
+    },
+    [onClose, onManualClose, shouldStopPropagationOnClose],
+  );
 
   useLayoutEffect(() => {
     setDialogTitle({ title });
@@ -124,39 +129,37 @@ export const Dialog = ({
       }}
       onClose={canCloseDialogByClickOutside ? handleClose : undefined}
     >
-      <div tabIndex={0} role="button" onClick={e => e.stopPropagation()}>
-        {(dialogTitle.title || !shouldHideCloseButton) && (
-          <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
-            {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
-              <Typography
-                className={cx(classes.titleText, {
-                  [classes.titleWithPaddingRight]: !shouldHideCloseButton,
-                })}
-              >
-                {dialogTitle.title}
-              </Typography>
-            ) : (
-              dialogTitle.title
-            )}
+      {(dialogTitle.title || !shouldHideCloseButton) && (
+        <MuiDialogTitle className={cx(classes.dialogTitle, titleClassName)}>
+          {typeof dialogTitle.title === 'string' && hasTitleWrapper ? (
+            <Typography
+              className={cx(classes.titleText, {
+                [classes.titleWithPaddingRight]: !shouldHideCloseButton,
+              })}
+            >
+              {dialogTitle.title}
+            </Typography>
+          ) : (
+            dialogTitle.title
+          )}
 
-            {!shouldHideCloseButton && (
-              <IconButton
-                aria-label="close"
-                className={cx(classes.closeButton, closeButtonClassName)}
-                onClick={onCloseIconClick}
-              >
-                {hasMinimizeIcon ? <Minimize /> : <Close />}
-              </IconButton>
-            )}
-          </MuiDialogTitle>
-        )}
+          {!shouldHideCloseButton && (
+            <IconButton
+              aria-label="close"
+              className={cx(classes.closeButton, closeButtonClassName)}
+              onClick={onCloseIconClick}
+            >
+              {hasMinimizeIcon ? <Minimize /> : <Close />}
+            </IconButton>
+          )}
+        </MuiDialogTitle>
+      )}
 
-        <MuiDialogContent
-          className={cx(classes.dialogContent, dialogContentClassName)}
-        >
-          {children}
-        </MuiDialogContent>
-      </div>
+      <MuiDialogContent
+        className={cx(classes.dialogContent, dialogContentClassName)}
+      >
+        {children}
+      </MuiDialogContent>
     </MuiDialog>
   );
 };

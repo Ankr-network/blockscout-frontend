@@ -116,11 +116,11 @@ export const AddNetworkButton = ({
 
         {hasChainSelector && (
           <Dialog
-            open={isOpened}
             onClose={onClose}
-            title={t(keys.selectNetwork)}
+            open={isOpened}
             paperClassName={classes.addNetworkDialog}
             shouldStopPropagationOnClose
+            title={t(keys.selectNetwork)}
           >
             <ChainSelectorContent
               className={classes.addNetworkChainSelector}

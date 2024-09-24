@@ -1,4 +1,4 @@
-import { EMetamaskErrorCode, IMetamaskError } from '../types/types';
+import { EMetamaskErrorCode, IMetamaskError } from '../types';
 
 export const isMetamaskError = (error: unknown): error is IMetamaskError =>
   typeof error === 'object' &&

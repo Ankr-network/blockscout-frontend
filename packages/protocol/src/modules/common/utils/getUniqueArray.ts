@@ -1,5 +1,5 @@
-type Primitive = bigint | boolean | null | number | string | symbol | undefined;
+import { TPrimitive } from '../types';
 
-export const getUniqueArray = <Item extends Primitive>(items: Item[]) => [
+export const getUniqueArray = <Item extends TPrimitive>(items: Item[]) => [
   ...new Set(items),
 ];

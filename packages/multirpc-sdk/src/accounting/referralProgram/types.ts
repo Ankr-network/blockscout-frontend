@@ -29,3 +29,72 @@ export interface IReferrer {
 export interface IGetReferrerResponse {
   referrer: IReferrer;
 }
+
+export interface ICreateReferralCodeParams extends IApiUserGroupParams {}
+
+export interface ICreateReferralCodeResult {
+  referralCode: string;
+}
+
+export interface IGetReferralCodesParams extends IApiUserGroupParams {}
+
+export interface IGetReferralCodesResult {
+  referralCodes: string[];
+}
+
+export interface IGetReferralLinksByCodesParams extends IApiUserGroupParams {
+  codes: string[];
+}
+
+type ReferralCode = string;
+type ReferralLink = string;
+
+export interface IReferralLinks extends Record<ReferralCode, ReferralLink> {}
+
+export interface IGetReferralLinkByCodesResult {
+  referral_urls: IReferralLinks;
+}
+
+export interface IGetRewardBalanceParams extends IApiUserGroupParams {}
+
+export interface IGetRewardBalanceResult {
+  creditBalance: string;
+  totalRewards: string;
+}
+
+export interface IGetReferralsCountParams extends IApiUserGroupParams {}
+
+export interface IGetReferralsCountResult {
+  active: number;
+  total: number;
+}
+
+export enum EConvertReferralRewardType {
+  BalanceTopUp = 'balance_topup',
+}
+
+export interface IConvertReferralRewardParams {
+  amount: string;
+  type: EConvertReferralRewardType;
+}
+
+export interface IGetRewardTxsParams extends IApiUserGroupParams {
+  from?: number;
+  to?: number;
+}
+
+export enum ERewardTxType {
+  Conversion = 'CONVERSION',
+  Reward = 'REWARD',
+}
+
+export interface IRewardTx {
+  amount: number;
+  referral: string;
+  timestamp: number;
+  type: ERewardTxType;
+}
+
+export interface IGetRewardTxsResponse {
+  transactions: IRewardTx[];
+}

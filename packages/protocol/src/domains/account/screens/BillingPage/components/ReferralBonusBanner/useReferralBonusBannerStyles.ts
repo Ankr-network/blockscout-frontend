@@ -1,5 +1,7 @@
 import { makeStyles } from 'tss-react/mui';
 
+import { isLightTheme } from 'uiKit/Theme/themeUtils';
+
 const name = 'ReferralBonusBanner';
 
 export const useReferralBonusBannerStyles = makeStyles({ name })(theme => ({
@@ -8,7 +10,9 @@ export const useReferralBonusBannerStyles = makeStyles({ name })(theme => ({
     flexDirection: 'column',
     gap: theme.spacing(1),
 
-    color: theme.palette.text.primary,
+    color: isLightTheme(theme)
+      ? theme.palette.text.primary
+      : theme.palette.background.default,
   },
   description: {
     whiteSpace: 'pre-wrap',

@@ -168,7 +168,8 @@
       "/oauth/",
       "/enterprise/",
       "/projects/",
-      "/projects/new/"
+      "/projects/new/",
+      "/referrals/"
     ],
     "inlineCss": true
   }

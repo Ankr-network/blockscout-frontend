@@ -81,7 +81,8 @@
     "billing": "Billing",
     "pricing": "Pricing",
     "settings": "Settings",
-    "docs": "Docs"
+    "docs": "Docs",
+    "referrals": "Referrals"
   },
   "footer": {
     "all-rights": "© {year} Ankr. All rights reserved.",
@@ -122,9 +123,7 @@
     },
     "balance-menu": {
       "title": "Charging",
-      "billing-page-button": "Go to Billing page",
-      "usd-balance": "${balance}",
-      "req-balance": " / ≈{balance, number, ::compact-short} reqs"
+      "billing-page-button": "Go to Billing page"
     }
   },
   "signup-modal": {
@@ -157,6 +156,14 @@
       "no-terms-error": "To continue, you must agree with our Terms of Service and Privacy Policy",
       "auto-agreement-message": "By continuing you agree to our <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>."
     }
+  },
+  "balance": {
+    "credits": "{balance, number, ::compact-short} API Credits",
+    "usd": "{isApproximate, select, true {≈} other {}}{balance, number, USD}",
+    "requests": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}"
+  },
+  "referrals": {
+    "breadcrumbs": "Referrals"
   },
   "projects": {
     "onboarding": {
@@ -2054,11 +2061,7 @@
       },
       "balance-widget": {
         "title": "Charging",
-        "payg-label": "Pay-as-you-go",
-        "credit-balance": "{balance, number, ::compact-short} API Credits",
         "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
-        "usd-balance": "{isApproximate, select, true {≈} other {}}{balance, number, USD}",
-        "requests-balance": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}",
         "expires": "Expires: {date, date, long}",
         "plural": "s",
         "assets-balance-button": "Balances",
@@ -2134,7 +2137,8 @@
         "package": "Package payment",
         "payg": "PAYG payment",
         "voucher": "Voucher operations",
-        "deduction": "Daily charge"
+        "deduction": "Daily charge",
+        "reward-conversion": "Bonus PAYG top-up"
       },
       "time-type": {
         "week": "Last week",

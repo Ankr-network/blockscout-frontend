@@ -61,7 +61,7 @@ export const useChainProjectItem = ({
 
   const {
     isOpened: isOpenedCodeExample,
-    onClose: onCloseCodeExample,
+    onClose: handleCloseCodeExample,
     onOpen: onOpenCodeExampleDialog,
   } = useDialog();
 
@@ -132,14 +132,6 @@ export const useChainProjectItem = ({
     [onOpenCodeExample],
   );
 
-  const handleCloseCodeExample = useCallback(
-    (event?: React.MouseEvent<HTMLButtonElement>) => {
-      event?.stopPropagation();
-      onCloseCodeExample();
-    },
-    [onCloseCodeExample],
-  );
-
   const handleOpenAddToProjectsDialog = useCallback(
     (event?: React.MouseEvent<HTMLButtonElement>) => {
       event?.stopPropagation();
@@ -172,7 +164,6 @@ export const useChainProjectItem = ({
 
     /* code example dialog props */
     isOpenedCodeExample,
-    onCloseCodeExample,
     onOpenCodeExample,
 
     /* filtered chain by added paths */

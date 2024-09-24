@@ -35,15 +35,14 @@ export const BalanceMenuButton = () => {
         handleOpen={handleOpen}
       />
       <BalanceMenu
-        currentChargingModel={currentChargingModel}
-        balance={balance}
-        creditBalance={creditBalance}
-        usdBalance={usdBalance}
-        balanceInRequests={balanceInRequests}
-        isApiCreditsBalance={isApiCreditsBalance}
         anchorEl={anchorEl}
-        open={isBalanceMenuOpened}
+        balanceInRequests={balanceInRequests}
+        creditBalance={creditBalance}
+        currentChargingModel={currentChargingModel}
+        isApiCreditsBalance={isApiCreditsBalance}
         onClose={handleClose}
+        open={isBalanceMenuOpened}
+        usdBalance={usdBalance}
       />
     </GuardUserGroup>
   );

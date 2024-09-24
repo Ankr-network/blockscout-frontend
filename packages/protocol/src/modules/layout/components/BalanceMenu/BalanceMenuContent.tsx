@@ -1,35 +1,27 @@
-import { useMemo } from 'react';
 import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
-import BigNumber from 'bignumber.js';
+import { useMemo } from 'react';
 
 import { ChargingModelLabel } from 'domains/account/screens/BillingPage/components/ChargingModelLabel/ChargingModelLabel';
 import { EChargingModel, IChargingModelData } from 'modules/payments/types';
 import { ProgressBar } from 'modules/common/components/ProgressBar';
+import { renderCreditBalance } from 'modules/billing/utils/renderCreditBalance';
+import { renderRequestsBalance } from 'modules/billing/utils/renderRequestsBalance';
+import { renderUsdBalance } from 'modules/billing/utils/renderUsdBalance';
 
 import { useBalanceMenuStyles } from './useBalanceMenuStyles';
 
 export interface IBalanceMenuContentProps {
-  currentChargingModel: IChargingModelData;
-  balance: number;
-  creditBalance?: number;
-  usdBalance: number;
   balanceInRequests?: number;
+  creditBalance?: number;
+  currentChargingModel: IChargingModelData;
   isApiCreditsBalance: boolean;
+  usdBalance: number;
 }
 
-const usdBalanceKey = 'header.balance-menu.usd-balance';
-const reqBalanceKey = 'header.balance-menu.req-balance';
-
-const creditBalanceKey =
-  'account.account-details.balance-widget.credit-balance';
-const requestBalanceKey =
-  'account.account-details.balance-widget.requests-balance';
-
 export const BalanceMenuContent = ({
-  balance,
-  balanceInRequests,
-  creditBalance,
+  balanceInRequests = 0,
+  creditBalance = 0,
   currentChargingModel,
   isApiCreditsBalance,
   usdBalance,
@@ -37,8 +29,6 @@ export const BalanceMenuContent = ({
   const { classes } = useBalanceMenuStyles();
 
   const { type } = currentChargingModel;
-
-  const balanceKey = isApiCreditsBalance ? creditBalanceKey : requestBalanceKey;
 
   const progressBar = useMemo(() => {
     switch (type) {
@@ -58,6 +48,23 @@ export const BalanceMenuContent = ({
     }
   }, [classes, currentChargingModel, type]);
 
+  const creditBalanceString = renderCreditBalance({ creditBalance });
+  const requestsBalance = renderRequestsBalance({
+    requestsBalance: balanceInRequests,
+  });
+  const usdBalanceString = renderUsdBalance({ usdBalance });
+
+  const detailedRequestsBalance = renderRequestsBalance({
+    isApproximate: true,
+    isShortened: true,
+    prefix: `${usdBalanceString} / `,
+    requestsBalance: balanceInRequests,
+  });
+
+  const [balance, detailedBalance] = isApiCreditsBalance
+    ? [creditBalanceString, detailedRequestsBalance]
+    : [requestsBalance, usdBalanceString];
+
   return (
     <>
       <div className={classes.header}>
@@ -72,20 +79,15 @@ export const BalanceMenuContent = ({
         />
       </div>
       <Typography component="p" variant="subtitle1" className={classes.balance}>
-        {t(balanceKey, {
-          balance,
-        })}
+        {balance}
       </Typography>
-
       <Typography
         component="p"
         variant="body4"
         className={classes.detailedBalance}
       >
-        {t(usdBalanceKey, { balance: new BigNumber(usdBalance).toFormat(1) })}
-        {creditBalance && t(reqBalanceKey, { balance: balanceInRequests })}
+        {detailedBalance}
       </Typography>
-
       {progressBar}
     </>
   );

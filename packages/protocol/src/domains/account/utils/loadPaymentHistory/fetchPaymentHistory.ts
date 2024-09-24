@@ -156,6 +156,7 @@ export const fetchPaymentHistory = async ({
           ?.limit?.toString() || '',
       creditVoucherAmount: '',
       txHash: undefined,
+      reason: '',
     };
   };
 
