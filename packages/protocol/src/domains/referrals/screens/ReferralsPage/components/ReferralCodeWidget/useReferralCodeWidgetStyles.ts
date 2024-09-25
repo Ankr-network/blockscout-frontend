@@ -27,4 +27,14 @@ export const useReferralCodeWidgetStyles = makeStyles({ name })(theme => ({
       backdropFilter: 'none',
     },
   },
+  value: {
+    overflow: 'hidden',
+    width: '100%',
+    display: 'flex',
+  },
+  link: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+  },
 }));

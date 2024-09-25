@@ -34,11 +34,8 @@ export const useTopBannerStyles = makeStyles({ name })(theme => ({
 
     width: '100%',
   },
-  greeting: {
-    flex: '1 1 0',
-  },
   widget: {
-    flex: '1 1 0',
+    minWidth: `calc((100% - ${theme.spacing(7.5)}) / 2)`,
 
     [theme.breakpoints.down('sm')]: {
       display: 'none',

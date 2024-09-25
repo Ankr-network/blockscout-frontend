@@ -14,7 +14,7 @@ export const TopBanner = () => {
     <div className={classes.root}>
       <div className={classes.banner}>
         <div className={classes.content}>
-          <Greeting className={classes.greeting} />
+          <Greeting />
           <ReferralCodeWidget className={classes.widget} {...widgetProps} />
         </div>
       </div>

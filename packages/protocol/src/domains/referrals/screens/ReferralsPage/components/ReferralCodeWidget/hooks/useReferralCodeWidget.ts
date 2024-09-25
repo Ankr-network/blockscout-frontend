@@ -5,7 +5,6 @@ import { useReferralCodes } from 'modules/referralProgram/hooks/useReferralCodes
 import { useReferralLinks } from 'modules/referralProgram/hooks/useReferralLinks';
 
 import { IReferralCodeWidgetProps } from '../ReferralCodeWidget';
-import { getTruncatedLink } from '../utils/getTruncatedLink';
 
 export const useReferralCodeWidget = () => {
   const {
@@ -22,14 +21,13 @@ export const useReferralCodeWidget = () => {
 
   const [handleCreateReferralCode] = useCreateReferralCodeMutation();
 
-  const link = referralLinks[code];
-  const truncatedLink = getTruncatedLink({ code, link });
+  const link: string | undefined = referralLinks[code];
   const isLoading = !link;
   const shouldCreateReferalCode = codesLoaded && !codesLoading && !code;
 
   const referralCodeWidgetProps = useMemo(
-    (): IReferralCodeWidgetProps => ({ code, isLoading, link, truncatedLink }),
-    [code, isLoading, link, truncatedLink],
+    (): IReferralCodeWidgetProps => ({ code, isLoading, link }),
+    [code, isLoading, link],
   );
 
   useEffect(() => {

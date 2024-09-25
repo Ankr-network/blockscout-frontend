@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { Box, Skeleton, Typography } from '@mui/material';
 
 import { Placeholder } from 'modules/common/components/Placeholder';
@@ -10,14 +11,14 @@ export interface IValueBoxProps {
   copyValue?: string;
   isLoading?: boolean;
   title: string;
-  value: string;
+  value: ReactNode;
 }
 
 export const ValueBox = ({
   isLoading = false,
   title,
   value,
-  copyValue = value,
+  copyValue = typeof value === 'string' ? value : '',
 }: IValueBoxProps) => {
   const isMobile = useIsSMDown();
   const [titleVariant, valueVariant, copyButtonSize] = isMobile

@@ -1,5 +1,6 @@
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
+import { TruncatedLink } from './components/TruncatedLink';
 import { ValueBox } from './components/ValueBox';
 import { Widget } from '../Widget';
 import { referralCodeWidgetTranslation } from './translation';
@@ -7,10 +8,9 @@ import { useReferralCodeWidgetStyles } from './useReferralCodeWidgetStyles';
 
 export interface IReferralCodeWidgetProps {
   className?: string;
-  code: string;
+  code: string | undefined;
   isLoading?: boolean;
-  link: string;
-  truncatedLink: string;
+  link: string | undefined;
 }
 
 export const ReferralCodeWidget = ({
@@ -18,7 +18,6 @@ export const ReferralCodeWidget = ({
   code,
   isLoading = false,
   link,
-  truncatedLink,
 }: IReferralCodeWidgetProps) => {
   const { classes, cx } = useReferralCodeWidgetStyles();
   const { keys, t } = useTranslation(referralCodeWidgetTranslation);
@@ -28,7 +27,7 @@ export const ReferralCodeWidget = ({
       <ValueBox
         copyValue={link}
         title={t(keys.referralLinkTitle)}
-        value={truncatedLink}
+        value={<TruncatedLink code={code} link={link} />}
         isLoading={isLoading}
       />
       <ValueBox
