@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { ISignupDialogProps } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 import { getReferralCodeFromUrl } from 'modules/referralProgram/utils/getReferralCodeFromUrl';
 import { selectIsAccountEligible } from 'modules/referralProgram/store/selectors';
@@ -7,6 +8,7 @@ import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useLazyOauthSignoutQuery } from 'domains/oauth/actions/signout';
 import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
+import { waitFor } from 'modules/common/utils/waitFor';
 
 import { renderBackButton } from '../utils/renderBackButton';
 
@@ -37,7 +39,11 @@ export const useSignInDialogProps = ({
 
   const onOauthSignIn = useCallback(async () => {
     setIsLoggingOut(true);
+
     await handleSignOut();
+
+    // waiting for local storage synchronization after logging out
+    await waitFor(EMilliSeconds.Second);
 
     if (referralCode) {
       handleSaveReferralCode(referralCode);
