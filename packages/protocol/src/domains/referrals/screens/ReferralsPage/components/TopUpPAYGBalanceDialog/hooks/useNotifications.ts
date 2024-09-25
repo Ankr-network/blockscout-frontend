@@ -28,10 +28,10 @@ export const useNotifications = ({ amount = 0 }: IUseNotificationsProps) => {
   }, [amount, dispatch, keys, t]);
 
   const showFailureAlert = useCallback(() => {
-    const message = t(keys.successfulTopUpAlertMessage);
-    const title = t(keys.successfulTopUpAlertTitle);
+    const message = t(keys.failedTopUpAlertMessage);
+    const title = t(keys.failedTopUpAlertTitle);
 
-    dispatch(showNotification({ message, severity: 'success', title }));
+    dispatch(showNotification({ message, severity: 'error', title }));
   }, [dispatch, keys, t]);
 
   return { showFailureAlert, showSuccessAlert };

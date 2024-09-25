@@ -4,20 +4,24 @@ import { useCallback, useMemo } from 'react';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useConvertReferralRewardMutation } from 'modules/referralProgram/actions/convertReferralReward';
 
+import { ValidateAmount } from '../../AmountInput/types';
+
 export interface IUseButtonsProps {
   amount?: number;
-  error?: string;
   handleCloseDialog: () => void;
   onError: () => void;
   onSuccess: () => void;
+  setError: (error: string) => void;
+  validateAmount: ValidateAmount;
 }
 
 export const useButtons = ({
   amount,
-  error,
   handleCloseDialog,
   onError,
   onSuccess,
+  setError,
+  validateAmount,
 }: IUseButtonsProps) => {
   const [handleConvertReward, { isLoading: isConverting }] =
     useConvertReferralRewardMutation();
@@ -25,27 +29,32 @@ export const useButtons = ({
   const onConfirmButtonClick = useCallback(async () => {
     const amountString = amount?.toString() ?? '';
 
-    if (!error) {
-      const response = await handleConvertReward({
-        amount: amountString,
-        type: EConvertReferralRewardType.BalanceTopUp,
-      });
+    const error = validateAmount(amountString, { validateRequirement: true });
 
-      if (isMutationSuccessful(response)) {
-        onSuccess();
-      } else {
-        onError();
-      }
-
-      handleCloseDialog();
+    if (error) {
+      return setError(error);
     }
+
+    const response = await handleConvertReward({
+      amount: amountString,
+      type: EConvertReferralRewardType.BalanceTopUp,
+    });
+
+    if (isMutationSuccessful(response)) {
+      onSuccess();
+    } else {
+      onError();
+    }
+
+    return handleCloseDialog();
   }, [
     amount,
-    error,
     handleCloseDialog,
     handleConvertReward,
     onError,
     onSuccess,
+    validateAmount,
+    setError,
   ]);
 
   const onCancelButtonClick = handleCloseDialog;

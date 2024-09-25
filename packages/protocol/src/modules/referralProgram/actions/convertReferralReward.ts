@@ -2,7 +2,6 @@ import { IConvertReferralRewardParams } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { RequestType, web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 
 export const {
   endpoints: { convertReferralReward },
@@ -14,13 +13,13 @@ export const {
       IConvertReferralRewardParams
     >({
       invalidatesTags: [RequestType.RewardBalance, RequestType.RewardTxs],
-      queryFn: createNotifyingQueryFn(async params => {
+      queryFn: async params => {
         const api = MultiService.getService().getAccountingGateway();
 
         await api.convertReferralReward(params);
 
         return { data: true };
-      }),
+      },
     }),
   }),
   overrideExisting: true,

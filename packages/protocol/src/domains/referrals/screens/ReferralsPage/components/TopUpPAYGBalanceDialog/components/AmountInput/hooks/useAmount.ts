@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
+import { ValidateAmount } from '../types';
 import { amountInputTranslation } from '../translation';
 
 export interface IUseAmountProps {
@@ -17,11 +18,8 @@ export const useAmount = ({ bonuses }: IUseAmountProps) => {
 
   const { keys, t } = useTranslation(amountInputTranslation);
 
-  const validateAmount = useCallback(
-    (
-      amountValue: string,
-      { validateRequirement = true }: IValidationOptions = {},
-    ) => {
+  const validateAmount = useCallback<ValidateAmount>(
+    (amountValue, { validateRequirement = true } = {}) => {
       if (!amountValue) {
         return validateRequirement ? t(keys.amountIsRequiredError) : undefined;
       }

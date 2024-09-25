@@ -31,7 +31,7 @@ export const useAmountInput = () => {
       setError(errorMessage);
 
       if (!errorMessage) {
-        setAmount(Number(rawValue));
+        setAmount(rawValue === '' ? undefined : Number(rawValue));
       }
 
       setValue(rawValue);
@@ -42,6 +42,7 @@ export const useAmountInput = () => {
   const onMaxButtonClick = useCallback(() => {
     setValue(bonuses.toString());
     setAmount(bonuses);
+    setError(undefined);
   }, [bonuses, setAmount]);
 
   const reset = useCallback(() => {
@@ -77,5 +78,5 @@ export const useAmountInput = () => {
     ],
   );
 
-  return { amount, amountInputProps, error, reset };
+  return { amount, amountInputProps, error, reset, setError, validateAmount };
 };
