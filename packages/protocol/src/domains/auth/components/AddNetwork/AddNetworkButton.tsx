@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useCallback } from 'react';
+import { Fragment, ReactNode } from 'react';
 import { Box, Button } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
 import { Chain } from '@ankr.com/chains-list';
@@ -91,14 +91,6 @@ export const AddNetworkButton = ({
   const shouldHideButton =
     (!handleButtonClick && !hasChainSelector) || !hasEvmSubchains(chain);
 
-  const handleClose = useCallback(
-    e => {
-      e.stopPropagation();
-      onClose();
-    },
-    [onClose],
-  );
-
   if (shouldHideButton) {
     if (hasPlaceholder) {
       return <Box className={classes.placeholder} />;
@@ -124,10 +116,11 @@ export const AddNetworkButton = ({
 
         {hasChainSelector && (
           <Dialog
+            onClose={onClose}
             open={isOpened}
-            onClose={handleClose}
-            title={t(keys.selectNetwork)}
             paperClassName={classes.addNetworkDialog}
+            shouldStopPropagationOnClose
+            title={t(keys.selectNetwork)}
           >
             <ChainSelectorContent
               className={classes.addNetworkChainSelector}

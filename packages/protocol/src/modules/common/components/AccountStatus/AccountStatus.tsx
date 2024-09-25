@@ -1,8 +1,12 @@
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { UserLabel } from 'uiKit/UserLabel';
+import { selectHasPromoBundle } from 'modules/referralProgram/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
+import { useReferrer } from 'modules/referralProgram/hooks/useReferrer';
 
 import { PublicBadge } from '../PublicBadge';
 
@@ -11,10 +15,21 @@ interface IAccountStatusProps {
 }
 
 export const AccountStatus = ({ className }: IAccountStatusProps) => {
-  const { hasPremium, hasStatusTransition, isLoggedIn, loading } = useAuth();
+  const hasPromoBundle = useAppSelector(selectHasPromoBundle);
+  const {
+    hasPremium,
+    hasStatusTransition,
+    isLoggedIn,
+    loading: isAuthDataLoading,
+  } = useAuth();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
+
+  const { isLoading: isReferrerLoading } = useReferrer({
+    skipFetching: !isLoggedIn,
+  });
+  const { initLoading: isMyBundlesStatusLoading } = useMyBundlesStatus();
 
   const hasAccessToAccountStatus = useGuardUserGroup({
     blockName: BlockWithPermission.AccountStatus,
@@ -28,13 +43,20 @@ export const AccountStatus = ({ className }: IAccountStatusProps) => {
     return null;
   }
 
+  const isStatusDataLoading =
+    isAuthDataLoading ||
+    isEnterpriseStatusLoading ||
+    isReferrerLoading ||
+    isMyBundlesStatusLoading;
+
   return (
     <UserLabel
       className={className}
-      hasPremium={hasPremium}
       hasEnterpriseStatus={isEnterpriseClient}
+      hasPremium={hasPremium}
       hasStatusTransition={hasStatusTransition}
-      isLoading={loading || isEnterpriseStatusLoading}
+      isLoading={isStatusDataLoading}
+      isPromo={hasPromoBundle}
       size="medium"
     />
   );

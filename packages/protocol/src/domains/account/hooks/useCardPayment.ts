@@ -53,7 +53,7 @@ export const useCardPayment = () => {
         group: groupAddress,
         resubscribe: hasActiveDeal,
       }),
-    [fetchLinkForBundlePayment, groupAddress],
+    [fetchLinkForBundlePayment, groupAddress, hasActiveDeal],
   );
 
   const handleFetchPaymentLink = useCallback(

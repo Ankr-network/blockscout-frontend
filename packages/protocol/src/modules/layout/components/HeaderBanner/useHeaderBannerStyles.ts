@@ -1,13 +1,14 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useHeaderBannerStyles = makeStyles()(theme => ({
+const name = 'HeaderBanner';
+
+export const useHeaderBannerStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     minHeight: 40,
-    height: 'content-fit',
     backgroundColor: theme.palette.primary.main,
     position: 'fixed',
     top: 0,

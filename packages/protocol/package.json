@@ -159,8 +159,6 @@
     "include": [
       "/dashboard/",
       "/account/",
-      "/account/topup/",
-      "/account/withdraw/",
       "/account/success/",
       "/account/failure/",
       "/settings/",
@@ -170,7 +168,8 @@
       "/oauth/",
       "/enterprise/",
       "/projects/",
-      "/projects/new/"
+      "/projects/new/",
+      "/referrals/"
     ],
     "inlineCss": true
   }

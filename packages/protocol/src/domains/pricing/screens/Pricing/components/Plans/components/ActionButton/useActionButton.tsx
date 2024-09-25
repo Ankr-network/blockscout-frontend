@@ -86,9 +86,10 @@ export const useActionButton = ({
           />
         )}
         <SignupDialog
+          canProcessReferralCode
+          hasOauthLogin={hasOauthLogin}
           isOpen={isSignupDialogOpened}
           onClose={onCloseSignupDialog}
-          hasOauthLogin={hasOauthLogin}
         />
       </>
     );

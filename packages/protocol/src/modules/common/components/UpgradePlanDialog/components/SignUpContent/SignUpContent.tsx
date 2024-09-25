@@ -26,13 +26,14 @@ export const SignUpContent = ({
   return (
     <>
       <SignupDialogContent
+        canProcessReferralCode
         currentState={currentState}
-        onDialogClose={onDialogCloseClick}
-        onGoogleButtonClick={onGoogleButtonClick}
-        onGithubButtonClick={onGithubButtonClick}
-        setWeb3State={setWeb3State}
         isLoading={isLoading}
         oauthLoginType={oauthLoginType}
+        onDialogClose={onDialogCloseClick}
+        onGithubButtonClick={onGithubButtonClick}
+        onGoogleButtonClick={onGoogleButtonClick}
+        setWeb3State={setWeb3State}
       />
     </>
   );

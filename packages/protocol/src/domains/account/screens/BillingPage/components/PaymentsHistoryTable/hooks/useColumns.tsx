@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { ECurrency } from 'modules/payments/types';
-import { IPaymentHistoryTableEntity } from 'domains/account/types';
+import { IPaymentHistoryTableEntity, PaymentType } from 'domains/account/types';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { selectPaymentOptions } from 'modules/payments/actions/fetchPaymentOptions';
 import { useAppSelector } from 'store/useAppSelector';
@@ -23,7 +23,18 @@ import { getCreditsValue } from '../utils/getCreditsValue';
 import { getCurrencySymbol } from '../utils/getCurrencySymbol';
 import { getPaymentHistoryItemDirection } from '../utils/getPaymentHistoryItemDirection';
 import { getTxCurrency } from '../utils/getTxCurrency';
+import { isRewardConversionReason } from '../utils/isRewardConversionReason';
 import { useTransactionsDownloader } from './useTransactionsDownloader';
+
+const getTypeString = (type: PaymentType, reason?: string) => {
+  const isReferralReward = isRewardConversionReason(reason);
+
+  if (isReferralReward) {
+    return t('account.payment-table.payment-type.reward-conversion');
+  }
+
+  return PAYMENT_HISTORY_TYPE[type] || type;
+};
 
 /* eslint-disable max-lines-per-function */
 export const useColumns = () => {
@@ -53,23 +64,25 @@ export const useColumns = () => {
         align: 'left',
         field: 'type',
         headerName: t('account.payment-table.head.col-2'),
-        render: ({ timestamp, type }) => {
-          const typeString = PAYMENT_HISTORY_TYPE[type] || type;
+        render: ({ reason, timestamp, type }) => {
+          const typeString = getTypeString(type, reason);
 
-          return type === 'TRANSACTION_TYPE_DEDUCTION' ? (
-            <Deduction
-              downloader={downloadTransactions}
-              timestamp={timestamp}
-              type={typeString}
-            />
-          ) : (
-            <Typography variant="body3">{typeString}</Typography>
-          );
+          if (type === 'TRANSACTION_TYPE_DEDUCTION') {
+            return (
+              <Deduction
+                downloader={downloadTransactions}
+                timestamp={timestamp}
+                type={typeString}
+              />
+            );
+          }
+
+          return <Typography variant="body3">{typeString}</Typography>;
         },
         sortable: false,
       },
       {
-        align: 'right',
+        align: 'left',
         field: 'amount_usd',
         headerName: t('account.payment-table.head.col-3'),
         render: ({
@@ -79,6 +92,7 @@ export const useColumns = () => {
           creditUsdAmount,
           currencyAddress,
           network,
+          reason,
           type,
         }) => {
           return (
@@ -98,11 +112,12 @@ export const useColumns = () => {
               }
               value={formatPaymentHistoryAmount(
                 getAmount({
-                  type,
-                  creditAnkrAmount,
-                  creditUsdAmount,
                   amountAnkr,
                   amountUsd,
+                  creditAnkrAmount,
+                  creditUsdAmount,
+                  reason,
+                  type,
                 }),
                 MIN_USD_DECIMAL_PLACES,
                 MAX_USD_DECIMAL_PLACES,
@@ -113,7 +128,7 @@ export const useColumns = () => {
         sortable: false,
       },
       {
-        align: 'right',
+        align: 'left',
         field: 'credit',
         headerName: t('account.payment-table.head.col-4'),
         render: ({ amount = '0', creditAnkrAmount, creditUsdAmount, type }) => (
@@ -139,15 +154,17 @@ export const useColumns = () => {
           creditUsdAmount,
           currencyAddress,
           network,
+          reason,
           txHash,
           type,
         }) => {
           const amount = getAmount({
-            type,
-            creditAnkrAmount,
-            creditUsdAmount,
             amountAnkr,
             amountUsd,
+            creditAnkrAmount,
+            creditUsdAmount,
+            reason,
+            type,
           });
 
           if (!txHash || !network) {

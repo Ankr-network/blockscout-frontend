@@ -17,17 +17,18 @@ export enum AccountStatus {
 }
 
 export interface IPaymentHistoryTableEntity {
-  timestamp: string;
-  type: PaymentType;
-  amountUsd: string;
-  amountAnkr: string;
   amount: string;
-  network?: EBlockchain;
-  currencyAddress?: Address;
+  amountAnkr: string;
+  amountUsd: string;
   creditAnkrAmount: string;
   creditUsdAmount: string;
   creditVoucherAmount: string;
+  currencyAddress?: Address;
+  network?: EBlockchain;
+  reason?: string;
+  timestamp: string;
   txHash?: string;
+  type: PaymentType;
 }
 
 export interface PaymentHistory {

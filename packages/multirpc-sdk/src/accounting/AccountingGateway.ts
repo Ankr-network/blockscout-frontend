@@ -133,6 +133,25 @@ import {
   InviteGroupMemeberResult,
   RejectGroupInvitationParams,
 } from './groups';
+import {
+  IApplyReferralCodeParams,
+  IApplyReferralCodeResult,
+  IConvertReferralRewardParams,
+  ICreateReferralCodeParams,
+  ICreateReferralCodeResult,
+  IGetReferralCodesParams,
+  IGetReferralCodesResult,
+  IGetReferralLinkByCodesResult,
+  IGetReferralLinksByCodesParams,
+  IGetReferralsCountParams,
+  IGetReferralsCountResult,
+  IGetReferrerParams,
+  IGetReferrerResponse,
+  IGetRewardBalanceParams,
+  IGetRewardBalanceResult,
+  IGetRewardTxsParams,
+  IGetRewardTxsResponse,
+} from './referralProgram';
 import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
 
 export class AccountingGateway {
@@ -1116,5 +1135,92 @@ export class AccountingGateway {
 
   async rejectGroupInvitation(body: RejectGroupInvitationParams) {
     await this.api.post('/api/v1/auth/groups/invite/reject', body);
+  }
+
+  async applyReferralCode(params: IApplyReferralCodeParams) {
+    const { data } = await this.api.post<IApplyReferralCodeResult>(
+      '/api/v1/auth/referral/apply',
+      undefined,
+      { params },
+    );
+
+    return data;
+  }
+
+  async getReferrer(params?: IGetReferrerParams) {
+    const { data } = await this.api.get<IGetReferrerResponse>(
+      '/api/v1/auth/referral/referrer',
+      { params },
+    );
+
+    return data.referrer;
+  }
+
+  async createReferralCode(params?: ICreateReferralCodeParams) {
+    const { data } = await this.api.post<ICreateReferralCodeResult>(
+      '/api/v1/auth/referral/create',
+      { params },
+    );
+
+    return data.referralCode;
+  }
+
+  async getReferralCodes(params?: IGetReferralCodesParams) {
+    const { data } = await this.api.get<IGetReferralCodesResult>(
+      '/api/v1/auth/referral/codes',
+      { params },
+    );
+
+    return data.referralCodes;
+  }
+
+  async getReferralLinksByCodes({
+    codes: code,
+    group,
+  }: IGetReferralLinksByCodesParams) {
+    const { data } = await this.api.get<IGetReferralLinkByCodesResult>(
+      '/api/v1/auth/referral/urlsWithCode',
+      {
+        params: { code, group },
+        paramsSerializer: (params: IGetReferralLinksByCodesParams) =>
+          stringify(params, { indices: false }),
+      },
+    );
+
+    return data.referral_urls;
+  }
+
+  async getRewardBalance(params?: IGetRewardBalanceParams) {
+    const { data } = await this.api.get<IGetRewardBalanceResult>(
+      '/api/v1/auth/referral/reward/balance',
+      { params },
+    );
+
+    return data;
+  }
+
+  async getReferralsCount(params?: IGetReferralsCountParams) {
+    const { data } = await this.api.get<IGetReferralsCountResult>(
+      '/api/v1/auth/referral/referrals/count',
+      { params },
+    );
+
+    return data;
+  }
+
+  async convertReferralReward(body: IConvertReferralRewardParams) {
+    await this.api.post(
+      '/api/v1/auth/referral/reward/convert',
+      body,
+    );
+  }
+
+  async getRewardTxs(params?: IGetRewardTxsParams) {
+    const { data: { transactions }} = await this.api.get<IGetRewardTxsResponse>(
+      '/api/v1/auth/referral/reward/txs',
+      { params },
+    );
+
+    return transactions;
   }
 }

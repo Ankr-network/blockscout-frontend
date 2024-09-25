@@ -1,43 +1,56 @@
 import { makeStyles } from 'tss-react/mui';
 
 import { premiumBackground } from 'uiKit/Theme/themeUtils';
-import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
 import { HEADER_HEIGHT } from '../Header';
 import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
 import { SIDEBAR_WIDTH } from '../SideBar';
 
-export const MOBILE_LAYOUT_PADDING = 30;
+export const TOP_PADDING = 20;
 
-interface Props {
+export interface IUseDefaultLayoutStylesProps {
+  bannerHeight: number;
+  hasBreadcrumbs?: boolean;
   hasGradient?: boolean;
   isLightTheme: boolean;
-  bannerHeight: number;
 }
 
-export const useStyles = makeStyles<Props>()(
-  (theme, { bannerHeight, hasGradient, isLightTheme }) => ({
+const name = 'DefaultLayout';
+
+export const useDefaultLayoutStyles = makeStyles<IUseDefaultLayoutStylesProps>({
+  name,
+})(
+  (
+    theme,
+    { bannerHeight, hasBreadcrumbs = true, hasGradient, isLightTheme },
+  ) => ({
     root: {
       display: 'flex',
+
       minWidth: 375,
+      marginTop: bannerHeight,
+
       background: theme.palette.background.default,
+
       fontVariantNumeric: 'tabular-nums',
     },
     gradient: {
       background: 'none',
     },
     body: {
-      width: '100%',
-      minHeight: '100vh',
       display: 'flex',
+
       flexDirection: 'column',
       flexGrow: 1,
+
+      width: '100%',
+      minHeight: '100vh',
+      paddingLeft: SIDEBAR_WIDTH,
+
       background:
         hasGradient && isLightTheme
           ? premiumBackground
           : theme.palette.background.default,
-
-      paddingLeft: SIDEBAR_WIDTH,
 
       [theme.breakpoints.down('md')]: {
         paddingLeft: 0,
@@ -46,28 +59,20 @@ export const useStyles = makeStyles<Props>()(
     main: {
       flexGrow: 1,
       position: 'relative',
-      paddingTop: HEADER_HEIGHT,
-      paddingBottom: 2 * MOBILE_LAYOUT_PADDING,
+      paddingTop: HEADER_HEIGHT + TOP_PADDING,
+      paddingBottom: 2 * TOP_PADDING,
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(4),
 
-      [theme.breakpoints.up('md')]: {
-        marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
-      },
-
-      [theme.breakpoints.up('md')]: {
-        marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
-      },
-
       [theme.breakpoints.down('md')]: {
-        paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
+        paddingTop: MOBILE_HEADER_HEIGHT + TOP_PADDING,
       },
     },
     dashboardMain: {
       paddingTop: theme.spacing(21),
 
       [theme.breakpoints.down('md')]: {
-        paddingTop: MOBILE_HEADER_HEIGHT + MOBILE_LAYOUT_PADDING,
+        paddingTop: MOBILE_HEADER_HEIGHT + TOP_PADDING,
       },
     },
     header: {
@@ -97,7 +102,8 @@ export const useStyles = makeStyles<Props>()(
       },
     },
     mobileBreadcrumbs: {
-      marginTop: SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
+      display: hasBreadcrumbs ? 'block' : 'none',
+
       marginBottom: theme.spacing(5),
       paddingLeft: 2,
 

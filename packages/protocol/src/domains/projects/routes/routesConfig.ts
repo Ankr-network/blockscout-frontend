@@ -1,3 +1,4 @@
+import { REFERRAL_CODE_QUERY_PARAM_NAME } from 'routes/constants';
 import { generatePath, useHistory } from 'react-router-dom';
 import { useCallback } from 'react';
 import { ChainID } from '@ankr.com/chains-list';
@@ -16,7 +17,21 @@ export const ProjectsRoutesConfig = createRouteConfig(
   {
     projects: {
       path: PROJECTS_PATH,
-      generatePath: () => PROJECTS_PATH,
+      generatePath: () => {
+        const { search } = window.location;
+        const queryParams = new URLSearchParams(search);
+        const referralCode = queryParams.get(REFERRAL_CODE_QUERY_PARAM_NAME);
+
+        if (referralCode) {
+          const utmSearch = new URLSearchParams({
+            [REFERRAL_CODE_QUERY_PARAM_NAME]: referralCode,
+          }).toString();
+
+          return `${PROJECTS_PATH}?${utmSearch}`;
+        }
+
+        return PROJECTS_PATH;
+      },
       breadcrumbs: 'projects.breadcrumbs',
     },
     project: {

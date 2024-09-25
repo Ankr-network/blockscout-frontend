@@ -4,7 +4,7 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { ProjectActivity } from 'domains/projects/store';
-import { Sign } from 'modules/common/types/types';
+import { Sign } from 'modules/common/types';
 
 import { useProjectRequestsActivityStyles } from './useProjectRequestsActivityStyles';
 

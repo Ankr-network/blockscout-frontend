@@ -13,6 +13,7 @@ import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 export interface SidebarProps {
   chainsRoutes: string[];
   className?: string;
+  handleSidebarClose?: () => void;
   hasMenu: boolean;
   isEnterpriseClient: boolean;
   isMobileSideBar?: boolean;
@@ -22,6 +23,7 @@ export interface SidebarProps {
 export const SideBar = ({
   chainsRoutes,
   className = '',
+  handleSidebarClose,
   hasMenu,
   isEnterpriseClient,
   isMobileSideBar = false,
@@ -30,7 +32,6 @@ export const SideBar = ({
   const bannerHeight = useHeaderBannerHeight();
   const { classes, cx } = useStyles({ isMobileSideBar, bannerHeight });
   const {
-    balance,
     balanceInRequests,
     creditBalance,
     currentChargingModel,
@@ -49,18 +50,18 @@ export const SideBar = ({
       )}
       <div className={classes.balanceRoot}>
         <BalanceMenuContent
-          currentChargingModel={currentChargingModel}
-          balance={balance}
-          creditBalance={creditBalance}
-          usdBalance={usdBalance}
           balanceInRequests={balanceInRequests}
+          creditBalance={creditBalance}
+          currentChargingModel={currentChargingModel}
           isApiCreditsBalance={isApiCreditsBalance}
+          usdBalance={usdBalance}
         />
       </div>
       <MainNavigation
         chainsRoutes={chainsRoutes}
-        isMobileSideBar={isMobileSideBar}
+        handleSidebarClose={handleSidebarClose}
         isEnterpriseClient={isEnterpriseClient}
+        isMobileSideBar={isMobileSideBar}
         loading={loading}
         onAnalyticsClick={onAnalyticsClick}
       />

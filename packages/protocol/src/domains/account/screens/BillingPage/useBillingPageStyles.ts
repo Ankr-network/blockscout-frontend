@@ -27,4 +27,7 @@ export const useStyles = makeStyles()(theme => ({
       marginTop: 0,
     },
   },
+  referralBonusBanner: {
+    marginBottom: theme.spacing(5),
+  },
 }));

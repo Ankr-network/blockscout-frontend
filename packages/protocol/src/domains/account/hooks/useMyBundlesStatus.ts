@@ -7,6 +7,7 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 import {
   selectMyBundlesStatus,
   selectMyBundlesStatusFetching,
+  selectMyBundlesStatusInitLoading,
   selectMyBundlesStatusLoading,
   selectMyCurrentBundleRequestsUsed,
 } from 'domains/account/store/selectors';
@@ -54,8 +55,9 @@ export const useMyBundlesStatus = ({
   const statuses = useAppSelector(selectMyBundlesStatus);
 
   const loading = useAppSelector(selectMyBundlesStatusLoading);
+  const initLoading = useAppSelector(selectMyBundlesStatusInitLoading);
   const fetching = useAppSelector(selectMyBundlesStatusFetching);
   const requestsUsed = useAppSelector(selectMyCurrentBundleRequestsUsed);
 
-  return { fetching, loading, requestsUsed, statuses };
+  return { fetching, initLoading, loading, requestsUsed, statuses };
 };

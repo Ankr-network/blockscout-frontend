@@ -57,7 +57,7 @@ export const selectEnterpriseEndpointsLoading = createSelector(
 
 export const selectEnterpriseEndpointsError = createSelector(
   selectEnterpriseEndpoints,
-  ({ error }: { error?: unknown }) => error as Error | undefined,
+  ({ error }) => error as Error | undefined,
 );
 
 export const selectEnterpriseApiKeysAsJwtManagerTokens = createSelector(

@@ -18,9 +18,12 @@ import {
 } from './SignupDialogDefaultContentTypes';
 
 export const SignupDialogDefaultContent = ({
+  canProcessReferralCode,
   description,
+  extraContent,
   hasAutoAgreement,
   hasOnlyGoogleAuth = false,
+  isReferralCodeBoxDisabled,
   onGithubButtonClick,
   onGoogleButtonClick,
   setWeb3State,
@@ -65,13 +68,23 @@ export const SignupDialogDefaultContent = ({
   const renderForm = useCallback(
     ({ handleSubmit }) => (
       <DefaultContentForm
+        canProcessReferralCode={canProcessReferralCode}
         description={description}
+        extraContent={extraContent}
         handleSubmit={handleSubmit}
         hasAutoAgreement={hasAutoAgreement}
         hasOnlyGoogleAuth={hasOnlyGoogleAuth}
+        isReferralCodeBoxDisabled={isReferralCodeBoxDisabled}
       />
     ),
-    [description, hasAutoAgreement, hasOnlyGoogleAuth],
+    [
+      canProcessReferralCode,
+      description,
+      extraContent,
+      hasAutoAgreement,
+      hasOnlyGoogleAuth,
+      isReferralCodeBoxDisabled,
+    ],
   );
 
   return (
