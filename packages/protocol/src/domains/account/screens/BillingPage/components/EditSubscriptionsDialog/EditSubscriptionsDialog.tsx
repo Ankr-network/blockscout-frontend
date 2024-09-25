@@ -2,6 +2,8 @@ import { t } from '@ankr.com/common';
 import Scrollbars from 'react-custom-scrollbars';
 import { ISubscriptionsItem } from 'multirpc-sdk';
 
+import { dialogAuthoHeightMax } from 'modules/common/constants/const';
+
 import { EditDialog } from '../EditDialog';
 import { Subscription } from './components/Subscription';
 import { TCancelSubscriptionHandler } from './hooks/useEditSubscriptionsDialog';
@@ -14,13 +16,6 @@ interface IEditSubscriptionsDialogProps {
   onCancelSubscription: TCancelSubscriptionHandler;
   recurringPayments: ISubscriptionsItem[];
 }
-
-const DIALOG_MARGIN = 32;
-const DIALOG_PADDING = 40;
-const DIALOG_HEADER = 70;
-const DIALOG_OFFSET = DIALOG_MARGIN * 2 + DIALOG_PADDING * 2 + DIALOG_HEADER;
-
-const authoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 
 export const EditSubscriptionsDialog = ({
   isOpened,
@@ -37,7 +32,7 @@ export const EditSubscriptionsDialog = ({
       onClose={onClose}
       title={t('account.account-details.edit-subscriptions-dialog.title')}
     >
-      <Scrollbars autoHeight autoHeightMax={authoHeightMax}>
+      <Scrollbars autoHeight autoHeightMax={dialogAuthoHeightMax}>
         <div className={classes.root}>
           <div className={classes.subscriptions}>
             {recurringPayments.map(subscription => (

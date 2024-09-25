@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
+import Scrollbars from 'react-custom-scrollbars';
 
 import { EGeneralPlanList } from 'domains/pricing/screens/Pricing/components/Plans/PlansUtils';
 import {
@@ -8,6 +9,7 @@ import {
 } from 'domains/pricing/screens/Pricing/components/Plans/components/Plan';
 import { Dialog } from 'uiKit/Dialog';
 import { useWindowHeight } from 'hooks/useWindowHeight';
+import { dialogAuthoHeightMax } from 'modules/common/constants/const';
 
 import { usePlansDialogStyles } from './usePlansDialogStyles';
 
@@ -33,21 +35,23 @@ export const PlansDialog = ({ onClose, open }: IPlansDialogProps) => {
       titleClassName={classes.title}
       keepMounted
     >
-      <Typography variant="h4" className={classes.dialogTitle}>
-        {t('chain-item-dialog.title')}
-      </Typography>
-      <div className={classes.container}>
-        {Object.values(EGeneralPlanList).map(planName => (
-          <div key={`item-${planName}`} className={classes.itemWrapper}>
-            <Plan
-              clickCallback={onClose}
-              planName={planName}
-              rootClassname={classes.planRoot}
-            />
-          </div>
-        ))}
-      </div>
-      <EnterprisePlan />
+      <Scrollbars autoHeight autoHeightMax={dialogAuthoHeightMax}>
+        <Typography variant="h4" className={classes.dialogTitle}>
+          {t('chain-item-dialog.title')}
+        </Typography>
+        <div className={classes.container}>
+          {Object.values(EGeneralPlanList).map(planName => (
+            <div key={`item-${planName}`} className={classes.itemWrapper}>
+              <Plan
+                clickCallback={onClose}
+                planName={planName}
+                rootClassname={classes.planRoot}
+              />
+            </div>
+          ))}
+        </div>
+        <EnterprisePlan />
+      </Scrollbars>
     </Dialog>
   );
 };
