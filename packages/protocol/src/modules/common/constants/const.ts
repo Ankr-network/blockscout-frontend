@@ -25,6 +25,13 @@ export enum EMilliSeconds {
   Year = Day * 365,
 }
 
+const DIALOG_MARGIN = 32;
+const DIALOG_PADDING = 40;
+const DIALOG_HEADER = 70;
+const DIALOG_OFFSET = DIALOG_MARGIN * 2 + DIALOG_PADDING * 2 + DIALOG_HEADER;
+
+export const dialogAuthoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
+
 export const TWITTER_COLOR = '#479AE9';
 export const DISCORD_COLOR = '#5865F2';
 
