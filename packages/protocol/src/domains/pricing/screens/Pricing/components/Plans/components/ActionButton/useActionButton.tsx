@@ -58,6 +58,7 @@ export const useActionButton = ({
     planName,
   });
   const isCurrentPlan = isCurrentPlanButton({
+    isDeveloperRole,
     isLoggedIn,
     planName,
     chargingType: currentChargingModel.type,

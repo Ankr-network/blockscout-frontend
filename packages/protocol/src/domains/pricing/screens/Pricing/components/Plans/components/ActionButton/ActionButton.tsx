@@ -29,7 +29,6 @@ export const ActionButton = ({
     isButtonDisabledValue,
     isCurrentPlan,
     isDealPlan,
-    // isDeveloperRole,
     isFreePlan,
     isLoggedIn,
     isPAYGPlan,
@@ -45,22 +44,20 @@ export const ActionButton = ({
 
   if (isFreePlan && isLoggedIn) {
     return (
-      <>
-        <Button
-          fullWidth
-          disabled
-          className={cx(
-            classes.button,
-            classes.currentPlanButton,
-            classes.freeButton,
-            className,
-          )}
-          variant="outlined"
-          startIcon={shouldShowFreemium && <Check />}
-        >
-          {shouldShowFreemium ? currentPlanText : t(keys.startFree)}
-        </Button>
-      </>
+      <Button
+        fullWidth
+        disabled
+        className={cx(
+          classes.button,
+          classes.currentPlanButton,
+          classes.freeButton,
+          className,
+        )}
+        variant="outlined"
+        startIcon={shouldShowFreemium && <Check />}
+      >
+        {shouldShowFreemium ? currentPlanText : t(keys.startFree)}
+      </Button>
     );
   }
 
