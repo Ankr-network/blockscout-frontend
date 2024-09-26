@@ -29,7 +29,6 @@ export const UpgradePlanDialog = ({
     <NoReactSnap>
       <Dialog
         className={classes.root}
-        maxPxWidth={620}
         classes={{
           container: classes.dialogContainer,
         }}
