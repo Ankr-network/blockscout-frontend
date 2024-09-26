@@ -66,6 +66,7 @@ export const UnconnectedButton = ({
       </LoadableButton>
 
       <SignupDialog
+        canProcessReferralCode
         hasOauthLogin={hasOauthLogin}
         isOpen={isOpened}
         onClose={handleClose}

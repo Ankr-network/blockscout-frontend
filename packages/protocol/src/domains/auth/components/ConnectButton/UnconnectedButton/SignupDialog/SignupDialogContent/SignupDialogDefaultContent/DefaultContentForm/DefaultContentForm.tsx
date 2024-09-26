@@ -1,80 +1,83 @@
-import { Box, Button, Typography } from '@mui/material';
-import {
-  Github,
-  Google as GoogleIcon,
-  Warning as WarningIcon,
-} from '@ankr.com/ui';
-import { t, tHTML } from '@ankr.com/common';
-import { Field, useForm } from 'react-final-form';
-import { useCallback } from 'react';
+import { Field } from 'react-final-form';
+import { ReactNode } from 'react';
+import { Typography } from '@mui/material';
+import { tHTML } from '@ankr.com/common';
 
-import { ReactComponent as EthereumIcon } from 'uiKit/Icons/eth.svg';
 import { CheckboxField } from 'modules/form/components/CheckboxField';
 
-import { useDefaultContentFormStyles } from './useDefaultContentFormStyles';
+import { ButtonsSeparator } from './components/ButtonsSeparator';
+import { OAuthButtons } from './components/OauthButtons';
 import {
-  SignupDialogState,
-  SignupFormErrors,
-  SignupFormField,
-  OauthLoginType,
-} from '../SignupDialogDefaultContentTypes';
+  ReferralCodeBox,
+  useReferralCodeBox,
+} from './components/ReferralCodeBox';
+import { SignupFormField } from '../SignupDialogDefaultContentTypes';
+import { TermsError } from './components/TermsError';
+import { Web3Buttons } from './components/Web3Buttons';
+import { useDefaultContentForm } from './hooks/useDefaultContentForm';
+import { useDefaultContentFormStyles } from './useDefaultContentFormStyles';
 
-interface DefaultContentFormProps {
+export interface IDefaultContentFormProps {
+  canProcessReferralCode?: boolean;
   description?: string;
+  extraContent?: ReactNode;
   handleSubmit: () => void;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
+  isReferralCodeBoxDisabled?: boolean;
 }
 
 export const DefaultContentForm = ({
+  canProcessReferralCode,
   description,
+  extraContent,
   handleSubmit,
   hasAutoAgreement = false,
   hasOnlyGoogleAuth = false,
-}: DefaultContentFormProps) => {
+  isReferralCodeBoxDisabled = false,
+}: IDefaultContentFormProps) => {
+  const {
+    setGithubLoginType,
+    setGoogleLoginType,
+    setWeb3LoginType,
+    termsError,
+  } = useDefaultContentForm();
+
+  const referralCodeBoxProps = useReferralCodeBox({
+    isDisabled: isReferralCodeBoxDisabled,
+  });
+
+  const {
+    inputProps: { error: referralCodeError },
+  } = referralCodeBoxProps;
+
   const { classes } = useDefaultContentFormStyles();
-
-  const { change, getState } = useForm();
-
-  const { hasTerms: termsError } = getState().errors as SignupFormErrors;
-
-  const setGoogleLoginType = useCallback(() => {
-    change(SignupFormField.loginType, OauthLoginType.Google);
-  }, [change]);
-
-  const setGithubLoginType = useCallback(() => {
-    change(SignupFormField.loginType, OauthLoginType.Github);
-  }, [change]);
-
-  const setWeb3LoginType = useCallback(() => {
-    change(SignupFormField.loginType, SignupDialogState.WEB3);
-  }, [change]);
 
   const agreementCheckboxes = (
     <div className={classes.checkboxes}>
       <Field
-        component={CheckboxField}
-        name={SignupFormField.hasTerms}
-        type="checkbox"
-        shouldHideError
         className={classes.formLabel}
-        subscription={{ value: true }}
+        component={CheckboxField}
         label={
-          <Typography variant="subtitle3" className={classes.label}>
+          <Typography className={classes.label} variant="body3">
             {tHTML('signup-modal.form.terms-of-service')}
           </Typography>
         }
+        name={SignupFormField.hasTerms}
+        shouldHideError
+        subscription={{ value: true }}
+        type="checkbox"
       />
       <Field
-        component={CheckboxField}
-        name={SignupFormField.hasMarketing}
-        type="checkbox"
         className={classes.formLabel}
+        component={CheckboxField}
         label={
-          <Typography variant="subtitle3" className={classes.label}>
+          <Typography className={classes.label} variant="body3">
             {tHTML('signup-modal.form.marketing-emails')}
           </Typography>
         }
+        name={SignupFormField.hasMarketing}
+        type="checkbox"
       />
     </div>
   );
@@ -89,6 +92,8 @@ export const DefaultContentForm = ({
     </Typography>
   );
 
+  const hasError = Boolean(termsError || referralCodeError);
+
   return (
     <>
       {description && (
@@ -97,58 +102,29 @@ export const DefaultContentForm = ({
         </Typography>
       )}
       <form onSubmit={handleSubmit} className={classes.form}>
-        <Button
-          fullWidth
-          className={classes.button}
-          variant="outlined"
-          type="submit"
-          onClick={setGoogleLoginType}
-          startIcon={<GoogleIcon className={classes.loginIcon} />}
-          disabled={Boolean(termsError)}
-        >
-          {t('signup-modal.web2.google')}
-        </Button>
+        <OAuthButtons
+          onGithubButtonClick={setGithubLoginType}
+          onGoogleButtonClick={setGoogleLoginType}
+          hasError={hasError}
+          hasGoogleAuthOnly={hasOnlyGoogleAuth}
+        />
         {!hasOnlyGoogleAuth && (
           <>
-            <Button
-              fullWidth
-              className={classes.button}
-              variant="outlined"
-              type="submit"
-              onClick={setGithubLoginType}
-              startIcon={<Github className={classes.loginIcon} />}
-              disabled={Boolean(termsError)}
-            >
-              {t('signup-modal.web2.github')}
-            </Button>
-
-            <Typography
-              variant="subtitle3"
-              className={classes.or}
-              component="div"
-            >
-              {t('signup-modal.web2.or')}
-            </Typography>
-
-            <Button
-              fullWidth
-              className={classes.button}
-              variant="outlined"
-              type="submit"
-              onClick={setWeb3LoginType}
-              startIcon={<EthereumIcon />}
-              disabled={Boolean(termsError)}
-            >
-              {t('signup-modal.web3.button')}
-            </Button>
+            <ButtonsSeparator />
+            <Web3Buttons
+              hasError={hasError}
+              onEthButtonClick={setWeb3LoginType}
+            />
           </>
         )}
-        {termsError && (
-          <Box className={classes.error}>
-            <WarningIcon color="error" className={classes.icon} /> {termsError}
-          </Box>
+        {canProcessReferralCode && (
+          <ReferralCodeBox {...referralCodeBoxProps} />
         )}
+        <TermsError error={termsError} />
         {hasAutoAgreement ? autoAgreementMessage : agreementCheckboxes}
+        {Boolean(extraContent) && (
+          <div className={classes.extraContent}>{extraContent}</div>
+        )}
       </form>
     </>
   );

@@ -55,14 +55,15 @@ export interface IPAYGBalance extends IDealBalance {
 }
 
 export interface IDealChargingModelData {
-  type: EChargingModel.Deal;
   balance: IDealBalance;
-  progressData: IProgressData;
-  progressValue: number;
-  progressLabel: string;
-  maxLabel: string;
   expires: number; // format: unix seconds
+  isPromo?: boolean;
+  maxLabel: string;
   price: number;
+  progressData: IProgressData;
+  progressLabel: string;
+  progressValue: number;
+  type: EChargingModel.Deal | EChargingModel.Promo;
 }
 
 export enum EChargingModel {
@@ -70,6 +71,7 @@ export enum EChargingModel {
   PAYG = 'PAY_AS_YOU_GO',
   Package = 'PACKAGE',
   Deal = 'DEAL',
+  Promo = 'PROMO',
 }
 
 export enum ECryptoDepositStep {

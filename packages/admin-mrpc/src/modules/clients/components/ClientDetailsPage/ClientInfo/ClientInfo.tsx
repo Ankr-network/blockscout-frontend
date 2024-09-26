@@ -352,6 +352,7 @@ export const ClientInfo = ({
       />
 
       <ClientBundles
+        address={address}
         activeBundles={userActiveBundles}
         bundlesStatuses={userBundlesStatuses}
       />

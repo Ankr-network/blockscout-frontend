@@ -13,7 +13,7 @@ const LoadableChainsContainer: LoadableComponent<any> = loadable(
 );
 
 const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
-  async () => import('../screens/ChainItem').then(module => module.ChainItem),
+  async () => import('../screens/ChainPage').then(module => module.ChainPage),
   {
     fallback: <OverlaySpinner />,
   },

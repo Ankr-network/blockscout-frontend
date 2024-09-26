@@ -8,5 +8,7 @@ export const initializeLocale = async () => {
     currentLocale: Locale.en,
     fallbackLocale: Locale.en,
     locales,
+    // to get rid of console warnings about not existing translation keys
+    warningHandler: () => {},
   });
 };

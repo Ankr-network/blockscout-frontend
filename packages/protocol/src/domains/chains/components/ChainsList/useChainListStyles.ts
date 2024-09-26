@@ -94,5 +94,10 @@ export const useChainListStyles = makeStyles<boolean>()(
         textAlign: 'right',
       },
     },
+    tooltipWrapper: {},
+    tooltipText: {
+      cursor: 'help',
+      borderBottom: `1px dashed ${theme.palette.divider}`,
+    },
   }),
 );

@@ -7,13 +7,17 @@ import {
 import { ConnectedRouter } from 'connected-react-router';
 import { ReactReduxContext } from 'react-redux';
 
+import { Dialogs } from 'modules/guardDialog';
+import {
+  ReferralFlow,
+  useReferralFlow,
+} from 'modules/referralProgram/components/ReferralFlow';
+import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { getMainTheme } from 'uiKit/Theme/mainTheme';
 import { historyInstance } from 'modules/common/utils/historyInstance';
-import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
 import { useMetatags } from 'uiKit/utils/metatags';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { Dialogs } from 'modules/guardDialog';
 
 import { MaintenanceDialog } from '../MaintenanceDialog';
 import { useMaintenanceDialog } from '../MaintenanceDialog/useMaintenanceDialog';
@@ -21,6 +25,14 @@ import { useMaintenanceDialog } from '../MaintenanceDialog/useMaintenanceDialog'
 interface IAppBaseProps {
   children: ReactNode;
 }
+
+// the wrapper is needed only to make sure that useReferralFlow hooks is called
+// inside ConnectedRouter component
+const ReferralFlowContainer = () => {
+  const { referralFlowProps } = useReferralFlow();
+
+  return <ReferralFlow {...referralFlowProps} />;
+};
 
 export const AppBase = ({ children }: IAppBaseProps) => {
   const chainsRoutes = usePublicChainsRoutes();
@@ -42,6 +54,7 @@ export const AppBase = ({ children }: IAppBaseProps) => {
             context={ReactReduxContext}
           >
             {children}
+            <ReferralFlowContainer />
           </ConnectedRouter>
           <Dialogs />
           <MaintenanceDialog isOpened={isOpened} onClose={onClose} />

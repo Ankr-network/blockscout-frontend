@@ -14,14 +14,12 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { TeamsOnboardingDialog } from 'domains/userSettings/screens/Settings/components/TeamsOnboardingDialog';
 import { selectIsInactiveStatus } from 'domains/auth/store';
 
 import { EditProjectDialogType } from '../EditProjectDialog/EditProjectDialogUtils';
 import { useSubmit } from './useSubmit';
 import { ProjectsFormContent } from '../ProjectsFormContent/ProjectsFormContent';
 import { useProjectsStyles } from './useProjectsStyles';
-import { useTeamsOnboarding } from './useTeamsOnboarding';
 
 export const useProjectsForm = () => {
   const { classes } = useProjectsStyles();
@@ -61,9 +59,6 @@ export const useProjectsForm = () => {
   const { handleFormSubmit } = useSubmit({ onEditDialogClose, allProjects });
 
   const hasProjectButton = (isLoaded && canAddProject) || canEditProject;
-
-  const { handleTeamOnboardingDialogClose, isTeamOnboardingDialogOpened } =
-    useTeamsOnboarding();
 
   const redirectToBalance = useCallback(() => {
     push(AccountRoutesConfig.accountDetails.generatePath());
@@ -110,13 +105,6 @@ export const useProjectsForm = () => {
             onEditDialogClose={onEditDialogClose}
             hasProjectButton={hasProjectButton}
           />
-
-          {isTeamOnboardingDialogOpened && (
-            <TeamsOnboardingDialog
-              isOpened={isTeamOnboardingDialogOpened}
-              onClose={handleTeamOnboardingDialogClose}
-            />
-          )}
         </>
       );
     },
@@ -138,8 +126,6 @@ export const useProjectsForm = () => {
       handleClickSeePlans,
       onPlansDialogClose,
       onUpgradeAccountDialogClose,
-      isTeamOnboardingDialogOpened,
-      handleTeamOnboardingDialogClose,
     ],
   );
 

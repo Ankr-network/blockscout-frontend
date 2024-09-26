@@ -3,7 +3,7 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 import { Chart, IChartData, IChartProps } from '@ankr.com/telemetry';
 
-import { Sign } from 'modules/common/types/types';
+import { Sign } from 'modules/common/types';
 import { formatLongNumber } from 'modules/common/utils/formatNumber';
 
 import { EmptyRequestsGuard } from '../EmptyRequestsGuard';

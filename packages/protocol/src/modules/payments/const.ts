@@ -52,6 +52,7 @@ export const chargigModelTitlesMap: Record<EChargingModel, string> = {
   [EChargingModel.Free]: 'account.charging-model.free.title',
   [EChargingModel.PAYG]: 'account.charging-model.payg.title',
   [EChargingModel.Package]: 'account.charging-model.package.title',
+  [EChargingModel.Promo]: 'account.charging-model.promo.title',
 };
 
 export const ANKR_PAYMENT_NETWORK = isMainnet

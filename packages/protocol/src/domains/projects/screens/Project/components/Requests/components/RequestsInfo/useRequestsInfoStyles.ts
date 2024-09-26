@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui';
 
-import { Sign } from 'modules/common/types/types';
+import { Sign } from 'modules/common/types';
 import { COLOR_PURPLE } from 'uiKit/Theme/const';
 
 export const useRequestsInfoStyles = makeStyles<Sign>()(

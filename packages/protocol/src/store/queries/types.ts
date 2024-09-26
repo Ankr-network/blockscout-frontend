@@ -12,6 +12,7 @@ import {
 } from '@reduxjs/toolkit/dist/query';
 import { PromiseWithKnownReason } from '@reduxjs/toolkit/dist/query/core/buildMiddleware/types';
 import { QueryFulfilledRejectionReason } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
+import { BaseQueryMeta } from '@reduxjs/toolkit/src/query/baseQueryTypes';
 
 export type Definition<Args, Result> = QueryDefinition<
   Args,
@@ -55,4 +56,17 @@ export type TwoFAQueryFnParams<Params> = Params extends void
 
 export interface IUseQueryProps {
   skipFetching?: boolean;
+  pollingInterval?: number;
+}
+
+export interface IHandledQueryError {
+  error: BaseQueryError<BaseQueryFn>;
+  isUnhandledError: false;
+  meta: BaseQueryMeta<BaseQueryFn>;
+}
+
+export interface IUnhandledQueryError {
+  error: unknown;
+  meta?: undefined;
+  isUnhandledError: true;
 }

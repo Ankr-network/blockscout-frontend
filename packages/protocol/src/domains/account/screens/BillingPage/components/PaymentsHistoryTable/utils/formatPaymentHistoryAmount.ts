@@ -7,7 +7,13 @@ export const formatPaymentHistoryAmount = (
   minDecimalPlaces: number,
   maxDecimalPlaces: number,
 ) => {
-  if (amount === '') return '';
+  if (amount === '') {
+    return '';
+  }
+
+  if (amount === '-') {
+    return '-';
+  }
 
   const value = new BigNumber(amount);
 

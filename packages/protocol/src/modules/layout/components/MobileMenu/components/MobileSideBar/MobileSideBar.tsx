@@ -25,7 +25,7 @@ export const MobileSideBar = ({
           <Close />
         </IconButton>
       </div>
-      <SideBar {...props} isMobileSideBar />
+      <SideBar {...props} handleSidebarClose={onClose} isMobileSideBar />
     </div>
   );
 };

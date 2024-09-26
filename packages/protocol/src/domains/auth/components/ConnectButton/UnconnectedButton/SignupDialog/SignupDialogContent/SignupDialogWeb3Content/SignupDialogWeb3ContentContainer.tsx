@@ -6,25 +6,31 @@ import { SignupDialogWeb3Content } from './SignupDialogWeb3Content';
 
 export interface SignupDialogWeb3ContentContainerProps {
   onClose: () => void;
+  onConnect?: () => void | Promise<void>;
   onSuccess?: () => void;
 }
 
 export const SignupDialogWeb3ContentContainer = ({
   onClose,
+  onConnect,
   onSuccess,
 }: SignupDialogWeb3ContentContainerProps) => {
-  const { handleConnect } = useAuth();
+  const { handleConnect: connect } = useAuth();
 
-  const onConnect = useCallback(
+  const handleConnect = useCallback(
     async data => {
-      const { error } = await handleConnect(data);
+      await onConnect?.();
 
-      if (typeof onSuccess === 'function' && !error) {
-        onSuccess();
+      const { error } = await connect(data);
+
+      if (!error) {
+        onSuccess?.();
       }
     },
-    [handleConnect, onSuccess],
+    [connect, onConnect, onSuccess],
   );
 
-  return <SignupDialogWeb3Content onConnect={onConnect} onClose={onClose} />;
+  return (
+    <SignupDialogWeb3Content onConnect={handleConnect} onClose={onClose} />
+  );
 };

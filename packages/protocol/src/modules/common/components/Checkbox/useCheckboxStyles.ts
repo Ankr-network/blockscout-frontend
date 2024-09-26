@@ -8,7 +8,7 @@ export interface UseCheckboxStylesParams {
 
 export const useCheckboxStyles = makeStyles<UseCheckboxStylesParams>()(
   (theme, { hasBorderBottom, hasMarginTop, hasPadding }) => ({
-    root: {
+    checkboxRoot: {
       padding: hasPadding ? theme.spacing(3, 0) : theme.spacing(1),
 
       borderBottom: hasBorderBottom
@@ -16,8 +16,9 @@ export const useCheckboxStyles = makeStyles<UseCheckboxStylesParams>()(
         : undefined,
 
       marginTop: hasMarginTop ? theme.spacing(3) : 0,
+      maxWidth: '100%',
     },
-    label: {
+    checkboxLabel: {
       paddingLeft: theme.spacing(1.5),
 
       fontSize: 16,
@@ -25,6 +26,9 @@ export const useCheckboxStyles = makeStyles<UseCheckboxStylesParams>()(
     },
     labelWrapper: {
       paddingLeft: theme.spacing(1.5),
+      maxWidth: '100%',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
   }),
 );

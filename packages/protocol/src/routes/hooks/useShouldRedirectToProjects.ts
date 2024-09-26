@@ -1,7 +1,7 @@
 import {
-  CONTENT_QUERY_PARAM,
+  CONTENT_QUERY_PARAM_NAME,
+  EIndexContent,
   INDEX_PATH,
-  IndexContent,
 } from 'routes/constants';
 import { useHistory } from 'react-router';
 
@@ -24,12 +24,8 @@ export const useShouldRedirectToProjects = () => {
   const isIndexPath = location.pathname === INDEX_PATH;
 
   const hasEndpointsContent = params.has(
-    CONTENT_QUERY_PARAM,
-    // ts compiler throws an error that the second argument is not allowed
-    // but it is actually allowed.
-    // Reference: https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/has
-    // @ts-ignore
-    IndexContent.Endpoints,
+    CONTENT_QUERY_PARAM_NAME,
+    EIndexContent.Endpoints,
   );
 
   const shouldRedirectToSettings = useAppSelector(

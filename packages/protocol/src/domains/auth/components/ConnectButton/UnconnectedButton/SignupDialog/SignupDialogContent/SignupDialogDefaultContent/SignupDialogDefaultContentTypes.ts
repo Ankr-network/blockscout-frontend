@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export enum SignupDialogState {
   DEFAULT = 'DEFAULT',
   WEB3 = 'WEB3',
@@ -30,9 +32,12 @@ export interface SignupFormErrors {
 }
 
 export interface SignupDialogDefaultContentProps {
+  canProcessReferralCode?: boolean;
   description?: string;
+  extraContent?: ReactNode;
   hasAutoAgreement?: boolean;
   hasOnlyGoogleAuth?: boolean;
+  isReferralCodeBoxDisabled?: boolean;
   onGithubButtonClick: () => void;
   onGoogleButtonClick: () => void;
   setWeb3State: () => void;

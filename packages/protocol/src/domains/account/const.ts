@@ -1,7 +1,2 @@
-import { EBlockchain } from 'multirpc-sdk';
-
-import { isMainnet } from 'modules/common/constants/const';
-
-export const ANKR_TOP_UP_NETWORK = isMainnet
-  ? EBlockchain.eth
-  : EBlockchain.eth_holesky;
+export const CHARGING_MODELS_LINK =
+  'https://www.ankr.com/docs/rpc-service/service-plans/#charging-models';

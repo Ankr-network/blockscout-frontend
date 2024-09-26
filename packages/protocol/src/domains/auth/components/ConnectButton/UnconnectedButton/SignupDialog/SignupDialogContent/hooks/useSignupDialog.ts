@@ -2,10 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { resetAuthData } from 'domains/auth/store/authSlice';
+import { setAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
 import { trackSignUpModalClose } from 'modules/analytics/mixpanel/trackSignUpModalClose';
 import { useGoogleLoginParams } from 'domains/oauth/hooks/useGoogleLoginParams';
 import { useOauthLoginParams } from 'domains/oauth/hooks/useOauthLoginParams';
-import { setAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
+import { useSavedReferralCode } from 'modules/referralProgram/hooks/useSavedReferralCode';
 
 import {
   SignupDialogState,
@@ -16,9 +17,10 @@ import { useDialogTitle } from './useDialogTitle';
 interface SignupDialogHookProps {
   hasOauthLogin?: boolean;
   hasOnlyGoogleAuth?: boolean;
-  shouldResetAuthDataForGoogleAuth?: boolean;
   onClose: () => void;
-  onOauthSignUp?: () => void;
+  onManualClose?: () => void;
+  onOauthSignUp?: () => void | Promise<void>;
+  shouldResetAuthDataForGoogleAuth?: boolean;
   title?: string;
 }
 
@@ -26,7 +28,8 @@ export const useSignupDialog = ({
   hasOauthLogin,
   hasOnlyGoogleAuth,
   onClose,
-  onOauthSignUp = () => {},
+  onManualClose,
+  onOauthSignUp = () => Promise.resolve(),
   shouldResetAuthDataForGoogleAuth,
   title,
 }: SignupDialogHookProps) => {
@@ -45,6 +48,8 @@ export const useSignupDialog = ({
   );
 
   const [oauthLoginType, setOauthLoginType] = useState<OauthLoginType>();
+
+  const [isLoggingInViaOauth, setIsLoggingInViaOauth] = useState(false);
 
   useEffect(() => {
     if (hasOauthLogin) {
@@ -88,11 +93,13 @@ export const useSignupDialog = ({
       setAvoidGuestTeamInvitationDialog();
     }
 
+    setIsLoggingInViaOauth(true);
+
     const { data: googleAuthUrl } = await handleFetchGoogleLoginParams();
 
-    redirectToOauth(googleAuthUrl);
+    await onOauthSignUp();
 
-    onOauthSignUp();
+    redirectToOauth(googleAuthUrl);
   }, [
     dispatch,
     shouldResetAuthDataForGoogleAuth,
@@ -104,20 +111,34 @@ export const useSignupDialog = ({
   const onGithubButtonClick = useCallback(async () => {
     setOauthLoginType(OauthLoginType.Github);
 
+    setIsLoggingInViaOauth(true);
+
     const { data: oauthAuthUrl } = await handleFetchOauthLoginParams();
 
+    await onOauthSignUp();
+
     redirectToOauth(oauthAuthUrl);
-    onOauthSignUp();
   }, [handleFetchOauthLoginParams, redirectToOauth, onOauthSignUp]);
+
+  const { handleRemoveSavedReferralCode } = useSavedReferralCode();
+
+  const handleManualClose = useCallback(() => {
+    onManualClose?.();
+
+    handleRemoveSavedReferralCode();
+  }, [onManualClose, handleRemoveSavedReferralCode]);
 
   return {
     currentState,
     handleClose,
+    handleManualClose,
     setWeb3State: () => setCurrentState(SignupDialogState.WEB3),
     onGoogleButtonClick,
     onGithubButtonClick,
     isLoading:
-      isFetchGoogleLoginParamsLoading || isFetchOauthLoginParamsLoading,
+      isFetchGoogleLoginParamsLoading ||
+      isFetchOauthLoginParamsLoading ||
+      isLoggingInViaOauth,
     dialogTitle,
     onDialogCloseClick,
     oauthLoginType,

@@ -38,4 +38,7 @@ export const useMainNavigationStyles = makeStyles()(theme => ({
 
     backgroundColor: theme.palette.background.default,
   },
+  additionalOptions: {
+    marginTop: theme.spacing(3),
+  },
 }));

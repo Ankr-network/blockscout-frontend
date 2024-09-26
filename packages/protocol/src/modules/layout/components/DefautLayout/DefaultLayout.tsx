@@ -1,27 +1,27 @@
-import { ReactChild } from 'react';
 import { Container } from '@mui/material';
+import { ReactChild } from 'react';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
 import { NoReactSnap } from 'uiKit/NoReactSnap';
+import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
-import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
+import { Breadcrumbs } from '../Breadcrumbs';
+import { ConnectWalletDialog } from '../ConnectWalletDialog';
+import { Footer } from '../Footer';
 import { Header } from '../Header';
+import { HeaderBanner } from '../HeaderBanner';
 import { MobileHeader } from '../MobileHeader';
 import { SideBar } from '../SideBar';
-import { useStyles } from './DefaultLayoutStyles';
-import { Breadcrumbs } from '../Breadcrumbs';
 import { StatusTransitionDialog } from '../StatusTransitionDialog';
-import { ConnectWalletDialog } from '../ConnectWalletDialog';
 import { useConnectWalletDialog } from '../ConnectWalletDialog/hooks/useConnectWalletDialog';
-import { HeaderBanner } from '../HeaderBanner';
-import { Footer } from '../Footer';
+import { useDefaultLayoutStyles } from './DefaultLayoutStyles';
 import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 
 export const CONTENT_WIDTH = 1120;
@@ -35,11 +35,12 @@ export const CONTAINER_STYLES = {
 export interface ILayoutProps {
   children?: ReactChild;
   disableGutters?: boolean;
-  hasNoReactSnap?: boolean;
   hasError?: boolean;
   hasGradient?: boolean;
+  hasNoReactSnap?: boolean;
   isChainItemPage?: boolean;
   isDashboardPage?: boolean;
+  isReferralsPage?: boolean;
 }
 
 export const DefaultLayout = ({
@@ -50,15 +51,17 @@ export const DefaultLayout = ({
   hasNoReactSnap = false,
   isChainItemPage,
   isDashboardPage = false,
+  isReferralsPage,
 }: ILayoutProps) => {
   const { isLightTheme } = useThemes();
 
   const bannerHeight = useHeaderBannerHeight();
 
-  const { classes, cx } = useStyles({
+  const { classes, cx } = useDefaultLayoutStyles({
     hasGradient: hasGradient || hasError,
     isLightTheme,
     bannerHeight,
+    hasBreadcrumbs: !isReferralsPage,
   });
   const { isLoggedIn, loading } = useAuth();
   const { isEnterpriseClient } = useEnterpriseClientStatus();

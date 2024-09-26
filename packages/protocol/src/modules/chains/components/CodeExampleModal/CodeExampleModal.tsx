@@ -7,10 +7,10 @@ import { Dialog } from 'uiKit/Dialog';
 import { evmGroups } from 'modules/endpoints/constants/evmGroups';
 import { ChainSelectorContent } from 'modules/common/components/ChainSelectorContent';
 import { ChainLogo } from 'modules/chains/components/ChainLogo';
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
 import { ProjectConnectionSnippet } from 'domains/projects/screens/Project/components/ProjectConnectionSnippet';
-import { MultichainCodeSampleWrapper } from 'domains/chains/screens/ChainItem/components/ChainItemHeader/components/MultichainCodeSampleWrapper';
+import { MultichainCodeSampleWrapper } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/components/MultichainCodeSampleWrapper';
 
 import { useCodeExampleModalStyles } from './useCodeExampleModalStyles';
 
@@ -49,11 +49,12 @@ export const CodeExampleModal = ({
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <Dialog
-        paperClassName={classes.snippetsDialogPaper}
-        titleClassName={classes.snippetsDialogTitle}
-        title={t('chain-item.get-started.connection-snippet.title')}
-        open={isOpenedCodeExample}
         onClose={onCloseCodeExample}
+        open={isOpenedCodeExample}
+        paperClassName={classes.snippetsDialogPaper}
+        shouldStopPropagationOnClose
+        title={t('chain-item.get-started.connection-snippet.title')}
+        titleClassName={classes.snippetsDialogTitle}
       >
         <div className={classes.chainDescription}>
           <ChainLogo

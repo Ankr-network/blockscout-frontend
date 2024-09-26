@@ -1,10 +1,10 @@
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { GetStartedSectionParams } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useGetStartedSection';
+import { GetStartedSectionParams } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useGetStartedSection';
 import { GetStartedSection } from 'modules/common/components/GetStartedSection';
 import { PrimaryTab } from 'modules/common/components/PrimaryTab';
-import { SectionID } from 'domains/chains/screens/ChainItem/components/ChainItemSections/types';
+import { SectionID } from 'domains/chains/screens/ChainPage/components/ChainItemSections/types';
 import { isGroupEvmBased } from 'modules/endpoints/utils/isGroupEvmBased';
 import { useTechnology } from 'modules/common/components/GetStartedSection/components/ConnectionSnippet/hooks/useTechnology';
 import { getCodeEnterprise } from 'modules/common/components/GetStartedSection/components/Snippets/utils/getCode';

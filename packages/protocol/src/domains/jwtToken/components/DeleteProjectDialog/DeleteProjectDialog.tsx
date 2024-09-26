@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Dialog } from 'uiKit/Dialog';
 import {
@@ -15,7 +15,7 @@ interface IDeleteProjectDialogProps {
   tokenIndex: number;
   onSuccess?: () => void;
   open: boolean;
-  onClose: (event?: MouseEvent<HTMLButtonElement>) => void;
+  onClose: () => void;
 }
 
 export const DeleteProjectDialog = ({
@@ -29,7 +29,7 @@ export const DeleteProjectDialog = ({
   const { showDeleteProjectNotification } = useDeleteProjectNotification();
 
   const handleSuccess = useCallback(
-    (is2FaError: boolean, event?: MouseEvent<HTMLButtonElement>) => {
+    (is2FaError: boolean) => {
       if (typeof onSuccess === 'function') {
         onSuccess();
       }
@@ -38,7 +38,7 @@ export const DeleteProjectDialog = ({
         showDeleteProjectNotification();
       }
 
-      onClose(event);
+      onClose();
     },
     [onSuccess, onClose, showDeleteProjectNotification],
   );
@@ -56,16 +56,13 @@ export const DeleteProjectDialog = ({
     [deleteProjectStep],
   );
 
-  const handleClose = useCallback(
-    (event?: MouseEvent<HTMLButtonElement>) => {
-      if (isFailedStep) {
-        setDeleteProjectStep(DeleteProjectStep.initial);
-      }
+  const handleClose = useCallback(() => {
+    if (isFailedStep) {
+      setDeleteProjectStep(DeleteProjectStep.initial);
+    }
 
-      onClose(event);
-    },
-    [setDeleteProjectStep, onClose, isFailedStep],
-  );
+    onClose();
+  }, [setDeleteProjectStep, onClose, isFailedStep]);
 
   return (
     <Dialog

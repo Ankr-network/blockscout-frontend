@@ -61,7 +61,16 @@
     "common": "Oops! Something went wrong.",
     "empty-eth": "Authentication failed. The Ethereum account you're using for authentication seems suspicious — it has no history of blockchain transactions. You can still authenticate with Google or GitHub accounts.",
     "tx-replacement": "The transaction has been cancelled or replaced",
-    "no-tx-by-tx-hash": "Failed to locate the transaction – It might have been cancelled or replaced."
+    "no-tx-by-tx-hash": "Failed to locate the transaction – It might have been cancelled or replaced.",
+    "wrong-referral-code": "Wrong referral code",
+    "referral-code-already-used": {
+      "title": "Referral link already used",
+      "message": "This referral link has already been used."
+    },
+    "referral-code-expired": {
+      "title": "Referral link expired",
+      "message": "The referral link's validity period has expired"
+    }
   },
   "main-navigation": {
     "projects": "Projects",
@@ -72,7 +81,8 @@
     "billing": "Billing",
     "pricing": "Pricing",
     "settings": "Settings",
-    "docs": "Docs"
+    "docs": "Docs",
+    "referrals": "Referrals"
   },
   "footer": {
     "all-rights": "© {year} Ankr. All rights reserved.",
@@ -112,14 +122,12 @@
       "form-below": "Use the form below to pay"
     },
     "balance-menu": {
-      "title": "Charging model",
-      "billing-page-button": "Go to Billing page",
-      "usd-balance": "${balance}",
-      "req-balance": " / ≈{balance, number, ::compact-short} reqs"
+      "title": "Charging",
+      "billing-page-button": "Go to Billing page"
     }
   },
   "signup-modal": {
-    "title": "Sign in method",
+    "title": "Sign in",
     "title-gauth": "Sign in with Google",
     "google": {
       "title": "Google Authentication",
@@ -130,24 +138,32 @@
       "description": "Connection Process"
     },
     "web2": {
-      "google": "Continue with Google",
-      "github": "Continue with GitHub",
+      "google": "Google",
+      "github": "GitHub",
       "or": "or"
     },
     "web3": {
       "connect-wallet": "Wallet connecting",
       "wallet-install": "Install",
       "title": "Continue with Ethereum Wallet",
-      "button": "Continue with ETH Wallet",
+      "button": "Ethereum Wallet",
       "tooltip-message": "Wallet integration is being updated. For now, please connect an extension-based wallet.",
       "unconnect-meesage": "Wallet integration is currently being updated. In the meantime, please use the desktop version."
     },
     "form": {
-      "terms-of-service": "I agree to <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">Ankr's terms of use</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>",
-      "marketing-emails": "I agree to receive marketing communications from Ankr",
+      "terms-of-service": "I agree to Ankr's <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">Terms of Use</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">Privacy Policy</a>.",
+      "marketing-emails": "I agree to receive marketing updates from Ankr.",
       "no-terms-error": "To continue, you must agree with our Terms of Service and Privacy Policy",
       "auto-agreement-message": "By continuing you agree to our <a href=\"https://www.ankr.com/terms/\" target=\"_blank\">terms of service</a> and <a href=\"https://www.ankr.com/privacy-policy/\" target=\"_blank\">privacy policy</a>."
     }
+  },
+  "balance": {
+    "credits": "{balance, number, ::compact-short} API Credits",
+    "usd": "{isApproximate, select, true {≈} other {}}{balance, number, USD}",
+    "requests": "{prefix}{isApproximate, select, true {≈} other {}}{balance, number, ::compact-short} {isShortened, select, true {reqs} other {requests}}"
+  },
+  "referrals": {
+    "breadcrumbs": "Referrals"
   },
   "projects": {
     "onboarding": {
@@ -742,6 +758,12 @@
       "month": "30d",
       "week": "7d"
     },
+    "timeframes-string": {
+      "hour": "1 hour",
+      "day": "24 hours",
+      "month": "30 days",
+      "week": "7 days"
+    },
     "private-stats": {
       "title": "Your stats",
       "stats": {
@@ -1089,6 +1111,8 @@
     "usage-data": {
       "usage-summary": {
         "total": "Total Requests",
+        "tooltipPublic": "All users' requests for the last {timeframe}",
+        "tooltipPrivate": "Your requests for the last {timeframe}",
         "average": "Average Req/Sec",
         "cached": {
           "title": "Cached Requests",
@@ -1793,6 +1817,9 @@
       },
       "deal": {
         "title": "Deal"
+      },
+      "promo": {
+        "title": "Promo"
       }
     },
     "deal-renewal": {
@@ -2041,19 +2068,14 @@
         "more-button": "+{subscriptionsCount} more"
       },
       "balance-widget": {
-        "title": "Charging model",
-        "payg-label": "Pay-as-you-go",
-        "credit-balance": "{balance, number, ::compact-short} API Credits",
+        "title": "Charging",
         "used-credits-label": "{usedCount, number, ::compact-short} from {wholeAmountCount, number, ::compact-short} used ({usedPercent, number, ::compact-short}%)",
-        "usd-balance": "≈{balance, number, USD}",
-        "requests-balance": "{balance, number, ::compact-short} requests",
-        "req-balance": " / ≈{balance, number, ::compact-short} reqs",
         "expires": "Expires: {date, date, long}",
         "plural": "s",
-        "assets-balance-button": "Assets balance",
+        "assets-balance-button": "Balances",
         "assets-balance-dialog": {
-          "title": "Assets balance",
-          "description": "The list shows the assets of the current account. Assets are divided into groups — Pay-as-you-go, Deal, Package — and charged (in API credits / Requests) for the API calls you make."
+          "title": "Balances",
+          "description": "USD/Crypto payments are deposited as API credits into your account balance, which is divided into groups — Pay-as-you-go, Deal, Package, and Promo — based on the charging model for API calls. "
         }
       },
       "plan-widget": {
@@ -2123,7 +2145,8 @@
         "package": "Package payment",
         "payg": "PAYG payment",
         "voucher": "Voucher operations",
-        "deduction": "Daily charge"
+        "deduction": "Daily charge",
+        "reward-conversion": "Bonus PAYG top-up"
       },
       "time-type": {
         "week": "Last week",

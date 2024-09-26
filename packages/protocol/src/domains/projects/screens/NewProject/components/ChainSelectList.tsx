@@ -1,7 +1,7 @@
 import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
 
-import { ChainProtocolContext } from 'domains/chains/screens/ChainItem/constants/ChainProtocolContext';
+import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
 
 import { TypeSelector } from './TypeSelector';

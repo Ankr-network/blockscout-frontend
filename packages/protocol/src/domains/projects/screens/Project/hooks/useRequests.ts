@@ -14,7 +14,7 @@ import {
   selectRelativeChangeForLastHour,
 } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
-import { useTimeframe } from 'domains/chains/screens/ChainItem/components/ChainItemSections/hooks/useTimeframe';
+import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 
 export const useRequests = () => {
   const { timeframe, timeframeTabs } = useTimeframe({

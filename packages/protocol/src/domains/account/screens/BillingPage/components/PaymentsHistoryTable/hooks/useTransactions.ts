@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { useLazyAccountFetchPaymentHistoryQuery } from 'domains/account/actions/fetchTransactions';
+import { useLazyFetchPaymentHistoryQuery } from 'domains/account/actions/fetchPaymentHistory';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { PaymentHistory, PaymentHistoryParams } from '../types';
@@ -28,7 +28,7 @@ export const useTransactions = ({
       } = defaultData,
       isLoading,
     },
-  ] = useLazyAccountFetchPaymentHistoryQuery();
+  ] = useLazyFetchPaymentHistoryQuery();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 

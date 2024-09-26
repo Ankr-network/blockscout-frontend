@@ -14,6 +14,10 @@ import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider
 import { AccountManager } from './components/AccountManager';
 import { ExpenseChart } from './components/ExpenseChart';
 import { PaymentsHistoryTable } from './components/PaymentsHistoryTable';
+import {
+  ReferralBonusBanner,
+  useReferralBonusBanner,
+} from './components/ReferralBonusBanner';
 import { useAccountDetails } from './hooks/useAccountDetails';
 import { useStyles } from './useBillingPageStyles';
 
@@ -28,6 +32,8 @@ export const BillingPage = () => {
 
   useRedirectToEnterpriseOnGroupChange();
 
+  const { hasReferralBonusBanner } = useReferralBonusBanner();
+
   const paymentFormProps = usePaymentForm();
   const ongoingCryptoTxs = useAppSelector(selectOngoingCryptoTransactions);
   const hasOngoingPayments = ongoingCryptoTxs.length > 0;
@@ -40,6 +46,9 @@ export const BillingPage = () => {
 
   return (
     <Box className={classes.root}>
+      {hasReferralBonusBanner && (
+        <ReferralBonusBanner className={classes.referralBonusBanner} />
+      )}
       <ExpiredTokenBanner />
       <AccountManager {...paymentFormProps} />
       {hasOngoingPayments && (

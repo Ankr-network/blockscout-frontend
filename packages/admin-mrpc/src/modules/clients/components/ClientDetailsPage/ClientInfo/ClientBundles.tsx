@@ -5,6 +5,7 @@ import { useRevokeUserBundleMutation } from 'modules/clients/actions/revokeUserB
 import { LoadableButton } from 'uiKit/LoadableButton';
 
 interface IReferralCodeItemProps {
+  address: string;
   data: IBundleDataEntity;
   bundleStatus: IBundleStatusEntity;
   paymentId?: string;
@@ -12,6 +13,7 @@ interface IReferralCodeItemProps {
 }
 
 const BundleItem = ({
+  address,
   data,
   bundleStatus,
   paymentId,
@@ -50,7 +52,7 @@ const BundleItem = ({
           loading={isLoading}
           onClick={() =>
             deleteBundle({
-              address: data.bundle_id,
+              address,
               paymentId,
             })
           }
@@ -66,11 +68,13 @@ const BundleItem = ({
 };
 
 interface IClientBundlesProps {
+  address: string;
   activeBundles: IBundleDataEntity[];
   bundlesStatuses: IBundleStatusEntity[];
 }
 
 export const ClientBundles = ({
+  address,
   activeBundles,
   bundlesStatuses,
 }: IClientBundlesProps) => {
@@ -94,6 +98,7 @@ export const ClientBundles = ({
 
           return (
             <BundleItem
+              address={address}
               key={x.bundle_id}
               data={x}
               bundleStatus={bundleStatus}

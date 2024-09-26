@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { Env } from '../types/types';
+import { Env } from '../types';
 
 export const currentEnv: Env = process.env.REACT_APP_API_ENV
   ? (process.env.REACT_APP_API_ENV as Env)
@@ -22,6 +22,7 @@ export enum EMilliSeconds {
   Day = Hour * 24,
   Week = Day * 7,
   Month = Day * 30,
+  Year = Day * 365,
 }
 
 const DIALOG_MARGIN = 32;

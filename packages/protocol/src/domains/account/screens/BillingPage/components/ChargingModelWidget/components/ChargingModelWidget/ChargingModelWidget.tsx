@@ -6,10 +6,11 @@ import { EChargingModel } from 'modules/payments/types';
 import { useChargingModelWidgetStyles } from './useChargingModelWidgetStyles';
 
 interface IChargingModelWidgetProps {
-  isCurrentModel: boolean;
-  className?: string;
   chargingModel: EChargingModel;
   children: React.ReactNode;
+  className?: string;
+  isCurrentModel: boolean;
+  isPromo?: boolean;
 }
 
 export const ChargingModelWidget = ({
@@ -17,8 +18,9 @@ export const ChargingModelWidget = ({
   children,
   className,
   isCurrentModel,
+  isPromo,
 }: IChargingModelWidgetProps) => {
-  const { classes, cx } = useChargingModelWidgetStyles();
+  const { classes, cx } = useChargingModelWidgetStyles({ isPromo });
 
   return (
     <div
@@ -30,12 +32,7 @@ export const ChargingModelWidget = ({
         className,
       )}
     >
-      <Typography
-        component="p"
-        variant="subtitle1"
-        color="primary"
-        className={classes.title}
-      >
+      <Typography className={classes.title} component="p" variant="subtitle1">
         {renderChargingModelTitle(chargingModel)}
       </Typography>
       {children}
