@@ -11,6 +11,8 @@ export interface DialogPropsParams {
   onClose: () => void;
 }
 
+const TOP_UP_DIALOG_WIDTH = 620;
+
 export const useDialogProps = ({
   contentType,
   defaultState,
@@ -18,13 +20,18 @@ export const useDialogProps = ({
 }: DialogPropsParams): Omit<IDialogProps, 'open'> => {
   const { resetTitle, title } = useDialogTitle(defaultState || contentType);
 
+  const maxPxWidth =
+    contentType === ContentType.SIGN_UP
+      ? SIGNUP_DIALOG_WIDTH
+      : TOP_UP_DIALOG_WIDTH;
+
   return {
     children: getContent({
       contentType: defaultState || contentType,
       onClose,
       resetTitle,
     }),
-    maxPxWidth: SIGNUP_DIALOG_WIDTH,
+    maxPxWidth,
     onClose,
     title,
   };

@@ -26,10 +26,10 @@ export const ActionButton = ({
   const {
     billingPageRedirect,
     chainsPageRedirect,
+    hasPlanAccess,
     isButtonDisabledValue,
     isCurrentPlan,
     isDealPlan,
-    // isDeveloperRole,
     isFreePlan,
     isLoggedIn,
     isPAYGPlan,
@@ -45,22 +45,20 @@ export const ActionButton = ({
 
   if (isFreePlan && isLoggedIn) {
     return (
-      <>
-        <Button
-          fullWidth
-          disabled
-          className={cx(
-            classes.button,
-            classes.currentPlanButton,
-            classes.freeButton,
-            className,
-          )}
-          variant="outlined"
-          startIcon={shouldShowFreemium && <Check />}
-        >
-          {shouldShowFreemium ? currentPlanText : t(keys.startFree)}
-        </Button>
-      </>
+      <Button
+        fullWidth
+        disabled
+        className={cx(
+          classes.button,
+          classes.currentPlanButton,
+          classes.freeButton,
+          className,
+        )}
+        variant="outlined"
+        startIcon={shouldShowFreemium && <Check />}
+      >
+        {shouldShowFreemium ? currentPlanText : t(keys.startFree)}
+      </Button>
     );
   }
 
@@ -78,6 +76,20 @@ export const ActionButton = ({
         variant="outlined"
       >
         {t(keys.startFree)}
+      </Button>
+    );
+  }
+
+  if (!hasPlanAccess) {
+    return (
+      <Button
+        disabled
+        fullWidth
+        className={cx(classes.button, className)}
+        onClick={shouldShowFreemium ? openTopUpDialog : billingPageRedirect}
+        variant={isFreePlan ? 'outlined' : 'contained'}
+      >
+        {t(keys.start)}
       </Button>
     );
   }
@@ -129,11 +141,7 @@ export const ActionButton = ({
       <>
         <Button
           fullWidth
-          className={cx(
-            classes.button,
-            isFreePlan && classes.freeButton,
-            className,
-          )}
+          className={cx(classes.button, className)}
           onClick={openSignupDialog}
           variant={isFreePlan ? 'outlined' : 'contained'}
           disabled={isButtonDisabledValue}
@@ -150,11 +158,7 @@ export const ActionButton = ({
       <>
         <Button
           fullWidth
-          className={cx(
-            classes.button,
-            isFreePlan && classes.freeButton,
-            className,
-          )}
+          className={cx(classes.button, className)}
           onClick={shouldShowFreemium ? openTopUpDialog : billingPageRedirect}
           variant={isFreePlan ? 'outlined' : 'contained'}
           disabled={isButtonDisabledValue}

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { GroupUserRole } from 'multirpc-sdk';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { isButtonDisabled } from 'domains/pricing/screens/Pricing/components/Plans/utils/isButtonDisabled';
@@ -7,7 +6,6 @@ import { isCurrentPlanButton } from 'domains/pricing/screens/Pricing/components/
 import { selectActiveChargingModel } from 'domains/account/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useFreemiumChargingModel } from 'domains/account/screens/BillingPage/hooks/useFreemiumChargingModel';
-import { useUserGroupConfig } from 'domains/userGroup/hooks/useUserGroupConfig';
 import {
   ContentType,
   UpgradePlanDialog,
@@ -15,6 +13,8 @@ import {
 } from 'modules/common/components/UpgradePlanDialog';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 
 import { EGeneralPlanList } from '../../PlansUtils';
 import { useHandlersClick } from '../../hooks/useHandlersClick';
@@ -28,8 +28,6 @@ export const useActionButton = ({
   clickCallback,
   planName,
 }: IUseActionButtonProps) => {
-  const { selectedGroupRole } = useUserGroupConfig();
-
   const { hasOauthLogin, hasPremium, isLoggedIn } = useAuth();
 
   const currentChargingModel = useAppSelector(selectActiveChargingModel);
@@ -49,11 +47,12 @@ export const useActionButton = ({
   const isFreePlan = planName === EGeneralPlanList.Free;
   const isPAYGPlan = planName === EGeneralPlanList.PayAsYouGo;
   const isDealPlan = planName === EGeneralPlanList.Deal;
-  const isDeveloperRole = selectedGroupRole === GroupUserRole.dev;
+  const hasPlanAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.Billing,
+  });
 
   const isButtonDisabledValue = isButtonDisabled({
     hasPremium,
-    isDeveloperRole,
     isLoggedIn,
     planName,
   });
@@ -110,6 +109,7 @@ export const useActionButton = ({
     isDealPlan,
     isLoggedIn,
     shouldShowFreemium,
+    hasPlanAccess,
     billingPageRedirect,
     chainsPageRedirect,
     openTopUpDialog,
