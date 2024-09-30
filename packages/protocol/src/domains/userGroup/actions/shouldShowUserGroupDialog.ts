@@ -54,7 +54,9 @@ export const {
         let userGroups;
 
         if (!cachedUserGroups) {
-          const { data } = await dispatch(userGroupFetchGroups.initiate());
+          const { data } = await dispatch(
+            userGroupFetchGroups.initiate(undefined, { forceRefetch: true }),
+          );
 
           userGroups = data;
         } else {

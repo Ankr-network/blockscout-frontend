@@ -18,8 +18,12 @@ type Top10StatsRequest = Gateway &
 
 const emptyResponse: Top10StatsResponse = { countries: [], ips: [] };
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchTop10Stats },
+  useFetchTop10StatsQuery,
   useLazyFetchTop10StatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({

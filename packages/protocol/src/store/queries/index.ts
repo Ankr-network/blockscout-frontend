@@ -1,6 +1,8 @@
 import { SerializeQueryArgs } from '@reduxjs/toolkit/dist/query/defaultSerializeQueryArgs';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { ESeconds } from 'modules/common/constants/const';
+
 export enum RequestType {
   'BindingAccounts' = 'BindingAccounts',
   'GroupCreationAllowance' = 'GroupCreationAllowance',
@@ -45,8 +47,11 @@ const endpointsSerializedByParams = [
   'fetchWalletBalanceUsdt',
 
   /* stats */
+  'fetchChainTimeframeData',
   'fetchProjectChainsStatsFor1h',
   'fetchProjectChainsStatsFor24h',
+  'fetchPublicRequestsCountStats',
+  'fetchTop10Stats',
 ];
 
 const sortQueryArgsKeys = (queryArgs: unknown) => {
@@ -74,7 +79,11 @@ const serializeQueryArgs: SerializeQueryArgs<unknown> = ({
 export const web3Api = createApi({
   baseQuery: fakeBaseQuery(),
   endpoints: () => ({}),
-  refetchOnMountOrArgChange: true,
+  // To keep endpont data after all subscribed to the endpoint components
+  // are unmounted. Needs to reduce amount of requests
+  keepUnusedDataFor: ESeconds.Minute,
+  // To not refetch data automatically. Needs to reduce amount of requests
+  refetchOnMountOrArgChange: false,
   serializeQueryArgs,
   tagTypes: [...Object.values(RequestType)],
 });
@@ -83,7 +92,8 @@ export const projectApi = createApi({
   baseQuery: fakeBaseQuery(),
   reducerPath: 'projectApi',
   endpoints: () => ({}),
-  refetchOnMountOrArgChange: true,
+  keepUnusedDataFor: ESeconds.Minute,
+  refetchOnMountOrArgChange: false,
   // needs to cache data by endpoint name only without params
   serializeQueryArgs: ({ endpointName }) => endpointName,
   tagTypes: [],

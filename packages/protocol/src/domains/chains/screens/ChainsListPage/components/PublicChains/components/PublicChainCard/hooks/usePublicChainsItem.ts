@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js';
 import { Chain, Timeframe } from '@ankr.com/chains-list';
 
+import { REFETCH_INTERVAL } from 'modules/common/constants/const';
 import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
+import { useFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 
 export interface ChainsItemParams {
   chain: Chain;
@@ -15,7 +16,9 @@ export const usePublicChainsItem = ({
   timeframe,
 }: ChainsItemParams) => {
   const { data, isLoading: arePublicStatsLoading } =
-    useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
+    useFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe], {
+      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+    });
 
   return {
     totalRequests: new BigNumber(data?.[id] || 0),

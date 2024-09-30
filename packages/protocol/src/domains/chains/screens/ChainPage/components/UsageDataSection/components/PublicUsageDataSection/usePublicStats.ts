@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
-import { useEffect } from 'react';
 import { Timeframe } from '@ankr.com/chains-list';
 
+import { REFETCH_INTERVAL } from 'modules/common/constants/const';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
-import { useLazyChainsFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
+import { useFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
 
-import { POLL_INTERVAL } from '../../const';
 import { PublicStats } from '../../types';
 import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 
@@ -25,36 +24,27 @@ export const usePublicStats = ({
   chainId,
   timeframe,
 }: PublicStatsParams): PublicStats => {
-  const [
-    fetchChainTimeframeData,
+  const {
+    data: {
+      countries,
+      totalCached,
+      totalRequests,
+      totalRequestsHistory,
+    } = defaultData,
+    error,
+    isFetching,
+    isLoading,
+    isUninitialized,
+  } = useFetchChainTimeframeDataQuery(
     {
-      data: {
-        countries,
-        totalCached,
-        totalRequests,
-        totalRequestsHistory,
-      } = defaultData,
-      error,
-      isFetching,
-      isLoading,
-      isUninitialized,
+      chainId,
+      timeframe: timeframeToStatsTimeframe[timeframe],
     },
-  ] = useLazyChainsFetchChainTimeframeDataQuery({
-    pollingInterval: POLL_INTERVAL,
-  });
-
-  useEffect(() => {
-    if (chainId) {
-      const { unsubscribe } = fetchChainTimeframeData({
-        chainId,
-        timeframe: timeframeToStatsTimeframe[timeframe],
-      });
-
-      return unsubscribe;
-    }
-
-    return () => {};
-  }, [fetchChainTimeframeData, chainId, timeframe]);
+    {
+      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+      skip: !chainId,
+    },
+  );
 
   return {
     countries,

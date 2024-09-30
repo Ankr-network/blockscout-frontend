@@ -1168,7 +1168,7 @@
     "action-text": "Upgrade",
     "public": {
       "title": "<span>Premium</span> Service Plan",
-      "description": "Ultimate number of blockchains, superior rate limits — x50 for Node API / x30 for Advanced API, 3 times more projects, multi-project statistics dashboard, WSS connection, and whitelists.",
+      "description": "Ultimate number of blockchains, superior rate limits — x50 for Node API / x30 for Advanced API,3 times more projects, multi-project statistics dashboard, WSS connection, and whitelists.",
       "button": "Get Premium"
     },
     "free": {

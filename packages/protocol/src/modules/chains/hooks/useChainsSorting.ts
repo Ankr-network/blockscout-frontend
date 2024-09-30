@@ -1,15 +1,16 @@
-import { useMemo } from 'react';
-import { PrivateStatsInternal } from 'multirpc-sdk';
 import { Chain, ESortChainsType, Timeframe } from '@ankr.com/chains-list';
+import { PrivateStatsInternal } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
-import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
-import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { REFETCH_INTERVAL } from 'modules/common/constants/const';
 import {
   formatRequestsCount,
   sortPublicChains,
 } from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/utils';
-import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
 import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
+import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
+import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { useFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 
 export interface ChainsParams {
   chains: Chain[];
@@ -34,9 +35,9 @@ export const useChainsSorting = ({
   );
 
   const { data: publicStats, isLoading: arePublicStatsLoading } =
-    useChainsFetchPublicRequestsCountStatsQuery(
-      toTimeframeMap[Timeframe.Month],
-    );
+    useFetchPublicRequestsCountStatsQuery(toTimeframeMap[Timeframe.Month], {
+      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+    });
 
   const sortedChainsByPublicUsage = useMemo(() => {
     return sortPublicChains({

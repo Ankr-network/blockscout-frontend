@@ -11,7 +11,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
 import { STANDALONE_CHAINS } from '../../utils/statsUtils';
 
-// RTK Query will never run an endpoint if it has already run.
+// RTK Query will never run an endpoint if it has already been run.
 // Here we have few calls of the same endpoint but with different args,
 // so we have to make sure we call each of them one by one.
 const fetchStandaloneStats = async (
@@ -37,10 +37,13 @@ const fetchStandaloneStats = async (
   return results;
 };
 
-export const { useChainsFetchPublicRequestsCountStatsQuery } =
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
+export const { useFetchPublicRequestsCountStatsQuery } =
   web3Api.injectEndpoints({
     endpoints: build => ({
-      chainsFetchPublicRequestsCountStats: build.query<
+      fetchPublicRequestsCountStats: build.query<
         Record<ChainID, string>,
         Timeframe
       >({
@@ -85,4 +88,5 @@ export const { useChainsFetchPublicRequestsCountStatsQuery } =
         }),
       }),
     }),
+    overrideExisting: true,
   });

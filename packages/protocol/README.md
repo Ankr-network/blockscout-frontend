@@ -38,6 +38,14 @@ yarn workspace @ankr.com/Web3APIApplication start:stage:turbo
 
 # Development
 
+## RTK Query usage
+
+The response of the request sent to the backend using RTK Query library will be cached.
+This means that once the request is sent, it will not be resent automatically.
+If there is a need to re-request the data, you should use the options:
+- `refetchOnMountOrArgChange: true` in the `useQuery` hook
+- `forceRefetch: true` in the `initiate` method
+
 ## Adding a new chain
 
 ### Any new chain

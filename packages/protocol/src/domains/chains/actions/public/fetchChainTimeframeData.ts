@@ -98,12 +98,16 @@ const getData = (
   };
 };
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
-  endpoints: { chainsFetchChainTimeframeData },
-  useLazyChainsFetchChainTimeframeDataQuery,
+  endpoints: { fetchChainTimeframeData },
+  useFetchChainTimeframeDataQuery,
+  useLazyFetchChainTimeframeDataQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchChainTimeframeData: build.query<
+    fetchChainTimeframeData: build.query<
       IFetchChainDetailsResponseData,
       { chainId: string; timeframe: Timeframe }
     >({

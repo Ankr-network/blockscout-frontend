@@ -1,14 +1,15 @@
-import { useEffect, useMemo } from 'react';
-import { Top10StatItem } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
 import { BaseTableData } from '@ankr.com/telemetry';
 import { ChainID, Timeframe } from '@ankr.com/chains-list';
+import { Top10StatItem } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
-import { useLazyFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
-import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
+import { REFETCH_INTERVAL } from 'modules/common/constants/const';
 import { mapCountries } from 'domains/dashboard/store/utils/mapCountries';
+import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { useFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const mapIpRequests = (ip: Top10StatItem): BaseTableData => ({
   label: ip.key,
@@ -16,29 +17,22 @@ const mapIpRequests = (ip: Top10StatItem): BaseTableData => ({
 });
 
 export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
-  const [fetchTop10Stats, { data: top10Data }] = useLazyFetchTop10StatsQuery();
-
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
 
-  useEffect(() => {
-    if (!isEnterpriseStatusLoading) {
-      fetchTop10Stats({
-        intervalType: timeframeToIntervalMap[timeframe],
-        group,
-        blockchain,
-        gateway,
-      });
-    }
-  }, [
-    fetchTop10Stats,
-    timeframe,
-    group,
-    blockchain,
-    gateway,
-    isEnterpriseStatusLoading,
-  ]);
+  const { data: top10Data } = useFetchTop10StatsQuery(
+    {
+      blockchain,
+      gateway,
+      group,
+      intervalType: timeframeToIntervalMap[timeframe],
+    },
+    {
+      skip: isEnterpriseStatusLoading,
+      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+    },
+  );
 
   const countries = useMemo(() => {
     return top10Data?.countries?.map(mapCountries) || [];

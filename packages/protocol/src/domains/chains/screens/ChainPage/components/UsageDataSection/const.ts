@@ -1,7 +1,5 @@
 import { ChainID } from '@ankr.com/chains-list';
 
-export const POLL_INTERVAL = 60_000;
-
 type ChainIDLinkMap = Partial<Record<ChainID, ChainID>>;
 
 const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {

@@ -25,10 +25,21 @@ export enum EMilliSeconds {
   Year = Day * 365,
 }
 
+export enum ESeconds {
+  Minute = 60,
+  Hour = Minute * 60,
+  Day = Hour * 24,
+  Week = Day * 7,
+  Month = Day * 30,
+  Year = Day * 365,
+}
+
 const DIALOG_MARGIN = 32;
 const DIALOG_PADDING = 40;
 const DIALOG_HEADER = 70;
 const DIALOG_OFFSET = DIALOG_MARGIN * 2 + DIALOG_PADDING * 2 + DIALOG_HEADER;
+
+export const REFETCH_INTERVAL = 30;
 
 export const dialogAuthoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 

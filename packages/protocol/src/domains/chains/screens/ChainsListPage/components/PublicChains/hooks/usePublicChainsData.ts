@@ -1,15 +1,16 @@
-import { useState } from 'react';
 import { ESortChainsType } from '@ankr.com/chains-list';
+import { useState } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
-import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
-import { useAppSelector } from 'store/useAppSelector';
+import { REFETCH_INTERVAL } from 'modules/common/constants/const';
 import {
   selectBlockchainsLoadingStatus,
   selectPublicBlockchains,
 } from 'modules/chains/store/selectors';
+import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
+import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 
 import { useTimeframe } from '../../../hooks/useTimeframe';
 
@@ -21,7 +22,9 @@ export const usePublicChainsData = () => {
 
   const [timeframe, switchStatsTimeframe] = useTimeframe();
 
-  useChainsFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe]);
+  useFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe], {
+    refetchOnMountOrArgChange: REFETCH_INTERVAL,
+  });
 
   const [sortType, setSortType] = useState<ESortChainsType>(
     ESortChainsType.Trending,

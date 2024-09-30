@@ -74,10 +74,14 @@ export const useUserGroupSelect = (groups: UserGroup[], isLoading: boolean) => {
     avoidAccessDeniedAlert();
 
     await dispatch(
-      fetchIsEnterpriseClient.initiate(fetchEnterpriseStatusParams),
+      fetchIsEnterpriseClient.initiate(fetchEnterpriseStatusParams, {
+        forceRefetch: true,
+      }),
     );
 
-    dispatch(shouldShowUserGroupDialog.initiate());
+    dispatch(
+      shouldShowUserGroupDialog.initiate(undefined, { forceRefetch: true }),
+    );
   }, [
     avoidAccessDeniedAlert,
     dispatch,

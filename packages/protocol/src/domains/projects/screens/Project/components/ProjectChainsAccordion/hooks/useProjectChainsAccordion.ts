@@ -1,16 +1,17 @@
-import { useCallback, useMemo, useState } from 'react';
 import { Timeframe, ESortChainsType } from '@ankr.com/chains-list';
+import { useCallback, useMemo, useState } from 'react';
 
-import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
-import { useChainsFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
-import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { REFETCH_INTERVAL } from 'modules/common/constants/const';
 import {
   formatRequestsCount,
   sortPublicChains,
 } from 'domains/chains/screens/ChainsListPage/components/PublicChains/hooks/utils';
+import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsByName';
+import { toTimeframeMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { useFetchPublicRequestsCountStatsQuery } from 'domains/chains/actions/public/fetchPublicRequestsCountStats';
 
-import { useProjectChainsContext } from '../../../hooks/useProjectChainsContext';
 import { useChainStats } from './useChainStats';
+import { useProjectChainsContext } from '../../../hooks/useProjectChainsContext';
 
 export interface IProjectChainsAccordionProps {
   searchValue?: string;
@@ -41,9 +42,9 @@ export const useProjectChainsAccordion = ({
   }, [projectChains, searchValue]);
 
   const { data, isLoading: arePublicStatsLoading } =
-    useChainsFetchPublicRequestsCountStatsQuery(
-      toTimeframeMap[Timeframe.Month],
-    );
+    useFetchPublicRequestsCountStatsQuery(toTimeframeMap[Timeframe.Month], {
+      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+    });
 
   const sortedChainsByPublicUsage = useMemo(() => {
     return sortPublicChains({

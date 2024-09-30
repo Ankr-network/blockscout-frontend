@@ -42,7 +42,6 @@ export const UserGroupDialogContent = ({
         fullWidth
         className={classes.button}
         onClick={handleSave}
-        // @ts-ignore
         size="extraLarge"
         disabled={selectedAddress === undefined || isLoading}
       >
