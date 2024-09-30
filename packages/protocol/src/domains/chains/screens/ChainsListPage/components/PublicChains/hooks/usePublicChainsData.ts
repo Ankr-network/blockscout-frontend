@@ -1,7 +1,7 @@
 import { ESortChainsType } from '@ankr.com/chains-list';
 import { useState } from 'react';
 
-import { REFETCH_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import {
   selectBlockchainsLoadingStatus,
   selectPublicBlockchains,
@@ -23,7 +23,7 @@ export const usePublicChainsData = () => {
   const [timeframe, switchStatsTimeframe] = useTimeframe();
 
   useFetchPublicRequestsCountStatsQuery(toTimeframeMap[timeframe], {
-    refetchOnMountOrArgChange: REFETCH_INTERVAL,
+    refetchOnMountOrArgChange: REFETCH_STATS_INTERVAL,
   });
 
   const [sortType, setSortType] = useState<ESortChainsType>(

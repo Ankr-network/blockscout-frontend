@@ -4,7 +4,7 @@ import { Top10StatItem } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
-import { REFETCH_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import { mapCountries } from 'domains/dashboard/store/utils/mapCountries';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useFetchTop10StatsQuery } from 'domains/dashboard/actions/fetchTop10Stats';
@@ -30,7 +30,7 @@ export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
     },
     {
       skip: isEnterpriseStatusLoading,
-      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+      refetchOnMountOrArgChange: REFETCH_STATS_INTERVAL,
     },
   );
 

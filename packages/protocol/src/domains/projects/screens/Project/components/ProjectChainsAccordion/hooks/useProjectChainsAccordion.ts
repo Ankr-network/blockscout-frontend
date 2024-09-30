@@ -1,7 +1,7 @@
 import { Timeframe, ESortChainsType } from '@ankr.com/chains-list';
 import { useCallback, useMemo, useState } from 'react';
 
-import { REFETCH_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import {
   formatRequestsCount,
   sortPublicChains,
@@ -43,7 +43,7 @@ export const useProjectChainsAccordion = ({
 
   const { data, isLoading: arePublicStatsLoading } =
     useFetchPublicRequestsCountStatsQuery(toTimeframeMap[Timeframe.Month], {
-      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+      refetchOnMountOrArgChange: REFETCH_STATS_INTERVAL,
     });
 
   const sortedChainsByPublicUsage = useMemo(() => {

@@ -39,7 +39,7 @@ const DIALOG_PADDING = 40;
 const DIALOG_HEADER = 70;
 const DIALOG_OFFSET = DIALOG_MARGIN * 2 + DIALOG_PADDING * 2 + DIALOG_HEADER;
 
-export const REFETCH_INTERVAL = 30;
+export const REFETCH_STATS_INTERVAL = 5 * ESeconds.Minute;
 
 export const dialogAuthoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 

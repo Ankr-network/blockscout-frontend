@@ -2,7 +2,7 @@ import { Chain, ESortChainsType, Timeframe } from '@ankr.com/chains-list';
 import { PrivateStatsInternal } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { REFETCH_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import {
   formatRequestsCount,
   sortPublicChains,
@@ -36,7 +36,7 @@ export const useChainsSorting = ({
 
   const { data: publicStats, isLoading: arePublicStatsLoading } =
     useFetchPublicRequestsCountStatsQuery(toTimeframeMap[Timeframe.Month], {
-      refetchOnMountOrArgChange: REFETCH_INTERVAL,
+      refetchOnMountOrArgChange: REFETCH_STATS_INTERVAL,
     });
 
   const sortedChainsByPublicUsage = useMemo(() => {
