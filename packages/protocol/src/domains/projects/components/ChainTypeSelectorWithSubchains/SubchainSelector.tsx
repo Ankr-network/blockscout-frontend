@@ -46,9 +46,9 @@ export const SubchainSelector = ({
 
   return (
     <FormControlLabel
+      classes={classes}
       control={
         <Checkbox
-          classes={classes}
           className={checkBoxClassName}
           checked={selectedChainPaths.includes(path)}
           onClick={onChangeChild}
