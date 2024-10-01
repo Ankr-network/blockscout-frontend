@@ -1,31 +1,44 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { Chain, ChainPath } from '@ankr.com/chains-list';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
+import { ChainID, ChainPath } from '@ankr.com/chains-list';
 
 import { useAppSelector } from 'store/useAppSelector';
 import {
+  selectAllChainsPaths,
   selectAllPathsByChainId,
   selectChainIdsByPaths,
 } from 'modules/chains/store/selectors';
-import { ChainCell } from 'domains/projects/components/ChainCell';
-import { getSubchainIds } from 'modules/chains/utils/getSubchainIds';
+import { ChainCellWithSubchains } from 'domains/projects/components/ChainCellWithSubchains';
+import { ProjectChain } from 'domains/projects/types';
 
 interface ProjectChainItemProps {
-  chain: Chain;
-  allChains: Chain[];
+  chain: ProjectChain;
   selectedChainPaths: ChainPath[];
   setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
+  setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
+  expandedId?: ChainID;
+  setExpandedId: Dispatch<SetStateAction<ChainID | undefined>>;
 }
 
 export const ProjectChainItemCellWrapper = ({
-  allChains,
   chain,
+  expandedId,
   selectAllSubChainPaths,
   selectedChainPaths,
+  setExpandedId,
   setIsSelectedAll,
+  setSelectedChainPaths,
   unSelectAllSubChainPaths,
 }: ProjectChainItemProps) => {
+  const allPaths = useAppSelector(selectAllChainsPaths);
+
   const allSubchainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),
   );
@@ -35,7 +48,12 @@ export const ProjectChainItemCellWrapper = ({
   );
 
   const isCheckboxChecked = useMemo(
-    () => selectedChainPaths?.some(path => allSubchainPaths.includes(path)),
+    () => allSubchainPaths?.every(path => selectedChainPaths.includes(path)),
+    [selectedChainPaths, allSubchainPaths],
+  );
+
+  const isCheckboxIndeterminate = useMemo(
+    () => allSubchainPaths?.some(path => selectedChainPaths.includes(path)),
     [selectedChainPaths, allSubchainPaths],
   );
 
@@ -53,12 +71,8 @@ export const ProjectChainItemCellWrapper = ({
   ]);
 
   const areAllChainsSelected = useMemo(() => {
-    return allChains.every(chainItem => {
-      const allChainIds = getSubchainIds(chainItem);
-
-      return allChainIds.some(chainId => selectedChainIds.includes(chainId));
-    });
-  }, [allChains, selectedChainIds]);
+    return allPaths.every(path => selectedChainPaths.includes(path));
+  }, [allPaths, selectedChainPaths]);
 
   useEffect(() => {
     if (areAllChainsSelected) {
@@ -69,12 +83,17 @@ export const ProjectChainItemCellWrapper = ({
   }, [areAllChainsSelected, setIsSelectedAll]);
 
   return (
-    <ChainCell
+    <ChainCellWithSubchains
       chain={chain}
       onChainSelect={onChainSelect}
       selectedChainIds={selectedChainIds}
+      selectedChainPaths={selectedChainPaths}
+      setSelectedChainPaths={setSelectedChainPaths}
+      isCheckboxIndeterminate={isCheckboxIndeterminate}
       isCheckboxChecked={isCheckboxChecked}
       areAllChainsSelected={areAllChainsSelected}
+      expandedId={expandedId}
+      setExpandedId={setExpandedId}
     />
   );
 };

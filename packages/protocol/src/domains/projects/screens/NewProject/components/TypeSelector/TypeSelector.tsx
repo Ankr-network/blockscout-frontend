@@ -14,10 +14,7 @@ import {
 } from 'domains/projects/types';
 
 import IndeterminateCheckbox from './IndeterminateCheckbox';
-import {
-  ITypeSelectorProps,
-  useAllChainsSelection,
-} from './hooks/useAllChainsSelection';
+import { ITypeSelectorProps } from './hooks/useAllChainsSelection';
 import { useTypeSelectorStyles } from './useTypeSelectorStyles';
 
 const mapEndpoints = (
@@ -54,15 +51,13 @@ export const TypeSelector = ({
   chainId,
   chainTypes,
   endpoints,
+  isChecked,
+  isIndeterminate,
+  onChange,
   opnodesMainnet,
   opnodesTestnet,
 }: ITypeSelectorProps) => {
   const { classes } = useTypeSelectorStyles();
-
-  const { isChecked, isIndeterminate, onChange } = useAllChainsSelection({
-    chainId,
-    endpoints,
-  });
 
   return (
     <FormControl className={classes.form}>

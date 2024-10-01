@@ -9,6 +9,7 @@ export const useChainsTableStyles = makeStyles()(theme => ({
     backgroundColor: 'transparent',
   },
   cell: {
+    height: 80,
     '&&': {
       borderRadius: 0,
 

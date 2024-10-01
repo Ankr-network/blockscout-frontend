@@ -29,6 +29,7 @@ export const ConfigureChainsButton = ({
     onSidebarClose,
     selectedProjectChainsPaths,
     setIsSelectedAll,
+    setSelectedProjectChainsPaths,
   } = useConfigureChainsButton();
 
   const { classes } = useConfigureChainsButtonStyles();
@@ -58,6 +59,7 @@ export const ConfigureChainsButton = ({
           unSelectAllSubChainPaths={handleUnselectAllSubchainPaths}
           setIsSelectedAll={setIsSelectedAll}
           selectedChainPaths={selectedProjectChainsPaths}
+          setSelectedChainPaths={setSelectedProjectChainsPaths}
         />
       </ProjectSidebar>
     </>

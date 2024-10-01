@@ -493,7 +493,7 @@
       "networks-button": "Networks"
     },
     "add-chains-form": {
-      "title": "Add chains",
+      "title": "Edit chains",
       "description": "Select chains your project requires to interact with.",
       "error": "At least one chain must be selected"
     },

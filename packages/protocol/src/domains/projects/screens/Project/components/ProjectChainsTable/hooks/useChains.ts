@@ -4,7 +4,7 @@ import { getFilteredChainsByName } from 'modules/common/utils/getFilteredChainsB
 import { useProjectChains } from 'domains/projects/screens/NewProject/hooks/useProjectChains';
 
 export const useChains = (searchContent = '') => {
-  const { projectChains } = useProjectChains();
+  const { projectChains } = useProjectChains(true);
 
   return useMemo(
     () =>

@@ -94,7 +94,7 @@ export const getChainLabels = (
     labels.push(t('chain-item.header.beacon-label'));
   }
 
-  // add opnode label if chain has beacon subchain
+  // add opnode label if chain has opnode subchain
   if (subchains.find(subchain => subchain.id.includes(ChainProtocol.Opnode))) {
     labels.push(t('chain-item.header.opnode-label'));
   }

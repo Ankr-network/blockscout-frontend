@@ -18,6 +18,7 @@ export const useConfigureChainsButton = () => {
     isAddingChainsToProject,
     selectedProjectChainsPaths,
     setIsSelectedAll,
+    setSelectedProjectChainsPaths,
   } = useProjectChainsPaths({ onAddChainsSuccess: handleClose });
 
   const onSidebarClose = useCallback(() => {
@@ -35,5 +36,6 @@ export const useConfigureChainsButton = () => {
     isSidebarOpened,
     onSidebarClose,
     selectedProjectChainsPaths,
+    setSelectedProjectChainsPaths,
   };
 };

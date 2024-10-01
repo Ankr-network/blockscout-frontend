@@ -1,5 +1,6 @@
 import { t } from '@ankr.com/common';
 import { ChainPath } from '@ankr.com/chains-list';
+import { Dispatch, SetStateAction } from 'react';
 
 import { ProjectError } from 'domains/projects/components/ProjectError';
 import { Search, useSearch } from 'modules/common/components/Search';
@@ -14,12 +15,14 @@ export interface AddChainsFormProps {
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectedChainPaths: ChainPath[];
+  setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
 }
 
 export const AddChainsForm = ({
   selectAllSubChainPaths,
   selectedChainPaths,
   setIsSelectedAll,
+  setSelectedChainPaths,
   unSelectAllSubChainPaths,
 }: AddChainsFormProps) => {
   const { classes } = useAddChainsFormStyles();
@@ -51,6 +54,7 @@ export const AddChainsForm = ({
         setIsSelectedAll={setIsSelectedAll}
         searchContent={searchContent}
         selectedChainPaths={selectedChainPaths}
+        setSelectedChainPaths={setSelectedChainPaths}
       />
     </div>
   );

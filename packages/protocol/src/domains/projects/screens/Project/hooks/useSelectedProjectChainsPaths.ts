@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
 import { ChainPath } from '@ankr.com/chains-list';
 
@@ -124,5 +123,6 @@ export const useSelectedProjectChainsPaths = ({
     setIsSelectedAll,
     isSelectedAll,
     selectedProjectChainsPaths,
+    setSelectedProjectChainsPaths,
   };
 };
