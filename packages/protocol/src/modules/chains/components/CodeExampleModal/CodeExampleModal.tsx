@@ -1,7 +1,7 @@
-import { Typography } from '@mui/material';
-import React from 'react';
-import { t } from '@ankr.com/common';
 import { Chain, ChainID } from '@ankr.com/chains-list';
+import { MouseEvent } from 'react';
+import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
 import { Dialog } from 'uiKit/Dialog';
 import { evmGroups } from 'modules/endpoints/constants/evmGroups';
@@ -16,9 +16,11 @@ import { useCodeExampleModalStyles } from './useCodeExampleModalStyles';
 
 interface ICodeExampleModalProps {
   isOpenedCodeExample: boolean;
-  onCloseCodeExample: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  onCloseCodeExample: (event?: MouseEvent<HTMLButtonElement>) => void;
   chain: Chain;
 }
+
+const onDialogClick = (event: MouseEvent) => event.stopPropagation();
 
 export const CodeExampleModal = ({
   chain,
@@ -49,6 +51,7 @@ export const CodeExampleModal = ({
   return (
     <ChainProtocolContext.Provider value={chainProtocolContext}>
       <Dialog
+        onClick={onDialogClick}
         onClose={onCloseCodeExample}
         open={isOpenedCodeExample}
         paperClassName={classes.snippetsDialogPaper}
