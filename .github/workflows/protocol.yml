@@ -9,11 +9,11 @@ on:
         description: Target
         required: true
         options:
-          - STAGE # https://www-stage.ankr.com/rpc/
-          - BS1 # https://bs-1-stage.dccn.ankr.com/rpc/
-          - BS2 # https://bs-2-stage.dccn.ankr.com/rpc/
-          - BS3 # https://bs-3-stage.dccn.ankr.com/rpc/
-          - BS4 # https://bs-4-stage.dccn.ankr.com/rpc/
+          - STAGE # https://d2yi7f75l807l4.cloudfront.net/rpc/
+          - BS1 # https://d3db4riryz1bgp.cloudfront.net/rpc/
+          - BS2 # https://d3szt7jbieoxw1.cloudfront.net/rpc/
+          - BS3 # https://d323cy8wsnnk5d.cloudfront.net/rpc/
+          - BS4 # https://d1mhdtzwx6cuz4.cloudfront.net/rpc/
           - PROD # https://www.ankr.com/rpc/
       api:
         type: choice
@@ -105,6 +105,7 @@ jobs:
           INVALIDATION_ID=`aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths '/*' | jq -r '.Invalidation.Id'`
           echo "Invalidation ID is $INVALIDATION_ID"
           echo "CDN Invalidation request is sent."
+          echo "Deployed to https://$DOMAIN"
 
       - name: Set redirections
         working-directory: ./packages/protocol
