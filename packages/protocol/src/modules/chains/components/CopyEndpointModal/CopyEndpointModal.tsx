@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { useCallback, useMemo } from 'react';
+import React, { MouseEvent, useCallback, useMemo } from 'react';
 import { Copy } from '@ankr.com/ui';
 import { useDispatch } from 'react-redux';
 import { Chain } from '@ankr.com/chains-list';
@@ -36,6 +36,8 @@ interface ICopyEndpointModalProps {
   isIconButton?: boolean;
   hasProjectSelector?: boolean;
 }
+
+const onDialogClick = (event: MouseEvent) => event.stopPropagation();
 
 // eslint-disable-next-line max-lines-per-function
 export const CopyEndpointModal = ({
@@ -123,48 +125,40 @@ export const CopyEndpointModal = ({
         {isIconButton ? <Copy /> : t(keys.copyEndpoint)}
       </Button>
       <Dialog
+        onClick={onDialogClick}
         onClose={onClickCloseButton}
         open={isOpened}
         paperClassName={classes.endpointsDialog}
         shouldStopPropagationOnClose
         title={t(keys.copyEndpoint)}
       >
-        <div
-          role="button"
-          tabIndex={-1}
-          /* stop propagation for click event to avoid parent element click */
-          onClick={e => e.stopPropagation()}
-        >
-          {hasProjectSelector && (
-            <TokenSelector
-              jwtTokens={jwtTokens}
-              currentProjectIndex={currentProjectIndex}
-            />
-          )}
-
-          <ChainSelectorContent
-            className={classes.chainSelectorControls}
-            chainSubTypeTab={chainSubTypeTab}
-            chainSubTypeTabs={chainSubTypeTabs}
-            chainTypeTab={chainTypeTab}
-            chainTypeTabs={chainTypeTabs}
-            groupID={groupID}
-            groupTab={groupTab}
-            groupTabs={groupTabs}
-            groups={groups}
-            hasGroupSelector={false}
-            selectGroup={selectGroup}
-            isGroupSelectorAutoWidth={false}
-            isSubchainSelectorHidden={isMultichain(chain.id)}
+        {hasProjectSelector && (
+          <TokenSelector
+            jwtTokens={jwtTokens}
+            currentProjectIndex={currentProjectIndex}
           />
-
-          <Endpoints
-            publicChain={chain}
-            chainType={chainType}
-            group={endpointsGroup}
-            placeholder={placeholder}
-          />
-        </div>
+        )}
+        <ChainSelectorContent
+          className={classes.chainSelectorControls}
+          chainSubTypeTab={chainSubTypeTab}
+          chainSubTypeTabs={chainSubTypeTabs}
+          chainTypeTab={chainTypeTab}
+          chainTypeTabs={chainTypeTabs}
+          groupID={groupID}
+          groupTab={groupTab}
+          groupTabs={groupTabs}
+          groups={groups}
+          hasGroupSelector={false}
+          selectGroup={selectGroup}
+          isGroupSelectorAutoWidth={false}
+          isSubchainSelectorHidden={isMultichain(chain.id)}
+        />
+        <Endpoints
+          publicChain={chain}
+          chainType={chainType}
+          group={endpointsGroup}
+          placeholder={placeholder}
+        />
       </Dialog>
     </ChainProtocolContext.Provider>
   );

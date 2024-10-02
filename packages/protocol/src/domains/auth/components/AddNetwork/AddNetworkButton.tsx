@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react';
+import { Fragment, MouseEvent, ReactNode } from 'react';
 import { Box, Button } from '@mui/material';
 import { Plus } from '@ankr.com/ui';
 import { Chain } from '@ankr.com/chains-list';
@@ -33,6 +33,8 @@ interface IAddNetworkProps {
   hasChainSelector?: boolean;
   hasPlaceholder?: boolean;
 }
+
+const onDialogClick = (event: MouseEvent) => event.stopPropagation();
 
 export const AddNetworkButton = ({
   chain,
@@ -116,6 +118,7 @@ export const AddNetworkButton = ({
 
         {hasChainSelector && (
           <Dialog
+            onClick={onDialogClick}
             onClose={onClose}
             open={isOpened}
             paperClassName={classes.addNetworkDialog}
