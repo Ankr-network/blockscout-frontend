@@ -3,6 +3,15 @@ import { ChainID, ZETACHAIN_ATHENS3_CHAINS } from '@ankr.com/chains-list';
 
 import { tendermintRestChains } from 'modules/endpoints/constants/groups';
 import { renderNervosName } from 'uiKit/utils/metatags';
+import {
+  ALLORA_TESTNET_TENDERMINT_NAME,
+  KAVA_TENDERMINT_NAME,
+  KAVA_TESTNET_TENDERMINT_NAME,
+  SECRET_TENDERMINT_NAME,
+  SEI_TENDERMINT_NAME,
+  SEI_TESTNET_TENDERMINT_NAME,
+  ZERO_G_TESTNET_TENDERMINT_NAME,
+} from 'modules/chains/constants';
 
 import { NestedItemBase } from '../screens/NewProject/components/TypeSelector/hooks/useNestedChainItemsSelection';
 
@@ -28,28 +37,48 @@ export const getCustomLabelForChainsCornerCases = ({
     }
 
     if (chainId === ChainID.SEI_REST) {
-      return 'Sei Tendermint';
+      return SEI_TENDERMINT_NAME;
     }
 
     if (chainId === ChainID.SEI_REST_TESTNET) {
-      return 'Sei Testnet Tendermint';
+      return SEI_TESTNET_TENDERMINT_NAME;
     }
 
     if (chainId === ChainID.SECRET_REST) {
-      return 'Secret Network Tendermint';
+      return SECRET_TENDERMINT_NAME;
     }
 
     if (chainId === ChainID.ALLORA_TESTNET_REST) {
-      return 'Allora Testnet Tendermint';
+      return ALLORA_TESTNET_TENDERMINT_NAME;
+    }
+
+    if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_REST) {
+      return ZERO_G_TESTNET_TENDERMINT_NAME;
     }
   }
 
+  if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_REST) {
+    return '0G Newton Testnet Tendermint REST';
+  }
+
+  if (chainId === ChainID.ZERO_G_NEWTON_RPC) {
+    return '0G Newton Testnet EVM JSON-RPC';
+  }
+
+  if (chainId === ChainID.ZERO_G_NEWTON_COSMOS_REST) {
+    return '0G Newton Testnet Cosmos REST';
+  }
+
+  if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_RPC) {
+    return '0G Newton Testnet Tendermint RPC';
+  }
+
   if (chainId === ChainID.KAVA_TENDERMINT_REST) {
-    return 'Kava Tendermint';
+    return KAVA_TENDERMINT_NAME;
   }
 
   if (chainId === ChainID.KAVA_TENDERMINT_REST_TESTNET) {
-    return 'Kava testnet Tendermint';
+    return KAVA_TESTNET_TENDERMINT_NAME;
   }
 
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {

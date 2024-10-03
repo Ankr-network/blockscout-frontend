@@ -11,6 +11,7 @@ import {
   STELLAR_IDS,
   blockchainNameTemplate,
   userNameTemplate,
+  ZERO_G_IDS,
 } from '@ankr.com/chains-list';
 
 const shouldUsePremiumHttpUrl = (id: string) => {
@@ -26,6 +27,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isKava = ENABLED_KAVA_IDS.includes(id);
   const isStellar = STELLAR_IDS.includes(id);
   const isAlloraTestnet = ALLORA_IDS.includes(id);
+  const is0gTestnet = ZERO_G_IDS.includes(id);
   const isBlockbook = id === 'btc_blockbook';
 
   return (
@@ -41,7 +43,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isKava ||
     isStellar ||
     isAlloraTestnet ||
-    isBlockbook
+    isBlockbook ||
+    is0gTestnet
   );
 };
 
@@ -133,31 +136,31 @@ export const buildPrivateUrls = ({
 
     const rpcURLs: string[] = hasRPC
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const wsURLs: string[] = hasWS
       ? getUrls({
-          paths,
-          privateUrl: privateWsUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateWsUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const hasREST = blockchain.features.includes(EBlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const enterpriseURLs: string[] = getUrls({

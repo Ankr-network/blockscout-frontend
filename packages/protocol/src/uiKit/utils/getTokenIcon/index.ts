@@ -59,6 +59,7 @@ import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
 import ethIconDark from './darkModeIcons/eth.svg';
 import kavaIcon from './icons/kava.svg';
+import zeroGIcon from './icons/zero-g.svg';
 import kusamaIconDark from './darkModeIcons/kusama.svg';
 import moonbeamIconDark from './darkModeIcons/moonbeam.svg';
 import nearIconDark from './darkModeIcons/near.svg';
@@ -95,6 +96,7 @@ import klaytnIconDark from './darkModeIcons/klaytn.svg';
 import availIconDark from './darkModeIcons/avail.svg';
 import telosIconDark from './darkModeIcons/telos.svg';
 import electroneumIconDark from './darkModeIcons/electroneum.svg';
+import zeroGIconDark from './darkModeIcons/zero-g.svg';
 
 const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ALLORA]: alloraIcon,
@@ -305,6 +307,13 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ZKSYNC_ERA_TESTNET]: zksyncEraIcon,
 
   [ChainID.LINEA]: lineaIcon,
+
+  [ChainID.ZERO_G]: zeroGIcon,
+  [ChainID.ZERO_G_NEWTON_TESTNET]: zeroGIcon,
+  [ChainID.ZERO_G_NEWTON_COSMOS_REST]: zeroGIcon,
+  [ChainID.ZERO_G_NEWTON_RPC]: zeroGIcon,
+  [ChainID.ZERO_G_NEWTON_TENDERMINT_REST]: zeroGIcon,
+  [ChainID.ZERO_G_NEWTON_TENDERMINT_RPC]: zeroGIcon,
 };
 
 const darkModeChainIcons: Partial<Record<ChainID, string>> = {
@@ -393,6 +402,13 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVAIL]: availIconDark,
   [ChainID.AVAIL_GOLDBERG_TESTNET]: availIconDark,
   [ChainID.AVAIL_TURING_TESTNET]: availIconDark,
+
+  [ChainID.ZERO_G]: zeroGIconDark,
+  [ChainID.ZERO_G_NEWTON_TESTNET]: zeroGIconDark,
+  [ChainID.ZERO_G_NEWTON_COSMOS_REST]: zeroGIconDark,
+  [ChainID.ZERO_G_NEWTON_RPC]: zeroGIconDark,
+  [ChainID.ZERO_G_NEWTON_TENDERMINT_REST]: zeroGIconDark,
+  [ChainID.ZERO_G_NEWTON_TENDERMINT_RPC]: zeroGIconDark,
 };
 
 const chainNameIcons: Record<string, string> = {
@@ -427,6 +443,8 @@ const chainNameIcons: Record<string, string> = {
   kava_testnet_api: kavaIcon,
   kava_testnet_evm: kavaIcon,
   kava_testnet_rpc: kavaIcon,
+  '0g_newton_cosmos': zeroGIcon,
+  '0g_newton_tendermint': zeroGIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {
@@ -438,6 +456,8 @@ const darkChainNameIcons: Record<string, string> = {
   stellar_soroban: stellarIconDark,
   stellar_testnet_horizon: stellarIconDark,
   stellar_testnet_soroban: stellarIconDark,
+  '0g_newton_cosmos': zeroGIconDark,
+  '0g_newton_tendermint': zeroGIconDark,
 };
 
 export function getChainIcon(name: string, isLightTheme: boolean) {

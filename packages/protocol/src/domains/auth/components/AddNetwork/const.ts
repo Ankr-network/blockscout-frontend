@@ -914,4 +914,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://explorer.gravity.xyz/'],
   },
+
+  [ChainID.ZERO_G_NEWTON_RPC]: {
+    chainId: 16600,
+    chainName: '0G Newton Testnet',
+    nativeCurrency: {
+      name: 'Neuron',
+      symbol: 'A0GI',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://chainscan-newton.0g.ai/'],
+  },
 };

@@ -72,6 +72,12 @@ export type GroupedBlockchainType = Record<string, Chain[]>;
 export enum ChainID {
   ALL_CHAINS = 'all_chains',
 
+  ZERO_G = '0g',
+  ZERO_G_NEWTON_TESTNET = '0g_newton',
+  ZERO_G_NEWTON_RPC = '0g_newton-rpc',
+  ZERO_G_NEWTON_COSMOS_REST = '0g_newton-cosmos-rest',
+  ZERO_G_NEWTON_TENDERMINT_REST = '0g_newton-tendermint-rest',
+  ZERO_G_NEWTON_TENDERMINT_RPC = '0g_newton-tendermint-rpc',
   ALLORA = 'allora',
   ALLORA_TESTNET = 'allora_testnet',
   ALLORA_TESTNET_REST = 'allora_testnet-rest',
