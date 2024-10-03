@@ -52,6 +52,8 @@ export enum ChainGroupID {
   TURING = 'turing',
   BTC = 'btc',
   BTC_BLOCKBOOK = 'btc_blockbook',
+  ZERO_G_COSMOS_REST = '0g_cosmos_rest',
+  ZERO_G_EVM = '0g_evm',
 
   FALLBACK = 'FALLBACK',
 }

@@ -47,6 +47,11 @@ export const KAVA_IDS = [
 
 // Allora ids which have different public and private endpoints
 export const ALLORA_IDS = ['allora_testnet-rest', 'allora_testnet-cosmos-rest'];
+// 0g ids which have different public and private endpoints
+export const ZERO_G_IDS = [
+  '0g_newton-cosmos-rest',
+  '0g_newton-tendermint-rest',
+];
 
 export const blockchainNameTemplate = '{blockchain}';
 

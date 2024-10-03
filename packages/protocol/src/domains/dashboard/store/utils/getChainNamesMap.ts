@@ -1,6 +1,13 @@
 import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
+import {
+  ALLORA_TESTNET_TENDERMINT_NAME,
+  KAVA_TENDERMINT_NAME,
+  SECRET_TENDERMINT_NAME,
+  SEI_TENDERMINT_NAME,
+  SEI_TESTNET_TENDERMINT_NAME,
+} from 'modules/chains/constants';
 
 export type ChainNamesMap = Record<string, string>;
 
@@ -23,7 +30,7 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
     result[checkedID] = name;
 
     if (checkedID === ('sei_testnet' as ChainID)) {
-      result[checkedID] = 'Sei Testnet Tendermint';
+      result[checkedID] = SEI_TESTNET_TENDERMINT_NAME;
     }
 
     if (checkedID === ('zetachain_tendermint_testnet' as ChainID)) {
@@ -34,19 +41,19 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
     }
 
     if (checkedID === ChainID.SEI) {
-      result[checkedID] = 'Sei Tendermint';
+      result[checkedID] = SEI_TENDERMINT_NAME;
     }
 
     if (checkedID === ('kava_rpc' as ChainID)) {
-      result[checkedID] = 'Kava Tendermint';
+      result[checkedID] = KAVA_TENDERMINT_NAME;
     }
 
     if (checkedID === ChainID.SECRET) {
-      result[checkedID] = 'Secret Network Tendermint';
+      result[checkedID] = SECRET_TENDERMINT_NAME;
     }
 
     if (checkedID === ChainID.ALLORA_TESTNET) {
-      result[checkedID] = 'Allora Testnet Tendermint';
+      result[checkedID] = ALLORA_TESTNET_TENDERMINT_NAME;
     }
 
     return result;

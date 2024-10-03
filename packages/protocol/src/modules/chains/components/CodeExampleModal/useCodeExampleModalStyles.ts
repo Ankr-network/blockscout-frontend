@@ -32,7 +32,6 @@ export const useCodeExampleModalStyles = makeStyles()(theme => ({
     '& div': {
       width: '100%',
       display: 'flex',
-      justifyContent: 'center',
     },
   },
   chainSelectorContent: {
