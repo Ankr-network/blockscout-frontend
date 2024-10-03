@@ -53,6 +53,7 @@ export const useProjects = ({
 
   useFetchAllProjectsTotalRequestsForLastTwoDaysQuery(
     skipFetchingProjects ? skipToken : allTotalRequestsParams,
+    { refetchOnMountOrArgChange: true },
   );
 
   return {
