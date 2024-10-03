@@ -76,10 +76,10 @@
   resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-1.0.10.tgz#852409ef50fd41080f25b0524297e28f30c36187"
   integrity sha512-SeYi74hfQTn9ny9uBsGo+kTORtHrfqCQm4iTzSavtY5VQeXX4bk13q226LrTnp/yK4EDwXUK4BaYE93IeT75RA==
 
-"@ankr.com/cross-navigation@^2.0.13":
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-2.0.13.tgz#96ece70f0d72cd9e259cdd4c07235063eaf11237"
-  integrity sha512-XW0hJUTeYK1kEDOOW1s23FFSx2Jk/vSMMHSl4zqT9NLzlcUq+fySF7MLt3Xga6sZgmyKhEVUksCcSBb8cI/r7g==
+"@ankr.com/cross-navigation@^2.0.14":
+  version "2.0.14"
+  resolved "https://registry.yarnpkg.com/@ankr.com/cross-navigation/-/cross-navigation-2.0.14.tgz#1e62c4d96d28b8d58b166c61785e37b3eaf0c22f"
+  integrity sha512-5Aob6UNMCKMCq1uLTBIMflyoFNgsj2TvokFdQ36aHZANG0wSz/qNQXqaYqIX54t8aeqN8YVJ9sFl/In/1N/SHg==
   dependencies:
     react-modern-drawer "^1.2.2"
 
@@ -7836,10 +7836,17 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-dom@^17.0.0", "@types/react-dom@^18.0.0":
+"@types/react-dom@^17.0.0":
   version "17.0.11"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.11.tgz"
   integrity sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^18.0.0":
+  version "18.3.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.3.0.tgz#0cbc818755d87066ab6ca74fbedb2547d74a82b0"
+  integrity sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==
   dependencies:
     "@types/react" "*"
 
@@ -25582,7 +25589,7 @@ react-element-to-jsx-string@^14.3.4:
     is-plain-object "5.0.0"
     react-is "17.0.2"
 
-react-error-overlay@6.0.9, react-error-overlay@^6.0.9:
+react-error-overlay@^6.0.9:
   version "6.0.9"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
