@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
@@ -12,12 +12,17 @@ import { useBalance } from './useBalance';
 
 const TIMEOUT = 30000;
 
+const options: Options = { forceRefetch: true };
+
 export const useUpdatePaymentHistory = (
   timeframe: PaymentHistoryTableTimeframe,
   paymentType: PaymentType,
 ) => {
   const { ankrBalance } = useBalance({ skipFetching: true });
-  const [fetchTransactions, , reset] = useQueryEndpoint(fetchPaymentHistory);
+  const [fetchTransactions, , reset] = useQueryEndpoint(
+    fetchPaymentHistory,
+    options,
+  );
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
