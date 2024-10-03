@@ -170,6 +170,12 @@ export const chainGroups: ChainGroup[] = [
     ],
   },
   {
+    id: ChainGroupID.ZERO_G_EVM,
+    name: 'EVM JSON-RPC',
+    pluralName: 'EVM JSON-RPC',
+    chains: [ChainID.ZERO_G_NEWTON_RPC],
+  },
+  {
     id: ChainGroupID.CARDONA,
     name: 'Cardona',
     pluralName: 'Cardona',
@@ -479,11 +485,5 @@ export const chainGroups: ChainGroup[] = [
     name: 'Cosmos REST',
     pluralName: 'Cosmos REST',
     chains: [ChainID.ZERO_G_NEWTON_COSMOS_REST],
-  },
-  {
-    id: ChainGroupID.ZERO_G_EVM,
-    name: 'EVM JSON-RPC',
-    pluralName: 'EVM JSON-RPC',
-    chains: [ChainID.ZERO_G_NEWTON_RPC],
   },
 ];
