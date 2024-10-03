@@ -4,9 +4,10 @@ import { ChainID } from '@ankr.com/chains-list';
 
 import { AppDispatch } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
-import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { web3Api } from 'store/queries';
 
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
 import { STANDALONE_CHAINS } from '../../utils/statsUtils';
@@ -47,6 +48,8 @@ export const { useFetchPublicRequestsCountStatsQuery } =
         Record<ChainID, string>,
         Timeframe
       >({
+        // overriden to keep data in cache according to refetch interval
+        keepUnusedDataFor: REFETCH_STATS_INTERVAL,
         queryFn: createQueryFnWithErrorHandler({
           queryFn: async (timeframe, { dispatch }) => {
             if (isReactSnap) {

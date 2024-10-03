@@ -3,9 +3,10 @@ import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { ChainID } from '@ankr.com/chains-list';
 
 import { MultiService } from 'modules/api/MultiService';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { web3Api } from 'store/queries';
 
 import { calculateRPCAndStandaloneStats } from '../../utils/calculateRPCAndStandaloneStats';
 import { chainsFetchStandaloneRequests } from './fetchStandaloneRequests';
@@ -111,6 +112,8 @@ export const {
       IFetchChainDetailsResponseData,
       { chainId: string; timeframe: Timeframe }
     >({
+      // overriden to keep data in cache according to refetch interval
+      keepUnusedDataFor: REFETCH_STATS_INTERVAL,
       queryFn: createNotifyingQueryFn(
         async ({ chainId, timeframe }, { dispatch }) => {
           const rpcStats = await MultiService.getService()
