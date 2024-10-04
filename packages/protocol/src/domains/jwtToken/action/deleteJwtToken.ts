@@ -12,31 +12,37 @@ interface DeleteJwtTokenParams {
 
 export const {
   endpoints: { deleteJwtToken },
-  useLazyDeleteJwtTokenQuery,
+  useDeleteJwtTokenMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    deleteJwtToken: build.query<null, TwoFAQueryFnParams<DeleteJwtTokenParams>>(
-      {
-        queryFn: createQueryFnWithErrorHandler({
-          queryFn: async (
-            { params: { group, tokenIndex }, totp },
-            { dispatch },
-          ) => {
-            const service = MultiService.getService().getAccountingGateway();
+    deleteJwtToken: build.mutation<
+      null,
+      TwoFAQueryFnParams<DeleteJwtTokenParams>
+    >({
+      queryFn: createQueryFnWithErrorHandler({
+        queryFn: async (
+          { params: { group, tokenIndex }, totp },
+          { dispatch },
+        ) => {
+          const service = MultiService.getService().getAccountingGateway();
 
-            await service.deleteJwtToken({ index: tokenIndex, group, totp });
+          await service.deleteJwtToken({ index: tokenIndex, group, totp });
 
-            dispatch(fetchAllJwtTokenRequests.initiate({ group }));
+          dispatch(
+            fetchAllJwtTokenRequests.initiate(
+              { group },
+              { forceRefetch: true },
+            ),
+          );
 
-            return { data: null };
-          },
-          errorHandler: error => {
-            return {
-              error,
-            };
-          },
-        }),
-      },
-    ),
+          return { data: null };
+        },
+        errorHandler: error => {
+          return {
+            error,
+          };
+        },
+      }),
+    }),
   }),
 });

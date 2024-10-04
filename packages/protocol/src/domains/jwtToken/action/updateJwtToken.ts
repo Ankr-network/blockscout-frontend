@@ -14,10 +14,10 @@ export interface IUpdateJwtTokenParams extends IApiUserGroupParams {
 
 export const {
   endpoints: { updateJwtToken },
-  useLazyUpdateJwtTokenQuery,
+  useUpdateJwtTokenMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    updateJwtToken: build.query<boolean, IUpdateJwtTokenParams>({
+    updateJwtToken: build.mutation<boolean, IUpdateJwtTokenParams>({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ description, group, name, tokenIndex }) => {
           const service = MultiService.getService().getAccountingGateway();
@@ -34,7 +34,9 @@ export const {
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(fetchAllJwtTokenRequests.initiate({ group }));
+        dispatch(
+          fetchAllJwtTokenRequests.initiate({ group }, { forceRefetch: true }),
+        );
       },
     }),
   }),

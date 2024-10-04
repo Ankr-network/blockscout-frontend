@@ -1,13 +1,13 @@
-import { t } from '@ankr.com/common';
 import { MouseEvent, useCallback, useMemo } from 'react';
+import { t } from '@ankr.com/common';
 import { useDispatch } from 'react-redux';
 
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { updateJwtTokenFreezeStatus } from '../action/updateJwtTokenFreezeStatus';
 import { getSuccessFreezeMessage } from '../utils/getSuccessFreezeMessage';
+import { useUpdateJwtTokenFreezeStatusMutation } from '../action/updateJwtTokenFreezeStatus';
 
 interface FreezeAndUnfreezeProjectProps {
   isFreeze: boolean;
@@ -47,19 +47,20 @@ export const useFreezeAndUnfreezeProject = ({
 
   const { selectedGroupAddress } = useSelectedUserGroup();
 
-  const [updateProjectFreezeStatus, { isLoading }, reset] = useQueryEndpoint(
-    updateJwtTokenFreezeStatus,
-  );
+  const [updateProjectFreezeStatus, { isLoading }] =
+    useUpdateJwtTokenFreezeStatusMutation();
 
   const handeUpdateStatus = useCallback(
     async (event?: MouseEvent<HTMLButtonElement>) => {
       event?.stopPropagation();
 
-      const { error } = await updateProjectFreezeStatus({
+      const response = await updateProjectFreezeStatus({
         token: userEndpointToken,
         group: selectedGroupAddress,
         freeze: isFreeze,
       });
+
+      const error = isMutationSuccessful(response) ? undefined : response.error;
 
       const severity = error ? 'error' : 'success';
       const message = error
@@ -76,15 +77,12 @@ export const useFreezeAndUnfreezeProject = ({
       if (!error) {
         onSuccess(event);
       }
-
-      reset();
     },
     [
       updateProjectFreezeStatus,
       userEndpointToken,
       selectedGroupAddress,
       isFreeze,
-      reset,
       dispatch,
       projectName,
       onSuccess,

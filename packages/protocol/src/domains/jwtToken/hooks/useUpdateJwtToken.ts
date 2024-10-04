@@ -1,11 +1,11 @@
-import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { updateJwtToken } from 'domains/jwtToken/action/updateJwtToken';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useUpdateJwtTokenMutation } from 'domains/jwtToken/action/updateJwtToken';
 
 interface UpdateJwtTokenParams {
   tokenIndex: number;
@@ -18,8 +18,7 @@ export const useUpdateJwtToken = () => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [updateJwtTokenQuery, { isLoading }, resetUpdateJwtToken] =
-    useQueryEndpoint(updateJwtToken);
+  const [updateJwtTokenQuery, { isLoading }] = useUpdateJwtTokenMutation();
 
   const handleUpdateJwtToken = useCallback(
     ({ description, name, tokenIndex }: UpdateJwtTokenParams) =>
@@ -34,33 +33,22 @@ export const useUpdateJwtToken = () => {
 
   const handleUpdateProjectDetails = useCallback(
     async (tokenIndex: number, name?: string, description?: string) => {
-      const { error } = await handleUpdateJwtToken({
+      const response = await handleUpdateJwtToken({
         tokenIndex,
         name,
         description,
       });
 
-      const severity = error ? 'error' : 'success';
-      const message = error
-        ? t('projects.edit-dialog.error-message')
-        : t('projects.edit-dialog.success-message');
+      const isSuccessful = isMutationSuccessful(response);
 
-      dispatch(
-        NotificationActions.showNotification({
-          message,
-          severity,
-        }),
-      );
+      const [severity, message] = isSuccessful
+        ? ['success' as const, t('projects.edit-dialog.success-message')]
+        : ['error' as const, t('projects.edit-dialog.error-message')];
 
-      resetUpdateJwtToken();
+      dispatch(NotificationActions.showNotification({ message, severity }));
     },
-    [dispatch, handleUpdateJwtToken, resetUpdateJwtToken],
+    [dispatch, handleUpdateJwtToken],
   );
 
-  return {
-    handleUpdateJwtToken,
-    resetUpdateJwtToken,
-    isLoading,
-    handleUpdateProjectDetails,
-  };
+  return { handleUpdateJwtToken, handleUpdateProjectDetails, isLoading };
 };

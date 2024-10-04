@@ -7,9 +7,11 @@ import { useProjectWhitelist } from './useProjectWhitelist';
 const defaultWhitelist: WhitelistItem[] = [];
 
 export const useWhitelistCounts = () => {
-  const { data, isLoading } = useProjectWhitelist(true);
+  const { isLoading, projectWhitelist } = useProjectWhitelist({
+    skipFetching: true,
+  });
 
-  const whitelist = data?.lists || defaultWhitelist;
+  const whitelist = projectWhitelist?.lists || defaultWhitelist;
 
   const whitelistsCounts = useMemo(
     () => getWhitelistCounts(whitelist),

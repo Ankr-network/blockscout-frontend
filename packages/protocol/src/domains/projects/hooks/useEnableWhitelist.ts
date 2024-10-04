@@ -4,15 +4,16 @@ import { useCallback, useMemo } from 'react';
 import { t } from '@ankr.com/common';
 import { ChainID } from '@ankr.com/chains-list';
 
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { NewProjectStep } from 'domains/projects/types';
+import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { useAppDispatch } from 'store/useAppDispatch';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { NewProjectStep } from 'domains/projects/types';
-import { useLazyUpdateJwtTokenFreezeStatusQuery } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
-import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useAppDispatch } from 'store/useAppDispatch';
-import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useUpdateJwtTokenFreezeStatusMutation } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
 import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
@@ -95,7 +96,7 @@ export const useEnableWhitelist = () => {
   const [
     updateJwtTokenFreezeStatus,
     { isLoading: isJwtTokenFreezeStatusLoading },
-  ] = useLazyUpdateJwtTokenFreezeStatusQuery();
+  ] = useUpdateJwtTokenFreezeStatusMutation();
 
   const { handleResetConfig, project = {} } = useProjectConfig();
 
@@ -186,13 +187,13 @@ export const useEnableWhitelist = () => {
   }, [updateWhitelistMode, userEndpointToken, groupAddress]);
 
   const handleUpdateJwtTokenFreezeStatus = useCallback(async () => {
-    const { error } = await updateJwtTokenFreezeStatus({
+    const response = await updateJwtTokenFreezeStatus({
       token: userEndpointToken,
       group: groupAddress,
       freeze: false,
     });
 
-    return error;
+    return isMutationSuccessful(response) ? undefined : response.error;
   }, [updateJwtTokenFreezeStatus, userEndpointToken, groupAddress]);
 
   const handleEnableWhitelist = useCallback(

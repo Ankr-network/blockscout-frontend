@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { useAppSelector } from 'store/useAppSelector';
-import { selectCurrentAddress } from 'domains/auth/store';
-import { useUpdateJwtToken } from 'domains/jwtToken/hooks/useUpdateJwtToken';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { selectCurrentAddress } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
+import { useUpdateJwtToken } from 'domains/jwtToken/hooks/useUpdateJwtToken';
 
 import { resetConfig } from '../store';
 
@@ -21,24 +22,27 @@ export const useEditProject = () => {
 
   const address = useAppSelector(selectCurrentAddress);
 
-  const { handleUpdateJwtToken, isLoading, resetUpdateJwtToken } =
-    useUpdateJwtToken();
+  const { handleUpdateJwtToken, isLoading } = useUpdateJwtToken();
 
   const handleUpdate = useCallback(
     async ({ description, name, oldName, tokenIndex }: IUpdateArgs) => {
-      const { error } = await handleUpdateJwtToken({
+      const response = await handleUpdateJwtToken({
         tokenIndex,
         name,
         description,
       });
 
-      const severity = error ? 'error' : 'success';
-      const message = error
-        ? t('projects.rename-dialog.error-message.something-wrong')
-        : t('projects.rename-dialog.success-message', {
-            oldValue: oldName,
-            newValue: name,
-          });
+      const isSuccessful = isMutationSuccessful(response);
+
+      const successMessage = t('projects.edit-dialog.success-message');
+      const errorMessage = t('projects.rename-dialog.success-message', {
+        oldValue: oldName,
+        newValue: name,
+      });
+
+      const [severity, message] = isSuccessful
+        ? ['success' as const, successMessage]
+        : ['error' as const, errorMessage];
 
       dispatch(
         NotificationActions.showNotification({
@@ -46,10 +50,8 @@ export const useEditProject = () => {
           severity,
         }),
       );
-
-      resetUpdateJwtToken();
     },
-    [dispatch, handleUpdateJwtToken, resetUpdateJwtToken],
+    [dispatch, handleUpdateJwtToken],
   );
 
   const handleResetConfiguringProjectConfig = useCallback(

@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useState, MouseEvent } from 'react';
 import { t } from '@ankr.com/common';
 
-import { deleteJwtToken } from 'domains/jwtToken/action/deleteJwtToken';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { is2FAError } from 'store/utils/is2FAError';
-import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { NewProjectStep } from 'domains/projects/types';
+import { is2FAError } from 'store/utils/is2FAError';
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
+import { useDeleteJwtTokenMutation } from 'domains/jwtToken/action/deleteJwtToken';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { jwtTokenIntlRoot } from '../utils/utils';
 
@@ -36,8 +36,7 @@ export const useDeleteProject = (
     DeleteProjectStep.initial,
   );
 
-  const [deleteProject, { isLoading }, reset] =
-    useQueryEndpoint(deleteJwtToken);
+  const [deleteProject, { isLoading }] = useDeleteJwtTokenMutation();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
@@ -45,12 +44,14 @@ export const useDeleteProject = (
     async (event?: MouseEvent<HTMLButtonElement>) => {
       event?.stopPropagation();
 
-      const { error } = await deleteProject({
+      const response = await deleteProject({
         params: {
           tokenIndex,
           group,
         },
       });
+
+      const error = isMutationSuccessful(response) ? undefined : response.error;
 
       if (error && !is2FAError(error)) {
         setDeleteProjectStep(DeleteProjectStep.failed);
@@ -63,15 +64,12 @@ export const useDeleteProject = (
 
         onSuccess(is2FAError(error), event);
       }
-
-      reset();
     },
     [
       tokenIndex,
       deleteProject,
       onSuccess,
       setDeleteProjectStep,
-      reset,
       group,
       shouldResetNewProject,
       handleResetConfig,

@@ -1,30 +1,25 @@
-import { useEffect } from 'react';
-
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { fetchProjectWhitelist } from 'domains/projects/actions/fetchProjectWhitelist';
+import { IUseQueryProps } from 'store/queries/types';
+import { useFetchProjectWhitelist } from 'domains/projects/hooks/useFetchProjectWhitelist';
 import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-export const useProjectWhitelist = (skipFetching?: boolean) => {
+export interface IUseProjectWhitelistProps extends IUseQueryProps {}
+
+export const useProjectWhitelist = ({
+  skipFetching = false,
+}: IUseProjectWhitelistProps = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { project } = useSelectedProject();
 
-  const [fetchWhitelist, { data, isLoading }] = useQueryEndpoint(
-    fetchProjectWhitelist,
-  );
+  // We need to assert non null type to fit selector interface
+  // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+  const userEndpointToken = project?.userEndpointToken!;
 
-  const userEndpointToken = project?.userEndpointToken;
+  const { isLoading, projectWhitelist } = useFetchProjectWhitelist({
+    skipFetching: skipFetching || !userEndpointToken,
+    group,
+    userEndpointToken,
+  });
 
-  useEffect(() => {
-    if (userEndpointToken && !skipFetching) {
-      fetchWhitelist({ group, userEndpointToken });
-    }
-    // we don't need to refetch data as soon as group changed, so this param is excluded from deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchWhitelist, userEndpointToken, skipFetching]);
-
-  return {
-    data,
-    isLoading,
-  };
+  return { isLoading, projectWhitelist };
 };

@@ -1,8 +1,7 @@
 import { WhitelistItem } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { selectProjectWhitelist } from 'domains/projects/store';
-import { useAppSelector } from 'store/useAppSelector';
+import { useProjectWhitelist } from 'domains/projects/screens/Project/hooks/useProjectWhitelist';
 import { useReplaceWhitelistHandler } from 'domains/projects/hooks/useReplaceWhitelistHandler';
 
 export interface UseDeleteWhitelistItemHandlerParams {
@@ -14,14 +13,15 @@ export const useDeleteWhitelistItemHandler = ({
   address,
   onSuccess,
 }: UseDeleteWhitelistItemHandlerParams) => {
-  const whitelist = useAppSelector(selectProjectWhitelist);
+  const { projectWhitelist } = useProjectWhitelist({ skipFetching: true });
+  const whitelist = projectWhitelist?.lists;
 
   const whitelistToUpdate = useMemo(
     () =>
-      whitelist.map<WhitelistItem>(whitelistItem => ({
+      whitelist?.map<WhitelistItem>(whitelistItem => ({
         ...whitelistItem,
         list: whitelistItem.list.filter(value => value !== address),
-      })),
+      })) ?? [],
     [address, whitelist],
   );
 

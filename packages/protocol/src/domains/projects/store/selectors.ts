@@ -20,7 +20,7 @@ import {
 } from '../actions/fetchProjectChainsStatsFor24h';
 import { fetchProjectTotalRequestsForLastTwoDays } from '../actions/fetchProjectTotalRequestsForLastTwoDays';
 import { fetchProjectTotalRequestsForLastTwoHours } from '../actions/fetchProjectTotalRequestsForLastTwoHours';
-import { fetchProjectWhitelist } from '../actions/fetchProjectWhitelist';
+import { selectProjectWhitelist } from '../actions/fetchProjectWhitelist';
 import { filterTotalRequests } from './utils/filterTotalRequests';
 import { getRelativeChange } from './utils/getRelativeChange';
 import { sumTotalRequests } from './utils/sumTotalRequests';
@@ -47,20 +47,11 @@ export const selectDraftUserEndpointToken = createSelector(
   ({ project = {} }) => project?.[NewProjectStep.General]?.userEndpointToken,
 );
 
-export const selectProjectWhitelistState = createSelector(
-  fetchProjectWhitelist.select(actionSelectParams),
-  state => state,
-);
-
-export const selectProjectWhitelist = createSelector(
-  selectProjectWhitelistState,
-  ({ data }) => data?.lists || [],
-);
-
 export const selectProjectWhitelistByType = createSelector(
   selectProjectWhitelist,
-  (_state: RootState, type: UserEndpointTokenMode) => type,
-  (whitelist, type) => whitelist.filter(item => item.type === type),
+  (_state: RootState, { type }: { type: UserEndpointTokenMode }) => type,
+  (whitelist, type) =>
+    whitelist?.lists.filter(item => item.type === type) ?? [],
 );
 
 export const selectAggregatedStatsByChainFor1hState = createSelector(

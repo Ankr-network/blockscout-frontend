@@ -38,6 +38,7 @@ export const useProjects = ({
       skipWhitelistsFetching || skipFetchingProjects
         ? skipToken
         : allWhitelistsParams,
+      { refetchOnMountOrArgChange: true },
     );
 
   const {

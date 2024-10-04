@@ -1,5 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
+import { useCallback, useMemo, useState } from 'react';
+
+import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 
 import { jwtTokenIntlRoot } from '../utils/utils';
 import { useCreateJwtToken } from './useCreateJwtToken';
@@ -23,30 +25,24 @@ export const useAddProject = (tokenIndex: number) => {
     [tokenIndex],
   );
 
-  const { handleCreateJwtToken, isLoading, resetCreateJwtToken } =
-    useCreateJwtToken();
+  const { handleCreateJwtToken, isLoading } = useCreateJwtToken();
 
   const handleCreate = useCallback(async () => {
-    const { data, error } = await handleCreateJwtToken({
-      tokenIndex,
-    });
+    const response = await handleCreateJwtToken({ tokenIndex });
 
-    if (error) {
-      setAddProjectStep(AddProjectStep.failed);
-    } else {
+    if (isMutationSuccessful(response)) {
       setSuccessProjectName(
         t(`${jwtTokenIntlRoot}.additional`, {
-          index: data?.index,
+          index: response.data?.index,
         }),
       );
-      setUserEndpointToken(data?.userEndpointToken || '');
+      setUserEndpointToken(response.data?.userEndpointToken || '');
       setAddProjectStep(AddProjectStep.success);
+    } else {
+      setAddProjectStep(AddProjectStep.failed);
     }
-
-    resetCreateJwtToken();
   }, [
     handleCreateJwtToken,
-    resetCreateJwtToken,
     setAddProjectStep,
     setSuccessProjectName,
     setUserEndpointToken,

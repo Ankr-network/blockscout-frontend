@@ -14,10 +14,10 @@ import { selectConfiguredProjectJwtTokens } from '../store/selectors';
 
 export const {
   endpoints: { updateJwtTokenFreezeStatus },
-  useLazyUpdateJwtTokenFreezeStatusQuery,
+  useUpdateJwtTokenFreezeStatusMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    updateJwtTokenFreezeStatus: build.query<
+    updateJwtTokenFreezeStatus: build.mutation<
       null,
       IUpdateJwtTokenFreezeStatusParams &
         IUpdateJwtTokenFreezeStatusRequestParams
@@ -52,8 +52,15 @@ export const {
           getState() as RootState,
         );
 
-        dispatch(fetchAllJwtTokenRequests.initiate({ group }));
-        dispatch(fetchAllJwtTokensStatuses.initiate({ group, projects }));
+        dispatch(
+          fetchAllJwtTokenRequests.initiate({ group }, { forceRefetch: true }),
+        );
+        dispatch(
+          fetchAllJwtTokensStatuses.initiate(
+            { group, projects },
+            { forceRefetch: true },
+          ),
+        );
       },
     }),
   }),

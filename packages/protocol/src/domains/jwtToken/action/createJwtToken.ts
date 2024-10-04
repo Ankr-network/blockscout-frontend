@@ -16,9 +16,10 @@ interface IRequestParams extends IApiUserGroupParams {
 
 export const {
   endpoints: { createJwtToken },
+  useCreateJwtTokenMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    createJwtToken: build.query<JwtManagerToken, IRequestParams>({
+    createJwtToken: build.mutation<JwtManagerToken, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async (
           { description, group, name, tokenIndex },
@@ -39,7 +40,12 @@ export const {
 
           const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
 
-          dispatch(fetchAllJwtTokenRequests.initiate({ group }));
+          dispatch(
+            fetchAllJwtTokenRequests.initiate(
+              { group },
+              { forceRefetch: true },
+            ),
+          );
 
           return { data: newDecryptedToken };
         },

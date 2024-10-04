@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 
-import { createJwtToken } from 'domains/jwtToken/action/createJwtToken';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
+import { useCreateJwtTokenMutation } from 'domains/jwtToken/action/createJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 interface CreateJwtTokenParams {
@@ -13,8 +12,7 @@ interface CreateJwtTokenParams {
 export const useCreateJwtToken = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [createJwtTokenQuery, { isLoading }, resetCreateJwtToken] =
-    useQueryEndpoint(createJwtToken);
+  const [createJwtTokenQuery, { isLoading }] = useCreateJwtTokenMutation();
 
   const handleCreateJwtToken = useCallback(
     ({ description, name, tokenIndex }: CreateJwtTokenParams) =>
@@ -27,9 +25,5 @@ export const useCreateJwtToken = () => {
     [group, createJwtTokenQuery],
   );
 
-  return {
-    handleCreateJwtToken,
-    resetCreateJwtToken,
-    isLoading,
-  };
+  return { handleCreateJwtToken, isLoading };
 };
