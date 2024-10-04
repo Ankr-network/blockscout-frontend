@@ -5,11 +5,13 @@ import {
   PrivateStatsInterval,
 } from 'multirpc-sdk';
 
-import { getAccountingGateway } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
-import { Gateway } from 'domains/dashboard/types';
 import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
+import { Gateway } from 'domains/dashboard/types';
+import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { getAccountingGateway } from 'modules/api/MultiService';
+import { web3Api } from 'store/queries';
 
 const getPrivateStats = (data: IApiPrivateStats): PrivateStats => {
   return {
@@ -24,32 +26,49 @@ export type FetchPrivateStatsParams = IApiUserGroupParams &
     userEndpointToken?: string;
   };
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
-  endpoints: { chainsFetchPrivateStats },
+  endpoints: { fetchPrivateStats },
+  useFetchPrivateStatsQuery,
+  useLazyFetchPrivateStatsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    chainsFetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>(
-      {
-        queryFn: createNotifyingQueryFn(
-          async ({
-            gateway = getAccountingGateway(),
-            group,
-            interval,
-            userEndpointToken,
-          }) => {
-            const data = await (userEndpointToken &&
-            userEndpointToken !== ALL_PROJECTS_VALUE
-              ? gateway.getPrivateStatsByPremiumId(
-                  interval,
-                  userEndpointToken,
-                  group,
-                )
-              : gateway.getPrivateStats(interval, group));
+    fetchPrivateStats: build.query<PrivateStats, FetchPrivateStatsParams>({
+      keepUnusedDataFor: REFETCH_STATS_INTERVAL,
+      queryFn: createNotifyingQueryFn(
+        async ({
+          gateway = getAccountingGateway(),
+          group,
+          interval,
+          userEndpointToken,
+        }) => {
+          const isEnterprise =
+            userEndpointToken && userEndpointToken !== ALL_PROJECTS_VALUE;
 
-            return { data: getPrivateStats(data) };
-          },
-        ),
-      },
-    ),
+          const promise = isEnterprise
+            ? gateway.getPrivateStatsByPremiumId(
+                interval,
+                userEndpointToken,
+                group,
+              )
+            : gateway.getPrivateStats(interval, group);
+
+          const data = await promise;
+
+          return { data: getPrivateStats(data) };
+        },
+      ),
+    }),
   }),
+});
+
+export const {
+  selectDataWithFallbackCachedByParams: selectPrivateStats,
+  selectLoadingCachedByParams: selectPrivateStatsLoading,
+  selectStateCachedByParams: selectPrivateStatsState,
+} = createQuerySelectors({
+  endpoint: fetchPrivateStats,
+  fallback: {},
 });

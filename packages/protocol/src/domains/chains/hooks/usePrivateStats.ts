@@ -1,68 +1,38 @@
-import { useEffect, useRef } from 'react';
-import { PrivateStats, PrivateStatsInterval } from 'multirpc-sdk';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 
-import { chainsFetchPrivateStats } from 'domains/chains/actions/private/fetchPrivateStats';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-interface PrivateStatsParams {
+import { useFetchPrivateStats } from './useFetchPrivateStats';
+
+export interface IPrivateStatsParams {
   interval: PrivateStatsInterval;
-  requestKey?: string;
   userEndpointToken?: string;
-}
-
-interface PrivateStatsReturn {
-  arePrivateStatsLoading: boolean;
-  data: PrivateStats;
-  privateStatsError: any;
 }
 
 export const usePrivateStats = ({
   interval,
-  requestKey,
   userEndpointToken,
-}: PrivateStatsParams): PrivateStatsReturn => {
+}: IPrivateStatsParams) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
 
-  const [
-    fetchPrivateStats,
-    { data = {}, error: privateStatsError, isLoading: arePrivateStatsLoading },
-    reset,
-  ] = useQueryEndpoint(chainsFetchPrivateStats);
+  const groupRef = useAutoupdatedRef(group);
+  const isGroupChanged = groupRef.current !== group;
 
-  const groupRef = useRef(group);
-
-  useEffect(() => reset, [reset]);
-
-  useEffect(() => {
-    if (!isEnterpriseStatusLoading) {
-      const isGroupChanged = groupRef.current !== group;
-
-      if (isGroupChanged) {
-        groupRef.current = group;
-
-        fetchPrivateStats({
-          interval,
-          userEndpointToken: undefined,
-          group,
-          gateway,
-        });
-      }
-
-      fetchPrivateStats({ interval, userEndpointToken, group, gateway });
-    }
-  }, [
-    fetchPrivateStats,
-    interval,
-    requestKey,
-    userEndpointToken,
+  const {
+    error: privateStatsError,
+    isLoading: arePrivateStatsLoading,
+    privateStats: data,
+  } = useFetchPrivateStats({
     group,
     gateway,
-    isEnterpriseStatusLoading,
-  ]);
+    skipFetching: isEnterpriseStatusLoading,
+    interval,
+    userEndpointToken: isGroupChanged ? undefined : userEndpointToken,
+  });
 
   return { arePrivateStatsLoading, data, privateStatsError };
 };

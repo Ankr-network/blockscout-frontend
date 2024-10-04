@@ -49,6 +49,7 @@ const endpointsSerializedByParams = [
 
   /* stats */
   'fetchChainTimeframeData',
+  'fetchPrivateStats',
   'fetchProjectChainsStatsFor1h',
   'fetchProjectChainsStatsFor24h',
   'fetchPublicRequestsCountStats',

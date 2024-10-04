@@ -3,7 +3,7 @@ import { ChainID } from '@ankr.com/chains-list';
 
 import {
   FetchPrivateStatsParams as PrivateStatsParams,
-  chainsFetchPrivateStats,
+  fetchPrivateStats,
 } from 'domains/chains/actions/private/fetchPrivateStats';
 import { RootState } from 'store';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
@@ -39,7 +39,7 @@ import { findDetailsById } from '../utils/findDetailsById';
 import { fetchMonthlyUsageHistory } from '../../actions/fetchMonthlyUsageHistory';
 
 export const selectStatsData = createSelector(
-  chainsFetchPrivateStats.select(undefined as unknown as PrivateStatsParams),
+  fetchPrivateStats.select(undefined as unknown as PrivateStatsParams),
   ({ data = {} }) => data,
 );
 
