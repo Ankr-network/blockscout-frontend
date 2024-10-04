@@ -9,12 +9,15 @@ import {
 } from '@mui/material';
 import { Web3Address } from 'multirpc-sdk';
 import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import {
   formatNumber,
   renderBalance,
   renderUSD,
 } from 'modules/common/utils/renderBalance';
+import { resetEndpoint } from 'modules/common/utils/resetEndpoint';
 
 import { useTransactions } from './useTransactions';
 
@@ -29,8 +32,34 @@ export const ClientDeductionsTable = ({
     loadMore,
     isLoadingTransactions,
     isFetchingTransactions,
+    isUninitialized,
     transactionsData,
   } = useTransactions({ address, types: ['TRANSACTION_TYPE_DEDUCTION'] });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => resetEndpoint('fetchUserTransactions', dispatch);
+  }, [dispatch]);
+
+  const renderLoadMoreButton = (text = 'Load more') => {
+    return (
+      <LoadingButton
+        sx={{ margin: '20px auto' }}
+        size="medium"
+        fullWidth
+        color="secondary"
+        onClick={loadMore}
+        loading={isFetchingTransactions}
+      >
+        {text}
+      </LoadingButton>
+    );
+  };
+
+  if (isUninitialized) {
+    return renderLoadMoreButton('Load data');
+  }
 
   if (isLoadingTransactions) {
     return <OverlaySpinner size={50} />;
@@ -40,7 +69,14 @@ export const ClientDeductionsTable = ({
     transactionsData?.transactions &&
     transactionsData.transactions.length <= 0
   ) {
-    return <>Not found</>;
+    return (
+      <>
+        Not found
+        {transactionsData?.cursor &&
+          transactionsData?.cursor > 0 &&
+          renderLoadMoreButton()}
+      </>
+    );
   }
 
   return (
@@ -82,18 +118,9 @@ export const ClientDeductionsTable = ({
         </TableBody>
       </Table>
 
-      {transactionsData?.cursor && transactionsData?.cursor > 0 && (
-        <LoadingButton
-          sx={{ margin: '20px auto' }}
-          size="medium"
-          fullWidth
-          color="secondary"
-          onClick={loadMore}
-          loading={isFetchingTransactions}
-        >
-          Load more
-        </LoadingButton>
-      )}
+      {transactionsData?.cursor &&
+        transactionsData?.cursor > 0 &&
+        renderLoadMoreButton()}
     </TableContainer>
   );
 };
