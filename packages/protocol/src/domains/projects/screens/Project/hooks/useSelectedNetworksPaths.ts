@@ -17,7 +17,8 @@ export const useSelectedNetworksPaths = ({
     return allCurrentChainPaths.filter(path =>
       projectChainsPaths.includes(path),
     );
-  }, [allCurrentChainPaths, projectChainsPaths]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- we don't need to update this on every allCurrentChainPaths change
+  }, [projectChainsPaths]);
 
   const [selectedNetworksPaths, setSelectedNetworksPaths] = useState<
     ChainPath[]

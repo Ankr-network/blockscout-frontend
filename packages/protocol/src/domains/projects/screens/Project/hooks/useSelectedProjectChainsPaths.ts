@@ -75,13 +75,15 @@ export const useSelectedProjectChainsPaths = ({
   shouldHandleSubchains = true,
 }: UseSelectedProjectChainsPathsParams | void = {}) => {
   const { paths: projectChainsPaths } = useProjectChainsContext();
+
   const [selectedProjectChainsPaths, setSelectedProjectChainsPaths] =
     useState<ChainPath[]>(projectChainsPaths);
-  const [isSelectedAll, setIsSelectedAll] = useState(false);
 
   useEffect(() => {
     setSelectedProjectChainsPaths(projectChainsPaths);
   }, [projectChainsPaths]);
+
+  const [isSelectedAll, setIsSelectedAll] = useState(false);
 
   const handleSelectProjectChainsPaths = useCallback(
     (newPaths: ChainPath | ChainPath[]) => {

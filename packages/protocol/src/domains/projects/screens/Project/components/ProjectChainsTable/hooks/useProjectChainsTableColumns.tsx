@@ -24,6 +24,8 @@ export const useProjectChainsTableColumns = ({
 }: UseProjectChainsTableColumnsParams) => {
   const { keys, t } = useTranslation(projectChainsTranslation);
 
+  const headerName = t(keys.selectAll);
+
   const [expandedId, setExpandedId] = React.useState<ChainID | undefined>(
     undefined,
   );
@@ -32,7 +34,7 @@ export const useProjectChainsTableColumns = ({
     (): ChainsTableColumn[] => [
       {
         field: 'chain',
-        headerName: t(keys.selectAll),
+        headerName,
         render: ({ chain }) => (
           <ProjectChainItemCellWrapper
             expandedId={expandedId}
@@ -50,8 +52,7 @@ export const useProjectChainsTableColumns = ({
       },
     ],
     [
-      t,
-      keys.selectAll,
+      headerName,
       expandedId,
       selectedChainPaths,
       setSelectedChainPaths,

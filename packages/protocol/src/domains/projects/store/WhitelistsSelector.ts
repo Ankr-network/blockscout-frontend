@@ -1,11 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { UserEndpointToken } from 'multirpc-sdk';
 
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';
-import { getAllProjects } from '../utils/getAllProjects';
+import { getAllProjects, Project } from '../utils/getAllProjects';
 import { selectAllProjectsTotalRequestsLoading } from './selectors';
 
 const selectAllWhitelists = createSelector(
@@ -76,4 +77,12 @@ export const selectAllProjects = createSelector(
       projectStatuses,
       isLoading,
     }),
+);
+
+export const selectProjectChainsByToken = createSelector(
+  selectAllProjects,
+  (_state: any, token: UserEndpointToken) => token,
+  (projects: Project[], token: UserEndpointToken) =>
+    projects.find((project: Project) => project.userEndpointToken === token)
+      ?.blockchains,
 );
