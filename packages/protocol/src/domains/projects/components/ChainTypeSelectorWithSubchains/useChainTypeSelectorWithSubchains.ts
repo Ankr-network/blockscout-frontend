@@ -18,6 +18,7 @@ export interface IChainTypeSelectorProps {
   selectedChainPaths: ChainPath[];
   setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
   hasPremiumColor?: boolean;
+  isLoading?: boolean;
 }
 
 export const useChainTypeSelectorWithSubchains = ({

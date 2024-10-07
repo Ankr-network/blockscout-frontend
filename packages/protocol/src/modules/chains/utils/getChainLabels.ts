@@ -12,6 +12,7 @@ import { Tab } from 'modules/common/hooks/useTabs';
 import { ChainProtocol } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 
 import { flatChain } from './flatChain';
+import { isMultichain } from './isMultichain';
 
 const EXCLUDED_GROUPS = [
   getName('standard-evm-api'),
@@ -33,6 +34,11 @@ export const getChainLabels = (
   chain: Chain,
   chainTypes: Tab<ChainType>[],
 ): string[] => {
+  if (isMultichain(chain.id)) {
+    // multichain should have no labels
+    return [];
+  }
+
   const flattedChain = flatChain(chain);
 
   // filter out empty paths and mainnet groups

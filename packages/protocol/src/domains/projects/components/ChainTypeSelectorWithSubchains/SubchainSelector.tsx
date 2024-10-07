@@ -10,6 +10,7 @@ import { getChainName } from '../../utils/getChainName';
 import { getPathFromSubchain } from './useChainTypeSelectorWithSubchains';
 
 interface ISubchainSelectorProps {
+  isLoading?: boolean;
   classes?: Partial<CheckboxClasses>;
   checkBoxClassName?: string;
   subChain: Chain;
@@ -23,6 +24,7 @@ export const SubchainSelector = ({
   classes,
   endpoints,
   handleChangeChild,
+  isLoading,
   selectedChainPaths,
   subChain,
 }: ISubchainSelectorProps) => {
@@ -49,6 +51,7 @@ export const SubchainSelector = ({
       classes={classes}
       control={
         <Checkbox
+          disabled={isLoading}
           className={checkBoxClassName}
           checked={selectedChainPaths.includes(path)}
           onClick={onChangeChild}

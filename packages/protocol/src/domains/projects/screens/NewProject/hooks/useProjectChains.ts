@@ -34,7 +34,7 @@ const getFirstChainWithPaths = (group: EndpointGroup) => {
 
 const getAllChains = (group: EndpointGroup) => group.chains;
 
-const mapProjectChains = (chain: Chain, isPathRelative?: boolean) => {
+export const mapProjectChains = (chain: Chain, isPathRelative?: boolean) => {
   const {
     beacons: beaconsMainnet,
     id,

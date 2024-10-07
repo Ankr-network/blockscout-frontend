@@ -5,9 +5,10 @@ export const chainProjectItemTranslation = {
     dialogTitle: 'Add chain to projects',
     selectProjects: 'Select projects for chain interaction',
     selectAll: 'Select all',
-    projects: 'Projects',
+    projects: 'Project{plurals, plural, =1 {} other {s}}',
     confirm: 'Confirm',
     cancel: 'Cancel',
     defaultName: 'Default',
+    networks: 'Networks',
   },
 };

@@ -2,7 +2,6 @@ import { WhitelistItem } from 'multirpc-sdk';
 import { useLayoutEffect, useMemo } from 'react';
 import { ESortChainsType } from '@ankr.com/chains-list';
 
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { fetchProjectWhitelist } from 'domains/projects/actions/fetchProjectWhitelist';
 import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/selectors';
 import { sortPrivateChains } from 'domains/chains/screens/ChainsListPage/components/PrivateChains/hooks/utils';
@@ -15,7 +14,7 @@ import { useWhitelistBlockchains } from './useWhitelistBlockchains';
 
 const defaultWhitelist: WhitelistItem[] = [];
 
-export const useProjectData = () => {
+export const useProjectData = (userEndpointToken?: string) => {
   const { data: projectWhitelistData, isLoading: isProjectWhitelistLoading } =
     useProjectWhitelist();
 
@@ -31,9 +30,6 @@ export const useProjectData = () => {
     blockchains: projectBlockchains,
     isLoading: isProjectBlockchainsLoading,
   } = useWhitelistBlockchains();
-
-  const { projectId: userEndpointToken } =
-    ProjectsRoutesConfig.project.useParams();
 
   const chains = useAppSelector(state =>
     selectConfiguredBlockchainsForToken(state, userEndpointToken),

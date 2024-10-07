@@ -187,6 +187,19 @@ export const selectAllPathsByChainId = createSelector(
   },
 );
 
+export const selectAllPathsExceptSubchainsForChainId = createSelector(
+  (state: RootState, chainId: ChainID) => ({
+    state,
+    chainId,
+  }),
+  selectAllChainsPaths,
+  ({ chainId, state }, allChainsPaths) => {
+    const currentChainPaths = selectAllPathsByChainId(state, chainId);
+
+    return allChainsPaths.filter(path => !currentChainPaths.includes(path));
+  },
+);
+
 export const selectAllChainsIds = createSelector(
   selectBlockchains,
   ({ data: blockchains }) => {

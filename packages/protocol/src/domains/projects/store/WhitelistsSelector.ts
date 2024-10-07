@@ -8,6 +8,7 @@ import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';
 import { getAllProjects, Project } from '../utils/getAllProjects';
 import { selectAllProjectsTotalRequestsLoading } from './selectors';
+import { selectAllChainsPaths } from '../../../modules/chains/store/selectors';
 
 const selectAllWhitelists = createSelector(
   fetchAllWhitelists.select({}),
@@ -24,7 +25,7 @@ const selectAllWhitelistsBlockchains = createSelector(
   ({ data: whitelists = [] }) => whitelists,
 );
 
-const selectAllWhitelistsBlockchainsLoading = createSelector(
+export const selectAllWhitelistsBlockchainsLoading = createSelector(
   fetchWhitelistsBlockchains.select(undefined as unknown as never),
   ({ isLoading }) => isLoading,
 );
@@ -68,14 +69,23 @@ export const selectAllProjects = createSelector(
   selectAllWhitelistsBlockchains,
   selectProjectsStatuses,
   selectProjectsPageRequestsLoading,
-  // eslint-disable-next-line max-params
-  (projects, whitelists, whitelistBlockchains, projectStatuses, isLoading) =>
+  selectAllChainsPaths,
+  (
+    projects,
+    whitelists,
+    whitelistBlockchains,
+    projectStatuses,
+    isLoading,
+    allChainsPaths,
+    // eslint-disable-next-line max-params
+  ) =>
     getAllProjects({
       projects,
       whitelists,
       whitelistBlockchains,
       projectStatuses,
       isLoading,
+      allChainsPaths,
     }),
 );
 

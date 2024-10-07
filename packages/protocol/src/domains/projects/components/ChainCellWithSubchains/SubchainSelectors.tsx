@@ -14,6 +14,7 @@ import { chainTypeSelectorWithSubchainsTranslation } from './translation';
 import { ProjectChain } from '../../types';
 
 interface ISubchainSelectorsProps {
+  isLoading?: boolean;
   chain: ProjectChain;
   selectedChainPaths: ChainPath[];
   setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
@@ -21,6 +22,7 @@ interface ISubchainSelectorsProps {
 
 export const SubchainSelectors = ({
   chain,
+  isLoading,
   selectedChainPaths,
   setSelectedChainPaths,
 }: ISubchainSelectorsProps) => {
@@ -31,6 +33,7 @@ export const SubchainSelectors = ({
   return (
     <>
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}
@@ -42,6 +45,7 @@ export const SubchainSelectors = ({
         }
       />
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}
@@ -53,6 +57,7 @@ export const SubchainSelectors = ({
         }
       />
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}
@@ -61,6 +66,7 @@ export const SubchainSelectors = ({
         typeName={t(keys.devnet)}
       />
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}
@@ -70,6 +76,7 @@ export const SubchainSelectors = ({
         hasPremiumColor={!hasPremium && !chain.premiumOnly}
       />
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}
@@ -79,6 +86,7 @@ export const SubchainSelectors = ({
         hasPremiumColor={!hasPremium && !chain.premiumOnly}
       />
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}
@@ -88,6 +96,7 @@ export const SubchainSelectors = ({
         hasPremiumColor={!hasPremium && !chain.premiumOnly}
       />
       <ChainTypeSelectorWithSubchains
+        isLoading={isLoading}
         chain={chain}
         setSelectedChainPaths={setSelectedChainPaths}
         selectedChainPaths={selectedChainPaths}

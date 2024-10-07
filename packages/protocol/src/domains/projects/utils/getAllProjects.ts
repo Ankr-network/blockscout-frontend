@@ -3,7 +3,9 @@ import {
   IGetWhitelistParamsResponse,
   WhitelistItem,
   BlockchainID,
+  UserEndpointToken,
 } from 'multirpc-sdk';
+import { ChainPath } from '@ankr.com/chains-list';
 
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { FetchTokenStatusResponse } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
@@ -22,7 +24,7 @@ export interface Project {
   isFrozen: boolean;
   whitelist?: WhitelistItem[];
   blockchains?: BlockchainID[];
-  userEndpointToken: string;
+  userEndpointToken: UserEndpointToken;
   tokenIndex: number;
 }
 
@@ -45,9 +47,11 @@ interface GetAllProjectsParams {
   whitelistBlockchains: MappedWhitelistBlockchainsResponse[];
   projectStatuses: FetchTokenStatusResponse[];
   isLoading: boolean;
+  allChainsPaths: ChainPath[];
 }
 
 export const getAllProjects = ({
+  allChainsPaths,
   isLoading,
   projectStatuses,
   projects,
@@ -60,9 +64,14 @@ export const getAllProjects = ({
         projectStatus.userEndpointToken === item.userEndpointToken,
     );
 
-    const blockchains = whitelistBlockchains.find(
+    let blockchains = whitelistBlockchains.find(
       whitelist => whitelist.userEndpointToken === item.userEndpointToken,
     )?.blockchains;
+
+    if (blockchains?.length === 0) {
+      // empty array means all blockchains are selected. setting allAvailablePaths to manage subchains
+      blockchains = allChainsPaths;
+    }
 
     return {
       whitelist: whitelists[index]?.lists,

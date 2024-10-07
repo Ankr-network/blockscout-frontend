@@ -16,7 +16,7 @@ import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainPage/hooks
 import { UsageDataSection } from 'domains/chains/screens/ChainPage/components/UsageDataSection';
 import { AdvancedApiInfoTabs } from 'domains/chains/screens/ChainPage/components/ChainItemSections/components/AdvancedApiInfoTabs';
 import { ChainProjectsSection } from 'domains/chains/screens/ChainPage/components/ChainProjectsSection';
-import { ChainProjectsDialog } from 'domains/chains/screens/ChainPage/components/ChainProjectsDialog';
+import { ChainProjectsSidebar } from 'domains/chains/screens/ChainPage/components/ChainProjectsSidebar';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { GuardResolution } from 'modules/common/components/GuardResolution';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
@@ -42,8 +42,8 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   } = useUpgradePlanDialog();
 
   const {
-    isOpened: isOpenedAddToProjectsDialog,
-    onClose: onCloseAddToProjectsDialog,
+    isOpened: isOpenedAddToProjectsSidebar,
+    onClose: onCloseAddToProjectsSidebar,
     onOpen: onOpenAddToProjectsDialog,
   } = useDialog();
 
@@ -67,7 +67,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     </GuardResolution>
   );
 
-  const { chain, headerContent, name } = usePrivateChainItem({
+  const { chain, headerContent, name, subchainLabels } = usePrivateChainItem({
     ...data,
     shouldExpandFlareTestnets: false,
     onBlockedTabClick: onOpenPlansDialog,
@@ -103,10 +103,11 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
       )}
       <UsageDataSection chain={chain} />
       <PlansDialog open={isOpenedPlansDialog} onClose={onClosePlansDialog} />
-      <ChainProjectsDialog
+      <ChainProjectsSidebar
         chain={chain}
-        isOpenedAddToProjectsDialog={isOpenedAddToProjectsDialog}
-        onCloseAddToProjectsDialog={onCloseAddToProjectsDialog}
+        subchainLabels={subchainLabels}
+        isOpenedAddToProjectsSidebar={isOpenedAddToProjectsSidebar}
+        onCloseAddToProjectsSidebar={onCloseAddToProjectsSidebar}
       />
     </>
   );

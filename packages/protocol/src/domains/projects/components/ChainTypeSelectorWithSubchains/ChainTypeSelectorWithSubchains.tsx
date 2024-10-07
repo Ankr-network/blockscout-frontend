@@ -13,6 +13,7 @@ export const ChainTypeSelectorWithSubchains = ({
   chain,
   endpoints,
   hasPremiumColor,
+  isLoading,
   selectedChainPaths,
   setSelectedChainPaths,
   subchains,
@@ -32,6 +33,7 @@ export const ChainTypeSelectorWithSubchains = ({
     setSelectedChainPaths,
     subchains,
     typeName,
+    isLoading,
   });
 
   const { classes: classesTree } = useTreeStyles();
@@ -46,6 +48,7 @@ export const ChainTypeSelectorWithSubchains = ({
       <FormControlLabel
         control={
           <Checkbox
+            disabled={isLoading}
             className={classes.chainCheckbox}
             checked={isParentChecked}
             indeterminate={isParentIndeterminate}
@@ -68,6 +71,7 @@ export const ChainTypeSelectorWithSubchains = ({
           <>
             {subchains.map(subChain => (
               <SubchainSelector
+                isLoading={isLoading}
                 key={subChain.id}
                 classes={{
                   root: cx(classesTree.treeItem, classes.childSelector),
