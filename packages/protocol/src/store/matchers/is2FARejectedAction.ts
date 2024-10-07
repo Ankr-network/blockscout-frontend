@@ -1,8 +1,6 @@
 import { AnyAction, isAnyOf } from '@reduxjs/toolkit';
 
-import { addAddressToWhitelist } from 'domains/projects/actions/addItemToWhitelist';
 import { addBlockchainsToWhitelist } from 'domains/projects/actions/addBlockchainsToWhitelist';
-import { addItemToWhitelists } from 'domains/projects/actions/addItemToWhitelists';
 import { addToWhitelist } from 'domains/projects/actions/addToWhitelist';
 import { authMakeAuthorization } from 'domains/auth/actions/connect/authMakeAuthorization';
 import { cancelBundleSubscription } from 'domains/account/actions/bundles/cancelBundleSubscription';
@@ -18,9 +16,7 @@ import { unbindLoginProvider } from 'domains/userSettings/actions/email/unbindLo
 // Top level endpoints that should be re-initiated if
 // a 2FA error has been caught somewhere inside or in child endpoints.
 const matcher = isAnyOf(
-  addAddressToWhitelist.matchRejected,
   addBlockchainsToWhitelist.matchRejected,
-  addItemToWhitelists.matchRejected,
   addToWhitelist.matchRejected,
   authMakeAuthorization.matchRejected,
   cancelBundleSubscription.matchRejected,

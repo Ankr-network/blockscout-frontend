@@ -11,17 +11,16 @@ import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful'
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUpdateJwtTokenFreezeStatusMutation } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
-import { addToWhitelist as addToWhitelistAction } from '../actions/addToWhitelist';
 import {
   CACHE_KEY_ENABLE_WHITELISTS,
   useAddBlockchainsToWhitelistMutation,
 } from '../actions/addBlockchainsToWhitelist';
 import { newProjectIntlRoot } from '../const';
+import { useAddToWhitelistMutation } from '../actions/addToWhitelist';
 
 interface IParamsForWhitelist {
   chainId: ChainID;
@@ -81,7 +80,7 @@ export const useEnableWhitelist = () => {
   const dispatch = useAppDispatch();
 
   const [addToWhitelist, { isLoading: isAddToWhitelistLoading }] =
-    useQueryEndpoint(addToWhitelistAction);
+    useAddToWhitelistMutation();
 
   const [
     addBlockchainsToWhitelistRequest,
@@ -116,7 +115,7 @@ export const useEnableWhitelist = () => {
     // eslint-disable-next-line no-restricted-syntax
     for (const params of paramsForWhitelistRequests) {
       // eslint-disable-next-line no-await-in-loop
-      const { error } = await addToWhitelist({
+      const response = await addToWhitelist({
         params: {
           userEndpointToken,
           chainId: checkChainsWithExtensionsAndGetChainId(params.chainId),
@@ -126,7 +125,7 @@ export const useEnableWhitelist = () => {
         },
       });
 
-      if (error) {
+      if (!isMutationSuccessful(response)) {
         isErrorOccured = true;
 
         dispatch(

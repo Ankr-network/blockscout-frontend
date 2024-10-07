@@ -14,44 +14,45 @@ export interface AddToWhitelistParams extends IApiUserGroupParams {
 
 export const {
   endpoints: { addToWhitelist },
-  useLazyAddToWhitelistQuery,
+  useAddToWhitelistMutation,
 } = projectApi.injectEndpoints({
   endpoints: build => ({
-    addToWhitelist: build.query<null, TwoFAQueryFnParams<AddToWhitelistParams>>(
-      {
-        queryFn: createQueryFnWithErrorHandler({
-          queryFn: async ({
-            params: {
-              chainId,
-              contractAddress,
+    addToWhitelist: build.mutation<
+      null,
+      TwoFAQueryFnParams<AddToWhitelistParams>
+    >({
+      queryFn: createQueryFnWithErrorHandler({
+        queryFn: async ({
+          params: {
+            chainId,
+            contractAddress,
+            group,
+            type = UserEndpointTokenMode.ADDRESS,
+            userEndpointToken,
+          },
+          totp,
+        }) => {
+          const service = MultiService.getService().getAccountingGateway();
+
+          await service.addAddressToWhitelist(
+            contractAddress,
+            {
+              token: userEndpointToken,
+              type,
+              blockchain: chainId,
               group,
-              type = UserEndpointTokenMode.ADDRESS,
-              userEndpointToken,
             },
             totp,
-          }) => {
-            const service = MultiService.getService().getAccountingGateway();
+          );
 
-            await service.addAddressToWhitelist(
-              contractAddress,
-              {
-                token: userEndpointToken,
-                type,
-                blockchain: chainId,
-                group,
-              },
-              totp,
-            );
-
-            return { data: null };
-          },
-          errorHandler: error => {
-            return {
-              error,
-            };
-          },
-        }),
-      },
-    ),
+          return { data: null };
+        },
+        errorHandler: error => {
+          return {
+            error,
+          };
+        },
+      }),
+    }),
   }),
 });
