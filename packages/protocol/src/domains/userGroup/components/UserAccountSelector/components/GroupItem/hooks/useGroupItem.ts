@@ -45,7 +45,11 @@ export const useGroupItem = ({
 
     avoidAccessDeniedAlert();
 
-    await dispatch(fetchIsEnterpriseClient.initiate(isClientFetchParams));
+    await dispatch(
+      fetchIsEnterpriseClient.initiate(isClientFetchParams, {
+        forceRefetch: true,
+      }),
+    );
 
     resetEndpoint('fetchPremiumStatus', dispatch);
 

@@ -48,7 +48,12 @@ export const {
         const { data: isEnterpriseClient } = await queryFulfilled;
 
         if (isEnterpriseClient) {
-          dispatch(fetchEnterpriseEndpoints.initiate({ params }));
+          dispatch(
+            fetchEnterpriseEndpoints.initiate(
+              { params },
+              { forceRefetch: true },
+            ),
+          );
         }
       },
     }),
