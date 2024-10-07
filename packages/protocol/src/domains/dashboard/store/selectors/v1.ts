@@ -2,8 +2,9 @@ import { createSelector } from '@reduxjs/toolkit';
 import { ChainID } from '@ankr.com/chains-list';
 
 import {
+  FetchPrivateStatsParams,
   FetchPrivateStatsParams as PrivateStatsParams,
-  fetchPrivateStats,
+  selectPrivateStats as selectPrivateStatsData,
 } from 'domains/chains/actions/private/fetchPrivateStats';
 import { RootState } from 'store';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
@@ -38,11 +39,6 @@ import { sortTopCountries } from '../utils/sortTopCountries';
 import { findDetailsById } from '../utils/findDetailsById';
 import { fetchMonthlyUsageHistory } from '../../actions/fetchMonthlyUsageHistory';
 
-export const selectStatsData = createSelector(
-  fetchPrivateStats.select(undefined as unknown as PrivateStatsParams),
-  ({ data = {} }) => data,
-);
-
 export const selectLastMonthStatsData = createSelector(
   fetchLastMonthStats.select({}),
   ({ data = {} }) => data,
@@ -53,8 +49,8 @@ export const selectChainNodeDetails = createSelector(
   ({ data = [] }) => data,
 );
 
-export const selectStats = createSelector(
-  selectStatsData,
+export const selectPrivateStats = createSelector(
+  selectPrivateStatsData,
   ({ stats = {} }) => stats,
 );
 
@@ -64,22 +60,26 @@ export const selectLastMonthStats = createSelector(
 );
 
 export const selectChainStats = createSelector(
-  selectStats,
-  (_state: RootState, chainID: ChainID) => chainID,
+  selectPrivateStats,
+  // 3 args described to fit first selelector interface and avoid args overlap
+  (_state: RootState, _arg: FetchPrivateStatsParams, chainID: ChainID) =>
+    chainID,
   (stats, chainID) => stats[chainID],
 );
 
 export const selectLastMonthChainStats = createSelector(
   selectLastMonthStats,
-  (_state: RootState, chainID: ChainID) => chainID,
+  // 3 args described to fit first selelector interface and avoid args overlap
+  (_state: RootState, _arg: FetchPrivateStatsParams, chainID: ChainID) =>
+    chainID,
   (stats, chainID) => stats[chainID],
 );
 
-export const selectChainsWithStats = createSelector(selectStats, stats =>
+export const selectChainsWithStats = createSelector(selectPrivateStats, stats =>
   Object.keys(stats),
 );
 
-export const selectTotalRequests = createSelector(selectStats, stats =>
+export const selectTotalRequests = createSelector(selectPrivateStats, stats =>
   aggregateRequests(getAllChainsRequests(stats)),
 );
 
@@ -89,7 +89,7 @@ export const selectTotalRequestsByChainID = createSelector(
 );
 
 export const selectTotalRequestsNumber = createSelector(
-  selectStatsData,
+  selectPrivateStatsData,
   stats => stats.totalRequests || 0,
 );
 
@@ -109,7 +109,7 @@ export const selectChainNamesMap = createSelector(
 );
 
 export const selectChainCalls = createSelector(
-  selectStats,
+  selectPrivateStats,
   selectChainNamesMap,
   (stats, map) =>
     Object.entries(stats).map<ChainCalls>(([chainID, stat]) => ({

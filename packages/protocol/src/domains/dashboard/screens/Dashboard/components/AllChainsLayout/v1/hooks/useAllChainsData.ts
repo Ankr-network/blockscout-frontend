@@ -11,17 +11,25 @@ import {
   selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors/v1';
 import { useAppSelector } from 'store/useAppSelector';
+import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
 
 import { useTop10Stats } from './useTop10Stats';
 
 export const useAllChainsData = (timeframe: Timeframe) => {
+  const { privateStatsParams } = usePrivateStatsParams({ timeframe });
+
   const allTimeTotalRequestsNumber = useAppSelector(
     selectAllTimeTotalRequestsNumber,
   );
   const locations = useAppSelector(selectLocations);
   const areLocationsLoading = useAppSelector(selectLocationsLoading);
-  const requests = useAppSelector(selectTotalRequests);
-  const totalRequestsNumber = useAppSelector(selectTotalRequestsNumber);
+  const requests = useAppSelector(state =>
+    selectTotalRequests(state, privateStatsParams),
+  );
+
+  const totalRequestsNumber = useAppSelector(state =>
+    selectTotalRequestsNumber(state, privateStatsParams),
+  );
 
   const requestsChartData = useMemo(
     () => getChartDataByRequests({ isLoggedIn: true, requests, timeframe }),

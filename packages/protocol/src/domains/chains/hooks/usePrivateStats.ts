@@ -7,11 +7,13 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 import { useFetchPrivateStats } from './useFetchPrivateStats';
 
 export interface IPrivateStatsParams {
+  hasGateway?: boolean;
   interval: PrivateStatsInterval;
   userEndpointToken?: string;
 }
 
 export const usePrivateStats = ({
+  hasGateway = false,
   interval,
   userEndpointToken,
 }: IPrivateStatsParams) => {
@@ -28,7 +30,7 @@ export const usePrivateStats = ({
     privateStats: data,
   } = useFetchPrivateStats({
     group,
-    gateway,
+    gateway: hasGateway ? gateway : undefined,
     skipFetching: isEnterpriseStatusLoading,
     interval,
     userEndpointToken: isGroupChanged ? undefined : userEndpointToken,

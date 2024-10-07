@@ -13,6 +13,7 @@ import {
   selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors/v1';
 import { useAppSelector } from 'store/useAppSelector';
+import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
 
 import { ChainLayoutProps } from '../../types';
 import { useTop10Stats } from '../../../AllChainsLayout/v1/hooks/useTop10Stats';
@@ -22,12 +23,13 @@ export const useChainData = ({
   statsChainId,
   timeframe,
 }: ChainLayoutProps) => {
+  const { privateStatsParams } = usePrivateStatsParams({ timeframe });
   const allTimeTotalRequestsNumber = useAppSelector(state =>
     selectAllTimeTotalRequestsNumber(state, statsChainId),
   );
 
   const chainStats = useAppSelector(state =>
-    selectChainStats(state, statsChainId),
+    selectChainStats(state, privateStatsParams, statsChainId),
   );
 
   const locations = useAppSelector(state =>
@@ -37,15 +39,15 @@ export const useChainData = ({
   const areLocationsLoading = useAppSelector(selectLocationsLoading);
 
   const requests = useAppSelector(state =>
-    selectTotalRequestsByChainID(state, statsChainId),
+    selectTotalRequestsByChainID(state, privateStatsParams, statsChainId),
   );
 
   const totalRequestsNumber = useAppSelector(state =>
-    selectTotalRequestsNumberByChainID(state, statsChainId),
+    selectTotalRequestsNumberByChainID(state, privateStatsParams, statsChainId),
   );
 
   const methodCalls = useAppSelector(state =>
-    selectMethodCallsByChainID(state, statsChainId),
+    selectMethodCallsByChainID(state, privateStatsParams, statsChainId),
   );
 
   const requestsChartData = useMemo(

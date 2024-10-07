@@ -39,6 +39,7 @@ export const usePrivateChainsData = ({
     data: { stats: privateStats = {} },
     privateStatsError: error,
   } = usePrivateStats({
+    hasGateway: false,
     interval: timeframeToIntervalMap[timeframe],
     userEndpointToken: ignoreJwtManager ? undefined : userEndpointToken,
   });

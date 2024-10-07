@@ -79,6 +79,7 @@ export const usePrivateUsageData = ({
     data: { stats: privateStats = {} },
     privateStatsError,
   } = usePrivateStats({
+    hasGateway: true,
     interval: timeframeToIntervalMap[timeframe],
     userEndpointToken: ALL_PROJECTS_VALUE,
   });

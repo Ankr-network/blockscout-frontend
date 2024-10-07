@@ -44,10 +44,10 @@ export const {
           interval,
           userEndpointToken,
         }) => {
-          const isEnterprise =
+          const hasProjectToken =
             userEndpointToken && userEndpointToken !== ALL_PROJECTS_VALUE;
 
-          const promise = isEnterprise
+          const promise = hasProjectToken
             ? gateway.getPrivateStatsByPremiumId(
                 interval,
                 userEndpointToken,

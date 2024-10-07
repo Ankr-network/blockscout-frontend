@@ -38,7 +38,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
   const { data: monthlyStats = [] } = useMonthlyStats();
 
   const { data: chainCallsData, isLoading: isLoadingChainCalls } =
-    useChainCalls();
+    useChainCalls({ timeframe });
 
   const {
     amount: projectsDataTotal,
