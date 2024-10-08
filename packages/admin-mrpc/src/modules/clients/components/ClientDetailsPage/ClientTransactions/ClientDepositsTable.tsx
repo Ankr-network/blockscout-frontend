@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Paper,
   Table,
@@ -15,6 +17,7 @@ import {
   renderBalance,
   renderUSD,
 } from 'modules/common/utils/renderBalance';
+import { resetEndpoint } from 'modules/common/utils/resetEndpoint';
 
 import { useTransactions } from './useTransactions';
 
@@ -27,6 +30,7 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
     loadMore,
     isLoadingTransactions,
     isFetchingTransactions,
+    isUninitialized,
     transactionsData,
   } = useTransactions({
     address,
@@ -43,39 +47,45 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
     ],
   });
 
-  const transactionsArray =
-    transactionsData?.transactions.filter(
-      x => x.type !== 'TRANSACTION_TYPE_DEDUCTION',
-    ) || [];
+  const dispatch = useDispatch();
 
-  const rendetLoadMoreButton = () => {
-    if (transactionsData?.cursor && transactionsData?.cursor > 0) {
-      return (
-        <LoadingButton
-          sx={{ margin: '20px auto' }}
-          size="medium"
-          fullWidth
-          color="secondary"
-          onClick={loadMore}
-          loading={isFetchingTransactions}
-        >
-          Load more
-        </LoadingButton>
-      );
-    }
+  useEffect(() => {
+    return () => resetEndpoint('fetchUserTransactions', dispatch);
+  }, [dispatch]);
 
-    return null;
+  const renderLoadMoreButton = (text = 'Load more') => {
+    return (
+      <LoadingButton
+        sx={{ margin: '20px auto' }}
+        size="medium"
+        fullWidth
+        color="secondary"
+        onClick={loadMore}
+        loading={isFetchingTransactions}
+      >
+        {text}
+      </LoadingButton>
+    );
   };
+
+  if (isUninitialized) {
+    return renderLoadMoreButton('Load data');
+  }
 
   if (isLoadingTransactions) {
     return <OverlaySpinner size={50} />;
   }
 
-  if (transactionsArray.length <= 0) {
+  if (
+    transactionsData?.transactions &&
+    transactionsData?.transactions.length <= 0
+  ) {
     return (
       <>
         Not found
-        {rendetLoadMoreButton()}
+        {transactionsData?.cursor &&
+          transactionsData?.cursor > 0 &&
+          renderLoadMoreButton()}
       </>
     );
   }
@@ -106,7 +116,7 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {transactionsArray.map(tx => (
+          {transactionsData?.transactions.map(tx => (
             <TableRow key={tx.timestamp}>
               <TableCell>{formatNumber(tx.amount)}</TableCell>
               <TableCell>{renderBalance(tx.amountAnkr)}</TableCell>
@@ -119,7 +129,9 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
         </TableBody>
       </Table>
 
-      {rendetLoadMoreButton()}
+      {transactionsData?.cursor &&
+        transactionsData?.cursor > 0 &&
+        renderLoadMoreButton()}
     </TableContainer>
   );
 };

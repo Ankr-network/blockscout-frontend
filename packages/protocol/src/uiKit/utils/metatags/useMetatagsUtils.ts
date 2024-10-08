@@ -231,6 +231,18 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Kava Tendermint Rest Testnet';
   } else if (chainId === ChainID.KAVA_TENDERMINT_RPC_TESTNET) {
     name = 'Kava JSON-RPC Testnet';
+  } else if (chainId === ChainID.ZERO_G) {
+    name = '0G';
+  } else if (chainId === ChainID.ZERO_G_NEWTON_TESTNET) {
+    name = '0G Newton';
+  } else if (chainId === ChainID.ZERO_G_NEWTON_RPC) {
+    name = '0G Newton EVM JSON-RPC';
+  } else if (chainId === ChainID.ZERO_G_NEWTON_COSMOS_REST) {
+    name = '0G Newton Cosmos Rest';
+  } else if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_REST) {
+    name = '0G Newton Tendermint Rest';
+  } else if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_RPC) {
+    name = '0G Newton JSON-RPC';
   } else if (chainId === ChainID.BTC) {
     name = 'Bitcoin';
   } else if (chainId.includes('_') && name.includes('_')) {

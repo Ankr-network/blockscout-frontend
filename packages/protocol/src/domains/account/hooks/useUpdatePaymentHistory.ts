@@ -4,11 +4,12 @@ import { useEffect, useRef } from 'react';
 
 import { Options, useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { PaymentHistoryTableTimeframe, PaymentType } from '../types';
 import { fetchPaymentHistory } from '../actions/fetchPaymentHistory';
 import { getTransactionsRequest } from '../screens/BillingPage/components/PaymentsHistoryTable/utils/getTransactionsRequest';
-import { useBalance } from './useBalance';
+import { selectAnkrBalance } from '../store/selectors';
 
 const TIMEOUT = 30000;
 
@@ -18,7 +19,7 @@ export const useUpdatePaymentHistory = (
   timeframe: PaymentHistoryTableTimeframe,
   paymentType: PaymentType,
 ) => {
-  const { ankrBalance } = useBalance({ skipFetching: true });
+  const ankrBalance = useAppSelector(selectAnkrBalance);
   const [fetchTransactions, , reset] = useQueryEndpoint(
     fetchPaymentHistory,
     options,

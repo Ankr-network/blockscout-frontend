@@ -66,6 +66,11 @@ export const getMainTheme = (themes: Themes) => {
               '--indeterminate-checkbox-background':
                 baseTheme.palette.primary.dark,
             },
+
+            '&.Mui-disabled': {
+              '--indeterminate-checkbox-background': baseTheme.palette.divider,
+              '--indeterminate-checkbox-sign': baseTheme.palette.text.disabled,
+            },
           },
         },
       },

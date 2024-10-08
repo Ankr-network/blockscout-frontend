@@ -6,6 +6,8 @@ import { isMainnet } from '../../common/constants/const';
 
 const ENABLE_NOT_STABLE_NETWORKS = isMainnet;
 
+const EVM_JSON_RPC_NAME = 'EVM JSON-RPC';
+
 export const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
     plurals: isPlural ? 1 : 0,
@@ -36,6 +38,16 @@ export const tendermintRpcChains = [
   ChainID.SEI_RPC,
   ChainID.SEI_RPC_TESTNET,
   ChainID.ALLORA_TESTNET_RPC,
+  ChainID.ZERO_G_NEWTON_TENDERMINT_RPC,
+];
+
+export const tendermintRestChains = [
+  ChainID.SECRET_REST,
+  ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
+  ChainID.SEI_REST,
+  ChainID.SEI_REST_TESTNET,
+  ChainID.ALLORA_TESTNET_REST,
+  ChainID.ZERO_G_NEWTON_TENDERMINT_REST,
 ];
 
 export const kavaTendermintRpcChains = [
@@ -46,14 +58,6 @@ export const kavaTendermintRpcChains = [
 export const kavaTendermintRestChains = [
   ChainID.KAVA_TENDERMINT_REST,
   ChainID.KAVA_TENDERMINT_REST_TESTNET,
-];
-
-export const tendermintRestChains = [
-  ChainID.SECRET_REST,
-  ChainID.ZETACHAIN_TENDERMINT_REST_ATHENS_TESTNET,
-  ChainID.SEI_REST,
-  ChainID.SEI_REST_TESTNET,
-  ChainID.ALLORA_TESTNET_REST,
 ];
 
 export const chainGroups: ChainGroup[] = [
@@ -166,6 +170,12 @@ export const chainGroups: ChainGroup[] = [
 
       ChainID.SCROLL,
     ],
+  },
+  {
+    id: ChainGroupID.ZERO_G_EVM,
+    name: EVM_JSON_RPC_NAME,
+    pluralName: EVM_JSON_RPC_NAME,
+    chains: [ChainID.ZERO_G_NEWTON_RPC],
   },
   {
     id: ChainGroupID.CARDONA,
@@ -381,8 +391,8 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.KAVA_EVM,
-    name: 'EVM JSON-RPC',
-    pluralName: 'EVM JSON-RPC',
+    name: EVM_JSON_RPC_NAME,
+    pluralName: EVM_JSON_RPC_NAME,
     chains: [
       ChainID.KAVA_EVM,
       ...(ENABLE_NOT_STABLE_NETWORKS ? [ChainID.KAVA_EVM_TESTNET] : []),
@@ -471,5 +481,11 @@ export const chainGroups: ChainGroup[] = [
     name: 'Blockbook',
     pluralName: 'Blockbook',
     chains: [ChainID.BTC_BLOCKBOOK],
+  },
+  {
+    id: ChainGroupID.ZERO_G_COSMOS_REST,
+    name: 'Cosmos REST',
+    pluralName: 'Cosmos REST',
+    chains: [ChainID.ZERO_G_NEWTON_COSMOS_REST],
   },
 ];

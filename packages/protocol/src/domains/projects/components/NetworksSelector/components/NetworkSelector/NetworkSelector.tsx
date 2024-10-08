@@ -29,6 +29,7 @@ export const NetworkSelector = ({
       selectedSubchainPaths,
     });
 
+  // TODO: premium colors
   const getLabel = networkLabelsMap[networkName];
 
   const { classes } = useNetworkSelectorStyles();
@@ -48,7 +49,7 @@ export const NetworkSelector = ({
             hasPadding
             isChecked={isNetworkSelected}
             isIndeterminate={isIndeterminate}
-            label={getLabel()}
+            label={getLabel()} // TODO: premium colors
             onChange={onChange}
           />
         </AccordionSummary>

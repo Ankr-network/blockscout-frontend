@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { ChainID } from '@ankr.com/chains-list';
 
-import { ProjectChain } from 'domains/projects/screens/NewProject/hooks/useProjectChains';
+import { ProjectChain } from 'domains/projects/types';
 import { isExtensionOnlyChain } from 'domains/chains/utils/isExtensionOnlyChain';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { getSubchainIds } from 'modules/chains/utils/getSubchainIds';

@@ -13,7 +13,6 @@ import { useChainsTableColumns } from './useChainsTableColumns';
 import { chainIdMapper } from '../utils/chainIdMapper';
 import { sortChainIds } from '../utils/sortChainIds';
 
-// eslint-disable-next-line max-lines-per-function
 export const useChainsTable = () => {
   const {
     currentModalChain,

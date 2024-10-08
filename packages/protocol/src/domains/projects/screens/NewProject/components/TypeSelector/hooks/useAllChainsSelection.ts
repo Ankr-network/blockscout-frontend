@@ -17,12 +17,19 @@ export interface ITypeSelectorProps extends SelectMenuProps {
   beaconsTestnet?: Chain[];
   opnodesMainnet?: Chain[];
   opnodesTestnet?: Chain[];
+
+  isChecked: boolean;
+  isIndeterminate: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 // eslint-disable-next-line max-lines-per-function
 export const useAllChainsSelection = ({
   endpoints,
-}: Omit<ITypeSelectorProps, 'chainTypes'>) => {
+}: Omit<
+  ITypeSelectorProps,
+  'chainTypes' | 'isChecked' | 'isIndeterminate' | 'onChange'
+>) => {
   const {
     onChange: onFormChange,
     selectedBeaconMainnetIds,

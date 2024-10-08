@@ -11,6 +11,7 @@ import { selectNodesDetails } from 'modules/chains/store/selectors';
 import { checkIsArchive } from 'modules/chains/utils/isArchive';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
+import { SubchainLabels } from 'domains/chains/screens/ChainPage/components/ChainItemHeader/components/SubchainLabels';
 
 import { ChainLogo } from '../ChainLogo';
 import { useChainDescriptionStyles } from './useChainDescriptionStyles';
@@ -85,6 +86,17 @@ export const ChainDescription = ({
 
         {hasLabels && (
           <div className={classes.chips}>
+            {subchainLabels && (
+              <div
+                className={cx(
+                  classes.chainLabelsWrapper,
+                  (hasPremiumLabel || isArchive) && classes.dot,
+                )}
+              >
+                <SubchainLabels labels={subchainLabels} />
+              </div>
+            )}
+
             {isArchive && (
               <div className={cx(hasPremiumLabel && classes.dot)}>
                 <ChainLabel

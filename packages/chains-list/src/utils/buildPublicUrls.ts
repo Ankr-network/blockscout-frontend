@@ -6,6 +6,7 @@ import {
   KAVA_IDS,
   SEI_IDS,
   STELLAR_IDS,
+  ZERO_G_IDS,
   blockchainNameTemplate,
 } from '../constants';
 import { ChainsConfig, EBlockchainFeature, IBlockchainEntity } from '../common';
@@ -74,6 +75,7 @@ export const buildPublicUrls = ({
       id === 'tron' ||
       id === 'gnosis_beacon' ||
       ALLORA_IDS.includes(id) ||
+      ZERO_G_IDS.includes(id) ||
       id === 'btc_blockbook'
     ) {
       blockchainCopy.paths = blockchain?.paths ? [blockchain.paths[0]] : [];

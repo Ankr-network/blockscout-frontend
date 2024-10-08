@@ -7,8 +7,11 @@ import { useProjectData } from './useProjectData';
 import { useProjectPaths } from './useProjectPaths';
 import { useProjectChainsTabs } from './useProjectChainsTabs';
 
-export const useProjectChains = (): ProjectChainsContextValue => {
-  const { chains, isLoading, projectBlockchains } = useProjectData();
+export const useProjectChains = (
+  userEndpointToken?: string,
+): ProjectChainsContextValue => {
+  const { chains, isLoading, projectBlockchains } =
+    useProjectData(userEndpointToken);
 
   const paths = useProjectPaths({ chains, projectBlockchains });
 
