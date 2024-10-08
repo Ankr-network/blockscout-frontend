@@ -842,6 +842,7 @@ export class AccountingGateway {
       { params: queryParams },
     );
 
+    // empty array means all blockchains are included to project
     return data;
   }
 

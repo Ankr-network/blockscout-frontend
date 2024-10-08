@@ -1,24 +1,9 @@
-import { Chain as MainChainType, ChainType } from '@ankr.com/chains-list';
+import { Chain, ChainType } from '@ankr.com/chains-list';
 
 export enum NewProjectStep {
   General,
   Chains,
   Whitelist,
-}
-
-export enum PlanName {
-  EarlyAdopters = 'Early Adopters',
-  Grow = 'Grow',
-  Free = 'Free',
-}
-
-export interface Plan {
-  name: PlanName;
-  title: string;
-  price: string;
-  description: string;
-  USDPrice: string;
-  disabled?: boolean;
 }
 
 export enum ProjectChainTypeExtenders {
@@ -30,9 +15,13 @@ export enum ProjectChainTypeExtenders {
 
 export type ProjectChainType = ChainType | ProjectChainTypeExtenders;
 
-export type ProjectChainsType = MainChainType & {
-  beaconsMainnet?: MainChainType[];
-  beaconsTestnet?: MainChainType[];
-  opnodesMainnet?: MainChainType[];
-  opnodesTestnet?: MainChainType[];
+export type ProjectChainsType = Chain & {
+  beaconsMainnet?: Chain[];
+  beaconsTestnet?: Chain[];
+  opnodesMainnet?: Chain[];
+  opnodesTestnet?: Chain[];
+};
+
+export type ProjectChain = ProjectChainsType & {
+  mainnets?: Chain[];
 };

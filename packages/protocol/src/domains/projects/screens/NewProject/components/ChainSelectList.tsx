@@ -3,11 +3,12 @@ import { Typography } from '@mui/material';
 
 import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
 import { useChainSelectorContentStyles } from 'modules/common/components/ChainSelectorContent/useChainSelectorContentStyles';
+import { ProjectChain } from 'domains/projects/types';
 
 import { TypeSelector } from './TypeSelector';
 import { useChainsSelector } from './ChainStep/hooks/useChainsSelector';
 import { useChainSelectVisibility } from './TypeSelector/hooks/useChainSelectVisibility';
-import { ProjectChain } from '../hooks/useProjectChains';
+import { useAllChainsSelection } from './TypeSelector/hooks/useAllChainsSelection';
 
 export interface ChainSelectListProps {
   chain: ProjectChain;
@@ -50,6 +51,11 @@ export const ChainSelectList = ({
     opnodesMainnet ||
     opnodesTestnet;
 
+  const { isChecked, isIndeterminate, onChange } = useAllChainsSelection({
+    chainId,
+    endpoints,
+  });
+
   const { classes } = useChainSelectorContentStyles();
 
   if (!isVisible || !hasTypeSelector) return null;
@@ -69,6 +75,9 @@ export const ChainSelectList = ({
           beaconsTestnet={beaconsTestnet}
           opnodesMainnet={opnodesMainnet}
           opnodesTestnet={opnodesTestnet}
+          isChecked={isChecked}
+          isIndeterminate={isIndeterminate}
+          onChange={onChange}
         />
       </div>
     </ChainProtocolContext.Provider>

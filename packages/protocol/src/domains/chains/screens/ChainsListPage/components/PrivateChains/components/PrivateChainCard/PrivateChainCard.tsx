@@ -1,13 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { isTestnetPremiumOnly } from '@ankr.com/chains-list';
 
 import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
-import { useMenu } from 'modules/common/hooks/useMenu';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { ChainProjectsDialog } from 'domains/chains/screens/ChainPage/components/ChainProjectsDialog';
+import { ChainProjectsSidebar } from 'domains/chains/screens/ChainPage/components/ChainProjectsSidebar';
+import { getChainLabels } from 'modules/chains/utils/getChainLabels';
+import { usePrivateChainType } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainType';
+import { useCommonChainItem } from 'domains/chains/screens/ChainPage/hooks/useCommonChainItem';
 
 import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
@@ -15,15 +14,16 @@ import { IChainCardProps } from '../../../PublicChains/components/PublicChainCar
 import { ChainProjectsProps } from './components/ChainProjects';
 import { PrivateChainCardActions } from './components/PrivateChainCardActions';
 import { EChainView } from '../../../ChainViewSelector';
+import {
+  IUsePrivateChainCardProps,
+  usePrivateChainCard,
+} from './hooks/usePrivateChainCard';
 
-interface PrivateChainCardProps extends IChainCardProps, ChainProjectsProps {
-  hasPremium: boolean;
-  jwtTokens: JwtManagerToken[];
-  allWhitelistsBlockchains?: MappedWhitelistBlockchainsResponse[];
-  isLoadingProjects: boolean;
-}
+interface PrivateChainCardProps
+  extends IChainCardProps,
+    ChainProjectsProps,
+    IUsePrivateChainCardProps {}
 
-// eslint-disable-next-line max-lines-per-function
 export const PrivateChainCard = ({
   allWhitelistsBlockchains,
   chain,
@@ -35,66 +35,48 @@ export const PrivateChainCard = ({
 }: PrivateChainCardProps) => {
   const { loading, totalRequests } = usePrivateChainsItem({ chain });
 
-  const isEndpointLocked = Boolean(chain.premiumOnly && !hasPremium);
-
-  const allChainPaths = useAppSelector(state =>
-    selectAllPathsByChainId(state, chain.id),
-  );
-
-  const chainProjects = useMemo(() => {
-    return allWhitelistsBlockchains?.filter(project => {
-      // empty array means all chains are included
-      if (project.blockchains.length === 0) {
-        return true;
-      }
-
-      const isCurrentPathIncluded =
-        allChainPaths?.length > 0 &&
-        project.blockchains.length > 0 &&
-        allChainPaths.some(path => project.blockchains.includes(path));
-
-      return isCurrentPathIncluded;
-    });
-  }, [allChainPaths, allWhitelistsBlockchains]);
-
-  const filteredJwtTokens = useMemo(
-    () =>
-      jwtTokens.filter(
-        token =>
-          !chainProjects?.every(
-            project =>
-              project.userEndpointToken.toLowerCase() !==
-              token.userEndpointToken.toLowerCase(),
-          ),
-      ),
-    [chainProjects, jwtTokens],
-  );
-
-  const { anchorEl, handleClose, handleOpen, open } = useMenu();
-
-  const handleOpenChainMenu = useCallback(
-    e => {
-      e.preventDefault();
-      e.stopPropagation();
-      handleOpen(e);
-    },
-    [handleOpen],
-  );
-
-  const isChainProjectsEmpty =
-    !isLoadingProjects && chainProjects?.length === 0;
-
   const { totalRequestsStr } = useCommonChainsItemData(
     chain,
     totalRequests,
     true,
   );
 
+  const { endpoints, netId } = useCommonChainItem({
+    chain,
+  });
+
+  const { chainTypeTabs } = usePrivateChainType({
+    chain,
+    endpoints,
+    netId,
+    isBlockedTestnet: !hasPremium && isTestnetPremiumOnly(chain),
+    isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
+  });
+
+  const subchainLabels = getChainLabels(chain, chainTypeTabs);
+
   const {
-    isOpened: isOpenedAddToProjectsDialog,
-    onClose: onCloseAddToProjectsDialog,
+    isOpened: isOpenedAddToProjectsSidebar,
+    onClose: onCloseAddToProjectsSidebar,
     onOpen: onOpenAddToProjectsDialog,
   } = useDialog();
+
+  const {
+    anchorEl,
+    chainProjects,
+    filteredJwtTokens,
+    handleClose,
+    handleOpenChainMenu,
+    isChainProjectsEmpty,
+    isEndpointLocked,
+    isMenuOpened,
+  } = usePrivateChainCard({
+    allWhitelistsBlockchains,
+    chain,
+    hasPremium,
+    isLoadingProjects,
+    jwtTokens,
+  });
 
   const cardProps: IBaseChainCardProps = useMemo(
     () => ({
@@ -118,7 +100,7 @@ export const PrivateChainCard = ({
           isEndpointLocked={isEndpointLocked}
           isLoadingProjects={isLoadingProjects}
           onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
-          open={open}
+          open={isMenuOpened}
           isChainProjectsEmpty={isChainProjectsEmpty}
           isCardView={view === EChainView.Cards}
         />
@@ -140,20 +122,19 @@ export const PrivateChainCard = ({
       isEndpointLocked,
       isLoadingProjects,
       onOpenAddToProjectsDialog,
-      open,
+      isMenuOpened,
     ],
   );
 
   return (
     <>
       <BaseChainsCard {...cardProps} />
-      {isOpenedAddToProjectsDialog && (
-        <ChainProjectsDialog
-          chain={chain}
-          isOpenedAddToProjectsDialog={isOpenedAddToProjectsDialog}
-          onCloseAddToProjectsDialog={onCloseAddToProjectsDialog}
-        />
-      )}
+      <ChainProjectsSidebar
+        chain={chain}
+        subchainLabels={subchainLabels}
+        isOpenedAddToProjectsSidebar={isOpenedAddToProjectsSidebar}
+        onCloseAddToProjectsSidebar={onCloseAddToProjectsSidebar}
+      />
     </>
   );
 };

@@ -1,4 +1,5 @@
 import { ChainPath } from '@ankr.com/chains-list';
+import { Dispatch, SetStateAction } from 'react';
 
 import { ChainsTable } from 'domains/projects/components/ChainsTable';
 
@@ -11,6 +12,7 @@ export interface ProjectChainsTableProps {
   setIsSelectedAll: (isSelectedAll: boolean) => void;
   searchContent?: string;
   selectedChainPaths: ChainPath[];
+  setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
 }
 
 export const ProjectChainsTable = ({
@@ -18,6 +20,7 @@ export const ProjectChainsTable = ({
   selectAllSubChainPaths,
   selectedChainPaths,
   setIsSelectedAll,
+  setSelectedChainPaths,
   unSelectAllSubChainPaths,
 }: ProjectChainsTableProps) => {
   const columns = useProjectChainsTableColumns({
@@ -25,6 +28,7 @@ export const ProjectChainsTable = ({
     unSelectAllSubChainPaths,
     setIsSelectedAll,
     selectedChainPaths,
+    setSelectedChainPaths,
   });
 
   const chains = useChains(searchContent);

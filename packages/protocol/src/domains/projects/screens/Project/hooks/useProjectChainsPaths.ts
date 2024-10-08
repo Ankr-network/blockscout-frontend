@@ -16,6 +16,7 @@ export const useProjectChainsPaths = ({
     isSelectedAll,
     selectedProjectChainsPaths,
     setIsSelectedAll,
+    setSelectedProjectChainsPaths,
   } = useSelectedProjectChainsPaths();
 
   const { handleAddChainsToProject, isAddingChainsToProject } =
@@ -32,6 +33,7 @@ export const useProjectChainsPaths = ({
     setIsSelectedAll,
     isAddingChainsToProject,
     selectedProjectChainsPaths,
+    setSelectedProjectChainsPaths,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
   };

@@ -22,7 +22,7 @@ export const UpgradeAccountDialog = ({
 
   return (
     <Dialog
-      classes={{ paper: classes.dialogPaper }}
+      classes={{ paper: classes.premiumDialogPaper }}
       open={isOpened}
       onClose={handleClose}
       maxPxWidth={600}
@@ -33,7 +33,7 @@ export const UpgradeAccountDialog = ({
         </div>
       }
     >
-      <div className={classes.root}>
+      <div className={classes.upgradeAccountRoot}>
         <div className={classes.contentWrapper}>
           <Typography variant="h5" className={classes.title}>
             {t('projects.upgrade-account-dialog.title')}

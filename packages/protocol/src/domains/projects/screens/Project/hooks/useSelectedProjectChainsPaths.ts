@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
 import { ChainPath } from '@ankr.com/chains-list';
 
@@ -76,13 +75,15 @@ export const useSelectedProjectChainsPaths = ({
   shouldHandleSubchains = true,
 }: UseSelectedProjectChainsPathsParams | void = {}) => {
   const { paths: projectChainsPaths } = useProjectChainsContext();
+
   const [selectedProjectChainsPaths, setSelectedProjectChainsPaths] =
     useState<ChainPath[]>(projectChainsPaths);
-  const [isSelectedAll, setIsSelectedAll] = useState(false);
 
   useEffect(() => {
     setSelectedProjectChainsPaths(projectChainsPaths);
   }, [projectChainsPaths]);
+
+  const [isSelectedAll, setIsSelectedAll] = useState(false);
 
   const handleSelectProjectChainsPaths = useCallback(
     (newPaths: ChainPath | ChainPath[]) => {
@@ -124,5 +125,6 @@ export const useSelectedProjectChainsPaths = ({
     setIsSelectedAll,
     isSelectedAll,
     selectedProjectChainsPaths,
+    setSelectedProjectChainsPaths,
   };
 };

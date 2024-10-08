@@ -58,6 +58,7 @@ export const PrivateChainCardActions = (
             userEndpointToken={filteredJwtTokens[0]?.userEndpointToken}
             buttonProps={{
               variant: 'outlined',
+              disabled: isLoadingProjects,
             }}
             buttonClassName={cx(classes.privateChainCopyEndpointButton, {
               [classes.privateActionsButtonLarge]: !isCardView,
@@ -90,6 +91,7 @@ export const PrivateChainCardActions = (
               className: cx(classes.chainCardBtnMore, {
                 [classes.chainCardBtnMoreActive]: open,
               }),
+              loading: isLoadingProjects,
             }}
             iconMoreClassName={classes.chainCardBtnMoreIcon}
             classes={{ paper: classes.chainCardMenuPaper }}

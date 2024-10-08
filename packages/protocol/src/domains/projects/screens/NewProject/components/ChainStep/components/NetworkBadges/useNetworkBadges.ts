@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 import { ChainID } from '@ankr.com/chains-list';
 
-import { ProjectChain } from 'domains/projects/screens/NewProject/hooks/useProjectChains';
+import { ProjectChain } from 'domains/projects/types';
 import { isTestnetOnlyChain } from 'domains/chains/utils/isTestnetOnlyChain';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 

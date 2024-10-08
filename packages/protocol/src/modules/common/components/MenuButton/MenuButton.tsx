@@ -1,7 +1,8 @@
-import { More } from '@ankr.com/ui';
-import { ButtonBase, ButtonProps, Menu, MenuProps } from '@mui/material';
+import { LoadingButton, More } from '@ankr.com/ui';
+import { ButtonBase, Menu, MenuProps } from '@mui/material';
 
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { LoadingButtonProps } from 'uiKit/LoadingButton';
 
 import { useMenuButtonStyles } from './useMenuButtonStyles';
 
@@ -10,7 +11,7 @@ export type MenuButtonProps = Pick<
   'children' | 'anchorEl' | 'open' | 'classes'
 > & {
   onOpen: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  buttonProps?: ButtonProps;
+  buttonProps?: LoadingButtonProps;
   onClose: () => void;
   iconMoreClassName?: string;
 };
@@ -32,13 +33,14 @@ export const MenuButton = (props: MenuButtonProps) => {
 
   return (
     <>
-      <ButtonBase
+      <LoadingButton
+        component={ButtonBase}
         {...buttonProps}
         className={cx(classes.menuButton, buttonProps.className)}
         onClick={onOpen}
       >
-        <More className={iconMoreClassName} />
-      </ButtonBase>
+        {!buttonProps.loading && <More className={iconMoreClassName} />}
+      </LoadingButton>
 
       <Menu
         MenuListProps={{

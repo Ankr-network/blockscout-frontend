@@ -56,6 +56,7 @@ interface PrivateChainItem extends ChainItem {
   chainTypeTabs: Tab<ChainType>[];
   groupTab?: Tab<ChainGroupID>;
   groupTabs: Tab<ChainGroupID>[];
+  subchainLabels: string[];
 }
 
 type PrivateChainItemParams = IPrivateChainItemDetails & {
@@ -238,5 +239,6 @@ export const usePrivateChainItem = ({
     chainTypeTabs,
     groupTab,
     groupTabs,
+    subchainLabels,
   };
 };

@@ -19,11 +19,15 @@ export interface CheckboxProps {
   isIndeterminate?: boolean;
   label: string;
   onChange?: (isChecked: boolean) => void;
+  classNameRoot?: string;
+  classNameLabel?: string;
 }
 
 const handleClickBubbling = (event: MouseEvent) => event.stopPropagation();
 
 export const Checkbox = ({
+  classNameLabel,
+  classNameRoot,
   hasBorderBottom = false,
   hasMarginTop = false,
   hasPadding = false,
@@ -52,12 +56,16 @@ export const Checkbox = ({
   return (
     <FormControlLabel
       classes={{
-        root: cx(classes.checkboxRoot, { [classesTree.treeItem]: hasTreeView }),
+        root: cx(
+          classes.checkboxRoot,
+          { [classesTree.treeItem]: hasTreeView },
+          classNameRoot,
+        ),
         label: classes.checkboxLabel,
       }}
       label={
         <Typography
-          className={classes.labelWrapper}
+          className={cx(classes.labelWrapper, classNameLabel)}
           onClick={handleClickBubbling}
           variant="body2"
         >

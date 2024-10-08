@@ -8,20 +8,18 @@ import { useChainOverviewStyles } from './ChainOverviewStyles';
 export interface ChainOverviewProps {
   chain: Chain;
   addToProjectButton?: ReactNode;
-  subchainLabels?: string[];
 }
 
 export const ChainOverview = ({
   addToProjectButton,
   chain,
-  subchainLabels,
 }: ChainOverviewProps) => {
   const { classes } = useChainOverviewStyles();
 
   return (
     <div className={classes.chainOverview}>
       <div className={classes.left}>
-        <ChainDescription chain={chain} subchainLabels={subchainLabels} />
+        <ChainDescription chain={chain} />
       </div>
       <div className={classes.right}>{addToProjectButton}</div>
     </div>

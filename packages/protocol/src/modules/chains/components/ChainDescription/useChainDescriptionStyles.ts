@@ -68,9 +68,9 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
   },
   chips: {
     display: 'flex',
-    alignItems: 'center',
     gap: theme.spacing(1),
     marginTop: theme.spacing(1),
+    flexWrap: 'wrap',
   },
   premiumChip: {
     height: 20,
@@ -100,6 +100,7 @@ export const useChainDescriptionStyles = makeStyles()(theme => ({
     alignItems: 'center',
     '&::after': {
       marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
       content: '""',
       width: 2,
       height: 2,

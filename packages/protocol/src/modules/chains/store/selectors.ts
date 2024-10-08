@@ -17,6 +17,7 @@ import { getAllPathsByChain } from '../utils/getAllPathsByChain';
 import { getSubchainIdsWithNotEmptyPath } from '../utils/getSubchainIdsWithNotEmptyPath';
 import { clearPathPrefix } from '../utils/clearPathPrefix';
 import { filterPathsExceptions } from '../utils/filterPathsExceptions';
+import { getPathsFromChains } from '../utils/getPathsFromChains';
 
 export const selectBlockchains = createSelector(
   chainsFetchBlockchains.select(),
@@ -160,26 +161,8 @@ export const selectAllSubChainIdsWithPathByChainId = createSelector(
 
 export const selectAllChainsPaths = createSelector(
   selectBlockchains,
-  ({ data: blockchains }) => {
-    const allChainPaths = blockchains
-      ?.flatMap(blockchain => {
-        const chainPaths = blockchain?.paths?.filter(Boolean);
-
-        if (!chainPaths) {
-          return [];
-        }
-
-        const chainPathsProcessed = chainPaths
-          .flatMap(clearPathPrefix)
-          .filter(item => item.length !== 0);
-
-        return chainPathsProcessed;
-      })
-      .filter(Boolean);
-
-    if (!allChainPaths) return [];
-
-    return getUniqueArray([...allChainPaths]);
+  ({ data: blockchains = [] }) => {
+    return getPathsFromChains(blockchains);
   },
 );
 
@@ -201,6 +184,19 @@ export const selectAllPathsByChainId = createSelector(
     }
 
     return [];
+  },
+);
+
+export const selectAllPathsExceptSubchainsForChainId = createSelector(
+  (state: RootState, chainId: ChainID) => ({
+    state,
+    chainId,
+  }),
+  selectAllChainsPaths,
+  ({ chainId, state }, allChainsPaths) => {
+    const currentChainPaths = selectAllPathsByChainId(state, chainId);
+
+    return allChainsPaths.filter(path => !currentChainPaths.includes(path));
   },
 );
 

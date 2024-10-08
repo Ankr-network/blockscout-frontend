@@ -2,9 +2,9 @@ import { Box } from '@mui/material';
 
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
+import { ProjectChain } from 'domains/projects/types';
 
 import { ChainSelectList } from '../ChainSelectList';
-import { ProjectChain } from '../../hooks/useProjectChains';
 
 interface ChainSelectProps {
   className?: string;

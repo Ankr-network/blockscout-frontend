@@ -2,11 +2,17 @@ import { makeStyles } from 'tss-react/mui';
 
 import bg from './assets/bg.png';
 
-export const useUpgradeAccountDialogStyles = makeStyles()(theme => ({
-  root: {
+const name = 'UpgradeAccountDialog';
+
+export const useUpgradeAccountDialogStyles = makeStyles({ name })(theme => ({
+  upgradeAccountRoot: {
     display: 'flex',
     flexDirection: 'column',
     width: 520,
+
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   imageWrapper: {
     position: 'absolute',
@@ -18,6 +24,15 @@ export const useUpgradeAccountDialogStyles = makeStyles()(theme => ({
     overflow: 'hidden',
     backgroundImage: `url(${bg})`,
     backgroundSize: 'auto',
+
+    [theme.breakpoints.down('sm')]: {
+      width: `calc(100% + 80px)`,
+      height: 'auto',
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      width: `calc(100% + 60px)`,
+    },
   },
   image: {
     height: 280,
@@ -58,7 +73,7 @@ export const useUpgradeAccountDialogStyles = makeStyles()(theme => ({
       color: theme.palette.primary.main,
     },
   },
-  dialogPaper: {
+  premiumDialogPaper: {
     borderRadius: 40,
   },
 }));

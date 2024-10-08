@@ -14,17 +14,17 @@ export interface ChainsTableBodyProps {
 
 const ALL_CHAINS_SELECTOR_ROW_INDEX = -1;
 
+const allChainsSelectorItem = {
+  ...fallbackChain,
+  id: ChainID.ALL_CHAINS,
+  name: '',
+};
+
 export const ChainsTableBody = ({
   cellClassName,
   chains,
   columns,
 }: ChainsTableBodyProps) => {
-  const allChainsSelectorItem = {
-    ...fallbackChain,
-    id: ChainID.ALL_CHAINS,
-    name: '',
-  };
-
   const allChainsSelectorRow = {
     chain: allChainsSelectorItem,
     index: ALL_CHAINS_SELECTOR_ROW_INDEX,

@@ -1,12 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { UserEndpointToken } from 'multirpc-sdk';
 
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';
-import { getAllProjects } from '../utils/getAllProjects';
+import { getAllProjects, Project } from '../utils/getAllProjects';
 import { selectAllProjectsTotalRequestsLoading } from './selectors';
+import { selectAllChainsPaths } from '../../../modules/chains/store/selectors';
 
 const selectAllWhitelists = createSelector(
   fetchAllWhitelists.select({}),
@@ -23,7 +25,7 @@ const selectAllWhitelistsBlockchains = createSelector(
   ({ data: whitelists = [] }) => whitelists,
 );
 
-const selectAllWhitelistsBlockchainsLoading = createSelector(
+export const selectAllWhitelistsBlockchainsLoading = createSelector(
   fetchWhitelistsBlockchains.select(undefined as unknown as never),
   ({ isLoading }) => isLoading,
 );
@@ -67,13 +69,30 @@ export const selectAllProjects = createSelector(
   selectAllWhitelistsBlockchains,
   selectProjectsStatuses,
   selectProjectsPageRequestsLoading,
-  // eslint-disable-next-line max-params
-  (projects, whitelists, whitelistBlockchains, projectStatuses, isLoading) =>
+  selectAllChainsPaths,
+  (
+    projects,
+    whitelists,
+    whitelistBlockchains,
+    projectStatuses,
+    isLoading,
+    allChainsPaths,
+    // eslint-disable-next-line max-params
+  ) =>
     getAllProjects({
       projects,
       whitelists,
       whitelistBlockchains,
       projectStatuses,
       isLoading,
+      allChainsPaths,
     }),
+);
+
+export const selectProjectChainsByToken = createSelector(
+  selectAllProjects,
+  (_state: any, token: UserEndpointToken) => token,
+  (projects: Project[], token: UserEndpointToken) =>
+    projects.find((project: Project) => project.userEndpointToken === token)
+      ?.blockchains,
 );

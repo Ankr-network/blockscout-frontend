@@ -25,7 +25,7 @@ export const Project = () => {
 
   useProjectStatsInitialization({ userEndpointToken });
 
-  const projectChainsData = useProjectChains();
+  const projectChainsData = useProjectChains(userEndpointToken);
 
   const {
     projectStatus: { frozen: isFrozen, suspended: isSuspended },

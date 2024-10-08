@@ -6,6 +6,8 @@ import { isMainnet } from '../../common/constants/const';
 
 const ENABLE_NOT_STABLE_NETWORKS = isMainnet;
 
+const EVM_JSON_RPC_NAME = 'EVM JSON-RPC';
+
 export const getName = (key: string, isPlural?: boolean) =>
   t(`chain-item.header.endpoint-groups.${key}`, {
     plurals: isPlural ? 1 : 0,
@@ -171,8 +173,8 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.ZERO_G_EVM,
-    name: 'EVM JSON-RPC',
-    pluralName: 'EVM JSON-RPC',
+    name: EVM_JSON_RPC_NAME,
+    pluralName: EVM_JSON_RPC_NAME,
     chains: [ChainID.ZERO_G_NEWTON_RPC],
   },
   {
@@ -389,8 +391,8 @@ export const chainGroups: ChainGroup[] = [
   },
   {
     id: ChainGroupID.KAVA_EVM,
-    name: 'EVM JSON-RPC',
-    pluralName: 'EVM JSON-RPC',
+    name: EVM_JSON_RPC_NAME,
+    pluralName: EVM_JSON_RPC_NAME,
     chains: [
       ChainID.KAVA_EVM,
       ...(ENABLE_NOT_STABLE_NETWORKS ? [ChainID.KAVA_EVM_TESTNET] : []),

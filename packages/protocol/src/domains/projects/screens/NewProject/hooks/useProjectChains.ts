@@ -13,14 +13,6 @@ import { selectConfiguredBlockchainsForToken } from 'modules/chains/store/select
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { EndpointGroup } from 'modules/endpoints/types';
 
-export type ProjectChain = Chain & {
-  mainnets?: Chain[];
-  beaconsMainnet?: Chain[];
-  beaconsTestnet?: Chain[];
-  opnodesMainnet?: Chain[];
-  opnodesTestnet?: Chain[];
-};
-
 const isNotTendermintGroup = (group: EndpointGroup) => {
   const firstChainId = group.chains[0].id;
 
@@ -32,9 +24,17 @@ const isNotTendermintGroup = (group: EndpointGroup) => {
 
 const getFirstChain = (group: EndpointGroup) => group.chains[0];
 
+const getFirstChainWithPaths = (group: EndpointGroup) => {
+  const groupWithPaths = group.chains.find(
+    chain => chain.paths && chain.paths.length > 0,
+  );
+
+  return groupWithPaths || group.chains[0];
+};
+
 const getAllChains = (group: EndpointGroup) => group.chains;
 
-const mapProjectChains = (chain: Chain) => {
+export const mapProjectChains = (chain: Chain, isPathRelative?: boolean) => {
   const {
     beacons: beaconsMainnet,
     id,
@@ -83,11 +83,18 @@ const mapProjectChains = (chain: Chain) => {
     opnodesTestnetWithFallback?.length > 0
       ? opnodesTestnetWithFallback
       : undefined;
+
   const chainParams = {
     ...chain,
-    mainnets: endpoints.mainnet.filter(isNotTendermintGroup).map(getFirstChain),
-    devnets: endpoints.devnet.filter(isNotTendermintGroup).map(getFirstChain),
-    testnets: endpoints.testnet.filter(isNotTendermintGroup).map(getFirstChain),
+    mainnets: endpoints.mainnet
+      .filter(isNotTendermintGroup)
+      .map(isPathRelative ? getFirstChainWithPaths : getFirstChain),
+    devnets: endpoints.devnet
+      .filter(isNotTendermintGroup)
+      .map(isPathRelative ? getFirstChainWithPaths : getFirstChain),
+    testnets: endpoints.testnet
+      .filter(isNotTendermintGroup)
+      .map(isPathRelative ? getFirstChainWithPaths : getFirstChain),
     hasWSFeature: hasWsFeature(chain),
     beaconsMainnet,
     beaconsTestnet,
@@ -123,7 +130,7 @@ const mapProjectChains = (chain: Chain) => {
 
 const { useParams } = ProjectsRoutesConfig.project;
 
-export const useProjectChains = () => {
+export const useProjectChains = (isPathRelative?: boolean) => {
   const { projectId: userEndpointToken } = useParams();
 
   const chains = useAppSelector(state =>
@@ -131,8 +138,10 @@ export const useProjectChains = () => {
   );
   const projectChains = useMemo(
     () =>
-      chains.map(mapProjectChains).sort((a, b) => a.name.localeCompare(b.name)),
-    [chains],
+      chains
+        .map(chain => mapProjectChains(chain, isPathRelative))
+        .sort((a, b) => a.name.localeCompare(b.name)),
+    [chains, isPathRelative],
   );
 
   return { projectChains };
