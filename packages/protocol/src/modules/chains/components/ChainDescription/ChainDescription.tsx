@@ -86,15 +86,13 @@ export const ChainDescription = ({
 
         {hasLabels && (
           <div className={classes.chips}>
-            {subchainLabels && (
-              <div
-                className={cx(
-                  classes.chainLabelsWrapper,
-                  (hasPremiumLabel || isArchive) && classes.dot,
-                )}
-              >
+            {subchainLabels && subchainLabels.length > 0 && (
+              <>
                 <SubchainLabels labels={subchainLabels} />
-              </div>
+                <div
+                  className={cx((isArchive || hasPremiumLabel) && classes.dot)}
+                />
+              </>
             )}
 
             {isArchive && (
