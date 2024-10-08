@@ -1,25 +1,17 @@
-import { useEffect } from 'react';
-
-import { useAppSelector } from 'store/useAppSelector';
-import { Options } from 'hooks/useQueryEndpoint';
-import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { EMilliSeconds } from 'modules/common/constants/const';
+import { useAppSelector } from 'store/useAppSelector';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 
-import { useLazyFetchPremiumStatusQuery } from '../actions/fetchPremiumStatus';
 import { selectUserEndpointToken } from '../store';
 import { useEnterpriseClientStatus } from './useEnterpriseClientStatus';
-
-const options: Options['subscriptionOptions'] = {
-  pollingInterval: 30_000,
-};
+import { useFetchPremiumStatusQuery } from '../actions/fetchPremiumStatus';
 
 export const usePremiumStatusSubscription = () => {
   const userEndpointToken = useAppSelector(selectUserEndpointToken);
 
   const { groupToken } = useGroupJwtToken();
-
-  const [fetch, { isUninitialized }] = useLazyFetchPremiumStatusQuery(options);
 
   const hasAccess = useGuardUserGroup({
     blockName: BlockWithPermission.AccountStatus,
@@ -28,28 +20,15 @@ export const usePremiumStatusSubscription = () => {
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
-  useEffect(() => {
-    const token = groupToken?.jwtToken || userEndpointToken;
+  const token = groupToken?.jwtToken ?? userEndpointToken ?? '';
+  const shouldSkipFetching =
+    !token || !hasAccess || isEnterpriseClient || isEnterpriseStatusLoading;
 
-    if (!hasAccess || !token || isEnterpriseClient) {
-      return () => {};
-    }
-
-    if (token && !isEnterpriseClient && !isEnterpriseStatusLoading) {
-      const { unsubscribe } = fetch(token);
-
-      return unsubscribe;
-    }
-
-    return () => {};
-  }, [
-    fetch,
-    groupToken?.jwtToken,
-    hasAccess,
-    userEndpointToken,
-    isEnterpriseClient,
-    isEnterpriseStatusLoading,
-  ]);
+  const { isUninitialized } = useFetchPremiumStatusQuery(token, {
+    pollingInterval: 30 * EMilliSeconds.Second,
+    refetchOnMountOrArgChange: true,
+    skip: shouldSkipFetching,
+  });
 
   return { isUninitialized };
 };
