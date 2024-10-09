@@ -18,6 +18,7 @@ export const getIsHiddenMainnet = (projectChain: Chain) => {
     projectChain.id === ChainID.KAVA ||
     projectChain.id === ChainID.STELLAR ||
     projectChain.id === ChainID.BTC ||
+    projectChain.id === ChainID.TON ||
     projectChain.beacons?.length ||
     projectChain.opnodes?.length
   ) {
@@ -32,6 +33,7 @@ export interface UseProjectChainDetailsParams {
   projectChain: Chain;
   isCompactView?: boolean;
   shouldMergeTendermintGroups?: boolean;
+  shouldMergeTonGroups?: boolean;
   isChainSwitcherBlockingIgnored?: boolean;
 }
 
@@ -41,6 +43,7 @@ export const useProjectChainDetails = ({
   networksButton,
   projectChain,
   shouldMergeTendermintGroups,
+  shouldMergeTonGroups,
 }: UseProjectChainDetailsParams) => {
   const { hasPremium } = useAuth();
 
@@ -67,6 +70,7 @@ export const useProjectChainDetails = ({
     isHiddenMainnet: getIsHiddenMainnet(projectChain),
     isCompactView,
     shouldMergeTendermintGroups,
+    shouldMergeTonGroups,
     isChainSwitcherBlockingIgnored,
   });
 

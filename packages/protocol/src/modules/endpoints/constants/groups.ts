@@ -488,4 +488,16 @@ export const chainGroups: ChainGroup[] = [
     pluralName: 'Cosmos REST',
     chains: [ChainID.ZERO_G_NEWTON_COSMOS_REST],
   },
+  {
+    id: ChainGroupID.TON_REST,
+    name: getName('rest-api'),
+    pluralName: getName('rest-api', true),
+    chains: [ChainID.TON_REST],
+  },
+  {
+    id: ChainGroupID.TON_RPC,
+    name: getName('json-rpc'),
+    pluralName: getName('json-rpc', true),
+    chains: [ChainID.TON_RPC],
+  },
 ];

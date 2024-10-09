@@ -27,7 +27,8 @@ const mapEndpoints = (
   const filteredEndpoints = endpoints.filter(
     endpoint =>
       endpoint.id !== ChainGroupID.TENDERMINT_RPC &&
-      endpoint.id !== ChainGroupID.KAVA_TENDERMINT_RPC,
+      endpoint.id !== ChainGroupID.KAVA_TENDERMINT_RPC &&
+      endpoint.id !== ChainGroupID.TON_RPC,
   );
 
   const isFlareTestnet =

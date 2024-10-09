@@ -22,6 +22,12 @@ const isNotTendermintGroup = (group: EndpointGroup) => {
   return !isOtherTendermint && !isKavaTendermint;
 };
 
+const isNotTonRpcGroup = (group: EndpointGroup) => {
+  const firstChainId = group.chains[0].id;
+
+  return firstChainId !== ChainID.TON_RPC;
+};
+
 const getFirstChain = (group: EndpointGroup) => group.chains[0];
 
 const getFirstChainWithPaths = (group: EndpointGroup) => {
@@ -88,12 +94,15 @@ export const mapProjectChains = (chain: Chain, isPathRelative?: boolean) => {
     ...chain,
     mainnets: endpoints.mainnet
       .filter(isNotTendermintGroup)
+      .filter(isNotTonRpcGroup)
       .map(isPathRelative ? getFirstChainWithPaths : getFirstChain),
     devnets: endpoints.devnet
       .filter(isNotTendermintGroup)
+      .filter(isNotTonRpcGroup)
       .map(isPathRelative ? getFirstChainWithPaths : getFirstChain),
     testnets: endpoints.testnet
       .filter(isNotTendermintGroup)
+      .filter(isNotTonRpcGroup)
       .map(isPathRelative ? getFirstChainWithPaths : getFirstChain),
     hasWSFeature: hasWsFeature(chain),
     beaconsMainnet,
@@ -107,6 +116,7 @@ export const mapProjectChains = (chain: Chain, isPathRelative?: boolean) => {
       ...chainParams,
       testnets: endpoints.testnet
         .filter(isNotTendermintGroup)
+        .filter(isNotTonRpcGroup)
         .map(getAllChains)
         .flat(),
     };

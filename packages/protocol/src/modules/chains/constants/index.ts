@@ -12,6 +12,7 @@ export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.ALLORA,
   ChainID.BTC,
   ChainID.ZERO_G,
+  ChainID.TON,
 ];
 
 export const ALLORA_TESTNET_TENDERMINT_NAME = 'Allora Testnet Tendermint';
@@ -21,3 +22,4 @@ export const SEI_TENDERMINT_NAME = 'Sei Tendermint';
 export const SEI_TESTNET_TENDERMINT_NAME = 'Sei Testnet Tendermint';
 export const KAVA_TENDERMINT_NAME = 'Kava Tendermint';
 export const KAVA_TESTNET_TENDERMINT_NAME = 'Kava Testnet Tendermint';
+export const TON_NAME = 'TON';

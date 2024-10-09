@@ -54,6 +54,8 @@ export enum ChainGroupID {
   BTC_BLOCKBOOK = 'btc_blockbook',
   ZERO_G_COSMOS_REST = '0g_cosmos_rest',
   ZERO_G_EVM = '0g_evm',
+  TON_REST = 'ton_rest',
+  TON_RPC = 'ton_rpc',
 
   FALLBACK = 'FALLBACK',
 }

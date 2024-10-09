@@ -245,6 +245,8 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = '0G Newton JSON-RPC';
   } else if (chainId === ChainID.BTC) {
     name = 'Bitcoin';
+  } else if (chainId === ChainID.TON) {
+    name = 'TON';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {

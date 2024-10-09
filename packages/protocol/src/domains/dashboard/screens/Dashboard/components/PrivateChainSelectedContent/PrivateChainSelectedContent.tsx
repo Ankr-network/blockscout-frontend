@@ -10,6 +10,7 @@ import { ChainGroupID, EndpointGroup } from 'modules/endpoints/types';
 import { GroupSelector } from '../GroupSelector';
 import { TypeSelector } from '../TypeSelector';
 import { mergeTendermintsGroups } from './utils/mergeTendermintsGroups';
+import { mergeTonGroups } from './utils/mergeTonGroups';
 
 export interface IPrivateChainSelectedContentProps extends SelectMenuProps {
   chainType: ChainType;
@@ -37,11 +38,15 @@ export const PrivateChainSelectedContent = ({
   const { classes } = useChainSelectorContentStyles();
 
   const mergedGroups = useMemo(() => mergeTendermintsGroups(groups), [groups]);
+  const doubleMergedGroups = useMemo(
+    () => mergeTonGroups(mergedGroups),
+    [mergedGroups],
+  );
 
   const isGroupSelectorVisible = useChainSelectVisibility({
     chainTypes,
     chainType,
-    groups: mergedGroups,
+    groups: doubleMergedGroups,
     isTestnetOnlyChain,
     selectType,
   });
@@ -59,7 +64,7 @@ export const PrivateChainSelectedContent = ({
       {isGroupSelectorVisible && (
         <GroupSelector
           groupID={groupID}
-          groups={mergedGroups}
+          groups={doubleMergedGroups}
           onGroupSelect={selectGroup}
           menuProps={menuProps}
           classNameMenuItem={classNameMenuItem}
