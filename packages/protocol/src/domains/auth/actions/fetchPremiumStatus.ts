@@ -9,8 +9,12 @@ export const defaultPremiumStatusData: GetPremiumStatusResult = {
   status: PremiumStatus.INACTIVE,
 };
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchPremiumStatus },
+  useFetchPremiumStatusQuery,
   useLazyFetchPremiumStatusQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({

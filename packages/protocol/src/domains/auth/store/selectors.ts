@@ -3,8 +3,12 @@ import { EthAddressType, Tier, PremiumStatus } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { RootState } from 'store';
 import { getPermissions } from 'modules/groups/utils/getPermissions';
-import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
+import {
+  selectUserGroupConfigByAddress,
+  selectUserGroupJwtBySelectedGroupAddress,
+} from 'domains/userGroup/store';
 import {
   selectMyCurrentBundle,
   selectTotalBalance,
@@ -42,42 +46,63 @@ export const selectIsTokenExpired = createSelector(
     ),
 );
 
+export const selectWorkerTokenData = createSelector(
+  selectAuthData,
+  ({ workerTokenData }) => workerTokenData,
+);
+
+export const selectUserEndpointToken = createSelector(
+  selectWorkerTokenData,
+  workerTokenData => workerTokenData?.userEndpointToken,
+);
+
+export const selectPremiumStatusState = createSelector(
+  selectUserGroupJwtBySelectedGroupAddress,
+  selectUserEndpointToken,
+  (state: RootState) => state,
+  (selectedGroupJwt, userEndpointToken, state) => {
+    const token = selectedGroupJwt?.jwtToken ?? userEndpointToken ?? '';
+
+    return fetchPremiumStatus.select(token)(state);
+  },
+);
+
 export const selectPremiumStatus = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   ({ data: { status } = defaultPremiumStatusData }) => status,
 );
 
 export const selectHasFreemium = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   selectIsLoggedIn,
   ({ data: { isFreemium } = defaultPremiumStatusData }, isLoggedIn) =>
     isLoggedIn && isFreemium,
 );
 
 export const selectHasPremium = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   ({ data: { isFreemium } = defaultPremiumStatusData }) => !isFreemium,
 );
 
 export const selectIsInactiveStatus = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   selectHasFreemium,
   ({ data: { status } = defaultPremiumStatusData }, isFreePremium) =>
     isFreePremium ? false : status === PremiumStatus.INACTIVE,
 );
 
 export const selectPremiumStatusLoading = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   ({ isLoading }) => isLoading,
 );
 
 export const selectIsPremiumStatusUninitialized = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   ({ isUninitialized }) => isUninitialized,
 );
 
 export const selectIsPremiumStatusLoaded = createSelector(
-  fetchPremiumStatus.select(''),
+  selectPremiumStatusState,
   ({ data }) => Boolean(data),
 );
 
@@ -102,16 +127,6 @@ export const selectPremiumUntilDate = createSelector(
       isOldPremium,
       expiresAt: credentials?.expires_at,
     }),
-);
-
-export const selectWorkerTokenData = createSelector(
-  selectAuthData,
-  ({ workerTokenData }) => workerTokenData,
-);
-
-export const selectUserEndpointToken = createSelector(
-  selectWorkerTokenData,
-  workerTokenData => workerTokenData?.userEndpointToken,
 );
 
 export const selectHasPrivateAccess = createSelector(

@@ -110,7 +110,9 @@ export const makeAuthorization = async ({
 
   if (workerTokenData?.userEndpointToken) {
     await dispatch(
-      fetchPremiumStatus.initiate(workerTokenData.userEndpointToken),
+      fetchPremiumStatus.initiate(workerTokenData.userEndpointToken, {
+        forceRefetch: true,
+      }),
     );
   }
 
