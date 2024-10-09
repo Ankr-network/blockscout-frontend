@@ -7,6 +7,7 @@ import {
   SECRET_TENDERMINT_NAME,
   SEI_TENDERMINT_NAME,
   SEI_TESTNET_TENDERMINT_NAME,
+  TON_NAME,
 } from 'modules/chains/constants';
 
 export type ChainNamesMap = Record<string, string>;
@@ -42,6 +43,10 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
 
     if (checkedID === ChainID.SEI) {
       result[checkedID] = SEI_TENDERMINT_NAME;
+    }
+
+    if (checkedID === ('ton_api_v2' as ChainID)) {
+      result[checkedID] = TON_NAME;
     }
 
     if (checkedID === ('kava_rpc' as ChainID)) {

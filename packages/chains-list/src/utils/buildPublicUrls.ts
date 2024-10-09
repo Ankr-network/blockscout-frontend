@@ -76,7 +76,8 @@ export const buildPublicUrls = ({
       id === 'gnosis_beacon' ||
       ALLORA_IDS.includes(id) ||
       ZERO_G_IDS.includes(id) ||
-      id === 'btc_blockbook'
+      id === 'btc_blockbook' ||
+      id === 'ton-rest'
     ) {
       blockchainCopy.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
     }

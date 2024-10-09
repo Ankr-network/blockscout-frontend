@@ -10,6 +10,7 @@ import {
 } from 'modules/endpoints/types';
 import { getGroupIdByChainId } from 'modules/endpoints/utils/getGroupByChainId';
 import { mergeTendermintsGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTendermintsGroups';
+import { mergeTonGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTonGroups';
 
 import { getGroupTabs } from '../utils/getGroupTabs';
 import { filterEndpointsByChainSubType } from '../utils/filterEndpointsByChainSubType';
@@ -22,6 +23,7 @@ export interface GroupParams {
   netId?: ChainID;
   selectedGroupId?: ChainGroupID;
   shouldMergeTendermintGroups?: boolean;
+  shouldMergeTonGroups?: boolean;
 }
 
 export interface GroupResult {
@@ -41,6 +43,7 @@ export const useGroup = ({
   netId,
   selectedGroupId,
   shouldMergeTendermintGroups,
+  shouldMergeTonGroups,
 }: GroupParams): GroupResult => {
   const groupEndpoints = endpoints[chainType];
 
@@ -50,12 +53,20 @@ export const useGroup = ({
   });
 
   const groups = useMemo(() => {
+    if (shouldMergeTendermintGroups && shouldMergeTonGroups) {
+      return mergeTonGroups(mergeTendermintsGroups(initialGroups));
+    }
+
     if (shouldMergeTendermintGroups) {
       return mergeTendermintsGroups(initialGroups);
     }
 
+    if (shouldMergeTonGroups) {
+      return mergeTonGroups(initialGroups);
+    }
+
     return initialGroups;
-  }, [initialGroups, shouldMergeTendermintGroups]);
+  }, [initialGroups, shouldMergeTendermintGroups, shouldMergeTonGroups]);
 
   const tabs = useMemo(() => getGroupTabs(groups), [groups]);
 

@@ -4,6 +4,7 @@ import { Chain, Timeframe } from '@ankr.com/chains-list';
 import { IChainSelectorContentProps } from 'modules/common/components/ChainSelectorContent';
 import { useProjectChainDetails } from 'domains/projects/screens/Project/components/ProjectChainDetails/hooks/useProjectChainDetails';
 import { mergeTendermintsGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTendermintsGroups';
+import { mergeTonGroups } from 'domains/dashboard/screens/Dashboard/components/PrivateChainSelectedContent/utils/mergeTonGroups';
 
 import { usePrivateUsageData } from './usePrivateUsageData';
 
@@ -25,6 +26,7 @@ export const usePrivateUsageSection = (chain: Chain, timeframe: Timeframe) => {
   } = useProjectChainDetails({
     projectChain: chain,
     shouldMergeTendermintGroups: true,
+    shouldMergeTonGroups: true,
     isChainSwitcherBlockingIgnored: true,
   });
 
@@ -48,6 +50,10 @@ export const usePrivateUsageSection = (chain: Chain, timeframe: Timeframe) => {
   });
 
   const mergedGroups = useMemo(() => mergeTendermintsGroups(groups), [groups]);
+  const doubleMergedGroups = useMemo(
+    () => mergeTonGroups(mergedGroups),
+    [mergedGroups],
+  );
 
   const chainSelectorProps: IChainSelectorContentProps = {
     chainSubTypeTab,
@@ -57,7 +63,7 @@ export const usePrivateUsageSection = (chain: Chain, timeframe: Timeframe) => {
     groupID,
     groupTab,
     groupTabs,
-    groups: mergedGroups,
+    groups: doubleMergedGroups,
     hasGroupSelector: false,
     selectGroup,
     isProtocolSwitcherHidden: false,

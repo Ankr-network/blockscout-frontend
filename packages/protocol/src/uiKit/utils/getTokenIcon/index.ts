@@ -54,6 +54,7 @@ import tenetIcon from './icons/tenet.svg';
 import zksyncEraIcon from './icons/zksync_era.svg';
 import availIcon from './icons/avail.svg';
 import telosIcon from './icons/telos.svg';
+import tonIcon from './icons/ton.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -284,6 +285,10 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.TAIKO_HEKLA]: taikoIcon,
   [ChainID.TELOS]: telosIcon,
 
+  [ChainID.TON]: tonIcon,
+  [ChainID.TON_REST]: tonIcon,
+  [ChainID.TON_RPC]: tonIcon,
+
   [ChainID.TRON]: tronIcon,
   [ChainID.TRON_JSON_RPC]: tronIcon,
   [ChainID.TENET]: tenetIcon,
@@ -445,6 +450,7 @@ const chainNameIcons: Record<string, string> = {
   kava_testnet_rpc: kavaIcon,
   '0g_newton_cosmos': zeroGIcon,
   '0g_newton_tendermint': zeroGIcon,
+  ton_api_v2: tonIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {

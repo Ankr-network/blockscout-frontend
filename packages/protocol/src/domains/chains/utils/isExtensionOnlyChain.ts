@@ -11,6 +11,7 @@ const extensionOnlyChain: ChainID[] = [
   ChainID.BTC,
   ChainID.ZERO_G,
   ChainID.ZERO_G_NEWTON_TESTNET,
+  ChainID.TON,
 ];
 
 export const isExtensionOnlyChain = (chainId: ChainID) =>

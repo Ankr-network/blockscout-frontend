@@ -71,6 +71,7 @@ type PrivateChainItemParams = IPrivateChainItemDetails & {
   addToProjectButton?: ReactNode;
   isProtocolSwitcherHidden?: boolean;
   shouldMergeTendermintGroups?: boolean;
+  shouldMergeTonGroups?: boolean;
   isChainSwitcherBlockingIgnored?: boolean;
 };
 
@@ -91,6 +92,7 @@ export const usePrivateChainItem = ({
   shouldExpandFlareTestnets = false,
   shouldHideEndpoints,
   shouldMergeTendermintGroups,
+  shouldMergeTonGroups,
 }: PrivateChainItemParams): PrivateChainItem => {
   const {
     isOpened: isOpenedCodeExample,
@@ -133,6 +135,7 @@ export const usePrivateChainItem = ({
       netId,
       selectedGroupId,
       shouldMergeTendermintGroups,
+      shouldMergeTonGroups,
     },
   );
 

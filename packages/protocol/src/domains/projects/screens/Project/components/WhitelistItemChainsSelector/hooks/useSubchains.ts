@@ -1,3 +1,4 @@
+import { ChainID } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
 import { clearPathPrefix } from 'modules/chains/utils/clearPathPrefix';
@@ -12,7 +13,7 @@ import { useProjectChainsContext } from 'domains/projects/screens/Project/hooks/
 export const useSubchains = () => {
   const { paths: projectPaths, projectChains } = useProjectChainsContext();
 
-  const subchainsWithoutTendermintRpcChains = useMemo(() => {
+  const subchainsWithoutTendermintAndTonRpcChains = useMemo(() => {
     const allowedChains = projectChains.map(chain =>
       filterChainByPaths({ chain, paths: projectPaths }),
     );
@@ -21,20 +22,24 @@ export const useSubchains = () => {
       ({ id, paths = [] }) =>
         paths.length > 0 &&
         !tendermintRpcChains.includes(id) &&
-        !kavaTendermintRpcChains.includes(id),
+        !kavaTendermintRpcChains.includes(id) &&
+        id !== ChainID.TON_RPC,
     );
   }, [projectChains, projectPaths]);
 
   const subchainsPaths = useMemo(
     () => [
       ...new Set(
-        subchainsWithoutTendermintRpcChains.flatMap(({ paths = [] }) =>
+        subchainsWithoutTendermintAndTonRpcChains.flatMap(({ paths = [] }) =>
           paths.map(clearPathPrefix),
         ),
       ),
     ],
-    [subchainsWithoutTendermintRpcChains],
+    [subchainsWithoutTendermintAndTonRpcChains],
   );
 
-  return { subchains: subchainsWithoutTendermintRpcChains, subchainsPaths };
+  return {
+    subchains: subchainsWithoutTendermintAndTonRpcChains,
+    subchainsPaths,
+  };
 };
