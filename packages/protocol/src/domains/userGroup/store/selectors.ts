@@ -9,7 +9,7 @@ import { selectAuthData } from 'domains/auth/store/authSlice';
 import { BlockWithPermission, PERSONAL_GROUP_NAME } from '../constants/groups';
 import { userGroupFetchCreationAllowance } from '../actions/fetchGroupCreationAllowance';
 import { userGroupFetchGroupDetails } from '../actions/fetchGroupDetails';
-import { userGroupFetchGroups } from '../actions/fetchGroups';
+import { fetchGroups } from '../actions/fetchGroups';
 
 const requestParamsPlaceholder = undefined as unknown as IApiUserGroupParams;
 
@@ -26,12 +26,12 @@ export const selectUserGroupConfigByAddress = createSelector(
 );
 
 export const selectUserGroupLoading = createSelector(
-  userGroupFetchGroups.select(),
+  fetchGroups.select(),
   ({ isLoading }) => isLoading,
 );
 
 export const selectUserGroups = createSelector(
-  userGroupFetchGroups.select(),
+  fetchGroups.select(),
   ({ data: userGroups = [] }) => userGroups,
 );
 

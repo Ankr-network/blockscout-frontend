@@ -3,7 +3,7 @@ import { IApiUserGroupParams, IApiUserGroupDetails } from 'multirpc-sdk';
 import { MultiService } from 'modules/api/MultiService';
 import { RequestType, web3Api } from 'store/queries';
 
-import { userGroupFetchGroups } from './fetchGroups';
+import { fetchGroups } from './fetchGroups';
 
 export const {
   endpoints: { userGroupFetchGroupDetails },
@@ -30,7 +30,7 @@ export const {
         } catch (error) {
           // we should refetch all groups in case of details fetching error
           // to prevent showing outdated data
-          dispatch(userGroupFetchGroups.initiate());
+          dispatch(fetchGroups.initiate(undefined, { forceRefetch: true }));
         }
       },
     }),

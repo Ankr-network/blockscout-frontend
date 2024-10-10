@@ -54,12 +54,12 @@ const mapUserGroup = (userGroup: IApiUserGroup, index: number): UserGroup => {
 };
 
 export const {
-  endpoints: { userGroupFetchGroups },
-  useLazyUserGroupFetchGroupsQuery,
-  useUserGroupFetchGroupsQuery,
+  endpoints: { fetchGroups },
+  useFetchGroupsQuery,
+  useLazyFetchGroupsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    userGroupFetchGroups: build.query<UserGroup[], void>({
+    fetchGroups: build.query<UserGroup[], void>({
       providesTags: [RequestType.UserGroupsList],
       queryFn: async (_arg, { getState }) => {
         const service = MultiService.getService();

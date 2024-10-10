@@ -11,7 +11,7 @@ import {
   selectUserGroupConfigByAddress,
   setUserGroupConfig,
 } from '../store';
-import { userGroupFetchGroups } from './fetchGroups';
+import { fetchGroups } from './fetchGroups';
 
 // TODO: move this logic to selectors: https://ankrnetwork.atlassian.net/browse/MRPC-4313
 export const {
@@ -21,6 +21,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     shouldShowUserGroupDialog: build.query<boolean, void>({
+      forceRefetch: () => true,
       queryFn: async (_arg, { dispatch, getState }) => {
         const state = getState() as RootState;
 
@@ -49,13 +50,13 @@ export const {
           return { data: false };
         }
 
-        const { data: cachedUserGroups } = userGroupFetchGroups.select()(state);
+        const { data: cachedUserGroups } = fetchGroups.select()(state);
 
         let userGroups;
 
         if (!cachedUserGroups) {
           const { data } = await dispatch(
-            userGroupFetchGroups.initiate(undefined, { forceRefetch: true }),
+            fetchGroups.initiate(undefined, { forceRefetch: true }),
           );
 
           userGroups = data;
