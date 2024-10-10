@@ -1,23 +1,27 @@
 import BigNumber from 'bignumber.js';
+import { Chain, Timeframe } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
-import { Chain } from '@ankr.com/chains-list';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { getChainIDs } from '../../../utils/getChainIDs';
-import { usePrivateStats } from './usePrivateStats';
+import { usePrivateStatsByChainIDs } from './usePrivateStatsByChainIDs';
 
 export interface ChainsItemParams {
   chain: Chain;
   isMMIndex?: boolean;
+  timeframe: Timeframe;
 }
 
-export const usePrivateChainsItem = ({ chain }: ChainsItemParams) => {
+export const usePrivateChainsItem = ({
+  chain,
+  timeframe,
+}: ChainsItemParams) => {
   const { hasConnectWalletMessage } = useAuth();
 
   const ids = useMemo(() => getChainIDs(chain), [chain]);
   const [privateTotalRequests = 0, arePrivateStatsLoading] =
-    usePrivateStats(ids);
+    usePrivateStatsByChainIDs({ ids, timeframe });
 
   return {
     totalRequests: new BigNumber(privateTotalRequests),

@@ -33,7 +33,7 @@ export const PrivateChainCard = ({
   timeframe,
   view = EChainView.Cards,
 }: PrivateChainCardProps) => {
-  const { loading, totalRequests } = usePrivateChainsItem({ chain });
+  const { loading, totalRequests } = usePrivateChainsItem({ chain, timeframe });
 
   const { totalRequestsStr } = useCommonChainsItemData(
     chain,

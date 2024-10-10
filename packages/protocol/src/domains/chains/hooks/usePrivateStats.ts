@@ -9,12 +9,14 @@ import { useFetchPrivateStats } from './useFetchPrivateStats';
 export interface IPrivateStatsParams {
   hasGateway?: boolean;
   interval: PrivateStatsInterval;
+  skipFetching?: boolean;
   userEndpointToken?: string;
 }
 
 export const usePrivateStats = ({
   hasGateway = false,
   interval,
+  skipFetching: skipFetchingExternal,
   userEndpointToken,
 }: IPrivateStatsParams) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -31,7 +33,7 @@ export const usePrivateStats = ({
   } = useFetchPrivateStats({
     group,
     gateway: hasGateway ? gateway : undefined,
-    skipFetching: isEnterpriseStatusLoading,
+    skipFetching: skipFetchingExternal || isEnterpriseStatusLoading,
     interval,
     userEndpointToken: isGroupChanged ? undefined : userEndpointToken,
   });
