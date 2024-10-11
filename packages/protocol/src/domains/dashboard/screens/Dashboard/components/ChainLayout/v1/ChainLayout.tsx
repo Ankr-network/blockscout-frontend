@@ -9,7 +9,6 @@ import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/
 
 import { ChainLayoutProps } from '../types';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
-import { LocationsWidget } from '../../LocationsWidget';
 import { useChainData } from './hooks/useChainData';
 import { useChainLayoutStyles } from '../ChainLayoutStyles';
 import { useChartTranslations } from '../../../useChartsTranslations';
@@ -21,13 +20,11 @@ export const ChainLayout = ({
 }: ChainLayoutProps) => {
   const {
     allTimeTotalRequestsNumber,
-    areLocationsLoading,
     blockHeight,
     chainStats,
     countries,
     ipRequests,
     isLoadingTotalStats,
-    locations,
     methodCalls,
     requestsChartData,
     totalRequestsNumber,
@@ -74,11 +71,6 @@ export const ChainLayout = ({
             title={t('dashboard.requests-by-ip.title')}
           />
         )}
-        <LocationsWidget
-          className={classes.locations}
-          isLoading={areLocationsLoading}
-          locations={locations}
-        />
         {!hasSelectedProject && (
           <BaseTable
             headingTitles={[
