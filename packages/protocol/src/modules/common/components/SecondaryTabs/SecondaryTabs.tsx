@@ -8,10 +8,12 @@ export interface SecondaryTabsProps<TabID> {
   selectedTab?: Tab<TabID>;
   tabs: Tab<TabID>[];
   visible?: boolean;
+  classNameTabsInner?: string;
 }
 
 export function SecondaryTabs<TabID>({
   className,
+  classNameTabsInner,
   selectedTab,
   tabs,
   visible = true,
@@ -22,6 +24,7 @@ export function SecondaryTabs<TabID>({
     <TabsManager
       allowSingleTab
       className={cx(classes.secondaryTabs, className)}
+      classNameTabsInner={classNameTabsInner}
       selectedTab={selectedTab}
       tabs={tabs}
     />
