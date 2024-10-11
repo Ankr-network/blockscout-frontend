@@ -7,12 +7,12 @@ import { useInitialization } from 'hooks/useInitialization';
 import { Routes } from './Routes';
 
 export const AppRouter = () => {
-  const { isLoggedIn, loading } = useAuth();
+  const { isLoggedIn, isLoggingIn } = useAuth();
 
   useInitialization(isLoggedIn);
 
   return (
-    <Placeholder hasPlaceholder={loading} placeholder={<OverlaySpinner />}>
+    <Placeholder hasPlaceholder={isLoggingIn} placeholder={<OverlaySpinner />}>
       <Routes />
     </Placeholder>
   );
