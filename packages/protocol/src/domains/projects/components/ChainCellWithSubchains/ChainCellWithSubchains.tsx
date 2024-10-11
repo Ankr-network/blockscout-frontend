@@ -68,7 +68,11 @@ export const ChainCellWithSubchains = ({
     </>
   );
 
-  if (isAllChainsSelector || isChainHasOnlyOneNetwork(chain)) {
+  if (
+    isAllChainsSelector ||
+    isChainHasOnlyOneNetwork(chain) ||
+    chain.id === ChainID.TON
+  ) {
     return (
       <Box className={classes.chainCellroot} onClick={onChainClick}>
         {chainContent}
