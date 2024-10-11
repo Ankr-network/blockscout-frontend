@@ -24,7 +24,7 @@ export const ChainProjects = ({
 
   const { keys, t } = useTranslation(chainProjectsTranslation);
 
-  const shouldShowSkeleton = isLoadingProjects && !chainProjects;
+  const shouldShowSkeleton = isLoadingProjects;
 
   const renderProjectNames = useCallback(
     (projects: MappedWhitelistBlockchainsResponse[]) => {

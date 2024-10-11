@@ -60,9 +60,11 @@ export const PrivateChains = ({
 
   const {
     data: allWhitelistsBlockchains,
-    isLoading: isLoadingAllWhitelistsBlockchains,
+    isFetching: isLoadingAllWhitelistsBlockchains,
     isUninitialized: isUninitializedAllWhitelistsBlockchains,
-  } = useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams);
+  } = useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams, {
+    refetchOnMountOrArgChange: true,
+  });
 
   const { keys, t } = useTranslation(privateChainsTranslation);
 

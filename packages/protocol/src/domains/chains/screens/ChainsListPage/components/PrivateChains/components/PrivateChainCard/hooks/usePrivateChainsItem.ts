@@ -20,12 +20,14 @@ export const usePrivateChainsItem = ({
   const { hasConnectWalletMessage } = useAuth();
 
   const ids = useMemo(() => getChainIDs(chain), [chain]);
-  const [privateTotalRequests = 0, arePrivateStatsLoading] =
-    usePrivateStatsByChainIDs({ ids, timeframe });
+  const [privateTotalRequests = 0, loading] = usePrivateStatsByChainIDs({
+    ids,
+    timeframe,
+  });
 
   return {
-    totalRequests: new BigNumber(privateTotalRequests),
-    loading: arePrivateStatsLoading,
     hasConnectWalletMessage,
+    loading,
+    totalRequests: new BigNumber(privateTotalRequests),
   };
 };
