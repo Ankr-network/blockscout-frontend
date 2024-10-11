@@ -1,7 +1,7 @@
 import { MultiService } from 'modules/api/MultiService';
+import { RequestType, web3Api } from 'store/queries';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { web3Api } from 'store/queries';
 
 import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 
@@ -19,6 +19,7 @@ export const {
       null,
       TwoFAQueryFnParams<DeleteJwtTokenParams>
     >({
+      invalidatesTags: [RequestType.WhitelistBlockchains],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async (
           { params: { group, tokenIndex }, totp },
