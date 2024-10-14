@@ -4,8 +4,6 @@ import { Timeframe } from '@ankr.com/chains-list';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
   selectAllTimeTotalRequestsNumber,
-  selectLocations,
-  selectLocationsLoading,
   selectTotalRequests,
   selectTotalRequestsNumber,
   selectTotalStatsLoading,
@@ -21,8 +19,6 @@ export const useAllChainsData = (timeframe: Timeframe) => {
   const allTimeTotalRequestsNumber = useAppSelector(
     selectAllTimeTotalRequestsNumber,
   );
-  const locations = useAppSelector(selectLocations);
-  const areLocationsLoading = useAppSelector(selectLocationsLoading);
   const requests = useAppSelector(state =>
     selectTotalRequests(state, privateStatsParams),
   );
@@ -42,10 +38,8 @@ export const useAllChainsData = (timeframe: Timeframe) => {
 
   return {
     allTimeTotalRequestsNumber,
-    areLocationsLoading,
     countries,
     ipRequests,
-    locations,
     requestsChartData,
     totalRequestsNumber,
     isLoadingTotalStats,

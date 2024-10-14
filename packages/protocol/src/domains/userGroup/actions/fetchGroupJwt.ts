@@ -57,7 +57,11 @@ export const {
           const { data: isEnterpriseClient } = selectEnterpriseStatus(state);
 
           if (groupJwt.jwtToken && !isEnterpriseClient) {
-            dispatch(fetchPremiumStatus.initiate(groupJwt.jwtToken));
+            dispatch(
+              fetchPremiumStatus.initiate(groupJwt.jwtToken, {
+                forceRefetch: true,
+              }),
+            );
           }
         }
       },

@@ -29,6 +29,7 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const isAlloraTestnet = ALLORA_IDS.includes(id);
   const is0gTestnet = ZERO_G_IDS.includes(id);
   const isBlockbook = id === 'btc_blockbook';
+  const isTonRest = id === 'ton-rest';
 
   return (
     isTron ||
@@ -44,7 +45,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isStellar ||
     isAlloraTestnet ||
     isBlockbook ||
-    is0gTestnet
+    is0gTestnet ||
+    isTonRest
   );
 };
 

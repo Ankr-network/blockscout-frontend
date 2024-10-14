@@ -75,6 +75,9 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.BTC_MAINNET]: ChainID.BTC,
   [ChainID.BTC_BLOCKBOOK]: ChainID.BTC,
+
+  [ChainID.TON_REST]: ChainID.TON,
+  [ChainID.TON_RPC]: ChainID.TON,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -138,6 +141,10 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.STELLAR_SOROBAN]: 'stellar_soroban' as ChainID,
   [ChainID.STELLAR_TESTNET_HORIZON]: 'stellar_testnet_horizon' as ChainID,
   [ChainID.STELLAR_TESTNET_SOROBAN]: 'stellar_testnet_soroban' as ChainID,
+
+  [ChainID.TON]: 'ton_api_v2' as ChainID,
+  [ChainID.TON_REST]: 'ton_api_v2' as ChainID,
+  [ChainID.TON_RPC]: 'ton_api_v2' as ChainID,
 
   [ChainID.FLARE_COSTON_EVM]: ChainID.FLARE_COSTON,
 

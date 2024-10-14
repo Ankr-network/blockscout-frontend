@@ -35,7 +35,7 @@ const endpointsSerializedByParams = [
   'fetchBlockchainTxData',
   'fetchBlockchainTxReceipt',
   'fetchNativeTokenPrice',
-  'fetchProjectWhitelist',
+  'fetchPremiumStatus',
   'fetchReferralCodes',
   'fetchReferralLinksByCodes',
   'fetchReferralsCount',

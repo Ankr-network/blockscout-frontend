@@ -78,9 +78,12 @@ export const useAuth = () => {
     }
   }, [handleDisconnect, handleOauthSignOut, hasWeb3Connection]);
 
+  const isLoggingIn = web3ConnectionLoading || autologinLoading;
+
   return {
     loading:
       web3ConnectionLoading || autologinLoading || isPremiumStatusLoading,
+    isLoggingIn,
     isPremiumStatusLoaded,
     isPremiumStatusUninitialized,
     ...web3Rest,

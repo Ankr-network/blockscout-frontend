@@ -13,7 +13,7 @@ export const useChainProjectsSidebarStyles = makeStyles({
     flexDirection: 'column',
     padding: theme.spacing(8),
     borderRadius: 0,
-    paddingBottom: theme.spacing(18),
+    paddingBottom: theme.spacing(22),
     [theme.breakpoints.down('xs')]: {
       paddingBottom: theme.spacing(38),
     },

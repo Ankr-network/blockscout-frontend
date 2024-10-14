@@ -34,13 +34,5 @@ export const useStyles = makeStyles<Props>()((theme: Theme, props: Props) => ({
     display: 'flex',
     alignItems: 'center',
     flexDirection: props.orientation === 'vertical' ? 'column' : 'row',
-    overflowX: 'scroll',
-
-    /* hiding scrollbar styles: */
-    MsOverflowStyle: 'none',
-    scrollbarWidth: 'none',
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
   },
 }));

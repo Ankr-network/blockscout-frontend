@@ -11,10 +11,10 @@ import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { ChainCallsWidget } from '../../ChainCallsWidget';
 import { ProjectsWidget } from '../../ProjectsWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
-import { useAllChainsLayoutStyles } from '../AllChainsLayoutStyles';
+import { useAllChainsLayoutStylesV2 } from './AllChainsLayoutStylesV2';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
-  const { classes } = useAllChainsLayoutStyles(false);
+  const { classes: classesV2 } = useAllChainsLayoutStylesV2(false);
 
   const {
     allTimeTotalRequestsNumber,
@@ -32,11 +32,11 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
 
   return (
     <EmptyLayoutGuard data={responseError ? [] : requestsChartData}>
-      <div className={classes.root}>
+      <div className={classesV2.root}>
         <RequestsWidget
           timeframe={timeframe}
           data={requestsChartData}
-          className={classes.requests}
+          className={classesV2.requests}
           isLoading={isLoadingTotalStats}
           translation={getRequestsChartTranslations({
             timeframe,
@@ -45,13 +45,13 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           })}
         />
         <ChainCallsWidget
-          className={classes.calls}
+          className={classesV2.calls}
           data={chainCallsData}
           isLoading={isLoadingTotalStats}
           totalRequests={totalRequestsNumber}
         />
         <ProjectsWidget
-          className={classes.projects}
+          className={classesV2.projects}
           data={projectCallsData}
           isLoading={isLoadingTotalStats}
           amount={totalRequestsNumber}
@@ -61,7 +61,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             t('dashboard.requests-by-ip.ip'),
             t('dashboard.requests-by-ip.requests'),
           ]}
-          className={classes.ipRequests}
+          className={classesV2.ipRequests}
           data={ipRequests}
           title={t('dashboard.requests-by-ip.title')}
         />
@@ -71,7 +71,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             t('dashboard.top-responses.amount'),
           ]}
           title={t('dashboard.top-responses.title')}
-          className={classes.locations}
+          className={classesV2.responses}
           data={responses}
         />
         <BaseTable
@@ -80,7 +80,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             t('dashboard.top-countries.requests'),
           ]}
           title={t('dashboard.top-countries.title')}
-          className={classes.countries}
+          className={classesV2.countries}
           data={countries}
         />
         <UsageHistoryWidget
@@ -89,7 +89,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             t('dashboard.usage-history.calls'),
           ]}
           title={t('dashboard.usage-history.title')}
-          className={classes.history}
+          className={classesV2.history}
           data={monthlyStats}
         />
       </div>

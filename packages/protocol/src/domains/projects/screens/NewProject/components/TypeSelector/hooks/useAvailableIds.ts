@@ -12,6 +12,8 @@ const isNotTendermintRpc = (chainId: ChainID) =>
   !tendermintRpcChains.includes(chainId) &&
   !kavaTendermintRpcChains.includes(chainId);
 
+const isNotTonRpc = (chainId: ChainID) => chainId !== ChainID.TON_RPC;
+
 export const useAvailableIds = (endpoints: GroupedEndpoints) => {
   const {
     selectedBeaconMainnetIds,
@@ -30,13 +32,15 @@ export const useAvailableIds = (endpoints: GroupedEndpoints) => {
     .filter(chainId => !isTestnetOnlyChain(chainId))
     // JSON-RPC and REST Tendermint subchains have the same path,
     // so should we ignore JSON-RPC endpoints and show REST
-    .filter(isNotTendermintRpc);
+    .filter(isNotTendermintRpc)
+    .filter(isNotTonRpc);
 
   const allAvailableTestnetIds = endpoints.testnet
     .map(endpoint => endpoint.chains[0].id)
     // JSON-RPC and REST Tendermint subchains have the same path,
     // so should we ignore JSON-RPC endpoints and show REST
-    .filter(isNotTendermintRpc);
+    .filter(isNotTendermintRpc)
+    .filter(isNotTonRpc);
 
   const allAvailableDevnetIds = endpoints.devnet.map(
     endpoint => endpoint.chains[0].id,

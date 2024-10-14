@@ -10,6 +10,7 @@ import {
   SECRET_TENDERMINT_NAME,
   SEI_TENDERMINT_NAME,
   SEI_TESTNET_TENDERMINT_NAME,
+  TON_NAME,
   ZERO_G_TESTNET_TENDERMINT_NAME,
 } from 'modules/chains/constants';
 
@@ -58,19 +59,11 @@ export const getCustomLabelForChainsCornerCases = ({
   }
 
   if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_REST) {
-    return '0G Newton Testnet Tendermint REST';
+    return TENDERMINT_REST;
   }
 
-  if (chainId === ChainID.ZERO_G_NEWTON_RPC) {
+  if (label === '0G Newton Testnet RPC') {
     return '0G Newton Testnet EVM JSON-RPC';
-  }
-
-  if (chainId === ChainID.ZERO_G_NEWTON_COSMOS_REST) {
-    return '0G Newton Testnet Cosmos REST';
-  }
-
-  if (chainId === ChainID.ZERO_G_NEWTON_TENDERMINT_RPC) {
-    return '0G Newton Testnet Tendermint RPC';
   }
 
   if (chainId === ChainID.KAVA_TENDERMINT_REST) {
@@ -83,6 +76,10 @@ export const getCustomLabelForChainsCornerCases = ({
 
   if (chainId === ChainID.NERVOS_GW || chainId === ChainID.NERVOS_CKB) {
     return renderNervosName(chainId);
+  }
+
+  if (label === 'TON REST') {
+    return TON_NAME;
   }
 
   if (chainId === ChainID.ROLLUX_OPNODE) {

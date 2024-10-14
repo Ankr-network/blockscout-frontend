@@ -76,6 +76,7 @@ export const CodeExampleModal = ({
             <ChainSelectorContent
               className={classes.chainSelectorControls}
               classNameSelector={classes.chainSelectorContent}
+              classNameTabsInner={classes.tabsInner}
               chainSubTypeTab={chainSubTypeTab}
               chainSubTypeTabs={chainSubTypeTabs}
               chainTypeTab={chainTypeTab}

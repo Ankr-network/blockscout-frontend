@@ -10,10 +10,9 @@ import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/
 import { useMonthlyStats } from '../../../v1/hooks/useMonthlyStats';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
 import { ILayoutProps } from '../../../types';
-import { LocationsWidget } from '../../LocationsWidget';
 import { ProjectsWidget } from '../../ProjectsWidget';
 import { useAllChainsData } from './hooks/useAllChainsData';
-import { useAllChainsLayoutStyles } from '../AllChainsLayoutStyles';
+import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
 import { ChainCallsWidget } from '../../ChainCallsWidget';
 import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { useChainCalls } from '../../ChainCallsWidget/hooks/useChainCalls';
@@ -26,11 +25,9 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
 
   const {
     allTimeTotalRequestsNumber,
-    areLocationsLoading,
     countries,
     ipRequests,
     isLoadingTotalStats,
-    locations,
     requestsChartData,
     totalRequestsNumber,
   } = useAllChainsData(timeframe);
@@ -83,11 +80,6 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
             title={t('dashboard.requests-by-ip.title')}
           />
         )}
-        <LocationsWidget
-          className={classes.locations}
-          isLoading={areLocationsLoading}
-          locations={locations}
-        />
         {!hasSelectedProject && (
           <BaseTable
             headingTitles={[

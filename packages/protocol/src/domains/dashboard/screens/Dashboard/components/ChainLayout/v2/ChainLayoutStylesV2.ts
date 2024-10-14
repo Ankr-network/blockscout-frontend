@@ -1,11 +1,12 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const dashboardGridTemplateColumns =
-  'repeat(2, 1fr) repeat(4, minmax(200px, 1fr))';
-export const dashboardGridTemplateRows = 'repeat(2, calc(50vh - 88px))';
-export const dashboardGridTemplateRowsWideScreens = 'repeat(2, 30vh)';
+import {
+  dashboardGridTemplateColumns,
+  dashboardGridTemplateRows,
+  dashboardGridTemplateRowsWideScreens,
+} from '../../AllChainsLayout/v1/AllChainsLayoutStyles';
 
-export const useAllChainsLayoutStyles = makeStyles<boolean>()(
+export const useChainLayoutStylesV2 = makeStyles<boolean>()(
   (theme, hasSelectedProject) => ({
     root: {
       display: 'grid',
@@ -15,12 +16,12 @@ export const useAllChainsLayoutStyles = makeStyles<boolean>()(
       gridGap: theme.spacing(3),
       gridTemplateAreas: hasSelectedProject
         ? `
-      "requests    requests    requests  requests  calls   projects"
-      "locations locations locations locations history history"
+      "requests    requests    requests  requests  methods methods"
+      "responses responses responses responses methods methods"
     `
         : `
-      "requests    requests    requests  requests  calls   projects"
-      "ip-requests ip-requests locations countries history history"
+      "requests    requests    requests  requests  methods methods"
+      "ip-requests ip-requests responses countries methods methods"
     `,
 
       /* for wide screens */
@@ -29,21 +30,19 @@ export const useAllChainsLayoutStyles = makeStyles<boolean>()(
       },
 
       [theme.breakpoints.down('xl')]: {
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gridTemplateRows: hasSelectedProject
-          ? '282px 190px 289px'
-          : '282px 190px repeat(2, 289px)',
+        gridTemplateColumns: 'minmax(max-content, 1fr) repeat(2, 200px)',
+        gridTemplateRows: '282px 421px 289px',
+        gridGap: theme.spacing(3),
         gridTemplateAreas: hasSelectedProject
           ? `
-        "requests    requests"
-        "calls       projects"
-        "locations history"
+        "requests    requests  requests"
+        "methods     methods   methods"
+        "responses responses responses"
       `
           : `
-        "requests    requests"
-        "calls       projects"
-        "ip-requests locations"
-        "countries   history"
+        "requests    requests  requests"
+        "methods     methods   methods"
+        "ip-requests responses countries"
       `,
       },
 
@@ -56,11 +55,6 @@ export const useAllChainsLayoutStyles = makeStyles<boolean>()(
     requests: {
       gridArea: 'requests',
       padding: theme.spacing(5),
-      gap: theme.spacing(3),
-
-      [theme.breakpoints.down('sm')]: {
-        maxHeight: 300,
-      },
     },
     calls: {
       gridArea: 'calls',
@@ -71,14 +65,16 @@ export const useAllChainsLayoutStyles = makeStyles<boolean>()(
     ipRequests: {
       gridArea: 'ip-requests',
     },
-    locations: {
-      gridArea: 'locations',
+    responses: {
+      gridArea: 'responses',
     },
     countries: {
       gridArea: 'countries',
     },
     history: {
       gridArea: 'history',
+
+      backgroundColor: 'yellow',
     },
     methods: {
       gridArea: 'methods',
