@@ -218,7 +218,9 @@ export enum ChainID {
   MOONBEAM = 'moonbeam',
   MULTICHAIN = 'multichain',
   NEAR = 'near',
+
   NERVOS = 'nervos',
+  NERVOS_EVM = 'nervos_evm',
   NERVOS_CKB = 'nervos_ckb',
   NERVOS_GW = 'nervos_gw',
 
@@ -278,7 +280,9 @@ export enum ChainID {
   TAIKO = 'taiko',
   TAIKO_HEKLA = 'taiko_hekla',
   TELOS = 'telos',
+
   TRON = 'tron',
+  TRON_REST = 'tron_rest',
   TRON_JSON_RPC = 'tron_jsonrpc',
 
   TON = 'ton',

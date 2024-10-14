@@ -309,7 +309,7 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.NERVOS_EVM,
     name: getName('nervos-evm'),
     pluralName: getName('nervos-evm', true),
-    chains: [ChainID.NERVOS],
+    chains: [ChainID.NERVOS_EVM],
   },
   {
     id: ChainGroupID.NERVOS_GW,
@@ -363,7 +363,7 @@ export const chainGroups: ChainGroup[] = [
     id: ChainGroupID.REST_API,
     name: getName('rest-api'),
     pluralName: getName('rest-api', true),
-    chains: [ChainID.TRON],
+    chains: [ChainID.TRON_REST],
   },
   {
     id: ChainGroupID.JSON_RPC,

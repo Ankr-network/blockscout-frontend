@@ -12,10 +12,11 @@ import {
   blockchainNameTemplate,
   userNameTemplate,
   ZERO_G_IDS,
+  ChainID,
 } from '@ankr.com/chains-list';
 
 const shouldUsePremiumHttpUrl = (id: string) => {
-  const isTron = id === 'tron';
+  const isTron = id === ChainID.TRON_REST;
   const isAptos = id === 'aptos';
   const isAptosTestnet = id === 'aptos_testnet';
   const isGnosisBeacon = id === 'gnosis_beacon';
@@ -138,31 +139,31 @@ export const buildPrivateUrls = ({
 
     const rpcURLs: string[] = hasRPC
       ? getUrls({
-        paths,
-        privateUrl: privateRpcUrl,
-        userEndpointToken,
-        isAptos,
-      })
+          paths,
+          privateUrl: privateRpcUrl,
+          userEndpointToken,
+          isAptos,
+        })
       : [];
 
     const wsURLs: string[] = hasWS
       ? getUrls({
-        paths,
-        privateUrl: privateWsUrl,
-        userEndpointToken,
-        isAptos,
-      })
+          paths,
+          privateUrl: privateWsUrl,
+          userEndpointToken,
+          isAptos,
+        })
       : [];
 
     const hasREST = blockchain.features.includes(EBlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({
-        paths,
-        privateUrl: privateRpcUrl,
-        userEndpointToken,
-        isAptos,
-      })
+          paths,
+          privateUrl: privateRpcUrl,
+          userEndpointToken,
+          isAptos,
+        })
       : [];
 
     const enterpriseURLs: string[] = getUrls({

@@ -72,7 +72,7 @@ export const buildPublicUrls = ({
     }
 
     if (
-      id === 'tron' ||
+      id === 'tron_rest' ||
       id === 'gnosis_beacon' ||
       ALLORA_IDS.includes(id) ||
       ZERO_G_IDS.includes(id) ||
