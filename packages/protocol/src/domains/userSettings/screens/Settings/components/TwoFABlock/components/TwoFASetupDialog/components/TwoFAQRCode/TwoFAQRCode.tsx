@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
+import { SET_UP_2FA_CACHE_KEY } from 'domains/userSettings/const';
+import { useSetupTwoFAMutation } from 'domains/userSettings/actions/twoFA/setupTwoFA';
 
 import { useTwoFAQRCodeStyles } from './TwoFAQRCodeStyles';
 
 export const TwoFAQRCode = () => {
-  const [, { data: { qrCode } = { qrCode: '' } }] = useQueryEndpoint(
-    userSettingsSetupTwoFA,
-  );
+  const [, { data: { qrCode } = { qrCode: '' } }] = useSetupTwoFAMutation({
+    fixedCacheKey: SET_UP_2FA_CACHE_KEY,
+  });
   const { classes } = useTwoFAQRCodeStyles();
 
   const [src, setSrc] = useState('');

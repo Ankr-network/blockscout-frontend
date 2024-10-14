@@ -20,12 +20,11 @@ const getData = (data: InitTwoFAResponse): UserSettingsSetupTwoFAResult => {
 };
 
 export const {
-  endpoints: { userSettingsSetupTwoFA },
-  useLazyUserSettingsSetupTwoFAQuery,
-  useUserSettingsSetupTwoFAQuery,
+  endpoints: { setupTwoFA },
+  useSetupTwoFAMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    userSettingsSetupTwoFA: build.query<UserSettingsSetupTwoFAResult, void>({
+    setupTwoFA: build.mutation<UserSettingsSetupTwoFAResult, void>({
       queryFn: async () => {
         const service = MultiService.getService();
 

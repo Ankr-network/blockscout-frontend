@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { t } from '@ankr.com/common';
 
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { userSettingsSetupTwoFA } from 'domains/userSettings/actions/twoFA/setupTwoFA';
+import { SET_UP_2FA_CACHE_KEY } from 'domains/userSettings/const';
+import { useSetupTwoFAMutation } from 'domains/userSettings/actions/twoFA/setupTwoFA';
 
 import { USER_SETTINGS_INTL_ROOT } from '../../constants';
 
@@ -31,9 +31,9 @@ export const useTwoFASetupVariant = () => {
 };
 
 export const useTwoFASetupData = (open: boolean) => {
-  const [loadQRCodeInfo, twoFAsetupDataState] = useQueryEndpoint(
-    userSettingsSetupTwoFA,
-  );
+  const [loadQRCodeInfo, twoFAsetupDataState] = useSetupTwoFAMutation({
+    fixedCacheKey: SET_UP_2FA_CACHE_KEY,
+  });
 
   useEffect(() => {
     if (open) loadQRCodeInfo();

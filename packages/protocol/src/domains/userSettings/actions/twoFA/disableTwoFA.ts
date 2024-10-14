@@ -12,12 +12,11 @@ export interface IDisableTwoFAParams {
 }
 
 export const {
-  endpoints: { userSettingDisableTwoFA },
-  useLazyUserSettingDisableTwoFAQuery,
-  useUserSettingDisableTwoFAQuery,
+  endpoints: { disableTwoFA },
+  useDisableTwoFAMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    userSettingDisableTwoFA: build.query<
+    disableTwoFA: build.mutation<
       DisableTwoFAResponse,
       ConditionallyNotifyingQueryFnParams<IDisableTwoFAParams>
     >({

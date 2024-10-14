@@ -8,7 +8,14 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { QueryEmpty } from '../QueryEmpty/QueryEmpty';
 import { QueryError } from '../QueryError/QueryError';
 
-type QueryState<Result> = TypedUseQueryStateResult<Result, any, BaseQueryFn>;
+type OptionalFetching<T> = Omit<T, 'isFetching'> & {
+  isFetching?: boolean;
+};
+
+type QueryState<Result> = OptionalFetching<
+  TypedUseQueryStateResult<Result, any, BaseQueryFn>
+>;
+
 type QueryStates<R1, R2, R3, R4, R5> = R1 extends void
   ? []
   : [
