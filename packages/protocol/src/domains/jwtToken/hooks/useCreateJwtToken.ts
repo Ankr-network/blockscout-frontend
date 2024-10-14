@@ -9,10 +9,16 @@ interface CreateJwtTokenParams {
   description?: string;
 }
 
-export const useCreateJwtToken = () => {
+export interface IUseCreateJwtProps {
+  cacheKey?: string;
+}
+
+export const useCreateJwtToken = ({ cacheKey }: IUseCreateJwtProps = {}) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [createJwtTokenQuery, { isLoading }] = useCreateJwtTokenMutation();
+  const [createJwtTokenQuery, { isLoading }] = useCreateJwtTokenMutation({
+    fixedCacheKey: cacheKey,
+  });
 
   const handleCreateJwtToken = useCallback(
     ({ description, name, tokenIndex }: CreateJwtTokenParams) =>

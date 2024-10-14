@@ -1,34 +1,27 @@
-import {
-  CACHE_KEY_ENABLE_WHITELISTS,
-  useAddBlockchainsToWhitelistMutation,
-} from 'domains/projects/actions/addBlockchainsToWhitelist';
-import { updateWhitelistMode } from 'domains/projects/actions/updateWhitelistMode';
 import { usdTopUpFetchLinkForOneTimePayment } from 'domains/account/actions/usdTopUp/fetchLinkForOneTimePayment';
-import { useAddToWhitelistMutation } from 'domains/projects/actions/addToWhitelist';
+import { useAddBlockchainsToWhitelistMutation } from 'domains/projects/actions/addBlockchainsToWhitelist';
 import { useCreateJwtToken } from 'domains/jwtToken/hooks/useCreateJwtToken';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 
+import { ENABLE_WHITELISTS_CACHE_KEY } from '../../../const';
+
 export const useIsLoading = () => {
-  const [, { isLoading: isUpdateWhitelistModeLoading }] =
-    useQueryEndpoint(updateWhitelistMode);
-  const { isLoading: isCreateJwtTokenLoading } = useCreateJwtToken();
+  const { isLoading: isCreateJwtTokenLoading } = useCreateJwtToken({
+    cacheKey: ENABLE_WHITELISTS_CACHE_KEY,
+  });
   const [, { isLoading: isFetchLinkForOneTimePaymentLoading }] =
     useQueryEndpoint(usdTopUpFetchLinkForOneTimePayment);
   const { isLoading: isWhitelistEnablingLoading } = useEnableWhitelist();
-  const [, { isLoading: isAddToWhitelistLoading }] =
-    useAddToWhitelistMutation();
   const [, { isLoading: isBlockchainsBindingLoading }] =
     useAddBlockchainsToWhitelistMutation({
-      fixedCacheKey: CACHE_KEY_ENABLE_WHITELISTS,
+      fixedCacheKey: ENABLE_WHITELISTS_CACHE_KEY,
     });
 
   return (
-    isUpdateWhitelistModeLoading ||
     isCreateJwtTokenLoading ||
     isFetchLinkForOneTimePaymentLoading ||
     isWhitelistEnablingLoading ||
-    isAddToWhitelistLoading ||
     isBlockchainsBindingLoading
   );
 };

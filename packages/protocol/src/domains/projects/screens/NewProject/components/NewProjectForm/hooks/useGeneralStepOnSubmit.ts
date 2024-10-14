@@ -4,8 +4,12 @@ import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful'
 import { useCreateJwtToken } from 'domains/jwtToken/hooks/useCreateJwtToken';
 import { useUpdateJwtToken } from 'domains/jwtToken/hooks/useUpdateJwtToken';
 
+import { ENABLE_WHITELISTS_CACHE_KEY } from '../../../const';
+
 export const useGeneralStepOnSubmit = () => {
-  const { handleCreateJwtToken } = useCreateJwtToken();
+  const { handleCreateJwtToken } = useCreateJwtToken({
+    cacheKey: ENABLE_WHITELISTS_CACHE_KEY,
+  });
   const { handleUpdateJwtToken } = useUpdateJwtToken();
 
   const handleCreateToken = useCallback(

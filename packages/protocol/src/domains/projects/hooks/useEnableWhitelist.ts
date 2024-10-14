@@ -9,17 +9,15 @@ import { NotificationActions } from 'domains/notification/store/NotificationActi
 import { checkChainsWithExtensionsAndGetChainId } from 'domains/projects/utils/checkChainsWithExtensionsAndGetChainId';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useAppDispatch } from 'store/useAppDispatch';
-import { useLazyUpdateWhitelistModeQuery } from 'domains/projects/actions/updateWhitelistMode';
+import { useUpdateWhitelistModeMutation } from 'domains/projects/actions/updateWhitelistMode';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUpdateJwtTokenFreezeStatusMutation } from 'domains/jwtToken/action/updateJwtTokenFreezeStatus';
 
 import { AddToWhitelistFormData, NewProjectType } from '../store';
-import {
-  CACHE_KEY_ENABLE_WHITELISTS,
-  useAddBlockchainsToWhitelistMutation,
-} from '../actions/addBlockchainsToWhitelist';
+import { ENABLE_WHITELISTS_CACHE_KEY } from '../screens/NewProject/const';
 import { newProjectIntlRoot } from '../const';
+import { useAddBlockchainsToWhitelistMutation } from '../actions/addBlockchainsToWhitelist';
 import { useAddToWhitelistMutation } from '../actions/addToWhitelist';
 
 interface IParamsForWhitelist {
@@ -80,22 +78,28 @@ export const useEnableWhitelist = () => {
   const dispatch = useAppDispatch();
 
   const [addToWhitelist, { isLoading: isAddToWhitelistLoading }] =
-    useAddToWhitelistMutation();
+    useAddToWhitelistMutation({
+      fixedCacheKey: ENABLE_WHITELISTS_CACHE_KEY,
+    });
 
   const [
     addBlockchainsToWhitelistRequest,
     { isLoading: isAddBlockchainsToWhitelistLoading },
   ] = useAddBlockchainsToWhitelistMutation({
-    fixedCacheKey: CACHE_KEY_ENABLE_WHITELISTS,
+    fixedCacheKey: ENABLE_WHITELISTS_CACHE_KEY,
   });
 
   const [updateWhitelistMode, { isLoading: isWhitelistModeLoading }] =
-    useLazyUpdateWhitelistModeQuery();
+    useUpdateWhitelistModeMutation({
+      fixedCacheKey: ENABLE_WHITELISTS_CACHE_KEY,
+    });
 
   const [
     updateJwtTokenFreezeStatus,
     { isLoading: isJwtTokenFreezeStatusLoading },
-  ] = useUpdateJwtTokenFreezeStatusMutation();
+  ] = useUpdateJwtTokenFreezeStatusMutation({
+    fixedCacheKey: ENABLE_WHITELISTS_CACHE_KEY,
+  });
 
   const { handleResetConfig, project = {} } = useProjectConfig();
 
@@ -174,7 +178,7 @@ export const useEnableWhitelist = () => {
   ]);
 
   const handleUpdateWhitelistMode = useCallback(async () => {
-    const { error } = await updateWhitelistMode({
+    const response = await updateWhitelistMode({
       params: {
         userEndpointToken,
         prohibitByDefault: false,
@@ -182,7 +186,7 @@ export const useEnableWhitelist = () => {
       },
     });
 
-    return error;
+    return isMutationSuccessful(response) ? undefined : response.error;
   }, [updateWhitelistMode, userEndpointToken, groupAddress]);
 
   const handleUpdateJwtTokenFreezeStatus = useCallback(async () => {

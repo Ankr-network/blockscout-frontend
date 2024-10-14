@@ -16,8 +16,6 @@ export interface AddBlockchainsToWhitelistParams extends IApiUserGroupParams {
   blockchains: BlockchainID[];
 }
 
-export const CACHE_KEY_ENABLE_WHITELISTS = 'enableWhitelists';
-
 export const {
   endpoints: { addBlockchainsToWhitelist },
   useAddBlockchainsToWhitelistMutation,

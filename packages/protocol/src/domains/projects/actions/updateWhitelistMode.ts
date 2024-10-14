@@ -13,10 +13,10 @@ interface UpdateWhitelistModeParams {
 
 export const {
   endpoints: { updateWhitelistMode },
-  useLazyUpdateWhitelistModeQuery,
+  useUpdateWhitelistModeMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    updateWhitelistMode: build.query<
+    updateWhitelistMode: build.mutation<
       null,
       TwoFAQueryFnParams<UpdateWhitelistModeParams>
     >({

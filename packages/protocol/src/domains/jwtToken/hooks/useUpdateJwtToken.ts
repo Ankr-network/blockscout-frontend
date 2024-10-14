@@ -2,6 +2,7 @@ import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { ENABLE_WHITELISTS_CACHE_KEY } from 'domains/projects/screens/NewProject/const';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { isMutationSuccessful } from 'modules/common/utils/isMutationSuccessful';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -18,7 +19,9 @@ export const useUpdateJwtToken = () => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [updateJwtTokenQuery, { isLoading }] = useUpdateJwtTokenMutation();
+  const [updateJwtTokenQuery, { isLoading }] = useUpdateJwtTokenMutation({
+    fixedCacheKey: ENABLE_WHITELISTS_CACHE_KEY,
+  });
 
   const handleUpdateJwtToken = useCallback(
     ({ description, name, tokenIndex }: UpdateJwtTokenParams) =>
