@@ -5,7 +5,6 @@ import { hydrate, render } from 'react-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { initGoogleGtm } from '@ankr.com/common';
 
-import { initializeMixpanel } from 'modules/analytics/mixpanel/initialize';
 import { initializeSentry } from 'modules/sentry';
 import { initializeLocale } from 'modules/i18n/utils/initialize';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
@@ -16,7 +15,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 if (!isReactSnap) {
   initializeSentry();
-  initializeMixpanel();
+  // use this to initialize mixpanel from modules/analytics/mixpanel/initialize
+  // initializeMixpanel();
   initGoogleGtm();
 }
 
