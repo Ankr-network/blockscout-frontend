@@ -462,7 +462,7 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     blockExplorerUrls: ['https://moonbeam.moonscan.io/'],
   },
 
-  [ChainID.NERVOS]: {
+  [ChainID.NERVOS_EVM]: {
     chainId: 71402, // * v1's id
     chainName: 'Godwoken/PolyJuice Mainnet',
     nativeCurrency: {

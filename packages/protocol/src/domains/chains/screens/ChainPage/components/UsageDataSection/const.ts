@@ -78,6 +78,10 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
 
   [ChainID.TON_REST]: ChainID.TON,
   [ChainID.TON_RPC]: ChainID.TON,
+
+  [ChainID.NERVOS_EVM]: ChainID.NERVOS,
+
+  [ChainID.TRON_REST]: ChainID.TRON,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -153,6 +157,10 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.FLARE_SONGBIRD_EVM]: ChainID.FLARE_SONGBIRD,
 
   [ChainID.BTC_MAINNET]: ChainID.BTC,
+
+  [ChainID.NERVOS_EVM]: ChainID.NERVOS,
+
+  [ChainID.TRON_REST]: ChainID.TRON,
 };
 
 export const checkPrivateChainsAndGetChainId = (

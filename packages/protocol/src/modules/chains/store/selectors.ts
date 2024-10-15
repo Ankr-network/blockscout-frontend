@@ -176,7 +176,7 @@ export const selectAllPathsByChainId = createSelector(
     );
 
     if (currentChain) {
-      return getAllPathsByChain(currentChain);
+      return getAllPathsByChain(currentChain).filter(Boolean);
     }
 
     if (chainId === ChainID.ALL_CHAINS) {

@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/chains-list",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Chains list module",
   "main": "./dist/index.js",
   "types": "./src/index.ts",

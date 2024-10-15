@@ -51,14 +51,20 @@ export const usePrivateChainType = ({
     ],
   );
 
+  const initialChainType = useMemo(
+    () =>
+      getInitialChainType({
+        chain,
+        netId,
+        selectedType,
+        isMainnetPremiumOnly: isBlockedMainnet,
+        isHiddenMainnet,
+      }),
+    [chain, netId, selectedType, isBlockedMainnet, isHiddenMainnet],
+  );
+
   const [chainTypeTabs, chainTypeTab, selectType] = useTabs<ChainType>({
-    initialTabID: getInitialChainType({
-      chain,
-      netId,
-      selectedType,
-      isMainnetPremiumOnly: isBlockedMainnet,
-      isHiddenMainnet,
-    }),
+    initialTabID: initialChainType,
     tabs: tabs.filter(tab => !tab.isHidden),
   });
 
