@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { Timeframe } from '@ankr.com/chains-list';
 
+import { IUseQueryProps } from 'store/queries/types';
 import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
 import { useFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
@@ -8,7 +9,7 @@ import { useFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/f
 import { PublicStats } from '../../types';
 import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 
-export interface PublicStatsParams {
+export interface PublicStatsParams extends IUseQueryProps {
   chainId: string;
   timeframe: Timeframe;
 }
@@ -22,6 +23,7 @@ const defaultData = {
 
 export const usePublicStats = ({
   chainId,
+  skipFetching,
   timeframe,
 }: PublicStatsParams): PublicStats => {
   const {
@@ -42,7 +44,7 @@ export const usePublicStats = ({
     },
     {
       refetchOnMountOrArgChange: REFETCH_STATS_INTERVAL,
-      skip: !chainId,
+      skip: skipFetching || !chainId,
     },
   );
 
