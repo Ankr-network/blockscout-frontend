@@ -229,6 +229,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.MULTICHAIN]: multichainIcon,
   [ChainID.NEAR]: nearIcon,
   [ChainID.NERVOS]: nervosIcon,
+  [ChainID.NERVOS_EVM]: nervosIcon,
   [ChainID.NERVOS_CKB]: nervosIcon,
   [ChainID.NERVOS_GW]: nervosIcon,
   [ChainID.XLAYER]: okxX1Icon,
@@ -290,6 +291,7 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.TON_RPC]: tonIcon,
 
   [ChainID.TRON]: tronIcon,
+  [ChainID.TRON_REST]: tronIcon,
   [ChainID.TRON_JSON_RPC]: tronIcon,
   [ChainID.TENET]: tenetIcon,
   [ChainID.XDAI]: stakeIcon,
@@ -358,6 +360,7 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.MOONBEAM]: moonbeamIconDark,
   [ChainID.NEAR]: nearIconDark,
   [ChainID.NERVOS]: nervosIconDark,
+  [ChainID.NERVOS_EVM]: nervosIconDark,
   [ChainID.NERVOS_CKB]: nervosIconDark,
   [ChainID.NERVOS_GW]: nervosIconDark,
   [ChainID.XLAYER]: okxX1IconDark,

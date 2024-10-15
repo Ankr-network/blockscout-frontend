@@ -8,8 +8,8 @@ import { t } from '@ankr.com/common';
 import { ChainLayoutProps } from '../types';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
 import { useChainData } from './hooks/useChainData';
-import { useChainLayoutStyles } from '../ChainLayoutStyles';
 import { useChartTranslations } from '../../../useChartsTranslations';
+import { useChainLayoutStylesV2 } from './ChainLayoutStylesV2';
 
 export const ChainLayout = ({
   detailsChainId,
@@ -42,7 +42,7 @@ export const ChainLayout = ({
       allTimeTotalRequestsNumber,
     });
 
-  const { classes } = useChainLayoutStyles(false);
+  const { classes } = useChainLayoutStylesV2(false);
 
   return (
     <EmptyLayoutGuard data={responseError ? [] : requestsChartData}>
@@ -78,7 +78,7 @@ export const ChainLayout = ({
             t('dashboard.top-responses.amount'),
           ]}
           title={t('dashboard.top-responses.title')}
-          className={classes.locations}
+          className={classes.responses}
           data={responses}
         />
         <BaseTable

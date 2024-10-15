@@ -13,11 +13,7 @@ export function TabsManager<TI = DefaultTabID>({
   classNameTab,
   classNameTabsInner,
   classNameTabsWrapper,
-  onScrollTabsInner,
   orientation = 'horizontal',
-  refTabsInner,
-  refTabsScrollWrapper,
-  scrollBackBtn,
   selectedTab,
   tabs,
   title,
@@ -27,18 +23,10 @@ export function TabsManager<TI = DefaultTabID>({
   return (
     <>
       <div className={cx(classes.tabs, className)}>
-        <ScrollContainer
-          className={cx(classes.right, classNameTabsWrapper)}
-          ref={refTabsScrollWrapper}
-          onScroll={onScrollTabsInner}
-        >
+        <ScrollContainer className={cx(classes.right, classNameTabsWrapper)}>
           {title}
           {/* doesn't show tabs if there is only one of them */}
-          <div
-            className={cx(classes.tabsInner, classNameTabsInner)}
-            ref={refTabsInner}
-          >
-            {scrollBackBtn && scrollBackBtn}
+          <div className={cx(classes.tabsInner, classNameTabsInner)}>
             {(allowSingleTab || tabs.length > 1) &&
               tabs.map((tab, index) => (
                 <Tab

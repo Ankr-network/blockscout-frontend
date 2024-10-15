@@ -2,9 +2,9 @@ import { Top10StatItem } from 'multirpc-sdk';
 import { BaseTableData } from '@ankr.com/telemetry';
 import { t } from '@ankr.com/common';
 
-export const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
-
 export const mapRegionName = (key: string): string => {
+  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+
   let regionName = '';
 
   try {

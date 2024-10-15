@@ -26,6 +26,7 @@ export interface IChainSelectorContentProps {
   isGroupSelectorAutoWidth?: boolean;
   className?: string;
   classNameSelector?: string;
+  classNameTabsInner?: string;
   extraContent?: ReactNode;
   isSubchainSelectorHidden?: boolean;
   isSecondLevelSelectorsHidden?: boolean;
@@ -43,6 +44,7 @@ export const ChainSelectorContent = ({
   chainTypeTabs,
   className,
   classNameSelector,
+  classNameTabsInner,
   extraContent,
   groupID,
   groupTab,
@@ -87,7 +89,7 @@ export const ChainSelectorContent = ({
       )}
     >
       {!isSubchainSelectorHidden && (
-        <div className={cx(classes.chainSeletorWrapper, classNameSelector)}>
+        <div className={cx(classes.chainSelectorWrapper, classNameSelector)}>
           <SecondaryTabs
             className={classes.chainTypeTabs}
             selectedTab={chainTypeTab}
@@ -104,6 +106,7 @@ export const ChainSelectorContent = ({
               />
               <SecondaryTabs
                 className={classes.groupTabs}
+                classNameTabsInner={classNameTabsInner}
                 selectedTab={groupTab}
                 tabs={groupTabs}
                 visible={withGroupTabs}

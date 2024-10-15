@@ -5,8 +5,6 @@ import {
   selectAllTimeTotalRequestsNumber,
   selectBlockHeight,
   selectChainStats,
-  selectLocationsByChainID,
-  selectLocationsLoading,
   selectMethodCallsByChainID,
   selectTotalRequestsByChainID,
   selectTotalRequestsNumberByChainID,
@@ -29,12 +27,6 @@ export const useChainData = ({
   const chainStats = useAppSelector(state =>
     selectChainStats(state, statsChainId),
   );
-
-  const locations = useAppSelector(state =>
-    selectLocationsByChainID(state, detailsChainId),
-  );
-
-  const areLocationsLoading = useAppSelector(selectLocationsLoading);
 
   const requests = useAppSelector(state =>
     selectTotalRequestsByChainID(state, statsChainId),
@@ -63,11 +55,9 @@ export const useChainData = ({
 
   return {
     allTimeTotalRequestsNumber,
-    areLocationsLoading,
     chainStats,
     countries,
     ipRequests,
-    locations,
     requestsChartData,
     totalRequestsNumber,
     methodCalls,

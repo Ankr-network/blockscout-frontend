@@ -1,4 +1,4 @@
-import { ChainID, Chain } from '@ankr.com/chains-list';
+import { Chain, ChainID } from '@ankr.com/chains-list';
 
 import { flatChains } from './flatChains';
 
@@ -15,9 +15,6 @@ const exceptions: Partial<Record<ChainID, Partial<DecomposedChainIds>>> = {
   },
   [ChainID.FLARE]: {
     mainnets: [ChainID.FLARE],
-  },
-  [ChainID.NERVOS]: {
-    mainnets: [ChainID.NERVOS],
   },
   [ChainID.TENET]: {
     mainnets: [ChainID.TENET_EVM],

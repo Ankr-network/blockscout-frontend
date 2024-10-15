@@ -19,7 +19,7 @@ export const useChainSelectorContentStyles = makeStyles()(theme => ({
   labels: {
     marginTop: theme.spacing(4),
   },
-  chainSeletorWrapper: {
+  chainSelectorWrapper: {
     display: 'flex',
     gap: theme.spacing(3),
     alignItems: 'center',

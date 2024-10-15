@@ -43,4 +43,17 @@ export const useCodeExampleModalStyles = makeStyles()(theme => ({
   chainSnippets: {
     padding: 0,
   },
+  tabsInner: {
+    overflowX: 'auto',
+
+    '&::-webkit-scrollbar': {
+      width: 3,
+      height: 3,
+    },
+
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.grey[300],
+      borderRadius: 2,
+    },
+  },
 }));

@@ -1,8 +1,10 @@
 import { Paper, Typography } from '@mui/material';
 import { OverlaySpinner as Spinner } from '@ankr.com/ui';
+import { Link } from 'react-router-dom';
 
 import { UserGroupsList } from 'modules/groups/actions/getUserGroups';
 import { t } from 'modules/i18n/utils/intl';
+import { ClientsRoutesConfig } from 'modules/clients/ClientsRoutesConfig';
 
 interface ClientUserGroupsProps {
   userGroups: UserGroupsList;
@@ -33,9 +35,14 @@ export const ClientUserGroups = ({
       {!isLoadingUserGroups &&
         userGroups?.length > 0 &&
         userGroups.map(group => (
-          <Typography display="block" variant="body2" key={group.groupName}>
-            {group.groupName} ({group.groupAddress})
-          </Typography>
+          <Link
+            to={ClientsRoutesConfig.clientInfo.generatePath(group.groupAddress)}
+            key={group.groupName}
+          >
+            <Typography display="block" variant="body2">
+              {group.groupName} ({group.groupAddress})
+            </Typography>
+          </Link>
         ))}
     </Paper>
   );
