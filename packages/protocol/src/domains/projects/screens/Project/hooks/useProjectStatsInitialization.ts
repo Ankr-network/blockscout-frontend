@@ -1,41 +1,47 @@
-import { skipToken } from '@reduxjs/toolkit/query';
-
-import { useFetchProjectChainsStatsFor1hQuery } from 'domains/projects/actions/fetchProjectChainsStatsFor1h';
-import { useFetchProjectChainsStatsFor24hQuery } from 'domains/projects/actions/fetchProjectChainsStatsFor24h';
+import { useProjectChainsStatsFor1h } from 'domains/projects/hooks/useProjectChainsStatsFor1h';
+import { useProjectChainsStatsFor24h } from 'domains/projects/hooks/useProjectChainsStatsFor24h';
 import { useProjectStatsParams } from 'modules/stats/hooks/useProjectStatsParams';
-import { useFetchProjectTotalRequestsForLastTwoDaysQuery } from 'domains/projects/actions/fetchProjectTotalRequestsForLastTwoDays';
-import { useFetchProjectTotalRequestsForLastTwoHoursQuery } from 'domains/projects/actions/fetchProjectTotalRequestsForLastTwoHours';
+import { useProjectTotalRequestsForLastTwoDays } from 'domains/projects/hooks/useProjectTotalRequestsForLastTwoDays';
+import { useProjectTotalRequestsForLastTwoHours } from 'domains/projects/hooks/useProjectTotalRequestsForLastTwoHours';
 
 interface IUseProjectStatsInitializationProps {
-  userEndpointToken?: string;
   skipRelativeRequests?: boolean;
+  userEndpointToken: string | undefined;
 }
 
 export const useProjectStatsInitialization = ({
   skipRelativeRequests,
   userEndpointToken,
 }: IUseProjectStatsInitializationProps) => {
-  const { statsParams = skipToken } = useProjectStatsParams(userEndpointToken);
+  const { statsParams } = useProjectStatsParams(userEndpointToken);
 
-  const { data: dataProjectChainsStatsFor1h } =
-    useFetchProjectChainsStatsFor1hQuery(statsParams);
-  const { data: dataProjectChainsStatsFor24h } =
-    useFetchProjectChainsStatsFor24hQuery(statsParams);
+  const chainsStatsParams = {
+    ...statsParams,
+    skipFetching: !userEndpointToken,
+  };
 
-  const { data: dataProjectTotalRequestsForLastTwoHours } =
-    useFetchProjectTotalRequestsForLastTwoHoursQuery(
-      skipRelativeRequests ? skipToken : statsParams,
-    );
-  const { data: dataProjectTotalRequestsForLastTwoDays } =
-    useFetchProjectTotalRequestsForLastTwoDaysQuery(
-      skipRelativeRequests ? skipToken : statsParams,
-    );
+  const { projectChainsStatsFor1h } =
+    useProjectChainsStatsFor1h(chainsStatsParams);
+
+  const { projectChainsStatsFor24h } =
+    useProjectChainsStatsFor24h(chainsStatsParams);
+
+  const totalRequestsParams = {
+    ...chainsStatsParams,
+    skipFetching: chainsStatsParams.skipFetching || skipRelativeRequests,
+  };
+
+  const { projectTotalRequestsForLastTwoHours } =
+    useProjectTotalRequestsForLastTwoHours(totalRequestsParams);
+
+  const { projectTotalRequestsForLastTwoDays } =
+    useProjectTotalRequestsForLastTwoDays(totalRequestsParams);
 
   return {
-    dataProjectTotalRequestsForLastTwoHours,
-    dataProjectTotalRequestsForLastTwoDays,
-    dataProjectChainsStatsFor1h,
-    dataProjectChainsStatsFor24h,
+    projectTotalRequestsForLastTwoHours,
+    projectTotalRequestsForLastTwoDays,
+    projectChainsStatsFor1h,
+    projectChainsStatsFor24h,
     statsParams,
   };
 };

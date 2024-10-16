@@ -7,25 +7,31 @@ import { RootState } from 'store';
 import { selectCurrentAddress } from 'domains/auth/store';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 
-import { NewProjectStep } from '../types';
-import { ProjectActivity } from './types';
-import { fetchAllProjectsTotalRequestsForLastTwoDays } from '../actions/fetchAllProjectsTotalRequestsForLastTwoDays';
 import {
   IFetchProjectChainsStatsFor1hParams,
-  selectStateForLastHourChainsStats,
+  selectProjectChainsStatsFor1h,
 } from '../actions/fetchProjectChainsStatsFor1h';
 import {
   IFetchProjectChainsStatsFor24hParams,
-  selectStateForLastDayChainsStats,
+  selectProjectChainsStatsFor24h,
 } from '../actions/fetchProjectChainsStatsFor24h';
-import { fetchProjectTotalRequestsForLastTwoDays } from '../actions/fetchProjectTotalRequestsForLastTwoDays';
-import { fetchProjectTotalRequestsForLastTwoHours } from '../actions/fetchProjectTotalRequestsForLastTwoHours';
-import { selectProjectWhitelist } from '../actions/fetchProjectWhitelist';
+import { NewProjectStep } from '../types';
+import { ProjectActivity } from './types';
+import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
+import { fetchAllProjectsTotalRequestsForLastTwoDays } from '../actions/fetchAllProjectsTotalRequestsForLastTwoDays';
 import { filterTotalRequests } from './utils/filterTotalRequests';
 import { getRelativeChange } from './utils/getRelativeChange';
-import { sumTotalRequests } from './utils/sumTotalRequests';
+import {
+  selectProjectTotalRequestsForLastTwoDays,
+  selectProjectTotalRequestsForLastTwoDaysState,
+} from '../actions/fetchProjectTotalRequestsForLastTwoDays';
+import {
+  selectProjectTotalRequestsForLastTwoHours,
+  selectProjectTotalRequestsForLastTwoHoursState,
+} from '../actions/fetchProjectTotalRequestsForLastTwoHours';
+import { selectProjectWhitelist } from '../actions/fetchProjectWhitelist';
 import { sumSubchainsTotalRequest } from './utils/sumSubchainsTotalRequest';
-import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
+import { sumTotalRequests } from './utils/sumTotalRequests';
 
 const selectNewProject = (state: RootState) => state.newProject;
 
@@ -60,9 +66,9 @@ export const selectAggregatedStatsByChainFor1hState = createSelector(
     state,
   }),
   ({ params, state }) => {
-    const statsState = selectStateForLastHourChainsStats(state, params);
+    const stats = selectProjectChainsStatsFor1h(state, params);
 
-    return aggregatePrivateStatsByChain(state, statsState?.data);
+    return aggregatePrivateStatsByChain(state, stats);
   },
 );
 
@@ -72,25 +78,10 @@ export const selectAggregatedStatsByChainFor24hState = createSelector(
     state,
   }),
   ({ params, state }) => {
-    const statsState = selectStateForLastDayChainsStats(state, params);
+    const stats = selectProjectChainsStatsFor24h(state, params);
 
-    return aggregatePrivateStatsByChain(state, statsState?.data);
+    return aggregatePrivateStatsByChain(state, stats);
   },
-);
-
-export const selectProjectTotalRequestsForLastTwoHoursState = createSelector(
-  fetchProjectTotalRequestsForLastTwoHours.select(actionSelectParams),
-  state => state,
-);
-
-export const selectProjectTotalRequestsForLastTwoHoursLoading = createSelector(
-  selectProjectTotalRequestsForLastTwoHoursState,
-  ({ isLoading }) => isLoading,
-);
-
-export const selectProjectTotalRequestsForLastTwoHours = createSelector(
-  selectProjectTotalRequestsForLastTwoHoursState,
-  ({ data = {} }) => data,
 );
 
 export const selectProjectTotalRequestsForLastTwoHoursTimestamp =
@@ -139,21 +130,6 @@ export const selectRelativeChangeForLastHour = createSelector(
       currentValue: lastHourCount,
       previousValue: previousHourCount,
     }),
-);
-
-export const selectProjectTotalRequestsForLastTwoDaysState = createSelector(
-  fetchProjectTotalRequestsForLastTwoDays.select(actionSelectParams),
-  state => state,
-);
-
-export const selectProjectTotalRequestsForLastTwoDaysLoading = createSelector(
-  selectProjectTotalRequestsForLastTwoDaysState,
-  ({ isLoading }) => isLoading,
-);
-
-export const selectProjectTotalRequestsForLastTwoDays = createSelector(
-  selectProjectTotalRequestsForLastTwoDaysState,
-  ({ data = {} }) => data,
 );
 
 export const selectProjectTotalRequestsForLastTwoDaysTimestamp = createSelector(
@@ -210,10 +186,10 @@ export const selectProjectTotalRequestsFor1hByChain = createSelector(
     params: IFetchProjectChainsStatsFor1hParams,
   ) => ({ state, chainId, params }),
   ({ chainId, params, state }) => {
-    const { data } = selectStateForLastHourChainsStats(state, params);
+    const chainsStats = selectProjectChainsStatsFor1h(state, params);
     const relatedPaths = selectAllPathsByChainId(state, chainId);
 
-    return sumSubchainsTotalRequest(relatedPaths, data);
+    return sumSubchainsTotalRequest(relatedPaths, chainsStats);
   },
 );
 
@@ -224,10 +200,10 @@ export const selectProjectTotalRequestsFor24hByChain = createSelector(
     params: IFetchProjectChainsStatsFor24hParams,
   ) => ({ state, chainId, params }),
   ({ chainId, params, state }) => {
-    const { data } = selectStateForLastDayChainsStats(state, params);
+    const chainsStats = selectProjectChainsStatsFor24h(state, params);
     const relatedPaths = selectAllPathsByChainId(state, chainId);
 
-    return sumSubchainsTotalRequest(relatedPaths, data);
+    return sumSubchainsTotalRequest(relatedPaths, chainsStats);
   },
 );
 
