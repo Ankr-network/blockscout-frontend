@@ -132,7 +132,9 @@ export const selectPremiumUntilDate = createSelector(
 export const selectHasPrivateAccess = createSelector(
   selectCredentials,
   selectUserEndpointToken,
-  (credentials, userEndpointToken) => Boolean(credentials || userEndpointToken),
+  selectIsLoggedIn,
+  (credentials, userEndpointToken, isLoggedIn) =>
+    isLoggedIn && Boolean(credentials || userEndpointToken),
 );
 
 export const selectHasInfrastructureAccess = createSelector(
