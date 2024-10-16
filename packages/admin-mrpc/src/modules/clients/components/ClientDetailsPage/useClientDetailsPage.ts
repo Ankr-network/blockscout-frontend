@@ -9,6 +9,7 @@ import { useFetchUserTotalQuery } from 'modules/clients/actions/fetchUserTotal';
 import { useLazyFetchUserStatsByRangeQuery } from 'modules/clients/actions/fetchUserStatsByRange';
 import { useFetchUserByAddressQuery } from 'modules/clients/actions/fetchUserByAddress';
 import { useUserProjectsData } from 'modules/projects/hooks/useUserProjectsData';
+import { useDatesRange } from 'modules/admin/hooks/useDatesRange';
 
 import { currentMonthParams, previousMonthParams } from '../../utils/dates';
 
@@ -28,8 +29,11 @@ function isRangePeriod(
   return Object.values(CustomRange).includes(period as any);
 }
 
+/* eslint-disable max-lines-per-function */
 export const useClientDetailsPage = () => {
   const { address } = ClientsRoutesConfig.clientInfo.useParams();
+
+  const { dateFrom, dateTo, onChangeFrom, onChangeTo } = useDatesRange(false);
 
   useSetBreadcrumbs([
     {
@@ -69,6 +73,15 @@ export const useClientDetailsPage = () => {
     },
   ] = useLazyFetchUserStatsByRangeQuery();
 
+  const [
+    fetchCsvStatsByRange,
+    {
+      data: csvStatsData,
+      isLoading: isLoadingCsvStats,
+      isFetching: isFetchingCsvStats,
+    },
+  ] = useLazyFetchUserStatsByRangeQuery();
+
   const { data: totalData, isLoading: isLoadingTotal } = useFetchUserTotalQuery(
     { address },
   );
@@ -104,6 +117,16 @@ export const useClientDetailsPage = () => {
     isCurrentDayIncluded,
   ]);
 
+  useEffect(() => {
+    if (dateFrom !== '' && dateTo !== '') {
+      fetchCsvStatsByRange({
+        address,
+        from: new Date(dateFrom).getTime(),
+        to: new Date(dateTo).getTime(),
+      });
+    }
+  }, [address, dateFrom, dateTo, fetchCsvStatsByRange]);
+
   const updateTimeframeParam = (
     timeframe: PrivateStatsInterval | CustomRange,
   ) => {
@@ -120,19 +143,26 @@ export const useClientDetailsPage = () => {
     address,
     statsData: isRangePeriodValue ? statsByRangeData : statsData,
     isLoadingStats: isRangePeriodValue ? isLoadingStatsByRange : isLoadingStats,
+    isFetchingStats: isRangePeriodValue
+      ? isFetchingStatsByRange
+      : isFetchingStats,
+    csvStatsData,
+    isLoadingCsvStats,
+    isFetchingCsvStats,
     periodStatement,
     totalData,
     isLoadingTotal,
     value,
     handleChange,
     updateTimeframeParam,
-    isFetchingStats: isRangePeriodValue
-      ? isFetchingStatsByRange
-      : isFetchingStats,
     handleSwitchCurrent,
     isCurrentDayIncluded,
     isRangePeriod: isRangePeriodValue,
     userProjectsData,
     isLoadingUserProjects,
+    dateFrom,
+    onChangeFrom,
+    dateTo,
+    onChangeTo,
   };
 };

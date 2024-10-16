@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import invert from 'lodash.invert';
 import {
   BlockchainID,
@@ -8,6 +8,8 @@ import {
 } from 'multirpc-sdk';
 
 import { IUsageEntityMapped } from 'modules/clients/types';
+import { transformStatsToDetailedCsv } from 'modules/clients/utils/transformStatsToDetailedCsv';
+import { compareBlockchainsTotalRequests } from 'modules/clients/utils/compareBlockchainsTotalRequests';
 
 import { CustomRange } from '../useClientDetailsPage';
 import { Timeframe } from '../RequestsChart/types';
@@ -15,6 +17,7 @@ import { Timeframe } from '../RequestsChart/types';
 export interface IHookProps {
   onUpdateTimeframe: (timeframe: PrivateStatsInterval | CustomRange) => void;
   stats?: PrivateStats;
+  csvStats?: PrivateStats;
   usage?: IUsageEntityMapped[];
   currentPeriod: PrivateStatsInterval | CustomRange;
 }
@@ -26,12 +29,17 @@ interface IUsageCsv extends IUsageDetailEntity {
 export interface IClientUsageTableProps extends IHookProps {
   fileName: string;
   isLoadingStats?: boolean;
+  isLoadingCsvStats?: boolean;
   handleSwitchCurrent: () => void;
   isCurrentDayIncluded: boolean;
   isRangePeriod: boolean;
 
   isChartDataLoading: boolean;
   timeframe: Timeframe;
+  dateFrom: string;
+  onChangeFrom: (event: ChangeEvent<HTMLInputElement>) => void;
+  dateTo: string;
+  onChangeTo: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 type TabIndex = 0 | 1 | 2 | 3 | 4;
@@ -54,6 +62,7 @@ const TAB_INDEXES = Object.keys(timeframeByTabIndex);
 export const useClientUsageTable = ({
   onUpdateTimeframe,
   stats,
+  csvStats,
   usage,
   currentPeriod,
 }: IHookProps) => {
@@ -87,6 +96,10 @@ export const useClientUsageTable = ({
     [],
   );
 
+  const rawCsvData = csvStats?.stats
+    ? transformStatsToDetailedCsv(csvStats.stats)
+    : [];
+
   const availableChains = [
     ...new Set(usage?.map(usageEntity => usageEntity.blockchain)),
   ];
@@ -102,36 +115,6 @@ export const useClientUsageTable = ({
         usageEntity => usageEntity.blockchain === filterByChainValue,
       )
     : usage;
-
-  const compareBlockchainsTotalRequests = useCallback(
-    (i: BlockchainID, j: BlockchainID): 1 | -1 | 0 => {
-      if (!stats?.stats) {
-        return 0;
-      }
-
-      if (!stats.stats[i]) {
-        return 1;
-      }
-
-      if (!stats.stats[j]) {
-        return -1;
-      }
-
-      const a = +stats.stats[i]!.totalRequests;
-      const b = +stats.stats[j]!.totalRequests;
-
-      if (a < b) {
-        return 1;
-      }
-
-      if (a > b) {
-        return -1;
-      }
-
-      return 0;
-    },
-    [stats?.stats],
-  );
 
   const totalRequestsValue =
     filterByChainValue && stats?.stats && stats?.stats[filterByChainValue]
@@ -182,7 +165,9 @@ export const useClientUsageTable = ({
     handleChangeActiveTab,
     totalCost,
     filterByChainValue,
-    availableChains: availableChains.sort(compareBlockchainsTotalRequests),
+    availableChains: availableChains.sort(
+      compareBlockchainsTotalRequests(stats?.stats),
+    ),
     handleFilterByChain,
     dataToRender,
     TAB_INDEXES,
@@ -190,6 +175,7 @@ export const useClientUsageTable = ({
     totalCostsValue,
     maxCountTotal,
     csvMappedUsage,
+    detailedCsvData: rawCsvData,
     totalRequestsHistory,
   };
 };
