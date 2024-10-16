@@ -6,6 +6,7 @@ import {
   TableCell,
   TableBody,
   TableContainer,
+  Typography,
 } from '@mui/material';
 import { Web3Address } from 'multirpc-sdk';
 import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
@@ -39,8 +40,9 @@ export const ClientDeductionsTable = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    resetEndpoint('fetchUserTransactions', dispatch);
     return () => resetEndpoint('fetchUserTransactions', dispatch);
-  }, [dispatch]);
+  }, [address, dispatch]);
 
   const renderLoadMoreButton = (text = 'Load more') => {
     return (
@@ -57,7 +59,7 @@ export const ClientDeductionsTable = ({
     );
   };
 
-  if (isUninitialized) {
+  if (isUninitialized || !transactionsData) {
     return renderLoadMoreButton('Load data');
   }
 
@@ -67,16 +69,15 @@ export const ClientDeductionsTable = ({
 
   if (
     transactionsData?.transactions &&
-    transactionsData.transactions.length <= 0
+    transactionsData?.transactions.length === 0 &&
+    transactionsData?.cursor &&
+    transactionsData?.cursor === -1
   ) {
-    return (
-      <>
-        Not found
-        {transactionsData?.cursor &&
-          transactionsData?.cursor > 0 &&
-          renderLoadMoreButton()}
-      </>
-    );
+    return <Typography variant="body2">Not found</Typography>;
+  }
+
+  if (!transactionsData) {
+    return renderLoadMoreButton();
   }
 
   return (

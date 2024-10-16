@@ -11,6 +11,7 @@ interface IRequestParams {
 
 export const {
   useFetchUserBundlesStatusesQuery,
+  useLazyFetchUserBundlesStatusesQuery,
   endpoints: { fetchUserBundlesStatuses },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

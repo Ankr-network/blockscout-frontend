@@ -24,19 +24,21 @@ import { UserProjectsView } from 'modules/projects/components/UserProjectsView';
 
 import { UserTypeTag } from '../../UserTypeTag';
 import { ClientBalancesModal } from '../ClientBalancesModal';
-import { useClientInfo } from './useClientInfo';
-import { useClientGroups } from './useClientGroups';
+import { useClientInfo } from './hooks/useClientInfo';
+import { useClientGroups } from './hooks/useClientGroups';
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
 import { ClientEditProfileModal } from '../ClientEditProfileModal';
 import { ClientApiKeysModal } from '../ClientApiKeysModal';
 import { ClientEditEmailModal } from '../ClientEditEmailModal';
 import { ClientBalances } from './ClientBalances';
-import { useClientAddresses } from './useClientAddresses';
+import { useClientAddresses } from './hooks/useClientAddresses';
 import { ClientUserGroups } from './ClientUserGroups';
-import { useClientBalances } from './useClientBalances';
+import { useClientBalances } from './hooks/useClientBalances';
 import { NOT_FOUND_TEXT } from '../const';
 import { ClientReferralCodes } from './ClientReferralCodes';
 import { ClientBundles } from './ClientBundles';
+import { useReferralCodes } from './hooks/useReferralCodes';
+import { useUserBundles } from './hooks/useUserBundles';
 
 interface IClientInfoProps {
   address: Web3Address;
@@ -72,15 +74,19 @@ export const ClientInfo = ({
     isLoadingRevenue,
     isFetchingRevenue,
     is2FAEnabled,
-    referralCodes,
-    userActiveBundles,
-    userBundlesStatuses,
   } = useClientInfo({ address });
 
   const { userAddressesData, isLoadingUserAddresses, isErrorUserAddresses } =
     useClientAddresses({ address });
 
   const { userGroups, isLoadingUserGroups } = useClientGroups({ address });
+
+  const { referralCodes, isReferralCodesLoading } = useReferralCodes({
+    address,
+  });
+
+  const { userActiveBundles, userBundlesStatuses, isUserBundlesLoading } =
+    useUserBundles({ address });
 
   const { clientBalances, isLoadingBalances } = useClientBalances({
     client: currentClient,
@@ -349,12 +355,14 @@ export const ClientInfo = ({
       <ClientReferralCodes
         currentClient={currentClient}
         referralCodes={referralCodes}
+        isLoading={isReferralCodesLoading}
       />
 
       <ClientBundles
         address={address}
         activeBundles={userActiveBundles}
         bundlesStatuses={userBundlesStatuses}
+        isLoading={isUserBundlesLoading}
       />
     </>
   );
