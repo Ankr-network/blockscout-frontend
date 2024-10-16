@@ -51,7 +51,7 @@ export const selectProjectWhitelistByType = createSelector(
   selectProjectWhitelist,
   (_state: RootState, { type }: { type: UserEndpointTokenMode }) => type,
   (whitelist, type) =>
-    whitelist?.lists.filter(item => item.type === type) ?? [],
+    whitelist?.lists?.filter(item => item.type === type) ?? [],
 );
 
 export const selectAggregatedStatsByChainFor1hState = createSelector(
