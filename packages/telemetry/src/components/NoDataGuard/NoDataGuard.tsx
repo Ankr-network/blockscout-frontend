@@ -4,19 +4,19 @@ import { useNoDataGuardStyles } from './NoDataGuardStyles';
 
 export interface NoDataGuardProps<Data> {
   children: JSX.Element;
-  data: Data;
-  isEmpty?: (data: Data) => boolean;
+  data: Data[];
+  isEmpty?: (data: Data[]) => boolean;
   isLoading?: boolean;
   text?: string;
 }
 
-export const NoDataGuard = <Data extends Array<any>>({
+export function NoDataGuard<Data>({
   children,
   data,
   isLoading,
   text,
-  isEmpty = (list: Data) => list.length === 0,
-}: NoDataGuardProps<Data>) => {
+  isEmpty = (list: Data[]) => list.length === 0,
+}: NoDataGuardProps<Data>) {
   const { classes } = useNoDataGuardStyles();
 
   if (isLoading) {
@@ -28,4 +28,4 @@ export const NoDataGuard = <Data extends Array<any>>({
   }
 
   return children;
-};
+}

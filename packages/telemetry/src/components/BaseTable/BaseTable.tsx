@@ -10,11 +10,12 @@ import { DataTable } from './components/DataTable';
 import { Theme } from '@mui/material/styles';
 
 interface BaseTableProps {
+  NoDataPlaceholder?: typeof NoDataGuard;
   className?: string;
-  title: string;
-  headingTitles: string[] | JSX.Element[];
   data: BaseTableData[];
+  headingTitles: string[] | JSX.Element[];
   sx?: SxProps<Theme>;
+  title: string;
 }
 
 export interface ViewProps {
@@ -22,11 +23,12 @@ export interface ViewProps {
 }
 
 export const BaseTable = ({
+  NoDataPlaceholder = NoDataGuard,
   className,
   data,
-  title,
   headingTitles,
   sx,
+  title,
 }: BaseTableProps) => {
   const { cx, classes } = useTableWidgetStyles();
 
@@ -42,7 +44,7 @@ export const BaseTable = ({
       })}
     >
       <Title className={classes.title}>{title}</Title>
-      <NoDataGuard data={data}>
+      <NoDataPlaceholder data={data}>
         <ScrollableContainer>
           <HeadingTitles
             headingTitles={headingTitles}
@@ -50,7 +52,7 @@ export const BaseTable = ({
           />
           <DataTable data={data} />
         </ScrollableContainer>
-      </NoDataGuard>
+      </NoDataPlaceholder>
     </Paper>
   );
 };

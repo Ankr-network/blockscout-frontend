@@ -9,21 +9,23 @@ import { Title } from '../Title';
 import { useBasePieChartStyles } from './BasePieChartStyles';
 
 export interface BasePieChartProps {
+  NoDataPlaceholder?: typeof NoDataGuard;
   amount: string;
   className?: string;
   data: PieChartData[];
   isLoading?: boolean;
-  title: string;
   sx?: SxProps<Theme>;
+  title: string;
 }
 
 export const BasePieChart = ({
+  NoDataPlaceholder = NoDataGuard,
   amount,
   className,
   data,
   isLoading,
-  title,
   sx,
+  title,
 }: BasePieChartProps) => {
   const { classes, cx } = useBasePieChartStyles();
   const {
@@ -38,14 +40,14 @@ export const BasePieChart = ({
       })}
     >
       <Title className={classes.title}>{title}</Title>
-      <NoDataGuard data={data} isLoading={isLoading}>
+      <NoDataPlaceholder data={data} isLoading={isLoading}>
         <ScrollableContainer>
           <div className={classes.content}>
             <Chart className={classes.chart} amount={amount} data={data} />
             <Legend data={data} />
           </div>
         </ScrollableContainer>
-      </NoDataGuard>
+      </NoDataPlaceholder>
     </Paper>
   );
 };

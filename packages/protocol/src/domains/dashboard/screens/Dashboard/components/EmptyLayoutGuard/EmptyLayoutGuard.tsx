@@ -1,15 +1,15 @@
 import { EmptyLayout } from '../EmptyLayout';
 
-export interface EmptyLayoutGuardProps<T> {
+export interface EmptyLayoutGuardProps {
   children: JSX.Element;
-  data: T;
+  hasPlaceholder: boolean;
 }
 
-export const EmptyLayoutGuard = <T extends Array<any>>({
+export const EmptyLayoutGuard = ({
   children,
-  data,
-}: EmptyLayoutGuardProps<T>) => {
-  if (data.length === 0) {
+  hasPlaceholder,
+}: EmptyLayoutGuardProps) => {
+  if (hasPlaceholder) {
     return <EmptyLayout />;
   }
 

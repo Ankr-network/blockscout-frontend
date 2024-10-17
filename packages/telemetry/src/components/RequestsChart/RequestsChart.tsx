@@ -13,6 +13,7 @@ export const RequestsChart = ({
   sx,
   title,
   className,
+  NoDataPlaceholder = Placeholder,
   ...props
 }: RequestsChartProps) => {
   const { chartProps, hasChart, hasPlaceholder, hasPreloader } =
@@ -26,7 +27,7 @@ export const RequestsChart = ({
       <Box className={classes.content}>
         {hasPreloader && <OverlaySpinner />}
         {hasPlaceholder && (
-          <Placeholder
+          <NoDataPlaceholder
             title={translation.placeholderTitle}
             subtitle={translation.placeholderSubtitle}
           />

@@ -7,15 +7,17 @@ import { t } from '@ankr.com/common';
 
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 
-import { useMonthlyStats } from '../../../v1/hooks/useMonthlyStats';
+import { ChainCallsWidget } from '../../ChainCallsWidget';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
 import { ILayoutProps } from '../../../types';
 import { ProjectsWidget } from '../../ProjectsWidget';
+import { RequestsWidgetPlaceholder } from '../../RequestsWidgetPlaceholder';
+import { WidgetPlaceholder } from '../../WidgetPlaceholder';
+import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
-import { ChainCallsWidget } from '../../ChainCallsWidget';
-import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { useChainCalls } from '../../ChainCallsWidget/hooks/useChainCalls';
+import { useMonthlyStats } from '../../../v1/hooks/useMonthlyStats';
 import { useProjectsData } from './hooks/useProjectsData';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
@@ -43,14 +45,17 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     isLoading: isLoadingProjectCalls,
   } = useProjectsData(timeframe);
 
+  const hasNoRequests = allTimeTotalRequestsNumber === 0;
+
   return (
-    <EmptyLayoutGuard data={requestsChartData}>
+    <EmptyLayoutGuard hasPlaceholder={hasNoRequests && !isLoadingTotalStats}>
       <div className={classes.root}>
         <RequestsWidget
-          timeframe={timeframe}
-          data={requestsChartData}
+          NoDataPlaceholder={RequestsWidgetPlaceholder}
           className={classes.requests}
+          data={requestsChartData}
           isLoading={isLoadingTotalStats}
+          timeframe={timeframe}
           translation={getRequestsChartTranslations({
             timeframe,
             allTimeTotalRequestsNumber,
@@ -71,6 +76,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
         />
         {!hasSelectedProject && (
           <BaseTable
+            NoDataPlaceholder={WidgetPlaceholder}
             headingTitles={[
               t('dashboard.requests-by-ip.ip'),
               t('dashboard.requests-by-ip.requests'),
@@ -82,6 +88,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
         )}
         {!hasSelectedProject && (
           <BaseTable
+            NoDataPlaceholder={WidgetPlaceholder}
             headingTitles={[
               t('dashboard.top-countries.country'),
               t('dashboard.top-countries.requests'),
@@ -92,6 +99,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           />
         )}
         <UsageHistoryWidget
+          NoDataPlaceholder={WidgetPlaceholder}
           headingTitles={[
             t('dashboard.usage-history.month'),
             t('dashboard.usage-history.calls'),

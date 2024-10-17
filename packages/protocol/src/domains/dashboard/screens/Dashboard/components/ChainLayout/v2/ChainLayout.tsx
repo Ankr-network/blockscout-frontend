@@ -44,8 +44,12 @@ export const ChainLayout = ({
 
   const { classes } = useChainLayoutStylesV2(false);
 
+  const hasError = Boolean(responseError);
+  const hasNoRequests =
+    allTimeTotalRequestsNumber === 0 && !isLoadingTotalStats;
+
   return (
-    <EmptyLayoutGuard data={responseError ? [] : requestsChartData}>
+    <EmptyLayoutGuard hasPlaceholder={hasError || hasNoRequests}>
       <div className={classes.root}>
         <RequestsWidget
           timeframe={timeframe}

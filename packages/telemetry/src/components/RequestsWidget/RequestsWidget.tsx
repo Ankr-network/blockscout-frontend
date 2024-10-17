@@ -1,10 +1,11 @@
 import { Header } from './components/Header';
-import { RequestsChart } from '../RequestsChart';
+import { RequestsChart, RequestsChartProps } from '../RequestsChart';
 import { IChartData } from '../Chart';
 import { Timeframe, TranslationRequestWidget } from '../../types';
 import { SxProps, Theme } from '@mui/material';
 
 export interface RequestsWidgetProps {
+  NoDataPlaceholder?: RequestsChartProps['NoDataPlaceholder'];
   className?: string;
   data: IChartData[];
   timeframe: Timeframe;
@@ -14,6 +15,7 @@ export interface RequestsWidgetProps {
 }
 
 export const RequestsWidget = ({
+  NoDataPlaceholder,
   sx,
   className,
   data = [],
@@ -32,6 +34,7 @@ export const RequestsWidget = ({
 }: RequestsWidgetProps) => {
   return (
     <RequestsChart
+      NoDataPlaceholder={NoDataPlaceholder}
       className={className}
       isLoading={isLoading}
       timeframe={timeframe}

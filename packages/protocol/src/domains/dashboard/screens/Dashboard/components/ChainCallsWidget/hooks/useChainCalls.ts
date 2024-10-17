@@ -1,12 +1,13 @@
 import { Timeframe } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
+import { selectBlockchainsLoadingStatus } from 'modules/chains/store/selectors';
 import {
   selectChainCalls,
   selectTotalRequestsNumber,
 } from 'domains/dashboard/store/selectors/v1';
+import { selectPrivateStatsLoading } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectBlockchainsLoadingStatus } from 'modules/chains/store/selectors';
 
 import { getPieChartData } from '../utils/getPieChartData';
 import { usePrivateStatsParams } from '../../../hooks/usePrivateStatsParams';
@@ -24,7 +25,12 @@ export const useChainCalls = ({ timeframe }: IUseChainCallsProps) => {
   const totalRequests = useAppSelector(state =>
     selectTotalRequestsNumber(state, privateStatsParams),
   );
-  const isLoading = useAppSelector(selectBlockchainsLoadingStatus);
+  const blockchainsLoading = useAppSelector(selectBlockchainsLoadingStatus);
+  const privateStatsLoading = useAppSelector(state =>
+    selectPrivateStatsLoading(state, privateStatsParams),
+  );
+
+  const isLoading = blockchainsLoading || privateStatsLoading;
 
   const data = useMemo(
     () => getPieChartData({ chainCalls, totalRequests }),

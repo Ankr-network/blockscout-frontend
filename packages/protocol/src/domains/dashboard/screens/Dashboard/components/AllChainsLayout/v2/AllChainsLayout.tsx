@@ -5,11 +5,13 @@ import {
 } from '@ankr.com/telemetry';
 import { t } from '@ankr.com/common';
 
-import { ILayoutProps } from '../../../types';
-import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
-import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { ChainCallsWidget } from '../../ChainCallsWidget';
+import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
+import { ILayoutProps } from '../../../types';
 import { ProjectsWidget } from '../../ProjectsWidget';
+import { RequestsWidgetPlaceholder } from '../../RequestsWidgetPlaceholder';
+import { WidgetPlaceholder } from '../../WidgetPlaceholder';
+import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStylesV2 } from './AllChainsLayoutStylesV2';
 
@@ -30,14 +32,19 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     totalRequestsNumber,
   } = useAllChainsData();
 
+  const hasError = Boolean(responseError);
+  const hasNoRequests =
+    allTimeTotalRequestsNumber === 0 && !isLoadingTotalStats;
+
   return (
-    <EmptyLayoutGuard data={responseError ? [] : requestsChartData}>
+    <EmptyLayoutGuard hasPlaceholder={hasError || hasNoRequests}>
       <div className={classesV2.root}>
         <RequestsWidget
-          timeframe={timeframe}
-          data={requestsChartData}
+          NoDataPlaceholder={RequestsWidgetPlaceholder}
           className={classesV2.requests}
+          data={requestsChartData}
           isLoading={isLoadingTotalStats}
+          timeframe={timeframe}
           translation={getRequestsChartTranslations({
             timeframe,
             allTimeTotalRequestsNumber,
@@ -57,6 +64,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           amount={totalRequestsNumber}
         />
         <BaseTable
+          NoDataPlaceholder={WidgetPlaceholder}
           headingTitles={[
             t('dashboard.requests-by-ip.ip'),
             t('dashboard.requests-by-ip.requests'),
@@ -66,6 +74,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           title={t('dashboard.requests-by-ip.title')}
         />
         <BaseTable
+          NoDataPlaceholder={WidgetPlaceholder}
           headingTitles={[
             t('dashboard.top-responses.code'),
             t('dashboard.top-responses.amount'),
@@ -75,6 +84,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           data={responses}
         />
         <BaseTable
+          NoDataPlaceholder={WidgetPlaceholder}
           headingTitles={[
             t('dashboard.top-countries.country'),
             t('dashboard.top-countries.requests'),
@@ -84,6 +94,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           data={countries}
         />
         <UsageHistoryWidget
+          NoDataPlaceholder={WidgetPlaceholder}
           headingTitles={[
             t('dashboard.usage-history.month'),
             t('dashboard.usage-history.calls'),

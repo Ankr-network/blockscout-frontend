@@ -9,14 +9,16 @@ import { useUsageHistoryWidgetStyles } from './UsageHistoryWidgetStyles';
 import { UsageHistoryDataMapped } from '../../types';
 
 export interface UsageHistoryWidgetProps {
+  NoDataPlaceholder?: typeof NoDataGuard;
   className: string;
-  title: string;
-  headingTitles: string[];
   data: UsageHistoryDataMapped[];
+  headingTitles: string[];
   sx?: SxProps<Theme>;
+  title: string;
 }
 
 export const UsageHistoryWidget = ({
+  NoDataPlaceholder = NoDataGuard,
   headingTitles,
   className,
   title,
@@ -36,11 +38,11 @@ export const UsageHistoryWidget = ({
       })}
     >
       <Title>{title}</Title>
-      <NoDataGuard data={data}>
+      <NoDataPlaceholder data={data}>
         <ScrollableContainer>
           <Table data={data} headingTitles={headingTitles} />
         </ScrollableContainer>
-      </NoDataGuard>
+      </NoDataPlaceholder>
     </Paper>
   );
 };

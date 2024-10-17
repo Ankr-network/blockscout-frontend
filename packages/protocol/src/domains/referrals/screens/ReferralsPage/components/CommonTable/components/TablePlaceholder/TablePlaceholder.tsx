@@ -1,7 +1,5 @@
-import { Box, Typography } from '@mui/material';
-import { NoDataCoinStack } from '@ankr.com/ui';
-
 import { CopyReferralLinkButton } from 'domains/referrals/screens/ReferralsPage/components/CopyReferralLinkButton';
+import { DataPlaceholder } from 'modules/common/components/DataPlaceholder';
 
 import { useTablePlaceholderStyles } from './useTablePlaceholderStyles';
 
@@ -16,17 +14,13 @@ export const TablePlaceholder = ({
   hasCopyLinkButton,
   text,
 }: ITablePlaceholderProps) => {
-  const { classes, cx } = useTablePlaceholderStyles();
+  const { classes } = useTablePlaceholderStyles();
 
   return (
-    <Box className={cx(classes.root, className)}>
-      <NoDataCoinStack className={classes.icon} size={28} />
-      <Typography className={classes.text} variant="body3">
-        {text}
-      </Typography>
+    <DataPlaceholder className={className} text={text}>
       {hasCopyLinkButton && (
         <CopyReferralLinkButton className={classes.copyLinkButton} />
       )}
-    </Box>
+    </DataPlaceholder>
   );
 };
