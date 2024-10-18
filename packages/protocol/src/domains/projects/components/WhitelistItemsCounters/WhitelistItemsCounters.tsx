@@ -1,5 +1,7 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
 
+import { useAuth } from 'domains/auth/hooks/useAuth';
+
 import { WhitelistItemsCounter } from '../WhitelistItemsCounter';
 import { useWhitelistItemsCountersStyles } from './useWhitelistItemsCountersStyles';
 
@@ -16,6 +18,8 @@ export const WhitelistItemsCounters = ({
   ipsCount,
   smartContractsCount,
 }: WhitelistItemsCountersProps) => {
+  const { hasPremium } = useAuth();
+
   const { classes, cx } = useWhitelistItemsCountersStyles();
 
   return (
@@ -25,10 +29,12 @@ export const WhitelistItemsCounters = ({
         type={UserEndpointTokenMode.REFERER}
       />
       <WhitelistItemsCounter count={ipsCount} type={UserEndpointTokenMode.IP} />
-      <WhitelistItemsCounter
-        count={smartContractsCount}
-        type={UserEndpointTokenMode.ADDRESS}
-      />
+      {hasPremium && (
+        <WhitelistItemsCounter
+          count={smartContractsCount}
+          type={UserEndpointTokenMode.ADDRESS}
+        />
+      )}
     </div>
   );
 };
