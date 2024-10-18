@@ -41,6 +41,7 @@ export const ClientDeductionsTable = ({
 
   useEffect(() => {
     resetEndpoint('fetchUserTransactions', dispatch);
+
     return () => resetEndpoint('fetchUserTransactions', dispatch);
   }, [address, dispatch]);
 

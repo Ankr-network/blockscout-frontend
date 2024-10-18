@@ -1,9 +1,9 @@
+import { OverlaySpinner } from '@ankr.com/ui';
 import { Paper, Typography } from '@mui/material';
 import { IBundleDataEntity, IBundleStatusEntity } from 'multirpc-sdk';
 
 import { useRevokeUserBundleMutation } from 'modules/clients/actions/revokeUserBundle';
 import { LoadableButton } from 'uiKit/LoadableButton';
-import { OverlaySpinner } from '@ankr.com/ui';
 
 interface IReferralCodeItemProps {
   address: string;
