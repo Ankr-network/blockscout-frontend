@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { Warning } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
 
-import { useContactWidget } from 'hooks/useContactWidget';
+import { SUPPORT_PORTAL_LINK } from 'modules/common/constants/const';
 
 import { useDefaultContentStyles } from './useDefaultContentStyles';
 
@@ -12,8 +12,6 @@ interface DefaultContentProps {
 
 export const DefaultContent = ({ handleClose }: DefaultContentProps) => {
   const { classes } = useDefaultContentStyles();
-
-  const { openContactWidget } = useContactWidget();
 
   return (
     <div>
@@ -45,9 +43,10 @@ export const DefaultContent = ({ handleClose }: DefaultContentProps) => {
       </Button>
       <Button
         fullWidth
-        variant="outlined"
+        href={SUPPORT_PORTAL_LINK}
         size="large"
-        onClick={openContactWidget}
+        target="_blank"
+        variant="outlined"
       >
         {t('negative-balance-terms-of-services.contact-button')}
       </Button>

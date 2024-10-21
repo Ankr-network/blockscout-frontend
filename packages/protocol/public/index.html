@@ -32,62 +32,12 @@
     #root {
       height: 100%;
     }
-
-    .jsd-widget-mobile,
-    .jsd-widget-project {
-      bottom: 70px !important;
-      /* need to be less or equal 1200 to prevent project sidebar overlaping */
-      z-index: 1200 !important;
-    }
   </style>
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <!-- Jira Service Desk Widget -->
-  <script>
-    function jiraHelpdesk(callback) {
-      var jhdScript = document.createElement('script');
-      jhdScript.type = 'text/javascript';
-      jhdScript.setAttribute('data-jsd-embedded', null);
-      jhdScript.setAttribute(
-        'data-key',
-        '7a14b4a4-b920-452c-a7ee-dc55c79ad24e',
-      );
-      jhdScript.setAttribute(
-        'data-base-url',
-        'https://jsd-widget.atlassian.com',
-      );
-      jhdScript.src = 'https://jsd-widget.atlassian.com/assets/embed.js';
-      if (jhdScript.readyState) {
-        // old IE support
-        jhdScript.onreadystatechange = function () {
-          if (
-            jhdScript.readyState === 'loaded' ||
-            jhdScript.readyState === 'complete'
-          ) {
-            jhdScript.onreadystatechange = null;
-            callback();
-          }
-        };
-      } else {
-        //modern browsers
-        jhdScript.onload = function () {
-          callback();
-        };
-      }
-      document.getElementsByTagName('head')[0].appendChild(jhdScript);
-    }
-
-    if (navigator.userAgent !== 'ReactSnap') {
-      jiraHelpdesk(function () {
-        var DOMContentLoaded_event = document.createEvent('Event');
-        DOMContentLoaded_event.initEvent('DOMContentLoaded', true, true);
-        window.document.dispatchEvent(DOMContentLoaded_event);
-      });
-    }
-  </script>
 </head>
 
 <body>

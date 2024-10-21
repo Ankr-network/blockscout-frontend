@@ -7,10 +7,9 @@ import { AppRouter } from 'routes/AppRouter';
 
 import { AppBase } from 'modules/layout/components/AppBase/AppBase';
 import { BreadcrumbsProvider } from 'modules/layout/components/BreadcrumbsProvider';
-import { JiraServiceDeskMounter } from 'modules/common/components/JiraServiceDeskMounter';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { Notifications } from 'domains/notification/components/Notifications';
 import { ScrollToTop } from 'modules/common/components/ScrollToTop';
+import { SupportPortalButton } from 'modules/common/components/SupportPortalButton';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 
 import { persistor, store } from './store';
@@ -21,9 +20,6 @@ function App() {
       <Provider store={store}>
         <PersistGate loading={<OverlaySpinner />} persistor={persistor}>
           <AppBase>
-            <NoReactSnap>
-              <JiraServiceDeskMounter />
-            </NoReactSnap>
             <ScrollToTop />
             <BreadcrumbsProvider>
               <AppRouter />
@@ -31,6 +27,7 @@ function App() {
             <NoSsr>
               <Notifications />
             </NoSsr>
+            <SupportPortalButton />
           </AppBase>
         </PersistGate>
       </Provider>

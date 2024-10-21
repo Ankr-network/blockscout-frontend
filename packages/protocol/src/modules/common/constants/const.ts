@@ -82,3 +82,6 @@ export const INTEGER_REGEX = /[^0-9]/;
 
 export const SALES_TEAM_CONTACT =
   'https://meetings-eu1.hubspot.com/arsalan-evini';
+
+export const SUPPORT_PORTAL_LINK =
+  'http://helpdesk.ankr.com/?_gl=1*7x6jyr*_ga*Njk4Njg3NTY1LjE3MTg4NzE5MTc.*_ga_0MDHE2B2H8*MTcyOTI0NzQzNi4xNDAuMS4xNzI5MjQ4MjI3LjcuMC4w';
