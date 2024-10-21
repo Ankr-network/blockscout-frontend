@@ -4,7 +4,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { selectAllChainsPaths } from 'modules/chains/store/selectors';
-import { web3Api } from 'store/queries';
+import { RequestType, web3Api } from 'store/queries';
 
 export const {
   endpoints: { fetchWhitelistBlockchains },
@@ -15,6 +15,7 @@ export const {
       BlockchainID[],
       IWhitelistBlockchainsParams
     >({
+      providesTags: [RequestType.WhitelistBlockchains],
       queryFn: createNotifyingQueryFn(async (params, { getState }) => {
         const api = MultiService.getService().getAccountingGateway();
         const allBlockchainsPaths = selectAllChainsPaths(

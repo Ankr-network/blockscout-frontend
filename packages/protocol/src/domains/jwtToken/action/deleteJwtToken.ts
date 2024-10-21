@@ -19,7 +19,7 @@ export const {
       null,
       TwoFAQueryFnParams<DeleteJwtTokenParams>
     >({
-      invalidatesTags: [RequestType.WhitelistBlockchains],
+      invalidatesTags: [RequestType.WhitelistsBlockchains],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async (
           { params: { group, tokenIndex }, totp },

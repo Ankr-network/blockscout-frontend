@@ -28,7 +28,7 @@ export const {
       MappedWhitelistBlockchainsResponse[],
       FetchWhitelistsBlockchainsParams
     >({
-      providesTags: [RequestType.WhitelistBlockchains],
+      providesTags: [RequestType.WhitelistsBlockchains],
       queryFn: createNotifyingQueryFn(
         async ({ group, projects }, { getState }) => {
           const service = MultiService.getService().getAccountingGateway();

@@ -15,6 +15,7 @@ export enum RequestType {
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
   'WhitelistBlockchains' = 'WhitelistBlockchains',
+  'WhitelistsBlockchains' = 'WhitelistsBlockchains',
 }
 
 // Endponts that must be cached by their names and params should be listed here

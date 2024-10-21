@@ -25,7 +25,10 @@ export const {
       null,
       TwoFAQueryFnParams<AddBlockchainsToWhitelistParams>
     >({
-      invalidatesTags: [RequestType.WhitelistBlockchains],
+      invalidatesTags: [
+        RequestType.WhitelistBlockchains,
+        RequestType.WhitelistsBlockchains,
+      ],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
           params: { blockchains, group, userEndpointToken },
