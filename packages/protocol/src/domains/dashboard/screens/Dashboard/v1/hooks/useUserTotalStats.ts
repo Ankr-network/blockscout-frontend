@@ -9,7 +9,7 @@ export const useUserTotalStats = () => {
 
   const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
 
-  const [fetch] = useLazyFetchUserTotalStatsQuery();
+  const [fetch, { isLoading }] = useLazyFetchUserTotalStatsQuery();
 
   useEffect(() => {
     if (!isEnterpriseStatusLoading) {
@@ -20,4 +20,6 @@ export const useUserTotalStats = () => {
 
     return () => {};
   }, [group, fetch, gateway, isEnterpriseStatusLoading]);
+
+  return { isLoading };
 };

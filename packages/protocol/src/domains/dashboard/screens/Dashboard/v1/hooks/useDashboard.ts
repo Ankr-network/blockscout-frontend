@@ -13,15 +13,17 @@ export const useDashboard = () => {
     timeframeTabs,
   } = useChains();
 
-  useUserTotalStats();
+  const { isLoading: totalStatsLoading } = useUserTotalStats();
+
   useChainsFetchChainNodesDetailQuery();
 
   return {
+    error,
+    isLoading,
     networksConfigurations: processedChains,
     rawChains: chains,
     timeframe,
     timeframeTabs,
-    isLoading,
-    error,
+    totalStatsLoading,
   };
 };

@@ -1,6 +1,8 @@
 import { ChainID } from '@ankr.com/chains-list';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
+import { Placeholder } from 'modules/common/components/Placeholder';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainPage/components/TimeframeTabs';
@@ -22,8 +24,13 @@ import { usePrivateStatsParams } from '../hooks/usePrivateStatsParams';
 export const DashboardContent = () => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
 
-  const { networksConfigurations, rawChains, timeframe, timeframeTabs } =
-    useDashboard();
+  const {
+    networksConfigurations,
+    rawChains,
+    timeframe,
+    timeframeTabs,
+    totalStatsLoading,
+  } = useDashboard();
 
   const { privateStatsParams } = usePrivateStatsParams({ timeframe });
 
@@ -101,12 +108,17 @@ export const DashboardContent = () => {
           />
         </div>
 
-        <DashboardWidgetsV1
-          statsChainId={statsChainId}
-          detailsChainId={detailsChainId}
-          timeframe={timeframe}
-          selectedChainId={selectedChainId}
-        />
+        <Placeholder
+          hasPlaceholder={totalStatsLoading}
+          placeholder={<OverlaySpinner />}
+        >
+          <DashboardWidgetsV1
+            statsChainId={statsChainId}
+            detailsChainId={detailsChainId}
+            timeframe={timeframe}
+            selectedChainId={selectedChainId}
+          />
+        </Placeholder>
       </div>
       <PlansDialog open={isOpened} onClose={onClose} />
     </ChainProtocolContext.Provider>
