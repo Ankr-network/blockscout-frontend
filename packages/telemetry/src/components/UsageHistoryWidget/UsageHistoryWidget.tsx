@@ -13,17 +13,19 @@ export interface UsageHistoryWidgetProps {
   className: string;
   data: UsageHistoryDataMapped[];
   headingTitles: string[];
+  isLoading?: boolean;
   sx?: SxProps<Theme>;
   title: string;
 }
 
 export const UsageHistoryWidget = ({
   NoDataPlaceholder = NoDataGuard,
-  headingTitles,
   className,
-  title,
   data,
+  headingTitles,
+  isLoading,
   sx,
+  title,
 }: UsageHistoryWidgetProps) => {
   const { classes, cx } = useUsageHistoryWidgetStyles();
   const {
@@ -38,7 +40,7 @@ export const UsageHistoryWidget = ({
       })}
     >
       <Title>{title}</Title>
-      <NoDataPlaceholder data={data}>
+      <NoDataPlaceholder data={data} isLoading={isLoading}>
         <ScrollableContainer>
           <Table data={data} headingTitles={headingTitles} />
         </ScrollableContainer>

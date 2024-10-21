@@ -8,6 +8,7 @@ import {
   selectTotalRequestsNumber,
   selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors/v1';
+import { selectPrivateStatsLoading } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useAppSelector } from 'store/useAppSelector';
 import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
 
@@ -23,6 +24,10 @@ export const useAllChainsData = (timeframe: Timeframe) => {
     selectTotalRequests(state, privateStatsParams),
   );
 
+  const privateStatsLoading = useAppSelector(state =>
+    selectPrivateStatsLoading(state, privateStatsParams),
+  );
+
   const totalRequestsNumber = useAppSelector(state =>
     selectTotalRequestsNumber(state, privateStatsParams),
   );
@@ -32,16 +37,22 @@ export const useAllChainsData = (timeframe: Timeframe) => {
     [requests, timeframe],
   );
 
-  const { countries, ipRequests } = useTop10Stats(timeframe);
+  const {
+    countries,
+    ipRequests,
+    isLoading: top10StatsLoading,
+  } = useTop10Stats(timeframe);
 
-  const isLoadingTotalStats = useAppSelector(selectTotalStatsLoading);
+  const totalStatsLoading = useAppSelector(selectTotalStatsLoading);
 
   return {
     allTimeTotalRequestsNumber,
     countries,
     ipRequests,
+    privateStatsLoading,
     requestsChartData,
+    top10StatsLoading,
     totalRequestsNumber,
-    isLoadingTotalStats,
+    totalStatsLoading,
   };
 };

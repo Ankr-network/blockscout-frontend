@@ -10,6 +10,7 @@ import {
   selectTotalRequestsNumberByChainID,
   selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors/v1';
+import { selectPrivateStatsLoading } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useAppSelector } from 'store/useAppSelector';
 import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
 
@@ -34,6 +35,10 @@ export const useChainData = ({
     selectTotalRequestsByChainID(state, privateStatsParams, statsChainId),
   );
 
+  const privateStatsLoading = useAppSelector(state =>
+    selectPrivateStatsLoading(state, privateStatsParams),
+  );
+
   const totalRequestsNumber = useAppSelector(state =>
     selectTotalRequestsNumberByChainID(state, privateStatsParams, statsChainId),
   );
@@ -47,9 +52,13 @@ export const useChainData = ({
     [requests, timeframe],
   );
 
-  const { countries, ipRequests } = useTop10Stats(timeframe, statsChainId);
+  const {
+    countries,
+    ipRequests,
+    isLoading: top10StatsLoading,
+  } = useTop10Stats(timeframe, statsChainId);
 
-  const isLoadingTotalStats = useAppSelector(selectTotalStatsLoading);
+  const totalStatsLoading = useAppSelector(selectTotalStatsLoading);
 
   const blockHeight = useAppSelector(state =>
     selectBlockHeight(state, detailsChainId),
@@ -57,13 +66,15 @@ export const useChainData = ({
 
   return {
     allTimeTotalRequestsNumber,
+    blockHeight,
     chainStats,
     countries,
     ipRequests,
-    requestsChartData,
-    totalRequestsNumber,
     methodCalls,
-    isLoadingTotalStats,
-    blockHeight,
+    privateStatsLoading,
+    requestsChartData,
+    top10StatsLoading,
+    totalRequestsNumber,
+    totalStatsLoading,
   };
 };

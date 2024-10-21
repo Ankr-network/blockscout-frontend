@@ -26,10 +26,12 @@ export const ChainLayout = ({
     chainStats,
     countries,
     ipRequests,
-    isLoadingTotalStats,
     methodCalls,
+    privateStatsLoading,
     requestsChartData,
+    top10StatsLoading,
     totalRequestsNumber,
+    totalStatsLoading,
   } = useChainData({ statsChainId, detailsChainId, timeframe });
 
   const { methodCallsChartTranslations, requestsChartTranslations } =
@@ -46,48 +48,50 @@ export const ChainLayout = ({
   const hasNoRequests = allTimeTotalRequestsNumber === 0;
 
   return (
-    <EmptyLayoutGuard hasPlaceholder={hasNoRequests && !isLoadingTotalStats}>
+    <EmptyLayoutGuard hasPlaceholder={hasNoRequests && !totalStatsLoading}>
       <div className={classes.root}>
         <RequestsWidget
           NoDataPlaceholder={RequestsWidgetPlaceholder}
           timeframe={timeframe}
           data={requestsChartData}
           className={classes.requests}
-          isLoading={isLoadingTotalStats}
+          isLoading={privateStatsLoading}
           translation={requestsChartTranslations}
         />
         <MethodCallsWidget
           NoDataPlaceholder={WidgetPlaceholder}
+          blockHeight={blockHeight}
           className={classes.methods}
-          total={chainStats?.total.count}
+          isLoading={privateStatsLoading}
           requests={methodCalls}
           timeframe={timeframe}
-          isLoading={false}
-          blockHeight={blockHeight}
+          total={chainStats?.total.count}
           translation={methodCallsChartTranslations}
         />
         {!hasSelectedProject && (
           <BaseTable
             NoDataPlaceholder={WidgetPlaceholder}
+            className={classes.ipRequests}
+            data={ipRequests}
             headingTitles={[
               t('dashboard.requests-by-ip.ip'),
               t('dashboard.requests-by-ip.requests'),
             ]}
-            className={classes.ipRequests}
-            data={ipRequests}
+            isLoading={top10StatsLoading}
             title={t('dashboard.requests-by-ip.title')}
           />
         )}
         {!hasSelectedProject && (
           <BaseTable
             NoDataPlaceholder={WidgetPlaceholder}
+            className={classes.countries}
+            data={countries}
             headingTitles={[
               t('dashboard.top-countries.country'),
               t('dashboard.top-countries.requests'),
             ]}
+            isLoading={top10StatsLoading}
             title={t('dashboard.top-countries.title')}
-            className={classes.countries}
-            data={countries}
           />
         )}
       </div>

@@ -23,16 +23,16 @@ import { useLazyChainsFetchEnterpriseV2StatsTotalQuery } from 'domains/enterpris
 
 interface IUseAllChainsDataResult {
   allTimeTotalRequestsNumber: number;
+  chainCallsData: PieChartData[];
   countries: BaseTableDataProps[];
   ipRequests: BaseTableDataProps[];
-  responses: BaseTableDataProps[];
-  requestsChartData: IChartData[];
-  totalRequestsNumber: number;
-  isLoadingTotalStats: boolean;
-  chainCallsData: PieChartData[];
-  projectCallsData: PieChartData[];
   monthlyStats: UsageHistoryDataMapped[];
+  projectCallsData: PieChartData[];
+  requestsChartData: IChartData[];
   responseError: unknown;
+  responses: BaseTableDataProps[];
+  totalRequestsNumber: number;
+  totalStatsLoading: boolean;
 }
 
 export const useAllChainsData = (): IUseAllChainsDataResult => {
@@ -49,7 +49,7 @@ export const useAllChainsData = (): IUseAllChainsDataResult => {
   const responses = useAppSelector(selectResponseCodesNumber);
   const requestsChartData = useAppSelector(selectRequestsChartData);
   const totalRequestsNumber = useAppSelector(selectTotalRequestsNumber);
-  const isLoadingTotalStats =
+  const totalStatsLoading =
     isLoading || isFetching || isEnterpriseStatusLoading;
   const monthlyStats = useAppSelector(selectTopMonthlyStats);
   const chainCallsData = useAppSelector(selectSqueezedChainCallsData);
@@ -58,15 +58,15 @@ export const useAllChainsData = (): IUseAllChainsDataResult => {
 
   return {
     allTimeTotalRequestsNumber,
+    chainCallsData,
     countries,
     ipRequests,
-    responses,
-    requestsChartData,
-    totalRequestsNumber,
-    isLoadingTotalStats,
     monthlyStats,
-    chainCallsData,
     projectCallsData,
+    requestsChartData,
     responseError,
+    responses,
+    totalRequestsNumber,
+    totalStatsLoading,
   };
 };

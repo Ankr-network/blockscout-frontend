@@ -24,12 +24,12 @@ export const ChainLayout = ({
     blockHeight,
     countries,
     ipRequests,
-    isLoadingTotalStats,
     methodCalls,
     requestsChartData,
     responseError,
     responses,
     totalRequestsNumber,
+    totalStatsLoading,
   } = useChainData({
     statsChainId,
     detailsChainId,
@@ -47,8 +47,7 @@ export const ChainLayout = ({
   const { classes } = useChainLayoutStylesV2(false);
 
   const hasError = Boolean(responseError);
-  const hasNoRequests =
-    allTimeTotalRequestsNumber === 0 && !isLoadingTotalStats;
+  const hasNoRequests = allTimeTotalRequestsNumber === 0 && !totalStatsLoading;
 
   return (
     <EmptyLayoutGuard hasPlaceholder={hasError || hasNoRequests}>
@@ -57,7 +56,7 @@ export const ChainLayout = ({
           NoDataPlaceholder={RequestsWidgetPlaceholder}
           className={classes.requests}
           data={requestsChartData}
-          isLoading={isLoadingTotalStats}
+          isLoading={totalStatsLoading}
           timeframe={timeframe}
           translation={requestsChartTranslations}
         />
@@ -65,7 +64,7 @@ export const ChainLayout = ({
           NoDataPlaceholder={WidgetPlaceholder}
           blockHeight={blockHeight}
           className={classes.methods}
-          isLoading={false}
+          isLoading={totalStatsLoading}
           requests={methodCalls}
           timeframe={timeframe}
           total={totalRequestsNumber}
@@ -79,6 +78,7 @@ export const ChainLayout = ({
             t('dashboard.requests-by-ip.ip'),
             t('dashboard.requests-by-ip.requests'),
           ]}
+          isLoading={totalStatsLoading}
           title={t('dashboard.requests-by-ip.title')}
         />
         <BaseTable
@@ -89,6 +89,7 @@ export const ChainLayout = ({
             t('dashboard.top-responses.code'),
             t('dashboard.top-responses.amount'),
           ]}
+          isLoading={totalStatsLoading}
           title={t('dashboard.top-responses.title')}
         />
         <BaseTable
@@ -99,6 +100,7 @@ export const ChainLayout = ({
             t('dashboard.top-countries.country'),
             t('dashboard.top-countries.requests'),
           ]}
+          isLoading={totalStatsLoading}
           title={t('dashboard.top-countries.title')}
         />
       </div>

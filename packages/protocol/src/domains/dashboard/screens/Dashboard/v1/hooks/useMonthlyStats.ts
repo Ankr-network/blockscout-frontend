@@ -25,8 +25,5 @@ export const useMonthlyStats = () => {
     isEnterpriseStatusLoading,
   ]);
 
-  return {
-    data,
-    isLoading,
-  };
+  return { data, isLoading };
 };

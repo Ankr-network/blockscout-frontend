@@ -14,6 +14,7 @@ interface BaseTableProps {
   className?: string;
   data: BaseTableData[];
   headingTitles: string[] | JSX.Element[];
+  isLoading?: boolean;
   sx?: SxProps<Theme>;
   title: string;
 }
@@ -27,6 +28,7 @@ export const BaseTable = ({
   className,
   data,
   headingTitles,
+  isLoading,
   sx,
   title,
 }: BaseTableProps) => {
@@ -44,7 +46,7 @@ export const BaseTable = ({
       })}
     >
       <Title className={classes.title}>{title}</Title>
-      <NoDataPlaceholder data={data}>
+      <NoDataPlaceholder data={data} isLoading={isLoading}>
         <ScrollableContainer>
           <HeadingTitles
             headingTitles={headingTitles}

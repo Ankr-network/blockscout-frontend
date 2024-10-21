@@ -27,7 +27,7 @@ export const useChainData = ({ detailsChainId }: ChainLayoutProps) => {
   const responses = useAppSelector(selectResponseCodesNumber);
   const requestsChartData = useAppSelector(selectRequestsChartData);
   const totalRequestsNumber = useAppSelector(selectTotalRequestsNumber);
-  const isLoadingTotalStats = isLoading || isFetching;
+  const totalStatsLoading = isLoading || isFetching;
   const monthlyStats = useAppSelector(selectTopMonthlyStats);
   const methodCalls = useAppSelector(selectMethodCallsData);
   const responseError = useAppSelector(selectUsageDataError);
@@ -38,15 +38,15 @@ export const useChainData = ({ detailsChainId }: ChainLayoutProps) => {
 
   return {
     allTimeTotalRequestsNumber,
+    blockHeight,
     countries,
     ipRequests,
-    responses,
-    requestsChartData,
-    totalRequestsNumber,
-    isLoadingTotalStats,
-    monthlyStats,
     methodCalls,
-    blockHeight,
+    monthlyStats,
+    requestsChartData,
     responseError,
+    responses,
+    totalRequestsNumber,
+    totalStatsLoading,
   };
 };

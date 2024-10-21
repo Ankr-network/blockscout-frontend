@@ -23,18 +23,17 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     chainCallsData,
     countries,
     ipRequests,
-    isLoadingTotalStats,
     monthlyStats,
     projectCallsData,
     requestsChartData,
     responseError,
     responses,
     totalRequestsNumber,
+    totalStatsLoading,
   } = useAllChainsData();
 
   const hasError = Boolean(responseError);
-  const hasNoRequests =
-    allTimeTotalRequestsNumber === 0 && !isLoadingTotalStats;
+  const hasNoRequests = allTimeTotalRequestsNumber === 0 && !totalStatsLoading;
 
   return (
     <EmptyLayoutGuard hasPlaceholder={hasError || hasNoRequests}>
@@ -43,7 +42,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
           NoDataPlaceholder={RequestsWidgetPlaceholder}
           className={classesV2.requests}
           data={requestsChartData}
-          isLoading={isLoadingTotalStats}
+          isLoading={totalStatsLoading}
           timeframe={timeframe}
           translation={getRequestsChartTranslations({
             timeframe,
@@ -54,54 +53,58 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
         <ChainCallsWidget
           className={classesV2.calls}
           data={chainCallsData}
-          isLoading={isLoadingTotalStats}
+          isLoading={totalStatsLoading}
           totalRequests={totalRequestsNumber}
         />
         <ProjectsWidget
           className={classesV2.projects}
           data={projectCallsData}
-          isLoading={isLoadingTotalStats}
+          isLoading={totalStatsLoading}
           amount={totalRequestsNumber}
         />
         <BaseTable
           NoDataPlaceholder={WidgetPlaceholder}
+          className={classesV2.ipRequests}
+          data={ipRequests}
           headingTitles={[
             t('dashboard.requests-by-ip.ip'),
             t('dashboard.requests-by-ip.requests'),
           ]}
-          className={classesV2.ipRequests}
-          data={ipRequests}
+          isLoading={totalStatsLoading}
           title={t('dashboard.requests-by-ip.title')}
         />
         <BaseTable
           NoDataPlaceholder={WidgetPlaceholder}
+          className={classesV2.responses}
+          data={responses}
           headingTitles={[
             t('dashboard.top-responses.code'),
             t('dashboard.top-responses.amount'),
           ]}
+          isLoading={totalStatsLoading}
           title={t('dashboard.top-responses.title')}
-          className={classesV2.responses}
-          data={responses}
         />
         <BaseTable
           NoDataPlaceholder={WidgetPlaceholder}
+          className={classesV2.countries}
+          data={countries}
           headingTitles={[
             t('dashboard.top-countries.country'),
             t('dashboard.top-countries.requests'),
           ]}
+          isLoading={totalStatsLoading}
           title={t('dashboard.top-countries.title')}
-          className={classesV2.countries}
-          data={countries}
         />
         <UsageHistoryWidget
           NoDataPlaceholder={WidgetPlaceholder}
+          className={classesV2.history}
+          data={monthlyStats}
           headingTitles={[
             t('dashboard.usage-history.month'),
             t('dashboard.usage-history.calls'),
           ]}
+          isLoading={totalStatsLoading}
           title={t('dashboard.usage-history.title')}
-          className={classesV2.history}
-          data={monthlyStats}
         />
       </div>
     </EmptyLayoutGuard>

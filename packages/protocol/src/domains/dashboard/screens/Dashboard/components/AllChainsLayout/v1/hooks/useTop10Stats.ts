@@ -21,7 +21,7 @@ export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
 
   const { gateway, isEnterpriseStatusLoading } = useMultiServiceGateway();
 
-  const { data: top10Data } = useFetchTop10StatsQuery(
+  const { data: top10Data, isLoading } = useFetchTop10StatsQuery(
     {
       blockchain,
       gateway,
@@ -42,9 +42,5 @@ export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
     return top10Data?.ips?.map(mapIpRequests) || [];
   }, [top10Data?.ips]);
 
-  return {
-    top10Data,
-    countries,
-    ipRequests,
-  };
+  return { top10Data, countries, ipRequests, isLoading };
 };

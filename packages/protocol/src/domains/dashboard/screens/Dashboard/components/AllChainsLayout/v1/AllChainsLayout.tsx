@@ -29,32 +29,36 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     allTimeTotalRequestsNumber,
     countries,
     ipRequests,
-    isLoadingTotalStats,
+    privateStatsLoading,
     requestsChartData,
+    top10StatsLoading,
     totalRequestsNumber,
+    totalStatsLoading,
   } = useAllChainsData(timeframe);
 
-  const { data: monthlyStats = [] } = useMonthlyStats();
+  const { data: monthlyStats = [], isLoading: montlyStatsLoading } =
+    useMonthlyStats();
 
-  const { data: chainCallsData, isLoading: isLoadingChainCalls } =
-    useChainCalls({ timeframe });
+  const { data: chainCallsData, isLoading: chainCallsLoading } = useChainCalls({
+    timeframe,
+  });
 
   const {
     amount: projectsDataTotal,
     data: projectCallsData,
-    isLoading: isLoadingProjectCalls,
+    isLoading: projectCallsLoading,
   } = useProjectsData(timeframe);
 
   const hasNoRequests = allTimeTotalRequestsNumber === 0;
 
   return (
-    <EmptyLayoutGuard hasPlaceholder={hasNoRequests && !isLoadingTotalStats}>
+    <EmptyLayoutGuard hasPlaceholder={hasNoRequests && !totalStatsLoading}>
       <div className={classes.root}>
         <RequestsWidget
           NoDataPlaceholder={RequestsWidgetPlaceholder}
           className={classes.requests}
           data={requestsChartData}
-          isLoading={isLoadingTotalStats}
+          isLoading={privateStatsLoading}
           timeframe={timeframe}
           translation={getRequestsChartTranslations({
             timeframe,
@@ -65,48 +69,51 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
         <ChainCallsWidget
           className={classes.calls}
           data={chainCallsData}
-          isLoading={isLoadingChainCalls}
+          isLoading={chainCallsLoading}
           totalRequests={totalRequestsNumber}
         />
         <ProjectsWidget
-          className={classes.projects}
           amount={Number(projectsDataTotal)}
+          className={classes.projects}
           data={projectCallsData}
-          isLoading={isLoadingProjectCalls}
+          isLoading={projectCallsLoading}
         />
         {!hasSelectedProject && (
           <BaseTable
             NoDataPlaceholder={WidgetPlaceholder}
+            className={classes.ipRequests}
+            data={ipRequests}
             headingTitles={[
               t('dashboard.requests-by-ip.ip'),
               t('dashboard.requests-by-ip.requests'),
             ]}
-            className={classes.ipRequests}
-            data={ipRequests}
+            isLoading={top10StatsLoading}
             title={t('dashboard.requests-by-ip.title')}
           />
         )}
         {!hasSelectedProject && (
           <BaseTable
             NoDataPlaceholder={WidgetPlaceholder}
+            className={classes.countries}
+            data={countries}
             headingTitles={[
               t('dashboard.top-countries.country'),
               t('dashboard.top-countries.requests'),
             ]}
+            isLoading={top10StatsLoading}
             title={t('dashboard.top-countries.title')}
-            className={classes.countries}
-            data={countries}
           />
         )}
         <UsageHistoryWidget
           NoDataPlaceholder={WidgetPlaceholder}
+          className={classes.history}
+          data={monthlyStats}
           headingTitles={[
             t('dashboard.usage-history.month'),
             t('dashboard.usage-history.calls'),
           ]}
+          isLoading={montlyStatsLoading}
           title={t('dashboard.usage-history.title')}
-          className={classes.history}
-          data={monthlyStats}
         />
       </div>
     </EmptyLayoutGuard>
