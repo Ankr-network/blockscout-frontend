@@ -7,9 +7,11 @@ import { t } from '@ankr.com/common';
 
 import { ChainLayoutProps } from '../types';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
+import { RequestsWidgetPlaceholder } from '../../RequestsWidgetPlaceholder';
+import { WidgetPlaceholder } from '../../WidgetPlaceholder';
 import { useChainData } from './hooks/useChainData';
-import { useChartTranslations } from '../../../useChartsTranslations';
 import { useChainLayoutStylesV2 } from './ChainLayoutStylesV2';
+import { useChartTranslations } from '../../../useChartsTranslations';
 
 export const ChainLayout = ({
   detailsChainId,
@@ -52,47 +54,52 @@ export const ChainLayout = ({
     <EmptyLayoutGuard hasPlaceholder={hasError || hasNoRequests}>
       <div className={classes.root}>
         <RequestsWidget
-          timeframe={timeframe}
-          data={requestsChartData}
+          NoDataPlaceholder={RequestsWidgetPlaceholder}
           className={classes.requests}
+          data={requestsChartData}
           isLoading={isLoadingTotalStats}
+          timeframe={timeframe}
           translation={requestsChartTranslations}
         />
         <MethodCallsWidget
+          NoDataPlaceholder={WidgetPlaceholder}
+          blockHeight={blockHeight}
           className={classes.methods}
-          total={totalRequestsNumber}
+          isLoading={false}
           requests={methodCalls}
           timeframe={timeframe}
-          isLoading={false}
-          blockHeight={blockHeight}
+          total={totalRequestsNumber}
           translation={methodCallsChartTranslations}
         />
         <BaseTable
+          NoDataPlaceholder={WidgetPlaceholder}
+          className={classes.ipRequests}
+          data={ipRequests}
           headingTitles={[
             t('dashboard.requests-by-ip.ip'),
             t('dashboard.requests-by-ip.requests'),
           ]}
-          className={classes.ipRequests}
-          data={ipRequests}
           title={t('dashboard.requests-by-ip.title')}
         />
         <BaseTable
+          NoDataPlaceholder={WidgetPlaceholder}
+          className={classes.responses}
+          data={responses}
           headingTitles={[
             t('dashboard.top-responses.code'),
             t('dashboard.top-responses.amount'),
           ]}
           title={t('dashboard.top-responses.title')}
-          className={classes.responses}
-          data={responses}
         />
         <BaseTable
+          NoDataPlaceholder={WidgetPlaceholder}
+          className={classes.countries}
+          data={countries}
           headingTitles={[
             t('dashboard.top-countries.country'),
             t('dashboard.top-countries.requests'),
           ]}
           title={t('dashboard.top-countries.title')}
-          className={classes.countries}
-          data={countries}
         />
       </div>
     </EmptyLayoutGuard>

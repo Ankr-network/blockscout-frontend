@@ -9,6 +9,8 @@ import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/
 
 import { ChainLayoutProps } from '../types';
 import { EmptyLayoutGuard } from '../../EmptyLayoutGuard';
+import { RequestsWidgetPlaceholder } from '../../RequestsWidgetPlaceholder';
+import { WidgetPlaceholder } from '../../WidgetPlaceholder';
 import { useChainData } from './hooks/useChainData';
 import { useChainLayoutStyles } from '../ChainLayoutStyles';
 import { useChartTranslations } from '../../../useChartsTranslations';
@@ -47,6 +49,7 @@ export const ChainLayout = ({
     <EmptyLayoutGuard hasPlaceholder={hasNoRequests && !isLoadingTotalStats}>
       <div className={classes.root}>
         <RequestsWidget
+          NoDataPlaceholder={RequestsWidgetPlaceholder}
           timeframe={timeframe}
           data={requestsChartData}
           className={classes.requests}
@@ -54,6 +57,7 @@ export const ChainLayout = ({
           translation={requestsChartTranslations}
         />
         <MethodCallsWidget
+          NoDataPlaceholder={WidgetPlaceholder}
           className={classes.methods}
           total={chainStats?.total.count}
           requests={methodCalls}
@@ -64,6 +68,7 @@ export const ChainLayout = ({
         />
         {!hasSelectedProject && (
           <BaseTable
+            NoDataPlaceholder={WidgetPlaceholder}
             headingTitles={[
               t('dashboard.requests-by-ip.ip'),
               t('dashboard.requests-by-ip.requests'),
@@ -75,6 +80,7 @@ export const ChainLayout = ({
         )}
         {!hasSelectedProject && (
           <BaseTable
+            NoDataPlaceholder={WidgetPlaceholder}
             headingTitles={[
               t('dashboard.top-countries.country'),
               t('dashboard.top-countries.requests'),

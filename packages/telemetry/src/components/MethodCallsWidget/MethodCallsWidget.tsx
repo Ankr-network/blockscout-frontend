@@ -1,42 +1,44 @@
-import { CSVLink } from 'react-csv';
-import { Button, Paper, SxProps, Typography } from '@mui/material';
 import BigNumber from 'bignumber.js';
+import { Button, Paper, SxProps, Typography } from '@mui/material';
+import { CSVLink } from 'react-csv';
 import { Download } from '@ankr.com/ui';
 
 import { Chart } from '../BasePieChart/components/Chart';
-import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
-import { ScrollableContainer } from '../ScrollableContainer';
-import { Title } from '../Title';
-import { getColor } from '../BasePieChart/utils/getColor';
-import { mapChartData, mapRequests } from './MethodCallsWidgetUtils';
-import { useMethodCallsWidgetStyles } from './MethodCallsWidgetStyles';
 import {
   MethodCallsRequests,
   Timeframe,
   TranslationMethodCallsWidget,
 } from '../../types';
-import { getRequestsAverage } from '../../utils/getRequestsAverage';
+import { NoDataGuard, useNoDataContainerStyles } from '../NoDataGuard';
+import { ScrollableContainer } from '../ScrollableContainer';
 import { Theme } from '@mui/material/styles';
+import { Title } from '../Title';
+import { getColor } from '../BasePieChart/utils/getColor';
+import { getRequestsAverage } from '../../utils/getRequestsAverage';
+import { mapChartData, mapRequests } from './MethodCallsWidgetUtils';
+import { useMethodCallsWidgetStyles } from './MethodCallsWidgetStyles';
 
 interface IMethodCallsProps {
+  NoDataPlaceholder?: typeof NoDataGuard;
+  blockHeight?: number;
   className?: string;
+  isLoading: boolean;
+  requests?: MethodCallsRequests[];
+  sx?: SxProps<Theme>;
   timeframe: Timeframe;
   total?: number;
-  requests?: MethodCallsRequests[];
-  blockHeight?: number;
-  isLoading: boolean;
-  sx?: SxProps<Theme>;
   translation?: TranslationMethodCallsWidget;
 }
 
 export const MethodCallsWidget = ({
-  sx,
-  className,
-  requests = [],
-  timeframe,
+  NoDataPlaceholder = NoDataGuard,
   blockHeight,
-  total = 0,
+  className,
   isLoading,
+  requests = [],
+  sx,
+  timeframe,
+  total = 0,
   translation = {
     downloadButton: 'Download',
     blockHeight: 'Block height',
@@ -77,7 +79,7 @@ export const MethodCallsWidget = ({
           )}
         </div>
       </div>
-      <NoDataGuard
+      <NoDataPlaceholder
         isLoading={isLoading}
         data={requestsMapped}
         text={translation.noData}
@@ -144,7 +146,7 @@ export const MethodCallsWidget = ({
             </div>
           ))}
         </ScrollableContainer>
-      </NoDataGuard>
+      </NoDataPlaceholder>
     </Paper>
   );
 };
