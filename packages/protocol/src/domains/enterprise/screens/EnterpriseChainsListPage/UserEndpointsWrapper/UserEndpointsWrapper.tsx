@@ -1,22 +1,22 @@
 import { useMemo } from 'react';
 
-import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
-import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { useAppSelector } from 'store/useAppSelector';
 import {
-  EnterpriseClientJwtManagerItem,
+  EnterpriseClientJWT,
   selectEnterpriseUserEndpointToken,
 } from 'domains/enterprise/store/selectors';
+import { UserEndpointDialog } from 'modules/common/components/UserEndpointDialog.tsx';
+import { UserEndpointsScrollbarWrapper } from 'modules/common/components/UserEndpointsScrollbar';
+import { useAppSelector } from 'store/useAppSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
 
 import { useUserEndpointsWrapperStyles } from './useUserEndpointsWrapperStyles';
 
 interface UserEndpointsWrapperProps {
+  apiKeys: EnterpriseClientJWT[];
   className?: string;
-  onSelectToken?: (index: number) => void;
-  apiKeys: EnterpriseClientJwtManagerItem[];
   isLoading: boolean;
-  openedEndpoint?: EnterpriseClientJwtManagerItem;
+  onSelectToken?: (index: number) => void;
+  openedEndpoint?: EnterpriseClientJWT;
   setOpenedEndpointIndex: (index: number) => void;
 }
 

@@ -4,7 +4,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { web3Api } from 'store/queries';
 
-import { fetchAllJwtTokenRequests } from './getAllJwtToken';
+import { fetchJWTs } from './getAllJwtToken';
 
 export interface IUpdateJwtTokenParams extends IApiUserGroupParams {
   description?: string;
@@ -34,9 +34,7 @@ export const {
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
 
-        dispatch(
-          fetchAllJwtTokenRequests.initiate({ group }, { forceRefetch: true }),
-        );
+        dispatch(fetchJWTs.initiate({ group }, { forceRefetch: true }));
       },
     }),
   }),

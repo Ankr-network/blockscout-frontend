@@ -2,12 +2,13 @@ import { useCallback, useMemo } from 'react';
 import { Chain, ChainPath } from '@ankr.com/chains-list';
 import { UserEndpointToken } from 'multirpc-sdk';
 
-import { useAppSelector } from 'store/useAppSelector';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import {
   selectAllPathsByChainId,
   selectAllPathsExceptSubchainsForChainId,
 } from 'modules/chains/store/selectors';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { IProjectSubchains } from './useProjectSubchains';
 import { useProjectsChainsConfirm } from './useProjectsChainsConfirm';
@@ -30,7 +31,11 @@ export const useChainProjectsSidebar = ({
   setExpandedId,
   setSelectedSubchains,
 }: IUseChainProjectsSidebarProps) => {
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
 
   const allCurrentChainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),

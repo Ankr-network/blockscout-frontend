@@ -4,25 +4,25 @@ import {
   EnterpriseGateway,
 } from 'multirpc-sdk';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { getAccountingGateway } from 'modules/api/MultiService';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { getAccountingGateway } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
 import { ProjectsStatsParams } from '../types';
 
 export interface AllProjectsStats {
-  index: JwtManagerToken['index'];
-  name: JwtManagerToken['name'];
+  index: JWT['index'];
+  name: JWT['name'];
   stats?: IApiPrivateStats;
 }
 
 export interface AllProjectsStatsParams extends ProjectsStatsParams {
-  projects: JwtManagerToken[];
+  projects: JWT[];
 }
 
 const getProjectStatsPromise = async (
-  { index, name, userEndpointToken }: JwtManagerToken,
+  { index, name, userEndpointToken }: JWT,
   { group, interval }: ProjectsStatsParams,
   api: AccountingGateway | EnterpriseGateway,
 ): Promise<AllProjectsStats> => ({

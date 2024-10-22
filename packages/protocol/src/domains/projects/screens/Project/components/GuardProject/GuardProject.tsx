@@ -16,6 +16,7 @@ export const GuardProject = ({ children }: GuardProjectProps) => {
   const { isLoaded, project } = useSelectedProject();
 
   useEffect(() => {
+    console.log({ GuardProjectUseEffect: true, project, isLoaded });
     if (!project && isLoaded) {
       history.replace(ProjectsRoutesConfig.projects.generatePath());
     }

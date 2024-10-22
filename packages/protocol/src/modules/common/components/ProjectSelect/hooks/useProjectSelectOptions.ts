@@ -1,21 +1,18 @@
-import { useMemo } from 'react';
 import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
+import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import {
-  IUserJwtToken,
-  fetchAllJwtTokenRequests,
-} from 'domains/jwtToken/action/getAllJwtToken';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import {
-  jwtTokenIntlRoot,
   PRIMARY_TOKEN_INDEX,
+  jwtTokenIntlRoot,
 } from 'domains/jwtToken/utils/utils';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+import { selectEnterpriseApiKeysAsJWTs } from 'domains/enterprise/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
+import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { SelectOption } from '../ProjectSelect';
 
@@ -27,7 +24,7 @@ export const getAllProjectsItem = () => {
 };
 
 const getSelectItems = (
-  jwtTokens: JwtManagerToken[],
+  jwtTokens: JWT[],
   shouldDisablePrimaryProject?: boolean,
 ): SelectOption[] => {
   const items = jwtTokens.map(({ index, name, userEndpointToken }) => {
@@ -41,17 +38,15 @@ const getSelectItems = (
   return [getAllProjectsItem(), ...items];
 };
 
-const defaultJWTTokens: IUserJwtToken = { jwtTokens: [] };
-
 export const useProjectSelectOptions = (
   shouldDisablePrimaryProject?: boolean,
 ) => {
-  const [, { data: { jwtTokens } = defaultJWTTokens }] = useQueryEndpoint(
-    fetchAllJwtTokenRequests,
-  );
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { jwts } = useFetchJWTs({ group, skipFetching: true });
 
   const { apiKeys: enterpriseJwtTokens } = useAppSelector(
-    selectEnterpriseApiKeysAsJwtManagerTokens,
+    selectEnterpriseApiKeysAsJWTs,
   );
 
   const { isEnterpriseClient } = useEnterpriseClientStatus();
@@ -61,12 +56,12 @@ export const useProjectSelectOptions = (
       return getSelectItems(enterpriseJwtTokens, shouldDisablePrimaryProject);
     }
 
-    return getSelectItems(jwtTokens, shouldDisablePrimaryProject);
+    return getSelectItems(jwts, shouldDisablePrimaryProject);
   }, [
-    isEnterpriseClient,
-    jwtTokens,
-    shouldDisablePrimaryProject,
     enterpriseJwtTokens,
+    isEnterpriseClient,
+    jwts,
+    shouldDisablePrimaryProject,
   ]);
 
   return options;

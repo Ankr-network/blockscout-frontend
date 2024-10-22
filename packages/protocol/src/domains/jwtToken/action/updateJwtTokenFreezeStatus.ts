@@ -8,8 +8,8 @@ import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { RootState } from 'store';
 
-import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 import { fetchAllJwtTokensStatuses } from './getAllJwtTokensStatuses';
+import { fetchJWTs } from './getAllJwtToken';
 import { selectConfiguredProjectJwtTokens } from '../store/selectors';
 
 export const {
@@ -50,11 +50,10 @@ export const {
 
         const projects = selectConfiguredProjectJwtTokens(
           getState() as RootState,
+          { group },
         );
 
-        dispatch(
-          fetchAllJwtTokenRequests.initiate({ group }, { forceRefetch: true }),
-        );
+        dispatch(fetchJWTs.initiate({ group }, { forceRefetch: true }));
         dispatch(
           fetchAllJwtTokensStatuses.initiate(
             { group, projects },

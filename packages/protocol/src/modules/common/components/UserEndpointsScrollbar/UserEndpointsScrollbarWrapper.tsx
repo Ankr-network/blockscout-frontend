@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 import {
   UserEndpointCard,
@@ -17,7 +17,7 @@ export const UserEndpointsScrollbarWrapper = ({
   selectedProjectIndex,
   setOpenedProjectIndex,
 }: {
-  jwtTokens: JwtManagerToken[];
+  jwtTokens: JWT[];
   selectedProjectIndex: number;
   handleSelectTokenIndex: (newIndex: number) => void;
   setOpenedProjectIndex: (newIndex: number) => void;

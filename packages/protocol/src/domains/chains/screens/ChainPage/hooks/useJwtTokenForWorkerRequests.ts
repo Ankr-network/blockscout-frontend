@@ -1,21 +1,16 @@
 import { WorkerTokenData } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import {
-  IUserJwtToken,
-  fetchAllJwtTokenRequests,
-} from 'domains/jwtToken/action/getAllJwtToken';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
-
-const defaultJWTTokens: IUserJwtToken = { jwtTokens: [] };
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 const getJwtToken = (
-  jwtTokens: JwtManagerToken[],
+  jwtTokens: JWT[],
   selectedTokenIndex: number,
   workerTokenData?: WorkerTokenData,
 ) => {
@@ -28,18 +23,21 @@ const getJwtToken = (
 
 export const useJwtTokenForWorkerRequests = () => {
   const { workerTokenData } = useAuth();
-  const [
-    ,
-    { data: { jwtTokens } = defaultJWTTokens, isLoading: isLoadingAllJwt },
-  ] = useQueryEndpoint(fetchAllJwtTokenRequests);
+
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { isLoading: isLoadingAllJwt, jwts } = useFetchJWTs({
+    group,
+    skipFetching: true,
+  });
 
   const { groupToken, isLoadingGroupToken } = useGroupJwtToken();
 
   const { tokenIndex } = useTokenManagerConfigSelector();
 
   const jwtToken = useMemo(
-    () => getJwtToken(jwtTokens, tokenIndex, workerTokenData),
-    [jwtTokens, tokenIndex, workerTokenData],
+    () => getJwtToken(jwts, tokenIndex, workerTokenData),
+    [jwts, tokenIndex, workerTokenData],
   );
 
   const shouldUseGroupToken = useMemo(() => {

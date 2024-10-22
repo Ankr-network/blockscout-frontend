@@ -1,15 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { useCallback, useMemo } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { EnterpriseClientJWT } from 'domains/enterprise/store/selectors';
+import { getAllProjectsItem } from 'modules/common/components/ProjectSelect/hooks/useProjectSelectOptions';
 import {
   setSelectedProjectEndpointToken,
   setSelectedTokenIndex,
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useResetIfSelectedProjectWasDeleted } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
-import { getAllProjectsItem } from 'modules/common/components/ProjectSelect/hooks/useProjectSelectOptions';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { useEnterpriseSelectedToken } from '../../hooks/useEnterpriseSelectedToken';
 
@@ -26,9 +26,7 @@ const apiKeyAllOption: ProjectOption = {
   ...getAllProjectsItem(),
 };
 
-export const useEnterpriseApiKeySelect = (
-  apiKeys: EnterpriseClientJwtManagerItem[],
-) => {
+export const useEnterpriseApiKeySelect = (apiKeys: EnterpriseClientJWT[]) => {
   const { selectedGroupAddress } = useSelectedUserGroup();
   const { address: currentUserAddress } = useAuth();
   const address = selectedGroupAddress || currentUserAddress;

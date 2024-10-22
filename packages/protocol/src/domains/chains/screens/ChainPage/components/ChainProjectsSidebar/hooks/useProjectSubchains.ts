@@ -1,14 +1,18 @@
 import { ChainPath } from '@ankr.com/chains-list';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { UserEndpointToken } from 'multirpc-sdk';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { useAppSelector } from 'store/useAppSelector';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export type IProjectSubchains = Record<UserEndpointToken, ChainPath[]>;
 
 export const useProjectSubchains = () => {
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
 
   const initialSubchains: IProjectSubchains = useMemo(
     () =>
@@ -22,8 +26,7 @@ export const useProjectSubchains = () => {
     [allProjects],
   );
 
-  const [projectSubchains, setProjectSubchains] =
-    useState<IProjectSubchains>(initialSubchains);
+  const [projectSubchains, setProjectSubchains] = useState(initialSubchains);
 
   useEffect(() => {
     setProjectSubchains(initialSubchains);

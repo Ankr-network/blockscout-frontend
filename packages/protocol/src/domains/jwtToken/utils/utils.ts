@@ -1,4 +1,4 @@
-import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
+import { JWT } from '../store/jwtTokenManagerSlice';
 
 export const jwtTokenIntlRoot = 'jwt-token';
 
@@ -20,7 +20,7 @@ export const renderTokenReview = (token?: string) => {
 
 export const getAllowedAddProjectTokenIndex = (
   maxTokensLimit: number,
-  decryptedTokens: JwtManagerToken[],
+  decryptedTokens: JWT[],
 ) => {
   if (maxTokensLimit < MINIMAL_TOKENS_LIMIT) {
     return -1;
@@ -37,5 +37,5 @@ export const getAllowedAddProjectTokenIndex = (
    * less than maxTokensLimit but larger than primary token index and not as the same as the exists token index */
 };
 
-export const getSortedJwtTokens = (jwtTokens: JwtManagerToken[]) =>
+export const getSortedJwtTokens = (jwtTokens: JWT[]) =>
   jwtTokens.sort((a, b) => a.index - b.index);

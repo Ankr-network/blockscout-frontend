@@ -7,13 +7,13 @@ import { setSelectedTokenIndex } from 'domains/jwtToken/store/jwtTokenManagerSli
 import { UNSELECTED_TOKEN_INDEX } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { EnterpriseRoutesConfig } from 'domains/enterprise/routes';
 import {
-  EnterpriseClientJwtManagerItem,
-  selectEnterpriseApiKeysAsJwtManagerTokens,
+  EnterpriseClientJWT,
+  selectEnterpriseApiKeysAsJWTs,
 } from 'domains/enterprise/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
 interface UseApiKeySelectionIfNoSelectedTokenProps {
-  apiKeys: EnterpriseClientJwtManagerItem[];
+  apiKeys: EnterpriseClientJWT[];
   hasChainData: boolean;
 }
 
@@ -27,9 +27,7 @@ export const useEnterpriseApiKeySelectionIfNoSelectedToken = ({
 
   const { push } = useHistory();
 
-  const { isLoading } = useAppSelector(
-    selectEnterpriseApiKeysAsJwtManagerTokens,
-  );
+  const { isLoading } = useAppSelector(selectEnterpriseApiKeysAsJWTs);
 
   useEffect(() => {
     const isTokenNotAvailable =

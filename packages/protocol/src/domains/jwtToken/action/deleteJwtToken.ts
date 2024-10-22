@@ -3,7 +3,7 @@ import { RequestType, web3Api } from 'store/queries';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
-import { fetchAllJwtTokenRequests } from './getAllJwtToken';
+import { fetchJWTs } from './getAllJwtToken';
 
 interface DeleteJwtTokenParams {
   tokenIndex: number;
@@ -29,12 +29,7 @@ export const {
 
           await service.deleteJwtToken({ index: tokenIndex, group, totp });
 
-          dispatch(
-            fetchAllJwtTokenRequests.initiate(
-              { group },
-              { forceRefetch: true },
-            ),
-          );
+          dispatch(fetchJWTs.initiate({ group }, { forceRefetch: true }));
 
           return { data: null };
         },

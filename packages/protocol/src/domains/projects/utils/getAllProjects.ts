@@ -10,7 +10,7 @@ import { ChainPath } from '@ankr.com/chains-list';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { FetchTokenStatusResponse } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
-import { JwtManagerToken } from '../../jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from '../../jwtToken/store/jwtTokenManagerSlice';
 import { MappedWhitelistBlockchainsResponse } from '../actions/fetchWhitelistsBlockchains';
 import { ProjectActivity } from '../store';
 
@@ -42,12 +42,12 @@ export const DEFAULT_PROJECT_STATUS: ProjectStatus = {
 };
 
 interface GetAllProjectsParams {
-  projects: JwtManagerToken[];
-  whitelists: IGetWhitelistParamsResponse[];
-  whitelistBlockchains: MappedWhitelistBlockchainsResponse[];
-  projectStatuses: FetchTokenStatusResponse[];
-  isLoading: boolean;
   allChainsPaths: ChainPath[];
+  isLoading: boolean;
+  projectStatuses: FetchTokenStatusResponse[];
+  projects: JWT[];
+  whitelistBlockchains: MappedWhitelistBlockchainsResponse[];
+  whitelists: IGetWhitelistParamsResponse[];
 }
 
 export const getAllProjects = ({

@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import { Chain, Timeframe } from '@ankr.com/chains-list';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import {
@@ -18,6 +17,8 @@ import {
   selectPrivateChainById,
 } from 'modules/chains/store/selectors';
 import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 import { useChainProjectRequestsData } from './useChainProjectRequestsData';
 import { useCodeExampleStatus } from '../useCodeExampleStatus';
@@ -25,13 +26,11 @@ import { useCodeExampleStatus } from '../useCodeExampleStatus';
 interface ChainProjectItemHookProps {
   chain: Chain;
   onOpenAddToProjectsDialog: () => void;
-  jwtTokens: JwtManagerToken[];
+  jwtTokens: JWT[];
   timeframe: Timeframe;
 }
 
-export interface IChainProjectItemProps
-  extends JwtManagerToken,
-    ChainProjectItemHookProps {
+export interface IChainProjectItemProps extends JWT, ChainProjectItemHookProps {
   isLoading: boolean;
 }
 
@@ -41,7 +40,7 @@ export const useChainProjectItem = ({
   onOpenAddToProjectsDialog,
   timeframe,
   userEndpointToken,
-}: ChainProjectItemHookProps & Pick<JwtManagerToken, 'userEndpointToken'>) => {
+}: ChainProjectItemHookProps & Pick<JWT, 'userEndpointToken'>) => {
   const chain =
     useAppSelector(state =>
       selectPrivateChainById(state, nestedChain.id, userEndpointToken),
@@ -49,7 +48,11 @@ export const useChainProjectItem = ({
 
   const { id } = chain;
 
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
   const statusData = useAppSelector(selectProjectsStatuses);
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 

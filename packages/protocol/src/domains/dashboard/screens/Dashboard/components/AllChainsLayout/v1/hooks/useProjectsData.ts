@@ -5,15 +5,14 @@ import {
   selectProjectsStats,
   selectProjectsTotalRequestNumber,
 } from 'domains/dashboard/store/selectors/v1';
-import { useAppSelector } from 'store/useAppSelector';
-import { useLazyFetchAllProjectsStatsQuery } from 'domains/dashboard/actions/fetchAllProjectsStats';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useLazyFetchAllProjectsTotalRequestsQuery } from 'domains/dashboard/actions/fetchAllProjectsTotalRequests';
-import { useLazyFetchAllJwtTokenRequestsQuery } from 'domains/jwtToken/action/getAllJwtToken';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
-import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
+import { useAppSelector } from 'store/useAppSelector';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useLazyFetchAllProjectsStatsQuery } from 'domains/dashboard/actions/fetchAllProjectsStats';
+import { useLazyFetchAllProjectsTotalRequestsQuery } from 'domains/dashboard/actions/fetchAllProjectsTotalRequests';
+import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useProjectsData = (timeframe: Timeframe) => {
   const amount = useAppSelector(selectProjectsTotalRequestNumber);
@@ -21,13 +20,15 @@ export const useProjectsData = (timeframe: Timeframe) => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [fetchAllJwtTokenRequests, { isLoading: areProjectsLoading }] =
-    useLazyFetchAllJwtTokenRequestsQuery();
-
-  const projects = useAppSelector(selectJwtTokens);
-
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
+
+  const skipJWTsFetching = isEnterpriseStatusLoading || isEnterpriseClient;
+
+  const { isLoading: projectsLoading, jwts: projects } = useFetchJWTs({
+    group,
+    skipFetching: skipJWTsFetching,
+  });
 
   const [fetchAllProjectsStats, { isLoading: areAllProjectsStatsLoading }] =
     useLazyFetchAllProjectsStatsQuery();
@@ -37,7 +38,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
   useEffect(() => {
     const shouldFetch =
       projects &&
-      !areProjectsLoading &&
+      !projectsLoading &&
       !isEnterpriseStatusLoading &&
       !isEnterpriseClient;
 
@@ -51,7 +52,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
     }
   }, [
     fetchAllProjectsStats,
-    areProjectsLoading,
+    projectsLoading,
     timeframe,
     group,
     projects,
@@ -66,10 +67,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
   ] = useLazyFetchAllProjectsTotalRequestsQuery();
 
   useEffect(() => {
-    if (!isEnterpriseStatusLoading && !isEnterpriseClient) {
-      fetchAllJwtTokenRequests({
-        group,
-      });
+    if (!skipJWTsFetching) {
       fetchAllProjectsTotalRequests({
         group,
         interval: timeframeToIntervalMap[timeframe],
@@ -77,20 +75,18 @@ export const useProjectsData = (timeframe: Timeframe) => {
       });
     }
   }, [
-    group,
-    timeframe,
-    gateway,
     fetchAllProjectsTotalRequests,
-    isEnterpriseClient,
-    isEnterpriseStatusLoading,
-    fetchAllJwtTokenRequests,
+    gateway,
+    group,
+    skipJWTsFetching,
+    timeframe,
   ]);
 
   return {
     amount: amount.toString(),
     data,
     isLoading:
-      areProjectsLoading ||
+      projectsLoading ||
       areAllProjectsStatsLoading ||
       isAllProjectsTotalRequestsLoading,
   };

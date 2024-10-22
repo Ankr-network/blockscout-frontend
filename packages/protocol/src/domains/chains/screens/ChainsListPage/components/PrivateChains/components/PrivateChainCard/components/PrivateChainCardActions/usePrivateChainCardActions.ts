@@ -1,17 +1,17 @@
 import React, { useCallback, useMemo } from 'react';
 import { Chain } from '@ankr.com/chains-list';
 
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
 import { hasEvmSubchains } from 'modules/chains/utils/hasEvmSubchains';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
 
 export interface IPrivateChainCardActionsProps {
   anchorEl: null | HTMLElement;
   chain: Chain;
   chainProjects?: MappedWhitelistBlockchainsResponse[];
-  filteredJwtTokens: JwtManagerToken[];
+  filteredJwtTokens: JWT[];
   handleClose: () => void;
   handleOpenChainMenu: (event: React.MouseEvent<HTMLElement>) => void;
   isEndpointLocked: boolean;

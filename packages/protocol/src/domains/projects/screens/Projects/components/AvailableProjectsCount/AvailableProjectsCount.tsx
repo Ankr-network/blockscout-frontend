@@ -1,21 +1,22 @@
-import { t } from '@ankr.com/common';
-import { Skeleton, Tooltip, Typography } from '@mui/material';
 import { Info } from '@ankr.com/ui';
+import { Skeleton, Tooltip, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
+import { selectAllowedJwtsCount } from 'domains/jwtToken/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import {
-  selectAllowedJwtsCount,
-  selectAllProjectsCount,
-  selectJwtTokensLoadingState,
-} from 'domains/jwtToken/store/selectors';
+import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { useAvailableProjectsCountStyles } from './useAvailableProjectsCountStyles';
 import { TeamsOnboarding } from '../TeamsOnboarding';
+import { useAvailableProjectsCountStyles } from './useAvailableProjectsCountStyles';
 
 export const AvailableProjectsCount = () => {
   const totalProjectsCount = useAppSelector(selectAllowedJwtsCount);
-  const userProjectsCount = useAppSelector(selectAllProjectsCount);
-  const isLoading = useAppSelector(selectJwtTokensLoadingState);
+
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { isLoading, jwts } = useFetchJWTs({ group, skipFetching: true });
+  const userProjectsCount = jwts.length;
 
   const { classes } = useAvailableProjectsCountStyles();
 

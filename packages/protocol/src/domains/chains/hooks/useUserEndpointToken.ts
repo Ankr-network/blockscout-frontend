@@ -1,27 +1,22 @@
-import {
-  IUserJwtToken,
-  fetchAllJwtTokenRequests,
-} from 'domains/jwtToken/action/getAllJwtToken';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
-import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-
-const defaultData: IUserJwtToken = {
-  jwtTokens: [],
-};
+import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 export const useUserEndpointToken = () => {
   const { workerTokenData } = useAuth();
   const { tokenIndex } = useTokenManagerConfigSelector();
-  const [, { data: { jwtTokens } = defaultData, isLoading }] = useQueryEndpoint(
-    fetchAllJwtTokenRequests,
-  );
+  const { isGroupSelected, selectedGroupAddress: group } =
+    useSelectedUserGroup();
+
+  const { isLoading, jwts } = useFetchJWTs({
+    group,
+    skipFetching: true,
+  });
   const { groupToken } = useGroupJwtToken();
-  const { isGroupSelected } = useSelectedUserGroup();
 
   // for project details page we should use userEndpointToken from url
   const { projectId: userEndpointToken } =
@@ -35,7 +30,7 @@ export const useUserEndpointToken = () => {
     return undefined;
   }
 
-  if (jwtTokens && tokenIndex === PRIMARY_TOKEN_INDEX && isGroupSelected) {
+  if (jwts && tokenIndex === PRIMARY_TOKEN_INDEX && isGroupSelected) {
     return groupToken?.jwtToken;
   }
 
@@ -43,7 +38,7 @@ export const useUserEndpointToken = () => {
     return workerTokenData?.userEndpointToken;
   }
 
-  const selectedToken = jwtTokens.find(
+  const selectedToken = jwts.find(
     token => token.index === tokenIndex,
   )?.userEndpointToken;
 

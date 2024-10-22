@@ -4,11 +4,11 @@ import {
   UserEndpointTokenMode,
 } from 'multirpc-sdk';
 
-import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { selectJWTs } from 'domains/jwtToken/action/getAllJwtToken';
+import { web3Api } from 'store/queries';
 
 export const {
   endpoints: { fetchAllWhitelists },
@@ -22,7 +22,7 @@ export const {
       queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
         const service = MultiService.getService().getAccountingGateway();
 
-        const projects = selectJwtTokens(getState() as RootState);
+        const projects = selectJWTs(getState() as RootState, { group });
 
         const whitelists = await Promise.all(
           projects.map(projectItem =>

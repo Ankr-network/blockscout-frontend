@@ -2,7 +2,7 @@ import { IBlockchainEntity, Chain } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
 import { selectBlockchains } from 'modules/chains/store/selectors';
-import { selectEnterpriseApiKeysAsJwtManagerTokens } from 'domains/enterprise/store/selectors';
+import { selectEnterpriseApiKeysAsJWTs } from 'domains/enterprise/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { getSubchainIds } from './utils/getSubchainIds';
@@ -14,7 +14,7 @@ export const useApiKeys = (chain?: Chain) => {
     useAppSelector(selectBlockchains);
 
   const { apiKeys = [], isLoading } = useAppSelector(
-    selectEnterpriseApiKeysAsJwtManagerTokens,
+    selectEnterpriseApiKeysAsJWTs,
   );
 
   const chainId = chain?.id;

@@ -6,13 +6,13 @@ import {
   Timeframe,
 } from '@ankr.com/chains-list';
 
-import { QueryError } from 'modules/common/components/QueryError/QueryError';
-import { Tab } from 'modules/common/hooks/useTabs';
 import { EndpointGroup } from 'modules/endpoints/types';
-import { RequestsChart } from 'domains/chains/screens/ChainPage/components/RequestsChart';
+import { EnterpriseClientJWT } from 'domains/enterprise/store/selectors';
 import { PrivateUsageSummary } from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/components/PrivateUsageSummary';
+import { QueryError } from 'modules/common/components/QueryError/QueryError';
+import { RequestsChart } from 'domains/chains/screens/ChainPage/components/RequestsChart';
+import { Tab } from 'modules/common/hooks/useTabs';
 import { useDataUsageSectionStyles } from 'domains/chains/screens/ChainPage/components/UsageDataSection/UsageDataSectionStyles';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { EnterpriseUsageDataControls } from '../EnterpriseUsageDataControls';
 import { useEnterpriseUsageData } from './useEnterpriseUsageData';
@@ -20,13 +20,13 @@ import { useEnterpriseApiKeySelect } from '../EnterpriseApiKeysSelect/useEnterpr
 import { ItemHeader } from '../../../chains/screens/ChainPage/components/ItemHeader';
 
 interface EnterpriseUsageDataSectionProps {
+  apiKeys: EnterpriseClientJWT[];
   chain: Chain;
-  chainType: ChainType;
   chainSubType?: ChainSubType;
+  chainType: ChainType;
   group: EndpointGroup;
-  timeframeTabs: Tab<Timeframe>[];
   timeframe: Timeframe;
-  apiKeys: EnterpriseClientJwtManagerItem[];
+  timeframeTabs: Tab<Timeframe>[];
 }
 
 export const EnterpriseUsageDataSection = ({

@@ -1,12 +1,12 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { web3Api } from 'store/queries';
 
+import { fetchJWTs } from './getAllJwtToken';
 import { formatTokenAndDecryptJwt } from './getAllJwtTokenUtils';
-import { fetchAllJwtTokenRequests } from './getAllJwtToken';
 
 interface IRequestParams extends IApiUserGroupParams {
   tokenIndex: number;
@@ -19,7 +19,7 @@ export const {
   useCreateJwtTokenMutation,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    createJwtToken: build.mutation<JwtManagerToken, IRequestParams>({
+    createJwtToken: build.mutation<JWT, IRequestParams>({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async (
           { description, group, name, tokenIndex },
@@ -40,12 +40,7 @@ export const {
 
           const newDecryptedToken = await formatTokenAndDecryptJwt(jwtToken);
 
-          dispatch(
-            fetchAllJwtTokenRequests.initiate(
-              { group },
-              { forceRefetch: true },
-            ),
-          );
+          dispatch(fetchJWTs.initiate({ group }, { forceRefetch: true }));
 
           return { data: newDecryptedToken };
         },

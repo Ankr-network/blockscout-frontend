@@ -4,28 +4,17 @@ import { RootState } from 'store';
 import { selectCurrentAddress, selectIsLoggedIn } from 'domains/auth/store';
 import { selectDraftTokenIndex } from 'domains/projects/store';
 
-import { fetchAllJwtTokenRequests } from '../action/getAllJwtToken';
-import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
 import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
+import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
+import { selectJWTs } from '../action/getAllJwtToken';
 
 export const selectJwtTokenManager = (state: RootState) =>
   state.jwtTokenManager;
 
-export const selectJwtTokens = createSelector(
-  fetchAllJwtTokenRequests.select({}),
-  ({ data: { jwtTokens = [] } = {} }) => jwtTokens,
-);
-
-export const selectJwtTokensLoadingState = createSelector(
-  fetchAllJwtTokenRequests.select({}),
-  ({ isLoading, isUninitialized }) => isLoading || isUninitialized,
-);
-
 export const selectConfiguredProjectJwtTokens = createSelector(
-  selectJwtTokens,
+  selectJWTs,
   selectDraftTokenIndex,
-  (allJwtTokens, draftTokenIndex) =>
-    allJwtTokens.filter(jwtToken => jwtToken.index !== draftTokenIndex),
+  (jwts, draftTokenIndex) => jwts.filter(jwt => jwt.index !== draftTokenIndex),
 );
 
 export const selectSelectedProject = createSelector(
@@ -42,11 +31,6 @@ export const selectAllowedJwtsCountState = createSelector(
 export const selectAllowedJwtsCount = createSelector(
   selectAllowedJwtsCountState,
   ({ data = 0 }) => data,
-);
-
-export const selectAllProjectsCount = createSelector(
-  selectJwtTokens,
-  projects => projects.length,
 );
 
 export const selectHasJwtManagerAccess = createSelector(

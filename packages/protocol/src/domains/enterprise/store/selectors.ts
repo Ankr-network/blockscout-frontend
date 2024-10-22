@@ -6,11 +6,11 @@ import {
   ZETACHAIN_ATHENS3_CHAINS,
 } from '@ankr.com/chains-list';
 
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
-import { selectBlockchains } from 'modules/chains/store/selectors';
 import { selectAddress } from 'domains/auth/store';
+import { selectBlockchains } from 'modules/chains/store/selectors';
 import { selectJwtTokenManager } from 'domains/jwtToken/store/selectors';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
 import { chainsFetchEnterpriseStatsByApiKey } from '../actions/fetchEnterpriseStatsByApiKey';
@@ -19,13 +19,12 @@ import { fetchEnterpriseEndpoints } from '../actions/fetchEnterpriseEndpoints';
 import { filterBlockchains } from './utils/filterBlockchains';
 import { getEnterpriseStats } from '../actions/utils';
 
-export type EnterpriseClientJwtManagerItem = EnterpriseClientEndpoint &
-  JwtManagerToken;
+export type EnterpriseClientJWT = EnterpriseClientEndpoint & JWT;
 
-const mapEnterpriseApiKeysToJwtManagerTokens = (
+const mapEnterpriseApiKeysToJWT = (
   endpoint: EnterpriseClientEndpoint,
   index: number,
-) => {
+): EnterpriseClientJWT => {
   return {
     index,
     id: endpoint.api_key_id,
@@ -60,11 +59,11 @@ export const selectEnterpriseEndpointsError = createSelector(
   ({ error }) => error as Error | undefined,
 );
 
-export const selectEnterpriseApiKeysAsJwtManagerTokens = createSelector(
+export const selectEnterpriseApiKeysAsJWTs = createSelector(
   selectEnterpriseEndpoints,
   ({ data: apiKeysArray = [], isLoading, isUninitialized }) => {
-    const apiKeys: EnterpriseClientJwtManagerItem[] = apiKeysArray
-      .map(mapEnterpriseApiKeysToJwtManagerTokens)
+    const apiKeys: EnterpriseClientJWT[] = apiKeysArray
+      .map(mapEnterpriseApiKeysToJWT)
       .filter(({ blockchains }) => Boolean(blockchains));
 
     return {
@@ -82,7 +81,7 @@ export const selectEnterpriseUserAddress = createSelector(
 );
 
 export const selectEnterpriseSelectedApiKey = createSelector(
-  selectEnterpriseApiKeysAsJwtManagerTokens,
+  selectEnterpriseApiKeysAsJWTs,
   selectJwtTokenManager,
   selectEnterpriseUserAddress,
   ({ apiKeys: enterpriseApiKeys }, jwtTokenManager, address) => {

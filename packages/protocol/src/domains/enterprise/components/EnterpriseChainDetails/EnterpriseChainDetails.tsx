@@ -1,18 +1,18 @@
 import { t } from '@ankr.com/common';
 
-import { H1Tag } from 'uiKit/H1Tag';
-import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { ChainItemHeader } from 'domains/chains/screens/ChainPage/components/ChainItemHeader';
 import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
+import { EnterpriseClientJWT } from 'domains/enterprise/store/selectors';
+import { H1Tag } from 'uiKit/H1Tag';
+import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 
-import { useEnterpriseChainDetails } from './useEnterpriseChainDetails';
 import { ChainItemSections } from '../ChainItemSections';
+import { useEnterpriseChainDetails } from './useEnterpriseChainDetails';
 import { useEnterpriseChainItemBreadcrumbs } from '../../screens/EnterpriseChainItemPage/useEnterpriseChainItemBreadcrumbs';
 
 export interface ChainItemProps {
   data: IPrivateChainItemDetails;
-  apiKeys: EnterpriseClientJwtManagerItem[];
+  apiKeys: EnterpriseClientJWT[];
 }
 
 export const EnterpriseChainDetails = ({ apiKeys, data }: ChainItemProps) => {

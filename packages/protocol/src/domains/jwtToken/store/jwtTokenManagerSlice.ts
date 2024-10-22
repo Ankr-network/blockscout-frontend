@@ -3,13 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'store';
 
-export interface JwtManagerToken {
+export interface JWT {
+  description: string;
   id: string;
   index: number;
-  userEndpointToken: string;
   jwtData: string;
   name: string;
-  description: string;
+  userEndpointToken: string;
 }
 
 interface ISetTokenIndexPayload {

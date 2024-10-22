@@ -7,7 +7,7 @@ import {
 } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 import { useUserEndpointsScrollbarStyles } from './useUserEndpointsScrollbarStyles';
 
@@ -18,7 +18,7 @@ export interface ViewProps {
 
 interface UserEndpointsScrollbarProps {
   children: ReactNode;
-  jwtTokens: JwtManagerToken[];
+  jwtTokens: JWT[];
 }
 
 export const UserEndpointsScrollbar = ({

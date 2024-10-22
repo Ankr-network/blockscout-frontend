@@ -1,21 +1,14 @@
-import { useMemo, useEffect } from 'react';
+import { useMemo } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import {
-  IUserJwtToken,
-  useLazyFetchAllJwtTokenRequestsQuery,
-} from 'domains/jwtToken/action/getAllJwtToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import {
-  getAllowedAddProjectTokenIndex,
   PRIMARY_TOKEN_INDEX,
+  getAllowedAddProjectTokenIndex,
 } from '../utils/utils';
+import { useFetchJWTs } from './useFetchJWTs';
 import { useJwtManager } from './useJwtManager';
-
-const defaultData: IUserJwtToken = {
-  jwtTokens: [],
-};
 
 export const useJwtTokenManager = () => {
   const {
@@ -27,44 +20,34 @@ export const useJwtTokenManager = () => {
   const { hasConnectWalletMessage, loading } = useAuth();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [
-    fetchAllJwtTokenRequestsQuery,
-    {
-      data: { jwtTokens } = defaultData,
-      isFetching,
-      isLoading,
-      isUninitialized,
-    },
-  ] = useLazyFetchAllJwtTokenRequestsQuery();
+  const skipFetching = loading || !shouldShowTokenManager;
 
-  useEffect(() => {
-    if (!loading && shouldShowTokenManager) {
-      fetchAllJwtTokenRequestsQuery({
-        loading,
-        group,
-      });
-    }
-  }, [shouldShowTokenManager, loading, fetchAllJwtTokenRequestsQuery, group]);
+  const {
+    isFetching,
+    isLoading,
+    jwts,
+    jwtsState: { isUninitialized },
+  } = useFetchJWTs({ group, skipFetching });
 
   const allowedAddProjectTokenIndex = useMemo(
-    () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwtTokens),
-    [maxTokensLimit, jwtTokens],
+    () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwts),
+    [maxTokensLimit, jwts],
   );
 
   const enableAddProject =
-    jwtTokens.length < maxTokensLimit &&
+    jwts.length < maxTokensLimit &&
     allowedAddProjectTokenIndex > PRIMARY_TOKEN_INDEX &&
     hasWriteAccess;
 
   return {
-    isLoading,
-    isFetching,
-    isUninitialized,
-    isLoaded: !isUninitialized && !isLoading,
+    allowedAddProjectTokenIndex,
     enableAddProject,
     hasConnectWalletMessage,
+    isFetching,
+    isLoaded: !isUninitialized && !isLoading,
+    isLoading,
+    isUninitialized,
+    jwtTokens: jwts,
     shouldShowTokenManager,
-    allowedAddProjectTokenIndex,
-    jwtTokens,
   };
 };

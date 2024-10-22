@@ -13,7 +13,7 @@ import { ChainSelectorContent } from 'modules/common/components/ChainSelectorCon
 import { Endpoints } from 'modules/common/components/GetStartedSection/components/Endpoints';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import {
-  JwtManagerToken,
+  JWT,
   setSelectedTokenIndex,
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { ANIMATION_DURATION } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/AccordionItem/hooks/useAccordionItem';
@@ -29,7 +29,7 @@ import { TokenSelector } from './components/TokenSelector/TokenSelector';
 interface ICopyEndpointModalProps {
   chain: Chain;
   userEndpointToken: string;
-  jwtTokens: JwtManagerToken[];
+  jwtTokens: JWT[];
   buttonProps?: React.ComponentProps<typeof Button>;
   isProtocolSwitcherHidden?: boolean;
   buttonClassName?: string;

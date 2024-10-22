@@ -6,10 +6,10 @@ import {
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
 
-import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
+import { JWT } from '../store/jwtTokenManagerSlice';
 
 export interface FetchTokenStatusParams extends IApiUserGroupParams {
-  projects: JwtManagerToken[];
+  projects: JWT[];
 }
 
 export interface FetchTokenStatusResponse {

@@ -16,17 +16,17 @@ import {
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useAppSelector } from 'store/useAppSelector';
 import {
-  EnterpriseClientJwtManagerItem,
+  EnterpriseClientJWT,
   selectEnterpriseUserAddress,
 } from 'domains/enterprise/store/selectors';
 
 interface TimeframeSectionProps {
+  apiKeys: EnterpriseClientJWT[];
+  handleSetOption: (value: string) => void;
+  options: SelectOption[];
+  selectedOption: string;
   tabs: Tab<Timeframe>[];
   timeframe: Timeframe;
-  options: SelectOption[];
-  handleSetOption: (value: string) => void;
-  selectedOption: string;
-  apiKeys: EnterpriseClientJwtManagerItem[];
 }
 
 export const EnterpriseUsageDataControls = ({

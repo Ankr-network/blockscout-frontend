@@ -1,15 +1,16 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 
 import { NewProjectStep } from 'domains/projects/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
+import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
 import {
@@ -30,7 +31,11 @@ export const useHandleSubmit = (
   const handleWhitelistStepOnSubmit = useWhitelistStepOnSubmit();
   const { handleEnableWhitelist, handleResetConfig } = useEnableWhitelist();
 
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
 
   const handleSubmit = useCallback(
     // eslint-disable-next-line max-lines-per-function

@@ -1,11 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
-import { useAppSelector } from 'store/useAppSelector';
-import { useLazyFetchAllJwtTokenRequestsQuery } from 'domains/jwtToken/action/getAllJwtToken';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { selectProjectsPageRequestsLoading } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
+import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const { useParams } = ProjectsRoutesConfig.project;
 
@@ -14,20 +13,15 @@ export const useSelectedProject = () => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const [fetchAllJwtTokenRequests, { isLoading, isUninitialized }] =
-    useLazyFetchAllJwtTokenRequestsQuery();
+  const {
+    isLoading,
+    jwts: projects,
+    jwtsState: { isUninitialized },
+  } = useFetchJWTs({ group });
 
   const isLoadingProjectsRequests = useAppSelector(
     selectProjectsPageRequestsLoading,
   );
-
-  useEffect(() => {
-    const preferCacheValue = true;
-
-    fetchAllJwtTokenRequests({ loading: false, group }, preferCacheValue);
-  }, [fetchAllJwtTokenRequests, group]);
-
-  const projects = useAppSelector(selectJwtTokens);
 
   const project = useMemo(() => {
     if (userEndpointToken) {
@@ -41,8 +35,7 @@ export const useSelectedProject = () => {
     return undefined;
   }, [projects, userEndpointToken]);
 
-  return {
-    project,
-    isLoaded: !isUninitialized && !isLoading && !isLoadingProjectsRequests,
-  };
+  const isLoaded = !isUninitialized && !isLoading && !isLoadingProjectsRequests;
+
+  return { isLoaded, project };
 };

@@ -2,12 +2,12 @@ import { t } from '@ankr.com/common';
 import { useMemo } from 'react';
 
 import { BreadcrumbItem } from 'uiKit/Breadcrumbs';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
 
-export const useProjectBreadcrumbs = (jwtToken?: JwtManagerToken) => {
+export const useProjectBreadcrumbs = (jwtToken?: JWT) => {
   const breadcrumbs = useMemo<BreadcrumbItem[]>(() => {
     const initialBreadcrumbs: BreadcrumbItem[] = [
       {

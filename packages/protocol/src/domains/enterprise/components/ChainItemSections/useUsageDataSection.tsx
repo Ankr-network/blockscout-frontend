@@ -1,14 +1,14 @@
 import { t } from '@ankr.com/common';
 
+import { EnterpriseClientJWT } from 'domains/enterprise/store/selectors';
 import { PrimaryTab } from 'modules/common/components/PrimaryTab';
 import { SectionID } from 'domains/chains/screens/ChainPage/components/ChainItemSections/types';
 import { UsageDataSectionParams } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useUsageDataSection';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
 
 import { EnterpriseUsageDataSection } from '../EnterpriseUsageDataSection';
 
 interface EnterpriseUsageDataSectionParams extends UsageDataSectionParams {
-  apiKeys: EnterpriseClientJwtManagerItem[];
+  apiKeys: EnterpriseClientJWT[];
 }
 
 export const useUsageDataSection = ({

@@ -3,21 +3,21 @@ import { useMemo } from 'react';
 
 import { Tab, useTabs } from 'modules/common/hooks/useTabs';
 import {
-  useAvailableSections,
   UseSectionsParams,
+  useAvailableSections,
 } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useAvailableSections';
+import { EnterpriseClientJWT } from 'domains/enterprise/store/selectors';
 import { SectionID } from 'domains/chains/screens/ChainPage/components/ChainItemSections/types';
-import { useInitialSection } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useInitialSection';
-import { useRedirect } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useRedirect';
 import { SectionsBase } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useSectionsTabs';
 import { hasWsFeature } from 'domains/projects/utils/hasWsFeature';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
+import { useInitialSection } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useInitialSection';
+import { useRedirect } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useRedirect';
 
 import { useGetStartedSection } from './useGetStartedSection';
 import { useUsageDataSection } from './useUsageDataSection';
 
 interface EnterpriseUseSectionsParams extends UseSectionsParams {
-  apiKeys: EnterpriseClientJwtManagerItem[];
+  apiKeys: EnterpriseClientJWT[];
 }
 
 export const useSectionsTabs = ({

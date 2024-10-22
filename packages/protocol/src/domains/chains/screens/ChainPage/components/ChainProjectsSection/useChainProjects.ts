@@ -1,6 +1,6 @@
 import { Chain, Timeframe } from '@ankr.com/chains-list';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useProjectsDataParams } from 'domains/projects/hooks/useProjectsDataParams';
 import { useFetchWhitelistsBlockchainsQuery } from 'domains/projects/actions/fetchWhitelistsBlockchains';
 import { useFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
@@ -10,9 +10,9 @@ import { useTimeframe } from '../ChainItemSections/hooks/useTimeframe';
 
 export interface IChainProjectsSectionProps {
   chain: Chain;
-  onOpenAddToProjectsDialog: () => void;
   isLoadingTokenManager: boolean;
-  jwtTokens: JwtManagerToken[];
+  jwtTokens: JWT[];
+  onOpenAddToProjectsDialog: () => void;
   shouldShowTokenManager: boolean;
 }
 

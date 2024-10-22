@@ -1,26 +1,26 @@
 import { Button, Drawer } from '@mui/material';
 import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
 import { Chain } from '@ankr.com/chains-list';
-import React from 'react';
 
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { Checkbox } from 'modules/common/components/Checkbox';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { useAppSelector } from 'store/useAppSelector';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import {
   selectAllProjects,
   selectAllWhitelistsBlockchainsLoading,
 } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
-import { useChainProjectsSidebarStyles } from './useChainProjectsSidebarStyles';
-import { useChainProjectsSidebar } from './hooks/useChainProjectsSidebar';
-import { chainProjectItemTranslation } from './translation';
 import { ChainProjectAccordion } from './components/ChainProjectAccordion';
-import { useProjectSubchains } from './hooks/useProjectSubchains';
 import { ChainProjectSingleItem } from './components/ChainProjectSingleItem/ChainProjectSingleItem';
-import { useChainProjectsAccordionExpandedId } from './hooks/useChainProjectsAccordionExpandedId';
 import { ChainProjectsSidebarHeader } from './components/ChainProjectsSidebarHeader';
+import { chainProjectItemTranslation } from './translation';
+import { useChainProjectsAccordionExpandedId } from './hooks/useChainProjectsAccordionExpandedId';
+import { useChainProjectsSidebar } from './hooks/useChainProjectsSidebar';
+import { useChainProjectsSidebarStyles } from './useChainProjectsSidebarStyles';
+import { useProjectSubchains } from './hooks/useProjectSubchains';
 
 interface IChainProjectsSidebarProps {
   chain: Chain;
@@ -35,7 +35,11 @@ export const ChainProjectsSidebar = ({
   onCloseAddToProjectsSidebar,
   subchainLabels,
 }: IChainProjectsSidebarProps) => {
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
   const isLoadingProjects = useAppSelector(
     selectAllWhitelistsBlockchainsLoading,
   );

@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { ChainType } from '@ankr.com/chains-list';
 
-import { TabsManager } from 'uiKit/TabsManager';
+import { EnterpriseClientJWT } from 'domains/enterprise/store/selectors';
 import { IChainItemTabsProps } from 'domains/chains/screens/ChainPage/components/ChainItemSections/types';
-import { EnterpriseClientJwtManagerItem } from 'domains/enterprise/store/selectors';
+import { TabsManager } from 'uiKit/TabsManager';
 
 import { useChainItemSectionsStyles } from './ChainItemSectionsStyles';
 import { useSectionsTabs } from './useSectionsTabs';
 
 interface EnterpriseChainItemSectionsProps extends IChainItemTabsProps {
-  apiKeys: EnterpriseClientJwtManagerItem[];
+  apiKeys: EnterpriseClientJWT[];
 }
 
 export const ChainItemSections = ({

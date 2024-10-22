@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
 import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
+import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useUpdateJwtToken } from 'domains/jwtToken/hooks/useUpdateJwtToken';
 
 import { ProjectDetailsFormFields, ProjectDetailsFormValues } from '../types';
@@ -20,7 +21,11 @@ export const useProjectDetailsForm = ({
   onSuccess,
   projectIndex,
 }: ProjectDetailsBaseProps) => {
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
 
   const dispatch = useDispatch();
 

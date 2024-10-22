@@ -4,7 +4,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useMemo, useRef } from 'react';
 
 import { FetchTokenStatusParams } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { FetchAllProjectsTotalRequestsForLastTwoDaysParams } from '../actions/fetchAllProjectsTotalRequestsForLastTwoDays';
@@ -22,7 +22,7 @@ export interface ProjectsDataParams {
 }
 
 export interface UseProjectsDataParams {
-  jwts?: JwtManagerToken[];
+  jwts?: JWT[];
   jwtsFetching?: boolean;
 }
 

@@ -35,6 +35,7 @@ const endpointsSerializedByParams = [
   'fetchAllowanceUsdt',
   'fetchBlockchainTxData',
   'fetchBlockchainTxReceipt',
+  'fetchJWTs',
   'fetchNativeTokenPrice',
   'fetchPremiumStatus',
   'fetchReferralCodes',
@@ -47,7 +48,6 @@ const endpointsSerializedByParams = [
   'fetchWalletBalanceAnkr',
   'fetchWalletBalanceUsdc',
   'fetchWalletBalanceUsdt',
-
   /* stats */
   'fetchChainTimeframeData',
   'fetchPrivateStats',

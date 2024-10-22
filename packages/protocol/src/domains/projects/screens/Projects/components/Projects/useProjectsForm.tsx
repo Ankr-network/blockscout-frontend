@@ -1,25 +1,26 @@
-import { useCallback } from 'react';
-import { FormRenderProps } from 'react-final-form';
 import { Button } from '@mui/material';
-import { useHistory } from 'react-router';
+import { FormRenderProps } from 'react-final-form';
 import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
+import { useHistory } from 'react-router';
 
-import { useProjects } from 'domains/projects/hooks/useProjects';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { useAppSelector } from 'store/useAppSelector';
-import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
+import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { selectIsInactiveStatus } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
+import { useProjects } from 'domains/projects/hooks/useProjects';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { EditProjectDialogType } from '../EditProjectDialog/EditProjectDialogUtils';
-import { useSubmit } from './useSubmit';
 import { ProjectsFormContent } from '../ProjectsFormContent/ProjectsFormContent';
 import { useProjectsStyles } from './useProjectsStyles';
+import { useSubmit } from './useSubmit';
 
 export const useProjectsForm = () => {
   const { classes } = useProjectsStyles();
@@ -31,7 +32,11 @@ export const useProjectsForm = () => {
     skipFetchingProjects: false,
   });
 
-  const allProjects = useAppSelector(selectAllProjects);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const allProjects = useAppSelector(state =>
+    selectAllProjects(state, { group }),
+  );
 
   const {
     isOpened: isEditDialogOpened,

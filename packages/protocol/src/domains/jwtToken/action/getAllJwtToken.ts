@@ -1,11 +1,12 @@
 import { IApiUserGroupParams } from 'multirpc-sdk';
 
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { selectAuthData } from 'domains/auth/store/authSlice';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-import { web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { selectAuthData } from 'domains/auth/store/authSlice';
+import { web3Api } from 'store/queries';
 
 import {
   formatJwtTokensAndDecrypt,
@@ -13,73 +14,69 @@ import {
 } from './getAllJwtTokenUtils';
 import { getSortedJwtTokens, PRIMARY_TOKEN_INDEX } from '../utils/utils';
 
-export interface IUserJwtToken {
-  jwtTokens: JwtManagerToken[];
-}
+export interface IFetchJWTsParams extends IApiUserGroupParams {}
 
-export interface IRequestParams extends IApiUserGroupParams {
-  loading?: boolean;
-}
-
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
-  endpoints: { fetchAllJwtTokenRequests },
-  useFetchAllJwtTokenRequestsQuery,
-  useLazyFetchAllJwtTokenRequestsQuery,
+  endpoints: { fetchJWTs },
+  useFetchJWTsQuery,
+  useLazyFetchJWTsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchAllJwtTokenRequests: build.query<IUserJwtToken, IRequestParams>({
-      queryFn: createNotifyingQueryFn(
-        async ({ group, loading }, { getState }) => {
-          if (loading) return { data: { jwtTokens: [] } };
+    fetchJWTs: build.query<JWT[], IFetchJWTsParams>({
+      queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
+        const api = MultiService.getService().getAccountingGateway();
 
-          const accountingGateway =
-            MultiService.getService().getAccountingGateway();
+        const result = await api.getAllJwtToken({ group });
 
-          const result = await accountingGateway.getAllJwtToken({ group });
+        const primaryData = result.find(
+          item => item.index === PRIMARY_TOKEN_INDEX,
+        );
 
-          const primaryData = result.find(
-            item => item.index === PRIMARY_TOKEN_INDEX,
-          );
+        if (!primaryData) {
+          result.push({
+            index: PRIMARY_TOKEN_INDEX,
+            name: '',
+            description: '',
+            jwt_data: '',
+            is_encrypted: false,
+          });
+        }
 
-          if (!primaryData) {
-            result.push({
-              index: PRIMARY_TOKEN_INDEX,
-              name: '',
-              description: '',
-              jwt_data: '',
-              is_encrypted: false,
-            });
-          }
+        const state = getState() as RootState;
 
-          const state = getState() as RootState;
+        const groupToken =
+          group &&
+          primaryData &&
+          (await getUserEndpointToken(
+            primaryData?.jwt_data,
+            primaryData?.is_encrypted,
+          ));
 
-          const groupToken =
-            group &&
-            primaryData &&
-            (await getUserEndpointToken(
-              primaryData?.jwt_data,
-              primaryData?.is_encrypted,
-            ));
+        const { workerTokenData } = selectAuthData(state);
 
-          const { workerTokenData } = selectAuthData(state);
+        const primaryEndpointToken = group
+          ? groupToken
+          : workerTokenData?.userEndpointToken;
 
-          const primaryEndpointToken = group
-            ? groupToken
-            : workerTokenData?.userEndpointToken;
+        const decryptedTokens = await formatJwtTokensAndDecrypt(
+          result,
+          primaryEndpointToken,
+        );
 
-          const decryptedTokens = await formatJwtTokensAndDecrypt(
-            result,
-            primaryEndpointToken,
-          );
+        const data = getSortedJwtTokens(decryptedTokens);
 
-          return {
-            data: {
-              jwtTokens: getSortedJwtTokens(decryptedTokens),
-            },
-          };
-        },
-      ),
+        return { data };
+      }),
     }),
   }),
   overrideExisting: true,
 });
+
+export const {
+  selectDataWithFallbackCachedByParams: selectJWTs,
+  selectLoadingCachedByParams: selectJWTsLoading,
+  selectStateCachedByParams: selectJWTsState,
+} = createQuerySelectors({ endpoint: fetchJWTs, fallback: [] });

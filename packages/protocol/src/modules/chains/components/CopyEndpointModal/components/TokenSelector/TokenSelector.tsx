@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { SecondaryTabs } from 'modules/common/components/SecondaryTabs';
 import { useTabs } from 'modules/common/hooks/useTabs';
 import {
-  JwtManagerToken,
+  JWT,
   setSelectedTokenIndex,
 } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { ChainTypeTab } from 'modules/common/components/ChainTypeTab';
@@ -14,7 +14,7 @@ import { selectCurrentAddress } from 'domains/auth/store';
 import { useCopyEndpointModalStyles } from '../../useCopyEndpointModalStyles';
 
 interface ITokenSelectorProps {
-  jwtTokens: JwtManagerToken[];
+  jwtTokens: JWT[];
   currentProjectIndex: number;
 }
 
@@ -51,7 +51,7 @@ export const TokenSelector = ({
     }));
   }, [classes.projectTabContent, handleSelectTokenIndex, jwtTokens]);
 
-  const [tokenTabs, selectedTokenTab] = useTabs<JwtManagerToken>({
+  const [tokenTabs, selectedTokenTab] = useTabs<JWT>({
     tabs: tokenTabsData,
     initialTabID: jwtTokens.find(token => token.index === currentProjectIndex)
       ?.id,

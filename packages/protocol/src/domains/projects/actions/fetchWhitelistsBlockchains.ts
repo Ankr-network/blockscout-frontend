@@ -1,11 +1,11 @@
 import { BlockchainID, IApiUserGroupParams } from 'multirpc-sdk';
 
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { MultiService } from 'modules/api/MultiService';
 import { RequestType, web3Api } from 'store/queries';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { JwtManagerToken } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { selectAllChainsPaths } from 'modules/chains/store/selectors';
 import { RootState } from 'store';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
+import { selectAllChainsPaths } from 'modules/chains/store/selectors';
 
 export interface MappedWhitelistBlockchainsResponse {
   userEndpointToken: string;
@@ -15,7 +15,7 @@ export interface MappedWhitelistBlockchainsResponse {
 }
 
 export interface FetchWhitelistsBlockchainsParams extends IApiUserGroupParams {
-  projects: JwtManagerToken[];
+  projects: JWT[];
 }
 
 export const {

@@ -3,7 +3,7 @@ import { IJwtTokenResponse } from 'multirpc-sdk';
 import { decryptJwt } from 'domains/auth/actions/instantJwt/utils/decryptJwt';
 import { DEFAULT_PROJECT_NAME } from 'modules/projects/const';
 
-import { JwtManagerToken } from '../store/jwtTokenManagerSlice';
+import { JWT } from '../store/jwtTokenManagerSlice';
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
 
 const DECRYPTED_TOKENS: Record<string, string> = {};
@@ -29,7 +29,7 @@ export const getUserEndpointToken = async (
 export const formatTokenAndDecryptJwt = async (
   item: IJwtTokenResponse,
   primaryUserEndpointToken = '',
-): Promise<JwtManagerToken> => {
+): Promise<JWT> => {
   const {
     description,
     index,
@@ -64,7 +64,7 @@ export const formatTokenAndDecryptJwt = async (
 export const formatJwtTokensAndDecrypt = async (
   tokens: IJwtTokenResponse[],
   primaryUserEndpointToken?: string,
-): Promise<JwtManagerToken[]> => {
+): Promise<JWT[]> => {
   return Promise.all(
     tokens.map(async item =>
       formatTokenAndDecryptJwt(item, primaryUserEndpointToken),
