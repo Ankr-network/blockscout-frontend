@@ -34,8 +34,8 @@ export const transformStatsToDetailedCsv = (stats: PrivateStatsInternal) => {
       return acc.concat(requests.flat());
     }, [])
     .sort((a, b) => {
-      const methodComparison = a.method.localeCompare(b.method);
-      const blockchainComparison = a.blockchain.localeCompare(b.blockchain);
+      const methodComparison = a.method?.localeCompare(b.method);
+      const blockchainComparison = a.blockchain?.localeCompare(b.blockchain);
       const dateComparison =
         new Date(a.date).getTime() - new Date(b.date).getTime();
 
