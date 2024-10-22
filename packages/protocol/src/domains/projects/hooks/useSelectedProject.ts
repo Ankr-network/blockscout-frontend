@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { selectProjectsPageRequestsLoading } from 'domains/projects/store/WhitelistsSelector';
 import { useAppSelector } from 'store/useAppSelector';
-import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 const { useParams } = ProjectsRoutesConfig.project;
@@ -17,7 +17,7 @@ export const useSelectedProject = () => {
     isLoading,
     jwts: projects,
     jwtsState: { isUninitialized },
-  } = useFetchJWTs({ group });
+  } = useJWTs({ group });
 
   const isLoadingProjectsRequests = useAppSelector(
     selectProjectsPageRequestsLoading,

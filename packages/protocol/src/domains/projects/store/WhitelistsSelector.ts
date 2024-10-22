@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { UserEndpointToken } from 'multirpc-sdk';
 
 import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
-import { selectJWTs } from 'domains/jwtToken/action/getAllJwtToken';
+import { selectJWTs } from 'domains/jwtToken/action/fetchJWTs';
 
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';

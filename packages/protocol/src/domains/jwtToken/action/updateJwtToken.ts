@@ -4,7 +4,7 @@ import { MultiService } from 'modules/api/MultiService';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { web3Api } from 'store/queries';
 
-import { fetchJWTs } from './getAllJwtToken';
+import { fetchJWTs } from './fetchJWTs';
 
 export interface IUpdateJwtTokenParams extends IApiUserGroupParams {
   description?: string;

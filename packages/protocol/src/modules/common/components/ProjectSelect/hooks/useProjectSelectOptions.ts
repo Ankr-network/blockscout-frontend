@@ -11,7 +11,7 @@ import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
 import { selectEnterpriseApiKeysAsJWTs } from 'domains/enterprise/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { SelectOption } from '../ProjectSelect';
@@ -43,7 +43,7 @@ export const useProjectSelectOptions = (
 ) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { jwts } = useFetchJWTs({ group, skipFetching: true });
+  const { jwts } = useJWTs({ group, skipFetching: true });
 
   const { apiKeys: enterpriseJwtTokens } = useAppSelector(
     selectEnterpriseApiKeysAsJWTs,

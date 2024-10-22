@@ -7,12 +7,12 @@ import {
   PRIMARY_TOKEN_INDEX,
   getAllowedAddProjectTokenIndex,
 } from '../utils/utils';
-import { useFetchJWTs } from './useFetchJWTs';
+import { useJWTs } from './useJWTs';
 import { useJwtManager } from './useJwtManager';
 
 export const useJwtTokenManager = () => {
   const {
-    allowedJwtsCount: maxTokensLimit,
+    allowedJWTsCount: maxTokensLimit,
     hasReadAccess: shouldShowTokenManager,
     hasWriteAccess,
   } = useJwtManager();
@@ -27,7 +27,7 @@ export const useJwtTokenManager = () => {
     isLoading,
     jwts,
     jwtsState: { isUninitialized },
-  } = useFetchJWTs({ group, skipFetching });
+  } = useJWTs({ group, skipFetching });
 
   const allowedAddProjectTokenIndex = useMemo(
     () => getAllowedAddProjectTokenIndex(maxTokensLimit, jwts),

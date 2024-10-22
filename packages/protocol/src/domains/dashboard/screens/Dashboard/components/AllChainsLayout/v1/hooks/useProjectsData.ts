@@ -8,7 +8,7 @@ import {
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useAppSelector } from 'store/useAppSelector';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useLazyFetchAllProjectsStatsQuery } from 'domains/dashboard/actions/fetchAllProjectsStats';
 import { useLazyFetchAllProjectsTotalRequestsQuery } from 'domains/dashboard/actions/fetchAllProjectsTotalRequests';
 import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
@@ -25,7 +25,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
 
   const skipJWTsFetching = isEnterpriseStatusLoading || isEnterpriseClient;
 
-  const { isLoading: projectsLoading, jwts: projects } = useFetchJWTs({
+  const { isLoading: projectsLoading, jwts: projects } = useJWTs({
     group,
     skipFetching: skipJWTsFetching,
   });

@@ -1,8 +1,8 @@
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
@@ -12,10 +12,7 @@ export const useUserEndpointToken = () => {
   const { isGroupSelected, selectedGroupAddress: group } =
     useSelectedUserGroup();
 
-  const { isLoading, jwts } = useFetchJWTs({
-    group,
-    skipFetching: true,
-  });
+  const { isLoading, jwts } = useJWTs({ group, skipFetching: true });
   const { groupToken } = useGroupJwtToken();
 
   // for project details page we should use userEndpointToken from url

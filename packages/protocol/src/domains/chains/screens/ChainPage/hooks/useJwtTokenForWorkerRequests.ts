@@ -4,8 +4,8 @@ import { useMemo } from 'react';
 import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
@@ -26,7 +26,7 @@ export const useJwtTokenForWorkerRequests = () => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { isLoading: isLoadingAllJwt, jwts } = useFetchJWTs({
+  const { isLoading: isLoadingAllJwt, jwts } = useJWTs({
     group,
     skipFetching: true,
   });

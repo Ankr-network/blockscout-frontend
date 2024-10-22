@@ -5,8 +5,11 @@ import { selectCurrentAddress, selectIsLoggedIn } from 'domains/auth/store';
 import { selectDraftTokenIndex } from 'domains/projects/store';
 
 import { MINIMAL_TOKENS_LIMIT } from '../utils/utils';
-import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
-import { selectJWTs } from '../action/getAllJwtToken';
+import {
+  selectAllowedJWTsCount,
+  selectAllowedJWTsCountState,
+} from '../action/fetchAllowedJWTsCount';
+import { selectJWTs } from '../action/fetchJWTs';
 
 export const selectJwtTokenManager = (state: RootState) =>
   state.jwtTokenManager;
@@ -23,19 +26,9 @@ export const selectSelectedProject = createSelector(
   (jwtTokenManager, address) => jwtTokenManager[address]?.selectedProject,
 );
 
-export const selectAllowedJwtsCountState = createSelector(
-  fetchAllowedJwtTokensCount.select({}),
-  state => state,
-);
-
-export const selectAllowedJwtsCount = createSelector(
-  selectAllowedJwtsCountState,
-  ({ data = 0 }) => data,
-);
-
 export const selectHasJwtManagerAccess = createSelector(
-  selectAllowedJwtsCountState,
-  selectAllowedJwtsCount,
+  selectAllowedJWTsCountState,
+  selectAllowedJWTsCount,
   selectIsLoggedIn,
   ({ isLoading, isSuccess, isUninitialized }, allowedJwtsCount, isLoggedIn) =>
     isLoggedIn &&

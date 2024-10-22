@@ -1,19 +1,22 @@
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useAppSelector } from 'store/useAppSelector';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import {
-  selectAllowedJwtsCount,
-  selectAllowedJwtsCountState,
-  selectHasJwtManagerAccess,
-} from '../store/selectors';
+import { selectHasJwtManagerAccess } from '../store/selectors';
+import { useAllowedJWTsCount } from './useAllowedJWTsCount';
 
 export const useJwtManager = () => {
-  const hasAccess = useAppSelector(selectHasJwtManagerAccess);
-  const { isLoading: loading, isUninitialized } = useAppSelector(
-    selectAllowedJwtsCountState,
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const hasAccess = useAppSelector(state =>
+    selectHasJwtManagerAccess(state, { group }),
   );
-  const allowedJwtsCount = useAppSelector(selectAllowedJwtsCount);
+  const {
+    allowedJWTsCount,
+    allowedJWTsCountState: { isUninitialized },
+    isLoading: loading,
+  } = useAllowedJWTsCount({ skipFetching: true });
 
   const hasGroupAccessToReadJwtManager = useGuardUserGroup({
     blockName: BlockWithPermission.JwtManagerRead,
@@ -26,7 +29,7 @@ export const useJwtManager = () => {
   const isInitialized = !isUninitialized;
 
   return {
-    allowedJwtsCount,
+    allowedJWTsCount,
     hasReadAccess: hasAccess && hasGroupAccessToReadJwtManager,
     hasWriteAccess: hasAccess && hasGroupAccessToWriteJwtManager,
     isInitialized,

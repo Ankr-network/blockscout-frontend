@@ -3,7 +3,7 @@ import { RequestType, web3Api } from 'store/queries';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 
-import { fetchJWTs } from './getAllJwtToken';
+import { fetchJWTs } from './fetchJWTs';
 
 interface DeleteJwtTokenParams {
   tokenIndex: number;

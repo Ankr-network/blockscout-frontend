@@ -7,7 +7,7 @@ import {
 import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { selectJWTs } from 'domains/jwtToken/action/getAllJwtToken';
+import { selectJWTs } from 'domains/jwtToken/action/fetchJWTs';
 import { web3Api } from 'store/queries';
 
 export const {

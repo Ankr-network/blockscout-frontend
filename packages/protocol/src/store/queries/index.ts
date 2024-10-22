@@ -33,6 +33,7 @@ const endpointsSerializedByParams = [
   'fetchAllowanceAnkr',
   'fetchAllowanceUsdc',
   'fetchAllowanceUsdt',
+  'fetchAllowedJWTsCount',
   'fetchBlockchainTxData',
   'fetchBlockchainTxReceipt',
   'fetchJWTs',

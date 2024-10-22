@@ -9,7 +9,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { RootState } from 'store';
 
 import { fetchAllJwtTokensStatuses } from './getAllJwtTokensStatuses';
-import { fetchJWTs } from './getAllJwtToken';
+import { fetchJWTs } from './fetchJWTs';
 import { selectConfiguredProjectJwtTokens } from '../store/selectors';
 
 export const {

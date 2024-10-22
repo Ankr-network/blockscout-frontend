@@ -6,9 +6,9 @@ import { fetchNegativeBalanceTermsOfServicesStatus } from 'domains/userSettings/
 import { shouldShowNegativeBalanceOfServiceDialog } from 'domains/userSettings/utils/shouldShowNegativeBalanceOfServiceDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
-import { useFetchJWTs } from 'domains/jwtToken/hooks/useFetchJWTs';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useHasUserGroupDialog } from 'modules/common/components/UpgradePlanDialog/hooks/useHasUserGroupDialog';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
@@ -38,7 +38,7 @@ export const useNegativeBalanceTermsOfServices = () => {
     },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
-  const { isLoading: jwtsLoading } = useFetchJWTs({
+  const { isLoading: jwtsLoading } = useJWTs({
     group,
     skipFetching: true,
   });

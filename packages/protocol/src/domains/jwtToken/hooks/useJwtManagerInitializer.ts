@@ -1,13 +1,10 @@
-import { useEffect } from 'react';
-
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { useQueryEndpoint } from 'hooks/useQueryEndpoint';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { fetchAllowedJwtTokensCount } from '../action/getAllowedJwtTokensCount';
 import { useJwtManager } from './useJwtManager';
+import { useAllowedJWTsCount } from './useAllowedJWTsCount';
 
 export interface UseJwtManagerInitializerParams {
   skipFetching?: boolean;
@@ -16,30 +13,23 @@ export interface UseJwtManagerInitializerParams {
 export const useJwtManagerInitializer = ({
   skipFetching = false,
 }: UseJwtManagerInitializerParams) => {
+  const hasAccess = useGuardUserGroup({
+    blockName: BlockWithPermission.JwtManagerRead,
+  });
+
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { isEnterpriseClient, isEnterpriseStatusLoading } =
     useEnterpriseClientStatus();
 
-  const [fetch, , reset] = useQueryEndpoint(fetchAllowedJwtTokensCount);
-
-  useEffect(() => reset, [reset]);
-
-  const hasAccess = useGuardUserGroup({
-    blockName: BlockWithPermission.JwtManagerRead,
+  useAllowedJWTsCount({
+    group,
+    skipFetching:
+      skipFetching ||
+      !hasAccess ||
+      isEnterpriseClient ||
+      isEnterpriseStatusLoading,
   });
-
-  const shouldFetch =
-    !skipFetching &&
-    hasAccess &&
-    !isEnterpriseClient &&
-    !isEnterpriseStatusLoading;
-
-  useEffect(() => {
-    if (shouldFetch) {
-      fetch({ group });
-    }
-  }, [fetch, shouldFetch, group]);
 
   return useJwtManager();
 };

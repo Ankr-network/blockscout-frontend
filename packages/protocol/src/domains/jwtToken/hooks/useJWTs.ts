@@ -11,11 +11,11 @@ import {
   selectJWTsState,
   useFetchJWTsQuery,
   useLazyFetchJWTsQuery,
-} from '../action/getAllJwtToken';
+} from '../action/fetchJWTs';
 
-export interface IUseFetchJWTs extends IFetchJWTsParams, IUseQueryProps {}
+export interface IUseJWTs extends IFetchJWTsParams, IUseQueryProps {}
 
-export const useFetchJWTs = ({ group, skipFetching }: IUseFetchJWTs) => {
+export const useJWTs = ({ group, skipFetching }: IUseJWTs) => {
   const params = useMemo((): IFetchJWTsParams => ({ group }), [group]);
 
   const { isFetching } = useFetchJWTsQuery(
