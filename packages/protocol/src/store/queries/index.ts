@@ -49,6 +49,7 @@ const endpointsSerializedByParams = [
   'fetchWalletBalanceAnkr',
   'fetchWalletBalanceUsdc',
   'fetchWalletBalanceUsdt',
+  'fetchWhitelistsBlockchains',
   /* stats */
   'fetchChainTimeframeData',
   'fetchPrivateStats',

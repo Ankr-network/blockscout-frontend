@@ -6,6 +6,7 @@ import { RequestType, web3Api } from 'store/queries';
 import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { selectAllChainsPaths } from 'modules/chains/store/selectors';
+import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
 export interface MappedWhitelistBlockchainsResponse {
   userEndpointToken: string;
@@ -18,6 +19,9 @@ export interface FetchWhitelistsBlockchainsParams extends IApiUserGroupParams {
   projects: JWT[];
 }
 
+// The endpoint name is listed in endpointsSerializedByParams constant
+// in packages/protocol/src/store/queries/index.ts file.
+// If the name has changed it should be refelected there as well.
 export const {
   endpoints: { fetchWhitelistsBlockchains },
   useFetchWhitelistsBlockchainsQuery,
@@ -63,4 +67,13 @@ export const {
       ),
     }),
   }),
+});
+
+export const {
+  selectDataWithFallbackCachedByParams: selectWhitelistsBlockchains,
+  selectLoadingCachedByParams: selectWhitelistsBlockchainsLoading,
+  selectStateCachedByParams: selectWhitelistsBlockchainsState,
+} = createQuerySelectors({
+  endpoint: fetchWhitelistsBlockchains,
+  fallback: [],
 });

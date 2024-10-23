@@ -19,8 +19,8 @@ export const useSelectedProject = () => {
     jwtsState: { isUninitialized },
   } = useJWTs({ group });
 
-  const isLoadingProjectsRequests = useAppSelector(
-    selectProjectsPageRequestsLoading,
+  const isLoadingProjectsRequests = useAppSelector(state =>
+    selectProjectsPageRequestsLoading(state, { group }),
   );
 
   const project = useMemo(() => {
