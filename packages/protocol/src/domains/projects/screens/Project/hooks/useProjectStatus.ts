@@ -7,6 +7,7 @@ import { selectProjectsStatuses } from 'domains/projects/store/WhitelistsSelecto
 import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { selectIsInactiveStatus } from 'domains/auth/store';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 interface UseProjectStatus {
   projectStatus: ProjectStatus;
@@ -20,6 +21,8 @@ export const useProjectStatus = (): UseProjectStatus => {
     { data: projectStatusData = {} as ProjectStatus, isFetching, isLoading },
   ] = useLazyFetchJwtTokenStatusQuery();
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   const { isLoaded, project } = useSelectedProject();
 
   const currentProject = allProjects.find(
@@ -29,9 +32,9 @@ export const useProjectStatus = (): UseProjectStatus => {
 
   useEffect(() => {
     if (isLoaded && project && !savedStatus) {
-      fetchTokenStatus({ userEndpointToken: project.userEndpointToken });
+      fetchTokenStatus({ group, userEndpointToken: project.userEndpointToken });
     }
-  }, [isLoaded, project, fetchTokenStatus, savedStatus]);
+  }, [group, isLoaded, project, fetchTokenStatus, savedStatus]);
 
   const { isFreePremium, loading } = useAuth();
 

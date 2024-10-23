@@ -1,7 +1,8 @@
-import { useHistory } from 'react-router';
-import { useCallback, useEffect, ReactNode } from 'react';
-import { useDispatch } from 'react-redux';
+import { ReactNode, useCallback, useEffect } from 'react';
 import { t } from '@ankr.com/common';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { OverlaySpinner } from '@ankr.com/ui';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
@@ -52,5 +53,9 @@ export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
     }
   });
 
-  return isLoaded && hasAccess ? <>{children}</> : null;
+  if (!hasAccess) {
+    return <OverlaySpinner />;
+  }
+
+  return <>{children}</>;
 };

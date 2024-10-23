@@ -34,16 +34,13 @@ export const NewProject = () => {
 
   const handleSubmit = useCallback(
     (step: NewProjectStep, stepValues: NewProjectType[NewProjectStep]) => {
-      setCurrentStep(oldStep => {
-        const nextStep =
-          step === NewProjectStep.Whitelist ? oldStep : ++oldStep;
+      const nextStep =
+        step === NewProjectStep.Whitelist ? currentStep : currentStep + 1;
 
-        handleSetStepConfig(step, stepValues, nextStep);
-
-        return nextStep;
-      });
+      setCurrentStep(nextStep);
+      handleSetStepConfig(step, stepValues, nextStep);
     },
-    [handleSetStepConfig],
+    [handleSetStepConfig, currentStep],
   );
 
   return (
