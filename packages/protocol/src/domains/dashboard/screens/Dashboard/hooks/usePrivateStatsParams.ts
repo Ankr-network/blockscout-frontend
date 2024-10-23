@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { FetchPrivateStatsParams } from 'domains/chains/actions/private/fetchPrivateStats';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 export interface IUseChainCallsProps {
@@ -11,12 +12,13 @@ export interface IUseChainCallsProps {
 
 export const usePrivateStatsParams = ({ timeframe }: IUseChainCallsProps) => {
   const interval = timeframeToIntervalMap[timeframe];
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { selectedProject: userEndpointToken } =
     useTokenManagerConfigSelector();
 
   const privateStatsParams = useMemo(
-    (): FetchPrivateStatsParams => ({ interval, userEndpointToken }),
-    [interval, userEndpointToken],
+    (): FetchPrivateStatsParams => ({ group, interval, userEndpointToken }),
+    [group, interval, userEndpointToken],
   );
 
   return { privateStatsParams };
