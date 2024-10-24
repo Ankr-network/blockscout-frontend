@@ -34,6 +34,7 @@ export const dialogAuthoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 
 export const TWITTER_COLOR = '#479AE9';
 export const DISCORD_COLOR = '#5865F2';
+export const TELEGRAM_COLOR = '#509FDA';
 
 export const ANKR_DOCS_LINK = 'https://www.ankr.com/docs/';
 export const ANKR_DOCS_PROJECTS_LINK =

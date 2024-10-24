@@ -19,6 +19,7 @@ import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTe
 import { useReferrer } from 'modules/referralProgram/hooks/useReferrer';
 import { useShouldShowUserGroupDialogQuery } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actions/fetchGroupCreationAllowance';
+import { useNotifications } from 'modules/notifications/hooks/useNotifications';
 
 export const useInitialization = (isLoggedIn: boolean) => {
   const hasBillingRoleAccess = useGuardUserGroup({
@@ -73,5 +74,11 @@ export const useInitialization = (isLoggedIn: boolean) => {
 
   useOnMount(() => {
     removeAvoidGuestTeamInvitationDialog();
+  });
+
+  useNotifications({
+    skipFetching: !isLoggedIn,
+    only_unseen: true,
+    pollingInterval: 30_000,
   });
 };

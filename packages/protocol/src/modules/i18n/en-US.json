@@ -77,6 +77,7 @@
     "analytics": "Statistics",
     "enterprise": "Enterprise",
     "advanced-api": "Advanced API",
+    "notifications": "Notifications",
     "chains-list": "Chains List",
     "billing": "Billing",
     "pricing": "Pricing",
@@ -1781,18 +1782,8 @@
       "invalid-email": "The email address `{email}` is invalid"
     },
     "notifications": {
-      "title": "Email notifications",
-      "form": {
-        "email": "Email",
-        "budget-alerts": "Budget alerts",
-        "low-balance": "Running out of funds",
-        "low-credits-info": "Less than 100M credits left",
-        "low-credits-warn": "Less than 50M credits left",
-        "low-credits-alarm": "Less than 10M credits left",
-        "balance-update": "Balance update",
-        "newsletter": "Newsletter",
-        "marketing": "Ankr RPC updates and marketing materials"
-      },
+      "title": "Notification settings",
+      "email-title": "Email settings",
       "success": "Settings Saved"
     },
     "change-email-dialog": {

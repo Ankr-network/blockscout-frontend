@@ -1,96 +1,138 @@
+import { InlineAlert } from '@ankr.com/ui';
 import { FormGroup, Typography } from '@mui/material';
 import { Field } from 'react-final-form';
-import { t } from '@ankr.com/common';
 
-import { CheckboxField } from 'modules/form/components/CheckboxField/CheckboxField';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { useStyles } from './NotificationsFormStyles';
 import { NotificationsFormFields } from './NotificationsFormTypes';
 import { EmailBlock } from '../EmailBlock';
+import { MessengersBlock } from '../MessengersBlock';
+import { notificationsFormTranslation } from './translation';
+import { NotificationFormRow } from '../NotificationFormRow';
 
 export const NotificationsForm = () => {
-  const { classes } = useStyles();
+  const { classes, cx } = useStyles();
+
+  const { keys, t } = useTranslation(notificationsFormTranslation);
 
   return (
     <FormGroup>
-      <Typography variant="subtitle2" className={classes.subtitle}>
-        {t('user-settings.notifications.form.email')}
+      <Typography variant="subtitle2" className={classes.title}>
+        {t(keys.howNotified)}
+      </Typography>
+
+      <Typography
+        variant="subtitle3"
+        className={cx(classes.subtitle, classes.firstSubtitle)}
+      >
+        {t(keys.email)}
       </Typography>
 
       <EmailBlock />
 
-      <Typography variant="subtitle2" className={classes.subtitle}>
-        {t('user-settings.notifications.form.budget-alerts')}
+      <Typography variant="subtitle3" className={classes.thirdPartyTitle}>
+        {t(keys.thirdParty)}
       </Typography>
 
-      <Field
-        component={CheckboxField}
-        name={NotificationsFormFields.lowBalance}
-        type="checkbox"
-        className={classes.row}
-        label={
-          <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-balance')}
-          </Typography>
-        }
-      />
-      <Field
-        component={CheckboxField}
-        name={NotificationsFormFields.lowCreditsInfo}
-        type="checkbox"
-        className={classes.row}
-        label={
-          <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-credits-info')}
-          </Typography>
-        }
-      />
-      <Field
-        component={CheckboxField}
-        name={NotificationsFormFields.lowCreditsWarn}
-        type="checkbox"
-        className={classes.row}
-        label={
-          <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-credits-warn')}
-          </Typography>
-        }
-      />
-      <Field
-        component={CheckboxField}
-        name={NotificationsFormFields.lowCreditsAlarm}
-        type="checkbox"
-        className={classes.row}
-        label={
-          <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.low-credits-alarm')}
-          </Typography>
-        }
-      />
-      <Field
-        component={CheckboxField}
-        name={NotificationsFormFields.balance}
-        type="checkbox"
-        label={
-          <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.balance-update')}
-          </Typography>
-        }
-      />
+      <MessengersBlock />
 
-      <Typography variant="subtitle2" className={classes.subtitle}>
-        {t('user-settings.notifications.form.newsletter')}
-      </Typography>
+      <div className={cx(classes.header, classes.regularRow, classes.basicRow)}>
+        <Typography
+          variant="subtitle2"
+          className={cx(classes.subtitle, classes.nameHeader)}
+        >
+          {t(keys.activities)}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          className={cx(classes.subtitle, classes.inAppHeader)}
+        >
+          {t(keys.inApp)}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          className={cx(classes.subtitle, classes.emailHeader)}
+        >
+          {t(keys.email)}
+        </Typography>
+      </div>
+
       <Field
-        component={CheckboxField}
+        component={NotificationFormRow}
         name={NotificationsFormFields.marketing}
         type="checkbox"
+        className={classes.basicRow}
         label={
           <Typography variant="body2" className={classes.label}>
-            {t('user-settings.notifications.form.marketing')}
+            {t(keys.marketing)}
           </Typography>
         }
       />
+
+      <Typography variant="subtitle2" className={classes.subtitle}>
+        {t(keys.budgetAlerts)}
+      </Typography>
+
+      <Field
+        component={NotificationFormRow}
+        name={NotificationsFormFields.lowBalance}
+        type="checkbox"
+        className={cx(classes.basicRow, classes.row)}
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t(keys.lowBalance)}
+          </Typography>
+        }
+      />
+      <Field
+        component={NotificationFormRow}
+        name={NotificationsFormFields.lowCreditsInfo}
+        type="checkbox"
+        className={cx(classes.basicRow, classes.row)}
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t(keys.lowCreditsInfo)}
+          </Typography>
+        }
+      />
+      <Field
+        component={NotificationFormRow}
+        name={NotificationsFormFields.lowCreditsWarn}
+        type="checkbox"
+        className={cx(classes.basicRow, classes.row)}
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t(keys.lowCreditsWarn)}
+          </Typography>
+        }
+      />
+      <Field
+        component={NotificationFormRow}
+        name={NotificationsFormFields.lowCreditsAlarm}
+        type="checkbox"
+        className={cx(classes.basicRow, classes.row)}
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t(keys.lowCreditsAlarm)}
+          </Typography>
+        }
+      />
+      <Field
+        component={NotificationFormRow}
+        name={NotificationsFormFields.balance}
+        className={cx(classes.basicRow, classes.regularRow)}
+        type="checkbox"
+        label={
+          <Typography variant="body2" className={classes.label}>
+            {t(keys.balanceUpdate)}
+          </Typography>
+        }
+      />
+
+      <InlineAlert icon={false} severity="info" className={classes.alert}>
+        {t(keys.alert)}
+      </InlineAlert>
     </FormGroup>
   );
 };

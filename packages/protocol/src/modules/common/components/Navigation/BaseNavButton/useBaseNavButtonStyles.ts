@@ -97,9 +97,6 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
           strokeLinejoin: 'round',
         },
       },
-      '& > div': {
-        backgroundColor: theme.palette.background.paper,
-      },
     },
     newLinkWrapper: {
       '&:hover': {
@@ -107,6 +104,12 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
           backgroundColor: theme.palette.background.paper,
         },
       },
+    },
+    amount: {
+      height: 20,
+      width: 20,
+      position: 'absolute',
+      right: 12,
     },
   }),
 );

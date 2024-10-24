@@ -4,6 +4,7 @@ import {
   NavBarAnalytics,
   NavBarEnterprise,
   NavBarProjects,
+  NotificationBellIcon,
 } from '@ankr.com/ui';
 import { History } from 'history';
 import { match as Match } from 'react-router-dom';
@@ -21,6 +22,7 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { track } from 'modules/analytics/mixpanel/utils/track';
 import { AdvancedApiRoutesConfig } from 'domains/advancedApi/routes';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { NotificationsRoutesConfig } from 'domains/notifications/Routes';
 
 import { IMenuItemsParams } from '../types';
 
@@ -42,6 +44,8 @@ export const getTopMenuItems = ({
   isEnterpriseClient,
   isLoggedIn,
   isMobileSideBar,
+  isPersonalGroup,
+  notificationsAmount,
   onDashboardClick,
   onOpenAccessDeniedDialog,
   onOpenUpgradePlanDialog,
@@ -74,6 +78,14 @@ export const getTopMenuItems = ({
       label: t('main-navigation.advanced-api'),
       blockName: BlockWithPermission.AdvancedApiMenuItem,
       onAccessDeniedClick: onOpenAccessDeniedDialog,
+    },
+    {
+      StartIcon: NotificationBellIcon,
+      amount: notificationsAmount,
+      href: NotificationsRoutesConfig.notifications.generatePath(),
+      label: t('main-navigation.notifications'),
+      isHidden: !isLoggedIn || !isMobileSideBar || !isPersonalGroup,
+      blockName: BlockWithPermission.CommonMenuItem,
     },
     {
       StartIcon: NavBarAnalytics,
