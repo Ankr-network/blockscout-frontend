@@ -33,13 +33,9 @@ export const SuccessDialog = ({
   return (
     <ReferralFlowDialog {...dialogProps}>
       <div className={classes.content}>
-        <Typography variant="h6">
-          {t(keys.title, { blockchainName })}
-        </Typography>
-        <Typography variant="body2">
-          {tHTML(keys.description, { blockchainName })}
-        </Typography>
-        {blockchainName && <Benefits blockchainName={blockchainName} />}
+        <Typography variant="h6">{t(keys.title)}</Typography>
+        <Typography variant="body2">{tHTML(keys.description)}</Typography>
+        {blockchainName && <Benefits />}
       </div>
       <Button
         color="primary"
