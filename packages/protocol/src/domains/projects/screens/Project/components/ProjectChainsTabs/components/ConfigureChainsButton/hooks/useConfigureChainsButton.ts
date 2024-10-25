@@ -17,7 +17,6 @@ export const useConfigureChainsButton = () => {
     handleUnselectAllSubchainPaths,
     isAddingChainsToProject,
     selectedProjectChainsPaths,
-    setIsSelectedAll,
     setSelectedProjectChainsPaths,
   } = useProjectChainsPaths({ onAddChainsSuccess: handleClose });
 
@@ -30,7 +29,6 @@ export const useConfigureChainsButton = () => {
     handleAddChainsToProject,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
-    setIsSelectedAll,
     handleSidebarOpen,
     isAddingChainsToProject,
     isSidebarOpened,

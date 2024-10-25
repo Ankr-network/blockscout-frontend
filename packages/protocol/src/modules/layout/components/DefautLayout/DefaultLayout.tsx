@@ -11,6 +11,7 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
 
 import { Breadcrumbs } from '../Breadcrumbs';
 import { ConnectWalletDialog } from '../ConnectWalletDialog';
@@ -67,6 +68,7 @@ export const DefaultLayout = ({
   const { isEnterpriseClient } = useEnterpriseClientStatus();
   const chainsRoutes = usePublicChainsRoutes();
   const { isWeb3UserWithEmailBound } = useConnectWalletDialog();
+  const isMobileSideBar = useIsSMDown();
 
   return (
     <>
@@ -78,6 +80,7 @@ export const DefaultLayout = ({
           hasMenu
           isEnterpriseClient={isEnterpriseClient}
           loading={loading}
+          isMobileSideBar={isMobileSideBar}
         />
         <div className={classes.body}>
           {!hasError && (
