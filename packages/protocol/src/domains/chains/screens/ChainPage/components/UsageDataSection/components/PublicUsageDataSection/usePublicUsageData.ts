@@ -52,7 +52,6 @@ export const usePublicUsageData = ({
     chainId: publicCheckedChainId,
     skipFetching: isReactSnap,
     timeframe,
-    skipFetching: isReactSnap,
   });
 
   return {
