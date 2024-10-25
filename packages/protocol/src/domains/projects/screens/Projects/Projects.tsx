@@ -21,6 +21,7 @@ export const ProjectsPage = () => {
     <GuardUserGroup
       shouldRedirect
       blockName={BlockWithPermission.JwtManagerRead}
+      shouldHideAlert
     >
       <Projects />
     </GuardUserGroup>

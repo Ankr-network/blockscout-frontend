@@ -37,6 +37,7 @@ export const userGroupSlice = createSlice({
       state.userGroupConfig[address] = {
         ...(state.userGroupConfig[address] || {}),
         ...other,
+        shouldRemind: true,
       };
     },
     setUserGroupJwt: (
@@ -64,7 +65,7 @@ export const userGroupSlice = createSlice({
         state.userGroupConfig[address] = {
           selectedGroupAddress: shouldRemind ? selectedGroupAddress : undefined,
           selectedGroupRole: shouldRemind ? selectedGroupRole : undefined,
-          shouldRemind,
+          shouldRemind: true,
         };
       }
     },

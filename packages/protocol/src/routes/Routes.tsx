@@ -187,6 +187,7 @@ export const Routes = () => {
         render={() => (
           <DefaultLayout>
             <GuardUserGroup
+              shouldHideAlert
               shouldRedirect
               blockName={BlockWithPermission.ChainItem}
             >
