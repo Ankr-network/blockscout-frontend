@@ -13,7 +13,7 @@ export const MAX_REFERRAL_CODE_LENGTH = 32;
 export const B2B_REFERRAL_PROGRAMS: IB2BReferralProgram[] = [
   {
     banner: encodeBanner,
-    blockchainName: 'Encode Club Hachathone',
+    blockchainName: 'Encode Club Hackathon',
     bundleId: 'ede16278-ffa4-49a8-9ae8-9645b592b2e1',
     referralCode: 'Encode2024',
   },
