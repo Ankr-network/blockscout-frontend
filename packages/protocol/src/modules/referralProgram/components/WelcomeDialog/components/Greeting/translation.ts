@@ -1,7 +1,7 @@
 import { Locale } from 'modules/i18n';
 
 const brandedLoggedIn = {
-  description: `You've come to Ankr's Web3 API platform through a {blockchainName} referral. This makes you eligible to use our promo service plan featuring the following perks:`,
+  description: `You've come to Ankr's Web3 API platform through an {blockchainName} referral. This makes you eligible to use our promo service plan featuring the following perks:`,
   invitationToSignIn: 'Activate to start.',
   title: `Welcome to Ankr's referral program`,
 };
