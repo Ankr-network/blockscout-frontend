@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { useEffect } from 'react';
 import { Timeframe } from '@ankr.com/chains-list';
 
+import { IUseQueryProps } from 'store/queries/types';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
 import { useLazyChainsFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
 
@@ -9,7 +10,7 @@ import { POLL_INTERVAL } from '../../const';
 import { PublicStats } from '../../types';
 import { normalizeTotalRequestsHistory } from '../../utils/normalizeTotalRequestsHistory';
 
-export interface PublicStatsParams {
+export interface PublicStatsParams extends IUseQueryProps {
   chainId: string;
   timeframe: Timeframe;
 }
@@ -23,6 +24,7 @@ const defaultData = {
 
 export const usePublicStats = ({
   chainId,
+  skipFetching,
   timeframe,
 }: PublicStatsParams): PublicStats => {
   const [
@@ -44,7 +46,7 @@ export const usePublicStats = ({
   });
 
   useEffect(() => {
-    if (chainId) {
+    if (chainId && !skipFetching) {
       const { unsubscribe } = fetchChainTimeframeData({
         chainId,
         timeframe: timeframeToStatsTimeframe[timeframe],
@@ -54,7 +56,7 @@ export const usePublicStats = ({
     }
 
     return () => {};
-  }, [fetchChainTimeframeData, chainId, timeframe]);
+  }, [fetchChainTimeframeData, chainId, skipFetching, timeframe]);
 
   return {
     countries,

@@ -8,6 +8,7 @@ import {
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { EndpointGroup } from 'modules/endpoints/types';
 import { getChainId } from 'modules/chains/utils/getChainId';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
 
 import { checkPublicChainsAndGetChainId } from '../../const';
 import { UsageData } from '../../types';
@@ -50,13 +51,14 @@ export const usePublicUsageData = ({
   } = usePublicStats({
     chainId: publicCheckedChainId,
     timeframe,
+    skipFetching: isReactSnap,
   });
 
   return {
     countries,
     error,
     isConnecting,
-    loading: isLoading || isConnecting,
+    loading: isLoading || isConnecting || isReactSnap,
     timeframe,
     totalCached,
     totalRequests,

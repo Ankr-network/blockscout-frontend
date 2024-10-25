@@ -1,10 +1,9 @@
 import { Locale } from 'modules/i18n';
 
 const brandedLoggedIn = {
-  description: `You've come to Ankr's Web3 API platform through a <b>{blockchainName}</b> referral. This makes you eligible to use our {blockchainName}-exclusive Promo service plan featuring the following perks:`,
-  invitationToSignIn:
-    'Activate to start using <b>{blockchainName}</b> Promo plan.',
-  title: `Welcome to Ankr's Xai Promo plan`,
+  description: `You've come to Ankr's Web3 API platform through a {blockchainName} referral. This makes you eligible to use our promo service plan featuring the following perks:`,
+  invitationToSignIn: 'Activate to start.',
+  title: `Welcome to Ankr's referral program`,
 };
 
 const unbrandedLoggedIn = {
@@ -18,8 +17,7 @@ export const greetingTranslation = {
     brandedLoggedIn,
     brandedLoggedOut: {
       description: brandedLoggedIn.description,
-      invitationToSignIn:
-        'Sign in to activate <b>{blockchainName}</b> Promo plan.',
+      invitationToSignIn: 'Sign in to activate.',
       title: brandedLoggedIn.title,
     },
     unbrandedLoggedIn,
