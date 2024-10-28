@@ -8,6 +8,7 @@ import {
   TableCell,
   TableBody,
   TableContainer,
+  Typography,
 } from '@mui/material';
 import { Web3Address } from 'multirpc-sdk';
 import { LoadingButton, OverlaySpinner } from '@ankr.com/ui';
@@ -50,10 +51,12 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    return () => resetEndpoint('fetchUserTransactions', dispatch);
-  }, [dispatch]);
+    resetEndpoint('fetchUserTransactions', dispatch);
 
-  const renderLoadMoreButton = (text = 'Load more') => {
+    return () => resetEndpoint('fetchUserTransactions', dispatch);
+  }, [address, dispatch]);
+
+  const renderLoadDataButton = (text = 'Load more') => {
     return (
       <LoadingButton
         sx={{ margin: '20px auto' }}
@@ -68,8 +71,8 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
     );
   };
 
-  if (isUninitialized) {
-    return renderLoadMoreButton('Load data');
+  if (isUninitialized || !transactionsData) {
+    return renderLoadDataButton('Load data');
   }
 
   if (isLoadingTransactions) {
@@ -78,16 +81,15 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
 
   if (
     transactionsData?.transactions &&
-    transactionsData?.transactions.length <= 0
+    transactionsData?.transactions.length === 0 &&
+    transactionsData?.cursor &&
+    transactionsData?.cursor === -1
   ) {
-    return (
-      <>
-        Not found
-        {transactionsData?.cursor &&
-          transactionsData?.cursor > 0 &&
-          renderLoadMoreButton()}
-      </>
-    );
+    return <Typography variant="body2">Not found</Typography>;
+  }
+
+  if (!transactionsData) {
+    return renderLoadDataButton();
   }
 
   return (
@@ -131,7 +133,7 @@ export const ClientDepositsTable = ({ address }: IClientTransactionsTable) => {
 
       {transactionsData?.cursor &&
         transactionsData?.cursor > 0 &&
-        renderLoadMoreButton()}
+        renderLoadDataButton()}
     </TableContainer>
   );
 };

@@ -1,3 +1,4 @@
+import { OverlaySpinner } from '@ankr.com/ui';
 import { Paper, Typography } from '@mui/material';
 import { IReferralCodeItem } from 'multirpc-sdk';
 
@@ -32,16 +33,15 @@ const ReferralCodeItem = ({ data }: IReferralCodeItemProps) => {
 
 interface IClientReferralCodesProps {
   currentClient?: ClientMapped;
-  referralCodes?: IReferralCodeItem[];
+  referralCodes: IReferralCodeItem[];
+  isLoading: boolean;
 }
 
 export const ClientReferralCodes = ({
   currentClient,
   referralCodes,
+  isLoading,
 }: IClientReferralCodesProps) => {
-  if (!referralCodes)
-    return <Paper sx={{ p: 4, mt: 6, mb: 6 }}>No referral codes</Paper>;
-
   return (
     <Paper sx={{ p: 4, mt: 6, mb: 6 }}>
       <Typography component="p" variant="subtitle2">
@@ -50,11 +50,19 @@ export const ClientReferralCodes = ({
       {currentClient && (
         <ClientNewReferralCodeModal currentClient={currentClient} />
       )}
-      <ul>
-        {referralCodes.map(x => (
-          <ReferralCodeItem key={x.code} data={x} />
-        ))}
-      </ul>
+      {isLoading && <OverlaySpinner size={40} />}
+      {!isLoading && referralCodes.length === 0 && (
+        <Typography component="p" variant="body2">
+          No referral codes
+        </Typography>
+      )}
+      {!isLoading && referralCodes.length > 0 && (
+        <ul>
+          {referralCodes.map(x => (
+            <ReferralCodeItem key={x.code} data={x} />
+          ))}
+        </ul>
+      )}
     </Paper>
   );
 };

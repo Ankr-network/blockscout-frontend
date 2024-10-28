@@ -1,4 +1,4 @@
-import { INotificationsSettings } from 'multirpc-sdk';
+import { INotificationsChannelConfig } from 'multirpc-sdk';
 
 import {
   NotificationsFormFields,
@@ -14,7 +14,7 @@ const CREDIT_INFO_THRESHOLD = 100_000_000;
 const CREDIT_WARN_THRESHOLD = 50_000_000;
 const CREDIT_ALARM_THRESHOLD = 10_000_000;
 
-export const getInitialValues = (settings: INotificationsSettings) => {
+export const getInitialValues = (settings: INotificationsChannelConfig) => {
   if (!settings) return initialValues;
 
   /* eslint-disable @typescript-eslint/naming-convention */
@@ -40,8 +40,8 @@ export const getInitialValues = (settings: INotificationsSettings) => {
 
 export const prepareValuesForRequest = (
   values: NotificationsFormData,
-): INotificationsSettings => {
-  const data: INotificationsSettings = {};
+): INotificationsChannelConfig => {
+  const data: INotificationsChannelConfig = {};
 
   const {
     balance,

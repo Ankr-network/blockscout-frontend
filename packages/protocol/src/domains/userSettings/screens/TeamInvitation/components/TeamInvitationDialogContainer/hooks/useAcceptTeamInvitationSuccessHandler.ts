@@ -1,16 +1,18 @@
 import { t } from '@ankr.com/common';
 import { useCallback } from 'react';
 import { useHistory } from 'react-router';
+import { GroupUserRole } from 'multirpc-sdk';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import {
-  UserGroupConfigWithAddress,
   setUserGroupConfig,
+  UserGroupConfigWithAddress,
 } from 'domains/userGroup/store';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
 import { useAppDispatch } from 'store/useAppDispatch';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { AccountRoutesConfig } from 'domains/account/Routes';
 
 export interface UseAcceptTeamInvitationSuccessHandlerParams {
   handleTeamInvitationDialogClose: () => void;
@@ -54,11 +56,16 @@ export const useAcceptTeamInvitationSuccessHandler = ({
 
     handleTeamInvitationDialogClose();
 
-    push(ProjectsRoutesConfig.projects.generatePath());
+    if (role && role === GroupUserRole.finance) {
+      push(AccountRoutesConfig.accountDetails.generatePath());
+    } else {
+      push(ProjectsRoutesConfig.projects.generatePath());
+    }
   }, [
     dispatch,
     handleTeamInvitationDialogClose,
     push,
+    role,
     selectAcceptedTeam,
     teamName,
   ]);

@@ -1,3 +1,4 @@
+import { UserEndpointToken } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import {
@@ -5,13 +6,13 @@ import {
   selectJWTs,
 } from 'domains/jwtToken/action/fetchJWTs';
 import { RootState } from 'store';
+import { selectAllChainsPaths } from 'modules/chains/store/selectors';
 import {
   selectJWTsStatuses,
   selectJWTsStatusesLoading,
 } from 'domains/jwtToken/action/fetchJWTsStatuses';
 
-import { getAllProjects } from '../utils/getAllProjects';
-import { selectAllChainsPaths } from '../../../modules/chains/store/selectors';
+import { Project, getAllProjects } from '../utils/getAllProjects';
 import {
   selectProjectsWhitelists,
   selectProjectsWhitelistsLoading,
@@ -94,5 +95,21 @@ export const selectAllProjects = createSelector(
       isLoading,
       allChainsPaths,
     });
+  },
+);
+
+export const selectProjectChainsByToken = createSelector(
+  (
+    state: RootState,
+    params: IFetchJWTsParams & { token?: UserEndpointToken },
+  ) => [state, params] as const,
+  ([state, params]) => {
+    const { token, ...rest } = params;
+    const projects = selectAllProjects(state, rest);
+
+    return projects.find(
+      ({ userEndpointToken }: Project) =>
+        userEndpointToken.toLowerCase() === token?.toLowerCase(),
+    )?.blockchains;
   },
 );

@@ -17,6 +17,7 @@ export class AdminMrpcSdk {
       this.backofficeGateway ||
       new BackofficeGateway({
         baseURL: this.baseURL,
+        withCredentials: true,
       });
 
     return this.backofficeGateway;
@@ -27,6 +28,7 @@ export class AdminMrpcSdk {
       this.uAuthGateway ||
       new UAuthGateway({
         baseURL: this.uAuthURL,
+        withCredentials: true,
       });
 
     return this.uAuthGateway;

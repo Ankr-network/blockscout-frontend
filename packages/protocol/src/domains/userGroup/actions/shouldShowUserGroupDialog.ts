@@ -5,13 +5,8 @@ import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selector
 import { selectIsWeb3UserWithEmailBound } from 'domains/auth/store/selectors';
 import { web3Api } from 'store/queries';
 
-import {
-  resetUserGroupConfig,
-  resetUserGroupJwt,
-  selectUserGroupConfigByAddress,
-  setUserGroupConfig,
-} from '../store';
 import { fetchGroups } from './fetchGroups';
+import { selectUserGroupConfigByAddress, setUserGroupConfig } from '../store';
 
 // TODO: move this logic to selectors: https://ankrnetwork.atlassian.net/browse/MRPC-4313
 export const {
@@ -72,10 +67,17 @@ export const {
 
         if (hasGroups && selectedGroupAddress && !isUserStillGroupMember) {
           // if user is not a member of the selected group any longer, we should reset the config
-          dispatch(resetUserGroupConfig(userAddress));
-          dispatch(resetUserGroupJwt(userAddress));
+          if (userAddress) {
+            dispatch(
+              setUserGroupConfig({
+                address: userAddress,
+                selectedGroupAddress: userAddress,
+                shouldRemind: true,
+              }),
+            );
+          }
 
-          return { data: true };
+          return { data: false };
         }
 
         if (shouldRemind) {
@@ -98,9 +100,14 @@ export const {
         const shouldSelectPersonalAccountIfNoGroups =
           isUserHasOnlyPersonalAccount && !selectedGroupAddress;
 
+        const isAutoconnectButUserHasntSelectedGroup =
+          hasWeb3Autoconnect && isUserHasGroupsAndNotSelectedGroupAddress;
+
         const shouldSelectPersonalAccount =
           (shouldContinueTeamCreationFlow ||
-            shouldSelectPersonalAccountIfNoGroups) &&
+            shouldSelectPersonalAccountIfNoGroups ||
+            isUserHasGroupsAndNotSelectedGroupAddress ||
+            isAutoconnectButUserHasntSelectedGroup) &&
           userAddress;
 
         // in case if user is just logged in after team creation with data transfer
@@ -109,8 +116,8 @@ export const {
           dispatch(
             setUserGroupConfig({
               address: userAddress,
-              selectedGroupAddress: userAddress,
-              shouldRemind: false,
+              selectedGroupAddress: selectedGroupAddress || userAddress,
+              shouldRemind: true,
             }),
           );
 
@@ -119,18 +126,11 @@ export const {
           };
         }
 
-        const isAutoconnectButUserHasntSelectedGroup =
-          hasWeb3Autoconnect && isUserHasGroupsAndNotSelectedGroupAddress;
-
-        if (isAutoconnectButUserHasntSelectedGroup) {
-          return { data: true };
-        }
-
         if (hasWeb3Autoconnect) {
           return { data: false };
         }
 
-        return { data: isUserHasGroupsAndNotSelectedGroupAddress };
+        return { data: false };
       },
     }),
   }),

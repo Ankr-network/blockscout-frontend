@@ -22,20 +22,17 @@ export const EmailBlock = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="body2">
-        <Queries<IGetActiveEmailBindingResponse>
-          queryStates={[activeEmailBindingState]}
-        >
-          {({ data: { email } = {} }) => (
-            <Typography variant="body2">{email}</Typography>
-          )}
-        </Queries>
-      </Typography>
-
-      <IconButton
-        className={classes.iconButton}
-        onClick={openChangeEmailDialog}
+      <Queries<IGetActiveEmailBindingResponse>
+        queryStates={[activeEmailBindingState]}
       >
+        {({ data: { email } = {} }) => (
+          <Typography className={classes.email} variant="body2">
+            {email}
+          </Typography>
+        )}
+      </Queries>
+
+      <IconButton onClick={openChangeEmailDialog}>
         <Edit className={classes.icon} />
       </IconButton>
 

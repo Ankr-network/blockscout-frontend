@@ -146,6 +146,7 @@ export const useChainProjectsSidebar = ({
     onCloseAddToProjectsSidebar,
     allCurrentChainPaths,
     allPathsExceptCurrentChain,
+    chain,
   });
 
   return {

@@ -4,6 +4,7 @@ import { NavigationItem } from '../types';
 
 export const getExternalButtonProps = ({
   StartIcon,
+  amount,
   blockName,
   isActive,
   isComingSoon,

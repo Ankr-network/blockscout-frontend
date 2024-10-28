@@ -8,17 +8,19 @@ export enum RequestType {
   'GroupCreationAllowance' = 'GroupCreationAllowance',
   'MyBundles' = 'MyBundles',
   'MySubscriptions' = 'MySubscriptions',
+  'Notifications' = 'Notifications',
   'ProjectWhitelist' = 'ProjectWhitelist',
   'ReferralCodes' = 'ReferralCodes',
   'RewardBalance' = 'RewardBalance',
   'RewardTxs' = 'RewardTxs',
+  'TelegramNotifications' = 'TelegramNotifications',
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
   'WhitelistBlockchains' = 'WhitelistBlockchains',
   'WhitelistsBlockchains' = 'WhitelistsBlockchains',
 }
 
-// Endponts that must be cached by their names and params should be listed here
+// Endpoints that must be cached by their names and params should be listed here
 // Please keep in mind that if the name of an endpoint has changed,
 // this list should also be updated
 const endpointsSerializedByParams = [
@@ -62,10 +64,11 @@ const endpointsSerializedByParams = [
   'fetchPrivateStats',
   'fetchProjectChainsStatsFor1h',
   'fetchProjectChainsStatsFor24h',
-  'fetchProjectTotalRequestsForLastTwoDays',
-  'fetchProjectTotalRequestsForLastTwoHours',
   'fetchPublicRequestsCountStats',
   'fetchTop10Stats',
+
+  /* notifications */
+  'fetchNotifications',
 ];
 
 const sortQueryArgsKeys = (queryArgs: unknown) => {

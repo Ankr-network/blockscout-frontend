@@ -1,6 +1,6 @@
 {
   "name": "@ankr.com/Web3APIApplication",
-  "version": "1.75.2",
+  "version": "1.75.2d",
   "private": true,
   "scripts": {
     "start:stage": "concurrently \"env-cmd -f .env.stage react-scripts start\" \"yarn watch:dependencies\"",
@@ -31,7 +31,7 @@
     "@ankr.com/cross-navigation": "^2.0.14",
     "@ankr.com/provider": "^4.20.0",
     "@ankr.com/telemetry": "*",
-    "@ankr.com/ui": "^0.13.60",
+    "@ankr.com/ui": "^0.13.65",
     "@ankr.com/utils": "^1.1.1",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
     "@babel/plugin-syntax-nullish-coalescing-operator": "^7.8.3",
@@ -151,6 +151,10 @@
     "not op_mini all"
   ],
   "reactSnap": {
+    "viewport": {
+      "width": 1400,
+      "height": 900
+    },
     "concurrency": 4,
     "puppeteerArgs": [
       "--no-sandbox",
@@ -169,7 +173,9 @@
       "/enterprise/",
       "/projects/",
       "/projects/new/",
-      "/referrals/"
+      "/notifications/",
+      "/referrals/",
+      "/settings/telegram/"
     ],
     "inlineCss": true
   }

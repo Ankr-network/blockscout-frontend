@@ -83,8 +83,6 @@ export const useSelectedProjectChainsPaths = ({
     setSelectedProjectChainsPaths(projectChainsPaths);
   }, [projectChainsPaths]);
 
-  const [isSelectedAll, setIsSelectedAll] = useState(false);
-
   const handleSelectProjectChainsPaths = useCallback(
     (newPaths: ChainPath | ChainPath[]) => {
       setSelectedProjectChainsPaths(selectedPaths =>
@@ -122,8 +120,6 @@ export const useSelectedProjectChainsPaths = ({
     handleSelectProjectChainsPaths,
     handleSelectAllSubchainPaths,
     handleUnselectAllSubchainPaths,
-    setIsSelectedAll,
-    isSelectedAll,
     selectedProjectChainsPaths,
     setSelectedProjectChainsPaths,
   };

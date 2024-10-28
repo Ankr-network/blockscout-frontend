@@ -1,6 +1,10 @@
-import { INotificationsSettings } from 'multirpc-sdk';
+import {
+  ENotificationChannel,
+  INotificationsChannelConfig,
+} from 'multirpc-sdk';
 
 export enum NotificationsFormFields {
+  channel = ENotificationChannel.EMAIL,
   balance = 'balance',
   marketing = 'marketing',
   lowBalance = 'lowBalance',
@@ -10,6 +14,7 @@ export enum NotificationsFormFields {
 }
 
 export interface NotificationsFormData {
+  [NotificationsFormFields.channel]: ENotificationChannel;
   [NotificationsFormFields.balance]: boolean;
   [NotificationsFormFields.marketing]: boolean;
   [NotificationsFormFields.lowBalance]: boolean;
@@ -19,5 +24,5 @@ export interface NotificationsFormData {
 }
 
 export interface INotificationsFormProps {
-  settings: INotificationsSettings;
+  settings: INotificationsChannelConfig;
 }

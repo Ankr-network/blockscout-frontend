@@ -1,3 +1,4 @@
+import { ENotificationChannel } from 'multirpc-sdk';
 import { useCallback } from 'react';
 import { Form, FormRenderProps } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
@@ -23,9 +24,11 @@ export const NotificationsFormContainer = ({
 
   const onSubmit = useCallback(
     async (data: NotificationsFormData) => {
-      const { error } = await editNotificationSettings(
-        prepareValuesForRequest(data),
-      );
+      // TODO: https://ankrnetwork.atlassian.net/browse/MRPC-5514
+      const { error } = await editNotificationSettings({
+        channel: ENotificationChannel.EMAIL,
+        config: prepareValuesForRequest(data),
+      });
 
       return { [FORM_ERROR]: error };
     },

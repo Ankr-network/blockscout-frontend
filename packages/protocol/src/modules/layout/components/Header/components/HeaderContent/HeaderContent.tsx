@@ -1,4 +1,5 @@
 import { BalanceMenuButton } from 'modules/layout/components/BalanceMenuButton';
+import { NotificationsMenuButton } from 'modules/layout/components/NotificationsMenuButton';
 import { Header } from 'modules/layout/const';
 import {
   ReferralCodeButton,
@@ -10,6 +11,8 @@ import { UserGroupDialog } from 'domains/userGroup/components/UserGroupDialog';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { selectIsSelectedUserGroupPersonal } from 'domains/userGroup/store';
+import { useAppSelector } from 'store/useAppSelector';
 
 interface HeaderContentProps {
   type?: Header;
@@ -24,6 +27,8 @@ export const HeaderContent = ({
 
   const { isLoggedIn } = useAuth();
 
+  const isPersonalGroup = useAppSelector(selectIsSelectedUserGroupPersonal);
+
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const isMobile = useIsSMDown();
@@ -37,6 +42,10 @@ export const HeaderContent = ({
 
       {!isMobileType && isLoggedIn && !isEnterpriseClient && (
         <BalanceMenuButton />
+      )}
+
+      {!isMobileType && isLoggedIn && isPersonalGroup && (
+        <NotificationsMenuButton />
       )}
 
       {isLoggedIn ? <UserAccountSelector /> : <SignupButton />}

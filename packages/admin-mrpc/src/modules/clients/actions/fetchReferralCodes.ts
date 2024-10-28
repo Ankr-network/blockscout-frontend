@@ -13,6 +13,7 @@ interface IRequestParams {
 
 export const {
   useFetchReferralCodesQuery,
+  useLazyFetchReferralCodesQuery,
   endpoints: { fetchReferralCodes },
 } = web3Api.injectEndpoints({
   endpoints: build => ({

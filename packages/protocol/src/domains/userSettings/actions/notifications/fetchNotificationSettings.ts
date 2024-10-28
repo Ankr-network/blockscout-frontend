@@ -1,4 +1,4 @@
-import { INotificationsSettings } from 'multirpc-sdk';
+import { IGetNotificationsChannelsResponse } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
 import { web3Api } from 'store/queries';
@@ -9,7 +9,7 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsFetchNotificationSettings: build.query<
-      INotificationsSettings,
+      IGetNotificationsChannelsResponse[],
       void
     >({
       queryFn: async () => {
@@ -17,7 +17,7 @@ export const {
 
         const data = await service
           .getAccountingGateway()
-          .getNotificationSettings();
+          .getNotificationsChannels();
 
         return { data };
       },

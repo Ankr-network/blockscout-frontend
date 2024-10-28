@@ -9,7 +9,6 @@ import { projectChainsTranslation } from './translation';
 
 export interface UseProjectChainsTableColumnsParams {
   selectedChainPaths: ChainPath[];
-  setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
@@ -18,7 +17,6 @@ export interface UseProjectChainsTableColumnsParams {
 export const useProjectChainsTableColumns = ({
   selectAllSubChainPaths,
   selectedChainPaths,
-  setIsSelectedAll,
   setSelectedChainPaths,
   unSelectAllSubChainPaths,
 }: UseProjectChainsTableColumnsParams) => {
@@ -42,7 +40,6 @@ export const useProjectChainsTableColumns = ({
             chain={chain}
             selectedChainPaths={selectedChainPaths}
             setSelectedChainPaths={setSelectedChainPaths}
-            setIsSelectedAll={setIsSelectedAll}
             selectAllSubChainPaths={selectAllSubChainPaths}
             unSelectAllSubChainPaths={unSelectAllSubChainPaths}
           />
@@ -56,7 +53,6 @@ export const useProjectChainsTableColumns = ({
       expandedId,
       selectedChainPaths,
       setSelectedChainPaths,
-      setIsSelectedAll,
       selectAllSubChainPaths,
       unSelectAllSubChainPaths,
     ],

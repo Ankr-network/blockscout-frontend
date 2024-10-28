@@ -19,6 +19,8 @@ export enum TeamInvitationQueryParamsName {
   ExpiresAt = 'expires_at',
 }
 
+export const TELEGRAM_CONFIRMATION_DATA_PARAM_NAME = 'confirmation_data';
+
 export interface TeamInvitationQueryParams {
   [TeamInvitationQueryParamsName.Email]: string;
   [TeamInvitationQueryParamsName.ExpiresAt]: string;

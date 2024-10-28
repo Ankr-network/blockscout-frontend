@@ -48,18 +48,25 @@ export const ClientDetailsPage = () => {
     address,
     statsData,
     isLoadingStats,
+    isFetchingStats,
+    csvStatsData,
+    isLoadingCsvStats,
+    isFetchingCsvStats,
     periodStatement,
     totalData,
     isLoadingTotal,
     value,
     handleChange,
     updateTimeframeParam,
-    isFetchingStats,
     handleSwitchCurrent,
     isCurrentDayIncluded,
     isRangePeriod,
     userProjectsData,
     isLoadingUserProjects,
+    dateFrom,
+    onChangeFrom,
+    dateTo,
+    onChangeTo,
   } = useClientDetailsPage();
 
   const { classes } = useClientDetailsStyles();
@@ -104,14 +111,20 @@ export const ClientDetailsPage = () => {
             fileName={fileName}
             currentPeriod={periodStatement}
             stats={statsData?.stats}
+            isLoadingStats={isLoadingStats || isFetchingStats}
+            isChartDataLoading={isLoadingStats || isFetchingStats}
+            csvStats={csvStatsData?.stats}
+            isLoadingCsvStats={isLoadingCsvStats || isFetchingCsvStats}
             usage={statsData?.usage}
             onUpdateTimeframe={updateTimeframeParam}
-            isLoadingStats={isLoadingStats || isFetchingStats}
             handleSwitchCurrent={handleSwitchCurrent}
             isCurrentDayIncluded={isCurrentDayIncluded}
             isRangePeriod={isRangePeriod}
-            isChartDataLoading={isLoadingStats || isFetchingStats}
             timeframe={mapPeriodToTimeframe[periodStatement]}
+            dateFrom={dateFrom}
+            onChangeFrom={onChangeFrom}
+            dateTo={dateTo}
+            onChangeTo={onChangeTo}
           />
         </TabPanel>
         <TabPanel value={value} index={1}>

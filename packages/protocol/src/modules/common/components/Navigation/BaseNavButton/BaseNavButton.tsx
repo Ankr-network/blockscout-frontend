@@ -6,6 +6,7 @@ import { t } from '@ankr.com/common';
 import { isExternalPath } from 'modules/common/utils/isExternalPath';
 import { useThemes } from 'uiKit/Theme/hook/useThemes';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
+import { AmountBadge } from 'modules/notifications/components/AmountBadge';
 
 import { NavigationItem } from './types';
 import { SoonLabel } from '../../SoonLabel';
@@ -27,6 +28,7 @@ export const BaseNavButton = ({
 
   const {
     StartIcon,
+    amount,
     blockName,
     href,
     isComingSoon,
@@ -100,6 +102,9 @@ export const BaseNavButton = ({
       startIcon={<StartIcon />}
     >
       {label}
+      {amount !== undefined && amount > 0 && (
+        <AmountBadge isBig amount={amount} className={classes.amount} />
+      )}
       {isNew && (
         <Paper className={classes.newLabelWrapper}>
           <SoonLabel className={classes.soon} label={t('common.new')} />

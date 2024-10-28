@@ -36,9 +36,7 @@ export const IneligibleAccountDialog = ({
   return (
     <ReferralFlowDialog {...dialogProps} title={<FailedBanner />}>
       <div className={classes.content}>
-        <Typography variant="h6">
-          {t(keys.title, { blockchainName })}
-        </Typography>
+        <Typography variant="h6">{t(keys.title)}</Typography>
         <Typography variant="body2">{t(keys.description)}</Typography>
       </div>
       <Buttons

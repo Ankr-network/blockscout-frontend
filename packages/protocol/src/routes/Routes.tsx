@@ -38,7 +38,12 @@ import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { GuardTeamInvitationRoute } from 'domains/userSettings/components/GuardTeamInvitationRoute';
 import { TeamsRoutes, TeamsRoutesConfig } from 'domains/teams/Routes';
+import {
+  NotificationsRoutes,
+  NotificationsRoutesConfig,
+} from 'domains/notifications/Routes';
 import { REFERRALS_PATHS, ReferralsRoutes } from 'domains/referrals/routes';
+import { GuardTelegramConfirmationRoute } from 'domains/userSettings/components/GuardTelegramConfirmationRoute';
 
 import { INDEX_PATH } from './constants';
 import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
@@ -58,6 +63,22 @@ export const Routes = () => {
           <DefaultLayout hasGradient hasNoReactSnap>
             <PricingRoutes />
           </DefaultLayout>
+        )}
+      />
+
+      <GuardAuthRoute
+        exact
+        path={NotificationsRoutesConfig.notifications.path}
+        render={() => (
+          <Route
+            exact
+            path={NotificationsRoutesConfig.notifications.path}
+            render={() => (
+              <DefaultLayout>
+                <NotificationsRoutes />
+              </DefaultLayout>
+            )}
+          />
         )}
       />
 
@@ -166,6 +187,7 @@ export const Routes = () => {
         render={() => (
           <DefaultLayout>
             <GuardUserGroup
+              shouldHideAlert
               shouldRedirect
               blockName={BlockWithPermission.ChainItem}
             >
@@ -223,6 +245,16 @@ export const Routes = () => {
           </GuardUserGroup>
         )}
       />
+
+      {/* <GuardAuthRoute
+        exact
+        path={[UserSettingsRoutesConfig.telegramConfirmation.path]}
+      > */}
+      <GuardTelegramConfirmationRoute
+        exact
+        path={UserSettingsRoutesConfig.telegramConfirmation.path}
+      />
+      {/* </GuardAuthRoute> */}
 
       <GuardAuthRoute
         hasReactSnapCheck={isReactSnap}

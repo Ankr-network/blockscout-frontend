@@ -5,6 +5,7 @@ import { NavigationItem } from '../types';
 export const getNotLinkButtonProps = (
   {
     StartIcon,
+    amount,
     blockName,
     isActive,
     isComingSoon,

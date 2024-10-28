@@ -1,6 +1,7 @@
 import { AccountStatus } from 'modules/common/components/AccountStatus';
 import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
 import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
 
@@ -29,6 +30,7 @@ export const SideBar = ({
   isMobileSideBar = false,
   loading,
 }: SidebarProps) => {
+  const { isLoggedIn } = useAuth();
   const bannerHeight = useHeaderBannerHeight();
   const { classes, cx } = useStyles({ isMobileSideBar, bannerHeight });
   const {
@@ -48,15 +50,17 @@ export const SideBar = ({
       {isXsDown && !isReactSnap && (
         <AccountStatus className={classes.accountStatus} />
       )}
-      <div className={classes.balanceRoot}>
-        <BalanceMenuContent
-          balanceInRequests={balanceInRequests}
-          creditBalance={creditBalance}
-          currentChargingModel={currentChargingModel}
-          isApiCreditsBalance={isApiCreditsBalance}
-          usdBalance={usdBalance}
-        />
-      </div>
+      {isLoggedIn && (
+        <div className={classes.balanceRoot}>
+          <BalanceMenuContent
+            balanceInRequests={balanceInRequests}
+            creditBalance={creditBalance}
+            currentChargingModel={currentChargingModel}
+            isApiCreditsBalance={isApiCreditsBalance}
+            usdBalance={usdBalance}
+          />
+        </div>
+      )}
       <MainNavigation
         chainsRoutes={chainsRoutes}
         handleSidebarClose={handleSidebarClose}

@@ -48,10 +48,10 @@ export const executeLoading = async ({
   const { deductions, myBundlesPayments, paymentHistory, transactions } =
     combinePaymentHistory({
       loadedDeductions,
-      loadedTransactions,
-      loadedMyBundlesPayments,
       loadingDeductions,
+      loadedTransactions,
       loadingTransactions,
+      loadedMyBundlesPayments,
       loadingMyBundlesPayments,
     });
 
