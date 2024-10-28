@@ -1,8 +1,9 @@
+import { StatsByRangeDuration } from 'multirpc-sdk';
+
 import { useProjectChainsStatsFor1h } from 'domains/projects/hooks/useProjectChainsStatsFor1h';
 import { useProjectChainsStatsFor24h } from 'domains/projects/hooks/useProjectChainsStatsFor24h';
-import { useProjectStatsParams } from 'modules/stats/hooks/useProjectStatsParams';
-import { useProjectTotalRequestsForLastTwoDays } from 'domains/projects/hooks/useProjectTotalRequestsForLastTwoDays';
-import { useProjectTotalRequestsForLastTwoHours } from 'domains/projects/hooks/useProjectTotalRequestsForLastTwoHours';
+import { useProjectTotalRequests } from 'domains/projects/hooks/useProjectTotalRequests';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 interface IUseProjectStatsInitializationProps {
   skipRelativeRequests?: boolean;
@@ -13,10 +14,11 @@ export const useProjectStatsInitialization = ({
   skipRelativeRequests,
   userEndpointToken,
 }: IUseProjectStatsInitializationProps) => {
-  const { statsParams } = useProjectStatsParams(userEndpointToken);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const chainsStatsParams = {
-    ...statsParams,
+    group,
+    token: userEndpointToken!,
     skipFetching: !userEndpointToken,
   };
 
@@ -26,22 +28,28 @@ export const useProjectStatsInitialization = ({
   const { projectChainsStatsFor24h } =
     useProjectChainsStatsFor24h(chainsStatsParams);
 
-  const totalRequestsParams = {
-    ...chainsStatsParams,
-    skipFetching: chainsStatsParams.skipFetching || skipRelativeRequests,
-  };
+  const skipFetchingTotalRequests = !userEndpointToken || skipRelativeRequests;
 
-  const { projectTotalRequestsForLastTwoHours } =
-    useProjectTotalRequestsForLastTwoHours(totalRequestsParams);
+  const { projectTotalRequests: projectTotalRequestsForLastTwoHours } =
+    useProjectTotalRequests({
+      duration: StatsByRangeDuration.TWO_HOURS,
+      group,
+      skipFetching: skipFetchingTotalRequests,
+      token: userEndpointToken!,
+    });
 
-  const { projectTotalRequestsForLastTwoDays } =
-    useProjectTotalRequestsForLastTwoDays(totalRequestsParams);
+  const { projectTotalRequests: projectTotalRequestsForLastTwoDays } =
+    useProjectTotalRequests({
+      duration: StatsByRangeDuration.TWO_DAYS,
+      group,
+      skipFetching: skipFetchingTotalRequests,
+      token: userEndpointToken!,
+    });
 
   return {
     projectTotalRequestsForLastTwoHours,
     projectTotalRequestsForLastTwoDays,
     projectChainsStatsFor1h,
     projectChainsStatsFor24h,
-    statsParams,
   };
 };

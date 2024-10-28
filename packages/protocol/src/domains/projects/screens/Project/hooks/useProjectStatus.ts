@@ -1,12 +1,11 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
-import { useLazyFetchJwtTokenStatusQuery } from 'domains/jwtToken/action/fetchJwtTokenStatus';
 import { ProjectStatus } from 'domains/projects/utils/getAllProjects';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectProjectsStatuses } from 'domains/projects/store/WhitelistsSelector';
-import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { selectIsInactiveStatus } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useJWTStatus } from 'domains/jwtToken/hooks/useJWTStatus';
+import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 interface UseProjectStatus {
@@ -15,41 +14,31 @@ interface UseProjectStatus {
 }
 
 export const useProjectStatus = (): UseProjectStatus => {
-  const allProjects = useAppSelector(selectProjectsStatuses);
-  const [
-    fetchTokenStatus,
-    { data: projectStatusData = {} as ProjectStatus, isFetching, isLoading },
-  ] = useLazyFetchJwtTokenStatusQuery();
-
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { isLoaded, project } = useSelectedProject();
 
-  const currentProject = allProjects.find(
-    ({ userEndpointToken }) => userEndpointToken === project?.userEndpointToken,
-  );
-  const savedStatus = currentProject?.status;
+  const { jwtStatus: projectStatusData, loading: jwtStatusLoading } =
+    useJWTStatus({
+      group,
+      skipFetching: Boolean(!project || !isLoaded),
+      // We need to assert non null type to fit selector interface
+      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+      userEndpointToken: project?.userEndpointToken!,
+    });
 
-  useEffect(() => {
-    if (isLoaded && project && !savedStatus) {
-      fetchTokenStatus({ group, userEndpointToken: project.userEndpointToken });
-    }
-  }, [group, isLoaded, project, fetchTokenStatus, savedStatus]);
-
-  const { isFreePremium, loading } = useAuth();
+  const { isFreePremium, loading: authLoading } = useAuth();
 
   const projectStatus = useMemo(() => {
-    const status = savedStatus || projectStatusData;
-
-    if (isFreePremium && !loading) {
+    if (isFreePremium && !authLoading) {
       return {
-        ...status,
+        ...projectStatusData,
         suspended: false,
       };
     }
 
-    return status;
-  }, [isFreePremium, projectStatusData, savedStatus, loading]);
+    return projectStatusData;
+  }, [authLoading, isFreePremium, projectStatusData]);
 
   const isInactive = useAppSelector(selectIsInactiveStatus);
 
@@ -59,9 +48,9 @@ export const useProjectStatus = (): UseProjectStatus => {
         ...projectStatus,
         suspended: isInactive || projectStatus.suspended,
       },
-      isLoading: isLoading || isFetching,
+      isLoading: jwtStatusLoading,
     };
   }
 
-  return { projectStatus, isLoading: isLoading || isFetching || loading };
+  return { projectStatus, isLoading: jwtStatusLoading || authLoading };
 };

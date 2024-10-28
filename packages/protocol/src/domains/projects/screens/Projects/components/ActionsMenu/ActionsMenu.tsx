@@ -1,45 +1,56 @@
 import { Delete, Rename, Freeze, Unfreeze } from '@ankr.com/ui';
 import { t } from '@ankr.com/common';
-import { MouseEvent, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-final-form';
 
-import { MenuButton, MenuItem } from 'modules/common/components/MenuButton';
 import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { useMenu } from 'modules/common/hooks/useMenu';
 import { FreezeAndUnfreezeProjectDialog } from 'domains/jwtToken/components/FreezeAndUnfreezeProjectDialog';
-import { ProjectTable } from 'domains/projects/utils/getAllProjects';
+import { MenuButton, MenuItem } from 'modules/common/components/MenuButton';
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { selectDraftUserEndpointToken } from 'domains/projects/store';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectIsInactiveStatus } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useJWTStatus } from 'domains/jwtToken/hooks/useJWTStatus';
+import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
+import { useMenu } from 'modules/common/hooks/useMenu';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { EditProjectDialogFields } from '../EditProjectDialog/EditProjectDialogUtils';
 
 interface ActionsMenuProps {
-  rowData: ProjectTable;
   onProjectDialogOpen: () => void;
+  userEndpointToken: string;
 }
 
 export const ActionsMenu = ({
   onProjectDialogOpen,
-  rowData,
+  userEndpointToken,
 }: ActionsMenuProps) => {
-  const {
-    isFrozen: frozen,
-    name,
-    projectStatus,
-    tokenIndex,
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { jwts: projects } = useJWTs({ group, skipFetching: true });
+  const { jwtStatus: projectStatus } = useJWTStatus({
+    group,
     userEndpointToken,
-  } = rowData;
-  const isPrimary = tokenIndex === PRIMARY_TOKEN_INDEX;
+  });
+
+  const project = useMemo(
+    () => projects.find(jwt => jwt.userEndpointToken === userEndpointToken),
+    [projects, userEndpointToken],
+  );
+
+  const { index, name } = project!;
+  const { frozen } = projectStatus;
+  const isPrimary = index === PRIMARY_TOKEN_INDEX;
+
   const { anchorEl, handleClose, handleOpen, open } = useMenu();
 
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 
   const {
     isOpened: isDeleteProjectDialogOpened,
-    onClose: onCloseDeleteProjectDialog,
+    onClose: handleCloseDeleteProjectDialog,
     onOpen: onOpenDeleteProjectDialog,
   } = useDialog();
   const { initialize } = useForm();
@@ -47,32 +58,18 @@ export const ActionsMenu = ({
   const handleEditByClick = useCallback(() => {
     initialize({
       [EditProjectDialogFields.name]: name,
-      [EditProjectDialogFields.tokenIndex]: tokenIndex,
+      [EditProjectDialogFields.tokenIndex]: index,
     });
 
     onProjectDialogOpen();
     handleClose();
-  }, [initialize, name, tokenIndex, onProjectDialogOpen, handleClose]);
+  }, [initialize, name, index, onProjectDialogOpen, handleClose]);
 
   const {
     isOpened: isFreezeAndUnfreezeProjectDialogOpened,
-    onClose: onCloseFreezeAndUnfreezeProjectDialog,
+    onClose: handleCloseFreezeAndUnfreezeProjectDialog,
     onOpen: onOpenFreezeAndUnfreezeProjectDialog,
   } = useDialog();
-
-  const handleCloseDeleteProjectDialog = (
-    event?: MouseEvent<HTMLButtonElement>,
-  ) => {
-    event?.stopPropagation();
-    onCloseDeleteProjectDialog();
-  };
-
-  const handleCloseFreezeAndUnfreezeProjectDialog = (
-    event?: MouseEvent<HTMLButtonElement>,
-  ) => {
-    event?.stopPropagation();
-    onCloseFreezeAndUnfreezeProjectDialog();
-  };
 
   const handleOpenFreezeDialog = useCallback(() => {
     onOpenFreezeAndUnfreezeProjectDialog();
@@ -124,13 +121,11 @@ export const ActionsMenu = ({
           {t('projects.list-project.delete')}
         </MenuItem>
       </MenuButton>
-
       <DeleteProjectDialog
         open={isDeleteProjectDialogOpened}
-        tokenIndex={tokenIndex}
+        tokenIndex={index}
         onClose={handleCloseDeleteProjectDialog}
       />
-
       <FreezeAndUnfreezeProjectDialog
         isFreeze={!frozen}
         open={isFreezeAndUnfreezeProjectDialogOpened}

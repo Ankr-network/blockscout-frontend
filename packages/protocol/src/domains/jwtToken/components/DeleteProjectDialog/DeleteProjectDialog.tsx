@@ -68,11 +68,12 @@ export const DeleteProjectDialog = ({
     <Dialog
       fullWidth
       maxPxWidth={600}
-      open={open}
       onClose={onClose}
+      open={open}
+      shouldHideCloseButton={isFailedStep}
+      shouldStopPropagationOnClose
       title={title}
       titleClassName={classes.title}
-      shouldHideCloseButton={isFailedStep}
     >
       {deleteProjectStep === DeleteProjectStep.initial && (
         <DeleteProjectContent

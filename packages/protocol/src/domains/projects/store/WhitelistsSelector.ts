@@ -1,4 +1,3 @@
-import { UserEndpointToken } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 
 import {
@@ -6,79 +5,76 @@ import {
   selectJWTs,
 } from 'domains/jwtToken/action/fetchJWTs';
 import { RootState } from 'store';
-import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
-
-import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
-import { getAllProjects, Project } from '../utils/getAllProjects';
-import { selectAllChainsPaths } from '../../../modules/chains/store/selectors';
-import { selectAllProjectsTotalRequestsLoading } from './selectors';
 import {
-  selectWhitelistsBlockchains,
-  selectWhitelistsBlockchainsLoading,
-} from '../actions/fetchWhitelistsBlockchains';
+  selectJWTsStatuses,
+  selectJWTsStatusesLoading,
+} from 'domains/jwtToken/action/fetchJWTsStatuses';
 
-const selectAllWhitelists = createSelector(
-  fetchAllWhitelists.select({}),
-  ({ data: whitelists = [] }) => whitelists,
+import { getAllProjects } from '../utils/getAllProjects';
+import { selectAllChainsPaths } from '../../../modules/chains/store/selectors';
+import {
+  selectProjectsWhitelists,
+  selectProjectsWhitelistsLoading,
+} from '../actions/fetchProjectsWhitelists';
+import {
+  selectProjectsWhitelistsBlockchains,
+  selectProjectsWhitelistsBlockchainsLoading,
+} from '../actions/fetchProjectsWhitelistsBlockchains';
+
+export const selectCurrentProjectsStatuses = createSelector(
+  selectJWTs,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (projects, [state, group]) => selectJWTsStatuses(state, { group, projects }),
 );
 
-const selectAllWhitelistsLoading = createSelector(
-  fetchAllWhitelists.select({}),
-  ({ isLoading }) => isLoading,
-);
-
-const selectProjectsStatusesLoading = createSelector(
-  fetchAllJwtTokensStatuses.select({ projects: [] }),
-  ({ isLoading }) => isLoading,
-);
-
-export const selectWhitelistBlockchainsForAllJWTs = createSelector(
+export const selectCurrentProjectsStatusesLoading = createSelector(
   selectJWTs,
   (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
   (projects, [state, group]) =>
-    selectWhitelistsBlockchains(state, { group, projects }),
+    selectJWTsStatusesLoading(state, { group, projects }),
 );
 
-export const selectWhitelistBlockchainsForAllJWTsLoading = createSelector(
+export const selectCurrentProjectsWhitelists = createSelector(
   selectJWTs,
   (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
   (projects, [state, group]) =>
-    selectWhitelistsBlockchainsLoading(state, { group, projects }),
+    selectProjectsWhitelists(state, { group, projects }),
+);
+
+export const selectCurrentProjectsWhitelistsLoading = createSelector(
+  selectJWTs,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (projects, [state, group]) =>
+    selectProjectsWhitelistsLoading(state, { group, projects }),
+);
+
+export const selectCurrentProjectsWhitelistsBlockchains = createSelector(
+  selectJWTs,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (projects, [state, group]) =>
+    selectProjectsWhitelistsBlockchains(state, { group, projects }),
+);
+
+export const selectCurrentProjectsWhitelistsBlockchainsLoading = createSelector(
+  selectJWTs,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (projects, [state, group]) =>
+    selectProjectsWhitelistsBlockchainsLoading(state, { group, projects }),
 );
 
 export const selectProjectsPageRequestsLoading = createSelector(
-  selectAllWhitelistsLoading,
-  selectWhitelistBlockchainsForAllJWTsLoading,
-  selectProjectsStatusesLoading,
-  selectAllProjectsTotalRequestsLoading,
-  (
-    isLoadingWhitelists,
-    isLoadingBlockchains,
-    isLoadingStatuses,
-    allProjectsTotalRequestsLoading,
-    // eslint-disable-next-line max-params
-  ) =>
-    isLoadingWhitelists ||
-    isLoadingBlockchains ||
-    isLoadingStatuses ||
-    allProjectsTotalRequestsLoading,
-);
-
-export const selectProjectsStatuses = createSelector(
-  fetchAllJwtTokensStatuses.select({ projects: [] }),
-  ({ data: projectStatuses = [] }) => projectStatuses,
-);
-
-export const selectProjectsStatusesIsUninitialized = createSelector(
-  fetchAllJwtTokensStatuses.select({ projects: [] }),
-  ({ isUninitialized }) => isUninitialized,
+  selectCurrentProjectsWhitelistsLoading,
+  selectCurrentProjectsWhitelistsBlockchainsLoading,
+  selectCurrentProjectsStatusesLoading,
+  (whitelistsLoading, whitelistsBlockchainsLoading, statusesLoading) =>
+    whitelistsLoading || whitelistsBlockchainsLoading || statusesLoading,
 );
 
 export const selectAllProjects = createSelector(
   selectJWTs,
-  selectAllWhitelists,
-  selectWhitelistBlockchainsForAllJWTs,
-  selectProjectsStatuses,
+  selectCurrentProjectsWhitelists,
+  selectCurrentProjectsWhitelistsBlockchains,
+  selectCurrentProjectsStatuses,
   selectProjectsPageRequestsLoading,
   selectAllChainsPaths,
   (
@@ -99,12 +95,4 @@ export const selectAllProjects = createSelector(
       allChainsPaths,
     });
   },
-);
-
-export const selectProjectChainsByToken = createSelector(
-  selectAllProjects,
-  (_state: RootState, token: UserEndpointToken) => token,
-  (projects: Project[], token: UserEndpointToken) =>
-    projects.find((project: Project) => project.userEndpointToken === token)
-      ?.blockchains,
 );

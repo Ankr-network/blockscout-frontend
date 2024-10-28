@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { Chain } from '@ankr.com/chains-list';
 
+import { IProjectWithBlockchains } from 'domains/projects/actions/fetchProjectsWhitelistsBlockchains';
 import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
 import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
 import { hasEvmSubchains } from 'modules/chains/utils/hasEvmSubchains';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
@@ -10,16 +10,16 @@ import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenMa
 export interface IPrivateChainCardActionsProps {
   anchorEl: null | HTMLElement;
   chain: Chain;
-  chainProjects?: MappedWhitelistBlockchainsResponse[];
+  chainProjects?: IProjectWithBlockchains[];
   filteredJwtTokens: JWT[];
   handleClose: () => void;
   handleOpenChainMenu: (event: React.MouseEvent<HTMLElement>) => void;
+  isCardView?: boolean;
+  isChainProjectsEmpty?: boolean;
   isEndpointLocked: boolean;
   isLoadingProjects: boolean;
   onOpenAddToProjectsDialog: () => void;
   open: boolean;
-  isChainProjectsEmpty?: boolean;
-  isCardView?: boolean;
 }
 
 export const usePrivateChainCardActions = ({

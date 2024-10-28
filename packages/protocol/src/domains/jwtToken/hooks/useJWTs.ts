@@ -18,9 +18,7 @@ export interface IUseJWTs extends IFetchJWTsParams, IUseQueryProps {}
 export const useJWTs = ({ group, skipFetching }: IUseJWTs) => {
   const params = useMemo((): IFetchJWTsParams => ({ group }), [group]);
 
-  const { isFetching } = useFetchJWTsQuery(
-    getQueryParams({ params, skipFetching }),
-  );
+  useFetchJWTsQuery(getQueryParams({ params, skipFetching }));
 
   const [fetchLazy] = useLazyFetchJWTsQuery();
 
@@ -30,8 +28,10 @@ export const useJWTs = ({ group, skipFetching }: IUseJWTs) => {
   );
 
   const jwts = useAppSelector(state => selectJWTs(state, params));
-  const isLoading = useAppSelector(state => selectJWTsLoading(state, params));
-  const jwtsState = useAppSelector(state => selectJWTsState(state, params));
+  const loading = useAppSelector(state => selectJWTsLoading(state, params));
+  const state = useAppSelector(storeState =>
+    selectJWTsState(storeState, params),
+  );
 
-  return { handleFetchJWTs, isFetching, isLoading, jwts, jwtsState };
+  return { handleFetchJWTs, loading, jwts, state };
 };

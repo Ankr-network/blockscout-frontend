@@ -1,9 +1,9 @@
 import { UserEndpointTokenMode, Web3Address } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
-import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { TwoFAQueryFnParams } from 'store/queries/types';
+import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
+import { web3Api } from 'store/queries';
 
 interface UpdateWhitelistModeParams {
   userEndpointToken: string;
@@ -41,11 +41,6 @@ export const {
           );
 
           return { data: null };
-        },
-        errorHandler: error => {
-          return {
-            error,
-          };
         },
       }),
     }),

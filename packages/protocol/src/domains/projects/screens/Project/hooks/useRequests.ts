@@ -1,58 +1,70 @@
-import { useMemo } from 'react';
+import { StatsByRangeDuration } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
+import { useMemo } from 'react';
 
+import {
+  IFetchProjectTotalRequestsParams,
+  selectProjectTotalRequestsLoading,
+} from 'domains/projects/actions/fetchProjectTotalRequests';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { USAGE_SHORT_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
 import {
-  selectProjectTotalRequestsCountForLastDay,
-  selectProjectTotalRequestsCountForLastHour,
-  selectProjectTotalRequestsForLastDay,
-  selectProjectTotalRequestsForLastHour,
-  selectRelativeChangeForLastDay,
-  selectRelativeChangeForLastHour,
+  selectProjectTotalRequestsCountForCurrentPeriod,
+  selectProjectTotalRequestsForCurrentPeriod,
+  selectRelativeChange,
 } from 'domains/projects/store';
-import { selectProjectTotalRequestsForLastTwoHoursLoading } from 'domains/projects/actions/fetchProjectTotalRequestsForLastTwoHours';
 import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
-import { useProjectStatsParams } from 'modules/stats/hooks/useProjectStatsParams';
-import { selectProjectTotalRequestsForLastTwoDaysLoading } from 'domains/projects/actions/fetchProjectTotalRequestsForLastTwoDays';
 
 export const useRequests = () => {
-  const { projectId: userEndpointToken } =
-    ProjectsRoutesConfig.project.useParams();
+  const { projectId: token } = ProjectsRoutesConfig.project.useParams();
 
-  const { statsParams } = useProjectStatsParams(userEndpointToken);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { timeframe, timeframeTabs } = useTimeframe({
     initialTimeframe: Timeframe.Day,
     timeframes: USAGE_SHORT_TIMEFRAME_LIST,
   });
 
+  const queryParams2h: IFetchProjectTotalRequestsParams = {
+    duration: StatsByRangeDuration.TWO_HOURS,
+    group,
+    token,
+  };
+
   const lastHourRequests = useAppSelector(state =>
-    selectProjectTotalRequestsForLastHour(state, statsParams),
+    selectProjectTotalRequestsForCurrentPeriod(state, queryParams2h),
   );
   const lastHourRequestsCount = useAppSelector(state =>
-    selectProjectTotalRequestsCountForLastHour(state, statsParams),
+    selectProjectTotalRequestsCountForCurrentPeriod(state, queryParams2h),
   );
   const lastHourRelativeChange = useAppSelector(state =>
-    selectRelativeChangeForLastHour(state, statsParams),
-  );
-  const lastHourRequestsLoading = useAppSelector(state =>
-    selectProjectTotalRequestsForLastTwoHoursLoading(state, statsParams),
+    selectRelativeChange(state, queryParams2h),
   );
 
+  const lastHourRequestsLoading = useAppSelector(state =>
+    selectProjectTotalRequestsLoading(state, queryParams2h),
+  );
+
+  const queryParams2d: IFetchProjectTotalRequestsParams = {
+    duration: StatsByRangeDuration.TWO_HOURS,
+    group,
+    token,
+  };
+
   const lastDayRequests = useAppSelector(state =>
-    selectProjectTotalRequestsForLastDay(state, statsParams),
+    selectProjectTotalRequestsForCurrentPeriod(state, queryParams2d),
   );
   const lastDayRequestsCount = useAppSelector(state =>
-    selectProjectTotalRequestsCountForLastDay(state, statsParams),
+    selectProjectTotalRequestsCountForCurrentPeriod(state, queryParams2d),
   );
   const lastDayRelativeChange = useAppSelector(state =>
-    selectRelativeChangeForLastDay(state, statsParams),
+    selectRelativeChange(state, queryParams2d),
   );
   const lastDayRequestsLoading = useAppSelector(state =>
-    selectProjectTotalRequestsForLastTwoDaysLoading(state, statsParams),
+    selectProjectTotalRequestsLoading(state, queryParams2d),
   );
 
   const [requests, requestsCount, relativeChange] =

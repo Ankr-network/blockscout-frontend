@@ -4,13 +4,10 @@ import {
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { web3Api } from 'store/queries';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { RootState } from 'store';
+import { web3Api } from 'store/queries';
 
-import { fetchAllJwtTokensStatuses } from './getAllJwtTokensStatuses';
-import { fetchJWTs } from './fetchJWTs';
-import { selectConfiguredProjectJwtTokens } from '../store/selectors';
+import { fetchJWTStatus } from './fetchJWTStatus';
 
 export const {
   endpoints: { updateJwtTokenFreezeStatus },
@@ -36,27 +33,16 @@ export const {
 
           return { data: null };
         },
-        errorHandler: error => {
-          return {
-            error,
-          };
-        },
       }),
       onQueryStarted: async (
-        { group },
-        { dispatch, getState, queryFulfilled },
+        { group, token: userEndpointToken },
+        { dispatch, queryFulfilled },
       ) => {
         await queryFulfilled;
 
-        const projects = selectConfiguredProjectJwtTokens(
-          getState() as RootState,
-          { group },
-        );
-
-        dispatch(fetchJWTs.initiate({ group }, { forceRefetch: true }));
         dispatch(
-          fetchAllJwtTokensStatuses.initiate(
-            { group, projects },
+          fetchJWTStatus.initiate(
+            { group, userEndpointToken },
             { forceRefetch: true },
           ),
         );

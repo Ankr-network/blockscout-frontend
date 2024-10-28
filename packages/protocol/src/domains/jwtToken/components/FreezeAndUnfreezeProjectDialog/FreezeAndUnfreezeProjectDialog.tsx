@@ -41,9 +41,10 @@ export const FreezeAndUnfreezeProjectDialog = ({
     <Dialog
       fullWidth
       maxPxWidth={600}
-      title={titleText}
-      open={open}
       onClose={onClose}
+      open={open}
+      shouldStopPropagationOnClose
+      title={titleText}
     >
       <div>
         <Typography

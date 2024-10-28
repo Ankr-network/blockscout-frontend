@@ -1,6 +1,8 @@
 import { makeStyles } from 'tss-react/mui';
 
-export const useWhitelistStatusStyles = makeStyles()(theme => ({
+const name = 'WhitelistStatusLabel';
+
+export const useWhitelistStatusLabelStyles = makeStyles({ name })(theme => ({
   root: {
     display: 'inline-flex',
     alignItems: 'center',

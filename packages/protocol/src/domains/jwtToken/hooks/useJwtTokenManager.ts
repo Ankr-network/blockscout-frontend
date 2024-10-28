@@ -23,10 +23,9 @@ export const useJwtTokenManager = () => {
   const skipFetching = loading || !shouldShowTokenManager;
 
   const {
-    isFetching,
-    isLoading,
     jwts,
-    jwtsState: { isUninitialized },
+    loading: jwtsLoading,
+    state: { isUninitialized },
   } = useJWTs({ group, skipFetching });
 
   const allowedAddProjectTokenIndex = useMemo(
@@ -43,9 +42,8 @@ export const useJwtTokenManager = () => {
     allowedAddProjectTokenIndex,
     enableAddProject,
     hasConnectWalletMessage,
-    isFetching,
-    isLoaded: !isUninitialized && !isLoading,
-    isLoading,
+    isLoaded: !isUninitialized && !jwtsLoading,
+    isLoading: jwtsLoading,
     isUninitialized,
     jwtTokens: jwts,
     shouldShowTokenManager,

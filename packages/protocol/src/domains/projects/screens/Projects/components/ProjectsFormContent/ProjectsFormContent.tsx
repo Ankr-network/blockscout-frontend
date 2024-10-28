@@ -11,20 +11,20 @@ import { ProjectsTable } from '../ProjectsTable';
 
 interface ProjectsFormContentProps {
   allProjects: Project[];
-  isLoaded: boolean;
-  onEditDialogOpen: () => void;
   canEditProject: boolean;
-  isFreePremium: boolean;
-  onUpgradeAccountDialogOpen: () => void;
-  isUpgradeAccountDialogOpened: boolean;
   handleClickSeePlans: () => void;
-  onUpgradeAccountDialogClose: () => void;
-  onPlansDialogClose: () => void;
-  isPlansDialogOpened: boolean;
-  isEditDialogOpened: boolean;
   handleSubmit: () => void;
-  onEditDialogClose: () => void;
   hasProjectButton: boolean;
+  isEditDialogOpened: boolean;
+  isFreePremium: boolean;
+  isPlansDialogOpened: boolean;
+  isUpgradeAccountDialogOpened: boolean;
+  loading: boolean;
+  onEditDialogClose: () => void;
+  onEditDialogOpen: () => void;
+  onPlansDialogClose: () => void;
+  onUpgradeAccountDialogClose: () => void;
+  onUpgradeAccountDialogOpen: () => void;
 }
 
 export const ProjectsFormContent = ({
@@ -35,9 +35,9 @@ export const ProjectsFormContent = ({
   hasProjectButton,
   isEditDialogOpened,
   isFreePremium,
-  isLoaded,
   isPlansDialogOpened,
   isUpgradeAccountDialogOpened,
+  loading,
   onEditDialogClose,
   onEditDialogOpen,
   onPlansDialogClose,
@@ -50,7 +50,7 @@ export const ProjectsFormContent = ({
 
       <ProjectsTable
         data={allProjects}
-        isLoading={!isLoaded}
+        isLoading={loading}
         onProjectDialogOpen={onEditDialogOpen}
       />
 

@@ -26,7 +26,7 @@ export const useJwtTokenForWorkerRequests = () => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { isLoading: isLoadingAllJwt, jwts } = useJWTs({
+  const { jwts, loading: jwtsLoading } = useJWTs({
     group,
     skipFetching: true,
   });
@@ -46,6 +46,6 @@ export const useJwtTokenForWorkerRequests = () => {
 
   return {
     jwtToken: shouldUseGroupToken ? groupToken?.jwtData : jwtToken,
-    isLoading: isLoadingAllJwt || isLoadingGroupToken,
+    isLoading: jwtsLoading || isLoadingGroupToken,
   };
 };

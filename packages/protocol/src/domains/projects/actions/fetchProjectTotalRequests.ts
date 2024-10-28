@@ -1,5 +1,4 @@
 import {
-  StatsByRangeDuration,
   StatsByRangeRequest,
   StatsByRangeResponse,
   StatsByRangeTimeframe,
@@ -11,30 +10,30 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 import { web3Api } from 'store/queries';
 
-export interface FetchProjectTotalRequestsForLastTwoHoursParams
-  extends Pick<StatsByRangeRequest, 'group' | 'token'> {}
+export interface IFetchProjectTotalRequestsParams
+  extends Pick<StatsByRangeRequest, 'duration' | 'group' | 'token'> {}
 
 // The endpoint name is listed in endpointsSerializedByParams constant
 // in packages/protocol/src/store/queries/index.ts file.
 // If the name has changed it should be refelected there as well.
 export const {
-  endpoints: { fetchProjectTotalRequestsForLastTwoHours },
-  useFetchProjectTotalRequestsForLastTwoHoursQuery,
-  useLazyFetchProjectTotalRequestsForLastTwoHoursQuery,
+  endpoints: { fetchProjectTotalRequests },
+  useFetchProjectTotalRequestsQuery,
+  useLazyFetchProjectTotalRequestsQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({
-    fetchProjectTotalRequestsForLastTwoHours: build.query<
+    fetchProjectTotalRequests: build.query<
       StatsByRangeResponse,
-      FetchProjectTotalRequestsForLastTwoHoursParams
+      IFetchProjectTotalRequestsParams
     >({
       keepUnusedDataFor: REFETCH_STATS_INTERVAL,
-      queryFn: createNotifyingQueryFn(async ({ group, token }) => {
+      queryFn: createNotifyingQueryFn(async ({ duration, group, token }) => {
         const api = MultiService.getService().getAccountingGateway();
 
         const data = await api.getUserStatsByRange({
-          duration: StatsByRangeDuration.TWO_HOURS,
+          duration,
           group,
-          timeframe: StatsByRangeTimeframe.FIVE_MINUTES,
+          timeframe: StatsByRangeTimeframe.HOUR,
           token,
         });
 
@@ -42,14 +41,14 @@ export const {
       }),
     }),
   }),
+  overrideExisting: true,
 });
 
 export const {
-  selectDataWithFallbackCachedByParams:
-    selectProjectTotalRequestsForLastTwoHours,
-  selectLoadingCachedByParams: selectProjectTotalRequestsForLastTwoHoursLoading,
-  selectStateCachedByParams: selectProjectTotalRequestsForLastTwoHoursState,
+  selectDataWithFallbackCachedByParams: selectProjectTotalRequests,
+  selectLoadingCachedByParams: selectProjectTotalRequestsLoading,
+  selectStateCachedByParams: selectProjectTotalRequestsState,
 } = createQuerySelectors({
-  endpoint: fetchProjectTotalRequestsForLastTwoHours,
+  endpoint: fetchProjectTotalRequests,
   fallback: {},
 });

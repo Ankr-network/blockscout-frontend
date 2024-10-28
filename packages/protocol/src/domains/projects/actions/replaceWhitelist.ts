@@ -5,9 +5,9 @@ import {
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { RequestType, web3Api } from 'store/queries';
 import { TwoFAQueryFnParams } from 'store/queries/types';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
-import { RequestType, web3Api } from 'store/queries';
 
 export interface ReplaceWhitelistParams extends ReplaceWhitelistQuery {
   whitelist: ReplaceWhitelistBody;
@@ -38,7 +38,6 @@ export const {
 
           return { data };
         },
-        errorHandler: error => ({ error }),
       }),
     }),
   }),

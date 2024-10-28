@@ -1,14 +1,14 @@
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { ChainsList } from 'modules/common/components/ChainsList';
-import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 import { UpgradeToPremiumPlanDialog } from 'modules/common/components/UpgradeToPremiumPlanDialog';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
-import { useProjectsDataParams } from 'domains/projects/hooks/useProjectsDataParams';
-import { useFetchWhitelistsBlockchainsQuery } from 'domains/projects/actions/fetchWhitelistsBlockchains';
-import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
+import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { PrivateChainsTop } from './PrivateChainsTop';
@@ -20,6 +20,7 @@ export const PrivateChains = ({
   chainsViewTabs,
   selectedChainsViewTab,
 }: IChainsViewProps) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { hasPremium } = useAuth();
 
   const {
@@ -47,26 +48,21 @@ export const PrivateChains = ({
     onOpen: onPromoDialogOpen,
   } = useDialog();
 
-  const {
-    isFetching,
-    isLoading: isLoadingTokenManager,
-    jwtTokens,
-  } = useJwtTokenManager();
-
-  const { allWhitelistsBlockchainsParams } = useProjectsDataParams({
-    jwts: jwtTokens,
-    jwtsFetching: isFetching,
-  });
+  const { isLoading: jwtsLoading, jwtTokens } = useJwtTokenManager();
+  const hasNoJWTs = jwtTokens.length === 0;
 
   const {
-    data: allWhitelistsBlockchains,
-    isFetching: isLoadingAllWhitelistsBlockchains,
-    isUninitialized: isUninitializedAllWhitelistsBlockchains,
-  } = useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams, {
-    refetchOnMountOrArgChange: true,
+    loading: projectsWhitelistsBlockchainsLoading,
+    projectsWhitelistsBlockchains,
+  } = useProjectsWhitelistsBlockchains({
+    projects: jwtTokens,
+    group,
+    skipFetching: hasNoJWTs || jwtsLoading,
   });
 
   const { keys, t } = useTranslation(privateChainsTranslation);
+
+  const projectsLoading = jwtsLoading || projectsWhitelistsBlockchainsLoading;
 
   return (
     <>
@@ -92,18 +88,14 @@ export const PrivateChains = ({
 
               return (
                 <PrivateChainCard
-                  key={id}
+                  allWhitelistsBlockchains={projectsWhitelistsBlockchains}
                   chain={item}
-                  timeframe={timeframe}
                   hasPremium={hasPremium}
-                  onOpenUpgradeModal={onPromoDialogOpen}
-                  isLoadingProjects={
-                    isLoadingTokenManager ||
-                    isLoadingAllWhitelistsBlockchains ||
-                    isUninitializedAllWhitelistsBlockchains
-                  }
-                  allWhitelistsBlockchains={allWhitelistsBlockchains}
+                  isLoadingProjects={projectsLoading}
                   jwtTokens={jwtTokens}
+                  key={id}
+                  onOpenUpgradeModal={onPromoDialogOpen}
+                  timeframe={timeframe}
                   view={selectedChainsViewTab?.id}
                 />
               );

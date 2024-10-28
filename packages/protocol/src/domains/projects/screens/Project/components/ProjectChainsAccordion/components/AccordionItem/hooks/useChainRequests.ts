@@ -3,37 +3,33 @@ import { t } from '@ankr.com/common';
 import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
 import { formatLongNumber } from 'modules/common/utils/formatNumber';
-import { useAppSelector } from 'store/useAppSelector';
 import {
   selectProjectTotalRequestsFor1hByChain,
   selectProjectTotalRequestsFor24hByChain,
 } from 'domains/projects/store';
+import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useProjectStatsParams } from 'modules/stats/hooks/useProjectStatsParams';
-import { IFetchProjectChainsStatsFor1hParams } from 'domains/projects/actions/fetchProjectChainsStatsFor1h';
-import { IFetchProjectChainsStatsFor24hParams } from 'domains/projects/actions/fetchProjectChainsStatsFor24h';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useChainRequests = (
   chainId: ChainID,
   timeframe: Timeframe,
   userEndpointToken?: string,
 ) => {
-  const { statsParams } = useProjectStatsParams(userEndpointToken);
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const lastHourRequests = useAppSelector(state =>
-    selectProjectTotalRequestsFor1hByChain(
-      state,
-      chainId,
-      statsParams as IFetchProjectChainsStatsFor1hParams,
-    ),
+    selectProjectTotalRequestsFor1hByChain(state, chainId, {
+      group,
+      token: userEndpointToken!,
+    }),
   );
 
   const lastDayRequests = useAppSelector(state =>
-    selectProjectTotalRequestsFor24hByChain(
-      state,
-      chainId,
-      statsParams as IFetchProjectChainsStatsFor24hParams,
-    ),
+    selectProjectTotalRequestsFor24hByChain(state, chainId, {
+      group,
+      token: userEndpointToken!,
+    }),
   );
 
   const { hasPremium } = useAuth();

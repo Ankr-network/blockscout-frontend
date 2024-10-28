@@ -11,7 +11,7 @@ export interface QueryFnWithErrorHandlerParams<Params, Result> {
 }
 
 export const createQueryFnWithErrorHandler = <Params, Result>({
-  errorHandler = () => ({ error: undefined }),
+  errorHandler = error => ({ error }),
   queryFn,
 }: QueryFnWithErrorHandlerParams<Params, Result>): QueryFn<Params, Result> => {
   const fn: QueryFn<Params, Result> = async (...args) => {

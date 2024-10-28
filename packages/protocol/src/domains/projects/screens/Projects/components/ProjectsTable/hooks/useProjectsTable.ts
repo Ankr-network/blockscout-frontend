@@ -9,8 +9,9 @@ import {
   selectAllProjectsActivity,
   selectDraftUserEndpointToken,
 } from 'domains/projects/store';
-import { selectProjectsStatuses } from 'domains/projects/store/WhitelistsSelector';
+import { selectCurrentProjectsStatuses } from 'domains/projects/store/WhitelistsSelector';
 import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { useProjectsTableColumns } from './useProjectsTableColumns';
 
@@ -23,10 +24,15 @@ export const useProjectsTable = ({
   onProjectDialogOpen,
   projectsData,
 }: ProjectTableColumnsProps) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 
-  const allProjectsActivity = useAppSelector(selectAllProjectsActivity);
-  const statusData = useAppSelector(selectProjectsStatuses);
+  const allProjectsActivity = useAppSelector(state =>
+    selectAllProjectsActivity(state, { group }),
+  );
+  const statusData = useAppSelector(state =>
+    selectCurrentProjectsStatuses(state, { group }),
+  );
 
   const { columns } = useProjectsTableColumns({
     onProjectDialogOpen,

@@ -29,7 +29,6 @@ export const {
 
           return { data: true };
         },
-        errorHandler: error => ({ error }),
       }),
       onQueryStarted: async ({ group }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;

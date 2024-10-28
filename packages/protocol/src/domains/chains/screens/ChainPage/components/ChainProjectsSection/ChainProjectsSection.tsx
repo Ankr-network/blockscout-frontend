@@ -1,3 +1,5 @@
+import { Chain } from '@ankr.com/chains-list';
+import { OverlaySpinner } from '@ankr.com/ui';
 import {
   Paper,
   Table,
@@ -7,31 +9,36 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { OverlaySpinner } from '@ankr.com/ui';
 
+import { GuardResolution } from 'modules/common/components/GuardResolution';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { GuardResolution } from 'modules/common/components/GuardResolution';
 
-import { useChainProjectsSectionStyles } from './useChainProjectsSectionStyles';
-import { TimeframeTabs } from '../TimeframeTabs';
-import {
-  IChainProjectsSectionProps,
-  useChainProjects,
-} from './useChainProjects';
 import { ChainProjectItem } from './ChainProjectItem';
+import { TimeframeTabs } from '../TimeframeTabs';
 import { chainProjectsSectionTranslation } from './translation';
+import { useChainProjects } from './useChainProjects';
+import { useChainProjectsSectionStyles } from './useChainProjectsSectionStyles';
+
+export interface IChainProjectsSectionProps {
+  chain: Chain;
+  jwts: JWT[];
+  jwtsLoading: boolean;
+  onOpenAddToProjectsDialog: () => void;
+  shouldShowTokenManager: boolean;
+}
 
 export const ChainProjectsSection = ({
   chain,
-  isLoadingTokenManager,
-  jwtTokens,
+  jwts,
+  jwtsLoading,
   onOpenAddToProjectsDialog,
   shouldShowTokenManager,
 }: IChainProjectsSectionProps) => {
   const { isLoading, timeframe, timeframeTabs } = useChainProjects({
-    isLoadingTokenManager,
-    jwtTokens,
+    jwts,
+    jwtsLoading,
   });
 
   const { classes, cx } = useChainProjectsSectionStyles();
@@ -100,13 +107,13 @@ export const ChainProjectsSection = ({
           </TableHead>
         </GuardResolution>
         <TableBody>
-          {jwtTokens?.map(token => (
+          {jwts?.map(token => (
             <ChainProjectItem
               isLoading={isLoading}
               key={token.id}
               chain={chain}
               onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
-              jwtTokens={jwtTokens}
+              jwtTokens={jwts}
               timeframe={timeframe}
               {...token}
             />
@@ -114,7 +121,7 @@ export const ChainProjectsSection = ({
         </TableBody>
       </Table>
 
-      {isLoadingTokenManager && !jwtTokens.length && (
+      {jwtsLoading && !jwts.length && (
         <OverlaySpinner className={classes.projectsSpinner} />
       )}
     </Paper>

@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react';
 import { Chain } from '@ankr.com/chains-list';
 
+import { IProjectWithBlockchains } from 'domains/projects/actions/fetchProjectsWhitelistsBlockchains';
 import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useMenu } from 'modules/common/hooks/useMenu';
@@ -11,7 +11,7 @@ export interface IUsePrivateChainCardProps {
   chain: Chain;
   hasPremium: boolean;
   jwtTokens: JWT[];
-  allWhitelistsBlockchains?: MappedWhitelistBlockchainsResponse[];
+  allWhitelistsBlockchains?: IProjectWithBlockchains[];
   isLoadingProjects: boolean;
 }
 

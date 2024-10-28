@@ -1,24 +1,24 @@
 import React, { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router';
 import { Chain, Timeframe } from '@ankr.com/chains-list';
+import { useHistory } from 'react-router';
 
-import { useAppSelector } from 'store/useAppSelector';
-import { selectDraftUserEndpointToken } from 'domains/projects/store';
-import {
-  selectAllProjects,
-  selectProjectsStatuses,
-} from 'domains/projects/store/WhitelistsSelector';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { ANIMATION_DURATION } from 'domains/projects/screens/Project/components/ProjectChainsAccordion/components/AccordionItem/hooks/useAccordionItem';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
 import {
   selectAllPathsByChainId,
   selectPrivateChainById,
 } from 'modules/chains/store/selectors';
-import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
+import {
+  selectAllProjects,
+  selectCurrentProjectsStatuses,
+} from 'domains/projects/store/WhitelistsSelector';
+import { selectDraftUserEndpointToken } from 'domains/projects/store';
+import { useAppSelector } from 'store/useAppSelector';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 import { useChainProjectRequestsData } from './useChainProjectRequestsData';
 import { useCodeExampleStatus } from '../useCodeExampleStatus';
@@ -53,7 +53,9 @@ export const useChainProjectItem = ({
   const allProjects = useAppSelector(state =>
     selectAllProjects(state, { group }),
   );
-  const statusData = useAppSelector(selectProjectsStatuses);
+  const statusData = useAppSelector(state =>
+    selectCurrentProjectsStatuses(state, { group }),
+  );
   const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 
   const { currentChainRequestsData } = useChainProjectRequestsData(

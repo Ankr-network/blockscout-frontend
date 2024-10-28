@@ -13,8 +13,8 @@ import { selectIsInactiveStatus } from 'domains/auth/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { useProjects } from 'domains/projects/hooks/useProjects';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { EditProjectDialogType } from '../EditProjectDialog/EditProjectDialogUtils';
@@ -28,9 +28,11 @@ export const useProjectsForm = () => {
   const { push } = useHistory();
 
   const { canEditProject } = useProjectConfig();
-  const { canAddProject, isLoaded } = useProjects({
-    skipFetchingProjects: false,
-  });
+  const {
+    enableAddProject: canAddProject,
+    isLoaded,
+    isLoading: jwtsLoading,
+  } = useJwtTokenManager();
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
@@ -95,20 +97,20 @@ export const useProjectsForm = () => {
 
           <ProjectsFormContent
             allProjects={allProjects}
-            isLoaded={isLoaded}
-            onEditDialogOpen={onEditDialogOpen}
             canEditProject={canEditProject}
-            isFreePremium={isFreePremium}
-            onUpgradeAccountDialogOpen={onUpgradeAccountDialogOpen}
-            isUpgradeAccountDialogOpened={isUpgradeAccountDialogOpened}
             handleClickSeePlans={handleClickSeePlans}
-            onUpgradeAccountDialogClose={onUpgradeAccountDialogClose}
-            onPlansDialogClose={onPlansDialogClose}
-            isPlansDialogOpened={isPlansDialogOpened}
-            isEditDialogOpened={isEditDialogOpened}
             handleSubmit={handleSubmit}
-            onEditDialogClose={onEditDialogClose}
             hasProjectButton={hasProjectButton}
+            isEditDialogOpened={isEditDialogOpened}
+            isFreePremium={isFreePremium}
+            isPlansDialogOpened={isPlansDialogOpened}
+            isUpgradeAccountDialogOpened={isUpgradeAccountDialogOpened}
+            loading={jwtsLoading}
+            onEditDialogClose={onEditDialogClose}
+            onEditDialogOpen={onEditDialogOpen}
+            onPlansDialogClose={onPlansDialogClose}
+            onUpgradeAccountDialogClose={onUpgradeAccountDialogClose}
+            onUpgradeAccountDialogOpen={onUpgradeAccountDialogOpen}
           />
         </>
       );
@@ -116,21 +118,21 @@ export const useProjectsForm = () => {
     [
       allProjects,
       canEditProject,
+      classes,
+      handleClickSeePlans,
       hasProjectButton,
       isEditDialogOpened,
-      isUpgradeAccountDialogOpened,
-      isPlansDialogOpened,
       isFreePremium,
       isInactive,
-      classes,
-      redirectToBalance,
+      isPlansDialogOpened,
+      isUpgradeAccountDialogOpened,
+      jwtsLoading,
       onEditDialogClose,
       onEditDialogOpen,
-      isLoaded,
-      onUpgradeAccountDialogOpen,
-      handleClickSeePlans,
       onPlansDialogClose,
       onUpgradeAccountDialogClose,
+      onUpgradeAccountDialogOpen,
+      redirectToBalance,
     ],
   );
 

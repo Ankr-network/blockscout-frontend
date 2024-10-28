@@ -9,7 +9,7 @@ import { RequestType, web3Api } from 'store/queries';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
-export interface FetchProjectWhitelistParams extends IApiUserGroupParams {
+export interface IFetchProjectWhitelistParams extends IApiUserGroupParams {
   userEndpointToken: string;
 }
 
@@ -24,7 +24,7 @@ export const {
   endpoints: build => ({
     fetchProjectWhitelist: build.query<
       IGetWhitelistParamsResponse,
-      FetchProjectWhitelistParams
+      IFetchProjectWhitelistParams
     >({
       providesTags: [RequestType.ProjectWhitelist],
       queryFn: createNotifyingQueryFn(async ({ group, userEndpointToken }) => {

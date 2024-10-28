@@ -2,16 +2,16 @@ import { Skeleton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useCallback, useMemo } from 'react';
 
+import { IProjectWithBlockchains } from 'domains/projects/actions/fetchProjectsWhitelistsBlockchains';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { MappedWhitelistBlockchainsResponse } from 'domains/projects/actions/fetchWhitelistsBlockchains';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { usePrivateChainsItemStyles } from '../usePrivateChainsItemStyles';
 import { chainProjectsTranslation } from './translation';
 
 export interface ChainProjectsProps {
+  chainProjects?: IProjectWithBlockchains[];
   isLoadingProjects: boolean;
-  chainProjects?: MappedWhitelistBlockchainsResponse[];
 }
 
 const MAX_VISIBLE_PROJECTS = 2;
@@ -27,7 +27,7 @@ export const ChainProjects = ({
   const shouldShowSkeleton = isLoadingProjects;
 
   const renderProjectNames = useCallback(
-    (projects: MappedWhitelistBlockchainsResponse[]) => {
+    (projects: IProjectWithBlockchains[]) => {
       return projects.map(({ projectName, userEndpointToken }) => {
         return (
           <Link

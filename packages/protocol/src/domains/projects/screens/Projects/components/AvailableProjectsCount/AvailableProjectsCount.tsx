@@ -16,7 +16,7 @@ export const AvailableProjectsCount = () => {
 
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { isLoading, jwts } = useJWTs({ group, skipFetching: true });
+  const { jwts, loading } = useJWTs({ group, skipFetching: true });
   const userProjectsCount = jwts.length;
 
   const { classes } = useAvailableProjectsCountStyles();
@@ -24,7 +24,7 @@ export const AvailableProjectsCount = () => {
   return (
     <div className={classes.root}>
       <Typography color="textSecondary" variant="body3">
-        {isLoading ? (
+        {loading ? (
           <Skeleton variant="text" width={145} />
         ) : (
           t('projects.list-project.projects-count', {

@@ -1,5 +1,5 @@
 import { IUseQueryProps } from 'store/queries/types';
-import { useFetchProjectWhitelist } from 'domains/projects/hooks/useFetchProjectWhitelist';
+import { useProjectWhitelist as useFetchProjectWhitelist } from 'domains/projects/hooks/useProjectWhitelist';
 import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
@@ -15,11 +15,11 @@ export const useProjectWhitelist = ({
   // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
   const userEndpointToken = project?.userEndpointToken!;
 
-  const { isLoading, projectWhitelist } = useFetchProjectWhitelist({
+  const { loading, projectWhitelist } = useFetchProjectWhitelist({
     skipFetching: skipFetching || !userEndpointToken,
     group,
     userEndpointToken,
   });
 
-  return { isLoading, projectWhitelist };
+  return { isLoading: loading, projectWhitelist };
 };

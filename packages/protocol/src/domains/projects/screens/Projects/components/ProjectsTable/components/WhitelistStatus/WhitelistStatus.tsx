@@ -1,40 +1,30 @@
-import { Skeleton, Typography } from '@mui/material';
 import { WhitelistItem } from 'multirpc-sdk';
-import { t } from '@ankr.com/common';
-import { useMemo } from 'react';
 
-import { Placeholder } from 'modules/common/components/Placeholder';
+import { useProjectWhitelist } from 'domains/projects/hooks/useProjectWhitelist';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { useWhitelistStatusStyles } from './useWhitelistStatusStyles';
+import { WhitelistStatusLabel } from '../WhitelistStatusLabel/WhitelistStatusLabel';
 
-export interface WhitelistStatusProps {
-  isLoading?: boolean;
-  whitelist: WhitelistItem[];
+export interface IWhitelistStatusProps {
+  userEndpointToken: string;
 }
 
+const defaultWhitelist: WhitelistItem[] = [];
+
 export const WhitelistStatus = ({
-  isLoading = false,
-  whitelist,
-}: WhitelistStatusProps) => {
-  const isWhitelistEmpty = useMemo(
-    () => !whitelist.some(({ list }) => list.length > 0),
-    [whitelist],
-  );
+  userEndpointToken,
+}: IWhitelistStatusProps) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const label = isWhitelistEmpty
-    ? t('projects.list-project.not-implemented')
-    : t('projects.list-project.implemented');
-
-  const { classes } = useWhitelistStatusStyles();
+  const { loading, projectWhitelist } = useProjectWhitelist({
+    group,
+    userEndpointToken,
+  });
 
   return (
-    <Placeholder
-      hasPlaceholder={isLoading}
-      placeholder={<Skeleton width={100} height={24} variant="rounded" />}
-    >
-      <Typography className={classes.root} component="div">
-        {label}
-      </Typography>
-    </Placeholder>
+    <WhitelistStatusLabel
+      isLoading={loading}
+      whitelist={projectWhitelist?.lists ?? defaultWhitelist}
+    />
   );
 };

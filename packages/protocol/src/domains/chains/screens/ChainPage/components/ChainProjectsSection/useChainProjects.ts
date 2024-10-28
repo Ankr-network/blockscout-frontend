@@ -1,54 +1,63 @@
-import { Chain, Timeframe } from '@ankr.com/chains-list';
+import { StatsByRangeDuration } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
 import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
-import { useProjectsDataParams } from 'domains/projects/hooks/useProjectsDataParams';
-import { useFetchWhitelistsBlockchainsQuery } from 'domains/projects/actions/fetchWhitelistsBlockchains';
-import { useFetchAllJwtTokensStatusesQuery } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
-import { useFetchAllProjectsTotalRequestsForLastTwoDaysQuery } from 'domains/projects/actions/fetchAllProjectsTotalRequestsForLastTwoDays';
+import { selectUserEndpointTokens } from 'domains/jwtToken/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useJWTsStatuses } from 'domains/jwtToken/hooks/useJWTsStatuses';
+import { useProjectsTotalRequests } from 'domains/projects/hooks/useProjectsTotalRequests';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { useTimeframe } from '../ChainItemSections/hooks/useTimeframe';
 
-export interface IChainProjectsSectionProps {
-  chain: Chain;
-  isLoadingTokenManager: boolean;
-  jwtTokens: JWT[];
-  onOpenAddToProjectsDialog: () => void;
-  shouldShowTokenManager: boolean;
+export interface IUseChainProjectsProps {
+  jwts: JWT[];
+  jwtsLoading: boolean;
 }
 
 export const useChainProjects = ({
-  isLoadingTokenManager,
-  jwtTokens,
-}: Partial<IChainProjectsSectionProps>) => {
+  jwts,
+  jwtsLoading,
+}: IUseChainProjectsProps) => {
   const { timeframe, timeframeTabs } = useTimeframe({
     initialTimeframe: Timeframe.Day,
     timeframes: [Timeframe.Hour, Timeframe.Day],
   });
 
-  const {
-    allTotalRequestsParams,
-    allWhitelistsBlockchainsParams,
-    statusesParams,
-  } = useProjectsDataParams({
-    jwts: jwtTokens,
-    jwtsFetching: isLoadingTokenManager,
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const userEndpointTokens = useAppSelector(state =>
+    selectUserEndpointTokens(state, { group }),
+  );
+
+  const hasNoJWTs = jwts.length === 0;
+  const skipFetching = hasNoJWTs || jwtsLoading;
+
+  const { loading: jwtsStatusesLoading } = useJWTsStatuses({
+    projects: jwts,
+    group,
+    skipFetching,
   });
 
-  const { isLoading: isLoadingWhitelistsBlockchains } =
-    useFetchWhitelistsBlockchainsQuery(allWhitelistsBlockchainsParams);
-  const { isLoading: isLoadingAllJwtTokensStatuses } =
-    useFetchAllJwtTokensStatusesQuery(statusesParams);
-  const { isLoading: isLoadingAllProjectsTotalRequestsForLastTwoDays } =
-    useFetchAllProjectsTotalRequestsForLastTwoDaysQuery(allTotalRequestsParams);
+  const { loading: whitelistsBlockchainsLoading } =
+    useProjectsWhitelistsBlockchains({
+      projects: jwts,
+      group,
+      skipFetching,
+    });
+
+  const { loading: projectsTotalRequestsLoading } = useProjectsTotalRequests({
+    duration: StatsByRangeDuration.TWO_DAYS,
+    group,
+    skipFetching,
+    tokens: userEndpointTokens,
+  });
 
   const isLoading =
-    isLoadingWhitelistsBlockchains ||
-    isLoadingAllJwtTokensStatuses ||
-    isLoadingAllProjectsTotalRequestsForLastTwoDays;
+    whitelistsBlockchainsLoading ||
+    jwtsStatusesLoading ||
+    projectsTotalRequestsLoading;
 
-  return {
-    timeframe,
-    timeframeTabs,
-    isLoading,
-  };
+  return { isLoading, timeframe, timeframeTabs };
 };

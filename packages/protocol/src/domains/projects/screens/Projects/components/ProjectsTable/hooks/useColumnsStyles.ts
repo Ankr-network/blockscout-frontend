@@ -25,7 +25,4 @@ export const useColumnsStyles = makeStyles()(theme => ({
   infoIcon: {
     color: theme.palette.grey[400],
   },
-  resumeSetupLabel: {
-    whiteSpace: 'nowrap',
-  },
 }));

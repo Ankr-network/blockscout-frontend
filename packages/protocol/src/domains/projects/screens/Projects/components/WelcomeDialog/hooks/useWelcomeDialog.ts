@@ -1,39 +1,38 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useProjects } from 'domains/projects/hooks/useProjects';
+import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useProjectsWhitelists } from 'domains/projects/hooks/useProjectsWhitelists';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { useWelcomeDialogSettings } from './useWelcomeDialogSettings';
 
 export const useWelcomeDialog = () => {
   const { isOpened, onClose, onOpen } = useDialog();
   const { setSettings, wasWelcomeDialogShown } = useWelcomeDialogSettings();
-  const { allWhitelists, isLoadingAllWhitelists } = useProjects({
-    skipFetchingProjects: false,
-  });
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { isLoading: jwtsLoading, jwtTokens: jwts } = useJwtTokenManager();
+
+  const hasNoJWTs = jwts.length === 0;
+  const skipFetching = hasNoJWTs || jwtsLoading;
+
+  const { loading: projectsWhitelistsLoading, projectsWhitelists } =
+    useProjectsWhitelists({ group, projects: jwts, skipFetching });
+
+  const hasProjects =
+    !projectsWhitelistsLoading && projectsWhitelists.length > 1;
 
   useEffect(() => {
-    const hasProjects =
-      !isLoadingAllWhitelists && allWhitelists && allWhitelists.length > 1;
-
     if (hasProjects && !wasWelcomeDialogShown) {
       setSettings();
     }
-  }, [
-    isLoadingAllWhitelists,
-    allWhitelists,
-    setSettings,
-    wasWelcomeDialogShown,
-  ]);
+  }, [hasProjects, setSettings, wasWelcomeDialogShown]);
 
-  const shouldOpenDialog = useMemo(() => {
-    return (
-      !wasWelcomeDialogShown &&
-      !isLoadingAllWhitelists &&
-      allWhitelists &&
-      allWhitelists.length === 1
-    );
-  }, [isLoadingAllWhitelists, allWhitelists, wasWelcomeDialogShown]);
+  const shouldOpenDialog =
+    !wasWelcomeDialogShown &&
+    !projectsWhitelistsLoading &&
+    projectsWhitelists.length === 1;
 
   useEffect(() => {
     if (shouldOpenDialog) {

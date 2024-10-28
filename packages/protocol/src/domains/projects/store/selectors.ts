@@ -1,11 +1,13 @@
-import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { StatsByRangeDuration, UserEndpointTokenMode } from 'multirpc-sdk';
 import { createSelector } from '@reduxjs/toolkit';
 import { ChainID } from '@ankr.com/chains-list';
 
 import { EMilliSeconds } from 'modules/common/constants/const';
+import { IFetchJWTsParams } from 'domains/jwtToken/action/fetchJWTs';
 import { RootState } from 'store';
-import { selectCurrentAddress } from 'domains/auth/store';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
+import { selectCurrentAddress } from 'domains/auth/store';
+import { selectUserEndpointTokens } from 'domains/jwtToken/store/selectors';
 
 import {
   IFetchProjectChainsStatsFor1hParams,
@@ -15,37 +17,32 @@ import {
   IFetchProjectChainsStatsFor24hParams,
   selectProjectChainsStatsFor24h,
 } from '../actions/fetchProjectChainsStatsFor24h';
+import {
+  IFetchProjectTotalRequestsParams,
+  selectProjectTotalRequestsState,
+  selectProjectTotalRequests,
+} from '../actions/fetchProjectTotalRequests';
 import { NewProjectStep } from '../types';
 import { ProjectActivity } from './types';
 import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
-import { fetchAllProjectsTotalRequestsForLastTwoDays } from '../actions/fetchAllProjectsTotalRequestsForLastTwoDays';
 import { filterTotalRequests } from './utils/filterTotalRequests';
+import { getHalfDuration } from './utils/getHalfDuration';
 import { getRelativeChange } from './utils/getRelativeChange';
-import {
-  selectProjectTotalRequestsForLastTwoDays,
-  selectProjectTotalRequestsForLastTwoDaysState,
-} from '../actions/fetchProjectTotalRequestsForLastTwoDays';
-import {
-  selectProjectTotalRequestsForLastTwoHours,
-  selectProjectTotalRequestsForLastTwoHoursState,
-} from '../actions/fetchProjectTotalRequestsForLastTwoHours';
 import { selectProjectWhitelist } from '../actions/fetchProjectWhitelist';
+import {
+  selectProjectsTotalRequests,
+  selectProjectsTotalRequestsLoading,
+  selectProjectsTotalRequestsState,
+} from '../actions/fetchProjectsTotalRequests';
 import { sumSubchainsTotalRequest } from './utils/sumSubchainsTotalRequest';
 import { sumTotalRequests } from './utils/sumTotalRequests';
 
 const selectNewProject = (state: RootState) => state.newProject;
 
-const actionSelectParams = undefined as never;
-
 export const selectNewProjectConfig = createSelector(
   selectNewProject,
   selectCurrentAddress,
   (newProject, address) => newProject[address] || {},
-);
-
-export const selectDraftTokenIndex = createSelector(
-  selectNewProjectConfig,
-  ({ project = {} }) => project?.[NewProjectStep.General]?.tokenIndex,
 );
 
 export const selectDraftUserEndpointToken = createSelector(
@@ -84,98 +81,54 @@ export const selectAggregatedStatsByChainFor24hState = createSelector(
   },
 );
 
-export const selectProjectTotalRequestsForLastTwoHoursTimestamp =
-  createSelector(
-    selectProjectTotalRequestsForLastTwoHoursState,
-    ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
-  );
-
-export const selectProjectTotalRequestsForLastHour = createSelector(
-  selectProjectTotalRequestsForLastTwoHours,
-  selectProjectTotalRequestsForLastTwoHoursTimestamp,
-  (totalRequests, now) => {
-    const hourAgo = now - EMilliSeconds.Hour;
-    const filter = (timestamp: number) => timestamp > hourAgo;
-
-    return filterTotalRequests({ filter, totalRequests });
-  },
-);
-
-export const selectProjectTotalRequestsCountForLastHour = createSelector(
-  selectProjectTotalRequestsForLastHour,
-  lastHourRequests => sumTotalRequests(lastHourRequests),
-);
-
-export const selectProjectTotalRequestsForPreviousHour = createSelector(
-  selectProjectTotalRequestsForLastTwoHours,
-  selectProjectTotalRequestsForLastTwoHoursTimestamp,
-  (totalRequests, now) => {
-    const hourAgo = now - EMilliSeconds.Hour;
-    const filter = (timestamp: number) => timestamp < hourAgo;
-
-    return filterTotalRequests({ filter, totalRequests });
-  },
-);
-
-export const selectProjectTotalRequestsCountForPreviousHour = createSelector(
-  selectProjectTotalRequestsForPreviousHour,
-  previousHourRequests => sumTotalRequests(previousHourRequests),
-);
-
-export const selectRelativeChangeForLastHour = createSelector(
-  selectProjectTotalRequestsCountForLastHour,
-  selectProjectTotalRequestsCountForPreviousHour,
-  (lastHourCount, previousHourCount) =>
-    getRelativeChange({
-      currentValue: lastHourCount,
-      previousValue: previousHourCount,
-    }),
-);
-
-export const selectProjectTotalRequestsForLastTwoDaysTimestamp = createSelector(
-  selectProjectTotalRequestsForLastTwoDaysState,
+export const selectProjectTotalRequestsTimestamp = createSelector(
+  selectProjectTotalRequestsState,
   ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
 );
 
-export const selectProjectTotalRequestsForLastDay = createSelector(
-  selectProjectTotalRequestsForLastTwoDays,
-  selectProjectTotalRequestsForLastTwoDaysTimestamp,
-  (totalRequests, now) => {
-    const dayAgo = now - EMilliSeconds.Day;
-    const filter = (timestamp: number) => timestamp > dayAgo;
+export const selectProjectTotalRequestsForCurrentPeriod = createSelector(
+  selectProjectTotalRequests,
+  selectProjectTotalRequestsTimestamp,
+  (_state: RootState, { duration }: IFetchProjectTotalRequestsParams) =>
+    duration,
+  (totalRequests, queryTimestamp, duration) => {
+    const halfOfDurationAgo = queryTimestamp - getHalfDuration(duration);
+    const filter = (timestamp: number) => timestamp < halfOfDurationAgo;
 
     return filterTotalRequests({ filter, totalRequests });
   },
 );
 
-export const selectProjectTotalRequestsCountForLastDay = createSelector(
-  selectProjectTotalRequestsForLastDay,
-  lastDayRequests => sumTotalRequests(lastDayRequests),
-);
-
-export const selectProjectTotalRequestsForPreviousDay = createSelector(
-  selectProjectTotalRequestsForLastTwoDays,
-  selectProjectTotalRequestsForLastTwoDaysTimestamp,
-  (totalRequests, now) => {
-    const dayAgo = now - EMilliSeconds.Day;
-    const filter = (timestamp: number) => timestamp < dayAgo;
+export const selectProjectTotalRequestsForPreviousPeriod = createSelector(
+  selectProjectTotalRequests,
+  selectProjectTotalRequestsTimestamp,
+  (_state: RootState, { duration }: IFetchProjectTotalRequestsParams) =>
+    duration,
+  (totalRequests, queryTimestamp, duration) => {
+    const halfOfDurationAgo = queryTimestamp - getHalfDuration(duration);
+    const filter = (timestamp: number) => timestamp > halfOfDurationAgo;
 
     return filterTotalRequests({ filter, totalRequests });
   },
 );
 
-export const selectProjectTotalRequestsCountForPreviousDay = createSelector(
-  selectProjectTotalRequestsForPreviousDay,
-  previousDayRequests => sumTotalRequests(previousDayRequests),
+export const selectProjectTotalRequestsCountForCurrentPeriod = createSelector(
+  selectProjectTotalRequestsForCurrentPeriod,
+  currentPeriodRequests => sumTotalRequests(currentPeriodRequests),
 );
 
-export const selectRelativeChangeForLastDay = createSelector(
-  selectProjectTotalRequestsCountForLastDay,
-  selectProjectTotalRequestsCountForPreviousDay,
-  (lastDayCount, previousDayCount) =>
+export const selectProjectTotalRequestsCountForPreviousPeriod = createSelector(
+  selectProjectTotalRequestsForPreviousPeriod,
+  previousPeriodRequests => sumTotalRequests(previousPeriodRequests),
+);
+
+export const selectRelativeChange = createSelector(
+  selectProjectTotalRequestsCountForCurrentPeriod,
+  selectProjectTotalRequestsCountForPreviousPeriod,
+  (currentPeriodCount, previousPeriodCount) =>
     getRelativeChange({
-      currentValue: lastDayCount,
-      previousValue: previousDayCount,
+      currentValue: currentPeriodCount,
+      previousValue: previousPeriodCount,
     }),
 );
 
@@ -207,29 +160,47 @@ export const selectProjectTotalRequestsFor24hByChain = createSelector(
   },
 );
 
-export const selectAllProjectsTotalRequestsState = createSelector(
-  fetchAllProjectsTotalRequestsForLastTwoDays.select(actionSelectParams),
-  state => state,
+export const selectCurrentProjectsTotalRequests = createSelector(
+  selectUserEndpointTokens,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (tokens, [state, group]) =>
+    selectProjectsTotalRequests(state, {
+      group,
+      tokens,
+      duration: StatsByRangeDuration.TWO_DAYS,
+    }),
 );
 
-export const selectAllProjectsTotalRequestsLoading = createSelector(
-  selectAllProjectsTotalRequestsState,
-  ({ isLoading }) => isLoading,
+export const selectCurrentProjectsTotalRequestsLoading = createSelector(
+  selectUserEndpointTokens,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (tokens, [state, group]) =>
+    selectProjectsTotalRequestsLoading(state, {
+      group,
+      tokens,
+      duration: StatsByRangeDuration.TWO_DAYS,
+    }),
 );
 
-export const selectAllProjectsTotalRequests = createSelector(
-  selectAllProjectsTotalRequestsState,
-  ({ data = {} }) => data,
+export const selectCurrentProjectsTotalRequestsState = createSelector(
+  selectUserEndpointTokens,
+  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
+  (tokens, [state, group]) =>
+    selectProjectsTotalRequestsState(state, {
+      group,
+      tokens,
+      duration: StatsByRangeDuration.TWO_DAYS,
+    }),
 );
 
-export const selectAllProjectsTotalRequestsTimestamp = createSelector(
-  selectAllProjectsTotalRequestsState,
+export const selectCurrentProjectsTotalRequestsTimestamp = createSelector(
+  selectCurrentProjectsTotalRequestsState,
   ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
 );
 
 export const selectAllProjectsActivity = createSelector(
-  selectAllProjectsTotalRequests,
-  selectAllProjectsTotalRequestsTimestamp,
+  selectCurrentProjectsTotalRequests,
+  selectCurrentProjectsTotalRequestsTimestamp,
   (totalRequests, now) => {
     const dayAgo = now - EMilliSeconds.Day;
 
@@ -238,7 +209,7 @@ export const selectAllProjectsActivity = createSelector(
 
     return Object.fromEntries(
       Object.entries(totalRequests).map(
-        ([token, { data: projectTotalRequests = {} }]) => {
+        ([token, projectTotalRequests = {}]) => {
           const projectTotalRequestsForLastDay = filterTotalRequests({
             filter: filterLastDay,
             totalRequests: projectTotalRequests,

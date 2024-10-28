@@ -1,19 +1,18 @@
 import { Info } from '@ankr.com/ui';
-import { Button, Skeleton, Tooltip, Typography } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { t } from '@ankr.com/common';
 
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { ProjectTable } from 'domains/projects/utils/getAllProjects';
-import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
+import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
 
 import { ActionsMenu } from '../../ActionsMenu';
-import { AllBlockchainsIcons } from '../../AllBlockchainsIcons';
-import { BlockchainIcon } from '../../BlockchainIcon';
+import { Chains } from '../components/Chains';
 import { ProjectName } from '../../ProjectName';
-import { ProjectRequestsActivity } from '../../ProjectRequestsActivity';
+import { ProjectStatus } from '../components/ProjectStatus';
+import { Requests } from '../components/Requests';
 import { WhitelistStatus } from '../components/WhitelistStatus';
 import { useColumnsStyles } from './useColumnsStyles';
 
@@ -21,7 +20,6 @@ interface TableColumnsProps {
   onProjectDialogOpen: () => void;
 }
 
-/* eslint-disable max-lines-per-function */
 export const useProjectsTableColumns = ({
   onProjectDialogOpen,
 }: TableColumnsProps) => {
@@ -58,19 +56,9 @@ export const useProjectsTableColumns = ({
             {t('projects.list-project.table.column-2')}
           </span>
         ),
-        render: ({ isLoading, projectStatus }) => {
-          if (isLoading) {
-            return <Skeleton width={70} height={22} variant="rounded" />;
-          }
-
-          const hasData = Object.keys(projectStatus).length !== 0;
-
-          if (!hasData) {
-            return t('common.no-data');
-          }
-
-          return <ProjectStatusLabel data={projectStatus} />;
-        },
+        render: ({ userEndpointToken }) => (
+          <ProjectStatus userEndpointToken={userEndpointToken} />
+        ),
         width: '15%',
         minWidth: '15%',
         sortable: false,
@@ -83,8 +71,8 @@ export const useProjectsTableColumns = ({
             {t('projects.list-project.table.column-3')}
           </span>
         ),
-        render: ({ isLoading, whitelist = [] }) => (
-          <WhitelistStatus isLoading={isLoading} whitelist={whitelist} />
+        render: ({ userEndpointToken }) => (
+          <WhitelistStatus userEndpointToken={userEndpointToken} />
         ),
         width: '20%',
         minWidth: '20%',
@@ -98,19 +86,9 @@ export const useProjectsTableColumns = ({
             {t('projects.list-project.table.column-4')}
           </span>
         ),
-        render: ({ blockchains = [], isLoading }) => {
-          if (isLoading) {
-            return <Skeleton width={32} height={32} variant="circular" />;
-          }
-
-          if (blockchains?.length === 0) {
-            return <AllBlockchainsIcons />;
-          }
-
-          return (
-            <BlockchainIcon isPaddingLeftIgnored blockchains={blockchains} />
-          );
-        },
+        render: ({ userEndpointToken }) => (
+          <Chains userEndpointToken={userEndpointToken} />
+        ),
         width: '30%',
         sortable: false,
       },
@@ -129,33 +107,9 @@ export const useProjectsTableColumns = ({
             </Tooltip>
           </span>
         ),
-        render: ({ isLoading, projectActivity, projectStatus }) => {
-          if (isLoading) {
-            return <Skeleton width="100px" variant="text" />;
-          }
-
-          if (projectStatus.draft && hasAccessForManaging) {
-            return (
-              <Button size="small" className={classes.resumeSetupLabel}>
-                {t(`projects.list-project.resume-setup`)}
-              </Button>
-            );
-          }
-
-          if (!projectActivity?.hasData) {
-            return t('common.no-data');
-          }
-
-          if (projectActivity?.isEmpty) {
-            return (
-              <Typography variant="body3">
-                {t('projects.list-project.no-requests-yet')}
-              </Typography>
-            );
-          }
-
-          return <ProjectRequestsActivity {...projectActivity} />;
-        },
+        render: ({ userEndpointToken }) => (
+          <Requests userEndpointToken={userEndpointToken} />
+        ),
         width: '15%',
       },
     ];
@@ -164,10 +118,10 @@ export const useProjectsTableColumns = ({
       result.push({
         field: 'menu',
         headerName: '',
-        render: rowData => (
+        render: ({ userEndpointToken }) => (
           <ActionsMenu
-            rowData={rowData}
             onProjectDialogOpen={onProjectDialogOpen}
+            userEndpointToken={userEndpointToken}
           />
         ),
         align: 'right',

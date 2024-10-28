@@ -12,7 +12,7 @@ export const useUserEndpointToken = () => {
   const { isGroupSelected, selectedGroupAddress: group } =
     useSelectedUserGroup();
 
-  const { isLoading, jwts } = useJWTs({ group, skipFetching: true });
+  const { jwts, loading } = useJWTs({ group, skipFetching: true });
   const { groupToken } = useGroupJwtToken();
 
   // for project details page we should use userEndpointToken from url
@@ -23,7 +23,7 @@ export const useUserEndpointToken = () => {
     return userEndpointToken;
   }
 
-  if (isLoading) {
+  if (loading) {
     return undefined;
   }
 

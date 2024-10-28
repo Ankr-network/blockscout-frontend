@@ -14,9 +14,9 @@ export const useSelectedProject = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const {
-    isLoading,
     jwts: projects,
-    jwtsState: { isUninitialized },
+    loading,
+    state: { isUninitialized },
   } = useJWTs({ group });
 
   const isLoadingProjectsRequests = useAppSelector(state =>
@@ -35,7 +35,7 @@ export const useSelectedProject = () => {
     return undefined;
   }, [projects, userEndpointToken]);
 
-  const isLoaded = !isUninitialized && !isLoading && !isLoadingProjectsRequests;
+  const isLoaded = !isUninitialized && !loading && !isLoadingProjectsRequests;
 
   return { isLoaded, project };
 };

@@ -25,7 +25,7 @@ export const useProjectsData = (timeframe: Timeframe) => {
 
   const skipJWTsFetching = isEnterpriseStatusLoading || isEnterpriseClient;
 
-  const { isLoading: projectsLoading, jwts: projects } = useJWTs({
+  const { jwts: projects, loading: projectsLoading } = useJWTs({
     group,
     skipFetching: skipJWTsFetching,
   });

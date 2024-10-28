@@ -7,7 +7,7 @@ import { Checkbox } from 'modules/common/components/Checkbox';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import {
   selectAllProjects,
-  selectWhitelistBlockchainsForAllJWTsLoading,
+  selectCurrentProjectsWhitelistsBlockchainsLoading,
 } from 'domains/projects/store/WhitelistsSelector';
 import { useAppSelector } from 'store/useAppSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -41,7 +41,7 @@ export const ChainProjectsSidebar = ({
     selectAllProjects(state, { group }),
   );
   const isLoadingProjects = useAppSelector(state =>
-    selectWhitelistBlockchainsForAllJWTsLoading(state, { group }),
+    selectCurrentProjectsWhitelistsBlockchainsLoading(state, { group }),
   );
 
   const { selectedSubchains, setSelectedSubchains } = useProjectSubchains();

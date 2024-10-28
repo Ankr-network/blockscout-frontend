@@ -38,7 +38,7 @@ export const useNegativeBalanceTermsOfServices = () => {
     },
   ] = useQueryEndpoint(fetchNegativeBalanceTermsOfServicesStatus);
 
-  const { isLoading: jwtsLoading } = useJWTs({
+  const { loading: jwtsLoading } = useJWTs({
     group,
     skipFetching: true,
   });

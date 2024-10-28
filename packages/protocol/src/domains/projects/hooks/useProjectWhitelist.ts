@@ -5,30 +5,29 @@ import { getQueryParams } from 'store/utils/getQueryParams';
 import { useAppSelector } from 'store/useAppSelector';
 
 import {
-  FetchProjectWhitelistParams,
+  IFetchProjectWhitelistParams,
   selectProjectWhitelist,
   selectProjectWhitelistLoading,
+  selectProjectWhitelistState,
   useFetchProjectWhitelistQuery,
   useLazyFetchProjectWhitelistQuery,
 } from '../actions/fetchProjectWhitelist';
 
-export interface IUseFetchProjectWhitelistProps
+export interface IUseProjectWhitelistProps
   extends IUseQueryProps,
-    FetchProjectWhitelistParams {}
+    IFetchProjectWhitelistParams {}
 
-export const useFetchProjectWhitelist = ({
+export const useProjectWhitelist = ({
   group,
   skipFetching = false,
   userEndpointToken,
-}: IUseFetchProjectWhitelistProps) => {
+}: IUseProjectWhitelistProps) => {
   const params = useMemo(
-    (): FetchProjectWhitelistParams => ({ group, userEndpointToken }),
+    (): IFetchProjectWhitelistParams => ({ group, userEndpointToken }),
     [group, userEndpointToken],
   );
 
-  useFetchProjectWhitelistQuery(getQueryParams({ params, skipFetching }), {
-    refetchOnMountOrArgChange: true,
-  });
+  useFetchProjectWhitelistQuery(getQueryParams({ params, skipFetching }));
 
   const [fetchLazy] = useLazyFetchProjectWhitelistQuery();
 
@@ -41,9 +40,13 @@ export const useFetchProjectWhitelist = ({
     selectProjectWhitelist(state, params),
   );
 
-  const isLoading = useAppSelector(state =>
+  const loading = useAppSelector(state =>
     selectProjectWhitelistLoading(state, params),
   );
 
-  return { handleFetchProjectWhitelist, isLoading, projectWhitelist };
+  const state = useAppSelector(storeState =>
+    selectProjectWhitelistState(storeState, params),
+  );
+
+  return { handleFetchProjectWhitelist, loading, projectWhitelist, state };
 };

@@ -89,9 +89,9 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
       <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
         <ChainProjectsSection
           chain={chain}
+          jwts={jwtTokens}
+          jwtsLoading={isLoadingTokenManager}
           onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
-          isLoadingTokenManager={isLoadingTokenManager}
-          jwtTokens={jwtTokens}
           shouldShowTokenManager={shouldShowTokenManager}
         />
       </GuardUserGroup>

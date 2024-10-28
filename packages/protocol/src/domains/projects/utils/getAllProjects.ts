@@ -7,11 +7,11 @@ import {
 } from 'multirpc-sdk';
 import { ChainPath } from '@ankr.com/chains-list';
 
+import { IJWTStatus } from 'domains/jwtToken/action/fetchJWTsStatuses';
 import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
-import { FetchTokenStatusResponse } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
 
+import { IProjectWithBlockchains } from '../actions/fetchProjectsWhitelistsBlockchains';
 import { JWT } from '../../jwtToken/store/jwtTokenManagerSlice';
-import { MappedWhitelistBlockchainsResponse } from '../actions/fetchWhitelistsBlockchains';
 import { ProjectActivity } from '../store';
 
 export interface ProjectStatus extends GetUserEndpointTokenStatusResponse {
@@ -44,9 +44,9 @@ export const DEFAULT_PROJECT_STATUS: ProjectStatus = {
 interface GetAllProjectsParams {
   allChainsPaths: ChainPath[];
   isLoading: boolean;
-  projectStatuses: FetchTokenStatusResponse[];
+  projectStatuses: IJWTStatus[];
   projects: JWT[];
-  whitelistBlockchains: MappedWhitelistBlockchainsResponse[];
+  whitelistBlockchains: IProjectWithBlockchains[];
   whitelists: IGetWhitelistParamsResponse[];
 }
 

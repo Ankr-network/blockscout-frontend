@@ -36,13 +36,13 @@ export const ProjectsTable = ({
         rowContainer: classes.rowContainer,
         row: classes.row,
       }}
-      initializing={isLoading}
       cols={columns}
-      rows={tableData}
       emptyMessage={t('projects.list-project.no-data')}
-      preloader={<Preloader className={classes.preloader} />}
-      searchKey="name"
+      initializing={isLoading}
       onRowClick={onRowClick}
+      preloader={<Preloader className={classes.preloader} />}
+      rows={tableData}
+      searchKey="name"
     />
   );
 };
