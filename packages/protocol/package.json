@@ -151,6 +151,10 @@
     "not op_mini all"
   ],
   "reactSnap": {
+    "viewport": {
+      "width": 1400,
+      "height": 900
+    },
     "concurrency": 4,
     "puppeteerArgs": [
       "--no-sandbox",

@@ -2,16 +2,16 @@ import { makeStyles } from 'tss-react/mui';
 
 import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 
-export const SIDEBAR_WIDTH = 220;
+import { MOBILE_HEADER_HEIGHT } from '../MobileHeader';
 
-const MOBILE_HEADER_HEIGHT = 130;
+export const SIDEBAR_WIDTH = 220;
 
 interface ISideBarStylesProps {
   bannerHeight: number;
   isMobileSideBar: boolean;
 }
 
-export const useStyles = makeStyles<ISideBarStylesProps>()(
+export const useStyles = makeStyles<ISideBarStylesProps>({ name: 'Sidebar' })(
   (theme, { bannerHeight, isMobileSideBar }) => ({
     root: {
       position: isMobileSideBar ? 'relative' : 'fixed',
@@ -20,7 +20,7 @@ export const useStyles = makeStyles<ISideBarStylesProps>()(
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-start',
-      gap: theme.spacing(10),
+      gap: isMobileSideBar ? theme.spacing(5) : theme.spacing(10),
       top:
         !isMobileSideBar && SHOULD_SHOW_HEADER_BANNER ? `${bannerHeight}px` : 0,
 

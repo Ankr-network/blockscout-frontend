@@ -41,10 +41,8 @@ export const Greeting = ({ blockchainName }: IGreetingProps) => {
       <Typography variant="body2">
         {tHTML(keys.description, { blockchainName })}
       </Typography>
-      {blockchainName && <Benefits blockchainName={blockchainName} />}
-      <Typography variant="body2">
-        {tHTML(keys.invitationToSignIn, { blockchainName })}
-      </Typography>
+      {blockchainName && <Benefits />}
+      <Typography variant="body2">{tHTML(keys.invitationToSignIn)}</Typography>
     </div>
   );
 };

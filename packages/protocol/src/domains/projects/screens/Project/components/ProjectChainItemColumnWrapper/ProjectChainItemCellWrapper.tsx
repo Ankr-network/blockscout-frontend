@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { ChainID, ChainPath } from '@ankr.com/chains-list';
 
 import { useAppSelector } from 'store/useAppSelector';
@@ -19,7 +13,6 @@ import { ProjectChain } from 'domains/projects/types';
 interface ProjectChainItemProps {
   chain: ProjectChain;
   selectedChainPaths: ChainPath[];
-  setIsSelectedAll: (isSelectedAll: boolean) => void;
   selectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   unSelectAllSubChainPaths: (chainPaths: ChainPath[]) => void;
   setSelectedChainPaths: Dispatch<SetStateAction<ChainPath[]>>;
@@ -33,7 +26,6 @@ export const ProjectChainItemCellWrapper = ({
   selectAllSubChainPaths,
   selectedChainPaths,
   setExpandedId,
-  setIsSelectedAll,
   setSelectedChainPaths,
   unSelectAllSubChainPaths,
 }: ProjectChainItemProps) => {
@@ -73,14 +65,6 @@ export const ProjectChainItemCellWrapper = ({
   const areAllChainsSelected = useMemo(() => {
     return allPaths.every(path => selectedChainPaths.includes(path));
   }, [allPaths, selectedChainPaths]);
-
-  useEffect(() => {
-    if (areAllChainsSelected) {
-      setIsSelectedAll(true);
-    } else {
-      setIsSelectedAll(false);
-    }
-  }, [areAllChainsSelected, setIsSelectedAll]);
 
   return (
     <ChainCellWithSubchains
