@@ -1,27 +1,31 @@
-import { t } from '@ankr.com/common';
 import { Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
 
-import { ProjectStatus } from 'domains/projects/utils/getAllProjects';
-
-import { useProjectStatusLabel } from './hooks/useProjectStatusLabel';
+import {
+  IUseProjectStatusLabelProps,
+  useProjectStatusLabel,
+} from './hooks/useProjectStatusLabel';
 import { useProjectStatusLabelStyles } from './useProjectStatusLabelStyles';
 
-export interface ProjectStatusLabelProps {
-  data: ProjectStatus;
+export interface ProjectStatusLabelProps extends IUseProjectStatusLabelProps {
   className?: string;
 }
 
 export const ProjectStatusLabel = ({
   className,
-  data,
+  isDraft,
+  status,
 }: ProjectStatusLabelProps) => {
-  const { projectStatus } = useProjectStatusLabel(data);
+  const { projectStatusType } = useProjectStatusLabel({
+    isDraft,
+    status,
+  });
 
-  const { classes, cx } = useProjectStatusLabelStyles(projectStatus);
+  const { classes, cx } = useProjectStatusLabelStyles(projectStatusType);
 
   return (
     <Typography className={cx(classes.projectStatusLabel, className)}>
-      {t(`projects.list-project.${projectStatus}`)}
+      {t(`projects.list-project.${projectStatusType}`)}
     </Typography>
   );
 };

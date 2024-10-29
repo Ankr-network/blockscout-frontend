@@ -7,7 +7,7 @@ import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { GuardAuthRoute } from 'domains/auth/components/GuardAuthRoute';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
+import { useJWTManagerPermissions } from 'domains/jwtToken/hooks/useJWTManagerPermissions';
 import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
 import { useRedirectToInviteLink } from 'hooks/useRedirectToInviteLink';
 import { useAppSelector } from 'store/useAppSelector';
@@ -55,10 +55,10 @@ export function ProjectsRoutes() {
   useRedirectForSmallDevices();
 
   const {
+    allowedJWTsCountLoading,
     hasReadAccess: hasJwtManagerReadAccess,
-    isInitialized: isJwtManagerInitialized,
-    loading: isJwtManagerLoading,
-  } = useJwtManager();
+    isAllowedJWTsCountInitialized,
+  } = useJWTManagerPermissions();
 
   const { isFreePremium, isLoggedIn, isPremiumStatusUninitialized, loading } =
     useAuth();
@@ -80,7 +80,7 @@ export function ProjectsRoutes() {
   const { projectId } = useParams();
 
   const shouldShowSpinner =
-    isJwtManagerLoading ||
+    allowedJWTsCountLoading ||
     loading ||
     (hasAccessToPremiumStatus && isPremiumStatusUninitialized && isLoggedIn);
 
@@ -93,7 +93,7 @@ export function ProjectsRoutes() {
   const shouldForceRedirect =
     isLoggedIn &&
     !isFreePremium &&
-    isJwtManagerInitialized &&
+    isAllowedJWTsCountInitialized &&
     !hasJwtManagerReadAccess;
 
   return (

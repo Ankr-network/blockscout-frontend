@@ -15,9 +15,8 @@ export const useChainProjectRequestsData = (
 ) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  useProjectStatsInitialization({
+  const { projectTotalRequestsLoading } = useProjectStatsInitialization({
     userEndpointToken,
-    skipRelativeRequests: true,
   });
 
   const currentChainRequestsFor1h = useAppSelector(state =>
@@ -39,5 +38,5 @@ export const useChainProjectRequestsData = (
       ? currentChainRequestsFor1h
       : currentChainRequestsFor24h;
 
-  return { currentChainRequestsData };
+  return { currentChainRequestsData, projectTotalRequestsLoading };
 };

@@ -3,8 +3,8 @@ import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClien
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-import { useJwtManager } from './useJwtManager';
 import { useAllowedJWTsCount } from './useAllowedJWTsCount';
+import { useJWTManagerPermissions } from './useJWTManagerPermissions';
 
 export interface UseJwtManagerInitializerParams {
   skipFetching?: boolean;
@@ -31,5 +31,5 @@ export const useJwtManagerInitializer = ({
       isEnterpriseStatusLoading,
   });
 
-  return useJwtManager();
+  return useJWTManagerPermissions();
 };

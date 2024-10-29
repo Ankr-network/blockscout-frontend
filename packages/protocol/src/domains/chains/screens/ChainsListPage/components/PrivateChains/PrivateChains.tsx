@@ -5,7 +5,7 @@ import { UpgradeToPremiumPlanDialog } from 'modules/common/components/UpgradeToP
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -48,14 +48,14 @@ export const PrivateChains = ({
     onOpen: onPromoDialogOpen,
   } = useDialog();
 
-  const { isLoading: jwtsLoading, jwtTokens } = useJwtTokenManager();
-  const hasNoJWTs = jwtTokens.length === 0;
+  const { jwts, jwtsLoading } = useJWTsManager();
+  const hasNoJWTs = jwts.length === 0;
 
   const {
     loading: projectsWhitelistsBlockchainsLoading,
     projectsWhitelistsBlockchains,
   } = useProjectsWhitelistsBlockchains({
-    projects: jwtTokens,
+    projects: jwts,
     group,
     skipFetching: hasNoJWTs || jwtsLoading,
   });
@@ -92,7 +92,7 @@ export const PrivateChains = ({
                   chain={item}
                   hasPremium={hasPremium}
                   isLoadingProjects={projectsLoading}
-                  jwtTokens={jwtTokens}
+                  jwtTokens={jwts}
                   key={id}
                   onOpenUpgradeModal={onPromoDialogOpen}
                   timeframe={timeframe}

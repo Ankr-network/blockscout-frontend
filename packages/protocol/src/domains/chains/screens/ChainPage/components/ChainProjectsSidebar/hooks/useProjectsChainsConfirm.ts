@@ -23,7 +23,6 @@ const { showNotification } = NotificationActions;
 export const useProjectsChainsConfirm = ({
   allCurrentChainPaths,
   allPathsExceptCurrentChain,
-  allProjects,
   chain,
   onCloseAddToProjectsSidebar,
   selectedSubchains,
@@ -34,7 +33,6 @@ export const useProjectsChainsConfirm = ({
     useChangedProjects({
       allCurrentChainPaths,
       allPathsExceptCurrentChain,
-      allProjects,
       selectedSubchains,
     });
 

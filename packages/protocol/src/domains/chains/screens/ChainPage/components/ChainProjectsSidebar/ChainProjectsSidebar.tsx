@@ -5,11 +5,9 @@ import { Chain } from '@ankr.com/chains-list';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { Checkbox } from 'modules/common/components/Checkbox';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import {
-  selectAllProjects,
-  selectCurrentProjectsWhitelistsBlockchainsLoading,
-} from 'domains/projects/store/WhitelistsSelector';
+import { selectCurrentProjectsWhitelistsBlockchainsLoading } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
@@ -37,10 +35,8 @@ export const ChainProjectsSidebar = ({
 }: IChainProjectsSidebarProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
-  const isLoadingProjects = useAppSelector(state =>
+  const { jwts: projects } = useJWTsManager();
+  const projectBlockchainsLoading = useAppSelector(state =>
     selectCurrentProjectsWhitelistsBlockchainsLoading(state, { group }),
   );
 
@@ -82,27 +78,27 @@ export const ChainProjectsSidebar = ({
           chain={chain}
           subchainLabels={subchainLabels}
           onCloseAddToProjectsSidebar={onCloseAddToProjectsSidebar}
-          projectsCount={allProjects.length}
+          projectsCount={projects.length}
         />
-        {isLoadingProjects ? (
+        {projectBlockchainsLoading ? (
           <>
             <OverlaySpinner />
           </>
         ) : (
           <>
-            {allProjects.length === 1 && (
+            {projects.length === 1 && (
               <ChainProjectSingleItem
                 chain={chain}
                 handleProjectChange={handleProjectChange}
                 isLoadingAddChainsToProject={isLoadingAddChainsToProject}
-                project={allProjects[0]}
+                project={projects[0]}
                 selectedProjectsSubchains={selectedSubchains}
                 setSelectedSubchains={setSelectedSubchains}
                 onToggleAccordion={onToggleAccordion}
                 expandedId={expandedId}
               />
             )}
-            {allProjects.length > 1 && (
+            {projects.length > 1 && (
               <>
                 <Checkbox
                   isDisabled={isLoadingAddChainsToProject}
@@ -114,7 +110,7 @@ export const ChainProjectsSidebar = ({
                   onChange={handleAllChange}
                   classNameRoot={classes.selectAllCheckbox}
                 />
-                {allProjects.map(project => (
+                {projects.map(project => (
                   <ChainProjectAccordion
                     key={project.userEndpointToken}
                     chain={chain}

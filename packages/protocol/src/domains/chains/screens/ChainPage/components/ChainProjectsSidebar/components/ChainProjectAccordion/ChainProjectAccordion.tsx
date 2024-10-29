@@ -9,12 +9,12 @@ import { Chain, ChainPath } from '@ankr.com/chains-list';
 import { UserEndpointToken } from 'multirpc-sdk';
 
 import { Checkbox } from 'modules/common/components/Checkbox';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { SubchainSelectors } from 'domains/projects/components/ChainCellWithSubchains/SubchainSelectors';
 import { mapProjectChains } from 'domains/projects/screens/NewProject/hooks/useProjectChains';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { Project } from 'domains/projects/utils/getAllProjects';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { chainProjectItemTranslation } from '../../translation';
 import { IProjectSubchains } from '../../hooks/useProjectSubchains';
@@ -25,7 +25,7 @@ export interface IChainProjectAccordionProps {
   chain: Chain;
   handleProjectChange: (projectToken: string) => void;
   isLoadingAddChainsToProject: boolean;
-  project: Project;
+  project: JWT;
   selectedProjectsSubchains: IProjectSubchains;
   setSelectedSubchains: (
     subchains: ChainPath[],

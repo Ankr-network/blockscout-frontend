@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-final-form';
 
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
 import { GeneralStepFields } from 'domains/projects/store';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useProjectFormValues } from 'domains/projects/hooks/useProjectFormValues';
 
 import { NewProjectFormValues } from '../../NewProjectForm/NewProjectFormTypes';
@@ -15,7 +15,7 @@ export const useGeneralStep = () => {
 
   const savedTokenIndex = useRef(projectTokenIndex);
 
-  const { allowedAddProjectTokenIndex } = useJwtTokenManager();
+  const { allowedAddProjectTokenIndex } = useJWTsManager();
 
   const currentTokenIndex =
     savedTokenIndex.current || allowedAddProjectTokenIndex;

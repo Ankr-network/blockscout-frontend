@@ -7,25 +7,25 @@ import {
   PRIMARY_TOKEN_INDEX,
   getAllowedAddProjectTokenIndex,
 } from '../utils/utils';
+import { useJWTManagerPermissions } from './useJWTManagerPermissions';
 import { useJWTs } from './useJWTs';
-import { useJwtManager } from './useJwtManager';
 
-export const useJwtTokenManager = () => {
+export const useJWTsManager = () => {
   const {
     allowedJWTsCount: maxTokensLimit,
     hasReadAccess: shouldShowTokenManager,
     hasWriteAccess,
-  } = useJwtManager();
+  } = useJWTManagerPermissions();
 
-  const { hasConnectWalletMessage, loading } = useAuth();
+  const { loading: authLoading } = useAuth();
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const skipFetching = loading || !shouldShowTokenManager;
+  const skipFetching = authLoading || !shouldShowTokenManager;
 
   const {
     jwts,
     loading: jwtsLoading,
-    state: { isUninitialized },
+    state: { isError, isSuccess, isUninitialized },
   } = useJWTs({ group, skipFetching });
 
   const allowedAddProjectTokenIndex = useMemo(
@@ -41,11 +41,10 @@ export const useJwtTokenManager = () => {
   return {
     allowedAddProjectTokenIndex,
     enableAddProject,
-    hasConnectWalletMessage,
-    isLoaded: !isUninitialized && !jwtsLoading,
-    isLoading: jwtsLoading,
+    isLoaded: isSuccess || isError,
     isUninitialized,
-    jwtTokens: jwts,
+    jwts,
+    jwtsLoading,
     shouldShowTokenManager,
   };
 };

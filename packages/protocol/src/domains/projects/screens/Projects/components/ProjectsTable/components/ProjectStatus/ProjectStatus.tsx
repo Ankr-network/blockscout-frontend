@@ -2,6 +2,8 @@ import { Skeleton } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
+import { selectDraftUserEndpointToken } from 'domains/projects/store';
+import { useAppSelector } from 'store/useAppSelector';
 import { useJWTStatus } from 'domains/jwtToken/hooks/useJWTStatus';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
@@ -11,9 +13,11 @@ export interface IProjectStatusProps {
 
 export const ProjectStatus = ({ userEndpointToken }: IProjectStatusProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
+  const isDraft = userEndpointToken === draftUserEndpointToken;
 
   const {
-    jwtStatus: projectStatusData,
+    jwtStatus: projectStatus,
     loading: jwtStatusLoading,
     state: { isSuccess, isUninitialized },
   } = useJWTStatus({ group, userEndpointToken });
@@ -28,5 +32,5 @@ export const ProjectStatus = ({ userEndpointToken }: IProjectStatusProps) => {
     return <>{t('common.no-data')}</>;
   }
 
-  return <ProjectStatusLabel data={projectStatusData} />;
+  return <ProjectStatusLabel isDraft={isDraft} status={projectStatus} />;
 };

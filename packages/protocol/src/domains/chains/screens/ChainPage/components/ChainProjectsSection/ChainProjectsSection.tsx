@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 
 import { GuardResolution } from 'modules/common/components/GuardResolution';
-import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
@@ -23,23 +22,20 @@ import { useChainProjectsSectionStyles } from './useChainProjectsSectionStyles';
 
 export interface IChainProjectsSectionProps {
   chain: Chain;
-  jwts: JWT[];
-  jwtsLoading: boolean;
   onOpenAddToProjectsDialog: () => void;
-  shouldShowTokenManager: boolean;
 }
 
 export const ChainProjectsSection = ({
   chain,
-  jwts,
-  jwtsLoading,
   onOpenAddToProjectsDialog,
-  shouldShowTokenManager,
 }: IChainProjectsSectionProps) => {
-  const { isLoading, timeframe, timeframeTabs } = useChainProjects({
+  const {
     jwts,
     jwtsLoading,
-  });
+    shouldShowTokenManager,
+    timeframe,
+    timeframeTabs,
+  } = useChainProjects();
 
   const { classes, cx } = useChainProjectsSectionStyles();
 
@@ -107,23 +103,18 @@ export const ChainProjectsSection = ({
           </TableHead>
         </GuardResolution>
         <TableBody>
-          {jwts?.map(token => (
+          {jwts?.map(jwt => (
             <ChainProjectItem
-              isLoading={isLoading}
-              key={token.id}
               chain={chain}
+              jwt={jwt}
+              key={jwt.id}
               onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
-              jwtTokens={jwts}
               timeframe={timeframe}
-              {...token}
             />
           ))}
         </TableBody>
       </Table>
-
-      {jwtsLoading && !jwts.length && (
-        <OverlaySpinner className={classes.projectsSpinner} />
-      )}
+      {jwtsLoading && <OverlaySpinner className={classes.projectsSpinner} />}
     </Paper>
   );
 };

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
 import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
+import { useJWTManagerPermissions } from 'domains/jwtToken/hooks/useJWTManagerPermissions';
 
 export interface GuardProjectRouteProps {
   children: ReactNode;
@@ -12,14 +12,22 @@ export interface GuardProjectRouteProps {
 export const GuardProjectRoute = ({ children }: GuardProjectRouteProps) => {
   const history = useHistory();
 
-  const { hasReadAccess, isInitialized, loading } = useJwtManager();
+  const {
+    allowedJWTsCountLoading,
+    hasReadAccess,
+    isAllowedJWTsCountInitialized,
+  } = useJWTManagerPermissions();
+
   const { isLoggedIn } = useAuth();
 
+  const shouldRedirect =
+    !hasReadAccess && isAllowedJWTsCountInitialized && !allowedJWTsCountLoading;
+
   useEffect(() => {
-    if (!hasReadAccess && isInitialized && !loading) {
+    if (shouldRedirect) {
       history.replace(ChainsRoutesConfig.chains.generatePath({ isLoggedIn }));
     }
-  }, [hasReadAccess, history, isInitialized, isLoggedIn, loading]);
+  }, [history, isLoggedIn, shouldRedirect]);
 
   return hasReadAccess ? <>{children}</> : null;
 };

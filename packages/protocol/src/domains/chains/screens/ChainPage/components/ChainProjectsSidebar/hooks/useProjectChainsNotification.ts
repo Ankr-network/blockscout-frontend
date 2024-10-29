@@ -1,10 +1,13 @@
-import { useCallback } from 'react';
 import { Chain, ChainPath } from '@ankr.com/chains-list';
+import { useCallback } from 'react';
 
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { Locale } from 'modules/i18n';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
-import { Project } from 'domains/projects/utils/getAllProjects';
 import { truncateString } from 'modules/common/utils/truncateString';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { IProjectSubchains } from './useProjectSubchains';
 
@@ -32,16 +35,31 @@ export const useProjectChainsNotification = ({
   chain,
   selectedSubchains,
 }: IUseProjectChainsConfirmUtilsProps) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { jwts: projects } = useJWTsManager();
+  const { projectsWhitelistsBlockchains } = useProjectsWhitelistsBlockchains({
+    projects,
+    group,
+    skipFetching: true,
+  });
+
   const { keys, t } = useTranslation(projectsChainsConfirmTranslation);
 
   const getNotificationMessage = useCallback(
-    (changedProjects: Project[]) => {
+    (changedProjects: JWT[]) => {
       if (changedProjects.length > 1) {
-        const isChainAddedToSeveralProjects = changedProjects.every(project =>
-          selectedSubchains[project.userEndpointToken].some(
-            path => !project.blockchains?.includes(path),
-          ),
-        );
+        const isChainAddedToSeveralProjects = changedProjects.every(project => {
+          const projectBlockchains =
+            projectsWhitelistsBlockchains.find(
+              ({ userEndpointToken }) =>
+                userEndpointToken === project.userEndpointToken,
+            )?.blockchains ?? [];
+
+          return selectedSubchains[project.userEndpointToken].some(
+            path => !projectBlockchains.includes(path),
+          );
+        });
 
         const isChainFullyRemovedFromChangedProjects = changedProjects.every(
           project =>
@@ -57,12 +75,18 @@ export const useProjectChainsNotification = ({
           return t(keys.removedFromProjects, { chainName: chain.name });
         }
 
-        const isSubchainRemoved = changedProjects.some(project =>
-          project.blockchains?.some(
+        const isSubchainRemoved = changedProjects.some(project => {
+          const projectBlockchains =
+            projectsWhitelistsBlockchains.find(
+              ({ userEndpointToken }) =>
+                userEndpointToken === project.userEndpointToken,
+            )?.blockchains ?? [];
+
+          return projectBlockchains.some(
             path =>
               !selectedSubchains[project.userEndpointToken].includes(path),
-          ),
-        );
+          );
+        });
 
         if (isChainAddedToSeveralProjects && !isSubchainRemoved) {
           return t(keys.addedToProjects, { chainName: chain.name });
@@ -76,11 +100,18 @@ export const useProjectChainsNotification = ({
       }
 
       const project = changedProjects[0];
+      const projectBlockchains =
+        projectsWhitelistsBlockchains.find(
+          ({ userEndpointToken }) =>
+            userEndpointToken === project.userEndpointToken,
+        )?.blockchains ?? [];
+
       const newChainPaths = selectedSubchains[project.userEndpointToken];
       const isChainAdded = newChainPaths.some(
-        path => !project.blockchains?.includes(path),
+        path => !projectBlockchains.includes(path),
       );
-      const isChainRemoved = project.blockchains?.some(
+
+      const isChainRemoved = projectBlockchains.some(
         path => !newChainPaths.includes(path),
       );
       const isChainFullyRemoved = allCurrentChainPaths.every(
@@ -99,7 +130,14 @@ export const useProjectChainsNotification = ({
         projectName: truncateString(project.name, MAX_PROJECT_NAME_LENGTH),
       });
     },
-    [selectedSubchains, allCurrentChainPaths, t, keys, chain],
+    [
+      allCurrentChainPaths,
+      chain,
+      keys,
+      projectsWhitelistsBlockchains,
+      selectedSubchains,
+      t,
+    ],
   );
 
   return {

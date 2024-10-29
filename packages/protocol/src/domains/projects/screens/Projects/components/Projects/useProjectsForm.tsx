@@ -8,14 +8,12 @@ import { AccountRoutesConfig } from 'domains/account/Routes';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectBanner } from 'domains/projects/components/ProjectBanner';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { selectIsInactiveStatus } from 'domains/auth/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useDialog } from 'modules/common/hooks/useDialog';
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { EditProjectDialogType } from '../EditProjectDialog/EditProjectDialogUtils';
 import { ProjectsFormContent } from '../ProjectsFormContent/ProjectsFormContent';
@@ -28,17 +26,7 @@ export const useProjectsForm = () => {
   const { push } = useHistory();
 
   const { canEditProject } = useProjectConfig();
-  const {
-    enableAddProject: canAddProject,
-    isLoaded,
-    isLoading: jwtsLoading,
-  } = useJwtTokenManager();
-
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
+  const { enableAddProject: canAddProject, isLoaded } = useJWTsManager();
 
   const {
     isOpened: isEditDialogOpened,
@@ -63,7 +51,7 @@ export const useProjectsForm = () => {
     onPlansDialogOpen();
   }, [onPlansDialogOpen, onUpgradeAccountDialogClose]);
 
-  const { handleFormSubmit } = useSubmit({ onEditDialogClose, allProjects });
+  const { handleFormSubmit } = useSubmit({ onEditDialogClose });
 
   const hasProjectButton = (isLoaded && canAddProject) || canEditProject;
 
@@ -96,7 +84,6 @@ export const useProjectsForm = () => {
           )}
 
           <ProjectsFormContent
-            allProjects={allProjects}
             canEditProject={canEditProject}
             handleClickSeePlans={handleClickSeePlans}
             handleSubmit={handleSubmit}
@@ -105,7 +92,6 @@ export const useProjectsForm = () => {
             isFreePremium={isFreePremium}
             isPlansDialogOpened={isPlansDialogOpened}
             isUpgradeAccountDialogOpened={isUpgradeAccountDialogOpened}
-            loading={jwtsLoading}
             onEditDialogClose={onEditDialogClose}
             onEditDialogOpen={onEditDialogOpen}
             onPlansDialogClose={onPlansDialogClose}
@@ -116,7 +102,6 @@ export const useProjectsForm = () => {
       );
     },
     [
-      allProjects,
       canEditProject,
       classes,
       handleClickSeePlans,
@@ -126,7 +111,6 @@ export const useProjectsForm = () => {
       isInactive,
       isPlansDialogOpened,
       isUpgradeAccountDialogOpened,
-      jwtsLoading,
       onEditDialogClose,
       onEditDialogOpen,
       onPlansDialogClose,

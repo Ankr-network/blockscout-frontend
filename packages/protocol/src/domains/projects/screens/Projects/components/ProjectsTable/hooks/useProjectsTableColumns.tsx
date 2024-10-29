@@ -3,7 +3,7 @@ import { Tooltip } from '@mui/material';
 import { t } from '@ankr.com/common';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { ProjectTable } from 'domains/projects/utils/getAllProjects';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { VirtualTableColumn } from 'uiKit/VirtualTable';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useLocaleMemo } from 'modules/i18n/utils/useLocaleMemo';
@@ -29,8 +29,8 @@ export const useProjectsTableColumns = ({
     blockName: BlockWithPermission.JwtManagerWrite,
   });
 
-  const columns = useLocaleMemo((): VirtualTableColumn<ProjectTable>[] => {
-    const result: VirtualTableColumn<ProjectTable>[] = [
+  const columns = useLocaleMemo(() => {
+    const result: VirtualTableColumn<JWT>[] = [
       {
         align: 'left',
         field: 'name',

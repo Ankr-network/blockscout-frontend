@@ -1,13 +1,13 @@
 import { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
-import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { guardDialogSlice } from 'modules/guardDialog';
-import { useCommonNotificationsData } from 'modules/notifications/hooks/useCommonNotificationsData';
 import { selectIsSelectedUserGroupPersonal } from 'domains/userGroup/store';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useCommonNotificationsData } from 'modules/notifications/hooks/useCommonNotificationsData';
+import { useJWTManagerPermissions } from 'domains/jwtToken/hooks/useJWTManagerPermissions';
+import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 
 import { getSecondMenuItems } from '../utils/getSecondMenuItems';
 import { getTopMenuItems } from '../utils/getTopMenuItems';
@@ -42,7 +42,7 @@ export const useMenuItems = ({
 
   const { unseenNotificationsAmount } = useCommonNotificationsData();
 
-  const { hasReadAccess } = useJwtManager();
+  const { hasReadAccess } = useJWTManagerPermissions();
   const hasProjects =
     !isMobileSideBar &&
     (!loading || !isLoggedIn || isFreePremium || hasReadAccess);

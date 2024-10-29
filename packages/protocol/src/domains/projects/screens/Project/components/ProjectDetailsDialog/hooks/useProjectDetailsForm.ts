@@ -3,9 +3,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { useAppSelector } from 'store/useAppSelector';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useUpdateJwtToken } from 'domains/jwtToken/hooks/useUpdateJwtToken';
 
 import { ProjectDetailsFormFields, ProjectDetailsFormValues } from '../types';
@@ -21,11 +19,7 @@ export const useProjectDetailsForm = ({
   onSuccess,
   projectIndex,
 }: ProjectDetailsBaseProps) => {
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
+  const { jwts: projects } = useJWTsManager();
 
   const dispatch = useDispatch();
 
@@ -60,7 +54,7 @@ export const useProjectDetailsForm = ({
       const { description, name } = values;
 
       const resultName = name || '';
-      const hasNameDuplication = allProjects.some(
+      const hasNameDuplication = projects.some(
         project => project.name === resultName,
       );
 
@@ -93,7 +87,7 @@ export const useProjectDetailsForm = ({
       onClose();
     },
     [
-      allProjects,
+      projects,
       dispatch,
       handleUpdateProjectDetails,
       onClose,

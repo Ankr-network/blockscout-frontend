@@ -40,14 +40,11 @@ const endpointsSerializedByParams = [
   'fetchBlockchainTxReceipt',
   'fetchJWTStatus',
   'fetchJWTs',
-  'fetchJWTsStatuses',
   'fetchNativeTokenPrice',
   'fetchPremiumStatus',
   'fetchProjectTotalRequests',
   'fetchProjectWhitelist',
   'fetchProjectWhitelistBlockchains',
-  'fetchProjectsTotalRequests',
-  'fetchProjectsWhitelists',
   'fetchProjectsWhitelistsBlockchains',
   'fetchReferralCodes',
   'fetchReferralLinksByCodes',
@@ -66,7 +63,6 @@ const endpointsSerializedByParams = [
   'fetchProjectChainsStatsFor24h',
   'fetchPublicRequestsCountStats',
   'fetchTop10Stats',
-
   /* notifications */
   'fetchNotifications',
 ];

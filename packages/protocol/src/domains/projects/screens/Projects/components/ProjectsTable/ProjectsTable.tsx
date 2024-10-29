@@ -1,6 +1,5 @@
 import { t } from '@ankr.com/common';
 
-import { Project } from 'domains/projects/utils/getAllProjects';
 import { Preloader } from 'uiKit/Preloader';
 import { VirtualTable } from 'uiKit/VirtualTable';
 
@@ -9,20 +8,13 @@ import { useProjectsTableStyles } from './useProjectsTableStyles';
 import { useRedirectToProject } from './hooks/useRedirectToProject';
 
 interface ProjectTableProps {
-  data: Project[];
-  isLoading: boolean;
   onProjectDialogOpen: () => void;
 }
 
-export const ProjectsTable = ({
-  data,
-  isLoading,
-  onProjectDialogOpen,
-}: ProjectTableProps) => {
+export const ProjectsTable = ({ onProjectDialogOpen }: ProjectTableProps) => {
   const { classes } = useProjectsTableStyles();
 
-  const { columns, tableData } = useProjectsTable({
-    projectsData: data,
+  const { columns, initializing, rows } = useProjectsTable({
     onProjectDialogOpen,
   });
 
@@ -38,10 +30,10 @@ export const ProjectsTable = ({
       }}
       cols={columns}
       emptyMessage={t('projects.list-project.no-data')}
-      initializing={isLoading}
+      initializing={initializing}
       onRowClick={onRowClick}
       preloader={<Preloader className={classes.preloader} />}
-      rows={tableData}
+      rows={rows}
       searchKey="name"
     />
   );

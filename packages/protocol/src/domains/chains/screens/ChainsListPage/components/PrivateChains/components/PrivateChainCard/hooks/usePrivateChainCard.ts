@@ -8,11 +8,11 @@ import { useAppSelector } from 'store/useAppSelector';
 import { useMenu } from 'modules/common/hooks/useMenu';
 
 export interface IUsePrivateChainCardProps {
+  allWhitelistsBlockchains?: IProjectWithBlockchains[];
   chain: Chain;
   hasPremium: boolean;
-  jwtTokens: JWT[];
-  allWhitelistsBlockchains?: IProjectWithBlockchains[];
   isLoadingProjects: boolean;
+  jwtTokens: JWT[];
 }
 
 export const usePrivateChainCard = ({

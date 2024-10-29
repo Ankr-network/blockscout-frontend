@@ -1,6 +1,5 @@
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { Project } from 'domains/projects/utils/getAllProjects';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { UpgradeAccountDialog } from 'modules/common/components/UpgradeAccountDialog';
 
@@ -10,7 +9,6 @@ import { ProjectHeader } from '../ProjectHeader';
 import { ProjectsTable } from '../ProjectsTable';
 
 interface ProjectsFormContentProps {
-  allProjects: Project[];
   canEditProject: boolean;
   handleClickSeePlans: () => void;
   handleSubmit: () => void;
@@ -19,7 +17,6 @@ interface ProjectsFormContentProps {
   isFreePremium: boolean;
   isPlansDialogOpened: boolean;
   isUpgradeAccountDialogOpened: boolean;
-  loading: boolean;
   onEditDialogClose: () => void;
   onEditDialogOpen: () => void;
   onPlansDialogClose: () => void;
@@ -28,7 +25,6 @@ interface ProjectsFormContentProps {
 }
 
 export const ProjectsFormContent = ({
-  allProjects,
   canEditProject,
   handleClickSeePlans,
   handleSubmit,
@@ -37,7 +33,6 @@ export const ProjectsFormContent = ({
   isFreePremium,
   isPlansDialogOpened,
   isUpgradeAccountDialogOpened,
-  loading,
   onEditDialogClose,
   onEditDialogOpen,
   onPlansDialogClose,
@@ -47,13 +42,7 @@ export const ProjectsFormContent = ({
   return (
     <>
       <ProjectHeader />
-
-      <ProjectsTable
-        data={allProjects}
-        isLoading={loading}
-        onProjectDialogOpen={onEditDialogOpen}
-      />
-
+      <ProjectsTable onProjectDialogOpen={onEditDialogOpen} />
       {(hasProjectButton || isFreePremium) && (
         <GuardUserGroup blockName={BlockWithPermission.JwtManagerWrite}>
           <AddProjectButton
@@ -63,15 +52,12 @@ export const ProjectsFormContent = ({
           />
         </GuardUserGroup>
       )}
-
       <UpgradeAccountDialog
         isOpened={isUpgradeAccountDialogOpened}
         handleClickSeePlans={handleClickSeePlans}
         handleClose={onUpgradeAccountDialogClose}
       />
-
       <PlansDialog onClose={onPlansDialogClose} open={isPlansDialogOpened} />
-
       <EditProjectDialog
         isOpened={isEditDialogOpened}
         handleFormSubmit={handleSubmit}

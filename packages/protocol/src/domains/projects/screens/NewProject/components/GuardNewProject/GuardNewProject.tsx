@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { OverlaySpinner } from '@ankr.com/ui';
 
+import { NewProjectStep } from 'domains/projects/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
-import { NewProjectStep } from 'domains/projects/types';
-import { useJwtTokenManager } from 'domains/jwtToken/hooks/useJwtTokenManager';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
+import { useProjectConfig } from 'domains/projects/hooks/useProjectConfig';
 
 interface GuardNewProjectProps {
   children: ReactNode;
@@ -19,7 +19,7 @@ export const GuardNewProject = ({ children }: GuardNewProjectProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { handleResetConfig, project, projectStep } = useProjectConfig();
-  const { enableAddProject, isLoaded } = useJwtTokenManager();
+  const { enableAddProject, isLoaded } = useJWTsManager();
 
   const showNotification = useCallback(() => {
     dispatch(

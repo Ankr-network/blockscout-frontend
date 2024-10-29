@@ -4,23 +4,21 @@ import { useDispatch } from 'react-redux';
 
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { useEditProject } from 'domains/projects/hooks/useEditProject';
-import { Project } from 'domains/projects/utils/getAllProjects';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 
 import {
   EditProjectDialogFields,
   EditProjectDialogType,
 } from '../EditProjectDialog/EditProjectDialogUtils';
 
-interface UseSubmitProps {
+interface IUseSubmitProps {
   onEditDialogClose: () => void;
-  allProjects: Project[];
 }
 
-export const useSubmit = ({
-  allProjects,
-  onEditDialogClose,
-}: UseSubmitProps) => {
+export const useSubmit = ({ onEditDialogClose }: IUseSubmitProps) => {
   const dispatch = useDispatch();
+
+  const { jwts } = useJWTsManager();
 
   const { handleUpdate } = useEditProject();
 
@@ -40,9 +38,7 @@ export const useSubmit = ({
       const { name, tokenIndex } = values;
 
       const resultName = name || '';
-      const hasNameDuplication = allProjects.some(
-        project => project.name === resultName,
-      );
+      const hasNameDuplication = jwts.some(jwt => jwt.name === resultName);
 
       if (hasNameDuplication && !isNameEqualWithInitalValue) {
         dispatch(
@@ -68,7 +64,7 @@ export const useSubmit = ({
 
       onEditDialogClose();
     },
-    [allProjects, handleUpdate, onEditDialogClose, dispatch],
+    [handleUpdate, jwts, onEditDialogClose, dispatch],
   );
 
   return { handleFormSubmit };

@@ -6,12 +6,10 @@ import { useProjectTotalRequests } from 'domains/projects/hooks/useProjectTotalR
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 interface IUseProjectStatsInitializationProps {
-  skipRelativeRequests?: boolean;
   userEndpointToken: string | undefined;
 }
 
 export const useProjectStatsInitialization = ({
-  skipRelativeRequests,
   userEndpointToken,
 }: IUseProjectStatsInitializationProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
@@ -28,28 +26,37 @@ export const useProjectStatsInitialization = ({
   const { projectChainsStatsFor24h } =
     useProjectChainsStatsFor24h(chainsStatsParams);
 
-  const skipFetchingTotalRequests = !userEndpointToken || skipRelativeRequests;
+  const skipFetching = !userEndpointToken;
 
-  const { projectTotalRequests: projectTotalRequestsForLastTwoHours } =
-    useProjectTotalRequests({
-      duration: StatsByRangeDuration.TWO_HOURS,
-      group,
-      skipFetching: skipFetchingTotalRequests,
-      token: userEndpointToken!,
-    });
+  const {
+    loading: projectTotalRequestsForLastTwoHoursLoading,
+    projectTotalRequests: projectTotalRequestsForLastTwoHours,
+  } = useProjectTotalRequests({
+    duration: StatsByRangeDuration.TWO_HOURS,
+    group,
+    skipFetching,
+    token: userEndpointToken!,
+  });
 
-  const { projectTotalRequests: projectTotalRequestsForLastTwoDays } =
-    useProjectTotalRequests({
-      duration: StatsByRangeDuration.TWO_DAYS,
-      group,
-      skipFetching: skipFetchingTotalRequests,
-      token: userEndpointToken!,
-    });
+  const {
+    loading: projectTotalRequestsForLastTwoDaysLoading,
+    projectTotalRequests: projectTotalRequestsForLastTwoDays,
+  } = useProjectTotalRequests({
+    duration: StatsByRangeDuration.TWO_DAYS,
+    group,
+    skipFetching,
+    token: userEndpointToken!,
+  });
+
+  const projectTotalRequestsLoading =
+    projectTotalRequestsForLastTwoHoursLoading ||
+    projectTotalRequestsForLastTwoDaysLoading;
 
   return {
-    projectTotalRequestsForLastTwoHours,
-    projectTotalRequestsForLastTwoDays,
     projectChainsStatsFor1h,
     projectChainsStatsFor24h,
+    projectTotalRequestsForLastTwoDays,
+    projectTotalRequestsForLastTwoHours,
+    projectTotalRequestsLoading,
   };
 };

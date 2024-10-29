@@ -2,28 +2,36 @@ import { ChainPath } from '@ankr.com/chains-list';
 import { UserEndpointToken } from 'multirpc-sdk';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { useAppSelector } from 'store/useAppSelector';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export type IProjectSubchains = Record<UserEndpointToken, ChainPath[]>;
 
 export const useProjectSubchains = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
+
+  const { jwts: projects } = useJWTsManager();
+  const { projectsWhitelistsBlockchains } = useProjectsWhitelistsBlockchains({
+    projects,
+    group,
+    skipFetching: true,
+  });
 
   const initialSubchains: IProjectSubchains = useMemo(
     () =>
-      allProjects?.reduce(
+      projects?.reduce(
         (acc, project) => ({
           ...acc,
-          [project.userEndpointToken]: project.blockchains,
+          [project.userEndpointToken]:
+            projectsWhitelistsBlockchains.find(
+              ({ userEndpointToken }) =>
+                userEndpointToken === project.userEndpointToken,
+            )?.blockchains ?? [],
         }),
         {},
       ),
-    [allProjects],
+    [projects, projectsWhitelistsBlockchains],
   );
 
   const [projectSubchains, setProjectSubchains] = useState(initialSubchains);

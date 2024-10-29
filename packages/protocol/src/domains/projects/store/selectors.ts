@@ -1,13 +1,14 @@
-import { StatsByRangeDuration, UserEndpointTokenMode } from 'multirpc-sdk';
-import { createSelector } from '@reduxjs/toolkit';
 import { ChainID } from '@ankr.com/chains-list';
+import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { createSelector } from '@reduxjs/toolkit';
 
-import { EMilliSeconds } from 'modules/common/constants/const';
-import { IFetchJWTsParams } from 'domains/jwtToken/action/fetchJWTs';
+import {
+  IFetchJWTsParams,
+  selectJWTs,
+} from 'domains/jwtToken/action/fetchJWTs';
 import { RootState } from 'store';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { selectCurrentAddress } from 'domains/auth/store';
-import { selectUserEndpointTokens } from 'domains/jwtToken/store/selectors';
 
 import {
   IFetchProjectChainsStatsFor1hParams,
@@ -23,17 +24,12 @@ import {
   selectProjectTotalRequests,
 } from '../actions/fetchProjectTotalRequests';
 import { NewProjectStep } from '../types';
-import { ProjectActivity } from './types';
 import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
 import { filterTotalRequests } from './utils/filterTotalRequests';
 import { getHalfDuration } from './utils/getHalfDuration';
 import { getRelativeChange } from './utils/getRelativeChange';
 import { selectProjectWhitelist } from '../actions/fetchProjectWhitelist';
-import {
-  selectProjectsTotalRequests,
-  selectProjectsTotalRequestsLoading,
-  selectProjectsTotalRequestsState,
-} from '../actions/fetchProjectsTotalRequests';
+import { selectProjectsWhitelistsBlockchainsLoading } from '../actions/fetchProjectsWhitelistsBlockchains';
 import { sumSubchainsTotalRequest } from './utils/sumSubchainsTotalRequest';
 import { sumTotalRequests } from './utils/sumTotalRequests';
 
@@ -160,92 +156,9 @@ export const selectProjectTotalRequestsFor24hByChain = createSelector(
   },
 );
 
-export const selectCurrentProjectsTotalRequests = createSelector(
-  selectUserEndpointTokens,
+export const selectCurrentProjectsWhitelistsBlockchainsLoading = createSelector(
+  selectJWTs,
   (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
-  (tokens, [state, group]) =>
-    selectProjectsTotalRequests(state, {
-      group,
-      tokens,
-      duration: StatsByRangeDuration.TWO_DAYS,
-    }),
-);
-
-export const selectCurrentProjectsTotalRequestsLoading = createSelector(
-  selectUserEndpointTokens,
-  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
-  (tokens, [state, group]) =>
-    selectProjectsTotalRequestsLoading(state, {
-      group,
-      tokens,
-      duration: StatsByRangeDuration.TWO_DAYS,
-    }),
-);
-
-export const selectCurrentProjectsTotalRequestsState = createSelector(
-  selectUserEndpointTokens,
-  (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
-  (tokens, [state, group]) =>
-    selectProjectsTotalRequestsState(state, {
-      group,
-      tokens,
-      duration: StatsByRangeDuration.TWO_DAYS,
-    }),
-);
-
-export const selectCurrentProjectsTotalRequestsTimestamp = createSelector(
-  selectCurrentProjectsTotalRequestsState,
-  ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
-);
-
-export const selectAllProjectsActivity = createSelector(
-  selectCurrentProjectsTotalRequests,
-  selectCurrentProjectsTotalRequestsTimestamp,
-  (totalRequests, now) => {
-    const dayAgo = now - EMilliSeconds.Day;
-
-    const filterLastDay = (timestamp: number) => timestamp > dayAgo;
-    const filterPreviousDay = (timestamp: number) => timestamp < dayAgo;
-
-    return Object.fromEntries(
-      Object.entries(totalRequests).map(
-        ([token, projectTotalRequests = {}]) => {
-          const projectTotalRequestsForLastDay = filterTotalRequests({
-            filter: filterLastDay,
-            totalRequests: projectTotalRequests,
-          });
-
-          const projectTotalRequestsCountForLastDay = sumTotalRequests(
-            projectTotalRequestsForLastDay,
-          );
-
-          const projectTotalRequestsForPreviousDay = filterTotalRequests({
-            filter: filterPreviousDay,
-            totalRequests: projectTotalRequests,
-          });
-
-          const projectTotalRequestsCountForPrevousDay = sumTotalRequests(
-            projectTotalRequestsForPreviousDay,
-          );
-
-          const hasData =
-            Object.keys(projectTotalRequestsForLastDay).length > 0;
-
-          const isEmpty = !hasData || projectTotalRequestsCountForLastDay === 0;
-
-          const projectActivity: ProjectActivity = {
-            hasData,
-            isEmpty,
-            totalRequestsCount: projectTotalRequestsCountForLastDay,
-            relativeChange: getRelativeChange({
-              currentValue: projectTotalRequestsCountForLastDay,
-              previousValue: projectTotalRequestsCountForPrevousDay,
-            }),
-          };
-
-          return [token, projectActivity];
-        },
-      ),
-    );
-  },
+  (projects, [state, group]) =>
+    selectProjectsWhitelistsBlockchainsLoading(state, { group, projects }),
 );

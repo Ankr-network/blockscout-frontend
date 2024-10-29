@@ -6,8 +6,9 @@ import {
   selectAllPathsByChainId,
   selectAllPathsExceptSubchainsForChainId,
 } from 'modules/chains/store/selectors';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
 import { useAppSelector } from 'store/useAppSelector';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { IProjectSubchains } from './useProjectSubchains';
@@ -24,6 +25,7 @@ interface IUseChainProjectsSidebarProps {
   setExpandedId?: (expandedId: UserEndpointToken) => void;
 }
 
+// eslint-disable-next-line max-lines-per-function
 export const useChainProjectsSidebar = ({
   chain,
   onCloseAddToProjectsSidebar,
@@ -33,9 +35,12 @@ export const useChainProjectsSidebar = ({
 }: IUseChainProjectsSidebarProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
+  const { jwts: projects } = useJWTsManager();
+  const { projectsWhitelistsBlockchains } = useProjectsWhitelistsBlockchains({
+    projects,
+    group,
+    skipFetching: true,
+  });
 
   const allCurrentChainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),
@@ -47,29 +52,34 @@ export const useChainProjectsSidebar = ({
 
   const isAllSelected = useMemo(
     () =>
-      allProjects.every(({ userEndpointToken }) =>
+      projects.every(({ userEndpointToken }) =>
         allCurrentChainPaths.every(path =>
           selectedSubchains[userEndpointToken]?.includes(path),
         ),
       ),
-    [allProjects, selectedSubchains, allCurrentChainPaths],
+    [allCurrentChainPaths, projects, selectedSubchains],
   );
 
   const isAllIndeterminate = useMemo(
     () =>
-      allProjects.some(({ userEndpointToken }) =>
+      projects.some(({ userEndpointToken }) =>
         allCurrentChainPaths.some(path =>
           selectedSubchains[userEndpointToken]?.includes(path),
         ),
       ) && !isAllSelected,
-    [allProjects, selectedSubchains, allCurrentChainPaths, isAllSelected],
+    [allCurrentChainPaths, isAllSelected, projects, selectedSubchains],
   );
 
   const handleSelectAll = useCallback(() => {
-    allProjects.forEach(project => {
+    projects.forEach(project => {
+      const projectBlockchains = projectsWhitelistsBlockchains.find(
+        ({ userEndpointToken }) =>
+          userEndpointToken === project.userEndpointToken,
+      )?.blockchains;
+
       const newSelectedSubchains = [
         ...new Set([
-          ...(project.blockchains || allPathsExceptCurrentChain),
+          ...(projectBlockchains || allPathsExceptCurrentChain),
           ...allCurrentChainPaths,
         ]),
       ];
@@ -77,16 +87,22 @@ export const useChainProjectsSidebar = ({
       setSelectedSubchains(newSelectedSubchains, project.userEndpointToken);
     });
   }, [
+    projects,
     allCurrentChainPaths,
     allPathsExceptCurrentChain,
-    allProjects,
+    projectsWhitelistsBlockchains,
     setSelectedSubchains,
   ]);
 
   const handleUnselectAll = useCallback(() => {
-    allProjects.forEach(project => {
+    projects.forEach(project => {
+      const projectBlockchains = projectsWhitelistsBlockchains.find(
+        ({ userEndpointToken }) =>
+          userEndpointToken === project.userEndpointToken,
+      )?.blockchains;
+
       const newSelectedSubchains =
-        project.blockchains?.filter(
+        projectBlockchains?.filter(
           chainPath => !allCurrentChainPaths?.includes(chainPath),
         ) || allPathsExceptCurrentChain;
 
@@ -95,7 +111,8 @@ export const useChainProjectsSidebar = ({
   }, [
     allCurrentChainPaths,
     allPathsExceptCurrentChain,
-    allProjects,
+    projects,
+    projectsWhitelistsBlockchains,
     setSelectedSubchains,
   ]);
 
@@ -141,7 +158,6 @@ export const useChainProjectsSidebar = ({
   }, [isAllSelected, handleSelectAll, handleUnselectAll]);
 
   const { isLoadingAddChainsToProject, onConfirm } = useProjectsChainsConfirm({
-    allProjects,
     selectedSubchains,
     onCloseAddToProjectsSidebar,
     allCurrentChainPaths,
@@ -153,7 +169,6 @@ export const useChainProjectsSidebar = ({
     isAllSelected,
     isAllIndeterminate,
     handleAllChange,
-    allProjects,
     handleProjectChange,
     onConfirm,
     isLoadingAddChainsToProject,

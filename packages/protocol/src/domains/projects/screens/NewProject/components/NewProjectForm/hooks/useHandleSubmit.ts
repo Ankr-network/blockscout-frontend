@@ -7,17 +7,15 @@ import { useHistory } from 'react-router';
 import { NewProjectStep } from 'domains/projects/types';
 import { NotificationActions } from 'domains/notification/store/NotificationActions';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { selectAllProjects } from 'domains/projects/store/WhitelistsSelector';
-import { useAppSelector } from 'store/useAppSelector';
 import { useEnableWhitelist } from 'domains/projects/hooks/useEnableWhitelist';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 
-import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
 import {
   NewProjectFormValues,
   NewProjectFormProps,
 } from '../NewProjectFormTypes';
 import { useGeneralStepOnSubmit } from './useGeneralStepOnSubmit';
+import { useWhitelistStepOnSubmit } from './useWhitelistStepOnSubmit';
 
 // eslint-disable-next-line max-lines-per-function
 export const useHandleSubmit = (
@@ -31,11 +29,7 @@ export const useHandleSubmit = (
   const handleWhitelistStepOnSubmit = useWhitelistStepOnSubmit();
   const { handleEnableWhitelist, handleResetConfig } = useEnableWhitelist();
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
+  const { jwts: projects } = useJWTsManager();
 
   const handleSubmit = useCallback(
     // eslint-disable-next-line max-lines-per-function
@@ -50,13 +44,12 @@ export const useHandleSubmit = (
             userEndpointToken: sliceUserEndpointToken,
           } = values;
 
-          const hasNameDuplication = allProjects.some(
-            project =>
-              project.name === name && project.tokenIndex !== tokenIndex,
+          const hasNameDuplication = projects.some(
+            project => project.name === name && project.index !== tokenIndex,
           );
 
-          const isExistedToken = allProjects.some(
-            project => project.tokenIndex === tokenIndex,
+          const isExistedToken = projects.some(
+            project => project.index === tokenIndex,
           );
 
           /* validation start */
@@ -197,16 +190,16 @@ export const useHandleSubmit = (
       }
     },
     [
-      allProjects,
-      step,
-      onSubmit,
       dispatch,
       handleCreateToken,
-      handleUpdateToken,
       handleEnableWhitelist,
       handleResetConfig,
+      handleUpdateToken,
       handleWhitelistStepOnSubmit,
       history,
+      onSubmit,
+      projects,
+      step,
     ],
   );
 

@@ -4,25 +4,25 @@ import { t } from '@ankr.com/common';
 import { useHistory } from 'react-router';
 import { useMemo } from 'react';
 
-import { CopyEndpointToken } from 'modules/common/components/CopyEndpointToken/CopyEndpointToken';
-import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
-import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
-import { useDialog } from 'modules/common/hooks/useDialog';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
-import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
-import { FreezeAndUnfreezeProjectDialog } from 'domains/jwtToken/components/FreezeAndUnfreezeProjectDialog';
 import { ANKR_DOCS_PROJECTS_LINK } from 'modules/common/constants/const';
-import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { CopyEndpointToken } from 'modules/common/components/CopyEndpointToken/CopyEndpointToken';
+import { DeleteProjectDialog } from 'domains/jwtToken/components/DeleteProjectDialog';
+import { FreezeAndUnfreezeProjectDialog } from 'domains/jwtToken/components/FreezeAndUnfreezeProjectDialog';
+import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
+import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { renderProjectName } from 'domains/jwtToken/utils/renderProjectName';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 
 import { PaperBlock } from '../PaperBlock';
+import { ProjectDescription } from '../ProjectDescription/ProjectDescription';
 import { ProjectDetailsDialog } from '../ProjectDetailsDialog';
 import { ProjectDetailsMenu } from '../ProjectDetailsMenu';
 import { useProjectHeaderStyles } from './useProjectHeaderStyles';
 import { useProjectStatus } from '../../hooks/useProjectStatus';
-import { ProjectDescription } from '../ProjectDescription/ProjectDescription';
 
 interface ProjectHeaderProps {
   className?: string;
@@ -33,7 +33,11 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
 
   const { project } = useSelectedProject();
 
-  const { isLoading: isLoadingStatus, projectStatus } = useProjectStatus();
+  const {
+    isDraft,
+    isLoading: isProjectStatusLoading,
+    projectStatus,
+  } = useProjectStatus();
 
   const isFrozen = projectStatus.frozen;
   const isSuspended = projectStatus.suspended;
@@ -84,7 +88,9 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
             <Typography className={classes.title} variant="h6">
               {projectName}
             </Typography>
-            {!isLoadingStatus && <ProjectStatusLabel data={projectStatus} />}
+            {!isProjectStatusLoading && (
+              <ProjectStatusLabel isDraft={isDraft} status={projectStatus} />
+            )}
           </div>
           <CopyEndpointToken userEndpointToken={project.userEndpointToken} />
           <ProjectDescription
@@ -94,7 +100,7 @@ export const ProjectHeader = ({ className }: ProjectHeaderProps) => {
           />
         </div>
         <div className={classes.actions}>
-          {hasGroupAccess && !isLoadingStatus && (
+          {hasGroupAccess && !isProjectStatusLoading && (
             <Button
               className={classes.freezeButton}
               disabled={isSuspended}

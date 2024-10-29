@@ -1,26 +1,33 @@
 import { useCallback } from 'react';
 import { ChainPath } from '@ankr.com/chains-list';
 
-import { Project } from 'domains/projects/utils/getAllProjects';
-import { useAddBlockchainsToWhitelistMutation } from 'domains/projects/actions/addBlockchainsToWhitelist';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { useAppSelector } from 'store/useAppSelector';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectAllChainsPaths } from 'modules/chains/store/selectors';
+import { useAddBlockchainsToWhitelistMutation } from 'domains/projects/actions/addBlockchainsToWhitelist';
+import { useAppSelector } from 'store/useAppSelector';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 
 export interface IUseChangedProjectsProps {
   allCurrentChainPaths: ChainPath[];
   allPathsExceptCurrentChain: ChainPath[];
-  allProjects: Project[];
   selectedSubchains: Record<string, string[]>;
 }
 
 export const useChangedProjects = ({
   allCurrentChainPaths,
   allPathsExceptCurrentChain,
-  allProjects,
   selectedSubchains,
 }: IUseChangedProjectsProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { jwts: projects } = useJWTsManager();
+  const { projectsWhitelistsBlockchains } = useProjectsWhitelistsBlockchains({
+    projects,
+    group,
+    skipFetching: true,
+  });
 
   const allChainsPaths = useAppSelector(selectAllChainsPaths);
 
@@ -28,9 +35,14 @@ export const useChangedProjects = ({
     useAddBlockchainsToWhitelistMutation();
 
   const hasChanges = useCallback(
-    (project: Project) => {
+    (project: JWT) => {
+      const currentChains =
+        projectsWhitelistsBlockchains.find(
+          ({ userEndpointToken }) =>
+            userEndpointToken === project.userEndpointToken,
+        )?.blockchains ?? [];
+
       const newSubchains = selectedSubchains[project.userEndpointToken];
-      const currentChains = project.blockchains || [];
       const hasNewSubchains = newSubchains.some(
         path => !currentChains.includes(path),
       );
@@ -40,17 +52,23 @@ export const useChangedProjects = ({
 
       return hasNewSubchains || hasRemovedSubchains;
     },
-    [selectedSubchains],
+    [projectsWhitelistsBlockchains, selectedSubchains],
   );
 
   const getChangedProjects = useCallback(async () => {
-    const changedProjects: Project[] = [];
+    const changedProjects: JWT[] = [];
 
     await Promise.all(
-      allProjects.map(async project => {
+      projects.map(async project => {
         if (!hasChanges(project)) return;
 
         changedProjects.push(project);
+
+        const projectBlockchains =
+          projectsWhitelistsBlockchains.find(
+            ({ userEndpointToken }) =>
+              userEndpointToken === project.userEndpointToken,
+          )?.blockchains ?? [];
 
         const newChainPaths = selectedSubchains[project.userEndpointToken];
         const isSelected = allCurrentChainPaths.every(path =>
@@ -61,7 +79,7 @@ export const useChangedProjects = ({
 
         let blockchains = newChainPaths;
 
-        if (project.blockchains?.length === 0 && !isSelected) {
+        if (projectBlockchains.length === 0 && !isSelected) {
           blockchains = allPathsExceptCurrentChain;
         }
 
@@ -77,14 +95,15 @@ export const useChangedProjects = ({
 
     return changedProjects;
   }, [
-    allProjects,
-    hasChanges,
-    selectedSubchains,
-    allCurrentChainPaths,
-    allChainsPaths.length,
     addBlockchains,
-    group,
+    allChainsPaths.length,
+    allCurrentChainPaths,
     allPathsExceptCurrentChain,
+    group,
+    hasChanges,
+    projects,
+    projectsWhitelistsBlockchains,
+    selectedSubchains,
   ]);
 
   return { hasChanges, getChangedProjects, isLoadingAddChainsToProject };

@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
 
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { selectProjectsPageRequestsLoading } from 'domains/projects/store/WhitelistsSelector';
-import { useAppSelector } from 'store/useAppSelector';
 import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
@@ -15,13 +13,8 @@ export const useSelectedProject = () => {
 
   const {
     jwts: projects,
-    loading,
-    state: { isUninitialized },
+    state: { isError, isSuccess },
   } = useJWTs({ group });
-
-  const isLoadingProjectsRequests = useAppSelector(state =>
-    selectProjectsPageRequestsLoading(state, { group }),
-  );
 
   const project = useMemo(() => {
     if (userEndpointToken) {
@@ -35,7 +28,7 @@ export const useSelectedProject = () => {
     return undefined;
   }, [projects, userEndpointToken]);
 
-  const isLoaded = !isUninitialized && !loading && !isLoadingProjectsRequests;
+  const isLoaded = isError || isSuccess;
 
   return { isLoaded, project };
 };

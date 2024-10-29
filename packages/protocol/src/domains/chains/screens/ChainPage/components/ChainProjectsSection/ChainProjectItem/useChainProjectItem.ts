@@ -10,37 +10,38 @@ import {
   selectAllPathsByChainId,
   selectPrivateChainById,
 } from 'modules/chains/store/selectors';
-import {
-  selectAllProjects,
-  selectCurrentProjectsStatuses,
-} from 'domains/projects/store/WhitelistsSelector';
 import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useJWTStatus } from 'domains/jwtToken/hooks/useJWTStatus';
+import { useProjectWhitelistBlockchains } from 'domains/projects/hooks/useProjectWhitelistBlockchains';
 import { useSelectTokenIndex } from 'domains/jwtToken/hooks/useSelectTokenIndex';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 
 import { useChainProjectRequestsData } from './useChainProjectRequestsData';
 import { useCodeExampleStatus } from '../useCodeExampleStatus';
 
-interface ChainProjectItemHookProps {
+export interface IUseChainProjectItemProps {
   chain: Chain;
+  jwt: JWT;
   onOpenAddToProjectsDialog: () => void;
-  jwtTokens: JWT[];
   timeframe: Timeframe;
-}
-
-export interface IChainProjectItemProps extends JWT, ChainProjectItemHookProps {
-  isLoading: boolean;
 }
 
 export const useChainProjectItem = ({
   chain: nestedChain,
-  jwtTokens,
+  jwt,
   onOpenAddToProjectsDialog,
   timeframe,
-  userEndpointToken,
-}: ChainProjectItemHookProps & Pick<JWT, 'userEndpointToken'>) => {
+}: IUseChainProjectItemProps) => {
+  const { jwts } = useJWTsManager();
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
+
+  const { index: currentProjectIndex, userEndpointToken } = jwt;
+  const isDraft = userEndpointToken === draftUserEndpointToken;
+
   const chain =
     useAppSelector(state =>
       selectPrivateChainById(state, nestedChain.id, userEndpointToken),
@@ -48,21 +49,8 @@ export const useChainProjectItem = ({
 
   const { id } = chain;
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
-  const allProjects = useAppSelector(state =>
-    selectAllProjects(state, { group }),
-  );
-  const statusData = useAppSelector(state =>
-    selectCurrentProjectsStatuses(state, { group }),
-  );
-  const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
-
-  const { currentChainRequestsData } = useChainProjectRequestsData(
-    id,
-    timeframe,
-    userEndpointToken,
-  );
+  const { currentChainRequestsData, projectTotalRequestsLoading } =
+    useChainProjectRequestsData(id, timeframe, userEndpointToken);
 
   const {
     isOpened: isOpenedCodeExample,
@@ -72,43 +60,40 @@ export const useChainProjectItem = ({
 
   const { handleSelectTokenIndex } = useSelectTokenIndex();
 
-  const currentProjectIndex = useMemo(
-    () =>
-      jwtTokens.find(token => token.userEndpointToken === userEndpointToken)
-        ?.index || 0,
-    [jwtTokens, userEndpointToken],
-  );
-
   const onOpenCodeExample = useCallback(() => {
     handleSelectTokenIndex(currentProjectIndex);
     setTimeout(onOpenCodeExampleDialog, ANIMATION_DURATION);
   }, [currentProjectIndex, handleSelectTokenIndex, onOpenCodeExampleDialog]);
 
-  const { blockchains = [] } =
-    allProjects.find(
-      project => project.userEndpointToken === userEndpointToken,
-    ) || {};
+  const {
+    loading: projectWhitelistBlockchainsLoading,
+    projectWhitelistBlockchains,
+  } = useProjectWhitelistBlockchains({
+    group,
+    token: userEndpointToken,
+  });
+
+  const { jwtStatus: projectStatus, loading: projectStatusLoading } =
+    useJWTStatus({
+      group,
+      userEndpointToken,
+    });
 
   const allChainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),
   );
 
-  const isCurrentPathIncluded =
-    allChainPaths?.length > 0 &&
-    blockchains.length > 0 &&
-    allChainPaths.some(path => blockchains.includes(path));
+  const isCurrentPathIncluded = useMemo(() => {
+    const hasProjectBlockchains = projectWhitelistBlockchains.length > 0;
+    const isChainPathIncludedInProjectBlockchains = allChainPaths.some(path =>
+      projectWhitelistBlockchains.includes(path),
+    );
+
+    return hasProjectBlockchains && isChainPathIncludedInProjectBlockchains;
+  }, [allChainPaths, projectWhitelistBlockchains]);
 
   const isCurrentChainIncluded =
-    isCurrentPathIncluded || blockchains.length === 0; // empty array means all chains
-
-  const currentProjectStatus = useMemo(
-    () => ({
-      ...statusData?.find(data => data.userEndpointToken === userEndpointToken)
-        ?.status,
-      draft: draftUserEndpointToken === userEndpointToken,
-    }),
-    [statusData, draftUserEndpointToken, userEndpointToken],
-  );
+    isCurrentPathIncluded || projectWhitelistBlockchains.length === 0; // empty array means all chains
 
   const { isCodeExampleDisabled } = useCodeExampleStatus(
     chain,
@@ -119,10 +104,10 @@ export const useChainProjectItem = ({
 
   const projectPath = useMemo(
     () =>
-      currentProjectStatus?.draft
+      isDraft
         ? ProjectsRoutesConfig.newProject.generatePath()
         : ProjectsRoutesConfig.project.generatePath(userEndpointToken),
-    [userEndpointToken, currentProjectStatus],
+    [isDraft, userEndpointToken],
   );
 
   const handleGoToProject = useCallback(() => {
@@ -147,31 +132,31 @@ export const useChainProjectItem = ({
 
   const projectChain = useMemo(() => {
     // empty array means all chains are included, no need to filter.
-    if (blockchains.length === 0) {
+    if (projectWhitelistBlockchains.length === 0) {
       return chain;
     }
 
-    return filterChainByPaths({ chain, paths: blockchains });
-  }, [chain, blockchains]);
+    return filterChainByPaths({ chain, paths: projectWhitelistBlockchains });
+  }, [chain, projectWhitelistBlockchains]);
 
   return {
     currentChainRequestsData,
-    currentProjectStatus,
+    handleCloseCodeExample,
+    handleGoToProject,
+    handleOpenAddToProjectsDialog,
+    handleOpenCodeExample,
     isCodeExampleDisabled,
     isCurrentChainIncluded,
-    projectPath,
-
-    /* actions */
-    handleGoToProject,
-    handleOpenCodeExample,
-    handleCloseCodeExample,
-    handleOpenAddToProjectsDialog,
-
-    /* code example dialog props */
+    isDraft,
     isOpenedCodeExample,
+    jwts,
     onOpenCodeExample,
-
-    /* filtered chain by added paths */
     projectChain,
+    projectPath,
+    projectStatus,
+    projectStatusLoading,
+    projectTotalRequestsLoading,
+    projectWhitelistBlockchains,
+    projectWhitelistBlockchainsLoading,
   };
 };

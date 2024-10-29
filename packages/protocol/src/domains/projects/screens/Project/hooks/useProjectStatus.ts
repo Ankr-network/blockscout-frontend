@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { ProjectStatus } from 'domains/projects/utils/getAllProjects';
+import { selectDraftUserEndpointToken } from 'domains/projects/store';
 import { selectIsInactiveStatus } from 'domains/auth/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -8,15 +8,14 @@ import { useJWTStatus } from 'domains/jwtToken/hooks/useJWTStatus';
 import { useSelectedProject } from 'domains/projects/hooks/useSelectedProject';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-interface UseProjectStatus {
-  projectStatus: ProjectStatus;
-  isLoading: boolean;
-}
-
-export const useProjectStatus = (): UseProjectStatus => {
+export const useProjectStatus = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
+  const draftUserEndpointToken = useAppSelector(selectDraftUserEndpointToken);
 
   const { isLoaded, project } = useSelectedProject();
+  const isDraft = Boolean(
+    project && project.userEndpointToken === draftUserEndpointToken,
+  );
 
   const { jwtStatus: projectStatusData, loading: jwtStatusLoading } =
     useJWTStatus({
@@ -52,5 +51,5 @@ export const useProjectStatus = (): UseProjectStatus => {
     };
   }
 
-  return { projectStatus, isLoading: jwtStatusLoading || authLoading };
+  return { projectStatus, isDraft, isLoading: jwtStatusLoading || authLoading };
 };

@@ -1,21 +1,29 @@
+import { GetUserEndpointTokenStatusResponse } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { ProjectStatus } from 'domains/projects/utils/getAllProjects';
 import { ProjectStatusLabelType } from 'domains/projects/const';
-import { useAppSelector } from 'store/useAppSelector';
 import { selectIsInactiveStatus } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 
-export const useProjectStatusLabel = (status: ProjectStatus) => {
+export interface IUseProjectStatusLabelProps {
+  status: GetUserEndpointTokenStatusResponse;
+  isDraft?: boolean;
+}
+
+export const useProjectStatusLabel = ({
+  isDraft,
+  status,
+}: IUseProjectStatusLabelProps) => {
   const isInactive = useAppSelector(selectIsInactiveStatus);
 
-  const projectStatus = useMemo(() => {
-    const { draft, frozen } = status;
+  const projectStatusType = useMemo(() => {
+    const { frozen } = status;
 
     if (isInactive) {
       return ProjectStatusLabelType.Suspended;
     }
 
-    if (draft) {
+    if (isDraft) {
       return ProjectStatusLabelType.Draft;
     }
 
@@ -24,7 +32,7 @@ export const useProjectStatusLabel = (status: ProjectStatus) => {
     }
 
     return ProjectStatusLabelType.Active;
-  }, [status, isInactive]);
+  }, [isDraft, status, isInactive]);
 
-  return { projectStatus };
+  return { projectStatusType };
 };

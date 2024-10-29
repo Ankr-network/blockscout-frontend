@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Plus } from '@ankr.com/ui';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
@@ -17,45 +17,49 @@ import { CopyEndpointModal } from 'modules/chains/components/CopyEndpointModal';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { ProjectRequestsActivity } from 'domains/projects/screens/Projects/components/ProjectRequestsActivity';
 import { CodeExampleModal } from 'modules/chains/components/CodeExampleModal';
-import { ProjectStatus } from 'domains/projects/utils/getAllProjects';
 import { useIsSMDown } from 'uiKit/Theme/useTheme';
 import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
 
 import { useChainProjectsSectionStyles } from '../useChainProjectsSectionStyles';
 import { chainProjectItemTranslation } from './translation';
 import {
-  IChainProjectItemProps,
+  IUseChainProjectItemProps,
   useChainProjectItem,
 } from './useChainProjectItem';
+
+export interface IChainProjectItemProps extends IUseChainProjectItemProps {}
 
 // eslint-disable-next-line max-lines-per-function
 export const ChainProjectItem = ({
   chain,
-  isLoading,
-  jwtTokens,
-  name,
+  jwt,
   onOpenAddToProjectsDialog,
   timeframe,
-  userEndpointToken,
 }: IChainProjectItemProps) => {
+  const { name, userEndpointToken } = jwt;
+
   const {
     currentChainRequestsData,
-    currentProjectStatus,
     handleCloseCodeExample,
     handleGoToProject,
     handleOpenAddToProjectsDialog,
     handleOpenCodeExample,
     isCodeExampleDisabled,
     isCurrentChainIncluded,
+    isDraft,
     isOpenedCodeExample,
+    jwts,
     projectChain,
     projectPath,
+    projectStatus,
+    projectStatusLoading,
+    projectTotalRequestsLoading,
+    projectWhitelistBlockchainsLoading,
   } = useChainProjectItem({
     chain,
-    timeframe,
-    userEndpointToken,
-    jwtTokens,
+    jwt,
     onOpenAddToProjectsDialog,
+    timeframe,
   });
 
   const { classes, cx } = useChainProjectsSectionStyles();
@@ -64,16 +68,16 @@ export const ChainProjectItem = ({
 
   const shouldUseMobileLayout = useIsSMDown();
 
-  const projectStatus = useMemo(() => {
-    if (isLoading || !currentProjectStatus) {
+  const projectStatusElement = useMemo(() => {
+    if (projectStatusLoading) {
       return <Skeleton width={50} />;
     }
 
-    return <ProjectStatusLabel data={currentProjectStatus as ProjectStatus} />;
-  }, [isLoading, currentProjectStatus]);
+    return <ProjectStatusLabel isDraft={isDraft} status={projectStatus} />;
+  }, [isDraft, projectStatus, projectStatusLoading]);
 
   const projectActions = useMemo(() => {
-    if (isLoading) {
+    if (projectWhitelistBlockchainsLoading) {
       return (
         <Skeleton
           className={classes.projectTableButtonsSkeleton}
@@ -88,7 +92,7 @@ export const ChainProjectItem = ({
         {isCurrentChainIncluded ? (
           <>
             <CopyEndpointModal
-              jwtTokens={jwtTokens}
+              jwtTokens={jwts}
               chain={projectChain}
               userEndpointToken={userEndpointToken}
             />
@@ -133,11 +137,11 @@ export const ChainProjectItem = ({
     handleOpenCodeExample,
     isCodeExampleDisabled,
     isCurrentChainIncluded,
-    isLoading,
     isOpenedCodeExample,
-    jwtTokens,
+    jwts,
     keys,
     projectChain,
+    projectWhitelistBlockchainsLoading,
     t,
     userEndpointToken,
   ]);
@@ -158,7 +162,7 @@ export const ChainProjectItem = ({
           hasData={Boolean(currentChainRequestsData)}
           isEmpty={!currentChainRequestsData}
           totalRequestsCount={currentChainRequestsData}
-          isLoading={isLoading}
+          isLoading={projectTotalRequestsLoading}
           isDisabled={!isCurrentChainIncluded}
         />
         {projectActions}
@@ -192,7 +196,7 @@ export const ChainProjectItem = ({
           classes.projectTableHeadCellStatusCell,
         )}
       >
-        {projectStatus}
+        {projectStatusElement}
       </TableCell>
       <TableCell
         className={cx(
@@ -205,7 +209,7 @@ export const ChainProjectItem = ({
           hasData={Boolean(currentChainRequestsData)}
           isEmpty={!currentChainRequestsData}
           totalRequestsCount={currentChainRequestsData}
-          isLoading={isLoading}
+          isLoading={projectTotalRequestsLoading}
           isDisabled={!isCurrentChainIncluded}
         />
       </TableCell>

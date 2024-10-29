@@ -4,7 +4,7 @@ import { selectCurrentAddress } from 'domains/auth/store';
 import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
 
 import { PRIMARY_TOKEN_INDEX } from '../utils/utils';
-import { useJwtManager } from './useJwtManager';
+import { useJWTManagerPermissions } from './useJWTManagerPermissions';
 
 export const useTokenManagerConfigSelector = () => {
   const address = useAppSelector(selectCurrentAddress);
@@ -13,7 +13,7 @@ export const useTokenManagerConfigSelector = () => {
     selectTokenManagerConfig(state, address),
   );
 
-  const { hasReadAccess: shouldShowTokenManager } = useJwtManager();
+  const { hasReadAccess: shouldShowTokenManager } = useJWTManagerPermissions();
 
   const selectedProjectEndpointToken =
     config.selectedProject === ALL_PROJECTS_VALUE

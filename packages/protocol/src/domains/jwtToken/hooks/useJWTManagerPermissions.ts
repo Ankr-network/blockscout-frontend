@@ -6,16 +6,17 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 import { selectHasJwtManagerAccess } from '../store/selectors';
 import { useAllowedJWTsCount } from './useAllowedJWTsCount';
 
-export const useJwtManager = () => {
+export const useJWTManagerPermissions = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const hasAccess = useAppSelector(state =>
     selectHasJwtManagerAccess(state, { group }),
   );
+
   const {
     allowedJWTsCount,
     allowedJWTsCountState: { isUninitialized },
-    isLoading: loading,
+    isLoading: allowedJWTsCountLoading,
   } = useAllowedJWTsCount({ skipFetching: true });
 
   const hasGroupAccessToReadJwtManager = useGuardUserGroup({
@@ -26,13 +27,13 @@ export const useJwtManager = () => {
     blockName: BlockWithPermission.JwtManagerWrite,
   });
 
-  const isInitialized = !isUninitialized;
+  const isAllowedJWTsCountInitialized = !isUninitialized;
 
   return {
     allowedJWTsCount,
+    allowedJWTsCountLoading,
     hasReadAccess: hasAccess && hasGroupAccessToReadJwtManager,
     hasWriteAccess: hasAccess && hasGroupAccessToWriteJwtManager,
-    isInitialized,
-    loading,
+    isAllowedJWTsCountInitialized,
   };
 };
