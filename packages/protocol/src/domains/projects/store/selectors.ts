@@ -91,7 +91,7 @@ export const selectProjectTotalRequestsForCurrentPeriod = createSelector(
     duration,
   (totalRequests, queryTimestamp, duration) => {
     const halfOfDurationAgo = queryTimestamp - getHalfDuration(duration);
-    const filter = (timestamp: number) => timestamp < halfOfDurationAgo;
+    const filter = (timestamp: number) => timestamp > halfOfDurationAgo;
 
     return filterTotalRequests({ filter, totalRequests });
   },
@@ -104,7 +104,7 @@ export const selectProjectTotalRequestsForPreviousPeriod = createSelector(
     duration,
   (totalRequests, queryTimestamp, duration) => {
     const halfOfDurationAgo = queryTimestamp - getHalfDuration(duration);
-    const filter = (timestamp: number) => timestamp > halfOfDurationAgo;
+    const filter = (timestamp: number) => timestamp < halfOfDurationAgo;
 
     return filterTotalRequests({ filter, totalRequests });
   },
