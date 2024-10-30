@@ -7,11 +7,7 @@ import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErro
 import { trackWeb2SignUpFailure } from 'modules/analytics/mixpanel/trackWeb2SignUpFailure';
 import { web3Api } from 'store/queries';
 import { AccountRoutesConfig } from 'domains/account/Routes';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { selectAuthData } from 'domains/auth/store/authSlice';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { selectCanContinueTeamCreationFlow } from 'modules/groups/store/selectors';
-import { ESettingsContentType } from 'domains/userSettings/types';
 
 import { oauthLoginByGoogleSecretCode } from './loginByGoogleSecretCode';
 import { loginUserJwt } from './loginUserJwt';
@@ -21,6 +17,7 @@ import {
   trackLoginSuccess,
 } from './loginByGoogleSecretCodeUtils';
 import { setGithubLoginNameAndEmail } from '../setGithubLoginNameAndEmail';
+import { redirectAfterLogin } from '../../../auth/actions/utils/redirectAfterLogin';
 
 export type EmptyObject = Record<string, unknown>;
 
@@ -107,21 +104,7 @@ export const {
 
         await dispatch(setGithubLoginNameAndEmail.initiate());
 
-        const canContinueTeamCreationFlow = selectCanContinueTeamCreationFlow(
-          getState() as RootState,
-        );
-
-        if (canContinueTeamCreationFlow) {
-          dispatch(
-            push(
-              UserSettingsRoutesConfig.settings.generatePath(
-                ESettingsContentType.Teams,
-              ),
-            ),
-          );
-        } else {
-          dispatch(push(ProjectsRoutesConfig.projects.generatePath()));
-        }
+        redirectAfterLogin(dispatch, getState() as RootState);
       },
     }),
   }),

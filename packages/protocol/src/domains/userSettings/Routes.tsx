@@ -15,12 +15,18 @@ import {
 export const PATH_SETTINGS = '/settings/';
 export const PATH_CONFIRMATION = `${PATH_SETTINGS}confirmation/`;
 export const PATH_TEAM_INVITATION = `${PATH_SETTINGS}invitation/`;
+export const PATH_TELEGRAM_CONFIRMATION = `${PATH_SETTINGS}telegram/`;
 
 export const UserSettingsRoutesConfig = createRouteConfig(
   {
     confirmation: {
       path: PATH_CONFIRMATION,
       generatePath: () => PATH_CONFIRMATION,
+      breadcrumbs: 'user-settings.confirmation-screen.breadcrumbs',
+    },
+    telegramConfirmation: {
+      path: PATH_TELEGRAM_CONFIRMATION,
+      generatePath: () => PATH_TELEGRAM_CONFIRMATION,
       breadcrumbs: 'user-settings.confirmation-screen.breadcrumbs',
     },
     settings: {
@@ -65,6 +71,16 @@ const LoadableConfirmationContainer: LoadableComponent<any> = loadable(
   },
 );
 
+const LoadableTelegramConfirmationContainer: LoadableComponent<any> = loadable(
+  async () =>
+    import('./screens/TelegramConfirmation').then(
+      module => module.TelegramConfirmation,
+    ),
+  {
+    fallback: <OverlaySpinner />,
+  },
+);
+
 const LoadableSettingsContainer: LoadableComponent<any> = loadable(
   async () => import('./screens/Settings').then(module => module.Settings),
   {
@@ -87,6 +103,10 @@ export function UserSettingsRoutes() {
         exact
         path={UserSettingsRoutesConfig.confirmation.path}
         component={LoadableConfirmationContainer}
+      />
+      <Route
+        path={UserSettingsRoutesConfig.telegramConfirmation.path}
+        component={LoadableTelegramConfirmationContainer}
       />
       <Route
         exact

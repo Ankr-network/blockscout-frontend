@@ -19,3 +19,4 @@ export const filters: IFilter[] = [
 export const MAX_RANGE_DAYS = 31;
 
 export const ISO_STRING_FORMAT = "yyyy-MM-dd'T'HH:mm";
+export const DATE_STRING_FORMAT = 'yyyy-MM-dd';

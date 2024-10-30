@@ -3,12 +3,13 @@ import { UserEndpointToken } from 'multirpc-sdk';
 
 import { selectJwtTokens } from 'domains/jwtToken/store/selectors';
 import { fetchAllJwtTokensStatuses } from 'domains/jwtToken/action/getAllJwtTokensStatuses';
+import { selectAllChainsPaths } from 'modules/chains/store/selectors';
 
 import { fetchAllWhitelists } from '../actions/fetchAllWhitelists';
 import { fetchWhitelistsBlockchains } from '../actions/fetchWhitelistsBlockchains';
 import { getAllProjects, Project } from '../utils/getAllProjects';
 import { selectAllProjectsTotalRequestsLoading } from './selectors';
-import { selectAllChainsPaths } from '../../../modules/chains/store/selectors';
+import { fetchWhitelistBlockchains } from '../actions/fetchWhitelistBlockchains';
 
 const selectAllWhitelists = createSelector(
   fetchAllWhitelists.select({}),
@@ -23,6 +24,11 @@ const selectAllWhitelistsLoading = createSelector(
 const selectAllWhitelistsBlockchains = createSelector(
   fetchWhitelistsBlockchains.select(undefined as unknown as never),
   ({ data: whitelists = [] }) => whitelists,
+);
+
+export const selectProjectWhitelistBlockchains = createSelector(
+  fetchWhitelistBlockchains.select(undefined as unknown as never),
+  ({ data: blockchainPaths }) => blockchainPaths,
 );
 
 export const selectAllWhitelistsBlockchainsLoading = createSelector(
@@ -91,8 +97,10 @@ export const selectAllProjects = createSelector(
 
 export const selectProjectChainsByToken = createSelector(
   selectAllProjects,
-  (_state: any, token: UserEndpointToken) => token,
-  (projects: Project[], token: UserEndpointToken) =>
-    projects.find((project: Project) => project.userEndpointToken === token)
-      ?.blockchains,
+  (_state: any, token?: UserEndpointToken) => token,
+  (projects: Project[], token?: UserEndpointToken) =>
+    projects.find(
+      (project: Project) =>
+        project.userEndpointToken.toLowerCase() === token?.toLowerCase(),
+    )?.blockchains,
 );

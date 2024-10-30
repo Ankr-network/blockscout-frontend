@@ -1,4 +1,7 @@
-import { INotificationsSettings } from 'multirpc-sdk';
+import {
+  INotificationsChannelConfig,
+  IUpdateNotificationsChannelParams,
+} from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { MultiService } from 'modules/api/MultiService';
@@ -16,15 +19,15 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     userSettingsEditNotificationSettings: build.query<
-      INotificationsSettings,
-      INotificationsSettings
+      INotificationsChannelConfig,
+      IUpdateNotificationsChannelParams
     >({
       queryFn: async (settings, { dispatch, getState }) => {
         const service = MultiService.getService();
 
         const data = await service
           .getAccountingGateway()
-          .editNotificationSettings(settings);
+          .updateNotificationsChannel(settings);
 
         const signUpSettings = selectSignupSettings(getState() as RootState);
 

@@ -16,6 +16,7 @@ export interface NavigationItem {
   isNotLinkItem?: boolean;
   label: string;
   blockName: BlockWithPermission;
+  amount?: number;
   onClick?: () => void;
   onAccessDeniedClick?: () => void;
 }

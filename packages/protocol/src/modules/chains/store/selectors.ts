@@ -97,6 +97,24 @@ export const selectBlockchainBySubchainId = createSelector(
   },
 );
 
+export const selectBlockchainsBySubchainIds = createSelector(
+  (state: RootState, chainIds: ChainID[]) => ({
+    state,
+    chainIds,
+  }),
+  ({ chainIds, state }) => {
+    const rootChains = chainIds.map(chainId =>
+      selectBlockchainBySubchainId(state, chainId),
+    );
+
+    // filter out repeated chains
+    return rootChains.filter(
+      (chain, index, self) =>
+        chain && self.findIndex(item => item?.id === chain?.id) === index,
+    );
+  },
+);
+
 export const selectPublicChainById = createSelector(
   (state: RootState, chainId: ChainID) => ({
     state,
@@ -168,7 +186,7 @@ export const selectAllChainsPaths = createSelector(
 
 export const selectAllPathsByChainId = createSelector(
   selectPublicBlockchains,
-  (_state: RootState, chainId: ChainID) => chainId,
+  (_state: RootState, chainId?: ChainID) => chainId,
   selectAllChainsPaths,
   (blockchains, chainId, allChainsPaths = []) => {
     const currentChain = blockchains?.find(

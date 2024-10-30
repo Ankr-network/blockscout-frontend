@@ -43,6 +43,7 @@ export const useSelectedProject = () => {
 
   return {
     project,
+    userEndpointToken,
     isLoaded: !isUninitialized && !isLoading && !isLoadingProjectsRequests,
   };
 };

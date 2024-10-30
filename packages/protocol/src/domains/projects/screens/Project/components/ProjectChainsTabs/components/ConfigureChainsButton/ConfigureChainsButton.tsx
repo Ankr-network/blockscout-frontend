@@ -28,7 +28,6 @@ export const ConfigureChainsButton = ({
     isSidebarOpened,
     onSidebarClose,
     selectedProjectChainsPaths,
-    setIsSelectedAll,
     setSelectedProjectChainsPaths,
   } = useConfigureChainsButton();
 
@@ -57,7 +56,6 @@ export const ConfigureChainsButton = ({
         <AddChainsForm
           selectAllSubChainPaths={handleSelectAllSubchainPaths}
           unSelectAllSubChainPaths={handleUnselectAllSubchainPaths}
-          setIsSelectedAll={setIsSelectedAll}
           selectedChainPaths={selectedProjectChainsPaths}
           setSelectedChainPaths={setSelectedProjectChainsPaths}
         />

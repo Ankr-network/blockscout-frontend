@@ -11,6 +11,7 @@ import {
   TableHead,
   TableRow,
   Tabs,
+  TextField,
   Typography,
 } from '@mui/material';
 import { CSVLink } from 'react-csv';
@@ -70,6 +71,14 @@ export const ClientUsageTable = ({
 
   isChartDataLoading,
   timeframe,
+
+  csvStats,
+  isLoadingCsvStats,
+
+  dateFrom,
+  onChangeFrom,
+  dateTo,
+  onChangeTo,
 }: IClientUsageTableProps) => {
   const {
     activeTimeframeTabIndex,
@@ -85,7 +94,14 @@ export const ClientUsageTable = ({
     maxCountTotal,
     csvMappedUsage,
     totalRequestsHistory,
-  } = useClientUsageTable({ onUpdateTimeframe, stats, usage, currentPeriod });
+    detailedCsvData,
+  } = useClientUsageTable({
+    onUpdateTimeframe,
+    stats,
+    csvStats,
+    usage,
+    currentPeriod,
+  });
 
   const { chartProps } = useRequestsChart({
     isChartDataLoading,
@@ -97,7 +113,7 @@ export const ClientUsageTable = ({
 
   return (
     <>
-      <Box display="flex">
+      <Box display="flex" marginBottom={4}>
         <Tabs
           value={activeTimeframeTabIndex}
           onChange={handleChangeActiveTab}
@@ -130,6 +146,42 @@ export const ClientUsageTable = ({
             data={csvMappedUsage}
           >
             Download CSV
+          </CSVLink>
+        )}
+      </Box>
+
+      <Box display="flex" alignItems="center">
+        <TextField
+          disabled={isLoadingCsvStats}
+          label="From"
+          type="date"
+          sx={{ mr: 6 }}
+          name="from"
+          id="from"
+          placeholder="From"
+          value={dateFrom}
+          onChange={onChangeFrom}
+        />
+
+        <TextField
+          disabled={isLoadingCsvStats}
+          label="To"
+          type="date"
+          sx={{ mr: 6 }}
+          name="to"
+          id="to"
+          placeholder="To"
+          value={dateTo}
+          onChange={onChangeTo}
+        />
+        {isLoadingCsvStats && <Spinner size={28} />}
+        {detailedCsvData && !isLoadingCsvStats && (
+          <CSVLink
+            className={classes.csvLink}
+            filename={fileName}
+            data={detailedCsvData}
+          >
+            Download Raw CSV
           </CSVLink>
         )}
       </Box>

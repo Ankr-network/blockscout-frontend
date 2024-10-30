@@ -6,7 +6,7 @@ import { RevenueDataMapped } from 'modules/clients/actions/fetchUserRevenue';
 import { ClientBalancesMapped } from 'modules/clients/types';
 
 import { useClientDetailsStyles as useStyles } from '../ClientDetailsStyles';
-import { useClientBalancesTexts } from './useClientBalancesTexts';
+import { useClientBalancesTexts } from './hooks/useClientBalancesTexts';
 
 interface IClientBalances {
   totalData?: IGetUserTotalMapped;

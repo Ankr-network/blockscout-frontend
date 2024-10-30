@@ -13,9 +13,11 @@ export enum RequestType {
   'UserGroupDetails' = 'UserGroupDetails',
   'UserGroupsList' = 'UserGroupsList',
   'WhitelistBlockchains' = 'WhitelistBlockchains',
+  'Notifications' = 'Notifications',
+  'TelegramNotifications' = 'TelegramNotifications',
 }
 
-// Endponts that must be cached by their names and params should be listed here
+// Endpoints that must be cached by their names and params should be listed here
 // Please keep in mind that if the name of an endpoint has changed,
 // this list should also be updated
 const endpointsSerializedByParams = [
@@ -48,6 +50,9 @@ const endpointsSerializedByParams = [
   /* stats */
   'fetchProjectChainsStatsFor1h',
   'fetchProjectChainsStatsFor24h',
+
+  /* notifications */
+  'fetchNotifications',
 ];
 
 const sortQueryArgsKeys = (queryArgs: unknown) => {

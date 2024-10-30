@@ -21,6 +21,7 @@ interface GuardUserGroupProps extends GuardUserGroupParams {
   placeholder?: ReactElement | null;
   shouldForceRedirect?: boolean;
   shouldRedirect?: boolean;
+  shouldHideAlert?: boolean;
 }
 
 export const GuardUserGroup = ({
@@ -29,6 +30,7 @@ export const GuardUserGroup = ({
   isDisabled,
   placeholder = null,
   shouldForceRedirect,
+  shouldHideAlert,
   shouldRedirect,
 }: GuardUserGroupProps) => {
   const history = useHistory();
@@ -60,12 +62,11 @@ export const GuardUserGroup = ({
         history.replace(projectsPath);
       }
 
-      const shouldHideAlert = localStorage.getItem(
-        HIDE_ACCESS_DENIED_DIALOG_FLAG,
-      );
+      const isAlertHidden =
+        localStorage.getItem(HIDE_ACCESS_DENIED_DIALOG_FLAG) || shouldHideAlert;
 
       // show notification only if redirect hasn't been forced
-      if (!hasAccess && shouldRedirect && !shouldHideAlert) {
+      if (!hasAccess && shouldRedirect && !isAlertHidden) {
         showAlert();
       }
     }
@@ -77,6 +78,7 @@ export const GuardUserGroup = ({
     isFinance,
     isLoggedIn,
     shouldForceRedirect,
+    shouldHideAlert,
     shouldRedirect,
     showAlert,
   ]);

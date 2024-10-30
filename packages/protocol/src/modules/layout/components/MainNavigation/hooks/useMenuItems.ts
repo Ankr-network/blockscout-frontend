@@ -5,6 +5,9 @@ import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useJwtManager } from 'domains/jwtToken/hooks/useJwtManager';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
 import { guardDialogSlice } from 'modules/guardDialog';
+import { useCommonNotificationsData } from 'modules/notifications/hooks/useCommonNotificationsData';
+import { selectIsSelectedUserGroupPersonal } from 'domains/userGroup/store';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { getSecondMenuItems } from '../utils/getSecondMenuItems';
 import { getTopMenuItems } from '../utils/getTopMenuItems';
@@ -37,10 +40,14 @@ export const useMenuItems = ({
     dispatch(guardDialogSlice.actions.showDialog());
   }, [dispatch]);
 
+  const { unseenNotificationsAmount } = useCommonNotificationsData();
+
   const { hasReadAccess } = useJwtManager();
   const hasProjects =
     !isMobileSideBar &&
     (!loading || !isLoggedIn || isFreePremium || hasReadAccess);
+
+  const isPersonalGroup = useAppSelector(selectIsSelectedUserGroupPersonal);
 
   const topMenuItems = useMemo(
     () =>
@@ -48,8 +55,10 @@ export const useMenuItems = ({
         chainsRoutes,
         hasProjects,
         isEnterpriseClient,
+        isPersonalGroup,
         isLoggedIn,
         isMobileSideBar,
+        notificationsAmount: unseenNotificationsAmount,
         onDashboardClick: onAnalyticsClick,
         onOpenUpgradePlanDialog,
         onOpenAccessDeniedDialog,
@@ -60,6 +69,8 @@ export const useMenuItems = ({
       isEnterpriseClient,
       isLoggedIn,
       isMobileSideBar,
+      isPersonalGroup,
+      unseenNotificationsAmount,
       onAnalyticsClick,
       onOpenUpgradePlanDialog,
       onOpenAccessDeniedDialog,

@@ -101,6 +101,7 @@ export function ProjectsRoutes() {
       blockName={BlockWithPermission.UsageData}
       shouldForceRedirect={shouldForceRedirect}
       shouldRedirect
+      shouldHideAlert
     >
       <Switch>
         <Route

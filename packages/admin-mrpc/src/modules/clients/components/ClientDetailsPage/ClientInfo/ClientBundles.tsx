@@ -1,3 +1,4 @@
+import { OverlaySpinner } from '@ankr.com/ui';
 import { Paper, Typography } from '@mui/material';
 import { IBundleDataEntity, IBundleStatusEntity } from 'multirpc-sdk';
 
@@ -71,43 +72,48 @@ interface IClientBundlesProps {
   address: string;
   activeBundles: IBundleDataEntity[];
   bundlesStatuses: IBundleStatusEntity[];
+  isLoading: boolean;
 }
 
 export const ClientBundles = ({
   address,
   activeBundles,
   bundlesStatuses,
+  isLoading,
 }: IClientBundlesProps) => {
-  if (!activeBundles.length)
-    return <Paper sx={{ p: 4, mt: 6, mb: 6 }}>No active bundles</Paper>;
-
   return (
     <Paper sx={{ p: 4, mt: 6, mb: 6 }}>
       <Typography component="p" variant="subtitle2">
         Active bundles:
       </Typography>
-      <ul>
-        {activeBundles.map(x => {
-          const bundleStatus = bundlesStatuses.find(
-            y => y.bundleId === x.bundle_id,
-          );
+      {isLoading && <OverlaySpinner size={40} />}
+      {!isLoading && bundlesStatuses.length === 0 && (
+        <Typography variant="body2">No active bundles</Typography>
+      )}
+      {!isLoading && bundlesStatuses.length > 0 && (
+        <ul>
+          {activeBundles.map(x => {
+            const bundleStatus = bundlesStatuses.find(
+              y => y.bundleId === x.bundle_id,
+            );
 
-          const paymentId = bundleStatus?.paymentId;
+            const paymentId = bundleStatus?.paymentId;
 
-          if (!bundleStatus) return null;
+            if (!bundleStatus) return null;
 
-          return (
-            <BundleItem
-              address={address}
-              key={x.bundle_id}
-              data={x}
-              bundleStatus={bundleStatus}
-              paymentId={paymentId}
-              expires={bundleStatus.expires}
-            />
-          );
-        })}
-      </ul>
+            return (
+              <BundleItem
+                address={address}
+                key={x.bundle_id}
+                data={x}
+                bundleStatus={bundleStatus}
+                paymentId={paymentId}
+                expires={bundleStatus.expires}
+              />
+            );
+          })}
+        </ul>
+      )}
     </Paper>
   );
 };

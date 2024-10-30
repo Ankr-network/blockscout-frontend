@@ -34,6 +34,7 @@ export const dialogAuthoHeightMax = `calc(100vh - ${DIALOG_OFFSET}px)`;
 
 export const TWITTER_COLOR = '#479AE9';
 export const DISCORD_COLOR = '#5865F2';
+export const TELEGRAM_COLOR = '#509FDA';
 
 export const ANKR_DOCS_LINK = 'https://www.ankr.com/docs/';
 export const ANKR_DOCS_PROJECTS_LINK =
@@ -82,3 +83,6 @@ export const INTEGER_REGEX = /[^0-9]/;
 
 export const SALES_TEAM_CONTACT =
   'https://meetings-eu1.hubspot.com/arsalan-evini';
+
+export const SUPPORT_PORTAL_LINK =
+  'http://helpdesk.ankr.com/?_gl=1*7x6jyr*_ga*Njk4Njg3NTY1LjE3MTg4NzE5MTc.*_ga_0MDHE2B2H8*MTcyOTI0NzQzNi4xNDAuMS4xNzI5MjQ4MjI3LjcuMC4w';

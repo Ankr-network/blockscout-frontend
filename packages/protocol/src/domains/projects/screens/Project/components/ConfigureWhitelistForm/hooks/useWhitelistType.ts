@@ -1,12 +1,16 @@
 import { UserEndpointTokenMode } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
 import { useTabs } from 'modules/common/hooks/useTabs';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 
 import { getWhitelistTypeTabs } from '../utils/getWhitelistTypeTabs';
 
-const tabs = getWhitelistTypeTabs();
-
 export const useWhitelistType = () => {
+  const { hasPremium } = useAuth();
+
+  const tabs = useMemo(() => getWhitelistTypeTabs(hasPremium), [hasPremium]);
+
   const [whitelistTypeTabs, selectedWhitelistTypeTab, selectWhitelistTypeTab] =
     useTabs<UserEndpointTokenMode>({ tabs });
 

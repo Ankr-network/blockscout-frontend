@@ -48,7 +48,6 @@ import {
   NegativeBalanceTermsOfServicesStatusResponse,
   NegativeBalanceTermsOfServicesStatusParams,
 } from './tos';
-import { INotificationsSettings } from './notification';
 import {
   InitTwoFAResponse,
   TwoFAStatusResponse,
@@ -153,6 +152,21 @@ import {
   IGetRewardTxsResponse,
 } from './referralProgram';
 import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
+import {
+  IGetNotificationsResponse,
+  IGetNotificationsParams,
+  IMarkNotificationsAsReadResponse,
+  IMarkNotificationsAsReadParams,
+  IGetNotificationsChannelsResponse,
+  IGetNotificationsChannelsParams,
+  IGetTelegramNotificationsBotDataResponse,
+  IEnableTelegramIntegrationResponse,
+  IEnableTelegramIntegrationParams,
+  IDeleteNotificationsChannelParams,
+  IDeleteNotificationsChannelResponse,
+  IUpdateNotificationsChannelParams,
+  INotificationsChannelConfig,
+} from './notifications';
 
 export class AccountingGateway {
   public api: AxiosInstance;
@@ -388,23 +402,6 @@ export class AccountingGateway {
       {
         params: { email },
       },
-    );
-
-    return response;
-  }
-
-  async editNotificationSettings(data: INotificationsSettings) {
-    const { data: response } = await this.api.post<INotificationsSettings>(
-      '/api/v1/auth/notification/configuration',
-      data,
-    );
-
-    return response;
-  }
-
-  async getNotificationSettings() {
-    const { data: response } = await this.api.get<INotificationsSettings>(
-      '/api/v1/auth/notification/configuration',
     );
 
     return response;
@@ -1138,6 +1135,74 @@ export class AccountingGateway {
     await this.api.post('/api/v1/auth/groups/invite/reject', body);
   }
 
+  async getNotifications(params?: IGetNotificationsParams): Promise<IGetNotificationsResponse> {
+    const { data: response } = await this.api.get<IGetNotificationsResponse>(
+      '/api/v1/auth/notifications',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async markNotificationsAsRead(
+    params: IMarkNotificationsAsReadParams,
+  ): Promise<IMarkNotificationsAsReadResponse> {
+    const { data } = await this.api.patch<IMarkNotificationsAsReadResponse>(
+      '/api/v1/auth/notifications/status',
+      params,
+    );
+
+    return data;
+  }
+
+  async getNotificationsChannels(params?: IGetNotificationsChannelsParams) {
+    const { data: response } = await this.api.get<IGetNotificationsChannelsResponse[]>(
+      '/api/v1/auth/notifications/channels',
+      {
+        params,
+      },
+    );
+
+    return response;
+  }
+
+  async updateNotificationsChannel(params: IUpdateNotificationsChannelParams) {
+    const { data } = await this.api.post<INotificationsChannelConfig>(
+      '/api/v1/auth/notifications/channels/config',
+      params,
+    );
+
+    return data;
+  }
+
+  async getTelegramNotificationsBotData() {
+    const { data: response } = await this.api.get<IGetTelegramNotificationsBotDataResponse>(
+      '/api/v1/auth/notifications/telegram/bot',
+    );
+
+    return response;
+  }
+
+  async enableTelegramIntegration(params: IEnableTelegramIntegrationParams) {
+    const { data } = await this.api.post<IEnableTelegramIntegrationResponse>(
+      '/api/v1/auth/notifications/telegram/enable',
+      params,
+    );
+
+    return data;
+  }
+
+  async deleteNotificationsChannel(params: IDeleteNotificationsChannelParams) {
+    const { data } = await this.api.delete<IDeleteNotificationsChannelResponse>(
+      '/api/v1/auth/notifications/channels',
+      { params },
+    );
+
+    return data;
+  }
+
   async applyReferralCode(params: IApplyReferralCodeParams) {
     const { data } = await this.api.post<IApplyReferralCodeResult>(
       '/api/v1/auth/referral/apply',
@@ -1217,7 +1282,7 @@ export class AccountingGateway {
   }
 
   async getRewardTxs(params?: IGetRewardTxsParams) {
-    const { data: { transactions }} = await this.api.get<IGetRewardTxsResponse>(
+    const { data: { transactions } } = await this.api.get<IGetRewardTxsResponse>(
       '/api/v1/auth/referral/reward/txs',
       { params },
     );

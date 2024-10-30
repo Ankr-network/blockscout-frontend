@@ -50,8 +50,8 @@ export const usePublicUsageData = ({
     totalRequestsHistory,
   } = usePublicStats({
     chainId: publicCheckedChainId,
-    timeframe,
     skipFetching: isReactSnap,
+    timeframe,
   });
 
   return {
