@@ -28,6 +28,7 @@ export const {
       providesTags: [RequestType.WhitelistsBlockchains],
       queryFn: createNotifyingQueryFn(
         async ({ group, projects }, { dispatch }) => {
+          console.log({ fetchProjectsWhitelistsBlockchains: true });
           await Promise.all(
             projects.map(async ({ userEndpointToken: token }) =>
               dispatch(

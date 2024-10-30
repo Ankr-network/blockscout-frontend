@@ -27,6 +27,7 @@ export const {
   endpoints: build => ({
     fetchJWTs: build.query<JWT[], IFetchJWTsParams>({
       queryFn: createNotifyingQueryFn(async ({ group }, { getState }) => {
+        console.log({ fetchJWTs: true });
         const api = MultiService.getService().getAccountingGateway();
 
         const result = await api.getAllJwtToken({ group });

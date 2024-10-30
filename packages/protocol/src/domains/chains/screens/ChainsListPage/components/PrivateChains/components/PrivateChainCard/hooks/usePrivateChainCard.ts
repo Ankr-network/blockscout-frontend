@@ -23,9 +23,14 @@ export const usePrivateChainCard = ({ chain }: IUsePrivateChainCardProps) => {
   const {
     loading: projectsWhitelistsBlockchainsLoading,
     projectsWhitelistsBlockchains: projectsWithBlockchains,
+    state: { isError, isSuccess },
   } = useProjectsWhitelistsBlockchains({ projects: jwts, skipFetching: true });
+  const projectBlockchainsLoaded = isSuccess || isError;
 
-  const projectsLoading = jwtsLoading || projectsWhitelistsBlockchainsLoading;
+  const projectsLoading =
+    jwtsLoading ||
+    projectsWhitelistsBlockchainsLoading ||
+    !projectBlockchainsLoaded;
 
   const isEndpointLocked = Boolean(chain.premiumOnly && !hasPremium);
 
