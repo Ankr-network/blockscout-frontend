@@ -2,7 +2,7 @@ import { Skeleton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useCallback, useMemo } from 'react';
 
-import { IProjectWithBlockchains } from 'domains/projects/actions/fetchProjectsWhitelistsBlockchains';
+import { IProjectWithBlockchains } from 'domains/projects/types';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
@@ -28,16 +28,16 @@ export const ChainProjects = ({
 
   const renderProjectNames = useCallback(
     (projects: IProjectWithBlockchains[]) => {
-      return projects.map(({ projectName, userEndpointToken }) => {
+      return projects.map(({ name, userEndpointToken }) => {
         return (
           <Link
             key={userEndpointToken}
-            title={projectName}
+            title={name}
             className={classes.projectLink}
             onClick={e => e.stopPropagation()}
             to={ProjectsRoutesConfig.project.generatePath(userEndpointToken)}
           >
-            <span className={classes.projectLinkName}>{projectName}</span>
+            <span className={classes.projectLinkName}>{name}</span>
           </Link>
         );
       });

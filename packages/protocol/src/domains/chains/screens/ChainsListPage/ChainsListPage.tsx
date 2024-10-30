@@ -1,16 +1,17 @@
 import { t } from '@ankr.com/common';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useRedirectToEnterpriseOnGroupChange } from 'hooks/useRedirectToEnterpriseOnGroupChange';
 import { useSetBreadcrumbs } from 'modules/layout/components/BreadcrumbsProvider';
+import { selectHasPrivateAccess } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { PrivateChains } from './components/PrivateChains';
 import { PublicChains } from './components/PublicChains';
 import { useChainViewSelector } from './components/ChainViewSelector';
 
 export const ChainsListPage = () => {
-  const { hasPrivateAccess } = useAuth();
+  const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
 
   useRedirectToEnterpriseOnGroupChange();
 

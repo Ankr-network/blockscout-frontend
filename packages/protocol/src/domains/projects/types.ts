@@ -1,4 +1,7 @@
+import { BlockchainID } from 'multirpc-sdk';
 import { Chain, ChainType } from '@ankr.com/chains-list';
+
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 
 export enum NewProjectStep {
   General,
@@ -25,3 +28,8 @@ export type ProjectChainsType = Chain & {
 export type ProjectChain = ProjectChainsType & {
   mainnets?: Chain[];
 };
+
+export interface IProjectWithBlockchains
+  extends Pick<JWT, 'index' | 'name' | 'userEndpointToken'> {
+  blockchains: BlockchainID[];
+}

@@ -4,17 +4,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export type IProjectSubchains = Record<UserEndpointToken, ChainPath[]>;
 
 export const useProjectSubchains = () => {
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
-
   const { jwts: projects } = useJWTsManager();
   const { projectsWhitelistsBlockchains } = useProjectsWhitelistsBlockchains({
     projects,
-    group,
     skipFetching: true,
   });
 

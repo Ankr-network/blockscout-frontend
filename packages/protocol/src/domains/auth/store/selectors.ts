@@ -18,6 +18,7 @@ import {
   fetchPremiumStatus,
 } from 'domains/auth/actions/fetchPremiumStatus';
 import { getPremiumActivationThreshold } from 'domains/auth/utils/getPremiumActivationThreshold';
+import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { selectAuthData } from './authSlice';
@@ -36,6 +37,12 @@ export const selectIsLoggedIn = createSelector(
   selectAuthData,
   ({ hasOauthLogin, hasWeb3Connection }) =>
     Boolean(hasOauthLogin || hasWeb3Connection),
+  {
+    memoizeOptions: {
+      equalityCheck: deepEqulityCheck,
+      resultEqualityCheck: deepEqulityCheck,
+    },
+  },
 );
 
 export const selectIsTokenExpired = createSelector(
@@ -82,6 +89,12 @@ export const selectHasFreemium = createSelector(
 export const selectHasPremium = createSelector(
   selectPremiumStatusState,
   ({ data: { isFreemium } = defaultPremiumStatusData }) => !isFreemium,
+  {
+    memoizeOptions: {
+      equalityCheck: deepEqulityCheck,
+      resultEqualityCheck: deepEqulityCheck,
+    },
+  },
 );
 
 export const selectIsInactiveStatus = createSelector(
@@ -135,6 +148,12 @@ export const selectHasPrivateAccess = createSelector(
   selectIsLoggedIn,
   (credentials, userEndpointToken, isLoggedIn) =>
     isLoggedIn && Boolean(credentials || userEndpointToken),
+  {
+    memoizeOptions: {
+      equalityCheck: deepEqulityCheck,
+      resultEqualityCheck: deepEqulityCheck,
+    },
+  },
 );
 
 export const selectHasInfrastructureAccess = createSelector(

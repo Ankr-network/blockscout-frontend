@@ -1,4 +1,4 @@
-import { BlockchainID, IApiUserGroupParams } from 'multirpc-sdk';
+import { IApiUserGroupParams } from 'multirpc-sdk';
 
 import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { RequestType, web3Api } from 'store/queries';
@@ -6,13 +6,6 @@ import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
 
 import { fetchProjectWhitelistBlockchains } from './fetchProjectWhitelistBlockchains';
-
-export interface IProjectWithBlockchains {
-  userEndpointToken: string;
-  projectName: string;
-  blockchains: BlockchainID[];
-  index: number;
-}
 
 export interface IFetchProjectsWhitelistsBlockchainsParams
   extends IApiUserGroupParams {
@@ -29,28 +22,21 @@ export const {
 } = web3Api.injectEndpoints({
   endpoints: build => ({
     fetchProjectsWhitelistsBlockchains: build.query<
-      IProjectWithBlockchains[],
+      null,
       IFetchProjectsWhitelistsBlockchainsParams
     >({
       providesTags: [RequestType.WhitelistsBlockchains],
       queryFn: createNotifyingQueryFn(
         async ({ group, projects }, { dispatch }) => {
-          const data = await Promise.all(
-            projects.map(
-              async ({ index, name: projectName, userEndpointToken }) => {
-                const blockchains = await dispatch(
-                  fetchProjectWhitelistBlockchains.initiate({
-                    group,
-                    token: userEndpointToken,
-                  }),
-                ).unwrap();
-
-                return { blockchains, index, projectName, userEndpointToken };
-              },
+          await Promise.all(
+            projects.map(async ({ userEndpointToken: token }) =>
+              dispatch(
+                fetchProjectWhitelistBlockchains.initiate({ group, token }),
+              ),
             ),
           );
 
-          return { data };
+          return { data: null };
         },
       ),
     }),
@@ -58,10 +44,8 @@ export const {
 });
 
 export const {
-  selectDataWithFallbackCachedByParams: selectProjectsWhitelistsBlockchains,
   selectLoadingCachedByParams: selectProjectsWhitelistsBlockchainsLoading,
   selectStateCachedByParams: selectProjectsWhitelistsBlockchainsState,
 } = createQuerySelectors({
   endpoint: fetchProjectsWhitelistsBlockchains,
-  fallback: [],
 });

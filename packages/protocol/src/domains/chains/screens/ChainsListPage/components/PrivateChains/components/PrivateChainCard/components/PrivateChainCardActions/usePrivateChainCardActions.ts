@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { Chain } from '@ankr.com/chains-list';
 
-import { IProjectWithBlockchains } from 'domains/projects/actions/fetchProjectsWhitelistsBlockchains';
+import { IProjectWithBlockchains } from 'domains/projects/types';
 import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { filterChainByPaths } from 'modules/chains/utils/filterChainByPaths';
 import { hasEvmSubchains } from 'modules/chains/utils/hasEvmSubchains';
@@ -17,9 +17,9 @@ export interface IPrivateChainCardActionsProps {
   isCardView?: boolean;
   isChainProjectsEmpty?: boolean;
   isEndpointLocked: boolean;
-  isLoadingProjects: boolean;
   onOpenAddToProjectsDialog: () => void;
   open: boolean;
+  projectsLoading: boolean;
 }
 
 export const usePrivateChainCardActions = ({
@@ -27,7 +27,6 @@ export const usePrivateChainCardActions = ({
   chainProjects,
   handleClose,
   isEndpointLocked,
-  isLoadingProjects,
   onOpenAddToProjectsDialog,
   open,
 }: IPrivateChainCardActionsProps) => {
@@ -64,7 +63,6 @@ export const usePrivateChainCardActions = ({
     handleOpenAddToProjectsDialog,
     isAddToMetamaskButtonVisible,
     isEndpointLocked,
-    isLoadingProjects,
     open,
     projectChain,
   };

@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
 import { isTestnetPremiumOnly } from '@ankr.com/chains-list';
+import { useMemo } from 'react';
 
-import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
-import { useDialog } from 'modules/common/hooks/useDialog';
 import { ChainProjectsSidebar } from 'domains/chains/screens/ChainPage/components/ChainProjectsSidebar';
 import { getChainLabels } from 'modules/chains/utils/getChainLabels';
-import { usePrivateChainType } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainType';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCommonChainItem } from 'domains/chains/screens/ChainPage/hooks/useCommonChainItem';
+import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
+import { useDialog } from 'modules/common/hooks/useDialog';
+import { usePrivateChainType } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainType';
 
 import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
 import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
 import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
-import { ChainProjectsProps } from './components/ChainProjects';
 import { PrivateChainCardActions } from './components/PrivateChainCardActions';
 import { EChainView } from '../../../ChainViewSelector';
 import {
@@ -21,18 +21,14 @@ import {
 
 interface PrivateChainCardProps
   extends IChainCardProps,
-    ChainProjectsProps,
     IUsePrivateChainCardProps {}
 
 export const PrivateChainCard = ({
-  allWhitelistsBlockchains,
   chain,
-  hasPremium,
-  isLoadingProjects,
-  jwtTokens,
   timeframe,
   view = EChainView.Cards,
 }: PrivateChainCardProps) => {
+  const { hasPremium } = useAuth();
   const { loading, totalRequests } = usePrivateChainsItem({ chain, timeframe });
 
   const { totalRequestsStr } = useCommonChainsItemData(
@@ -53,7 +49,10 @@ export const PrivateChainCard = ({
     isBlockedMainnet: !hasPremium && chain?.isMainnetPremiumOnly,
   });
 
-  const subchainLabels = getChainLabels(chain, chainTypeTabs);
+  const subchainLabels = useMemo(
+    () => getChainLabels(chain, chainTypeTabs),
+    [chain, chainTypeTabs],
+  );
 
   const {
     isOpened: isOpenedAddToProjectsSidebar,
@@ -70,13 +69,8 @@ export const PrivateChainCard = ({
     isChainProjectsEmpty,
     isEndpointLocked,
     isMenuOpened,
-  } = usePrivateChainCard({
-    allWhitelistsBlockchains,
-    chain,
-    hasPremium,
-    isLoadingProjects,
-    jwtTokens,
-  });
+    projectsLoading,
+  } = usePrivateChainCard({ chain });
 
   const cardProps: IBaseChainCardProps = useMemo(
     () => ({
@@ -97,32 +91,32 @@ export const PrivateChainCard = ({
           filteredJwtTokens={filteredJwtTokens}
           handleClose={handleClose}
           handleOpenChainMenu={handleOpenChainMenu}
+          isCardView={view === EChainView.Cards}
+          isChainProjectsEmpty={isChainProjectsEmpty}
           isEndpointLocked={isEndpointLocked}
-          isLoadingProjects={isLoadingProjects}
           onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
           open={isMenuOpened}
-          isChainProjectsEmpty={isChainProjectsEmpty}
-          isCardView={view === EChainView.Cards}
+          projectsLoading={projectsLoading}
         />
       ),
     }),
     [
-      view,
-      chain,
-      loading,
-      totalRequests,
-      isChainProjectsEmpty,
-      totalRequestsStr,
-      timeframe,
       anchorEl,
+      chain,
       chainProjects,
       filteredJwtTokens,
       handleClose,
       handleOpenChainMenu,
+      isChainProjectsEmpty,
       isEndpointLocked,
-      isLoadingProjects,
-      onOpenAddToProjectsDialog,
       isMenuOpened,
+      loading,
+      onOpenAddToProjectsDialog,
+      projectsLoading,
+      timeframe,
+      totalRequests,
+      totalRequestsStr,
+      view,
     ],
   );
 

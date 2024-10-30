@@ -23,7 +23,9 @@ export const {
       BlockchainID[],
       IFetchProjectWhitelistBlockchainsParams
     >({
-      providesTags: [RequestType.WhitelistBlockchains],
+      providesTags: (_result, _error, { token }) => [
+        { type: RequestType.WhitelistBlockchains, id: token },
+      ],
       queryFn: createNotifyingQueryFn(async (params, { getState }) => {
         const api = MultiService.getService().getAccountingGateway();
         const allBlockchainsPaths = selectAllChainsPaths(

@@ -7,6 +7,7 @@ import {
   selectJWTs,
 } from 'domains/jwtToken/action/fetchJWTs';
 import { RootState } from 'store';
+import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { selectCurrentAddress } from 'domains/auth/store';
 
@@ -23,12 +24,13 @@ import {
   selectProjectTotalRequestsState,
   selectProjectTotalRequests,
 } from '../actions/fetchProjectTotalRequests';
-import { NewProjectStep } from '../types';
+import { IProjectWithBlockchains, NewProjectStep } from '../types';
 import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
 import { filterTotalRequests } from './utils/filterTotalRequests';
 import { getHalfDuration } from './utils/getHalfDuration';
 import { getRelativeChange } from './utils/getRelativeChange';
 import { selectProjectWhitelist } from '../actions/fetchProjectWhitelist';
+import { selectProjectWhitelistBlockchains } from '../actions/fetchProjectWhitelistBlockchains';
 import { selectProjectsWhitelistsBlockchainsLoading } from '../actions/fetchProjectsWhitelistsBlockchains';
 import { sumSubchainsTotalRequest } from './utils/sumSubchainsTotalRequest';
 import { sumTotalRequests } from './utils/sumTotalRequests';
@@ -161,4 +163,24 @@ export const selectCurrentProjectsWhitelistsBlockchainsLoading = createSelector(
   (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
   (projects, [state, group]) =>
     selectProjectsWhitelistsBlockchainsLoading(state, { group, projects }),
+);
+
+export const selectCurrentProjectsWhitelistsBlockchains = createSelector(
+  selectJWTs,
+  (state: RootState, { group }: IFetchJWTsParams) => ({ group, state }),
+  (projects, { group, state }) =>
+    projects.map<IProjectWithBlockchains>(
+      ({ index, name, userEndpointToken: token }) => ({
+        blockchains: selectProjectWhitelistBlockchains(state, { group, token }),
+        index,
+        name,
+        userEndpointToken: token,
+      }),
+    ),
+  {
+    memoizeOptions: {
+      equalityCheck: deepEqulityCheck,
+      resultEqualityCheck: deepEqulityCheck,
+    },
+  },
 );

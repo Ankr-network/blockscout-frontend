@@ -1,37 +1,38 @@
-import { useCallback, useMemo } from 'react';
 import { Chain } from '@ankr.com/chains-list';
+import { useCallback, useMemo } from 'react';
 
-import { IProjectWithBlockchains } from 'domains/projects/actions/fetchProjectsWhitelistsBlockchains';
-import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useMenu } from 'modules/common/hooks/useMenu';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 
 export interface IUsePrivateChainCardProps {
-  allWhitelistsBlockchains?: IProjectWithBlockchains[];
   chain: Chain;
-  hasPremium: boolean;
-  isLoadingProjects: boolean;
-  jwtTokens: JWT[];
 }
 
-export const usePrivateChainCard = ({
-  allWhitelistsBlockchains,
-  chain,
-  hasPremium,
-  isLoadingProjects,
-  jwtTokens,
-}: IUsePrivateChainCardProps) => {
+export const usePrivateChainCard = ({ chain }: IUsePrivateChainCardProps) => {
+  const { hasPremium } = useAuth();
   const allChainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),
   );
 
+  const { jwts, jwtsLoading } = useJWTsManager();
+
+  const {
+    loading: projectsWhitelistsBlockchainsLoading,
+    projectsWhitelistsBlockchains: projectsWithBlockchains,
+  } = useProjectsWhitelistsBlockchains({ projects: jwts, skipFetching: true });
+
+  const projectsLoading = jwtsLoading || projectsWhitelistsBlockchainsLoading;
+
   const isEndpointLocked = Boolean(chain.premiumOnly && !hasPremium);
 
   const chainProjects = useMemo(() => {
-    return allWhitelistsBlockchains?.filter(project => {
+    return projectsWithBlockchains?.filter(project => {
       // empty array means all chains are included
-      if (project.blockchains.length === 0) {
+      if ((project.blockchains ?? []).length === 0) {
         return true;
       }
 
@@ -42,11 +43,11 @@ export const usePrivateChainCard = ({
 
       return isCurrentPathIncluded;
     });
-  }, [allChainPaths, allWhitelistsBlockchains]);
+  }, [allChainPaths, projectsWithBlockchains]);
 
   const filteredJwtTokens = useMemo(
     () =>
-      jwtTokens.filter(
+      jwts.filter(
         token =>
           !chainProjects?.every(
             project =>
@@ -54,7 +55,7 @@ export const usePrivateChainCard = ({
               token.userEndpointToken.toLowerCase(),
           ),
       ),
-    [chainProjects, jwtTokens],
+    [jwts, chainProjects],
   );
 
   const { anchorEl, handleClose, handleOpen, open } = useMenu();
@@ -68,8 +69,7 @@ export const usePrivateChainCard = ({
     [handleOpen],
   );
 
-  const isChainProjectsEmpty =
-    !isLoadingProjects && chainProjects?.length === 0;
+  const isChainProjectsEmpty = !projectsLoading && chainProjects?.length === 0;
 
   return {
     anchorEl,
@@ -80,5 +80,6 @@ export const usePrivateChainCard = ({
     isChainProjectsEmpty,
     isEndpointLocked,
     isMenuOpened: open,
+    projectsLoading,
   };
 };

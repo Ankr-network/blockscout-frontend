@@ -23,7 +23,6 @@ import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
 import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import {
   EnterpriseChainDetailsRoutes,
   EnterpriseChainsRoutes,
@@ -44,13 +43,21 @@ import {
 } from 'domains/notifications/Routes';
 import { REFERRALS_PATHS, ReferralsRoutes } from 'domains/referrals/routes';
 import { GuardTelegramConfirmationRoute } from 'domains/userSettings/components/GuardTelegramConfirmationRoute';
+import {
+  selectHasPremium,
+  selectHasPrivateAccess,
+  selectIsLoggedIn,
+} from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { INDEX_PATH } from './constants';
 import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
 
 /* eslint-disable max-lines-per-function */
 export const Routes = () => {
-  const { hasPremium, hasPrivateAccess, isLoggedIn } = useAuth();
+  const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
+  const hasPremium = useAppSelector(selectHasPremium);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const shouldRedirectToProjects = useShouldRedirectToProjects();
 

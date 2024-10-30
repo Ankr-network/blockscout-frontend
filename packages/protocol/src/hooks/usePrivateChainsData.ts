@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { ESortChainsType, Timeframe } from '@ankr.com/chains-list';
+import { useState } from 'react';
 
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
@@ -17,6 +17,8 @@ interface UsePrivateChainsDataParams {
 const defaultUsePrivateChainsDataParams: UsePrivateChainsDataParams = {
   ignoreJwtManager: false,
 };
+
+const defaultPrivateStats = {};
 
 export const usePrivateChainsData = ({
   ignoreJwtManager,
@@ -36,7 +38,7 @@ export const usePrivateChainsData = ({
 
   const {
     arePrivateStatsLoading: isLoading,
-    data: { stats: privateStats = {} },
+    data: { stats: privateStats = defaultPrivateStats },
     privateStatsError: error,
   } = usePrivateStats({
     hasGateway: false,

@@ -24,10 +24,10 @@ export const PrivateChainCardActions = (
     handleOpenAddToProjectsDialog,
     isAddToMetamaskButtonVisible,
     isEndpointLocked,
-    isLoadingProjects,
     open,
     projectChain,
   } = usePrivateChainCardActions(props);
+  const { projectsLoading } = props;
 
   const {
     anchorEl,
@@ -49,7 +49,7 @@ export const PrivateChainCardActions = (
       <div className={classes.privateChainActions}>
         <ChainProjects
           chainProjects={chainProjects}
-          isLoadingProjects={isLoadingProjects}
+          isLoadingProjects={projectsLoading}
         />
         {!isEndpointLocked && !isChainProjectsEmpty && (
           <CopyEndpointModal
@@ -58,7 +58,7 @@ export const PrivateChainCardActions = (
             userEndpointToken={filteredJwtTokens[0]?.userEndpointToken}
             buttonProps={{
               variant: 'outlined',
-              disabled: isLoadingProjects,
+              disabled: projectsLoading,
             }}
             buttonClassName={cx(classes.privateChainCopyEndpointButton, {
               [classes.privateActionsButtonLarge]: !isCardView,
@@ -91,7 +91,7 @@ export const PrivateChainCardActions = (
               className: cx(classes.chainCardBtnMore, {
                 [classes.chainCardBtnMoreActive]: open,
               }),
-              loading: isLoadingProjects,
+              loading: projectsLoading,
             }}
             iconMoreClassName={classes.chainCardBtnMoreIcon}
             classes={{ paper: classes.chainCardMenuPaper }}

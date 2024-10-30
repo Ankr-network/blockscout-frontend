@@ -7,12 +7,12 @@ import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGro
 
 import {
   IFetchProjectsWhitelistsBlockchainsParams,
-  selectProjectsWhitelistsBlockchains,
   selectProjectsWhitelistsBlockchainsLoading,
   selectProjectsWhitelistsBlockchainsState,
   useFetchProjectsWhitelistsBlockchainsQuery,
   useLazyFetchProjectsWhitelistsBlockchainsQuery,
 } from '../actions/fetchProjectsWhitelistsBlockchains';
+import { selectCurrentProjectsWhitelistsBlockchains } from '../store';
 
 export interface IUseProjectsWhitelistsBlockchainsProps
   extends IFetchProjectsWhitelistsBlockchainsParams,
@@ -44,7 +44,7 @@ export const useProjectsWhitelistsBlockchains = ({
   );
 
   const projectsWhitelistsBlockchains = useAppSelector(state =>
-    selectProjectsWhitelistsBlockchains(state, params),
+    selectCurrentProjectsWhitelistsBlockchains(state, { group }),
   );
   const loading = useAppSelector(state =>
     selectProjectsWhitelistsBlockchainsLoading(state, params),

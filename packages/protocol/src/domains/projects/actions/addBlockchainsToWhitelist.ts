@@ -25,9 +25,11 @@ export const {
       null,
       TwoFAQueryFnParams<AddBlockchainsToWhitelistParams>
     >({
-      invalidatesTags: [
-        RequestType.WhitelistBlockchains,
-        RequestType.WhitelistsBlockchains,
+      invalidatesTags: (_result, _error, { params: { userEndpointToken } }) => [
+        {
+          type: RequestType.WhitelistBlockchains,
+          id: userEndpointToken,
+        },
       ],
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({
@@ -48,11 +50,6 @@ export const {
           );
 
           return { data: null };
-        },
-        errorHandler: error => {
-          return {
-            error,
-          };
         },
       }),
     }),
