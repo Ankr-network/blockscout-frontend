@@ -35,6 +35,7 @@ export const useNotificationsPage = () => {
   });
 
   const {
+    hasBroadcastNotificationsOnly,
     hasMore,
     isError,
     isInitializing,
@@ -49,15 +50,16 @@ export const useNotificationsPage = () => {
 
   return {
     activeFilter,
+    handleChangeFilter,
+    handleRefetchUnseenNotifications,
+    hasBroadcastNotificationsOnly,
     hasMore,
-    isInitializing,
     isError,
+    isInitializing,
     isLoading,
     loadMore,
     notifications,
     shouldShowUnread,
     toggleShowUnread,
-    handleChangeFilter,
-    handleRefetchUnseenNotifications,
   };
 };

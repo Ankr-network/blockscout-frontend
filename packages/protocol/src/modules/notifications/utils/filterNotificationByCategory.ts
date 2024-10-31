@@ -1,11 +1,15 @@
-import { ENotificationCategory } from 'multirpc-sdk';
+import { ENotificationCategory, INotificationItem } from 'multirpc-sdk';
+
+import { EMilliSeconds } from 'modules/common/constants/const';
 
 import { EAdditionalNotificationsFilter, ENotificationsFilter } from '../const';
-import { INotificationProps } from '../types';
+import { getNotificationAge } from './getNotificationAge';
+import { isBroadcastNotification } from './isBroadcastNotification';
 
 export function filterNotificationByCategory(
-  notification: INotificationProps,
+  notification: INotificationItem,
   activeFilter: ENotificationsFilter,
+  includeBroadcastToUnread = false,
 ) {
   if (
     activeFilter === EAdditionalNotificationsFilter.ALL ||
@@ -26,6 +30,11 @@ export function filterNotificationByCategory(
   }
 
   if (activeFilter === EAdditionalNotificationsFilter.UNREAD) {
-    return notification.isUnread;
+    return (
+      !notification.seen ||
+      (includeBroadcastToUnread &&
+        isBroadcastNotification(notification) &&
+        getNotificationAge(notification) < EMilliSeconds.Day)
+    );
   }
 }

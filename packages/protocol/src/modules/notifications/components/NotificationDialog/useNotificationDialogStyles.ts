@@ -22,5 +22,9 @@ export const useNotificationDialogStyles = makeStyles({ name })(theme => ({
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(5),
+
+    span: {
+      whiteSpace: 'pre-wrap',
+    },
   },
 }));
