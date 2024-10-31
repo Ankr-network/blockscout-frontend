@@ -9,6 +9,7 @@ import {
   fetchPaginationNotifications,
   selectPaginationNotifications,
 } from './fetchPaginationNotifications';
+import { fetchNotifications } from './fetchNotifications';
 
 interface IUpdateNotificationStatusParams {
   seen: boolean;
@@ -35,7 +36,10 @@ export const {
           data: response,
         };
       }),
-      onQueryStarted: async ({ id, seen }, { dispatch, getState }) => {
+      onQueryStarted: async (
+        { id, seen },
+        { dispatch, getState, queryFulfilled },
+      ) => {
         const paginationNotificationsCurrentData =
           selectPaginationNotifications(getState() as RootState, undefined);
         const updatedNotifications = [
@@ -64,6 +68,12 @@ export const {
               });
             },
           ),
+        );
+
+        await queryFulfilled;
+
+        dispatch(
+          fetchNotifications.initiate({ limit: 15 }, { forceRefetch: true }),
         );
       },
     }),

@@ -12,6 +12,7 @@ import {
   fetchPaginationNotifications,
   selectPaginationNotifications,
 } from './fetchPaginationNotifications';
+import { fetchNotifications } from './fetchNotifications';
 
 export const {
   endpoints: { markNotificationsStatus },
@@ -34,7 +35,7 @@ export const {
         };
       }),
       invalidatesTags: [RequestType.Notifications],
-      onQueryStarted: async (_, { dispatch, getState }) => {
+      onQueryStarted: async (_, { dispatch, getState, queryFulfilled }) => {
         const paginationNotificationsCurrentData =
           selectPaginationNotifications(getState() as RootState, undefined);
         const updatedNotifications = [
@@ -55,6 +56,12 @@ export const {
               });
             },
           ),
+        );
+
+        await queryFulfilled;
+
+        dispatch(
+          fetchNotifications.initiate({ limit: 15 }, { forceRefetch: true }),
         );
       },
     }),
