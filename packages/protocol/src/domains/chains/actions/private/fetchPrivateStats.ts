@@ -44,7 +44,6 @@ export const {
           interval,
           userEndpointToken,
         }) => {
-          console.log({ fetchPrivateStats: true });
           const hasProjectToken =
             userEndpointToken && userEndpointToken !== ALL_PROJECTS_VALUE;
 
