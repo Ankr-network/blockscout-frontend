@@ -43,9 +43,10 @@ export const RequestsWidget = ({
       translation={translation}
       title={
         <Header
-          title={translation.title}
-          requestsTitle={translation.requestsTitle}
           allRequestsTitle={translation.allRequestsTitle}
+          isLoading={isLoading}
+          requestsTitle={translation.requestsTitle}
+          title={translation.title}
         />
       }
     />
