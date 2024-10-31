@@ -1,8 +1,13 @@
+import { useMemo } from 'react';
+
 import { FilterTag } from 'modules/notifications/components/FilterTag';
 import {
   EAdditionalNotificationsFilter,
   ENotificationsFilter,
 } from 'modules/notifications/const';
+import { EMilliSeconds } from 'modules/common/constants/const';
+import { getNotificationAge } from 'modules/notifications/utils/getNotificationAge';
+import { isBroadcastNotification } from 'modules/notifications/utils/isBroadcastNotification';
 import { useNotifications } from 'modules/notifications/hooks/useNotifications';
 
 import { useFiltersStyles } from './useFiltersStyles';
@@ -18,10 +23,22 @@ export const Filters = ({
 }: IFiltersProps) => {
   const { classes } = useFiltersStyles();
 
-  const { notificationsAmount: unseenNotificationsAmount } = useNotifications({
+  const { notifications: notificationsResponse } = useNotifications({
     skipFetching: true,
     only_unseen: true,
   });
+
+  const notifications = notificationsResponse.notifications;
+
+  const unseenNotificationsAmount = useMemo(
+    () =>
+      notifications.filter(
+        notification =>
+          isBroadcastNotification(notification) &&
+          getNotificationAge(notification) < EMilliSeconds.Day,
+      ).length,
+    [notifications],
+  );
 
   return (
     <div className={classes.root}>

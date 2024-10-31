@@ -9,12 +9,14 @@ import { notificationsMenuTranslation } from './translation';
 import { useNotificationsMenu } from './useNotificationsMenu';
 
 export interface INotificationsMenuProps {
-  isEmptyNotifications: boolean;
   buttonClassname?: string;
+  hasBroadcastNotificationsOnly: boolean;
+  isEmptyNotifications: boolean;
 }
 
 export const NotificationsMenu = ({
   buttonClassname,
+  hasBroadcastNotificationsOnly,
   isEmptyNotifications,
 }: INotificationsMenuProps) => {
   const { keys, t } = useTranslation(notificationsMenuTranslation);
@@ -70,7 +72,11 @@ export const NotificationsMenu = ({
         ) : (
           <>
             <MenuItem
-              disabled={!hasUnseenNotifications || isEmptyNotifications}
+              disabled={
+                !hasUnseenNotifications ||
+                isEmptyNotifications ||
+                hasBroadcastNotificationsOnly
+              }
               onClick={handleClickMarkAsRead}
             >
               <div className={classes.menuItem}>

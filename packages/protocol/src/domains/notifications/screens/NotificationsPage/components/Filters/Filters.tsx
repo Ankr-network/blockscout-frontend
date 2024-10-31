@@ -1,13 +1,17 @@
 import { Checkbox, Typography } from '@mui/material';
 import { ENotificationCategory } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
+import { EMilliSeconds } from 'modules/common/constants/const';
 import { FilterTag } from 'modules/notifications/components/FilterTag';
 import {
   EAdditionalNotificationsFilter,
   ENotificationsFilter,
 } from 'modules/notifications/const';
+import { getNotificationAge } from 'modules/notifications/utils/getNotificationAge';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { useNotifications } from 'modules/notifications/hooks/useNotifications';
+import { isBroadcastNotification } from 'modules/notifications/utils/isBroadcastNotification';
 
 import { useFiltersStyles } from './useFiltersStyles';
 import {
@@ -27,6 +31,7 @@ export const Filters = ({
   activeFilter,
   handleChangeFilter,
   handleClickShowUnread,
+  hasBroadcastNotificationsOnly,
   isEmptyNotifications,
   isUnread,
 }: IFiltersProps) => {
@@ -34,18 +39,38 @@ export const Filters = ({
 
   const { keys, t } = useTranslation(notificationsTranslation);
 
-  const { notifications } = useNotifications({
+  const { notifications: notificationsResponse } = useNotifications({
     skipFetching: true,
     only_unseen: true,
   });
+  const notifications = notificationsResponse.notifications;
 
-  const unseenBillingNotificationsAmount = notifications.notifications.filter(
-    notification => notification.category === ENotificationCategory.BILLING,
-  ).length;
+  const unseenBillingNotificationsAmount = useMemo(
+    () =>
+      notifications.filter(
+        notification => notification.category === ENotificationCategory.BILLING,
+      ).length,
+    [notifications],
+  );
 
-  const unseenSystemNotificationsAmount = notifications.notifications.filter(
-    notification => notification.category === ENotificationCategory.SYSTEM,
-  ).length;
+  const unseenSystemNotificationsAmount = useMemo(
+    () =>
+      notifications.filter(
+        notification => notification.category === ENotificationCategory.SYSTEM,
+      ).length,
+    [notifications],
+  );
+
+  const unseenNewsNotificationsAmount = useMemo(
+    () =>
+      notifications.filter(
+        notification =>
+          notification.category === ENotificationCategory.NEWS &&
+          isBroadcastNotification(notification) &&
+          getNotificationAge(notification) < EMilliSeconds.Day,
+      ).length,
+    [notifications],
+  );
 
   return (
     <div className={classes.root}>
@@ -70,6 +95,12 @@ export const Filters = ({
           category={ENotificationCategory.SYSTEM}
           handleChangeFilter={handleChangeFilter}
         />
+        <FilterTag
+          amount={unseenNewsNotificationsAmount}
+          isActive={activeFilter === ENotificationCategory.NEWS}
+          category={ENotificationCategory.NEWS}
+          handleChangeFilter={handleChangeFilter}
+        />
       </div>
       <div className={classes.menuWrapper}>
         <Checkbox
@@ -80,7 +111,10 @@ export const Filters = ({
         <Typography variant="body3" color="textSecondary">
           {t(keys.showUnread)}
         </Typography>
-        <NotificationsMenu isEmptyNotifications={isEmptyNotifications} />
+        <NotificationsMenu
+          hasBroadcastNotificationsOnly={hasBroadcastNotificationsOnly}
+          isEmptyNotifications={isEmptyNotifications}
+        />
       </div>
     </div>
   );
