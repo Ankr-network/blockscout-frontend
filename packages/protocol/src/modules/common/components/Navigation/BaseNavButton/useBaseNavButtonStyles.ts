@@ -108,8 +108,6 @@ export const useBaseNavButtonStyles = makeStyles<IBaseNavButtonProps>()(
     amount: {
       height: 20,
       width: 20,
-      position: 'absolute',
-      right: 12,
     },
   }),
 );

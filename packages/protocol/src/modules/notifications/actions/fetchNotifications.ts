@@ -68,11 +68,17 @@ export const {
             loadedData?.notifications.map(notification => notification.id),
           );
 
-          const newUnseeNotifications = data.notifications.filter(
-            notification => {
+          const newUnseeNotifications = data.notifications
+            .filter(notification => {
               return !previousUnseenNotificationsIdsSet.has(notification.id);
-            },
-          );
+            })
+            // check is new notification message equal to current page category
+            .filter(notification =>
+              updatedNotifications.some(
+                updatedNotification =>
+                  updatedNotification.category === notification.category,
+              ),
+            );
 
           updatedNotifications.unshift(...newUnseeNotifications);
 
