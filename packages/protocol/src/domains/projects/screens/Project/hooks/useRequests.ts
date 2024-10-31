@@ -49,7 +49,7 @@ export const useRequests = () => {
   );
 
   const queryParams2d: IFetchProjectTotalRequestsParams = {
-    duration: StatsByRangeDuration.TWO_HOURS,
+    duration: StatsByRangeDuration.TWO_DAYS,
     group,
     token,
   };
