@@ -925,4 +925,15 @@ export const NETWORK_INFO_MAP: Partial<Record<ChainID, NetworkInfo>> = {
     },
     blockExplorerUrls: ['https://chainscan-newton.0g.ai/'],
   },
+
+  [ChainID.ATLETA_OLYMPIA]: {
+    chainId: 2340,
+    chainName: 'Atleta Olympia',
+    nativeCurrency: {
+      name: 'ATLA',
+      symbol: 'ATLA',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://blockscout.atleta.network/'],
+  },
 };

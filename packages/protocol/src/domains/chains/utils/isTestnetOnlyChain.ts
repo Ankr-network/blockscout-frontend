@@ -4,6 +4,7 @@ const testnetOnlyChains: ChainID[] = [
   ChainID.ZETACHAIN,
   ChainID.BERACHAIN,
   ChainID.TAIKO,
+  ChainID.ATLETA,
 ];
 
 export const isTestnetOnlyChain = (chainID: ChainID) =>

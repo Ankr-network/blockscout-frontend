@@ -74,6 +74,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.AVALANCHE_FUJI,
       ChainID.AVALANCHE_FUJI_EVM,
 
+      ChainID.ATLETA,
+      ChainID.ATLETA_OLYMPIA,
+
       ChainID.B2,
       ChainID.B2_HABITAT_TESTNET,
 
