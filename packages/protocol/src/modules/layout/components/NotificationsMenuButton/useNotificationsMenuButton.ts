@@ -1,11 +1,7 @@
-import { useMemo } from 'react';
-
-import { EMilliSeconds } from 'modules/common/constants/const';
-import { getNotificationAge } from 'modules/notifications/utils/getNotificationAge';
-import { isBroadcastNotification } from 'modules/notifications/utils/isBroadcastNotification';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMenu } from 'modules/common/hooks/useMenu';
 import { useNotifications } from 'modules/notifications/hooks/useNotifications';
+import { useUnseenNotificationsAmount } from 'modules/layout/hooks/useUnseenNotificationsAmount';
 
 export const useNotificationsMenuButton = () => {
   const { loading: isConnecting } = useAuth();
@@ -17,17 +13,9 @@ export const useNotificationsMenuButton = () => {
     only_unseen: true,
   });
 
-  const notifications = notificationsResponse.notifications;
-
-  const unseenNotificationsAmount = useMemo(
-    () =>
-      notifications.filter(
-        notification =>
-          isBroadcastNotification(notification) &&
-          getNotificationAge(notification) < EMilliSeconds.Day,
-      ).length,
-    [notifications],
-  );
+  const { unseenNotificationsAmount } = useUnseenNotificationsAmount({
+    notificationsResponse,
+  });
 
   return {
     amount: unseenNotificationsAmount,
