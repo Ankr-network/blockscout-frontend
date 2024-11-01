@@ -2,16 +2,14 @@ import { Checkbox, Typography } from '@mui/material';
 import { ENotificationCategory } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { EMilliSeconds } from 'modules/common/constants/const';
 import { FilterTag } from 'modules/notifications/components/FilterTag';
 import {
   EAdditionalNotificationsFilter,
   ENotificationsFilter,
 } from 'modules/notifications/const';
-import { getNotificationAge } from 'modules/notifications/utils/getNotificationAge';
+import { isUnseenBroadcastNotification } from 'modules/notifications/utils/isUnseenBroadcastNotification';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { useNotifications } from 'modules/notifications/hooks/useNotifications';
-import { isBroadcastNotification } from 'modules/notifications/utils/isBroadcastNotification';
 
 import { useFiltersStyles } from './useFiltersStyles';
 import {
@@ -66,19 +64,21 @@ export const Filters = ({
       notifications.filter(
         notification =>
           notification.category === ENotificationCategory.NEWS &&
-          isBroadcastNotification(notification) &&
-          getNotificationAge(notification) < EMilliSeconds.Day,
+          isUnseenBroadcastNotification(notification),
       ).length,
     [notifications],
   );
+
+  const allUnseenNotificationsAmount =
+    unseenBillingNotificationsAmount +
+    unseenSystemNotificationsAmount +
+    unseenNewsNotificationsAmount;
 
   return (
     <div className={classes.root}>
       <div className={classes.fitlers}>
         <FilterTag
-          amount={
-            unseenBillingNotificationsAmount + unseenSystemNotificationsAmount
-          }
+          amount={allUnseenNotificationsAmount}
           isActive={activeFilter === EAdditionalNotificationsFilter.ALL}
           category={EAdditionalNotificationsFilter.ALL}
           handleChangeFilter={handleChangeFilter}
