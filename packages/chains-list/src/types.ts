@@ -98,6 +98,8 @@ export enum ChainID {
   AVALANCHE_FUJI_X = 'avalanche_fuji-x',
   AVALANCHE_P = 'avalanche-p',
   AVALANCHE_X = 'avalanche-x',
+  ATLETA = 'atleta',
+  ATLETA_OLYMPIA = 'atleta_olympia',
 
   AVAIL = 'avail',
   AVAIL_GOLDBERG_TESTNET = 'avail_goldberg_testnet',

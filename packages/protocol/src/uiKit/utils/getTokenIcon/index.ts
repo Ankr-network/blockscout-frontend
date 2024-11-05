@@ -56,6 +56,8 @@ import availIcon from './icons/avail.svg';
 import telosIcon from './icons/telos.svg';
 import tonIcon from './icons/ton.svg';
 import fuelIcon from './icons/fuel.svg';
+import atletaIcon from './icons/atleta.svg';
+import atletaIconDark from './darkModeIcons/atleta.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -121,6 +123,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVALANCHE_FUJI_X]: avaxIcon,
   [ChainID.AVALANCHE_P]: avaxIcon,
   [ChainID.AVALANCHE_X]: avaxIcon,
+  [ChainID.ATLETA]: atletaIcon,
+  [ChainID.ATLETA_OLYMPIA]: atletaIcon,
 
   [ChainID.AVAIL]: availIcon,
   [ChainID.AVAIL_GOLDBERG_TESTNET]: availIcon,
@@ -334,6 +338,8 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ALLORA_TESTNET_REST]: alloraIconDark,
   [ChainID.ALLORA_TESTNET_RPC]: alloraIconDark,
   [ChainID.ALLORA_TESTNET_COSMOS_REST]: alloraIconDark,
+  [ChainID.ATLETA]: atletaIconDark,
+  [ChainID.ATLETA_OLYMPIA]: atletaIconDark,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
   [ChainID.BERACHAIN]: berachainIconDark,
   [ChainID.BERACHAIN_TESTNET]: berachainIconDark,
