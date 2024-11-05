@@ -78,6 +78,14 @@ export const getCustomLabelForChainsCornerCases = ({
     return renderNervosName(chainId);
   }
 
+  if (chainId === ChainID.FUEL_REST) {
+    return 'Fuel GraphQL';
+  }
+
+  if (chainId === ChainID.FUEL_SEPOLIA) {
+    return 'Fuel Sepolia Testnet GraphQL';
+  }
+
   if (label === 'TON REST') {
     return TON_NAME;
   }

@@ -13,6 +13,7 @@ export const EXCEPTION_CHAIN_MAINNET_IDS_LIST = [
   ChainID.BTC,
   ChainID.ZERO_G,
   ChainID.TON,
+  ChainID.FUEL,
 ];
 
 export const ALLORA_TESTNET_TENDERMINT_NAME = 'Allora Testnet Tendermint';

@@ -175,6 +175,10 @@ export enum ChainID {
   FLARE_SONGBIRD_P = 'flare_songbird-p',
   FLARE_SONGBIRD_X = 'flare_songbird-x',
 
+  FUEL = 'fuel',
+  FUEL_REST = 'fuel-rest',
+  FUEL_SEPOLIA = 'fuel-sepolia',
+
   GNOSIS = 'gnosis',
   GNOSIS_BEACON = 'gnosis_beacon',
   GNOSIS_TESTNET = 'gnosis_testnet',

@@ -23,6 +23,7 @@ export const useMainEndpoints = ({
 }: MainEndpointsHookParams) => {
   const { urls } = group;
   const isMultiChain = publicChain.id === ChainID.MULTICHAIN;
+  const isGraphQL = publicChain.id === ChainID.FUEL;
   const isEnterprise = feature === Feature.ENTERPRISE;
 
   const subChain = getSubChainFromGroup(group);
@@ -44,8 +45,13 @@ export const useMainEndpoints = ({
   );
 
   const title = useMemo(
-    () => getTitle({ isMultiChain, urlsCount }),
-    [isMultiChain, urlsCount],
+    () =>
+      getTitle({
+        isGraphQL,
+        isMultiChain,
+        urlsCount,
+      }),
+    [isMultiChain, urlsCount, isGraphQL],
   );
 
   const hasFeature = subChain?.[featureKey];
