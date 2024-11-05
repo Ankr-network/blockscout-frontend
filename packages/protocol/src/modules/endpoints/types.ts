@@ -56,6 +56,7 @@ export enum ChainGroupID {
   ZERO_G_EVM = '0g_evm',
   TON_REST = 'ton_rest',
   TON_RPC = 'ton_rpc',
+  FUEL_GRAPH_QL = 'fuel-graph-ql',
 
   FALLBACK = 'FALLBACK',
 }

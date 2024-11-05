@@ -55,6 +55,7 @@ import zksyncEraIcon from './icons/zksync_era.svg';
 import availIcon from './icons/avail.svg';
 import telosIcon from './icons/telos.svg';
 import tonIcon from './icons/ton.svg';
+import fuelIcon from './icons/fuel.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -191,6 +192,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.FANTOM]: ftmIcon,
   [ChainID.FANTOM_TESTNET]: ftmIcon,
   [ChainID.FILECOIN]: filecoinIcon,
+  [ChainID.FUEL]: fuelIcon,
+  [ChainID.FUEL_REST]: fuelIcon,
+  [ChainID.FUEL_SEPOLIA]: fuelIcon,
   [ChainID.GNOSIS]: gnosisIcon,
   [ChainID.GNOSIS_BEACON]: gnosisIcon,
   [ChainID.GNOSIS_TESTNET]: gnosisIcon,
@@ -454,6 +458,7 @@ const chainNameIcons: Record<string, string> = {
   '0g_newton_cosmos': zeroGIcon,
   '0g_newton_tendermint': zeroGIcon,
   ton_api_v2: tonIcon,
+  fuel_sepolia: fuelIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {

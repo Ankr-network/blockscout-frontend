@@ -500,4 +500,10 @@ export const chainGroups: ChainGroup[] = [
     pluralName: getName('json-rpc', true),
     chains: [ChainID.TON_RPC],
   },
+  {
+    id: ChainGroupID.FUEL_GRAPH_QL,
+    name: 'Fuel GraphQL',
+    pluralName: 'Fuel GraphQL',
+    chains: [ChainID.FUEL],
+  },
 ];

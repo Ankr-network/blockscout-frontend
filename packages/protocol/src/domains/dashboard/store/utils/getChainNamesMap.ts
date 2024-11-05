@@ -57,6 +57,17 @@ export const getChainNamesMap = (chains: Chain[] = []) => {
       result[checkedID] = SECRET_TENDERMINT_NAME;
     }
 
+    if (checkedID === ChainID.FUEL || checkedID === ChainID.FUEL_REST) {
+      result[checkedID] = 'Fuel GraphQL';
+    }
+
+    if (
+      checkedID === ChainID.FUEL_SEPOLIA ||
+      checkedID === ('fuel_sepolia' as ChainID)
+    ) {
+      result[checkedID] = 'Fuel Sepolia Testnet GraphQL';
+    }
+
     if (checkedID === ChainID.ALLORA_TESTNET) {
       result[checkedID] = ALLORA_TESTNET_TENDERMINT_NAME;
     }

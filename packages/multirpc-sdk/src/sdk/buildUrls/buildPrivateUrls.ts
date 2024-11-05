@@ -31,6 +31,8 @@ const shouldUsePremiumHttpUrl = (id: string) => {
   const is0gTestnet = ZERO_G_IDS.includes(id);
   const isBlockbook = id === 'btc_blockbook';
   const isTonRest = id === 'ton-rest';
+  const isFuelRest = id === 'fuel-rest';
+  const isFuelSepolia = id === 'fuel-sepolia';
 
   return (
     isTron ||
@@ -47,7 +49,9 @@ const shouldUsePremiumHttpUrl = (id: string) => {
     isAlloraTestnet ||
     isBlockbook ||
     is0gTestnet ||
-    isTonRest
+    isTonRest ||
+    isFuelRest ||
+    isFuelSepolia
   );
 };
 
@@ -139,31 +143,31 @@ export const buildPrivateUrls = ({
 
     const rpcURLs: string[] = hasRPC
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const wsURLs: string[] = hasWS
       ? getUrls({
-          paths,
-          privateUrl: privateWsUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateWsUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const hasREST = blockchain.features.includes(EBlockchainFeature.REST);
 
     const restURLs: string[] = hasREST
       ? getUrls({
-          paths,
-          privateUrl: privateRpcUrl,
-          userEndpointToken,
-          isAptos,
-        })
+        paths,
+        privateUrl: privateRpcUrl,
+        userEndpointToken,
+        isAptos,
+      })
       : [];
 
     const enterpriseURLs: string[] = getUrls({
