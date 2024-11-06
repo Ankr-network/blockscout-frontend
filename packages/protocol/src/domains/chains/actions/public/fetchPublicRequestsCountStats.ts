@@ -4,7 +4,7 @@ import { ChainID } from '@ankr.com/chains-list';
 
 import { AppDispatch } from 'store';
 import { MultiService } from 'modules/api/MultiService';
-import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/stats/const';
 import { createQueryFnWithErrorHandler } from 'store/utils/createQueryFnWithErrorHandler';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { web3Api } from 'store/queries';

@@ -6,24 +6,20 @@ import {
   IFetchJWTsParams,
   selectJWTs,
 } from 'domains/jwtToken/action/fetchJWTs';
+import {
+  IFetchPrivateStatsByTokenParams,
+  selectPrivateStatsByToken,
+} from 'modules/stats/actions/fetchPrivateStatsByToken';
+import {
+  IFetchPrivateTotalStatsByRangeParams,
+  selectPrivateTotalStatsByRange,
+  selectPrivateTotalStatsByRangeState,
+} from 'modules/stats/actions/fetchPrivateTotalStatsByRange';
 import { RootState } from 'store';
 import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { selectCurrentAddress } from 'domains/auth/store';
 
-import {
-  IFetchProjectChainsStatsFor1hParams,
-  selectProjectChainsStatsFor1h,
-} from '../actions/fetchProjectChainsStatsFor1h';
-import {
-  IFetchProjectChainsStatsFor24hParams,
-  selectProjectChainsStatsFor24h,
-} from '../actions/fetchProjectChainsStatsFor24h';
-import {
-  IFetchProjectTotalRequestsParams,
-  selectProjectTotalRequestsState,
-  selectProjectTotalRequests,
-} from '../actions/fetchProjectTotalRequests';
 import { IProjectWithBlockchains, NewProjectStep } from '../types';
 import { aggregatePrivateStatsByChain } from '../utils/aggregatePrivateStatsByChain';
 import { filterTotalRequests } from './utils/filterTotalRequests';
@@ -55,39 +51,15 @@ export const selectProjectWhitelistByType = createSelector(
     whitelist?.lists?.filter(item => item.type === type) ?? [],
 );
 
-export const selectAggregatedStatsByChainFor1hState = createSelector(
-  (state: RootState, params: IFetchProjectChainsStatsFor1hParams) => ({
-    params,
-    state,
-  }),
-  ({ params, state }) => {
-    const stats = selectProjectChainsStatsFor1h(state, params);
-
-    return aggregatePrivateStatsByChain(state, stats);
-  },
-);
-
-export const selectAggregatedStatsByChainFor24hState = createSelector(
-  (state: RootState, params: IFetchProjectChainsStatsFor24hParams) => ({
-    params,
-    state,
-  }),
-  ({ params, state }) => {
-    const stats = selectProjectChainsStatsFor24h(state, params);
-
-    return aggregatePrivateStatsByChain(state, stats);
-  },
-);
-
 export const selectProjectTotalRequestsTimestamp = createSelector(
-  selectProjectTotalRequestsState,
+  selectPrivateTotalStatsByRangeState,
   ({ startedTimeStamp = Date.now() }) => startedTimeStamp,
 );
 
 export const selectProjectTotalRequestsForCurrentPeriod = createSelector(
-  selectProjectTotalRequests,
+  selectPrivateTotalStatsByRange,
   selectProjectTotalRequestsTimestamp,
-  (_state: RootState, { duration }: IFetchProjectTotalRequestsParams) =>
+  (_state: RootState, { duration }: IFetchPrivateTotalStatsByRangeParams) =>
     duration,
   (totalRequests, queryTimestamp, duration) => {
     const halfOfDurationAgo = queryTimestamp - getHalfDuration(duration);
@@ -98,9 +70,9 @@ export const selectProjectTotalRequestsForCurrentPeriod = createSelector(
 );
 
 export const selectProjectTotalRequestsForPreviousPeriod = createSelector(
-  selectProjectTotalRequests,
+  selectPrivateTotalStatsByRange,
   selectProjectTotalRequestsTimestamp,
-  (_state: RootState, { duration }: IFetchProjectTotalRequestsParams) =>
+  (_state: RootState, { duration }: IFetchPrivateTotalStatsByRangeParams) =>
     duration,
   (totalRequests, queryTimestamp, duration) => {
     const halfOfDurationAgo = queryTimestamp - getHalfDuration(duration);
@@ -130,34 +102,6 @@ export const selectRelativeChange = createSelector(
     }),
 );
 
-export const selectProjectTotalRequestsFor1hByChain = createSelector(
-  (
-    state: RootState,
-    chainId: ChainID,
-    params: IFetchProjectChainsStatsFor1hParams,
-  ) => ({ state, chainId, params }),
-  ({ chainId, params, state }) => {
-    const chainsStats = selectProjectChainsStatsFor1h(state, params);
-    const relatedPaths = selectAllPathsByChainId(state, chainId);
-
-    return sumSubchainsTotalRequest(relatedPaths, chainsStats);
-  },
-);
-
-export const selectProjectTotalRequestsFor24hByChain = createSelector(
-  (
-    state: RootState,
-    chainId: ChainID,
-    params: IFetchProjectChainsStatsFor24hParams,
-  ) => ({ state, chainId, params }),
-  ({ chainId, params, state }) => {
-    const chainsStats = selectProjectChainsStatsFor24h(state, params);
-    const relatedPaths = selectAllPathsByChainId(state, chainId);
-
-    return sumSubchainsTotalRequest(relatedPaths, chainsStats);
-  },
-);
-
 export const selectCurrentProjectsWhitelistsBlockchainsLoading = createSelector(
   selectJWTs,
   (state: RootState, { group }: IFetchJWTsParams) => [state, group] as const,
@@ -182,5 +126,25 @@ export const selectCurrentProjectsWhitelistsBlockchains = createSelector(
       equalityCheck: deepEqulityCheck,
       resultEqualityCheck: deepEqulityCheck,
     },
+  },
+);
+
+export const selectAggregatedByChainPrivateStats = createSelector(
+  selectPrivateStatsByToken,
+  (state: RootState) => state,
+  (privateStats, state) => aggregatePrivateStatsByChain(state, privateStats),
+);
+
+export const selectProjectTotalRequestsByChain = createSelector(
+  selectPrivateStatsByToken,
+  (
+    state: RootState,
+    _params: IFetchPrivateStatsByTokenParams,
+    chainId: ChainID,
+  ) => ({ chainId, state }),
+  (privateStats, { chainId, state }) => {
+    const relatedPaths = selectAllPathsByChainId(state, chainId);
+
+    return sumSubchainsTotalRequest(relatedPaths, privateStats);
   },
 );

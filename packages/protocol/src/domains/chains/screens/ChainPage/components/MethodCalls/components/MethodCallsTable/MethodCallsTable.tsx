@@ -7,14 +7,14 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { PrivateStatTopRequests } from 'multirpc-sdk';
+import { BlockchainStatsTopRequests } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { NoData } from '../NoData';
 import { useMethodCallsTableStyles } from './useMethodCallsTableStyles';
 
 interface IMethodCallsTableProps {
-  data: PrivateStatTopRequests[];
+  data: BlockchainStatsTopRequests[];
   isCostHidden?: boolean;
 }
 

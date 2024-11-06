@@ -1,4 +1,3 @@
-import { ChainID } from '@ankr.com/chains-list';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { ChainProtocolContext } from 'domains/chains/screens/ChainPage/constants/ChainProtocolContext';
@@ -6,7 +5,6 @@ import { Placeholder } from 'modules/common/components/Placeholder';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { TabSize } from 'modules/common/components/SecondaryTab';
 import { TimeframeTabs } from 'domains/chains/screens/ChainPage/components/TimeframeTabs';
-import { useAppSelector } from 'store/useAppSelector';
 import { useHeaderBannerHeight } from 'modules/layout/components/HeaderBanner/useHeaderBannerHeight';
 import { useProjectSelect } from 'modules/common/components/ProjectSelect/hooks/useProjectSelect';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
@@ -14,12 +12,11 @@ import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialo
 import { DashboardWidgets as DashboardWidgetsV1 } from '../components/DashboardWidgets/v1';
 import { SelectorsContent } from '../components/SelectorsContent';
 import { fallbackChain } from '../const';
-import { selectChainsWithStats } from '../../../store/selectors/v1';
+import { useChainIds } from './hooks/useChainIds';
 import { useChainSelectorGroups } from '../hooks/useChainSelectorGroups';
 import { useChainsSelector } from '../hooks/useChainsSelector';
 import { useDashboard } from './hooks/useDashboard';
 import { useDashboardStyles } from '../useDashboardStyles';
-import { usePrivateStatsParams } from '../hooks/usePrivateStatsParams';
 
 export const DashboardContent = () => {
   const { isOpened, onClose, onOpen } = useUpgradePlanDialog();
@@ -32,11 +29,7 @@ export const DashboardContent = () => {
     totalStatsLoading,
   } = useDashboard();
 
-  const { privateStatsParams } = usePrivateStatsParams({ timeframe });
-
-  const chainIds = useAppSelector(state =>
-    selectChainsWithStats(state, privateStatsParams),
-  );
+  const chainIds = useChainIds({ timeframe });
 
   const {
     chain,
@@ -48,7 +41,7 @@ export const DashboardContent = () => {
     showAdditionalSelect,
   } = useChainsSelector({
     chains: rawChains,
-    chainIdsWithStats: chainIds as ChainID[],
+    chainIdsWithStats: chainIds,
   });
 
   const {

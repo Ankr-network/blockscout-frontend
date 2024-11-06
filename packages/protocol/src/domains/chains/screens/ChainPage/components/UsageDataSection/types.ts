@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { PrivateStatTopRequests } from 'multirpc-sdk';
+import { BlockchainStatsTopRequests } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
 
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
@@ -25,7 +25,7 @@ export interface UsageData {
   totalCost?: number;
   totalRequests: BigNumber;
   totalRequestsHistory?: Record<string, number>;
-  userTopRequests?: PrivateStatTopRequests[];
+  userTopRequests?: BlockchainStatsTopRequests[];
   userTopRequestsIp?: UserRequestsByIpData[];
   isLoggedIn?: boolean;
 }

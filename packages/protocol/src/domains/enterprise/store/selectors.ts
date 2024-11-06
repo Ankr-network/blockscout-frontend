@@ -13,11 +13,8 @@ import { selectBlockchains } from 'modules/chains/store/selectors';
 import { selectJwtTokenManager } from 'domains/jwtToken/store/selectors';
 import { selectUserGroupConfigByAddress } from 'domains/userGroup/store';
 
-import { chainsFetchEnterpriseStatsByApiKey } from '../actions/fetchEnterpriseStatsByApiKey';
-import { chainsFetchEnterpriseStatsTotal } from '../actions/fetchEnterpriseStatsTotal';
 import { fetchEnterpriseEndpoints } from '../actions/fetchEnterpriseEndpoints';
 import { filterBlockchains } from './utils/filterBlockchains';
-import { getEnterpriseStats } from '../actions/utils';
 
 export type EnterpriseClientJWT = EnterpriseClientEndpoint & JWT;
 
@@ -156,27 +153,6 @@ export const selectEnterpriseChains = createSelector(
     );
 
     return { chains, isLoading };
-  },
-);
-
-export const selectEnterpriseStatsBySelectedApiKey = createSelector(
-  selectEnterpriseSelectedApiKey,
-  chainsFetchEnterpriseStatsByApiKey.select(undefined as any),
-  chainsFetchEnterpriseStatsTotal.select(undefined as any),
-  (selectedEnterpriseSelectedApiKey, statsByApiKey, statsTotal) => {
-    if (selectedEnterpriseSelectedApiKey) {
-      return {
-        ...statsByApiKey,
-        data: statsByApiKey.data
-          ? getEnterpriseStats(statsByApiKey.data)
-          : undefined,
-      };
-    }
-
-    return {
-      ...statsTotal,
-      data: statsTotal.data ? getEnterpriseStats(statsTotal.data) : undefined,
-    };
   },
 );
 

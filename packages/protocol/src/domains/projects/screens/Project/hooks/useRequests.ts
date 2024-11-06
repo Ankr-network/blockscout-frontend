@@ -1,11 +1,11 @@
-import { StatsByRangeDuration } from 'multirpc-sdk';
+import { StatsByRangeDuration, StatsByRangeTimeframe } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
 import {
-  IFetchProjectTotalRequestsParams,
-  selectProjectTotalRequestsLoading,
-} from 'domains/projects/actions/fetchProjectTotalRequests';
+  IFetchPrivateTotalStatsByRangeParams,
+  selectPrivateTotalStatsByRangeLoading,
+} from 'modules/stats/actions/fetchPrivateTotalStatsByRange';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
 import { USAGE_SHORT_TIMEFRAME_LIST } from 'domains/chains/constants/timeframes';
 import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
@@ -28,9 +28,10 @@ export const useRequests = () => {
     timeframes: USAGE_SHORT_TIMEFRAME_LIST,
   });
 
-  const queryParams2h: IFetchProjectTotalRequestsParams = {
+  const queryParams2h: IFetchPrivateTotalStatsByRangeParams = {
     duration: StatsByRangeDuration.TWO_HOURS,
     group,
+    timeframe: StatsByRangeTimeframe.HOUR,
     token,
   };
 
@@ -45,12 +46,13 @@ export const useRequests = () => {
   );
 
   const lastHourRequestsLoading = useAppSelector(state =>
-    selectProjectTotalRequestsLoading(state, queryParams2h),
+    selectPrivateTotalStatsByRangeLoading(state, queryParams2h),
   );
 
-  const queryParams2d: IFetchProjectTotalRequestsParams = {
+  const queryParams2d: IFetchPrivateTotalStatsByRangeParams = {
     duration: StatsByRangeDuration.TWO_DAYS,
     group,
+    timeframe: StatsByRangeTimeframe.HOUR,
     token,
   };
 
@@ -64,7 +66,7 @@ export const useRequests = () => {
     selectRelativeChange(state, queryParams2d),
   );
   const lastDayRequestsLoading = useAppSelector(state =>
-    selectProjectTotalRequestsLoading(state, queryParams2d),
+    selectPrivateTotalStatsByRangeLoading(state, queryParams2d),
   );
 
   const [requests, requestsCount, relativeChange] =

@@ -1,7 +1,15 @@
-import { PrivateStatCount, PrivateStatTimestamp } from 'multirpc-sdk';
-import { PieChartData } from '@ankr.com/telemetry';
+import {
+  BlockchainStatsCount,
+  BlockchainStatsTimestamp,
+  PrivateStatsResponse,
+} from 'multirpc-sdk';
 
-export type AggregatedUsageHistory = Record<Month, PrivateStatCount['count']>;
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
+
+export type AggregatedUsageHistory = Record<
+  Month,
+  BlockchainStatsCount['count']
+>;
 
 export interface Location {
   continent: string;
@@ -10,13 +18,23 @@ export interface Location {
 
 export type Month = string;
 
-export type Requests = Record<PrivateStatTimestamp, PrivateStatCount['count']>;
+export type Requests = Record<
+  BlockchainStatsTimestamp,
+  BlockchainStatsCount['count']
+>;
 
-export type RequestsEntry = [PrivateStatTimestamp, PrivateStatCount['count']];
+export type RequestsEntry = [
+  BlockchainStatsTimestamp,
+  BlockchainStatsCount['count'],
+];
 
 export interface UsageHistoryData {
   calls: number;
   month: Month;
 }
 
-export type ProjectsStats = PieChartData;
+export interface ICurrentProjectsStats {
+  index: JWT['index'];
+  name: JWT['name'];
+  stats?: PrivateStatsResponse;
+}

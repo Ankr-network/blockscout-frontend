@@ -17,8 +17,8 @@ import { getRequestsChartTranslations } from '../../../useChartsTranslations';
 import { useAllChainsData } from './hooks/useAllChainsData';
 import { useAllChainsLayoutStyles } from './AllChainsLayoutStyles';
 import { useChainCalls } from '../../ChainCallsWidget/hooks/useChainCalls';
-import { useMonthlyStats } from '../../../v1/hooks/useMonthlyStats';
 import { useProjectsData } from './hooks/useProjectsData';
+import { useUsageHistory } from '../../../v1/hooks/useUsageHistory';
 
 export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
   const { hasSelectedProject } = useProjectSelect();
@@ -36,18 +36,17 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
     totalStatsLoading,
   } = useAllChainsData(timeframe);
 
-  const { data: monthlyStats = [], isLoading: montlyStatsLoading } =
-    useMonthlyStats();
+  const { loading: usageHistoryLoading, usageHistory } = useUsageHistory();
 
-  const { data: chainCallsData, isLoading: chainCallsLoading } = useChainCalls({
+  const { data: chainCallsData, loading: chainCallsLoading } = useChainCalls({
     timeframe,
   });
 
   const {
-    amount: projectsDataTotal,
-    data: projectCallsData,
-    isLoading: projectCallsLoading,
-  } = useProjectsData(timeframe);
+    loading: projectCallsLoading,
+    pieChartData: projectCallsData,
+    totalRequests: projectsDataTotal,
+  } = useProjectsData({ timeframe });
 
   const hasNoRequests = allTimeTotalRequestsNumber === 0;
 
@@ -56,6 +55,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
       <div className={classes.root}>
         <RequestsWidget
           NoDataPlaceholder={RequestsWidgetPlaceholder}
+          allTimeTotalRequestsLoading={totalStatsLoading}
           className={classes.requests}
           data={requestsChartData}
           isLoading={privateStatsLoading}
@@ -107,12 +107,12 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
         <UsageHistoryWidget
           NoDataPlaceholder={WidgetPlaceholder}
           className={classes.history}
-          data={monthlyStats}
+          data={usageHistory}
           headingTitles={[
             t('dashboard.usage-history.month'),
             t('dashboard.usage-history.calls'),
           ]}
-          isLoading={montlyStatsLoading}
+          isLoading={usageHistoryLoading}
           title={t('dashboard.usage-history.title')}
         />
       </div>

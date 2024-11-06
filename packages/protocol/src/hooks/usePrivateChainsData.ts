@@ -1,13 +1,16 @@
 import { ESortChainsType, Timeframe } from '@ankr.com/chains-list';
+import { PrivateStats } from 'multirpc-sdk';
 import { useState } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
+import { usePrivateStatsByToken } from 'modules/stats/hooks/usePrivateStatsByToken';
 import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
 
 interface UsePrivateChainsDataParams {
   ignoreJwtManager?: boolean;
@@ -18,10 +21,10 @@ const defaultUsePrivateChainsDataParams: UsePrivateChainsDataParams = {
   ignoreJwtManager: false,
 };
 
-const defaultPrivateStats = {};
+const defaultPrivateStats: PrivateStats = {};
 
 export const usePrivateChainsData = ({
-  ignoreJwtManager,
+  ignoreJwtManager: ignoreSelectedProject,
   timeframes,
 } = defaultUsePrivateChainsDataParams) => {
   const { loading: isConnecting } = useAuth();
@@ -31,38 +34,56 @@ export const usePrivateChainsData = ({
     timeframes,
   });
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
   const { chains, isLoading: privateChainsLoading } = usePrivateChainsInfo();
 
-  const { selectedProject: userEndpointToken } =
-    useTokenManagerConfigSelector();
+  const { selectedProject } = useTokenManagerConfigSelector();
+
+  const hasSelectedProject = Boolean(selectedProject);
+
+  const interval = timeframeToIntervalMap[timeframe];
 
   const {
-    arePrivateStatsLoading: isLoading,
-    data: { stats: privateStats = defaultPrivateStats },
-    privateStatsError: error,
+    loading: allProjectsStatsLoading,
+    privateStats: { stats: allProjectsStats = defaultPrivateStats },
+    state: { error: allProjectsStatsError },
   } = usePrivateStats({
-    hasGateway: false,
-    interval: timeframeToIntervalMap[timeframe],
-    userEndpointToken: ignoreJwtManager ? undefined : userEndpointToken,
+    group,
+    interval,
+    skipFetching: !ignoreSelectedProject || hasSelectedProject,
   });
 
-  const [sortType, setSortType] = useState<ESortChainsType>(
-    ESortChainsType.Trending,
-  );
+  const {
+    loading: projectStatsLoading,
+    privateStats: { stats: projectStats = defaultPrivateStats },
+    state: { error: projectStatsError },
+  } = usePrivateStatsByToken({
+    group,
+    interval,
+    token: selectedProject!,
+    skipFetching: ignoreSelectedProject || !hasSelectedProject,
+  });
+
+  const [stats, statsLoading, statsError] = ignoreSelectedProject
+    ? [allProjectsStats, allProjectsStatsLoading, allProjectsStatsError]
+    : [projectStats, projectStatsLoading, projectStatsError];
+
+  const [sortType, setSortType] = useState(ESortChainsType.Trending);
 
   const [searchContent, setSearchContent] = useSearch();
 
   return {
     chains,
     loading: isConnecting || privateChainsLoading,
-    setSortType,
-    sortType,
-    timeframe,
-    timeframeTabs,
     searchContent,
     setSearchContent,
-    isLoading,
-    error,
-    privateStats,
+    setSortType,
+    sortType,
+    stats,
+    statsError,
+    statsLoading,
+    timeframe,
+    timeframeTabs,
   };
 };

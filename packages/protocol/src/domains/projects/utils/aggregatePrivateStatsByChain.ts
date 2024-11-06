@@ -1,4 +1,4 @@
-import { PrivateStats } from 'multirpc-sdk';
+import { PrivateStatsResponse } from 'multirpc-sdk';
 import { ChainID } from '@ankr.com/chains-list';
 
 import { RootState } from 'store';
@@ -12,7 +12,7 @@ import { sumSubchainsTotalRequest } from '../store/utils/sumSubchainsTotalReques
 
 export const aggregatePrivateStatsByChain = (
   state: RootState,
-  data?: PrivateStats,
+  data?: PrivateStatsResponse,
 ): Record<ChainID, number> => {
   if (!data?.stats) return {} as Record<ChainID, number>;
 

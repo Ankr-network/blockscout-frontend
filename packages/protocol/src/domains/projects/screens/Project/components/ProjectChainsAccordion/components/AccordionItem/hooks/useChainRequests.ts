@@ -1,12 +1,10 @@
-import { useMemo } from 'react';
-import { t } from '@ankr.com/common';
 import { ChainID, Timeframe } from '@ankr.com/chains-list';
+import { PrivateStatsInterval } from 'multirpc-sdk';
+import { t } from '@ankr.com/common';
+import { useMemo } from 'react';
 
 import { formatLongNumber } from 'modules/common/utils/formatNumber';
-import {
-  selectProjectTotalRequestsFor1hByChain,
-  selectProjectTotalRequestsFor24hByChain,
-} from 'domains/projects/store';
+import { selectProjectTotalRequestsByChain } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -18,18 +16,22 @@ export const useChainRequests = (
 ) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
+  const token = userEndpointToken!;
+
   const lastHourRequests = useAppSelector(state =>
-    selectProjectTotalRequestsFor1hByChain(state, chainId, {
-      group,
-      token: userEndpointToken!,
-    }),
+    selectProjectTotalRequestsByChain(
+      state,
+      { group, interval: PrivateStatsInterval.HOUR, token },
+      chainId,
+    ),
   );
 
   const lastDayRequests = useAppSelector(state =>
-    selectProjectTotalRequestsFor24hByChain(state, chainId, {
-      group,
-      token: userEndpointToken!,
-    }),
+    selectProjectTotalRequestsByChain(
+      state,
+      { group, interval: PrivateStatsInterval.DAY, token },
+      chainId,
+    ),
   );
 
   const { hasPremium } = useAuth();

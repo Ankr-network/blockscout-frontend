@@ -1,7 +1,7 @@
-import { BlockchainID, PrivateStatsInternal } from 'multirpc-sdk';
+import { BlockchainID, PrivateStats } from 'multirpc-sdk';
 
 export const compareBlockchainsTotalRequests =
-  (stats?: PrivateStatsInternal) =>
+  (stats?: PrivateStats) =>
   (i: BlockchainID, j: BlockchainID): 1 | -1 | 0 => {
     if (!stats) {
       return 0;
@@ -15,8 +15,8 @@ export const compareBlockchainsTotalRequests =
       return -1;
     }
 
-    const a = +stats[i]!.totalRequests;
-    const b = +stats[j]!.totalRequests;
+    const a = +stats[i]!.total_requests;
+    const b = +stats[j]!.total_requests;
 
     if (a < b) {
       return 1;

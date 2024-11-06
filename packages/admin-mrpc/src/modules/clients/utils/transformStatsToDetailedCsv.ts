@@ -1,7 +1,7 @@
 import {
   BlockchainID,
-  PrivateStatTopRequests,
-  PrivateStatsInternal,
+  BlockchainStatsTopRequests,
+  PrivateStats,
 } from 'multirpc-sdk';
 import { format } from 'date-fns';
 
@@ -14,14 +14,14 @@ interface ICsvData {
   date: string;
 }
 
-export const transformStatsToDetailedCsv = (stats: PrivateStatsInternal) => {
+export const transformStatsToDetailedCsv = (stats: PrivateStats) => {
   return Object.values(stats)
     ?.reduce((acc: ICsvData[], stat) => {
       const requests = stat?.counts
         ? // @ts-ignore
           Object.entries(stat?.counts).map(([timestamp, { topRequests }]) => {
             return (
-              topRequests?.map((request: PrivateStatTopRequests) => ({
+              topRequests?.map((request: BlockchainStatsTopRequests) => ({
                 date: format(new Date(Number(timestamp)), DATE_STRING_FORMAT),
                 blockchain: stat.blockchain,
                 method: request.method,

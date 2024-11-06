@@ -71,19 +71,20 @@ import {
   GetUserEndpointTokenStatusResponse,
 } from './JWT';
 import {
-  IGetLatestRequestsResponse,
-  IGetLatestRequestsRequest,
-  StatsByRangeRequest,
-  StatsByRangeResponse,
-  PrivateStats,
-  PrivateStatsInterval,
-  Top10StatsResponse,
-  Top10StatsParams,
-  UserRequestsResponse,
-  TotalStatsResponse,
+  GetPrivateStatsByPremiumIdParams,
+  GetPrivateStatsParams,
+  GetStatsByRangeParams,
   IApiGetUserRequestsParams,
   IDailyChargingParams,
   IDailyChargingResponse,
+  IGetLatestRequestsRequest,
+  IGetLatestRequestsResponse,
+  PrivateStatsResponse,
+  StatsByRangeResponse,
+  Top10StatsParams,
+  Top10StatsResponse,
+  TotalStatsResponse,
+  UserRequestsResponse,
 } from './telemetry';
 import {
   EmailConfirmationStatus,
@@ -151,7 +152,10 @@ import {
   IGetRewardTxsParams,
   IGetRewardTxsResponse,
 } from './referralProgram';
-import { IGetCryptoPaymentOptionsParams, IGetCryptoPaymentOptionsResponse } from './payments';
+import {
+  IGetCryptoPaymentOptionsParams,
+  IGetCryptoPaymentOptionsResponse,
+} from './payments';
 import {
   IGetNotificationsResponse,
   IGetNotificationsParams,
@@ -282,23 +286,23 @@ export class AccountingGateway {
     return response;
   }
 
-  async getPrivateStats(
-    intervalType: PrivateStatsInterval,
-    group?: string,
-  ): Promise<PrivateStats> {
-    const { data } = await this.api.get<PrivateStats>(`/api/v1/auth/stats`, {
-      params: { intervalType, group },
-    });
+  async getPrivateStats({ group, interval }: GetPrivateStatsParams) {
+    const { data } = await this.api.get<PrivateStatsResponse>(
+      '/api/v1/auth/stats',
+      {
+        params: { group, intervalType: interval },
+      },
+    );
 
     return data;
   }
 
-  async getPrivateStatsByPremiumId(
-    intervalType: PrivateStatsInterval,
-    premiumID: string,
-    group?: Web3Address,
-  ): Promise<PrivateStats> {
-    const { data } = await this.api.get<PrivateStats>(
+  async getPrivateStatsByPremiumId({
+    interval: intervalType,
+    premiumID,
+    group,
+  }: GetPrivateStatsByPremiumIdParams) {
+    const { data } = await this.api.get<PrivateStatsResponse>(
       `/api/v1/auth/statsPremiumID`,
       {
         params: { intervalType, premiumID, group },
@@ -479,9 +483,7 @@ export class AccountingGateway {
    * - to milliseconds
    * - monthly if set true returns aggregated stats by month
    * - token if set, returns only stats for specified premium-token */
-  async getUserStatsByRange(
-    params: StatsByRangeRequest,
-  ): Promise<StatsByRangeResponse> {
+  async getUserStatsByRange(params: GetStatsByRangeParams) {
     const { data: response } = await this.api.get<StatsByRangeResponse>(
       '/api/v1/auth/stats/totals/range',
       {
@@ -1005,7 +1007,7 @@ export class AccountingGateway {
   ): Promise<IGetCryptoPaymentOptionsResponse> {
     const { data } = await this.api.get<IGetCryptoPaymentOptionsResponse>(
       '/api/v1/auth/payment/getCryptoPaymentOptions',
-      { params }
+      { params },
     );
 
     return data;
@@ -1135,7 +1137,9 @@ export class AccountingGateway {
     await this.api.post('/api/v1/auth/groups/invite/reject', body);
   }
 
-  async getNotifications(params?: IGetNotificationsParams): Promise<IGetNotificationsResponse> {
+  async getNotifications(
+    params?: IGetNotificationsParams,
+  ): Promise<IGetNotificationsResponse> {
     const { data: response } = await this.api.get<IGetNotificationsResponse>(
       '/api/v1/auth/notifications',
       {
@@ -1158,12 +1162,11 @@ export class AccountingGateway {
   }
 
   async getNotificationsChannels(params?: IGetNotificationsChannelsParams) {
-    const { data: response } = await this.api.get<IGetNotificationsChannelsResponse[]>(
-      '/api/v1/auth/notifications/channels',
-      {
-        params,
-      },
-    );
+    const { data: response } = await this.api.get<
+      IGetNotificationsChannelsResponse[]
+    >('/api/v1/auth/notifications/channels', {
+      params,
+    });
 
     return response;
   }
@@ -1178,9 +1181,10 @@ export class AccountingGateway {
   }
 
   async getTelegramNotificationsBotData() {
-    const { data: response } = await this.api.get<IGetTelegramNotificationsBotDataResponse>(
-      '/api/v1/auth/notifications/telegram/bot',
-    );
+    const { data: response } =
+      await this.api.get<IGetTelegramNotificationsBotDataResponse>(
+        '/api/v1/auth/notifications/telegram/bot',
+      );
 
     return response;
   }
@@ -1275,14 +1279,13 @@ export class AccountingGateway {
   }
 
   async convertReferralReward(body: IConvertReferralRewardParams) {
-    await this.api.post(
-      '/api/v1/auth/referral/reward/convert',
-      body,
-    );
+    await this.api.post('/api/v1/auth/referral/reward/convert', body);
   }
 
   async getRewardTxs(params?: IGetRewardTxsParams) {
-    const { data: { transactions } } = await this.api.get<IGetRewardTxsResponse>(
+    const {
+      data: { transactions },
+    } = await this.api.get<IGetRewardTxsResponse>(
       '/api/v1/auth/referral/reward/txs',
       { params },
     );

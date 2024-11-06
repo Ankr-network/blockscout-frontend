@@ -3,7 +3,7 @@ import { IWorkerGlobalStatus, Timeframe } from 'multirpc-sdk';
 import { ChainID } from '@ankr.com/chains-list';
 
 import { MultiService } from 'modules/api/MultiService';
-import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/stats/const';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { web3Api } from 'store/queries';

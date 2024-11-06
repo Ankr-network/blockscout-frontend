@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
+import { BlockchainStats, BlockchainStatsTopRequests } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
 
 import { mapUsageDataForChartWidget } from 'modules/chains/utils/mapUsageDataForChartWidget';
@@ -11,9 +11,9 @@ export interface UsageDataParams {
   isConnecting: boolean;
   arePrivateStatsLoading: boolean;
   privateStatsError: any;
-  privateStats?: PrivateStat;
+  privateStats?: BlockchainStats;
   timeframe: Timeframe;
-  userTopRequests: PrivateStatTopRequests[];
+  userTopRequests: BlockchainStatsTopRequests[];
 }
 
 export const getPrivateUsageData = ({

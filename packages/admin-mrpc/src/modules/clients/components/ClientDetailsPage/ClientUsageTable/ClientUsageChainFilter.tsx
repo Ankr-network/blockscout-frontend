@@ -1,10 +1,10 @@
 import { Box, Button } from '@mui/material';
-import { BlockchainID, PrivateStats } from 'multirpc-sdk';
+import { BlockchainID, PrivateStatsResponse } from 'multirpc-sdk';
 
 import { useClientDetailsStyles } from '../ClientDetailsStyles';
 
 interface IClientUsageChainFilterProps {
-  stats?: PrivateStats;
+  stats?: PrivateStatsResponse;
   filterByChainValue?: BlockchainID;
   handleFilterByChain: (chain?: BlockchainID) => void;
   availableChains: BlockchainID[];
@@ -22,7 +22,7 @@ export const ClientUsageChainFilter = ({
     return null;
   }
 
-  const totalRequestsCount = stats?.totalRequests;
+  const totalRequestsCount = stats?.total_requests;
 
   return (
     <Box>
@@ -40,12 +40,12 @@ export const ClientUsageChainFilter = ({
       {availableChains.map(chain => {
         const currentChainStats = stats?.stats![chain];
 
-        if (!currentChainStats?.totalRequests || !totalRequestsCount) {
+        if (!currentChainStats?.total_requests || !totalRequestsCount) {
           return null;
         }
 
         const currentChainUsagePercent =
-          (currentChainStats?.totalRequests * 100) / totalRequestsCount;
+          (currentChainStats?.total_requests * 100) / totalRequestsCount;
         const currentChainUsagePercentString = `${
           Math.round(currentChainUsagePercent * 10) / 10
         }%`;

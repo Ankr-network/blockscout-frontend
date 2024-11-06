@@ -1,17 +1,16 @@
-import React from 'react';
+import { BlockchainStatsTopRequests } from 'multirpc-sdk';
 import { Button } from '@mui/material';
 import { CSVLink } from 'react-csv';
-import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { Download } from '@ankr.com/ui';
-import { t } from '@ankr.com/common';
 import { Timeframe } from '@ankr.com/chains-list';
+import { t } from '@ankr.com/common';
 
 import { ItemHeader } from '../../../ItemHeader';
 import { useHeaderStyles } from './useHeaderStyles';
 
 export interface HeaderProps {
+  data?: BlockchainStatsTopRequests[];
   timeframe: Timeframe;
-  data?: PrivateStatTopRequests[];
 }
 
 export const Header = ({ data, timeframe }: HeaderProps) => {

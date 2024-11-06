@@ -40,6 +40,7 @@ export const AllChainsLayout = ({ timeframe }: ILayoutProps) => {
       <div className={classesV2.root}>
         <RequestsWidget
           NoDataPlaceholder={RequestsWidgetPlaceholder}
+          allTimeTotalRequestsLoading={totalStatsLoading}
           className={classesV2.requests}
           data={requestsChartData}
           isLoading={totalStatsLoading}

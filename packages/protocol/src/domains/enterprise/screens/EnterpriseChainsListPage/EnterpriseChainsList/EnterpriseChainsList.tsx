@@ -1,19 +1,21 @@
-import { useState } from 'react';
 import { ESortChainsType, Timeframe } from '@ankr.com/chains-list';
+import { PrivateStatsInterval } from 'multirpc-sdk';
+import { useState } from 'react';
 
-import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
-import { useAppSelector } from 'store/useAppSelector';
-import {
-  selectEnterpriseChains,
-  selectEnterpriseStatsBySelectedApiKey,
-} from 'domains/enterprise/store/selectors';
 import { BaseChains } from 'modules/common/components/BaseChains';
 import { BaseChainsHeader } from 'domains/chains/components/BaseChainsHeader';
 import { ChainsList } from 'modules/common/components/ChainsList';
-import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
 import { excludeMultiChain } from 'domains/chains/utils/excludeMultiChain';
+import { isReactSnap } from 'modules/common/utils/isReactSnap';
+import { selectEnterpriseChains } from 'domains/enterprise/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
+import { useChainsSorting } from 'modules/chains/hooks/useChainsSorting';
+import { useEnterpriseStats } from 'domains/enterprise/hooks/useEnterpriseStats';
+import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 
 import { EnterpriseChainCard } from '../EnterpriseChainCard';
+
+const defaultInterval = PrivateStatsInterval.MONTH;
 
 export const EnterpriseChainsList = () => {
   const { chains, isLoading } = useAppSelector(selectEnterpriseChains);
@@ -24,9 +26,10 @@ export const EnterpriseChainsList = () => {
 
   const [searchContent, setSearchContent] = useSearch();
 
-  const { data: { stats = {} } = {} } = useAppSelector(
-    selectEnterpriseStatsBySelectedApiKey,
-  );
+  const { stats } = useEnterpriseStats({
+    interval: defaultInterval,
+    shouldFetch: !isReactSnap,
+  });
 
   const { processedChains } = useChainsSorting({
     chains: chains.filter(excludeMultiChain),

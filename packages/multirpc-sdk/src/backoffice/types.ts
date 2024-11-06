@@ -1,12 +1,12 @@
 import { Milliseconds, Timestamp } from '@ankr.com/utils';
 
 import {
-  TPaymentHistoryEntityType,
-  PrivateStats,
-  PrivateStatsInterval,
-  IEthUserAddressWithDeprecatedPublicKey,
-  EmailConfirmationStatus,
   ELimitType,
+  EmailConfirmationStatus,
+  IEthUserAddressWithDeprecatedPublicKey,
+  PrivateStatsInterval,
+  PrivateStatsResponse,
+  TPaymentHistoryEntityType,
 } from '../accounting';
 import { Network, Web3Address, BlockchainID } from '../common';
 
@@ -126,7 +126,7 @@ export interface IUserStatsByRangeRequest {
   to: Milliseconds;
 }
 
-export type IUserStatsResponse = PrivateStats;
+export type IUserStatsResponse = PrivateStatsResponse;
 
 export interface IUsageDetailEntity {
   count: string;

@@ -1,42 +1,32 @@
-import { useEffect, useRef } from 'react';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 
-import { useLazyFetchLastMonthStatsQuery } from 'modules/stats/actions/fetchLastMonthStats';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
+import { usePrivateStatsByToken } from 'modules/stats/hooks/usePrivateStatsByToken';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
-import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
 
 export const useLastMonthStats = (isChainSelected: boolean) => {
-  const { gateway, isEnterpriseClient, isEnterpriseStatusLoading } =
-    useMultiServiceGateway();
-  const [fetch] = useLazyFetchLastMonthStatsQuery();
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
+    useEnterpriseClientStatus();
+
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
   const { selectedProjectEndpointToken } = useTokenManagerConfigSelector();
 
-  const groupRef = useRef(group);
+  const skipFetching =
+    isEnterpriseClient || isEnterpriseStatusLoading || isChainSelected;
 
-  useEffect(() => {
-    const isGroupChanged = groupRef.current !== group;
-
-    if (!isChainSelected && !isEnterpriseStatusLoading && !isEnterpriseClient) {
-      if (isGroupChanged) {
-        groupRef.current = group;
-        fetch({ group, gateway });
-      }
-
-      fetch({
-        group,
-        userEndpointToken: selectedProjectEndpointToken,
-        gateway,
-      });
-    }
-  }, [
-    fetch,
+  usePrivateStatsByToken({
     group,
-    isChainSelected,
-    selectedProjectEndpointToken,
-    gateway,
-    isEnterpriseStatusLoading,
-    isEnterpriseClient,
-  ]);
+    interval: PrivateStatsInterval.MONTH,
+    token: selectedProjectEndpointToken!,
+    skipFetching: !selectedProjectEndpointToken || skipFetching,
+  });
+
+  usePrivateStats({
+    group,
+    interval: PrivateStatsInterval.MONTH,
+    skipFetching: Boolean(selectedProjectEndpointToken) || skipFetching,
+  });
 };

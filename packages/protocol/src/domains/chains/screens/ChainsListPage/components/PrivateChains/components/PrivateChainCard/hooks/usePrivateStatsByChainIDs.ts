@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { ChainID, Timeframe } from '@ankr.com/chains-list';
 
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { aggregateTotalRequestsNumber } from '../../../utils/aggregateTotalRequestsNumber';
 
@@ -17,19 +18,19 @@ export const usePrivateStatsByChainIDs = ({
   ids,
   timeframe,
 }: IUsePrivateStatsByChainIDsProps) => {
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const interval = timeframeToIntervalMap[timeframe];
+
   const {
-    arePrivateStatsLoading: isLoading,
-    data: { stats = defaultStats },
-  } = usePrivateStats({
-    hasGateway: false,
-    interval: timeframeToIntervalMap[timeframe],
-    userEndpointToken: undefined,
-  });
+    loading,
+    privateStats: { stats = defaultStats },
+  } = usePrivateStats({ group, interval });
 
   const result = useMemo(
     () => aggregateTotalRequestsNumber({ ids, stats }),
     [ids, stats],
   );
 
-  return [result, isLoading] as const;
+  return [result, loading] as const;
 };

@@ -3,8 +3,8 @@ import invert from 'lodash.invert';
 import {
   BlockchainID,
   IUsageDetailEntity,
-  PrivateStats,
   PrivateStatsInterval,
+  PrivateStatsResponse,
 } from 'multirpc-sdk';
 
 import { IUsageEntityMapped } from 'modules/clients/types';
@@ -16,8 +16,8 @@ import { Timeframe } from '../RequestsChart/types';
 
 export interface IHookProps {
   onUpdateTimeframe: (timeframe: PrivateStatsInterval | CustomRange) => void;
-  stats?: PrivateStats;
-  csvStats?: PrivateStats;
+  stats?: PrivateStatsResponse;
+  csvStats?: PrivateStatsResponse;
   usage?: IUsageEntityMapped[];
   currentPeriod: PrivateStatsInterval | CustomRange;
 }
@@ -118,12 +118,12 @@ export const useClientUsageTable = ({
 
   const totalRequestsValue =
     filterByChainValue && stats?.stats && stats?.stats[filterByChainValue]
-      ? stats?.stats[filterByChainValue]?.totalRequests
-      : stats?.totalRequests;
+      ? stats?.stats[filterByChainValue]?.total_requests
+      : stats?.total_requests;
 
   const totalCostsValue =
     filterByChainValue && stats?.stats && stats?.stats[filterByChainValue]
-      ? stats?.stats[filterByChainValue]?.total?.totalCost
+      ? stats?.stats[filterByChainValue]?.total?.total_cost
       : totalCost;
 
   const maxCountByBlockchain =

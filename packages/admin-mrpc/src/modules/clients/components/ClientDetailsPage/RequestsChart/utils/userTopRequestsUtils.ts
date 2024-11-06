@@ -8,11 +8,11 @@ import {
   isBefore,
 } from 'date-fns';
 import {
-  PrivateStatCount,
-  PrivateStatOthersInfo,
-  PrivateStatTopRequests,
-  PrivateStatTopRequestsData,
-  PrivateTotalRequestsInfo,
+  BlockchainStatsCount,
+  BlockchainStatsOthersInfo,
+  BlockchainStatsTopRequests,
+  BlockchainStatsTopRequestsData,
+  BlockchainStatsTotalRequestsInfo,
 } from 'multirpc-sdk';
 
 import { Timeframe } from '../types';
@@ -22,7 +22,7 @@ export const calculateTotalRequests = (list: number[]) =>
 
 export type TopRequestsResultData = {
   list: string[];
-  data: PrivateStatTopRequestsData[];
+  data: BlockchainStatsTopRequests[];
 };
 
 const ONE_HOUR = 60 * 60 * 1000;
@@ -42,9 +42,9 @@ const getNextStatsTimestamp = (timeStamp: number, timeframe: Timeframe) => {
 };
 
 const fillBarCounts = (
-  oneStakeCounts: Record<string, PrivateStatCount>,
+  oneStakeCounts: Record<string, BlockchainStatsCount>,
   timestamp: number,
-  topRequestsList: PrivateStatTopRequests[],
+  topRequestsList: BlockchainStatsTopRequests[],
 ) => {
   const oneStakeItem = oneStakeCounts[timestamp];
 
@@ -57,17 +57,17 @@ const fillBarCounts = (
 
 interface ICount {
   timestamp: string;
-  othersInfo: PrivateStatOthersInfo;
-  topRequests: PrivateStatTopRequests[];
+  othersInfo: BlockchainStatsOthersInfo;
+  topRequests: BlockchainStatsTopRequests[];
 }
 
 const calculateBarCounts = (
   timeframe: Timeframe,
-  counts?: Record<string, PrivateStatCount>,
+  counts?: Record<string, BlockchainStatsCount>,
 ) => {
   if (!counts) return {};
 
-  const oneStakeCounts: Record<string, PrivateStatCount> = {};
+  const oneStakeCounts: Record<string, BlockchainStatsCount> = {};
   const countList: ICount[] = [];
   const nextTime = timeframe === Timeframe.Day ? ONE_HOUR : ONE_DAY;
 
@@ -89,7 +89,7 @@ const calculateBarCounts = (
     Number(countList[0].timestamp),
     timeframe,
   );
-  let topRequestsList: PrivateStatTopRequests[] = [];
+  let topRequestsList: BlockchainStatsTopRequests[] = [];
 
   countList.forEach((count: ICount, index: number) => {
     const { timestamp, topRequests = [] } = count;
@@ -143,8 +143,8 @@ const getChartFormat = (timeframe: Timeframe) => {
 
 export const formatChartData = (
   timeframe: Timeframe,
-  total?: PrivateTotalRequestsInfo,
-  counts?: Record<string, PrivateStatCount>,
+  total?: BlockchainStatsTotalRequestsInfo,
+  counts?: Record<string, BlockchainStatsCount>,
 ) => {
   if (typeof counts === 'undefined') {
     return {
@@ -172,7 +172,7 @@ export const formatChartData = (
   });
 
   const listData = (total?.top_requests || [])?.map(
-    (item: PrivateStatTopRequests) => item.method,
+    (item: BlockchainStatsTopRequests) => item.method,
   );
   const otherMethods = total?.others_info?.type_count || 0;
   let otherMethodName = '';
@@ -206,7 +206,7 @@ export const formatChartData = (
 
   const chartFormat = getChartFormat(timeframe);
 
-  const chartData: PrivateStatTopRequestsData[] = [];
+  const chartData: BlockchainStatsTopRequestsData[] = [];
 
   Object.keys(counts).forEach(timestamp => {
     const chart: Record<string, number> = {};

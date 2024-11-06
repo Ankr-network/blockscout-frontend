@@ -21,11 +21,11 @@ export const PrivateChains = ({
   const {
     chains,
     loading,
-    privateStats,
     searchContent,
     setSearchContent,
     setSortType,
     sortType,
+    stats: privateStats,
     timeframe,
   } = usePrivateChainsData({ ignoreJwtManager: true });
 

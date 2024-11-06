@@ -1,11 +1,11 @@
-import { PrivateStatsInternal } from 'multirpc-sdk';
+import { PrivateStats } from 'multirpc-sdk';
 import { ChainID } from '@ankr.com/chains-list';
 
 import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
 
 export interface AggregateTotalRequestsNumberParams {
   ids: ChainID[];
-  stats?: PrivateStatsInternal;
+  stats?: PrivateStats;
 }
 
 export const aggregateTotalRequestsNumber = ({

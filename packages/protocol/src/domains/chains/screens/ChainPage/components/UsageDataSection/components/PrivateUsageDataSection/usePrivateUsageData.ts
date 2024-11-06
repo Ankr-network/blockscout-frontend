@@ -1,46 +1,48 @@
-import { PrivateStat, PrivateStatTopRequests } from 'multirpc-sdk';
-import { useMemo } from 'react';
+import { BlockchainStatsTopRequests, PrivateStats } from 'multirpc-sdk';
 import {
-  ChainID,
   Chain,
+  ChainID,
+  ChainSubType,
   ChainType,
   Timeframe,
-  ChainSubType,
 } from '@ankr.com/chains-list';
+import { useMemo } from 'react';
 
-import { EndpointGroup } from 'modules/endpoints/types';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { usePrivateStats } from 'domains/chains/hooks/usePrivateStats';
-import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { getStatsChainId } from 'domains/chains/screens/ChainPage/components/ChainItemSections/utils/getStatsChainId';
-import { useTop10Stats } from 'domains/dashboard/screens/Dashboard/components/AllChainsLayout/v1/hooks/useTop10Stats';
 import { CountryMap } from 'domains/chains/actions/public/fetchChainTimeframeData';
-import { ALL_PROJECTS_VALUE } from 'domains/projects/const';
+import { EndpointGroup } from 'modules/endpoints/types';
+import { getStatsChainId } from 'domains/chains/screens/ChainPage/components/ChainItemSections/utils/getStatsChainId';
+import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
+import { useEnterprisePrivateStats } from 'modules/stats/hooks/useEnterprisePrivateStats';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useTop10Stats } from 'domains/dashboard/screens/Dashboard/components/AllChainsLayout/v1/hooks/useTop10Stats';
 
-import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
-import { checkPrivateChainsAndGetChainId } from '../../const';
-import { UsageData } from '../../types';
 import { ChainProtocol } from '../../../../constants/ChainProtocolContext';
+import { UsageData } from '../../types';
+import { checkPrivateChainsAndGetChainId } from '../../const';
+import { getPrivateUsageData } from './PrivateUsageDataSectionUtils';
 
 export interface UsageDataParams {
   chain: Chain;
-  chainType: ChainType;
-  chainSubType?: ChainSubType;
-  group: EndpointGroup;
-  timeframe: Timeframe;
   chainProtocol?: ChainProtocol;
+  chainSubType?: ChainSubType;
+  chainType: ChainType;
+  group: EndpointGroup;
   isChainProtocolSwitchEnabled?: boolean;
+  timeframe: Timeframe;
 }
 
 export const getUserTopRequest = (
-  privateStats: Partial<Record<string, PrivateStat>>,
+  privateStats: Partial<PrivateStats>,
   chainId: ChainID,
-): PrivateStatTopRequests[] => {
+): BlockchainStatsTopRequests[] => {
   const othersInfo = privateStats[chainId]?.total?.others_info;
 
   const topRequests = privateStats[chainId]?.total?.top_requests || [];
 
-  const othersInfoMapped: PrivateStatTopRequests | undefined =
+  const othersInfoMapped: BlockchainStatsTopRequests | undefined =
     othersInfo?.type_count
       ? {
           method: `${othersInfo.type_count} other methods`,
@@ -52,12 +54,14 @@ export const getUserTopRequest = (
   return othersInfoMapped ? [...topRequests, othersInfoMapped] : topRequests;
 };
 
+const defaultStats: PrivateStats = {};
+
 export const usePrivateUsageData = ({
   chain,
   chainProtocol,
   chainSubType,
   chainType,
-  group,
+  group: endpointGrop,
   isChainProtocolSwitchEnabled,
   timeframe,
 }: UsageDataParams): UsageData => {
@@ -67,50 +71,66 @@ export const usePrivateUsageData = ({
     publicChain: chain,
     chainType,
     chainSubType,
-    group,
+    group: endpointGrop,
     isChainProtocolSwitchEnabled,
     chainProtocol,
   });
 
   const privateCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
+  const { selectedGroupAddress: group } = useSelectedUserGroup();
+
+  const { isEnterpriseClient, isEnterpriseStatusLoading } =
+    useEnterpriseClientStatus();
+
+  const isEnterprise = isEnterpriseClient && !isEnterpriseStatusLoading;
+
+  const interval = timeframeToIntervalMap[timeframe];
+
   const {
-    arePrivateStatsLoading,
-    data: { stats: privateStats = {} },
-    privateStatsError,
-  } = usePrivateStats({
-    hasGateway: true,
-    interval: timeframeToIntervalMap[timeframe],
-    userEndpointToken: ALL_PROJECTS_VALUE,
+    loading: privateStatsLoading,
+    privateStats: { stats: privateStats = defaultStats },
+    state: { error: privateStatsError },
+  } = usePrivateStats({ group, interval, skipFetching: isEnterprise });
+
+  const {
+    enterprisePrivateStats: { stats: enterpriseStats = defaultStats },
+    loading: enterpriseStatsLoading,
+    state: { error: enterpriseStatsError },
+  } = useEnterprisePrivateStats({
+    group,
+    interval,
+    skipFetching: !isEnterprise,
   });
 
-  const { top10Data } = useTop10Stats(timeframe, privateCheckedChainId);
+  const [stats, statsLoading, statsError] = isEnterprise
+    ? [enterpriseStats, enterpriseStatsLoading, enterpriseStatsError]
+    : [privateStats, privateStatsLoading, privateStatsError];
 
-  const userTopRequests = getUserTopRequest(
-    privateStats,
-    privateCheckedChainId,
-  );
+  const { stats: top10Stats } = useTop10Stats(timeframe, privateCheckedChainId);
+
+  const userTopRequests = getUserTopRequest(stats, privateCheckedChainId);
 
   const countries: CountryMap = useMemo(() => {
-    if (!top10Data?.countries) {
+    if (!top10Stats?.countries) {
       return {};
     }
 
-    return top10Data.countries.reduce(
+    return top10Stats.countries.reduce(
       (acc, { key: country, value: requests }) => ({
         ...acc,
         [country]: { country, requests },
       }),
       {},
     );
-  }, [top10Data]);
+  }, [top10Stats]);
 
   return {
     ...getPrivateUsageData({
+      arePrivateStatsLoading: statsLoading,
       isConnecting,
-      arePrivateStatsLoading,
-      privateStatsError,
-      privateStats: privateStats[privateCheckedChainId],
+      privateStats: stats[privateCheckedChainId],
+      privateStatsError: statsError,
       timeframe,
       userTopRequests,
     }),

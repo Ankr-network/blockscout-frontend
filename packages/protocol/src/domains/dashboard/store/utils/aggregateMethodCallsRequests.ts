@@ -1,7 +1,7 @@
+import { BlockchainStats } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
-import { PrivateStat } from 'multirpc-sdk';
 
-export const aggregateMethodCallsRequests = (stats?: PrivateStat) => {
+export const aggregateMethodCallsRequests = (stats?: BlockchainStats) => {
   let methodCalls = stats?.total.top_requests || [];
 
   if (!stats || !methodCalls?.length) {

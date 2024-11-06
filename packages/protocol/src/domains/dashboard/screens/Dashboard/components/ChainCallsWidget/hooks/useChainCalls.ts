@@ -2,14 +2,11 @@ import { Timeframe } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
 import { selectBlockchainsLoadingStatus } from 'modules/chains/store/selectors';
-import {
-  selectChainCalls,
-  selectTotalRequestsNumber,
-} from 'domains/dashboard/store/selectors/v1';
-import { selectPrivateStatsLoading } from 'domains/chains/actions/private/fetchPrivateStats';
 import { useAppSelector } from 'store/useAppSelector';
 
 import { getPieChartData } from '../utils/getPieChartData';
+import { useChainCallsData } from './useChainCallsData';
+import { useChainCallsDataBySelectedProject } from './useChainCallsDataBySelectedProject';
 import { usePrivateStatsParams } from '../../../hooks/usePrivateStatsParams';
 
 export interface IUseChainCallsProps {
@@ -17,25 +14,27 @@ export interface IUseChainCallsProps {
 }
 
 export const useChainCalls = ({ timeframe }: IUseChainCallsProps) => {
-  const { privateStatsParams } = usePrivateStatsParams({ timeframe });
+  const { selectedProject } = usePrivateStatsParams({ timeframe });
 
-  const chainCalls = useAppSelector(state =>
-    selectChainCalls(state, privateStatsParams),
-  );
-  const totalRequests = useAppSelector(state =>
-    selectTotalRequestsNumber(state, privateStatsParams),
-  );
+  const chainCallsData = useChainCallsData({ timeframe });
+  const chainCallsDataBySelectedProject = useChainCallsDataBySelectedProject({
+    timeframe,
+  });
+
   const blockchainsLoading = useAppSelector(selectBlockchainsLoadingStatus);
-  const privateStatsLoading = useAppSelector(state =>
-    selectPrivateStatsLoading(state, privateStatsParams),
-  );
 
-  const isLoading = blockchainsLoading || privateStatsLoading;
+  const {
+    chainCalls,
+    loading: chainCallsDataLoading,
+    totalRequests,
+  } = selectedProject ? chainCallsDataBySelectedProject : chainCallsData;
+
+  const loading = blockchainsLoading || chainCallsDataLoading;
 
   const data = useMemo(
     () => getPieChartData({ chainCalls, totalRequests }),
     [chainCalls, totalRequests],
   );
 
-  return { data, isLoading, totalRequests };
+  return { data, loading, totalRequests };
 };

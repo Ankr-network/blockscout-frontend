@@ -1,12 +1,12 @@
-import { useCallback } from 'react';
-import { PrivateStatTopRequestsData } from 'multirpc-sdk';
+import { BlockchainStatsTopRequestsData } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
+import { useCallback } from 'react';
 
 import { NUMBER_OF_SHOW_X_TICK } from '../StakeBarChartUtils';
 
 export const useXTickFormatter = (
   timeframe: Timeframe,
-  data: PrivateStatTopRequestsData[],
+  data: BlockchainStatsTopRequestsData[],
 ) => {
   return useCallback(
     (value: string, index: number) => {

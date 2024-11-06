@@ -1,18 +1,18 @@
-import { useEffect, useMemo } from 'react';
 import {
   Chain,
   ChainSubType,
   ChainType,
   Timeframe,
 } from '@ankr.com/chains-list';
+import { PrivateStatsInterval } from 'multirpc-sdk';
+import { useMemo } from 'react';
 
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
-import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
-import { useLazyFetchChainsStatsForLast1hQuery } from 'domains/chains/actions/private/fetchChainsStatsForLast1h';
-import { useLazyFetchChainStatsForLast24hQuery } from 'domains/chains/actions/private/fetchChainsStatsForLast24h';
-import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
-import { mapUsageDataForChartWidget } from 'modules/chains/utils/mapUsageDataForChartWidget';
 import { EndpointGroup } from 'modules/endpoints/types';
+import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByRequests';
+import { mapUsageDataForChartWidget } from 'modules/chains/utils/mapUsageDataForChartWidget';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
+import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 
 import { useChainProtocolContext } from '../../../hooks/useChainProtocolContext';
 import { getStatsChainId } from '../../../components/ChainItemSections/utils/getStatsChainId';
@@ -38,31 +38,23 @@ export const usePrivateChainRequestsWidget = ({
     timeframes: [Timeframe.Hour, Timeframe.Day],
   });
 
-  const [
-    fetchLast1hStats,
-    {
-      data: data1hStats,
-      isFetching: isFetchingLoading1hStats,
-      isLoading: isLoading1hStats,
-    },
-  ] = useLazyFetchChainsStatsForLast1hQuery();
+  const isHourTimeframe = timeframe === Timeframe.Hour;
 
-  const [
-    fetchLastDayStats,
-    {
-      data: dataDayStats,
-      isFetching: isFetchingLoadingDayStats,
-      isLoading: isLoadingDayStats,
-    },
-  ] = useLazyFetchChainStatsForLast24hQuery();
+  const { loading: hourStatsLoading, privateStats: hourStatsResponse } =
+    usePrivateStats({
+      group: selectedGroupAddress,
+      interval: PrivateStatsInterval.HOUR,
+      skipFetching: !isHourTimeframe,
+    });
+  const hourStats = hourStatsResponse.stats;
 
-  useEffect(() => {
-    if (timeframe === Timeframe.Hour) {
-      fetchLast1hStats({ group: selectedGroupAddress });
-    } else {
-      fetchLastDayStats({ group: selectedGroupAddress });
-    }
-  }, [timeframe, fetchLast1hStats, fetchLastDayStats, selectedGroupAddress]);
+  const { loading: dayStatsLoading, privateStats: dayStatsResponse } =
+    usePrivateStats({
+      group: selectedGroupAddress,
+      interval: PrivateStatsInterval.DAY,
+      skipFetching: isHourTimeframe,
+    });
+  const dayStats = dayStatsResponse.stats;
 
   const { chainProtocol, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
@@ -79,24 +71,24 @@ export const usePrivateChainRequestsWidget = ({
   const privateCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
   const privateStats = useMemo(() => {
-    if (isLoading1hStats || isLoadingDayStats) {
+    if (hourStatsLoading || dayStatsLoading) {
       return undefined;
     }
 
     switch (timeframe) {
       case Timeframe.Hour:
-        return data1hStats?.stats?.[privateCheckedChainId];
+        return hourStats?.[privateCheckedChainId];
       default:
       case Timeframe.Day:
-        return dataDayStats?.stats?.[privateCheckedChainId];
+        return dayStats?.[privateCheckedChainId];
     }
   }, [
-    isLoading1hStats,
-    isLoadingDayStats,
-    timeframe,
-    data1hStats?.stats,
+    dayStats,
+    dayStatsLoading,
+    hourStats,
+    hourStatsLoading,
     privateCheckedChainId,
-    dataDayStats?.stats,
+    timeframe,
   ]);
 
   const requestsChartData = getChartDataByRequests({
@@ -109,12 +101,8 @@ export const usePrivateChainRequestsWidget = ({
   const requestsCount = privateStats?.total?.count || 0;
 
   return {
+    isLoading: hourStatsLoading || dayStatsLoading,
     requestsChartData,
-    isLoading:
-      isLoading1hStats ||
-      isLoadingDayStats ||
-      isFetchingLoading1hStats ||
-      isFetchingLoadingDayStats,
     requestsCount,
     timeframe,
     timeframeTabs,

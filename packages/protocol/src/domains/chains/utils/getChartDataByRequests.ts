@@ -1,4 +1,4 @@
-import { PrivateStatTimestamp } from 'multirpc-sdk';
+import { BlockchainStatsTimestamp } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
 
 import { IChartData } from 'modules/common/components/Chart';
@@ -22,7 +22,7 @@ const offsetsMap: Record<Timeframe, number> = {
 
 export interface GetChartDataByRequestsParams {
   isLoggedIn?: boolean;
-  requests?: Record<PrivateStatTimestamp, number>;
+  requests?: Record<BlockchainStatsTimestamp, number>;
   shouldShowZeroValues?: boolean;
   timeframe: Timeframe;
 }

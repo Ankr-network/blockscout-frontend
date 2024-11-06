@@ -1,9 +1,7 @@
 import { ChainID, Timeframe } from '@ankr.com/chains-list';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 
-import {
-  selectProjectTotalRequestsFor1hByChain,
-  selectProjectTotalRequestsFor24hByChain,
-} from 'domains/projects/store';
+import { selectProjectTotalRequestsByChain } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
 import { useProjectStatsInitialization } from 'domains/projects/screens/Project/hooks/useProjectStatsInitialization';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
@@ -19,24 +17,28 @@ export const useChainProjectRequestsData = (
     userEndpointToken,
   });
 
+  const token = userEndpointToken!;
+
   const currentChainRequestsFor1h = useAppSelector(state =>
-    selectProjectTotalRequestsFor1hByChain(state, chainId, {
-      group,
-      token: userEndpointToken!,
-    }),
+    selectProjectTotalRequestsByChain(
+      state,
+      { group, interval: PrivateStatsInterval.HOUR, token },
+      chainId,
+    ),
   );
 
-  const currentChainRequestsFor24h = useAppSelector(state =>
-    selectProjectTotalRequestsFor24hByChain(state, chainId, {
-      group,
-      token: userEndpointToken!,
-    }),
+  const currentChainRequestsFor1d = useAppSelector(state =>
+    selectProjectTotalRequestsByChain(
+      state,
+      { group, interval: PrivateStatsInterval.DAY, token },
+      chainId,
+    ),
   );
 
   const currentChainRequestsData =
     timeframe === Timeframe.Hour
       ? currentChainRequestsFor1h
-      : currentChainRequestsFor24h;
+      : currentChainRequestsFor1d;
 
   return { currentChainRequestsData, projectTotalRequestsLoading };
 };

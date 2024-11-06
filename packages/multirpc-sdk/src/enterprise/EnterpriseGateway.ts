@@ -11,12 +11,13 @@ import {
   GetEnterpriseEndpointsResponse,
 } from './types';
 import {
+  GetPrivateStatsByPremiumIdParams,
+  GetPrivateStatsParams,
+  GetStatsByRangeParams,
   IApiUserGroupParams,
   IUsageStats,
   IUsageStatsParams,
-  PrivateStats,
-  PrivateStatsInterval,
-  StatsByRangeRequest,
+  PrivateStatsResponse,
   StatsByRangeResponse,
   Top10StatsParams,
   Top10StatsResponse,
@@ -82,26 +83,23 @@ export class EnterpriseGateway {
    * in order to save the backward compatibility
    * */
 
-  async getPrivateStats(
-    intervalType: PrivateStatsInterval,
-    group?: string,
-  ): Promise<PrivateStats> {
-    const { data: response } = await this.api.get<PrivateStats>(
+  async getPrivateStats({ group, interval }: GetPrivateStatsParams) {
+    const { data: response } = await this.api.get<PrivateStatsResponse>(
       '/api/v1/auth/enterprise/stats',
       {
-        params: { intervalType, group },
+        params: { intervalType: interval, group },
       },
     );
 
     return response;
   }
 
-  async getPrivateStatsByPremiumId(
-    intervalType: PrivateStatsInterval,
-    apiKey: string,
-    group?: Web3Address,
-  ): Promise<PrivateStats> {
-    const { data } = await this.api.get<PrivateStats>(
+  async getPrivateStatsByPremiumId({
+    group,
+    interval: intervalType,
+    premiumID: apiKey,
+  }: GetPrivateStatsByPremiumIdParams) {
+    const { data } = await this.api.get<PrivateStatsResponse>(
       `/api/v1/auth/enterprise/stats/apiKey`,
       {
         params: { intervalType, apiKey, group },
@@ -130,9 +128,7 @@ export class EnterpriseGateway {
    * - to milliseconds
    * - monthly if set true returns aggregated stats by month
    * - token if set, returns only stats for specified premium-token */
-  async getUserStatsByRange(
-    params: StatsByRangeRequest,
-  ): Promise<StatsByRangeResponse> {
+  async getUserStatsByRange(params: GetStatsByRangeParams) {
     const { data: response } = await this.api.get<StatsByRangeResponse>(
       '/api/v1/auth/enterprise/stats/totals/range',
       {

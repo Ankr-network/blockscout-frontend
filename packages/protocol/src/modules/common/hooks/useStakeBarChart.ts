@@ -1,4 +1,4 @@
-import { PrivateStatTopRequestsData } from 'multirpc-sdk';
+import { BlockchainStatsTopRequestsData } from 'multirpc-sdk';
 import { useCallback, useEffect, useState } from 'react';
 import { Payload } from 'recharts/types/component/DefaultLegendContent';
 import { Timeframe } from '@ankr.com/chains-list';
@@ -7,14 +7,16 @@ import { COLOR_LIST } from '../components/StakeBarChart/StakeBarChartUtils';
 
 export type TopRequestsResultData = {
   list: string[];
-  data: PrivateStatTopRequestsData[];
+  data: BlockchainStatsTopRequestsData[];
 };
 
 export const useStakeBarChart = (
   result: TopRequestsResultData,
   timeframe: Timeframe,
 ) => {
-  const [data, setData] = useState<PrivateStatTopRequestsData[]>(result.data);
+  const [data, setData] = useState<BlockchainStatsTopRequestsData[]>(
+    result.data,
+  );
   const [selectedKey, setSelectedKey] = useState<Record<string, string>>({});
   const [currentTimeframe, setCurrentTimeframe] = useState(timeframe);
 
@@ -22,18 +24,20 @@ export const useStakeBarChart = (
     if (Object.keys(selectedKey).length > 0) {
       const resultData = result.data;
 
-      const listData: PrivateStatTopRequestsData[] = resultData.map(item => {
-        const list: PrivateStatTopRequestsData = {};
+      const listData: BlockchainStatsTopRequestsData[] = resultData.map(
+        item => {
+          const list: BlockchainStatsTopRequestsData = {};
 
-        Object.keys(selectedKey).forEach((listKey: string) => {
-          list[listKey] = item[listKey];
-        });
+          Object.keys(selectedKey).forEach((listKey: string) => {
+            list[listKey] = item[listKey];
+          });
 
-        return {
-          name: item.name,
-          ...list,
-        };
-      });
+          return {
+            name: item.name,
+            ...list,
+          };
+        },
+      );
 
       setData(listData);
     } else {

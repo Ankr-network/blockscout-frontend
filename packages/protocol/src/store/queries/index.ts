@@ -58,11 +58,15 @@ const endpointsSerializedByParams = [
   'fetchWalletBalanceUsdt',
   /* stats */
   'fetchChainTimeframeData',
+  'fetchEnterprisePrivateStats',
+  'fetchEnterprisePrivateStatsByToken',
+  'fetchEnterprisePrivateTop10Stats',
   'fetchPrivateStats',
-  'fetchProjectChainsStatsFor1h',
-  'fetchProjectChainsStatsFor24h',
+  'fetchPrivateStatsByToken',
+  'fetchPrivateTop10Stats',
+  'fetchPrivateTotalStats',
+  'fetchPrivateTotalStatsByRange',
   'fetchPublicRequestsCountStats',
-  'fetchTop10Stats',
   /* notifications */
   'fetchNotifications',
 ];

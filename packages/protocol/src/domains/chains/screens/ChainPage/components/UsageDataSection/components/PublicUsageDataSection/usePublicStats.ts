@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { Timeframe } from '@ankr.com/chains-list';
 
 import { IUseQueryProps } from 'store/queries/types';
-import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/stats/const';
 import { timeframeToStatsTimeframe } from 'domains/chains/constants/timeframeToStatsTimeframeMap';
 import { useFetchChainTimeframeDataQuery } from 'domains/chains/actions/public/fetchChainTimeframeData';
 

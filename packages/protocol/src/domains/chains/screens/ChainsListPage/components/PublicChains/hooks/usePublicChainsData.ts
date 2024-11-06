@@ -1,7 +1,7 @@
 import { ESortChainsType } from '@ankr.com/chains-list';
 import { useState } from 'react';
 
-import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/stats/const';
 import {
   selectBlockchainsLoadingStatus,
   selectPublicBlockchains,

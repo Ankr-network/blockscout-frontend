@@ -1,54 +1,45 @@
 import { useMemo } from 'react';
 
+import {
+  UsageDataParams,
+  getUserTopRequest,
+} from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/usePrivateUsageData';
+import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
+import { getPrivateUsageData } from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/PrivateUsageDataSectionUtils';
+import { getStatsChainId } from 'domains/chains/screens/ChainPage/components/ChainItemSections/utils/getStatsChainId';
+import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useChainProtocolContext } from 'domains/chains/screens/ChainPage/hooks/useChainProtocolContext';
-import { getStatsChainId } from 'domains/chains/screens/ChainPage/components/ChainItemSections/utils/getStatsChainId';
-import {
-  getUserTopRequest,
-  UsageDataParams,
-} from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/usePrivateUsageData';
-import { UsageData } from 'domains/chains/screens/ChainPage/components/UsageDataSection/types';
-import { checkPrivateChainsAndGetChainId } from 'domains/chains/screens/ChainPage/components/UsageDataSection/const';
-import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { getPrivateUsageData } from 'domains/chains/screens/ChainPage/components/UsageDataSection/components/PrivateUsageDataSection/PrivateUsageDataSectionUtils';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectEnterpriseStatsBySelectedApiKey } from 'domains/enterprise/store/selectors';
-import { useEnterpriseStatsRequest } from 'domains/enterprise/hooks/useEnterpriseStatsRequest';
+import { useEnterpriseStats } from 'domains/enterprise/hooks/useEnterpriseStats';
 
 export const useEnterpriseUsageData = ({
   chain,
   chainSubType,
   chainType,
-  group,
+  group: endpointGroup,
   timeframe,
-}: UsageDataParams): UsageData => {
+}: UsageDataParams) => {
   const { loading: isConnecting } = useAuth();
 
   const { chainProtocol, isChainProtocolSwitchEnabled } =
     useChainProtocolContext();
 
   const chainId = getStatsChainId({
-    publicChain: chain,
-    chainType,
-    chainSubType,
-    group,
-    isChainProtocolSwitchEnabled,
     chainProtocol,
+    chainSubType,
+    chainType,
+    group: endpointGroup,
+    isChainProtocolSwitchEnabled,
+    publicChain: chain,
   });
 
   const enterpriseCheckedChainId = checkPrivateChainsAndGetChainId(chainId);
 
   const {
-    data,
     error: enterpriseStatsError,
-    isLoading: areEnterpriseStatsLoading,
-  } = useAppSelector(selectEnterpriseStatsBySelectedApiKey);
-
-  const enterpriseStats = useMemo(() => {
-    return data?.stats || {};
-  }, [data]);
-
-  useEnterpriseStatsRequest({
+    loading: enterpriseStatsLoading,
+    stats: enterpriseStats,
+  } = useEnterpriseStats({
     interval: timeframeToIntervalMap[timeframe],
     shouldFetch: true,
   });
@@ -62,18 +53,18 @@ export const useEnterpriseUsageData = ({
     () =>
       getPrivateUsageData({
         isConnecting,
-        arePrivateStatsLoading: areEnterpriseStatsLoading,
+        arePrivateStatsLoading: enterpriseStatsLoading,
         privateStatsError: enterpriseStatsError,
         privateStats: enterpriseStats[enterpriseCheckedChainId],
         timeframe,
         userTopRequests,
       }),
     [
-      isConnecting,
-      areEnterpriseStatsLoading,
-      enterpriseStatsError,
-      enterpriseStats,
       enterpriseCheckedChainId,
+      enterpriseStats,
+      enterpriseStatsError,
+      enterpriseStatsLoading,
+      isConnecting,
       timeframe,
       userTopRequests,
     ],

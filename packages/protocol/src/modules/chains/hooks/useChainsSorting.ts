@@ -1,8 +1,8 @@
 import { Chain, ESortChainsType, Timeframe } from '@ankr.com/chains-list';
-import { PrivateStatsInternal } from 'multirpc-sdk';
+import { PrivateStats } from 'multirpc-sdk';
 import { useMemo } from 'react';
 
-import { REFETCH_STATS_INTERVAL } from 'modules/common/constants/const';
+import { REFETCH_STATS_INTERVAL } from 'modules/stats/const';
 import {
   formatRequestsCount,
   sortPublicChains,
@@ -17,7 +17,7 @@ export interface ChainsParams {
   sortType: ESortChainsType;
   timeframe: Timeframe;
   searchContent: string;
-  privateStats?: PrivateStatsInternal;
+  privateStats?: PrivateStats;
 }
 
 export const useChainsSorting = ({

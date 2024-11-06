@@ -34,7 +34,7 @@ export const useProjectData = (userEndpointToken?: string) => {
     selectConfiguredBlockchainsForToken(state, userEndpointToken),
   );
 
-  const { isLoading: isLoadingStats, stats } = useFetchProjectStats();
+  const { loading: projectStatsLoading, stats } = useFetchProjectStats();
 
   const sortedByUsageChains = useMemo(
     () =>
@@ -47,7 +47,9 @@ export const useProjectData = (userEndpointToken?: string) => {
   );
 
   const isLoading =
-    isProjectWhitelistLoading || projectBlockchainsLoading || isLoadingStats;
+    isProjectWhitelistLoading ||
+    projectBlockchainsLoading ||
+    projectStatsLoading;
 
   return {
     chains: sortedByUsageChains,

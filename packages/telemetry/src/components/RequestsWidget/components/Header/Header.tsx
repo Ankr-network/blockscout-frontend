@@ -3,13 +3,17 @@ import { BlueDot } from '../BlueDot';
 import { useHeaderStyles } from './HeaderStyles';
 
 export interface HeaderProps {
+  allRequestsLoading?: boolean;
   allRequestsTitle: string;
   isLoading: boolean;
   requestsTitle: string;
   title: string;
 }
 
+const requestsSkeleton = <Skeleton width={150} height={24} variant="text" />;
+
 export const Header = ({
+  allRequestsLoading,
   allRequestsTitle,
   isLoading,
   requestsTitle,
@@ -17,11 +21,9 @@ export const Header = ({
 }: HeaderProps) => {
   const { classes } = useHeaderStyles();
 
-  const requests = isLoading ? (
-    <Skeleton width={130} height={24} variant="text" />
-  ) : (
-    requestsTitle
-  );
+  const requests = isLoading ? requestsSkeleton : requestsTitle;
+
+  const allRequests = allRequestsLoading ? requestsSkeleton : allRequestsTitle;
 
   return (
     <div className={classes.root}>
@@ -31,7 +33,7 @@ export const Header = ({
           <BlueDot />
           {requests}
         </div>
-        <div className={classes.detailedRequests}>{allRequestsTitle}</div>
+        <div className={classes.detailedRequests}>{allRequests}</div>
       </div>
     </div>
   );

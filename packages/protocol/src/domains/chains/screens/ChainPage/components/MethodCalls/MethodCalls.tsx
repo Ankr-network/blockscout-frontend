@@ -1,6 +1,6 @@
+import { BlockchainStatsTopRequests } from 'multirpc-sdk';
 import { Box } from '@mui/material';
 import { OverlaySpinner } from '@ankr.com/ui';
-import { PrivateStatTopRequests } from 'multirpc-sdk';
 import { Timeframe } from '@ankr.com/chains-list';
 
 import { Header } from './components/Header';
@@ -9,7 +9,7 @@ import { useMethodCallStyles } from './useMethodCallStyles';
 
 interface IMethodCallsProps {
   loading: boolean;
-  data: PrivateStatTopRequests[];
+  data: BlockchainStatsTopRequests[];
   timeframe: Timeframe;
   isCostHidden?: boolean;
 }

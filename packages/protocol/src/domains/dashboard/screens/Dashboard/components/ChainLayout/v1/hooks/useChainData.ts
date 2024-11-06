@@ -4,17 +4,14 @@ import { getChartDataByRequests } from 'domains/chains/utils/getChartDataByReque
 import {
   selectAllTimeTotalRequestsNumber,
   selectBlockHeight,
-  selectChainStats,
-  selectMethodCallsByChainID,
-  selectTotalRequestsByChainID,
-  selectTotalRequestsNumberByChainID,
-  selectTotalStatsLoading,
 } from 'domains/dashboard/store/selectors/v1';
-import { selectPrivateStatsLoading } from 'domains/chains/actions/private/fetchPrivateStats';
+import { selectPrivateTotalStatsLoading } from 'modules/stats/actions/fetchPrivateTotalStats';
 import { useAppSelector } from 'store/useAppSelector';
 import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
 
 import { ChainLayoutProps } from '../../types';
+import { useChainStatsData } from './useChainStatsData';
+import { useChainStatsDataBySelectedProject } from './useChainStatsDataBySelectedProject';
 import { useTop10Stats } from '../../../AllChainsLayout/v1/hooks/useTop10Stats';
 
 export const useChainData = ({
@@ -22,29 +19,27 @@ export const useChainData = ({
   statsChainId,
   timeframe,
 }: ChainLayoutProps) => {
-  const { privateStatsParams } = usePrivateStatsParams({ timeframe });
+  const { group, selectedProject } = usePrivateStatsParams({ timeframe });
+
+  const chainStatsData = useChainStatsData({
+    chainId: statsChainId,
+    timeframe,
+  });
+  const chainStatsBySelectedProject = useChainStatsDataBySelectedProject({
+    chainId: statsChainId,
+    timeframe,
+  });
+
+  const {
+    chainStats,
+    loading: privateStatsLoading,
+    methodCalls,
+    requests,
+    totalRequestsNumber,
+  } = selectedProject ? chainStatsBySelectedProject : chainStatsData;
+
   const allTimeTotalRequestsNumber = useAppSelector(state =>
-    selectAllTimeTotalRequestsNumber(state, statsChainId),
-  );
-
-  const chainStats = useAppSelector(state =>
-    selectChainStats(state, privateStatsParams, statsChainId),
-  );
-
-  const requests = useAppSelector(state =>
-    selectTotalRequestsByChainID(state, privateStatsParams, statsChainId),
-  );
-
-  const privateStatsLoading = useAppSelector(state =>
-    selectPrivateStatsLoading(state, privateStatsParams),
-  );
-
-  const totalRequestsNumber = useAppSelector(state =>
-    selectTotalRequestsNumberByChainID(state, privateStatsParams, statsChainId),
-  );
-
-  const methodCalls = useAppSelector(state =>
-    selectMethodCallsByChainID(state, privateStatsParams, statsChainId),
+    selectAllTimeTotalRequestsNumber(state, { group }, statsChainId),
   );
 
   const requestsChartData = useMemo(
@@ -55,10 +50,12 @@ export const useChainData = ({
   const {
     countries,
     ipRequests,
-    isLoading: top10StatsLoading,
+    loading: top10StatsLoading,
   } = useTop10Stats(timeframe, statsChainId);
 
-  const totalStatsLoading = useAppSelector(selectTotalStatsLoading);
+  const totalStatsLoading = useAppSelector(state =>
+    selectPrivateTotalStatsLoading(state, { group }),
+  );
 
   const blockHeight = useAppSelector(state =>
     selectBlockHeight(state, detailsChainId),

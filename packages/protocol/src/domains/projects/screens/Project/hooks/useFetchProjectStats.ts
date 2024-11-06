@@ -1,23 +1,23 @@
-import { useLayoutEffect } from 'react';
+import { PrivateStatsInterval } from 'multirpc-sdk';
 
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useLazyFetchLastMonthStatsQuery } from 'modules/stats/actions/fetchLastMonthStats';
+import { usePrivateStatsByToken } from 'modules/stats/hooks/usePrivateStatsByToken';
 
 export const useFetchProjectStats = () => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
   const { projectId: userEndpointToken } =
     ProjectsRoutesConfig.project.useParams();
 
-  const [fetchStats, { data: { stats = {} } = {}, isLoading }] =
-    useLazyFetchLastMonthStatsQuery();
+  const {
+    loading,
+    privateStats: { stats = {} },
+  } = usePrivateStatsByToken({
+    group,
+    interval: PrivateStatsInterval.MONTH,
+    skipFetching: !userEndpointToken,
+    token: userEndpointToken!,
+  });
 
-  useLayoutEffect(() => {
-    fetchStats({
-      userEndpointToken,
-      group,
-    });
-  }, [fetchStats, group, userEndpointToken]);
-
-  return { stats, isLoading };
+  return { loading, stats };
 };

@@ -52,6 +52,7 @@ export const ChainLayout = ({
       <div className={classes.root}>
         <RequestsWidget
           NoDataPlaceholder={RequestsWidgetPlaceholder}
+          allTimeTotalRequestsLoading={totalStatsLoading}
           timeframe={timeframe}
           data={requestsChartData}
           className={classes.requests}

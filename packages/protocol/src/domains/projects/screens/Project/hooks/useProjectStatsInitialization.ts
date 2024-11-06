@@ -1,11 +1,14 @@
-import { StatsByRangeDuration } from 'multirpc-sdk';
+import {
+  PrivateStatsInterval,
+  StatsByRangeDuration,
+  StatsByRangeTimeframe,
+} from 'multirpc-sdk';
 
-import { useProjectChainsStatsFor1h } from 'domains/projects/hooks/useProjectChainsStatsFor1h';
-import { useProjectChainsStatsFor24h } from 'domains/projects/hooks/useProjectChainsStatsFor24h';
-import { useProjectTotalRequests } from 'domains/projects/hooks/useProjectTotalRequests';
+import { usePrivateStatsByToken } from 'modules/stats/hooks/usePrivateStatsByToken';
+import { usePrivateTotalStatsByRange } from 'modules/stats/hooks/usePrivateTotalStatsByRange';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
-interface IUseProjectStatsInitializationProps {
+export interface IUseProjectStatsInitializationProps {
   userEndpointToken: string | undefined;
 }
 
@@ -14,38 +17,42 @@ export const useProjectStatsInitialization = ({
 }: IUseProjectStatsInitializationProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const chainsStatsParams = {
-    group,
-    token: userEndpointToken!,
-    skipFetching: !userEndpointToken,
-  };
-
-  const { projectChainsStatsFor1h } =
-    useProjectChainsStatsFor1h(chainsStatsParams);
-
-  const { projectChainsStatsFor24h } =
-    useProjectChainsStatsFor24h(chainsStatsParams);
-
   const skipFetching = !userEndpointToken;
+
+  const { privateStats: projectChainsStatsFor1h } = usePrivateStatsByToken({
+    group,
+    interval: PrivateStatsInterval.HOUR,
+    token: userEndpointToken!,
+    skipFetching,
+  });
+
+  const { privateStats: projectChainsStatsFor1d } = usePrivateStatsByToken({
+    group,
+    interval: PrivateStatsInterval.DAY,
+    token: userEndpointToken!,
+    skipFetching,
+  });
 
   const {
     loading: projectTotalRequestsForLastTwoHoursLoading,
-    projectTotalRequests: projectTotalRequestsForLastTwoHours,
-  } = useProjectTotalRequests({
+    totalStatsByRange: projectTotalRequestsForLastTwoHours,
+  } = usePrivateTotalStatsByRange({
     duration: StatsByRangeDuration.TWO_HOURS,
     group,
     skipFetching,
+    timeframe: StatsByRangeTimeframe.HOUR,
     token: userEndpointToken!,
   });
 
   const {
     loading: projectTotalRequestsForLastTwoDaysLoading,
-    projectTotalRequests: projectTotalRequestsForLastTwoDays,
-  } = useProjectTotalRequests({
+    totalStatsByRange: projectTotalRequestsForLastTwoDays,
+  } = usePrivateTotalStatsByRange({
     duration: StatsByRangeDuration.TWO_DAYS,
     group,
     skipFetching,
     token: userEndpointToken!,
+    timeframe: StatsByRangeTimeframe.HOUR,
   });
 
   const projectTotalRequestsLoading =
@@ -54,7 +61,7 @@ export const useProjectStatsInitialization = ({
 
   return {
     projectChainsStatsFor1h,
-    projectChainsStatsFor24h,
+    projectChainsStatsFor1d,
     projectTotalRequestsForLastTwoDays,
     projectTotalRequestsForLastTwoHours,
     projectTotalRequestsLoading,

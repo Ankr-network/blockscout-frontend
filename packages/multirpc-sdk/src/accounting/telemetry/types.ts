@@ -25,7 +25,7 @@ export interface LatestRequest {
   country: string;
 }
 
-export interface StatsByRangeRequest extends IApiUserGroupParams {
+export interface GetStatsByRangeParams extends IApiUserGroupParams {
   duration?: StatsByRangeDuration;
   from?: Timestamp;
   monthly?: boolean;
@@ -148,31 +148,28 @@ export interface IPrivateStatsByApiKeyRequestParams
   apiKey: string;
 }
 
-export interface PrivateStats {
-  error?: string;
-  stats?: PrivateStatsInternal;
+export interface PrivateStatsResponse {
+  stats?: PrivateStats;
   total_requests?: number;
-  totalRequests?: number;
 }
 
-export type PrivateStatsInternal = Partial<Record<BlockchainID, PrivateStat>>;
+export type PrivateStats = Partial<Record<BlockchainID, BlockchainStats>>;
 
-export interface PrivateStat {
+export interface BlockchainStats {
   blockchain: string;
-  countries_count: PrivateStatCountriesCount;
-  counts?: PrivateStatCounts;
-  ips_count: PrivateStatIPsCount;
-  total: PrivateTotalRequestsInfo;
+  countries_count: BlockchainStatsCountriesCount;
+  counts?: BlockchainStatsCounts;
+  ips_count: BlockchainStatsIPsCount;
+  total: BlockchainStatsTotalRequestsInfo;
   total_requests: number;
-  totalRequests: number;
 }
 
-export interface PrivateStatCountriesCount {
-  others_info: PrivateStatOthersInfo;
+export interface BlockchainStatsCountriesCount {
+  others_info: BlockchainStatsOthersInfo;
   top_countries: PrivatStatTopCountry[];
 }
 
-export type PrivateStatOthersInfo = {
+export type BlockchainStatsOthersInfo = {
   request_count?: number;
   type_count?: number;
   total_cost?: number;
@@ -184,28 +181,30 @@ export interface PrivatStatTopCountry {
   total_cost: number;
 }
 
-export type PrivateStatCounts = Record<PrivateStatTimestamp, PrivateStatCount>;
+export type BlockchainStatsCounts = Record<
+  BlockchainStatsTimestamp,
+  BlockchainStatsCount
+>;
 
 // in ms
-export type PrivateStatTimestamp = string;
+export type BlockchainStatsTimestamp = string;
 
-export interface PrivateStatCount {
+export interface BlockchainStatsCount {
   count: number;
-  top_requests: PrivateStatTopRequests[];
-  others_info: PrivateStatOthersInfo;
+  top_requests: BlockchainStatsTopRequests[];
+  others_info: BlockchainStatsOthersInfo;
 }
 
 export type RPCRequestName = string;
 
-export interface PrivateStatTopRequests {
+export interface BlockchainStatsTopRequests {
   method: RPCRequestName;
   count: number;
   total_cost: number;
-  totalCost?: string; // used in backoffice stats response
 }
 
-export interface PrivateStatIPsCount {
-  others_info?: PrivateStatOthersInfo;
+export interface BlockchainStatsIPsCount {
+  others_info?: BlockchainStatsOthersInfo;
   top_ips?: IpDetails[];
 }
 
@@ -215,18 +214,11 @@ export interface IpDetails {
   total_cost: number;
 }
 
-export interface PrivateTotalRequestsInfo {
+export interface BlockchainStatsTotalRequestsInfo {
   count: number;
-  others_info: PrivateStatOthersInfo;
-  top_requests: PrivateStatTopRequests[];
-  topRequests: PrivateStatTopRequests[];
+  others_info: BlockchainStatsOthersInfo;
+  top_requests: BlockchainStatsTopRequests[];
   total_cost?: number;
-  totalCost?: number;
-}
-
-export interface IApiPrivateStats {
-  stats?: PrivateStatsInternal;
-  total_requests?: number;
 }
 
 export interface Top10StatsParams extends IApiUserGroupParams {
@@ -246,7 +238,7 @@ export interface Top10StatsResponse {
 }
 
 type ChartDate = string;
-export type PrivateStatTopRequestsData = Record<string, number | ChartDate>;
+export type BlockchainStatsTopRequestsData = Record<string, number | ChartDate>;
 
 export type UserRequest = Record<string, number>;
 export type UserRequestsResponse = Record<string, UserRequest>;
@@ -292,3 +284,14 @@ export interface IDailyChargingParams extends IApiUserGroupParams {
 }
 
 export type IDailyChargingResponse = string;
+
+export interface GetPrivateStatsParams {
+  group?: Address;
+  interval: PrivateStatsInterval;
+}
+
+export interface GetPrivateStatsByPremiumIdParams {
+  group?: Web3Address,
+  interval: PrivateStatsInterval,
+  premiumID: string,
+}

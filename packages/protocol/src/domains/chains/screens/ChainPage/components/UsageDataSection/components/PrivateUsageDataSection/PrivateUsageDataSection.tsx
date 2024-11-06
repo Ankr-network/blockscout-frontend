@@ -10,14 +10,11 @@ import { RequestsChart } from '../../../RequestsChart';
 import { RequestsMap } from '../../../RequestsMap';
 import { PrivateUsageSummary } from './components/PrivateUsageSummary';
 import { useDataUsageSectionStyles } from '../../UsageDataSectionStyles';
-import { LastUserRequests } from '../../../LastUserRequests';
 import { ItemHeader } from '../../../ItemHeader';
 import { usageDataSectionTranslation } from '../../translation';
 import { usePrivateUsageSection } from './usePrivateUsageSection';
 import { PublicUsageDataSectionProps } from '../PublicUsageDataSection';
 import { UsageSectionHeader } from '../UsageSectionHeader';
-
-const IS_LAST_USER_REQUESTS_BLOCK_ENABLED = false;
 
 interface PrivateUsageDataSectionProps extends PublicUsageDataSectionProps {}
 
@@ -70,7 +67,6 @@ export const PrivateUsageDataSection = ({
                 totalRequests={totalRequests}
                 isCostHidden
               />
-              {IS_LAST_USER_REQUESTS_BLOCK_ENABLED && <LastUserRequests />}
             </div>
             <ItemHeader
               className={classes.statisticsItemTitle}

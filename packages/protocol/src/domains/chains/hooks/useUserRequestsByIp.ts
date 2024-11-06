@@ -1,7 +1,7 @@
-import { PrivateStatsInternal } from 'multirpc-sdk';
+import { PrivateStats } from 'multirpc-sdk';
 
 interface IUserRequestsByIpPrarms {
-  day30PrivateStats: PrivateStatsInternal;
+  day30PrivateStats: PrivateStats;
   chainId: string;
 }
 

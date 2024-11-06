@@ -1,8 +1,8 @@
-import { PrivateStatCounts, PrivateStatTimestamp } from 'multirpc-sdk';
+import { BlockchainStatsCounts, BlockchainStatsTimestamp } from 'multirpc-sdk';
 
 export const mapUsageDataForChartWidget = (
-  privateStatCounts?: PrivateStatCounts,
-): Record<PrivateStatTimestamp, number> | undefined => {
+  privateStatCounts?: BlockchainStatsCounts,
+): Record<BlockchainStatsTimestamp, number> | undefined => {
   if (!privateStatCounts) {
     return undefined;
   }

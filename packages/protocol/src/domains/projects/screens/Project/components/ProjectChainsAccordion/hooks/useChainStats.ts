@@ -1,32 +1,32 @@
-import { ChainID, Timeframe } from '@ankr.com/chains-list';
+import { PrivateStatsInterval } from 'multirpc-sdk';
+import { Timeframe } from '@ankr.com/chains-list';
 
-import {
-  selectAggregatedStatsByChainFor1hState,
-  selectAggregatedStatsByChainFor24hState,
-} from 'domains/projects/store';
+import { selectAggregatedByChainPrivateStats } from 'domains/projects/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 export const useChainStats = (
   timeframe: Timeframe,
   userEndpointToken?: string,
-): { requestsData: Record<ChainID, number> } => {
+) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const lastHourAggregatedRequests: Record<ChainID, number> = useAppSelector(
-    state =>
-      selectAggregatedStatsByChainFor1hState(state, {
-        group,
-        token: userEndpointToken!,
-      }),
+  const token = userEndpointToken!;
+
+  const lastHourAggregatedRequests = useAppSelector(state =>
+    selectAggregatedByChainPrivateStats(state, {
+      group,
+      interval: PrivateStatsInterval.HOUR,
+      token,
+    }),
   );
 
-  const lastDayAggregatedRequests: Record<ChainID, number> = useAppSelector(
-    state =>
-      selectAggregatedStatsByChainFor24hState(state, {
-        group,
-        token: userEndpointToken!,
-      }),
+  const lastDayAggregatedRequests = useAppSelector(state =>
+    selectAggregatedByChainPrivateStats(state, {
+      group,
+      interval: PrivateStatsInterval.HOUR,
+      token,
+    }),
   );
 
   const requestsData =

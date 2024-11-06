@@ -6,16 +6,18 @@ import { SxProps, Theme } from '@mui/material';
 
 export interface RequestsWidgetProps {
   NoDataPlaceholder?: RequestsChartProps['NoDataPlaceholder'];
+  allTimeTotalRequestsLoading?: boolean;
   className?: string;
   data: IChartData[];
-  timeframe: Timeframe;
   isLoading: boolean;
   sx?: SxProps<Theme>;
+  timeframe: Timeframe;
   translation?: TranslationRequestWidget;
 }
 
 export const RequestsWidget = ({
   NoDataPlaceholder,
+  allTimeTotalRequestsLoading,
   sx,
   className,
   data = [],
@@ -43,6 +45,7 @@ export const RequestsWidget = ({
       translation={translation}
       title={
         <Header
+          allRequestsLoading={allTimeTotalRequestsLoading}
           allRequestsTitle={translation.allRequestsTitle}
           isLoading={isLoading}
           requestsTitle={translation.requestsTitle}

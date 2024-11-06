@@ -1,48 +1,43 @@
-import { createSelector } from '@reduxjs/toolkit';
 import { ChainID } from '@ankr.com/chains-list';
+import { createSelector } from '@reduxjs/toolkit';
 
-import {
-  FetchPrivateStatsParams,
-  FetchPrivateStatsParams as PrivateStatsParams,
-  selectPrivateStats as selectPrivateStatsData,
-} from 'domains/chains/actions/private/fetchPrivateStats';
 import { RootState } from 'store';
+import {
+  IFetchJWTsParams,
+  selectJWTs,
+} from 'domains/jwtToken/action/fetchJWTs';
+import {
+  IFetchPrivateStatsByTokenParams,
+  selectPrivateStatsByToken,
+} from 'modules/stats/actions/fetchPrivateStatsByToken';
+import {
+  IFetchPrivateStatsParams,
+  selectPrivateStats as selectPrivateStatsResponse,
+} from 'modules/stats/actions/fetchPrivateStats';
+import {
+  IFetchPrivateTotalStatsParams,
+  selectPrivateTotalStats,
+} from 'modules/stats/actions/fetchPrivateTotalStats';
+import { IFetchProjectsStatsParams } from 'domains/dashboard/actions/fetchProjectsStats';
+import { aggregateRequests } from 'modules/stats/utils/aggregateRequests';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
 import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
-import { maskText } from 'modules/common/utils/maskText';
-import { selectSelectedProject } from 'domains/jwtToken/store/selectors';
-import { fetchLastMonthStats } from 'modules/stats/actions/fetchLastMonthStats';
-import { aggregateRequests } from 'modules/stats/utils/aggregateRequests';
+import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 import { getAllChainsRequests } from 'modules/stats/utils/getAllChainsRequests';
 import { mapCountsToEntries } from 'modules/stats/utils/mapCountsToEntries';
+import { maskText } from 'modules/common/utils/maskText';
 import { selectPublicBlockchains } from 'modules/chains/store/selectors';
+import { selectSelectedProject } from 'domains/jwtToken/store/selectors';
 
 import { ChainCalls } from '../../screens/Dashboard/types';
-import { aggregateIPRequests } from '../utils/aggregateIPRequests';
+import { ICurrentProjectsStats } from '../types';
 import { aggregateMethodCallsRequests } from '../utils/aggregateMethodCallsRequests';
-import { aggregateTopCountries } from '../utils/aggregateTopCountries';
-import { aggregateUsageHistory } from '../utils/aggregateUsageHistory';
-import {
-  AllProjectsStatsParams,
-  fetchAllProjectsStats,
-} from '../../actions/fetchAllProjectsStats';
-import { fetchAllProjectsTotalRequests } from '../../actions/fetchAllProjectsTotalRequests';
-import { fetchUserTotalStats } from '../../actions/fetchUserTotalStats';
-import { getAllChainsIPRequests } from '../utils/getAllChainsIPRequests';
-import { getAllChainsTopCountries } from '../utils/getAllChainsTopCountries';
-import { getChainNamesMap } from '../utils/getChainNamesMap';
-import { getLocations } from '../utils/getLocations';
-import { getProjectsStats } from '../utils/getProjectsStats';
-import { getUsageHistoryData } from '../utils/getUsageHistoryData';
-import { sortIPRequests } from '../utils/sortIPRequests';
-import { sortTopCountries } from '../utils/sortTopCountries';
 import { findDetailsById } from '../utils/findDetailsById';
-import { fetchMonthlyUsageHistory } from '../../actions/fetchMonthlyUsageHistory';
+import { getChainNamesMap } from '../utils/getChainNamesMap';
+import { getProjectsPieChartData } from '../utils/getProjectsPieChartData';
 
-export const selectLastMonthStatsData = createSelector(
-  fetchLastMonthStats.select({}),
-  ({ data = {} }) => data,
-);
+interface IStatsParamsForSelectedProject
+  extends Omit<IFetchPrivateStatsByTokenParams, 'token'> {}
 
 export const selectChainNodeDetails = createSelector(
   chainsFetchChainNodesDetail.select(),
@@ -50,28 +45,47 @@ export const selectChainNodeDetails = createSelector(
 );
 
 export const selectPrivateStats = createSelector(
-  selectPrivateStatsData,
+  selectPrivateStatsResponse,
   ({ stats = {} }) => stats,
 );
 
-export const selectLastMonthStats = createSelector(
-  selectLastMonthStatsData,
-  ({ stats = {} }) => stats,
+export const selectPrivateStatsBySelectedProjects = createSelector(
+  selectSelectedProject,
+  (state: RootState, { group, interval }: IStatsParamsForSelectedProject) => ({
+    group,
+    interval,
+    state,
+  }),
+  (selectedProject, { group, interval, state }) => {
+    if (selectedProject) {
+      const { stats = {} } = selectPrivateStatsByToken(state, {
+        group,
+        interval,
+        token: selectedProject,
+      });
+
+      return stats;
+    }
+
+    return {};
+  },
 );
 
 export const selectChainStats = createSelector(
   selectPrivateStats,
   // 3 args described to fit first selelector interface and avoid args overlap
-  (_state: RootState, _arg: FetchPrivateStatsParams, chainID: ChainID) =>
+  (_state: RootState, _arg: IFetchPrivateStatsParams, chainID: ChainID) =>
     chainID,
   (stats, chainID) => stats[chainID],
 );
 
-export const selectLastMonthChainStats = createSelector(
-  selectLastMonthStats,
-  // 3 args described to fit first selelector interface and avoid args overlap
-  (_state: RootState, _arg: FetchPrivateStatsParams, chainID: ChainID) =>
-    chainID,
+export const selectChainStatsBySelectedProject = createSelector(
+  selectPrivateStatsBySelectedProjects,
+  (
+    _state: RootState,
+    _params: IStatsParamsForSelectedProject,
+    chainID: ChainID,
+  ) => chainID,
   (stats, chainID) => stats[chainID],
 );
 
@@ -79,8 +93,18 @@ export const selectChainsWithStats = createSelector(selectPrivateStats, stats =>
   Object.keys(stats),
 );
 
+export const selectChainsWithStatsBySelectedProject = createSelector(
+  selectPrivateStatsBySelectedProjects,
+  stats => Object.keys(stats),
+);
+
 export const selectTotalRequests = createSelector(selectPrivateStats, stats =>
   aggregateRequests(getAllChainsRequests(stats)),
+);
+
+export const selectTotalRequestsBySelectedProject = createSelector(
+  selectPrivateStatsBySelectedProjects,
+  stats => aggregateRequests(getAllChainsRequests(stats)),
 );
 
 export const selectTotalRequestsByChainID = createSelector(
@@ -88,9 +112,19 @@ export const selectTotalRequestsByChainID = createSelector(
   stats => Object.fromEntries(mapCountsToEntries(stats?.counts)),
 );
 
+export const selectTotalRequestsByChainIDBySelectedProject = createSelector(
+  selectChainStatsBySelectedProject,
+  stats => Object.fromEntries(mapCountsToEntries(stats?.counts)),
+);
+
 export const selectTotalRequestsNumber = createSelector(
-  selectPrivateStatsData,
-  stats => stats.totalRequests || 0,
+  selectPrivateStatsResponse,
+  stats => stats.total_requests || 0,
+);
+
+export const selectTotalRequestsNumberBySelectedProject = createSelector(
+  selectPrivateStatsByToken,
+  stats => stats.total_requests || 0,
 );
 
 export const selectTotalRequestsNumberByChainID = createSelector(
@@ -98,8 +132,19 @@ export const selectTotalRequestsNumberByChainID = createSelector(
   stats => stats?.total_requests || 0,
 );
 
+export const selectTotalRequestsNumberByChainIDBySelectedProject =
+  createSelector(
+    selectChainStatsBySelectedProject,
+    stats => stats?.total_requests || 0,
+  );
+
 export const selectMethodCallsByChainID = createSelector(
   selectChainStats,
+  stats => aggregateMethodCallsRequests(stats),
+);
+
+export const selectMethodCallsByChainIDBySelectedProject = createSelector(
+  selectChainStatsBySelectedProject,
   stats => aggregateMethodCallsRequests(stats),
 );
 
@@ -118,61 +163,14 @@ export const selectChainCalls = createSelector(
     })),
 );
 
-export const selectIPRequests = createSelector(selectLastMonthStats, stats =>
-  aggregateIPRequests(getAllChainsIPRequests(stats)),
-);
-
-export const selectIPRequestsByChainID = createSelector(
-  selectLastMonthChainStats,
-  stats => sortIPRequests(stats?.ips_count?.top_ips),
-);
-
-export const selectTopCountries = createSelector(selectLastMonthStats, stats =>
-  aggregateTopCountries(getAllChainsTopCountries(stats)),
-);
-
-export const selectTopCountriesByChainID = createSelector(
-  selectLastMonthChainStats,
-  stats => sortTopCountries(stats?.countries_count?.top_countries),
-);
-
-export const selectUsageHistory = createSelector(
-  selectLastMonthStats,
-  stats => {
-    const requests = aggregateRequests(getAllChainsRequests(stats));
-
-    return getUsageHistoryData(aggregateUsageHistory(requests));
-  },
-);
-
-export const selectMonthlyUsageHistory = createSelector(
-  fetchMonthlyUsageHistory.select({}),
-  ({ data = [] }) => data,
-);
-
-export const selectLocations = createSelector(
-  selectChainNodeDetails,
-  details => {
-    const nodeDetails = details.flatMap(({ nodes }) => nodes);
-
-    return getLocations(nodeDetails);
-  },
-);
-
-export const selectLocationsLoading = createSelector(
-  chainsFetchChainNodesDetail.select(),
-  ({ isLoading }) => isLoading,
-);
-
-export const selectLocationsByChainID = createSelector(
-  selectChainNodeDetails,
-  (_state: RootState, chainID?: ChainID) =>
-    checkChainWithSubnetsAndGetChainId(chainID),
-  (details, chainID) => {
-    const detail = details.find(({ id }) => findDetailsById(id, chainID));
-
-    return getLocations(detail?.nodes);
-  },
+export const selectChainCallsBySelectedProject = createSelector(
+  selectPrivateStatsBySelectedProjects,
+  selectChainNamesMap,
+  (stats, map) =>
+    Object.entries(stats).map<ChainCalls>(([chainID, stat]) => ({
+      name: map[chainID],
+      calls: stat?.total_requests || 0,
+    })),
 );
 
 export const selectBlockHeight = createSelector(
@@ -188,39 +186,67 @@ export const selectBlockHeight = createSelector(
   },
 );
 
-export const selectProjectsTotalRequestNumber = createSelector(
-  fetchAllProjectsTotalRequests.select(
-    undefined as unknown as PrivateStatsParams,
-  ),
-  ({ data = 0 }) => data,
+export const selectCurrentProjectsStats = createSelector(
+  selectJWTs,
+  (
+    state: RootState,
+    { group }: IFetchJWTsParams,
+    interval: IFetchProjectsStatsParams['interval'],
+  ) => ({ group, interval, state }),
+  (projects, { group, interval, state }) =>
+    projects.map<ICurrentProjectsStats>(
+      ({ index, name, userEndpointToken: token }) => ({
+        index,
+        name,
+        stats: selectPrivateStatsByToken(state, {
+          group,
+          interval,
+          token,
+        }),
+      }),
+    ),
+  {
+    memoizeOptions: {
+      equalityCheck: deepEqulityCheck,
+      resultEqualityCheck: deepEqulityCheck,
+    },
+  },
 );
 
-export const selectProjectsStats = createSelector(
-  fetchAllProjectsStats.select(undefined as unknown as AllProjectsStatsParams),
-  selectProjectsTotalRequestNumber,
-  ({ data = [] }, totalRequests) => getProjectsStats(data, totalRequests),
+export const selectCurrentProjectsPieChartData = createSelector(
+  selectPrivateStatsResponse,
+  (state: RootState, { group, interval }: IFetchPrivateStatsParams) => ({
+    group,
+    interval,
+    state,
+  }),
+  ({ total_requests: totalRequests = 0 }, { group, interval, state }) => {
+    const projectsStats = selectCurrentProjectsStats(
+      state,
+      { group },
+      interval,
+    );
+
+    return getProjectsPieChartData({ projectsStats, totalRequests });
+  },
 );
 
 export const selectTotalStats = createSelector(
-  fetchUserTotalStats.select({}),
+  selectPrivateTotalStats,
   selectSelectedProject,
-  ({ data }, project = '') => {
+  (totalStats, project = '') => {
     const token = maskText({ mask: '*****', text: project });
 
-    return token ? data?.premium_tokens?.[token] : data;
+    return token ? totalStats?.premium_tokens?.[token] : totalStats;
   },
 );
 
 export const selectAllTimeTotalRequestsNumber = createSelector(
   selectTotalStats,
-  (_state: RootState, chainID?: ChainID) => chainID,
+  (_state: RootState, _arg: IFetchPrivateTotalStatsParams, chainID?: ChainID) =>
+    chainID,
   (data, chainID) =>
     chainID && data?.blockchains
       ? data?.blockchains[chainID]?.total_count || 0
       : data?.total_count || 0,
-);
-
-export const selectTotalStatsLoading = createSelector(
-  fetchUserTotalStats.select({}),
-  ({ isLoading }) => isLoading,
 );

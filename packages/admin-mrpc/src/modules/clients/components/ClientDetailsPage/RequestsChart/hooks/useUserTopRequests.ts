@@ -1,11 +1,11 @@
-import { PrivateStatsInternal } from 'multirpc-sdk';
+import { PrivateStats } from 'multirpc-sdk';
 
 import { Timeframe } from '../types';
 import { formatChartData } from '../utils/userTopRequestsUtils';
 import { useTimeframe } from './useTimeframe';
 
 interface IUserTopRequestsParam {
-  privateStats: PrivateStatsInternal;
+  privateStats: PrivateStats;
   chainId: string;
   timeframe: Timeframe;
 }

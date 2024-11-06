@@ -1,93 +1,45 @@
-import { useEffect } from 'react';
 import { Timeframe } from '@ankr.com/chains-list';
 
-import {
-  selectProjectsStats,
-  selectProjectsTotalRequestNumber,
-} from 'domains/dashboard/store/selectors/v1';
-import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
+import { selectCurrentProjectsPieChartData } from 'domains/dashboard/store/selectors/v1';
+import { selectUserEndpointTokens } from 'domains/jwtToken/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
-import { useLazyFetchAllProjectsStatsQuery } from 'domains/dashboard/actions/fetchAllProjectsStats';
-import { useLazyFetchAllProjectsTotalRequestsQuery } from 'domains/dashboard/actions/fetchAllProjectsTotalRequests';
-import { useMultiServiceGateway } from 'domains/dashboard/hooks/useMultiServiceGateway';
-import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
+import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
+import { useProjectsStats } from 'domains/dashboard/hooks/useProjectsStats';
 
-export const useProjectsData = (timeframe: Timeframe) => {
-  const amount = useAppSelector(selectProjectsTotalRequestNumber);
-  const data = useAppSelector(selectProjectsStats);
+export interface IUseProjectsDataProps {
+  timeframe: Timeframe;
+}
 
-  const { selectedGroupAddress: group } = useSelectedUserGroup();
+export const useProjectsData = ({ timeframe }: IUseProjectsDataProps) => {
+  const { group, interval } = usePrivateStatsParams({ timeframe });
 
-  const { isEnterpriseClient, isEnterpriseStatusLoading } =
-    useEnterpriseClientStatus();
+  const { jwts: projects, loading: projectsLoading } = useJWTs({ group });
+  const hasProjects = projects.length > 0;
+  const tokens = useAppSelector(state =>
+    selectUserEndpointTokens(state, { group }),
+  );
 
-  const skipJWTsFetching = isEnterpriseStatusLoading || isEnterpriseClient;
-
-  const { jwts: projects, loading: projectsLoading } = useJWTs({
+  const { loading: privateStatsLoading, privateStats } = usePrivateStats({
     group,
-    skipFetching: skipJWTsFetching,
+    interval,
   });
 
-  const [fetchAllProjectsStats, { isLoading: areAllProjectsStatsLoading }] =
-    useLazyFetchAllProjectsStatsQuery();
-
-  const { gateway } = useMultiServiceGateway();
-
-  useEffect(() => {
-    const shouldFetch =
-      projects &&
-      !projectsLoading &&
-      !isEnterpriseStatusLoading &&
-      !isEnterpriseClient;
-
-    if (shouldFetch) {
-      fetchAllProjectsStats({
-        group,
-        interval: timeframeToIntervalMap[timeframe],
-        projects,
-        gateway,
-      });
-    }
-  }, [
-    fetchAllProjectsStats,
-    projectsLoading,
-    timeframe,
+  const { loading: projectsStatsLoading } = useProjectsStats({
     group,
-    projects,
-    isEnterpriseClient,
-    gateway,
-    isEnterpriseStatusLoading,
-  ]);
+    interval,
+    skipFetching: projectsLoading || !hasProjects,
+    tokens,
+  });
 
-  const [
-    fetchAllProjectsTotalRequests,
-    { isLoading: isAllProjectsTotalRequestsLoading },
-  ] = useLazyFetchAllProjectsTotalRequestsQuery();
+  const pieChartData = useAppSelector(state =>
+    selectCurrentProjectsPieChartData(state, { group, interval }),
+  );
 
-  useEffect(() => {
-    if (!skipJWTsFetching) {
-      fetchAllProjectsTotalRequests({
-        group,
-        interval: timeframeToIntervalMap[timeframe],
-        gateway,
-      });
-    }
-  }, [
-    fetchAllProjectsTotalRequests,
-    gateway,
-    group,
-    skipJWTsFetching,
-    timeframe,
-  ]);
+  const totalRequests = privateStats.total_requests ?? 0;
+  const loading =
+    projectsLoading || privateStatsLoading || projectsStatsLoading;
 
-  return {
-    amount: amount.toString(),
-    data,
-    isLoading:
-      projectsLoading ||
-      areAllProjectsStatsLoading ||
-      isAllProjectsTotalRequestsLoading,
-  };
+  return { loading, pieChartData, totalRequests };
 };

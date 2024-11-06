@@ -1,9 +1,9 @@
 import { Button, Skeleton, Typography } from '@mui/material';
-import { StatsByRangeDuration } from 'multirpc-sdk';
+import { StatsByRangeDuration, StatsByRangeTimeframe } from 'multirpc-sdk';
 import { t } from '@ankr.com/common';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { IFetchProjectTotalRequestsParams } from 'domains/projects/actions/fetchProjectTotalRequests';
+import { IFetchPrivateTotalStatsByRangeParams } from 'modules/stats/actions/fetchPrivateTotalStatsByRange';
 import {
   selectDraftUserEndpointToken,
   selectProjectTotalRequestsCountForCurrentPeriod,
@@ -12,7 +12,7 @@ import {
 } from 'domains/projects/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { useProjectTotalRequests } from 'domains/projects/hooks/useProjectTotalRequests';
+import { usePrivateTotalStatsByRange } from 'modules/stats/hooks/usePrivateTotalStatsByRange';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 
 import { ProjectRequestsActivity } from '../../../ProjectRequestsActivity';
@@ -33,9 +33,14 @@ export const Requests = ({ userEndpointToken: token }: IRequestsProps) => {
 
   const isDraft = token === draftUserEndpointToken;
 
-  const params: IFetchProjectTotalRequestsParams = { duration, group, token };
+  const params: IFetchPrivateTotalStatsByRangeParams = {
+    duration,
+    group,
+    timeframe: StatsByRangeTimeframe.HOUR,
+    token,
+  };
 
-  const { loading } = useProjectTotalRequests({
+  const { loading } = usePrivateTotalStatsByRange({
     ...params,
     skipFetching: isDraft,
   });

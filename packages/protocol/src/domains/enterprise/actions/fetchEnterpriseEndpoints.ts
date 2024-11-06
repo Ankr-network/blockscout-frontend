@@ -26,11 +26,6 @@ export const {
             data: apiKeys,
           };
         },
-        errorHandler: error => {
-          return {
-            error,
-          };
-        },
       }),
     }),
   }),

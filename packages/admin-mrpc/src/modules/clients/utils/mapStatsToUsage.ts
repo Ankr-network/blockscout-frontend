@@ -1,22 +1,22 @@
-import { PrivateStats } from 'multirpc-sdk';
+import { PrivateStatsResponse } from 'multirpc-sdk';
 
 import { IUsageEntityMapped } from '../types';
 
 export const mapStatsToUsage = (
-  statsResponse?: PrivateStats,
+  statsResponse?: PrivateStatsResponse,
 ): IUsageEntityMapped[] | undefined => {
   return statsResponse?.stats
     ? Object.values(statsResponse?.stats).map(stat => {
         return {
           blockchain: stat?.blockchain || '',
-          totalCost: stat?.total?.totalCost || 0,
+          totalCost: stat?.total?.total_cost || 0,
           details:
-            stat?.total?.topRequests?.map(topRequests => {
+            stat?.total?.top_requests?.map(topRequests => {
               return {
                 blockchain: stat?.blockchain || '',
                 ...topRequests,
                 count: topRequests.count.toString(),
-                totalCost: topRequests?.totalCost?.toString() || '0',
+                totalCost: topRequests?.total_cost?.toString() || '0',
               };
             }) || [],
         };

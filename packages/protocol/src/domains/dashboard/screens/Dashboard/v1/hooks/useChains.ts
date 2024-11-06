@@ -5,22 +5,23 @@ import { usePrivateChains } from 'domains/chains/screens/ChainsListPage/componen
 import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 
 export const useChains = (timeframes?: Timeframe[]) => {
-  const { chains, error, isLoading, timeframe, timeframeTabs } =
+  const { chains, stats, statsError, statsLoading, timeframe, timeframeTabs } =
     usePrivateChainsData({ timeframes });
 
   const { processedChains } = usePrivateChains({
     chains: processTestnetOnlyChains(chains),
-    sortType: ESortChainsType.NameAZ,
-    searchContent: '',
     includeMultichain: true,
+    searchContent: '',
+    sortType: ESortChainsType.NameAZ,
+    stats,
   });
 
   return {
-    processedChains,
     chains,
+    error: statsError,
+    isLoading: statsLoading,
+    processedChains,
     timeframe,
     timeframeTabs,
-    isLoading,
-    error,
   };
 };
