@@ -1,14 +1,17 @@
 import { IMarkNotificationsAsReadResponse } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
+import { RootState } from 'store';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { web3Api } from 'store/queries';
-import { RootState } from 'store';
 
+import { addSeenNotificationsToLocalStorage } from '../utils/addSeenNotificationsToLocalStorage';
 import {
   fetchPaginationNotifications,
   selectPaginationNotifications,
 } from './fetchPaginationNotifications';
+import { isBroadcastNotification } from '../utils/isBroadcastNotification';
+import { selectPaginationNotificationById } from '../store/selectors';
 
 interface IUpdateNotificationStatusParams {
   seen: boolean;
@@ -24,8 +27,18 @@ export const {
       IMarkNotificationsAsReadResponse,
       IUpdateNotificationStatusParams
     >({
-      queryFn: createNotifyingQueryFn(async ({ id, seen }) => {
+      queryFn: createNotifyingQueryFn(async ({ id, seen }, { getState }) => {
+        const state = getState() as RootState;
         const service = MultiService.getService();
+        const notification = selectPaginationNotificationById(state, id);
+
+        if (notification && isBroadcastNotification(notification)) {
+          addSeenNotificationsToLocalStorage([id]);
+
+          return {
+            data: { result: 'OK' },
+          };
+        }
 
         const response = await service
           .getAccountingGateway()
@@ -36,20 +49,19 @@ export const {
         };
       }),
       onQueryStarted: async ({ id, seen }, { dispatch, getState }) => {
-        const paginationNotificationsCurrentData =
-          selectPaginationNotifications(getState() as RootState, undefined);
-        const updatedNotifications = [
-          ...paginationNotificationsCurrentData.notifications,
-        ];
+        const state = getState() as RootState;
 
-        const exectNotificationIndex = updatedNotifications.findIndex(
+        const { cursor, notifications } = selectPaginationNotifications(state);
+        const notificationsCopy = [...notifications];
+
+        const exectNotificationIndex = notifications.findIndex(
           notification => notification.id === id,
         );
 
         if (exectNotificationIndex !== -1) {
-          updatedNotifications[exectNotificationIndex] = {
-            ...updatedNotifications[exectNotificationIndex],
-            seen: seen,
+          notificationsCopy[exectNotificationIndex] = {
+            ...notificationsCopy[exectNotificationIndex],
+            seen,
           };
         }
 
@@ -57,10 +69,10 @@ export const {
           web3Api.util.updateQueryData(
             fetchPaginationNotifications.name as unknown as never,
             undefined as unknown as never,
-            state => {
-              Object.assign(state, {
-                cursor: paginationNotificationsCurrentData.cursor,
-                notifications: updatedNotifications,
+            queryState => {
+              Object.assign(queryState, {
+                cursor,
+                notifications: notificationsCopy,
               });
             },
           ),

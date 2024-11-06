@@ -24,7 +24,6 @@ export const NotificationsPage = () => {
     activeFilter,
     handleChangeFilter,
     handleRefetchUnseenNotifications,
-    hasBroadcastNotificationsOnly,
     hasMore,
     isError,
     isInitializing,
@@ -53,7 +52,6 @@ export const NotificationsPage = () => {
             handleClick={toggleShowUnread}
           />
           <NotificationsMenu
-            hasBroadcastNotificationsOnly={hasBroadcastNotificationsOnly}
             isEmptyNotifications={notifications.length === 0}
           />
         </div>
@@ -62,7 +60,6 @@ export const NotificationsPage = () => {
         activeFilter={activeFilter}
         handleChangeFilter={handleChangeFilter}
         handleClickShowUnread={toggleShowUnread}
-        hasBroadcastNotificationsOnly={hasBroadcastNotificationsOnly}
         isEmptyNotifications={notifications.length === 0}
         isUnread={shouldShowUnread}
       />

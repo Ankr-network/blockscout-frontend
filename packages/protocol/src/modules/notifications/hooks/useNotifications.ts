@@ -7,8 +7,8 @@ import { useAppSelector } from 'store/useAppSelector';
 import { useAutoupdatedRef } from 'modules/common/hooks/useAutoupdatedRef';
 
 import {
-  selectNotifications,
   selectNotificationsLoading,
+  selectNotifications,
   selectNotificationsState,
   useFetchNotificationsQuery,
   useLazyFetchNotificationsQuery,

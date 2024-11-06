@@ -4,7 +4,6 @@ import {
   ENotificationsFilter,
 } from 'modules/notifications/const';
 import { useNotifications } from 'modules/notifications/hooks/useNotifications';
-import { useUnseenNotificationsAmount } from 'modules/layout/hooks/useUnseenNotificationsAmount';
 
 import { useFiltersStyles } from './useFiltersStyles';
 
@@ -24,10 +23,6 @@ export const Filters = ({
     only_unseen: true,
   });
 
-  const { unseenNotificationsAmount } = useUnseenNotificationsAmount({
-    notificationsResponse,
-  });
-
   return (
     <div className={classes.root}>
       <FilterTag
@@ -40,7 +35,7 @@ export const Filters = ({
       />
       <FilterTag
         isTransparent
-        amount={unseenNotificationsAmount}
+        amount={notificationsResponse.notifications.length}
         isActive={activeFilter === EAdditionalNotificationsFilter.UNREAD}
         shouldShowAmountInBraces
         shouldHideIcon

@@ -31,16 +31,10 @@ export const Content = ({ activeFilter }: IContentProps) => {
   });
 
   const preparedNotifications: INotificationProps[] = useMemo(() => {
-    const includeBroadcastToUnread = true;
-
     return (
       notifications?.notifications
         .filter(notification =>
-          filterNotificationByCategory(
-            notification,
-            activeFilter,
-            includeBroadcastToUnread,
-          ),
+          filterNotificationByCategory(notification, activeFilter),
         )
         .map(mapNotificationsToRowData) ?? []
     );
