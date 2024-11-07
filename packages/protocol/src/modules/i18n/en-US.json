@@ -1050,6 +1050,7 @@
         "add-network-label": "Add network",
         "premium-label": "Premium",
         "title": "HTTPS {urls, plural, =1 {Endpoint} other { Endpoints }}",
+        "title-graphql": "GraphQL {urls, plural, =1 {Endpoint} other { Endpoints }}",
         "title-multichain": "Endpoint",
         "c-chain-title": "C-Chain Endpoint",
         "p-chain-title": "P-Chain Endpoint",

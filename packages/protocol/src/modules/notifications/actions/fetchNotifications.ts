@@ -4,16 +4,16 @@ import {
 } from 'multirpc-sdk';
 
 import { MultiService } from 'modules/api/MultiService';
-import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { RootState } from 'store';
 import { RequestType, web3Api } from 'store/queries';
+import { RootState } from 'store';
+import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
-import { hasOneFieldWithSpecificNameAndValue } from 'modules/common/utils/hasOneFieldWithSpecificNameAndValue';
 
 import {
   fetchPaginationNotifications,
   selectPaginationNotifications,
 } from './fetchPaginationNotifications';
+import { provideSeenStatusForBroadcastNotifications } from '../utils/provideSeenStatusForBroadcastNotifications';
 
 // The endpoint name is listed in endpointsSerializedByParams constant
 // in packages/protocol/src/store/queries/index.ts file.
@@ -31,13 +31,16 @@ export const {
       queryFn: createNotifyingQueryFn(async params => {
         const service = MultiService.getService();
 
-        const notifications = await service
+        const data = await service
           .getAccountingGateway()
           .getNotifications(params);
 
-        return {
-          data: notifications,
-        };
+        data.notifications = provideSeenStatusForBroadcastNotifications({
+          areNotificationUnseenOnly: params?.only_unseen,
+          notifications: data.notifications,
+        });
+
+        return { data };
       }),
       onQueryStarted: async (
         params,
@@ -47,11 +50,7 @@ export const {
 
         const { data } = await queryFulfilled;
 
-        const isUnreadOnly = hasOneFieldWithSpecificNameAndValue(
-          params ?? {},
-          'only_unseen',
-          true,
-        );
+        const isUnreadOnly = Boolean(params?.only_unseen);
 
         if (
           isUnreadOnly &&
@@ -59,7 +58,7 @@ export const {
           loadedData?.notifications.length !== data.notifications.length
         ) {
           const paginationNotificationsCurrentData =
-            selectPaginationNotifications(getState() as RootState, undefined);
+            selectPaginationNotifications(getState() as RootState);
           const updatedNotifications = [
             ...paginationNotificationsCurrentData.notifications,
           ];

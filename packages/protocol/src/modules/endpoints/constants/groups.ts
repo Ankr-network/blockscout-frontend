@@ -74,6 +74,9 @@ export const chainGroups: ChainGroup[] = [
       ChainID.AVALANCHE_FUJI,
       ChainID.AVALANCHE_FUJI_EVM,
 
+      ChainID.ATLETA,
+      ChainID.ATLETA_OLYMPIA,
+
       ChainID.B2,
       ChainID.B2_HABITAT_TESTNET,
 
@@ -499,5 +502,11 @@ export const chainGroups: ChainGroup[] = [
     name: getName('json-rpc'),
     pluralName: getName('json-rpc', true),
     chains: [ChainID.TON_RPC],
+  },
+  {
+    id: ChainGroupID.FUEL_GRAPH_QL,
+    name: 'Fuel GraphQL',
+    pluralName: 'Fuel GraphQL',
+    chains: [ChainID.FUEL],
   },
 ];

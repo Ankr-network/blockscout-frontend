@@ -55,6 +55,9 @@ import zksyncEraIcon from './icons/zksync_era.svg';
 import availIcon from './icons/avail.svg';
 import telosIcon from './icons/telos.svg';
 import tonIcon from './icons/ton.svg';
+import fuelIcon from './icons/fuel.svg';
+import atletaIcon from './icons/atleta.svg';
+import atletaIconDark from './darkModeIcons/atleta.svg';
 import arbitrumNovaIconDark from './darkModeIcons/arbitrum-nova.svg';
 import bttcIconDark from './darkModeIcons/bttc.svg';
 import celoIconDark from './darkModeIcons/celo.svg';
@@ -120,6 +123,8 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.AVALANCHE_FUJI_X]: avaxIcon,
   [ChainID.AVALANCHE_P]: avaxIcon,
   [ChainID.AVALANCHE_X]: avaxIcon,
+  [ChainID.ATLETA]: atletaIcon,
+  [ChainID.ATLETA_OLYMPIA]: atletaIcon,
 
   [ChainID.AVAIL]: availIcon,
   [ChainID.AVAIL_GOLDBERG_TESTNET]: availIcon,
@@ -191,6 +196,9 @@ const chainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.FANTOM]: ftmIcon,
   [ChainID.FANTOM_TESTNET]: ftmIcon,
   [ChainID.FILECOIN]: filecoinIcon,
+  [ChainID.FUEL]: fuelIcon,
+  [ChainID.FUEL_REST]: fuelIcon,
+  [ChainID.FUEL_SEPOLIA]: fuelIcon,
   [ChainID.GNOSIS]: gnosisIcon,
   [ChainID.GNOSIS_BEACON]: gnosisIcon,
   [ChainID.GNOSIS_TESTNET]: gnosisIcon,
@@ -330,6 +338,8 @@ const darkModeChainIcons: Partial<Record<ChainID, string>> = {
   [ChainID.ALLORA_TESTNET_REST]: alloraIconDark,
   [ChainID.ALLORA_TESTNET_RPC]: alloraIconDark,
   [ChainID.ALLORA_TESTNET_COSMOS_REST]: alloraIconDark,
+  [ChainID.ATLETA]: atletaIconDark,
+  [ChainID.ATLETA_OLYMPIA]: atletaIconDark,
   [ChainID.ARBITRUM_NOVA]: arbitrumNovaIconDark,
   [ChainID.BERACHAIN]: berachainIconDark,
   [ChainID.BERACHAIN_TESTNET]: berachainIconDark,
@@ -454,6 +464,7 @@ const chainNameIcons: Record<string, string> = {
   '0g_newton_cosmos': zeroGIcon,
   '0g_newton_tendermint': zeroGIcon,
   ton_api_v2: tonIcon,
+  fuel_sepolia: fuelIcon,
 };
 
 const darkChainNameIcons: Record<string, string> = {

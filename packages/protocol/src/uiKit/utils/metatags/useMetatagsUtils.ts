@@ -247,6 +247,12 @@ export const getChainName = (chainId: ChainID, beacons: Chain[] = []) => {
     name = 'Bitcoin';
   } else if (chainId === ChainID.TON) {
     name = 'TON';
+  } else if (chainId === ChainID.FUEL) {
+    name = 'Fuel Mainnet';
+  } else if (chainId === ChainID.FUEL_REST) {
+    name = 'Fuel Mainnet';
+  } else if (chainId === ChainID.FUEL_SEPOLIA) {
+    name = 'Fuel Sepolia Testnet';
   } else if (chainId.includes('_') && name.includes('_')) {
     name = getTestnetChainName(renderPrefix(chainId));
   } else if (chainId.includes('-')) {

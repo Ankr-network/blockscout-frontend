@@ -26,6 +26,28 @@ export interface IBuildPublicUrlsProps {
   enterpriseWsUrl: string;
 }
 
+const shouldUsePremiumHttpUrl = (id: string) => {
+  const isTronRest = id === 'tron_rest';
+  const isGnosisBeacon = id === 'gnosis_beacon';
+  const isAllora = ALLORA_IDS.includes(id);
+  const isZeroG = ZERO_G_IDS.includes(id);
+  const isBlockbook = id === 'btc_blockbook';
+  const isTonRest = id === 'ton-rest';
+  const isFuelRest = id === 'fuel-rest';
+  const isFuelSepolia = id === 'fuel-sepolia';
+
+  return (
+    isTronRest ||
+    isGnosisBeacon ||
+    isAllora ||
+    isZeroG ||
+    isBlockbook ||
+    isTonRest ||
+    isFuelRest ||
+    isFuelSepolia
+  );
+};
+
 // TODO: https://github.com/Ankr-network/mrpc-frontend/pull/3941#discussion_r1303911072
 // make separate urlBuilders for MRPC and Enterprise
 // https://ankrnetwork.atlassian.net/browse/MRPC-3691
@@ -71,14 +93,7 @@ export const buildPublicUrls = ({
       blockchainCopy.paths = avalancheEvmItem?.paths || [];
     }
 
-    if (
-      id === 'tron_rest' ||
-      id === 'gnosis_beacon' ||
-      ALLORA_IDS.includes(id) ||
-      ZERO_G_IDS.includes(id) ||
-      id === 'btc_blockbook' ||
-      id === 'ton-rest'
-    ) {
+    if (shouldUsePremiumHttpUrl(id)) {
       blockchainCopy.paths = blockchain?.paths ? [blockchain.paths[0]] : [];
     }
 

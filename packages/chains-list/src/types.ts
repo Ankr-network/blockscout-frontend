@@ -98,6 +98,8 @@ export enum ChainID {
   AVALANCHE_FUJI_X = 'avalanche_fuji-x',
   AVALANCHE_P = 'avalanche-p',
   AVALANCHE_X = 'avalanche-x',
+  ATLETA = 'atleta',
+  ATLETA_OLYMPIA = 'atleta_olympia',
 
   AVAIL = 'avail',
   AVAIL_GOLDBERG_TESTNET = 'avail_goldberg_testnet',
@@ -172,6 +174,10 @@ export enum ChainID {
   FLARE_SONGBIRD_C = 'flare_songbird-c',
   FLARE_SONGBIRD_P = 'flare_songbird-p',
   FLARE_SONGBIRD_X = 'flare_songbird-x',
+
+  FUEL = 'fuel',
+  FUEL_REST = 'fuel-rest',
+  FUEL_SEPOLIA = 'fuel-sepolia',
 
   GNOSIS = 'gnosis',
   GNOSIS_BEACON = 'gnosis_beacon',

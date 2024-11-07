@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { ENotificationsFilter } from 'modules/notifications/const';
-import { isBroadcastNotification } from 'modules/notifications/utils/isBroadcastNotification';
 import { mapNotificationsToRowData } from 'modules/notifications/utils/mapNotificationsToRowData';
 import {
   fetchPaginationNotifications,
@@ -78,13 +77,7 @@ export const useNotificationsPageData = ({
     return notifications.map(mapNotificationsToRowData);
   }, [notifications]);
 
-  const hasBroadcastNotificationsOnly = useMemo(
-    () => notifications.every(isBroadcastNotification),
-    [notifications],
-  );
-
   return {
-    hasBroadcastNotificationsOnly,
     hasMore,
     isError,
     isInitializing: isLoading,

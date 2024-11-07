@@ -7,7 +7,6 @@ import {
   EAdditionalNotificationsFilter,
   ENotificationsFilter,
 } from 'modules/notifications/const';
-import { isUnseenBroadcastNotification } from 'modules/notifications/utils/isUnseenBroadcastNotification';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { useNotifications } from 'modules/notifications/hooks/useNotifications';
 
@@ -29,7 +28,6 @@ export const Filters = ({
   activeFilter,
   handleChangeFilter,
   handleClickShowUnread,
-  hasBroadcastNotificationsOnly,
   isEmptyNotifications,
   isUnread,
 }: IFiltersProps) => {
@@ -62,9 +60,7 @@ export const Filters = ({
   const unseenNewsNotificationsAmount = useMemo(
     () =>
       notifications.filter(
-        notification =>
-          notification.category === ENotificationCategory.NEWS &&
-          isUnseenBroadcastNotification(notification),
+        notification => notification.category === ENotificationCategory.NEWS,
       ).length,
     [notifications],
   );
@@ -111,10 +107,7 @@ export const Filters = ({
         <Typography variant="body3" color="textSecondary">
           {t(keys.showUnread)}
         </Typography>
-        <NotificationsMenu
-          hasBroadcastNotificationsOnly={hasBroadcastNotificationsOnly}
-          isEmptyNotifications={isEmptyNotifications}
-        />
+        <NotificationsMenu isEmptyNotifications={isEmptyNotifications} />
       </div>
     </div>
   );

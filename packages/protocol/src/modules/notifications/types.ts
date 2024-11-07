@@ -1,4 +1,4 @@
-import { ENotificationCategory } from 'multirpc-sdk';
+import { ENotificationCategory, INotificationItem } from 'multirpc-sdk';
 
 export interface INotificationProps {
   id: string;
@@ -9,3 +9,7 @@ export interface INotificationProps {
   index: number;
   isUnread?: boolean;
 }
+
+export type TNotificationID = INotificationItem['id'];
+
+export type TSeenNotificationsInLocalStorage = TNotificationID[];

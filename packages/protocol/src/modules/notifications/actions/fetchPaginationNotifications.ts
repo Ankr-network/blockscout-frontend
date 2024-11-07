@@ -5,8 +5,10 @@ import {
 
 import { MultiService } from 'modules/api/MultiService';
 import { createNotifyingQueryFn } from 'store/utils/createNotifyingQueryFn';
-import { web3Api } from 'store/queries';
 import { createQuerySelectors } from 'store/utils/createQuerySelectors';
+import { web3Api } from 'store/queries';
+
+import { provideSeenStatusForBroadcastNotifications } from '../utils/provideSeenStatusForBroadcastNotifications';
 
 // we need the similar with 'fetchNotifications' action
 // because we don't use caching for pagination
@@ -22,15 +24,16 @@ export const {
       IGetNotificationsParams | undefined
     >({
       queryFn: createNotifyingQueryFn(async params => {
-        const service = MultiService.getService();
+        const api = MultiService.getService().getAccountingGateway();
 
-        const notifications = await service
-          .getAccountingGateway()
-          .getNotifications(params);
+        const data = await api.getNotifications(params);
 
-        return {
-          data: notifications,
-        };
+        data.notifications = provideSeenStatusForBroadcastNotifications({
+          areNotificationUnseenOnly: params?.only_unseen,
+          notifications: data.notifications,
+        });
+
+        return { data };
       }),
       merge: (loadedData, loadingData) => {
         return {
@@ -47,9 +50,9 @@ export const {
 });
 
 export const {
-  selectDataWithFallbackCachedByParams: selectPaginationNotifications,
-  selectLoadingCachedByParams: selectPaginationNotificationsLoading,
-  selectStateCachedByParams: selectPaginationNotificationsState,
+  selectDataWithFallback: selectPaginationNotifications,
+  selectLoading: selectPaginationNotificationsLoading,
+  selectState: selectPaginationNotificationsState,
 } = createQuerySelectors({
   endpoint: fetchPaginationNotifications,
   fallback: {

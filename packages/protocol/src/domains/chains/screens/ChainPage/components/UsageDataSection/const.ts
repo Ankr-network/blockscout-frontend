@@ -82,6 +82,8 @@ const PUBLIC_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.NERVOS_EVM]: ChainID.NERVOS,
 
   [ChainID.TRON_REST]: ChainID.TRON,
+
+  [ChainID.FUEL_REST]: ChainID.FUEL,
 };
 
 export const checkPublicChainsAndGetChainId = (chainId: ChainID) =>
@@ -161,6 +163,9 @@ const PRIVATE_CHAIN_ID_LINK_MAP: ChainIDLinkMap = {
   [ChainID.NERVOS_EVM]: ChainID.NERVOS,
 
   [ChainID.TRON_REST]: ChainID.TRON,
+
+  [ChainID.FUEL_REST]: 'fuel' as ChainID,
+  [ChainID.FUEL_SEPOLIA]: 'fuel_sepolia' as ChainID,
 };
 
 export const checkPrivateChainsAndGetChainId = (

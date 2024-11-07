@@ -1,12 +1,10 @@
 import { ENotificationCategory, INotificationItem } from 'multirpc-sdk';
 
 import { EAdditionalNotificationsFilter, ENotificationsFilter } from '../const';
-import { isUnseenBroadcastNotification } from './isUnseenBroadcastNotification';
 
 export function filterNotificationByCategory(
   notification: INotificationItem,
   activeFilter: ENotificationsFilter,
-  includeBroadcastToUnread = false,
 ) {
   if (
     activeFilter === EAdditionalNotificationsFilter.ALL ||
@@ -27,12 +25,6 @@ export function filterNotificationByCategory(
   }
 
   if (activeFilter === EAdditionalNotificationsFilter.UNREAD) {
-    if (notification.seen) {
-      return (
-        includeBroadcastToUnread && isUnseenBroadcastNotification(notification)
-      );
-    }
-
     return !notification.seen;
   }
 }
