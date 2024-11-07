@@ -66,6 +66,7 @@ const endpointsSerializedByParams = [
   'fetchPrivateTop10Stats',
   'fetchPrivateTotalStats',
   'fetchPrivateTotalStatsByRange',
+  'fetchProjectsStats',
   'fetchPublicRequestsCountStats',
   /* notifications */
   'fetchNotifications',
