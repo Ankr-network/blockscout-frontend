@@ -233,8 +233,8 @@ export interface Top10StatItem {
 }
 
 export interface Top10StatsResponse {
-  ips: Top10StatItem[];
-  countries: Top10StatItem[];
+  ips: Top10StatItem[] | null;
+  countries: Top10StatItem[] | null;
 }
 
 type ChartDate = string;

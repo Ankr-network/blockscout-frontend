@@ -45,9 +45,15 @@ export const useTop10Stats = (timeframe: Timeframe, blockchain?: ChainID) => {
     ? ([enterpriseTop10Stats, enterpriseTop10StatsLoading] as const)
     : ([top10Stats, top10StatsLoading] as const);
 
-  const countries = useMemo(() => stats.countries.map(mapCountries), [stats]);
+  const countries = useMemo(
+    () => stats.countries?.map(mapCountries) ?? [],
+    [stats],
+  );
 
-  const ipRequests = useMemo(() => stats.ips.map(mapIpRequests), [stats]);
+  const ipRequests = useMemo(
+    () => stats.ips?.map(mapIpRequests) ?? [],
+    [stats],
+  );
 
   return { countries, ipRequests, loading, stats };
 };
