@@ -9,6 +9,7 @@ import {
 import { selectPrivateStatsLoading } from 'modules/stats/actions/fetchPrivateStats';
 import { usePrivateStatsParams } from 'domains/dashboard/screens/Dashboard/hooks/usePrivateStatsParams';
 import { useAppSelector } from 'store/useAppSelector';
+import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
 
 export interface IUseChainStatsDataProps {
   chainId: ChainID;
@@ -20,6 +21,8 @@ export const useChainStatsData = ({
   timeframe,
 }: IUseChainStatsDataProps) => {
   const { group, interval } = usePrivateStatsParams({ timeframe });
+
+  usePrivateStats({ group, interval });
 
   const chainStats = useAppSelector(state =>
     selectChainStats(state, { group, interval }, chainId),
