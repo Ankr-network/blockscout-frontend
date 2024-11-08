@@ -24,7 +24,7 @@ export const useChainStats = (
   const lastDayAggregatedRequests = useAppSelector(state =>
     selectAggregatedByChainPrivateStats(state, {
       group,
-      interval: PrivateStatsInterval.HOUR,
+      interval: PrivateStatsInterval.DAY,
       token,
     }),
   );

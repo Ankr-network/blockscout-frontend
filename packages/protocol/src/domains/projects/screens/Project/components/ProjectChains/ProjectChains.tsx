@@ -37,9 +37,7 @@ export const ProjectChains = ({
   const { classes: classNames } = useAddChainsButtonStyles();
 
   const [searchValue, setSearchValue] = useState('');
-  const [sortType, setSortType] = useState<ESortChainsType>(
-    ESortChainsType.Trending,
-  );
+  const [sortType, setSortType] = useState(ESortChainsType.Trending);
 
   const projectChainsAccordionProps = useMemo(
     () => ({
