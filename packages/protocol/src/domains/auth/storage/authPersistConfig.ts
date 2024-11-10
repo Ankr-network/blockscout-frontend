@@ -2,6 +2,8 @@ import storage from 'redux-persist/lib/storage';
 import { EthAddressType, Web3Address } from 'multirpc-sdk';
 import { PersistConfig, PersistedState } from 'redux-persist';
 
+import { MultiService } from 'modules/api/MultiService';
+
 import { IAuthSlice } from '../store/authSlice';
 
 interface IOldAuthSlice
@@ -23,6 +25,15 @@ export const authPersistConfig: PersistConfig<IAuthSlice> = {
   // Should be removed after 01.06.2024, since the majority of users are
   // going to have the migrated state in their local storage
   migrate: state => {
+    const authorizationToken = (state as IAuthSlice).authorizationToken;
+
+    if (authorizationToken) {
+      const service = MultiService.getService();
+
+      service.getAccountingGateway().addToken(authorizationToken);
+      service.getEnterpriseGateway().addToken(authorizationToken);
+    }
+
     if (isOldAuthSlice(state)) {
       const authAddress = state.address;
       const authAddressType = state.ethAddressType;

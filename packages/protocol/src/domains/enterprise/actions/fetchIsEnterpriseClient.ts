@@ -10,12 +10,13 @@ import {
   UserGroupConfigWithAddress,
 } from '../../userGroup/store';
 
-interface FetchIsEnterpriseClientParams extends IApiUserGroupParams {
+export interface FetchIsEnterpriseClientParams extends IApiUserGroupParams {
   newUserGroupConfig?: UserGroupConfigWithAddress;
 }
 
 export const {
   endpoints: { fetchIsEnterpriseClient },
+  useFetchIsEnterpriseClientQuery,
   useLazyFetchIsEnterpriseClientQuery,
 } = web3Api.injectEndpoints({
   endpoints: build => ({

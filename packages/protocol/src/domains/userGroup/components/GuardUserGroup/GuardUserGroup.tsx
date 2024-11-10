@@ -8,10 +8,11 @@ import {
   GuardUserGroupParams,
   useGuardUserGroup,
 } from 'domains/userGroup/hooks/useGuardUserGroup';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { guardDialogSlice } from 'modules/guardDialog';
 import { HIDE_ACCESS_DENIED_DIALOG_FLAG } from 'domains/userGroup/constants/common';
+import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import { guardDialogSlice } from 'modules/guardDialog';
+import { selectIsLoggedIn } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { useSelectedUserGroup } from '../../hooks/useSelectedUserGroup';
 
@@ -36,7 +37,7 @@ export const GuardUserGroup = ({
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const hasAccess = useGuardUserGroup({ blockName });
 
   const { selectedGroupAddress, selectedGroupRole } = useSelectedUserGroup();

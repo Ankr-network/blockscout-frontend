@@ -1,45 +1,50 @@
+import { PrivateStats } from 'multirpc-sdk';
 import { isTestnetPremiumOnly } from '@ankr.com/chains-list';
 import { useMemo } from 'react';
 
 import { ChainProjectsSidebar } from 'domains/chains/screens/ChainPage/components/ChainProjectsSidebar';
 import { getChainLabels } from 'modules/chains/utils/getChainLabels';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useCommonChainItem } from 'domains/chains/screens/ChainPage/hooks/useCommonChainItem';
-import { useCommonChainsItemData } from 'domains/chains/screens/ChainsListPage/hooks/useCommonChainsItemData';
 import { useDialog } from 'modules/common/hooks/useDialog';
 import { usePrivateChainType } from 'domains/chains/screens/ChainPage/PrivateChainItemQuery/components/PrivateChainItem/hooks/usePrivateChainType';
 
-import { usePrivateChainsItem } from './hooks/usePrivateChainsItem';
-import { BaseChainsCard, IBaseChainCardProps } from '../../../BaseChainsCard';
-import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
-import { PrivateChainCardActions } from './components/PrivateChainCardActions';
+import { BaseChainsCard } from '../../../BaseChainsCard';
 import { EChainView } from '../../../ChainViewSelector';
+import { IChainCardProps } from '../../../PublicChains/components/PublicChainCard';
 import {
   IUsePrivateChainCardProps,
   usePrivateChainCard,
 } from './hooks/usePrivateChainCard';
+import { PrivateChainCardActions } from './components/PrivateChainCardActions';
+import { aggregateTotalRequestsNumber } from '../../utils/aggregateTotalRequestsNumber';
+import { getChainIDs } from '../../utils/getChainIDs';
 
-interface PrivateChainCardProps
+export interface PrivateChainCardProps
   extends IChainCardProps,
-    IUsePrivateChainCardProps {}
+    IUsePrivateChainCardProps {
+  allProjectsStats: PrivateStats;
+  projectsLoading: boolean;
+}
 
 export const PrivateChainCard = ({
+  allProjectsStats,
   chain,
+  hasPremium,
+  jwts,
+  projectsLoading,
+  projectsWithBlockchains,
   timeframe,
   view = EChainView.Cards,
 }: PrivateChainCardProps) => {
-  const { hasPremium } = useAuth();
-  const { loading, totalRequests } = usePrivateChainsItem({ chain, timeframe });
-
-  const { totalRequestsStr } = useCommonChainsItemData(
-    chain,
-    totalRequests,
-    true,
+  const ids = useMemo(() => getChainIDs(chain), [chain]);
+  const totalRequests = useMemo(
+    () => aggregateTotalRequestsNumber({ ids, stats: allProjectsStats }),
+    [allProjectsStats, ids],
   );
 
-  const { endpoints, netId } = useCommonChainItem({
-    chain,
-  });
+  const totalRequestsStr = totalRequests.toString();
+
+  const { endpoints, netId } = useCommonChainItem({ chain });
 
   const { chainTypeTabs } = usePrivateChainType({
     chain,
@@ -66,68 +71,48 @@ export const PrivateChainCard = ({
     filteredJwtTokens,
     handleClose,
     handleOpenChainMenu,
-    isChainProjectsEmpty,
+    hasChainProjects,
     isEndpointLocked,
     isMenuOpened,
-    projectsLoading,
-  } = usePrivateChainCard({ chain });
+  } = usePrivateChainCard({ chain, hasPremium, jwts, projectsWithBlockchains });
 
-  const cardProps: IBaseChainCardProps = useMemo(
-    () => ({
-      isPublicLayout: false,
-      view,
-      chain,
-      loading,
-      totalRequests: totalRequestsStr,
-      shouldShowDashInsteadOfRequestsString:
-        totalRequests.isZero() && isChainProjectsEmpty,
-      isRequestsDisabled: isChainProjectsEmpty,
-      timeframe,
-      actions: (
-        <PrivateChainCardActions
-          anchorEl={anchorEl}
-          chain={chain}
-          chainProjects={chainProjects}
-          filteredJwtTokens={filteredJwtTokens}
-          handleClose={handleClose}
-          handleOpenChainMenu={handleOpenChainMenu}
-          isCardView={view === EChainView.Cards}
-          isChainProjectsEmpty={isChainProjectsEmpty}
-          isEndpointLocked={isEndpointLocked}
-          onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
-          open={isMenuOpened}
-          projectsLoading={projectsLoading}
-        />
-      ),
-    }),
-    [
-      anchorEl,
-      chain,
-      chainProjects,
-      filteredJwtTokens,
-      handleClose,
-      handleOpenChainMenu,
-      isChainProjectsEmpty,
-      isEndpointLocked,
-      isMenuOpened,
-      loading,
-      onOpenAddToProjectsDialog,
-      projectsLoading,
-      timeframe,
-      totalRequests,
-      totalRequestsStr,
-      view,
-    ],
-  );
+  const isChainProjectsEmpty = !hasChainProjects && !projectsLoading;
 
   return (
     <>
-      <BaseChainsCard {...cardProps} />
+      <BaseChainsCard
+        view={view}
+        chain={chain}
+        totalRequests={totalRequestsStr}
+        shouldShowDashInsteadOfRequestsString={
+          totalRequests === 0 && isChainProjectsEmpty
+        }
+        isRequestsDisabled={isChainProjectsEmpty}
+        timeframe={timeframe}
+        actions={
+          <PrivateChainCardActions
+            anchorEl={anchorEl}
+            chain={chain}
+            chainProjects={chainProjects}
+            filteredJwtTokens={filteredJwtTokens}
+            handleClose={handleClose}
+            handleOpenChainMenu={handleOpenChainMenu}
+            isCardView={view === EChainView.Cards}
+            isChainProjectsEmpty={isChainProjectsEmpty}
+            isEndpointLocked={isEndpointLocked}
+            onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
+            open={isMenuOpened}
+            projectsLoading={projectsLoading}
+          />
+        }
+      />
       <ChainProjectsSidebar
         chain={chain}
-        subchainLabels={subchainLabels}
         isOpenedAddToProjectsSidebar={isOpenedAddToProjectsSidebar}
+        jwts={jwts}
         onCloseAddToProjectsSidebar={onCloseAddToProjectsSidebar}
+        projectsWithBlockchains={projectsWithBlockchains}
+        subchainLabels={subchainLabels}
       />
     </>
   );

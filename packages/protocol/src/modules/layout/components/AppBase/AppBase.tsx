@@ -1,52 +1,27 @@
-import { ReactNode, useMemo } from 'react';
-import {
-  CssBaseline,
-  StyledEngineProvider,
-  ThemeProvider,
-} from '@mui/material';
+import { CssBaseline, StyledEngineProvider } from '@mui/material';
 import { ConnectedRouter } from 'connected-react-router';
+import { ReactNode } from 'react';
 import { ReactReduxContext } from 'react-redux';
 
 import { Dialogs } from 'modules/guardDialog';
-import {
-  ReferralFlow,
-  useReferralFlow,
-} from 'modules/referralProgram/components/ReferralFlow';
 import { SentryErrorBoundary } from 'modules/common/components/SentryErrorBoundary';
-import { getMainTheme } from 'uiKit/Theme/mainTheme';
 import { historyInstance } from 'modules/common/utils/historyInstance';
 import { useMetatags } from 'uiKit/utils/metatags';
-import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
-import { useThemes } from 'uiKit/Theme/hook/useThemes';
 
-import { MaintenanceDialog } from '../MaintenanceDialog';
-import { useMaintenanceDialog } from '../MaintenanceDialog/useMaintenanceDialog';
+import { MaintenanceDialogContainer } from './components/MaintenanceDialogContainer';
+import { ReferralFlowContainer } from './components/ReferralFlowContainer';
+import { ThemeProviderContainer } from './components/ThemeProviderContainer';
 
 interface IAppBaseProps {
   children: ReactNode;
 }
 
-// the wrapper is needed only to make sure that useReferralFlow hooks is called
-// inside ConnectedRouter component
-const ReferralFlowContainer = () => {
-  const { referralFlowProps } = useReferralFlow();
-
-  return <ReferralFlow {...referralFlowProps} />;
-};
-
 export const AppBase = ({ children }: IAppBaseProps) => {
-  const chainsRoutes = usePublicChainsRoutes();
-
-  const { themes } = useThemes();
-  const currentTheme = useMemo(() => getMainTheme(themes), [themes]);
-
-  useMetatags(historyInstance.location.pathname, chainsRoutes, currentTheme);
-
-  const { isOpened, onClose } = useMaintenanceDialog();
+  useMetatags(historyInstance.location.pathname);
 
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={currentTheme}>
+      <ThemeProviderContainer>
         <CssBaseline />
         <SentryErrorBoundary>
           <ConnectedRouter
@@ -57,9 +32,9 @@ export const AppBase = ({ children }: IAppBaseProps) => {
             <ReferralFlowContainer />
           </ConnectedRouter>
           <Dialogs />
-          <MaintenanceDialog isOpened={isOpened} onClose={onClose} />
+          <MaintenanceDialogContainer />
         </SentryErrorBoundary>
-      </ThemeProvider>
+      </ThemeProviderContainer>
     </StyledEngineProvider>
   );
 };

@@ -3,16 +3,17 @@ import { OverlaySpinner } from '@ankr.com/ui';
 import { Route, Switch } from 'react-router-dom';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { GuardAuthRoute } from 'domains/auth/components/GuardAuthRoute';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { selectFetchGroupJwtLoading } from 'domains/userGroup/actions/fetchGroupJwt';
+import { selectIsEnterpriseClientLoading } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
+import { useAppSelector } from 'store/useAppSelector';
 import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useJWTManagerPermissions } from 'domains/jwtToken/hooks/useJWTManagerPermissions';
 import { useRedirectForSmallDevices } from 'hooks/useRedirectForSmallDevices';
 import { useRedirectToInviteLink } from 'hooks/useRedirectToInviteLink';
-import { useAppSelector } from 'store/useAppSelector';
-import { selectFetchGroupJwtLoading } from 'domains/userGroup/actions/fetchGroupJwt';
-import { selectIsEnterpriseClientLoading } from 'domains/enterprise/actions/fetchIsEnterpriseClient';
+import { Placeholder } from 'modules/common/components/Placeholder';
 
 import { ProjectsRoutesConfig } from './routesConfig';
 import { GuardProjectRoute } from '../components/GuardProjectRoute';
@@ -97,49 +98,51 @@ export function ProjectsRoutes() {
     !hasJwtManagerReadAccess;
 
   return (
-    <GuardUserGroup
-      blockName={BlockWithPermission.UsageData}
-      shouldForceRedirect={shouldForceRedirect}
-      shouldRedirect
-      shouldHideAlert
-    >
-      <Switch>
-        <Route
-          exact
-          path={[
-            ProjectsRoutesConfig.projects.path,
-            ProjectsRoutesConfig.project.path,
-          ]}
-          render={() => {
-            if (projectId) {
-              return (
-                <GuardAuthRoute>
-                  <GuardProjectRoute>
-                    <LoadableProjectContainer />
-                  </GuardProjectRoute>
-                </GuardAuthRoute>
-              );
-            }
+    <Placeholder hasPlaceholder={loading} placeholder={<OverlaySpinner />}>
+      <GuardUserGroup
+        blockName={BlockWithPermission.UsageData}
+        shouldForceRedirect={shouldForceRedirect}
+        shouldRedirect
+        shouldHideAlert
+      >
+        <Switch>
+          <Route
+            exact
+            path={[
+              ProjectsRoutesConfig.projects.path,
+              ProjectsRoutesConfig.project.path,
+            ]}
+            render={() => {
+              if (projectId) {
+                return (
+                  <GuardAuthRoute>
+                    <GuardProjectRoute>
+                      <LoadableProjectContainer />
+                    </GuardProjectRoute>
+                  </GuardAuthRoute>
+                );
+              }
 
-            return isProjectsContainer ? (
-              <LoadableProjectsContainer />
-            ) : (
-              <LoadableProjectsPlaceholderContainer />
-            );
-          }}
-        />
-        <Route
-          exact
-          path={ProjectsRoutesConfig.newProject.path}
-          render={() => (
-            <GuardAuthRoute>
-              <GuardProjectRoute>
-                <LoadableNewProjectContainer />
-              </GuardProjectRoute>
-            </GuardAuthRoute>
-          )}
-        />
-      </Switch>
-    </GuardUserGroup>
+              return isProjectsContainer ? (
+                <LoadableProjectsContainer />
+              ) : (
+                <LoadableProjectsPlaceholderContainer />
+              );
+            }}
+          />
+          <Route
+            exact
+            path={ProjectsRoutesConfig.newProject.path}
+            render={() => (
+              <GuardAuthRoute>
+                <GuardProjectRoute>
+                  <LoadableNewProjectContainer />
+                </GuardProjectRoute>
+              </GuardAuthRoute>
+            )}
+          />
+        </Switch>
+      </GuardUserGroup>
+    </Placeholder>
   );
 }

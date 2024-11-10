@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { IGetNotificationsParams } from 'multirpc-sdk';
 
 import { IUseQueryProps } from 'store/queries/types';
@@ -19,10 +19,26 @@ export interface IUseNotificationsProps
     IGetNotificationsParams {}
 
 export const useNotifications = ({
+  category,
+  cursor,
+  limit,
+  older_than,
+  only_unseen,
   pollingInterval,
   skipFetching,
-  ...params
+  sort_direction,
 }: IUseNotificationsProps) => {
+  const params = useMemo(
+    (): IGetNotificationsParams => ({
+      category,
+      cursor,
+      limit,
+      older_than,
+      only_unseen,
+      sort_direction,
+    }),
+    [category, cursor, limit, older_than, only_unseen, sort_direction],
+  );
   const { refetch: handleRefetchNotifications } = useFetchNotificationsQuery(
     getQueryParams({ params, skipFetching }),
     { pollingInterval },

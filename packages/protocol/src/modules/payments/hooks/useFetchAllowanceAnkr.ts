@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -21,9 +21,13 @@ export interface IUseFetchAllowanceAnkrProps
     IFetchAllowanceAnkrParams {}
 
 export const useFetchAllowanceAnkr = ({
+  address,
   skipFetching,
-  ...params
 }: IUseFetchAllowanceAnkrProps) => {
+  const params = useMemo(
+    (): IFetchAllowanceAnkrParams => ({ address }),
+    [address],
+  );
   const { refetch: handleRefetchAllowanceAnkr } = useFetchAllowanceAnkrQuery(
     getQueryParams({ params, skipFetching }),
   );

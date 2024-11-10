@@ -3,10 +3,21 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { createRouteConfig } from 'modules/router/utils/createRouteConfig';
+import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { BlockWithPermission } from 'domains/userGroup/constants/groups';
+import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
+import { useAppSelector } from 'store/useAppSelector';
+import { selectHasPremium, selectHasPrivateAccess } from 'domains/auth/store';
 
 export const PATH_ACCOUNT = '/account/';
 export const PATH_CARDPAYMENT_SUCCESS = `${PATH_ACCOUNT}success/`;
 export const PATH_CARDPAYMENT_FAILURE = `${PATH_ACCOUNT}failure/`;
+
+export const ACCOUNT_PATHS = [
+  PATH_ACCOUNT,
+  PATH_CARDPAYMENT_SUCCESS,
+  PATH_CARDPAYMENT_FAILURE,
+];
 
 export const AccountRoutesConfig = createRouteConfig(
   {
@@ -58,14 +69,9 @@ const LoadableCardPaymentFailureContainer: LoadableComponent<any> = loadable(
   },
 );
 
-export function AccountRoutes() {
+export const CardPaymentRoutes = () => {
   return (
-    <>
-      <Route
-        exact
-        path={AccountRoutesConfig.accountDetails.path}
-        component={LoadableAccountDetailsContainer}
-      />
+    <GuardUserGroup blockName={BlockWithPermission.Billing} shouldRedirect>
       <Route
         exact
         path={AccountRoutesConfig.cardPaymentSuccess.path}
@@ -76,6 +82,33 @@ export function AccountRoutes() {
         path={AccountRoutesConfig.cardPaymentFailure.path}
         component={LoadableCardPaymentFailureContainer}
       />
-    </>
+    </GuardUserGroup>
+  );
+};
+
+export function AccountRoutes() {
+  const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
+  const hasPremium = useAppSelector(selectHasPremium);
+
+  return (
+    <GuardUserGroup blockName={BlockWithPermission.Billing} shouldRedirect>
+      <Route
+        exact
+        path={AccountRoutesConfig.accountDetails.path}
+        component={LoadableAccountDetailsContainer}
+      />
+      <Route
+        exact
+        path={AccountRoutesConfig.cardPaymentSuccess.path}
+        component={LoadableCardPaymentSuccessContainer}
+      />
+      <GuardCardPaymentSuccessAuthRoute
+        component={LoadableCardPaymentFailureContainer}
+        exact
+        hasPremium={hasPremium}
+        hasPrivateAccess={hasPrivateAccess}
+        path={AccountRoutesConfig.cardPaymentSuccess.path}
+      />
+    </GuardUserGroup>
   );
 }

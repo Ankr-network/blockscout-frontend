@@ -1,11 +1,12 @@
+import { useCallback, useState } from 'react';
 import { t } from '@ankr.com/common';
-import React, { useCallback, useState } from 'react';
 
 import { ConnectButton } from 'domains/auth/components/ConnectButton';
 import { useAppSelector } from 'store/useAppSelector';
 import { selectShouldContinueTeamCreationFlow } from 'modules/groups/store/selectors';
 import { SignupDialog } from 'domains/auth/components/ConnectButton/UnconnectedButton/SignupDialog';
 
+import { CenterContainer } from '../CenterContainer';
 import { InfoCard } from '../InfoCard';
 
 export const ConnectWalletCard = () => {
@@ -22,7 +23,7 @@ export const ConnectWalletCard = () => {
   }, []);
 
   return (
-    <>
+    <CenterContainer>
       <InfoCard
         align="center"
         description={t('user-settings.connect-wallet-card.description')}
@@ -40,6 +41,6 @@ export const ConnectWalletCard = () => {
         isOpen={isOpenedSignUpDialog}
         onClose={handleCloseSignUpDialog}
       />
-    </>
+    </CenterContainer>
   );
 };

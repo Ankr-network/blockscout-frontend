@@ -8,6 +8,8 @@ import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { usePrivateChainsData } from 'hooks/usePrivateChainsData';
 import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { selectHasPremium } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 
 import { IChainsViewProps } from '../PublicChains/PublicChainsTypes';
 import { PrivateChainsTop } from './PrivateChainsTop';
@@ -18,7 +20,10 @@ export const PrivateChains = ({
   chainsViewTabs,
   selectedChainsViewTab,
 }: IChainsViewProps) => {
+  const hasPremium = useAppSelector(selectHasPremium);
+
   const {
+    allProjectsStats,
     chains,
     loading,
     searchContent,
@@ -46,16 +51,30 @@ export const PrivateChains = ({
   const { jwts, jwtsLoading } = useJWTsManager();
   const hasNoJWTs = jwts.length === 0;
 
-  useProjectsWhitelistsBlockchains({
+  const {
+    loading: projectsWhitelistsBlockchainsLoading,
+    projectsWhitelistsBlockchains: projectsWithBlockchains,
+    state: { isError, isSuccess },
+  } = useProjectsWhitelistsBlockchains({
     projects: jwts,
     skipFetching: hasNoJWTs || jwtsLoading,
   });
+
+  const projectBlockchainsLoaded = isSuccess || isError;
+
+  const projectsLoading =
+    jwtsLoading ||
+    projectsWhitelistsBlockchainsLoading ||
+    !projectBlockchainsLoaded;
 
   const { keys, t } = useTranslation(privateChainsTranslation);
 
   return (
     <>
-      <BaseChains top={<PrivateChainsTop />} loading={loading}>
+      <BaseChains
+        top={<PrivateChainsTop />}
+        loading={projectsWhitelistsBlockchainsLoading || loading || jwtsLoading}
+      >
         <>
           <BaseChainsHeader
             sortType={sortType}
@@ -72,10 +91,15 @@ export const PrivateChains = ({
             tooltipText={t(keys.requestsTooltip)}
           >
             <ProcessedChains
+              allProjectsStats={allProjectsStats}
+              hasPremium={hasPremium}
+              jwts={jwts}
               onPromoDialogOpen={onPromoDialogOpen}
+              processedChains={processedChains}
+              projectsLoading={projectsLoading}
+              projectsWithBlockchains={projectsWithBlockchains}
               timeframe={timeframe}
               view={selectedChainsViewTab?.id}
-              processedChains={processedChains}
             />
           </ChainsList>
         </>

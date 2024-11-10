@@ -1,53 +1,53 @@
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector, lruMemoize, weakMapMemoize } from 'reselect';
 import {
   formatChainsConfigToChains,
   ChainID,
   ChainPath,
 } from '@ankr.com/chains-list';
 
-import { RootState } from 'store';
 import { MultiService } from 'modules/api/MultiService';
+import { RootState } from 'store';
 import { chainsFetchBlockchains } from 'modules/chains/actions/fetchBlockchains';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
+import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 import { getAddIsArchiveCB } from 'modules/chains/utils/isArchive';
 import { getUniqueArray } from 'modules/common/utils/getUniqueArray';
 
-import { getSubchainIds } from '../utils/getSubchainIds';
-import { getAllPathsByChain } from '../utils/getAllPathsByChain';
-import { getSubchainIdsWithNotEmptyPath } from '../utils/getSubchainIdsWithNotEmptyPath';
 import { clearPathPrefix } from '../utils/clearPathPrefix';
 import { filterPathsExceptions } from '../utils/filterPathsExceptions';
+import { getAllPathsByChain } from '../utils/getAllPathsByChain';
 import { getPathsFromChains } from '../utils/getPathsFromChains';
+import { getSubchainIds } from '../utils/getSubchainIds';
+import { getSubchainIdsWithNotEmptyPath } from '../utils/getSubchainIdsWithNotEmptyPath';
 
-export const selectBlockchains = createSelector(
-  chainsFetchBlockchains.select(),
-  blockchains => blockchains,
-);
+export const selectBlockchains = chainsFetchBlockchains.select();
+
+export const selectNodesDetails = chainsFetchChainNodesDetail.select();
 
 export const selectBlockchainsData = createSelector(
   selectBlockchains,
   ({ data = [] }) => data,
 );
 
+export const selectNodesDetailsData = createSelector(
+  selectNodesDetails,
+  ({ data: nodes = [] }) => nodes,
+);
+
 export const selectBlockchainsLoadingStatus = createSelector(
-  chainsFetchBlockchains.select(),
+  selectBlockchains,
   ({ isLoading, isUninitialized }) => isLoading || isUninitialized,
 );
 
-export const selectNodesDetails = createSelector(
-  chainsFetchChainNodesDetail.select(),
-  nodes => nodes,
-);
-
 export const selectNodesDetailsLoadingStatus = createSelector(
-  chainsFetchChainNodesDetail.select(),
+  selectNodesDetails,
   ({ isLoading }) => isLoading,
 );
 
 export const selectPublicBlockchains = createSelector(
-  selectBlockchains,
-  selectNodesDetails,
-  ({ data: blockchains = [] }, { data: nodes }) => {
+  selectBlockchainsData,
+  selectNodesDetailsData,
+  (blockchains, nodes) => {
     const addIsArchive = getAddIsArchiveCB(nodes);
 
     const publicChains =
@@ -58,10 +58,10 @@ export const selectPublicBlockchains = createSelector(
 );
 
 export const selectConfiguredBlockchainsForToken = createSelector(
-  selectBlockchains,
-  selectNodesDetails,
+  selectBlockchainsData,
+  selectNodesDetailsData,
   (_state: RootState, userEndpointToken?: string) => userEndpointToken,
-  ({ data: blockchains = [] }, { data: nodes }, userEndpointToken) => {
+  (blockchains, nodes, userEndpointToken) => {
     const addIsArchive = getAddIsArchiveCB(nodes);
 
     const privateChains = MultiService.getService().formatPrivateEndpoints(
@@ -70,6 +70,10 @@ export const selectConfiguredBlockchainsForToken = createSelector(
     );
 
     return formatChainsConfigToChains(privateChains).map(addIsArchive);
+  },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
   },
 );
 
@@ -95,6 +99,10 @@ export const selectBlockchainBySubchainId = createSelector(
 
     return blockchainFoundBySubchainId;
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectBlockchainsBySubchainIds = createSelector(
@@ -113,6 +121,10 @@ export const selectBlockchainsBySubchainIds = createSelector(
         chain && self.findIndex(item => item?.id === chain?.id) === index,
     );
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectPublicChainById = createSelector(
@@ -125,6 +137,11 @@ export const selectPublicChainById = createSelector(
     const mainChain = selectBlockchainBySubchainId(state, chainId);
 
     return blockchains?.find(chain => chain?.id === mainChain?.id);
+  },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+    memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
   },
 );
 
@@ -143,6 +160,11 @@ export const selectPrivateChainById = createSelector(
 
     return blockchains?.find(chain => chain?.id === mainChain?.id);
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+    memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+  },
 );
 
 export const selectSubChainIdsByChainId = createSelector(
@@ -158,6 +180,10 @@ export const selectSubChainIdsByChainId = createSelector(
     }
 
     return [chainId];
+  },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
   },
 );
 
@@ -175,13 +201,15 @@ export const selectAllSubChainIdsWithPathByChainId = createSelector(
 
     return [chainId];
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectAllChainsPaths = createSelector(
-  selectBlockchains,
-  ({ data: blockchains = [] }) => {
-    return getPathsFromChains(blockchains);
-  },
+  selectBlockchainsData,
+  blockchains => getPathsFromChains(blockchains),
 );
 
 export const selectAllPathsByChainId = createSelector(
@@ -203,6 +231,10 @@ export const selectAllPathsByChainId = createSelector(
 
     return [];
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectAllPathsExceptSubchainsForChainId = createSelector(
@@ -216,11 +248,19 @@ export const selectAllPathsExceptSubchainsForChainId = createSelector(
 
     return allChainsPaths.filter(path => !currentChainPaths.includes(path));
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: lruMemoize,
+    memoizeOptions: {
+      maxSize: 100,
+      resultEqualityCheck: deepEqulityCheck,
+    },
+  },
 );
 
 export const selectAllChainsIds = createSelector(
-  selectBlockchains,
-  ({ data: blockchains }) => {
+  selectBlockchainsData,
+  blockchains => {
     const allChainIds: ChainID[] =
       blockchains?.flatMap(blockchain => {
         const hasPaths = blockchain?.paths?.length !== 0;
@@ -241,9 +281,9 @@ export const selectAllChainsIds = createSelector(
 );
 
 export const selectSubChainIdByPath = createSelector(
-  selectBlockchains,
+  selectBlockchainsData,
   (_state: RootState, path: string) => path,
-  ({ data: blockchains }, path) => {
+  (blockchains, path) => {
     const chain = blockchains?.find(blockchain =>
       blockchain.paths
         ?.map(blockchainPath => clearPathPrefix(blockchainPath))
@@ -251,6 +291,10 @@ export const selectSubChainIdByPath = createSelector(
     );
 
     return chain?.id;
+  },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
   },
 );
 
@@ -263,12 +307,16 @@ export const selectChainById = createSelector(
         blockchain.id === chainId || blockchain.paths?.includes(chainId),
     );
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectChainIdsByPaths = createSelector(
   (_state: RootState, selectedChainPaths: ChainPath[]) => selectedChainPaths,
-  selectBlockchains,
-  (selectedChainPaths, { data: blockchains = [] }) => {
+  selectBlockchainsData,
+  (selectedChainPaths, blockchains) => {
     const chainIds = selectedChainPaths.map(selectedChainPath => {
       const chain = blockchains?.find(blockchain =>
         blockchain.paths?.some(
@@ -282,12 +330,16 @@ export const selectChainIdsByPaths = createSelector(
 
     return getUniqueArray(chainIds.filter(Boolean) as ChainID[]);
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectChainPathsByIds = createSelector(
   (_state: RootState, selectedChainIds: ChainID[]) => selectedChainIds,
-  selectBlockchains,
-  (selectedChainIds, { data: blockchains = [] }) => {
+  selectBlockchainsData,
+  (selectedChainIds, blockchains) => {
     const chainPaths = selectedChainIds.map(selectedChainId => {
       const chain = blockchains?.find(
         blockchain => blockchain.id === selectedChainId,
@@ -304,15 +356,23 @@ export const selectChainPathsByIds = createSelector(
       filterPathsExceptions,
     );
   },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
+  },
 );
 
 export const selectSubchainBySubchainId = createSelector(
   (_state: RootState, chainId: ChainID) => chainId,
-  selectBlockchains,
-  (chainId, { data: blockchains = [] }) => {
+  selectBlockchainsData,
+  (chainId, blockchains) => {
     return blockchains.find(
       blockchain =>
         blockchain.id === chainId || blockchain.paths?.includes(chainId),
     );
+  },
+  {
+    argsMemoize: weakMapMemoize,
+    memoize: weakMapMemoize,
   },
 );

@@ -1,8 +1,9 @@
 import { Box, Skeleton, Typography } from '@mui/material';
 import { Timeframe, Chain } from '@ankr.com/chains-list';
+import { useCallback } from 'react';
+import { useHistory } from 'react-router';
 
 import { ChainsRoutesConfig } from 'domains/chains/routes';
-import { NavLink } from 'uiKit/NavLink';
 import { Placeholder } from 'modules/common/components/Placeholder';
 import { ChainDescription } from 'modules/chains/components/ChainDescription';
 import { isMultichain } from 'modules/chains/utils/isMultichain';
@@ -10,16 +11,16 @@ import { GuardResolution } from 'modules/common/components/GuardResolution';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
 
 import { ChainCardShadow } from '../ChainCardShadow';
+import { EChainView } from '../ChainViewSelector';
 import { Information } from './components/Information';
 import { useChainCardStyles } from './useChainCardStyles';
-import { EChainView } from '../ChainViewSelector';
 
 export interface IBaseChainCardProps {
   chain: Chain;
   className?: string;
   hasShadow?: boolean;
   hasTotalRequestsLabel?: boolean;
-  loading: boolean;
+  loading?: boolean;
   onClick?: () => void;
   timeframe: Timeframe;
   totalRequests: string;
@@ -38,7 +39,7 @@ export const BaseChainsCard = ({
   hasTotalRequestsLabel = true,
   isPublicLayout = false,
   isRequestsDisabled,
-  loading,
+  loading = false,
   onClick,
   shouldShowDashInsteadOfRequestsString,
   timeframe,
@@ -49,12 +50,18 @@ export const BaseChainsCard = ({
 
   const { id } = chain;
 
+  const { push } = useHistory();
+
+  const handleOpenChainPage = useCallback(() => {
+    push(ChainsRoutesConfig.chainDetails.generatePath(id));
+  }, [id, push]);
+
   const isSimpleLinkCard = !onClick;
 
   const props = isSimpleLinkCard
     ? {
-        component: NavLink,
-        href: ChainsRoutesConfig.chainDetails.generatePath(id),
+        component: Box,
+        onClick: handleOpenChainPage,
       }
     : {
         onClick,

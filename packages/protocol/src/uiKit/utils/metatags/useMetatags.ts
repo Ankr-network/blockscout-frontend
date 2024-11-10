@@ -1,15 +1,16 @@
-import { Theme } from '@mui/material';
-import { useEffect } from 'react';
-import { INDEX_PATH } from 'routes/constants';
 import { ChainID } from '@ankr.com/chains-list';
+import { INDEX_PATH } from 'routes/constants';
+import { useEffect } from 'react';
+import { useTheme } from '@mui/material';
 
 import { ADVANCED_API_PATH } from 'domains/advancedApi/routes';
 import { selectBeacons } from 'domains/chains/store/chainsSlice';
 import { useAppSelector } from 'store/useAppSelector';
+import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
-import { getChainName } from './useMetatagsUtils';
 import { PROTOCOL_URL } from './const';
+import { getChainName } from './useMetatagsUtils';
 import { metaTranslation } from './translation';
 
 const getLocation = (pathname: string, chainsRoutes: string[]): string => {
@@ -29,11 +30,9 @@ const getLocation = (pathname: string, chainsRoutes: string[]): string => {
   return location;
 };
 
-export const useMetatags = (
-  rawPathname: string,
-  chainsRoutes: string[],
-  currentTheme: Theme,
-) => {
+export const useMetatags = (rawPathname: string) => {
+  const chainsRoutes = usePublicChainsRoutes();
+  const currentTheme = useTheme();
   const currentThemeColor = currentTheme.palette.background.default;
 
   const beacons = useAppSelector(selectBeacons);

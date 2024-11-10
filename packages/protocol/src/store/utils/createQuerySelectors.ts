@@ -1,4 +1,4 @@
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector, weakMapMemoize } from 'reselect';
 
 import { QueryEndpoint } from 'store/queries/types';
 import { RootState } from 'store/store';
@@ -9,59 +9,62 @@ export interface ICreateQuerySelectorsParams<Params, Result> {
   fallback?: Result;
 }
 
-const selectorOptions = {
-  memoizeOptions: {
-    equalityCheck: deepEqulityCheck,
-    resultEqualityCheck: deepEqulityCheck,
-  },
-};
-
 export const createQuerySelectors = <Params, Result>({
   endpoint,
   fallback,
 }: ICreateQuerySelectorsParams<Params, Result>) => {
   const selectStateCachedByParams = createSelector(
-    (state: RootState, params: Params) => endpoint.select(params)(state),
-    state => state,
-    selectorOptions,
+    (state: RootState, params: Params) => ({ params, state }),
+    ({ params, state }) => endpoint.select(params)(state),
+    {
+      memoize: weakMapMemoize,
+      memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+      argsMemoize: weakMapMemoize,
+    },
   );
 
   const selectDataCachedByParams = createSelector(
     (state: RootState, params: Params) => endpoint.select(params)(state),
     ({ data }) => data,
-    selectorOptions,
+    {
+      memoize: weakMapMemoize,
+      memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+      argsMemoize: weakMapMemoize,
+    },
   );
 
   const selectDataWithFallbackCachedByParams = createSelector(
     (state: RootState, params: Params) => endpoint.select(params)(state),
     ({ data }) => (data || fallback) as Result,
-    selectorOptions,
+    {
+      memoize: weakMapMemoize,
+      memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+      argsMemoize: weakMapMemoize,
+    },
   );
 
   const selectLoadingCachedByParams = createSelector(
     (state: RootState, params: Params) => endpoint.select(params)(state),
     ({ isLoading }) => isLoading,
-    selectorOptions,
+    {
+      argsMemoize: weakMapMemoize,
+      memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+      memoize: weakMapMemoize,
+    },
   );
 
   const selectState = endpoint.select(undefined as never);
 
-  const selectData = createSelector(
-    selectState,
-    ({ data }) => data,
-    selectorOptions,
-  );
+  const selectData = createSelector(selectState, ({ data }) => data);
 
   const selectDataWithFallback = createSelector(
     selectData,
     data => (data || fallback) as Result,
-    selectorOptions,
   );
 
   const selectLoading = createSelector(
     selectState,
     ({ isLoading }) => isLoading,
-    selectorOptions,
   );
 
   return {

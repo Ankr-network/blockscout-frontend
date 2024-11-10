@@ -17,7 +17,7 @@ export const {
     >({
       queryFn: createQueryFnWithErrorHandler({
         queryFn: async ({ totp }) => {
-          const service = await MultiService.getService();
+          const service = MultiService.getService();
 
           const { is_encrypted: isEncrypted, jwt_data: jwtData } = await service
             .getAccountingGateway()

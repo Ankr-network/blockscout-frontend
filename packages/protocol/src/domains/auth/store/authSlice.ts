@@ -7,13 +7,7 @@ import {
 import { IWalletMeta } from '@ankr.com/provider';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { MultiService } from 'modules/api/MultiService';
 import { RootState } from 'store';
-
-import { clearCookie, getCookieByName, setCookie } from './cookie';
-
-const WORKER_TOKEN_DATA_KEY = 'WORKER_TOKEN_DATA_KEY';
-let WORKER_TOKEN_DATA: IAuthSlice['workerTokenData'];
 
 export interface IAuthSlice {
   authAddress?: string;
@@ -43,60 +37,14 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
-      const { workerTokenData } = action.payload;
-
-      if (workerTokenData) {
-        setCookie(WORKER_TOKEN_DATA_KEY, workerTokenData);
-        WORKER_TOKEN_DATA = workerTokenData;
-      }
-
-      Object.keys(action.payload).forEach(key => {
-        const objKey = key as keyof IAuthSlice;
-
-        if (key === 'workerTokenData') return;
-
-        // @ts-ignore
-        state[objKey] = action.payload[objKey];
-      });
+      Object.assign(state, action.payload);
     },
     resetAuthData: state => {
-      clearCookie(WORKER_TOKEN_DATA_KEY);
-      WORKER_TOKEN_DATA = undefined;
-
-      Object.keys(state).forEach(key => {
-        const objKey = key as keyof IAuthSlice;
-
-        // @ts-ignore
-        state[objKey] = undefined;
-      });
+      Object.assign(state, initialState);
     },
   },
 });
 
-export const selectAuthData: (state: RootState) => IAuthSlice = (
-  state: RootState,
-): IAuthSlice => {
-  if (state.auth) {
-    if (WORKER_TOKEN_DATA === undefined) {
-      WORKER_TOKEN_DATA = getCookieByName(WORKER_TOKEN_DATA_KEY);
-
-      const service = MultiService.getService();
-
-      const authorizationToken = state.auth?.authorizationToken;
-
-      if (authorizationToken) {
-        service.getAccountingGateway().addToken(authorizationToken);
-        service.getEnterpriseGateway().addToken(authorizationToken);
-      }
-    }
-
-    return {
-      ...state.auth,
-      workerTokenData: WORKER_TOKEN_DATA,
-    };
-  }
-
-  return {};
-};
+export const selectAuthData = (state: RootState) => state.auth;
 
 export const { resetAuthData, setAuthData } = authSlice.actions;

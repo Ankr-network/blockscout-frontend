@@ -16,6 +16,8 @@ import { UsageDataSection } from 'domains/chains/screens/ChainPage/components/Us
 import { isMultichain } from 'modules/chains/utils/isMultichain';
 import { useChainItemBreadcrumbs } from 'domains/chains/screens/ChainPage/hooks/useChainItemBreadcrumbs';
 import { useDialog } from 'modules/common/hooks/useDialog';
+import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
+import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 import { useRedirectToAdvancedApi } from 'domains/chains/screens/ChainPage/hooks/useRedirectToAdvancedApi';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 import { useUpgradePlanDialog } from 'modules/common/components/UpgradePlanDialog';
@@ -75,6 +77,15 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
 
   useChainItemBreadcrumbs(chain.name);
 
+  const { jwts, jwtsLoading } = useJWTsManager();
+  const hasNoJWTs = jwts.length === 0;
+
+  const { projectsWhitelistsBlockchains: projectsWithBlockchains } =
+    useProjectsWhitelistsBlockchains({
+      projects: jwts,
+      skipFetching: hasNoJWTs || jwtsLoading,
+    });
+
   return (
     <>
       <H1Tag title={t('meta.chain-item.h1-tag', { chainId: name })} />
@@ -95,9 +106,11 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
       <PlansDialog open={isOpenedPlansDialog} onClose={onClosePlansDialog} />
       <ChainProjectsSidebar
         chain={chain}
-        subchainLabels={subchainLabels}
         isOpenedAddToProjectsSidebar={isOpenedAddToProjectsSidebar}
+        jwts={jwts}
         onCloseAddToProjectsSidebar={onCloseAddToProjectsSidebar}
+        projectsWithBlockchains={projectsWithBlockchains}
+        subchainLabels={subchainLabels}
       />
     </>
   );

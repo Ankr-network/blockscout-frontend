@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -21,9 +21,14 @@ export interface IUseFetchAllowanceUsdcProps
     IFetchAllowanceUsdcParams {}
 
 export const useFetchAllowanceUsdc = ({
+  address,
+  network,
   skipFetching,
-  ...params
 }: IUseFetchAllowanceUsdcProps) => {
+  const params = useMemo(
+    (): IFetchAllowanceUsdcParams => ({ address, network }),
+    [address, network],
+  );
   const { refetch: handleRefetchAllowanceUsdc } = useFetchAllowanceUsdcQuery(
     getQueryParams({ params, skipFetching }),
   );

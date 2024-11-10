@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -17,9 +17,14 @@ export interface IUseBlockchainTxReceiptProps
     IFetchBlockchainTxReceiptParams {}
 
 export const useBlockchainTxReceipt = ({
+  network,
   skipFetching,
-  ...params
+  txHash,
 }: IUseBlockchainTxReceiptProps) => {
+  const params = useMemo(
+    (): IFetchBlockchainTxReceiptParams => ({ network, txHash }),
+    [network, txHash],
+  );
   const { refetch: handleRefetchTxReceipt } = useFetchBlockchainTxReceiptQuery(
     getQueryParams({ skipFetching, params }),
   );

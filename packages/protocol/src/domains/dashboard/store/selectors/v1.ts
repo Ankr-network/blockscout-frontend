@@ -22,7 +22,6 @@ import { IFetchProjectsStatsParams } from 'domains/dashboard/actions/fetchProjec
 import { aggregateRequests } from 'modules/stats/utils/aggregateRequests';
 import { chainsFetchChainNodesDetail } from 'modules/chains/actions/fetchChainNodesDetail';
 import { checkChainWithSubnetsAndGetChainId } from 'domains/chains/utils/chainsUtils';
-import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 import { getAllChainsRequests } from 'modules/stats/utils/getAllChainsRequests';
 import { mapCountsToEntries } from 'modules/stats/utils/mapCountsToEntries';
 import { maskText } from 'modules/common/utils/maskText';
@@ -205,12 +204,6 @@ export const selectCurrentProjectsStats = createSelector(
         }),
       }),
     ),
-  {
-    memoizeOptions: {
-      equalityCheck: deepEqulityCheck,
-      resultEqualityCheck: deepEqulityCheck,
-    },
-  },
 );
 
 export const selectCurrentProjectsPieChartData = createSelector(

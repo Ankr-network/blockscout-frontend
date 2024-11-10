@@ -66,3 +66,9 @@ export const ProjectsRoutesConfig = createRouteConfig(
   },
   PROJECTS_PATH,
 );
+
+export const PROJECT_ROUTES = [
+  ProjectsRoutesConfig.projects.path,
+  ProjectsRoutesConfig.newProject.path,
+  ProjectsRoutesConfig.project.path,
+];

@@ -1,10 +1,16 @@
 import BigNumber from 'bignumber.js';
 import { EthAddressType, Tier, PremiumStatus } from 'multirpc-sdk';
-import { createSelector } from '@reduxjs/toolkit';
+import { createSelector, weakMapMemoize } from 'reselect';
 
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { RootState } from 'store';
+import {
+  defaultPremiumStatusData,
+  fetchPremiumStatus,
+} from 'domains/auth/actions/fetchPremiumStatus';
+import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 import { getPermissions } from 'modules/groups/utils/getPermissions';
+import { getPremiumActivationThreshold } from 'domains/auth/utils/getPremiumActivationThreshold';
 import {
   selectUserGroupConfigByAddress,
   selectUserGroupJwtBySelectedGroupAddress,
@@ -13,12 +19,6 @@ import {
   selectMyCurrentBundle,
   selectTotalBalance,
 } from 'domains/account/store/selectors';
-import {
-  defaultPremiumStatusData,
-  fetchPremiumStatus,
-} from 'domains/auth/actions/fetchPremiumStatus';
-import { getPremiumActivationThreshold } from 'domains/auth/utils/getPremiumActivationThreshold';
-import { deepEqulityCheck } from 'modules/common/utils/deepEqualityCheck';
 
 import { getPremiumUntilDate } from '../utils/getPremiumUntilDate';
 import { selectAuthData } from './authSlice';
@@ -37,12 +37,6 @@ export const selectIsLoggedIn = createSelector(
   selectAuthData,
   ({ hasOauthLogin, hasWeb3Connection }) =>
     Boolean(hasOauthLogin || hasWeb3Connection),
-  {
-    memoizeOptions: {
-      equalityCheck: deepEqulityCheck,
-      resultEqualityCheck: deepEqulityCheck,
-    },
-  },
 );
 
 export const selectIsTokenExpired = createSelector(
@@ -89,12 +83,6 @@ export const selectHasFreemium = createSelector(
 export const selectHasPremium = createSelector(
   selectPremiumStatusState,
   ({ data: { isFreemium } = defaultPremiumStatusData }) => !isFreemium,
-  {
-    memoizeOptions: {
-      equalityCheck: deepEqulityCheck,
-      resultEqualityCheck: deepEqulityCheck,
-    },
-  },
 );
 
 export const selectIsInactiveStatus = createSelector(
@@ -148,12 +136,6 @@ export const selectHasPrivateAccess = createSelector(
   selectIsLoggedIn,
   (credentials, userEndpointToken, isLoggedIn) =>
     isLoggedIn && Boolean(credentials || userEndpointToken),
-  {
-    memoizeOptions: {
-      equalityCheck: deepEqulityCheck,
-      resultEqualityCheck: deepEqulityCheck,
-    },
-  },
 );
 
 export const selectHasInfrastructureAccess = createSelector(
@@ -245,6 +227,12 @@ export const selectHasConnectWalletMessage = createSelector(
     !hasWeb3Connection &&
     !hasUserEndpointToken &&
     isUserEthAddressType,
+  {
+    memoize: weakMapMemoize,
+    argsMemoize: weakMapMemoize,
+    argsMemoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+    memoizeOptions: { resultEqualityCheck: deepEqulityCheck },
+  },
 );
 
 export const selectCurrentAddress = createSelector(

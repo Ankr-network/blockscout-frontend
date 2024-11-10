@@ -7,19 +7,19 @@ import { HeaderContent } from './components/HeaderContent';
 import { useHeaderStyles } from './useHeaderStyles';
 import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
 
-interface HeaderProps {
+export interface HeaderProps {
   className?: string;
-  isChainItemPage?: boolean;
 }
 
-export const Header = ({ className = '', isChainItemPage }: HeaderProps) => {
+export const Header = ({ className }: HeaderProps) => {
   const bannerHeight = useHeaderBannerHeight();
+
   const { classes, cx } = useHeaderStyles(bannerHeight);
 
   return (
     <header className={cx(classes.root, className)}>
       <Container className={classes.container}>
-        <Breadcrumbs isChainItemPage={isChainItemPage} />
+        <Breadcrumbs />
         <div className={classes.right}>
           <NoReactSnap>
             <div className={classes.buttons}>

@@ -1,13 +1,14 @@
-import { MenuItem, SelectChangeEvent, Typography } from '@mui/material';
-import { FilterAlt, Select } from '@ankr.com/ui';
-import { useCallback } from 'react';
-import { t } from '@ankr.com/common';
 import { ESortChainsType } from '@ankr.com/chains-list';
+import { FilterAlt, Select } from '@ankr.com/ui';
+import { MenuItem, SelectChangeEvent, Typography } from '@mui/material';
+import { t } from '@ankr.com/common';
+import { useCallback } from 'react';
 
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { selectIsLoggedIn } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 
 import { useChainsSortSelectStyles } from './useChainsSortSelectStyles';
-import { useEnterpriseClientStatus } from '../../../../domains/auth/hooks/useEnterpriseClientStatus';
 
 const namesSortTypes = [
   {
@@ -74,7 +75,8 @@ export const ChainsSortSelect = ({
   setSortType,
   sortType,
 }: ISortSelectProps) => {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
   const { isEnterpriseClient } = useEnterpriseClientStatus();
 
   const handleChangeSortType = useCallback(

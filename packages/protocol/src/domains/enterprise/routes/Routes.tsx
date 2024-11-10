@@ -3,6 +3,7 @@ import loadable, { LoadableComponent } from '@loadable/component';
 import { OverlaySpinner } from '@ankr.com/ui';
 
 import { EnterpriseRoutesConfig } from './routesConfig';
+import { GuardAuthEnterpriseRoute } from '../components/GuardAuthEnterpriseRoute';
 
 const LoadableChainsContainer: LoadableComponent<any> = loadable(
   async () =>
@@ -26,20 +27,24 @@ const LoadableChainDetailsContainer: LoadableComponent<any> = loadable(
 
 export function EnterpriseChainsRoutes() {
   return (
-    <Route
-      exact
-      path={EnterpriseRoutesConfig.chains.path}
-      component={LoadableChainsContainer}
-    />
+    <GuardAuthEnterpriseRoute>
+      <Route
+        exact
+        path={EnterpriseRoutesConfig.chains.path}
+        component={LoadableChainsContainer}
+      />
+    </GuardAuthEnterpriseRoute>
   );
 }
 
 export function EnterpriseChainDetailsRoutes() {
   return (
-    <Route
-      exact
-      path={EnterpriseRoutesConfig.chainDetails.path}
-      component={LoadableChainDetailsContainer}
-    />
+    <GuardAuthEnterpriseRoute>
+      <Route
+        component={LoadableChainDetailsContainer}
+        exact
+        path={EnterpriseRoutesConfig.chainDetails.path}
+      />
+    </GuardAuthEnterpriseRoute>
   );
 }

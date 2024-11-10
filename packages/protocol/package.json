@@ -87,6 +87,7 @@
     "react-virtualized": "9.22.3",
     "recharts": "^2.1.4",
     "redux-persist": "^6.0.0",
+    "reselect": "^5.1.1",
     "tss-react": "^4.4.1",
     "uuid": "^9.0.0",
     "web3": "1.7.0",

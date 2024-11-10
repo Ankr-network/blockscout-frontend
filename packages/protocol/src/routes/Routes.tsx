@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { AccountRoutes, AccountRoutesConfig } from 'domains/account/Routes';
+import { ACCOUNT_PATHS, AccountRoutes } from 'domains/account/Routes';
 import {
   DashboardRoutesConfig,
   DashboardRoutes,
@@ -9,31 +9,31 @@ import {
   AdvancedApiRoutes,
   AdvancedApiRoutesConfig,
 } from 'domains/advancedApi/routes';
-import { CenterContainer } from 'domains/userSettings/components/CenterContainer';
 import {
   ChainDetailsRoutes,
   ChainsRoutes,
   ChainsRoutesConfig,
 } from 'domains/chains/routes';
 import { ConnectWalletCard } from 'domains/userSettings/components/ConnectWalletCard';
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { GuardAuthRoute } from 'domains/auth/components/GuardAuthRoute';
 import { GuardAuthUserSettingsRoute } from 'domains/userSettings/components/GuardAuthUserSettingsRoute';
 import { OauthRoutes, OauthRoutesConfig } from 'domains/oauth/routes';
 import { PageNotFound } from 'modules/router/components/PageNotFound';
 import { PricingRoutes, PricingRoutesConfig } from 'domains/pricing/Routes';
-import { UserSettingsRoutesConfig } from 'domains/userSettings/Routes';
+import {
+  SETTINGS_PATHS,
+  UserSettingsRoutesConfig,
+} from 'domains/userSettings/Routes';
 import {
   EnterpriseChainDetailsRoutes,
   EnterpriseChainsRoutes,
   EnterpriseRoutesConfig,
 } from 'domains/enterprise/routes';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardAuthEnterpriseRoute } from 'domains/enterprise/components/GuardAuthEnterpriseRoute';
-import { GuardCardPaymentSuccessAuthRoute } from 'domains/auth/components/GuardAuthRoute/GuardCardPaymentSuccessAuthRoute';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { ProjectsRoutes } from 'domains/projects/routes/Routes';
-import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
+import {
+  PROJECT_ROUTES,
+  ProjectsRoutesConfig,
+} from 'domains/projects/routes/routesConfig';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { GuardTeamInvitationRoute } from 'domains/userSettings/components/GuardTeamInvitationRoute';
 import { TeamsRoutes, TeamsRoutesConfig } from 'domains/teams/Routes';
@@ -43,265 +43,102 @@ import {
 } from 'domains/notifications/Routes';
 import { REFERRALS_PATHS, ReferralsRoutes } from 'domains/referrals/routes';
 import { GuardTelegramConfirmationRoute } from 'domains/userSettings/components/GuardTelegramConfirmationRoute';
-import {
-  selectHasPremium,
-  selectHasPrivateAccess,
-  selectIsLoggedIn,
-} from 'domains/auth/store';
-import { useAppSelector } from 'store/useAppSelector';
 
 import { INDEX_PATH } from './constants';
 import { useShouldRedirectToProjects } from './hooks/useShouldRedirectToProjects';
 
-/* eslint-disable max-lines-per-function */
 export const Routes = () => {
-  const hasPrivateAccess = useAppSelector(selectHasPrivateAccess);
-  const hasPremium = useAppSelector(selectHasPremium);
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-
   const shouldRedirectToProjects = useShouldRedirectToProjects();
 
   return (
     <Switch>
       <Route
+        component={PricingRoutes}
         exact
         path={PricingRoutesConfig.pricing.path}
-        render={() => (
-          <DefaultLayout hasGradient hasNoReactSnap>
-            <PricingRoutes />
-          </DefaultLayout>
-        )}
       />
-
       <GuardAuthRoute
         exact
         path={NotificationsRoutesConfig.notifications.path}
-        render={() => (
-          <Route
-            exact
-            path={NotificationsRoutesConfig.notifications.path}
-            render={() => (
-              <DefaultLayout>
-                <NotificationsRoutes />
-              </DefaultLayout>
-            )}
-          />
-        )}
+        component={NotificationsRoutes}
       />
-
-      <Route
-        exact
-        path={[
-          ProjectsRoutesConfig.projects.path,
-          ProjectsRoutesConfig.newProject.path,
-          ProjectsRoutesConfig.project.path,
-        ]}
-        render={() => (
-          <DefaultLayout hasNoReactSnap>
-            <ProjectsRoutes />
-          </DefaultLayout>
-        )}
-      />
-
+      {!isReactSnap && (
+        <Route component={ProjectsRoutes} exact path={PROJECT_ROUTES} />
+      )}
       <GuardAuthRoute
+        component={ReferralsRoutes}
         exact
         path={REFERRALS_PATHS}
-        render={() => (
-          <DefaultLayout isReferralsPage>
-            <ReferralsRoutes />
-          </DefaultLayout>
-        )}
       />
-
-      <Route
-        exact
-        path={DashboardRoutesConfig.dashboard.path}
-        render={() => (
-          <GuardUserGroup
-            shouldRedirect
-            blockName={BlockWithPermission.UsageData}
-          >
-            <DefaultLayout hasNoReactSnap isDashboardPage>
-              <DashboardRoutes />
-            </DefaultLayout>
-          </GuardUserGroup>
-        )}
-      />
+      {!isReactSnap && (
+        <Route
+          component={DashboardRoutes}
+          exact
+          path={DashboardRoutesConfig.dashboard.path}
+        />
+      )}
       {shouldRedirectToProjects && (
         <Route exact path={INDEX_PATH}>
           <Redirect to={ProjectsRoutesConfig.projects.generatePath()} />
         </Route>
       )}
-      <GuardAuthRoute
-        exact
-        path={[
-          AccountRoutesConfig.accountDetails.path,
-          AccountRoutesConfig.cardPaymentFailure.path,
-        ]}
-        render={() => (
-          <GuardUserGroup
-            shouldRedirect
-            blockName={BlockWithPermission.Billing}
-          >
-            <DefaultLayout>
-              <AccountRoutes />
-            </DefaultLayout>
-          </GuardUserGroup>
-        )}
-      />
-      <GuardCardPaymentSuccessAuthRoute
-        exact
-        path={AccountRoutesConfig.cardPaymentSuccess.path}
-        hasPremium={hasPremium}
-        hasPrivateAccess={hasPrivateAccess}
-        render={() => (
-          <DefaultLayout>
-            <AccountRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <GuardAuthUserSettingsRoute
-        exact
-        path={[
-          UserSettingsRoutesConfig.settings.path,
-          UserSettingsRoutesConfig.confirmation.path,
-        ]}
-        hasAuthData={isLoggedIn}
-        render={() => (
-          <DefaultLayout hasNoReactSnap>
-            <CenterContainer>
-              <ConnectWalletCard />
-            </CenterContainer>
-          </DefaultLayout>
-        )}
-      />
+      <GuardAuthRoute component={AccountRoutes} exact path={ACCOUNT_PATHS} />
+      {!isReactSnap && (
+        <GuardAuthUserSettingsRoute
+          component={ConnectWalletCard}
+          exact
+          path={SETTINGS_PATHS}
+        />
+      )}
       <GuardTeamInvitationRoute
         exact
         path={UserSettingsRoutesConfig.teamInvitation.path}
       />
+      {!isReactSnap && (
+        <Route
+          component={OauthRoutes}
+          exact
+          path={OauthRoutesConfig.oauth.path}
+        />
+      )}
       <Route
-        exact
-        path={OauthRoutesConfig.oauth.path}
-        render={() => (
-          <DefaultLayout hasNoReactSnap>
-            <OauthRoutes />
-          </DefaultLayout>
-        )}
-      />
-      <Route
+        component={ChainsRoutes}
         exact
         path={ChainsRoutesConfig.chains.path}
-        render={() => (
-          <DefaultLayout>
-            <GuardUserGroup
-              shouldHideAlert
-              shouldRedirect
-              blockName={BlockWithPermission.ChainItem}
-            >
-              <ChainsRoutes />
-            </GuardUserGroup>
-          </DefaultLayout>
-        )}
       />
       <GuardAuthRoute
-        hasReactSnapCheck={isReactSnap}
+        component={EnterpriseChainsRoutes}
         exact
-        path={[EnterpriseRoutesConfig.chains.path]}
-        render={() => (
-          <GuardAuthEnterpriseRoute>
-            <Route
-              exact
-              path={EnterpriseRoutesConfig.chains.path}
-              render={() => (
-                <DefaultLayout>
-                  <EnterpriseChainsRoutes />
-                </DefaultLayout>
-              )}
-            />
-          </GuardAuthEnterpriseRoute>
-        )}
+        hasReactSnapCheck={isReactSnap}
+        path={EnterpriseRoutesConfig.chains.path}
       />
       <GuardAuthRoute
-        hasReactSnapCheck={isReactSnap}
+        component={TeamsRoutes}
         exact
-        path={[TeamsRoutesConfig.newTeam.path]}
-        render={() => (
-          <Route
-            exact
-            path={TeamsRoutesConfig.newTeam.path}
-            render={() => (
-              <DefaultLayout>
-                <TeamsRoutes />
-              </DefaultLayout>
-            )}
-          />
-        )}
+        hasReactSnapCheck={isReactSnap}
+        path={TeamsRoutesConfig.newTeam.path}
       />
-
       <Route
+        component={AdvancedApiRoutes}
         exact
         path={AdvancedApiRoutesConfig.advancedApi.path}
-        render={() => (
-          <GuardUserGroup
-            shouldRedirect
-            blockName={BlockWithPermission.ChainItem}
-          >
-            <DefaultLayout>
-              <AdvancedApiRoutes />
-            </DefaultLayout>
-          </GuardUserGroup>
-        )}
       />
-
-      {/* <GuardAuthRoute
-        exact
-        path={[UserSettingsRoutesConfig.telegramConfirmation.path]}
-      > */}
       <GuardTelegramConfirmationRoute
         exact
         path={UserSettingsRoutesConfig.telegramConfirmation.path}
       />
-      {/* </GuardAuthRoute> */}
-
       <GuardAuthRoute
+        component={EnterpriseChainDetailsRoutes}
+        exact
         hasReactSnapCheck={isReactSnap}
-        exact
-        path={[EnterpriseRoutesConfig.chainDetails.path]}
-        render={() => (
-          <GuardAuthEnterpriseRoute>
-            <Route
-              exact
-              path={EnterpriseRoutesConfig.chainDetails.path}
-              render={() => (
-                <DefaultLayout>
-                  <EnterpriseChainDetailsRoutes />
-                </DefaultLayout>
-              )}
-            />
-          </GuardAuthEnterpriseRoute>
-        )}
+        path={EnterpriseRoutesConfig.chainDetails.path}
       />
       <Route
         exact
-        path={[ChainsRoutesConfig.chainDetails.path]}
-        render={() => (
-          <GuardUserGroup
-            shouldRedirect
-            blockName={BlockWithPermission.ChainItem}
-          >
-            <DefaultLayout isChainItemPage>
-              <ChainDetailsRoutes />
-            </DefaultLayout>
-          </GuardUserGroup>
-        )}
+        path={ChainsRoutesConfig.chainDetails.path}
+        component={ChainDetailsRoutes}
       />
-      <Route
-        render={() => (
-          <DefaultLayout>
-            <PageNotFound />
-          </DefaultLayout>
-        )}
-      />
+      <Route component={PageNotFound} />
     </Switch>
   );
 };

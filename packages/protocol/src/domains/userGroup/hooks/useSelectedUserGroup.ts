@@ -4,8 +4,8 @@ import {
   selectUserGroupJwtBySelectedGroupAddress,
   selectUserGroupLoading,
 } from 'domains/userGroup/store';
-import { selectAuthData } from 'domains/auth/store/authSlice';
 import { useAppSelector } from 'store/useAppSelector';
+import { selectAddress } from 'domains/auth/store';
 
 import { useUserGroupConfig } from './useUserGroupConfig';
 
@@ -13,7 +13,7 @@ export const useSelectedUserGroup = () => {
   const { selectedGroupAddress: savedSelectedGroupAddress, selectedGroupRole } =
     useUserGroupConfig();
 
-  const { authAddress } = useAppSelector(selectAuthData);
+  const authAddress = useAppSelector(selectAddress);
 
   const group = useAppSelector(selectSelectedUserGroup);
 

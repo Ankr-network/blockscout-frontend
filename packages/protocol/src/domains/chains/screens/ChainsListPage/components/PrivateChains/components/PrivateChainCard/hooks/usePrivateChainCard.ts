@@ -1,53 +1,47 @@
 import { Chain } from '@ankr.com/chains-list';
 import { useCallback, useMemo } from 'react';
 
+import { IProjectWithBlockchains } from 'domains/projects/types';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectAllPathsByChainId } from 'modules/chains/store/selectors';
 import { useAppSelector } from 'store/useAppSelector';
-import { useAuth } from 'domains/auth/hooks/useAuth';
-import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useMenu } from 'modules/common/hooks/useMenu';
-import { useProjectsWhitelistsBlockchains } from 'domains/projects/hooks/useProjectsWhitelistsBlockchains';
 
 export interface IUsePrivateChainCardProps {
   chain: Chain;
+  hasPremium: boolean;
+  jwts: JWT[];
+  projectsWithBlockchains: IProjectWithBlockchains[];
 }
 
-export const usePrivateChainCard = ({ chain }: IUsePrivateChainCardProps) => {
-  const { hasPremium } = useAuth();
+export const usePrivateChainCard = ({
+  chain,
+  hasPremium,
+  jwts,
+  projectsWithBlockchains,
+}: IUsePrivateChainCardProps) => {
   const allChainPaths = useAppSelector(state =>
     selectAllPathsByChainId(state, chain.id),
   );
 
-  const { jwts, jwtsLoading } = useJWTsManager();
-
-  const {
-    loading: projectsWhitelistsBlockchainsLoading,
-    projectsWhitelistsBlockchains: projectsWithBlockchains,
-    state: { isError, isSuccess },
-  } = useProjectsWhitelistsBlockchains({ projects: jwts, skipFetching: true });
-  const projectBlockchainsLoaded = isSuccess || isError;
-
-  const projectsLoading =
-    jwtsLoading ||
-    projectsWhitelistsBlockchainsLoading ||
-    !projectBlockchainsLoaded;
-
   const isEndpointLocked = Boolean(chain.premiumOnly && !hasPremium);
 
   const chainProjects = useMemo(() => {
-    return projectsWithBlockchains?.filter(project => {
-      // empty array means all chains are included
-      if ((project.blockchains ?? []).length === 0) {
-        return true;
-      }
+    return (
+      projectsWithBlockchains?.filter(project => {
+        // empty array means all chains are included
+        if ((project.blockchains ?? []).length === 0) {
+          return true;
+        }
 
-      const isCurrentPathIncluded =
-        allChainPaths?.length > 0 &&
-        project.blockchains.length > 0 &&
-        allChainPaths.some(path => project.blockchains.includes(path));
+        const isCurrentPathIncluded =
+          allChainPaths?.length > 0 &&
+          project.blockchains.length > 0 &&
+          allChainPaths.some(path => project.blockchains.includes(path));
 
-      return isCurrentPathIncluded;
-    });
+        return isCurrentPathIncluded;
+      }) ?? []
+    );
   }, [allChainPaths, projectsWithBlockchains]);
 
   const filteredJwtTokens = useMemo(
@@ -74,7 +68,7 @@ export const usePrivateChainCard = ({ chain }: IUsePrivateChainCardProps) => {
     [handleOpen],
   );
 
-  const isChainProjectsEmpty = !projectsLoading && chainProjects?.length === 0;
+  const hasChainProjects = chainProjects.length > 0;
 
   return {
     anchorEl,
@@ -82,9 +76,8 @@ export const usePrivateChainCard = ({ chain }: IUsePrivateChainCardProps) => {
     filteredJwtTokens,
     handleClose,
     handleOpenChainMenu,
-    isChainProjectsEmpty,
+    hasChainProjects,
     isEndpointLocked,
     isMenuOpened: open,
-    projectsLoading,
   };
 };

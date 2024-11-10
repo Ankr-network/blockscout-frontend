@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -19,8 +19,12 @@ export interface IUseEstimatedAllowanceFeeAnkrProps
 
 export const useEstimatedAllowanceFeeAnkr = ({
   skipFetching,
-  ...params
+  txId,
 }: IUseEstimatedAllowanceFeeAnkrProps) => {
+  const params = useMemo(
+    (): IEstimateAllowanceFeeAnkrParams => ({ txId }),
+    [txId],
+  );
   const { refetch: handleRefetchEstimatedAllowanceFeeAnkr } =
     useEstimateAllowanceFeeAnkrQuery(getQueryParams({ skipFetching, params }));
 

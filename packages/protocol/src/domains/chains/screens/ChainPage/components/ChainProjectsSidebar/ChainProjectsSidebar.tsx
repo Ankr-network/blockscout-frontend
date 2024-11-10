@@ -5,9 +5,10 @@ import { Chain } from '@ankr.com/chains-list';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { Checkbox } from 'modules/common/components/Checkbox';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
+import { IProjectWithBlockchains } from 'domains/projects/types';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { selectCurrentProjectsWhitelistsBlockchainsLoading } from 'domains/projects/store';
 import { useAppSelector } from 'store/useAppSelector';
-import { useJWTsManager } from 'domains/jwtToken/hooks/useJWTsManager';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
@@ -22,20 +23,22 @@ import { useProjectSubchains } from './hooks/useProjectSubchains';
 
 interface IChainProjectsSidebarProps {
   chain: Chain;
-  onCloseAddToProjectsSidebar: () => void;
   isOpenedAddToProjectsSidebar: boolean;
+  jwts: JWT[];
+  onCloseAddToProjectsSidebar: () => void;
+  projectsWithBlockchains: IProjectWithBlockchains[];
   subchainLabels: string[];
 }
 
 export const ChainProjectsSidebar = ({
   chain,
   isOpenedAddToProjectsSidebar,
+  jwts: projects,
   onCloseAddToProjectsSidebar,
   subchainLabels,
 }: IChainProjectsSidebarProps) => {
   const { selectedGroupAddress: group } = useSelectedUserGroup();
 
-  const { jwts: projects } = useJWTsManager();
   const projectBlockchainsLoading = useAppSelector(state =>
     selectCurrentProjectsWhitelistsBlockchainsLoading(state, { group }),
   );
@@ -56,8 +59,8 @@ export const ChainProjectsSidebar = ({
     chain,
     onCloseAddToProjectsSidebar,
     selectedSubchains,
-    setSelectedSubchains,
     setExpandedId,
+    setSelectedSubchains,
   });
 
   const { classes } = useChainProjectsSidebarStyles();

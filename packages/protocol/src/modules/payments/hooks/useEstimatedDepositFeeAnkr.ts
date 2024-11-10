@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -19,8 +19,12 @@ export interface IUseEstimatedDepositFeeAnkrProps
 
 export const useEstimatedDepositFeeAnkr = ({
   skipFetching,
-  ...params
+  txId,
 }: IUseEstimatedDepositFeeAnkrProps) => {
+  const params = useMemo(
+    (): IEstimateDepositFeeAnkrParams => ({ txId }),
+    [txId],
+  );
   const { refetch: handleRefetchEstimatedDepositFeeAnkr } =
     useEstimateDepositFeeAnkrQuery(getQueryParams({ params, skipFetching }));
 

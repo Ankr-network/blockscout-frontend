@@ -1,5 +1,4 @@
-import { useAppSelector } from 'store/useAppSelector';
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { API_CREDITS_BALANCE_FIELD_NAME } from 'domains/account/screens/BillingPage/const';
 import {
   selectActiveChargingModel,
   selectBundlePaymentPlansInitLoading,
@@ -7,7 +6,8 @@ import {
   selectMyBundlesStatusInitLoading,
   selectMySubscriptionsInitLoading,
 } from 'domains/account/store/selectors';
-import { API_CREDITS_BALANCE_FIELD_NAME } from 'domains/account/screens/BillingPage/const';
+import { useAppSelector } from 'store/useAppSelector';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useMenu } from 'modules/common/hooks/useMenu';
 
 export const useBalanceMenuButton = () => {

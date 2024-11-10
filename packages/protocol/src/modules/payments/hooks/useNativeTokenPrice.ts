@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -18,9 +18,14 @@ export interface IUseNativeTokenPriceProps
     IFetchNativeTokenPriceParams {}
 
 export const useNativeTokenPrice = ({
+  network,
+  requestId,
   skipFetching,
-  ...params
 }: IUseNativeTokenPriceProps) => {
+  const params = useMemo(
+    (): IFetchNativeTokenPriceParams => ({ network, requestId }),
+    [network, requestId],
+  );
   const { refetch: handleRefetchNativeTokenPrice } =
     useFetchNativeTokenPriceQuery(getQueryParams({ params, skipFetching }));
 

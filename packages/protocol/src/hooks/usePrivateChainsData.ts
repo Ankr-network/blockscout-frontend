@@ -3,7 +3,6 @@ import { PrivateStats } from 'multirpc-sdk';
 import { useState } from 'react';
 
 import { timeframeToIntervalMap } from 'domains/chains/constants/timeframeToIntervalMap';
-import { useAuth } from 'domains/auth/hooks/useAuth';
 import { usePrivateChainsInfo } from 'hooks/usePrivateChainsInfo';
 import { usePrivateStats } from 'modules/stats/hooks/usePrivateStats';
 import { usePrivateStatsByToken } from 'modules/stats/hooks/usePrivateStatsByToken';
@@ -11,6 +10,8 @@ import { useSearch } from 'modules/common/components/Search/hooks/useSearch';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTimeframe } from 'domains/chains/screens/ChainPage/components/ChainItemSections/hooks/useTimeframe';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
+import { selectIsAuthorizing } from 'modules/common/store/selectors';
+import { useAppSelector } from 'store/useAppSelector';
 
 interface UsePrivateChainsDataParams {
   ignoreJwtManager?: boolean;
@@ -27,7 +28,7 @@ export const usePrivateChainsData = ({
   ignoreJwtManager: ignoreSelectedProject,
   timeframes,
 } = defaultUsePrivateChainsDataParams) => {
-  const { loading: isConnecting } = useAuth();
+  const isAuthorizing = useAppSelector(selectIsAuthorizing);
 
   const { timeframe, timeframeTabs } = useTimeframe({
     initialTimeframe: Timeframe.Day,
@@ -51,7 +52,6 @@ export const usePrivateChainsData = ({
   } = usePrivateStats({
     group,
     interval,
-    skipFetching: !ignoreSelectedProject || hasSelectedProject,
   });
 
   const {
@@ -74,8 +74,13 @@ export const usePrivateChainsData = ({
   const [searchContent, setSearchContent] = useSearch();
 
   return {
+    allProjectsStats,
     chains,
-    loading: isConnecting || privateChainsLoading,
+    loading:
+      allProjectsStatsLoading ||
+      isAuthorizing ||
+      privateChainsLoading ||
+      statsLoading,
     searchContent,
     setSearchContent,
     setSortType,

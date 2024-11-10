@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -17,9 +17,14 @@ export interface IUseBlockchainTxDataProps
     IFetchBlockchainTxDataParams {}
 
 export const useBlockchainTxData = ({
+  network,
   skipFetching,
-  ...params
+  txHash,
 }: IUseBlockchainTxDataProps) => {
+  const params = useMemo(
+    (): IFetchBlockchainTxDataParams => ({ network, txHash }),
+    [network, txHash],
+  );
   const { refetch: handleRefetchBlockchainTxData } =
     useFetchBlockchainTxDataQuery(getQueryParams({ skipFetching, params }));
 

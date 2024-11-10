@@ -37,5 +37,4 @@ export interface IGetCryptoPaymentOptionsResponse {
 
 export interface IGetCryptoPaymentOptionsParams {
   active?: boolean;
-
 }

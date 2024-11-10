@@ -17,6 +17,8 @@ export const PATH_CONFIRMATION = `${PATH_SETTINGS}confirmation/`;
 export const PATH_TEAM_INVITATION = `${PATH_SETTINGS}invitation/`;
 export const PATH_TELEGRAM_CONFIRMATION = `${PATH_SETTINGS}telegram/`;
 
+export const SETTINGS_PATHS = [PATH_SETTINGS, PATH_CONFIRMATION];
+
 export const UserSettingsRoutesConfig = createRouteConfig(
   {
     confirmation: {

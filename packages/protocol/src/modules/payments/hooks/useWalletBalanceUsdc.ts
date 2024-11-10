@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -18,9 +18,14 @@ export interface IUseWalletBalanceUsdcProps
     IFetchWalletBalanceUsdcParams {}
 
 export const useWalletBalanceUsdc = ({
+  address,
+  network,
   skipFetching,
-  ...params
 }: IUseWalletBalanceUsdcProps) => {
+  const params = useMemo(
+    (): IFetchWalletBalanceUsdcParams => ({ address, network }),
+    [address, network],
+  );
   const { refetch: handleRefetchWalletBalanceUsdc } =
     useFetchWalletBalanceUsdcQuery(getQueryParams({ params, skipFetching }));
 

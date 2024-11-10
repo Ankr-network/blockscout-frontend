@@ -1,4 +1,5 @@
 import { ESortChainsType } from '@ankr.com/chains-list';
+import { memo } from 'react';
 
 import { Search } from 'modules/common/components/Search';
 import { ChainsSortSelect } from 'modules/chains/components/ChainsSortSelect';
@@ -20,40 +21,44 @@ interface IBaseChainsHeader {
   selectedChainsViewTab?: Tab<EChainView>;
 }
 
-export const BaseChainsHeader = ({
-  chainsViewTabs,
-  searchContent,
-  selectedChainsViewTab,
-  setSearchContent,
-  setSortType,
-  sortType,
-}: IBaseChainsHeader) => {
-  const { classes } = useBaseChainsHeaderStyles();
+export const BaseChainsHeader = memo(
+  ({
+    chainsViewTabs,
+    searchContent,
+    selectedChainsViewTab,
+    setSearchContent,
+    setSortType,
+    sortType,
+  }: IBaseChainsHeader) => {
+    const { classes } = useBaseChainsHeaderStyles();
 
-  return (
-    <div className={classes.root}>
-      <div className={classes.first}>
-        <Search
-          className={classes.chainsListSearch}
-          searchContent={searchContent}
-          setSearchContent={setSearchContent}
-        />
-        <ChainsSortSelect
-          className={classes.chainsSortSelect}
-          sortType={sortType}
-          setSortType={setSortType}
-          isDisabled={false}
-        />
-      </div>
-
-      {chainsViewTabs && selectedChainsViewTab && (
-        <GuardResolution protectedResolution="smDown">
-          <ChainViewSelector
-            chainsViewTabs={chainsViewTabs}
-            selectedChainsViewTab={selectedChainsViewTab}
+    return (
+      <div className={classes.root}>
+        <div className={classes.first}>
+          <Search
+            className={classes.chainsListSearch}
+            searchContent={searchContent}
+            setSearchContent={setSearchContent}
           />
-        </GuardResolution>
-      )}
-    </div>
-  );
-};
+          <ChainsSortSelect
+            className={classes.chainsSortSelect}
+            sortType={sortType}
+            setSortType={setSortType}
+            isDisabled={false}
+          />
+        </div>
+
+        {chainsViewTabs && selectedChainsViewTab && (
+          <GuardResolution protectedResolution="smDown">
+            <ChainViewSelector
+              chainsViewTabs={chainsViewTabs}
+              selectedChainsViewTab={selectedChainsViewTab}
+            />
+          </GuardResolution>
+        )}
+      </div>
+    );
+  },
+);
+
+BaseChainsHeader.displayName = 'BaseChainsHeader';

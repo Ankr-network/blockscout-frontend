@@ -2,7 +2,6 @@ import { Route, RouteProps } from 'react-router-dom';
 import { OverlaySpinner } from '@ankr.com/ui';
 import { useMemo } from 'react';
 
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { UserSettingsRoutes } from 'domains/userSettings/Routes';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { useAuth } from 'domains/auth/hooks/useAuth';
@@ -11,16 +10,13 @@ import { useOnMount } from 'modules/common/hooks/useOnMount';
 
 import { isInvitation } from './utils/isInvitation';
 
-export interface IGuardAuthUserSettingsRoute extends RouteProps {
-  hasAuthData: boolean;
-}
+export interface IGuardAuthUserSettingsRoute extends RouteProps {}
 
 export const GuardAuthUserSettingsRoute = ({
-  hasAuthData,
   location,
   ...routeProps
 }: IGuardAuthUserSettingsRoute) => {
-  const { address, hasPrivateAccess, loading } = useAuth();
+  const { address, hasPrivateAccess, isLoggedIn, loading } = useAuth();
   const { setBreadcrumbs } = useBreadcrumbs();
   const hasInvitation = useMemo(
     () => !isReactSnap && isInvitation(location),
@@ -32,19 +28,11 @@ export const GuardAuthUserSettingsRoute = ({
   });
 
   if (loading) {
-    return (
-      <DefaultLayout>
-        <OverlaySpinner />
-      </DefaultLayout>
-    );
+    return <OverlaySpinner />;
   }
 
-  if (hasAuthData || hasInvitation) {
-    return (
-      <DefaultLayout>
-        <UserSettingsRoutes />
-      </DefaultLayout>
-    );
+  if (isLoggedIn || hasInvitation) {
+    return <UserSettingsRoutes />;
   }
 
   return <Route {...routeProps} location={location} />;

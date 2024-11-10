@@ -1,17 +1,19 @@
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { removeAvoidGuestTeamInvitationDialog } from 'domains/userSettings/screens/TeamInvitation/utils/teamInvitationUtils';
+import { useAuth } from 'domains/auth/hooks/useAuth';
 import { useAutologin } from 'hooks/useAutologin';
 import { useBalance } from 'domains/account/hooks/useBalance';
 import { useBlockchainsLoader } from 'hooks/useBlockchainsLoader';
 import { useBundlePaymentPlansRequest } from 'domains/account/hooks/useBundlePaymentPlansRequest';
 import { useCheckChangedSignupUserSettingsAndUpdate } from 'hooks/useCheckChangedSignupUserSettingsAndUpdate';
-import { useEnterpriseStatusFetch } from 'domains/auth/hooks/useEnterpriseStatus';
+import { useEnterpriseStatus } from 'domains/enterprise/hooks/useEnterpriseStatus';
 import { useGuardUserGroup } from 'domains/userGroup/hooks/useGuardUserGroup';
 import { useJwtManagerInitializer } from 'domains/jwtToken/hooks/useJwtManagerInitializer';
 import { useMyBundles } from 'domains/account/hooks/useMyBundles';
 import { useMyBundlesStatus } from 'domains/account/hooks/useMyBundlesStatus';
 import { useMySubscriptions } from 'domains/account/hooks/useMySubscriptions';
+import { useNotifications } from 'modules/notifications/hooks/useNotifications';
 import { useOnMount } from 'modules/common/hooks/useOnMount';
 import { usePaymentOptions } from 'modules/payments/hooks/usePaymentOptions';
 import { usePremiumStatusSubscription } from 'domains/auth/hooks/usePremiumStatusSubscription';
@@ -19,9 +21,10 @@ import { useRedirectToTeamsSettings } from 'modules/groups/hooks/useRedirectToTe
 import { useReferrer } from 'modules/referralProgram/hooks/useReferrer';
 import { useShouldShowUserGroupDialogQuery } from 'domains/userGroup/actions/shouldShowUserGroupDialog';
 import { useUserGroupFetchCreationAllowanceQuery } from 'domains/userGroup/actions/fetchGroupCreationAllowance';
-import { useNotifications } from 'modules/notifications/hooks/useNotifications';
 
-export const useInitialization = (isLoggedIn: boolean) => {
+export const useInitialization = () => {
+  const { isLoggedIn } = useAuth();
+
   const hasBillingRoleAccess = useGuardUserGroup({
     blockName: BlockWithPermission.Billing,
   });
@@ -32,8 +35,9 @@ export const useInitialization = (isLoggedIn: boolean) => {
 
   const shouldInitialize = !isReactSnap && isLoggedIn;
 
-  const { isEnterpriseClient, isEnterpriseStatusLoading } =
-    useEnterpriseStatusFetch(shouldInitialize);
+  const { isEnterpriseClient, isEnterpriseStatusLoading } = useEnterpriseStatus(
+    { skipFetching: !shouldInitialize },
+  );
 
   const skipFetchingBase =
     isReactSnap ||

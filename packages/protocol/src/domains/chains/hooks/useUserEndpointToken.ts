@@ -1,13 +1,14 @@
 import { PRIMARY_TOKEN_INDEX } from 'domains/jwtToken/utils/utils';
 import { ProjectsRoutesConfig } from 'domains/projects/routes/routesConfig';
-import { useAuth } from 'domains/auth/hooks/useAuth';
+import { selectUserEndpointToken } from 'domains/auth/store';
+import { useAppSelector } from 'store/useAppSelector';
 import { useGroupJwtToken } from 'domains/userGroup/hooks/useGroupJwtToken';
 import { useJWTs } from 'domains/jwtToken/hooks/useJWTs';
 import { useSelectedUserGroup } from 'domains/userGroup/hooks/useSelectedUserGroup';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
 export const useUserEndpointToken = () => {
-  const { workerTokenData } = useAuth();
+  const userEndpointToken = useAppSelector(selectUserEndpointToken);
   const { tokenIndex } = useTokenManagerConfigSelector();
   const { isGroupSelected, selectedGroupAddress: group } =
     useSelectedUserGroup();
@@ -16,11 +17,10 @@ export const useUserEndpointToken = () => {
   const { groupToken } = useGroupJwtToken();
 
   // for project details page we should use userEndpointToken from url
-  const { projectId: userEndpointToken } =
-    ProjectsRoutesConfig.project.useParams();
+  const { projectId } = ProjectsRoutesConfig.project.useParams();
 
-  if (userEndpointToken) {
-    return userEndpointToken;
+  if (projectId) {
+    return projectId;
   }
 
   if (loading) {
@@ -32,7 +32,7 @@ export const useUserEndpointToken = () => {
   }
 
   if (tokenIndex === PRIMARY_TOKEN_INDEX || !tokenIndex) {
-    return workerTokenData?.userEndpointToken;
+    return userEndpointToken;
   }
 
   const selectedToken = jwts.find(

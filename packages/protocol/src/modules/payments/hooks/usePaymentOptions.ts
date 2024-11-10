@@ -1,5 +1,5 @@
 import { IGetCryptoPaymentOptionsParams } from 'multirpc-sdk';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { IUseQueryProps } from 'store/queries/types';
 import { getQueryParams } from 'store/utils/getQueryParams';
@@ -17,9 +17,13 @@ export interface IUsePaymentOptionsProps
     IGetCryptoPaymentOptionsParams {}
 
 export const usePaymentOptions = ({
+  active,
   skipFetching,
-  ...params
 }: IUsePaymentOptionsProps | void = {}) => {
+  const params = useMemo(
+    (): IGetCryptoPaymentOptionsParams => ({ active }),
+    [active],
+  );
   const { refetch: handleRefetchPaymentOptions } = useFetchPaymentOptionsQuery(
     getQueryParams({ params, skipFetching }),
   );

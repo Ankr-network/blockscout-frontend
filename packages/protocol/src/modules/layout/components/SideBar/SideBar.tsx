@@ -2,35 +2,34 @@ import { AccountStatus } from 'modules/common/components/AccountStatus';
 import { GlobalMenuWrapper } from 'modules/globalMenu/components/GlobalMenuWrapper';
 import { isReactSnap } from 'modules/common/utils/isReactSnap';
 import { useAuth } from 'domains/auth/hooks/useAuth';
+import { useEnterpriseClientStatus } from 'domains/auth/hooks/useEnterpriseClientStatus';
 import { useIsXSDown } from 'uiKit/Theme/useTheme';
+import { usePublicChainsRoutes } from 'domains/chains/hooks/usePublicChainsRoutes';
 import { useTrackAnalytics } from 'modules/layout/hooks/useTrackAnalytics';
 
 import { BalanceMenuContent } from '../BalanceMenu';
 import { MainNavigation } from '../MainNavigation';
 import { useBalanceMenuButton } from '../BalanceMenuButton/useBalanceMenuButton';
-import { useStyles } from './SideBarStyles';
 import { useHeaderBannerHeight } from '../HeaderBanner/useHeaderBannerHeight';
+import { useStyles } from './SideBarStyles';
 
 export interface SidebarProps {
-  chainsRoutes: string[];
   className?: string;
   handleSidebarClose?: () => void;
   hasMenu: boolean;
-  isEnterpriseClient: boolean;
   isMobileSideBar?: boolean;
-  loading: boolean;
 }
 
 export const SideBar = ({
-  chainsRoutes,
   className = '',
   handleSidebarClose,
   hasMenu,
-  isEnterpriseClient,
   isMobileSideBar = false,
-  loading,
 }: SidebarProps) => {
-  const { isLoggedIn } = useAuth();
+  const chainsRoutes = usePublicChainsRoutes();
+  const { isLoggedIn, loading } = useAuth();
+  const { isEnterpriseClient } = useEnterpriseClientStatus();
+
   const bannerHeight = useHeaderBannerHeight();
   const { classes, cx } = useStyles({ isMobileSideBar, bannerHeight });
   const {
