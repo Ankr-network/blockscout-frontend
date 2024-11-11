@@ -39,9 +39,7 @@ export const authSlice = createSlice({
     setAuthData: (state, action: PayloadAction<IAuthSlice>) => {
       Object.assign(state, action.payload);
     },
-    resetAuthData: state => {
-      Object.assign(state, initialState);
-    },
+    resetAuthData: () => initialState,
   },
 });
 
