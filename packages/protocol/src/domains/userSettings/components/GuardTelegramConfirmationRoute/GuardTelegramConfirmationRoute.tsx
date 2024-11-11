@@ -1,6 +1,5 @@
 import { Redirect, RouteProps } from 'react-router-dom';
 
-import { DefaultLayout } from 'modules/layout/components/DefautLayout';
 import { PATH_SETTINGS, UserSettingsRoutes } from 'domains/userSettings/Routes';
 import { isTelegramConfirmationQuery } from 'domains/userSettings/utils/isTelegramConfirmationQuery';
 
@@ -16,11 +15,7 @@ export const GuardTelegramConfirmationRoute = (
   );
 
   if (isTelegramConfirmation) {
-    return (
-      <DefaultLayout>
-        <UserSettingsRoutes />
-      </DefaultLayout>
-    );
+    return <UserSettingsRoutes />;
   }
 
   return <Redirect to={PATH_SETTINGS} />;

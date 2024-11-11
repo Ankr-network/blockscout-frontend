@@ -19,13 +19,21 @@ const isOldAuthSlice = (state: unknown): state is IOldAuthSlice =>
       ('address' in state || 'ethAddressType' in state),
   );
 
+const getAuthToken = (state: unknown) => {
+  if (state && typeof state === 'object' && 'authorizationToken' in state) {
+    return (state as IAuthSlice).authorizationToken;
+  }
+
+  return undefined;
+};
+
 export const authPersistConfig: PersistConfig<IAuthSlice> = {
   key: 'auth',
   storage,
   // Should be removed after 01.06.2024, since the majority of users are
   // going to have the migrated state in their local storage
   migrate: state => {
-    const authorizationToken = (state as IAuthSlice).authorizationToken;
+    const authorizationToken = getAuthToken(state);
 
     if (authorizationToken) {
       const service = MultiService.getService();

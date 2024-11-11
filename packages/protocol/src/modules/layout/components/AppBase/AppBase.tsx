@@ -23,17 +23,14 @@ export const AppBase = ({ children }: IAppBaseProps) => {
     <StyledEngineProvider injectFirst>
       <ThemeProviderContainer>
         <CssBaseline />
-        <SentryErrorBoundary>
-          <ConnectedRouter
-            history={historyInstance}
-            context={ReactReduxContext}
-          >
+        <ConnectedRouter history={historyInstance} context={ReactReduxContext}>
+          <SentryErrorBoundary>
             {children}
             <ReferralFlowContainer />
-          </ConnectedRouter>
-          <Dialogs />
-          <MaintenanceDialogContainer />
-        </SentryErrorBoundary>
+            <Dialogs />
+            <MaintenanceDialogContainer />
+          </SentryErrorBoundary>
+        </ConnectedRouter>
       </ThemeProviderContainer>
     </StyledEngineProvider>
   );
