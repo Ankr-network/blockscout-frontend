@@ -1,5 +1,6 @@
 import { Plus } from '@ankr.com/ui';
 import { Button } from '@mui/material';
+import { Chain } from '@ankr.com/chains-list';
 
 import { AdvancedApiInfoTabs } from 'domains/chains/screens/ChainPage/components/ChainItemSections/components/AdvancedApiInfoTabs';
 import { BlockWithPermission } from 'domains/userGroup/constants/groups';
@@ -9,7 +10,6 @@ import { ChainProjectsSidebar } from 'domains/chains/screens/ChainPage/component
 import { GuardResolution } from 'modules/common/components/GuardResolution';
 import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
 import { H1Tag } from 'uiKit/H1Tag';
-import { IPrivateChainItemDetails } from 'domains/chains/actions/private/types';
 import { MultiChainBenefits } from 'modules/common/components/GetStartedSection/components/MultichainBenefits';
 import { PlansDialog } from 'modules/common/components/PlansDialog';
 import { UsageDataSection } from 'domains/chains/screens/ChainPage/components/UsageDataSection';
@@ -26,10 +26,10 @@ import { privateChainItemTranslation } from './translation';
 import { usePrivateChainItem } from './hooks/usePrivateChainItem';
 
 export interface ChainItemProps {
-  data: IPrivateChainItemDetails;
+  chain: Chain;
 }
 
-export const PrivateChainItem = ({ data }: ChainItemProps) => {
+export const PrivateChainItem = ({ chain }: ChainItemProps) => {
   const {
     isOpened: isOpenedPlansDialog,
     onClose: onClosePlansDialog,
@@ -39,7 +39,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
   const {
     isOpened: isOpenedAddToProjectsSidebar,
     onClose: onCloseAddToProjectsSidebar,
-    onOpen: onOpenAddToProjectsDialog,
+    onOpen: handleAddToProjectsDialogOpen,
   } = useDialog();
 
   const { keys, t } = useTranslation(privateChainItemTranslation);
@@ -50,7 +50,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
         <Button
           size="medium"
           variant="outlined"
-          onClick={onOpenAddToProjectsDialog}
+          onClick={handleAddToProjectsDialogOpen}
           startIcon={<Plus />}
           sx={{
             whiteSpace: 'nowrap',
@@ -62,8 +62,8 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
     </GuardResolution>
   );
 
-  const { chain, headerContent, name, subchainLabels } = usePrivateChainItem({
-    ...data,
+  const { headerContent, name, subchainLabels } = usePrivateChainItem({
+    chain,
     shouldExpandFlareTestnets: false,
     onBlockedTabClick: onOpenPlansDialog,
     isGroupSelectorAutoWidth: true,
@@ -93,7 +93,7 @@ export const PrivateChainItem = ({ data }: ChainItemProps) => {
       <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
         <ChainProjectsSection
           chain={chain}
-          onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
+          handleAddToProjectsDialogOpen={handleAddToProjectsDialogOpen}
         />
       </GuardUserGroup>
       {isMultichain(chain.id) && (

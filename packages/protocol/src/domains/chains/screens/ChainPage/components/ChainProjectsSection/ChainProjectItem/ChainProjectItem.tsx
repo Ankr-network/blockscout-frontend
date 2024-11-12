@@ -1,5 +1,4 @@
 import {
-  Button,
   Paper,
   Skeleton,
   TableCell,
@@ -7,18 +6,15 @@ import {
   Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Plus } from '@ankr.com/ui';
+import { ArrowRight } from '@ankr.com/ui';
 import { useMemo } from 'react';
 
-import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
-import { BlockWithPermission } from 'domains/userGroup/constants/groups';
-import { GuardUserGroup } from 'domains/userGroup/components/GuardUserGroup';
-import { CopyEndpointModal } from 'modules/chains/components/CopyEndpointModal';
-import { useTranslation } from 'modules/i18n/hooks/useTranslation';
+import { JWT } from 'domains/jwtToken/store/jwtTokenManagerSlice';
 import { ProjectRequestsActivity } from 'domains/projects/screens/Projects/components/ProjectRequestsActivity';
-import { CodeExampleModal } from 'modules/chains/components/CodeExampleModal';
-import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { ProjectStatusLabel } from 'domains/projects/components/ProjectStatusLabel';
 import { getTimeframeValue } from 'domains/chains/utils/getTimeframeValue';
+import { useIsSMDown } from 'uiKit/Theme/useTheme';
+import { useTranslation } from 'modules/i18n/hooks/useTranslation';
 
 import { useChainProjectsSectionStyles } from '../useChainProjectsSectionStyles';
 import { chainProjectItemTranslation } from './translation';
@@ -26,39 +22,38 @@ import {
   IUseChainProjectItemProps,
   useChainProjectItem,
 } from './useChainProjectItem';
+import { ProjectActions } from './components/ProjectActions';
 
-export interface IChainProjectItemProps extends IUseChainProjectItemProps {}
+export interface IChainProjectItemProps extends IUseChainProjectItemProps {
+  handleAddToProjectsDialogOpen: () => void;
+  jwts: JWT[];
+}
 
 // eslint-disable-next-line max-lines-per-function
 export const ChainProjectItem = ({
   chain,
+  handleAddToProjectsDialogOpen,
   jwt,
-  onOpenAddToProjectsDialog,
+  jwts,
   timeframe,
 }: IChainProjectItemProps) => {
-  const { name, userEndpointToken } = jwt;
+  const { name } = jwt;
 
   const {
+    chain: fullChain,
     currentChainRequestsData,
-    handleCloseCodeExample,
     handleGoToProject,
-    handleOpenAddToProjectsDialog,
-    handleOpenCodeExample,
-    isCodeExampleDisabled,
     isCurrentChainIncluded,
     isDraft,
-    isOpenedCodeExample,
-    jwts,
-    projectChain,
     projectPath,
     projectStatus,
     projectStatusLoading,
     projectTotalRequestsLoading,
+    projectWhitelistBlockchains,
     projectWhitelistBlockchainsLoading,
   } = useChainProjectItem({
     chain,
     jwt,
-    onOpenAddToProjectsDialog,
     timeframe,
   });
 
@@ -76,75 +71,17 @@ export const ChainProjectItem = ({
     return <ProjectStatusLabel isDraft={isDraft} status={projectStatus} />;
   }, [isDraft, projectStatus, projectStatusLoading]);
 
-  const projectActions = useMemo(() => {
-    if (projectWhitelistBlockchainsLoading) {
-      return (
-        <Skeleton
-          className={classes.projectTableButtonsSkeleton}
-          width={100}
-          height={40}
-        />
-      );
-    }
-
-    return (
-      <div className={classes.projectTableButtonsWrapper}>
-        {isCurrentChainIncluded ? (
-          <>
-            <CopyEndpointModal
-              jwtTokens={jwts}
-              chain={projectChain}
-              userEndpointToken={userEndpointToken}
-            />
-            {!isCodeExampleDisabled && (
-              <>
-                <Button
-                  onClick={handleOpenCodeExample}
-                  variant="outlined"
-                  size="small"
-                  className={classes.chainCodeExampleButton}
-                  disabled={isCodeExampleDisabled}
-                >
-                  {t(keys.codeExample)}
-                </Button>
-                <CodeExampleModal
-                  isOpenedCodeExample={isOpenedCodeExample}
-                  onCloseCodeExample={handleCloseCodeExample}
-                  chain={projectChain}
-                />
-              </>
-            )}
-          </>
-        ) : (
-          <GuardUserGroup blockName={BlockWithPermission.JwtManagerRead}>
-            <Button
-              size="small"
-              variant="outlined"
-              className={classes.copyEndpointBtn}
-              onClick={handleOpenAddToProjectsDialog}
-              startIcon={<Plus />}
-            >
-              {t(keys.addToProject)}
-            </Button>
-          </GuardUserGroup>
-        )}
-      </div>
-    );
-  }, [
-    classes,
-    handleCloseCodeExample,
-    handleOpenAddToProjectsDialog,
-    handleOpenCodeExample,
-    isCodeExampleDisabled,
-    isCurrentChainIncluded,
-    isOpenedCodeExample,
-    jwts,
-    keys,
-    projectChain,
-    projectWhitelistBlockchainsLoading,
-    t,
-    userEndpointToken,
-  ]);
+  const projectActions = (
+    <ProjectActions
+      chain={fullChain}
+      handleAddToProjectsDialogOpen={handleAddToProjectsDialogOpen}
+      isCurrentChainIncluded={isCurrentChainIncluded}
+      jwt={jwt}
+      jwts={jwts}
+      loading={projectWhitelistBlockchainsLoading}
+      projectWhitelistBlockchains={projectWhitelistBlockchains}
+    />
+  );
 
   if (shouldUseMobileLayout) {
     return (

@@ -22,12 +22,12 @@ import { useChainProjectsSectionStyles } from './useChainProjectsSectionStyles';
 
 export interface IChainProjectsSectionProps {
   chain: Chain;
-  onOpenAddToProjectsDialog: () => void;
+  handleAddToProjectsDialogOpen: () => void;
 }
 
 export const ChainProjectsSection = ({
   chain,
-  onOpenAddToProjectsDialog,
+  handleAddToProjectsDialogOpen,
 }: IChainProjectsSectionProps) => {
   const {
     jwts,
@@ -106,9 +106,10 @@ export const ChainProjectsSection = ({
           {jwts?.map(jwt => (
             <ChainProjectItem
               chain={chain}
+              handleAddToProjectsDialogOpen={handleAddToProjectsDialogOpen}
               jwt={jwt}
+              jwts={jwts}
               key={jwt.id}
-              onOpenAddToProjectsDialog={onOpenAddToProjectsDialog}
               timeframe={timeframe}
             />
           ))}

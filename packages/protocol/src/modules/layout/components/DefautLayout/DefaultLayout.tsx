@@ -2,7 +2,6 @@ import { Container } from '@mui/material';
 import { ReactChild } from 'react';
 
 import { NegativeBalanceTermsOfServicesDialog } from 'domains/userSettings/screens/Settings/components/GeneralSettings/components/NegativeBalanceTermsOfServicesDialog';
-import { NoReactSnap } from 'uiKit/NoReactSnap';
 import { SHOULD_SHOW_HEADER_BANNER } from 'modules/layout/const';
 import { TwoFADialog } from 'domains/userSettings/components/TwoFADialog';
 
@@ -28,17 +27,10 @@ export const CONTAINER_STYLES = {
 
 export interface ILayoutProps {
   children?: ReactChild;
-  disableGutters?: boolean;
   hasError?: boolean;
-  hasNoReactSnap?: boolean;
 }
 
-export const DefaultLayout = ({
-  children,
-  disableGutters = false,
-  hasError = false,
-  hasNoReactSnap = false,
-}: ILayoutProps) => {
+export const DefaultLayout = ({ children, hasError = false }: ILayoutProps) => {
   const { isDashboardPage, isPricingPage, isReferralsPage } =
     useDefaultLayout();
 
@@ -65,7 +57,6 @@ export const DefaultLayout = ({
           )}
           <MobileHeader className={classes.mobileHeader} />
           <Container
-            disableGutters={disableGutters}
             className={cx(classes.main, {
               [classes.dashboardMain]: isDashboardPage,
             })}
@@ -74,11 +65,7 @@ export const DefaultLayout = ({
               <div className={classes.mobileBreadcrumbs}>
                 <Breadcrumbs />
               </div>
-              {hasNoReactSnap ? (
-                <NoReactSnap>{children}</NoReactSnap>
-              ) : (
-                children
-              )}
+              {children}
             </div>
           </Container>
           <Footer />

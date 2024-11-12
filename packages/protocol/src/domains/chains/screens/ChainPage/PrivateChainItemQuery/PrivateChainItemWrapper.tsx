@@ -9,10 +9,10 @@ import {
 } from 'modules/chains/store/selectors';
 import { useTokenManagerConfigSelector } from 'domains/jwtToken/hooks/useTokenManagerConfigSelector';
 
-import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
-import { useStyles } from '../ChainItemStyles';
-import { PrivateChainItem } from './components/PrivateChainItem';
 import { ChainItemProps } from '../ChainItemTypes';
+import { ChainItemSkeleton } from '../components/ChainItemSkeleton';
+import { PrivateChainItem } from './components/PrivateChainItem';
+import { useStyles } from '../ChainItemStyles';
 
 export const PrivateChainItemWrapper = ({ chainId }: ChainItemProps) => {
   const isLoadingChains = useAppSelector(selectBlockchainsLoadingStatus);
@@ -43,8 +43,7 @@ export const PrivateChainItemWrapper = ({ chainId }: ChainItemProps) => {
     <>
       <div className={classes.root}>
         <ExpiredTokenBanner />
-
-        <PrivateChainItem data={{ chain }} />
+        <PrivateChainItem chain={chain} />
       </div>
     </>
   );

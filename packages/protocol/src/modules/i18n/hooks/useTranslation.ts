@@ -40,6 +40,7 @@ export type UseTranslationResult<T extends TNestedObject> = {
 
 export function useTranslation<T extends TNestedObject>(
   data: Translation<T>,
+  log?: boolean,
 ): UseTranslationResult<T> {
   const [id] = useState(uid(data));
   const [isLoaded, setIsLoaded] = useState(false);
@@ -54,6 +55,10 @@ export function useTranslation<T extends TNestedObject>(
 
   useLayoutEffect(() => {
     if (isLoaded && intl.get(id)) {
+      if (log) {
+        console.log({ isLoaded });
+      }
+
       return;
     }
 
@@ -68,9 +73,13 @@ export function useTranslation<T extends TNestedObject>(
       {} as TTranslation<TNestedObject>,
     );
 
+    if (log) {
+      console.log({ intlData, intl });
+    }
+
     intl.load(intlData);
     setIsLoaded(true);
-  }, [data, id, isLoaded]);
+  }, [log, data, id, isLoaded]);
 
   return {
     t,
